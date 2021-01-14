@@ -11,6 +11,7 @@ namespace eModels
         {
             outlets = new List<OutletModel>();
             payment_type_business_branchs = new List<PaymentTypeBusinessBranchModel>();
+            discount_code_business_branchs = new List<DiscountCodeBusinessBranchModel>();
         }
 
         private string _business_branch_name_en;
@@ -58,5 +59,6 @@ namespace eModels
         public List<OutletModel>  outlets { get; set; }
 
         public List<PaymentTypeBusinessBranchModel> payment_type_business_branchs { get; set; }
+        public List<DiscountCodeBusinessBranchModel> discount_code_business_branchs { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eModels
 {
+    [Table("tbl_payment_type_business_branch")]
     public class PaymentTypeBusinessBranchModel
     {
         public Guid business_branch_id { get; set; }
