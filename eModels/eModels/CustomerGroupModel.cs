@@ -12,8 +12,6 @@ namespace eModels
             customers = new List<CustomerModel>();
         }
 
-
-
         private string _customer_group_name_en;
         [Required(ErrorMessage ="Field cannot be blank.")]  
         [MaxLength(50)]

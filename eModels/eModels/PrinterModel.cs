@@ -9,6 +9,6 @@ namespace eModels
         [MaxLength(50)]
         public string printer_name { get; set; }
 
-
+        public string note { get; set; }
     }
 }

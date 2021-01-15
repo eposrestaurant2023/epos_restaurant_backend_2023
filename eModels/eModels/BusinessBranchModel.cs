@@ -12,6 +12,7 @@ namespace eModels
             outlets = new List<OutletModel>();
             payment_type_business_branchs = new List<PaymentTypeBusinessBranchModel>();
             discount_code_business_branchs = new List<DiscountCodeBusinessBranchModel>();
+            customer_business_branchs = new List<CustomerBusinessBranchModel>();
         }
 
         private string _business_branch_name_en;
@@ -48,17 +49,16 @@ namespace eModels
 
         [MaxLength(50)]
         public string website { get; set; }
-
-        [MaxLength(50)]
-        public string vatin_number { get; set; }
+          
+        public string other { get; set; }
 
         public string logo { get; set; }
-
-
-
         public List<OutletModel>  outlets { get; set; }
+
+
 
         public List<PaymentTypeBusinessBranchModel> payment_type_business_branchs { get; set; }
         public List<DiscountCodeBusinessBranchModel> discount_code_business_branchs { get; set; }
+        public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
     }
 }
