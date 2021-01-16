@@ -11,13 +11,15 @@ namespace eModels
     {
         public StationModel()
         {
-            table_groups = new List<TableGroupModel>();
+            outlet_stations = new List<OutletStationModel>();
+
+            table_group_screens = new List<TableGroupScreenModel>();
         }
 
         [Required(ErrorMessage = "Please select an outlet.")]
-        public Guid outlet_id { get; set; }
-        [ForeignKey("outlet_id")]
-        public OutletModel outlet { get; set; }
+        public Guid business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
 
 
         private string _station_name_en;
@@ -38,7 +40,9 @@ namespace eModels
         public string station_name_kh { get; set; }
 
 
-        public List<TableGroupModel> table_groups { get; set; }
+        public List<OutletStationModel> outlet_stations { get; set; }
+
+        public List<TableGroupScreenModel> table_group_screens { get; set; }
 
     }
 }

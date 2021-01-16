@@ -12,7 +12,7 @@ namespace eModels
         public TableGroupModel()
         {
             tables = new List<TableModel>();
-            table_layout = new TableLayoutModel();
+            table_group_screens = new List<TableGroupScreenModel>();
         }
 
 
@@ -20,7 +20,6 @@ namespace eModels
         public Guid station_id { get; set; }
         [ForeignKey("station_id")]
         public StationModel station { get; set; }
-
 
         private string _table_group_name_en;
         [MaxLength(50)]
@@ -36,11 +35,14 @@ namespace eModels
             }
         }
 
+
         [MaxLength(50)]
         public string table_group_name_kh { get; set; }
 
-        public List<TableModel> tables { get; set; }
 
-        public TableLayoutModel table_layout { get; set; }
+        public string image_name { get; set; }
+
+        public List<TableModel> tables { get; set; }
+        public List<TableGroupScreenModel> table_group_screens { get; set; }
     }
 }

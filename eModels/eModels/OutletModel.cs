@@ -10,7 +10,8 @@ namespace eModels
     {
         public OutletModel()
         {
-            stations = new List<StationModel>();
+            outlet_stations = new List<OutletStationModel>();
+            table_group_screens = new List<TableGroupScreenModel>();
         }
 
         [Required(ErrorMessage = "Please select a business branch.")]
@@ -39,6 +40,8 @@ namespace eModels
         public string outlet_name_kh { get; set; }
 
 
-        public List<StationModel> stations { get; set; }
+        public List<OutletStationModel> outlet_stations { get; set; }
+        public List<TableGroupScreenModel> table_group_screens { get; set; }
+
     }
 }
