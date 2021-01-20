@@ -8,7 +8,7 @@ namespace eModels
     public  class TableModel  : CoreModel
     {
         [Required(ErrorMessage = "Please select a table group.")]
-        public Guid table_group_id { get; set; }
+        public int table_group_id { get; set; }
         [ForeignKey("table_group_id")]
         public TableGroupModel table_group { get; set; }
 

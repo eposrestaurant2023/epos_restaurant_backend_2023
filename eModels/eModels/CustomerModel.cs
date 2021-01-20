@@ -6,12 +6,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eModels
 {
     [Table("tbl_customer")]
-    public class CustomerModel : CoreModel
+    public class CustomerModel : CoreGUIDModel
     {
         public CustomerModel()
         {
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
         }
+
+        [Required(ErrorMessage = "Please select a customer group.")]
+        public Guid business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
+
 
         [Required(ErrorMessage = "Please select a customer group.")]
         public Guid customer_group_id { get; set; }

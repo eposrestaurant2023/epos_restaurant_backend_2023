@@ -12,7 +12,6 @@ namespace eModels
         public StationModel()
         {
             outlet_stations = new List<OutletStationModel>();
-
             table_group_screens = new List<TableGroupScreenModel>();
         }
 

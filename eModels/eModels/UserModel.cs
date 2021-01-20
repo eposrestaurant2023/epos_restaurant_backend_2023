@@ -9,7 +9,7 @@ namespace eModels
     public class UserModel : CoreModel
     {
         [Required(ErrorMessage = "Please select a role")]                     
-        public Guid role_id { get; set; }
+        public int role_id { get; set; }
         [ForeignKey("role_id")]
         public RoleModel role { get; set; }
 

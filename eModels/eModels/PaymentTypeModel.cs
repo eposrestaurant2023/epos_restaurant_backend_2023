@@ -15,7 +15,7 @@ namespace eModels
         public BusinessBranchModel business_branch { get; set; }
 
         [Required(ErrorMessage = "Please select a currency.")]
-        public Guid currency_id { get; set; }
+        public int currency_id { get; set; }
         [ForeignKey("currency_id")]
         public CurrencyModel currency { get; set; }
 

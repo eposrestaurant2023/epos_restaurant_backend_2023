@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eModels
 {
     [Table("tbl_business_branch")]
-    public class BusinessBranchModel   : CoreModel
+    public class BusinessBranchModel   : CoreGUIDModel
     {
         public BusinessBranchModel()
         {

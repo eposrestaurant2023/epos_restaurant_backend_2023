@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eModels
 {
     [Table("tbl_customer_group")]
-    public  class CustomerGroupModel   : CoreModel
+    public  class CustomerGroupModel   : CoreGUIDModel
     {
         public CustomerGroupModel()
         {

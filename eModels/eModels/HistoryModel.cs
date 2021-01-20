@@ -51,7 +51,7 @@ namespace eModels
         public decimal amount { get; set; } = 0;
         public decimal old_amount { get; set; } = 0;
 
-        public Guid? user_id { get; set; }
+        public int? user_id { get; set; }
         [ForeignKey("user_id")]
         public UserModel user { get; set; }
 

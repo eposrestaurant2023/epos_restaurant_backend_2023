@@ -8,6 +8,13 @@ namespace eModels
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
+        public int id { get; set; } 
+    }
+
+    public class KeyGUIDModel
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid id { get; set; } = Guid.NewGuid();
     }
 }

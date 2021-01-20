@@ -8,14 +8,14 @@ namespace eModels
     {
 
         public PermissionOptionRoleModel(){}
-        public PermissionOptionRoleModel(Guid _role_id, int _permission_option_id)
+        public PermissionOptionRoleModel(int _role_id, int _permission_option_id)
         {
             role_id = _role_id;
             permission_option_id = _permission_option_id;
         }
 
 
-        public Guid role_id { get; set; }
+        public int role_id { get; set; }
         [ForeignKey("role_id")]
         public virtual RoleModel role { get; set; }
 
