@@ -50,7 +50,7 @@ namespace eModels
         [MaxLength(50)]
         public string website { get; set; }
           
-        public string other { get; set; }
+        public string note{ get; set; }
 
         public string logo { get; set; }
         public List<OutletModel>  outlets { get; set; }

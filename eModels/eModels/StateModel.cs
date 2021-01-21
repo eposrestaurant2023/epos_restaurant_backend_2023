@@ -37,6 +37,19 @@ namespace eModels
             }
         }
 
+        private ProductCategoryModel _product_category = new ProductCategoryModel();
+
+        public ProductCategoryModel product_category
+        {
+            get { return _product_category; }
+            set
+            {
+                _product_category = value;
+                if (value == null)
+                    product_category = new ProductCategoryModel();
+            }
+        }
+
         public CustomerModel customer { get; set; } = new CustomerModel();
         public OutletModel outlet { get; set; } = new OutletModel();
     }

@@ -11,7 +11,7 @@ namespace eModels
         public UserModel user { get; set; }
 
 
-        public int business_branch_id { get; set; }
+        public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
     }

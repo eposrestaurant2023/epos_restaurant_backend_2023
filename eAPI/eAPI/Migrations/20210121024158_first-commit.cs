@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eAPI.Migrations
 {
-    public partial class first_commit : Migration
+    public partial class firstcommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -93,29 +93,11 @@ namespace eAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tbl_discount_code",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    discount_label = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
-                    discount_value = table.Column<decimal>(type: "decimal(16,4)", nullable: false),
-                    created_by = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, collation: "Khmer_100_BIN"),
-                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    is_deleted = table.Column<bool>(type: "bit", nullable: false),
-                    deleted_by = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, collation: "Khmer_100_BIN"),
-                    deleted_date = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    status = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbl_discount_code", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tbl_document_number",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     document_name = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
                     outlet_id = table.Column<int>(type: "int", nullable: false),
                     prefix = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
@@ -192,7 +174,8 @@ namespace eAPI.Migrations
                 name: "tbl_printer",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     printer_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
                     note = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
                     created_by = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, collation: "Khmer_100_BIN"),
@@ -211,7 +194,8 @@ namespace eAPI.Migrations
                 name: "tbl_role",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     role_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Khmer_100_BIN"),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
                     is_buildin = table.Column<bool>(type: "bit", nullable: false),
@@ -246,7 +230,8 @@ namespace eAPI.Migrations
                 name: "outlets",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     outlet_name_en = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, collation: "Khmer_100_BIN"),
                     outlet_name_kh = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, collation: "Khmer_100_BIN"),
@@ -272,7 +257,8 @@ namespace eAPI.Migrations
                 name: "tbl_currency",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     currency_name_en = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
                     currency_name_kh = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
@@ -297,7 +283,8 @@ namespace eAPI.Migrations
                 name: "tbl_station",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     station_name_en = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Khmer_100_BIN"),
                     station_name_kh = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
@@ -323,7 +310,9 @@ namespace eAPI.Migrations
                 name: "Notes",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     category_note_id = table.Column<int>(type: "int", nullable: false),
                     note_label = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true, collation: "Khmer_100_BIN"),
                     created_by = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, collation: "Khmer_100_BIN"),
@@ -337,6 +326,12 @@ namespace eAPI.Migrations
                 {
                     table.PrimaryKey("PK_Notes", x => x.id);
                     table.ForeignKey(
+                        name: "FK_Notes_tbl_business_branch_business_branch_id",
+                        column: x => x.business_branch_id,
+                        principalTable: "tbl_business_branch",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Notes_tbl_category_note_category_note_id",
                         column: x => x.category_note_id,
                         principalTable: "tbl_category_note",
@@ -349,6 +344,7 @@ namespace eAPI.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     customer_group_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     customer_name_en = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Khmer_100_BIN"),
                     customer_name_kh = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
@@ -371,6 +367,12 @@ namespace eAPI.Migrations
                 {
                     table.PrimaryKey("PK_tbl_customer", x => x.id);
                     table.ForeignKey(
+                        name: "FK_tbl_customer_tbl_business_branch_business_branch_id",
+                        column: x => x.business_branch_id,
+                        principalTable: "tbl_business_branch",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_tbl_customer_tbl_customer_group_customer_group_id",
                         column: x => x.customer_group_id,
                         principalTable: "tbl_customer_group",
@@ -379,34 +381,10 @@ namespace eAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tbl_discount_code_business_branch",
-                columns: table => new
-                {
-                    discount_code_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbl_discount_code_business_branch", x => new { x.discount_code_id, x.business_branch_id });
-                    table.ForeignKey(
-                        name: "FK_tbl_discount_code_business_branch_tbl_business_branch_business_branch_id",
-                        column: x => x.business_branch_id,
-                        principalTable: "tbl_business_branch",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tbl_discount_code_business_branch_tbl_discount_code_discount_code_id",
-                        column: x => x.discount_code_id,
-                        principalTable: "tbl_discount_code",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tbl_permission_option_role",
                 columns: table => new
                 {
-                    role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    role_id = table.Column<int>(type: "int", nullable: false),
                     permission_option_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -430,8 +408,9 @@ namespace eAPI.Migrations
                 name: "tbl_user",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    role_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    role_id = table.Column<int>(type: "int", nullable: false),
                     username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, collation: "Khmer_100_BIN"),
                     full_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Khmer_100_BIN"),
                     password = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true, collation: "Khmer_100_BIN"),
@@ -468,8 +447,10 @@ namespace eAPI.Migrations
                 name: "tbl_payment_type",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    currency_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    currency_id = table.Column<int>(type: "int", nullable: false),
                     payment_type_name_en = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Khmer_100_BIN"),
                     payment_type_name_kh = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
                     image_name = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
@@ -484,19 +465,25 @@ namespace eAPI.Migrations
                 {
                     table.PrimaryKey("PK_tbl_payment_type", x => x.id);
                     table.ForeignKey(
+                        name: "FK_tbl_payment_type_tbl_business_branch_business_branch_id",
+                        column: x => x.business_branch_id,
+                        principalTable: "tbl_business_branch",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_tbl_payment_type_tbl_currency_currency_id",
                         column: x => x.currency_id,
                         principalTable: "tbl_currency",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tbl_outlet_station",
                 columns: table => new
                 {
-                    outlet_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    station_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    outlet_id = table.Column<int>(type: "int", nullable: false),
+                    station_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -519,8 +506,9 @@ namespace eAPI.Migrations
                 name: "tbl_table_group",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    station_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    station_id = table.Column<int>(type: "int", nullable: false),
                     table_group_name_en = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, collation: "Khmer_100_BIN"),
                     table_group_name_kh = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
                     image_name = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
@@ -546,7 +534,8 @@ namespace eAPI.Migrations
                 name: "tbl_attach_files",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     is_document_file = table.Column<bool>(type: "bit", nullable: false),
                     customer_id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, collation: "Khmer_100_BIN"),
@@ -594,14 +583,15 @@ namespace eAPI.Migrations
                         column: x => x.customer_id,
                         principalTable: "tbl_customer",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tbl_history",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     title = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
                     note = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
@@ -613,7 +603,7 @@ namespace eAPI.Migrations
                     url = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Khmer_100_BIN"),
                     amount = table.Column<decimal>(type: "decimal(16,4)", nullable: false),
                     old_amount = table.Column<decimal>(type: "decimal(16,4)", nullable: false),
-                    user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    user_id = table.Column<int>(type: "int", nullable: true),
                     created_by = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true, collation: "Khmer_100_BIN"),
                     created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     is_deleted = table.Column<bool>(type: "bit", nullable: false),
@@ -642,7 +632,7 @@ namespace eAPI.Migrations
                 name: "tbl_user_business_branch",
                 columns: table => new
                 {
-                    user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    user_id = table.Column<int>(type: "int", nullable: false),
                     business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -663,35 +653,12 @@ namespace eAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tbl_payment_type_business_branch",
-                columns: table => new
-                {
-                    business_branch_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    payment_type_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbl_payment_type_business_branch", x => new { x.payment_type_id, x.business_branch_id });
-                    table.ForeignKey(
-                        name: "FK_tbl_payment_type_business_branch_tbl_business_branch_business_branch_id",
-                        column: x => x.business_branch_id,
-                        principalTable: "tbl_business_branch",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tbl_payment_type_business_branch_tbl_payment_type_payment_type_id",
-                        column: x => x.payment_type_id,
-                        principalTable: "tbl_payment_type",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tbl_table",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    table_group_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    table_group_id = table.Column<int>(type: "int", nullable: false),
                     table_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true, collation: "Khmer_100_BIN"),
                     position_x_percent = table.Column<double>(type: "float", nullable: false),
                     position_y_percent = table.Column<double>(type: "float", nullable: false),
@@ -717,9 +684,9 @@ namespace eAPI.Migrations
                 name: "tbl_table_group_screen",
                 columns: table => new
                 {
-                    outlet_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    station_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    table_group_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    outlet_id = table.Column<int>(type: "int", nullable: false),
+                    station_id = table.Column<int>(type: "int", nullable: false),
+                    table_group_id = table.Column<int>(type: "int", nullable: false),
                     screen_width = table.Column<int>(type: "int", nullable: false),
                     screen_height = table.Column<int>(type: "int", nullable: false)
                 },
@@ -747,6 +714,11 @@ namespace eAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Notes_business_branch_id",
+                table: "Notes",
+                column: "business_branch_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notes_category_note_id",
                 table: "Notes",
                 column: "category_note_id");
@@ -767,6 +739,11 @@ namespace eAPI.Migrations
                 column: "business_branch_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_customer_business_branch_id",
+                table: "tbl_customer",
+                column: "business_branch_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_customer_customer_group_id",
                 table: "tbl_customer",
                 column: "customer_group_id");
@@ -774,11 +751,6 @@ namespace eAPI.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_customer_business_branch_business_branch_id",
                 table: "tbl_customer_business_branch",
-                column: "business_branch_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbl_discount_code_business_branch_business_branch_id",
-                table: "tbl_discount_code_business_branch",
                 column: "business_branch_id");
 
             migrationBuilder.CreateIndex(
@@ -797,14 +769,14 @@ namespace eAPI.Migrations
                 column: "outlet_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_payment_type_business_branch_id",
+                table: "tbl_payment_type",
+                column: "business_branch_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_payment_type_currency_id",
                 table: "tbl_payment_type",
                 column: "currency_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbl_payment_type_business_branch_business_branch_id",
-                table: "tbl_payment_type_business_branch",
-                column: "business_branch_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_permission_option_parent_id",
@@ -870,9 +842,6 @@ namespace eAPI.Migrations
                 name: "tbl_customer_business_branch");
 
             migrationBuilder.DropTable(
-                name: "tbl_discount_code_business_branch");
-
-            migrationBuilder.DropTable(
                 name: "tbl_document_number");
 
             migrationBuilder.DropTable(
@@ -888,7 +857,7 @@ namespace eAPI.Migrations
                 name: "tbl_outlet_station");
 
             migrationBuilder.DropTable(
-                name: "tbl_payment_type_business_branch");
+                name: "tbl_payment_type");
 
             migrationBuilder.DropTable(
                 name: "tbl_permission_option_role");
@@ -912,13 +881,10 @@ namespace eAPI.Migrations
                 name: "tbl_category_note");
 
             migrationBuilder.DropTable(
-                name: "tbl_discount_code");
-
-            migrationBuilder.DropTable(
                 name: "tbl_customer");
 
             migrationBuilder.DropTable(
-                name: "tbl_payment_type");
+                name: "tbl_currency");
 
             migrationBuilder.DropTable(
                 name: "tbl_permission_option");
@@ -934,9 +900,6 @@ namespace eAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_customer_group");
-
-            migrationBuilder.DropTable(
-                name: "tbl_currency");
 
             migrationBuilder.DropTable(
                 name: "tbl_station");

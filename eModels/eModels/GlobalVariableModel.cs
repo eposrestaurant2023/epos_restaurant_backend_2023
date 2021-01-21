@@ -13,16 +13,21 @@ namespace eModels
         [Key]
         public int id { get; set; }
 
-        public CustomerBusinessBranchModel customer_business_branch { get; set; } = new CustomerBusinessBranchModel();
+        public BusinessBranchModel business_info { get; set; } = new BusinessBranchModel();
         public List<CurrencyModel> currencies { get; set; }
         public List<PaymentTypeModel> payment_types { get; set; }
-        public List<CustomerGroupModel> customer_groups { get; set; }
+        public List<VendorModel> vendors { get; set; }
+          
+  
         public List<CountryModel> countries { get; set; }
+ 
 
         public List<SettingModel> settings { get; set; }
-         public List<RoleModel> roles { get; set; }
+ 
+        public List<RoleModel> roles { get; set; }
         public List<ModuleViewModel> module_views { get; set; }
-         public List<OutletModel> outlets { get; set; }
+        public List<StockLocationModel> stock_locations { get; set; }
+        public List<OutletModel> outlets { get; set; }
 
         public int current_outlet_id { get; set; }
 
@@ -72,7 +77,28 @@ namespace eModels
         {
             return currencies.Where(r => r.is_main == is_main).FirstOrDefault();
         }
-         
+        public string main_currency_format
+        {
+            get
+            {
+                return "c2";
+            }
+        }
+        public string currency_format
+        {
+            get
+            {
+                return main_currency_format;
+            }
+        }
+        public string second_currency_format
+        {
+            get
+            {
+                return "R";
+            }
+        }
+
         public string GetRole(string option_name)
         {
 
@@ -130,7 +156,17 @@ namespace eModels
             return false;
         }
 
-       
+        public int default_payment_type_id
+        {
+            get
+            {
+                if (payment_types.Any())
+                {
+                    return payment_types.FirstOrDefault().id;
+                }
+                return 0;
+            }
+        }
     }
 
 }

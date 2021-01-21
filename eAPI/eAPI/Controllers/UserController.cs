@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
@@ -122,11 +121,14 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [Route("get_user")]
-        public UserModel GetCurrentUser([FromQuery] Guid user_id)
+        public UserModel GetCurrentUser([FromQuery] int user_id)
         {
-            var data = db.Users.Where(r => r.id == user_id && !r.is_deleted && r.status).Include(r => r.role).Take(1);
 
+
+            var data = db.Users.Where(r => r.id == user_id && !r.is_deleted && r.status).Include(r => r.role).Take(1);
             return data.FirstOrDefault();
+
+
         }
 
         [HttpGet]
@@ -159,7 +161,7 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("find")]
-        public SingleResult<UserModel> Get([FromODataUri] Guid key)
+        public SingleResult<UserModel> Get([FromODataUri] int key)
         {
             var c = db.Users.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(c);
@@ -167,7 +169,7 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<UserModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<UserModel>> DeleteRecord(int id) //Delete
         {
             var u = await db.Users.FindAsync(id);
             u.is_deleted = !u.is_deleted;

@@ -48,22 +48,22 @@ namespace eAPI.Services
 
         generate_code:
             string code = "";
-            //if (string.IsNullOrEmpty(dc.format))
-            //{
-            //    code =  string.Format("{0}{1:" + dc.counter_digit + "}", dc.prefix, dc.counter + 1);
-            //}
-            //else
-            //{
-            //    code =  string.Format("{0}{1:" + dc.format + "}{2:" + dc.counter_digit + "}", dc.prefix, DateTime.Now, dc.counter + 1);
-            //}
-            ////check with database
-            //var data = db.Products.Where(r => r.product_code.Trim().ToLower() == code.ToLower().Trim()).ToList();
-            //if (data.Any())
-            //{
-            //    dc.counter = dc.counter + 1;
-            //    goto generate_code;
-            //}
-            //dc.counter = dc.counter + 1;
+            if (string.IsNullOrEmpty(dc.format))
+            {
+                code = string.Format("{0}{1:" + dc.counter_digit + "}", dc.prefix, dc.counter + 1);
+            }
+            else
+            {
+                code = string.Format("{0}{1:" + dc.format + "}{2:" + dc.counter_digit + "}", dc.prefix, DateTime.Now, dc.counter + 1);
+            }
+            //check with database
+            var data = db.Products.Where(r => r.product_code.Trim().ToLower() == code.ToLower().Trim()).ToList();
+            if (data.Any())
+            {
+                dc.counter = dc.counter + 1;
+                goto generate_code;
+            }
+            dc.counter = dc.counter + 1;
             return code;
         }
      

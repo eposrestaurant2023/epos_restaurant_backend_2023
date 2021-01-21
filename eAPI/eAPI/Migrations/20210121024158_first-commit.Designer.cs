@@ -10,8 +10,8 @@ using eAPI;
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210117023401_first_commit")]
-    partial class first_commit
+    [Migration("20210121024158_first-commit")]
+    partial class firstcommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.AttachFilesModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -213,9 +214,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.CurrencyModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -324,6 +326,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(100)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -394,72 +399,19 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("business_branch_id");
+
                     b.HasIndex("customer_group_id");
 
                     b.ToTable("tbl_customer");
                 });
 
-            modelBuilder.Entity("eModels.DiscountCodeBusinessBranchModel", b =>
-                {
-                    b.Property<Guid>("discount_code_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("discount_code_id", "business_branch_id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_discount_code_business_branch");
-                });
-
-            modelBuilder.Entity("eModels.DiscountCodeModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("discount_label")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("discount_value")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_discount_code");
-                });
-
             modelBuilder.Entity("eModels.DocumentNumberModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<int>("counter")
                         .HasColumnType("int");
@@ -490,9 +442,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(16,4)");
@@ -555,8 +508,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid?>("user_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("user_id")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -611,8 +564,12 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.NoteModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("category_note_id")
@@ -647,6 +604,8 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("business_branch_id");
+
                     b.HasIndex("category_note_id");
 
                     b.ToTable("Notes");
@@ -662,9 +621,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.OutletModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -711,11 +671,11 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.OutletStationModel", b =>
                 {
-                    b.Property<Guid>("station_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("station_id")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.HasKey("station_id", "outlet_id");
 
@@ -724,25 +684,14 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_outlet_station");
                 });
 
-            modelBuilder.Entity("eModels.PaymentTypeBusinessBranchModel", b =>
-                {
-                    b.Property<Guid>("payment_type_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("payment_type_id", "business_branch_id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_payment_type_business_branch");
-                });
-
             modelBuilder.Entity("eModels.PaymentTypeModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
@@ -753,8 +702,8 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("currency_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("currency_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -786,6 +735,8 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
+
+                    b.HasIndex("business_branch_id");
 
                     b.HasIndex("currency_id");
 
@@ -856,8 +807,8 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.PermissionOptionRoleModel", b =>
                 {
-                    b.Property<Guid>("role_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("role_id")
+                        .HasColumnType("int");
 
                     b.Property<int>("permission_option_id")
                         .HasColumnType("int");
@@ -871,9 +822,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.PrinterModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -913,9 +865,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.RoleModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -984,9 +937,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StationModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1042,9 +996,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.TableGroupModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1069,8 +1024,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("station_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("station_id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -1095,14 +1050,14 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.TableGroupScreenModel", b =>
                 {
-                    b.Property<Guid>("table_group_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("table_group_id")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("station_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("station_id")
+                        .HasColumnType("int");
 
                     b.Property<int>("screen_height")
                         .HasColumnType("int");
@@ -1121,9 +1076,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.TableModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1153,8 +1109,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("table_group_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("table_group_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("table_name")
                         .HasMaxLength(50)
@@ -1170,8 +1126,8 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.UserBusinessBranchModel", b =>
                 {
-                    b.Property<Guid>("user_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("user_id")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1185,9 +1141,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1260,8 +1217,8 @@ namespace eAPI.Migrations
                     b.Property<int>("pin_code")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("role_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("role_id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -1320,32 +1277,21 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.CustomerModel", b =>
                 {
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                        .WithMany()
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eModels.CustomerGroupModel", "customer_group")
                         .WithMany("customers")
                         .HasForeignKey("customer_group_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("customer_group");
-                });
-
-            modelBuilder.Entity("eModels.DiscountCodeBusinessBranchModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("discount_code_business_branchs")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.DiscountCodeModel", "discount_code")
-                        .WithMany("discount_code_business_branchs")
-                        .HasForeignKey("discount_code_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("business_branch");
 
-                    b.Navigation("discount_code");
+                    b.Navigation("customer_group");
                 });
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
@@ -1365,11 +1311,19 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.NoteModel", b =>
                 {
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                        .WithMany()
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eModels.CategoryNoteModel", "category_note")
                         .WithMany("notes")
                         .HasForeignKey("category_note_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("business_branch");
 
                     b.Navigation("category_note");
                 });
@@ -1404,32 +1358,21 @@ namespace eAPI.Migrations
                     b.Navigation("station");
                 });
 
-            modelBuilder.Entity("eModels.PaymentTypeBusinessBranchModel", b =>
+            modelBuilder.Entity("eModels.PaymentTypeModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("payment_type_business_branchs")
+                        .WithMany()
                         .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.PaymentTypeModel", "payment_type")
-                        .WithMany("payment_type_business_branchs")
-                        .HasForeignKey("payment_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("payment_type");
-                });
-
-            modelBuilder.Entity("eModels.PaymentTypeModel", b =>
-                {
                     b.HasOne("eModels.CurrencyModel", "currency")
                         .WithMany()
                         .HasForeignKey("currency_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("business_branch");
 
                     b.Navigation("currency");
                 });
@@ -1556,11 +1499,7 @@ namespace eAPI.Migrations
                 {
                     b.Navigation("customer_business_branchs");
 
-                    b.Navigation("discount_code_business_branchs");
-
                     b.Navigation("outlets");
-
-                    b.Navigation("payment_type_business_branchs");
 
                     b.Navigation("stations");
                 });
@@ -1580,21 +1519,11 @@ namespace eAPI.Migrations
                     b.Navigation("customer_business_branchs");
                 });
 
-            modelBuilder.Entity("eModels.DiscountCodeModel", b =>
-                {
-                    b.Navigation("discount_code_business_branchs");
-                });
-
             modelBuilder.Entity("eModels.OutletModel", b =>
                 {
                     b.Navigation("outlet_stations");
 
                     b.Navigation("table_group_screens");
-                });
-
-            modelBuilder.Entity("eModels.PaymentTypeModel", b =>
-                {
-                    b.Navigation("payment_type_business_branchs");
                 });
 
             modelBuilder.Entity("eModels.PermissionOptionModel", b =>

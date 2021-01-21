@@ -13,6 +13,9 @@ namespace eModels
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
         }
 
+
+        public string customer_code { get; set; }
+
         [Required(ErrorMessage = "Please select a customer group.")]
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
@@ -54,6 +57,7 @@ namespace eModels
 
         [MaxLength(50)]
         public string phone_2 { get; set; }
+        public string photo { get; set; }
       
 
         [MaxLength(50)]

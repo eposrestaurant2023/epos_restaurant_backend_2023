@@ -14,7 +14,8 @@ namespace eAPI
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            //
+            //xxx
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -38,10 +39,10 @@ namespace eAPI
                 .HasForeignKey(pt => pt.permission_option_id);
               
             builder.Entity<CustomerBusinessBranchModel>().HasKey(t => new { t.customer_id, t.business_branch_id});
-            builder.Entity<DiscountCodeBusinessBranchModel>().HasKey(t => new { t.discount_code_id, t.business_branch_id});
+   
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});
             builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});
-            builder.Entity<PaymentTypeBusinessBranchModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id});
+          
             builder.Entity<TableGroupScreenModel>().HasKey(t => new { t.table_group_id, t.outlet_id,t.station_id });
 
 
@@ -73,26 +74,18 @@ namespace eAPI
         public DbSet<BusinessBranchModel> BusinessBranchs { get; set; }
         public DbSet<CategoryNoteModel> CategoryNotes{ get; set; }
         public DbSet<CustomerBusinessBranchModel> CustomerBusinessBranches{ get; set; }
-        public DbSet<DiscountCodeBusinessBranchModel> DiscountCodeBusinessBranches{ get; set; }
+
         public DbSet<NoteModel> Notes{ get; set; }
         public DbSet<OutletStationModel> OutletStations{ get; set; }
 
-        public DbSet<PaymentTypeBusinessBranchModel> PaymentTypeBusinessBranches { get; set; }
         public DbSet<PrinterModel> Printers{ get; set; }
         public DbSet<StationModel> Stations{ get; set; }
         public DbSet<TableGroupModel> TableGroups{ get; set; }
         public DbSet<TableGroupScreenModel> TableGroupScreens{ get; set; }
         public DbSet<TableModel> Tables{ get; set; }
         public DbSet<UserBusinessBranchModel> UserBusinessBranches{ get; set; }
-
-         
-
-
-
-
-
-
-
+        public DbSet<ProductModel> Products{ get; set; }
+        
     }
 
 }
