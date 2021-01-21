@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eModels
 {
     [Table("tbl_customer_group")]
-    public  class CustomerGroupModel   : CoreGUIDModel
+    public  class CustomerGroupModel :CoreModel
     {
+ 
         public CustomerGroupModel()
         {
-            customers = new List<CustomerModel>();
+         customers = new List<CustomerModel>();
         }
 
         private string _customer_group_name_en;
@@ -30,8 +31,10 @@ namespace eModels
         public string customer_group_name_kh { get; set; }
 
 
+        public string note { get; set; }
 
-        public List<CustomerModel> customers { get; set; }
+
+    public List<CustomerModel> customers { get; set; }
 
        
     }

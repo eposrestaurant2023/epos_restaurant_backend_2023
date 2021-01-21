@@ -14,7 +14,7 @@ namespace eModels
         public string vendor_code { get; set; }
         [Required]
         public string vendor_name { get; set; }
-        public string vendor_image { get; set; }
+        public string photo { get; set; }
         public string company_name { get; set; }
         public string office_phone { get; set; }
         public string mobile_phone { get; set; }

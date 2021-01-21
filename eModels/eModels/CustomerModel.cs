@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -13,8 +14,12 @@ namespace eModels
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
         }
 
-
         public string customer_code { get; set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        public string customer_code_name { get { return customer_code + "-" + customer_name_en; } }
+
 
         [Required(ErrorMessage = "Please select a customer group.")]
         public Guid business_branch_id { get; set; }
@@ -23,7 +28,7 @@ namespace eModels
 
 
         [Required(ErrorMessage = "Please select a customer group.")]
-        public Guid customer_group_id { get; set; }
+        public int customer_group_id { get; set; }
         [ForeignKey("customer_group_id")]
         public CustomerGroupModel customer_group { get; set; }
 

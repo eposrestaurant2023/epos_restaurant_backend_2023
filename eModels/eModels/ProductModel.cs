@@ -102,7 +102,7 @@ namespace eModels
         public string product_code { get; set; }
         public string product_code_1 { get; set; }
         public string product_code_2 { get; set; }
-        public string product_image { get; set; } = "placeholder.png";
+        public string photo { get; set; } = "placeholder.png";
         public string note { get; set; }
         public decimal price { get; set; }
         public decimal cost { get; set; }

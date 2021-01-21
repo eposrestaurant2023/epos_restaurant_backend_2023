@@ -35,7 +35,11 @@ namespace eModels
         [MaxLength(50)]
         public string payment_type_name_kh { get; set; }
 
-        public string image_name { get; set; }
+        public string photo { get; set; }
 
+        public bool is_build_in { get; set; }
+
+        public int sort_order { get; set; }
+        public string note { get; set; }
     }
 }

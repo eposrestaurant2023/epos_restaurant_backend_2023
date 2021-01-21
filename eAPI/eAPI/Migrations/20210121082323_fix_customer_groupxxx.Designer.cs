@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210121082323_fix_customer_groupxxx")]
+    partial class fix_customer_groupxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -682,7 +684,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("business_branch_id");
 
-                    b.ToTable("tbl_outlet");
+                    b.ToTable("outlets");
                 });
 
             modelBuilder.Entity("eModels.OutletStationModel", b =>

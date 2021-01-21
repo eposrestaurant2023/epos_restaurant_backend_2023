@@ -23,6 +23,7 @@ namespace eModels
         [ForeignKey("permission_option_id")]
         public virtual PermissionOptionModel permission_option { get; set; }
 
+            public bool is_delete { get; set; } = false;
 
     }
 }

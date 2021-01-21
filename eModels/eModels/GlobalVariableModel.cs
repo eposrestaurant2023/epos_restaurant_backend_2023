@@ -28,6 +28,8 @@ namespace eModels
         public List<ModuleViewModel> module_views { get; set; }
         public List<StockLocationModel> stock_locations { get; set; }
         public List<OutletModel> outlets { get; set; }
+        public List<ProductTypeModel> product_types { get; set; }
+        public List<CustomerGroupModel> customer_groups { get; set; }
 
         public int current_outlet_id { get; set; }
 

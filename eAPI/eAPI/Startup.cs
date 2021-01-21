@@ -123,6 +123,7 @@ namespace eAPI
             odataBuilder.EntitySet<HistoryModel>("History");
 
             odataBuilder.EntitySet<CountryModel>("Country");
+            odataBuilder.EntitySet<BusinessBranchModel>("BusinessBranch");
      
              return odataBuilder.GetEdmModel();
         }

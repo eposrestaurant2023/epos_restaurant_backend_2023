@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -47,8 +48,10 @@ namespace eModels
 
         public bool is_default { get; set; } = false;
         public bool is_buildin { get; set; } = false;
-        public string image_name { get; set; } = "";
+        public string photo { get; set; } = "";
 
+        [NotMapped,  JsonIgnore ]
+        public string new_password { get; set; }
 
 
         public List<UserBusinessBranchModel> user_business_branchs { get; set; }

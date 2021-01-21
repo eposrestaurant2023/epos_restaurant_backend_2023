@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210121080811_test_guid_insertxxxxx")]
+    partial class test_guid_insertxxxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +35,6 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("customer_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -78,8 +77,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
-
-                    b.HasIndex("customer_id");
 
                     b.ToTable("tbl_attach_files");
                 });
@@ -271,18 +268,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.CustomerGroupModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("my_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("customer_group_name_en")
                         .IsRequired()
@@ -295,25 +284,11 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
+                    b.HasKey("my_id");
 
                     b.ToTable("tbl_customer_group");
                 });
@@ -343,9 +318,6 @@ namespace eAPI.Migrations
                     b.Property<string>("customer_code")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("customer_group_id")
-                        .HasColumnType("int");
 
                     b.Property<string>("customer_name_en")
                         .IsRequired()
@@ -412,8 +384,6 @@ namespace eAPI.Migrations
 
                     b.HasIndex("business_branch_id");
 
-                    b.HasIndex("customer_group_id");
-
                     b.ToTable("tbl_customer");
                 });
 
@@ -472,9 +442,6 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("customer_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -528,8 +495,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("ProductModelid");
-
-                    b.HasIndex("customer_id");
 
                     b.HasIndex("user_id");
 
@@ -682,7 +647,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("business_branch_id");
 
-                    b.ToTable("tbl_outlet");
+                    b.ToTable("outlets");
                 });
 
             modelBuilder.Entity("eModels.OutletStationModel", b =>
@@ -1496,17 +1461,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_user");
                 });
 
-            modelBuilder.Entity("eModels.AttachFilesModel", b =>
-                {
-                    b.HasOne("eModels.CustomerModel", "customer")
-                        .WithMany()
-                        .HasForeignKey("customer_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("customer");
-                });
-
             modelBuilder.Entity("eModels.CurrencyModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -1545,15 +1499,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.CustomerGroupModel", "customer_group")
-                        .WithMany("customers")
-                        .HasForeignKey("customer_group_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("business_branch");
-
-                    b.Navigation("customer_group");
                 });
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
@@ -1562,15 +1508,9 @@ namespace eAPI.Migrations
                         .WithMany("histories")
                         .HasForeignKey("ProductModelid");
 
-                    b.HasOne("eModels.CustomerModel", "customer")
-                        .WithMany()
-                        .HasForeignKey("customer_id");
-
                     b.HasOne("eModels.UserModel", "user")
                         .WithMany()
                         .HasForeignKey("user_id");
-
-                    b.Navigation("customer");
 
                     b.Navigation("user");
                 });
@@ -1792,11 +1732,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
                 {
                     b.Navigation("notes");
-                });
-
-            modelBuilder.Entity("eModels.CustomerGroupModel", b =>
-                {
-                    b.Navigation("customers");
                 });
 
             modelBuilder.Entity("eModels.CustomerModel", b =>

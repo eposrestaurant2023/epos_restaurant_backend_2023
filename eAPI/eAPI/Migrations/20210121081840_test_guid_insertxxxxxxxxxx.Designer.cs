@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210121081840_test_guid_insertxxxxxxxxxx")]
+    partial class test_guid_insertxxxxxxxxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -412,8 +414,6 @@ namespace eAPI.Migrations
 
                     b.HasIndex("business_branch_id");
 
-                    b.HasIndex("customer_group_id");
-
                     b.ToTable("tbl_customer");
                 });
 
@@ -682,7 +682,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("business_branch_id");
 
-                    b.ToTable("tbl_outlet");
+                    b.ToTable("outlets");
                 });
 
             modelBuilder.Entity("eModels.OutletStationModel", b =>
@@ -1545,15 +1545,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.CustomerGroupModel", "customer_group")
-                        .WithMany("customers")
-                        .HasForeignKey("customer_group_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("business_branch");
-
-                    b.Navigation("customer_group");
                 });
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
@@ -1792,11 +1784,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
                 {
                     b.Navigation("notes");
-                });
-
-            modelBuilder.Entity("eModels.CustomerGroupModel", b =>
-                {
-                    b.Navigation("customers");
                 });
 
             modelBuilder.Entity("eModels.CustomerModel", b =>

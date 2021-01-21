@@ -44,6 +44,7 @@ namespace eAPI
             builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});
           
             builder.Entity<TableGroupScreenModel>().HasKey(t => new { t.table_group_id, t.outlet_id,t.station_id });
+            
 
 
 
@@ -70,8 +71,8 @@ namespace eAPI
         public DbSet<NumberModel> Numbers { get; set; }
         public DbSet<ModuleViewModel> ModuleViews { get; set; }
         public DbSet<AttachFilesModel> AttachFiles { get; set; }
-        public DbSet<OutletModel> outlets { get; set; }
-        public DbSet<BusinessBranchModel> BusinessBranchs { get; set; }
+        public DbSet<OutletModel> Outlets { get; set; }
+        public DbSet<BusinessBranchModel> BusinessBranches { get; set; }
         public DbSet<CategoryNoteModel> CategoryNotes{ get; set; }
         public DbSet<CustomerBusinessBranchModel> CustomerBusinessBranches{ get; set; }
 
@@ -85,6 +86,7 @@ namespace eAPI
         public DbSet<TableModel> Tables{ get; set; }
         public DbSet<UserBusinessBranchModel> UserBusinessBranches{ get; set; }
         public DbSet<ProductModel> Products{ get; set; }
+        
         
     }
 

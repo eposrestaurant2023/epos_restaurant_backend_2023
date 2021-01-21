@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;     
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -14,5 +16,9 @@ namespace eModels
         public string setting_title { get; set; }
         public string setting_description { get; set; }
         public bool status { get; set; }
+
+        [NotMapped ]
+        [JsonIgnore]
+        public bool is_saving { get; set; }
     }
 }

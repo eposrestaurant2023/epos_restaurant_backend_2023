@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eModels
 {
+    [Table("tbl_outlet")]
     public  class OutletModel : CoreModel
     {
         public OutletModel()

@@ -40,7 +40,7 @@ namespace eModels
         public string table_group_name_kh { get; set; }
 
 
-        public string image_name { get; set; }
+        public string photo { get; set; }
 
         public List<TableModel> tables { get; set; }
         public List<TableGroupScreenModel> table_group_screens { get; set; }
