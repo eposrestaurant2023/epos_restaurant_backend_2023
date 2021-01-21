@@ -122,6 +122,7 @@ namespace eAPI
             odataBuilder.EntitySet<SettingModel>("Setting");
             odataBuilder.EntitySet<HistoryModel>("History");
 
+
             odataBuilder.EntitySet<CountryModel>("Country");
             odataBuilder.EntitySet<BusinessBranchModel>("BusinessBranch");
      
