@@ -4,13 +4,6 @@
     <TargetFramework>net5.0</TargetFramework>
 	  
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="upload\**" />
-    <Content Remove="upload\**" />
-    <EmbeddedResource Remove="upload\**" />
-    <None Remove="upload\**" />
-  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
@@ -32,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Helpers\" />
+    <Folder Include="Upload\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
