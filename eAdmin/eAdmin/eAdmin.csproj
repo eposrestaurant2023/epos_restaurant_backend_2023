@@ -26,6 +26,7 @@
  
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\..\Users\Pheakdey\Documents\GitHub\ePOSRetaurant2021\eModels\eModels\eModels.csproj" />
+	  <ProjectReference Include="..\..\eModels\eModels\eModels.csproj" />
 	</ItemGroup>
 
 </Project>
