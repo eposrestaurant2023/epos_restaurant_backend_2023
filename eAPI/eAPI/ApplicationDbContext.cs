@@ -49,6 +49,7 @@ namespace eAPI
 
 
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
+            builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
            
             builder.Entity<NumberModel>().HasNoKey();
         }
@@ -86,8 +87,14 @@ namespace eAPI
         public DbSet<TableModel> Tables{ get; set; }
         public DbSet<UserBusinessBranchModel> UserBusinessBranches{ get; set; }
         public DbSet<ProductModel> Products{ get; set; }
-        
-        
+        public DbSet<ProductTypeModel> ProductTypes{ get; set; }
+         
+        public DbSet<StockLocationModel> StockLocations{ get; set; }
+        public DbSet<VendorModel> Vendors{ get; set; }
+        public DbSet<BusinessInformationModel> BusinessInformations{ get; set; }
+
+        public DbSet<StoreProcedureResultDecimalModel> StoreProcedureResultsDecimal { get; set; }
+
     }
 
 }

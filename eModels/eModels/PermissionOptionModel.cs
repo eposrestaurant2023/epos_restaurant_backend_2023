@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;  
-
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 namespace eModels
 {
     [Table("tbl_permission_option")]
@@ -48,5 +48,7 @@ namespace eModels
 
         public List<PermissionOptionRoleModel> permission_option_roles { get; set; }
 
+        [NotMapped, JsonIgnore]
+        public bool is_checked { get; set; }
     }  
 }

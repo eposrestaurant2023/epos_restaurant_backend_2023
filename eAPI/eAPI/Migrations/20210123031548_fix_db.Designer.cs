@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210123031548_fix_db")]
+    partial class fix_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,64 +164,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_business_branch");
-                });
-
-            modelBuilder.Entity("eModels.BusinessInformationModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("address")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("company_logo")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("company_name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("company_name_kh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("contact_email")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("contact_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("contact_office_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("contact_phone_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("email")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("mobile_phone")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("office_phone")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_business_information");
                 });
 
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
@@ -1307,38 +1251,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_station");
                 });
 
-            modelBuilder.Entity("eModels.StockLocationModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("stock_location_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("outlet_id");
-
-                    b.ToTable("tbl_stock_location");
-                });
-
-            modelBuilder.Entity("eModels.StoreProcedureResultDecimalModel", b =>
-                {
-                    b.Property<decimal>("result")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.ToTable("StoreProcedureResultsDecimal");
-                });
-
             modelBuilder.Entity("eModels.StoreProcedureResultModel", b =>
                 {
                     b.Property<string>("result")
@@ -1590,81 +1502,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_user");
                 });
 
-            modelBuilder.Entity("eModels.VendorModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("address")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("company_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("email_address")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("mobile_phone")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("office_phone")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("photo")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("total_payable")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<string>("vendor_code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("vendor_name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_vendor");
-                });
-
             modelBuilder.Entity("eModels.AttachFilesModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
@@ -1868,17 +1705,6 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("business_branch");
-                });
-
-            modelBuilder.Entity("eModels.StockLocationModel", b =>
-                {
-                    b.HasOne("eModels.OutletModel", "outlet")
-                        .WithMany()
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eModels.TableGroupModel", b =>

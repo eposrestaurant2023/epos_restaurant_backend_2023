@@ -19,6 +19,9 @@ using Microsoft.OData.Edm;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using eModels;
+using Microsoft.AspNet.OData.Routing;
+using Microsoft.AspNet.OData.Routing.Conventions;
+using System.Web.Http;
 
 namespace eAPI
 {
@@ -96,15 +99,20 @@ namespace eAPI
             {
                 endpoints.MapControllers();
                 endpoints.Expand().Select().Filter().OrderBy().Count().MaxTop(500);
-                endpoints.MapODataRoute("api", "api", GetEdmModel());
-                endpoints.EnableDependencyInjection();
-            });
 
+                var routingConventions = ODataRoutingConventions.CreateDefault();
+                var defaultConventions = ODataRoutingConventions.CreateDefault();
+                var conventions = defaultConventions.Except( defaultConventions.OfType<MetadataRoutingConvention>());
+                var route = endpoints.MapODataRoute( "api", "api", GetEdmModel(), pathHandler: new DefaultODataPathHandler(), routingConventions: conventions);
+                endpoints.EnableDependencyInjection();
+
+            });
 
         }
 
+     
 
-        private IEdmModel GetEdmModel()
+        private static IEdmModel GetEdmModel()
         {
             var odataBuilder = new ODataConventionModelBuilder();
             odataBuilder.EntitySet<RoleModel>("Role");
@@ -117,15 +125,18 @@ namespace eAPI
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
             odataBuilder.EntitySet<CustomerModel>("Customer");
             odataBuilder.EntitySet<PaymentTypeModel>("PaymentType");
-
             odataBuilder.EntitySet<AttachFilesModel>("AttachFiles");
             odataBuilder.EntitySet<SettingModel>("Setting");
             odataBuilder.EntitySet<HistoryModel>("History");
-
             odataBuilder.EntitySet<CountryModel>("Country");
             odataBuilder.EntitySet<BusinessBranchModel>("BusinessBranch");
-     
-             return odataBuilder.GetEdmModel();
+
+            return odataBuilder.GetEdmModel();
         }
+    }
+
+    class Student
+    {
+        public int id { get; set; }
     }
 }

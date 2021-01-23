@@ -1,5 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;   
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -23,7 +24,11 @@ namespace eModels
         [ForeignKey("permission_option_id")]
         public virtual PermissionOptionModel permission_option { get; set; }
 
-            public bool is_delete { get; set; } = false;
+        public bool is_delete { get; set; } = false;
+        
+        
+        [NotMapped, JsonIgnore ]
+        public bool is_checked { get; set; } 
 
     }
 }

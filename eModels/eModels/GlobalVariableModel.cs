@@ -13,7 +13,7 @@ namespace eModels
         [Key]
         public int id { get; set; }
 
-        public BusinessBranchModel business_info { get; set; } = new BusinessBranchModel();
+        public BusinessInformationModel business_info { get; set; } = new BusinessInformationModel();
         public List<CurrencyModel> currencies { get; set; }
         public List<PaymentTypeModel> payment_types { get; set; }
         public List<VendorModel> vendors { get; set; }

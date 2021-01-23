@@ -15,6 +15,7 @@ namespace eModels
         public string setting_value { get; set; }
         public string setting_title { get; set; }
         public string setting_description { get; set; }
+        public string input_type { get; set; }
         public bool status { get; set; }
 
         [NotMapped ]
