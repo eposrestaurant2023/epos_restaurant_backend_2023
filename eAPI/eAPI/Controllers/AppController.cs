@@ -20,6 +20,7 @@ namespace eAPI.Controllers
         {
             db = _db;
         }
+        
 
         [HttpGet("GlobalVariable")]
         [EnableQuery(MaxExpansionDepth = 0)]
@@ -142,6 +143,13 @@ namespace eAPI.Controllers
                 return Convert.ToDecimal(d.result);
             }
             return BadRequest();
+        }
+
+        [HttpGet("is_working")]
+        [EnableQuery(MaxExpansionDepth = 0)]
+        public ActionResult<bool> IsAPIWorking()
+        {
+            return Ok();
         }
 
     }
