@@ -15,6 +15,7 @@ namespace eAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : ODataController
     {
 
@@ -49,6 +50,7 @@ namespace eAPI.Controllers
         [HttpPost]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("auth/login")]
+        [AllowAnonymous]
         public virtual async Task<ActionResult<UserModel>> Post([FromBody] AuthenticateModel u)
         {
             var pass_encr = EncryptProvider.Base64Encrypt(u.Password);
@@ -102,6 +104,7 @@ namespace eAPI.Controllers
 
 
         }
+
         [HttpPost]
         [Route("SaveUserProfile")]
         public async Task<ActionResult<string>> SaveUserProfile([FromQuery] string password, [FromBody] UserModel u)
@@ -142,10 +145,41 @@ namespace eAPI.Controllers
                        select new
                        {
                            a.full_name,
-                           a.username
+                           a.username  ,
+                           a.pin_code,
+                           a.password                ,
+                              a.date_of_birth
                        };
             return Ok(data);
         }
+
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        [Route("GetByBusinessBranch")]
+        [AllowAnonymous]
+        public virtual async Task<ActionResult<List<UserModel>>> GetUserByBusinessBranch([FromQuery] Guid business_branch_id)
+        {
+            try
+            {
+                var data = from a in db.Users.Where(r => !r.is_deleted && r.status && r.is_allow_front_end_login)
+                           join b in db.UserBusinessBranches.Where(r => r.business_branch_id == business_branch_id) on a.id equals b.user_id
+                           select new
+                           {    a.id,
+                               a.full_name,
+                               a.username,
+                               a.pin_code,
+                               a.password,
+                               a.date_of_birth
+                           };
+
+                return Ok(data);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
 
         [HttpPost]
         [Route("status/{id}")]
