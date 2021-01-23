@@ -4766,28 +4766,37 @@ h1.wrp-expense-total span.total-expense-amount{
     justify-content: center;
     width: 100%;
     height: 100vh;
-    background:#fff;
+    background: url(../images/banner.jpg);
+    background-repeat: no-repeat;
+    background-size:cover;
 }
 
 .btn-login,
 .btn-login:focus {
-    width: 150px;
     padding: 10px;
-    background: #ec9a51 !important;
-    color: #fff !important;
-    font-weight: 600;
+    margin-top: 15px;
+    background: #0886ff;
+    color: #fff;
     text-transform: uppercase;
     border: none;
-    border-radius: 22px;
+    border-radius: 3px;
     outline: none;
-    transition: .5s;
+    border-radius: 20px;
+    width:130px;
+    transition: .2s;
     cursor: pointer;
-    height: 40px;
-    text-align: center;
 }
-
+.cu_color {
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 8px;
+    border-radius: 4px;
+}
+.cu_color:hover {
+    color:#fff;
+    text-decoration: underline;
+}
 .btn-login:hover {
-    background: #4c4c4c;
     color: #ececec;
 }
 
@@ -4807,12 +4816,12 @@ h1.wrp-expense-total span.total-expense-amount{
     background:#fff;
 }
 .login-header > img {
-    width: 125px;
+    width: 200px;
 }
 .wrp-login-form {
-    /*background: #ffffff;*/
-    /*border: 1px solid #d6d6d6;*/
-    width: 800px;
+    background: #ffffff;
+    padding: 30px;
+    width: 300px;
     border-radius: 3px;
     margin-top: 20px;
     border-radius: 5px;
@@ -4827,15 +4836,12 @@ h1.wrp-expense-total span.total-expense-amount{
     visibility: visible;
     opacity: 1;
 }
-.login-form {
-    background: #4aaefc;
-}
+
 .login-form input {
     height: 40px !important;
-    color: #000 !important;
-    background: #ffffff !important;
+    color: #808080 !important;
+    background: #d6d6d6 !important;
     border: 1px solid #ffffff !important;
-    width:300px;
 }
 .bg_donautchart {
     top: 50%;
@@ -5939,39 +5945,7 @@ button.reconciled {
    
     
 }
-@media screen and (max-width: 956px) {
-    .bg_logo_image {
-        text-align: center;
-        margin-top: 15px;
-        display: block;
-    }
-    .bg_image_login {
-        display: none;
-    }
-    .wrp-login-form {
-        width: 400px;
-        border-radius: 3px;
-        margin-top: 20px;
-        border-radius: 5px;
-        background: #4aaefc;
-    }
-    .pg_login{
-        padding:40px;
-    }
-    .login-form input {
-        height: 40px !important;
-        color: #000 !important;
-        background: #fff !important;
-        border: 1px solid #ffffff !important;
-        width: 300px;
-    }
-    .login-form {
-        background: transparent;
-    }
-    .box-shadow-login {
-        box-shadow: none;
-    }
-}
+
     .fc-title {
         white-space: pre-wrap;
     }
