@@ -1,0 +1,51 @@
+﻿@if (is_visible)
+{
+    if (string.IsNullOrEmpty(roles))
+    {
+        <div class="@sm @xl @md @lg @ClassName">
+            @ChildContent
+        </div>
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+            <Authorized>
+                <div class="@sm @xl @md @lg @ClassName">
+                    @ChildContent
+                </div>
+            </Authorized>
+        </AuthorizeView>
+    }
+}
+
+@code{
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public string sm { get; set; } = "";
+    [Parameter] public string xl { get; set; } = "";
+    [Parameter] public string md { get; set; } = "";
+    [Parameter] public string lg { get; set; } = "";
+    [Parameter] public string ClassName { get; set; } = "";
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrEmpty(sm))
+        {
+            sm = "uk-width-" + sm + "@s";
+        }
+        if (!string.IsNullOrEmpty(md))
+        {
+            md = "uk-width-" + md + "@m";
+        }
+        if (!string.IsNullOrEmpty(lg))
+        {
+            lg = "uk-width-" + lg + "@l";
+        }
+        if (!string.IsNullOrEmpty(xl))
+        {
+            xl = "uk-width-" + xl + "@xl";
+        }
+        
+    }
+}

@@ -1,0 +1,86 @@
+﻿@page "/user/profile";
+ 
+@inject AuthenticationStateProvider authenticationStateProvider;
+@using Microsoft.AspNetCore.Components.Authorization;
+@using Microsoft.AspNetCore.Identity;
+@inherits PageCore;
+
+<Loading is_loading="@is_loading"/>
+<Com is_visible="@(!is_loading)">
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        User Profile
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight/>
+        </PageHeader>
+        <EditForm Model="u" OnValidSubmit="SaveUser_Click">
+            <PageBody class_name="uk-flex uk-flex-center">
+                <div class="user_profile">
+                    <DataAnnotationsValidator />
+                    <FileUpload @bind-ImageUrl="@u.photo"/>
+                    <TextInput label="New Password" type="password" @bind-text="@u.password" />
+                </div>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button is_visible="@(!is_saving)" icon="save" type="submit">Save</Button>
+                    <SavingButton is_saving="@is_saving" />
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+</Com>
+@code{
+
+    UserModel u { get; set; } = new UserModel();
+    List<UserModel> users_list { get; set; } = new List<UserModel>();
+     
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        //u = await _UserManager.FindByNameAsync(user.Identity.Name);
+        is_loading = false;
+    }
+
+    async Task SaveUser_Click()
+    {
+        is_saving = true;
+
+        if (u.role_id==0)
+        {
+            toast.Add("Please select a user type.", MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+
+        var dup = users_list.Where(r => r.username == u.username && r.id != u.id);
+        if (dup.Count() == 0)
+        {
+            var result = await http.ApiPost("user/save");
+            if (result.IsSuccess)
+            {
+                toast.Add("User update successfully", MatToastType.Success);
+                u = JsonSerializer.Deserialize<UserModel>(result.Content.ToString());
+            }
+
+
+        }
+        else
+        {
+            toast.Add("The user is already exist!", MatToastType.Warning);
+        }
+        is_saving = false;
+
+    }
+
+
+}

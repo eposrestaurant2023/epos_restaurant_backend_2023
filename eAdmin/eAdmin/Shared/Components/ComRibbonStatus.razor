@@ -1,0 +1,25 @@
+﻿
+@if (sale.is_deleted)
+{
+    <div class="ribbon"><span class="uk-label-danger">Deleted</span></div>
+}
+else
+{ 
+    @if (sale.is_over_due)
+    {
+        <div class="ribbon"><span class="overdue">Overdue(@System.Math.Floor(@DateTime.Now.Subtract(sale.due_date.Value).TotalDays))</span></div>
+    }else if (sale.total_amount>0 && sale.paid_amount == 0){ 
+        <div class="ribbon"><span class="unpaid">Unpaid</span></div>
+    }else if (sale.is_partially_paid )
+    {
+        <div class="ribbon"><span class="partially-paid">Partially Paid</span></div>
+    }
+    else if (sale.is_paid )
+    {
+        <div class="ribbon"><span class="paid">Paid</span></div>
+    }
+ 
+}
+@code{
+    [Parameter] public SaleModel sale { get; set; }
+}

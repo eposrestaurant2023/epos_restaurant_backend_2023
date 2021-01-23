@@ -1,0 +1,25 @@
+﻿@if (roles == "")
+{
+    <li class="nav-item px-3">
+        <NavLink class="nav-link" href="@url">
+            <i class="material-icons">keyboard_arrow_right</i><span class="sidemenu_title">@ChildContent</span>
+        </NavLink>
+    </li>
+}
+else
+{
+    <AuthorizeView Roles="@roles">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="@url">
+                <i class="material-icons">keyboard_arrow_right</i><span class="sidemenu_title">@ChildContent</span>
+            </NavLink>
+        </li>
+    </AuthorizeView>
+}
+
+@code{
+
+    [Parameter] public string url { get; set; } = "";
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

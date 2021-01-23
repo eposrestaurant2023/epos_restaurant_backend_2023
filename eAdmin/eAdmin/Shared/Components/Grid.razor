@@ -1,0 +1,30 @@
+﻿@using System;
+@if (is_visible)
+{
+    if (string.IsNullOrEmpty(roles))
+    {
+        <div uk-grid class="@ClassName uk-child-width-@childWidth">
+            @ChildContent
+        </div>
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+            <Authorized>
+                <div uk-grid class="@ClassName uk-child-width-@childWidth">
+                    @ChildContent
+                </div>
+            </Authorized>
+        </AuthorizeView>
+    }
+}
+
+
+@code{
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter] public string childWidth { get; set; } = "";
+
+}

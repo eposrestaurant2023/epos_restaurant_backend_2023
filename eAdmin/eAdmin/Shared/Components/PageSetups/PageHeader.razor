@@ -1,0 +1,12 @@
+﻿<div class="@(is_subpage?"":"page_header")">
+    <div uk-grid class="uk-grid-small @(is_subpage?"uk-margin-bottom subpage-header":"")">
+        @ChildContent
+    </div>
+ </div>
+<Com is_visible="@(!is_subpage)">
+    <Spacing Number="8" />
+</Com>
+@code{
+    [Parameter] public bool is_subpage { get; set; } = false;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

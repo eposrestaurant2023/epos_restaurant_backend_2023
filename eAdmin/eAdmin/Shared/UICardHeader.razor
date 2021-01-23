@@ -1,0 +1,24 @@
+﻿@inject IHttpService http
+    <div class="uk-card-header @ClassName">
+        <Column ClassName="uk-align-center" is_visible="@(!string.IsNullOrEmpty(ImageUrl))">
+            <Image ImageUrl="@(http.ImageUrl(ImageUrl))" IsLightBox="true" IsBackgroundImage="true" Width="90px" Height="90px" ClassName="image_center"/>
+        </Column>
+        <div class="uk-text-center uk-margin-small-top">
+            <Com is_visible="@(!string.IsNullOrEmpty(CustomStatusTitle) || !string.IsNullOrEmpty(CustomStatusValue))">
+                <span class="uk-badge" uk-tooltip="@CustomStatusTitle">@CustomStatusValue</span>
+            </Com>
+                <h5 class="uk-card-title uk-margin-remove"><a href="@Url">@Title</a></h5>
+            <Spacing Number="5"/>
+            <div class="uk-text-meta">@ChildContent</div>
+        </div>
+    </div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string ImageUrl { get; set; } = "";
+    [Parameter] public string CustomStatusValue { get; set; } = "";
+    [Parameter] public string CustomStatusTitle { get; set; } = "Total Actve Service";
+    [Parameter] public string ClassName { get; set; }
+    [Parameter] public string Url { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

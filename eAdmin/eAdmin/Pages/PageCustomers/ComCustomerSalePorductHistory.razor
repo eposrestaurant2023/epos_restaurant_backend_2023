@@ -1,0 +1,308 @@
+﻿@inherits PageCore
+@using System;
+ 
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+
+        <PageHeader is_subpage="true">
+            <HeaderLeft>
+                <PageTitle is_subpage="true">
+                    <HeaderTemplate>
+                        @state.page_title
+                    </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="Status">
+                            <ModuleView module_views="@gv.GetModuleView("page_sale_product")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <AddButton roles="@gv.GetRole("sale_add")" url="@($"sale/customer/{customer_id}")">New</AddButton>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <FilterDateRange @bind-dates="@state.date_range" />
+                    <Spacing Number="12" />
+                    <SelectProductCategory show_empty="true" @bind-product_category="@state.product_category" />
+
+                </ComSearch>
+            </HeaderRight>
+        </PageHeader>
+        <Column is_visible="@(!is_loading)">
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            <Com is_visible="@(models != null)">
+                <Table Items="@models"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto"
+                       EmptyText="There is no record.">
+                    <TableHeader>
+                        @HeaderTemplate("sale_date", "Date", "uk-text-center")
+                        
+                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
+                        @HeaderTemplate("product/product_name", "Product", "col-auto")
+                        <ThCenter>Quantity</ThCenter>
+                        <ThRight>Price</ThRight>
+                        <ThRight>Discount</ThRight>
+                        <ThRight>Amount</ThRight>
+                        <ThCenter>Created Date</ThCenter>
+                        <Th>Created By</Th>
+                        <ThCenter>Status</ThCenter>
+                        <th class="uk-width-auto"></th>
+                    </TableHeader>
+                    <RowTemplate Context="p">
+                        <TdCenter>@p.sale?.sale_date.ToString(gv.date_format)</TdCenter>
+                        
+                        <TdCenter>
+                            <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.sale_id}")">@p.sale?.document_number</ComAuthorize>
+                        </TdCenter>
+                        <td>
+                            <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.product_id}")">@p.product?.product_name</ComAuthorize>
+                        </td>
+                        <TdCenter>
+                            <span>@p.quantity.ToString(gv.quantity_format)</span>
+                        </TdCenter> 
+                        <TdRight>
+                            @p.selling_price.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_discount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
+                        <td>@p.created_by</td>
+                        <TdRight> 
+                            <ComSaleStatus sale="@p.sale" />
+                            <LabelDeleted is_visible="@(p.is_deleted)" />
+                            
+                        </TdRight>
+                        <TdActions is_loading="@p.is_loading">
+                            <TableActionItem roles="@gv.GetRole("sale_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"sale/{p.sale_id}")">View</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("sale_edit")" icon="edit" is_visible="@(!p.is_deleted)" url="@($"sale/edit/{p.sale_id}")">Edit</TableActionItem>
+                        </TdActions>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        </Column>
+
+@code {
+        [Parameter] public Guid customer_id { get; set; }
+        [Parameter] public int product_id { get; set; }
+
+        List<SaleProductModel> models = new List<SaleProductModel>();
+        int TotalRecord = 0;
+
+        string controller_api = "saleproduct";
+        string select = "$expand=sale,product";
+        string ControllerApi
+    {
+            get
+        {
+                if (string.IsNullOrEmpty(state.pager.order_by))
+                {
+                    state.pager.order_by = "id";
+                    state.pager.order_by_type = "desc";
+                }
+                string url = $"{controller_api}?{select}";
+                url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+
+
+                if (!state.filters.Where(r => r.key == "is_deleted").Any())
+                {
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "is_deleted",
+                        value1 = "false"
+                    });
+                }
+
+                if (customer_id !=Guid.Empty)
+                {
+                    if (!state.filters.Where(r => r.key == "sale/customer_id").Any())
+                    {
+                        state.filters.Add(new FilterModel()
+                        {
+                            key = "sale/customer_id",
+                            value1 = customer_id.ToString()
+                        });
+                    }
+                }
+                if (product_id > 0) {
+
+                    if (!state.filters.Where(r => r.key == "product_id").Any())
+                    {
+                        state.filters.Add(new FilterModel()
+                        {
+                            key = "product_id",
+                            value1 = product_id.ToString()
+                        });
+                    }
+                }
+
+
+
+                return url + GetFilter(state.filters);
+            }
+        }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        state = new StateModel();
+
+        state.page_title = "All Sale Products";
+
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+        is_loading_data = true;
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+        }
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<SaleProductModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+        }
+
+        is_loading_data = false;
+        is_loading = false;
+    }
+
+    public async Task SelectChange(int perpage)
+    {
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+    public async Task ChangePager(int _page)
+    {
+        state.pager.current_page = _page;
+        await LoadData();
+    }
+    public async Task OrderBy(string col_name = "")
+    {
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+        await LoadData();
+    }
+
+    public async Task RemoveFilter(FilterModel f)
+    {
+        is_loading = true;
+        string[] remove_key = f.remove_key.Split(',');
+        foreach (var k in remove_key)
+        {
+            state.filters.RemoveAll(r => r.key == k);
+        }
+
+        state.pager.current_page = 1;
+        //gv.RemoveFilter
+        RemoveFilter(state, f.state_property_name);
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task RemoveAllFilter()
+    {
+        is_loading = true;
+        foreach (var f in state.filters.Where(r => r.is_clear_all == true))
+        {
+            RemoveFilter(state, f.state_property_name);
+        }
+
+        state.filters.RemoveAll(r => r.is_clear_all == true);
+        state.pager.current_page = 1;
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.pager.order_by = m.default_order_by;
+        state.pager.order_by_type = m.default_order_by_type;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+    public async Task OnSearch(string keyword)
+    {
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword);
+        await LoadData();
+    }
+
+    public async Task FilterClick()
+    {
+        state.filters.RemoveAll(r => r.filter_info_text != "");
+        //start date
+        if (state.date_range.is_visible)
+        {
+            state.filters.Add(
+                new FilterModel()
+                {
+                    key = "sale/sale_date",
+                    value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
+                    filter_title = "Sale Date",
+                    filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
+                    filter_operator = "Ge",
+                    is_clear_all = true,
+                    will_remove = true,
+                    state_property_name = "date_range"
+                }
+            );
+
+            //end date
+            state.filters.Add(new FilterModel()
+            {
+                key = "sale/sale_date",
+                value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
+                is_clear_all = true,
+                filter_operator = "Le",
+                will_remove = true,
+                state_property_name = "date_range"
+            });
+        }
+
+        if (state.product_category.id > 0)
+        {
+            //product category
+            state.filters.Add(new FilterModel()
+            {
+                key = "product/product_category_id",
+                value1 = state.product_category.id.ToString(),
+                is_clear_all = true,
+                filter_title = "Product Category",
+                state_property_name = "product_category",
+                filter_info_text = state.product_category.product_category,
+                filter_operator = "eq",
+                will_remove = true
+            });
+        }
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+}
+

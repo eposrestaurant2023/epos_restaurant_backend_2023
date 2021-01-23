@@ -1,0 +1,28 @@
+﻿@if (string.IsNullOrEmpty(roles))
+{
+    <div class="@(is_container?"page_containter":"")">
+        @ChildContent
+    </div>
+}
+else
+{
+    <AuthorizeView Roles="@roles">
+        <Authorized>
+            <div class="@(is_container?"page_containter":"") @ClassName">
+                @ChildContent
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <PageNotFound/>
+        </NotAuthorized>
+    </AuthorizeView>
+}
+
+
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string roles { get; set; }
+    [Parameter] public bool is_container { get; set; } = true;
+    [Parameter] public string ClassName { get; set; } = "";
+
+}

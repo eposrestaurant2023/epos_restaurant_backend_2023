@@ -1,0 +1,16 @@
+1.ABA
+2.Wing
+3.Emoney
+4.True Money
+5.Lyhour
+6.Cash
+7.Credit Card
+8.ACELEDA 
+9.Sathapana Bank
+10.AMK
+11.Canadia 
+12.Pi Pay
+13.SmartLuy
+15.Pay&Go
+16.Bongloy
+17.EAON

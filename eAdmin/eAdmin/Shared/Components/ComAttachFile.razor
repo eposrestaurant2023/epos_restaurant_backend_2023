@@ -1,0 +1,294 @@
+﻿@using System.IO
+@using System.Net.Http
+@using System.Net.Http.Headers
+@using Microsoft.JSInterop
+@using Microsoft.Extensions.Configuration;
+@inherits PageCore;
+
+<Loading is_loading="is_loading" />
+<Column is_visible="@(!IsReadOnly)">
+    <div class="title">
+        Upload Files  <span uk-icon="chevron-left"></span> 4Mb
+    </div>
+    <br/>
+    <div class="uk-text-left">
+        <div>Accept (jpg, png, pdf, docx, xlsx)</div>
+        <AuthorizeView Roles="@RoleAdd">
+            @if (IsVisible)
+            {
+                <div class="wrp_input_attach_file">
+                    <label uk-title="Upload File" class="label-btn-file-upload">
+                        <MatFileUpload OnChange="HandleSelection" Style="display: none;" />
+                        <span class="upload-profile-icon">
+                            <Icon icon="attach_file" />
+                        </span>
+                    </label>
+                    @if (is_loading)
+                    {
+                        <div class="loading_file_uploads"></div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(status_message))
+                    {
+                        <div class="status_msg uk-text-break">
+                            @status_message
+                        </div>
+                    }
+                </div>
+            }
+        </AuthorizeView>
+    </div>
+    <hr />
+</Column>
+<div class="att_file_scroll uk-text-left">
+    @if (AttachFiles.Count() > 0)
+    {
+        @foreach (var f in AttachFiles.Where(r => r.is_deleted == false).OrderByDescending(r => r.created_date))
+
+        {
+            <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+                <div>
+                    @if (f.file_extension == ".jpg" || f.file_extension == ".png" || f.file_extension == ".jpeg")
+                    {
+                        <div uk-lightbox="toggle: img">
+
+                            <img src="@image_url(f.file_name)" alt="@f.file_name" class="uk-image" href="@image_url(f.file_name)" />
+
+                        </div>
+
+                    }
+                    else if (f.file_extension == ".docx")
+                    {
+                        <a target="_blank" href="Upload/@f.file_name">
+                            <img src="@image_url("doc.png")" class="uk-image" width="70" />
+                        </a>
+                    }
+                    else if (f.file_extension == ".xlsx" || f.file_extension == ".xls")
+                    {
+                        <a target="_blank" href="Upload/@f.file_name">
+                            <img src="@image_url("xls.png")" class="uk-image" width="70" />
+                        </a>
+                    }
+                    else if (f.file_extension == ".pdf")
+                    {
+                        <a target="_blank" href="Upload/@f.file_name">
+                            <img src="@image_url("pdf.png")" class="uk-image" width="70" />
+                        </a>
+                    }
+                </div>
+                <div>
+                    @if (!IsReadOnly)
+                    {
+                        @if (!f.is_editing)
+                        {
+                            <div class="uk-text-truncate" uk-tooltip="@f.file_title">@f.file_title</div>
+                            <div>@(f.file_size / 1000000) Mb</div>
+                            <div>@f.note</div>
+                            <div>By @f.created_by on @f.created_date.ToString(gv.date_time_format) </div>
+                            @if (f.is_deleting)
+                            {
+                                <Spinner />
+                            }
+                            else
+                            {
+                                <Icon icon="edit" @onclick="@(() => f.is_editing = true)" roles="@RoleEdit" is_visible="@IsVisible" className="edit" />
+                                <Icon icon="delete" @onclick="@(() => DeleteAttachFile_Click(f))" roles="@RoleDelete" is_visible="@IsVisible" className="delete" />
+                            }
+
+                        }
+                        else
+                        {
+
+                            <EditForm Model="@f" class="form" OnValidSubmit="@(() => SaveAttachFile_Click(f))">
+                                <div class="wrp-upload-edit-inputs">
+                                    <TextInput @bind-text="@f.file_title" placeholder="File title" />
+                                    <Spacing Number="5" />
+                                    <TextInput @bind-text="@f.note" placeholder="File Description" />
+                                </div>
+
+                                <div>
+                                    @if (f.is_saving)
+                                    {
+                                        <Spinner />
+                                    }
+                                    else
+                                    {
+                                        <Spacing Number="5" />
+                                        <button class="btn-off-canvas" type="submit">Save</button>
+                                        <button class="btn-off-canvas" @onclick="@(() => f.is_editing = false)" type="button">Cancel</button>
+
+                                    }
+
+                                </div>
+
+                            </EditForm>
+                        }
+                    }
+                    else
+                    {
+                        <div class="uk-text-truncate" uk-tooltip="@f.file_title">@f.file_title</div>
+                    }
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        <div class="uk-text-center text-muted">
+            <Icon icon="image" /> No files or images
+        </div>
+    }
+</div>
+@code
+{
+
+    //proper ty
+    [Parameter] public string RoleView { get; set; }
+    [Parameter] public string RoleAdd { get; set; }
+    [Parameter] public string RoleEdit { get; set; }
+    [Parameter] public string RoleDelete { get; set; }
+    [Parameter] public bool IsVisible { get; set; } = true;
+    [Parameter] public bool IsReadOnly { get; set; } = false;
+
+    [Parameter] public List<AttachFilesModel> AttachFiles { get; set; }
+    [Parameter] public AttachFilesModel file { get; set; }
+
+
+    //event call back
+    [Parameter] public EventCallback<AttachFilesModel> OnUploadAttachFile { get; set; }
+    [Parameter] public EventCallback<AttachFilesModel> OnDeleteAttachFile { get; set; }
+    [Parameter] public EventCallback<AttachFilesModel> OnEditAttachFile { get; set; }
+
+    InputFileData _data_form = new InputFileData();
+    bool IsUploaded = false;
+    string status_message = "";
+
+    string image_url(string image_base_url) {
+        return $"{config["BaseUrl"]}upload/{image_base_url}";
+    }
+
+    private async Task HandleSelection(IMatFileUploadEntry[] files)
+    {
+
+        var uploaded_file = files.FirstOrDefault();
+        is_loading = true;
+
+
+        //check if file extension 
+        FileInfo _file = new FileInfo(uploaded_file.Name);
+        var file_extension = _file.Extension.ToLower();
+        List<string> accept_extension = new List<string>(new string[] { ".jpg", ".png", ".jpeg", ".xls", ".cvs", ".doc", ".pdf" });
+        if (!accept_extension.Contains(file_extension))
+        {
+            toast.Add("Incorrect File Extension", MatToastType.Warning);
+            is_loading = false;
+            return;
+        }
+
+        await SendFileUpload(uploaded_file);
+        if (IsUploaded) {
+
+            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + uploaded_file.Name;
+            // get the status
+            status_message = "The file " + uploaded_file.Name + " was uploaded";
+            file.file_name = _new_image;
+            file.file_title = uploaded_file.Name;
+            file.file_type = uploaded_file.Type;
+            file.file_size = uploaded_file.Size;
+            file.file_extension = file_extension;
+            var resp = await http.ApiPost($"AttachFiles/save", file);
+            if (resp.IsSuccess)
+            {
+                toast.Add("File save successfully", MatToastType.Success);
+                await OnUploadAttachFile.InvokeAsync(JsonSerializer.Deserialize<AttachFilesModel>(resp.Content.ToString()));
+            }
+            else
+            {
+                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            }
+        }
+        is_loading = false;
+    }
+
+    async Task SaveAttachFile_Click(AttachFilesModel f)
+    {
+        is_loading = true;
+        f.is_saving = true;
+
+        if (f != null)
+        {
+
+            var resp = await http.ApiPost($"AttachFiles/save", f);
+            if (resp.IsSuccess)
+            {
+                toast.Add("File is save successfully", MatToastType.Success);
+
+            }
+            else
+            {
+                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            }
+            await OnEditAttachFile.InvokeAsync(JsonSerializer.Deserialize<AttachFilesModel>(resp.Content.ToString()));
+        }
+        is_loading = false;
+        f.is_saving = false;
+        f.is_editing = false;
+    }
+
+
+    async Task DeleteAttachFile_Click(AttachFilesModel f)
+    {
+
+        is_loading = true;
+        f.is_deleting = true;
+        if (await js.Confirm("Delete attach file", "Are you sure you want to delete this attach file?"))
+        {
+
+            f.is_deleted = true;
+            var resp = await http.ApiPost($"AttachFiles/delete/{f.id}");
+            if (resp.IsSuccess)
+            {
+                toast.Add("Delete file successfully", MatToastType.Success);
+            }
+            else
+            {
+                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            }
+            await OnDeleteAttachFile.InvokeAsync(JsonSerializer.Deserialize<AttachFilesModel>(resp.Content.ToString()));
+
+        }
+        f.is_deleting = false;
+        is_loading = false;
+    }
+
+    async Task SendFileUpload(IMatFileUploadEntry file)
+    {
+        if (file != null)
+        {
+            var ms = new MemoryStream();
+            await file.WriteToStreamAsync(ms);
+
+            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name;
+
+            var bytecontent = new ByteArrayContent(ms.GetBuffer());
+            bytecontent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+            var content = new MultipartFormDataContent { { bytecontent, "\"upload\"", _new_image } };
+
+
+            _data_form.multipartForm = content;
+            _data_form.ImageUrl = _new_image;
+
+            //send file upload
+            var client = new HttpClient();
+
+            var url = $"{config["apiBaseUrl"]}upload?folder={_data_form.SaveFolderPath}";
+            var resp = await client.PostAsync(url, _data_form.multipartForm);
+
+            if (resp.IsSuccessStatusCode)
+            {
+                IsUploaded = true;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,102 @@
+﻿@if (is_visible)
+{
+    @if (string.IsNullOrWhiteSpace(roles))
+    {
+        @if (HaveChildContent)
+        {
+    <div class="uk-button-group button_group" style="width:@width">
+        @if (!string.IsNullOrWhiteSpace(url))
+        {
+            <LinkButton url="@url" icon="add">@main_button_text</LinkButton> 
+        }
+        else
+        {
+            <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
+        }
+        <button class="btn-last uk-button uk-button-primary" type="button"><Icon icon="arrow_drop_down" /></button>
+        <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+            <ul class="uk-nav uk-dropdown-nav">
+                @ChildContent
+            </ul>
+        </div>
+    </div>
+        }
+        else
+        {
+            @if (!string.IsNullOrWhiteSpace(url))
+            {
+                <LinkButton url="@url" icon="add">@main_button_text</LinkButton>
+            }
+            else { 
+                <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
+            }
+        }
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+            <Authorized>
+                @if (HaveChildContent)
+                {
+                <div class="uk-button-group button_group" style="width:@width">
+                    @if (!string.IsNullOrWhiteSpace(url))
+                    {
+                        <LinkButton url="@url" icon="add">@main_button_text</LinkButton>
+                    }
+                    else
+                    {
+                        <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
+                    }
+                    <button class="btn-last uk-button uk-button-primary" type="button"><Icon icon="arrow_drop_down" /></button>
+                    <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+                        <ul class="uk-nav uk-dropdown-nav">
+                            @ChildContent
+                        </ul>
+                    </div>
+                </div>
+                }
+                else
+                {
+                    @if (!string.IsNullOrWhiteSpace(url))
+                    {
+                        <LinkButton url="@url" icon="add">@main_button_text</LinkButton>
+                    }
+                    else
+                    {
+                        <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
+                    }
+                }
+            </Authorized>
+            <NotAuthorized>
+                @if (HaveChildContent)
+                {
+                <div class="uk-button-group button_group" style="width:@width">
+                    <Button icon="add">@main_button_text</Button>
+                    <button class="btn-last uk-button uk-button-primary" type="button"><Icon icon="arrow_drop_down" /></button>
+                    <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+                        <ul class="uk-nav uk-dropdown-nav">
+                            @ChildContent
+                        </ul>
+                    </div>
+                </div>
+                }
+                else
+                {
+                    <Button icon="add" >@main_button_text</Button>
+                }
+            </NotAuthorized>
+        </AuthorizeView>
+    }
+}
+
+@code{
+    [Parameter] public string url { get; set; }
+    [Parameter] public string main_button_text { get; set; }
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public string width { get; set; } = "";
+    [Parameter] public string alignment { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public bool HaveChildContent { get; set; } = true;
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

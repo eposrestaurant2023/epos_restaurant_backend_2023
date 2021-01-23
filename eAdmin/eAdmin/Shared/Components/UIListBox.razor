@@ -1,0 +1,30 @@
+﻿@inject IHttpService http
+<div class="wrp-box @ClassName" @onclick="OnClick">
+    <div class="box-item">
+        <div class="uk-grid-small" uk-grid>
+            <Com is_visible="showImage">
+                <div class="uk-width-auto">
+                    <Image ImageUrl="@(http.ImageUrl(ImageUrl))" PopupImageUrl="@(http.ImageUrl(ImageUrl))" IsLightBox="true" IsBackgroundImage="true" Width="40px" Height="40px" />
+                </div>
+            </Com>
+            <div class="uk-width-expand uk-position-relative">
+                <div class="txt-body">
+                    @ContentLeft
+                </div>
+            </div>
+            <div class="uk-margin-auto-left">
+                @ContentRight
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter] public string ImageUrl { get; set; } = "";
+    [Parameter] public RenderFragment ContentLeft { get; set; }
+
+    [Parameter] public RenderFragment ContentRight { get; set; }
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter] public bool showImage { get; set; } = true;
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

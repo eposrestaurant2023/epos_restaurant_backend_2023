@@ -1,0 +1,10 @@
+﻿<div class="uk-flex uk-flex-center border_sale_order">
+    <div class="invoice_page_preview" style="min-width: @PageWidth">
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string PageWidth { get; set; } = "794px";
+}

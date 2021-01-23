@@ -1,0 +1,46 @@
+﻿
+@inherits PageCore; 
+
+    <EditFormContext Cancel_Click="@onCancelClick" model="@model" is_opened="is_open" title="@modal_title" Save_Click="SavePaymentTerm_Click" is_submitting="@is_saving" modal_width="800px">
+        <TextInput label="Name" @bind-text="@model.customer_group_name_en">
+            <ValidationMessage For="@(()=>model.customer_group_name_en)" />
+        </TextInput>
+        <TextInput label="Name (Kh)" @bind-text="@model.customer_group_name_kh">
+            <ValidationMessage For="@(() => model.customer_group_name_kh)" />
+        </TextInput>
+        <TextInput label="Note" @bind-text="@model.note" type="textarea"/>
+        <SelectStatus @bind-selected_value="@model.status" />
+    </EditFormContext>
+
+@code{
+    [Parameter] public string modal_title { get; set; }
+    [Parameter] public CustomerGroupModel model { get; set; } = new CustomerGroupModel();
+    [Parameter] public bool is_open { get; set; }
+    [Parameter] public EventCallback<bool> is_openChanged { get; set; }
+    [Parameter] public EventCallback<CustomerGroupModel> Save_Click { get; set; }
+
+    async Task onCancelClick()
+    {
+        await is_openChanged.InvokeAsync(false);
+    }
+    async Task SavePaymentTerm_Click()
+    {
+        is_saving = true;
+        var res= await http.ApiPost("CustomerGroup/save", model);
+        if (res.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<CustomerGroupModel>(res.Content.ToString());
+            var resp = await http.ApiGet("GlobalVariable?$expand=customer_groups");
+            if (resp.IsSuccess)
+            {
+                var data = JsonSerializer.Deserialize<GlobalVariableModel>(resp.Content.ToString());
+            
+            }
+
+            toast.Add("Save Successfully", MatToastType.Success);
+            await Save_Click.InvokeAsync(model);
+            await is_openChanged.InvokeAsync(false);
+        }
+        is_saving = false;
+    }
+}

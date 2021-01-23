@@ -1,0 +1,31 @@
+﻿<Com is_visible="is_visible">
+
+    @if (sale.is_over_due && !sale.is_deleted)
+    {
+        <span class="uk-label overdue">Overdue (@System.Math.Floor(@DateTime.Now.Subtract(sale.due_date.Value).TotalDays))</span>
+    }
+
+
+    @if (sale.is_partially_paid && !sale.is_deleted)
+    {
+        <span class="uk-label partially-paid">Partially Paid</span>
+    }
+
+
+    @if (sale.is_paid && !sale.is_deleted)
+    {
+        <span class="uk-label paid">Paid</span>
+    }
+
+    <LabelUnpaid is_visible="@(!sale.is_deleted && !sale.is_paid && (sale.total_amount > 0) && (sale.balance == sale.total_amount))" />
+
+    @if (sale.is_fulfilled && !sale.is_deleted)
+    {
+        <span class="uk-label fulfilled">Fulfilled</span>
+    }
+</Com>
+
+@code{
+    [Parameter] public SaleModel sale { get; set; }
+    [Parameter] public bool is_visible { get; set; } = true;
+}

@@ -1,0 +1,36 @@
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime js
+
+<textarea id="@Guid" value="@Value" rows='3' data-min-rows='3' class="autoExpand uk-textarea" placeholder="@PlaceHolder" @oninput="@((e) => OnInput(e.Value.ToString()))"  @ref="txt_comment"/>
+
+@code{
+
+    [Parameter] public string Guid { get; set; } = System.Guid.NewGuid().ToString();
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public string PlaceHolder { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    public ElementReference txt_comment;
+
+
+    void OnInput(string _value) {
+        Value = _value;
+        ValueChanged.InvokeAsync(Value);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) {
+            await js.InvokeVoidAsync("IncreaseTextArea", Guid);
+            try
+            {
+                await js.InvokeVoidAsync("JsFunctions.focusElement", txt_comment);
+            }
+            catch {
+
+            }
+
+
+
+        }
+    }
+}

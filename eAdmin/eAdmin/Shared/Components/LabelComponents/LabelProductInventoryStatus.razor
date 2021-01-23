@@ -1,0 +1,24 @@
+﻿<Com is_visible="@is_visible">
+    @if (quantity > max_quantity && max_quantity > 0)
+    {
+        <Label Background="#000000" Color="#fff">Over Stock</Label>
+    }
+    else if ((quantity < min_quantity && quantity > 0) && min_quantity > 0)
+    {
+        <Label Background="#fe9900" Color="#fff">Low Stock</Label>
+    }
+    else if (quantity <= 0)
+    {
+        <Label Background="#ff0000" Color="#fff">Out Of Stock</Label>
+    }
+</Com>
+
+@code {
+
+    [Parameter] public decimal quantity { get; set; }
+    [Parameter] public decimal max_quantity { get; set; }
+    [Parameter] public decimal min_quantity { get; set; }
+
+    [Parameter] public bool is_visible { get; set; } = true;
+
+}
