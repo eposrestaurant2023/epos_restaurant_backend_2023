@@ -119,7 +119,12 @@ namespace eAPI
             odataBuilder.EntitySet<PermissionOptionModel>("PermissionOption");
             var p = odataBuilder.EntitySet<PermissionOptionRoleModel>("PermissionOptionRole");
             p.EntityType.HasKey(r => new { r.role_id, r.permission_option_id });
+
             odataBuilder.EntitySet<UserModel>("User");
+            var u = odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
+            u.EntityType.HasKey(r => new { r.user_id, r.business_branch_id });
+
+
             odataBuilder.EntitySet<PermissionOptionModel>("PermissionOption");
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
