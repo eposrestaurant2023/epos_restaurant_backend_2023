@@ -1,15 +1,15 @@
-﻿@page "/businessinfo"
+﻿@page "/businessinformation"
 @inherits PageCore;
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
     <Title Value="Company Information"></Title>
-    <PageContainer roles="@gv.GetRole("business_information_management")">
+    <PageContainer roles="@gv.GetRole("business_information")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Company Information
+                        Business Information
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -18,26 +18,62 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox>
-                        <UkFlex class_name="uk-flex-center">
-                            <FileUpload @bind-ImageUrl="@model.company_logo" guid="bus_capture_001" />
-                        </UkFlex>
+                    <UIContainerBox Title="Business Info">
+                        <UISummaryBox ImageUrl="@model.company_logo">
+                            <ContentLeft>
+                                <table>
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <td>@model.company_name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Company Name KH</th>
+                                        <td>@model.company_name_kh</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mobile Phone</th>
+                                        <td>@model.mobile_phone</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Office Phone</th>
+                                        <td>@model.office_phone</td>
+                                    </tr>
+                                </table>
+                            </ContentLeft>
+                            <ContentRight>
+                                <table>
+                                    <tr>
+                                        <th>Contact Name</th>
+                                        <td>@model.contact_name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Phone Number</th>
+                                        <td>@model.contact_phone_number</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Office Phone</th>
+                                        <td>@model.contact_office_number</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Office Emai</th>
+                                        <td>
+                                            @model.email
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Contact Email</th>
+                                        <td>
+                                            @model.contact_email
+                                        </td>
+                                    </tr>
+                                </table>
+                            </ContentRight>
+                        </UISummaryBox>
+
                     </UIContainerBox>
-                    <UIContainerBox>
-                        <TextInput label="Company Name" @bind-text="@model.company_name">
-                            <ValidationMessage For="@(() => model.company_name)" />
-                        </TextInput>
-                        <TextInput label="Company Name KH" @bind-text="@model.company_name_kh">
-                            <ValidationMessage For="@(() => model.company_name_kh)" />
-                        </TextInput>
-                        <TextInput type="textarea" label="Address" @bind-text="@model.address" />
-                        <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
-                        <TextInput label="Office Phone" @bind-text="@model.office_phone" />
-                        <TextInput label="Contact Name" @bind-text="@model.contact_name" />
-                        <TextInput label="Phone Number" @bind-text="@model.contact_phone_number" />
-                        <TextInput label="Office Phone" @bind-text="@model.contact_office_number" />
-                        <TextInput label="Office Email" @bind-text="@model.email" />
-                        <TextInput label="Contact Email" @bind-text="@model.contact_email" />
+                    <UIContainerBox Title="Brance Info" is_show_add_button="true" OnAddClick="@OnOpenModel">
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
@@ -58,11 +94,37 @@
         </EditForm>
 
     </PageContainer>
+
+
+
+    <ComModal IsOpened="@ShowModal" Close_Click="@Oncanel" ModalWidth="700px">
+     
+        <EditForm Model="@model" OnValidSubmit="@Save_Click">
+            <FileUpload @bind-ImageUrl="@model.company_logo" guid="bus_capture_001" />
+
+            <TextInput label="Company Name" @bind-text="@model.company_name">
+                <ValidationMessage For="@(() => model.company_name)" />
+            </TextInput>
+            <TextInput label="Company Name KH" @bind-text="@model.company_name_kh">
+                <ValidationMessage For="@(() => model.company_name_kh)" />
+            </TextInput>
+            <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
+            <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+            <TextInput label="Contact Name" @bind-text="@model.contact_name" />
+            <TextInput label="Phone Number" @bind-text="@model.contact_phone_number" />
+            <TextInput label="Office Phone" @bind-text="@model.contact_office_number" />
+            <TextInput label="Office Email" @bind-text="@model.email" />
+            <TextInput label="Contact Email" @bind-text="@model.contact_email" />
+            <TextInput type="textarea" label="Address" @bind-text="@model.address" />
+        </EditForm>
+  
+       
+    </ComModal>
 }
 
 @code{
     string guid = Guid.NewGuid().ToString();
-
+    bool ShowModal = false;
     BusinessInformationModel model { get; set; } = new BusinessInformationModel();
     InputFileData file { get; set; } = new InputFileData();
     protected override void OnInitialized()
@@ -85,7 +147,18 @@
             toast.Add(res.Content.ToString(), MatToastType.Warning);
         }
 
+
         is_saving = false;
+    }
+
+    void OnOpenModel()
+    {
+        ShowModal = !ShowModal;
+    }
+
+    void Oncanel()
+    {
+        ShowModal = false;
     }
 
 

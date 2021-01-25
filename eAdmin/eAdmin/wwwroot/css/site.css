@@ -1133,6 +1133,69 @@ a, a:hover {
     background-color: #fff;
     border-bottom: 1px #ebeff3 solid; 
 }
+.bg_kpi {
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+}
+
+    .bg_kpi.bg_today_amount {
+        background: #f79743;
+    }
+
+    .bg_kpi.bg_today_mtd {
+        background: #4693cd;
+    }
+
+    .bg_kpi.bg_today_quantity {
+        background: #9dbd59;
+    }
+
+    .bg_kpi.bg_today_quantity_mtd {
+        background: #8165a3;
+    }
+
+.ttle_number {
+    font-size: 25px;
+    font-weight: 100;
+    margin-bottom: 10px;
+}
+.text_persen {
+    font-size: 11px;
+    color: #fff;
+    text-align: right;
+}
+.bg_pendding_order {
+    background: #FF5733;
+}
+
+.bg_viode_oeder {
+    background: #FFBF00;
+}
+.title-kpi {
+    font-size: 15px;
+    text-transform: capitalize;
+}
+.title_summery_order {
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+.progress_bar {
+    vertical-align: baseline;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: block;
+    width: 100%;
+    border: 0;
+    background-color: #f8f8f8;
+    margin-bottom: 10px;
+    height: 15px;
+    border-radius: 500px;
+    overflow: hidden;
+}
+
+
 
 #top-head > .uk-container {
     padding-left: 10px;
@@ -2240,7 +2303,13 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
     color: #ff2d54;
     font-size: 30px;
 }
-
+.title_business {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    color: #666;
+}
 .wrp-sale-invoice-footer .uk-first-column {
     padding-right: 30px;
 }

@@ -11,7 +11,7 @@ else
 }
 
 <div class="custom-modal uk-text-left uk-position-fixed uk-position-cover uk-overlay @is_visible_class @isFullModal @(is_fullscreen?is_fullscreen_class:"")" id="@Guid">
-    <div class="content uk-position-relative" style="min-width: @ModalWidth;border-radius:4px !important;">
+    <div class="content uk-position-relative" style="border-radius:4px !important;">
         <div class="modal-header">
             @if (is_ModelFullscreen == true)
             {
@@ -21,7 +21,7 @@ else
             <button @onclick="@Close_Click" class="uk-modal-close-default" type="button" uk-close></button>
             <div class="modal-title">@Title</div>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="width: @ModalWidth !important;">
             @ChildContent
         </div>
     </div>
