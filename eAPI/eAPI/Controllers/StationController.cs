@@ -56,8 +56,26 @@ namespace eAPI.Controllers
             return Ok(u);
 
 
-        }  
-   
+        }
+
+        [HttpPost("Update")]
+        [AllowAnonymous]
+        public async Task<ActionResult<string>> Update(int id, bool is_already_config)
+        {
+            try
+            {
+                var s = db.Stations.Find(id);
+                s.is_already_config = is_already_config;  
+                db.Stations.Update(s);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(s);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
 
         [HttpPost]
         [Route("delete/{id}")]
