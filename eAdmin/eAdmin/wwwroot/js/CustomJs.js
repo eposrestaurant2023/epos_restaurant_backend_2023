@@ -180,3 +180,6 @@ function CheckIfExit(selector) {
 function ClosePhotoCamara(id) {
     Webcam.reset('#video');
 }
+function Toast(msg, type, position) {
+    $.notify(msg, { className: type, globalPosition: position });
+}

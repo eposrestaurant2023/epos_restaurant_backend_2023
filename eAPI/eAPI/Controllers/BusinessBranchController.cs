@@ -44,12 +44,10 @@ namespace eAPI.Controllers
             
             if (u.id == Guid.Empty)
             {
-
                 db.BusinessBranches.Add(u);
             }
             else
             {
-                
                 db.BusinessBranches.Update(u);
             }
             
@@ -57,8 +55,16 @@ namespace eAPI.Controllers
             return Ok(u);
 
 
-        }  
-   
+        }
+
+        [HttpGet("find")]
+        [EnableQuery(MaxExpansionDepth = 4)]
+        public SingleResult<BusinessBranchModel> Get([FromODataUri] Guid key)
+        {
+            var s = db.BusinessBranches.Where(r => r.id == key).AsQueryable();
+
+            return SingleResult.Create(s);
+        }
 
         [HttpPost]
         [Route("delete/{id}")]

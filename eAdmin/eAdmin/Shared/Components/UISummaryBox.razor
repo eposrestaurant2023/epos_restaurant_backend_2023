@@ -10,6 +10,11 @@
             <div class="uk-grid-divider uk-child-width-expand@s profile-overview" uk-grid>
                 <div>
                     @ContentLeft
+                    <div class="uk-flex uk-flex-inline">
+                        <div> <Icon icon="@Icon" OnClick="@OnClick" /></div>
+                        <div> <Icon icon="@Icon_dleted" OnClick="@OnClick_Dlete" /></div>
+                    </div>
+                   
                 </div>
                 <div>
                     @ContentRight
@@ -20,8 +25,11 @@
 </UIContainerBox>
 
     @code{
+        [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnClick_Dlete { get; set; }
         [Parameter] public string Title { get; set; }
         [Parameter] public string Icon { get; set; }
+        [Parameter] public string Icon_dleted { get; set; }
         [Parameter] public string ClassName { get; set; }
         [Parameter] public string ImageUrl { get; set; }
         [Parameter] public bool ShowImage { get; set; } = true;

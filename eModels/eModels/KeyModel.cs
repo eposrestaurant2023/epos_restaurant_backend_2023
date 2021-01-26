@@ -15,6 +15,6 @@ namespace eModels
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public Guid id { get; set; } = Guid.NewGuid();
+        public Guid id { get; set; }
     }
 }

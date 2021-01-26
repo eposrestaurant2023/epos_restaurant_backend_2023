@@ -6,6 +6,10 @@ namespace eAdmin.JSHelpers
 {
     public static class JSHelpers
     {
+        public static ValueTask Toast(this IJSRuntime Js, string message, AlertType alertType = AlertType.success)
+        {
+            return Js.InvokeVoidAsync("Toast", message, alertType.ToString(), "top center");
+        }
         public static ValueTask DisplayMessage(this IJSRuntime js, string message)
         {
             return js.InvokeVoidAsync("Swal.fire", message);
@@ -49,6 +53,10 @@ namespace eAdmin.JSHelpers
         }
 
 
+    }
+    public enum AlertType
+    {
+        warn, error, success, info
     }
     public enum SweetAlertMessageType
     {
