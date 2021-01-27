@@ -4962,6 +4962,7 @@ h1.wrp-expense-total span.total-expense-amount{
     margin-right: auto;
     background: #fff;
     border-radius: 0px 0px 5px 5px;
+    text-align:right;
 }
 
 .uk-margin-left-auto {

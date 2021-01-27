@@ -2,7 +2,7 @@
 {
     if (is_loading)
     {
-        <Spinner />
+      <label class="uk-label inactive"> <Spinner /></label>
     }
     else
     {
@@ -10,7 +10,7 @@
 
         if (roles == "")
         {
-<span class="uk-label inactive @ClassName"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" />@text </span>
+<span class="uk-label inactive @ClassName" @onclick="@OnClick"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" />@text </span>
         }
         else
         {

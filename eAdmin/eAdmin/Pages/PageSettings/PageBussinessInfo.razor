@@ -15,71 +15,74 @@
                 </PageTitle>
             </HeaderLeft>
         </PageHeader>
-        <EditForm Model="@model" OnValidSubmit="Save_Click" @attributes="@formAttributes">
-            <DataAnnotationsValidator />
+
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="Business Info">
-                        <UISummaryBox ImageUrl="@model.company_logo" ShowImage="true">
-                            <ContentLeft>
-                                <table>
-                                    <tr>
-                                        <th>Company Name</th>
-                                        <td>@model.company_name</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Company Name KH</th>
-                                        <td>@model.company_name_kh</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Mobile Phone</th>
-                                        <td>@model.mobile_phone</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Office Phone</th>
-                                        <td>@model.office_phone</td>
-                                    </tr>
-                                </table>
-                            </ContentLeft>
-                            <ContentRight>
-                                <table>
-                                    <tr>
-                                        <th>Contact Name</th>
-                                        <td>@model.contact_name</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Phone Number</th>
-                                        <td>@model.contact_phone_number</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Office Phone</th>
-                                        <td>@model.contact_office_number</td>
-                                    </tr>
+                    <UIContainerBox Title="Business Information">
+                      
+                            <UISummaryBox ImageUrl="@model.company_logo" ShowImage="true" Icon="edit" OnClick="@(()=>OnEdit_BusinessInfo(model.id))">
+                                <ContentLeft>
+                                    <table>
+                                        <tr>
+                                            <th>Company Name</th>
+                                            <td>@model.company_name</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company Name KH</th>
+                                            <td>@model.company_name_kh</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mobile Phone</th>
+                                            <td>@model.mobile_phone</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Office Phone</th>
+                                            <td>@model.office_phone</td>
+                                        </tr>
+                                    </table>
+                                </ContentLeft>
+                                <ContentRight>
+                                    <table>
+                                        <tr>
+                                            <th>Contact Name</th>
+                                            <td>@model.contact_name</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Phone Number</th>
+                                            <td>@model.contact_phone_number</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Office Phone</th>
+                                            <td>@model.contact_office_number</td>
+                                        </tr>
 
-                                    <tr>
-                                        <th>Office Emai</th>
-                                        <td>
-                                            @model.email
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <th>Office Emai</th>
+                                            <td>
+                                                @model.email
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th>Contact Email</th>
-                                        <td>
-                                            @model.contact_email
-                                        </td>
-                                    </tr>
-                                </table>
-                            </ContentRight>
-                        </UISummaryBox>
+                                        <tr>
+                                            <th>Contact Email</th>
+                                            <td>
+                                                @model.contact_email
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </ContentRight>
+                            </UISummaryBox>
+                      
+
 
                     </UIContainerBox>
-                    <UIContainerBox Title="Brance Info" is_show_add_button="true" OnAddClick="@OnOpenModel">
-                       @foreach(var d in models) { 
-                     
+                    <UIContainerBox Title="Brance Information" is_show_add_button="true" OnAddClick="@OnOpenModel">
+                        @foreach (var d in models)
+                        {
+
 
                             <UISummaryBox ImageUrl="@d.logo" ShowImage="true" Icon="edit" OnClick="@(()=>OnEdit(d.id))">
-                                
+
                                 <ContentLeft>
                                     <table>
                                         <tr>
@@ -98,7 +101,13 @@
                                             <th>Office Phone</th>
                                             <td>@d.phone_2</td>
                                         </tr>
+
                                     </table>
+                                    <div>
+                                        <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                        <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+
+                                    </div>
                                 </ContentLeft>
                                 <ContentRight>
                                     <table>
@@ -121,34 +130,24 @@
                                     </table>
                                 </ContentRight>
                             </UISummaryBox>
-                       }
+
+
+
+
+                        }
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
-            <PageFooter>
-                <FooterCenter>
-                    <Button roles="@gv.GetRole("business_information_add")" icon="save" disabled="is_saving" type="submit">
-                        @if (is_saving)
-                        {
-                            <Spinner />
-                        }
-                        else
-                        {
-                            <span>Save</span>
-                        }
-                    </Button>
-                </FooterCenter>
-            </PageFooter>
-        </EditForm>
+
+      
 
     </PageContainer>
 
 
 
-    <ComModal IsOpened="@ShowModal" Close_Click="@Oncanel" ModalWidth="700px">
-        @ModalTitle
-        <EditForm Model="@business_brnach" OnValidSubmit="@Save_Click">
-            <ValidationSummary />
+    
+        <EditFormContext model="@business_brnach" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
+        
             <FileUpload @bind-ImageUrl="@business_brnach.logo" />
             <TextInput label="Business Branch Name Kh" @bind-text="@business_brnach.business_branch_name_kh">
                 <ValidationMessage For="@(() => business_brnach.business_branch_name_kh )" />
@@ -160,18 +159,38 @@
             <TextInput label="WebSite" @bind-text="@business_brnach.website" />
             <TextInput type="textarea" label="Address" @bind-text="@business_brnach.address_en" />
             <TextInput type="textarea" label="Note" @bind-text="@business_brnach.note" />
-            <div uk-margin class="uk-text-right">
-                <Button icon="arrow_back" @onclick="@Oncanel" disabled="@IsSubmitting">Cancel</Button>
-                <Button type="submit" icon="save" disabled="@IsSubmitting"> Save <Spinner is_spinning="@IsSubmitting" /></Button>
-            </div>
-        </EditForm>
-    </ComModal>
+          
+        </EditFormContext>
+   
 
+
+ 
+        <EditFormContext model="@model" Save_Click="@Save_Click_Businessinfo" Cancel_Click="@Oncanel_Business_Info" is_opened="@ShowModel_Business_Infor" title="Edit Business Information" modal_width="800px">
+           
+            <FileUpload @bind-ImageUrl="@model.company_logo" />
+            <TextInput label="Company Name" @bind-text="@model.company_name">
+                <ValidationMessage For="@(() => model.company_name)" />
+            </TextInput>
+            <TextInput label="Company Name Kh" @bind-text="@model.company_name_kh">
+                <ValidationMessage For="@(() => model.company_name_kh )" />
+            </TextInput>
+            <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
+            <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+            <TextInput label="Contact Name" @bind-text="@model.contact_name" />
+            <TextInput label="Phone Number" @bind-text="@model.contact_phone_number" />
+            <TextInput label="Office Phone" @bind-text="@model.contact_office_number" />
+            <TextInput label="Office Emai" @bind-text="@model.email" />
+            <TextInput label="Contact Email" @bind-text="@model.contact_email" />
+            <TextInput type="textarea" label="Address" @bind-text="@business_brnach.address_en" />
+            <TextInput type="textarea" label="Note" @bind-text="@business_brnach.note" />
+        
+        </EditFormContext>
+    
 }
 
 @code{
     string guid = Guid.NewGuid().ToString();
-    bool ShowModal = false;
+    bool ShowModal, ShowModel_Business_Infor = false;
     List<BusinessBranchModel> models = new List<BusinessBranchModel>();
     [Parameter] public bool IsSubmitting { get; set; } = false;
     BusinessInformationModel model { get; set; } = new BusinessInformationModel();
@@ -221,6 +240,7 @@
         if (res.IsSuccess)
         {
             toast.Add("Save sucessfully", MatToastType.Success);
+
             await LoadData();
         }
         else
@@ -229,20 +249,44 @@
         }
 
         ShowModal = false;
+        business_brnach = new BusinessBranchModel();
         is_saving = false;
 
     }
+
+    async Task Save_Click_Businessinfo()
+    {
+        is_saving = true;
+        var res = await http.ApiPost("BusinessInformation/save", model);
+        if (res.IsSuccess)
+        {
+            toast.Add("Save sucessfully", MatToastType.Success);
+
+            gv.business_info = JsonSerializer.Deserialize<BusinessInformationModel>(res.Content.ToString());
+        }
+        else
+        {
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+        }
+
+        ShowModel_Business_Infor = false;
+   
+        is_saving = false;
+
+    }
+
+
 
     void OnOpenModel()
     {
         ShowModal = !ShowModal;
     }
 
-    void Oncanel()
+  
+    void Oncanel_Business_Info()
     {
-        ShowModal = false;
+        ShowModel_Business_Infor = false;
     }
-
     async Task OnEdit(Guid id)
     {
         is_loading_data = true;
@@ -250,8 +294,23 @@
         if (get_result.IsSuccess)
         {
             business_brnach = JsonSerializer.Deserialize<BusinessBranchModel>(get_result.Content.ToString());
-            ModalTitle = "Edit" + ": " + business_brnach.business_branch_name_en ;
+            ModalTitle = "Edit" + ": " + business_brnach.business_branch_name_en;
             ShowModal = true;
+        }
+        is_loading_data = false;
+    }
+
+
+
+    async Task OnEdit_BusinessInfo(int id)
+    {
+        is_loading_data = true;
+        var get_result = await http.ApiGet($"BusinessInformation({id})");
+        if (get_result.IsSuccess)
+        {
+            gv.business_info = JsonSerializer.Deserialize<BusinessInformationModel>(get_result.Content.ToString());
+            ModalTitle = "Edit" + ": " + model.company_name;
+            ShowModel_Business_Infor = true;
         }
         is_loading_data = false;
     }
@@ -278,5 +337,20 @@
         ShowModal = true;
     }
 
+    async Task Activebutton(BusinessBranchModel b)
+    {
 
+        b.is_change_status = true;
+        await Task.Delay(1000);
+        b.status = !b.status;
+
+        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+        }
+
+        b.is_change_status = false;
+
+    }
 }

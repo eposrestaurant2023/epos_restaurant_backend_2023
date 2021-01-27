@@ -11,7 +11,7 @@
                         <Button roles="@RoleDelete" icon="delete" class_name="danger" OnClick="@OnDeleteClick" disabled="@is_submitting"><Spinner is_spinning="@is_submitting" />Delete</Button>
                     </div>
                 }
-                <div class="uk-margin-auto-left">
+                <div class="uk-margin-auto-right">
                     <Button is_visible="@is_open_button_save_and_new" roles="@RoleAdd" type="submit" icon="save" OnClick="OnNewSaveClick" disabled="@is_submitting">Save & New<Spinner is_spinning="@is_submitting" /></Button>
                     <Button roles="@RoleAdd" type="submit" icon="save" OnClick="OnSaveClick" disabled="@is_submitting">Save<Spinner is_spinning="@is_submitting" /></Button>
                     <Button icon="reply" class_name="danger" OnClick="@OnCancelClick" disabled="@is_submitting">Cancel</Button>
