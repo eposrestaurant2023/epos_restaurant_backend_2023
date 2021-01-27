@@ -44,7 +44,7 @@ namespace eAPI.Controllers
             if (u.id == 0)
             {
                 db.Outlets.Add(u);
-            }
+                }
             else
             {
                 db.Outlets.Update(u);

@@ -11,7 +11,7 @@ namespace eModels
     {
         public OutletModel()
         {
-            outlet_stations = new List<OutletStationModel>();
+            stations = new List<StationModel>();
             table_group_screens = new List<TableGroupScreenModel>();
         }
 
@@ -41,7 +41,7 @@ namespace eModels
         public string outlet_name_kh { get; set; }
 
 
-        public List<OutletStationModel> outlet_stations { get; set; }
+        public List<StationModel> stations { get; set; }
         public List<TableGroupScreenModel> table_group_screens { get; set; }
 
     }

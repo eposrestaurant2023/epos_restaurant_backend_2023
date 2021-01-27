@@ -4537,7 +4537,15 @@ ul.uk-nav-sub a i.material-icons {
     left: -63px !important;
     top: 20px !important;
 }
-.class-hidde-pagging-when-not-show{
+.list_active ul li:active {
+    background: #a4c0dc;
+    color: #fff;
+}
+.list_active ul li:hover {
+    background: #a4c0dc;
+    color: #fff;
+}
+.class-hidde-pagging-when-not-show {
     height: 0px !important;
     width: 0px !important;
     overflow: hidden;

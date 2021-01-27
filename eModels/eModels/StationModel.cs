@@ -10,8 +10,7 @@ namespace eModels
     public  class StationModel   : CoreModel
     {
         public StationModel()
-        {
-            outlet_stations = new List<OutletStationModel>();
+        { 
             table_group_screens = new List<TableGroupScreenModel>();
         }
 
@@ -19,6 +18,10 @@ namespace eModels
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
+
+        public int outlet_id { get; set; }
+        [ForeignKey("outlet_id")]
+        public OutletModel outlet { get; set; }
 
 
         private string _station_name_en;
@@ -37,11 +40,7 @@ namespace eModels
         }
         [MaxLength(50)]
         public string station_name_kh { get; set; }
-
-        public bool is_already_config { get; set; } = false;
-
-
-        public List<OutletStationModel> outlet_stations { get; set; }
+        public bool is_already_config { get; set; } = false;         
 
         public List<TableGroupScreenModel> table_group_screens { get; set; }
 

@@ -136,6 +136,8 @@ namespace eAPI
             odataBuilder.EntitySet<CountryModel>("Country");
             odataBuilder.EntitySet<BusinessBranchModel>("BusinessBranch");
             odataBuilder.EntitySet<BusinessInformationModel>("BusinessInformation");
+            odataBuilder.EntitySet<OutletModel>("Outlet");
+            odataBuilder.EntitySet<StationModel>("Station");
 
             return odataBuilder.GetEdmModel();
         }

@@ -1,0 +1,128 @@
+﻿@page "/outletstation"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Outlet & Station"></Title>
+    <PageContainer roles="@gv.GetRole("business_information")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Outlet & Station
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <LinkButton url="outletstation/new" icon="add">New</LinkButton>
+            </HeaderRight>
+        </PageHeader>
+
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox Title="Outlet & Station">
+                        @foreach (var d in models)
+                        {
+                            <UISummaryBox>
+                                <ContentLeft>
+                                    <table>
+                                        <tr>
+                                            <th>Outlet Name En</th>
+                                            <td>@d.outlet_name_en</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Outlet Name KH</th>
+                                            <td>@d.outlet_name_kh</td>
+                                        </tr>
+                                    </table>
+                                    <div>
+                                        <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                        <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+
+                                    </div>
+                                </ContentLeft>
+                                <ContentRight>
+                                    @foreach (var s in d.stations)
+                                    {
+                                        <table>
+                                            <tr>
+                                                <th>Station Name En</th>
+                                                <td>
+                                                    @s.station_name_en
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Station Name Kh</th>
+                                                <td>@s.station_name_kh</td>
+                                            </tr>
+
+                                        </table>
+                                    }
+
+                                </ContentRight>
+                            </UISummaryBox>
+                        }
+
+
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+    </PageContainer>
+}
+
+@code{
+    List<OutletModel> models = new List<OutletModel>();
+    List<StationModel> station = new List<StationModel>();
+    string ControllerApi = "Outlet";
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = $"{ControllerApi}?$expand=stations($select=station_name_en,station_name_kh,id)";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            models = JsonSerializer.Deserialize<List<OutletModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+
+    async Task Activebutton(OutletModel b)
+    {
+
+        b.is_change_status = true;
+        await Task.Delay(1000);
+        b.status = !b.status;
+
+        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+        }
+
+        b.is_change_status = false;
+
+    }
+
+}

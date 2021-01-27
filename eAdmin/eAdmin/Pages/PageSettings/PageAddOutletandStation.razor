@@ -1,0 +1,183 @@
+﻿@page "/outletstation/new"
+@page "/outletstation/edit/{id:int}"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Outlet & Station"></Title>
+    <PageContainer roles="@gv.GetRole("outlet_station")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                      New  Outlet & Station
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+        </PageHeader>
+
+        <PageBody>
+            <EditForm Model="@model" OnValidSubmit="(()=>Save_Click(model))" @attributes="@formAttributes">
+                <UIGridCenter>
+                    <UIContainerBox Title="Outlet Infor">
+                        @model.stations.Count
+                        <TextInput @bind-text="@model.outlet_name_en" label="Outlet Name En" />
+                        <TextInput @bind-text="@model.outlet_name_kh" label="Outlet Name kh" />
+                        <ComInputCheckBox @bind-value="@model.status" label="Status" />
+
+                    </UIContainerBox>
+                    <UIContainerBox Title="Station Info" is_show_add_button="true" OnAddClick="@(()=>Save_Station())">
+                        @foreach (var s in model.stations)
+                        {
+
+                            <ul class="uk-list uk-list-collapse uk-list-striped ">
+                                <li>  @s.station_name_en</li>
+                            </ul>
+                        }
+                    </UIContainerBox>
+
+
+                </UIGridCenter>
+            </EditForm>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <Button OnClick="(()=>Save_Click(model))">Save</Button>
+                <LinkButton url="outletstation">Cancel</LinkButton>
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+    <Modal IsOpened="@ShowModel" OnClosed="@(()=>ShowModel = false)" ModalWidth="800px">
+      @foreach (var st in stations)
+      {
+          <div @onclick="@(()=>OnclickStation(st))" class="list_active">
+
+                   
+            <ul class="uk-list uk-list-collapse uk-list-striped cp">
+                <li> @st.station_name_en</li>
+            </ul>
+                 
+
+             
+          </div>
+      }
+    </Modal>
+}
+
+@code{
+    [Parameter] public int id { get; set; }
+    OutletModel model = new OutletModel();
+    StationModel station = new StationModel();
+    List<StationModel> stations = new List<StationModel>();
+    string ControllerApi = "Outlet";
+    bool ShowModel = false;
+    public string api_url
+    {
+        get
+        {
+            string query = ControllerApi;
+            query = query + $"({id})?";
+            query = query + "$expand=Station($select=id,_station_name_en,_station_name_kh)";
+
+            return query;
+
+        }
+    }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        is_loading = false;
+    }
+
+
+
+    async Task Activebutton(OutletModel b)
+    {
+
+        b.is_change_status = true;
+        await Task.Delay(1000);
+        b.status = !b.status;
+
+        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+        }
+
+        b.is_change_status = false;
+
+    }
+
+    async Task LoadStation(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = "Station";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            stations = JsonSerializer.Deserialize<List<StationModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+    void OnclickStation(StationModel st)
+    {
+        model.stations.Add(st);
+    }
+
+    async Task Save_Click(OutletModel d)
+    {
+        if (!is_saving)
+        {
+            is_saving = true;
+            Object obj = new Object();
+            OutletModel save_outlet = JsonSerializer.Deserialize<OutletModel>(JsonSerializer.Serialize(d));
+
+            var res = await http.ApiPost($"{ControllerApi}/save", save_outlet);
+            if (res.IsSuccess)
+            {
+                obj = JsonSerializer.Deserialize<OutletModel>(res.Content.ToString());
+
+                toast.Add("Saving successfully", MatToastType.Success);
+                nav.NavigateTo($"outletstation/{((OutletModel)obj).id}");
+            }
+            else
+            {
+                is_saving = false;
+                toast.Add(res.Content.ToString(), MatToastType.Warning);
+            }
+        }
+    }
+
+
+    async Task Save_Station()
+    {
+        //ShowModel = true;
+        //St.add(new StationModel()
+        //{
+        //    station_name_en = St.station_name_en
+
+        //});
+
+        await LoadStation("");
+
+        ShowModel = true;
+
+    }
+
+
+}
