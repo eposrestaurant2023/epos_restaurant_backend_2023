@@ -138,6 +138,8 @@ namespace eAPI
             odataBuilder.EntitySet<BusinessInformationModel>("BusinessInformation");
             odataBuilder.EntitySet<OutletModel>("Outlet");
             odataBuilder.EntitySet<StationModel>("Station");
+            odataBuilder.EntitySet<TableGroupModel>("TableGroup");
+            odataBuilder.EntitySet<TableModel>("Table");
 
             return odataBuilder.GetEdmModel();
         }

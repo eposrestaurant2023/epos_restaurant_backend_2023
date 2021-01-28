@@ -1,0 +1,264 @@
+﻿@page "/tablegroupandtable/new"
+@page "/tablegroupandtable/edit/{id:int}"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Table Group & Table"></Title>
+    <PageContainer roles="@gv.GetRole("table_group_table")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @if (id > 0)
+                        {
+                            <div>Edit Table Group & Table</div>
+                        }
+
+                        else
+                        {
+                          <div>New Table Group & Table</div>
+                        }
+
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                
+            </HeaderRight>
+        </PageHeader>
+
+        <PageBody>
+            <EditForm Model="@model" OnValidSubmit="(()=>Save_Click(model))" @attributes="@formAttributes">
+                <UIGridCenter>
+                    <UIContainerBox Title="Outlet Infor">
+                        <TextInput @bind-text="@model.table_group_name_en" label="Table Group Name En">
+                            <ValidationMessage For="@(() => model.table_group_name_en )" />
+                        </TextInput>
+                        <TextInput @bind-text="@model.table_group_name_kh" label="Table Group Name En" />
+                      <SelectInt Items="stations" @bind-SelectedValue="@model.station_id" InputLabel="Station" ShowEmptyText="true" EmptyText="Select Station">
+                          <SelectOptions Context="b">
+                              <option value="@b.id">
+                                  @b.station_name_en
+                              </option>
+                          </SelectOptions>
+                      </SelectInt>
+                        <ComInputCheckBox @bind-value="@model.status" label="Status" />
+
+                    </UIContainerBox>
+                    <UIContainerBox Title="Table Info" is_show_add_button="true" OnAddClick="@(()=>Add_Table())">
+                        @foreach (var s in model.tables.Where(r=>r.is_deleted == false).ToList())
+                        {
+
+                            <ul class="uk-list uk-list-collapse uk-list-striped ">
+                                <li>
+                                    <div class="uk-margin-small uk-flex uk-flex-middle" uk-grid>
+                                        <div class="uk-width-expand">
+                                            <TextInput label="Table Name" @bind-text="@s.table_name" />
+                                        </div>
+                                        <div class="uk-width-auto">
+                                            <Icon icon="delete" OnClick="@(()=>Delete_Table(s))"/>
+                                        </div>
+                                    </div>
+                                </li>
+                              
+                            </ul>
+                        }
+                    </UIContainerBox>
+
+
+                </UIGridCenter>
+            </EditForm>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <Button OnClick="(()=>Save_Click(model))" icon="save">Save</Button>
+                <LinkButton url="tablegroupandtable" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+  
+}
+
+@code{
+    [Parameter] public int id { get; set; }
+    TableGroupModel model = new TableGroupModel();
+
+    List<TableModel> tables = new List<TableModel>();
+    List<StationModel> stations = new List<StationModel>();
+    string ControllerApi = "TableGroup";
+    bool ShowModel = false;
+    public string api_url
+    {
+        get
+        {
+            string query = ControllerApi;
+            query = query + $"({id})?";
+            query = query + "$expand=stations($select=id,station_name_en,station_name_kh),";
+            query = query + "$expand=tables(table_name,height,width,position_x_percent,position_y_percent,id)";
+
+            return query;
+
+        }
+    }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadTable("");
+        await LoadData("");
+        is_loading = false;
+    }
+
+
+
+    async Task Activebutton(TableGroupModel b)
+    {
+
+        b.is_change_status = true;
+        await Task.Delay(1000);
+        b.status = !b.status;
+
+        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+        }
+
+        b.is_change_status = false;
+
+    }
+
+    async Task LoadStation(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = "Station";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            stations = JsonSerializer.Deserialize<List<StationModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+
+    async Task LoadTable(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = "Table";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            tables = JsonSerializer.Deserialize<List<TableModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = ControllerApi;
+            api_url = api_url + $"({id})?";
+            api_url = api_url + "$expand=Stations($select=id,station_name_en,station_name_kh;$filter= is_deleted eq false),";
+            api_url = api_url + "tables($select=table_name,height,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false)";
+
+
+
+
+        }
+
+        var resp = await http.ApiGet(api_url);
+        if (resp.IsSuccess)
+        {
+
+            model = JsonSerializer.Deserialize<TableGroupModel>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+
+    void OnclickStation(TableModel st)
+    {
+        model.tables.Add(st);
+    }
+
+    async Task Save_Click(TableGroupModel d)
+    {
+        if (!is_saving)
+        {
+            is_saving = true;
+            Object obj = new Object();
+            TableGroupModel save_table_group = JsonSerializer.Deserialize<TableGroupModel>(JsonSerializer.Serialize(d));
+
+            var res = await http.ApiPost($"{ControllerApi}/save", save_table_group);
+            if (res.IsSuccess)
+            {
+                obj = JsonSerializer.Deserialize<TableGroupModel>(res.Content.ToString());
+
+                toast.Add("Saving successfully", MatToastType.Success);
+                nav.NavigateTo($"tablegroupandtable");
+            }
+            else
+            {
+                is_saving = false;
+                toast.Add(res.Content.ToString(), MatToastType.Warning);
+            }
+        }
+    }
+
+
+    void Add_Table()
+
+    {
+        model.tables.Add(new TableModel()
+        {
+            table_name = "Table Name " + (model.tables.Count()+1),
+
+        }) ;
+
+
+
+    }
+
+    void Delete_Table(TableModel s)
+    {
+        if(s.id == 0)
+        {
+            model.tables.Remove(s);
+        }
+        else
+        {
+            s.is_deleted = true;
+        }
+    }
+
+
+}
