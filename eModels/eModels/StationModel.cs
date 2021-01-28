@@ -14,11 +14,6 @@ namespace eModels
             table_group_screens = new List<TableGroupScreenModel>();
         }
 
-        [Required(ErrorMessage = "Please select an outlet.")]
-        public Guid business_branch_id { get; set; }
-        [ForeignKey("business_branch_id")]
-        public BusinessBranchModel business_branch { get; set; }
-
         public int outlet_id { get; set; }
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }

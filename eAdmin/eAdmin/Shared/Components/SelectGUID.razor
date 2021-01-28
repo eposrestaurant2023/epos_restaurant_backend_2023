@@ -1,0 +1,59 @@
+﻿@typeparam TItem
+<Com is_visible="@(!string.IsNullOrEmpty(InputLabel))">
+    <label class="uk-form-label" for="@id">@InputLabel</label>
+    <div class="wrp-input uk-form-controls">
+        <Icon className="uk-form-icon" icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" />
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small">
+            <Com is_visible="@ShowEmptyText">
+                <option value="0">@EmptyText</option>
+            </Com>
+            @foreach (var item in Items)
+            {
+                @SelectOptions(item)
+            }
+        </select>
+        @ValidationTemplate
+    </div>
+</Com>
+<Com is_visible="@string.IsNullOrEmpty(InputLabel)">
+    <div class="wrp-input uk-form-controls">
+        <Icon className="uk-form-icon" icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" />
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small">
+            <Com is_visible="@ShowEmptyText">
+                <option value="0">@EmptyText</option>
+            </Com>
+            @foreach (var item in Items)
+            {
+                @SelectOptions(item)
+            }
+            @AddOptionTemplate
+        </select>
+        @ValidationTemplate
+    </div>
+</Com>
+
+
+@code{
+    [Parameter] public Guid SelectedValue { get; set; }
+    [Parameter] public string InputLabel { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "";
+    [Parameter] public bool ShowEmptyText { get; set; } = false;
+    [Parameter] public string EmptyText { get; set; } = "Please select an option";
+
+    [Parameter] public EventCallback<Guid> SelectedValueChanged { get; set; }
+    [Parameter] public EventCallback ValueHasChanged { get; set; }
+
+    Guid id = Guid.NewGuid();
+
+    [Parameter] public RenderFragment<TItem> SelectOptions { get; set; }
+    [Parameter] public RenderFragment ValidationTemplate { get; set; }
+    [Parameter] public RenderFragment AddOptionTemplate { get; set; }
+    [Parameter] public IReadOnlyList<TItem> Items { get; set; }
+
+    private async Task SelectedValueChange(string n)
+    {
+        SelectedValue =  new Guid(n);
+        await SelectedValueChanged.InvokeAsync(SelectedValue);
+        await ValueHasChanged.InvokeAsync(true);
+    }
+}

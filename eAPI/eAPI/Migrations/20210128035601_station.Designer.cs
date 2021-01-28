@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210128035601_station")]
+    partial class station
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1262,6 +1264,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<Guid?>("BusinessBranchModelid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1302,6 +1307,8 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
+
+                    b.HasIndex("BusinessBranchModelid");
 
                     b.HasIndex("outlet_id");
 
@@ -1843,6 +1850,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StationModel", b =>
                 {
+                    b.HasOne("eModels.BusinessBranchModel", null)
+                        .WithMany("stations")
+                        .HasForeignKey("BusinessBranchModelid");
+
                     b.HasOne("eModels.OutletModel", "outlet")
                         .WithMany("stations")
                         .HasForeignKey("outlet_id")
@@ -1947,6 +1958,8 @@ namespace eAPI.Migrations
                     b.Navigation("customer_business_branchs");
 
                     b.Navigation("outlets");
+
+                    b.Navigation("stations");
                 });
 
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>

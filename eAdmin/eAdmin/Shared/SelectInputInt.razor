@@ -1,0 +1,70 @@
+﻿@typeparam TItem
+@if (!string.IsNullOrEmpty(label))
+{
+    <div class="uk-margin-small">
+        <label class="uk-form-label" for="@id">@label</label>
+        <div class="uk-form-controls">
+            <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select  uk-form-small" style="width:@width">
+                @if (show_empty_select)
+                {
+                    <option value="0">@empty_text</option>
+                }
+
+                @foreach (var item in Items)
+                {
+                    @ItemTemplate(item)
+                }
+            </select>
+
+            @ValidatorTemplate
+        </div>
+    </div>
+}
+else
+{
+    <div class="form-control">
+        <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+            @if (show_empty_select)
+            {
+                <option value="0">@empty_text</option>
+            }
+
+            @foreach (var item in Items)
+            {
+                @ItemTemplate(item)
+            }
+        </select>
+        @ValidatorTemplate
+    </div>
+}
+
+@code{
+
+    [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public string width { get; set; } = "";
+    [Parameter] public bool show_empty_select { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Please select an option";
+
+    [Parameter]
+    public EventCallback<int> selected_valueChanged { get; set; }
+
+    Guid id = Guid.NewGuid();
+
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+    [Parameter]
+    public RenderFragment ValidatorTemplate { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<TItem> Items { get; set; }
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Convert.ToInt32(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+
+}
+
+

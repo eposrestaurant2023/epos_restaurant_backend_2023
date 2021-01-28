@@ -10,9 +10,12 @@
             }
             else
             {
-    <i class="@theme @className" uk-tooltip="@title" @onclick="OnClick" uk-toggle="target: @target" style="color: @icon_color; font-size: @size;">@icon</i>
+           <i class="@theme @className" uk-tooltip="@title" @onclick="OnClick" uk-toggle="target: @target" style="color: @icon_color; font-size: @size;">@icon</i>
             }
+            
         }
+
+
     </AuthorizeView>
 }
 else
@@ -41,6 +44,7 @@ else
     [Parameter] public string cursor { get; set; } = "cp";
     [Parameter] public string roles { get; set; } = "";
     [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool is_url { get; set; } = false;
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 

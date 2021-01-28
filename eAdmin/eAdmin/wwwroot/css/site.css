@@ -4538,11 +4538,15 @@ ul.uk-nav-sub a i.material-icons {
     top: 20px !important;
 }
 .list_active ul li:active {
-    background: #a4c0dc;
+    background: #5899dc;
+    color: #fff;
+}
+.list_active ul li:focus {
+    background: #5899dc;
     color: #fff;
 }
 .list_active ul li:hover {
-    background: #a4c0dc;
+    background: #5899dc;
     color: #fff;
 }
 .class-hidde-pagging-when-not-show {

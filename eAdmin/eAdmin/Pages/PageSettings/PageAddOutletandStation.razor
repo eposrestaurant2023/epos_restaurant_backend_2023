@@ -11,28 +11,58 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                      New  Outlet & Station
+                        @if (id > 0)
+                        {
+                            <div>Edit Outlet &Station</div>
+                        }
+
+                        else
+                        {
+                            <div>New Outlet &Station</div>
+                        }
+
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                
+            </HeaderRight>
         </PageHeader>
 
         <PageBody>
             <EditForm Model="@model" OnValidSubmit="(()=>Save_Click(model))" @attributes="@formAttributes">
                 <UIGridCenter>
                     <UIContainerBox Title="Outlet Infor">
-                        @model.stations.Count
-                        <TextInput @bind-text="@model.outlet_name_en" label="Outlet Name En" />
+                        <TextInput @bind-text="@model.outlet_name_en" label="Outlet Name En">
+                            <ValidationMessage For="@(() => model.outlet_name_en )" />
+                        </TextInput>
                         <TextInput @bind-text="@model.outlet_name_kh" label="Outlet Name kh" />
+
+                        <SelectGUID Items="business_branh" @bind-SelectedValue="@model.business_branch_id" InputLabel="Business Branch" EmptyText="Select Business Branch" ShowEmptyText="true">
+                            <SelectOptions Context="b">
+                                <option value="@b.id">@b.business_branch_name_en</option>
+                            </SelectOptions>
+                        </SelectGUID>
                         <ComInputCheckBox @bind-value="@model.status" label="Status" />
 
                     </UIContainerBox>
-                    <UIContainerBox Title="Station Info" is_show_add_button="true" OnAddClick="@(()=>Save_Station())">
-                        @foreach (var s in model.stations)
+                    <UIContainerBox Title="Station Info" is_show_add_button="true" OnAddClick="@(()=>Add_station())">
+                        @foreach (var s in model.stations.Where(r=>r.is_deleted == false).ToList())
                         {
 
                             <ul class="uk-list uk-list-collapse uk-list-striped ">
-                                <li>  @s.station_name_en</li>
+                                <li>
+                                    <div class="uk-margin-small uk-flex uk-flex-middle" uk-grid>
+                                        <div class="uk-width-expand">
+                                            <TextInput label="Station Name En " @bind-text="@s.station_name_en" />
+                                            <TextInput label="Station Name Kh" @bind-text="@s.station_name_kh" />
+                                        </div>
+                                        <div class="uk-width-auto">
+                                            <Icon icon="delete" OnClick="@(()=>Delete_station(s))"/>
+                                        </div>
+                                    </div>
+                                </li>
+                              
                             </ul>
                         }
                     </UIContainerBox>
@@ -43,33 +73,20 @@
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <Button OnClick="(()=>Save_Click(model))">Save</Button>
-                <LinkButton url="outletstation">Cancel</LinkButton>
+                <Button OnClick="(()=>Save_Click(model))" icon="save">Save</Button>
+                <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
             </FooterCenter>
         </PageFooter>
     </PageContainer>
-    <Modal IsOpened="@ShowModel" OnClosed="@(()=>ShowModel = false)" ModalWidth="800px">
-      @foreach (var st in stations)
-      {
-          <div @onclick="@(()=>OnclickStation(st))" class="list_active">
-
-                   
-            <ul class="uk-list uk-list-collapse uk-list-striped cp">
-                <li> @st.station_name_en</li>
-            </ul>
-                 
-
-             
-          </div>
-      }
-    </Modal>
+  
 }
 
 @code{
     [Parameter] public int id { get; set; }
     OutletModel model = new OutletModel();
-    StationModel station = new StationModel();
+
     List<StationModel> stations = new List<StationModel>();
+    List<BusinessBranchModel> business_branh = new List<BusinessBranchModel>();
     string ControllerApi = "Outlet";
     bool ShowModel = false;
     public string api_url
@@ -78,7 +95,8 @@
         {
             string query = ControllerApi;
             query = query + $"({id})?";
-            query = query + "$expand=Station($select=id,_station_name_en,_station_name_kh)";
+            query = query + "$expand=Station($select=id,station_name_en,station_name_kh),";
+            query = query + "$expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh)";
 
             return query;
 
@@ -90,6 +108,8 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
+        await LoadBusinessBranch("");
+        await LoadData("");
         is_loading = false;
     }
 
@@ -134,6 +154,57 @@
 
     }
 
+
+    async Task LoadBusinessBranch(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = "BusinessBranch";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            business_branh = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = ControllerApi;
+            api_url = api_url + $"({id})?";
+            api_url = api_url + "$expand=Stations($select=id,station_name_en,station_name_kh;$filter= is_deleted eq false),";
+            api_url = api_url + "business_branch($select=id,business_branch_name_en,business_branch_name_kh)";
+
+
+
+
+        }
+
+        var resp = await http.ApiGet(api_url);
+        if (resp.IsSuccess)
+        {
+
+            model = JsonSerializer.Deserialize<OutletModel>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+
     void OnclickStation(StationModel st)
     {
         model.stations.Add(st);
@@ -153,7 +224,7 @@
                 obj = JsonSerializer.Deserialize<OutletModel>(res.Content.ToString());
 
                 toast.Add("Saving successfully", MatToastType.Success);
-                nav.NavigateTo($"outletstation/{((OutletModel)obj).id}");
+                nav.NavigateTo($"outletstation");
             }
             else
             {
@@ -164,19 +235,29 @@
     }
 
 
-    async Task Save_Station()
+    void Add_station()
     {
-        //ShowModel = true;
-        //St.add(new StationModel()
-        //{
-        //    station_name_en = St.station_name_en
+        model.stations.Add(new StationModel()
+        {
+            station_name_en = "Station " + (model.stations.Count()+1),
+            station_name_kh = "Station " + (model.stations.Count() + 1),
 
-        //});
+        }) ;
 
-        await LoadStation("");
 
-        ShowModel = true;
 
+    }
+
+    void Delete_station(StationModel s)
+    {
+        if(s.id == 0)
+        {
+            model.stations.Remove(s);
+        }
+        else
+        {
+            s.is_deleted = true;
+        }
     }
 
 

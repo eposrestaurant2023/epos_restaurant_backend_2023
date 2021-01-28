@@ -31,7 +31,6 @@ namespace eModels
         public BusinessBranchModel()
         {
             outlets = new List<OutletModel>();
-            stations = new List<StationModel>();
                                                                                                
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
         }
@@ -75,7 +74,6 @@ namespace eModels
 
         public string logo { get; set; }
         public List<OutletModel>  outlets { get; set; }
-        public List<StationModel>  stations { get; set; }
 
                                                                                        
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }

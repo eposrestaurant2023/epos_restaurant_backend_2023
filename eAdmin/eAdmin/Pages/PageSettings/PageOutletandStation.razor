@@ -22,27 +22,44 @@
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox Title="Outlet & Station">
-                        @foreach (var d in models)
+                        @foreach (var d in models.Where(r=>r.is_deleted == false).ToList())
                         {
-                            <UISummaryBox>
+                            <UISummaryBox ShowImage="false">
                                 <ContentLeft>
-                                    <table>
-                                        <tr>
-                                            <th>Outlet Name En</th>
-                                            <td>@d.outlet_name_en</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Outlet Name KH</th>
-                                            <td>@d.outlet_name_kh</td>
-                                        </tr>
-                                    </table>
-                                    <div>
-                                        <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                        <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-
+                                    <div class="uk-margin-small uk-flex uk-flex-middle" uk-grid>
+                                        <div class="uk-width-expand">
+                                            <table>
+                                                <tr>
+                                                    <th>Outlet Name En</th>
+                                                    <td>@d.outlet_name_en</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Outlet Name KH</th>
+                                                    <td>@d.outlet_name_kh</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="uk-width-auto">
+                                            <div>
+                                                <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                                <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-flex uk-flex-inline">
+                                        <div style="margin-right:5px;">
+                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))"/>
+                                        </div>
+                                        <div>
+                                            <a href="@($"outletstation/edit/{d.id}")">
+                                                <Icon icon="edit" />
+                                            </a>
+                                           
+                                        </div>
                                     </div>
                                 </ContentLeft>
                                 <ContentRight>
+                              
                                     @foreach (var s in d.stations)
                                     {
                                         <table>
@@ -93,7 +110,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=stations($select=station_name_en,station_name_kh,id)";
+            api_url = $"{ControllerApi}?$expand=stations($select=station_name_en,station_name_kh,id;$filter= is_deleted eq false)";
         }
 
         var resp = await http.ApiGetOData(api_url);
@@ -123,6 +140,27 @@
 
         b.is_change_status = false;
 
+    }
+    async Task click_delete(OutletModel d)
+    {
+        d.is_loading = true;
+        if (await js.Confirm("Outlet", "Are you sure you want to delete this this record?", SweetAlertMessageType.question))
+        {
+            var resp = await http.ApiPost(ControllerApi + "/delete/" + d.id);
+
+            if (resp.IsSuccess)
+            {
+                await LoadData();
+                toast.Add("Delete Outlet successfully", MatToastType.Success);
+            }
+            else
+            {
+                toast.Add("Delete Outlet fail", MatBlazor.MatToastType.Warning);
+            }
+
+
+        }
+        d.is_loading = false;
     }
 
 }
