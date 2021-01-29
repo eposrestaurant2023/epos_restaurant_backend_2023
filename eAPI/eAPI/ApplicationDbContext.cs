@@ -39,7 +39,18 @@ namespace eAPI
                 .HasForeignKey(pt => pt.permission_option_id);
               
             builder.Entity<CustomerBusinessBranchModel>().HasKey(t => new { t.customer_id, t.business_branch_id});
-   
+            builder.Entity<BusinessBranchPaymnetTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
+
+    //        builder.Entity<BusinessBranchPaymnetTypeModel>()
+    //.HasOne(x => x.business_branch)
+    //.WithMany(x => x.business_branch_paymnet_types)
+    //.HasForeignKey(x => x.business_branch_id);
+
+    //        builder.Entity<BusinessBranchPaymnetTypeModel>()
+    //            .HasOne(x => x.payment_type)
+    //            .WithMany(x => x.business_branch_Paymnet_types)
+    //            .HasForeignKey(x => x.payment_type_id);
+
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});
             builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});
           
@@ -94,6 +105,7 @@ namespace eAPI
         public DbSet<BusinessInformationModel> BusinessInformations{ get; set; }
 
         public DbSet<StoreProcedureResultDecimalModel> StoreProcedureResultsDecimal { get; set; }
+        public DbSet<BusinessBranchPaymnetTypeModel> BusinessBranchPaymnetTypes { get; set; }
 
     }
 
