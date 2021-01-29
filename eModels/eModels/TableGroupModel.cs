@@ -17,9 +17,9 @@ namespace eModels
 
 
         [Required(ErrorMessage = "Please select a station.")]
-        public int station_id { get; set; }
-        [ForeignKey("station_id")]
-        public StationModel station { get; set; }
+        public int outlet_id { get; set; }
+        [ForeignKey("outlet_id")]
+        public OutletModel outlet { get; set; }
 
         private string _table_group_name_en;
         [MaxLength(50)]
