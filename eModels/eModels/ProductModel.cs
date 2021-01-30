@@ -13,24 +13,61 @@ namespace eModels
     public class ProductModel : CoreModel
     {
         public ProductModel()
-        {
-       
-            
-            histories = new List<HistoryModel>();
-           
+        {      
+            histories = new List<HistoryModel>();   
         }
 
-        public decimal quantity { get; set; }
-        public int total_variants { get; set; }
-        public string keyword { get; set; }
-        public List<HistoryModel> histories { get; set; }
-        public int created_outlet_id { get; set; }
+        
+         
 
-        private bool _is_auto_generate_product_code = false;
+        [Required(ErrorMessage = "Please select a product type.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a product type.")]
+        public int product_type_id { get; set; } = 1; //Default Product
+        [ForeignKey("product_type_id")]
+        public ProductTypeModel product_type { get; set; }
 
-        public bool is_auto_generate_product_code
+
+        [Required(ErrorMessage = "Please select a category.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
+        public int product_category_id { get; set; }
+        [ForeignKey("product_category_id")]
+        public ProductCategoryModel product_category { get; set; }
+
+        [MaxLength(50)]
+        public string product_code { get; set; }
+
+        private string _product_name_en;
+        [Required(ErrorMessage = "Field cannot be blank.")]
+        [MaxLength(250)]
+        public string product_name_en
         {
-            get { return _is_auto_generate_product_code; }
+            get { return _product_name_en; }
+            set
+            {
+                _product_name_en = value;
+                if (string.IsNullOrEmpty(product_name_kh))
+                {
+                    product_name_kh = value;
+                }
+            }
+        }
+                                                               
+        [MaxLength(250)]
+        public string product_name_kh { get; set; }   
+
+        public string image_name { get; set; } = "placeholder.png";
+        public string note { get; set; }
+
+        public string unit { get; set; } = "Unit";
+
+        public bool is_allow_discount { get; set; } = true;
+        public bool is_allow_free { get; set; } = true;
+        public bool is_open_product { get; set; } = false;
+
+        private bool _is_auto_generate_code = false;
+        public bool is_auto_generate_code
+        {
+            get { return _is_auto_generate_code; }
             set
             {
                 if (value)
@@ -44,82 +81,21 @@ namespace eModels
                         product_code = "";
                     }
                 }
-                _is_auto_generate_product_code = value;
-            }
-        }
-         
-
-        [Required(ErrorMessage = "Please select a product type.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a product type.")]
-        public int product_type_id { get; set; } = 1; //Default Product
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
-
-        [Required(ErrorMessage = "Please select a category.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
-        public int product_category_id { get; set; }
-        [ForeignKey("product_category_id")]
-        public ProductCategoryModel product_category { get; set; }
-
-        private string _product_name;
-        [Required(ErrorMessage = "Field cannot be blank.")]
-        public string product_name
-        {
-            get { return _product_name; }
-            set
-            {
-                _product_name = value;
-                if (string.IsNullOrEmpty(product_name_kh))
-                {
-                    product_name_kh = value;
-                }
+                _is_auto_generate_code = value;
             }
         }
 
+        public bool is_inventory_product { get; set; }
+        public List<HistoryModel> histories { get; set; }
 
-        [Required(ErrorMessage = "Field cannot be blank.")]
-        public string product_name_kh { get; set; }
-
-        public string product_code { get; set; }
-        public string product_code_1 { get; set; }
-        public string product_code_2 { get; set; }
-        public string photo { get; set; } = "placeholder.png";
-        public string note { get; set; }
-        public decimal price { get; set; }
-        public decimal cost { get; set; }
-
-        public string unit { get; set; } = "Unit";
-
-
-
-        public bool is_allow_discount { get; set; } = true;
-
-        public string background_color { get; set; } = String.Format("#{0:X6}", (new Random()).Next(0x1000000));
-        public string text_color { get; set; } = "#333333";
         [NotMapped, JsonIgnore]
         public string product_display_name
         {
             get
             {
-                return (string.IsNullOrEmpty(product_code) ? "" : (product_code + " - ")) + "" + product_name;
+                return (string.IsNullOrEmpty(product_code) ? "" : (product_code + " - ")) + "" + product_name_en;
             }
         }
-
-
-        //variant
-        public bool has_variant { get; set; }
-        public bool track_quantity_on_variant { get; set; }
-
-        public bool use_variant_1 { get; set; }
-        public string variant_1_name { get; set; }
-
-        public bool use_variant_2 { get; set; }
-        public string variant_2_name { get; set; }
-        public bool use_variant_3 { get; set; }
-        public string variant_3_name { get; set; }
-        public bool use_variant_price { get; set; }
-
-        public bool is_inventory_product { get; set; }    
     }  
     
      
