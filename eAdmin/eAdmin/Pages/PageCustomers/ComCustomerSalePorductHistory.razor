@@ -68,7 +68,7 @@
                             <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.sale_id}")">@p.sale?.document_number</ComAuthorize>
                         </TdCenter>
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.product_id}")">@p.product?.product_name</ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.product_id}")">@p.product?.product_name_en</ComAuthorize>
                         </td>
                         <TdCenter>
                             <span>@p.quantity.ToString(gv.quantity_format)</span>
@@ -296,7 +296,7 @@
                 is_clear_all = true,
                 filter_title = "Product Category",
                 state_property_name = "product_category",
-                filter_info_text = state.product_category.product_category,
+                filter_info_text = state.product_category.product_category_en,
                 filter_operator = "eq",
                 will_remove = true
             });

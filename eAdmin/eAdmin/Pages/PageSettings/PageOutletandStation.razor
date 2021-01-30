@@ -21,70 +21,70 @@
 
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="Outlet & Station">
-                        @foreach (var d in models.Where(r=>r.is_deleted == false).ToList())
-                        {
-                            <UISummaryBox ShowImage="false">
-                                <ContentLeft>
-                                    <div class="uk-margin-small uk-flex uk-flex-top" uk-grid>
-                                        <div class="uk-width-expand">
-                                            <table>
 
-                                                <tr>
-                                                    <th>Outlet Name En</th>
-                                                    <td>@d.outlet_name_en</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Outlet Name KH</th>
-                                                    <td>@d.outlet_name_kh</td>
-                                                </tr>
+                    @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
+                    {
+                    <div class="container-layout">
+                        <div class="title-header">
+                            <div class="uk-panel">
+                                <div class="uk-float-left">
+                                    <span>
+                                        @d.outlet_name_en
+                                    </span>
+                                </div>
+                                <div class="uk-float-right">
+                                    <div>
+                                        <td>
+                                            <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                            <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                        </td>
+                                        <td>
+                                            <div class="uk-flex uk-flex-inline">
+                                                <div style="margin-right:5px;">
+                                                    <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
+                                                </div>
+                                                <div>
+                                                    <a href="@($"outletstation/edit/{d.id}")">
+                                                        <Icon icon="edit" />
+                                                    </a>
 
-                                            </table>
-                                        </div>
-                                        <div class="uk-width-auto">
-                                            <div>
-                                                <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                                <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                                </div>
                                             </div>
-                                        </div>
+                                        </td>
                                     </div>
-                                    <div class="uk-flex uk-flex-inline">
-                                        <div style="margin-right:5px;">
-                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))"/>
-                                        </div>
-                                        <div>
-                                            <a href="@($"outletstation/edit/{d.id}")">
-                                                <Icon icon="edit" />
-                                            </a>
-                                           
-                                        </div>
-                                    </div>
-                                </ContentLeft>
-                                <ContentRight>
-                              
-                                    @foreach (var s in d.stations)
-                                    {
-                                        <table>
-                                            <tr>
-                                                <th>Station Name En</th>
-                                                <td>
-                                                    @s.station_name_en
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Station Name Kh</th>
-                                                <td>@s.station_name_kh</td>
-                                            </tr>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <hr />
+                        <div>
+                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                <tr>
+                                    <Th>Station Name en</Th>
+                                    <Th>Station Name Kh</Th>
 
-                                        </table>
-                                    }
+                                </tr>
 
-                                </ContentRight>
-                            </UISummaryBox>
-                        }
+                                @foreach (var s in d.stations)
+                                {
+                                    <tr>
+
+                                        <td>@s.station_name_en </td>
+
+                                        <td>@s.station_name_kh</td>
+                                    </tr>
+                                }
 
 
-                    </UIContainerBox>
+                            </table>
+                        </div>
+                    </div>
+                      
+
+                    }
+
+
+
                 </UIGridCenter>
             </PageBody>
     </PageContainer>

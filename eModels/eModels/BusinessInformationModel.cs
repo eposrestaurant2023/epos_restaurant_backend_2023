@@ -31,8 +31,7 @@ namespace eModels
     {
         public BusinessBranchModel()
         {
-            outlets = new List<OutletModel>();
-                                                                                               
+            outlets = new List<OutletModel>();                                                                                               
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
             printers = new List<PrinterModel>();
             business_branch_paymnet_types = new List<BusinessBranchPaymnetTypeModel>();

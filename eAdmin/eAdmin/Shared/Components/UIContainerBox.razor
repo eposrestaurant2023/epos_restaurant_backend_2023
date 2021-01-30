@@ -4,8 +4,16 @@
             <div class="uk-panel">
                 <div class="uk-float-left">
                     <Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@Title</span>
-                </div>
+                  </div>
                 <div class="uk-float-right">
+                    @if (is_show_edit_button)
+                    {
+                        <Icon icon="edit" title="edit item" OnClick="@OnEditClick" />
+                    }
+                    @if (is_show_delete_button)
+                    {
+                        <Icon icon="delete" title="delete Item" OnClick="@OnDeleteClick" />
+                    }
                     @if (is_show_add_button)
                     {
                         <Icon icon="add_circle_outline" title="Add Item" OnClick="@OnAddClick" />
@@ -21,7 +29,7 @@
                         <span style="margin-right:10px"></span>
                         <Icon icon="print" title="Print All Payments" OnClick="@OnPrint" />
                     }
-                    <Icon icon="refresh" OnClick="@OnRefresh" is_visible="@show_refresh_button" icon_color="#006edc"/>
+                    <Icon icon="refresh" OnClick="@OnRefresh" is_visible="@show_refresh_button" icon_color="#006edc" />
                 </div>
             </div>
             
@@ -39,13 +47,18 @@
     [Parameter] public string Icon { get; set; } = "";
     [Parameter] public string IconRight { get; set; } = "";
     [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool is_status { get; set; } = true;
     [Parameter] public bool is_show_add_button { get; set; } = false;
+    [Parameter] public bool is_show_edit_button { get; set; } = false;
+    [Parameter] public bool is_show_delete_button { get; set; } = false;
     [Parameter] public bool is_show_select_button { get; set; } = false;
     [Parameter] public bool show_refresh_button { get; set; } = false;
     [Parameter] public bool is_margin_bottom { get; set; } = false;
     [Parameter] public bool show_print { get; set; } = false;
     [Parameter] public EventCallback<MouseEventArgs> OnRefresh { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnAddClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnEditClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnDeleteClick { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnSelectClick { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnPrint { get; set; }
 

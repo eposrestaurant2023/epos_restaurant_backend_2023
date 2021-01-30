@@ -32,7 +32,7 @@
         <PageBody>
             <EditForm Model="@model" OnValidSubmit="(()=>Save_Click(model))" @attributes="@formAttributes">
                 <UIGridCenter>
-                    <UIContainerBox Title="Outlet Infor">
+                    <UIContainerBox Title="Table Group Infor">
                         <TextInput @bind-text="@model.table_group_name_en" label="Table Group Name En">
                             <ValidationMessage For="@(() => model.table_group_name_en )" />
                         </TextInput>

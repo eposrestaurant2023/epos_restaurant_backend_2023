@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210130070520_remove_bussiness_branch_forein_key_from_payment_type")]
+    partial class remove_bussiness_branch_forein_key_from_payment_type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,21 +179,6 @@ namespace eAPI.Migrations
                     b.HasIndex("business_branch_id");
 
                     b.ToTable("tbl_business_branch_payment_type");
-                });
-
-            modelBuilder.Entity("eModels.BusinessBranchPriceRule", b =>
-                {
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("price_rule_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("business_branch_id", "price_rule_id");
-
-                    b.HasIndex("price_rule_id");
-
-                    b.ToTable("tbl_business_branch_price_rule");
                 });
 
             modelBuilder.Entity("eModels.BusinessInformationModel", b =>
@@ -627,99 +614,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_history");
                 });
 
-            modelBuilder.Entity("eModels.MenuModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("menu_name_en")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("menu_name_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int?>("parent_id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.HasIndex("parent_id");
-
-                    b.ToTable("tbl_menu");
-                });
-
-            modelBuilder.Entity("eModels.ModifierModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("modifier_name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_modifier");
-                });
-
             modelBuilder.Entity("eModels.ModuleViewModel", b =>
                 {
                     b.Property<int>("id")
@@ -1026,46 +920,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_permission_option_role");
                 });
 
-            modelBuilder.Entity("eModels.PriceRuleModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("price_name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_price_rule");
-                });
-
             modelBuilder.Entity("eModels.PrinterModel", b =>
                 {
                     b.Property<int>("id")
@@ -1309,115 +1163,6 @@ namespace eAPI.Migrations
                     b.HasIndex("product_type_id");
 
                     b.ToTable("tbl_product");
-                });
-
-            modelBuilder.Entity("eModels.ProductModifierModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("modifier_id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("price")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("modifier_id");
-
-                    b.HasIndex("product_id");
-
-                    b.ToTable("tbl_product_modifier");
-                });
-
-            modelBuilder.Entity("eModels.ProductPriceModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<decimal>("cost")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<string>("portion_name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("price")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<int>("price_rule_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("price_rule_id");
-
-                    b.HasIndex("product_id");
-
-                    b.ToTable("tbl_product_price");
                 });
 
             modelBuilder.Entity("eModels.ProductTypeModel", b =>
@@ -1964,25 +1709,6 @@ namespace eAPI.Migrations
                     b.Navigation("payment_type");
                 });
 
-            modelBuilder.Entity("eModels.BusinessBranchPriceRule", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany()
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.PriceRuleModel", "price_rule")
-                        .WithMany()
-                        .HasForeignKey("price_rule_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("price_rule");
-                });
-
             modelBuilder.Entity("eModels.CurrencyModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -2049,23 +1775,6 @@ namespace eAPI.Migrations
                     b.Navigation("customer");
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("eModels.MenuModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany()
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.MenuModel", "parent")
-                        .WithMany("menus")
-                        .HasForeignKey("parent_id");
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("parent");
                 });
 
             modelBuilder.Entity("eModels.NoteModel", b =>
@@ -2176,44 +1885,6 @@ namespace eAPI.Migrations
                     b.Navigation("product_category");
 
                     b.Navigation("product_type");
-                });
-
-            modelBuilder.Entity("eModels.ProductModifierModel", b =>
-                {
-                    b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany()
-                        .HasForeignKey("modifier_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany()
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("modifier");
-
-                    b.Navigation("product");
-                });
-
-            modelBuilder.Entity("eModels.ProductPriceModel", b =>
-                {
-                    b.HasOne("eModels.PriceRuleModel", "price_rule")
-                        .WithMany()
-                        .HasForeignKey("price_rule_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany()
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("price_rule");
-
-                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("eModels.StationModel", b =>
@@ -2341,11 +2012,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.CustomerModel", b =>
                 {
                     b.Navigation("customer_business_branchs");
-                });
-
-            modelBuilder.Entity("eModels.MenuModel", b =>
-                {
-                    b.Navigation("menus");
                 });
 
             modelBuilder.Entity("eModels.OutletModel", b =>
