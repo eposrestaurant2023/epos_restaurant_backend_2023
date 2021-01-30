@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210129080032_add_printer")]
+    partial class add_printer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,9 +244,6 @@ namespace eAPI.Migrations
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -671,7 +670,7 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("note")
+                    b.Property<string>("note_label")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
@@ -685,7 +684,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("category_note_id");
 
-                    b.ToTable("tbl_note");
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("eModels.NumberModel", b =>

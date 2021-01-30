@@ -33,6 +33,7 @@ namespace eModels
             outlets = new List<OutletModel>();
                                                                                                
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
+            printers = new List<PrinterModel>();
         }
 
         private string _business_branch_name_en;
@@ -77,5 +78,8 @@ namespace eModels
 
                                                                                        
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
+
+        public List<PrinterModel> printers { get; set; }
+
     }
 }

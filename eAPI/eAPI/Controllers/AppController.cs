@@ -106,6 +106,16 @@ namespace eAPI.Controllers
                 return await (db.Countries.ToListAsync());
             }
         }
+
+
+        [HttpGet("NoteCategory")]
+        [EnableQuery]
+        public async Task<List<CategoryNoteModel>> GetNoteCategory()
+        {
+            return await (db.CategoryNotes.ToListAsync());
+            
+        }
+
         [HttpPost]
         [Route("GetData")]
         public ActionResult<string> GetData([FromBody] FilterModel f)

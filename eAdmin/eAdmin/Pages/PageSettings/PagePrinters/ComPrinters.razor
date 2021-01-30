@@ -1,0 +1,40 @@
+﻿@inject IMatToaster toast; 
+<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+    <tr>
+        <Th>Printer Name</Th>
+        <ThCenter>IPAddress</ThCenter>
+        <ThCenter>Port</ThCenter>
+        <Th></Th>
+    </tr>
+    @foreach(var p in printers.Where(r=>r.is_deleted==false))
+    {
+        <tr>
+            <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name"/></td>
+            <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address"/></TdCenter>
+            <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port"/></TdCenter>
+            <td><Button icon="delete" OnClick="@(()=>DeletePrinter(p))" /></td>
+            
+        </tr>
+    }
+ 
+
+</table>
+
+@code {
+
+    [Parameter] public List<PrinterModel> printers { get; set; }
+
+    PrinterModel printer = new PrinterModel();
+
+    void DeletePrinter(PrinterModel p)
+    {
+        if (p.id == 0)
+        {
+            printers.Remove(p);
+        }else
+        {
+            p.is_deleted = true;
+        }
+    }
+     
+}
