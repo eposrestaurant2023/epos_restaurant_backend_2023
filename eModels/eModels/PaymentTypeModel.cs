@@ -13,10 +13,6 @@ namespace eModels
         {
             business_branch_Paymnet_types = new List<BusinessBranchPaymnetTypeModel>();
         }
-        [Required(ErrorMessage = "Please select a business branch.")]
-        public Guid business_branch_id { get; set; }
-        [ForeignKey("business_branch_id")]
-        public BusinessBranchModel business_branch { get; set; }
 
         [Required(ErrorMessage = "Please select a currency.")]
         public int currency_id { get; set; }
