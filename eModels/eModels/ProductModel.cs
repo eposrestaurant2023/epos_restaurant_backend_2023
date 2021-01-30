@@ -119,50 +119,8 @@ namespace eModels
         public string variant_3_name { get; set; }
         public bool use_variant_price { get; set; }
 
-        public bool is_inventory_product { get; set; }
-
-         
-
-
-
-    }
-
-
-
-
-
-
-
-    [Table("tbl_product_type")]
-    public class ProductTypeModel
-    {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id { get; set; }
-        public string product_type_name { get; set; }
-        public int sort_order { get; set; } = 0;
-
-        public string background_color { get; set; }
-
-        [NotMapped]
-        public bool is_active { get; set; }
-
-        public bool status { get; set; }
-
-    }
-
-
-
-    public class SelectedProductModel
-    {
-        public ProductModel product { get; set; }
-       
-        // Both Data
-        public string unit { get; set; } = "Unit";
-        public decimal price { get; set; }
-        public decimal quantity { get; set; } = 1;
-        public bool is_allow_discount { get; set; }
-
-    }
+        public bool is_inventory_product { get; set; }    
+    }  
+    
      
-   
 }

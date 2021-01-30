@@ -985,12 +985,55 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("background_color")
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("counter")
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("product_category_en")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("product_category_kh")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_group_id")
                         .HasColumnType("int");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("product_group_id");
+
+                    b.ToTable("tbl_product_category");
+                });
+
+            modelBuilder.Entity("eModels.ProductGroupModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1008,37 +1051,34 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("digit")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("format")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("prefix")
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<string>("product_group_code")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("product_category")
+                    b.Property<string>("product_group_en")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("product_category_kh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<string>("product_group_kh")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("sort_order")
+                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.HasKey("id");
 
-                    b.ToTable("tbl_product_category");
+                    b.ToTable("tbl_product_group");
                 });
 
             modelBuilder.Entity("eModels.ProductModel", b =>
@@ -1190,12 +1230,9 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .HasColumnType("int");
 
-                    b.Property<string>("background_color")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("product_type_name")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("sort_order")
@@ -1888,6 +1925,17 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
                 });
 
+            modelBuilder.Entity("eModels.ProductCategoryModel", b =>
+                {
+                    b.HasOne("eModels.ProductGroupModel", "product_group")
+                        .WithMany("product_categories")
+                        .HasForeignKey("product_group_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product_group");
+                });
+
             modelBuilder.Entity("eModels.ProductModel", b =>
                 {
                     b.HasOne("eModels.ProductCategoryModel", "product_category")
@@ -2056,6 +2104,11 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.ProductCategoryModel", b =>
                 {
                     b.Navigation("products");
+                });
+
+            modelBuilder.Entity("eModels.ProductGroupModel", b =>
+                {
+                    b.Navigation("product_categories");
                 });
 
             modelBuilder.Entity("eModels.ProductModel", b =>

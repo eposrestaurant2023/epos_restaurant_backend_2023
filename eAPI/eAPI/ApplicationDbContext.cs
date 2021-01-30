@@ -84,6 +84,8 @@ namespace eAPI
         public DbSet<TableGroupScreenModel> TableGroupScreens{ get; set; }
         public DbSet<TableModel> Tables{ get; set; }
         public DbSet<UserBusinessBranchModel> UserBusinessBranches{ get; set; }
+        public DbSet<ProductGroupModel> ProductGroups { get; set; }
+        public DbSet<ProductCategoryModel> ProductCategories{ get; set; }
         public DbSet<ProductModel> Products{ get; set; }
         public DbSet<ProductTypeModel> ProductTypes{ get; set; }
          
