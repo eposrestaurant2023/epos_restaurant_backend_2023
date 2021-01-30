@@ -7,26 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace eModels
 {
-    [Table("tbl_product_category")]
-    public class ProductCategoryModel : CoreModel
-    {
-        public ProductCategoryModel()
-        {
-            products = new List<ProductModel>();
-        }
-        [Required(ErrorMessage = "Field cannot be blank.")]
-        public string product_category { get; set; }
-
-        [Required(ErrorMessage = "Field cannot be blank.")]
-        public string product_category_kh { get; set; }
-        public List<ProductModel> products { get; set; }
-        public string background_color { get; set; } = String.Format("#{0:X6}", (new Random()).Next(0x1000000));
-
-        public string prefix { get; set; }
-        public string digit { get; set; }
-        public string format { get; set; }
-        public int counter { get; set; }
-    }
+    
 
     [Table("tbl_product")]
     public class ProductModel : CoreModel

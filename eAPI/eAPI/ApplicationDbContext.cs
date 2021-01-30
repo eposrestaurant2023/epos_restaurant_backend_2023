@@ -41,23 +41,10 @@ namespace eAPI
             builder.Entity<CustomerBusinessBranchModel>().HasKey(t => new { t.customer_id, t.business_branch_id});
             builder.Entity<BusinessBranchPaymnetTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
 
-    //        builder.Entity<BusinessBranchPaymnetTypeModel>()
-    //.HasOne(x => x.business_branch)
-    //.WithMany(x => x.business_branch_paymnet_types)
-    //.HasForeignKey(x => x.business_branch_id);
-
-    //        builder.Entity<BusinessBranchPaymnetTypeModel>()
-    //            .HasOne(x => x.payment_type)
-    //            .WithMany(x => x.business_branch_Paymnet_types)
-    //            .HasForeignKey(x => x.payment_type_id);
-
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});
-            builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});
-          
-            builder.Entity<TableGroupScreenModel>().HasKey(t => new { t.table_group_id, t.outlet_id,t.station_id });
+            builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id}); 
             
-
-
+            builder.Entity<TableGroupScreenModel>().HasKey(t => new { t.table_group_id, t.outlet_id,t.station_id });
 
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
