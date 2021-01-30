@@ -23,6 +23,7 @@
         </HeaderRight>
     </PageHeader>
     <PageBody class_card="no-card-dashboard">
+        <Button OnClick="@Test">xxx</Button>
         <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
             <div class="uk-width-1-2 uk-width-1-4@m">
                 <div class="bg_kpi bg_today_amount">
@@ -162,6 +163,10 @@
 
 
 
+    async Task Test()
+    {
+        await js.Confirm("xx", "ssssss", SweetAlertMessageType.error);
+    }
 
     async Task LoadData()
     {

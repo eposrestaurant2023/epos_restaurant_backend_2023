@@ -21,7 +21,6 @@
 	</ItemGroup>
  
 	<ItemGroup>
-	  <Folder Include="Pages\PageReport\" />
 	  <Folder Include="Services\" />
 	</ItemGroup>
  

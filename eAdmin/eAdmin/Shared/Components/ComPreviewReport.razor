@@ -5,7 +5,7 @@
                     <ul class="list-category">
                         @foreach (var r in Reports)
                         {
-                        <AuthorizeView Roles="@gv.GetRole(r.option_name)">
+                        <AuthorizeView roles="@gv.GetRole(r.option_name)">
                             @if (r.id == model.id)
                             {
                             <li class="selected sub-report-item">

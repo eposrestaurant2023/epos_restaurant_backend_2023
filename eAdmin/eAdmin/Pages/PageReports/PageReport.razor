@@ -1,0 +1,55 @@
+﻿@page "/report"
+@inherits PageReportModel
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+
+@if (!is_loading)
+{
+    <Title Value="Sale" />
+    <PageContainer roles="@gv.GetRole("report_management")">       
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @state.page_title
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true"/>
+        </PageHeader>
+        <PageBody>
+            <Grid ClassName="uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2">
+                @foreach (var r in main_report_list)
+                {  
+                        @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)
+                        {
+                            <Column>
+                                <div class="report-item">
+                                        <div class="report-header"><Icon icon="@r.icon" />@r.report_title</div>
+                                        <ComAuth roles="@gv.GetRole(r.option_name)">
+                                            <div class="report-content">
+                                                @foreach (var p in gv.permission_options.Where(u => u.parent_id == r.id).ToList())
+                                                {
+                                                    <AuthorizeView Roles="@gv.GetRole(p.option_name)">
+                                                        <div class="report-content-item" @onclick="@(()=>ViewReportClick(p))">
+                                                            <Icon icon="star" /> @p.report_title
+                                                        </div>
+                                                    </AuthorizeView>
+                                                }
+                                            </div>
+                                        </ComAuth>                                    
+                                </div>
+                            </Column>
+                        }                
+                }
+            </Grid>
+            <Com is_visible="IsOpenedReport">
+                <ComPreviewReport model="@report" report_id="@report.id" parent_id="@(Convert.ToInt32(report.parent_id))" IsOpened="IsOpenedReport" OnClose="@(()=>IsOpenedReport=false)" />
+            </Com>
+        </PageBody>
+    </PageContainer>
+}
+
+
+
+

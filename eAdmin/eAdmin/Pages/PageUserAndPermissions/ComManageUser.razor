@@ -6,21 +6,19 @@
 @inject NavigationManager nav;
   
 <EditFormContext Cancel_Click="Cancel_click" model="user" is_opened="is_dialog_open" title="@modal_title" Save_Click="SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
-    @if (!is_loading)
-    {
-        <FileUpload @bind-ImageUrl="@user.photo" guid="user_capture_001"/>
-        <TextInput label="Full Name" @bind-text="@user.full_name">
-            <ValidationMessage For="@(() => user.full_name)" />
-        </TextInput>
-        <TextInput label="Username" @bind-text="@user.username">
-            <ValidationMessage For="@(() => user.username)" />
-        </TextInput>
-        <TextInput label="Email Address" @bind-text="@user.email">
-            <ValidationMessage For="@(() => user.email)" />
-        </TextInput>
-        <TextInput label="Phone Number" @bind-text="@user.phone_1" />
-        <TextInput label="New Password" type="password" @bind-text="@user.new_password" />
-    }
+    
+    <FileUpload @bind-ImageUrl="@user.photo" guid="user_capture_001"/>
+    <TextInput label="Full Name" @bind-text="@user.full_name">
+        <ValidationMessage For="@(() => user.full_name)" />
+    </TextInput>
+    <TextInput label="Username" @bind-text="@user.username">
+        <ValidationMessage For="@(() => user.username)" />
+    </TextInput>
+    <TextInput label="Email Address" @bind-text="@user.email">
+        <ValidationMessage For="@(() => user.email)" />
+    </TextInput>
+    <TextInput label="Phone Number" @bind-text="@user.phone_1" />
+    <TextInput label="New Password" type="password" @bind-text="@user.new_password" />
 </EditFormContext>
 
 @code{

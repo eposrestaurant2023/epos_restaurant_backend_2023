@@ -155,8 +155,14 @@ namespace eAdmin.Shared
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+
+            
             is_loading_default = true;
-            await js.InvokeVoidAsync("SetActiveMenu");
+            if (firstRender)
+            {
+                await js.InvokeVoidAsync("SetActiveMenu");
+            }
+            
             is_loading_default = false;
         }
         public bool is_spinner = false;
