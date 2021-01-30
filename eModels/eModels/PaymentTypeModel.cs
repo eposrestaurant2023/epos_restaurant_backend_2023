@@ -9,6 +9,10 @@ namespace eModels
     [Table("tbl_payment_type")]
     public class PaymentTypeModel : CoreModel
     {
+        public PaymentTypeModel()
+        {
+            business_branch_Paymnet_types = new List<BusinessBranchPaymnetTypeModel>();
+        }
         [Required(ErrorMessage = "Please select a business branch.")]
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
@@ -41,5 +45,6 @@ namespace eModels
 
         public int sort_order { get; set; }
         public string note { get; set; }
+        public List<BusinessBranchPaymnetTypeModel> business_branch_Paymnet_types { get; set; }
     }
 }

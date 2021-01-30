@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210129165109_bussiness_paymenttype_relation_ship")]
+    partial class bussiness_paymenttype_relation_ship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,9 +259,6 @@ namespace eAPI.Migrations
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -686,7 +685,7 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("note")
+                    b.Property<string>("note_label")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
@@ -700,7 +699,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("category_note_id");
 
-                    b.ToTable("tbl_note");
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("eModels.NumberModel", b =>
@@ -930,9 +929,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -949,19 +945,12 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ip_address")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("port")
-                        .HasColumnType("int");
 
                     b.Property<string>("printer_name")
                         .HasMaxLength(50)
@@ -972,8 +961,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
 
                     b.ToTable("tbl_printer");
                 });
@@ -1877,17 +1864,6 @@ namespace eAPI.Migrations
                     b.Navigation("role");
                 });
 
-            modelBuilder.Entity("eModels.PrinterModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("printers")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-                });
-
             modelBuilder.Entity("eModels.ProductModel", b =>
                 {
                     b.HasOne("eModels.ProductCategoryModel", "product_category")
@@ -2015,8 +1991,6 @@ namespace eAPI.Migrations
                     b.Navigation("customer_business_branchs");
 
                     b.Navigation("outlets");
-
-                    b.Navigation("printers");
                 });
 
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>

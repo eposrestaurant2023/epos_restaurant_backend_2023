@@ -1,12 +1,8 @@
 ﻿@page "/paymenttype"
 @inherits PageCore;
 
-
 <Loading is_loading="@(is_loading || is_loading_data)" />
-@{
-    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
-    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
-}
+
 @if (!is_loading)   
 {
     <Title Value="@state.page_title"></Title>
@@ -27,26 +23,20 @@
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("payment_type_add")" OnClick="@AddNew">New</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <Com is_visible="@(payment_types != null)">
-                <Table PerPage="@state.pager.per_page"
-                       TotalItem="@TotalRecord"
-                       ShowCounter="true"
-                       CurrentPage="@state.pager.current_page"
-                       OnPagerChange="@SelectChange"
-                       OnPageChange="@ChangePager"
+                <Table ShowCounter="true"
                        isLoading="@is_loading_data"
                        Items="@payment_types"
-                       ShowPager="true"
-                       ShowPagination="true"
+                       ShowPager="false"
+                       ShowPagination="false"
                        EmptyText="There's no record in the system">
                     <TableHeader>
                         <ThCenter>Image</ThCenter>
-                        <Th OnClick="@(async () => await OrderBy("payment_type_name"))" OrderBy="@(state.pager.order_by == "payment_type_name")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">Payment Type</Th>
-                        @HeaderTemplate("status", "Status")
+                        <Th ClassName="cp col-auto">Payment Type</Th>
+                        <Th>Status</Th>
                         <th></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -116,28 +106,21 @@
 @code{
     List<PaymentTypeModel> payment_types = new List<PaymentTypeModel>();
     PaymentTypeModel model = new PaymentTypeModel();
+    List<FilterModel> filters = new List<FilterModel>();
+    string page_title = "";
 
-    string StateKey = "278484567GstwnZ254kjuylinrbB3PCz2Ts"; //Storage and Session Key
-
-    int TotalRecord = 0;
     bool ShowModal = false;
     string ModalTitle = "";
 
     string controller_api = "PaymentType";
     DateTime date = DateTime.Now;
+    string url = "";
 
     public string ControllerApi
     {
         get
         {
-            if (state.pager.order_by == "")
-            {
-                state.pager.order_by = "id";
-                state.pager.order_by_type = "desc";
-            }
-            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
-            return url + GetFilter(state.filters);
-
+            return url = $"{controller_api}";
         }
     }
 
@@ -146,30 +129,17 @@
     {
         is_loading = true;
 
-        state = await GetState(StateKey);
-        if (state.page_title == "")
+        if (page_title == "")
         {
-            state.page_title = "Payment Type";
+            page_title = "Payment Type";
             var default_view = gv.GetDefaultModuleView("page_payment_type");
             if (default_view != null)
             {
-                state.page_title = default_view.title;
-                state.filters = default_view.filters;
+                page_title = default_view.title;
+                filters = default_view.filters;
             }
-
         }
-        if (state.filters.Count == 0)
-        {
-
-            state.filters.Add(new FilterModel()
-            {
-                key = "is_deleted",
-                value1 = "false"
-            });
-
-        }
-        await LoadData(state.api_url);
-
+        await LoadData();
     }
 
     void AddNew()
@@ -193,10 +163,9 @@
 
     async Task ViewClick(ModuleViewModel m)
     {
-        state.filters.Clear();
-        state.filters = m.filters;
-        state.page_title = m.title;
-        state.pager.current_page = 1;
+        filters.Clear();
+        filters = m.filters;
+        page_title = m.title;
         await LoadData();
     }
 
@@ -207,24 +176,13 @@
         if (string.IsNullOrEmpty(api_url))
         {
             api_url = $"{ControllerApi}";
-            state.api_url = api_url;
-            await SetState(StateKey, state);
-
         }
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {
             payment_types = JsonSerializer.Deserialize<List<PaymentTypeModel>>(resp.Content.ToString());
-            TotalRecord = resp.Count;
         }
         is_loading = false;
-    }
-
-    async Task OrderBy(string col_name = "")
-    {
-        state.pager.order_by = col_name;
-        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
-        await LoadData();
     }
 
     async Task OnSave()
@@ -272,11 +230,6 @@
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);
-            if (payment_types.Count() == 1 && state.pager.current_page > 1)
-            {
-                state.pager.current_page = state.pager.current_page - 1;
-            }
-
             await LoadData();
         }
     }
@@ -292,21 +245,13 @@
 
             if (resp.IsSuccess)
             {
-
-                if (payment_types.Count() == 1 && state.pager.current_page > 0)
-                {
-                    state.pager.current_page = state.pager.current_page - 1;
-                }
-
                 await LoadData();
             }
             toast.Add("Delete Payment Type successfully", MatToastType.Success);
-
         }
-
         p.is_loading = false;
-
     }
+
     async Task OnRestore(PaymentTypeModel p)
     {
         p.is_loading = true;
@@ -317,10 +262,6 @@
 
             if (resp.IsSuccess)
             {
-                if (payment_types.Count() == 1 && state.pager.current_page > 1)
-                {
-                    state.pager.current_page = state.pager.current_page - 1;
-                }
                 await LoadData();
             }
             toast.Add("Restore Payment Type successfully", MatToastType.Success);
@@ -328,24 +269,6 @@
         }
         p.is_loading = false;
 
-    }
-
-    public async Task SelectChange(int perpage)
-    {
-        state.pager.per_page = perpage;
-        state.pager.current_page = 1;
-        await LoadData();
-    }
-    public async Task ChangePager(int _page)
-    {
-        state.pager.current_page = _page;
-        await LoadData();
-    }
-    async Task OnSearch(string keyword)
-    {
-        state.pager = new PagerModel();
-        SetFilterValue2(state.filters, "keyword", keyword);
-        await LoadData();
     }
 }
 

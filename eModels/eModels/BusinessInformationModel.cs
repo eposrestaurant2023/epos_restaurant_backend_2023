@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -34,6 +35,7 @@ namespace eModels
                                                                                                
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
             printers = new List<PrinterModel>();
+            business_branch_paymnet_types = new List<BusinessBranchPaymnetTypeModel>();
         }
 
         private string _business_branch_name_en;
@@ -81,5 +83,17 @@ namespace eModels
 
         public List<PrinterModel> printers { get; set; }
 
+        public List<BusinessBranchPaymnetTypeModel> business_branch_paymnet_types { get; set; }
+    }
+
+    [Table("tbl_business_branch_payment_type")]
+    public class BusinessBranchPaymnetTypeModel
+    {
+        public Guid business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
+        public int payment_type_id { get; set; }
+        [ForeignKey("payment_type_id")]
+        public PaymentTypeModel payment_type { get; set; }
     }
 }
