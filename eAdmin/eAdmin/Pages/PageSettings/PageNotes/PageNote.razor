@@ -1,0 +1,119 @@
+﻿@page "/setting/note"
+@inject IHttpService http;
+@inject IMatToaster toast;
+<Loading is_loading="@(is_loading || is_saving)" />
+@if (!is_loading)
+{
+    <Title Value="Printers"></Title>
+    <PageContainer roles="@gv.GetRole("note_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Cashier Notes
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <RefreshButton OnClick="@OnInitializedAsync" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <UIGridCenter>
+                @if (branches.Any())
+                {
+                    @foreach (var b in branches)
+                    { 
+                        <UIContainerBox Title="@b.business_branch_name_en">
+                            <ComNoteCategory/>
+                        </UIContainerBox>
+
+                    }
+                }
+                else
+                {
+                    <ComAlert type="warning">There is no business branch. Please enter business branch first.</ComAlert>
+                }
+            </UIGridCenter>
+
+
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <SavingButton is_saving="@is_saving" />
+                <Button OnClick="@Save_Click" is_visible="@(!is_saving)">Save</Button>
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+
+}
+
+@code{
+
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+
+    List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
+    bool is_loading, is_saving;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData()
+    {
+
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=printers($filter=is_deleted eq false)&$filter=is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+        }
+        else
+        {
+
+            toast.Add("Loading note fail.", MatToastType.Warning);
+        }
+
+
+    }
+
+    void AddPrinter(BusinessBranchModel b)
+    {
+        b.printers.Add(new PrinterModel());
+    }
+
+    async Task Save_Click()
+    {
+
+        if (branches.SelectMany(r => r.printers).Where(r => r.is_deleted == false && r.printer_name.Trim() == "").Any())
+        {
+
+            toast.Add("Please enter printer name", MatToastType.Warning);
+            return;
+        }
+
+        is_saving = true;
+
+        var resp = await http.ApiPost("BusinessBranch/save/multiple", branches);
+        if (resp.IsSuccess)
+        {
+
+            toast.Add("Save Printer successfully", MatToastType.Success);
+
+            await LoadData();
+        }
+        else
+        {
+
+            toast.Add("Save Printer Fail", MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+
+}

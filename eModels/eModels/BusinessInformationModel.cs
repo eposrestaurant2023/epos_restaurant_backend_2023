@@ -34,6 +34,7 @@ namespace eModels
             outlets = new List<OutletModel>();
                                                                                                
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
+            printers = new List<PrinterModel>();
             business_branch_paymnet_types = new List<BusinessBranchPaymnetTypeModel>();
         }
 
@@ -79,6 +80,9 @@ namespace eModels
 
                                                                                        
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
+
+        public List<PrinterModel> printers { get; set; }
+
         public List<BusinessBranchPaymnetTypeModel> business_branch_paymnet_types { get; set; }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using eModels;
 using Microsoft.AspNet.OData;
@@ -53,6 +54,25 @@ namespace eAPI.Controllers
             
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
+
+
+        }
+
+         [HttpPost("save/multiple")]
+        public async Task<ActionResult<string>> SaveMultiple([FromBody] List<BusinessBranchModel> branches)
+        {
+
+            string xx = JsonSerializer.Serialize(branches);
+            db.BusinessBranches.UpdateRange(branches);
+
+
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
+
+         
+
+            return Ok();
 
 
         }

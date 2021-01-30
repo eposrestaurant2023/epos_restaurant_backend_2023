@@ -27,5 +27,7 @@ namespace eModels
         public bool is_multiple_select { get; set; } = false;
 
         public List<NoteModel> notes { get; set; }
+
+        public bool status { get; set; }
     }
 }

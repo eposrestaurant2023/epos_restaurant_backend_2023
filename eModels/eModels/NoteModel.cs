@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eModels
 {
-    public  class NoteModel     : CoreModel
+    [Table("tbl_note")]
+    public  class NoteModel: CoreModel
     {
 
         public Guid business_branch_id { get; set; }
@@ -16,6 +17,6 @@ namespace eModels
         public CategoryNoteModel category_note { get; set; }
 
         [MaxLength(250)]
-        public string note_label { get; set; }
+        public string note { get; set; }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210129103354_add_tbl_note")]
+    partial class add_tbl_note
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,21 +166,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_business_branch");
                 });
 
-            modelBuilder.Entity("eModels.BusinessBranchPaymnetTypeModel", b =>
-                {
-                    b.Property<int>("payment_type_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("payment_type_id", "business_branch_id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_business_branch_payment_type");
-                });
-
             modelBuilder.Entity("eModels.BusinessInformationModel", b =>
                 {
                     b.Property<int>("id")
@@ -257,9 +244,6 @@ namespace eAPI.Migrations
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -1713,25 +1697,6 @@ namespace eAPI.Migrations
                     b.Navigation("customer");
                 });
 
-            modelBuilder.Entity("eModels.BusinessBranchPaymnetTypeModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("business_branch_paymnet_types")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.PaymentTypeModel", "payment_type")
-                        .WithMany("business_branch_Paymnet_types")
-                        .HasForeignKey("payment_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("payment_type");
-                });
-
             modelBuilder.Entity("eModels.CurrencyModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -2010,8 +1975,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
                 {
-                    b.Navigation("business_branch_paymnet_types");
-
                     b.Navigation("customer_business_branchs");
 
                     b.Navigation("outlets");
@@ -2039,11 +2002,6 @@ namespace eAPI.Migrations
                     b.Navigation("stations");
 
                     b.Navigation("table_group_screens");
-                });
-
-            modelBuilder.Entity("eModels.PaymentTypeModel", b =>
-                {
-                    b.Navigation("business_branch_Paymnet_types");
                 });
 
             modelBuilder.Entity("eModels.PermissionOptionModel", b =>

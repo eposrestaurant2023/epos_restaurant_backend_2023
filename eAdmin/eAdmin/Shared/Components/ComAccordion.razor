@@ -1,0 +1,19 @@
+﻿
+<MatAccordion>
+    <MatExpansionPanel>
+        <MatBlazor.MatExpansionPanelSummary>
+            <MatExpansionPanelHeader>
+                @Header
+            </MatExpansionPanelHeader>
+        </MatBlazor.MatExpansionPanelSummary>
+        <MatExpansionPanelDetails>
+            @Content
+        </MatExpansionPanelDetails>
+    </MatExpansionPanel>
+    <Spacing Number="10" />
+</MatAccordion>
+@code{
+
+    [Parameter] public RenderFragment Content { get; set; }
+    [Parameter] public RenderFragment Header { get; set; }
+}
