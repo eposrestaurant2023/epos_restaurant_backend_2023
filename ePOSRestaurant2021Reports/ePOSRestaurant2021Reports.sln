@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "ePOSRestaurant2021Reports", "ePOSRestaurant2021Reports\ePOSRestaurant2021Reports.rptproj", "{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}.Debug|Default.ActiveCfg = Debug
+		{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}.Debug|Default.Build.0 = Debug
+		{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}.Debug|Default.Deploy.0 = Debug
+		{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}.DebugLocal|Default.Build.0 = DebugLocal
+		{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}.Release|Default.ActiveCfg = Release
+		{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}.Release|Default.Build.0 = Release
+		{32B5FC43-CFD7-4423-BC9A-31A6F4BFE8BB}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {53BBBFED-3381-45B9-BC41-CF2616208D26}
+	EndGlobalSection
+EndGlobal
