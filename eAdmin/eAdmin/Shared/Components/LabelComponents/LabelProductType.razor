@@ -14,10 +14,7 @@
     {
         get
         {
-            if (product_type_id > 0)
-            {
-                return gv.product_types.Where(r => r.id == product_type_id).FirstOrDefault().background_color;
-            }
+            
             return "orange";
         }
     }
