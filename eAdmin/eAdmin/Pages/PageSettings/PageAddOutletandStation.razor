@@ -25,12 +25,12 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                
+
             </HeaderRight>
         </PageHeader>
-
-        <PageBody>
-            <EditForm Model="@model" OnValidSubmit="(()=>Save_Click(model))" @attributes="@formAttributes">
+        <EditForm Model="@model" OnValidSubmit="@Save_Click">
+            <DataAnnotationsValidator />
+            <PageBody>
                 <UIGridCenter>
                     <UIContainerBox Title="Outlet Infor">
                         <TextInput @bind-text="@model.outlet_name_en" label="Outlet Name En">
@@ -47,7 +47,7 @@
 
                     </UIContainerBox>
                     <UIContainerBox Title="Station Info" is_show_add_button="true" OnAddClick="@(()=>Add_station())">
-                        @foreach (var s in model.stations.Where(r=>r.is_deleted == false).ToList())
+                        @foreach (var s in model.stations.Where(r => r.is_deleted == false).ToList())
                         {
 
                             <ul class="uk-list uk-list-collapse uk-list-striped ">
@@ -58,25 +58,27 @@
                                             <TextInput label="Station Name Kh" @bind-text="@s.station_name_kh" />
                                         </div>
                                         <div class="uk-width-auto">
-                                            <Icon icon="delete" OnClick="@(()=>Delete_station(s))"/>
+                                            <Icon icon="delete" OnClick="@(()=>Delete_station(s))" />
                                         </div>
                                     </div>
                                 </li>
-                              
+
                             </ul>
                         }
                     </UIContainerBox>
 
 
                 </UIGridCenter>
-            </EditForm>
-        </PageBody>
-        <PageFooter>
-            <FooterCenter>
-                <Button OnClick="(()=>Save_Click(model))" icon="save">Save</Button>
-                <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
-            </FooterCenter>
-        </PageFooter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button type="submit" icon="save">Save</Button>
+                    <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                </FooterCenter>
+            </PageFooter>
+
+        </EditForm>
+
     </PageContainer>
   
 }
@@ -210,8 +212,9 @@
         model.stations.Add(st);
     }
 
-    async Task Save_Click(OutletModel d)
+    async Task Save_Click(EditContext editContext)
     {
+        OutletModel d = model;
         if (!is_saving)
         {
             is_saving = true;

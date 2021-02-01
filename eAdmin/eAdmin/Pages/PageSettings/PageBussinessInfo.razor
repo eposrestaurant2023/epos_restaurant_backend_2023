@@ -149,10 +149,10 @@
         <EditFormContext model="@business_brnach" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
         
             <FileUpload @bind-ImageUrl="@business_brnach.logo" />
-            <TextInput label="Business Branch Name Kh" @bind-text="@business_brnach.business_branch_name_kh">
-                <ValidationMessage For="@(() => business_brnach.business_branch_name_kh )" />
+            <TextInput label="Business Branch Name En" @bind-text="@business_brnach.business_branch_name_en">
+                <ValidationMessage For="@(() => business_brnach.business_branch_name_en )" />
             </TextInput>
-            <TextInput label="Business Branch Name En" @bind-text="@business_brnach.business_branch_name_en" />
+            <TextInput label="Business Branch Name Kh" @bind-text="@business_brnach.business_branch_name_kh" />
             <TextInput label="Mobile Phone" @bind-text="@business_brnach.phone_1" />
             <TextInput label="Office Phone" @bind-text="@business_brnach.phone_2" />
             <TextInput label="Email" @bind-text="@business_brnach.email" />
