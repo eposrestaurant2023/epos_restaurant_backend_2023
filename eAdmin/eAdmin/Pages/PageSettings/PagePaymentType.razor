@@ -121,7 +121,7 @@
     {
         get
         {
-            return url = $"{controller_api}";
+            return url = $"{controller_api}" +"?"+ GetFilter(filters).Substring(1);
         }
     }
 
