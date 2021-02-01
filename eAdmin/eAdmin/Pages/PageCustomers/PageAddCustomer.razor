@@ -9,15 +9,12 @@
  @if (!is_loading)
 {
     <Title Value="@title"></Title>
-    <PageContainer roles="@gv.GetRole($"{((clone_id != "") || (clone_id != "" && id != "") ? "customer_add" : "customer_edit") }")">
-        <div style="word-break:break-word">
-
-        </div>
+    <PageContainer roles="@gv.GetRole($"{((!string.IsNullOrEmpty(clone_id)) || (!string.IsNullOrEmpty(clone_id) && !string.IsNullOrEmpty(id)) ? "customer_add" : "customer_edit") }")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @if (Guid.Parse(id) != new Guid())
+                        @if (!string.IsNullOrEmpty(id))
                         {
                             <span>@model.customer_code - @model.customer_name_en</span>
                             <LabelActive is_visible="@(!model.is_deleted && model.status)"/>
@@ -81,9 +78,9 @@
         {
             is_loading = true;
              
-            if (Guid.Parse(id) != new Guid() || Guid.Parse(clone_id) != new Guid())
+            if ((id != ""  && id != null) || (clone_id != "" && clone_id != null))
             {
-                if (Guid.Parse(id) != new Guid())
+                if (id != "" && id != null)
                 {
                     var res = await http.ApiGet(api_url);
                     if (res.IsSuccess)

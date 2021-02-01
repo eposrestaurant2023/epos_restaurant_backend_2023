@@ -139,8 +139,8 @@ namespace eAPI.Controllers
                 }
 
             }
-            Guid add = new Guid();
-            if (p.id == add)
+            
+            if (p.id == new Guid())
             {
                 if (dup.Count() > 0)
                 {
