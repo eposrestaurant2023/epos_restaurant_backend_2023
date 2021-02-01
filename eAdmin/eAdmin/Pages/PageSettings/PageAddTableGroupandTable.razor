@@ -31,6 +31,7 @@
 
         <EditForm Model="@model" OnValidSubmit="@Save_Click">
             <DataAnnotationsValidator /> 
+            <ValidationSummary/>
             <PageBody> 
                 <UIGridCenter>
                     <UIContainerBox Title="Table Group Infor">
@@ -38,12 +39,14 @@
                             <ValidationMessage For="@(() => model.table_group_name_en )" />
                         </TextInput>
                         <TextInput @bind-text="@model.table_group_name_kh" label="Table Group Name En" />
+                        @model.outlet_id
                         <SelectInt Items="outlet" @bind-SelectedValue="@model.outlet_id" InputLabel="Outlet" ShowEmptyText="true" EmptyText="Select Outlet">
                             <SelectOptions Context="b">
                                 <option value="@b.id">
                                     @b.outlet_name_en
                                 </option>
-                            </SelectOptions>
+                                
+                            </SelectOptions>                            
                         </SelectInt>
                         <ComInputCheckBox @bind-value="@model.status" label="Status" />
 

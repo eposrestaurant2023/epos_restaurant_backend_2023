@@ -15,7 +15,7 @@ namespace eModels
             table_group_screens = new List<TableGroupScreenModel>();
         }
 
-        [Required(ErrorMessage = "Please select a business branch.")]
+        [Required(ErrorMessage = "Please select a business branch.")]        
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }   

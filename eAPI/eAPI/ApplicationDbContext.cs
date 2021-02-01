@@ -39,7 +39,7 @@ namespace eAPI
             builder.Entity<CustomerBusinessBranchModel>().HasKey(t => new { t.customer_id, t.business_branch_id});
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
 
-            builder.Entity<BusinessBranchPaymnetTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
+            builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
             builder.Entity<BusinessBranchPriceRule>().HasKey(t => new { t.business_branch_id, t.price_rule_id });
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});
             builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});              
@@ -88,7 +88,7 @@ namespace eAPI
         public DbSet<BusinessInformationModel> BusinessInformations{ get; set; }
         public DbSet<StoreProcedureResultDecimalModel> StoreProcedureResultsDecimal { get; set; }
         public DbSet<BusinessBranchPaymentTypeModel> BusinessBranchPaymentTypes { get; set; }
-        public DbSet<BusinessBranchPaymnetTypeModel> BusinessBranchPaymnetTypes { get; set; }
+        public DbSet<BusinessBranchPaymentTypeModel> BusinessBranchPaymnetTypes { get; set; }
         public DbSet<BusinessBranchPriceRule> BusinessBranchPriceRules { get; set; }      
         public DbSet<MenuModel> Menus { get; set; }      
         public DbSet<ModifierModel> Modifiers { get; set; }      
