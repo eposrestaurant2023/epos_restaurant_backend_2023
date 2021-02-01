@@ -1,43 +1,132 @@
 ﻿@inherits PageCore;
  
-    <EditFormContext Cancel_Click="Cancel_click" model="@model" is_opened="is_dialog_open" title="@modal_title" Save_Click="SaveContactPerson_Click" modal_width="800px">
-        <FileUpload @bind-ImageUrl="@model.photo" />
-        <TextInput label="Payment Type Name" @bind-text="@model.payment_type_name_en">
-            <ValidationMessage For="@(()=>model.payment_type_name_en)" />
+    <EditFormContext is_open_button_save_and_new="true" NewSave_Click="@(()=>SavePaymentType_Click(true))" Cancel_Click="Cancel_click" model="@payment_type" is_opened="is_dialog_open" title="@modal_title" Save_Click="@(()=>SavePaymentType_Click(false))" modal_width="800px">
+        <FileUpload @bind-ImageUrl="@payment_type.photo" />
+        <TextInput label="Payment Type Name" @bind-text="@payment_type.payment_type_name_en">
+            <ValidationMessage For="@(()=>payment_type.payment_type_name_en)" />
         </TextInput>   
-        <TextInput label="Payment Type Name" @bind-text="@model.payment_type_name_kh">
-            <ValidationMessage For="@(()=>model.payment_type_name_kh)" />
+        <TextInput label="Payment Type Name" @bind-text="@payment_type.payment_type_name_kh">
+            <ValidationMessage For="@(()=>payment_type.payment_type_name_kh)" />
         </TextInput>
-        <NumberInputInt @bind-text="@model.sort_order" label="Sort Order" width="100%" />
-        <TextInput label="Note" @bind-text="@model.note" type="textarea" />        
-        <SelectStatus @bind-selected_value="@model.status" />
-        @foreach (var b in model.business_branch_Paymnet_types)
+        <NumberInputInt @bind-text="@payment_type.sort_order" label="Sort Order" width="100%" />
+        <TextInput label="Note" @bind-text="@payment_type.note" type="textarea" />
+        <SelectCurrency show_empty="true" @bind-selected_value="@payment_type.currency_id">
+            <ValidationMessage For="@(()=>payment_type.currency_id)"/>
+        </SelectCurrency>
+        <SelectStatus @bind-selected_value="@payment_type.status" />
+        @foreach (var b in business_branches)
         {
-            <div><InputCheckbox @bind-Value="@b.business_branch.is_selected"/></div>
-            <div>@b.business_branch.business_branch_name_en</div>
-            <div>====================</div>
+            <div><ComInputCheckBox @bind-value="b.is_selected" /></div>
+            <div>@b.business_branch_name_en</div>
         }
     </EditFormContext>
 
 @code{
-    [Parameter] public PaymentTypeModel model { get; set; } = new PaymentTypeModel();
     [Parameter] public string modal_title { get; set; }
-    [Parameter] public bool is_dialog_open { get; set; }
-    [Parameter] public EventCallback<PaymentTypeModel> Save_Click { get; set; }
+    [Parameter] public bool is_dialog_open { get; set; } = false;
+    [Parameter] public EventCallback<bool> is_dialog_openChanged { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> Save_Click { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
+    [Parameter] public PaymentTypeModel payment_type { get; set; } = new PaymentTypeModel();
+    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
+
+    bool is_save_new = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+        await LoadPermission();
+    }
 
 
-    async Task SaveContactPerson_Click()
+    protected async Task SavePaymentType_Click(bool _is_save_new = false)
     {
         is_saving = true;
-        var res = await http.ApiPost("PaymentType/save", model);
-        if (res.IsSuccess)
+        payment_type.business_branch_payment_types.Clear();
+        foreach (var a in business_branches.ToList())
         {
-            model = JsonSerializer.Deserialize<PaymentTypeModel>(res.Content.ToString());
-            toast.Add("Save Successfully", MatToastType.Success);
-            await Save_Click.InvokeAsync(model);
+            if (a.is_selected)
+            {
+                payment_type.business_branch_payment_types.Add(new BusinessBranchPaymentTypeModel()
+                {
+                    business_branch_id = a.id,
+                    payment_type_id = payment_type.id
+                });
+            }
         }
+
+        var post = await http.ApiPost("PaymentType/Save", payment_type);
+        if (post.IsSuccess)
+        {
+            toast.Add("Save Successfully!", MatToastType.Success);
+            if (!_is_save_new)
+            {
+                payment_type = new PaymentTypeModel();
+                is_dialog_open = false;
+            }
+            else
+            {
+                modal_title = "Add New";
+                payment_type = new PaymentTypeModel();
+                foreach(var bb in business_branches)
+                {
+                    bb.is_selected = false;
+                }
+                payment_type.business_branch_payment_types.Add(new BusinessBranchPaymentTypeModel() { });
+            }
+            is_save_new = false;
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+        await Save_Click.InvokeAsync();
+        await is_dialog_openChanged.InvokeAsync(is_dialog_open);
         is_saving = false;
     }
 
+    protected async Task LoadData()
+    {
+        if (payment_type.id > 0)
+        {
+            string query = $"PaymentType({payment_type.id})?$expand=business_branch_payment_types($select=business_branch_id,payment_type_id)";
+            var res = await http.ApiGet(query);
+            if (res.IsSuccess)
+            {
+                payment_type = JsonSerializer.Deserialize<PaymentTypeModel>(res.Content.ToString());
+            }
+        }
+    }
+
+    public async Task LoadPermission()
+    {
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_payment_types&$filter=is_deleted eq false and status eq true");
+        if (res.IsSuccess)
+        {
+            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
+            if (payment_type.id > 0)
+            {
+                foreach(var p in payment_type.business_branch_payment_types)
+                {
+                    foreach(var b in business_branches.Where(r=>r.id==p.business_branch_id).ToList())
+                    {
+                        b.is_selected = true;
+                    }
+                }
+            }
+        }
+    }
+
+    public async Task Selected_Click(BusinessBranchModel p)
+    {
+        await Task.Delay(100);
+        if (p.business_branch_payment_types.Count > 0)
+        {
+            p.business_branch_payment_types.Clear();
+        }
+        else
+        {
+            p.business_branch_payment_types.Add(new BusinessBranchPaymentTypeModel() { payment_type_id = payment_type.id, business_branch_id = p.id });
+        }
+    }
 }

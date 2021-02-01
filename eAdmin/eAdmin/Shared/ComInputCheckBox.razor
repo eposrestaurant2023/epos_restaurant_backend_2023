@@ -129,6 +129,7 @@ else
     [Parameter] public bool label_inline { get; set; } = false;
     [Parameter] public bool is_read_only { get; set; } = false;
     Guid id = Guid.NewGuid();
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
     [Parameter] public EventCallback<bool> valueChanged { get; set; }
     private async Task valueChange(bool _value)

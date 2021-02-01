@@ -34,7 +34,7 @@ namespace eModels
             outlets = new List<OutletModel>();                                                                                               
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
             printers = new List<PrinterModel>();
-            business_branch_paymnet_types = new List<BusinessBranchPaymnetTypeModel>();
+            business_branch_payment_types = new List<BusinessBranchPaymentTypeModel>();
         }
 
         private string _business_branch_name_en;
@@ -82,11 +82,11 @@ namespace eModels
 
         public List<PrinterModel> printers { get; set; }
 
-        public List<BusinessBranchPaymnetTypeModel> business_branch_paymnet_types { get; set; }
+        public List<BusinessBranchPaymentTypeModel> business_branch_payment_types { get; set; }
     }
 
     [Table("tbl_business_branch_payment_type")]
-    public class BusinessBranchPaymnetTypeModel
+    public class BusinessBranchPaymentTypeModel
     {
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]

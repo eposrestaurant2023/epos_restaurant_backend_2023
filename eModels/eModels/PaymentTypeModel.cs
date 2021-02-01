@@ -11,10 +11,11 @@ namespace eModels
     {
         public PaymentTypeModel()
         {
-            business_branch_Paymnet_types = new List<BusinessBranchPaymnetTypeModel>();
+            business_branch_payment_types = new List<BusinessBranchPaymentTypeModel>();
         }
 
         [Required(ErrorMessage = "Please select a currency.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a currency.")]
         public int currency_id { get; set; }
         [ForeignKey("currency_id")]
         public CurrencyModel currency { get; set; }
@@ -41,6 +42,6 @@ namespace eModels
 
         public int sort_order { get; set; }
         public string note { get; set; }
-        public List<BusinessBranchPaymnetTypeModel> business_branch_Paymnet_types { get; set; }
+        public List<BusinessBranchPaymentTypeModel> business_branch_payment_types { get; set; }
     }
 }

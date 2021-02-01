@@ -46,10 +46,14 @@ namespace eAPI.Controllers
                 db.PaymentTypes.Add(u);
             }
             else
-            {
+            { 
+                db.Database.ExecuteSqlRaw($"delete tbl_business_branch_payment_type where payment_type_id = {u.id}");
+                db.BusinessBranchPaymentTypes.AddRange(u.business_branch_payment_types);
                 db.PaymentTypes.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+
             return Ok(u);
         }
 

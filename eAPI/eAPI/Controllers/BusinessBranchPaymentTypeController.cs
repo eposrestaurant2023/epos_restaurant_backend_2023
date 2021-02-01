@@ -30,25 +30,22 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         [AllowAnonymous]
 
-        public IQueryable<BusinessBranchPaymnetTypeModel> Get()
+        public IQueryable<BusinessBranchPaymentTypeModel> Get()
         {
-
-            return db.BusinessBranchPaymnetTypes;
-
+            return db.BusinessBranchPaymentTypes;
         }
 
-
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] BusinessBranchPaymnetTypeModel u)
+        public async Task<ActionResult<string>> Save([FromBody] BusinessBranchPaymentTypeModel u)
         {
 
             if (u.business_branch_id == Guid.Empty)
             {
-                db.BusinessBranchPaymnetTypes.Add(u);
+                db.BusinessBranchPaymentTypes.Add(u);
             }
             else
             {
-                db.BusinessBranchPaymnetTypes.Update(u);
+                db.BusinessBranchPaymentTypes.Update(u);
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -59,9 +56,9 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<BusinessBranchPaymnetTypeModel> Get([FromODataUri] Guid key)
+        public SingleResult<BusinessBranchPaymentTypeModel> Get([FromODataUri] Guid key)
         {
-            var s = db.BusinessBranchPaymnetTypes.Where(r => r.business_branch_id == key).AsQueryable();
+            var s = db.BusinessBranchPaymentTypes.Where(r => r.business_branch_id == key).AsQueryable();
 
             return SingleResult.Create(s);
         }
