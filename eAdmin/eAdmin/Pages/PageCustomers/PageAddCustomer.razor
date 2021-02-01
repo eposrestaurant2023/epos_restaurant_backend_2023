@@ -1,6 +1,6 @@
 ﻿@page "/customer/new"
-@page "/customer/edit/{id:int}"
-@page "/customer/clone/{clone_id:int}"
+@page "/customer/edit/{id}"
+@page "/customer/clone/{clone_id}"
 @inherits PageCore
 
 
@@ -9,12 +9,15 @@
  @if (!is_loading)
 {
     <Title Value="@title"></Title>
-    <PageContainer roles="@gv.GetRole($"{((clone_id > 0) || (clone_id == 0 && id == 0) ? "customer_add" : "customer_edit") }")">
+    <PageContainer roles="@gv.GetRole($"{((clone_id != "") || (clone_id != "" && id != "") ? "customer_add" : "customer_edit") }")">
+        <div style="word-break:break-word">
+
+        </div>
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @if (id > 0)
+                        @if (Guid.Parse(id) != new Guid())
                         {
                             <span>@model.customer_code - @model.customer_name_en</span>
                             <LabelActive is_visible="@(!model.is_deleted && model.status)"/>
@@ -56,8 +59,8 @@
     }
 }
 @code{
-    [Parameter] public int id { get; set; }
-    [Parameter] public int clone_id { get; set; }
+    [Parameter] public string id { get; set; }
+    [Parameter] public string clone_id { get; set; }
     [Parameter] public bool is_customer_exist { get; set; }
     CustomerModel model = new CustomerModel();
 
@@ -68,7 +71,7 @@
     {
         get
         {
-            return $"customer({id})?$expand=customer_health_issues";
+            return $"customer({id})?$expand=customer_group";
         }
     }
 
@@ -78,9 +81,9 @@
         {
             is_loading = true;
              
-            if (id > 0 || clone_id > 0)
+            if (Guid.Parse(id) != new Guid() || Guid.Parse(clone_id) != new Guid())
             {
-                if (id > 0)
+                if (Guid.Parse(id) != new Guid())
                 {
                     var res = await http.ApiGet(api_url);
                     if (res.IsSuccess)
@@ -135,7 +138,7 @@
                     if (is_save_and_new)
                     {
                         model = new CustomerModel();
-                        id = 0;
+                        id = "";
                         title = "Add New Customer";
                     }
                     else if (is_save_and_order) {
@@ -180,7 +183,7 @@
 
     void OnCancel()
     {
-        if (id > 0)
+        if (Guid.Parse(id) != new Guid())
         {
             nav.NavigateTo($"customer/{id}");
         }
