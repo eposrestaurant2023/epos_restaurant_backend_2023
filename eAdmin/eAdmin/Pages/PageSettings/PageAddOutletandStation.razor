@@ -42,6 +42,9 @@
                             <SelectOptions Context="b">
                                 <option value="@b.id">@b.business_branch_name_en</option>
                             </SelectOptions>
+                            <ValidationTemplate>
+                                <ValidationMessage For="@(() => model.business_branch_id )" />
+                            </ValidationTemplate>
                         </SelectGUID>
                         <ComInputCheckBox @bind-value="@model.status" label="Status" />
 
@@ -218,6 +221,7 @@
         if (!is_saving)
         {
             is_saving = true;
+
             Object obj = new Object();
             OutletModel save_outlet = JsonSerializer.Deserialize<OutletModel>(JsonSerializer.Serialize(d));
 
