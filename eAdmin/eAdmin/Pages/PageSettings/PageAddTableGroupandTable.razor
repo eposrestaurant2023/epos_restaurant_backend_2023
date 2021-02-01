@@ -18,37 +18,38 @@
 
                         else
                         {
-                          <div>New Table Group & Table</div>
+                            <div>New Table Group & Table</div>
                         }
 
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                
+
             </HeaderRight>
         </PageHeader>
 
-        <PageBody>
-            <EditForm Model="@model" OnValidSubmit="(()=>Save_Click(model))" @attributes="@formAttributes">
+        <EditForm Model="@model" OnValidSubmit="@Save_Click">
+            <DataAnnotationsValidator /> 
+            <PageBody> 
                 <UIGridCenter>
                     <UIContainerBox Title="Table Group Infor">
                         <TextInput @bind-text="@model.table_group_name_en" label="Table Group Name En">
                             <ValidationMessage For="@(() => model.table_group_name_en )" />
                         </TextInput>
                         <TextInput @bind-text="@model.table_group_name_kh" label="Table Group Name En" />
-                      <SelectInt Items="outlet" @bind-SelectedValue="@model.outlet_id" InputLabel="Outlet" ShowEmptyText="true" EmptyText="Select Outlet">
-                          <SelectOptions Context="b">
-                              <option value="@b.id">
-                                  @b.outlet_name_en
-                              </option>
-                          </SelectOptions>
-                      </SelectInt>
+                        <SelectInt Items="outlet" @bind-SelectedValue="@model.outlet_id" InputLabel="Outlet" ShowEmptyText="true" EmptyText="Select Outlet">
+                            <SelectOptions Context="b">
+                                <option value="@b.id">
+                                    @b.outlet_name_en
+                                </option>
+                            </SelectOptions>
+                        </SelectInt>
                         <ComInputCheckBox @bind-value="@model.status" label="Status" />
 
                     </UIContainerBox>
                     <UIContainerBox Title="Table Info" is_show_add_button="true" OnAddClick="@(()=>Add_Table())">
-                        @foreach (var s in model.tables.Where(r=>r.is_deleted == false).ToList())
+                        @foreach (var s in model.tables.Where(r => r.is_deleted == false).ToList())
                         {
 
                             <ul class="uk-list uk-list-collapse uk-list-striped ">
@@ -58,32 +59,34 @@
                                             <TextInput label="Table Name" @bind-text="@s.table_name" />
                                         </div>
                                         <div class="uk-width-auto">
-                                            <Icon icon="delete" OnClick="@(()=>Delete_Table(s))"/>
+                                            <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
                                         </div>
                                     </div>
                                 </li>
-                              
+
                             </ul>
                         }
                     </UIContainerBox>
 
 
                 </UIGridCenter>
-            </EditForm>
-        </PageBody>
-        <PageFooter>
-            <FooterCenter>
-                <Button OnClick="(()=>Save_Click(model))" icon="save">Save</Button>
-                <LinkButton url="tablegroupandtable" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
-            </FooterCenter>
-        </PageFooter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button type="submit" icon="save">Save</Button>
+                    <LinkButton url="tablegroupandtable" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                </FooterCenter>
+            </PageFooter>
+
+
+        </EditForm>
     </PageContainer>
   
 }
 
 @code{
     [Parameter] public int id { get; set; }
-    TableGroupModel model = new TableGroupModel();
+    TableGroupModel model = new TableGroupModel(); 
 
     List<TableModel> tables = new List<TableModel>();
     List<OutletModel> outlet = new List<OutletModel>();
@@ -107,10 +110,12 @@
 
     protected override async Task OnInitializedAsync()
     {
+
+
         is_loading = true;
         await LoadTable("");
         await LoadData("");
-        await LoadOutlet("");
+        await LoadOutlet(""); 
         is_loading = false;
     }
 
@@ -211,8 +216,9 @@
         model.tables.Add(st);
     }
 
-    async Task Save_Click(TableGroupModel d)
-    {
+    async Task Save_Click(EditContext editContext)
+    { 
+        TableGroupModel d = model;
         if (!is_saving)
         {
             is_saving = true;

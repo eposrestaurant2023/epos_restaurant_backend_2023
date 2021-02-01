@@ -31,24 +31,21 @@ namespace eAPI
             }
 
 
-            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });
-            
+            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
             builder.Entity<PermissionOptionRoleModel>()
                 .HasOne(pt => pt.permission_option)
                 .WithMany(p => p.permission_option_roles)
-                .HasForeignKey(pt => pt.permission_option_id);
-              
+                .HasForeignKey(pt => pt.permission_option_id);                   
             builder.Entity<CustomerBusinessBranchModel>().HasKey(t => new { t.customer_id, t.business_branch_id});
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
 
+            builder.Entity<BusinessBranchPaymnetTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
+            builder.Entity<BusinessBranchPriceRule>().HasKey(t => new { t.business_branch_id, t.price_rule_id });
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});
-            builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id}); 
-            
+            builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});              
             builder.Entity<TableGroupScreenModel>().HasKey(t => new { t.table_group_id, t.outlet_id,t.station_id });
-
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
-            builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
-           
+            builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();                
             builder.Entity<NumberModel>().HasNoKey();
         }
 
@@ -74,10 +71,8 @@ namespace eAPI
         public DbSet<BusinessBranchModel> BusinessBranches { get; set; }
         public DbSet<CategoryNoteModel> CategoryNotes{ get; set; }
         public DbSet<CustomerBusinessBranchModel> CustomerBusinessBranches{ get; set; }
-
         public DbSet<NoteModel> Notes{ get; set; }
         public DbSet<OutletStationModel> OutletStations{ get; set; }
-
         public DbSet<PrinterModel> Printers{ get; set; }
         public DbSet<StationModel> Stations{ get; set; }
         public DbSet<TableGroupModel> TableGroups{ get; set; }
@@ -87,14 +82,19 @@ namespace eAPI
         public DbSet<ProductGroupModel> ProductGroups { get; set; }
         public DbSet<ProductCategoryModel> ProductCategories{ get; set; }
         public DbSet<ProductModel> Products{ get; set; }
-        public DbSet<ProductTypeModel> ProductTypes{ get; set; }
-         
+        public DbSet<ProductTypeModel> ProductTypes{ get; set; }          
         public DbSet<StockLocationModel> StockLocations{ get; set; }
         public DbSet<VendorModel> Vendors{ get; set; }
         public DbSet<BusinessInformationModel> BusinessInformations{ get; set; }
-
         public DbSet<StoreProcedureResultDecimalModel> StoreProcedureResultsDecimal { get; set; }
         public DbSet<BusinessBranchPaymentTypeModel> BusinessBranchPaymentTypes { get; set; }
+        public DbSet<BusinessBranchPaymnetTypeModel> BusinessBranchPaymnetTypes { get; set; }
+        public DbSet<BusinessBranchPriceRule> BusinessBranchPriceRules { get; set; }      
+        public DbSet<MenuModel> Menus { get; set; }      
+        public DbSet<ModifierModel> Modifiers { get; set; }      
+        public DbSet<ProductModifierModel> ProductModifiers { get; set; }      
+        public DbSet<PriceRuleModel> PriceRules { get; set; }      
+        public DbSet<ProductPriceModel> ProductPrices { get; set; }      
 
     }
 
