@@ -29,6 +29,7 @@ namespace eAPI.Controllers
             db.Database.ExecuteSqlRaw("exec sp_startup");
             GlobalVariableModel gv = new GlobalVariableModel();
             gv.business_info = db.BusinessInformations.FirstOrDefault();
+            gv.bussiness_branches = db.BusinessBranches.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.payment_types = db.PaymentTypes.ToList();
             gv.settings = db.Settings.ToList();
             gv.permission_options = db.PermissionOption.ToList();
@@ -44,6 +45,7 @@ namespace eAPI.Controllers
             gv.stock_locations = db.StockLocations.ToList();
             gv.outlets = db.Outlets.ToList();
             gv.vendors = db.Vendors.ToList();
+            gv.printers = db.Printers.ToList();
             return Ok(gv);
         }
 

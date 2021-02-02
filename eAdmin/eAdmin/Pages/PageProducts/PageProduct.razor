@@ -30,7 +30,7 @@
                 <AddButton roles="@gv.GetRole("product_add")" OnClick="@(()=>nav.NavigateTo("product/new"))">New Product</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectOutlet @bind-outlet="@state.outlet" show_empty="true" empty_text="All Outlet" />
+                     
                     <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="All Product Group" />
                     <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="All Product Category" />
                 </ComSearch>
@@ -69,12 +69,13 @@
                         </TdCenter>
                         <TdCenter>@p.product_category?.product_category_en</TdCenter>
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.id}")">@p.product_code</ComAuthorize>
+                            <a href="@($"product/{p.id}")">@p.product_code</a>
                         </TdCenter>
                         <td>
-                            <div>
-                                <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.id}")">@p.product_name_en (@p.product_name_kh)</ComAuthorize>
-                            </div>
+                            <a href="@($"product/{p.id}")">@p.product_name_en</a>
+                        </td>
+                        <td>
+                            <a href="@($"product/{p.id}")">@p.product_name_kh</a>
                         </td>
  
                         <TdRight>
@@ -86,13 +87,13 @@
                             <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
                         </TdCenter>
                         <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("product_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"product/{p.id}")">View</TableActionItem>
+                            <TableActionItem icon="visibility" is_visible="@(!p.is_deleted)" url="@($"product/{p.id}")">View</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("product_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("product_add")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">Clone</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("product_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("product_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("product_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("product_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("product_edit")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
                         </TdActions>
                     </RowTemplate>
                 </Table>

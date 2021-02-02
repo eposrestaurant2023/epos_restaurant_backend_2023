@@ -1,0 +1,79 @@
+﻿@page "/product/new"
+@inherits PageAddProductBase
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+ 
+@if (!is_loading)
+{
+
+    <Title Value="@PageTitle"></Title>
+    <PageContainer roles="@gv.GetRole(role_name)">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @PageTitle
+                    </HeaderTemplate>
+
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click())" @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+                 
+                    <UIContainerBox>
+                        <Grid ClassName="uk-child-width-1-3">
+                            <Column>
+                                <FileUpload @bind-ImageUrl="@model.photo" />
+                            </Column>
+                            <Column>
+                                <TextInput label="Code" text="@model.product_code">
+
+                                </TextInput>
+                                <TextInput label="Product Name(EN)" @bind-text="@model.product_name_en">
+                                    <ValidationMessage For="@(() => model.product_name_en)" />
+                                </TextInput>
+                                <TextInput label="Product Name(KH)" @bind-text="@model.product_name_kh" />
+
+                                <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true">
+                                    <ValidationMessage For="@(()=>model.product_category_id)" />
+                                </SelectProductCategory>
+                            </Column>
+                            <Column>
+                                <ComInputCheckBox @bind-value="@model.is_allow_discount" label="Allow Discount" />
+                                <ComInputCheckBox @bind-value="@model.is_allow_free" label="Allow Free" />
+                                <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" />
+                                <ComInputCheckBox @bind-value="@model.is_inventory_product" label="Is Inventory Product" />
+
+                                <SelectStatus @bind-selected_value="@model.status" />
+
+                            </Column>
+                        </Grid>
+                       
+                      
+                    </UIContainerBox>
+
+
+                    <UIContainerBox Title="Note">
+                        <TextInput label="" placeholder="Note" @bind-text="@model.note" type="textarea" row="2" />
+                    </UIContainerBox>
+
+               
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button is_visible="@is_saving"><Spinner /></Button>
+                    <Button icon="save" class_name="uk-button uk-button-primary" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
+                    <Button icon="save" class_name="uk-button uk-button-primary" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
+                    
+                    <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger" icon="reply">Cancel</Button>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+}
+

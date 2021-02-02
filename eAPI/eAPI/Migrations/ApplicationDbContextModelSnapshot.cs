@@ -1242,10 +1242,6 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("image_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<bool>("is_allow_discount")
                         .HasColumnType("bit");
 
@@ -1268,6 +1264,10 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("photo")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<int>("product_category_id")
                         .HasColumnType("int");
 
@@ -1287,9 +1287,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("product_type_id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -1300,8 +1297,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("product_category_id");
-
-                    b.HasIndex("product_type_id");
 
                     b.ToTable("tbl_product");
                 });
@@ -1413,6 +1408,28 @@ namespace eAPI.Migrations
                     b.HasIndex("product_id");
 
                     b.ToTable("tbl_product_price");
+                });
+
+            modelBuilder.Entity("eModels.ProductPrinterModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("printer_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("printer_id");
+
+                    b.HasIndex("product_id");
+
+                    b.ToTable("tbl_product_printer");
                 });
 
             modelBuilder.Entity("eModels.ProductTypeModel", b =>
@@ -2154,15 +2171,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.ProductTypeModel", "product_type")
-                        .WithMany()
-                        .HasForeignKey("product_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("product_category");
-
-                    b.Navigation("product_type");
                 });
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
@@ -2199,6 +2208,25 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("price_rule");
+
+                    b.Navigation("product");
+                });
+
+            modelBuilder.Entity("eModels.ProductPrinterModel", b =>
+                {
+                    b.HasOne("eModels.PrinterModel", "printer")
+                        .WithMany()
+                        .HasForeignKey("printer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.ProductModel", "product")
+                        .WithMany()
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("printer");
 
                     b.Navigation("product");
                 });
