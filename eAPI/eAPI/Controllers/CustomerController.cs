@@ -125,7 +125,6 @@ namespace eAPI.Controllers
                 {
                     check_data = db.Customers.Where(r =>
                     (
-
                         (r.phone_1 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() == (p.phone_2 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() ||
                         (r.phone_2 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() == (p.phone_2 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower()
                     ) &&
@@ -149,8 +148,6 @@ namespace eAPI.Controllers
                 is_new = true;
                 string document_number = await app.GetDocumentNumber(19);
                 p.customer_code = document_number;
-
-
                 db.Customers.Add(p);
             }
             else

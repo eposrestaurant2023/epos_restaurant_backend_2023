@@ -1,0 +1,33 @@
+﻿@inherits PageCore;
+
+<EditFormContext Save_Click="@SavePaymentType_Click" Cancel_Click="Cancel_click" model="@price" is_opened="is_dialog_open" title="@modal_title" modal_width="800px">
+    <TextInput label="Name" @bind-text="@price.price_name">
+        <ValidationMessage For="@(()=>price.price_name)" />
+    </TextInput>
+    <SelectStatus @bind-selected_value="@price.status" />
+</EditFormContext>
+
+@code{
+    [Parameter] public string modal_title { get; set; }
+    [Parameter] public bool is_dialog_open { get; set; } = false;
+    [Parameter] public EventCallback<MouseEventArgs> Save_Click { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
+    [Parameter] public PriceRuleModel price { get; set; }
+
+    protected async Task SavePaymentType_Click()
+    {
+        is_saving = true;
+        var post = await http.ApiPost("PriceRule/Save", price);
+        if (post.IsSuccess)
+        {
+            toast.Add("Save Successfully!", MatToastType.Success);
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+        await Save_Click.InvokeAsync();
+        is_saving = false;
+    }
+
+}

@@ -35,6 +35,7 @@ namespace eModels
         public List<BusinessBranchModel> bussiness_branches { get; set; }
         public List<PrinterModel> printers{ get; set; }
         public List<PriceRuleModel> price_rules{ get; set; }
+        public List<CategoryNoteModel> category_notes { get; set; }
 
         public int current_outlet_id { get; set; }
 
