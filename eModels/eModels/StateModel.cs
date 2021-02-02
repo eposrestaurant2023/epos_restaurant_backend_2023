@@ -53,6 +53,7 @@ namespace eModels
 
         public CustomerModel customer { get; set; } = new CustomerModel();
         public OutletModel outlet { get; set; } = new OutletModel();
+        public ProductGroupModel product_group { get; set; } = new ProductGroupModel();
     }
 
     public class DateRangeModel
