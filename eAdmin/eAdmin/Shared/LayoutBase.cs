@@ -102,6 +102,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "business_info,";
                     api_url = api_url + "roles,";
                     api_url = api_url + "product_types,";
+                    api_url = api_url + "business_branches,";
                     api_url = api_url + "countries,";
                     api_url = api_url + "outlets,";
                     api_url = api_url + "stock_locations($expand=outlet),";
@@ -171,6 +172,7 @@ namespace eAdmin.Shared
             string api_url = "GlobalVariable?$expand=";
             api_url = api_url + "product_categorys,";
             api_url = api_url + "customer_groups,";
+            api_url = api_url + "business_branches,";
             api_url = api_url + "employees($filter=is_deleted eq false),";
             api_url = api_url + "positions,";
             GetResponse res = await http.ApiGet(api_url);
