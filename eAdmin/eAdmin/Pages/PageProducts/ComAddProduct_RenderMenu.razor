@@ -1,0 +1,180 @@
+﻿@inject IHttpService http;
+<div>
+ 
+    @if (menus.Any())
+    {
+        if (current_menu_id > 0)
+        {
+            <Button OnClick="@(()=>OnBack())">Back</Button>
+        }
+        @foreach (var m in GetMenus)
+        {
+
+            <div @onclick="@(()=>MenuClick(m))" style="background:@m.background_color;color:@m.text_color; padding:25px; margin:10px">
+
+                @m.menu_name_en (@menus.Where(r=>r.parent_id==m.id).Count().ToString("00"))
+                
+                <Button OnClick="@(()=>OnSelectMenu(m))" is_visible="@(!IsMenuSelected(m))">Select</Button>
+                
+                <Button OnClick="@(()=>OnUnSelectMenu(m))" is_visible="@(IsMenuSelected(m))">Unselect</Button>
+
+                <Button OnClick="@(()=>EditMenu(m))">Edit</Button>
+
+            </div>
+
+        }
+
+        if (current_menu_id > 0)
+        {
+            <Button OnClick="@(()=>AddSubMenu())">Add Sub Menu</Button>
+        }
+    }
+    else
+    {
+        <p>There is no root menu</p>
+
+    }
+    <hr />
+
+    <Button OnClick="@AddRootMenu">Add New Root Menu</Button>
+
+</div>
+
+@if (show_add_menu)
+{
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" OnSave="@SaveMenu"/>
+
+}
+
+@code {
+    [Parameter] public Guid business_branch_id { get; set; }
+    List<MenuModel> menus = new List<MenuModel>();
+    [Parameter] public EventCallback<MenuModel> OnMenuSelected { get; set; }
+
+    [Parameter] public List<ProductMenuModel> selected_menus { get; set; }
+
+
+    public int current_menu_id { get; set; }
+    public int parent_menu_id { get; set; }
+
+
+    MenuModel menu = new MenuModel();
+
+    public List<MenuModel> GetMenus
+    {
+        get
+        {
+            if (current_menu_id == 0)
+            {
+                return menus.Where(r => r.parent_id == null && r.is_deleted == false).ToList();
+            }
+            else
+            {
+                return menus.Where(r => r.parent_id == current_menu_id && r.is_deleted == false).ToList();
+            }
+        }
+    }
+
+
+    bool is_loading,show_add_menu;
+
+    bool IsMenuSelected(MenuModel m)
+    {
+        return selected_menus.Where(r => r.menu_id == m.id && r.is_deleted ==false).Any();
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        var resp = await http.ApiGetOData($"Menu?$filter=business_branch_id eq {business_branch_id} and is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            menus = JsonSerializer.Deserialize<List<MenuModel>>(resp.Content.ToString());
+            SetMenuActive();
+        }
+        is_loading = false;
+    }
+
+    void SetMenuActive()
+    {
+        foreach(var m in selected_menus)
+        {
+            menus.Where(r => r.id == m.id).ToList().ForEach(r => r.is_selected = true);
+        }
+    }
+
+    async Task OnSelectMenu(MenuModel m)
+    {
+        m.is_selected = true;
+        await OnMenuSelected.InvokeAsync(m);
+
+    } 
+    async Task OnUnSelectMenu(MenuModel m)
+    {
+        m.is_selected = false;
+        await OnMenuSelected.InvokeAsync(m);
+
+    }
+
+
+    void OnBack()
+    {
+        current_menu_id = parent_menu_id;
+        if (current_menu_id > 0)
+        {
+            var d = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
+            if (d.parent_id == null)
+            {
+                parent_menu_id = 0;
+            }
+            else
+            {
+                parent_menu_id = Convert.ToInt32(d.parent_id);
+            }
+        }
+    }
+
+    void AddRootMenu()
+    {
+        menu = new MenuModel();
+        menu.parent = null;
+        menu.business_branch_id = business_branch_id;
+        show_add_menu = true;
+    }
+    void AddSubMenu()
+    {
+        menu = new MenuModel();
+        menu.parent = menus.Where(r=>r.id==current_menu_id).FirstOrDefault();
+        menu.parent_id = menu.parent.id;
+        menu.business_branch_id = business_branch_id;
+        show_add_menu = true;
+
+    }
+
+    void SaveMenu(MenuModel m)
+    {
+        menus.Add(m);
+        show_add_menu = false;
+    }
+
+    void EditMenu(MenuModel m)
+    {
+        menu = m;
+        menu.parent = menus.Where(r => r.id == m.parent_id).FirstOrDefault();
+        show_add_menu = true;
+    }
+    void MenuClick(MenuModel m)
+    {
+        current_menu_id = m.id;
+        if (m.parent_id == null)
+        {
+            parent_menu_id = 0;
+        }else
+        {
+            parent_menu_id = Convert.ToInt32(m.parent_id);
+        }
+    }
+
+}

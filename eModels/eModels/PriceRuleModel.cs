@@ -11,6 +11,7 @@ namespace eModels
         [MaxLength(50)]
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string price_name { get; set; }
+        public bool is_default { get; set; }
     }
 
 
@@ -18,21 +19,18 @@ namespace eModels
 
     public class ProductPriceModel : CoreModel
     {
-        public int product_id { get; set; }
-        [ForeignKey("product_id")]
-        public ProductModel product { get; set; }
+     
+        
+        public int product_portion_id { get; set; }
+        [ForeignKey("product_portion_id")]
+        public ProductPortionModel product_portion { get; set; }
 
         public int price_rule_id { get; set; }
         [ForeignKey("price_rule_id")]
         public PriceRuleModel price_rule { get; set; }
 
-        [MaxLength(100)]
-        [Required(ErrorMessage = "Field cannot be blank.")]
-        public string portion_name { get; set; }
 
-        public decimal multiplier { get; set; }
-
-        public decimal cost { get; set; }
+      
 
         public decimal price { get; set; }
 

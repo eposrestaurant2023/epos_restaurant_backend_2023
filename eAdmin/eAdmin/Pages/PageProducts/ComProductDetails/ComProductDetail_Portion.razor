@@ -1,0 +1,109 @@
+﻿@inject IHttpService http ;
+<UIContainerBox Title="Product Prices" Icon="monetization_on">
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+        @if (product_portions.Any())
+        {
+            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                <thead>
+                    <tr>
+                        <ThAuto>Portion</ThAuto>
+                        <th>Multplier</th>
+                        <th>Cost</th>
+                        @foreach (var p in gv.price_rules)
+                        {
+                            <ThCenter>
+                                @p.price_name
+                                <br/>
+                                <LabelActive is_visible="@(IsPriceRuleActive(p))" />
+                                <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
+                            </ThCenter>
+                        }
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var pp in product_portions.Where(r => r.is_deleted == false))
+                    {
+                        <tr>
+                            <td>
+                                @pp.portion_name
+                            </td>
+                            <TdCenter>
+                                @pp.multiplier.ToString(gv.quantity_format)
+                            </TdCenter>
+                            <TdCenter>
+                                @pp.cost.ToString(gv.currency_format)
+                            </TdCenter>
+                            @foreach (var p in gv.price_rules)
+                            {
+
+                                <TdCenter>
+                                    @if (pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)
+                                    {
+                                        <span class="@(@pp.product_prices.Where(r=>r.price_rule_id==p.id).FirstOrDefault().is_default?"default-price":"")">@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#ede7e7" class="@(@pp.product_prices.Where(r=>r.price_rule_id==p.id).FirstOrDefault().is_default?"default-price":"")">@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
+                                    }
+
+
+
+                                </TdCenter>
+                            }
+
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        }else
+        {
+            <p>There is no product price.</p>
+        }
+
+    }
+
+
+</UIContainerBox>
+
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_id { get; set; }
+
+
+    List<ProductPortionModel> product_portions = new List<ProductPortionModel>();
+
+
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await Task.Delay(100);
+
+        var resp = await http.ApiGetOData($"ProductPortion?$select=portion_name, multiplier,cost&$expand=product_prices($select=price_rule_id,is_default,price,is_deleted,status)&$filter=product_id eq {product_id} and is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            product_portions = JsonSerializer.Deserialize<List<ProductPortionModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+
+    bool IsPriceRuleActive(PriceRuleModel p)
+    {
+        if (product_portions.Any())
+        {
+            return product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.price_rule_id == p.id).FirstOrDefault().status;
+        }
+        return false;
+
+    }
+}

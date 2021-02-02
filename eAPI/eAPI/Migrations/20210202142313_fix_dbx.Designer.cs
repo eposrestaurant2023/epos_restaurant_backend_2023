@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210202142313_fix_dbx")]
+    partial class fix_dbx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -691,10 +693,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("background_color")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -727,23 +725,11 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("menu_path")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<int?>("parent_id")
                         .HasColumnType("int");
 
-                    b.Property<string>("photo")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<string>("text_color")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
@@ -1185,9 +1171,6 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -1363,31 +1346,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_product_group");
                 });
 
-            modelBuilder.Entity("eModels.ProductMenuModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("menu_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("menu_id");
-
-                    b.HasIndex("product_id");
-
-                    b.ToTable("tbl_product_menu");
-                });
-
             modelBuilder.Entity("eModels.ProductModel", b =>
                 {
                     b.Property<int>("id")
@@ -1524,9 +1482,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<decimal>("cost")
-                        .HasColumnType("decimal(16,4)");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1555,15 +1510,10 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(100)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.HasKey("id");
-
-                    b.HasIndex("product_id");
 
                     b.ToTable("tbl_product_portion");
                 });
@@ -1574,6 +1524,9 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<decimal>("cost")
+                        .HasColumnType("decimal(16,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2646,25 +2599,6 @@ namespace eAPI.Migrations
                     b.Navigation("product_group");
                 });
 
-            modelBuilder.Entity("eModels.ProductMenuModel", b =>
-                {
-                    b.HasOne("eModels.MenuModel", "menu")
-                        .WithMany("product_menus")
-                        .HasForeignKey("menu_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany("product_menus")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("menu");
-
-                    b.Navigation("product");
-                });
-
             modelBuilder.Entity("eModels.ProductModel", b =>
                 {
                     b.HasOne("eModels.ProductCategoryModel", "product_category")
@@ -2691,17 +2625,6 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("modifier");
-
-                    b.Navigation("product");
-                });
-
-            modelBuilder.Entity("eModels.ProductPortionModel", b =>
-                {
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany("product_portions")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("product");
                 });
@@ -2928,8 +2851,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.MenuModel", b =>
                 {
                     b.Navigation("menus");
-
-                    b.Navigation("product_menus");
                 });
 
             modelBuilder.Entity("eModels.OutletModel", b =>
@@ -2969,10 +2890,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.ProductModel", b =>
                 {
                     b.Navigation("histories");
-
-                    b.Navigation("product_menus");
-
-                    b.Navigation("product_portions");
 
                     b.Navigation("product_printers");
                 });

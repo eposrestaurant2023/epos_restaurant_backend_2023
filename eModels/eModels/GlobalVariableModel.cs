@@ -34,6 +34,7 @@ namespace eModels
         public List<CustomerGroupModel> customer_groups { get; set; }
         public List<BusinessBranchModel> bussiness_branches { get; set; }
         public List<PrinterModel> printers{ get; set; }
+        public List<PriceRuleModel> price_rules{ get; set; }
 
         public int current_outlet_id { get; set; }
 

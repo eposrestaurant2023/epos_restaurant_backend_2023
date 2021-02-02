@@ -6810,3 +6810,8 @@ button.reconciled {
             padding-right: 2px;
             font-size: 12px;
         }
+
+
+        .default-price{
+            border-color:green;
+        }

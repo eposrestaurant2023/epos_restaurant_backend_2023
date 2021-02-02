@@ -32,6 +32,7 @@ namespace eAPI
 
 
             builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
+            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
             builder.Entity<PermissionOptionRoleModel>()
                 .HasOne(pt => pt.permission_option)
                 .WithMany(p => p.permission_option_roles)
@@ -47,6 +48,7 @@ namespace eAPI
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();                
             builder.Entity<NumberModel>().HasNoKey();
+        
         }
 
 
@@ -100,6 +102,8 @@ namespace eAPI
         public DbSet<SaleProductModel> SaleProducts { get; set; }
         public DbSet<PaymentModel> Payments { get; set; }
         public DbSet<ProductPrinterModel> ProductPrinters { get; set; }
+        public DbSet<ProductPortionModel> ProductPortions { get; set; }
+        public DbSet<ProductMenuModel> ProductMenus{ get; set; }
 
     }
 
