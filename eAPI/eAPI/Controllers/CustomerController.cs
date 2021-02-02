@@ -155,6 +155,10 @@ namespace eAPI.Controllers
             }
             else
             {
+                //var sss = JsonSerializer.Serialize(db.Database.ExecuteSqlRaw($"delete tbl_customer_business_branch where customer_id = {p.id}"));
+                db.Database.ExecuteSqlRaw($"delete tbl_customer_business_branch where customer_id = '{p.id}'");
+                
+                db.CustomerBusinessBranches.AddRange(p.customer_business_branchs);
                 db.Customers.Update(p);
             }
 

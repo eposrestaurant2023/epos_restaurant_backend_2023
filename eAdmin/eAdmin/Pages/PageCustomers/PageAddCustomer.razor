@@ -3,7 +3,6 @@
 @page "/customer/clone/{clone_id}"
 @inherits PageCore
 
-
 <Loading is_loading="@is_loading" />
 
  @if (!is_loading)
@@ -35,7 +34,7 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                   <ComAddCustomerForm model="@model"/>
+                   <ComAddCustomerForm business_branches="@business_branches" model="@model"/>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
@@ -60,6 +59,7 @@
     [Parameter] public string clone_id { get; set; }
     [Parameter] public bool is_customer_exist { get; set; }
     CustomerModel model = new CustomerModel();
+    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
 
     ApiResponseModel existing_customer_info= new  ApiResponseModel();
     bool is_save_and_new , is_save_and_order;
@@ -68,7 +68,7 @@
     {
         get
         {
-            return $"customer({id})?$expand=customer_group";
+            return $"customer({id})?$expand=customer_group,customer_business_branchs";
         }
     }
 
@@ -77,7 +77,7 @@
         if (!is_loading)
         {
             is_loading = true;
-             
+
             if ((id != ""  && id != null) || (clone_id != "" && clone_id != null))
             {
                 if (id != "" && id != null)
@@ -111,7 +111,27 @@
             {
                 title = "Add New Customer";
             }
+            await LoadBusinessBranch();
             is_loading = false;
+        }
+    }
+
+    async Task LoadBusinessBranch()
+    {
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=customer_business_branchs&$filter=is_deleted eq false and status eq true");
+        if (res.IsSuccess)
+        {
+            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
+            if (!string.IsNullOrEmpty(id))
+            {
+                foreach (var p in model.customer_business_branchs)
+                {
+                    foreach (var b in business_branches.Where(r => r.id == p.business_branch_id).ToList())
+                    {
+                        b.is_selected = true;
+                    }
+                }
+            }
         }
     }
 
@@ -120,7 +140,21 @@
         if (!is_saving)
         {
             is_saving = true;
-            
+
+            //save customer business branchs
+            model.customer_business_branchs.Clear();
+            foreach (var a in business_branches.ToList())
+            {
+                if (a.is_selected)
+                {
+                    model.customer_business_branchs.Add(new CustomerBusinessBranchModel()
+                    {
+                        business_branch_id = a.id,
+                        customer_id = model.id
+                    });
+                }
+            }
+
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
             if (res.IsSuccess)
             {
