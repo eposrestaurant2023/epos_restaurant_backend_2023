@@ -62,6 +62,7 @@
                                 <tr>
                                     <Th>Product Category Name en</Th>
                                     <Th>Product Category Name Kh</Th>
+                                    <ThCenter>Status</ThCenter>
                                 </tr>
 
                                 @foreach (var s in d.product_categories)
@@ -69,6 +70,10 @@
                                     <tr>
                                         <td>@s.product_category_en</td>
                                         <td>@s.product_category_kh </td>
+                                        <TdCenter>
+                                            <LabelActive  is_visible="@s.status" is_loading="@s.is_change_status" />
+                                            <LabelInActive  is_visible="@(!s.status)" is_loading="@s.is_change_status" />
+                                        </TdCenter>
                                     </tr>
                                 }
 
@@ -109,7 +114,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=product_categories($select=product_category_en,product_category_kh,id;$filter= is_deleted eq false)";
+            api_url = $"{ControllerApi}?$expand=product_categories($select=product_category_en,status,product_category_kh,id;$filter= is_deleted eq false)";
         }
 
         var resp = await http.ApiGetOData(api_url);

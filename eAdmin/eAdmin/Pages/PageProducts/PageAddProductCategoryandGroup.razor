@@ -51,6 +51,7 @@
                                         <div class="uk-width-expand">
                                             <TextInput label="Product Category Name En " @bind-text="@s.product_category_en" />
                                             <TextInput label="Product Category Name Kh" @bind-text="@s.product_category_kh" />
+                                            <SelectStatus @bind-selected_value="@s.status" />
                                         </div>
                                         <div class="uk-width-auto">
                                             <Icon icon="delete" OnClick="@(()=>Delete_Product_Category(s))" />
@@ -91,7 +92,7 @@
         {
             string query = ControllerApi;
             query = query + $"({id})?";
-            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh)";
+            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status)";
 
             return query;
 
@@ -158,7 +159,7 @@
         {
             api_url = ControllerApi;
             api_url = api_url + $"({id})?";
-            api_url = api_url + "$expand=product_categories($select=id,product_category_en,product_category_kh;$filter= is_deleted eq false),";
+            api_url = api_url + "$expand=product_categories($select=id,product_category_en,product_category_kh,status;$filter= is_deleted eq false),";
 
 
         }

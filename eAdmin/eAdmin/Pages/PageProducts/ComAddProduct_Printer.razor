@@ -30,14 +30,10 @@
         <TabItem>
             @foreach (var p in gv.printers.Where(r=>r.business_branch_id==b.id))
             {
-                @if (model.product_printers.Where(r => r.is_deleted == false && r.printer_id == p.id).Any())
-                {
-                    <ComInputCheckBox label="@p.printer_name" value="true" valueChanged="@(()=>PrinterChanged(p))" />
-                }
-                else
-                {
-                    <ComInputCheckBox label="@p.printer_name" value="false" valueChanged="@(()=>PrinterChanged(p))" />
-                }
+                
+                    <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(()=>PrinterChanged(p))" />
+                
+                
 
             }
 
@@ -57,6 +53,7 @@
 
     [Parameter] public ProductModel model { get; set; }
     [Parameter] public EventCallback< ProductModel> modelChanged { get; set; }
+
 
     async Task PrinterChanged(PrinterModel p)
     {

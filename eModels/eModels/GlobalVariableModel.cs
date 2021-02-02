@@ -32,7 +32,7 @@ namespace eModels
         public List<ProductGroupModel> product_groups { get; set; }
         public List<ProductCategoryModel> product_categories { get; set; }
         public List<CustomerGroupModel> customer_groups { get; set; }
-        public List<BusinessBranchModel> bussiness_branches{ get; set; }
+        public List<BusinessBranchModel> bussiness_branches { get; set; }
         public List<PrinterModel> printers{ get; set; }
         public List<CategoryNoteModel> category_notes { get; set; }
 
