@@ -1,0 +1,235 @@
+﻿@page "/discountcode"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Discount Code"/>
+    <PageContainer roles="@gv.GetRole("discount_code")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                      Discount Code
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+        </PageHeader>
+
+        <PageBody>
+            <UIGridCenter>
+                <UIContainerBox Title="Discound Code" is_show_add_button="true" OnAddClick="@OnOpenModel">
+                    @foreach (var d in models)
+                    {
+                        <div class="container-layout">
+                            <div class="title-header">
+                                <div class="uk-panel">
+                                    <div class="uk-float-left">
+                                        <span>@d.business_branch?.business_branch_name_en</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div>
+                                <div class="uk-grid-small" uk-grid>
+                                    <div class="uk-width-expand">
+                                        <table>
+                                            <tr>
+                                                <th>Discound Code Label</th>
+                                                <td>@d.discount_label</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Discound Code Value</th>
+                                                <td>@d.discount_value.ToString(gv.quantity_format)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="uk-width-auto">
+                                        <div class="uk-flex uk-flex-inline">
+                                            <div>
+                                                <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                                <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                            </div>
+                                            <div>
+                                                <Icon OnClick="@(()=>OnEdit(d.id))" icon="edit"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </UIContainerBox>
+            </UIGridCenter>
+        </PageBody>
+
+
+
+    </PageContainer>
+
+
+
+
+    <EditFormContext model="@discount_code" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
+        <SelectGUID Items="business_branh" @bind-SelectedValue="@discount_code.business_branch_id" InputLabel="Business Branch" EmptyText="Select Business Branch" ShowEmptyText="true">
+            <SelectOptions Context="b">
+                <option value="@b.id">@b.business_branch_name_en</option>
+            </SelectOptions>
+            <ValidationTemplate>
+                <ValidationMessage For="@(() => discount_code.business_branch_id )" />
+            </ValidationTemplate>
+        </SelectGUID>
+        <TextInput label="Discound code label" @bind-text="@discount_code.discount_label" />
+        <NumberInput label="Discount code value" @bind-text="@discount_code.discount_value" />
+
+    </EditFormContext>
+
+
+}
+
+@code{
+    string guid = Guid.NewGuid().ToString();
+    bool ShowModal = false;
+    List<DiscountCodeModel> models = new List<DiscountCodeModel>();
+    [Parameter] public bool IsSubmitting { get; set; } = false;
+    DiscountCodeModel discount_code { get; set; } = new DiscountCodeModel();
+    List<BusinessBranchModel> business_branh = new List<BusinessBranchModel>();
+    string ControllerApi = "DiscountCode";
+    string ModalTitle = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        await LoadBusinessBranch("");
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}?$expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh,address_en,address_kh)";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            models = JsonSerializer.Deserialize<List<DiscountCodeModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        discount_code.business_branch = null;
+        var res = await http.ApiPost("DiscountCode/save", discount_code);
+        if (res.IsSuccess)
+        {
+            toast.Add("Save sucessfully", MatToastType.Success);
+
+            await LoadData();
+        }
+        else
+        {
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+        }
+
+        ShowModal = false;
+        discount_code = new DiscountCodeModel();
+        is_saving = false;
+
+    }
+
+
+    void OnOpenModel()
+    {
+        ShowModal = !ShowModal;
+    }
+
+    async Task OnEdit(int id)
+    {
+        is_loading_data = true;
+        var get_result = await http.ApiGet($"DiscountCode({id})");
+        if (get_result.IsSuccess)
+        {
+            discount_code = JsonSerializer.Deserialize<DiscountCodeModel>(get_result.Content.ToString());
+            ModalTitle = "Edit" + ": " + discount_code.discount_label;
+            ShowModal = true;
+        }
+        is_loading_data = false;
+    }
+
+
+    async Task LoadBusinessBranch(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = "BusinessBranch";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            business_branh = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+    async Task OnDelete(DiscountCodeModel v)
+    {
+        is_loading_data = true;
+        v.is_loading = true;
+        if (await js.Confirm("Are You Sure To Delete"))
+        {
+            var postr = await http.ApiPost($"{ControllerApi}/delete/{v.id}");
+            if (postr.IsSuccess)
+            {
+                await js.Toast("Deleted Sucessfully", AlertType.success);
+            }
+        }
+        v.is_loading = false;
+        is_loading_data = false;
+    }
+
+    void AddNew()
+    {
+        discount_code = new DiscountCodeModel();
+        ShowModal = true;
+    }
+
+    async Task Activebutton(DiscountCodeModel b)
+    {
+
+        b.is_change_status = true;
+        await Task.Delay(1000);
+        b.status = !b.status;
+
+        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+        }
+
+        b.is_change_status = false;
+
+    }
+}

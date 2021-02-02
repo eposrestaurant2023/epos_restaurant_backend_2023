@@ -12,7 +12,9 @@
             <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name"/></td>
             <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address"/></TdCenter>
             <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port"/></TdCenter>
-            <td><Button icon="delete" OnClick="@(()=>DeletePrinter(p))" /></td>
+            <TdCenter>
+                <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))"/>
+            </TdCenter>
             
         </tr>
     }

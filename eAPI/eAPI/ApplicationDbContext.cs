@@ -96,6 +96,7 @@ namespace eAPI
         public DbSet<PriceRuleModel> PriceRules { get; set; }      
         public DbSet<ProductPriceModel> ProductPrices { get; set; }      
         public DbSet<ProductPrinterModel> ProductPrinters { get; set; }      
+        public DbSet<DiscountCodeModel> DiscountCodes { get; set; }      
 
     }
 

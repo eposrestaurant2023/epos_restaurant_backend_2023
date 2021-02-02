@@ -195,8 +195,21 @@ namespace eAdmin.Pages.PageCustomers
 
         public async Task FilterClick()
         {
-            
-
+            state.filters.RemoveAll(r => r.filter_info_text != "");
+            // customer group
+            if (state.customer_group != null && state.customer_group.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "customer_group_id",
+                    value1 = state.customer_group.id.ToString(),
+                    filter_title = "Customer Group",
+                    state_property_name = "customer_group",
+                    filter_info_text = state.customer_group.customer_group_name_en,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
             state.pager.current_page = 1;
             await LoadData();
         }

@@ -1,5 +1,5 @@
 ﻿
-<EditFormContext Cancel_Click="Cancel_click" model="setting" is_opened="is_dialog_open" title="@title" Save_Click="SaveSetting_Click" is_submitting="setting.is_saving">   
+<EditFormContext Cancel_Click="Cancel_click" model="setting" is_opened="is_dialog_open" title="@title" Save_Click="SaveSetting_Click" is_submitting="setting.is_saving" modal_width="800px">   
     @if (setting.input_type == "date")
     {
         <ComSelectDateFormat label="Date Format" @bind-selected_value="@setting.setting_value" />
