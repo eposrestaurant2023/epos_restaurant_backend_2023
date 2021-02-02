@@ -144,6 +144,7 @@ namespace eAPI
             odataBuilder.EntitySet<StationModel>("Station");
             odataBuilder.EntitySet<TableGroupModel>("TableGroup");
             odataBuilder.EntitySet<TableModel>("Table");
+            odataBuilder.EntitySet<DiscountCodeModel>("DiscountCode");
 
             return odataBuilder.GetEdmModel();
         }

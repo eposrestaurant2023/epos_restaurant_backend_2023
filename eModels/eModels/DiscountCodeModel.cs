@@ -1,8 +1,9 @@
-﻿using System;
+﻿using eModels.Attribute;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
+using System.Text.RegularExpressions;
 
 namespace eModels
 {
@@ -10,6 +11,8 @@ namespace eModels
     public class DiscountCodeModel    : CoreModel
     {
         [Required(ErrorMessage = "Please select a business branch.")]
+
+        [GuidNotEmpty(ErrorMessage = "Please select a business branch.")]
         public Guid business_branch_id{ get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch{ get; set; }
