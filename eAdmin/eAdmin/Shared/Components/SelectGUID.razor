@@ -5,7 +5,7 @@
         <Icon className="uk-form-icon" icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" />
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small">
             <Com is_visible="@ShowEmptyText">
-                <option value="0">@EmptyText</option>
+                <option value="@(Guid.Empty)">@EmptyText</option>
             </Com>
             @foreach (var item in Items)
             {
@@ -20,7 +20,7 @@
         <Icon className="uk-form-icon" icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" />
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small">
             <Com is_visible="@ShowEmptyText">
-                <option value="0">@EmptyText</option>
+                <option value="@(Guid.Empty)">@EmptyText</option>
             </Com>
             @foreach (var item in Items)
             {
@@ -44,8 +44,7 @@
     [Parameter] public EventCallback ValueHasChanged { get; set; }
 
     Guid id = Guid.NewGuid();
-
-    [Parameter] public RenderFragment<TItem> SelectOptions { get; set; }
+[Parameter] public RenderFragment<TItem> SelectOptions { get; set; }
     [Parameter] public RenderFragment ValidationTemplate { get; set; }
     [Parameter] public RenderFragment AddOptionTemplate { get; set; }
     [Parameter] public IReadOnlyList<TItem> Items { get; set; }

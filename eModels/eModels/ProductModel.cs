@@ -55,7 +55,7 @@ namespace eModels
         [MaxLength(250)]
         public string product_name_kh { get; set; }   
 
-        public string image_name { get; set; } = "placeholder.png";
+        public string photo { get; set; } = "placeholder.png";
         public string note { get; set; }
 
         public string unit { get; set; } = "Unit";
