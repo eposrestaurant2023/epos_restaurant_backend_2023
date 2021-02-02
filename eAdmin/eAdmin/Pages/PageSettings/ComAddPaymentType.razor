@@ -10,14 +10,14 @@
         </TextInput>
         <NumberInputInt @bind-text="@payment_type.sort_order" label="Sort Order" width="100%" />
         <TextInput label="Note" @bind-text="@payment_type.note" type="textarea" />
-        <SelectCurrency show_empty="true" @bind-selected_value="@payment_type.currency_id">
+        <SelectCurrency show_empty="true" @bind-selected_value="@payment_type.currency_id" empty_text="Select Currency">
             <ValidationMessage For="@(()=>payment_type.currency_id)"/>
         </SelectCurrency>
-        <SelectStatus @bind-selected_value="@payment_type.status" />
+        <SelectStatus @bind-selected_value="@payment_type.status"/>
         @foreach (var b in business_branches)
         {
-            <div><ComInputCheckBox @bind-value="b.is_selected" /></div>
-            <div>@b.business_branch_name_en</div>
+            <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" /></div>
+            
         }
     </EditFormContext>
 

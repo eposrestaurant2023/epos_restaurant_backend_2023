@@ -1,0 +1,120 @@
+﻿@page "/product/{id:int}"
+@inject IHttpService http;
+@inject NavigationManager nav; 
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+
+@if (!is_loading)
+{
+
+    <Title Value="Product Detail"></Title>
+    <PageContainer roles="@gv.GetRole("product_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @model.product_display_name
+                        <LabelDeleted is_visible="@model.is_deleted" />
+                        <LabelActive is_visible="@(!model.is_deleted && model.status)" />
+                        <LabelInActive is_visible="@(!model.is_deleted && !model.status)" />
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"product/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+                <ComAttachFileButton RoleAdd="@gv.GetRole("product_add")"
+                                     RoleEdit="@gv.GetRole("product_edit")"
+                                     RoleDelete="@gv.GetRole("product_delete")"
+                                     ApiFilter="@($"product_id eq {id} ")"
+                                     File="@(new AttachFilesModel() { product_id =  id })"
+                                     IsVisible="@(!model.is_deleted)" />
+
+                <AddButton url="product/new" roles="@gv.GetRole("product_add")">New Product</AddButton>
+
+                <MoreButton is_loading="@model.is_loading">
+                    <MoreButtonItem roles="@gv.GetRole("product_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">Clone</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="OnChangeStatus">Inactive</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="OnChangeStatus">Active</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("product_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@OnDelete">Delete</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("product_restore")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@OnRestore">Restore</MoreButtonItem>
+
+                </MoreButton>
+                <RefreshButton OnClick="@LoadData" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab>
+                <TabHeader>
+                    <TabHeaderItem>General Information</TabHeaderItem>
+                    <TabHeaderItem>Sale History</TabHeaderItem>
+                    <TabHeaderItem>Purchase History</TabHeaderItem>
+                    <TabHeaderItem>Inventory Transaction</TabHeaderItem>
+                    <TabHeaderItem>Recipe</TabHeaderItem>
+                    <TabHeaderItem>Comment  and History</TabHeaderItem>
+                    
+                </TabHeader>
+                <TabBody>
+                    <TabItem>
+                        <ComProductDetail_ProductInformation model="@model"/>
+                    </TabItem>
+
+                </TabBody>
+            </Tab>
+             
+        </PageBody>
+    </PageContainer>
+}
+
+@code{
+    [Parameter] public int id { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    public ProductModel model { get; set; }
+    bool is_loading, is_loading_data;
+
+    public string api_url { get {
+
+            return $"Product({id})";
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+    async Task LoadData()
+    {
+        is_loading = true;
+        var resp =await http.ApiGet(api_url);
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+        }
+        is_loading = false;
+
+    }
+
+    async Task OnDelete()
+    {
+
+        await Task.Delay(100);
+    }
+    async Task OnRestore()
+    {
+
+        await Task.Delay(100);
+    }
+    async Task OnChangeStatus()
+    {
+
+        await Task.Delay(100);
+    }
+
+
+}
+
+ 
