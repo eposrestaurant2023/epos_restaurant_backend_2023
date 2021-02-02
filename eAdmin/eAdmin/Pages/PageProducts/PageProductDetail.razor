@@ -1,0 +1,67 @@
+﻿@page "/product/{id:int}"
+@inject IHttpService http;
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+
+@if (!is_loading)
+{
+
+    <Title Value="Product Detail"></Title>
+    <PageContainer roles="@gv.GetRole("product_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @model.product_display_name
+                        <LabelDeleted is_visible="@model.is_deleted" />
+                        <LabelActive is_visible="@(!model.is_deleted && model.status)" />
+                        <LabelInActive is_visible="@(!model.is_deleted && !model.status)" />
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+             
+        </PageBody>
+    </PageContainer>
+}
+
+@code{
+    [Parameter] public int id { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    public ProductModel model { get; set; }
+    bool is_loading, is_loading_data;
+
+    public string api_url { get {
+
+            return $"Product({id})";
+        } }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData()
+    {
+        is_loading = true;
+        var resp =await http.ApiGet(api_url);
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+        }
+        is_loading = false;
+
+    }
+
+}
+
+ 

@@ -100,11 +100,13 @@ namespace eAdmin.Shared
                     api_url = api_url + "settings,";
                     api_url = api_url + "currencies,";
                     api_url = api_url + "business_info,";
+                    api_url = api_url + "business_branches,";
                     api_url = api_url + "roles,";
                     api_url = api_url + "product_types,";
                     api_url = api_url + "countries,";
                     api_url = api_url + "outlets,";
                     api_url = api_url + "stock_locations($expand=outlet),";
+                    api_url = api_url + "printers,";
                     api_url = api_url + "vendors";
                  
                     GetResponse res = await http.ApiGet(api_url);

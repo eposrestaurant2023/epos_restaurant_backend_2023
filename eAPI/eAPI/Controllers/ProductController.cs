@@ -26,15 +26,36 @@ namespace eAPI.Controllers
         }
 
 
+
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        
-        public IQueryable<ProductModel> Get()
+        public IQueryable<ProductModel> Get(string keyword = "")
         {
-              return db.Products;
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return db.Products.Where(r =>
+                (
+                (r.product_code ?? "") +
+                (r.product_name_en ?? "") +
+                (r.product_name_kh ?? "") 
+                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
+            }
+            else
+            {
+                return db.Products;
+            }
         }
 
-        
+
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        [Route("getsingle")]
+        public async Task<SingleResult<ProductModel>> Get([FromODataUri] int key)
+        {
+            return await Task.Factory.StartNew(() => SingleResult.Create<ProductModel>(db.Products.Where(r => r.id == key).AsQueryable()));
+        }
+
+
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {

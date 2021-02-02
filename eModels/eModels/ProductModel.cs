@@ -19,12 +19,7 @@ namespace eModels
 
         
          
-
-        [Required(ErrorMessage = "Please select a product type.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a product type.")]
-        public int product_type_id { get; set; } = 1; //Default Product
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
+ 
 
 
         [Required(ErrorMessage = "Please select a category.")]
@@ -32,7 +27,6 @@ namespace eModels
         public int product_category_id { get; set; }
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
-
         [MaxLength(50)]
         public string product_code { get; set; }
 
@@ -96,7 +90,21 @@ namespace eModels
                 return (string.IsNullOrEmpty(product_code) ? "" : (product_code + " - ")) + "" + product_name_en;
             }
         }
-    }  
-    
-     
+    }
+
+
+    [Table("tbl_product_printer")]
+    public class ProductPrinterModel
+    {
+        [Key]
+        public int id { get; set; }
+        public int printer_id { get; set; }
+        [ForeignKey("printer_id")]
+        public PrinterModel printer { get; set; }
+        public int product_id { get; set; }
+        [ForeignKey("product_id")]
+        public ProductModel product{ get; set; }
+
+    }
+
 }
