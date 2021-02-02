@@ -28,47 +28,56 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        
+        [AllowAnonymous]
         public IQueryable<ProductGroupModel> Get()
         {
-              return db.ProductGroups;
+
+            return db.ProductGroups;
+
         }
 
-        
+
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductGroupModel u)
         {
-            
+
+
+
             if (u.id == 0)
             {
-
                 db.ProductGroups.Add(u);
             }
             else
             {
-                
                 db.ProductGroups.Update(u);
             }
-            
+
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
 
 
         }
 
-      
-
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ProductGroupModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<ProductGroupModel>> DeleteRecord(int id) //Delete
         {
             var u = await db.ProductGroups.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-            
+
             db.ProductGroups.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
+        }
+
+        [HttpGet("find")]
+        [EnableQuery(MaxExpansionDepth = 4)]
+        public SingleResult<ProductGroupModel> Get([FromODataUri] int key)
+        {
+            var s = db.ProductGroups.Where(r => r.id == key).AsQueryable();
+
+            return SingleResult.Create(s);
         }
     }
 
