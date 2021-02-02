@@ -15,7 +15,6 @@
     <TextInput label="Name(KH)" @bind-text="@model.customer_name_kh" />
     <TextInput label="Phone 1" @bind-text="@model.phone_1" />
     <TextInput label="Phone 2" @bind-text="@model.phone_2" />
-    @model.customer_group_id
     <SelectCustomerGroup @bind-selected_value="model.customer_group_id" show_empty="true">
         <ValidationMessage For="@(()=>model.customer_group_id)"/>
     </SelectCustomerGroup>
