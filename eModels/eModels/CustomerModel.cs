@@ -22,12 +22,7 @@ namespace eModels
 
 
         [Required(ErrorMessage = "Please select a customer group.")]
-        public Guid business_branch_id { get; set; }
-        [ForeignKey("business_branch_id")]
-        public BusinessBranchModel business_branch { get; set; }
-
-
-        [Required(ErrorMessage = "Please select a customer group.")]
+        [Range(1,int.MaxValue,ErrorMessage = "Please select a customer group.")]
         public int customer_group_id { get; set; }
         [ForeignKey("customer_group_id")]
         public CustomerGroupModel customer_group { get; set; }

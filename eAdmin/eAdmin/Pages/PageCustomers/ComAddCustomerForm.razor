@@ -15,17 +15,15 @@
     <TextInput label="Name(KH)" @bind-text="@model.customer_name_kh" />
     <TextInput label="Phone 1" @bind-text="@model.phone_1" />
     <TextInput label="Phone 2" @bind-text="@model.phone_2" />
-    <SelectGender @bind-selected_value="model.gender" />
-     
+    <SelectCustomerGroup @bind-selected_value="model.customer_group_id" show_empty="true">
+        <ValidationMessage For="@(()=>model.customer_group_id)"/>
+    </SelectCustomerGroup>
+    <SelectGender @bind-selected_value="model.gender" />     
     <SelectStatus @bind-selected_value="@model.status" />
 </UIContainerBox>
-
  
-
 <UIContainerBox Title="Other information">
-   
-    <SelectCountry @bind-selected_value="@model.nationality" show_empty="true" />
- 
+   <TextInput label="Country" @bind-text="@model.nationality"/> 
 </UIContainerBox>
 
 <UIContainerBox Title="Social Media Information">
@@ -51,16 +49,7 @@
         </TabBody>
     </Tab>
 </UIContainerBox>
- 
 
-
-@code {
-
- 
-    [Parameter] public CustomerModel model { get; set; }
- 
-
-    
-
-    
+@code {     
+    [Parameter] public CustomerModel model { get; set; }    
 }

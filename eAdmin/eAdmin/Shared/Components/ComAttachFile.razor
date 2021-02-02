@@ -58,19 +58,19 @@
                     }
                     else if (f.file_extension == ".docx")
                     {
-                        <a target="_blank" href="Upload/@f.file_name">
-                            <img src="@image_url("doc.png")" class="uk-image" width="70" />
+                        <a target="_blank" href="@config["BaseUrl"]Upload/@f.file_name">
+                            <img src="@image_url("docx.png")" class="uk-image" width="70" />
                         </a>
                     }
                     else if (f.file_extension == ".xlsx" || f.file_extension == ".xls")
                     {
-                        <a target="_blank" href="Upload/@f.file_name">
+                        <a target="_blank" href="@config["BaseUrl"]Upload/@f.file_name">
                             <img src="@image_url("xls.png")" class="uk-image" width="70" />
                         </a>
                     }
                     else if (f.file_extension == ".pdf")
                     {
-                        <a target="_blank" href="Upload/@f.file_name">
+                        <a target="_blank" href="@config["BaseUrl"]Upload/@f.file_name">
                             <img src="@image_url("pdf.png")" class="uk-image" width="70" />
                         </a>
                     }
@@ -177,7 +177,7 @@
         //check if file extension 
         FileInfo _file = new FileInfo(uploaded_file.Name);
         var file_extension = _file.Extension.ToLower();
-        List<string> accept_extension = new List<string>(new string[] { ".jpg", ".png", ".jpeg", ".xls", ".cvs", ".doc", ".pdf" });
+        List<string> accept_extension = new List<string>(new string[] { ".jpg", ".png", ".jpeg", ".xls", ".xlsx", ".cvs", ".docx", ".pdf" });
         if (!accept_extension.Contains(file_extension))
         {
             toast.Add("Incorrect File Extension", MatToastType.Warning);

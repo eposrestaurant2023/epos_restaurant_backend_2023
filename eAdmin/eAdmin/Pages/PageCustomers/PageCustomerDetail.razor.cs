@@ -11,7 +11,7 @@ namespace eAdmin.Pages.PageCustomers
 {
     public class PageCustomerDetails : PageCore
     {
-        [Parameter] public Guid id { get; set; }
+        [Parameter] public string id { get; set; }
         public CustomerModel model { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";
@@ -25,7 +25,7 @@ namespace eAdmin.Pages.PageCustomers
             get
             {
                 string query = $"{controller_api}({id})";
-                query += $"?$expand=customer_group,created_outlet,customer_health_issues($expand=health_issue)";   
+                query += $"?$expand=customer_group";   
                 return query;
             }
         }
