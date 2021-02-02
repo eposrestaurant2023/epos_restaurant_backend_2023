@@ -6,7 +6,7 @@
             {
                 <option value="0">@empty_text</option>
             }
-            @foreach (var p in gv.product_group)
+            @foreach (var p in gv.product_groups)
             {
                 <option value="@p.id">@p.product_group_en</option>
             }
@@ -51,7 +51,7 @@
         }
         else
         {
-            await product_groupChanged.InvokeAsync(gv.product_group.Where(r => r.id == selected_value).FirstOrDefault());
+            await product_groupChanged.InvokeAsync(gv.product_groups.Where(r => r.id == selected_value).FirstOrDefault());
         }
 
     }
