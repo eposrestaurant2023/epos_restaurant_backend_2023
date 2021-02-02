@@ -46,6 +46,7 @@ namespace eAPI.Controllers
             gv.stock_locations = db.StockLocations.ToList();
             gv.outlets = db.Outlets.ToList();
             gv.vendors = db.Vendors.ToList();
+            gv.category_notes = db.CategoryNotes.ToList();
             gv.bussiness_branches = db.BusinessBranches.ToList();
             gv.printers = db.Printers.ToList();
 

@@ -1,0 +1,37 @@
+﻿@inherits PageCore;
+
+<EditFormContext Save_Click="@SavePaymentType_Click" Cancel_Click="Cancel_click" model="@note" is_opened="is_dialog_open" title="@modal_title" modal_width="800px">
+    <SelectBusinessBranch show_empty="true" @bind-selected_value="@note.business_branch_id">
+        <ValidationMessage For="@(()=>note.business_branch_id)"/>
+    </SelectBusinessBranch>
+    <SelectCategoryNote show_empty="true" @bind-selected_value="@note.category_note_id">
+        <ValidationMessage For="@(()=>note.category_note_id)"/>
+    </SelectCategoryNote>
+    <TextInput type="textarea" label="note" @bind-text="@note.note"/>
+    <SelectStatus @bind-selected_value="@note.status" />
+</EditFormContext>
+
+@code{
+    [Parameter] public string modal_title { get; set; }
+    [Parameter] public bool is_dialog_open { get; set; } = false;
+    [Parameter] public EventCallback<MouseEventArgs> Save_Click { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
+    [Parameter] public NoteModel note { get; set; }
+
+    protected async Task SavePaymentType_Click()
+    {
+        is_saving = true;
+        var post = await http.ApiPost("note/Save", note);
+        if (post.IsSuccess)
+        {
+            toast.Add("Save Successfully!", MatToastType.Success);
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+        await Save_Click.InvokeAsync();
+        is_saving = false;
+    }
+
+}
