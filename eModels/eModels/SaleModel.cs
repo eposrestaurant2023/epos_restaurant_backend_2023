@@ -28,7 +28,7 @@ namespace eModels
 
         [Column(TypeName = "date")]
         public DateTime sale_date { get; set; } = DateTime.Now;
-        public int customer_id { get; set; }
+        public Guid customer_id { get; set; }
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
         public string customer_note { get; set; }
