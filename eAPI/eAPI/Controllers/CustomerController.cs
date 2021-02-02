@@ -72,7 +72,7 @@ namespace eAPI.Controllers
             //check validation customer duplicate 
 
             //check if customer name is duplicate 
-            if (!allow_duplicate_name)
+            if (1==2)
             {
                 List<CustomerModel> check_data = db.Customers.Where(r => r.customer_name_en.Trim().ToLower() == p.customer_name_kh.Trim().ToLower() && r.id != p.id).Include(r => r.customer_group).ToList();
                 if (check_data.Any())
@@ -156,9 +156,9 @@ namespace eAPI.Controllers
             else
             {
                 //var sss = JsonSerializer.Serialize(db.Database.ExecuteSqlRaw($"delete tbl_customer_business_branch where customer_id = {p.id}"));
-                db.Database.ExecuteSqlRaw($"delete tbl_customer_business_branch where customer_id = '{p.id}'");
-                
+                db.Database.ExecuteSqlRaw($"delete tbl_customer_business_branch where customer_id = '{p.id}'");                
                 db.CustomerBusinessBranches.AddRange(p.customer_business_branchs);
+
                 db.Customers.Update(p);
             }
 
@@ -193,17 +193,5 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
-
-        [HttpPost]
-        [Route("clone/{id}")]
-        public async Task<ActionResult<CustomerModel>> CloneRecord(Guid id) //Delete
-        {
-            var u = await db.Customers.FindAsync(id);
-            u.customer_code = "New";
-            u.id = new Guid();
-            u.created_date = DateTime.Now;
-            return Ok(u);
-        }
-
     }
 }

@@ -150,6 +150,7 @@ namespace eAPI
             odataBuilder.EntitySet<ProductGroupModel>("ProductGroup");
             odataBuilder.EntitySet<ProductModel>("Product");
             odataBuilder.EntitySet<SaleModel>("Sale");
+            odataBuilder.EntitySet<ProductPrinterModel>("ProductPrinter");
 
             return odataBuilder.GetEdmModel();
         }

@@ -16,11 +16,11 @@ namespace eAPI.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ProductGroupController : ODataController
+    public class ProductPrinterController : ODataController
     {
 
         private readonly ApplicationDbContext db;
-        public ProductGroupController(ApplicationDbContext _db)
+        public ProductPrinterController(ApplicationDbContext _db)
         {
             db = _db;
         }
@@ -28,56 +28,47 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        [AllowAnonymous]
-        public IQueryable<ProductGroupModel> Get()
+        
+        public IQueryable<ProductPrinterModel> Get()
         {
-
-            return db.ProductGroups;
-
+              return db.ProductPrinters;
         }
 
-
+        
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] ProductGroupModel u)
+        public async Task<ActionResult<string>> Save([FromBody] ProductPrinterModel u)
         {
-
-
-
+            
             if (u.id == 0)
             {
-                db.ProductGroups.Add(u);
+
+                db.ProductPrinters.Add(u);
             }
             else
             {
-                db.ProductGroups.Update(u);
+                
+                db.ProductPrinters.Update(u);
             }
-
+            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
 
 
         }
 
+      
+
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ProductGroupModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<ProductPrinterModel>> DeleteRecord(Guid id) //Delete
         {
-            var u = await db.ProductGroups.FindAsync(id);
+            var u = await db.ProductPrinters.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-
-            db.ProductGroups.Update(u);
+            
+            db.ProductPrinters.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
-        }
-
-        [HttpGet("find")]
-        [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<ProductGroupModel> Get([FromODataUri] int key)
-        {
-            var s = db.ProductGroups.Where(r => r.id == key).AsQueryable();
-
-            return SingleResult.Create(s);
         }
     }
 

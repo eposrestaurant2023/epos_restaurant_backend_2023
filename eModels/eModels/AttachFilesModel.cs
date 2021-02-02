@@ -32,6 +32,9 @@ namespace eModels
         public Guid customer_id { get; set; }
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
+        public int product_id { get; set; }
+        [ForeignKey("product_id")]
+        public ProductModel product { get; set; }
 
     }
 

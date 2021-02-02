@@ -14,7 +14,8 @@ namespace eModels
     {
         public ProductModel()
         {      
-            histories = new List<HistoryModel>();   
+            histories = new List<HistoryModel>();
+            product_printers = new List<ProductPrinterModel>();
         }
 
         
@@ -90,6 +91,9 @@ namespace eModels
                 return (string.IsNullOrEmpty(product_code) ? "" : (product_code + " - ")) + "" + product_name_en;
             }
         }
+
+
+        public List<ProductPrinterModel> product_printers { get; set; }
     }
 
 
@@ -104,6 +108,8 @@ namespace eModels
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product{ get; set; }
+
+        public bool is_deleted { get; set; } = false;
 
     }
 

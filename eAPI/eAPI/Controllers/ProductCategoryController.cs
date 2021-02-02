@@ -28,47 +28,56 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        
+        [AllowAnonymous]
         public IQueryable<ProductCategoryModel> Get()
         {
-              return db.ProductCategories;
+
+            return db.ProductCategories;
+
         }
 
-        
+
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductCategoryModel u)
         {
-            
+
+
+
             if (u.id == 0)
             {
-
                 db.ProductCategories.Add(u);
             }
             else
             {
-                
                 db.ProductCategories.Update(u);
             }
-            
+
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
 
 
         }
 
-      
-
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ProductCategoryModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<ProductCategoryModel>> DeleteRecord(int id) //Delete
         {
             var u = await db.ProductCategories.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-            
+
             db.ProductCategories.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
+        }
+
+        [HttpGet("find")]
+        [EnableQuery(MaxExpansionDepth = 4)]
+        public SingleResult<ProductCategoryModel> Get([FromODataUri] int key)
+        {
+            var s = db.ProductCategories.Where(r => r.id == key).AsQueryable();
+
+            return SingleResult.Create(s);
         }
     }
 
