@@ -30,7 +30,7 @@
                 <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectOutlet @bind-outlet="@state.outlet" show_empty="true" empty_text="All Outlet" />
+                    @*<SelectOutlet @bind-outlet="@state.outlet" show_empty="true" empty_text="All Outlet" />*@
                     <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="All Customer Group" />
                 </ComSearch>
             </HeaderRight>
