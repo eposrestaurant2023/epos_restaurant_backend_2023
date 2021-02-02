@@ -19,7 +19,7 @@ namespace eModels
         public bool is_inventory_product { get; set; }
         public bool is_fulfilled { get; set; }
         public decimal multiplier { get; set; } = 1;
-        public int sale_id { get; set; }
+        public Guid sale_id { get; set; }
         [ForeignKey("sale_id")]
         public SaleModel sale { get; set; }
         public int product_id { get; set; }

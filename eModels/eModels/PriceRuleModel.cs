@@ -50,4 +50,7 @@ namespace eModels
         [ForeignKey("price_rule_id")]
         public PriceRuleModel price_rule { get; set; }
     }
+
+
+
 }

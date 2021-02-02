@@ -24,7 +24,7 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime payment_date { get; set; } = DateTime.Now;
 
-        public int? sale_id { get; set; }
+        public Guid? sale_id { get; set; }
         [ForeignKey("sale_id")]
         public SaleModel sale { get; set; }
 

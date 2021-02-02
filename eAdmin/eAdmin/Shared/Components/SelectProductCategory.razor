@@ -20,7 +20,7 @@
                 {
                     <option value="0">@empty_text</option>
                 }
-                @foreach (var p in product_categories)
+                @foreach (var p in gv.product_categories.Where(r=>r.is_deleted ==false))
                 {
                     <option value="@p.id">@p.product_category_en</option>
                 }
@@ -28,16 +28,16 @@
         }
         else
         {
-            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((String)ui.Value))" class="uk-select uk-form-small @width">
-                @if (show_empty)
-                {
-                    <option value="0">@empty_text</option>
-                }
-                @foreach (var p in product_categories)
-                {
-                    <option value="@p.id">@p.product_category_en</option>
-                }
-            </select>
+    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((String)ui.Value))" class="uk-select uk-form-small @width">
+        @if (show_empty)
+        {
+            <option value="0">@empty_text</option>
+        }
+        @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false))
+        {
+            <option value="@p.id">@p.product_category_en</option>
+        }
+    </select>
         }
 
         @ChildContent
@@ -45,9 +45,11 @@
 </div>
 
 @code{
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public string line_icon { get; set; } = "";
     [Parameter] public string icon { get; set; } = "";
- 
+
     [Parameter] public int selected_value { get; set; }
     [Parameter] public ProductCategoryModel product_category { get; set; }
     [Parameter] public bool show_empty { get; set; } = false;
@@ -65,7 +67,7 @@
 
 
 
-    List<ProductCategoryModel> product_categories = new List<ProductCategoryModel>();
+
 
     public int SelectedValue
     {
@@ -85,7 +87,7 @@
         }
         else
         {
-            await product_categoryChanged.InvokeAsync(product_categories.Where(r => r.id == selected_value).FirstOrDefault());
+            await product_categoryChanged.InvokeAsync(gv.product_categories.Where(r => r.id == selected_value).FirstOrDefault());
         }
 
     }

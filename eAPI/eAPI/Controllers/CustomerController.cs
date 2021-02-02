@@ -193,17 +193,5 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
-
-        [HttpPost]
-        [Route("clone/{id}")]
-        public async Task<ActionResult<CustomerModel>> CloneRecord(Guid id) //Delete
-        {
-            var u = await db.Customers.FindAsync(id);
-            u.customer_code = "New";
-            u.id = new Guid();
-            u.created_date = DateTime.Now;
-            return Ok(u);
-        }
-
     }
 }

@@ -95,10 +95,14 @@
                 }
                 else
                 {
-                    var res = await http.ApiPost($"customer/clone/{clone_id}");
+
+                    var res = await http.ApiGet($"customer({clone_id})?$expand=customer_business_branchs");
                     if (res.IsSuccess)
                     {
                         model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                        model.customer_code = "New";
+                        model.id = new Guid();
+                        model.created_date = DateTime.Now;
                         title = $"Clone : {model.customer_name_en}";
                     }
                     else
@@ -122,7 +126,7 @@
         if (res.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(clone_id))
             {
                 foreach (var p in model.customer_business_branchs)
                 {
