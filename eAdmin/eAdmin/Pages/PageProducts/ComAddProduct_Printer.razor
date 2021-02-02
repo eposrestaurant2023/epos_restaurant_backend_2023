@@ -1,10 +1,85 @@
 ﻿<UIContainerBox Title="Printers">
+   
+    @if (gv.bussiness_branches.Count() == 1)
+    {
+        @foreach (var p in gv.printers)
+        {
+            @if (model.product_printers.Where(r => r.is_deleted == false && r.printer_id == p.id).Any())
+            {
+                <ComInputCheckBox label="@p.printer_name" value="true" valueChanged="@(()=>PrinterChanged(p))" />
+            }
+            else
+            {
+                <ComInputCheckBox label="@p.printer_name" value="false" valueChanged="@(()=>PrinterChanged(p))" />
+            }
+
+
+        }
+    }else
+    {
+<Tab>
+    <TabHeader>
+        @foreach (var b in gv.bussiness_branches)
+        {
+            <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+        }
+    </TabHeader>
+    <TabBody>
+        @foreach (var b in gv.bussiness_branches)
+        {
+        <TabItem>
+            @foreach (var p in gv.printers.Where(r=>r.business_branch_id==b.id))
+            {
+                @if (model.product_printers.Where(r => r.is_deleted == false && r.printer_id == p.id).Any())
+                {
+                    <ComInputCheckBox label="@p.printer_name" value="true" valueChanged="@(()=>PrinterChanged(p))" />
+                }
+                else
+                {
+                    <ComInputCheckBox label="@p.printer_name" value="false" valueChanged="@(()=>PrinterChanged(p))" />
+                }
+
+            }
+
+        </TabItem>
+        }
+    </TabBody>
+</Tab>
+    
+    }
+
+
 
 </UIContainerBox>
 @code {
 
-
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
     [Parameter] public ProductModel model { get; set; }
+    [Parameter] public EventCallback< ProductModel> modelChanged { get; set; }
+
+    async Task PrinterChanged(PrinterModel p)
+    {
+        p.is_selected = !p.is_selected;
+        if (p.is_selected)
+        {
+            if(model.product_printers.Where(r => r.printer_id == p.id).Any())
+            {
+                model.product_printers.Where(r => r.printer_id == p.id).FirstOrDefault().is_deleted = false;
+            }else
+            {
+                model.product_printers.Add(new ProductPrinterModel() { printer_id = p.id });
+            }
+
+        }else
+        {
+            
+                model.product_printers.Where(r => r.printer_id == p.id && r.id > 0).ToList().ForEach(r => r.is_deleted = true);
+                model.product_printers.RemoveAll(r => r.printer_id == p.id && r.id == 0);
+             
+        }
+        await modelChanged.InvokeAsync(model);
+    }
+
+
 }

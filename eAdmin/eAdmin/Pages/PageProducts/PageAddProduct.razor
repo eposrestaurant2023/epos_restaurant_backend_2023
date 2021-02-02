@@ -1,9 +1,11 @@
 ﻿@page "/product/new"
+@page "/product/edit/{id:int}"
+
 @inherits PageAddProductBase
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
  
-@if (!is_loading)
+@if (!is_loading && !is_error)
 {
 
     <Title Value="@PageTitle"></Title>
@@ -24,45 +26,47 @@
         <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click())" @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
-                 
-                    <UIContainerBox>
-                        <Grid ClassName="uk-child-width-1-3">
-                            <Column>
-                                <FileUpload @bind-ImageUrl="@model.photo" />
-                            </Column>
-                            <Column>
-                                <TextInput label="Code" text="@model.product_code">
+                @api_url
+                <UIContainerBox>
+                    <Grid ClassName="uk-child-width-1-3">
+                        <Column>
+                            <FileUpload @bind-ImageUrl="@model.photo" />
+                        </Column>
+                        <Column>
+                            <TextInput label="Code" text="@model.product_code">
 
-                                </TextInput>
-                                <TextInput label="Product Name(EN)" @bind-text="@model.product_name_en">
-                                    <ValidationMessage For="@(() => model.product_name_en)" />
-                                </TextInput>
-                                <TextInput label="Product Name(KH)" @bind-text="@model.product_name_kh" />
+                            </TextInput>
+                            <TextInput label="Product Name(EN)" @bind-text="@model.product_name_en">
+                                <ValidationMessage For="@(() => model.product_name_en)" />
+                            </TextInput>
+                            <TextInput label="Product Name(KH)" @bind-text="@model.product_name_kh" />
 
-                                <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true">
-                                    <ValidationMessage For="@(()=>model.product_category_id)" />
-                                </SelectProductCategory>
-                            </Column>
-                            <Column>
-                                <ComInputCheckBox @bind-value="@model.is_allow_discount" label="Allow Discount" />
-                                <ComInputCheckBox @bind-value="@model.is_allow_free" label="Allow Free" />
-                                <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" />
-                                <ComInputCheckBox @bind-value="@model.is_inventory_product" label="Is Inventory Product" />
+                            <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true">
+                                <ValidationMessage For="@(()=>model.product_category_id)" />
+                            </SelectProductCategory>
+                        </Column>
+                        <Column>
+                            <ComInputCheckBox @bind-value="@model.is_allow_discount" label="Allow Discount" />
+                            <ComInputCheckBox @bind-value="@model.is_allow_free" label="Allow Free" />
+                            <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" />
+                            <ComInputCheckBox @bind-value="@model.is_inventory_product" label="Is Inventory Product" />
 
-                                <SelectStatus @bind-selected_value="@model.status" />
+                            <SelectStatus @bind-selected_value="@model.status" />
 
-                            </Column>
-                        </Grid>
-                       
-                      
-                    </UIContainerBox>
+                        </Column>
+                    </Grid>
 
 
-                    <UIContainerBox Title="Note">
-                        <TextInput label="" placeholder="Note" @bind-text="@model.note" type="textarea" row="2" />
-                    </UIContainerBox>
+                </UIContainerBox>
 
-               
+                <ComAddProduct_Printer @bind-model="@model" />
+
+
+                <UIContainerBox Title="Note">
+                    <TextInput label="" placeholder="Note" @bind-text="@model.note" type="textarea" row="2" />
+                </UIContainerBox>
+
+
             </PageBody>
             <PageFooter>
                 <FooterCenter>
@@ -76,4 +80,11 @@
         </EditForm>
     </PageContainer>
 }
-
+else
+{
+    <Spinner/>
+}
+@if (is_error)
+{
+    <Error title="Product">@error_text</Error>
+}

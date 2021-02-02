@@ -72,6 +72,8 @@ namespace eAPI.Controllers
             }
             
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             return Ok(u);
 
 

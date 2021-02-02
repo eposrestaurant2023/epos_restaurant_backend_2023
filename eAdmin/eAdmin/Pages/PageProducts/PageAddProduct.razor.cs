@@ -45,6 +45,12 @@ namespace eAdmin.Pages.PageProducts
             }
         }
 
+        public string api_url { get {
+
+                string url = $"Product({id})?";
+                url = url + "$expand=product_printers";
+                return url;
+            } }
 
         public ProductModel model { get; set; } = new ProductModel();
         public bool is_save_and_new { get; set; }
@@ -62,6 +68,36 @@ namespace eAdmin.Pages.PageProducts
             }
         }
 
+
+
+        protected override async Task OnInitializedAsync()
+        {
+
+            is_loading = true;
+            if (id > 0)
+            {
+                await LoadData();
+            }
+            is_loading = false;
+        }
+
+
+        public async Task LoadData()
+        {
+            is_loading = true;
+
+            if (id > 0)
+            {
+                var resp = await http.ApiGet(api_url);
+                if (resp.IsSuccess)
+                {
+                    model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+                }
+            }
+
+            is_loading = false;
+
+        }
 
         public async Task Save_Click()
         {
