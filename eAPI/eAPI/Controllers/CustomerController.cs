@@ -193,17 +193,5 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
-
-        //[HttpGet("clone/{id}")]
-        //[EnableQuery(MaxExpansionDepth = 4)]
-        //public async Task<ActionResult<CustomerModel>> CloneRecord(Guid id) //Delete
-        //{
-        //    var u = db.Customers.Find(id);
-        //    u.customer_code = "New";
-        //    u.id = new Guid();
-        //    u.created_date = DateTime.Now;
-        //    u.created_by = "admin"; 
-        //    return Ok(u);
-        //}
     }
 }
