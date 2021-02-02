@@ -99,8 +99,7 @@ namespace eAPI
         public DbSet<SaleModel> Sales { get; set; }
         public DbSet<SaleProductModel> SaleProducts { get; set; }
         public DbSet<PaymentModel> Payments { get; set; }
-        public DbSet<ProductPrinterModel> ProductPrinters { get; set; }      
-        public DbSet<DiscountCodeModel> DiscountCodes { get; set; }      
+        public DbSet<ProductPrinterModel> ProductPrinters { get; set; }
 
     }
 
