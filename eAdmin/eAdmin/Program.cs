@@ -37,7 +37,7 @@ namespace eAdmin
                 config.NewestOnTop = true;
                 config.ShowCloseButton = false;
             });
-
+            builder.Services.AddMatBlazor();
 
 
             builder.Services.AddBlazoredLocalStorage();
