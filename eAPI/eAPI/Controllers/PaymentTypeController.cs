@@ -32,10 +32,8 @@ namespace eAPI.Controllers
         [AllowAnonymous]
       
         public IQueryable<PaymentTypeModel> Get()
-        {
-           
-                return db.PaymentTypes;
-           
+        {            
+            return db.PaymentTypes;
         }
         
         [HttpPost("save")]

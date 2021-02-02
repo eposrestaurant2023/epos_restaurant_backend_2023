@@ -35,7 +35,8 @@ namespace eAPI.Controllers
             gv.module_views = db.ModuleViews.ToList();
             
             gv.customer_groups = db.CustomerGroups.ToList();
-            
+            gv.product_groups = db.ProductGroups.Where(r=>r.is_deleted==false).ToList();
+            gv.product_categories = db.ProductCategories.Where(r => r.is_deleted == false).ToList();
             gv.currencies = db.Currencies.ToList();
             gv.roles = db.Roles.ToList();
             gv.product_types = db.ProductTypes.ToList();
@@ -161,6 +162,5 @@ namespace eAPI.Controllers
         {
             return Ok();
         }
-
     }
 }

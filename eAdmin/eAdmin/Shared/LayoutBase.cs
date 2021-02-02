@@ -94,22 +94,21 @@ namespace eAdmin.Shared
                     api_url = api_url + "permission_options($select=id,parent_id,option_name,roles,url,report_title,report_title_kh,note,icon,show_in_menu,sort_order),";
                     api_url = api_url + "module_views,";
                     api_url = api_url + "payment_types,";
-   
+                    api_url = api_url + "product_groups,";
+                    api_url = api_url + "product_categories,";   
                     api_url = api_url + "customer_groups,";
-                 
                     api_url = api_url + "settings,";
                     api_url = api_url + "currencies,";
                     api_url = api_url + "business_info,";
                     api_url = api_url + "roles,";
                     api_url = api_url + "product_types,";
                     api_url = api_url + "countries,";
-                    
                     api_url = api_url + "outlets,";
                     api_url = api_url + "stock_locations($expand=outlet),";
-                    
                     api_url = api_url + "vendors";
                  
                     GetResponse res = await http.ApiGet(api_url);
+
                     if (res.IsSuccess)
                     {
                         gv = JsonSerializer.Deserialize<GlobalVariableModel>(res.Content.ToString());

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210201103039_remove_brach_id_from_customer")]
+    partial class remove_brach_id_from_customer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -501,53 +503,6 @@ namespace eAPI.Migrations
                     b.HasIndex("customer_group_id");
 
                     b.ToTable("tbl_customer");
-                });
-
-            modelBuilder.Entity("eModels.DiscountCodeModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("discount_label")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("discount_value")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_discount_code");
                 });
 
             modelBuilder.Entity("eModels.DocumentNumberModel", b =>
@@ -2064,17 +2019,6 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("customer_group");
-                });
-
-            modelBuilder.Entity("eModels.DiscountCodeModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany()
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
                 });
 
             modelBuilder.Entity("eModels.HistoryModel", b =>

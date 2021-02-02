@@ -7,23 +7,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eAdmin.Pages.PageCustomers
+namespace eAdmin.Pages.PageProducts
 {
-    public class PageCustomers : PageCore
+    public  class PageProductBase : PageCore
     {
-        public List<CustomerModel> customers = new List<CustomerModel>();
-        public CustomerModel model = new CustomerModel();
+        public List<ProductModel> products = new List<ProductModel>();
+        public ProductModel model = new ProductModel();
+    
 
-        public string StateKey = "278484567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
+        public string StateKey = "278484567Gs252sd45KJssHGytkjhTonB3PCz2Ts"; //Storage and Session Key
 
         public int TotalRecord = 0;
-        public bool ShowModal = false;
-        public string ModalTitle = "";
+       
 
-        string controller_api = "Customer";
+        string controller_api = "Product";
 
-        DateTime date = DateTime.Now;
-
+       
         public string ControllerApi
         {
             get
@@ -33,7 +32,7 @@ namespace eAdmin.Pages.PageCustomers
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                string url = $"{controller_api}?keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters);
             }
         }
@@ -44,8 +43,8 @@ namespace eAdmin.Pages.PageCustomers
             state = await GetState(StateKey);
             if (state.page_title == "")
             {
-                state.page_title = "Customer";
-                var default_view = gv.GetDefaultModuleView("page_customer");
+                state.page_title = "Products";
+                var default_view = gv.GetDefaultModuleView("page_product");
                 if (default_view != null)
                 {
                     state.page_title = default_view.title;
@@ -64,17 +63,17 @@ namespace eAdmin.Pages.PageCustomers
             is_loading = false;
         }
 
-        public void OnEdit(Guid id)
+        public void OnEdit(int id)
         {
             is_loading_data = true;
-            nav.NavigateTo($"customer/edit/{id}");
+            nav.NavigateTo($"product/edit/{id}");
             is_loading_data = false;
         }
 
-        public void Clone_Click(Guid id)
+        public void Clone_Click(int id)
         {
             is_loading_data = true;
-            nav.NavigateTo($"customer/clone/{id}");
+            nav.NavigateTo($"product/clone/{id}");
             is_loading_data = false;
         }
 
@@ -102,7 +101,7 @@ namespace eAdmin.Pages.PageCustomers
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {
-                customers = JsonSerializer.Deserialize<List<CustomerModel>>(resp.Content.ToString());
+                products = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
             }
             is_loading = false;
@@ -117,28 +116,28 @@ namespace eAdmin.Pages.PageCustomers
             await LoadData();
         }
 
-        public async Task OnToogleStatus(CustomerModel p)
+        public async Task OnToogleStatus(ProductModel p)
         {
             p.is_loading = true;
             await SaveStatus(p);
             p.is_loading = false;
         }
-        public async Task OnToogleStatusLabel(CustomerModel p)
+        public async Task OnToogleStatusLabel(ProductModel p)
         {
             p.is_change_status = true;
             await SaveStatus(p);
             p.is_change_status = false;
         }
-        public async Task SaveStatus(CustomerModel p)
+        public async Task SaveStatus(ProductModel p)
         {
-            var customer = new CustomerModel();
-            customer = p;
-            customer.status = !customer.status;
-            var resp = await http.ApiPost(controller_api + "/save", customer);
+            var product = new ProductModel();
+            product = p;
+            product.status = !product.status;
+            var resp = await http.ApiPost(controller_api + "/save", product);
             if (resp.IsSuccess)
             {
                 toast.Add("Change status successfully", MatToastType.Success);
-                if (customers.Count() == 1 && state.pager.current_page > 1)
+                if (products.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
                 }
@@ -147,16 +146,16 @@ namespace eAdmin.Pages.PageCustomers
             }
         }
 
-        public async Task OnDelete(CustomerModel p)
+        public async Task OnDelete(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Customer", "Are you sure you want to delete this record?"))
+            if (await js.Confirm("Delete Product", "Are you sure you want to delete this record?"))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete customer successfully", MatToastType.Success);
-                    if (customers.Count() == 1 && state.pager.current_page > 0)
+                    toast.Add("Delete product successfully", MatToastType.Success);
+                    if (products.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
                     }
@@ -166,22 +165,22 @@ namespace eAdmin.Pages.PageCustomers
             p.is_loading = false;
         }
 
-        public async Task OnRestore(CustomerModel p)
+        public async Task OnRestore(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Restore Customer", "Are you sure you want to restore this record?"))
+            if (await js.Confirm("Restore product", "Are you sure you want to restore this record?"))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
                 if (resp.IsSuccess)
                 {
-                    if (customers.Count() == 1 && state.pager.current_page > 1)
+                    if (products.Count() == 1 && state.pager.current_page > 1)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
                     }
                     await LoadData();
                 }
-                toast.Add("Restore customer successfully", MatBlazor.MatToastType.Success);
+                toast.Add("Restore product successfully", MatBlazor.MatToastType.Success);
             }
             p.is_loading = false;
         }
@@ -195,7 +194,7 @@ namespace eAdmin.Pages.PageCustomers
 
         public async Task FilterClick()
         {
-            
+
 
             state.pager.current_page = 1;
             await LoadData();
