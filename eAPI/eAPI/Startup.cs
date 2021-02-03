@@ -159,13 +159,14 @@ namespace eAPI
             odataBuilder.EntitySet<ProductPortionModel>("ProductPortion");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
             odataBuilder.EntitySet<MenuModel>("Menu");
+            odataBuilder.EntitySet<ModifierModel>("Modifier");
+            odataBuilder.EntitySet<ModifierGroupModel>("ModifierGroup");
 
+
+             
             return odataBuilder.GetEdmModel();
         }
     }
 
-    class Student
-    {
-        public int id { get; set; }
-    }
+  
 }

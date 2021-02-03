@@ -24,10 +24,8 @@
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
-                    <MultipleSelect label="Business Branch" @bind-selected_values="@multi_select" select_options="@gv.bussiness_branches.Select(r=>r.business_branch_name_en).ToList()" />
-                    <div class="uk-alert" style="word-break:break-word">
-                        @JsonSerializer.Serialize(gv.bussiness_branches.Select(r => r.business_branch_name_en).ToList());
-                                    </div>
+                    <MultipleFilterBusinessOutlet @bind-selected_business="@state.multi_select_guid_1" />
+ 
                     <div class="uk-form-controls" style="margin-bottom: 10px;">
                         <label sclass="uk-form-label">Customer</label>
                         @*<CustomerTypeahead @bind-customer="@state.customer" />*@
@@ -36,6 +34,10 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MultipleFilterBusinessOutlet @bind-selected_business="@state.multi_select_guid_1" business_id="@((val)=>state.list_selected_values=val)" />
+            
+            <div style="word-break:break-word">@state.multi_select_guid_1</div>
+            <hr/>
             <div style="word-break:break-word">@ControllerApi</div>
             <Com is_visible="@(models != null)">
                 <Table Items="@models"

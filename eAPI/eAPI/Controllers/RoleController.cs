@@ -56,6 +56,7 @@ namespace eAPI.Controllers
             }
             else
             {
+
                 db.PermissionOptionRole.AddRange(u.permission_option_roles);
                 db.Roles.Update(u);
             }            

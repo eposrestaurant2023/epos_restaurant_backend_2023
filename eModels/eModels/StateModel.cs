@@ -52,8 +52,43 @@ namespace eModels
 
 
         public CustomerModel customer { get; set; } = new CustomerModel();
+        public List<BusinessBranchModel> business_branch { get; set; } = new List<BusinessBranchModel>();
         public OutletModel outlet { get; set; } = new OutletModel();
         public ProductGroupModel product_group { get; set; } = new ProductGroupModel();
+        public HashSet<string> multi_select_guid_1 { get; set; }
+        public List<string> list_selected_values { get; set; }
+
+        // multiple select guid 
+
+        //private HashSet<string> _multi_select_guid_1;
+
+        //public HashSet<string> multi_select_guid_1
+        //{
+        //    get {
+        //        if (_multi_select_guid_1 == null || _multi_select_guid_1.Count() == 0)
+        //        {
+        //            _multi_select_guid_1.Add("");
+        //        }
+        //        return _multi_select_guid_1; 
+        //    }
+        //    set { _multi_select_guid_1 = value; }
+        //}
+
+        //private HashSet<Guid> _multi_select_guid_2;
+
+        //public HashSet<Guid> multi_select_guid_2
+        //{
+        //    get
+        //    {
+        //        if (_multi_select_guid_1 == null || _multi_select_guid_2.Count() == 0)
+        //        {
+        //            _multi_select_guid_2.Add(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+        //        }
+        //        return _multi_select_guid_2;
+        //    }
+        //    set { _multi_select_guid_2 = value; }
+        //}
+
     }
 
     public class DateRangeModel
