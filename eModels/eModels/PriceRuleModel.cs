@@ -15,6 +15,21 @@ namespace eModels
     }
 
 
+    [Table("tbl_business_branch_price_rule")]
+    public class BusinessBranchPriceRule
+    {
+        public Guid business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
+
+        public int price_rule_id { get; set; }
+        [ForeignKey("price_rule_id")]
+        public PriceRuleModel price_rule { get; set; }
+    }
+
+
+
+
     [Table("tbl_product_price")]
 
     public class ProductPriceModel : CoreModel
@@ -37,17 +52,6 @@ namespace eModels
         public bool is_default { get; set; } = false;
     }
 
-    [Table("tbl_business_branch_price_rule")]
-    public class BusinessBranchPriceRule
-    {
-        public Guid business_branch_id { get; set; }
-        [ForeignKey("business_branch_id")]
-        public BusinessBranchModel business_branch { get; set; }
-
-        public int price_rule_id { get; set; }
-        [ForeignKey("price_rule_id")]
-        public PriceRuleModel price_rule { get; set; }
-    }
 
 
 
