@@ -11,7 +11,6 @@ namespace eModels
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
         public int id { get; set; }
-
         public string setting_value { get; set; }
         public string setting_title { get; set; }
         public string setting_description { get; set; }
