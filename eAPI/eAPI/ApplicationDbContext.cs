@@ -104,6 +104,8 @@ namespace eAPI
         public DbSet<ProductPrinterModel> ProductPrinters { get; set; }
         public DbSet<ProductPortionModel> ProductPortions { get; set; }
         public DbSet<ProductMenuModel> ProductMenus{ get; set; }
+        public DbSet<ModifierGroupModel> ModifierGroups{ get; set; }
+        public DbSet<ModifierGroupProductCategoryModel> ModifierGroupProductCategories{ get; set; }
 
     }
 
