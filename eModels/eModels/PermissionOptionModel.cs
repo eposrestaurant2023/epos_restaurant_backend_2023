@@ -45,6 +45,7 @@ namespace eModels
         public string report_title_kh { get; set; }
 
         public bool is_front_end { get; set; } = false;
+        public bool is_report { get; set; } = false;
 
         public List<PermissionOptionRoleModel> permission_option_roles { get; set; }
 

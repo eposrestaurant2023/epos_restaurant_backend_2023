@@ -135,11 +135,33 @@ namespace eAdmin.Pages
                         {
                             filter = $"{filter}  contains({a.key} , '{a.value1}') {a.filter_join_operator} ";
                         }
+                        
                         else
                         {
-                            filter = $"{filter} {a.key} {a.filter_operator} {a.value1} {a.filter_join_operator} ";
+                            string filter_values = "";
+                            if (a.filter_operator == "multiple")
+                            {
+                                string[] values = a.value1.Split(',');
+                                
+                                foreach (var i in values)
+                                {
+                                    filter_values = filter_values + a.key + " eq " + i + " or ";
+                                }
+                                filter_values = filter_values.Substring(0, filter_values.Length - 4);
+                                filter_values = $"({filter_values})    ";
+
+                            }
+                            if (!string.IsNullOrEmpty(filter_values))
+                            {
+                                filter = $"{filter} {filter_values}";
+                            }
+                            else
+                            {
+                                filter = $"{filter} {a.key} {a.filter_operator} {a.value1} {a.filter_join_operator}";
+                            }
+                            
                         }
-                    }
+                    } 
                 }
                 filter = filter.Substring(0, filter.Length - 4);
             }
@@ -220,7 +242,7 @@ namespace eAdmin.Pages
                 case "outlet":
                     state.outlet = new OutletModel();
                     break;
-
+                   
                
                 default:
                     break;
