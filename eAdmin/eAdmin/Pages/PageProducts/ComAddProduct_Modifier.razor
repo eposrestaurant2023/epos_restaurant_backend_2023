@@ -1,0 +1,28 @@
+﻿<UIContainerBox Title="Modifiers">
+    <ModifierTypeahead modifier="@modifier" />
+    <hr/>
+    <table>
+
+    </table>
+
+</UIContainerBox>
+@code{
+    [Parameter] public ProductModel model { get; set; }
+
+
+    private ModifierModel _modifier;
+
+    public ModifierModel modifier
+    {
+        get { return _modifier; }
+        set { 
+            
+            
+            _modifier = value; 
+            
+        }
+    }
+        
+
+
+}
