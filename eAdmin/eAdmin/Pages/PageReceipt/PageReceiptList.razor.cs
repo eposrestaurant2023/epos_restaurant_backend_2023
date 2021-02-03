@@ -18,8 +18,7 @@ namespace eAdmin.Pages.PageReceipt
         public List<SaleModel> models = new List<SaleModel>();
         public SaleModel model = new SaleModel();       
         public string StateKey = "ErNsg9hUndmRGrRwdzAdWFnBau9T3AEj"; //Storage and Session Key      
-        public int TotalRecord = 0;
-        public HashSet<string> multi_select { get; set; } = new HashSet<string>();
+        public int TotalRecord = 0; 
 
         string controller_api = "sale";
         public string ControllerApi
@@ -42,9 +41,7 @@ namespace eAdmin.Pages.PageReceipt
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            multi_select.Add("Business");
-           state = await GetState(StateKey);
-            state.filters.Clear();
+           state = await GetState(StateKey); 
             if (state.page_title == "")
             {
                 state.page_title = "Sale";
@@ -65,6 +62,9 @@ namespace eAdmin.Pages.PageReceipt
                 });                
             }
 
+            Console.WriteLine(JsonSerializer.Serialize(state.filters));
+
+
             await LoadData();
         }   
 
@@ -83,8 +83,12 @@ namespace eAdmin.Pages.PageReceipt
             {
                 models = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
-            }
+            } 
             is_loading = false;
+
+
+            Console.WriteLine(JsonSerializer.Serialize(state.filters));
+
         }
 
         public async Task ViewClick(ModuleViewModel m)
@@ -143,6 +147,32 @@ namespace eAdmin.Pages.PageReceipt
                     filter_title = "Customer",
                     state_property_name = "customer",
                     filter_info_text = state.customer.customer_code_name,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+
+            if (state.list_selected_values != null)
+            {
+
+                string value = "";
+                foreach(var x in state.list_selected_values)
+                {
+                    value += x + ",";
+                }
+                if (!string.IsNullOrEmpty(value))
+                {
+                    value = value.Substring(0, value.Length - 1);
+                } 
+
+                state.filters.Add(new FilterModel()
+                {
+                    key = "outlet/business_branch_id",
+                    value1 = value,
+                    filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = value,
                     is_clear_all = true,
                     will_remove = true
                 });

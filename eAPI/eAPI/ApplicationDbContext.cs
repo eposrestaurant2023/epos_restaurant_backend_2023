@@ -90,7 +90,6 @@ namespace eAPI
         public DbSet<BusinessInformationModel> BusinessInformations{ get; set; }
         public DbSet<StoreProcedureResultDecimalModel> StoreProcedureResultsDecimal { get; set; }
         public DbSet<BusinessBranchPaymentTypeModel> BusinessBranchPaymentTypes { get; set; }
-        public DbSet<BusinessBranchPaymentTypeModel> BusinessBranchPaymnetTypes { get; set; }
         public DbSet<BusinessBranchPriceRule> BusinessBranchPriceRules { get; set; }      
         public DbSet<MenuModel> Menus { get; set; }      
         public DbSet<ModifierModel> Modifiers { get; set; }      

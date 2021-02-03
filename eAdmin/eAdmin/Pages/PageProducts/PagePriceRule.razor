@@ -93,7 +93,6 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-
         if (page_title == "")
         {
             page_title = "Price Rule";
@@ -114,16 +113,31 @@
         ModalTitle = "Add New";
     }
 
-    async Task Clone_Click(int id)
+    async Task OnEdit(int id)
     {
         is_loading_data = true;
-        var resp = await http.ApiPost(controller_api + "/clone/" + id);
+        var resp = await http.ApiGet(controller_api + $"({id})?$expand=business_branch_prices");
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
         }
-        ModalTitle = "Clone:" + model.price_name;
+        ModalTitle = "Edit:" + model.price_name;
         ShowModal = true;
+        is_loading_data = false;
+    }
+
+    async Task Clone_Click(int id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(controller_api + $"({id})?$expand=business_branch_prices");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
+            ShowModal = true;
+            model.id = 0;
+            model.created_date = DateTime.Now;
+        }
+        ModalTitle = "Clone:" + model.price_name;
         is_loading_data = false;
     }
 
@@ -158,22 +172,6 @@
         await LoadData();
     }
 
-
-    async Task OnEdit(int id)
-    {
-        is_loading_data = true;
-
-        var resp = await http.ApiGet(controller_api + $"({id})");
-        if (resp.IsSuccess)
-        {
-            model = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
-        }
-        ModalTitle = "Edit:" + model.price_name;
-        ShowModal = true;
-        is_loading_data = false;
-    }
-
-
     async Task OnToogleStatus(PriceRuleModel p)
     {
         p.is_loading = true;
@@ -193,7 +191,7 @@
         var price = new PriceRuleModel();
         price = p;
         price.status = !price.status;
-        var resp = await http.ApiPost(controller_api + "/save", price);
+        var resp = await http.ApiPost(controller_api + $"/status/{p.id}");
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);

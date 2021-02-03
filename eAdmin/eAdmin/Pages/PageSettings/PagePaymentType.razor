@@ -150,13 +150,29 @@
         ModalTitle = "Add New";
     }
 
-    async Task Clone_Click(int id)
+    async Task OnEdit(int id)
     {
         is_loading_data = true;
-        var resp = await http.ApiPost(controller_api + "/clone/" + id);
+
+        var resp = await http.ApiGet(controller_api + $"({id})?$expand=business_branch_payment_types");
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<PaymentTypeModel>(resp.Content.ToString());
+        }
+        ModalTitle = "Edit:" + model.payment_type_name_en;
+        ShowModal = true;
+        is_loading_data = false;
+    }
+
+    async Task Clone_Click(int id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(controller_api + $"({id})?$expand=business_branch_payment_types");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<PaymentTypeModel>(resp.Content.ToString());
+            model.id = 0;
+            model.created_date = DateTime.Now;
         }
         ModalTitle = "Clone:" + model.payment_type_name_en;
         ShowModal = true;
@@ -195,19 +211,7 @@
     }
 
 
-    async Task OnEdit(int id)
-    {
-        is_loading_data = true;
 
-        var resp = await http.ApiGet(controller_api + $"({id})");
-        if (resp.IsSuccess)
-        {
-            model = JsonSerializer.Deserialize<PaymentTypeModel>(resp.Content.ToString());
-        }
-        ModalTitle = "Edit:" + model.payment_type_name_en;
-        ShowModal = true;
-        is_loading_data = false;
-    }
 
 
     async Task OnToogleStatus(PaymentTypeModel p)
@@ -229,7 +233,7 @@
         var paymentType = new PaymentTypeModel();
         paymentType = p;
         paymentType.status = !paymentType.status;
-        var resp = await http.ApiPost(controller_api + "/save", paymentType);
+        var resp = await http.ApiPost(controller_api + $"/status/{p.id}");
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);
