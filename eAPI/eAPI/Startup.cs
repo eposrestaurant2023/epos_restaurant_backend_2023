@@ -130,6 +130,9 @@ namespace eAPI
             var cb = odataBuilder.EntitySet<CustomerBusinessBranchModel>("CustomerBusinessBranch");
             cb.EntityType.HasKey(r => new { r.customer_id, r.business_branch_id });
 
+            var bp = odataBuilder.EntitySet<BusinessBranchPriceRule>("BusinessBranchPriceRule");
+            bp.EntityType.HasKey(r => new { r.price_rule_id, r.business_branch_id });
+
             odataBuilder.EntitySet<PermissionOptionModel>("PermissionOption");
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");

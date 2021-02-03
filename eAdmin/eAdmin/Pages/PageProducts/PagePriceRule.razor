@@ -117,10 +117,12 @@
     async Task Clone_Click(int id)
     {
         is_loading_data = true;
-        var resp = await http.ApiPost(controller_api + "/clone/" + id);
+        var resp = await http.ApiGet(controller_api + $"({id})?$expand=business_branch_prices");
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
+            model.id = 0;
+            model.created_date = DateTime.Now;
         }
         ModalTitle = "Clone:" + model.price_name;
         ShowModal = true;
@@ -162,8 +164,7 @@
     async Task OnEdit(int id)
     {
         is_loading_data = true;
-
-        var resp = await http.ApiGet(controller_api + $"({id})");
+        var resp = await http.ApiGet(controller_api + $"({id})?$expand=business_branch_prices");
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());

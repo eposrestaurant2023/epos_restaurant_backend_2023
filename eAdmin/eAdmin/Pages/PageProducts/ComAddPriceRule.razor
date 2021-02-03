@@ -4,6 +4,11 @@
     <TextInput label="Name" @bind-text="@price.price_name">
         <ValidationMessage For="@(()=>price.price_name)" />
     </TextInput>
+    @foreach (var b in business_branches)
+    {
+        <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" /></div>
+
+    }
     <SelectStatus @bind-selected_value="@price.status" />
 </EditFormContext>
 
@@ -13,10 +18,48 @@
     [Parameter] public EventCallback<MouseEventArgs> Save_Click { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
     [Parameter] public PriceRuleModel price { get; set; }
+    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadBusinessBranch();
+    }
+
+    async Task LoadBusinessBranch()
+    {
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_prices&$filter=is_deleted eq false and status eq true");
+        if (res.IsSuccess)
+        {
+            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
+            if (price.id > 0)
+            {
+                foreach (var p in price.business_branch_prices)
+                {
+                    foreach (var b in business_branches.Where(r => r.id == p.business_branch_id).ToList())
+                    {
+                        b.is_selected = true;
+                    }
+                }
+            }
+        }
+
+    }
 
     protected async Task SavePaymentType_Click()
     {
         is_saving = true;
+        price.business_branch_prices.Clear();
+        foreach (var a in business_branches.ToList())
+        {
+            if (a.is_selected)
+            {
+                price.business_branch_prices.Add(new BusinessBranchPriceRule()
+                {
+                    business_branch_id = a.id,
+                    price_rule_id = price.id
+                });
+            }
+        }
         var post = await http.ApiPost("PriceRule/Save", price);
         if (post.IsSuccess)
         {

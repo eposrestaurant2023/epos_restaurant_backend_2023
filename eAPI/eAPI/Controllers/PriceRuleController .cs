@@ -55,7 +55,9 @@ namespace eAPI.Controllers
                 db.PriceRules.Add(u);
             }
             else
-            { 
+            {
+                db.Database.ExecuteSqlRaw($"delete tbl_business_branch_price_rule where price_rule_id = {u.id}");
+                db.BusinessBranchPriceRules.AddRange(u.business_branch_prices);
                 db.PriceRules.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -81,16 +83,15 @@ namespace eAPI.Controllers
             return Ok(u);
         }
 
-        [HttpPost]
-        [Route("clone/{id}")]
-        public async Task<ActionResult<PriceRuleModel>> CloneRecord(int id) //Delete
-        {
-            var u = await db.PriceRules.FindAsync(id);
-            u.id = 0;
-            u.created_date = DateTime.Now;
-            db.PriceRules.Add(u);
-            await db.SaveChangesAsync();
-            return Ok(u);
-        }
+        //[HttpPost]
+        //[Route("clone/{id}")]
+        //public async Task<ActionResult<PriceRuleModel>> CloneRecord(int id) //Delete
+        //{
+        //    var u = await db.PriceRules.FindAsync(id);
+        //    u.id = 0;
+        //    u.created_date = DateTime.Now;
+        //    await db.SaveChangesAsync();
+        //    return Ok(u);
+        //}
     }
 }
