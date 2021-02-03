@@ -1,0 +1,58 @@
+﻿<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">@label</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+            @if (show_empty)
+            {
+                <option value="00000000-0000-0000-0000-000000000000">@empty_text</option>
+            }
+            @foreach (var p in gv.bussiness_branches.Where(r => r.status && !r.is_deleted))
+            {
+                <option value="@p.id">@p.business_branch_name_en</option>
+            }
+        </select>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Business Branch";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Business Branch";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public Guid selected_value { get; set; } = new Guid();
+    [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
+
+    [Parameter] public BusinessBranchModel business_branch { get; set; }
+    [Parameter] public EventCallback<BusinessBranchModel> business_branchChanged { get; set; }
+
+
+    public Guid SelectedValue
+    {
+        get
+        {
+            return business_branch == null ? selected_value : business_branch.id;
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Guid.Parse(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+        if (string.IsNullOrEmpty(selected_value.ToString()))
+        {
+            await business_branchChanged.InvokeAsync(new BusinessBranchModel());
+        }
+        else
+        {
+            await business_branchChanged.InvokeAsync(gv.bussiness_branches.Where(r => r.id == selected_value).FirstOrDefault());
+        }
+
+    }
+
+}

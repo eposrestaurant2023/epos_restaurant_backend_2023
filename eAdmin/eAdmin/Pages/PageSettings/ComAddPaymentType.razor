@@ -34,7 +34,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadData();
         await LoadBusinessBranch();
     }
 
@@ -85,26 +84,13 @@
         is_saving = false;
     }
 
-    protected async Task LoadData()
-    {
-        if (payment_type.id > 0)
-        {
-            string query = $"PaymentType({payment_type.id})?$expand=business_branch_payment_types($select=business_branch_id,payment_type_id)";
-            var res = await http.ApiGet(query);
-            if (res.IsSuccess)
-            {
-                payment_type = JsonSerializer.Deserialize<PaymentTypeModel>(res.Content.ToString());
-            }
-        }
-    }
-
     public async Task LoadBusinessBranch()
     {
         var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_payment_types&$filter=is_deleted eq false and status eq true");
         if (res.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
-            if (payment_type.id > 0)
+            if (payment_type != null)
             {
                 foreach(var p in payment_type.business_branch_payment_types)
                 {

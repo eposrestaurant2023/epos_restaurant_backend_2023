@@ -16,6 +16,8 @@ namespace eModels
         {      
             histories = new List<HistoryModel>();
             product_printers = new List<ProductPrinterModel>();
+            product_portions = new List<ProductPortionModel>();
+            product_menus = new List<ProductMenuModel>();
         }
 
         
@@ -94,6 +96,9 @@ namespace eModels
 
 
         public List<ProductPrinterModel> product_printers { get; set; }
+        public List<ProductPortionModel> product_portions { get; set; }
+        public List<ProductMenuModel> product_menus { get; set; }
+     
     }
 
 
@@ -110,6 +115,56 @@ namespace eModels
         public ProductModel product{ get; set; }
 
         public bool is_deleted { get; set; } = false;
+
+    }
+
+    [Table("tbl_product_portion")]
+    public class ProductPortionModel:CoreModel
+    {
+        public ProductPortionModel()
+        {
+            product_prices = new List<ProductPriceModel>();
+        }
+        public ProductPortionModel(List<PriceRuleModel> price_rules )
+        {
+            product_prices = new List<ProductPriceModel>();
+            foreach(var r in price_rules)
+            {
+                product_prices.Add(new ProductPriceModel() { price_rule_id = r.id, is_default = r.is_default });
+            }
+
+        }
+        public int product_id { get; set; }
+        [ForeignKey("product_id")]
+        public ProductModel product { get; set; }
+      
+         
+
+        [MaxLength(100)]
+        [Required(ErrorMessage = "Field cannot be blank.")]
+        public string portion_name { get; set; }
+
+ 
+
+        private decimal _multipler = 1;
+
+        public decimal multiplier
+        {
+            get { return _multipler; }
+            set {
+                if (value == 0)
+                {
+                    value = 1;
+                }
+                _multipler = value;
+                
+            }
+        }
+
+        public decimal cost { get; set; }
+
+        public List<ProductPriceModel> product_prices { get; set; }
+
 
     }
 

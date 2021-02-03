@@ -2066,7 +2066,7 @@ h3.title.heading {
 
 .custom-modal .modal-title {
     background: #5899dc;
-    height: 27px;
+    height: 45px;
     color: #fff;
     font-size: 19px;
     padding: 10px 30px;
@@ -6926,3 +6926,14 @@ div.mud-input-slot.mud-input-root:hover {
 .mud-shrink + label.mud-input-label.mud-input-label-inputcontrol {
     transform: none!important;
 }
+        .wrp-item-variant-name span:first-child {
+            color: #b1b1b1;
+            font-style: italic;
+            padding-right: 2px;
+            font-size: 12px;
+        }
+
+
+        .default-price{
+            border-color:green;
+        }

@@ -1,0 +1,177 @@
+﻿@page "/role/new"
+@inject IJSRuntime js
+@inherits PageCore;
+
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Outlet & Station"></Title>
+    <PageContainer roles="@gv.GetRole("role_manager")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @if (id > 0)
+                        {
+                            <div>Edit Role</div>
+                        }
+
+                        else
+                        {
+                         <div>New Role</div>
+                        }
+
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="@SaveRole_Click">
+            <DataAnnotationsValidator />
+            <PageBody>
+              
+                    <TextInput label="Role Name" @bind-text="@model.role_name" />
+                    <TextInput type="textarea" label="Description" @bind-text="@model.description" />
+              
+                <Spacing Number="20"/>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-1-3">
+                        <h2>Front End</h2>
+                        @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
+                        {
+                            @fn.is_checked
+                            <ComInputCheckBox label="@fn.note" label_inline="true"  @bind-value="fn.is_checked"/>
+                        }
+
+                    </div>
+                    <div class="uk-width-1-3">
+                        <h2>Back End</h2>
+                        @foreach (var bn in permissionoption.Where(r => r.is_front_end == false).ToList())
+                        {
+                            @bn.is_checked
+                            <ComInputCheckBox label="@bn.note" label_inline="true"  @bind-value="bn.is_checked"/>
+                        }
+
+                    </div>
+                    <div class="uk-width-1-3">
+                        <h2>Report</h2>
+                        @foreach (var re in permissionoption.Where(r => r.is_report == true).ToList())
+                        {
+                            @re.is_checked
+                            <ComInputCheckBox  label="@re.note" label_inline="true" @bind-value="re.is_checked"/>
+                        }
+                    </div>
+                </div>
+
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button type="submit" icon="save">Save</Button>
+                    <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                </FooterCenter>
+            </PageFooter>
+
+        </EditForm>
+
+    </PageContainer>
+
+}
+
+@code{
+    [Parameter] public int id { get; set; }
+    List<PermissionOptionModel> permissionoption = new List<PermissionOptionModel>();
+    RoleModel model = new RoleModel();
+    string ControllerApi = "Role";
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadPermissionOption("");
+        await LoadData("");
+        is_loading = false;
+    }
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        //if (string.IsNullOrEmpty(api_url))
+        //{
+        //    api_url = ControllerApi;
+        //    api_url = api_url + $"({id})?";
+        //    api_url = api_url + "$expand=Stations($select=id,station_name_en,station_name_kh;$filter= is_deleted eq false),";
+        //    api_url = api_url + "business_branch($select=id,business_branch_name_en,business_branch_name_kh)";
+
+
+
+
+        //}
+
+        var resp = await http.ApiGet("role?$expand=permission_option_roles($select=permission_option_id,role_id,is_delete)");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<RoleModel>(resp.Content.ToString());
+        }
+        is_loading_data = false;
+    }
+
+
+
+    async Task LoadPermissionOption(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = "PermissionOption?$expand=permission_option_roles($select=permission_option_id,role_id,is_delete)";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            permissionoption = JsonSerializer.Deserialize<List<PermissionOptionModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+    protected async Task SaveRole_Click()
+    {
+        is_saving = true;
+        model.permission_option_roles.Clear();
+        foreach (var a in permissionoption.ToList())
+        {
+            if (a.is_checked)
+            {
+                model.permission_option_roles.Add(new PermissionOptionRoleModel()
+                {
+                    permission_option_id = a.id,
+                    role_id = model.id
+                });
+            }
+        }
+        var post = await http.ApiPost("Role/Save", model);
+        if (post.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<RoleModel>(post.Content.ToString());
+            toast.Add("Save Successfully!", MatToastType.Success);
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+
+        is_saving = false;
+    }
+
+}

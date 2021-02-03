@@ -1,0 +1,91 @@
+﻿<UIContainerBox Title="Menus">
+
+   
+    @if (gv.bussiness_branches.Count() == 1)
+    {
+        <ComAddProduct_RenderMenu business_branch_id="@gv.bussiness_branches.FirstOrDefault().id" OnMenuSelected="@OnMenuSelected"    selected_menus="@model.product_menus" />
+    }
+    else
+    {
+        <Tab>
+            <TabHeader>
+                @foreach (var b in gv.bussiness_branches)
+                {
+                    <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                }
+            </TabHeader>
+            <TabBody>
+                @foreach (var b in gv.bussiness_branches)
+                {
+                <TabItem>
+                    <h4>Selected Menu</h4>
+                    <div>
+                        @if (model.product_menus.Any())
+                        {
+                         foreach (var m in model.product_menus.Where(r => r.is_deleted == false && r.menu.business_branch_id == b.id))
+                        {
+                            <div>
+                                @m.menu?.menu_path <Button OnClick="@(() => OnDeleteMenu(m))">Delete</Button>
+                            </div>
+                            }
+                        }else
+                        {
+                            <p>There is no selected menu</p>
+                        }
+                    </div>
+                    <ComAddProduct_RenderMenu business_branch_id="@b.id" OnMenuSelected="@OnMenuSelected"   selected_menus="@model.product_menus" />
+
+
+                </TabItem>
+                }
+            </TabBody>
+        </Tab>
+
+    }
+
+
+
+</UIContainerBox>
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    [Parameter] public ProductModel model { get; set; }
+    [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
+
+
+
+    async Task OnMenuSelected(MenuModel m)
+    {
+        if (m.is_selected)
+        {
+            model.product_menus.Add(new ProductMenuModel() { menu = m, menu_id = m.id });
+        }else
+        {
+            var d = model.product_menus.Where(r => r.menu_id == m.id);
+            if (d.Any())
+            {
+                OnDeleteMenu(d.FirstOrDefault());
+            }
+
+        }
+
+
+        await modelChanged.InvokeAsync(model);
+
+
+    }
+
+
+    void OnDeleteMenu(ProductMenuModel m)
+    {
+        if(m.id == 0)
+        {
+            model.product_menus.Remove(m);
+        }else
+        {
+            m.is_deleted = true;
+        }
+    }
+
+}

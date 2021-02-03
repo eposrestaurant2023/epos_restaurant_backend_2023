@@ -73,8 +73,9 @@
     bool is_loading, is_loading_data;
 
     public string api_url { get {
-
-            return $"Product({id})";
+            string url = $"Product({id})";
+            url = url + "?$expand=product_category($select=product_category_en)";
+            return url;
         }
     }
     protected override async Task OnInitializedAsync()

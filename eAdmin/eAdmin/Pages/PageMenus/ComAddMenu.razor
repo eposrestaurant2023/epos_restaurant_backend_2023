@@ -1,0 +1,92 @@
+﻿@inject IHttpService http;
+<EditFormContext model="@model" is_opened="@is_opened" title="@title" Cancel_Click="@OnCancel" Save_Click="@Save_Click" is_submitting="@is_saving" modal_width="700px">
+    <UIGridCenter>
+        @if (is_loading)
+        {
+            <Spinner />
+        }
+        else
+        {
+            <UIContainerBox Title="Photo" ClassName="uk-text-center">
+                <UIFlexCenter>
+                    <FileUpload @bind-ImageUrl="@model.photo" />
+                </UIFlexCenter>
+            </UIContainerBox>
+            <UIContainerBox Title="Menu Information">
+                @if (model.parent != null)
+                {
+                    <TextInput label="Parent" text="@model.parent.menu_name_en" is_read_only="true" />
+                }
+                else
+                {
+                    <TextInput label="Parent" text="Root Menu" is_read_only="true" />
+                }
+
+                <TextInput label="Menu Name(EN)" @bind-text="@model.menu_name_en">
+                    <ValidationMessage For="@(() => model.menu_name_en)" />
+                </TextInput>
+                <TextInput label="Menu Name(KH)" @bind-text="@model.menu_name_en" />
+                <TextInput label="Text Color" type="color" @bind-text="@model.text_color" />
+                <TextInput label="Background Color" type="color" @bind-text="@model.background_color" />
+                <SelectStatus label="Status" @bind-selected_value="@model.status" />
+
+            </UIContainerBox>
+            <UIContainerBox Title="Preview">
+                <div style="background:@model.background_color;color:@model.text_color; margin:20px; padding:50px"  >@model.menu_name_en</div>
+            </UIContainerBox>
+
+            
+        }
+
+        </UIGridCenter>
+    
+</EditFormContext>
+@code {
+
+
+    [Parameter] public bool is_opened { get; set; }
+    [Parameter]  public MenuModel menu { get; set; }
+    
+    [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
+    [Parameter] public EventCallback<MenuModel> OnSave { get; set; }
+
+    MenuModel model = new MenuModel();
+
+    bool is_loading,is_saving;
+
+    public string title { get {
+
+            if (model.id == 0)
+            {
+                return "Add New Menu";
+            }else
+            {
+                return "Edit Menu " + model.menu_name_en;
+            }
+        } }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+
+        await Task.Delay(100);
+        model = JsonSerializer.Deserialize<MenuModel>(JsonSerializer.Serialize(menu));
+        is_loading = false;
+    }
+
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        model.parent = null;
+        var resp = await http.ApiPost("Menu/Save", model);
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<MenuModel>(resp.Content.ToString());
+            await OnSave.InvokeAsync(model);
+        }
+        is_saving = false;
+    }
+
+}

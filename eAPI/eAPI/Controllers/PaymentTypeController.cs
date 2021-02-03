@@ -50,8 +50,6 @@ namespace eAPI.Controllers
                 db.PaymentTypes.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
-
             return Ok(u);
         }
 
@@ -61,6 +59,17 @@ namespace eAPI.Controllers
         {
             var s = db.PaymentTypes.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(s);
+        }
+
+        [HttpPost]
+        [Route("status/{id}")]
+        public async Task<ActionResult<PaymentTypeModel>> UpdateStatus(int id)
+        {
+            var d = await db.PaymentTypes.FindAsync(id);
+            d.status = !d.status;
+            db.PaymentTypes.Update(d);
+            await db.SaveChangesAsync();
+            return Ok(d);
         }
 
         [HttpPost]

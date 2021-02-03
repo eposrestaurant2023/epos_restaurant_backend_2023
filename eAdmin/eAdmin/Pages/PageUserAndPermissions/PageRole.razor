@@ -22,7 +22,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton OnClick="@AddNew" roles="@gv.GetRole("role_add")">New</AddButton>
+                <AddButton url="role/new">New</AddButton>
                 <RefreshButton OnClick="@(()=>LoadData(""))" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
@@ -77,19 +77,13 @@
         </PageBody>
     </PageContainer>
 
-    <AuthorizeView >
-        @if (is_open)
-        {
-            <ComAddRole Save_Click="@OnSave" model="role" is_dialog_open="@is_open" Cancel_click="@(() => { is_open = false;   role = new RoleModel();})" title="@ModalTitle" />
-        }
-    </AuthorizeView>
+
 
 }
 
 @code{
     List<RoleModel> roles_list = new List<RoleModel>();
     RoleModel role = new RoleModel();
-
     public string StateKey { get { return "SWwLKswetmeUUKsSwe:}/SEUewervvvw%^&*"; } }
     bool is_open;
     int TotalRecord = 0;

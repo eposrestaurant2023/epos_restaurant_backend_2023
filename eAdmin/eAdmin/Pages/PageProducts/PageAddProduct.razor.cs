@@ -48,7 +48,9 @@ namespace eAdmin.Pages.PageProducts
         public string api_url { get {
 
                 string url = $"Product({id})?";
-                url = url + "$expand=product_printers";
+                url = url + "$expand=product_printers,";
+                url = url + "product_portions($expand=product_prices;$filter=is_deleted eq false),";
+                url = url + "product_menus($expand=menu;$filter=is_deleted eq false)";
                 return url;
             } }
 
@@ -107,7 +109,8 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-
+            //remove menu
+            save_model.product_menus.ForEach(r => r.menu = null);
 
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)

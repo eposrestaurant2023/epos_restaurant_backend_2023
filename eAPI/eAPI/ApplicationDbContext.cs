@@ -32,6 +32,7 @@ namespace eAPI
 
 
             builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
+            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
             builder.Entity<PermissionOptionRoleModel>()
                 .HasOne(pt => pt.permission_option)
                 .WithMany(p => p.permission_option_roles)
@@ -47,6 +48,7 @@ namespace eAPI
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();                
             builder.Entity<NumberModel>().HasNoKey();
+        
         }
 
 
@@ -88,7 +90,6 @@ namespace eAPI
         public DbSet<BusinessInformationModel> BusinessInformations{ get; set; }
         public DbSet<StoreProcedureResultDecimalModel> StoreProcedureResultsDecimal { get; set; }
         public DbSet<BusinessBranchPaymentTypeModel> BusinessBranchPaymentTypes { get; set; }
-        public DbSet<BusinessBranchPaymentTypeModel> BusinessBranchPaymnetTypes { get; set; }
         public DbSet<BusinessBranchPriceRule> BusinessBranchPriceRules { get; set; }      
         public DbSet<MenuModel> Menus { get; set; }      
         public DbSet<ModifierModel> Modifiers { get; set; }      
@@ -100,6 +101,8 @@ namespace eAPI
         public DbSet<SaleProductModel> SaleProducts { get; set; }
         public DbSet<PaymentModel> Payments { get; set; }
         public DbSet<ProductPrinterModel> ProductPrinters { get; set; }
+        public DbSet<ProductPortionModel> ProductPortions { get; set; }
+        public DbSet<ProductMenuModel> ProductMenus{ get; set; }
 
     }
 
