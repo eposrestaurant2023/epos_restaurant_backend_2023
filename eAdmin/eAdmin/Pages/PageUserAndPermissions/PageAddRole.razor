@@ -38,30 +38,49 @@
                 <Spacing Number="20"/>
                 <div class="uk-grid-small" uk-grid>
                     <div class="uk-width-1-3">
-                        <h2>Front End</h2>
-                        @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
-                        {
-                            @fn.is_checked
-                            <ComInputCheckBox label="@fn.note" label_inline="true"  @bind-value="fn.is_checked"/>
-                        }
-
+                       <div class="report-item">
+                           <div class="report-header">
+                               Front End
+                           </div>
+                            <div class="report-content">
+                               @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
+                               {
+                                <div class="cus_margin">
+                                    <ComInputCheckBox label="@fn.note" label_inline="true" @bind-value="fn.is_checked" />
+                                </div>
+                               }
+                            </div>
+                       </div>
                     </div>
                     <div class="uk-width-1-3">
-                        <h2>Back End</h2>
-                        @foreach (var bn in permissionoption.Where(r => r.is_front_end == false).ToList())
-                        {
-                            @bn.is_checked
-                            <ComInputCheckBox label="@bn.note" label_inline="true"  @bind-value="bn.is_checked"/>
-                        }
-
+                        <div class="report-item">
+                            <div class="report-header">
+                                Back End
+                            </div>
+                            <div>
+                                @foreach (var bn in permissionoption.Where(r => r.is_front_end == false).ToList())
+                                {
+                                <div class="cus_margin">
+                                    <ComInputCheckBox label="@bn.note" label_inline="true" @bind-value="bn.is_checked" />
+                                </div>
+                                }
+                            </div>
+                        </div>
                     </div>
                     <div class="uk-width-1-3">
-                        <h2>Report</h2>
-                        @foreach (var re in permissionoption.Where(r => r.is_report == true).ToList())
-                        {
-                            @re.is_checked
-                            <ComInputCheckBox  label="@re.note" label_inline="true" @bind-value="re.is_checked"/>
-                        }
+                        <div class="report-item">
+                            <div class="report-header">
+                                Report
+                            </div>
+                            <div class="report-content">
+                                @foreach (var re in permissionoption.Where(r => r.is_report == true).ToList())
+                                {
+                                <div class="cus_margin">
+                                    <ComInputCheckBox label="@re.note" label_inline="true" @bind-value="re.is_checked" />
+                                </div>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
 
