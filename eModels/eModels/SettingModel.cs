@@ -17,6 +17,7 @@ namespace eModels
         public string setting_description { get; set; }
         public string input_type { get; set; }
         public bool status { get; set; }
+        public bool is_business_branch { get; set; }
 
         [NotMapped ]
         [JsonIgnore]
