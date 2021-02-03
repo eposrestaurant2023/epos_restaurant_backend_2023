@@ -93,7 +93,6 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-
         if (page_title == "")
         {
             page_title = "Price Rule";
@@ -112,6 +111,19 @@
         model = new PriceRuleModel();
         ShowModal = true;
         ModalTitle = "Add New";
+    }
+
+    async Task OnEdit(int id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(controller_api + $"({id})?$expand=business_branch_prices");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
+        }
+        ModalTitle = "Edit:" + model.price_name;
+        ShowModal = true;
+        is_loading_data = false;
     }
 
     async Task Clone_Click(int id)
@@ -159,21 +171,6 @@
         ShowModal = false;
         await LoadData();
     }
-
-
-    async Task OnEdit(int id)
-    {
-        is_loading_data = true;
-        var resp = await http.ApiGet(controller_api + $"({id})?$expand=business_branch_prices");
-        if (resp.IsSuccess)
-        {
-            model = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
-        }
-        ModalTitle = "Edit:" + model.price_name;
-        ShowModal = true;
-        is_loading_data = false;
-    }
-
 
     async Task OnToogleStatus(PriceRuleModel p)
     {
