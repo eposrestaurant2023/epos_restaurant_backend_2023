@@ -56,6 +56,7 @@ namespace eAPI.Controllers
             }
             else
             {
+
                 db.Database.ExecuteSqlRaw($"delete tbl_business_branch_price_rule where price_rule_id = {u.id}");
                 db.BusinessBranchPriceRules.AddRange(u.business_branch_prices);
                 db.PriceRules.Update(u);
@@ -73,6 +74,17 @@ namespace eAPI.Controllers
         }
 
         [HttpPost]
+        [Route("status/{id}")]
+        public async Task<ActionResult<PriceRuleModel>> UpdateStatus(int id)
+        {
+            var d = await db.PriceRules.FindAsync(id);
+            d.status = !d.status;
+            db.PriceRules.Update(d);
+            await db.SaveChangesAsync();
+            return Ok(d);
+        }
+
+        [HttpPost]
         [Route("delete/{id}")]
         public async Task<ActionResult<PriceRuleModel>> DeleteRecord(int id) //Delete
         {
@@ -82,16 +94,5 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
-
-        //[HttpPost]
-        //[Route("clone/{id}")]
-        //public async Task<ActionResult<PriceRuleModel>> CloneRecord(int id) //Delete
-        //{
-        //    var u = await db.PriceRules.FindAsync(id);
-        //    u.id = 0;
-        //    u.created_date = DateTime.Now;
-        //    await db.SaveChangesAsync();
-        //    return Ok(u);
-        //}
     }
 }

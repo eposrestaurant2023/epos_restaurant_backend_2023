@@ -133,11 +133,11 @@
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
+            ShowModal = true;
             model.id = 0;
             model.created_date = DateTime.Now;
         }
         ModalTitle = "Clone:" + model.price_name;
-        ShowModal = true;
         is_loading_data = false;
     }
 
@@ -191,7 +191,7 @@
         var price = new PriceRuleModel();
         price = p;
         price.status = !price.status;
-        var resp = await http.ApiPost(controller_api + "/save", price);
+        var resp = await http.ApiPost(controller_api + $"/status/{p.id}");
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);

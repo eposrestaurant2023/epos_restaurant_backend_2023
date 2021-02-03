@@ -31,7 +31,7 @@
         if (res.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
-            if (price.id > 0)
+            if (price != null)
             {
                 foreach (var p in price.business_branch_prices)
                 {

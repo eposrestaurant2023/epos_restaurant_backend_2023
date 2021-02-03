@@ -64,6 +64,17 @@ namespace eAPI.Controllers
         }
 
         [HttpPost]
+        [Route("status/{id}")]
+        public async Task<ActionResult<PaymentTypeModel>> UpdateStatus(int id)
+        {
+            var d = await db.PaymentTypes.FindAsync(id);
+            d.status = !d.status;
+            db.PaymentTypes.Update(d);
+            await db.SaveChangesAsync();
+            return Ok(d);
+        }
+
+        [HttpPost]
         [Route("delete/{id}")]
         public async Task<ActionResult<PaymentTypeModel>> DeleteRecord(int id) //Delete
         {
