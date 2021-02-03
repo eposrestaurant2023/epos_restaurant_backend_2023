@@ -117,6 +117,7 @@ namespace eAPI
             var odataBuilder = new ODataConventionModelBuilder();
             odataBuilder.EntitySet<RoleModel>("Role");
             odataBuilder.EntitySet<PermissionOptionModel>("PermissionOption");
+
             var p = odataBuilder.EntitySet<PermissionOptionRoleModel>("PermissionOptionRole");
             p.EntityType.HasKey(r => new { r.role_id, r.permission_option_id });
 
@@ -133,7 +134,6 @@ namespace eAPI
             var bp = odataBuilder.EntitySet<BusinessBranchPriceRule>("BusinessBranchPriceRule");
             bp.EntityType.HasKey(r => new { r.price_rule_id, r.business_branch_id });
 
-            odataBuilder.EntitySet<PermissionOptionModel>("PermissionOption");
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
             odataBuilder.EntitySet<CustomerModel>("Customer");
