@@ -63,7 +63,7 @@ namespace eModels
         {
             get
             {
-                return get_setting_value(2);
+                return get_setting_value(52);
             }
         }
         public string report_url

@@ -1,12 +1,23 @@
 ﻿@inherits PageCore;
-
+ 
 <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected_modifier" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
     <SelectedTemplate>
         @context.modifier_name
     </SelectedTemplate>
     <ResultTemplate>
-        @context.modifier_name
+
+
+        @if (result_count > 0)
+        {
+            <span>@context.modifier_name</span>
+        }
+        else
+        {
+            <span>Add @context.modifier_name</span>
+        }
+
     </ResultTemplate>
+     
 </BlazoredTypeahead>
 
 @code{
@@ -20,10 +31,15 @@
     [Parameter] public EventCallback<int> modifier_idChanged { get; set; }
 
 
+    int result_count = 0;
 
     public async Task<IEnumerable<ModifierModel>> SearchModifier(string searchText)
     {
-        string api_url = $"Modifier?keyword={searchText}&$orderby=modifier asc&$top=20";
+
+        string api_url = $"Modifier?keyword={searchText}&$orderby=modifier_name asc&$top=20";
+
+        state.filters.Clear();
+
         state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
 
         if (status == "Active")
@@ -40,7 +56,15 @@
         if (res.IsSuccess)
         {
             var result = JsonSerializer.Deserialize<List<ModifierModel>>(res.Content.ToString());
+            result_count = result.Count();
+
+            if (result_count ==0 && searchText!="")
+            {
+                result.Add(new ModifierModel() { modifier_name = searchText });
+            }
+
             return result;
+
         }
         return new List<ModifierModel>();
     }

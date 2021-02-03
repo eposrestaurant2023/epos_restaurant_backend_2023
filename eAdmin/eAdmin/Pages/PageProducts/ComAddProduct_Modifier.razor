@@ -1,8 +1,26 @@
 ﻿<UIContainerBox Title="Modifiers">
-    <ModifierTypeahead modifier="@modifier" />
+    <ModifierTypeahead @bind-modifier="@modifier" />
     <hr/>
-    <table>
-
+    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <Th>Modifier Name</Th>
+            <ThCenter>Price</ThCenter>
+            <th></th>
+        </tr>
+        @foreach(var pm in model.product_modifiers.Where(r=>r.is_deleted == false))
+        {
+            <tr>
+                <td>
+                    @pm.modifier.modifier_name 
+                </td>
+                <td>
+                    <NumberInput placeholder="Price" @bind-text="@pm.price" />
+                </td>
+                <td>
+                    <Button icon="delete" class_name="danger" OnClick="@(()=>DeleteModifier(pm))" is_visible="@(pm.modifier_group_id==0)"/>
+                </td>
+            </tr>
+        }
     </table>
 
 </UIContainerBox>
@@ -15,14 +33,30 @@
     public ModifierModel modifier
     {
         get { return _modifier; }
-        set { 
-            
-            
-            _modifier = value; 
-            
+        set {
+
+            if(!model.product_modifiers.Where(r=>r.is_deleted==false && r.modifier.modifier_name.Trim().ToLower().Contains(value.modifier_name.ToLower().Trim())).Any())
+            {
+                model.product_modifiers.Add(new ProductModifierModel() { modifier = value, modifier_id=value.id });
+            }
+
+            value = null;
+            _modifier = value;
         }
     }
-        
+
+
+    void DeleteModifier(ProductModifierModel pm)
+    {
+        if (pm.id > 0)
+        {
+            pm.is_deleted = true;
+        }
+        else
+        {
+            model.product_modifiers.Remove(pm);
+        }
+    }
 
 
 }

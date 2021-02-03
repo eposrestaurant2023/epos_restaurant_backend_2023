@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using eModels;
 using Microsoft.AspNet.OData;
@@ -59,7 +60,10 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {
-            
+
+
+            u.product_modifiers.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+
             if (u.id == 0)
             {
 
