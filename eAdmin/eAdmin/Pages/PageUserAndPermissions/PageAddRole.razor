@@ -39,10 +39,10 @@
                 <div class="uk-grid-small" uk-grid>
                     <div class="uk-width-1-3">
                         <h2>Front End</h2>
-                        @foreach (var fn in permissionoption.Where(r=>r.is_front_end == true).ToList())
+                        @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
                         {
-                         
-                           <div>@fn.note</div>
+                            <ComInputCheckBox label="@fn.note" label_inline="true"/>
+                            
                         }
 
 
@@ -52,7 +52,8 @@
                         <h2>Back End</h2>
                         @foreach (var bn in permissionoption.Where(r => r.is_front_end == false).ToList())
                         {
-                            <div>@bn.note</div>
+                           
+                            <ComInputCheckBox label="@bn.note" label_inline="true"/>
                         }
 
                     </div>
@@ -60,7 +61,8 @@
                         <h2>Report</h2>
                         @foreach (var re in permissionoption.Where(r => r.is_report == true).ToList())
                         {
-                            <div>@re.note</div>
+                        
+                            <ComInputCheckBox  label="@re.note" label_inline="true"/>
                         }
                     </div>
                 </div>
