@@ -28,7 +28,7 @@
 
             </HeaderRight>
         </PageHeader>
-        <EditForm Model="@model" OnValidSubmit="@Save_Click">
+        <EditForm Model="@model" OnValidSubmit="@SaveRole_Click">
             <DataAnnotationsValidator />
             <PageBody>
               
@@ -41,11 +41,8 @@
                         <h2>Front End</h2>
                         @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
                         {
-                            <ComInputCheckBox label="@fn.note" label_inline="true"/>
-
+                            <ComInputCheckBox label="@fn.note" label_inline="true"  @bind-value="fn.is_checked"/>
                         }
-
-
 
                     </div>
                     <div class="uk-width-1-3">
@@ -53,7 +50,7 @@
                         @foreach (var bn in permissionoption.Where(r => r.is_front_end == false).ToList())
                         {
 
-                            <ComInputCheckBox label="@bn.note" label_inline="true"/>
+                            <ComInputCheckBox label="@bn.note" label_inline="true"  @bind-value="bn.is_checked"/>
                         }
 
                     </div>
@@ -62,7 +59,7 @@
                         @foreach (var re in permissionoption.Where(r => r.is_report == true).ToList())
                         {
 
-                            <ComInputCheckBox  label="@re.note" label_inline="true"/>
+                            <ComInputCheckBox  label="@re.note" label_inline="true" @bind-value="re.is_checked"/>
                         }
                     </div>
                 </div>
@@ -85,6 +82,7 @@
     [Parameter] public int id { get; set; }
     List<PermissionOptionModel> permissionoption = new List<PermissionOptionModel>();
     RoleModel model = new RoleModel();
+    List<RoleModel> roles = new List<RoleModel>();
     string ControllerApi = "Role";
 
 
@@ -126,6 +124,8 @@
 
     }
 
+
+
     async Task LoadPermissionOption(string api_url = "")
     {
 
@@ -148,9 +148,32 @@
 
     }
 
-    void Save_Click()
+    protected async Task SaveRole_Click()
     {
-
+        is_saving = true;
+        model.permission_option_roles.Clear();
+        foreach (var a in roles.ToList())
+        {
+            if (a.is_selected)
+            {
+                model.permission_option_roles.Add(new PermissionOptionRoleModel()
+                {
+                    role_id = a.id,
+                    permission_option_id = model.id
+                });
+            }
+        }
+        var post = await http.ApiPost("Role/Save", roles);
+        if (post.IsSuccess)
+        {
+            toast.Add("Save Successfully!", MatToastType.Success);
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+       
+        is_saving = false;
     }
 
 }
