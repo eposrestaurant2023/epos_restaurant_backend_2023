@@ -40,9 +40,12 @@ namespace eModels
 
         public int current_outlet_id { get; set; }
 
+
+
+        //Note
         private string get_setting_value(int id)
         {
-            return settings.Where(r => r.id == id).FirstOrDefault()?.setting_value;
+            return settings.Where(r => r.id == id).FirstOrDefault()?.setting_title;
         }
         public string date_format
         {

@@ -17,5 +17,7 @@ namespace eModels
         public int setting_id { get; set; }
         [ForeignKey("setting_id")]
         public SettingModel setting { get; set; }
+
+        public string setting_value { get; set; }
     }
 }

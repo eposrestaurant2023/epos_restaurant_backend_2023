@@ -16,13 +16,11 @@ namespace eModels
         }
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
-        public int id { get; set; }
-        public string setting_value { get; set; }
+        public int id { get; set; }       
         public string setting_title { get; set; }
         public string setting_description { get; set; }
         public string input_type { get; set; }
         public bool status { get; set; }
-        public bool is_business_branch { get; set; }
 
         [NotMapped ]
         [JsonIgnore]

@@ -42,16 +42,12 @@
                    EmptyText="No Data Found">
                 <TableHeader>
                     @HeaderTemplate("setting_title", "Setting title")
-                    @HeaderTemplate("setting_value", "setting value")
                     <ThAuto>Descript</ThAuto>
                     <th></th>
                 </TableHeader>
                 <RowTemplate Context="s">
                     <td>
                         @s.setting_title
-                    </td>
-                    <td>
-                        <div class="text-pre-wrap">@s.setting_value</div>
                     </td>
                     <td>
                         <div class="text-pre-wrap">@s.setting_description</div>
@@ -65,16 +61,16 @@
     </PageContainer>
     @if (is_open)
     {
-        <ComEditSetting setting="setting" is_dialog_open="is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" SaveSetting="Save_Click" />
+        <ComEditSetting LoadData="@LoadBusinessBranch" business_branches="@business_branches" setting="setting" is_dialog_open="is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" SaveSetting="Save_Click" />
     }
 }
 
 @code{
     [Parameter] public string keyword { get; set; } = "";
     List<SettingModel> settings = new List<SettingModel>();
-    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     SettingModel setting = new SettingModel();
     PagerModel pg = new PagerModel();
+    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     bool is_open;
     int TotalRecord = 0;
     string StateKey = "278484567Gs47775KJHGytkjhTonB2547935";
@@ -103,6 +99,7 @@
             state.page_title = "All Setting";
         }
         await LoadData(state.api_url);
+        await LoadBusinessBranch();
         is_loading = false;
     }
 
@@ -115,12 +112,12 @@
 
     async Task Save_Click(SettingModel s)
     {
-        setting.business_brach_settings.Clear();
+        setting.business_branch_settings.Clear();
         foreach (var a in business_branches.ToList())
         {
             if (a.is_selected)
             {
-                setting.business_brach_settings.Add(new BusinessBrachSettingModel()
+                setting.business_branch_settings.Add(new BusinessBranchSettingModel()
                 {
                     business_branch_id = a.id,
                     setting_id = setting.id
@@ -135,15 +132,16 @@
             is_open = false;
         }
     }
-    public async Task LoadBusinessBranch()
+
+    async Task LoadBusinessBranch()
     {
-        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_payment_types&$filter=is_deleted eq false and status eq true");
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_settings&$filter=is_deleted eq false and status eq true");
         if (res.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
             if (setting != null)
             {
-                foreach (var p in setting.business_brach_settings)
+                foreach (var p in setting.business_branch_settings)
                 {
                     foreach (var b in business_branches.Where(r => r.id == p.business_branch_id).ToList())
                     {
