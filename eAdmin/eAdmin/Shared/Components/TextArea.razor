@@ -1,13 +1,15 @@
 ﻿@using Microsoft.JSInterop
 @inject IJSRuntime js
 
-<textarea id="@Guid" value="@Value" rows='3' data-min-rows='3' class="autoExpand uk-textarea" placeholder="@PlaceHolder" @oninput="@((e) => OnInput(e.Value.ToString()))"  @ref="txt_comment"/>
+<textarea id="@Guid" value="@Value" rows='@Row' data-min-rows='3' class="uk-textarea @ClassName" placeholder="@PlaceHolder" @oninput="@((e) => OnInput(e.Value.ToString()))"  @ref="txt_comment"/>
 
 @code{
 
     [Parameter] public string Guid { get; set; } = System.Guid.NewGuid().ToString();
     [Parameter] public string Value { get; set; } = "";
     [Parameter] public string PlaceHolder { get; set; } = "";
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter] public string Row { get; set; } = "3";
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
     public ElementReference txt_comment;
 

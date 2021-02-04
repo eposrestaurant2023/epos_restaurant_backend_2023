@@ -63,9 +63,7 @@
                     <TabItem>
                         @if (is_show_comment)
                         {
-                            <ComHistory RoleAdd="@gv.GetRole("sale_add")"
-                                        RoleDelete="@gv.GetRole("sale_delete")"
-                                        RoleEdit="@gv.GetRole("sale_edit")"
+                            <ComHistory 
                                         ApiFilter="@($"sale_id  eq {id}")"
                                         history="@history" />
                         }
