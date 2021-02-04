@@ -2777,53 +2777,7 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
 .st_date_note {
 
 }
-.ribbon {
-    position: absolute;
-    left: -5px;
-    top: -5px;
-    z-index: 1;
-    overflow: hidden;
-    width: 90px;
-    height: 90px;
-    text-align: right;
-}
 
-    .ribbon span {
-        font-size: 10px;
-        font-weight: bold;
-        color: #FFF;
-        text-transform: uppercase;
-        text-align: center;
-        line-height: 20px;
-        transform: rotate(-45deg);
-        -webkit-transform: rotate(-45deg);
-        width: 120px;
-        display: block;
-        box-shadow: 0 3px 10px -3px #a3a3a3;
-        position: absolute;
-        top: 25px;
-        left: -25px;
-    }
-
-        .ribbon span::before {
-            content: "";
-            position: absolute;
-            left: 0px;
-            top: 100%;
-            z-index: -1;
-            border-right: 3px solid transparent;
-            border-bottom: 3px solid transparent;
-        }
-
-        .ribbon span::after {
-            content: "";
-            position: absolute;
-            right: 0px;
-            top: 100%;
-            z-index: -1;
-            border-left: 3px solid transparent;
-            border-bottom: 3px solid transparent;
-        }
     /*ribbons status colors*/
 
     .ribbon .sent:before {

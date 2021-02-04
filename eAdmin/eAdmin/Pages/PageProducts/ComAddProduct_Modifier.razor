@@ -5,7 +5,7 @@
         <tr>
             <Th>Modifier Name</Th>
             <ThCenter>Price</ThCenter>
-            <th></th>
+            <ThCenter></ThCenter>
         </tr>
         @foreach(var pm in model.product_modifiers.Where(r=>r.is_deleted == false))
         {
@@ -13,12 +13,12 @@
                 <td>
                     @pm.modifier.modifier_name 
                 </td>
-                <td>
-                    <NumberInput placeholder="Price" @bind-text="@pm.price" />
-                </td>
-                <td>
-                    <Button icon="delete" class_name="danger" OnClick="@(()=>DeleteModifier(pm))" is_visible="@(pm.modifier_group_id==0)"/>
-                </td>
+                <TdCenter>
+                    <NumberInput placeholder="Price" @bind-text="@pm.price" width="100px"/>
+                </TdCenter>
+                <TdCenter>
+                    <Icon icon="delete" OnClick="@(()=>DeleteModifier(pm))" is_visible="@(pm.modifier_group_id==0)"/>
+                </TdCenter>
             </tr>
         }
     </table>

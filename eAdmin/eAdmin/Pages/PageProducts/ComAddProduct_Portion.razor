@@ -42,24 +42,23 @@
         {
             <tr>
                 <td>
-                    <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name" />
+                    <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name"/>
 
                 </td>
                 <TdCenter>
-                    <NumberInput placeholder="Multipler" @bind-text="@pp.multiplier" />
+                    <NumberInput placeholder="Multipler" @bind-text="@pp.multiplier"/>
                 </TdCenter>
                 <TdCenter>
-                    <NumberInput placeholder="Cost" @bind-text="@pp.cost" />
+                    <NumberInput placeholder="Cost" @bind-text="@pp.cost"/>
                 </TdCenter>
                 @foreach (var p in price_rules)
                 {
 
                     <TdCenter>
-
                         <NumberInput placeholder="@p.price_name"
                                      @bind-text="@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price"
                                      is_read_only="@(!@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)"
-                                     class_name="uk-text-center" />
+                                     class_name="uk-text-center"/>
                     </TdCenter>
                 }
                 <td>
