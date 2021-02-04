@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace eModels
 {
     [Table("tbl_business_branch_setting")]
-    public class BusinessBrachSettingModel
+    public class BusinessBranchSettingModel
     {
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]

@@ -12,7 +12,7 @@ namespace eModels
     {
         public SettingModel()
         {
-            business_brach_settings = new List<BusinessBrachSettingModel>();
+            business_branch_settings = new List<BusinessBranchSettingModel>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
@@ -27,6 +27,6 @@ namespace eModels
         [NotMapped ]
         [JsonIgnore]
         public bool is_saving { get; set; }
-        public List<BusinessBrachSettingModel> business_brach_settings { get; set; }
+        public List<BusinessBranchSettingModel> business_branch_settings { get; set; }
     }
 }
