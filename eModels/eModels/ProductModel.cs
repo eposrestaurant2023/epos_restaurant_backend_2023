@@ -18,6 +18,8 @@ namespace eModels
             product_printers = new List<ProductPrinterModel>();
             product_portions = new List<ProductPortionModel>();
             product_menus = new List<ProductMenuModel>();
+            product_modifiers = new List<ProductModifierModel>();
+
         }
 
         
@@ -98,7 +100,14 @@ namespace eModels
         public List<ProductPrinterModel> product_printers { get; set; }
         public List<ProductPortionModel> product_portions { get; set; }
         public List<ProductMenuModel> product_menus { get; set; }
-     
+
+
+        public List<ProductModifierModel> product_modifiers { get; set; }
+
+
+        public decimal min_price { get; set; }
+        public decimal max_price { get; set; }
+
     }
 
 

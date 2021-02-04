@@ -36,6 +36,7 @@ namespace eModels
             printers = new List<PrinterModel>();
             business_branch_payment_types = new List<BusinessBranchPaymentTypeModel>();
             business_branch_prices = new List<BusinessBranchPriceRule>();
+            business_branch_settings = new List<BusinessBranchSettingModel>();
         }
 
         private string _business_branch_name_en;
@@ -85,6 +86,7 @@ namespace eModels
 
         public List<BusinessBranchPaymentTypeModel> business_branch_payment_types { get; set; }
         public List<BusinessBranchPriceRule> business_branch_prices { get; set; }
+        public List<BusinessBranchSettingModel> business_branch_settings { get; set; }
     }
 
     [Table("tbl_business_branch_payment_type")]

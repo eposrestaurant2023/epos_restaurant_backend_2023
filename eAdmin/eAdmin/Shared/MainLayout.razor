@@ -63,7 +63,10 @@
                                                     </div>
                                                     <div><a @onclick="ToggleUserModal" uk-toggle="target: #user_profile" class="link-button"><Icon icon="settings" /> Manage your account</a></div>
 
-                                                    <div class="help-support"><a href="@gv.settings.Where(r=>r.id == 7).Select(r=>r.setting_value).FirstOrDefault()" target="_blank"><Icon icon="help_outline" />Help and Support</a></div>
+
+                                                    @*Note*@
+                                        @*===================================*@
+                                                    <div class="help-support"><a href="@gv.settings.Where(r=>r.id == 7).Select(r=>r.setting_title).FirstOrDefault()" target="_blank"><Icon icon="help_outline" />Help and Support</a></div>
                                                     <div>
                                                         <LoginDisplay />
                                                     </div>

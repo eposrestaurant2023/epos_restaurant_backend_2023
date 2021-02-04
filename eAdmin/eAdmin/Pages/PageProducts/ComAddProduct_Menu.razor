@@ -1,6 +1,4 @@
 ﻿<UIContainerBox Title="Menus">
-
-   
     @if (gv.bussiness_branches.Count() == 1)
     {
         <ComAddProduct_RenderMenu business_branch_id="@gv.bussiness_branches.FirstOrDefault().id" OnMenuSelected="@OnMenuSelected"    selected_menus="@model.product_menus" />

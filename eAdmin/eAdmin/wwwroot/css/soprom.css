@@ -27,6 +27,13 @@
 .dashboard-item:hover {
     border: 1px solid rgb(68 192 248);
 }
+.cus_margin {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.cus_margin .uk-checkbox {
+    margin-right: 5px;
+}
 .dashboard-item .stat {
     font-size: 18px;
     font-weight: 600;

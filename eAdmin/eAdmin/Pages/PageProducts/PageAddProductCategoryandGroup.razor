@@ -28,7 +28,7 @@
 
             </HeaderRight>
         </PageHeader>
-        <EditForm Model="@model" OnValidSubmit="@Save_Click">
+        <EditForm Model="@model" OnValidSubmit="@Save_Click"  @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
@@ -42,25 +42,30 @@
 
                     </UIContainerBox>
                     <UIContainerBox Title="Product Category" is_show_add_button="true" OnAddClick="@(()=>Add_Product_Category())">
-                        @foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
-                        {
-
-                            <ul class="uk-list uk-list-collapse uk-list-striped ">
-                                <li>
-                                    <div class="uk-margin-small uk-flex uk-flex-middle" uk-grid>
-                                        <div class="uk-width-expand">
-                                            <TextInput label="Product Category Name En " @bind-text="@s.product_category_en" />
-                                            <TextInput label="Product Category Name Kh" @bind-text="@s.product_category_kh" />
-                                            <SelectStatus @bind-selected_value="@s.status" />
-                                        </div>
-                                        <div class="uk-width-auto">
-                                            <Icon icon="delete" OnClick="@(()=>Delete_Product_Category(s))" />
-                                        </div>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        }
+                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                            <tr>
+                                <th>Category Name En</th>
+                                <th>Category Name Kh</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                            @foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
+                            {
+                                <tr>
+                                    <td>  <TextInput label="" placeholder="Product Category Name En " @bind-text="@s.product_category_en" /></td>
+                                    <td>  <TextInput label="" placeholder="Product Category Name En " @bind-text="@s.product_category_kh" /></td>
+                                    <td>
+                                        <LabelActive OnClick="@(()=>s.status=false)" is_visible="@s.status"/>
+                                        <LabelInActive OnClick="@(()=>s.status=true)" is_visible="@(!s.status)"/>
+                                    </td>
+                                    <td>
+                                        <Icon icon="delete" OnClick="@(()=>Delete_Product_Category(s))" />
+                                    </td>
+                                </tr>
+                            }
+                            </table>
+                        
+                        
                     </UIContainerBox>
 
 
@@ -85,7 +90,7 @@
 
     List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
     string ControllerApi = "ProductGroup";
-    bool ShowModel = false;
+   
     public string api_url
     {
         get
@@ -212,8 +217,8 @@
     {
         model.product_categories.Add(new ProductCategoryModel()
         {
-            product_category_en = "Product Category Name En " + (model.product_categories.Count()+1),
-            product_category_kh = "Product Category Name Kh " + (model.product_categories.Count() + 1),
+            product_category_en = "Category " + (model.product_categories.Count()+1),
+            product_category_kh = "Category " + (model.product_categories.Count() + 1),
 
         }) ;
 
