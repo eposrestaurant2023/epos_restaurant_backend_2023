@@ -61,7 +61,7 @@
     </PageContainer>
     @if (is_open)
     {
-        <ComEditSetting LoadData="@LoadBusinessBranch" business_branches="@business_branches" setting="setting" is_dialog_open="is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" SaveSetting="Save_Click" />
+        <ComEditSetting business_branches="@business_branches" setting="setting" is_dialog_open="is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" />
     }
 }
 
@@ -99,7 +99,6 @@
             state.page_title = "All Setting";
         }
         await LoadData(state.api_url);
-        await LoadBusinessBranch();
         is_loading = false;
     }
 
@@ -110,47 +109,7 @@
         setting = s;
     }
 
-    async Task Save_Click(SettingModel s)
-    {
-        setting.business_branch_settings.Clear();
-        foreach (var a in business_branches.ToList())
-        {
-            if (a.is_selected)
-            {
-                setting.business_branch_settings.Add(new BusinessBranchSettingModel()
-                {
-                    business_branch_id = a.id,
-                    setting_id = setting.id
-                });
-            }
-        }
-        var post = await http.ApiPost(controller_api + "/save", s);
-        if (post.IsSuccess)
-        {
-            toast.Add("Save Successfully", MatToastType.Success);
-            setting = new SettingModel();
-            is_open = false;
-        }
-    }
-
-    async Task LoadBusinessBranch()
-    {
-        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_settings&$filter=is_deleted eq false and status eq true");
-        if (res.IsSuccess)
-        {
-            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
-            if (setting != null)
-            {
-                foreach (var p in setting.business_branch_settings)
-                {
-                    foreach (var b in business_branches.Where(r => r.id == p.business_branch_id).ToList())
-                    {
-                        b.is_selected = true;
-                    }
-                }
-            }
-        }
-    }
+    
 
     async Task LoadData(string api_url = "")
     {

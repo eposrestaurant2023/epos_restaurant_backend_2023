@@ -4,7 +4,7 @@
 <Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
 {
-    <Title Value="Printers"></Title>
+    <Title Value="Cashier Notes"></Title>
     <PageContainer roles="@gv.GetRole("note_management")">
         <PageHeader>
             <HeaderLeft>
@@ -18,25 +18,39 @@
                 <RefreshButton OnClick="@OnInitializedAsync" />
             </HeaderRight>
         </PageHeader>
-        <PageBody>
+        <PageBody>           
             <UIGridCenter>
-                @if (branches.Any())
-                {
-                    @foreach (var b in branches)
-                    { 
-                        <UIContainerBox Title="@b.business_branch_name_en">
-                            <ComNoteCategory/>
-                        </UIContainerBox>
+              
+                    @if (branches.Any())
+                    {
+                        @foreach (var b in branches)
+                        {
+                    <UIContainerBox Title="@b.business_branch_name_en">
+                        @foreach (var c in gv.category_notes.Where(r => r.status))
+                        {
+                            <ComAccordion>
+                                <Header>
+                                    @c.category_note_name_en (@b.cashier_notes.Where(r => r.category_note_id == c.id && r.is_deleted ==false).Count())
+                                </Header>
+                                <Content>
+                                    <ComNoteCategory notes="@b.cashier_notes.Where(r=>r.category_note_id==c.id).ToList()" />
+                                    <hr />
+                                    <Button OnClick="@(()=>AddNote(b,c))">Add Note</Button>
+                                </Content>
+                            </ComAccordion>
+                        }
 
+                        
+
+                    </UIContainerBox>
+                        }
                     }
-                }
-                else
-                {
-                    <ComAlert type="warning">There is no business branch. Please enter business branch first.</ComAlert>
-                }
+                    else
+                    {
+                        <ComAlert type="warning">There is no business branch. Please enter business branch first.</ComAlert>
+                    }
+                             
             </UIGridCenter>
-
-
         </PageBody>
         <PageFooter>
             <FooterCenter>
@@ -68,8 +82,7 @@
 
     async Task LoadData()
     {
-
-        var resp = await http.ApiGetOData("BusinessBranch?$expand=printers($filter=is_deleted eq false)&$filter=is_deleted eq false");
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=cashier_notes($filter=is_deleted eq false)&$filter=is_deleted eq false");
         if (resp.IsSuccess)
         {
             branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
@@ -79,39 +92,31 @@
 
             toast.Add("Loading note fail.", MatToastType.Warning);
         }
-
-
     }
 
-    void AddPrinter(BusinessBranchModel b)
+    void AddNote(BusinessBranchModel b, CategoryNoteModel c)
     {
-        b.printers.Add(new PrinterModel());
+        b.cashier_notes.Add(new NoteModel() { category_note_id = c.id, business_branch_id = b.id });
     }
 
     async Task Save_Click()
     {
 
-        if (branches.SelectMany(r => r.printers).Where(r => r.is_deleted == false && r.printer_name.Trim() == "").Any())
-        {
 
-            toast.Add("Please enter printer name", MatToastType.Warning);
-            return;
-        }
-
+        branches.SelectMany(r => r.cashier_notes).ToList().RemoveAll(r => r.note.Trim() == "");
+        branches.SelectMany(r => r.cashier_notes).ToList().Where(r => r.id > 0 && r.note.Trim() == "").ToList().ForEach(r => r.is_deleted = true);
+         
         is_saving = true;
 
         var resp = await http.ApiPost("BusinessBranch/save/multiple", branches);
         if (resp.IsSuccess)
         {
-
-            toast.Add("Save Printer successfully", MatToastType.Success);
-
+            toast.Add("Save Note successfully", MatToastType.Success);
             await LoadData();
         }
         else
         {
-
-            toast.Add("Save Printer Fail", MatToastType.Warning);
+            toast.Add("Save Note Fail", MatToastType.Warning);
         }
         is_saving = false;
     }

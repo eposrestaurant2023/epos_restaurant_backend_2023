@@ -2682,7 +2682,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.NoteModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany()
+                        .WithMany("cashier_notes")
                         .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3045,6 +3045,8 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch_prices");
 
                     b.Navigation("business_branch_settings");
+
+                    b.Navigation("cashier_notes");
 
                     b.Navigation("customer_business_branchs");
 

@@ -57,6 +57,7 @@ namespace eAPI.Controllers
             else
             {
 
+                db.Database.ExecuteSqlRaw($"delete tbl_permission_option_role where permission_option_id = {u.id}");
                 db.PermissionOptionRole.AddRange(u.permission_option_roles);
                 db.Roles.Update(u);
             }            

@@ -1,5 +1,32 @@
-﻿<h3>ComNoteCategory</h3>
+﻿<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+    <tr>
+        <th>Note</th>
+        <th></th>
+    </tr>
+    @foreach(var n in notes.Where(r=>r.is_deleted==false))
+    {
+        <tr>
+            <td>
+                <TextInput @bind-text="@n.note" placeholder="Note" label="" />
+            </td>
+            <td>
+                <Icon icon="delete" OnClick="@(()=>Delete(n))" />
+            </td>
+        </tr>
+    }
+</table>
+
 
 @code {
+    [Parameter] public List<NoteModel> notes { get;set;}
 
+    void Delete(NoteModel n)
+    {
+        if (n.id > 0) {
+            n.is_deleted = true;
+        }else
+        {
+            notes.Remove(n);
+        }
+    }
 }
