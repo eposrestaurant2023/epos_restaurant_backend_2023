@@ -1,0 +1,23 @@
+﻿<div class="invoice-sub-title">Payment List</div>
+<Spacing Number="14"/>
+<table class="uk-table uk-margin-remove sale-dt-payment-info">
+    <thead>
+        <tr>
+            <th>Payment Type</th>
+            <th class="uk-text-right">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in payments)
+        {
+            <tr>
+                <td>@i.payment_type?.payment_type_name_en </td>
+                <td class="uk-text-right">@i.payment_amount </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    [Parameter] public List<PaymentModel> payments { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}

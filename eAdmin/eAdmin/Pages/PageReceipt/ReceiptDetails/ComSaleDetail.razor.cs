@@ -1,0 +1,88 @@
+﻿using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
+using System.Text.Json;
+using eModels;
+using eAdmin.JSHelpers;
+using MatBlazor;
+using System;
+
+namespace eAdmin.Pages.PageReceipt.ReceiptDetails
+{
+    public class ComSaleDetailBase : PageCore
+    {
+ 
+        [Parameter] public Guid id { get; set; }
+        public bool is_open_print, is_show_comment;
+        public HistoryModel history { get; set; } = new HistoryModel();
+
+        public string api_url { get {
+                string url = $"sale({id})?";
+                url = url + "$expand=customer,";
+                url = url + "sale_products($expand=product,product_type),";
+                url = url + "payments($expand=payment_type),";
+                url = url + "outlet,";
+                url = url + "business_branch";
+                return url;
+            }
+        }
+
+        public SaleModel sale { get; set; } = new SaleModel();
+
+
+        protected override async Task OnInitializedAsync()
+        {
+            is_loading = true; 
+            await LoadData(); 
+            is_loading = false;
+        }
+        public async Task LoadData()
+        {
+            
+            var resp =await http.ApiGet(api_url);
+            if (resp.IsSuccess)
+            {
+                sale = JsonSerializer.Deserialize<SaleModel>(resp.Content.ToString());
+            }else
+            { 
+                toast.Add("Error getting data.", MatToastType.Warning);
+
+                is_loading_data = false;
+            }
+
+        }
+
+ 
+        public void ShowComment()
+        {
+            if (!is_show_comment)
+            {
+                is_show_comment = true;
+            }
+        }
+ 
+ 
+
+        public async Task SavePayment_Click(bool is_success)
+        {
+            if (is_success)
+            {
+                is_loading_data = true;
+                await LoadData();
+                is_loading_data = false;
+            } 
+            sale.is_loading = false;
+            is_loading_data = false;
+        }
+
+ 
+        public async Task OnRefresh()
+        {
+            is_loading_data = true;
+            await LoadData();
+            is_loading_data = false;
+        }
+ 
+
+    }
+
+}

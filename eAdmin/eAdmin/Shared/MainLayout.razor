@@ -19,7 +19,7 @@
                                         <div class="uk-navbar-item">
                                             <UkFlex>
                                                 <FlexItem class_name="uk-margin-right">
-                                                    <Icon icon="menu" target=".app-layout; cls: is_open" className="menu_humberger" OnClick="@ShowHideMenu" />
+                                                    <Icon icon="menu" target=".app-layout; cls: is_open" className="menu_humberger" OnClick="@ShowHideMenu" icon_color="#fff" />
                                                 </FlexItem>
                                                 <FlexItem>
                                                     <GlobalSearch />
@@ -36,7 +36,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <RefreshButton OnClick="@(async()=>await LoadData())" />
+                                                    <Icon icon="refresh" OnClick="@(async()=>await LoadData())" className="btn-header-refresh"/>
                                                 }
                                             </li>
                                         </ul>
@@ -48,10 +48,10 @@
                                         <ul class="uk-navbar-nav topactt">
 
                                             <li>
-                                                @*@if (gv.current_login_user != null)
+                                                @if (gv.current_login_user != null)
                                                 {
                                                     <div style="background-image:url(@(image_base_url + gv.current_login_user?.photo))" class="main_profile_image"></div>
-                                                }*@
+                                                }
 
                                                 <div class="uk-navbar-dropdown" style="width: 250px;" id="user_profile">
                                                     <div>
