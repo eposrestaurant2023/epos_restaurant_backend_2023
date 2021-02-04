@@ -64,6 +64,7 @@ namespace eAPI.Controllers
 
 
             u.product_modifiers.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+            u.product_menus.ForEach(r => r.menu = null);
             string xx = JsonSerializer.Serialize(u);
             
 
