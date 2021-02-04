@@ -105,6 +105,7 @@ namespace eAPI
         public DbSet<ProductMenuModel> ProductMenus{ get; set; }
         public DbSet<ModifierGroupModel> ModifierGroups{ get; set; }
         public DbSet<ModifierGroupProductCategoryModel> ModifierGroupProductCategories{ get; set; }
+        public DbSet<ConfigDataModel> ConfigDatas{ get; set; }
 
     }
 

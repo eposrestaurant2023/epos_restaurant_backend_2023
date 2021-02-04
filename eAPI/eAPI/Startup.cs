@@ -163,6 +163,8 @@ namespace eAPI
             odataBuilder.EntitySet<ModifierGroupModel>("ModifierGroup");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
             odataBuilder.EntitySet<HistoryModel>("History");
+            odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
+            odataBuilder.EntitySet<ConfigDataModel>("ConfigData");
 
 
              
