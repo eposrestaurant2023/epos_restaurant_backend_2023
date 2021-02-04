@@ -125,6 +125,9 @@ namespace eAPI
             var u = odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
             u.EntityType.HasKey(r => new { r.user_id, r.business_branch_id });
 
+            var bs = odataBuilder.EntitySet<BusinessBrachSettingModel>("BusinessBrachSetting");
+            bs.EntityType.HasKey(r => new { r.setting_id, r.business_branch_id });
+
             var b = odataBuilder.EntitySet<BusinessBranchPaymentTypeModel>("BusinessBranchPaymentType");
             b.EntityType.HasKey(r => new { r.payment_type_id, r.business_branch_id });
 
