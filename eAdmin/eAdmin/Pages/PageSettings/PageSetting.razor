@@ -2,6 +2,12 @@
 @inherits PageCore
 
 <Loading is_loading="@is_loading" />
+
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
 @if (!is_loading)
 {
     <Title Value="General Setting"></Title>
@@ -10,26 +16,33 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @title
+                        @state.page_title
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <RefreshButton OnClick="RefreshSetting_Click" />
-                <ComSearchV2 Keyword="@keyword" KeywordChanged="@FilterSettingByKeyword" />
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Table 
-                   ShowPaging="false"
+            <Table OnPagerChange="@SelectChange"
+                   OnPageChange="@ChangePager"
+                   isLoading="@is_loading_data"
+                   PerPage="@state.pager.per_page"
+                   TotalItem="@TotalRecord"
+                   CurrentPage="@state.pager.current_page"
+                   ShowPaging="true"
                    ShowCounter="true"
-                   Items="@settings" 
-                   EmptyIcon="setting" 
+                   ShowPager="true"
+                   ShowTotalCount="true"
+                   ShowPagination="true"
+                   Items="@settings"
+                   EmptyIcon="setting"
                    EmptyText="No Data Found">
                 <TableHeader>
-                    <Th OnClick="@(async () => await SortOrder("setting_title"))" OrderBy="@(pg.order_by == "setting_title")" OrderByType="@pg.order_by_type" ClassName="cp">Setting Title</Th>
-                    
-                    <Th>setting Value</Th>
+                    @HeaderTemplate("setting_title", "Setting title")
+                    @HeaderTemplate("setting_value", "setting value")
                     <ThAuto>Descript</ThAuto>
                     <th></th>
                 </TableHeader>
@@ -44,15 +57,15 @@
                         <div class="text-pre-wrap">@s.setting_description</div>
                     </td>
                     <td>
-                        <Icon roles="@gv.GetRole("general_setting_edit")" title="Edit" icon="edit" OnClick="@(()=>EditSetting_Click(s))"/>
-                    </td>                    
+                        <Icon roles="@gv.GetRole("general_setting_edit")" title="Edit" icon="edit" OnClick="@(()=>OnEdit(s))" />
+                    </td>
                 </RowTemplate>
             </Table>
         </PageBody>
     </PageContainer>
     @if (is_open)
     {
-        <ComEditSetting setting="setting" is_dialog_open="is_open" Cancel_click="CancelEdit_Click" title="@setting.setting_title" SaveSetting="SaveSetting_Click" />
+        <ComEditSetting setting="setting" is_dialog_open="is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" SaveSetting="Save_Click" />
     }
 }
 
@@ -62,96 +75,100 @@
     SettingModel setting = new SettingModel();
     PagerModel pg = new PagerModel();
     bool is_open;
-    int TotalRecord=0;
-    string old_title, old_value, old_desc;
-    string keyword_query = "";
+    int TotalRecord = 0;
+    string StateKey = "278484567Gs47775KJHGytkjhTonB2547935";
+    string controller_api = "Setting";
+
+    public string ControllerApi
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(state.pager.order_by))
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            return url + GetFilter(state.filters);
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        if (!is_loading)
+        is_loading = true;
+        state = await GetState(StateKey);
+        if (state.page_title == "")
         {
-            is_loading = true;
-            settings = await LoadSetting();
-            title = "All Setting";
-            is_loading = false;
+            state.page_title = "All Setting";
         }
+        await LoadData(state.api_url);
+        is_loading = false;
     }
 
-    void EditSetting_Click(SettingModel s)
+    void OnEdit(SettingModel s)
     {
+        title = "Edit :" + s.setting_title;
         is_open = true;
         setting = s;
-
-        old_title = s.setting_title;
-        old_value = s.setting_value;
-        old_desc = s.setting_description;
     }
 
-    async Task FilterSettingByKeyword(string _keyword)
+    async Task Save_Click(SettingModel s)
     {
-        keyword = _keyword;
-        pg.current_page = 1;
-        if (!string.IsNullOrEmpty(keyword))
+        var post = await http.ApiPost(controller_api + "/save", s);
+        if (post.IsSuccess)
         {
-            keyword_query = $"keyword={keyword}";
-            settings = await LoadSetting(keyword);
-        }
-        else
-        {
-            keyword = "";
-            keyword_query = "";
-            settings = await LoadSetting(keyword);
+            toast.Add("Save Successfully", MatToastType.Success);
+            setting = new SettingModel();
+            is_open = false;
         }
     }
 
-    async Task SaveSetting_Click()
-    {
-        setting.is_saving = true;
-        var res = await http.ApiPost("setting/save", setting);
-        string dd = JsonSerializer.Serialize(setting);
-        if (res.IsSuccess)
-        {
-            toast.Add("Updated Successfully.", MatToastType.Success);
-        }
-        setting.is_saving = false;
-        is_open = false;
-    }
-
-    void CancelEdit_Click()
-    {
-        setting.setting_title = old_title;
-        setting.setting_value = old_value;
-        setting.setting_description = old_desc;
-        is_open = false;
-    }
-
-    async Task<List<SettingModel>> LoadSetting(string keyword = "", bool is_clear = false)
+    async Task LoadData(string api_url = "")
     {
         is_loading = true;
-
-        string paging_query = $"&$orderby={pg.order_by} {pg.order_by_type}";
-        var res = await http.ApiGetOData($"setting?{keyword_query}&$count=true&$top={pg.per_page}&$skip={ pg.per_page * (pg.current_page - 1)}{paging_query}&$filter= status eq true ");
-        string query = $"setting?{keyword_query}&$count=true&$top={pg.per_page}&$skip={ pg.per_page * (pg.current_page - 1)}{paging_query}";
-        List<SettingModel> settings = new List<SettingModel>();
-        if (res.IsSuccess)
+        if (string.IsNullOrEmpty(api_url))
         {
-            TotalRecord = res.Count;
-            settings = JsonSerializer.Deserialize<List<SettingModel>>(res.Content.ToString());
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+            await SetState(StateKey, state);
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            settings = JsonSerializer.Deserialize<List<SettingModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
         }
         is_loading = false;
-        return settings;
     }
 
-    async Task SortOrder(string col_name = "")
+    async Task OrderBy(string col_name = "")
     {
-        pg.order_by = col_name;
-        pg.order_by_type = (pg.order_by_type == "asc" ? "desc" : "asc");
-        settings = await LoadSetting();
+
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+
+        await LoadData();
     }
 
-    async Task RefreshSetting_Click()
+    async Task SelectChange(int perpage)
     {
-        settings = await LoadSetting("", true);
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+    async Task ChangePager(int _page)
+    {
+        state.pager.current_page = _page;
+        await LoadData();
+    }
+
+    async Task OnSearch(string keyword)
+    {
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword);
+        await LoadData();
     }
 }
 

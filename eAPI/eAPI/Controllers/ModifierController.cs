@@ -17,11 +17,11 @@ namespace eAPI.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ProductController : ODataController
+    public class ModifierController : ODataController
     {
 
         private readonly ApplicationDbContext db;
-        public ProductController(ApplicationDbContext _db)
+        public ModifierController(ApplicationDbContext _db)
         {
             db = _db;
         }
@@ -30,20 +30,18 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        public IQueryable<ProductModel> Get(string keyword = "")
+        public IQueryable<ModifierModel> Get(string keyword = "")
         {
             if (!string.IsNullOrEmpty(keyword))
             {
-                return db.Products.Where(r =>
+                return db.Modifiers.Where(r =>
                 (
-                (r.product_code ?? "") +
-                (r.product_name_en ?? "") +
-                (r.product_name_kh ?? "") 
+                (r.modifier_name ?? "") 
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
             else
             {
-                return db.Products;
+                return db.Modifiers;
             }
         }
 
@@ -51,34 +49,33 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("getsingle")]
-        public async Task<SingleResult<ProductModel>> Get([FromODataUri] int key)
+        public async Task<SingleResult<ModifierModel>> Get([FromODataUri] int key)
         {
-            return await Task.Factory.StartNew(() => SingleResult.Create<ProductModel>(db.Products.Where(r => r.id == key).AsQueryable()));
+            return await Task.Factory.StartNew(() => SingleResult.Create<ModifierModel>(db.Modifiers.Where(r => r.id == key).AsQueryable()));
         }
 
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
+        public async Task<ActionResult<string>> Save([FromBody] ModifierModel u)
         {
 
-
-            u.product_modifiers.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
-
+          
             if (u.id == 0)
             {
 
-                db.Products.Add(u);
+                db.Modifiers.Add(u);
             }
             else
             {
                 
-                db.Products.Update(u);
+                db.Modifiers.Update(u);
             }
             
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
-            return Ok(u);
+         
+         
+            return Ok(db.Modifiers.Find(u.id));
 
 
         }
@@ -88,12 +85,12 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ProductModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<ModifierModel>> DeleteRecord(Guid id) //Delete
         {
-            var u = await db.Products.FindAsync(id);
+            var u = await db.Modifiers.FindAsync(id);
             u.is_deleted = !u.is_deleted;
             
-            db.Products.Update(u);
+            db.Modifiers.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
         }

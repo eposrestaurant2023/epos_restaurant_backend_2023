@@ -177,7 +177,6 @@
     font-size: 24px;
 }
 
-
 .mdc-linear-progress {
     position: fixed !important;
     top: 0px;
@@ -317,8 +316,9 @@
     border-radius: 5px;
     padding: 10px;
 }
-.font_waith_cust .tbl_actions_group{
-    border:none !important;
+
+.font_waith_cust .tbl_actions_group {
+    border: none !important;
 }
 .uk-button-bg_button_po {
     text-transform: capitalize;

@@ -1,0 +1,110 @@
+﻿@inherits PageCore;
+ 
+<BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected_modifier" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
+    <SelectedTemplate>
+        @context.modifier_name
+    </SelectedTemplate>
+    <ResultTemplate>
+
+
+        @if (result_count > 0)
+        {
+            <span>@context.modifier_name</span>
+        }
+        else
+        {
+            <span>Add @context.modifier_name</span>
+        }
+
+    </ResultTemplate>
+     
+</BlazoredTypeahead>
+
+@code{
+
+    [Parameter] public string label { get; set; } = "Modifier";
+    [Parameter] public string status { get; set; } = "";
+    [Parameter] public string placeholder { get; set; } = "Select Modifier";
+    [Parameter] public ModifierModel modifier { get; set; }
+    [Parameter] public EventCallback<ModifierModel> modifierChanged { get; set; }
+    [Parameter] public int? modifer_id { get; set; }
+    [Parameter] public EventCallback<int> modifier_idChanged { get; set; }
+
+
+    int result_count = 0;
+
+    public async Task<IEnumerable<ModifierModel>> SearchModifier(string searchText)
+    {
+
+        string api_url = $"Modifier?keyword={searchText}&$orderby=modifier_name asc&$top=20";
+
+        state.filters.Clear();
+
+        state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+
+        if (status == "Active")
+        {
+            state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
+        }
+        else if (status == "Inactive")
+        {
+            state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
+        }
+
+        api_url = api_url + GetFilter(state.filters);
+        var res = await http.ApiGetOData(api_url);
+        if (res.IsSuccess)
+        {
+            var result = JsonSerializer.Deserialize<List<ModifierModel>>(res.Content.ToString());
+            result_count = result.Count();
+
+            if (result_count ==0 && searchText!="")
+            {
+                result.Add(new ModifierModel() { modifier_name = searchText });
+            }
+
+            return result;
+
+        }
+        return new List<ModifierModel>();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (modifier != null)
+        {
+            if (modifier.id == 0)
+            {
+                selected_modifier = null;
+            }
+            else
+            {
+                selected_modifier = modifier;
+            }
+        }
+        await SearchModifier("");
+    }
+
+    private ModifierModel _selected_modifier;
+    public ModifierModel selected_modifier
+    {
+        get
+        {
+            _selected_modifier = modifier;
+            return _selected_modifier;
+        }
+        set
+        {
+            _selected_modifier = value;
+            modifierChanged.InvokeAsync(value);
+            if (value != null)
+            {
+                modifier_idChanged.InvokeAsync(value.id);
+            }
+            else
+            {
+                modifier_idChanged.InvokeAsync(0);
+            }
+        }
+    }
+}

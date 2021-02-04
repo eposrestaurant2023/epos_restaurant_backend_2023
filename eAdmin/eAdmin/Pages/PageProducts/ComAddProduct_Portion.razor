@@ -18,8 +18,7 @@
                         <ThCenter>
                             @p.price_name
                     <br/>
-                            <Button OnClick="@(() => OnSetDefault(p))">Default</Button>
-                            <br/>
+                           
                             <LabelActive is_visible="@(IsPriceRuleActive(p))" OnClick="@(() => OnChangeStatus(p))"/>
                             <LabelInActive is_visible="@(!IsPriceRuleActive(p))" OnClick="@(() => OnChangeStatus(p))"/>
                             </ThCenter>
