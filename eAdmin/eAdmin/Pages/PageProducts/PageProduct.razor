@@ -79,7 +79,14 @@
                         </td>
  
                         <TdRight>
-                            00
+                            @if (p.min_price == p.max_price)
+                                {
+                                <span>@p.min_price.ToString(gv.currency_format)</span>
+                                }
+                                else
+                                {
+                                <span>@p.min_price.ToString(gv.currency_format) - @p.max_price.ToString(gv.currency_format)</span>
+                                }
                         </TdRight>
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />

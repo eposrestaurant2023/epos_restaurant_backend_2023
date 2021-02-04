@@ -29,10 +29,10 @@ namespace eModels
         public bool is_document_file { get; set; } = false;
         
 
-        public Guid customer_id { get; set; }
+        public Guid? customer_id { get; set; }
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
-        public int product_id { get; set; }
+        public int? product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
 

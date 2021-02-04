@@ -60,9 +60,12 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {
+             
 
 
             u.product_modifiers.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+            string xx = JsonSerializer.Serialize(u);
+            
 
             if (u.id == 0)
             {
@@ -88,15 +91,61 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ProductModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult> DeleteRecord(int id) //Delete
         {
             var u = await db.Products.FindAsync(id);
             u.is_deleted = !u.is_deleted;
             
             db.Products.Update(u);
             await db.SaveChangesAsync();
-            return Ok(u);
+            return Ok();
         }
+
+        [HttpPost]
+        [Route("ChangeStatus/{id}")]
+        public async Task<ActionResult> ChangeStatus(int id) //Delete
+        {
+            var u = await db.Products.FindAsync(id);
+            u.status= !u.status;
+            
+            db.Products.Update(u);
+            await db.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Clone/{id}")]
+        public async Task<ActionResult<ProductModel>> Clone(int id) //Delete
+        {
+            var data =   db.Products.Where(r => r.id == id)
+                .Include(r=>r.product_portions.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.product_prices.Where(r=>r.is_deleted==false))
+                .Include(r=>r.product_printers.Where(r=>r.is_deleted==false)).
+                Include(r=>r.product_menus.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.menu)
+                .Include(r=>r.product_modifiers.Where(r=>r.is_deleted ==false)).ThenInclude(r=>r.modifier)
+                .ToList();
+             
+            if (data.Any())
+            {
+                ProductModel p = data.FirstOrDefault();
+                p.id = 0;
+                p.product_portions.ForEach(r => r.id = 0);
+                p.product_portions.SelectMany(r=>r.product_prices).ToList().ForEach(r => r.id = 0);
+                p.product_printers.ForEach(r => r.id = 0);
+                p.product_menus.ForEach(r => r.id = 0);
+                p.product_menus.ForEach(r => r.product_id = 0);
+                p.product_menus.ForEach(r => r.menu.menus = new List<MenuModel>());
+                p.product_modifiers.ForEach(r => { r.id = 0; r.product_id = 0; });
+                 
+                return Ok(p);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
+        }
+
+
     }
 
 }

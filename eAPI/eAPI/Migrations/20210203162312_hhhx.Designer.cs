@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210203162312_hhhx")]
+    partial class hhhx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("customer_id")
+                    b.Property<Guid>("customer_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("deleted_by")
@@ -74,7 +76,7 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int?>("product_id")
+                    b.Property<int>("product_id")
                         .HasColumnType("int");
 
                     b.Property<bool>("status")
@@ -2473,11 +2475,15 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
-                        .HasForeignKey("customer_id");
+                        .HasForeignKey("customer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany()
-                        .HasForeignKey("product_id");
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("customer");
 

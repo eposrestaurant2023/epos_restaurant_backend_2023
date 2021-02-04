@@ -7,61 +7,70 @@
     {
         @if (model.product_portions.Any())
         {
-        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
-            <thead>
-                <tr>
-                    <ThAuto>Portion</ThAuto>
-                    <th>Multplier</th>
-                    <th>Cost</th>
-                    @foreach (var p in price_rules)
-                    {
-                        <ThCenter>
-                            @p.price_name
-                    <br/>
-                           
-                            <LabelActive is_visible="@(IsPriceRuleActive(p))" OnClick="@(() => OnChangeStatus(p))"/>
-                            <LabelInActive is_visible="@(!IsPriceRuleActive(p))" OnClick="@(() => OnChangeStatus(p))"/>
-                            </ThCenter>
-                    }
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var pp in model.product_portions.Where(r => r.is_deleted == false))
+<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+    <thead>
+        <tr>
+            <ThAuto>Portion</ThAuto>
+            <th>Multplier</th>
+            <th>Cost</th>
+            @foreach (var p in gv.price_rules)
+            {
+                <ThCenter>
+                    @p.price_name
+
+                </ThCenter>
+            }
+            <th></th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            @foreach (var p in gv.price_rules)
+            {
+                <ThCenter>
+
+                    <LabelActive is_visible="@(IsPriceRuleActive(p))" />
+                    <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
+                </ThCenter>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pp in model.product_portions.Where(r => r.is_deleted == false))
+        {
+            <tr>
+                <td>
+                    <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name" />
+
+                </td>
+                <TdCenter>
+                    <NumberInput placeholder="Multipler" @bind-text="@pp.multiplier" />
+                </TdCenter>
+                <TdCenter>
+                    <NumberInput placeholder="Cost" @bind-text="@pp.cost" />
+                </TdCenter>
+                @foreach (var p in price_rules)
                 {
-                <tr>
-                    <td>
-                        <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name" />
-                    
-                    </td>
-                    <TdCenter>
-                        <NumberInput placeholder="Multipler" @bind-text="@pp.multiplier" />
-                    </TdCenter>
-                    <TdCenter>
-                        <NumberInput placeholder="Cost" @bind-text="@pp.cost" />
-                    </TdCenter>
-                    @foreach (var p in price_rules)
-                    {
 
-                        <TdCenter>
-                            
-                            <NumberInput  
-                                placeholder="@p.price_name" 
-                                @bind-text="@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price" 
-                                is_read_only="@(!@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)" 
-                                class_name="@(@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().is_default ? "default-price uk-text-center" : "uk-text-center")"
-                            />
-                        </TdCenter>
-                    }
-                    <td>
-                        <Button class_name="danger" icon="delete" OnClick="@(() => DeletePortion(pp))" is_visible="@(model.product_portions.Where(r => r.is_deleted == false).Count() > 1)" />
-                    </td>
-                </tr>
+                    <TdCenter>
 
+                        <NumberInput placeholder="@p.price_name"
+                                     @bind-text="@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price"
+                                     is_read_only="@(!@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)"
+                                     class_name="uk-text-center" />
+                    </TdCenter>
                 }
+                <td>
+                    <Icon  icon="delete" OnClick="@(() => DeletePortion(pp))" is_visible="@(model.product_portions.Where(r => r.is_deleted == false).Count() > 1)" />
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
+        }
+
+    </tbody>
+</table>
         }else
         {
             <p>There is no product portions</p>
@@ -86,43 +95,31 @@
         await Task.Delay(100);
         price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(JsonSerializer.Serialize(gv.price_rules));
 
-        if (model.id == 0)
+        if (model.id == 0 && model.product_portions.Count()==0)
         {
 
             model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = "Normal" });
 
         }else
         {
-            var data = model.product_portions.SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.is_default);
+            var data = model.product_portions.SelectMany(r => r.product_prices).Where(r => r.is_deleted == false);
             if (data.Any())
             {
                 int default_price_rule_id = data.FirstOrDefault().price_rule_id;
-                price_rules.Where(r => r.id == default_price_rule_id).FirstOrDefault().is_default = true;
+                
             }
 
         }
         is_loading = false;
     }
 
-    void OnSetDefault(PriceRuleModel p)
-    {
-
-        foreach (var pp in model.product_portions)
-        {
-            pp.product_prices.ForEach(r => r.is_default = r.price_rule_id == p.id ? true : false);
-        }
-
-        price_rules.Where(r => r.id == p.id).FirstOrDefault().is_default = true;
-
-        model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price_rule_id == p.id ).ToList().ForEach(r => r.status = true);
-
-    }
+  
 
     void OnChangeStatus(PriceRuleModel p)
     {
 
 
-        model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price_rule_id==p.id && r.is_default==false ).ToList().ForEach(r => r.status = !r.status);
+        model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price_rule_id==p.id  ).ToList().ForEach(r => r.status = !r.status);
 
     }
 

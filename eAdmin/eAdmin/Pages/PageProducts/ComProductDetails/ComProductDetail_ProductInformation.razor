@@ -3,19 +3,15 @@
         <ContentLeft>
             <table>
                 <tr>
-                    <td>Product Code</td>
                     <td>@model.product_code</td>
                 </tr>
                 <tr>
-                    <td>Product Name (En)</td>
                     <td>@model.product_name_en</td>
                 </tr>
                 <tr>
-                    <td>Product Name (Kh)</td>
                     <td>@model.product_name_kh</td>
                 </tr>
                 <tr>
-                    <td>Category</td>
                     <td>@model.product_category?.product_category_en</td>
                 </tr>
 
@@ -47,6 +43,9 @@
     </UISummaryBox>
     <Spacing Number="10"/>
     <ComProductDetail_Portion product_id="@model.id"/>
+    <Spacing Number="10"/>
+
+    <ComProductDetail_Menu product_id="@model.id"/>
     <Spacing Number="10"/>
 
     <ComProductDetail_ProductPrinter product_id="@model.id"/>
