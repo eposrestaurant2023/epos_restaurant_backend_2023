@@ -52,6 +52,14 @@ namespace eAPI.Controllers
                 return db.Sales.AsQueryable();
             }
         }
-  
+
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        [Route("getsingle")]
+        public async Task<SingleResult<SaleModel>> Get([FromODataUri] Guid key)
+        {
+            return await Task.Factory.StartNew(() => SingleResult.Create<SaleModel>(db.Sales.Where(r => r.id == key).AsQueryable()));
+        }
+
     }
 }

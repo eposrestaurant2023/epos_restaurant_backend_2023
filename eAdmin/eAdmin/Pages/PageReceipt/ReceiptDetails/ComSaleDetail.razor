@@ -34,14 +34,14 @@
                         <ComPage>
                             <ComSaleDetailInvoiceHeader sale="@sale" />
                             <Spacing Number="20" />
-                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
+                            <div class="invoice-sub-title">Products Sold</div>
+                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered table-invoice uk-margin-remove">
                                 <thead>
                                     <tr>
                                         <th>No</th>
                                         <ThCenter>Image</ThCenter>
-                                        <th class="col-auto">Item</th>
+                                        <th class="col-auto">Description</th>
                                         <th class="uk-text-center">QTY</th>
-                                        <th class="uk-text-center">Unit</th>
                                         <th class="uk-text-right">Price</th>
                                         <th class="uk-text-right">Dis.</th>
                                         <th class="uk-text-right">Amount</th>
@@ -54,7 +54,8 @@
                                     <ComSaleDetailInvoiceFooter sale="@sale" />
                                 </tfoot>
                             </table>
-                            <Spacing Number="20" />
+                            <Spacing Number="15" />
+                            <ComSaleDetail_PaymentInformation payments="@sale.payments" />
                             <ComSaleDetailFooterInformation sale="@sale" />
                         </ComPage>
                     </TabItem> 

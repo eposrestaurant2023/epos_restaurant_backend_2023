@@ -42,40 +42,42 @@
             <ComSaleDetail_CustomerAddress sale="@sale" />
         </div>
         <div class="uk-width-auto">
-            <table class="invoice_header_description">
-
-                <tr>
-                    <td>Invoice Date:</td>
-                    <td>@sale.sale_date.ToString(gv.date_format)</td>
-                </tr>
-
-                @if (sale.due_date != null)
-                {
+            <div class="box-invoice-header-info">
+                <div class="invoice-header-title">Invoice Information</div>
+                <table class="invoice_header_description">
                     <tr>
-                        <td>Due Date:</td>
-                        <td>@string.Format(gv.date_format, sale.due_date)</td>
+                        <td>Invoice Date:</td>
+                        <td>@sale.sale_date.ToString(gv.date_format)</td>
                     </tr>
-                }
-                <tr>
-                    <td>Referance #:</td>
-                    <td>@sale.reference_number</td>
-                </tr>
-                @if (sale.outlet != null)
-                {
-                    <tr>
-                        <td>Outlet Name:</td>
-                        <td>@sale.outlet?.outlet_name_en</td>
-                    </tr>
-                }
-                @if (sale.stock_location != null)
-                {
-                    <tr>
-                        <td>Stock Location:</td>
-                        <td>@sale.stock_location?.stock_location_name</td>
-                    </tr>
-                }
-            </table>
 
+                    @if (sale.due_date != null)
+                    {
+                        <tr>
+                            <td>Due Date:</td>
+                            <td>@string.Format(gv.date_format, sale.due_date)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>Referance #:</td>
+                        <td>@sale.reference_number</td>
+                    </tr>
+                    @if (sale.business_branch != null)
+                    {
+                        <tr>
+                            <td>Business Branch:</td>
+                            <td>@sale.business_branch?.business_branch_name_en</td>
+                        </tr>
+                    }
+                    @if (sale.outlet != null)
+                    {
+                        <tr>
+                            <td>Outlet Name:</td>
+                            <td>@sale.outlet?.outlet_name_en</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
         </div>
     </div>
  
