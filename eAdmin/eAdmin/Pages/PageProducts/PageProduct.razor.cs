@@ -32,7 +32,9 @@ namespace eAdmin.Pages.PageProducts
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                string url = $"{controller_api}?";
+                url = url + "$select=id,product_name_en,product_name_kh,product_code,status,is_deleted,min_price,max_price,photo&";
+                    url = url + $"$expand=product_category($select=product_category_en)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters);
             }
         }
@@ -133,7 +135,7 @@ namespace eAdmin.Pages.PageProducts
             var product = new ProductModel();
             product = p;
             product.status = !product.status;
-            var resp = await http.ApiPost(controller_api + "/save", product);
+            var resp = await http.ApiPost(controller_api + "/ChangeStatus/"+product.id);
             if (resp.IsSuccess)
             {
                 toast.Add("Change status successfully", MatToastType.Success);

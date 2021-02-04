@@ -28,7 +28,7 @@
     {
 
         is_loading = true;
-        var resp = await http.ApiGetOData($"ProductPrinter?$select=id&$expand=printer($select=printer_name;$expand=business_branch($select=business_branch_name_en))&$filter=product_id eq {product_id}");
+        var resp = await http.ApiGetOData($"ProductPrinter?$select=id&$expand=printer($select=printer_name;$expand=business_branch($select=business_branch_name_en))&$filter=product_id eq {product_id} && is_deleted eq false");
 
         if (resp.IsSuccess)
         {

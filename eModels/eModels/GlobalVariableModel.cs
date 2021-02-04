@@ -48,14 +48,14 @@ namespace eModels
         {
             get
             {
-                return get_setting_value(1);
+                return get_setting_value(53);
             }
         }
         public string date_time_format
         {
             get
             {
-                return get_setting_value(3);
+                return get_setting_value(54);
             }
         }
 
@@ -70,14 +70,14 @@ namespace eModels
         {
             get
             {
-                return get_setting_value(4);
+                return get_setting_value(2);
             }
         }
         public string report_folder
         {
             get
             {
-                return get_setting_value(5);
+                return get_setting_value(3);
             }
         }
 

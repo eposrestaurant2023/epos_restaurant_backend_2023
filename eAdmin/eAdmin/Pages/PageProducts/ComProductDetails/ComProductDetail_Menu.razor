@@ -1,0 +1,38 @@
+﻿@inject IHttpService http;
+<UIContainerBox Title="Menus">
+    @if (is_loading)
+    {
+        <Spinner/>
+    }
+    else
+    {
+        if (product_menus.Count() == 0)
+        {
+            <p>There is no menu assigment for this product</p>
+        }
+    <ul> 
+    @foreach (var pm in product_menus.OrderBy(r => r.menu.business_branch.business_branch_name_en))
+    {
+        <li> <Label ClassName="primary">@pm.menu.business_branch.business_branch_name_en </Label> @pm.menu.menu_path</li>
+    }
+    </ul>
+    }
+</UIContainerBox>
+@code{
+    [Parameter] public int product_id { get; set; }
+    List<ProductMenuModel> product_menus = new List<ProductMenuModel>();
+    bool is_loading;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        var resp = await http.ApiGetOData($"ProductMenu?$select=id&$expand=menu($select=menu_path;$expand=business_branch($select=business_branch_name_en))&$filter=product_id eq {product_id} and is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            product_menus = JsonSerializer.Deserialize<List<ProductMenuModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+}

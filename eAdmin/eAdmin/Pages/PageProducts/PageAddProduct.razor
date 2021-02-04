@@ -1,5 +1,6 @@
 ﻿@page "/product/new"
 @page "/product/edit/{id:int}"
+@page "/product/clone/{clone_id:int}"
 
 @inherits PageAddProductBase
 
@@ -38,7 +39,7 @@
                     <TabBody>
                         <TabItem>
                             <UIGridCenter>
-                                <UIContainerBox Title="Customer Photo" ClassName="uk-text-center">
+                                <UIContainerBox Title="Product Photo" ClassName="uk-text-center">
                                     <UIFlexCenter>
                                         <FileUpload @bind-ImageUrl="@model.photo" />
                                     </UIFlexCenter>
@@ -93,7 +94,7 @@
                 <FooterCenter>
                     <Button is_visible="@is_saving"><Spinner /></Button>
                     <Button icon="save" class_name="uk-button uk-button-primary" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
-                    <Button icon="save" class_name="uk-button uk-button-primary" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
+                    <Button icon="save" class_name="uk-button uk-button-primary" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
                     
                     <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger" icon="reply">Cancel</Button>
                 </FooterCenter>

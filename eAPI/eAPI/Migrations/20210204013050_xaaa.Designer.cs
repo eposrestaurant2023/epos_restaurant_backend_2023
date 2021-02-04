@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210204013050_xaaa")]
+    partial class xaaa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,21 +89,6 @@ namespace eAPI.Migrations
                     b.HasIndex("product_id");
 
                     b.ToTable("tbl_attach_files");
-                });
-
-            modelBuilder.Entity("eModels.BusinessBrachSettingModel", b =>
-                {
-                    b.Property<int>("setting_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("setting_id", "business_branch_id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_business_branch_setting");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
@@ -2499,25 +2486,6 @@ namespace eAPI.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("eModels.BusinessBrachSettingModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("business_brach_settings")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.SettingModel", "setting")
-                        .WithMany("business_brach_settings")
-                        .HasForeignKey("setting_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("setting");
-                });
-
             modelBuilder.Entity("eModels.BusinessBranchPaymentTypeModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -3043,8 +3011,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
                 {
-                    b.Navigation("business_brach_settings");
-
                     b.Navigation("business_branch_payment_types");
 
                     b.Navigation("business_branch_prices");
@@ -3154,11 +3120,6 @@ namespace eAPI.Migrations
                     b.Navigation("payments");
 
                     b.Navigation("sale_products");
-                });
-
-            modelBuilder.Entity("eModels.SettingModel", b =>
-                {
-                    b.Navigation("business_brach_settings");
                 });
 
             modelBuilder.Entity("eModels.StationModel", b =>

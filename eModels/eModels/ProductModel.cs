@@ -105,6 +105,8 @@ namespace eModels
         public List<ProductModifierModel> product_modifiers { get; set; }
 
 
+        public decimal min_price { get; set; }
+        public decimal max_price { get; set; }
 
     }
 

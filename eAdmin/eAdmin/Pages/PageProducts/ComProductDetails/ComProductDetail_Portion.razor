@@ -18,12 +18,23 @@
                         {
                             <ThCenter>
                                 @p.price_name
-                                <br/>
+                               
+                            </ThCenter>
+                        }
+
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        @foreach (var p in gv.price_rules)
+                        {
+                            <ThCenter>
+                               
                                 <LabelActive is_visible="@(IsPriceRuleActive(p))" />
                                 <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
                             </ThCenter>
                         }
-
                     </tr>
                 </thead>
                 <tbody>

@@ -33,6 +33,7 @@ namespace eModels
         public DateTime? transaction_date { get; set; }
 
         public int? outlet_id { get; set; }
+        public int? product_id { get; set; }
 
       
        

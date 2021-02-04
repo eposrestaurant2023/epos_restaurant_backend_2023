@@ -125,6 +125,9 @@ namespace eAPI
             var u = odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
             u.EntityType.HasKey(r => new { r.user_id, r.business_branch_id });
 
+            var bs = odataBuilder.EntitySet<BusinessBranchSettingModel>("BusinessBranchSetting");
+            bs.EntityType.HasKey(r => new { r.setting_id, r.business_branch_id });
+
             var b = odataBuilder.EntitySet<BusinessBranchPaymentTypeModel>("BusinessBranchPaymentType");
             b.EntityType.HasKey(r => new { r.payment_type_id, r.business_branch_id });
 
@@ -161,6 +164,8 @@ namespace eAPI
             odataBuilder.EntitySet<MenuModel>("Menu");
             odataBuilder.EntitySet<ModifierModel>("Modifier");
             odataBuilder.EntitySet<ModifierGroupModel>("ModifierGroup");
+            odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
+            odataBuilder.EntitySet<HistoryModel>("History");
 
 
              

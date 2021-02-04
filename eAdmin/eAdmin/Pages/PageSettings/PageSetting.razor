@@ -72,6 +72,7 @@
 @code{
     [Parameter] public string keyword { get; set; } = "";
     List<SettingModel> settings = new List<SettingModel>();
+    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     SettingModel setting = new SettingModel();
     PagerModel pg = new PagerModel();
     bool is_open;
@@ -114,12 +115,42 @@
 
     async Task Save_Click(SettingModel s)
     {
+        setting.business_brach_settings.Clear();
+        foreach (var a in business_branches.ToList())
+        {
+            if (a.is_selected)
+            {
+                setting.business_brach_settings.Add(new BusinessBrachSettingModel()
+                {
+                    business_branch_id = a.id,
+                    setting_id = setting.id
+                });
+            }
+        }
         var post = await http.ApiPost(controller_api + "/save", s);
         if (post.IsSuccess)
         {
             toast.Add("Save Successfully", MatToastType.Success);
             setting = new SettingModel();
             is_open = false;
+        }
+    }
+    public async Task LoadBusinessBranch()
+    {
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_payment_types&$filter=is_deleted eq false and status eq true");
+        if (res.IsSuccess)
+        {
+            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
+            if (setting != null)
+            {
+                foreach (var p in setting.business_brach_settings)
+                {
+                    foreach (var b in business_branches.Where(r => r.id == p.business_branch_id).ToList())
+                    {
+                        b.is_selected = true;
+                    }
+                }
+            }
         }
     }
 
