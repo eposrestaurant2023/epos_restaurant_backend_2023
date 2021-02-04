@@ -29,7 +29,7 @@
                                     </div>
                                     <div class="uk-navbar-right wrp-top-right-action">
                                         <ul class="uk-navbar-nav topactt">
-                                            @*<li>
+                                            <li>
                                                 @if (is_spinner)
                                                 {
                                                     <Spinner />
@@ -38,7 +38,7 @@
                                                 {
                                                     <Icon icon="refresh" OnClick="@(async()=>await LoadData())" className="btn-header-refresh"/>
                                                 }
-                                            </li>*@
+                                            </li>
                                         </ul>
                                         <ul class="uk-navbar-nav topactt">
                                             <li>
@@ -48,10 +48,10 @@
                                         <ul class="uk-navbar-nav topactt">
 
                                             <li>
-                                                @*@if (gv.current_login_user != null)
+                                                @if (gv.current_login_user != null)
                                                 {
                                                     <div style="background-image:url(@(image_base_url + gv.current_login_user?.photo))" class="main_profile_image"></div>
-                                                }*@
+                                                }
 
                                                 <div class="uk-navbar-dropdown" style="width: 250px;" id="user_profile">
                                                     <div>
