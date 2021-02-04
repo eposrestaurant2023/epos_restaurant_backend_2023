@@ -1,0 +1,15 @@
+﻿<div class="spacing30"></div>
+<div class="invoice_footer_description">
+    <div>
+        Created by @sale.created_by on   @sale.created_date.ToString(gv.date_time_format)
+    </div>
+ 
+    @if (sale.is_deleted)
+    {
+<div>Deleted by @sale.deleted_by on  @string.Format(sale.deleted_date.ToString(),"dd-MM-yyyy")</div>
+    }
+</div>
+@code {
+    [Parameter] public SaleModel sale { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}

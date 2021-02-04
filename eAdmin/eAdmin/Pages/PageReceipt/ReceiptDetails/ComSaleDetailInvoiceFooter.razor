@@ -1,0 +1,59 @@
+﻿ 
+    <tr>
+        <td colspan="6" class="uk-text-right">Total Quantity</td>
+        <td class="uk-text-right bg_hightlight">
+            @sale.active_sale_products.Sum(r => r.quantity).ToString(gv.quantity_format)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6" class="uk-text-right">Sub Total</td>
+        <td class="uk-text-right bg_hightlight">
+            @sale.sub_total.ToString(gv.currency_format)
+        </td>
+    </tr>
+
+
+    @if (sale.sale_product_discount_amount > 0)
+    {
+        <tr>
+            <td colspan="6" class="uk-text-right">Total Item Discount</td>
+            <td class="uk-text-right bg_hightlight">@sale.sale_product_discount_amount.ToString(gv.currency_format)</td>
+        </tr>
+    }
+    @if (sale.discount > 0 )
+    {
+        <tr>
+            <td colspan="6" class="uk-text-right">Invoice Discount @(sale.discount_type == "Percent" ? ("(" + (sale.discount / 100).ToString("P")) + ")" : "")</td>
+            <td class="uk-text-right bg_hightlight">
+
+                <span>
+                    @sale.total_discount.ToString(gv.currency_format)
+                </span>
+
+            </td>
+        </tr>
+    }
+    @if (sale.total_discount > 0)
+    {
+        <tr>
+            <td colspan="6" class="uk-text-right">Total Discount</td>
+            <td class="uk-text-right bg_hightlight">
+                @sale.grand_total_discount.ToString(gv.currency_format)
+            </td>
+        </tr>
+    }
+
+    @if (sale.total_amount > 0)
+    {
+        <tr>
+            <td colspan="6" class="uk-text-right">Grand Total</td>
+            <td class="uk-text-right bg_hightlight">
+                @sale.total_amount.ToString(gv.currency_format)
+            </td>
+        </tr>
+    }
+
+@code{
+    [Parameter] public SaleModel sale { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}
