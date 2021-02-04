@@ -50,24 +50,30 @@
 
                     </UIContainerBox>
                     <UIContainerBox Title="Station Info" is_show_add_button="true" OnAddClick="@(()=>Add_station())">
-                        @foreach (var s in model.stations.Where(r => r.is_deleted == false).ToList())
-                        {
+                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                            <tr>
+                                <Th>Station Name En</Th>
+                                <Th>Station Name En</Th>
+                                <ThCenter></ThCenter>
+                            </tr>
 
-                            <ul class="uk-list uk-list-collapse uk-list-striped ">
-                                <li>
-                                    <div class="uk-margin-small uk-flex uk-flex-middle" uk-grid>
-                                        <div class="uk-width-expand">
-                                            <TextInput label="Station Name En " @bind-text="@s.station_name_en" />
-                                            <TextInput label="Station Name Kh" @bind-text="@s.station_name_kh" />
-                                        </div>
-                                        <div class="uk-width-auto">
-                                            <Icon icon="delete" OnClick="@(()=>Delete_station(s))" />
-                                        </div>
-                                    </div>
-                                </li>
+                            @foreach (var s in model.stations.Where(r => r.is_deleted == false).ToList())
+                            {
+                                <tr>
+                                    <td>
+                                        <TextInput @bind-text="@s.station_name_en" />
+                                    </td>
+                                    <td>
+                                        <TextInput @bind-text="@s.station_name_kh" />
+                                    </td>
+                                    <TdCenter>
+                                        <Icon icon="delete" OnClick="@(()=>Delete_station(s))" />
+                                    </TdCenter>
 
-                            </ul>
-                        }
+                                </tr>
+
+                            }
+                        </table>
                     </UIContainerBox>
 
 

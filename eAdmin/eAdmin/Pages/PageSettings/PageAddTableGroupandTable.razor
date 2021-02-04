@@ -1,7 +1,11 @@
 ﻿@page "/tablegroupandtable/new"
 @page "/tablegroupandtable/edit/{id:int}"
-@inject IJSRuntime js
-@inherits PageCore;
+ @inject IHttpService http;
+@inject NavigationManager nav;
+@inject IMatToaster toast;
+ 
+
+
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
@@ -29,46 +33,68 @@
             </HeaderRight>
         </PageHeader>
 
-        <EditForm Model="@model" OnValidSubmit="@Save_Click">
-            <DataAnnotationsValidator /> 
-            <PageBody> 
+        <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
                 <UIGridCenter>
                     <UIContainerBox Title="Table Group Infor">
                         <TextInput @bind-text="@model.table_group_name_en" label="Table Group Name En">
                             <ValidationMessage For="@(() => model.table_group_name_en )" />
                         </TextInput>
                         <TextInput @bind-text="@model.table_group_name_kh" label="Table Group Name Kh" />
-                        <SelectInt Items="outlet" @bind-SelectedValue="@model.outlet_id" InputLabel="Outlet" ShowEmptyText="true" EmptyText="Select Outlet">
-                            <SelectOptions Context="b">
-                                <option value="@b.id">
-                                    @b.outlet_name_en
-                                </option>
-                            </SelectOptions>  
-                            <ValidationTemplate>
-                                <ValidationMessage For="(()=>model.outlet_id)" />
-                            </ValidationTemplate>
-                        </SelectInt>
+                        <SelectOutlet @bind-selected_value="@model.outlet_id">
+                            <ValidationMessage For="@(() => model.outlet_id)" />
+                        </SelectOutlet>
                         <ComInputCheckBox @bind-value="@model.status" label="Status" />
 
                     </UIContainerBox>
-                    <UIContainerBox Title="Table Info" is_show_add_button="true" OnAddClick="@(()=>Add_Table())">
-                        @foreach (var s in model.tables.Where(r => r.is_deleted == false).ToList())
-                        {
+                    <UIContainerBox Title="Table Info">
+                        <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+                            <div>
+                                <NumberInputInt @bind-text="@min" placeholder="Min" />
+                            </div>
+                            <div>
+                                <NumberInputInt @bind-text="@max" placeholder="Max" />
+                            </div>
+                        </div>
+                        <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+                            <div>
+                                <TextInput @bind-text="@prefix" placeholder="Prefix" />
+                            </div>
+                            <div>
+                                <TextInput @bind-text="@number_format" placeholder="Format" />
+                            </div>
+                        </div>
+                        <Spacing Number="10"/>
+                        <div class="uk-width-1">
+                            <Button type="button" OnClick="@Add_Table">Add Table</Button>
+                        </div>
+                      
+                       
+                      
+                     
+                     
+                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                            <tr>
+                                <Th>Table No</Th>
+                                <Th></Th>
+                            </tr>
+                            @foreach (var s in model.tables.Where(r => r.is_deleted == false).ToList())
+                            {
 
-                            <ul class="uk-list uk-list-collapse uk-list-striped ">
-                                <li>
-                                    <div class="uk-margin-small uk-flex uk-flex-middle" uk-grid>
-                                        <div class="uk-width-expand">
-                                            <TextInput label="Table Name" @bind-text="@s.table_name" />
-                                        </div>
-                                        <div class="uk-width-auto">
-                                            <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
-                                        </div>
-                                    </div>
-                                </li>
+                                <tr>
+                                    <td>
+                                        <TextInput label="" @bind-text="@s.table_name" />
+                                    </td>
+                                    <td>
+                                        <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
+                                    </td>
 
-                            </ul>
-                        }
+                                </tr>
+                            }
+                        </table>
+
+
                     </UIContainerBox>
 
 
@@ -76,131 +102,63 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button type="submit" icon="save">Save</Button>
-                    <LinkButton url="tablegroupandtable" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                    <Button type="submit" icon="save" is_visible="@(!is_saving)">Save</Button>
+                    <SavingButton is_saving="@is_saving"/>
+
+                    <LinkButton url="tablegroupandtable" icon="reply" Class_Name="uk-button-danger" is_visible="@(!is_saving)">Cancel</LinkButton>
                 </FooterCenter>
             </PageFooter>
-
-
         </EditForm>
     </PageContainer>
-  
+
 }
 
 @code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int id { get; set; }
-    TableGroupModel model = new TableGroupModel(); 
+    TableGroupModel model = new TableGroupModel();
+ 
+ 
 
-    List<TableModel> tables = new List<TableModel>();
-    List<OutletModel> outlet = new List<OutletModel>();
+    string prefix = "T";
+    string number_format = "00";
+    int min = 1;
+    int max = 10;
+    bool is_loading,is_loading_data,is_saving;
+
+    public Dictionary<string, object> formAttributes { get; set; } = new Dictionary<string, object>()
+        {
+                { "class", "uk-form-horizontal" }
+        };
+
     string ControllerApi = "TableGroup";
     bool ShowModel = false;
-    public string api_url
-    {
-        get
-        {
-            string query = ControllerApi;
-            query = query + $"({id})?";
-            query = query + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh),";
-            query = query + "$expand=tables($select = id,table_name,height,width,position_x_percent,position_y_percent)";
-
-            return query;
-
-        }
-    }
-
-
+ 
 
     protected override async Task OnInitializedAsync()
     {
 
 
         is_loading = true;
-        await LoadTable("");
-        await LoadData("");
-        await LoadOutlet(""); 
+
+        await LoadData();
+
         is_loading = false;
     }
 
 
 
-    async Task Activebutton(TableGroupModel b)
-    {
-
-        b.is_change_status = true;
-        await Task.Delay(1000);
-        b.status = !b.status;
-
-        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
-        if (resp.IsSuccess)
-        {
-            toast.Add("Change status successfully", MatToastType.Success);
-        }
-
-        b.is_change_status = false;
-
-    }
-
-    async Task LoadOutlet(string api_url = "")
+    async Task LoadData()
     {
 
         is_loading_data = true;
 
-        if (string.IsNullOrEmpty(api_url))
-        {
 
-            api_url = "Outlet";
-        }
+        string api_url = ControllerApi;
+        api_url = api_url + $"({id})?";
+        api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false),";
+        api_url = api_url + "tables($select = id,table_name,height,width,position_x_percent,position_y_percent;$filter= is_deleted  eq false)";
 
-        var resp = await http.ApiGetOData(api_url);
-        if (resp.IsSuccess)
-        {
-
-            outlet = JsonSerializer.Deserialize<List<OutletModel>>(resp.Content.ToString());
-
-        }
-        is_loading_data = false;
-
-    }
-
-
-    async Task LoadTable(string api_url = "")
-    {
-
-        is_loading_data = true;
-
-        if (string.IsNullOrEmpty(api_url))
-        {
-
-            api_url = "Table";
-        }
-
-        var resp = await http.ApiGetOData(api_url);
-        if (resp.IsSuccess)
-        {
-
-            tables = JsonSerializer.Deserialize<List<TableModel>>(resp.Content.ToString());
-
-        }
-        is_loading_data = false;
-
-    }
-    async Task LoadData(string api_url = "")
-    {
-
-        is_loading_data = true;
-
-        if (string.IsNullOrEmpty(api_url))
-        {
-            api_url = ControllerApi;
-            api_url = api_url + $"({id})?";
-            api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false),";
-            api_url = api_url + "tables($select = id,table_name,height,width,position_x_percent,position_y_percent;$filter= is_deleted  eq false)";
-
-
-
-
-        }
 
         var resp = await http.ApiGet(api_url);
         if (resp.IsSuccess)
@@ -214,13 +172,8 @@
     }
 
 
-    void OnclickStation(TableModel st)
-    {
-        model.tables.Add(st);
-    }
-
     async Task Save_Click(EditContext editContext)
-    { 
+    {
         TableGroupModel d = model;
         if (!is_saving)
         {
@@ -248,11 +201,20 @@
     void Add_Table()
 
     {
-        model.tables.Add(new TableModel()
+        if (min > max)
         {
-            table_name = "Table Name " + (model.tables.Count()+1),
+            toast.Add("Please enter valid Min and Max number", MatToastType.Warning);
+            return;
+        }
+        while (min <= max)
+        {
+            model.tables.Add(new TableModel()
+            {
+                table_name = prefix + min.ToString(number_format)
 
-        }) ;
+            });
+            min = min + 1;
+        }
 
 
 
@@ -260,7 +222,7 @@
 
     void Delete_Table(TableModel s)
     {
-        if(s.id == 0)
+        if (s.id == 0)
         {
             model.tables.Remove(s);
         }
