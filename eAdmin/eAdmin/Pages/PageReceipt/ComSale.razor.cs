@@ -11,7 +11,7 @@ using eAdmin.JSHelpers;
 
 namespace eAdmin.Pages.PageReceipt
 {
-    public class ComReceiptListBase : PageCore
+    public class ComSaleBase : PageCore
     {
 
         [Parameter] public bool is_receipt_list { get; set; }

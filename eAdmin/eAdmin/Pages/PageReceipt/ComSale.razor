@@ -1,4 +1,4 @@
-﻿@inherits ComReceiptListBase
+﻿@inherits ComSaleBase
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -62,7 +62,7 @@
                     <RowTemplate Context="p">
                         <TdCenter>@p.sale_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <div><a href="@($"sale/{p.id}")">@p.document_number</a></div>
+                            <div><a href="@(is_receipt_list?$"receiptlist/{p.id}":$"voidreceipt/{p.id}")">@p.document_number</a></div>
                         </TdCenter>
                         <TdCenter>@p.reference_number</TdCenter>
                         <td>

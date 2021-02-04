@@ -1,0 +1,51 @@
+﻿@inject IHttpService http;
+@inject NavigationManager nav;
+
+@foreach (var sp in sale.active_sale_products)
+{
+    <tr>
+        <td>@(sale.active_sale_products.IndexOf(sp) + 1)</td>
+        <TdCenter>
+            <Image ImageUrl="@http.ImageUrl(sp.product.photo)" data-caption="@sp.product?.product_display_name" PopupImageUrl="@http.ImageUrl(sp.product.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+        </TdCenter>
+        <td class="cust_wirth_space">
+            <ComAuthorize roles="@gv.GetRole("product_view")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
+                <div>@sp.product?.product_display_name</div>
+            </ComAuthorize>
+            <div>
+                <LabelProductType product_type_id="sp.product_type_id" />
+            </div>
+
+
+            @if (!string.IsNullOrEmpty(sp.sale_product_note))
+            {
+                <div class="font-xs text-pre-wrap">@sp.sale_product_note</div>
+            }
+        </td>
+        <TdCenter>@sp.quantity.ToString(gv.quantity_format)</TdCenter>
+        <td class="uk-text-center">@sp.unit</td>
+        <td class="uk-text-right">@sp.selling_price.ToString(gv.currency_format)</td>
+        <td class="uk-text-right">
+            @if (sp.discount <= 0)
+            {
+                <span>-</span>
+            }
+            else if (sp.discount_type == "Percent")
+            {
+                <span>@((sp.discount / 100).ToString("00.## %"))</span>
+            }
+            else
+            {
+                <span>@sp.discount.ToString(gv.currency_format)</span>
+            }
+        </td>
+        <td class="uk-text-right">@sp.total_amount.ToString(gv.currency_format)</td>
+    </tr>
+
+}
+
+@code{
+    [Parameter] public SaleModel sale { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+}
