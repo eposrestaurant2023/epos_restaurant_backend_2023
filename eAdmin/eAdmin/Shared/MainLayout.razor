@@ -19,7 +19,7 @@
                                         <div class="uk-navbar-item">
                                             <UkFlex>
                                                 <FlexItem class_name="uk-margin-right">
-                                                    <Icon icon="menu" target=".app-layout; cls: is_open" className="menu_humberger" OnClick="@ShowHideMenu" />
+                                                    <Icon icon="menu" target=".app-layout; cls: is_open" className="menu_humberger" OnClick="@ShowHideMenu" icon_color="#fff" />
                                                 </FlexItem>
                                                 <FlexItem>
                                                     <GlobalSearch />
@@ -29,16 +29,16 @@
                                     </div>
                                     <div class="uk-navbar-right wrp-top-right-action">
                                         <ul class="uk-navbar-nav topactt">
-                                            <li>
+                                            @*<li>
                                                 @if (is_spinner)
                                                 {
                                                     <Spinner />
                                                 }
                                                 else
                                                 {
-                                                    <RefreshButton OnClick="@(async()=>await LoadData())" />
+                                                    <Icon icon="refresh" OnClick="@(async()=>await LoadData())" className="btn-header-refresh"/>
                                                 }
-                                            </li>
+                                            </li>*@
                                         </ul>
                                         <ul class="uk-navbar-nav topactt">
                                             <li>

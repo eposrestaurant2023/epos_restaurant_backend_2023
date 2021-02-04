@@ -13,11 +13,12 @@ namespace eAdmin.Pages.PageReceipt
 {
     public class PageReceiptListBase : PageCore
     {
-        [Parameter] public bool is_subpage { get; set; }
+
+        [Parameter] public bool is_receipt_list { get; set; }
         [Parameter] public int visit_id { get; set; }
         public List<SaleModel> models = new List<SaleModel>();
-        public SaleModel model = new SaleModel();       
-        public string StateKey = "ErNsg9hUndmRGrRwdzAdWFnBau9T3AEj"; //Storage and Session Key      
+        public SaleModel model = new SaleModel();
+        public string StateKey = "";   
         public int TotalRecord = 0; 
 
         string controller_api = "sale";
@@ -41,25 +42,45 @@ namespace eAdmin.Pages.PageReceipt
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-           state = await GetState(StateKey); 
+            if (is_receipt_list)
+                StateKey = "Elist9hUndmRGRECEIPTnBau9T3AEj";
+            else
+                StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj";
+
+            state = await GetState(StateKey); 
             if (state.page_title == "")
             {
-                state.page_title = "Sale";
+                if (is_receipt_list)
+                    state.page_title = "Receipt List";
+                else
+                    state.page_title = "Void Receipt";
+
                 var default_view = gv.GetDefaultModuleView("page_sale");
                 if (default_view != null)
                 {
                     state.page_title = default_view.title;
                     state.filters = default_view.filters;
                 }    
-            }
-
+            } 
             if (state.filters.Count == 0)
             {
-                state.filters.Add(new FilterModel()
+                if (is_receipt_list)
                 {
-                    key = "is_deleted",
-                    value1 = "false"
-                });                
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "is_deleted",
+                        value1 = "false"
+                    });
+                }
+                else
+                {
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "is_deleted",
+                        value1 = "true"
+                    });
+                }
+                                
             }
 
             Console.WriteLine(JsonSerializer.Serialize(state.filters));
@@ -85,10 +106,6 @@ namespace eAdmin.Pages.PageReceipt
                 TotalRecord = resp.Count;
             } 
             is_loading = false;
-
-
-            Console.WriteLine(JsonSerializer.Serialize(state.filters));
-
         }
 
         public async Task ViewClick(ModuleViewModel m)
@@ -152,11 +169,12 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
-            if (state.list_selected_values != null)
+            // filter business
+            if (state.multi_select_value_1 != null)
             {
 
                 string value = "";
-                foreach(var x in state.list_selected_values)
+                foreach(var x in state.multi_select_value_1)
                 {
                     value += x + ",";
                 }
@@ -170,6 +188,32 @@ namespace eAdmin.Pages.PageReceipt
                     key = "outlet/business_branch_id",
                     value1 = value,
                     filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = value,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+            // filter outlet
+            if (state.multi_select_value_2 != null)
+            {
+
+                string value = "";
+                foreach(var x in state.multi_select_value_2)
+                {
+                    value += x + ",";
+                }
+                if (!string.IsNullOrEmpty(value))
+                {
+                    value = value.Substring(0, value.Length - 1);
+                } 
+
+                state.filters.Add(new FilterModel()
+                {
+                    key = "outlet_id",
+                    value1 = value,
+                    filter_title = "Outlet",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = value,
@@ -224,6 +268,68 @@ namespace eAdmin.Pages.PageReceipt
                 }
             }
             p.is_loading = false;
+        }
+
+        public async Task RemoveFilter(FilterModel f)
+        {
+            is_loading = true;
+            string[] remove_key = f.remove_key.Split(',');
+            foreach (var k in remove_key)
+            {
+                // clear filter business
+                if (k == "outlet/business_branch_id")
+                {
+                    state.multi_select_guid_1.Clear();
+                    state.multi_select_value_1.Clear();
+                }
+                    
+
+                // clear filter outlet
+                 if (k == "outlet_id")
+                {
+                    state.multi_select_guid_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
+                    
+
+                state.filters.RemoveAll(r => r.key == k);
+            }
+
+            state.pager.current_page = 1;
+            //gv.RemoveFilter
+            RemoveFilter(state, f.state_property_name);
+            await LoadData();
+            is_loading = false;
+        }
+
+        public async Task RemoveAllFilter()
+        {
+            is_loading = true;
+            foreach (var f in state.filters.Where(r => r.is_clear_all == true))
+            {
+                // clear filter business
+                if (f.key == "outlet/business_branch_id")
+                {
+                    state.multi_select_guid_1.Clear();
+                    state.multi_select_value_1.Clear();
+                }
+
+
+                // clear filter outlet
+                if (f.key == "outlet_id")
+                {
+                    state.multi_select_guid_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
+
+                RemoveFilter(state, f.state_property_name);
+            }
+             
+
+            state.filters.RemoveAll(r => r.is_clear_all == true);
+            state.pager.current_page = 1;
+            await LoadData();
+            is_loading = false;
         }
     }
 }

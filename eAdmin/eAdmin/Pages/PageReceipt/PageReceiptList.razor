@@ -24,21 +24,20 @@
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
-                    <MultipleFilterBusinessOutlet @bind-selected_business="@state.multi_select_guid_1" />
- 
-                    <div class="uk-form-controls" style="margin-bottom: 10px;">
+                    <MultipleFilterBusinessBranch @bind-selected_business="@state.multi_select_guid_1" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <MultipleFilterOutlet @bind-selected_outlet="@state.multi_select_guid_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
+                    <div class="uk-form-controls" style="margin-bottom: 10px;margin-top: 20px;">
                         <label sclass="uk-form-label">Customer</label>
-                        @*<CustomerTypeahead @bind-customer="@state.customer" />*@
+                        <CustomerTypeahead @bind-customer="@state.customer" />
                     </div>
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <MultipleFilterBusinessOutlet @bind-selected_business="@state.multi_select_guid_1" business_id="@((val)=>state.list_selected_values=val)" />
-            
-            <div style="word-break:break-word">@state.multi_select_guid_1</div>
-            <hr/>
+
             <div style="word-break:break-word">@ControllerApi</div>
+
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
                        PerPage="@state.pager.per_page"
@@ -92,6 +91,7 @@
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
+                            <LabelDeleted is_visible="@p.is_deleted" />
                             <ComSaleStatus sale="@p" />
                         </TdRight>
                         <TdCenter>
