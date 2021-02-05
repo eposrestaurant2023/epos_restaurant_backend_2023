@@ -9,9 +9,11 @@
                 <EditForm Context="no" Model="@history" OnValidSubmit="@OnSaveClick" @attributes="@formAttributes">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <TextArea @bind-Value="@description" PlaceHolder="Comment" />
+                    <TextArea @bind-Value="@description" PlaceHolder="Comment" ClassName="textarea-comment" Row="5"/>
                     <hr />
-                    <Button disabled="@is_saving" OnClick="@OnSaveClick">Add Comment<Spinner is_spinning="is_saving" /></Button>
+                    <div class="uk-text-right">
+                        <Button disabled="@is_saving" OnClick="@OnSaveClick">Add Comment<Spinner is_spinning="is_saving" /></Button>
+                    </div>
                 </EditForm>
             </AuthorizeView>
         }
@@ -81,8 +83,7 @@
         }
         else
         {
-            <div class="spacing20"></div>
-            <div>No comment yet.</div>
+            <ComEmptyTemplate padding_top_bottom="25px" empty="No comment yet."/>
         }
 
         <Spacing Number="30" />

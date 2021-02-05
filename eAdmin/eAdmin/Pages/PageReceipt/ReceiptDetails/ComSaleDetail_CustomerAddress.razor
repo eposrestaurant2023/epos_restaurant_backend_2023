@@ -1,0 +1,53 @@
+﻿@inject IHttpService http;
+@inject NavigationManager nav;
+
+<div uk-grid class="uk-grid-small">
+    <div class="uk-width uk-margin-remove-top">
+        @if (sale.customer != null)
+        {
+            <div class="sub_title font-sm">Customer</div>
+            <div>
+                <div class="uk-flex">
+                    <div style="margin-right:4px;">
+                        <Image ImageUrl="@http.ImageUrl(sale.customer?.photo)" PopupImageUrl="@http.ImageUrl(sale.customer?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="40px" Height="40px" />
+                        <Spacing Number="5"/>
+                    </div>
+                    <div style="margin-right:4px;">
+                        <div>
+                            <ComAuthorize roles="@gv.GetRole("customer_view")" OnClick="@(()=>nav.NavigateTo($"customer/{sale.customer_id}"))"><Icon icon="person" />@sale.customer?.customer_code_name <Com is_visible="sale.customer?.gender !=null">(@sale.customer?.gender)</Com></ComAuthorize>
+                            <LabelInActive is_visible="@(!sale.customer.status && !sale.customer.is_deleted)" />
+                            <LabelActive is_visible="@(sale.customer.status && !sale.customer.is_deleted)" />
+                            <LabelDeleted is_visible="@sale.customer.is_deleted" />
+                        </div>
+                    
+                        <Com is_visible="sale.customer?.phone_1 !=null && sale.customer?.phone_1 !=null">
+                            <div>
+                                <Icon icon="phone" />
+                                <Com is_visible="sale.customer?.phone_1 !=null">
+                                    @sale.customer?.phone_1
+                                </Com>
+                                <Com is_visible="sale.customer?.phone_2 !=null">
+                                    / @sale.customer?.phone_2
+                                </Com>
+                            </div>
+                        </Com>
+                        <Com is_visible="sale.customer?.address != null">
+                            <div><Icon icon="home" />@sale.customer?.address</div>
+                        </Com>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+        }
+
+         </div>
+    </div>
+
+
+
+
+@code {
+    [Parameter] public SaleModel sale { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}

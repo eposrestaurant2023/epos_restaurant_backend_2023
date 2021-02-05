@@ -91,8 +91,9 @@ namespace eAPI.Controllers
         [HttpPost("setting/save")]
         public async Task<SettingModel> SaveSettings([FromBody] SettingModel h)
         {
+            db.Database.ExecuteSqlRaw($"delete tbl_business_branch_setting where setting_id = {h.id}");
+            db.BusinessBrachSettings.AddRange(h.business_branch_settings);
             db.Update(h);
-
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return h;
         }

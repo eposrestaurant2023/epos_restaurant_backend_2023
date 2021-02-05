@@ -27,7 +27,9 @@ namespace eAPI.Controllers
         public async Task<OkResult> Post(string folder = "")
         {
             var root_image = await db.Settings.FindAsync(1);
-            string directory_path = this.environment.ContentRootPath + "\\" + root_image.setting_value + folder + "\\";
+
+            //===============================Note
+            string directory_path = this.environment.ContentRootPath + "\\" + root_image.setting_title + folder + "\\";
 
 
             if (!Directory.Exists(directory_path))

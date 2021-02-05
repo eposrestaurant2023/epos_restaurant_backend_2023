@@ -1,0 +1,86 @@
+﻿@inherits ComSaleDetailBase
+
+@if (is_loading_data || is_loading)
+{
+    <Loading is_loading="@( is_loading_data || is_loading_data)" /> 
+}
+
+@if (!is_loading && is_error == false)
+{
+    <Title Value="@($"Receipt Invoice: {sale.document_number}")" ></Title>
+
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Receipt Invoice #:  @sale.document_number
+                        <LabelDeleted is_visible="@sale.is_deleted" />
+                        <ComSaleStatus sale="@sale" />
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="false"/>
+        </PageHeader>
+        <PageBody>
+            <Tab>
+                <TabHeader>
+                    <TabHeaderItem>Invoice</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowComment">Comment and History</TabHeaderItem>
+                </TabHeader>
+
+                <TabBody>
+                    <TabItem> 
+                        <ComPage>
+                            <ComSaleDetailInvoiceHeader sale="@sale" />
+                            <Spacing Number="20" />
+                            <div class="invoice-sub-title">Products Sold</div>
+                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered table-invoice uk-margin-remove">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <ThCenter>Image</ThCenter>
+                                        <th class="col-auto">Description</th>
+                                        <th class="uk-text-center">QTY</th>
+                                        <th class="uk-text-right">Price</th>
+                                        <th class="uk-text-right">Dis.</th>
+                                        <th class="uk-text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ComSaleDetailInvoiceBody sale="@sale" />
+                                </tbody>
+                                <tfoot>
+                                    <ComSaleDetailInvoiceFooter sale="@sale" />
+                                </tfoot>
+                            </table>
+                            <Spacing Number="15" />
+                            <ComSaleDetail_PaymentInformation payments="@sale.payments" />
+                            <ComSaleDetailFooterInformation sale="@sale" />
+                        </ComPage>
+                    </TabItem> 
+
+                    <TabItem>
+                        @if (is_show_comment)
+                        {
+                            <ComHistory 
+                                        ApiFilter="@($"sale_id  eq {id}")"
+                                        history="@history" />
+                        }
+
+                    </TabItem>
+
+                </TabBody>
+            </Tab>
+            <div class="spacing40"></div>
+        </PageBody>
+    </PageContainer>
+
+}
+
+@if (is_error)
+{
+    <Error title="Sale Detail">
+        @error_text
+    </Error>
+}

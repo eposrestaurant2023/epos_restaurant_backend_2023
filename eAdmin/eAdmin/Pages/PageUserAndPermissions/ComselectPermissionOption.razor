@@ -2,7 +2,7 @@
     @foreach (var r in roles)
     {
         <Com is_visible="@(r.permission_option_roles?.Where(r => r.permission_option_id == permission_option_id).Count() > 0)">
-            <input class="uk-checkbox" type="checkbox" id="@r.id" @onchange="@(async(e)=> { r.is_selected = (bool)e.Value; await SelectRole_Click(r); })" checked />
+             <input class="uk-checkbox" type="checkbox" id="@r.id" @onchange="@(async(e)=> { r.is_selected = (bool)e.Value; await SelectRole_Click(r); })" checked />
         </Com>
         <Com is_visible="@(r.permission_option_roles?.Where(r => r.permission_option_id == permission_option_id).Count() == 0)">
             <input class="uk-checkbox" type="checkbox" id="@r.id" @onchange="@(async(e)=> { r.is_selected = (bool)e.Value; await SelectRole_Click(r); })" />

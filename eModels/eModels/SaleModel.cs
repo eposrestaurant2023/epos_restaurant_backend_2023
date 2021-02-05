@@ -21,9 +21,9 @@ namespace eModels
         public int outlet_id { get; set; }
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
-        public int stock_location_id { get; set; }
-        [ForeignKey("stock_location_id")]
-        public StockLocationModel stock_location { get; set; }
+        public Guid? business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
         public string document_number { get; set; } = "New";
 
         [Column(TypeName = "date")]

@@ -3,11 +3,11 @@
     <div class="wrp-filter-label">
         @foreach (var d in filters.Where(r => r.filter_info_text != "").OrderBy(r => r.sort_order).ToList())
         {
-            <div class="uk-label filter-label-item">
-                <span>
-                    @d.filter_title : @d.filter_info_text <Icon icon="clear" OnClick="@(()=>RemoveFilterClick(d))" />
-                </span>
-            </div>
+        <div class="uk-label filter-label-item">
+            <span>
+                @d.filter_title : @(d.filter_operator == "multiple"?" * ":d.filter_info_text) <Icon icon="clear" OnClick="@(()=>RemoveFilterClick(d))" />
+            </span>
+        </div>
         }
         @if (filters.Where(r => r.filter_info_text != "" && r.will_remove == true).Count() > 1)
         {

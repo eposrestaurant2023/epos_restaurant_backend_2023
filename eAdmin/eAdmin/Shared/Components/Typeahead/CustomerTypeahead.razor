@@ -37,7 +37,7 @@
 
     public async Task<IEnumerable<CustomerModel>> SearchCustomer(string searchText)
     {
-        string api_url = $"customer?keyword={searchText}&$orderby=customer_name asc&$top=10";
+        string api_url = $"customer?keyword={searchText}&$orderby=customer_name_en asc&$top=10";
         state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
 
         if (status == "Active")

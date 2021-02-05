@@ -42,16 +42,12 @@
                    EmptyText="No Data Found">
                 <TableHeader>
                     @HeaderTemplate("setting_title", "Setting title")
-                    @HeaderTemplate("setting_value", "setting value")
                     <ThAuto>Descript</ThAuto>
                     <th></th>
                 </TableHeader>
                 <RowTemplate Context="s">
                     <td>
                         @s.setting_title
-                    </td>
-                    <td>
-                        <div class="text-pre-wrap">@s.setting_value</div>
                     </td>
                     <td>
                         <div class="text-pre-wrap">@s.setting_description</div>
@@ -65,7 +61,7 @@
     </PageContainer>
     @if (is_open)
     {
-        <ComEditSetting setting="setting" is_dialog_open="is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" SaveSetting="Save_Click" />
+        <ComEditSetting business_branches="@business_branches" setting="setting" is_dialog_open="is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" />
     }
 }
 
@@ -74,6 +70,7 @@
     List<SettingModel> settings = new List<SettingModel>();
     SettingModel setting = new SettingModel();
     PagerModel pg = new PagerModel();
+    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     bool is_open;
     int TotalRecord = 0;
     string StateKey = "278484567Gs47775KJHGytkjhTonB2547935";
@@ -112,16 +109,7 @@
         setting = s;
     }
 
-    async Task Save_Click(SettingModel s)
-    {
-        var post = await http.ApiPost(controller_api + "/save", s);
-        if (post.IsSuccess)
-        {
-            toast.Add("Save Successfully", MatToastType.Success);
-            setting = new SettingModel();
-            is_open = false;
-        }
-    }
+    
 
     async Task LoadData(string api_url = "")
     {

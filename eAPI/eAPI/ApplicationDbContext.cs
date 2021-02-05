@@ -41,6 +41,7 @@ namespace eAPI
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
 
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
+            builder.Entity<BusinessBranchSettingModel>().HasKey(t => new { t.setting_id, t.business_branch_id });
             builder.Entity<BusinessBranchPriceRule>().HasKey(t => new { t.business_branch_id, t.price_rule_id });
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});
             builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});              
@@ -71,6 +72,7 @@ namespace eAPI
         public DbSet<AttachFilesModel> AttachFiles { get; set; }
         public DbSet<OutletModel> Outlets { get; set; }
         public DbSet<BusinessBranchModel> BusinessBranches { get; set; }
+        public DbSet<BusinessBranchSettingModel> BusinessBrachSettings { get; set; }
         public DbSet<CategoryNoteModel> CategoryNotes{ get; set; }
         public DbSet<CustomerBusinessBranchModel> CustomerBusinessBranches{ get; set; }
         public DbSet<NoteModel> Notes{ get; set; }

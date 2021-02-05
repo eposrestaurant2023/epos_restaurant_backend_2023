@@ -1,55 +1,29 @@
 ﻿<Com is_visible="is_visible">
-    @if (!string.IsNullOrEmpty(empty))
-    {
-        <div class="uk-flex no-record-msg @align" style="height:@height">
-            <Grid ClassName="uk-grid-small uk-width-1-1">
-                <Column ClassName="uk-text-center">
-                    @if (line_icon != "")
-                    {
-                        <LineIcon IconName="@line_icon" ClassName="color_nodata" />
-                    }
-                    else if (icon != "")
-                    {
+    <div class="no-record-msg @align" style="padding-top:@padding_top_bottom; padding-bottom:@padding_top_bottom;">
+        <div>
+            <div>
+                @if (line_icon != "")
+                {
+                    <LineIcon IconName="@line_icon" ClassName="color_nodata" />
+                }
+                else if (icon != "")
+                {
 
-                        <Icon icon="@icon" className="color_nodata" />
-                    }
-                </Column>
-                <Column ClassName="uk-width-1-1 uk-margin-remove-top">
-                    <h4 class="color_nodata">@empty</h4>
-                </Column>
-            </Grid>
+                    <Icon icon="@icon" className="color_nodata" />
+                }
+            </div>
+            <div>
+                <div class="color_nodata">@empty</div>
+            </div>
         </div>
-
-
-    }
-    else
-    {
-        <div class="uk-flex no-record-msg @align" style="height:@height">
-            <Grid ClassName="uk-grid-small uk-width-1-1">
-                <Column ClassName="uk-text-center">
-                    @if (line_icon != "")
-                    {
-                        <LineIcon IconName="@line_icon" ClassName="color_nodata" />
-                    }
-                    else if (icon != "")
-                    {
-
-                        <Icon icon="@icon" className="color_nodata" />
-                    }
-                </Column>
-                <Column ClassName="uk-width-1-1 uk-margin-remove-top">
-                    <h4 class="color_nodata">@empty</h4>
-                </Column>
-            </Grid>
-        </div>
-    }
+    </div>
 </Com>
 @code {
     [Parameter] public bool is_visible { get; set; } = true;
     [Parameter] public string line_icon { get; set; } = "";
-    [Parameter] public string icon { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "inbox";
     [Parameter] public string empty { get; set; } = "There's no record in the system";
-    [Parameter] public string height { get; set; } = "500px";
-    [Parameter] public string align { get; set; } = "";
+    [Parameter] public string padding_top_bottom { get; set; } = "50px";
+    [Parameter] public string align { get; set; } = "uk-text-center";
 
 }

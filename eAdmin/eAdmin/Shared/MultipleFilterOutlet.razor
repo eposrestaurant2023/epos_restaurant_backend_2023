@@ -1,0 +1,32 @@
+﻿ 
+<MudItem>
+    <MudSelect T="string" Dense="true" Label="Outlet" MultiSelection="true" SelectedValues="selected_outlet" SelectedValuesChanged="@OnSelectedValuesOutlet">
+    @foreach (var option in gv.outlets.Where(r=>r.is_deleting == false))
+    {
+        <MudSelectItem T="string" Value="@option.outlet_name_en.ToString()"  >@option.outlet_name_en</MudSelectItem>
+    }
+    </MudSelect>
+</MudItem>
+ 
+    @code {
+
+        [CascadingParameter] public GlobalVariableModel gv { get; set; }
+        [Parameter] public HashSet<string> selected_outlet { get; set; } = new HashSet<string>();
+        [Parameter] public EventCallback<HashSet<string>> selected_outletChanged { get; set; }
+
+        [Parameter] public EventCallback<List<string>> outlet_id { get; set; }
+        bool is_loading = false;
+        void OnSelectedValuesOutlet(HashSet<string> selected)
+        {
+            List<string> values = new List<string>();
+            selected_outlet = selected;
+            values.Clear();
+            foreach (var x in selected_outlet.ToList())
+            {
+                values.Add(gv.outlets.Where(r=>r.outlet_name_en == x).FirstOrDefault().id.ToString());
+            }
+            selected_outletChanged.InvokeAsync(selected_outlet);
+            outlet_id.InvokeAsync(values);
+        }
+
+    }
