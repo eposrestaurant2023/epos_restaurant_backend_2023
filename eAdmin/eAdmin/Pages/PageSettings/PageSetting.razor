@@ -61,7 +61,7 @@
     </PageContainer>
     @if (is_open)
     {
-        <ComEditSetting business_branches="@business_branches" setting="setting" is_dialog_open="is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" />
+        <ComEditSetting Save_Click="@Save_Click" business_branches="@business_branches" setting="setting" is_dialog_open="@is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" />
     }
 }
 
@@ -102,6 +102,11 @@
         is_loading = false;
     }
 
+    void Save_Click()
+    {
+        is_open = false;
+    }
+
     void OnEdit(SettingModel s)
     {
         title = "Edit :" + s.setting_title;
@@ -109,7 +114,6 @@
         setting = s;
     }
 
-    
 
     async Task LoadData(string api_url = "")
     {
