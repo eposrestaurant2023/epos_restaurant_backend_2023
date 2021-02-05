@@ -3,15 +3,15 @@
     <tr>
         <Th>Printer Name</Th>
         <ThCenter>IPAddress</ThCenter>
-        <ThCenter>Port</ThCenter>
+      
         <Th></Th>
     </tr>
     @foreach(var p in printers.Where(r=>r.is_deleted==false))
     {
         <tr>
             <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name"/></td>
-            <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address"/></TdCenter>
-            <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port"/></TdCenter>
+            <TdCenter><TextInput @bind-text="@p.ip_address_port" placeholder="IP Address"/></TdCenter>
+             
             <TdCenter>
                 <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))"/>
             </TdCenter>

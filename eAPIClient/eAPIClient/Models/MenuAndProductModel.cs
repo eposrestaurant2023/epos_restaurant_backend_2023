@@ -52,6 +52,7 @@ namespace eAPIClient.Models
 
         public List<ProductPrinterModel> product_printers { get; set; }
         public List<ProductModifierModel> product_modifiers { get; set; }
+        public List<ProductPortionModel> product_portions { get; set; }
 
     }
 
@@ -99,6 +100,24 @@ namespace eAPIClient.Models
         public virtual ProductModel product { get; set; }
         public string modifier_name { get; set; }
         public decimal price { get; set; } = 0;
+
+    }
+    
+    
+    [Table("tbl_product_portion")]
+    public class ProductPortionModel
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int id { get; set; }
+        public int product_id { get; set; }
+        [ForeignKey("product_id")]
+        public virtual ProductModel product { get; set; }
+        public string portion_name { get; set; }
+        public decimal cost { get; set; } = 0;
+        public decimal multiplier { get; set; } = 0;
+
+       
 
     }
 

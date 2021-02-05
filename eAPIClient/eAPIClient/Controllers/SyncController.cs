@@ -101,7 +101,8 @@ namespace eAPIClient.Controllers
             //$expand=product_printers($select=id,printer_name,ip_address_port;$filter=is_deleted eq false)
             string url = $"product?$select=id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_allow_free,is_open_product,is_inventory_product";
             url = url + $"&$expand=product_printers($select=id,product_id,printer_name,ip_address_port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
-            url = url + $"product_modifiers($select=id,product_id,modifier_name,price;$filter=is_deleted eq false)";
+            url = url + $"product_modifiers($select=id,product_id,modifier_name,price;$filter=is_deleted eq false),";
+            url = url + $"product_portions($select=id,product_id, portion_name,cost,multiplier;$filter=is_deleted eq false)";
             url = url + "&$filter=is_deleted eq false and status eq true";
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)

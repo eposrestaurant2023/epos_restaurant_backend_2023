@@ -121,6 +121,7 @@ namespace eAPIClient
             odataBuilder.EntitySet<ProductPrinterModel>("ProductPrinter");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
             odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
+            odataBuilder.EntitySet<ProductPortionModel>("ProductPortion");
             
             return odataBuilder.GetEdmModel();
         }
