@@ -2,6 +2,7 @@
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,20 @@ namespace eAPI.Controllers
     [ApiController]
     [Route("api")]
 
+
     public class AppController : ControllerBase
     {
+
+        
+
+        public IConfiguration Configuration { get; }
+
+
         private readonly ApplicationDbContext db;
-        public AppController(ApplicationDbContext _db)
+        public AppController(ApplicationDbContext _db, IConfiguration configuration)
         {
             db = _db;
+            Configuration = configuration;
         }
         
 

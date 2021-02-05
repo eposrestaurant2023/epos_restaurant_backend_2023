@@ -41,7 +41,11 @@ namespace eModels
 
         public Guid? customer_id { get; set; }
         [ForeignKey("customer_id")]
-        public virtual CustomerModel customer { get; set; }
+        public virtual CustomerModel customer { get; set; } 
+        
+        public Guid? sale_id { get; set; }
+        [ForeignKey("sale_id")]
+        public virtual SaleModel sale { get; set; }
 
    
 

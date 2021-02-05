@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210204111357_xxee")]
+    partial class xxee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,25 +201,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_business_branch_price_rule");
                 });
 
-            modelBuilder.Entity("eModels.BusinessBranchSettingModel", b =>
-                {
-                    b.Property<int>("setting_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("setting_value")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("setting_id", "business_branch_id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_business_branch_setting");
-                });
-
             modelBuilder.Entity("eModels.BusinessInformationModel", b =>
                 {
                     b.Property<int>("id")
@@ -316,10 +299,6 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("data")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -644,6 +623,9 @@ namespace eAPI.Migrations
                     b.Property<int?>("ProductModelid")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("SaleModelid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(16,4)");
 
@@ -694,9 +676,6 @@ namespace eAPI.Migrations
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("sale_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -720,9 +699,9 @@ namespace eAPI.Migrations
 
                     b.HasIndex("ProductModelid");
 
-                    b.HasIndex("customer_id");
+                    b.HasIndex("SaleModelid");
 
-                    b.HasIndex("sale_id");
+                    b.HasIndex("customer_id");
 
                     b.HasIndex("user_id");
 
@@ -1843,9 +1822,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("balance")
                         .HasColumnType("decimal(16,4)");
 
-                    b.Property<Guid?>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1930,6 +1906,9 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
+                    b.Property<int>("stock_location_id")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(16,4)");
 
@@ -1951,11 +1930,11 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("business_branch_id");
-
                     b.HasIndex("customer_id");
 
                     b.HasIndex("outlet_id");
+
+                    b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_sale");
                 });
@@ -2071,11 +2050,18 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<bool>("is_business_branch")
+                        .HasColumnType("bit");
+
                     b.Property<string>("setting_description")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("setting_title")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("setting_value")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -2557,25 +2543,6 @@ namespace eAPI.Migrations
                     b.Navigation("price_rule");
                 });
 
-            modelBuilder.Entity("eModels.BusinessBranchSettingModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("business_branch_settings")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.SettingModel", "setting")
-                        .WithMany("business_branch_settings")
-                        .HasForeignKey("setting_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("setting");
-                });
-
             modelBuilder.Entity("eModels.CurrencyModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -2638,21 +2605,19 @@ namespace eAPI.Migrations
                         .WithMany("histories")
                         .HasForeignKey("ProductModelid");
 
+                    b.HasOne("eModels.SaleModel", null)
+                        .WithMany("histories")
+                        .HasForeignKey("SaleModelid");
+
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
-
-                    b.HasOne("eModels.SaleModel", "sale")
-                        .WithMany("histories")
-                        .HasForeignKey("sale_id");
 
                     b.HasOne("eModels.UserModel", "user")
                         .WithMany()
                         .HasForeignKey("user_id");
 
                     b.Navigation("customer");
-
-                    b.Navigation("sale");
 
                     b.Navigation("user");
                 });
@@ -2705,7 +2670,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.NoteModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("cashier_notes")
+                        .WithMany()
                         .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2910,10 +2875,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.SaleModel", b =>
                 {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany()
-                        .HasForeignKey("business_branch_id");
-
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id")
@@ -2926,11 +2887,17 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("business_branch");
+                    b.HasOne("eModels.StockLocationModel", "stock_location")
+                        .WithMany()
+                        .HasForeignKey("stock_location_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("customer");
 
                     b.Navigation("outlet");
+
+                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.SaleProductModel", b =>
@@ -3067,10 +3034,6 @@ namespace eAPI.Migrations
 
                     b.Navigation("business_branch_prices");
 
-                    b.Navigation("business_branch_settings");
-
-                    b.Navigation("cashier_notes");
-
                     b.Navigation("customer_business_branchs");
 
                     b.Navigation("outlets");
@@ -3178,11 +3141,6 @@ namespace eAPI.Migrations
                     b.Navigation("payments");
 
                     b.Navigation("sale_products");
-                });
-
-            modelBuilder.Entity("eModels.SettingModel", b =>
-                {
-                    b.Navigation("business_branch_settings");
                 });
 
             modelBuilder.Entity("eModels.StationModel", b =>

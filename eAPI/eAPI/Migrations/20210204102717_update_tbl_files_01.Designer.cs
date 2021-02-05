@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210204102717_update_tbl_files_01")]
+    partial class update_tbl_files_01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,29 +305,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_category_note");
-                });
-
-            modelBuilder.Entity("eModels.ConfigDataModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("data")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_config_data");
                 });
 
             modelBuilder.Entity("eModels.CountryModel", b =>
@@ -2705,7 +2684,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.NoteModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("cashier_notes")
+                        .WithMany()
                         .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3034,7 +3013,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.UserBusinessBranchModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("user_business_branches")
+                        .WithMany()
                         .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3069,15 +3048,11 @@ namespace eAPI.Migrations
 
                     b.Navigation("business_branch_settings");
 
-                    b.Navigation("cashier_notes");
-
                     b.Navigation("customer_business_branchs");
 
                     b.Navigation("outlets");
 
                     b.Navigation("printers");
-
-                    b.Navigation("user_business_branches");
                 });
 
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>

@@ -98,7 +98,7 @@ namespace eAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.Expand().Select().Filter().OrderBy().Count().MaxTop(500);
+                endpoints.Expand().Select().Filter().OrderBy().Count().MaxTop(1000);
 
                 var routingConventions = ODataRoutingConventions.CreateDefault();
                 var defaultConventions = ODataRoutingConventions.CreateDefault();
@@ -166,6 +166,8 @@ namespace eAPI
             odataBuilder.EntitySet<ModifierGroupModel>("ModifierGroup");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
             odataBuilder.EntitySet<HistoryModel>("History");
+            odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
+            odataBuilder.EntitySet<ConfigDataModel>("ConfigData");
 
 
              
