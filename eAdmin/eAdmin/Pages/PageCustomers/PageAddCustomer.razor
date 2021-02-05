@@ -34,16 +34,17 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                   <ComAddCustomerForm business_branches="@business_branches" model="@model"/>
+                    <ComAddCustomerForm business_branches="@business_branches" model="@model" />
                 </UIGridCenter>
+
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button is_visible="@is_saving"><Spinner /></Button>
-                    <Button icon="save" class_name="uk-button uk-button-primary" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
-                    <Button icon="save" class_name="uk-button uk-button-primary" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
-                    <Button icon="save" class_name="uk-button uk-button-primary" OnClick="@(()=>is_save_and_order = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & Invoice</Button>
-                    <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger" icon="reply">Cancel</Button>
+                    <ButtonGroup class_name="uk-width-1-1">
+                        <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
+                        <Button icon="save_alt" class_name="uk-button uk-button-multiple button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
+                        <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
+                    </ButtonGroup>
                 </FooterCenter>
             </PageFooter>
         </EditForm>        
