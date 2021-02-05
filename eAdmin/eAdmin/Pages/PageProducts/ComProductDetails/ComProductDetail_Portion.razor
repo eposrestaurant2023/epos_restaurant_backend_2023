@@ -56,11 +56,11 @@
                                 <TdCenter>
                                     @if (pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)
                                     {
-                                        <span class="@(@pp.product_prices.Where(r=>r.price_rule_id==p.id).FirstOrDefault().is_default?"default-price":"")">@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
+                                        <span>@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
                                     }
                                     else
                                     {
-                                        <span style="color:#ede7e7" class="@(@pp.product_prices.Where(r=>r.price_rule_id==p.id).FirstOrDefault().is_default?"default-price":"")">@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
+                                        <span style="color:#ede7e7" >@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
                                     }
 
 

@@ -119,9 +119,15 @@ namespace eModels
         public int printer_id { get; set; }
         [ForeignKey("printer_id")]
         public PrinterModel printer { get; set; }
+
+
+
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product{ get; set; }
+
+        public string printer_name { get; set; }
+        public string ip_address_port { get; set; }
 
         public bool is_deleted { get; set; } = false;
 
@@ -139,7 +145,7 @@ namespace eModels
             product_prices = new List<ProductPriceModel>();
             foreach(var r in price_rules)
             {
-                product_prices.Add(new ProductPriceModel() { price_rule_id = r.id, is_default = r.is_default });
+                product_prices.Add(new ProductPriceModel() { price_rule_id = r.id});
             }
 
         }

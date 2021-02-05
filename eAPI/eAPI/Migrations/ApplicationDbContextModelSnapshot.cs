@@ -192,6 +192,9 @@ namespace eAPI.Migrations
                     b.Property<int>("price_rule_id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("is_default")
+                        .HasColumnType("bit");
+
                     b.HasKey("business_branch_id", "price_rule_id");
 
                     b.HasIndex("price_rule_id");
@@ -1299,9 +1302,6 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -1345,7 +1345,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ip_address")
+                    b.Property<string>("ip_address_port")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -1355,9 +1355,6 @@ namespace eAPI.Migrations
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("port")
-                        .HasColumnType("int");
 
                     b.Property<string>("printer_name")
                         .HasMaxLength(50)
@@ -1622,6 +1619,10 @@ namespace eAPI.Migrations
                     b.Property<int>("modifier_id")
                         .HasColumnType("int");
 
+                    b.Property<string>("modifier_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(16,4)");
 
@@ -1714,9 +1715,6 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -1748,11 +1746,19 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("ip_address_port")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("printer_id")
                         .HasColumnType("int");
+
+                    b.Property<string>("printer_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("product_id")
                         .HasColumnType("int");

@@ -15,8 +15,8 @@ namespace eModels
 
         [MaxLength(50)]
         public string printer_name { get; set; } = "";
-        public string ip_address { get; set; } = "";
-        public int port { get; set; } = 0;
+        public string ip_address_port { get; set; } = "";
+ 
 
         public string note { get; set; } = "";
     }

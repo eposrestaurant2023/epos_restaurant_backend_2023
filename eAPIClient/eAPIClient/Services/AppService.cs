@@ -33,7 +33,6 @@ namespace eAPIClient.Services
         public async Task<string> GetDocumentNumber(DocumentNumberModel dc)
         {
             await Task.Delay(10);
-            
             dc.counter = dc.counter + 1;
             if (string.IsNullOrEmpty(dc.format))
             {

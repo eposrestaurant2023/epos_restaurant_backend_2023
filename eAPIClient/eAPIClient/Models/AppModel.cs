@@ -189,4 +189,19 @@ namespace eAPIClient.Models
 
     }
 
+
+    public class FilterModel
+    {
+        public FilterModel()
+        {
+
+        }
+         
+        public string procedure_name { get; set; }
+        public string procedure_parameter { get; set; }
+       
+    }
+
+
+
 }

@@ -168,6 +168,7 @@ namespace eAPI
             odataBuilder.EntitySet<HistoryModel>("History");
             odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
             odataBuilder.EntitySet<ConfigDataModel>("ConfigData");
+            odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
 
 
              

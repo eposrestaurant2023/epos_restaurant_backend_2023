@@ -22,7 +22,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton url="role/new">New</AddButton>
+                <AddButton url="role/new" custom_class="button-large">New User Type</AddButton>
                 <RefreshButton OnClick="@(()=>LoadData(""))" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
@@ -39,8 +39,8 @@
                    OnPageChange="@ChangePager"
                    isLoading="@is_loading_data">
                 <TableHeader>
-                    <ThAuto OnClick="@(async () => await OrderBy("role_name"))" OrderBy="@(state.pager.order_by == "role_name")" OrderByType="@state.pager.order_by_type">User Type Name</ThAuto>
-                    <ThAuto OnClick="@(async () => await OrderBy("description"))" OrderBy="@(state.pager.order_by == "description")" OrderByType="@state.pager.order_by_type">Description</ThAuto>
+                    <ThAuto OnClick="@(async () => await OrderBy("role_name"))" OrderBy="@(state.pager.order_by == "role_name")" OrderByType="@state.pager.order_by_type" ClassName="cp">User Type Name</ThAuto>
+                    <ThAuto OnClick="@(async () => await OrderBy("description"))" OrderBy="@(state.pager.order_by == "description")" OrderByType="@state.pager.order_by_type" ClassName="cp">Description</ThAuto>
                     <Th  OrderByType="@state.pager.order_by_type">Status</Th>
                     <Th ClassName="col-action"></Th>
                 </TableHeader>

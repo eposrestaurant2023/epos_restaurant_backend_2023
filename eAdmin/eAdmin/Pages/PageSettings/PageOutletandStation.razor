@@ -15,7 +15,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <LinkButton url="outletstation/new" icon="add" background="uk-button-primary">New</LinkButton>
+                <LinkButton url="outletstation/new" icon="add" background="uk-button-primary" Class_Name="button-large button-create">New</LinkButton>
             </HeaderRight>
         </PageHeader>
 
@@ -34,23 +34,20 @@
                                 </div>
                                 <div class="uk-float-right">
                                     <div>
-                                        <td>
+                                        <span>
                                             <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
                                             <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                        </td>
-                                        <td>
-                                            <div class="uk-flex uk-flex-inline">
-                                                <div style="margin-right:5px;">
+                                        </span>
+                                        <span> 
+                                                <span style="margin-right:5px;">
                                                     <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
-                                                </div>
-                                                <div>
+                                                </span>
+                                                <span>
                                                     <a href="@($"outletstation/edit/{d.id}")">
-                                                        <Icon icon="edit" />
+                                                        <Icon icon="edit"/>
                                                     </a>
-
-                                                </div>
-                                            </div>
-                                        </td>
+                                                </span> 
+                                        </span>
                                     </div>
                                 </div>
                             </div>

@@ -16,7 +16,7 @@ namespace eModels
         [MaxLength(50)]
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string price_name { get; set; }
-        public bool is_default { get; set; }
+   
 
         public List<BusinessBranchPriceRule> business_branch_prices { get; set; }
     }
@@ -32,6 +32,7 @@ namespace eModels
         public int price_rule_id { get; set; }
         [ForeignKey("price_rule_id")]
         public PriceRuleModel price_rule { get; set; }
+        public bool is_default { get; set; }
     }
 
 
@@ -51,7 +52,7 @@ namespace eModels
         public PriceRuleModel price_rule { get; set; }
         public decimal price { get; set; }
 
-        public bool is_default { get; set; } = false;
+ 
     }
 
 
