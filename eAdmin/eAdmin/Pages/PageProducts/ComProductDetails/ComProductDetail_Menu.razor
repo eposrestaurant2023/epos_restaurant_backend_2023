@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http;
-<UIContainerBox Title="Menus"​​>
+<UIContainerBox Title="Menus">
     @if (is_loading)
     {
         <Spinner/>
@@ -10,11 +10,19 @@
         {
             <p>There is no menu assigment for this product</p>
         }
-    <div> 
+    <div class="box_select_menu"> 
     @foreach (var pm in product_menus.OrderBy(r => r.menu.business_branch.business_branch_name_en))
     {
-        <div> 
-         <Label ClassName="primary">@pm.menu.business_branch.business_branch_name_en </Label> @pm.menu.menu_path
+        <div class="uk-flex uk-flex-inline uk-flex-between" style="width:100%;margin-bottom:10px;"> 
+            <div>
+                <Icon icon="check_box" />
+                <span>
+                    @pm.menu.menu_path
+                </span>
+            </div>
+            <div>
+                <Label ClassName="primary" TextTooltip="Business Branch">@pm.menu.business_branch.business_branch_name_en </Label>
+            </div>
         </div>
     }
     </div>
