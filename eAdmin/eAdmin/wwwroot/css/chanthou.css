@@ -21,10 +21,16 @@
     background: #ffffff;
     margin-bottom:10px;
 }
+.pos_icon_back {
+    position: absolute;
+    top: 37%;
+    left: 32%;
+}
 .icon_edit {
     position: absolute;
-    top: 4px;
+    top: 15px;
     right: 5px;
+    z-index: 9;
 }
 .ribbon {
     position: absolute;
