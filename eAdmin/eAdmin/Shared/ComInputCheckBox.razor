@@ -4,7 +4,7 @@
     {
         @if (label_inline)
         {
-            <div class="uk-margin-small">
+            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                 <label class="uk-form-label cp">
 
                     @if (!is_read_only)
@@ -58,7 +58,7 @@ else
             {
                 @if (label_inline)
                 {
-                    <div class="uk-margin-small">
+                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                         @if (!is_read_only)
                         {
                             <label class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
