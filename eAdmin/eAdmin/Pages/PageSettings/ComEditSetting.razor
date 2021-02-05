@@ -3,11 +3,12 @@
 
 <EditFormContext Save_Click="@SaveSetting_Click" Cancel_Click="Cancel_click" model="@bus_branch_settings" is_opened="is_dialog_open" title="@title" is_submitting="setting.is_saving" modal_width="800px">
 
-    <TextInput is_read_only="true" label="Setting Title" @bind-text="@setting.setting_title" placeholder="Setting Value"/>
-   
+    <TextInput is_read_only="true" label="Setting Title" @bind-text="@setting.setting_title" placeholder="Setting Value" />
+
     @foreach (var b in business_branches)
     {
-        <div>@b.business_branch_name_en</div>
+        <TextInput is_read_only="true" label="Business Branch" @bind-text="@b.business_branch_name_en" />
+
         foreach (var bs in bus_branch_settings.Where(r => r.business_branch_id == b.id && r.setting_id == setting.id).ToList())
         {
             @if (setting.input_type == "date")
@@ -22,6 +23,7 @@
             {
                 <TextInput label="Setting Value" @bind-text="@bs.setting_value" placeholder="Setting Value" type="@setting.input_type" />
             }
+            <hr />
         }
     }
 </EditFormContext>
