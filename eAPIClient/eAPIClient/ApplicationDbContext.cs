@@ -35,6 +35,11 @@ namespace eAPIClient
         public DbSet<DocumentNumberModel> DocumentNumbers { get; set; }
         public DbSet<UserModel> Users { get; set; }
         public DbSet<ConfigDataModel> ConfigDatas { get; set; }
+        public DbSet<MenuModel> Menus { get; set; }
+        public DbSet<ProductModel> Products { get; set; }
+        public DbSet<ProductMenuModel> ProductMenus { get; set; }
+        public DbSet<ProductPrinterModel> ProductPrinters { get; set; }
+        public DbSet<ProductModifierModel> ProductModifiers { get; set; }
 
 
     }

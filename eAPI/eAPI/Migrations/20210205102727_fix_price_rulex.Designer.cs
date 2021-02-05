@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210205102727_fix_price_rulex")]
+    partial class fix_price_rulex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1345,7 +1347,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ip_address_port")
+                    b.Property<string>("ip_address")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -1355,6 +1357,9 @@ namespace eAPI.Migrations
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("port")
+                        .HasColumnType("int");
 
                     b.Property<string>("printer_name")
                         .HasMaxLength(50)
@@ -1618,10 +1623,6 @@ namespace eAPI.Migrations
 
                     b.Property<int>("modifier_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("modifier_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(16,4)");

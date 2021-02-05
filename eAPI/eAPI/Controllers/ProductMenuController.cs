@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text.Json;
 using System.Threading.Tasks;
 using eModels;
 using Microsoft.AspNet.OData;
@@ -17,7 +16,7 @@ namespace eAPI.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ProductMenuController : ODataController
+    public class ProductMenuController: ODataController
     {
 
         private readonly ApplicationDbContext db;
@@ -32,9 +31,9 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         public IQueryable<ProductMenuModel> Get(string keyword = "")
         {
-            
+          
                 return db.ProductMenus;
-            
+           
         }
 
 
@@ -50,8 +49,7 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductMenuModel u)
         {
-
-          
+            
             if (u.id == 0)
             {
 
@@ -65,8 +63,8 @@ namespace eAPI.Controllers
             
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-          
-            return Ok(db.ProductMenus.Find(u.id));
+            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
+            return Ok(u);
 
 
         }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210205085745_fix")]
+    partial class fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,7 +95,7 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int?>("parent_id")
+                    b.Property<int>("parent_id")
                         .HasColumnType("int");
 
                     b.Property<string>("text_color")
@@ -160,51 +162,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_product");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.ProductModifierModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("modifier_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("price")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("product_id");
-
-                    b.ToTable("tbl_product_modifier");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.ProductPrinterModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ip_address_port")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("printer_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("product_id");
-
-                    b.ToTable("tbl_product_printer");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.UserModel", b =>
                 {
                     b.Property<int>("id")
@@ -236,7 +193,7 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.ProductMenuModel", b =>
                 {
                     b.HasOne("eAPIClient.Models.MenuModel", "menu")
-                        .WithMany("product_menus")
+                        .WithMany()
                         .HasForeignKey("menu_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -250,40 +207,6 @@ namespace eAPIClient.Migrations
                     b.Navigation("menu");
 
                     b.Navigation("product");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.ProductModifierModel", b =>
-                {
-                    b.HasOne("eAPIClient.Models.ProductModel", "product")
-                        .WithMany("product_modifiers")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.ProductPrinterModel", b =>
-                {
-                    b.HasOne("eAPIClient.Models.ProductModel", "product")
-                        .WithMany("product_printers")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.MenuModel", b =>
-                {
-                    b.Navigation("product_menus");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.ProductModel", b =>
-                {
-                    b.Navigation("product_modifiers");
-
-                    b.Navigation("product_printers");
                 });
 #pragma warning restore 612, 618
         }
