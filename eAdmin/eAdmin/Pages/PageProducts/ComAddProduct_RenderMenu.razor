@@ -19,7 +19,7 @@
             @foreach (var m in GetMenus)
             {
                 <div style="display:inline-flex;margin-right: 10px;">
-                    <div @onclick="@(()=>MenuClick(m))" class="box" style="background:@m.background_color;color:@m.text_color;">
+                    <div @onclick="@(()=>MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color;">
                         <Com is_visible="@(IsMenuSelected(m))">
                             <div class="ribbon">
                                 <span class="">Select</span>
