@@ -27,7 +27,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))" custom_class="button-create">New</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="All Customer Group" />
@@ -71,7 +71,7 @@
                                 <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_name_en (@p.customer_name_kh)</ComAuthorize>
                             </div>
                         </td>
-                        
+
                         <TdCenter>
                             @p.phone_1
                         </TdCenter>
@@ -101,4 +101,3 @@
         </PageBody>
     </PageContainer>
 }
-

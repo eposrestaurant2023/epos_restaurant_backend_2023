@@ -1,34 +1,42 @@
 ﻿@if(PermissionOptions.Count() > 0)
 {
     <ComRenderTree is_parent="@is_parent" toogle=".content_title" css_class="uk-list" Items="@PermissionOptions.Where(r=>r.parent_id == parent_id).ToList()">
+
         <ItemTemplate Context="p">
             <li class="@(is_parent && p.permission_options.Count() > 0 ? "uk-parent" : "child_list")">
-                <div class="content_title">
-                    <span class="button_group"></span>
-                    <p @onclick="(() => SelectPermission_Click(p))" class="title @(ChildPermissionOption(p.id).Count() > 0 && show_delete ? "parent_title" : "") @(p.is_checked ? "focus" : "")">
+                <div class="content_title @(PermissionOptions.Where(r=>r.parent_id == p.id && p.parent_id == null).Any()?"check-role-title":"")">
+                    <div class="@(ChildPermissionOption(p.id).Count() > 0 && show_delete ? "parent_title" : "") @(p.is_checked ? "focus" : "")" style="margin-top: 4px;
+        margin-top: 4px;
+">
                         @if (p.is_checked)
                         {
-                            <input class="uk-checkbox" type="checkbox" id="@p.id" @onchange="@(async(e)=> {   await SelectPermission_Click(p); })" checked />
+                            <input class="uk-checkbox" type="checkbox" id="@p.id" style="margin-right: 18px;" @onchange="@(async(e)=> {   await SelectPermission_Click(p); })" checked/>
                         }
                         else
                         {
-                            <input class="uk-checkbox" type="checkbox" id="@p.id" @onchange="@(async(e)=> { await SelectPermission_Click(p); })" />
+                            <input class="uk-checkbox" type="checkbox" id="@p.id" style="margin-right: 18px;" @onchange="@(async(e)=> { await SelectPermission_Click(p); })" />
                         }
-                        @p.note  
-                    </p>
+                        <span @onclick="(()=> { p.is_open_child = !p.is_open_child; })">
+                            <Icon icon="@(p.is_open_child?"indeterminate_check_box":"add_box")" icon_color="@(p.is_open_child?"#2cc189":"#000000")" size="20px" is_visible="@(PermissionOptions.Where(r=>r.parent_id == p.id).Any())"/>
+                            <span>@p.note</span>
+                        </span>
+                    </div>
                     @if (ChildPermissionOption(p.id).Count() > 0)
                     {
-                        <ComPerMissionOptionTree role_id="@role_id" parent_id="@p.id" OnSelect="@SelectPermission_Click" />
+                    <div style="display: @(p.is_open_child?"block":"none");">
+                        <ComPerMissionOptionTree role_id="@role_id" parent_id="@p.id" OnSelect="@SelectPermission_Click" PermissionOptions="@PermissionOptions" />
+                    </div>
                     }
                 </div>
             </li>
         </ItemTemplate>
+
     </ComRenderTree>
 }
 
 @code{
 
-    [CascadingParameter] public List<PermissionOptionModel> PermissionOptions { get; set; }
+    [Parameter] public List<PermissionOptionModel> PermissionOptions { get; set; }
 
 
     public List<PermissionOptionModel> ChildPermissionOption(int? id)

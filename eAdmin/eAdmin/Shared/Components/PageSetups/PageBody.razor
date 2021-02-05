@@ -1,9 +1,8 @@
-﻿<div class="page_body @class_card @class_name">
+﻿<div class="page_body @class_name uk-position-relative">
     @ChildContent
 </div>
 
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string class_name { get; set; }
-    [Parameter] public string class_card { get; set; } = "uk-card-default";
+    [Parameter] public string class_name { get; set; } 
 }
