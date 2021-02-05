@@ -51,5 +51,8 @@ namespace eModels
 
         [NotMapped, JsonIgnore]
         public bool is_checked { get; set; }
+
+        [NotMapped, JsonIgnore]
+        public bool is_open_child { get; set; }
     }  
 }
