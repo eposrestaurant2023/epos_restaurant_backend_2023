@@ -4694,8 +4694,7 @@ i.icolor-6 {
     padding-right: 15px;
     margin-right: 15px;
 }
-.correct-location-dropdown {
-    left: auto !important;
+.correct-location-dropdown { 
     right: 51px !important;
     top: 36.9062px !important;
 }
@@ -6966,4 +6965,15 @@ div.mud-input-slot.mud-input-root:hover {
 }
 .uk-form-label > .uk-checkbox {
     margin-right: 6px;
+}
+.split-button-drop-down {
+    background-color: #7b302a;
+}
+.split-button-drop-down:hover,
+.split-button-drop-down:focus {
+    background-color: #ab5952;
+}
+.button-header-attach > i,
+.button-header-edit > i {
+    color: #2090ff!important;
 }
