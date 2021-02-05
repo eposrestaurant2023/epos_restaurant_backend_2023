@@ -41,30 +41,34 @@ namespace eAPIClient.Controllers
         }
 
 
-        [HttpPost("GetRemoteData")]
+        [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
-        public async Task<ActionResult> GetRemoteData()
+        public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool is_service_sync=false)
         {
             var resp = await http.ApiGetOData($"ConfigData?$filter=business_branch_id eq {config.GetValue<string>("business_branch_id")}");
             if (resp.IsSuccess)
             {
                 var data = JsonSerializer.Deserialize<List<ConfigDataModel>>(resp.Content.ToString());
-                foreach(var d in data)
+
+                if (data.Count() > 0)
                 {
-                     
-                    if (db.ConfigDatas.Where(r => r.id == d.id).Any())
+                    foreach (var d in data)
                     {
-                        db.ConfigDatas.Update(d);
-                    }else
-                    {
-                        db.ConfigDatas.Add(d);
-                    }
+
+                        if (db.ConfigDatas.Where(r => r.id == d.id).Any())
+                        {
+                            db.ConfigDatas.Update(d);
+                        }
+                        else
+                        {
+                            db.ConfigDatas.Add(d);
+                        }
+                    }     
+                    db.SaveChanges();
                 }
-                  
-
-                db.SaveChanges();
             }
-
+            if(!is_service_sync)
+                return Ok(db.ConfigDatas);
             return Ok();
              
         }

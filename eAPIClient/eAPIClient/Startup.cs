@@ -85,17 +85,8 @@ namespace eAPIClient
             app.UseCors(x => x
               .AllowAnyOrigin()
               .AllowAnyMethod()
-              .AllowAnyHeader());
-
+              .AllowAnyHeader());  
             app.UseRouting();
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(env.ContentRootPath, "upload")),
-                RequestPath = "/upload"
-            });
-
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

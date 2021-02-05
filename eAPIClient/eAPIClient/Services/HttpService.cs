@@ -42,13 +42,9 @@ namespace eAPIClient.Services
 
         public async Task<GetResponse> ApiGet(string url)
         {
-            HttpStatusCode StatusCode = new HttpStatusCode();
-
-            string user = "admin";
-            string pass = "123456";
-            http.DefaultRequestHeaders.Add("ContentType", "application/json");
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{user}:{pass}");
-            string val = System.Convert.ToBase64String(plainTextBytes);
+            HttpStatusCode StatusCode = new HttpStatusCode();       
+            http.DefaultRequestHeaders.Add("ContentType", "application/json"); 
+            string val = _configuration.GetValue<string>("autherize_key");
             http.DefaultRequestHeaders.Remove("Authorization");
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
 
@@ -66,13 +62,9 @@ namespace eAPIClient.Services
         }
 
         public async Task<GetOdataResponse> ApiGetOData(string url)
-        {
-
-            string user = "admin";
-            string pass = "123456";
+        {     
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{user}:{pass}");
-            string val = System.Convert.ToBase64String(plainTextBytes);
+            string val = _configuration.GetValue<string>("autherize_key");
             http.DefaultRequestHeaders.Remove("Authorization");
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
 
@@ -90,19 +82,15 @@ namespace eAPIClient.Services
 
         public async Task<PostReponse> ApiPost(string url, object obj = null)
         {
-            HttpStatusCode StatusCode = new HttpStatusCode();
-            string user = "admin";
-            string pass = "123456";
-            http.DefaultRequestHeaders.Add("ContentType", "application/json");
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{user}:{pass}");
-            string val = System.Convert.ToBase64String(plainTextBytes);
+            HttpStatusCode StatusCode = new HttpStatusCode();      
+            http.DefaultRequestHeaders.Add("ContentType", "application/json"); 
+            string val = _configuration.GetValue<string>("autherize_key");    
             http.DefaultRequestHeaders.Remove("Authorization");
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
             if (obj != null)
-            {
-                
+            {     
                 requestMessage = new HttpRequestMessage()
                 {
                     Method = new HttpMethod("POST"),
@@ -127,8 +115,7 @@ namespace eAPIClient.Services
 
             if (response.IsSuccessStatusCode)
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
-
+                var responseBody = await response.Content.ReadAsStringAsync();  
                 return new PostReponse(true, responseBody);
             }
             else
