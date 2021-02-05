@@ -11,16 +11,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @if (id > 0)
-                        {
-                        <div>Edit Product Category & Group</div>
-                        }
-
-                        else
-                        {
-                        <div>New Product Category & Group</div>
-                        }
-
+                        @(id > 0? "Edit Product Category & Group" : "New Product Category & Group")
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -49,21 +40,32 @@
                                 <th>Status</th>
                                 <th></th>
                             </tr>
-                            @foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
+                            @if (model.product_categories.Any())
+                            {
+                                foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
+                                {
+                                    <tr>
+                                        <td>  <TextInput label="" placeholder="Product Category Name En " @bind-text="@s.product_category_en" /></td>
+                                        <td>  <TextInput label="" placeholder="Product Category Name En " @bind-text="@s.product_category_kh" /></td>
+                                        <td>
+                                            <LabelActive OnClick="@(()=>s.status=false)" is_visible="@s.status" />
+                                            <LabelInActive OnClick="@(()=>s.status=true)" is_visible="@(!s.status)" />
+                                        </td>
+                                        <td>
+                                            <Icon icon="delete" OnClick="@(()=>Delete_Product_Category(s))" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>  <TextInput label="" placeholder="Product Category Name En " @bind-text="@s.product_category_en" /></td>
-                                    <td>  <TextInput label="" placeholder="Product Category Name En " @bind-text="@s.product_category_kh" /></td>
-                                    <td>
-                                        <LabelActive OnClick="@(()=>s.status=false)" is_visible="@s.status"/>
-                                        <LabelInActive OnClick="@(()=>s.status=true)" is_visible="@(!s.status)"/>
-                                    </td>
-                                    <td>
-                                        <Icon icon="delete" OnClick="@(()=>Delete_Product_Category(s))" />
+                                    <td colspan="4">
+                                        <ComEmptyTemplate />
                                     </td>
                                 </tr>
                             }
-                            </table>
+                        </table>
                         
                         
                     </UIContainerBox>
@@ -73,8 +75,10 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button type="submit" icon="save">Save</Button>
-                    <LinkButton url="productcategory" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                    <ButtonGroup class_name="uk-width-1-1">
+                        <Button type="submit" icon="save">Save</Button>
+                        <LinkButton url="productcategory" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                    </ButtonGroup>
                 </FooterCenter>
             </PageFooter>
 

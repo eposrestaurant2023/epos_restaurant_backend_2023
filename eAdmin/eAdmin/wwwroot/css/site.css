@@ -1038,14 +1038,6 @@ a, .btn-link {
     overflow-x: auto;
 }
 
-.uk-dropdown {
-    box-shadow: none;
-    border: 1px solid #cf564d;
-    background: #f9dedc;
-    /*border: 1px solid #e3e3e3;*/
-    border-radius: 3px;
-}
-
 .uk-tab > .uk-active > a {
     border-bottom: 2px solid #cf564d;
     color: #cf564d;
@@ -1630,10 +1622,10 @@ button.shipping {
     margin-top: 0px;
 }
 
-.uk-drop {
+.uk-drop, .uk-dropdown {
     width: max-content;
-    background: #f9dedc;
-    border: 1px solid #cf564d;
+    background: #ebeff3;
+    border: 1px solid #cccccc;
     border-radius: 0px;
 }
 
