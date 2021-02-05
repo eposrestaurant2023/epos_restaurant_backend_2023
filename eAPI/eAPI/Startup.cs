@@ -126,7 +126,7 @@ namespace eAPI
             u.EntityType.HasKey(r => new { r.user_id, r.business_branch_id });
 
             var bs = odataBuilder.EntitySet<BusinessBranchSettingModel>("BusinessBranchSetting");
-            bs.EntityType.HasKey(r => new { r.setting_id, r.business_branch_id });
+            bs.EntityType.HasKey(r => new { r.setting_id, r.business_branch_id, r.setting_value });
 
             var b = odataBuilder.EntitySet<BusinessBranchPaymentTypeModel>("BusinessBranchPaymentType");
             b.EntityType.HasKey(r => new { r.payment_type_id, r.business_branch_id });

@@ -72,7 +72,7 @@ namespace eAPI.Controllers
 
          
 
-            return Ok();
+            return Ok(branches);
 
 
         }
