@@ -42,7 +42,13 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
             if (resp.IsSuccess)
             {
                 sale = JsonSerializer.Deserialize<SaleModel>(resp.Content.ToString());
-            }else
+                history.sale_id = id;
+                if (sale.customer_id != Guid.Empty)
+                { 
+                    history.customer_id = sale.customer_id; 
+                }
+            }
+            else
             { 
                 toast.Add("Error getting data.", MatToastType.Warning);
 

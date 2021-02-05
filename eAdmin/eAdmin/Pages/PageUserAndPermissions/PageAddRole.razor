@@ -58,12 +58,7 @@
                                 Back End
                             </div>
                             <div>
-                                @foreach (var bn in permissionoption.Where(r => r.is_front_end == false).ToList())
-                                {
-                                    <div class="cus_margin">
-                                        <ComInputCheckBox label="@bn.note" label_inline="true" @bind-value="bn.is_checked" />
-                                    </div>
-                                }
+                                <ComPerMissionOptionTree parent_id="null" PermissionOptions="@permissionoption" />
                             </div>
                         </div>
                     </div>
@@ -73,12 +68,8 @@
                                 Report
                             </div>
                             <div class="report-content">
-                                @foreach (var re in permissionoption.Where(r => r.is_report == true).ToList())
-                                {
-                                    <div class="cus_margin">
-                                        <ComInputCheckBox label="@re.note" label_inline="true" @bind-value="re.is_checked" />
-                                    </div>
-                                }
+                                
+                                @*<ComPerMissionOptionTree parent_id="44" PermissionOptions="@permissionoption.Where(r=>r.is_report==true).ToList()"/>*@
                             </div>
                         </div>
                     </div>
@@ -87,8 +78,10 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button type="submit" icon="save">Save</Button>
-                    <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                    <ButtonGroup class_name="uk-width-1-1">
+                        <Button type="submit" icon="save" custom_class="button-large">Save</Button>
+                        <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton>
+                    </ButtonGroup>
                 </FooterCenter>
             </PageFooter>
 
