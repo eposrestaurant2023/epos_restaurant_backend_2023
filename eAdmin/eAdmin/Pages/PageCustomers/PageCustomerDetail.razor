@@ -19,13 +19,14 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"customer/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"customer/edit/{model.id}"))" is_visible="@(!model.is_deleted)" class_name="none" custom_class="button-header-edit"/>
                 <ComAttachFileButton RoleAdd="@gv.GetRole("customer_add")"
                                      RoleEdit="@gv.GetRole("customer_edit")"
                                      RoleDelete="@gv.GetRole("customer_delete")"
                                      ApiFilter="@($"customer_id eq {id} ")"
                                      File="@(new AttachFilesModel() { customer_id = Guid.Parse(id) })"
-                                     IsVisible="@(!model.is_deleted)" />
+                                     IsVisible="@(!model.is_deleted)" 
+                                     IsHeaderButton="true"/>
 
                 <SplitButton roles="@gv.GetRole("customer_add")" alignment="left" url="customer/new" main_button_text="New">
                     <SplitButtonItem roles="@gv.GetRole("customer_add")" url="customer/new">New Customer</SplitButtonItem>

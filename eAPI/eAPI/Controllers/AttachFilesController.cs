@@ -11,7 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace eOpticalAPI.Controllers
+namespace eAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
