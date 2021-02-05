@@ -1,46 +1,59 @@
 ﻿@inject IHttpService http;
 <div>
 
-    @if (current_menu_id > 0)
+    @*@if (current_menu_id > 0)
     {
         <p>@menus.Where(r => r.id == current_menu_id).FirstOrDefault().menu_path</p>
-    }
+    }*@
 
     @if (menus.Any())
     {
-        if (current_menu_id > 0)
-        {
-            <Button OnClick="@(()=>OnBack())">Back</Button>
-        }
 
+        @if (current_menu_id > 0)
+        {
+
+            <Icon icon="arrow_back_ios" OnClick="@(()=>OnBack())" />
+        }
         <div class="ribbons-wrapper">
+
             @foreach (var m in GetMenus)
             {
-                <div  style="display:inline-flex;margin-right: 10px;">
+                <div style="display:inline-flex;margin-right: 10px;">
                     <div @onclick="@(()=>MenuClick(m))" class="box" style="background:@m.background_color;color:@m.text_color;">
-                        <Com is_visible="@(!IsMenuSelected(m))">
+                        <Com is_visible="@(IsMenuSelected(m))">
                             <div class="ribbon">
                                 <span class="">Select</span>
                             </div>
                         </Com>
                         <div class="icon_edit">
-                            <Icon icon="edit" OnClick="@(()=>EditMenu(m))" icon_color="#fff" />
-                            <Icon icon="check" OnClick="@(()=>OnSelectMenu(m))" />
+                            <button @onclick="@(()=>EditMenu(m))">
+                                <Icon icon="edit" icon_color="@m.text_color" />
+                            </button>
+                            <Com is_visible="@(!IsMenuSelected(m))">
+                                <button>
+                                    <Icon icon="check_box_outline_blank" icon_color="@m.text_color" @onclick="@(()=>OnSelectMenu(m))" />
+                                </button>
+                            </Com>
+                            <Com is_visible="@(IsMenuSelected(m))">
+                                <button>
+                                    <Icon icon="check_box" icon_color="@m.text_color" @onclick="@(()=>OnUnSelectMenu(m))" />
+                                </button>
+                            </Com>
                         </div>
                         <div>
 
                             <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
                         </div>
-                        @*<Button OnClick="@(()=>OnSelectMenu(m))" is_visible="@(!IsMenuSelected(m))">Select</Button>*@
-
-                        @*<Button OnClick="@(()=>OnUnSelectMenu(m))" is_visible="@(IsMenuSelected(m))">Unselect</Button>*@
 
                     </div>
                 </div>
             }
         </div>
+
         if (current_menu_id > 0)
         {
+            <Spacing Number="10" />
+            <hr />
             <Button OnClick="@(()=>AddSubMenu())">Add Sub Menu</Button>
         }
     }
