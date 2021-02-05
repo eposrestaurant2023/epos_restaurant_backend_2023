@@ -22,7 +22,7 @@
     </EditFormContext>
 
 @code{
-    [Parameter] public string modal_title { get; set; }
+    [Parameter] public string modal_title { get; set; } = "";
     [Parameter] public bool is_dialog_open { get; set; } = false;
     [Parameter] public EventCallback<bool> is_dialog_openChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Save_Click { get; set; }
@@ -31,6 +31,7 @@
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
 
     bool is_save_new = false;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -65,9 +66,10 @@
             }
             else
             {
-                modal_title = "Add New";
+
                 payment_type = new PaymentTypeModel();
-                foreach(var bb in business_branches)
+                modal_title = "Add New";
+                foreach (var bb in business_branches)
                 {
                     bb.is_selected = false;
                 }

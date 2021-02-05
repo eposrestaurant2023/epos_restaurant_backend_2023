@@ -4,7 +4,7 @@
 <EditFormContext Save_Click="@SaveSetting_Click" Cancel_Click="Cancel_click" model="@bus_branch_settings" is_opened="is_dialog_open" title="@title" is_submitting="setting.is_saving" modal_width="800px">
 
     <TextInput is_read_only="true" label="Setting Title" @bind-text="@setting.setting_title" placeholder="Setting Value" />
-
+    <hr/>
     @foreach (var b in business_branches)
     {
         <TextInput is_read_only="true" label="Business Branch" @bind-text="@b.business_branch_name_en" />
