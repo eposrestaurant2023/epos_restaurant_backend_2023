@@ -17,13 +17,18 @@
                 {
                 <TabItem>
                     <h4>Selected Menu</h4>
-                    <div>
+                    <div class="box_select_menu">
                         @if (model.product_menus.Any())
                         {
                          foreach (var m in model.product_menus.Where(r => r.is_deleted == false && r.menu.business_branch_id == b.id))
                         {
-                            <div>
-                                @m.menu?.menu_path <Button OnClick="@(() => OnDeleteMenu(m))">Delete</Button>
+                            <div class="uk-flex uk-flex-inline uk-flex-between" style="width:100%;margin-bottom:10px;">
+                                <div> 
+                                     <Icon icon="check_box"/>
+                                     <span>@m.menu?.menu_path</span>
+                                </div>
+                               
+                                <div><Icon icon="delete" OnClick="@(() => OnDeleteMenu(m))"/></div>
                             </div>
                             }
                         }else
