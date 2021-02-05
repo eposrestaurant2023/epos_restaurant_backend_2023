@@ -11,22 +11,11 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @if (id > 0)
-                        {
-                            <div>Edit Outlet &Station</div>
-                        }
-
-                        else
-                        {
-                            <div>New Outlet &Station</div>
-                        }
-
+                        <span>@(id>0? "Edit Outlet & Station" : "New Outlet & Station")</span>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true">
-
-            </HeaderRight>
+            <HeaderRight ShowBackButton="true"></HeaderRight>
         </PageHeader>
         <EditForm Model="@model" OnValidSubmit="@Save_Click">
             <DataAnnotationsValidator />
@@ -53,7 +42,7 @@
                         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
                                 <Th>Station Name En</Th>
-                                <Th>Station Name En</Th>
+                                <Th>Station Name Kh</Th>
                                 <ThCenter></ThCenter>
                             </tr>
 
@@ -69,7 +58,6 @@
                                     <TdCenter>
                                         <Icon icon="delete" OnClick="@(()=>Delete_station(s))" />
                                     </TdCenter>
-
                                 </tr>
 
                             }
@@ -81,8 +69,10 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button type="submit" icon="save">Save</Button>
-                    <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                    <ButtonGroup class_name="uk-width-1-1">
+                        <Button type="submit" icon="save">Save</Button>
+                        <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                    </ButtonGroup>
                 </FooterCenter>
             </PageFooter>
 

@@ -6964,3 +6964,6 @@ div.mud-input-slot.mud-input-root:hover {
     border-radius: 4px;
     margin-bottom: 12px !important;
 }
+.uk-form-label > .uk-checkbox {
+    margin-right: 6px;
+}
