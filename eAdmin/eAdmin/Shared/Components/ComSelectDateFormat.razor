@@ -1,7 +1,7 @@
 ﻿<div class="uk-margin-small">
     <label class="uk-form-label" for="@id">@label</label>
     <div class="uk-form-controls">
-        <select id="@id" value="" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small">
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small">
             <option value="">Please Select An Option</option>
             <option value="dd-MM-yyyy">dd-MM-yyyy</option>
             <option value="MM/dd/yyyy">MM/dd/yyyy</option>
@@ -19,7 +19,13 @@
     [Parameter]
     public EventCallback<string> selected_valueChanged { get; set; }
 
-
+    public string SelectedValue
+    {
+        get
+        {
+            return selected_value;
+        }
+    }
 
     Guid id = Guid.NewGuid();
 
