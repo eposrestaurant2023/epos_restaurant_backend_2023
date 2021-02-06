@@ -1364,22 +1364,12 @@ a, a:hover {
 }
 .search-field {
     width: 140px;
-    color: #fff;
-    border: none !important;
-    border-bottom: 1px solid #fff !important;
     -webkit-transition: all 0.25s cubic-bezier(0.175, 0.885, 0.320, 1.275);
     transition: all 0.25s cubic-bezier(0.175, 0.885, 0.320, 1.275);
 }
 
 .search-field:focus {
-    color: #fff;
     width: 200px;
-    border: none!important;
-    border-bottom: 1px solid #fff!important;
-}
- 
-form .uk-search .uk-search-icon svg {
-    color: #fff;
 }
 
 .uk-heading-primary {
