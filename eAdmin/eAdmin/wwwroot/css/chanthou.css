@@ -22,12 +22,12 @@
 }
 .pos_icon_back {
     position: absolute;
-    top: 37%;
-    left: 32%;
+    left: 37%;
+    top: 22%;
 }
 .icon_edit {
     position: absolute;
-    top: 15px;
+    top: 5px;
     right: 5px;
     z-index: 9;
 }

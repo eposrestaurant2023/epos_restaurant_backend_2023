@@ -80,12 +80,10 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ButtonGroup class_name="uk-width-1-1">
-                        <Button is_visible="@is_saving"><Spinner /></Button>
-                        <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
-                        <Button icon="save" class_name="uk-button uk-button-multiple button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
-                        <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
-                    </ButtonGroup>
+                    <Button is_visible="@is_saving"><Spinner /></Button>
+                    <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
+                    <Button icon="save" class_name="uk-button uk-button-primary button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
+                    <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
                 </FooterCenter>
             </PageFooter>
         </EditForm>

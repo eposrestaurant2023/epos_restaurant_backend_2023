@@ -113,6 +113,8 @@ namespace eAPI
         public DbSet<PurchaseOrderModel> PurchaseOrders { get; set; }
         public DbSet<PurchaseOrderPaymentModel> PurchaseOrderPayments { get; set; }
         public DbSet<PurchaseOrderProductModel> PurchaseOrderProducts { get; set; }
+        public DbSet<ProvinceModel> Provinces{ get; set; }
+        public DbSet<VendorGroupModel> VendorGroups{ get; set; }
 
     }
 
