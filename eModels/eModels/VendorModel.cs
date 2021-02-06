@@ -22,6 +22,14 @@ namespace eModels
         public string address { get; set; }
         public string note { get; set; }
         public decimal total_payable { get; set; }
-       
+
+        public int province_id { get; set; }
+        [ForeignKey("province_id")]
+        public ProvinceModel province { get; set; }
+    }
+
+    public class ProvinceModel : KeyModel
+    {
+        public string province_name { get; set; }
     }
 }

@@ -110,6 +110,7 @@ namespace eAPI
         public DbSet<ModifierGroupProductCategoryModel> ModifierGroupProductCategories{ get; set; }
         public DbSet<ConfigDataModel> ConfigDatas{ get; set; }
         public DbSet<BusinessBranchProductPriceModel> BusinessBranchProductPrices{ get; set; }
+        public DbSet<ProvinceModel> Provinces{ get; set; }
 
     }
 
