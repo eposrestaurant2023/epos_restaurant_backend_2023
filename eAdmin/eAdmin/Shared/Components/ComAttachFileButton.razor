@@ -9,7 +9,7 @@
     else
     {
 
-        <Button icon="attach_file" title="Attach File" uk_toggle="@($"#{IdToggle}")" class_name="@(IsHeaderButton?"none":"primary")" custom_class="@(IsHeaderButton?"button-header-attach":"")">(@files.Where(r => r.is_deleted == false).Count())</Button>
+        <Button icon="attach_file" title="Attach File" uk_toggle="@($"#{IdToggle}")">(@files.Where(r => r.is_deleted == false).Count())</Button>
 
         <div id="@IdToggle" uk-offcanvas="flip: true; overlay: true">
             <div class="uk-offcanvas-bar">
@@ -36,7 +36,6 @@
     [Parameter] public string RoleEdit { get; set; }
     [Parameter] public string RoleDelete { get; set; }
     [Parameter] public bool IsVisible { get; set; } = true;
-    [Parameter] public bool IsHeaderButton { get; set; } = false;
     [Parameter] public bool IsReadOnly { get; set; } = false;
     [Parameter] public string IdToggle { get; set; } = "attach-file";
     [Parameter] public AttachFilesModel File { get; set; }
