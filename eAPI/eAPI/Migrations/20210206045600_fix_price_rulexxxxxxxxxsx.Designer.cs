@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210206045600_fix_price_rulexxxxxxxxxsx")]
+    partial class fix_price_rulexxxxxxxxxsx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1826,7 +1828,7 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("tbl_province");
+                    b.ToTable("Provinces");
                 });
 
             modelBuilder.Entity("eModels.RoleModel", b =>
@@ -2471,64 +2473,12 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_user");
                 });
 
-            modelBuilder.Entity("eModels.VendorGroupModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("vendor_group_name_en")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("vendor_group_name_kh")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_vendor_group");
-                });
-
             modelBuilder.Entity("eModels.VendorModel", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<int?>("VendorGroupModelid")
-                        .HasColumnType("int");
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)")
@@ -2597,8 +2547,6 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
-
-                    b.HasIndex("VendorGroupModelid");
 
                     b.HasIndex("province_id");
 
@@ -3164,10 +3112,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.VendorModel", b =>
                 {
-                    b.HasOne("eModels.VendorGroupModel", null)
-                        .WithMany("vendors")
-                        .HasForeignKey("VendorGroupModelid");
-
                     b.HasOne("eModels.ProvinceModel", "province")
                         .WithMany()
                         .HasForeignKey("province_id")
@@ -3316,11 +3260,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
                     b.Navigation("user_business_branchs");
-                });
-
-            modelBuilder.Entity("eModels.VendorGroupModel", b =>
-                {
-                    b.Navigation("vendors");
                 });
 #pragma warning restore 612, 618
         }

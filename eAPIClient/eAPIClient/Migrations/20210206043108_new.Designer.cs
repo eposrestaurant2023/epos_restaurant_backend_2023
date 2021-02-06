@@ -10,8 +10,8 @@ using eAPIClient;
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210205104411_xfsd")]
-    partial class xfsd
+    [Migration("20210206043108_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -162,6 +162,74 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_product");
                 });
 
+            modelBuilder.Entity("eAPIClient.Models.ProductModifierModel", b =>
+                {
+                    b.Property<int>("id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("modifier_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("price")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("product_id");
+
+                    b.ToTable("tbl_product_modifier");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.ProductPortionModel", b =>
+                {
+                    b.Property<int>("id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("cost")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("multiplier")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<string>("portion_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("prices")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("product_id");
+
+                    b.ToTable("tbl_product_portion");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.ProductPriceModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("prices")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_portion_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_product_price");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.ProductPrinterModel", b =>
                 {
                     b.Property<int>("id")
@@ -232,10 +300,32 @@ namespace eAPIClient.Migrations
                     b.Navigation("product");
                 });
 
+            modelBuilder.Entity("eAPIClient.Models.ProductModifierModel", b =>
+                {
+                    b.HasOne("eAPIClient.Models.ProductModel", "product")
+                        .WithMany("product_modifiers")
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.ProductPortionModel", b =>
+                {
+                    b.HasOne("eAPIClient.Models.ProductModel", "product")
+                        .WithMany("product_portions")
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.ProductPrinterModel", b =>
                 {
                     b.HasOne("eAPIClient.Models.ProductModel", "product")
-                        .WithMany()
+                        .WithMany("product_printers")
                         .HasForeignKey("product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -246,6 +336,15 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.MenuModel", b =>
                 {
                     b.Navigation("product_menus");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.ProductModel", b =>
+                {
+                    b.Navigation("product_modifiers");
+
+                    b.Navigation("product_portions");
+
+                    b.Navigation("product_printers");
                 });
 #pragma warning restore 612, 618
         }
