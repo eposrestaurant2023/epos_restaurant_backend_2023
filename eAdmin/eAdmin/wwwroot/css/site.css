@@ -814,11 +814,6 @@ a, .btn-link {
     transition: .2s ease-in-out;
     max-width: 100%;
     font-size: 14px;
-    border-radius: 0px !important;
-    padding: 8px;
-    border: none;
-    border-bottom: 2px solid #cf564d!important;
-    background: #cf564d1f!important;
 } 
 .filter-footer .btn-search-filter,
 .filter-footer .btn-search-filter:focus {
@@ -1580,8 +1575,8 @@ button.shipping {
 
 .uk-drop, .uk-dropdown {
     width: max-content;
-    background: #ebeff3;
-    border: 1px solid #cccccc;
+    background: #fff;
+    border: 1px solid #cfd7df;
     border-radius: 0px;
 }
 
@@ -2094,23 +2089,23 @@ h3.title.heading {
     padding: 15px;
 }
 
-    .mega-dropdown .title {
-        padding: 0px 10px;
-        margin-bottom: 2px;
-        border-bottom: 1px solid #888;
-        padding-bottom: 12px;
-    }
-    .mega-dropdown .uk-dropdown-nav {
-        overflow: auto;
-        max-height: 300px;
-        min-width: 180px;
-    }
-    .mega-dropdown .uk-dropdown-nav li {
-        padding: 2px 0px;
-    }
-        .mega-dropdown .uk-dropdown-nav li > a {
-            padding: 5px 0px;
-        }
+.mega-dropdown .title {
+    padding: 0px 10px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid #888;
+    padding-bottom: 12px;
+}
+.mega-dropdown .uk-dropdown-nav {
+    overflow: auto;
+    max-height: 300px;
+    min-width: 180px;
+}
+.mega-dropdown .uk-dropdown-nav li {
+    padding: 2px 0px;
+}
+.mega-dropdown .uk-dropdown-nav li > a {
+    padding: 5px 0px;
+}
 
 .uk-inline.uk-form-controls {
     width: unset !important;
