@@ -69,12 +69,7 @@ namespace eAPI.Controllers
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
-
-         
-
             return Ok(branches);
-
-
         }
 
         [HttpGet("find")]
@@ -84,6 +79,17 @@ namespace eAPI.Controllers
             var s = db.BusinessBranches.Where(r => r.id == key).AsQueryable();
 
             return SingleResult.Create(s);
+        }
+
+        [HttpPost]
+        [Route("status/{id}")]
+        public async Task<ActionResult<BusinessBranchModel>> UpdateStatus(Guid id)
+        {
+            var d = await db.BusinessBranches.FindAsync(id);
+            d.status = !d.status;
+            db.BusinessBranches.Update(d);
+            await db.SaveChangesAsync();
+            return Ok(d);
         }
 
         [HttpPost]
