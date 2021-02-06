@@ -111,6 +111,7 @@ namespace eAPI
         public DbSet<ConfigDataModel> ConfigDatas{ get; set; }
         public DbSet<BusinessBranchProductPriceModel> BusinessBranchProductPrices{ get; set; }
         public DbSet<ProvinceModel> Provinces{ get; set; }
+        public DbSet<VendorGroupModel> VendorGroups{ get; set; }
 
     }
 

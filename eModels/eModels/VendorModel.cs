@@ -28,8 +28,49 @@ namespace eModels
         public ProvinceModel province { get; set; }
     }
 
+    [Table("tbl_province")]
     public class ProvinceModel : KeyModel
     {
         public string province_name { get; set; }
     }
+
+    [Table("tbl_vendor_group")]
+    public class VendorGroupModel : CoreModel
+    {
+
+        public VendorGroupModel()
+        {
+            vendors = new List<VendorModel>();
+        }
+
+        private string _vendor_group_name_en;
+        [Required(ErrorMessage = "Field cannot be blank.")]
+        [MaxLength(50)]
+        public string vendor_group_name_en
+        {
+            get { return _vendor_group_name_en; }
+            set
+            {
+                _vendor_group_name_en = value;
+                if (string.IsNullOrEmpty(vendor_group_name_kh))
+                {
+                    vendor_group_name_kh = value;
+                }
+            }
+        }
+
+        [MaxLength(50)]
+        public string vendor_group_name_kh { get; set; }
+
+
+        public string note { get; set; }
+
+
+        public List<VendorModel> vendors { get; set; }
+
+
+    }
+
+
+
 }
