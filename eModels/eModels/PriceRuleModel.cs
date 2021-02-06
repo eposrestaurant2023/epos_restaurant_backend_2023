@@ -54,6 +54,25 @@ namespace eModels
 
  
     }
+    
+    [Table("tbl_business_branch_product_price")]
+
+    public class BusinessBranchProductPriceModel
+    {
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid id { get; set; }
+
+        public Guid business_branch_id { get; set; }
+
+        public int product_portion_id { get; set; }
+         
+      
+        public string prices { get; set; }
+     
+    }
+
 
 
 

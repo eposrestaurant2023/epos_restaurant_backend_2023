@@ -139,6 +139,7 @@ namespace eModels
         public ProductPortionModel()
         {
             product_prices = new List<ProductPriceModel>();
+           
         }
         public ProductPortionModel(List<PriceRuleModel> price_rules )
         {
@@ -146,8 +147,10 @@ namespace eModels
             foreach(var r in price_rules)
             {
                 product_prices.Add(new ProductPriceModel() { price_rule_id = r.id});
+                
             }
 
+          
         }
         public int product_id { get; set; }
         [ForeignKey("product_id")]
@@ -179,7 +182,7 @@ namespace eModels
         public decimal cost { get; set; }
 
         public List<ProductPriceModel> product_prices { get; set; }
-
+     
 
     }
 

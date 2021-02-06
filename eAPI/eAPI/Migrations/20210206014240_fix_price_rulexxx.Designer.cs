@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210206014240_fix_price_rulexxx")]
+    partial class fix_price_rulexxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,20 +206,27 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.BusinessBranchProductPriceModel", b =>
                 {
-                    b.Property<Guid>("id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("id")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("prices")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
+                    b.Property<bool>("is_default")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("product_portion_id")
+                    b.Property<int>("portion_id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("price")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<int>("price_rule_id")
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("portion_id");
 
                     b.ToTable("tbl_business_branch_product_price");
                 });
@@ -2581,6 +2590,17 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
 
                     b.Navigation("price_rule");
+                });
+
+            modelBuilder.Entity("eModels.BusinessBranchProductPriceModel", b =>
+                {
+                    b.HasOne("eModels.ProductPortionModel", "product_portion")
+                        .WithMany()
+                        .HasForeignKey("portion_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product_portion");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchSettingModel", b =>
