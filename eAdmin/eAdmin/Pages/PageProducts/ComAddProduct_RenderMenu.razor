@@ -15,10 +15,11 @@
     @if (current_menu_id > 0)
     {
         <div class="uk-width-1-4" style="position: relative;">
-            <div class="box cp" style="background: #ececec;" @onclick="@(()=>OnBack())">
+            <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>OnBack())">
                 <div class="pos_icon_back">
-                    <span>Back</span>
                     <Icon icon="reply " icon_color="#333333" size="43px" />
+                    <div>Back</div>
+
                 </div>
             </div>
         </div>
@@ -64,10 +65,11 @@
 
 
         <div class="uk-width-1-4" style="position: relative;">
-            <div class="box cp" style="background: #ececec;" @onclick="@(()=>AddSubMenu())">
+            <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>AddSubMenu())">
                 <div class="pos_icon_back">
-                    <span>Add</span>
                     <Icon icon="add" icon_color="#333333" size="43px" />
+                    <div>Add</div>
+
                 </div>
             </div>
         </div>

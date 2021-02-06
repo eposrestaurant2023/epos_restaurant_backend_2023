@@ -13,9 +13,8 @@
         [CascadingParameter] public GlobalVariableModel gv { get; set; }
         [Parameter] public HashSet<string> selected_outlet { get; set; } = new HashSet<string>();
         [Parameter] public EventCallback<HashSet<string>> selected_outletChanged { get; set; }
-
         [Parameter] public EventCallback<List<string>> outlet_id { get; set; }
-        bool is_loading = false;
+ 
         void OnSelectedValuesOutlet(HashSet<string> selected)
         {
             List<string> values = new List<string>();
