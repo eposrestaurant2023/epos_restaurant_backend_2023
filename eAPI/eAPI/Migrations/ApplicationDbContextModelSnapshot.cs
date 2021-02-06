@@ -1951,7 +1951,7 @@ namespace eAPI.Migrations
                     b.Property<int>("vendor_id")
                         .HasColumnType("int");
 
-                    b.Property<string>("vendor_note")
+                    b.Property<string>("vendor_note");
                     
 
                     b.HasKey("id");
