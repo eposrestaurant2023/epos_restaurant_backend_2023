@@ -43,9 +43,9 @@ namespace eAPIClient.Controllers
         }
 
 
-        [HttpPost("GetRemoteData")]
+        [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
-        public async Task<ActionResult> GetRemoteData()
+        public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool is_service_sync=false)
         {
 
             string business_branch_id = config.GetValue<string>("business_branch_id");
