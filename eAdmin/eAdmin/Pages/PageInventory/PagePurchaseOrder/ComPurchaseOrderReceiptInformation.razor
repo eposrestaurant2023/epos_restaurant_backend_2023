@@ -8,7 +8,8 @@
         </div>
     </div>
     <DateInput label="PO Date" value="@model.purchase_date" valueChanged="@onDateChange" icon="layers" />
-    <SelectLocation @bind-selected_value="@model.stock_location_id" show_empty="true" icon="layers" is_active_default="true" />
+
+    <SelectLocation @bind-selected_value="@model.stock_location" show_empty="true" icon="layers" is_active_default="true" />
 </div>
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
