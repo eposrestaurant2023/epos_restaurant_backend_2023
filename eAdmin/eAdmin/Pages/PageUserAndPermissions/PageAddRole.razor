@@ -11,21 +11,11 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @if (id > 0)
-                        {
-                            <div>Edit Role</div>
-                        }
-
-                        else
-                        {
-                            <div>New Role</div>
-                        }
-
+                        <span>@((id > 0)? "Edit Role" : "New Role")</span>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-
             </HeaderRight>
         </PageHeader>
         <EditForm Model="@model" OnValidSubmit="@SaveRole_Click">
