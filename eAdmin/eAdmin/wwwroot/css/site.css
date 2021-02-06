@@ -4238,7 +4238,7 @@ li.user_type_permission label {
     padding-top:7px;
 }
 .wrp-pagging .wrp-pagging-info ul li{
-    padding-left: 1px;
+    padding-left: 4px;
 }
 .wrp-pagging .wrp-pagging-info ul li.uk-disabled a{
     color:#b0b1a8;
@@ -4254,16 +4254,10 @@ li.user_type_permission label {
     background-color: #f5f5f5;
     color: #212529;
     border: 1px solid #ddd;
-    padding: 6px 12px;
-    border-radius: 0px;
-}
-.wrp-pagging .wrp-pagging-info ul li a:hover {
-    background-color: #f5f5f5;
-    color: #212529;
-    border: 1px solid #ddd;
     padding: 3px 8px;
     border-radius: 4px;
 }
+ 
 
 .uk-button.uk-button-save {
     background-color: #f5f5f5;
