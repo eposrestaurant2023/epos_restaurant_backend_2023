@@ -33,24 +33,18 @@
                                     </span>
                                 </div>
                                 <div class="uk-float-right">
-                                    <div>
-                                        <td>
-                                            <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                            <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                        </td>
-                                        <td>
-                                            <div class="uk-flex uk-flex-inline">
-                                                <div style="margin-right:5px;">
-                                                    <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
-                                                </div>
-                                                <div>
-                                                    <a href="@($"productcategory/edit/{d.id}")">
-                                                        <Icon icon="edit" />
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </td>
+                                    <div> 
+                                        <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp"/>
+                                        <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp"/>
+  
+                                        <span style="margin-right:5px;">
+                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
+                                        </span>
+                                        <span>
+                                            <a href="@($"productcategory/edit/{d.id}")">
+                                                <Icon icon="edit" />
+                                            </a>
+                                        </span>
                                     </div>
                                 </div>
                             </div>

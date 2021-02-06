@@ -62,6 +62,9 @@ namespace eAPIClient.Controllers
             List<ProductModel> product_datas = await GetRemoteProduct(business_branch_id);
 
             List<ProductMenuModel> product_menu_datas = await GetRemoteProductMenu(business_branch_id);
+
+            //get product price 
+            List<ProductPriceModel> product_price_datas = await GetRemoteProductPrice(business_branch_id);
  
             // run this when all data read from server done success
             //run clear all old data
@@ -72,10 +75,17 @@ namespace eAPIClient.Controllers
 
                 db.Menus.AddRange(menu_datas);
                 db.Products.AddRange(product_datas);
-                db.SaveChanges();
-                db.ProductMenus.AddRange(product_menu_datas);
 
                 db.SaveChanges();
+
+                db.ProductMenus.AddRange(product_menu_datas);
+
+                db.ProductPrices.AddRange(product_price_datas);
+
+                db.SaveChanges();
+
+
+                db.Database.ExecuteSqlRaw("exec sp_update_product_portion_price");
 
             }
             return Ok();
@@ -138,9 +148,27 @@ namespace eAPIClient.Controllers
 
 
 
+        async Task<List<ProductPriceModel>> GetRemoteProductPrice(string business_branch_id)
+        {
+            string url = "BusinessBranchProductPrice?";
+            url = url + $"&$filter=business_branch_id eq {business_branch_id}";
+
+            var resp = await http.ApiGetOData(url);
+            if (resp.IsSuccess)
+            {
+                return JsonSerializer.Deserialize<List<ProductPriceModel>>(resp.Content.ToString());
+            }
+            else
+            {
+                is_get_remote_data_success = false;
+            }
+            return new List<ProductPriceModel>();
+        }
+
+
 
     }
 
-    
+
 
 }

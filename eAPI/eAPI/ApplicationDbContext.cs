@@ -50,6 +50,7 @@ namespace eAPI
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();                
             builder.Entity<NumberModel>().HasNoKey();
         
+        
         }
 
 
@@ -108,6 +109,7 @@ namespace eAPI
         public DbSet<ModifierGroupModel> ModifierGroups{ get; set; }
         public DbSet<ModifierGroupProductCategoryModel> ModifierGroupProductCategories{ get; set; }
         public DbSet<ConfigDataModel> ConfigDatas{ get; set; }
+        public DbSet<BusinessBranchProductPriceModel> BusinessBranchProductPrices{ get; set; }
 
     }
 

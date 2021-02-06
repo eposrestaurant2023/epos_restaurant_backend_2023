@@ -117,10 +117,24 @@ namespace eAPIClient.Models
         public decimal cost { get; set; } = 0;
         public decimal multiplier { get; set; } = 0;
 
-       
+        public string prices { get; set; }
+
+
 
     }
 
 
+    [Table("tbl_product_price")]
+    public class ProductPriceModel
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid id { get; set; }
 
+        public int product_portion_id { get; set; }
+
+        public string prices { get; set; }
+         
+    
+    }
 }
