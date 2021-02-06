@@ -1,0 +1,69 @@
+﻿@inject IHttpService http;
+
+<TdCenter>
+    <Image ImageUrl="@http.ImageUrl(purchase_order_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(purchase_order_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+</TdCenter>
+<TdCenter>
+    <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
+        @purchase_order_product?.product?.product_code
+    </ComAuthorize>
+</TdCenter>
+<td>
+    <div>
+        <div>
+            <span>
+                <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
+                    @purchase_order_product?.product?.product_display_name
+                </ComAuthorize> 
+            </span>
+        </div> 
+        <div>
+            <Icon OnClick="@(()=> { purchase_order_product.is_add_note = !purchase_order_product.is_add_note; })" icon="chat" />
+            <Column is_visible="@purchase_order_product.is_add_note">
+                <TextInput @bind-text="@purchase_order_product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
+            </Column>
+        </div>
+    </div>
+</td>
+<TdCenter>
+    @if (purchase_order_product.is_fulfilled)
+    {
+        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@purchase_order_product.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
+    }
+    else
+    {
+        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@purchase_order_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
+    }
+
+    <div class="uk-text-small">@purchase_order_product.unit</div>
+
+
+</TdCenter>
+<TdRight>
+    <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@purchase_order_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
+</TdRight>
+<TdRight>
+    @purchase_order_product.total_amount.ToString(gv.currency_format)
+</TdRight>
+<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
+
+
+@code{
+    [Parameter] public PurchaseOrderProductModel purchase_order_product { get; set; }
+    [Parameter] public EventCallback<PurchaseOrderProductModel> purchase_order_productChanged { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnRemove { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+
+    async Task QuantityChange(decimal qty)
+    {
+        purchase_order_product.quantity = qty;
+        await purchase_order_productChanged.InvokeAsync(purchase_order_product);
+    }
+    async Task CostChange(decimal _cost)
+    {
+        purchase_order_product.cost = _cost;
+        await purchase_order_productChanged.InvokeAsync(purchase_order_product);
+    }
+}

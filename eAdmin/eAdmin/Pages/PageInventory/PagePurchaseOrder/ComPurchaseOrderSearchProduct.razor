@@ -1,0 +1,102 @@
+﻿@inject IMatToaster toast;
+@inject IHttpService http; 
+@inherits PageCore
+ 
+
+<div class="new_sale_sticky_top">
+    <div class="uk-inline uk-form-width-1-1">
+        <input class="uk-search-input uk-input sale_barcode_scanner" type="search" placeholder="@placeholder" @ref="txt_search" @onkeypress="OnKeypress" @bind="@keyword" @bind:event="oninput" />
+        <a uk-tooltip="Select products" class="uk-form-icon uk-form-icon-flip icon-select-sale-product" @onclick="@(()=> { is_selected_product = true; keyword = ""; })"><span uk-icon="icon: list" class="uk-margin-small-right"></span> Select Product</a>
+    </div>
+</div>
+<Com is_visible="is_selected_product">
+    <ComSearchProduct @bind-is_open="@is_selected_product" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProduct_Click"/>
+</Com>
+@code{ 
+    [Parameter] public string place_holder { get; set; }
+    [Parameter] public string keyword { get; set; }
+    [Parameter] public SelectedProductModel product { get; set; }
+    [Parameter] public EventCallback<SelectedProductModel> productChanged { get; set; }
+    [Parameter] public List<SelectedProductModel> select_products { get; set; }
+    [Parameter] public EventCallback<List<SelectedProductModel>> select_productsChanged { get; set; }
+
+    ProductModel product_model { get; set; }
+    public bool is_selected_product { get; set; } = false;
+    public string filter_for_PO { get; set; } = " and (is_inventory eq true or is_ingredient_product eq true)";
+    ElementReference txt_search;
+
+    public string placeholder
+    {
+        get
+        {
+            return string.IsNullOrEmpty(place_holder) ? "Search" : place_holder;
+        }
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await txt_search.FocusAsync();
+        }
+    }
+
+    async Task OnKeypress(KeyboardEventArgs e)
+    {
+
+        await Task.Delay(100);
+        if(e.Key == "Enter")
+        {
+
+            await SearchProduct();
+
+        }
+
+    }
+    async Task OnConfirmSeletedProductVariant(List<SelectedProductModel> list_selected_products) {
+        await SelectProduct_Click(list_selected_products);
+    }
+
+    async Task SearchProduct()
+    {
+        if (keyword != "")
+        {
+            string api = $"Product?$filter=tolower(product_code) eq '{keyword.Trim().ToLower()}' or tolower(product_code_1) eq '{keyword.Trim().ToLower()}' or tolower(product_code_2) eq '{keyword.Trim().ToLower()}' {filter_for_PO}";
+            var resp = await http.ApiGetOData(api);
+            if (resp.IsSuccess)
+            {
+                var data = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
+                if (data.Count() > 0)
+                {
+                    if (data.Count() == 1)
+                    {
+                        ProductModel p = data.FirstOrDefault();
+                        SelectedProductModel sp = new SelectedProductModel();
+                        sp.product = p;
+                        sp.cost = p.cost;
+                        sp.unit = p.unit;
+                        sp.is_allow_discount = p.is_allow_discount;
+                        await productChanged.InvokeAsync(sp);
+                        keyword = "";
+                    }
+                    else
+                    {
+                        is_selected_product = true;
+                    }
+                } 
+            }else
+            {
+
+                toast.Add("Search product fail", MatToastType.Warning);
+            }
+            await txt_search.FocusAsync();
+        }
+    }
+
+    public async Task SelectProduct_Click(List<SelectedProductModel> selected_products)
+    {
+        await select_productsChanged.InvokeAsync(selected_products);
+    }
+
+}
