@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210206023600_fix_price_rulexxxxxxxxx")]
+    partial class fix_price_rulexxxxxxxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,6 +209,9 @@ namespace eAPI.Migrations
                     b.Property<Guid>("id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("ProductPortionModelid")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -218,6 +223,8 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("ProductPortionModelid");
 
                     b.ToTable("tbl_business_branch_product_price");
                 });
@@ -2583,6 +2590,13 @@ namespace eAPI.Migrations
                     b.Navigation("price_rule");
                 });
 
+            modelBuilder.Entity("eModels.BusinessBranchProductPriceModel", b =>
+                {
+                    b.HasOne("eModels.ProductPortionModel", null)
+                        .WithMany("business_branch_product_prices")
+                        .HasForeignKey("ProductPortionModelid");
+                });
+
             modelBuilder.Entity("eModels.BusinessBranchSettingModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -3189,6 +3203,8 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductPortionModel", b =>
                 {
+                    b.Navigation("business_branch_product_prices");
+
                     b.Navigation("product_prices");
                 });
 

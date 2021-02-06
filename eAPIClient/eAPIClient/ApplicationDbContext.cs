@@ -41,6 +41,7 @@ namespace eAPIClient
         public DbSet<ProductPrinterModel> ProductPrinters { get; set; }
         public DbSet<ProductModifierModel> ProductModifiers { get; set; }
         public DbSet<ProductPortionModel> ProductPortions { get; set; }
+        public DbSet<ProductPriceModel> ProductPrices { get; set; }
 
 
     }
