@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210208064420_tbl_vendor_remove_group")]
+    partial class tbl_vendor_remove_group
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2905,9 +2907,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("vendor_group_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("vendor_name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -2916,8 +2915,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("province_id");
-
-                    b.HasIndex("vendor_group_id");
 
                     b.ToTable("tbl_vendor");
                 });
@@ -3576,15 +3573,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.VendorGroupModel", "vendor_group")
-                        .WithMany("vendors")
-                        .HasForeignKey("vendor_group_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("province");
-
-                    b.Navigation("vendor_group");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
@@ -3740,11 +3729,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
                     b.Navigation("user_business_branchs");
-                });
-
-            modelBuilder.Entity("eModels.VendorGroupModel", b =>
-                {
-                    b.Navigation("vendors");
                 });
 #pragma warning restore 612, 618
         }

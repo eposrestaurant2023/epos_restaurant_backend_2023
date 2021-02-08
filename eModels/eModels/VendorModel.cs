@@ -28,7 +28,11 @@ namespace eModels
         public int province_id { get; set; }
         [ForeignKey("province_id")]
         public ProvinceModel province { get; set; }
-
+        public int vendor_group_id { get; set; }
+        [ForeignKey("vendor_group_id")]
+        public VendorGroupModel vendor_group { get; set; }
+         
+         
         [NotMapped, JsonIgnore]
         public string vendor_display_name
         {
