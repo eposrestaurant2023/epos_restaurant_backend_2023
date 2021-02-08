@@ -114,7 +114,6 @@
 
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     List<PaymentTypeModel> payment_types = new List<PaymentTypeModel>();
-    List<StationModel> station = new List<StationModel>();
     string ControllerApi = "PaymentType";
 
     protected override async Task OnInitializedAsync()
@@ -127,7 +126,7 @@
 
     async Task LoadBusinessBranch()
     {
-        var res = await http.ApiGetOData("BusinessBranch?$expand=business_branch_payment_types&filter=is_deleted eq false");
+        var res = await http.ApiGetOData("BusinessBranch?$expand=business_branch_payment_types&$filter=is_deleted eq false");
         business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
     }
 
@@ -138,7 +137,7 @@
 
         if (string.IsNullOrEmpty(api_url))
         {
-            api_url = $"{ControllerApi}?$expand=business_branch_payment_types&filter=is_deleted eq false";
+            api_url = $"{ControllerApi}?$expand=business_branch_payment_types&$filter=is_deleted eq false";
         }
 
         var resp = await http.ApiGetOData(api_url);

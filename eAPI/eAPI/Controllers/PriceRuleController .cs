@@ -27,11 +27,8 @@ namespace eAPI.Controllers
             db = _db;
         }
 
-
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        [AllowAnonymous]
-      
         public IQueryable<PriceRuleModel> Get(string keyword ="" )
         {
             if (!string.IsNullOrWhiteSpace(keyword))

@@ -29,8 +29,7 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        [AllowAnonymous]
-      
+        [AllowAnonymous]      
         public IQueryable<BusinessBranchModel> Get()
         {
            
