@@ -12,7 +12,7 @@ namespace eModels
     public class VendorModel : CoreModel
     {
         [Required]
-        public string vendor_code { get; set; }
+        public string vendor_code { get; set; } = "New";
         [Required]
         public string vendor_name { get; set; }
         public string photo { get; set; }
