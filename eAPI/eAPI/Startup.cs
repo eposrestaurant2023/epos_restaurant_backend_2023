@@ -171,6 +171,10 @@ namespace eAPI
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
             odataBuilder.EntitySet<BusinessBranchProductPriceModel>("BusinessBranchProductPrice");
             odataBuilder.EntitySet<VendorModel>("Vendor");
+            odataBuilder.EntitySet<PurchaseOrderModel>("PurchaseOrder");
+            odataBuilder.EntitySet<PurchaseOrderPaymentModel>("PurchaseOrderPayment");
+            odataBuilder.EntitySet<PurchaseOrderProductModel>("PurchaseOrderProduct");
+            odataBuilder.EntitySet<StockLocationModel>("StockLocation");
 
 
              

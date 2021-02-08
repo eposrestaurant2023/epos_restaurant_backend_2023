@@ -1,0 +1,56 @@
+﻿@page "/purchaseorder/new"
+@page "/purchaseorder/edit/{id:int}"
+@page "/purchaseorder/vendor/{vendor_id:int}"
+
+@inherits PageAddPurchaseOrderBase
+
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+<Com is_visible="@(!is_loading && !is_error)">
+    <Title Value="Add PO"></Title>
+    <PageContainer>
+        <PageBody>
+            <div class="content-add-sale">
+                <div class="section-content">
+                    <Spacing Number="20" />
+                    <ComPurchaseOrderSearchProduct productChanged="@OnSearchProduct" select_productsChanged="@OnSearchProducts" />
+                </div>
+                <Spacing Number="20" />
+                <Grid ClassName="uk-grid-small uk-grid-divider uk-child-width-1-2">
+                    <div>
+                        @*<ComSelectVendor @bind-vendor="@model.vendor" @bind-vendor_id="@model.vendor_id" />*@
+                    </div>
+                    <div>
+                        <div class="section-content">
+                            @*<ComPurchaseOrderReceiptInformation model="@model" modelChanged="@OnPOInformationChange" />*@
+                        </div>
+                        <Spacing Number="10" />
+                    </div>
+                </Grid>
+                <hr />
+                <section class="wrp-sale-invoice-body">
+                    <h3 class="title uk-display-inline-block">
+                        <Icon icon="shopping_cart" />
+                        <span class="title">PO Products</span>
+                    </h3>
+                    <ComPurchaseOrderProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
+                </section>
+            </div>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <Button disabled="@(is_saving || model.active_purchase_order_products.Count()<=0)" OnClick="@OnSaveClick" icon="save">Save</Button>
+                @if (is_saving)
+                {
+                    <button class="uk-button uk-button-danger" onclick="history.go(-1)" disabled><Icon icon="reply" /> Cancel</button>
+                }
+                else
+                {
+                    <button class="uk-button uk-button-danger" onclick="history.go(-1)"><Icon icon="reply" /> Cancel</button>
+                }
+            </FooterCenter>
+            <FooterRight>
+                <strong class="uk-margin-small-right">Total Amount</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
+            </FooterRight>
+        </PageFooter>
+    </PageContainer>
+</Com>

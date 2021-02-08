@@ -193,7 +193,9 @@ namespace eModels
         public string state_property_name { get; set; }
         public string sql_statement { get; set; }
     }
-
+    public class FilterGroupModel { 
+    
+    }
     public enum FilterOperator
     {
         eq, ne, gt, ge, lt, le, and, or, not, contains, suspicious_case, crime_case, notfilter

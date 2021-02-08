@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210206072505_tbl_create_PO")]
+    partial class tbl_create_PO
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1541,9 +1543,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<decimal>("cost")
-                        .HasColumnType("decimal(16,4)");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1572,13 +1571,7 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_ingredient_product")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_inventory_product")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_menu_product")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_open_product")
@@ -1835,22 +1828,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_product_type");
-                });
-
-            modelBuilder.Entity("eModels.ProvinceModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("province_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_province");
                 });
 
             modelBuilder.Entity("eModels.PurchaseOrderModel", b =>
@@ -2503,11 +2480,11 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("is_default")
                         .HasColumnType("bit");
+
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("stock_location_name")
                         .HasColumnType("nvarchar(max)")
@@ -2515,7 +2492,7 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("business_branch_id");
+                    b.HasIndex("outlet_id");
 
                     b.ToTable("tbl_stock_location");
                 });
@@ -2785,64 +2762,12 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_user");
                 });
 
-            modelBuilder.Entity("eModels.VendorGroupModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("vendor_group_name_en")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("vendor_group_name_kh")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_vendor_group");
-                });
-
             modelBuilder.Entity("eModels.VendorModel", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<int?>("VendorGroupModelid")
-                        .HasColumnType("int");
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)")
@@ -2891,9 +2816,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("province_id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -2911,10 +2833,6 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
-
-                    b.HasIndex("VendorGroupModelid");
-
-                    b.HasIndex("province_id");
 
                     b.ToTable("tbl_vendor");
                 });
@@ -3477,13 +3395,13 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StockLocationModel", b =>
                 {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                    b.HasOne("eModels.OutletModel", "outlet")
                         .WithMany()
-                        .HasForeignKey("business_branch_id")
+                        .HasForeignKey("outlet_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("business_branch");
+                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eModels.TableGroupModel", b =>
@@ -3563,21 +3481,6 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("role");
-                });
-
-            modelBuilder.Entity("eModels.VendorModel", b =>
-                {
-                    b.HasOne("eModels.VendorGroupModel", null)
-                        .WithMany("vendors")
-                        .HasForeignKey("VendorGroupModelid");
-
-                    b.HasOne("eModels.ProvinceModel", "province")
-                        .WithMany()
-                        .HasForeignKey("province_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("province");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
@@ -3733,11 +3636,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
                     b.Navigation("user_business_branchs");
-                });
-
-            modelBuilder.Entity("eModels.VendorGroupModel", b =>
-                {
-                    b.Navigation("vendors");
                 });
 #pragma warning restore 612, 618
         }

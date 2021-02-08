@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210206083153_update_table_product")]
+    partial class update_table_product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2503,11 +2505,11 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("is_default")
                         .HasColumnType("bit");
+
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("stock_location_name")
                         .HasColumnType("nvarchar(max)")
@@ -2515,7 +2517,7 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("business_branch_id");
+                    b.HasIndex("outlet_id");
 
                     b.ToTable("tbl_stock_location");
                 });
@@ -3477,13 +3479,13 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StockLocationModel", b =>
                 {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                    b.HasOne("eModels.OutletModel", "outlet")
                         .WithMany()
-                        .HasForeignKey("business_branch_id")
+                        .HasForeignKey("outlet_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("business_branch");
+                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eModels.TableGroupModel", b =>
