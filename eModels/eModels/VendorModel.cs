@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -26,6 +27,15 @@ namespace eModels
         public int province_id { get; set; }
         [ForeignKey("province_id")]
         public ProvinceModel province { get; set; }
+
+        [NotMapped, JsonIgnore]
+        public string vendor_display_name
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(vendor_code) ? "" : (vendor_code + " - ")) + "" + vendor_name;
+            }
+        }
     }
 
     [Table("tbl_province")]
@@ -67,6 +77,8 @@ namespace eModels
 
 
         public List<VendorModel> vendors { get; set; }
+
+
 
 
     }

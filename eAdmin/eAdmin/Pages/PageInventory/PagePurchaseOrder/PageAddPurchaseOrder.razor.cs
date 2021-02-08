@@ -148,6 +148,19 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 toast.Add("Please select vendor.", MatToastType.Warning);
                 return;
             }
+
+            if (model.business_branch_id == Guid.Empty)
+            {
+                toast.Add("Please select business branch.", MatToastType.Warning);
+                return;
+            }
+
+            if (model.stock_location_id == 0)
+            {
+                toast.Add("Please select stock location.", MatToastType.Warning);
+                return;
+            }
+
             if (model.active_purchase_order_products.Count() <= 0)
             {
                 toast.Add("PO item cannot be empty.", MatToastType.Warning);
@@ -165,7 +178,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             save_model.vendor = null;
             save_model.purchase_order_products.ForEach(r => r.product = null);
             save_model.stock_location = null;
- 
+            save_model.business_branch = null;
 
             is_saving = true;
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
