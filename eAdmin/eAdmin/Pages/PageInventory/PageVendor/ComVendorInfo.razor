@@ -1,0 +1,15 @@
+﻿@inject IHttpService http
+<Com is_visible="vendor != null">
+    <UkFlex>
+        <FlexItem>
+            <Image ImageUrl="@http.ImageUrl(vendor.photo)" IsBackgroundImage="true" Width="35px" Height="35px" IsLightBox="true" />
+        </FlexItem>
+        <FlexItem class_name="uk-margin-small-left">
+            <div>@vendor.vendor_display_name</div>
+            
+        </FlexItem>
+    </UkFlex>
+</Com>
+@code{ 
+    [Parameter] public VendorModel vendor { get; set; } = new VendorModel();
+}

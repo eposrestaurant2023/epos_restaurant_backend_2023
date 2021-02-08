@@ -1,0 +1,213 @@
+﻿@*@inject IHttpService http;
+@inject IMatToaster toast;
+
+<Modal IsSimpleMode="false" Title="PO Payment" OnClosed="@(()=>ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
+    <ModalBody>
+        @if (is_loading)
+        {
+            <Spinner />
+        }
+        else
+        {
+            <UIContainerBox Title="PO Balance Amount">
+                <NumberInput text="@po_balance" label="Balance" is_read_only="true" />
+            </UIContainerBox>
+            @if (can_enter_payment)
+            {
+                <UIContainerBox>
+                    <TextInput label="Reference #" @bind-text="@model.reference_number" />
+                    <DateInput @bind-Value="@model.payment_date" label="Payment Date" />
+                    <SelectPaymentType @bind-selected_value="@model.payment_type_id" show_empty="true" />
+                    <NumberInput @bind-text="@model.payment_amount" label="Payment Amount" />
+                </UIContainerBox>
+
+
+                <UIContainerBox Icon="notes" Title="Notes">
+                    <TextInput @bind-text="@model.payment_note" type="textarea" placeholder="Enter notes..." />
+                </UIContainerBox>
+
+            }
+            else
+            {
+                <UIContainerBox>
+                    Cannot add payment for this sale invoice.
+                </UIContainerBox>
+            }
+        }
+
+    </ModalBody>
+    @if (can_enter_payment)
+    {
+        <div class="model-footer">
+            <div uk-margin class="uk-flex">
+                <div class="uk-margin-auto-left">
+                    @if (is_loading)
+                    {
+                        <Button icon="save" OnClick="@Save_Click">Save <Spinner /></Button>
+                    }
+                    else
+                    {
+                        <Button icon="save" OnClick="@Save_Click">Save</Button>
+                        <Button icon="reply" class_name="danger" OnClick="@(()=>ToogleModal(false))">Cancel</Button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</Modal>
+
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int id { get; set; } = 0;
+    [Parameter] public int po_id { get; set; }
+    [Parameter] public bool is_opened { get; set; }
+    [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
+
+
+    [Parameter] public EventCallback<bool> OnSave { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
+    bool is_saving, is_loading;
+
+    decimal po_balance = 0;
+
+
+    public PurchaseOrderModel po { get; set; }
+
+    PaymentModel model = new PaymentModel();
+
+
+    public bool can_enter_payment
+    {
+        get
+        {
+
+            if (po == null) return false;
+
+            if (po_balance == 0) return false;
+
+
+            if (id > 0)
+            {
+                if (model == null)
+                {
+                    return false;
+                }
+                if (model.id == 0) return false;
+            }
+
+            return true;
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+
+        await LoadData();
+        if (id > 0)
+        {
+            await LoadPayment();
+        }
+        else
+        {
+            model.purchase_order_id = po_id;
+        }
+
+        //load default payment
+
+        if (po != null) {
+            if (id == 0)
+            {
+                po_balance = po.balance;
+                model.payment_amount = po.balance;
+                model.payment_type_id = gv.default_payment_type_id;
+            }
+            else
+            {
+                po_balance = po.balance + model.payment_amount;
+            }
+        }
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        var resp = await http.ApiGet($"PurchaseOrder({po_id})");
+        if (resp.IsSuccess)
+        {
+            po = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
+
+        }
+        else
+        {
+
+            toast.Add("Can not get PO ID.", MatToastType.Warning);
+
+        }
+    }
+    async Task LoadPayment()
+    {
+        var resp = await http.ApiGet($"Payment({id})");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<PaymentModel>(resp.Content.ToString());
+
+        }
+        else
+        {
+
+            toast.Add("Error Loading Payment.", MatToastType.Warning);
+
+        }
+    }
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        if (model.payment_amount <= 0)
+        {
+            toast.Add("Please enter payment amount.", MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+
+        if (model.payment_amount > po_balance)
+        {
+            toast.Add("Payment amount cannot greater than sale balance.", MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+        if(model.payment_type_id <= 0)
+        {
+            toast.Add("Please select a payment type.", MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+
+        var resp = await http.ApiPost("payment/purchaseorder/save", model);
+        if (resp.IsSuccess)
+        {
+            await OnSave.InvokeAsync(true);
+            model = new PaymentModel();
+            toast.Add("Add payment successfully", MatToastType.Success);
+        }
+        else
+        {
+            await OnSave.InvokeAsync(false);
+            toast.Add("Cannot add payment ", MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+        ToogleModal(false);
+        is_saving = false;
+    }
+
+    void ToogleModal(bool _open = false) {
+        model = new PaymentModel();
+        is_opened = _open;
+        is_openedChanged.InvokeAsync(_open);
+    }
+}*@

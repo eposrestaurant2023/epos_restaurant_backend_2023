@@ -35,6 +35,14 @@ namespace eModels
         public int? product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
+        
+        public int? vendor_id { get; set; }
+        [ForeignKey("vendor_id")]
+        public VendorModel vendor { get; set; }
+        
+        public int? purchase_order_id { get; set; }
+        [ForeignKey("purchase_order_id")]
+        public VendorModel purchase_order { get; set; }
 
     }
 

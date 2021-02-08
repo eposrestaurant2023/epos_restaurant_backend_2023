@@ -20,7 +20,6 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         public PurchaseOrderModel model = new PurchaseOrderModel(); 
         public bool is_show_back { get; set; } = false; 
         public bool is_show_add_payment { get; set; } = false;
-        public string test { get; set; } = "";
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
@@ -180,15 +179,14 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             save_model.stock_location = null;
             save_model.business_branch = null;
 
-            is_saving = true;
-            test =  JsonSerializer.Serialize(save_model);
+            is_saving = true; 
 
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)
             {
                 toast.Add("Save successfully.", MatToastType.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
-                nav.NavigateTo($"inventory/purchaseorder/{_model.id}");
+                nav.NavigateTo($"purchaseorder/{_model.id}");
             }
             else
             {

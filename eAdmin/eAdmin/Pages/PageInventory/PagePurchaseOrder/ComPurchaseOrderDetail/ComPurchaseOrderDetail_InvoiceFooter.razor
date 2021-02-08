@@ -1,0 +1,105 @@
+﻿ 
+    <tr>
+        <td colspan="7" class="uk-text-right">Total Quantity</td>
+        <td class="uk-text-right bg_hightlight">
+            @po.active_purchase_order_products.Sum(r => r.quantity).ToString(gv.quantity_format)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7" class="uk-text-right">Sub Total</td>
+        <td class="uk-text-right bg_hightlight">
+            @po.sub_total.ToString(gv.currency_format)
+        </td>
+    </tr>
+
+
+    @if (po.pur_product_discount_amount > 0)
+    {
+        <tr>
+            <td colspan="7" class="uk-text-right">Total Item Discount</td>
+            <td class="uk-text-right bg_hightlight">@po.po_product_discount_amount.ToString(gv.currency_format)</td>
+        </tr>
+    }
+
+    @if (po.discount > 0 )
+    {
+        <tr>
+            <td colspan="7" class="uk-text-right">Invoice Discount @(po.discount_type == "Percent" ? ("(" + (po.discount / 100).ToString("P")) + ")" : "")</td>
+            <td class="uk-text-right bg_hightlight">
+
+                <span>
+                    @po.total_discount.ToString(gv.currency_format)
+                </span>
+
+            </td>
+        </tr>
+    }
+    @if (po.total_discount > 0)
+    {
+        <tr>
+            <td colspan="7" class="uk-text-right">Total Discount</td>
+            <td class="uk-text-right bg_hightlight">
+                @po.grand_total_discount.ToString(gv.currency_format)
+            </td>
+        </tr>
+    }
+
+    @if (po.total_amount > 0)
+    {
+        <tr>
+            <td colspan="7" class="uk-text-right">Grand Total</td>
+            <td class="uk-text-right bg_hightlight">
+                @po.total_amount.ToString(gv.currency_format)
+            </td>
+        </tr>
+    }
+    @if (po.paid_amount > 0)
+    {
+        <tr>
+            <td colspan="7" class="uk-text-right">Total Paid</td>
+            <td class="uk-text-right bg_hightlight">
+                <div class="uk-inline">
+                    <a> @po.paid_amount.ToString(gv.currency_format)</a>
+                    <div class="wpr-payment-drop" uk-drop>
+                        <div class="uk-card payment_list_item uk-padding-small uk-card-default bg-01">
+                            @foreach (var p in po.payments.Where(r=>!r.is_deleted))
+                            {
+                                <div>@(p.payment_date.ToString(gv.date_format))</div>
+                                <div>@p.payment_type.payment_type_name_en</div>
+                                <div>@p.payment_note</div>
+                                <div>Paid: @p.payment_amount.ToString(gv.currency_format)</div>
+                                <div>By: @p.created_by on @p.created_date.ToString(gv.date_time_format)</div>
+                                 
+                                <hr />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+
+  
+
+    @if (po.paid_amount > 0)
+    {
+        <tr>
+            <td colspan="7" class="uk-text-right">Balance Due</td>
+            <td class="uk-text-right bg_hightlight">
+                @po.balance.ToString(gv.currency_format)
+            </td>
+        </tr>
+    }
+
+
+
+
+ 
+
+
+
+
+@code{
+    [Parameter] public PurchaseOrderModel po { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}
