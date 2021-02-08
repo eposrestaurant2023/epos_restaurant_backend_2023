@@ -1,0 +1,193 @@
+﻿@page "/vendorgroup"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Vendor Group"></Title>
+    <PageContainer roles="@gv.GetRole("vendor_group_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Vendor Group
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <Button icon="add" OnClick="@OnOpenModel">New</Button>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Table ShowCounter="true"
+                   Items="models"
+                   ShowPagination="false"
+                   ShowPager="false"
+                   ShowPaging="false">
+                <TableHeader>
+                    <ThAuto>Name (Kh) </ThAuto>
+                    <Th>Action</Th>
+                    <Th></Th>
+                </TableHeader>
+                <RowTemplate Context="p">
+                    <td>@p.vendor_group_name_en (@p.vendor_group_name_kh)</td>
+                    <td>
+                        <LabelActive OnClick="@(()=>Activebutton(p))" is_visible="@p.status" is_loading="@p.is_change_status" />
+                        <LabelInActive OnClick="@(()=>Activebutton(p))" is_visible="@(!p.status)" is_loading="@p.is_change_status" />
+                    </td>
+                    <TdActions>
+                        <TableActionItem OnClick="@(()=>OnEdit(p.id))" icon="edit">Edit </TableActionItem>
+                        <TableActionItem OnClick="@(()=>OnDelete(p))" icon="delete">Delete </TableActionItem>
+                    </TdActions>
+                </RowTemplate>
+            </Table>
+            
+        </PageBody>
+    </PageContainer>
+
+    <EditFormContext model="@vendor_group" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
+ 
+        <TextInput label="Vendor name En" @bind-text="@vendor_group.vendor_group_name_en" />
+        <TextInput label="Vendor name Kh" @bind-text="@vendor_group.vendor_group_name_kh" />
+
+    </EditFormContext>
+
+
+
+}
+
+@code{
+    string guid = Guid.NewGuid().ToString();
+    bool ShowModal = false;
+    List<VendorGroupModel> models = new List<VendorGroupModel>();
+    [Parameter] public bool IsSubmitting { get; set; } = false;
+    VendorGroupModel vendor_group { get; set; } = new VendorGroupModel();
+    string ControllerApi = "VendorGroup";
+    string ModalTitle = "";
+    public int TotalRecord = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            models = JsonSerializer.Deserialize<List<VendorGroupModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        var res = await http.ApiPost("VendorGroup/save", vendor_group);
+        if (res.IsSuccess)
+        {
+            toast.Add("Save sucessfully", MatToastType.Success);
+
+            await LoadData();
+        }
+        else
+        {
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+        }
+
+        ShowModal = false;
+        vendor_group = new VendorGroupModel();
+        is_saving = false;
+
+    }
+
+    void OnOpenModel()
+    {
+        ShowModal = !ShowModal;
+    }
+
+    async Task OnEdit(int id)
+    {
+        is_loading_data = true;
+        var get_result = await http.ApiGet($"VendorGroup({id})");
+        if (get_result.IsSuccess)
+        {
+            vendor_group = JsonSerializer.Deserialize<VendorGroupModel>(get_result.Content.ToString());
+            ModalTitle = "Edit" + ": " + vendor_group.vendor_group_name_en;
+            ShowModal = true;
+        }
+        is_loading_data = false;
+    }
+
+    async Task Activebutton(VendorGroupModel b)
+    {
+
+        b.is_change_status = true;
+        await Task.Delay(1000);
+        b.status = !b.status;
+
+        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+        }
+
+        b.is_change_status = false;
+
+    }
+
+
+    async Task OnDelete(VendorGroupModel v)
+    {
+        is_loading_data = true;
+        v.is_loading = true;
+        if (await js.Confirm("Are You Sure To Delete"))
+        {
+            var postr = await http.ApiPost($"{ControllerApi}/delete/{v.id}");
+            if (postr.IsSuccess)
+            {
+                await js.Toast("Deleted Sucessfully", AlertType.success);
+            }
+        }
+        v.is_loading = false;
+        is_loading_data = false;
+    }
+
+    void AddNew()
+    {
+        vendor_group = new VendorGroupModel();
+        ShowModal = true;
+    }
+    public async Task SelectChange(int perpage)
+    {
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+    public async Task ChangePager(int _page)
+    {
+        state.pager.current_page = _page;
+        await LoadData();
+    }
+
+
+
+
+
+}

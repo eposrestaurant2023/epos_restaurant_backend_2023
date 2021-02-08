@@ -175,9 +175,7 @@ namespace eAPI
             odataBuilder.EntitySet<PurchaseOrderPaymentModel>("PurchaseOrderPayment");
             odataBuilder.EntitySet<PurchaseOrderProductModel>("PurchaseOrderProduct");
             odataBuilder.EntitySet<StockLocationModel>("StockLocation");
-
-
-             
+            odataBuilder.EntitySet<VendorGroupModel>("VendorGroup");
             return odataBuilder.GetEdmModel();
         }
     }
