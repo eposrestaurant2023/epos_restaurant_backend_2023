@@ -80,7 +80,7 @@
 
         if (string.IsNullOrEmpty(api_url))
         {
-            api_url = $"{ControllerApi}";
+            api_url = $"{ControllerApi}?$filter=is_deleted eq false";
         }
 
         var resp = await http.ApiGetOData(api_url);
@@ -152,20 +152,25 @@
     }
 
 
-    async Task OnDelete(VendorGroupModel v)
+    async Task OnDelete(VendorGroupModel p)
     {
-        is_loading_data = true;
-        v.is_loading = true;
-        if (await js.Confirm("Are You Sure To Delete"))
+        p.is_loading = true;
+        if (await js.Confirm("Delete Vendorgroup", "Are you sure you want to delete this record?", SweetAlertMessageType.question))
         {
-            var postr = await http.ApiPost($"{ControllerApi}/delete/{v.id}");
-            if (postr.IsSuccess)
+
+            var resp = await http.ApiPost(ControllerApi + "/delete/" + p.id);
+
+
+            if (resp.IsSuccess)
             {
-                await js.Toast("Deleted Sucessfully", AlertType.success);
+                await LoadData();
             }
+            toast.Add("Delete Province successfully", MatToastType.Success);
+
         }
-        v.is_loading = false;
-        is_loading_data = false;
+
+        p.is_loading = false;
+
     }
 
     void AddNew()
