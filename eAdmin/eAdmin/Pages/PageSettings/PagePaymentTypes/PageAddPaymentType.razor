@@ -12,7 +12,16 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        <span>@(id>0? "Edit Payment Type" : "New Payment Type")</span>
+                        <span>
+                            @if (clone_id > 0)
+                            {
+                                @("Clone : " + model.payment_type_name_en)
+                            }
+                            else
+                            {
+                                @(id>0? $"Edit : {model.payment_type_name_en}" : "New Payment Type")
+                            }
+                        </span>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -37,7 +46,6 @@
                         @foreach (var b in business_branches)
                         {
                             <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" /></div>
-
                         }
                     </UIContainerBox>
                 </UIGridCenter>
@@ -46,7 +54,7 @@
                 <FooterCenter>
                     <ButtonGroup class_name="uk-width-1-1">
                         <Button type="submit" icon="save">Save</Button>
-                        <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                        <LinkButton url="paymenttype" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
                     </ButtonGroup>
                 </FooterCenter>
             </PageFooter>
@@ -59,7 +67,6 @@
     [Parameter] public int id { get; set; }
     [Parameter] public int clone_id { get; set; }
     PaymentTypeModel model = new PaymentTypeModel();
-
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     string ControllerApi = "PaymentType";
     public string api_url
@@ -67,25 +74,40 @@
         get
         {
             string query = ControllerApi;
-            query = query + $"({id})?";
-            query = query + "$expand=business_branch_payment_types";
+            query = query + $"({(id == 0 ? clone_id : id)})?";
+            query = query + "$expand=business_branch_payment_types($select=payment_type_id,business_branch_id)&filter=is_deleted eq false";
             return query;
-
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        await LoadBusinessBranch();
         await LoadData();
+        await LoadBusinessBranch();
         is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(api_url);
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<PaymentTypeModel>(resp.Content.ToString());
+            if (clone_id > 0)
+            {
+                model.id = 0;
+                model.created_date = DateTime.Now;
+            }
+        }
+        is_loading_data = false;
     }
 
     async Task LoadBusinessBranch()
     {
         is_loading_data = true;
-        var resp = await http.ApiGetOData("BusinessBranch?$expand=business_branch_payment_types");
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=business_branch_payment_types($select=payment_type_id,business_branch_id)&filter=is_deleted eq false");
         if (resp.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
@@ -101,16 +123,6 @@
         is_loading_data = false;
     }
 
-    async Task LoadData()
-    {
-        is_loading_data = true;
-        var resp = await http.ApiGet(api_url);
-        if (resp.IsSuccess)
-        {
-            model = JsonSerializer.Deserialize<PaymentTypeModel>(resp.Content.ToString());
-        }
-        is_loading_data = false;
-    }
 
     async Task SavePaymentType_Click()
     {
@@ -132,6 +144,7 @@
         if (post.IsSuccess)
         {
             toast.Add("Save Successfully!", MatToastType.Success);
+            nav.NavigateTo("paymenttype");
             model = new PaymentTypeModel();
         }
         else

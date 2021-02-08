@@ -38,16 +38,6 @@
                                             <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
                                             <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
                                         </span>
-                                        <span>
-                                            <span style="margin-right:5px;">
-                                                @*<Icon icon="delete" OnClick="@(()=>click_delete(d))" />*@
-                                            </span>
-                                            <span>
-                                                <a href="@($"outletstation/edit/{d.id}")">
-                                                    <Icon icon="edit" />
-                                                </a>
-                                            </span>
-                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +62,7 @@
                                     {
                                         @if (!s.is_deleted)
                                         {
-                                            <ComAuthorize roles="@gv.GetRole("payment_type_edit")">
+                                            <ComAuthorize OnClick="@(()=>OnEdit(s.id))" roles="@gv.GetRole("payment_type_edit")">
                                                 @s.payment_type_name_en
                                             </ComAuthorize>
                                         }
