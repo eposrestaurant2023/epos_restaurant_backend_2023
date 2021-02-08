@@ -28,6 +28,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
+
             </HeaderRight>
         </PageHeader>
         <EditForm Model="@model" OnValidSubmit="@Save_Click">
@@ -41,7 +42,6 @@
                     </UIContainerBox>
                     <UIContainerBox>
                         <TextInput label="Code" text="@model.vendor_code" is_read_only="true">
-
                         </TextInput>
                         <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
                             <ValidationMessage For="@(() => model.vendor_name)" />
@@ -51,11 +51,10 @@
                         <TextInput label="Office Phone" @bind-text="@model.office_phone" />
                     </UIContainerBox>
                 </UIGridCenter>
-
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button icon="save" roles="@gv.GetRole("vendor_add")" is_visible="@(!is_saving)" type=" ">Save</Button>
+                    <Button icon="save" roles="@gv.GetRole("vendor_add")" is_visible="@(!is_saving)" type="">Save</Button>
                     <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
                 </FooterCenter>
             </PageFooter>
@@ -98,7 +97,6 @@
                 }
                 else
                 {
-
                     var res = await http.ApiGet($"vendor({clone_id})");
                     if (res.IsSuccess)
                     {
@@ -117,7 +115,6 @@
             {
                 title = "Add New Vendor";
             }
-
             is_loading = false;
         }
     }
@@ -131,12 +128,10 @@
 
             Object obj = new Object();
             VendorModel save_vendor = JsonSerializer.Deserialize<VendorModel>(JsonSerializer.Serialize(d));
-
             var res = await http.ApiPost($"{api_url}/save", save_vendor);
             if (res.IsSuccess)
             {
                 obj = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
-
                 toast.Add("Saving successfully", MatToastType.Success);
                 nav.NavigateTo($"vendor/{id}");
             }
