@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210208094450_update_tbl_file")]
+    partial class update_tbl_file
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1120,6 +1122,9 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("PurchaseOrderModelid")
+                        .HasColumnType("int");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1158,9 +1163,6 @@ namespace eAPI.Migrations
                     b.Property<int>("payment_type_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("purchase_order_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("reference_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -1173,9 +1175,9 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("payment_type_id");
+                    b.HasIndex("PurchaseOrderModelid");
 
-                    b.HasIndex("purchase_order_id");
+                    b.HasIndex("payment_type_id");
 
                     b.HasIndex("sale_id");
 
@@ -3198,23 +3200,21 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.PaymentModel", b =>
                 {
+                    b.HasOne("eModels.PurchaseOrderModel", null)
+                        .WithMany("payments")
+                        .HasForeignKey("PurchaseOrderModelid");
+
                     b.HasOne("eModels.PaymentTypeModel", "payment_type")
                         .WithMany()
                         .HasForeignKey("payment_type_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
-                        .WithMany("payments")
-                        .HasForeignKey("purchase_order_id");
-
                     b.HasOne("eModels.SaleModel", "sale")
                         .WithMany("payments")
                         .HasForeignKey("sale_id");
 
                     b.Navigation("payment_type");
-
-                    b.Navigation("purchase_order");
 
                     b.Navigation("sale");
                 });

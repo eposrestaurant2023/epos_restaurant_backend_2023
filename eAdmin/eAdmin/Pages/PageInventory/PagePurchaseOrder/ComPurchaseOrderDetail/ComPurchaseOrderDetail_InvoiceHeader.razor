@@ -1,0 +1,105 @@
+﻿@inherits PageCore;
+<ComPurchaseOrderDetail_RibbonStatus po="po" /> 
+    <div class="btn_show_logo" @onclick="@ShowHideLogo">@(state.pager.show_logo ? "Hide Logo" : "Show Logo") <span uk-icon="icon: image; ratio: 0.8;"></span></div>
+    <PageHeader is_subpage="true">
+        <HeaderLeft ClassName="uk-flex-top">
+            <div>
+                @if (state.pager.show_logo)
+                {
+                    <img src="@http.ImageUrl(gv.business_info.company_logo)" class="uk-image" width="130" />
+                }
+                <div class="uk-text-top">
+                    <div class="font-xxl">@gv.business_info.company_name</div>
+                    <div>@gv.business_info.address</div>
+                    <div>@gv.business_info.contact_office_number</div>
+                    <div>@gv.business_info.contact_phone_number</div>
+                </div>
+            </div>
+        </HeaderLeft>
+        <HeaderRight ClassName="uk-flex-top">
+            <div class="uk-text-right">
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">Invoice</h2>
+                <div class="uk-margin-small-bottom">
+                    @if (is_view_detail)
+                    {
+                    <AuthorizeView Roles="@gv.GetRole("purchase_order_view")">
+                        <span>INV# @po.document_number</span>
+                    </AuthorizeView>
+                    }
+                    else
+                    {
+                        <span>INV# @po.document_number</span>
+                    }
+
+                </div>
+                <div>Balance Due</div>
+                <div class="font-xxl"> @po.balance.ToString(gv.currency_format)</div>
+            </div>
+        </HeaderRight>
+    </PageHeader>
+    <div uk-grid>
+        <div class="uk-width-expand">
+            <ComPurchaseOrderDetail_VendorAddress po="@po" />
+        </div>
+        <div class="uk-width-auto">
+            <div class="box-invoice-header-info">
+                <div class="invoice-header-title">Invoice Information</div>
+                <table class="invoice_header_description">
+
+                    <tr>
+                        <td>Invoice Date:</td>
+                        <td>@po.purchase_date.ToString(gv.date_format)</td>
+                    </tr>
+
+                    @if (po.due_date != null)
+                    {
+                        <tr>
+                            <td>Due Date:</td>
+                            <td>@string.Format(gv.date_format, po.due_date)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>Referance #:</td>
+                        <td>@po.reference_number</td>
+                    </tr>
+                    @if (po.business_branch != null)
+                    {
+                        <tr>
+                            <td>Business Branch Name:</td>
+                            <td>@po.business_branch?.business_branch_name_en</td>
+                        </tr>
+                    }
+                    @if (po.stock_location != null)
+                    {
+                        <tr>
+                            <td>Stock Location:</td>
+                            <td>@po.stock_location?.stock_location_name</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+ 
+@code {
+    [Parameter] public PurchaseOrderModel po { get; set; }
+    [Parameter] public bool is_view_detail { get; set; } = false;
+
+    string StateKey = "24893204r3ui20r9u0rPURHEADERINV9897";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        state = await GetState(StateKey);
+        is_loading = false;
+
+    }
+    public async Task ShowHideLogo()
+    {
+        state.pager.show_logo = !state.pager.show_logo;
+        await SetState(StateKey, state);
+    }
+
+
+}

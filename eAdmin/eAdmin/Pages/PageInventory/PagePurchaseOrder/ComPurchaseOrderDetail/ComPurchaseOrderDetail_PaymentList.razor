@@ -1,0 +1,131 @@
+﻿@inject IHttpService http;
+@inject IMatToaster toast;
+@inject IJSRuntime js
+@if (!is_loading)
+{
+    <UIGridCenter>
+        <UIContainerBox Title="Payment History" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = Guid.Empty; })" show_print="@(po.active_payments.Count() > 0)" OnPrint="@(()=>is_print = true)">
+          @if (po.active_payments.Count() > 0)
+            {
+                @foreach (var p in po.active_payments.OrderByDescending(r => r.created_date))
+                {
+                    <UIListBox ImageUrl="@p.payment_type?.photo">
+                        <ContentLeft>
+                            <div>
+                                <ComAuthorize roles="@gv.GetRole("purchase_order_management")" url="@("purchaseorder/"+p.purchase_order_id)">@p.purchase_order?.document_number</ComAuthorize>
+                            </div>
+                            <div>
+                                <span>@p.payment_type?.payment_type_name_en</span>
+                            </div>
+                            <div>
+                                <span>@p.payment_date.ToString(gv.date_format)</span>
+                            </div>
+                            <div>
+                                <span>By: @p.created_by on @p.created_date.ToString(gv.date_time_format)</span>
+                            </div>
+
+                            <TextOverflow Text="@p.payment_note" ClassName="small-text" />
+
+                        </ContentLeft>
+                        <ContentRight>
+                            <div class="pos-label">
+                                <div class="txt-bold">
+                                    @p.payment_amount.ToString(gv.currency_format)
+                                </div>
+                            </div>
+                            <Spacing Number="10" />
+                            <Column ClassName="uk-text-right" is_visible="@(!is_parent_deleted)">
+                                <Icon icon="print" OnClick="@(()=>is_print = true)" roles="@gv.GetRole("sale_edit")" title="Print" />
+                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" roles="@gv.GetRole("sale_edit")" title="Edit" />
+                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("sale_payment_delete")" title="Delete" />
+                            </Column>
+                        </ContentRight>
+                    </UIListBox>
+                }
+            }
+            else
+            {
+                <div class="uk-text-center">No Payments</div>
+            }
+        </UIContainerBox>
+    </UIGridCenter>
+
+    @if (is_add_payment)
+    { 
+        <ComPurchaseOrderDetail_AddPayment po_id="@po_id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload"/>
+    }
+    @if (is_print)
+    {
+        @*<ComPreviewReport parent_id="117" report_id="185" id="sale_id" @bind-IsOpened="is_print" />*@
+    }
+}
+@code {
+    Guid payment_id = Guid.Empty;
+    bool is_loading, is_add_payment, is_print;
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public PurchaseOrderModel po { get; set; } = new PurchaseOrderModel();
+
+    [Parameter] public int vendor_id { get; set; }
+    [Parameter] public int po_id { get; set; }
+    [Parameter] public bool is_parent_deleted { get; set; } = false;
+    [Parameter] public EventCallback<bool> on_reload { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        if (vendor_id > 0)
+        {
+            po.vendor_id = vendor_id;
+        }
+        await LoadPaymentHistory();
+        is_loading = false;
+    }
+
+    void EditPayment_Click(PaymentModel p)
+    {
+        payment_id = p.id;
+        po.id = Convert.ToInt32(p.purchase_order_id);
+        is_add_payment = true;
+    }
+
+
+    async Task DeletePayment_Click(PaymentModel p)
+    {
+        if (await js.Confirm("Delete payment", "Are you sure you want to delete this payment?", SweetAlertMessageType.question))
+        {
+            var resp = await http.ApiPost("payment/purchaseorder/delete/" + p.id);
+            if (resp.IsSuccess)
+            {
+                toast.Add("Delete payment successfully", MatToastType.Success);
+                await on_reload.InvokeAsync(true);
+            }
+            else
+            {
+                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            }
+        }
+    }
+
+    async Task LoadPaymentHistory()
+    {
+        var api_url = $"PurchaseOrder?$select=id,document_number&$expand=payments($expand=purchase_order($select=document_number),payment_type($select=photo,payment_type_name_en,payment_type_name_kh))&$filter=";
+        if (vendor_id > 0)
+        {
+            api_url = api_url + $" vendor_id eq {po.vendor_id}";
+        }
+        else
+        {
+            api_url = api_url + $" id eq {po.id}";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        List<PurchaseOrderModel> po_list = JsonSerializer.Deserialize<List<PurchaseOrderModel>>(resp.Content.ToString());
+        po.payments = po_list.SelectMany(r => r.payments).ToList();
+    }
+
+    async Task OnReload(bool is_reload = true)
+    {
+        await on_reload.InvokeAsync(true);
+        await LoadPaymentHistory();
+    }
+}

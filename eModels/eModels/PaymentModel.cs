@@ -28,6 +28,11 @@ namespace eModels
         [ForeignKey("sale_id")]
         public SaleModel sale { get; set; }
 
+        public int? purchase_order_id { get; set; }
+        [ForeignKey("purchase_order_id")]
+        public PurchaseOrderModel purchase_order { get; set; }
+
+
         public int outlet_id { get; set; }
 
         public decimal payment_amount { get; set; }

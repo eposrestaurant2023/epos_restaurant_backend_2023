@@ -243,6 +243,10 @@ namespace eAdmin.Pages
                 case "outlet":
                     state.outlet = new OutletModel();
                     break;
+
+                case "vendor":
+                    state.vendor = new VendorModel();
+                    break;
                    
                
                 default:

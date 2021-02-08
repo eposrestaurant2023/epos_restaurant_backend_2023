@@ -11,9 +11,9 @@ namespace eModels
     [Table("tbl_vendor")]
     public class VendorModel : CoreModel
     {
-        [Required]
-        public string vendor_code { get; set; } = "New";
-        [Required]
+        [Required(ErrorMessage = "Please select vendor code.")]
+        public string vendor_code { get; set; } ="New"
+        [Required(ErrorMessage = "Please select vendor name.")]
         public string vendor_name { get; set; }
         public string photo { get; set; }
         public string company_name { get; set; }
@@ -25,9 +25,14 @@ namespace eModels
         public decimal total_payable { get; set; }
         public bool is_auto_generate_vendor_code { get; set; }
 
+        [Required(ErrorMessage = "Please select a province.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a province.")]
         public int province_id { get; set; }
         [ForeignKey("province_id")]
         public ProvinceModel province { get; set; }
+
+        [Required(ErrorMessage = "Please select a vendor group.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a vendor group.")]
         public int vendor_group_id { get; set; }
         [ForeignKey("vendor_group_id")]
         public VendorGroupModel vendor_group { get; set; }

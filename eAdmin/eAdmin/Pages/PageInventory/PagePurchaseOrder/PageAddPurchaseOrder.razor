@@ -32,7 +32,12 @@
                         <Icon icon="shopping_cart" />
                         <span class="title">PO Products</span>
                     </h3>
+                    <Spacing Number="10" />
                     <ComPurchaseOrderProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
+                    <hr />
+                    <Spacing Number="10" />
+                    <ComPurchaseOrderSummary is_allow_discount="true" @bind-model="@model" OnTotalPaymentClick="(() => is_show_add_payment = true)" />
+
                 </section>
             </div>
         </PageBody>

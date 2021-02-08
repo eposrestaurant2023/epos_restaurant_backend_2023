@@ -20,7 +20,6 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         public PurchaseOrderModel model = new PurchaseOrderModel(); 
         public bool is_show_back { get; set; } = false; 
         public bool is_show_add_payment { get; set; } = false;
-        public bool is_allow_discount { get; set; } = false;
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
@@ -69,7 +68,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             PurchaseOrderProductModel d = new PurchaseOrderProductModel();
             d.product_id = sp.product.id;
             d.product = sp.product;
-            d.product_type_id = sp.product.product_category_id; 
+            d.product_type_id = sp.product.product_type_id; 
             d.is_allow_discount = sp.is_allow_discount;
             d.quantity = sp.quantity;
             d.cost= sp.product.cost;
@@ -180,13 +179,14 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             save_model.stock_location = null;
             save_model.business_branch = null;
 
-            is_saving = true;
+            is_saving = true; 
+
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)
             {
                 toast.Add("Save successfully.", MatToastType.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
-                nav.NavigateTo($"inventory/purchaseorder/{_model.id}");
+                nav.NavigateTo($"purchaseorder/{_model.id}");
             }
             else
             {
