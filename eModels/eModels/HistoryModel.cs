@@ -34,14 +34,15 @@ namespace eModels
 
         public int? outlet_id { get; set; }
         public int? product_id { get; set; }
-
-      
-       
-
+        public int? purchase_order_id { get; set; }
 
         public Guid? customer_id { get; set; }
         [ForeignKey("customer_id")]
-        public virtual CustomerModel customer { get; set; } 
+        public virtual CustomerModel customer { get; set; }       
+        
+        public int? vendor_id { get; set; }
+        [ForeignKey("vendor_id")]
+        public virtual VendorModel vendor { get; set; } 
         
         public Guid? sale_id { get; set; }
         [ForeignKey("sale_id")]

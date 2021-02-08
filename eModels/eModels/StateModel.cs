@@ -60,6 +60,7 @@ namespace eModels
         
         public HashSet<string> multi_select_guid_2 { get; set; }
         public List<string> multi_select_value_2 { get; set; }
+        public VendorModel vendor { get; set; } = new VendorModel();
     }
 
     public class DateRangeModel
