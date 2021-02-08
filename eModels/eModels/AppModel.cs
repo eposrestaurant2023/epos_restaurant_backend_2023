@@ -189,10 +189,12 @@ namespace eModels
         public ApiResponseModel()
         {
             customers = new List<CustomerModel>();
+            vendors = new List<VendorModel>();
         }
         public string message { get; set; }
 
         public List<CustomerModel> customers { get; set; }
+        public List<VendorModel> vendors { get; set; }
     }
 
 

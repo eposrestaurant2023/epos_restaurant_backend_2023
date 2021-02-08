@@ -116,7 +116,7 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("Clone/{id}")]
-        public async Task<ActionResult<ProductModel>> Clone(int id) //Delete
+        public ActionResult<ProductModel> Clone(int id) //Delete
         {
             var data =   db.Products.Where(r => r.id == id)
                 .Include(r=>r.product_portions.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.product_prices.Where(r=>r.is_deleted==false))

@@ -1,10 +1,10 @@
 ﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id">@label</label>
+    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
     <div class="uk-form-controls">
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="00000000-0000-0000-0000-000000000000">@empty_text</option>
+                <option value="@Guid.Empty">@empty_text</option>
             }
             @foreach (var p in gv.bussiness_branches.Where(r => r.status && !r.is_deleted))
             {
@@ -19,22 +19,23 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string label { get; set; } = "Business Branch";
-    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string icon { get; set; }
+    [Parameter] public bool show_empty { get; set; } = false; 
     [Parameter] public string empty_text { get; set; } = "Select Business Branch";
-
     [Parameter] public string width { get; set; } = "100%";
     [Parameter] public Guid selected_value { get; set; } = new Guid();
     [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
-
     [Parameter] public BusinessBranchModel business_branch { get; set; }
     [Parameter] public EventCallback<BusinessBranchModel> business_branchChanged { get; set; }
 
+    public Guid business_branch_id { get; set; }
 
     public Guid SelectedValue
     {
         get
         {
             return business_branch == null ? selected_value : business_branch.id;
+
         }
     }
 

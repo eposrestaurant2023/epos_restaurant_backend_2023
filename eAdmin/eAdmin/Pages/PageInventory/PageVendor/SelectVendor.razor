@@ -1,0 +1,41 @@
+﻿
+@inherits SelectvendorBase
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+<Modal IsSimpleMode="false" Title="Select Vendor" @bind-IsOpened="@is_open" OnClosed="@onCloseClick" ModalWidth="800px">
+    <ModalBody>
+        <ComSearch place_holder="@keyword" KeywordChanged="@OnSearch" show_advance_filter="false" />
+        <Spacing Number="10" />
+        <Table Items="@models"
+               PerPage="@pager.per_page"
+               TotalItem="@total_record"
+               CurrentPage="@pager.current_page"
+               OnPagerChange="@SelectChange"
+               OnPageChange="@ChangePager"
+               isLoading="@is_loading_data"
+               ShowPager="true"
+               ShowCounter="true"
+               ClassName="uk-table-small uk-table-striped uk-table-hover not-view-table"
+               ScrollClass="uk-overflow-auto"
+               EmptyText="There is no record.">
+            <TableHeader>
+                <ThCenter>Image</ThCenter>
+                <ThAuto>Name (Kh)</ThAuto>
+                <ThAuto>Phone</ThAuto>
+                <th>Company</th>
+                <th></th>
+            </TableHeader>
+            <RowTemplate Context="m">
+                <TdCenter>
+                    <Image ImageUrl="@http.ImageUrl(m.photo)" IsBackgroundImage="true" Width="50px" Height="50px" />
+                </TdCenter>
+                <td><a @onclick="@(()=>SelectVendorClick(m))">@m.vendor_display_name</a></td>
+                <td>@m.mobile_phone</td>
+                <td>@m.company_name</td>
+                <td>
+                    <Button OnClick="@(()=>SelectVendorClick(m))">Select</Button>
+                </td>
+            </RowTemplate>
+        </Table>
+    </ModalBody>
+</Modal> 

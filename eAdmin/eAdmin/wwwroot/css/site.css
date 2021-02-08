@@ -6907,3 +6907,9 @@ div.mud-input-slot.mud-input-root:hover {
 .uk-form-label > .uk-checkbox {
     margin-right: 6px;
 }
+.btn-typeahead-action {
+    width: 45px !important;
+}
+.box-select-typeahead .blazored-typeahead__input {
+    height: 40px !important;
+}

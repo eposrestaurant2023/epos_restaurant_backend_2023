@@ -1,0 +1,95 @@
+﻿@inherits PageCore;
+<EditFormContext Cancel_Click="OnCancelClick" model="@model" is_opened="is_opened" title="@title" Save_Click="@(async()=>await Save_Click())" is_submitting="@is_saving" modal_width="800px">
+    @if (is_loading)
+    {
+    <Spinner />
+    }
+    else
+    {
+    <ComAddVendorForm model="@model" />
+    }
+</EditFormContext>
+
+
+@code{
+
+    [Parameter] public bool is_opened { get; set; }
+    [Parameter] public EventCallback<bool>is_openedChanged { get; set; }
+    [Parameter] public int id { get; set; }
+    [Parameter] public EventCallback<VendorModel> OnSave { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    VendorModel model = new VendorModel();
+    ApiResponseModel existing_vendor_info = new ApiResponseModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!is_loading)
+        {
+            is_loading = true;
+
+            if (id > 0)
+            {
+                var res = await http.ApiGet($"vendor({id})");
+                if (res.IsSuccess)
+                {
+                    model = JsonSerializer.Deserialize<VendorModel>
+                        (res.Content.ToString());
+                    title = $"Edit : {model.vendor_name}";
+                }
+                else
+                {
+                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    is_loading = false;
+                }
+            }
+            else
+            {
+                title = "Add New Vendor";
+            }
+            is_loading = false;
+        }
+    }
+
+
+    async Task Save_Click()
+    {
+        if (!is_saving)
+        {
+            is_saving = true;
+
+            var res = await http.ApiPost($"vendor/save", model);
+            if (res.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
+                toast.Add("Saving vendor successfully", MatToastType.Success);
+                await OnSave.InvokeAsync(model);
+                await is_openedChanged.InvokeAsync(false);
+
+            }
+            else
+            {
+                is_saving = false;
+                toast.Add(res.Content.ToString(), MatToastType.Warning);
+
+            }
+            //testing
+            is_saving = false;
+
+        }
+    }
+
+    async Task SaveNewRecord()
+    {
+        await Save_Click();
+
+    }
+    async Task OnCancelClick()
+    {
+        is_opened = false;
+        await is_openedChanged.InvokeAsync(false);
+        await OnCancel.InvokeAsync(true);
+    }
+}
+
+
