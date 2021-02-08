@@ -1,0 +1,163 @@
+﻿@page "/vendor/new"
+@page "/vendor/edit/{id}"
+@page "/vendor/clone/{clone_id}"
+@inherits PageCore
+
+<Loading is_loading="@is_loading" />
+
+@if (!is_loading)
+{
+    <Title Value="@title"></Title>
+    <PageContainer roles="@gv.GetRole($"{((!string.IsNullOrEmpty(clone_id)) || (!string.IsNullOrEmpty(clone_id) && !string.IsNullOrEmpty(id)) ? "vendor_add" : "vendor_edit") }")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @if (!string.IsNullOrEmpty(id))
+                        {
+                            <span>@model.vendor_code - @model.vendor_name</span>
+                            <LabelActive is_visible="@(!model.is_deleted && model.status)" />
+                            <LabelDeleted is_visible="@(model.is_deleted)" />
+                            <LabelInActive is_visible="@(!model.is_deleted && !model.status)" />
+                        }
+                        else
+                        {
+                            <span>@title</span>
+                        }
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="@Save_Click">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox Title="Vendor Photo" ClassName="uk-text-center">
+                        <UIFlexCenter>
+                            <FileUpload @bind-ImageUrl="@model.photo" />
+                        </UIFlexCenter>
+                    </UIContainerBox>
+                    <UIContainerBox>
+                        <TextInput label="Code" text="@model.vendor_code" is_read_only="true">
+
+                        </TextInput>
+                        <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
+                            <ValidationMessage For="@(() => model.vendor_name)" />
+                        </TextInput>
+                        <TextInput label="Company Name" @bind-text="@model.company_name" />
+                        <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
+                        <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+                    </UIContainerBox>
+                </UIGridCenter>
+
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button icon="save" roles="@gv.GetRole("vendor_add")" is_visible="@(!is_saving)" type=" ">Save</Button>
+                    <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+}
+@code{
+    [Parameter] public string id { get; set; }
+    [Parameter] public string clone_id { get; set; }
+    VendorModel model = new VendorModel();
+
+    public string api_url
+    {
+        get
+        {
+            return $"Vendor({id})";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!is_loading)
+        {
+            is_loading = true;
+
+            if ((id != "" && id != null) || (clone_id != "" && clone_id != null))
+            {
+                if (id != "" && id != null)
+                {
+                    var res = await http.ApiGet(api_url);
+                    if (res.IsSuccess)
+                    {
+                        model = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
+                        title = $"Edit : {model.vendor_name}";
+                    }
+                    else
+                    {
+                        toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    }
+                }
+                else
+                {
+
+                    var res = await http.ApiGet($"vendor({clone_id})");
+                    if (res.IsSuccess)
+                    {
+                        model = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
+                        model.vendor_code = "New";
+                        model.created_date = DateTime.Now;
+                        title = $"Clone : {model.vendor_name}";
+                    }
+                    else
+                    {
+                        toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    }
+                }
+            }
+            else
+            {
+                title = "Add New Vendor";
+            }
+
+            is_loading = false;
+        }
+    }
+
+    async Task Save_Click(EditContext editContext)
+    {
+        VendorModel d = model;
+        if (!is_saving)
+        {
+            is_saving = true;
+
+            Object obj = new Object();
+            VendorModel save_vendor = JsonSerializer.Deserialize<VendorModel>(JsonSerializer.Serialize(d));
+
+            var res = await http.ApiPost($"{api_url}/save", save_vendor);
+            if (res.IsSuccess)
+            {
+                obj = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
+
+                toast.Add("Saving successfully", MatToastType.Success);
+                nav.NavigateTo($"vendor/{id}");
+            }
+            else
+            {
+                is_saving = false;
+                toast.Add(res.Content.ToString(), MatToastType.Warning);
+            }
+        }
+    }
+
+    void OnCancel()
+    {
+        if (id != null)
+        {
+            nav.NavigateTo($"vendor/{id}");
+        }
+        else
+        {
+            nav.NavigateTo("vendor");
+        }
+    }
+
+}
