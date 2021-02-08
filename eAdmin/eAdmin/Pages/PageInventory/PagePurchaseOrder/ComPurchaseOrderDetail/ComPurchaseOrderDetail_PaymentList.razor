@@ -52,7 +52,7 @@
 
     @if (is_add_payment)
     { 
-        @*<ComPurchaseOrderDetail_AddPayment po_id="@po_id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload"/>*@
+        <ComPurchaseOrderDetail_AddPayment po_id="@po_id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload"/>
     }
     @if (is_print)
     {
@@ -108,7 +108,7 @@
 
     async Task LoadPaymentHistory()
     {
-        var api_url = $"PurchaseOrder?$select=id,document_number&$expand=payments($expand=purchase_order($select=document_number),payment_type($select=payment_type_image,payment_type_name))&$filter=";
+        var api_url = $"PurchaseOrder?$select=id,document_number&$expand=payments($expand=purchase_order($select=document_number),payment_type($select=photo,payment_type_name_en,payment_type_name_kh))&$filter=";
         if (vendor_id > 0)
         {
             api_url = api_url + $" vendor_id eq {po.vendor_id}";
