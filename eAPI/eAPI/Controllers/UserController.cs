@@ -157,7 +157,7 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("GetByBusinessBranch")]
         [AllowAnonymous]
-        public virtual async Task<ActionResult<List<UserModel>>> GetUserByBusinessBranch([FromQuery] Guid business_branch_id)
+        public virtual ActionResult<List<UserModel>> GetUserByBusinessBranch([FromQuery] Guid business_branch_id)
         {
             try
             {

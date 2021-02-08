@@ -23,6 +23,7 @@ namespace eModels
         public string address { get; set; }
         public string note { get; set; }
         public decimal total_payable { get; set; }
+        public bool is_auto_generate_vendor_code { get; set; }
 
         public int province_id { get; set; }
         [ForeignKey("province_id")]
