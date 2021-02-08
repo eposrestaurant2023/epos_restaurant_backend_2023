@@ -15,14 +15,14 @@
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="Status">
-                            <ModuleView module_views="@gv.GetModuleView("page_price_rule")" OnClick="@ViewClick" />
+                            <ModuleView module_views="@gv.GetModuleView("page_payment_type")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <LinkButton url="paymenttype/new" icon="add" background="uk-button-primary" Class_Name="button-large button-create">New</LinkButton>
+                <LinkButton url="paymenttype/new" roles="@gv.GetRole("payment_type_add")" icon="add" background="uk-button-primary" Class_Name="button-large button-create">New</LinkButton>
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -40,8 +40,8 @@
                                 <div class="uk-float-right">
                                     <div>
                                         <span>
-                                            <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                            <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                            <LabelActive roles="@gv.GetRole("payment_type_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                            <LabelInActive roles="@gv.GetRole("payment_type_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
                                         </span>
                                     </div>
                                 </div>

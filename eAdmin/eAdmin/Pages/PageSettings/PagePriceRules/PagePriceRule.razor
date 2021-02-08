@@ -6,7 +6,7 @@
 @if (!is_loading)
 {
     <Title Value="@state.page_title"></Title>
-    <PageContainer roles="@gv.GetRole("payment_type_management")">
+    <PageContainer roles="@gv.GetRole("price_rule_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="true">
@@ -22,7 +22,7 @@
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <LinkButton url="PriceRule/new" icon="add" background="uk-button-primary" Class_Name="button-large button-create">New</LinkButton>
+                <LinkButton url="PriceRule/new" icon="add" roles="@gv.GetRole("price_rule_add")" background="uk-button-primary" Class_Name="button-large button-create">New</LinkButton>
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -40,8 +40,8 @@
                                 <div class="uk-float-right">
                                     <div>
                                         <span>
-                                            <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                            <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                            <LabelActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                            <LabelInActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
                                         </span>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                <ComAuthorize OnClick="@(()=>OnEdit(s.id))" roles="@gv.GetRole("payment_type_edit")">
+                                                <ComAuthorize OnClick="@(()=>OnEdit(s.id))" roles="@gv.GetRole("price_rule_edit")">
                                                     @s.price_name
                                                 </ComAuthorize>
                                             </td>
@@ -74,17 +74,17 @@
                                                 else
                                                 {
                                                     <LabelDeleted is_visible="@s.is_deleted" />
-                                                    <LabelActive is_visible="@(!s.is_deleted && s.status)" OnClick="(() => OnToogleStatusLabel(s))" roles="@gv.GetRole("payment_type_edit")" is_loading="@s.is_change_status" />
-                                                    <LabelInActive is_visible="@(!s.is_deleted && !s.status)" OnClick="(() => OnToogleStatusLabel(s))" roles="@gv.GetRole("payment_type_edit")" is_loading="@s.is_change_status" />
+                                                    <LabelActive is_visible="@(!s.is_deleted && s.status)" OnClick="(() => OnToogleStatusLabel(s))" roles="@gv.GetRole("price_rule_edit")" is_loading="@s.is_change_status" />
+                                                    <LabelInActive is_visible="@(!s.is_deleted && !s.status)" OnClick="(() => OnToogleStatusLabel(s))" roles="@gv.GetRole("price_rule_edit")" is_loading="@s.is_change_status" />
                                                 }
                                             </TdCenter>
                                             <TdActions is_loading="@s.is_loading">
-                                                <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="edit" is_visible="@(!s.is_deleted)" OnClick="@(()=>OnEdit(s.id))">Edit</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("payment_type_add")" icon="file_copy" OnClick="@(()=>Clone_Click(s.id))">Clone</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="highlight_off" is_visible="@(s.status && !s.is_deleted && !bp.is_default)" OnClick="@(()=>OnToogleStatus(s))">Inactive</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="check" is_visible="@(!s.status && !s.is_deleted && !bp.is_default)" OnClick="@(() => OnToogleStatus(s))">Active</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("payment_type_delete")" icon="delete" is_visible="@(!s.is_deleted)" OnClick="@(() => OnDelete(s))">Delete</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("payment_type_restore")" icon="refresh" is_visible="@(s.is_deleted)" OnClick="@(()=>OnRestore(s))">Restore</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="edit" is_visible="@(!s.is_deleted)" OnClick="@(()=>OnEdit(s.id))">Edit</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("price_rule_add")" icon="file_copy" OnClick="@(()=>Clone_Click(s.id))">Clone</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="highlight_off" is_visible="@(s.status && !s.is_deleted && !bp.is_default)" OnClick="@(()=>OnToogleStatus(s))">Inactive</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="check" is_visible="@(!s.status && !s.is_deleted && !bp.is_default)" OnClick="@(() => OnToogleStatus(s))">Active</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("price_rule_delete")" icon="delete" is_visible="@(!s.is_deleted)" OnClick="@(() => OnDelete(s))">Delete</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("price_rule_restore")" icon="refresh" is_visible="@(s.is_deleted)" OnClick="@(()=>OnRestore(s))">Restore</TableActionItem>
                                             </TdActions>
                                         </tr>
                                     }
