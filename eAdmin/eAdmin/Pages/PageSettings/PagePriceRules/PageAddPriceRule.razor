@@ -1,6 +1,6 @@
-﻿@page "/paymenttype/new"
-@page "/paymenttype/edit/{id:int}"
-@page "/paymenttype/clone/{clone_id:int}"
+﻿@page "/pricerule/new"
+@page "/pricerule/edit/{id:int}"
+@page "/pricerule/clone/{clone_id:int}"
 @inject IJSRuntime js
 @inherits PageCore;
 <Loading is_loading="@is_loading" />
@@ -15,11 +15,11 @@
                         <span>
                             @if (clone_id > 0)
                             {
-                                @("Clone : " + model.payment_type_name_en)
+                                @("Clone : " + price.price_name)
                             }
                             else
                             {
-                                @(id>0? $"Edit : {model.payment_type_name_en}" : "New Payment Type")
+                                @(id>0? $"Edit : {price.price_name}" : "New Price Rule")
                             }
                         </span>
                     </HeaderTemplate>
@@ -27,26 +27,19 @@
             </HeaderLeft>
             <HeaderRight ShowBackButton="true"></HeaderRight>
         </PageHeader>
-        <EditForm Model="@model" OnValidSubmit="@SavePaymentType_Click">
+        <EditForm Model="@price" OnValidSubmit="@SavePriceRule_Click">
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox Title="Payment Type">
-                        <TextInput @bind-text="@model.payment_type_name_en" label="Payment Type Name En">
-                            <ValidationMessage For="@(() => model.payment_type_name_en )" />
+                        <TextInput label="Name" @bind-text="@price.price_name">
+                            <ValidationMessage For="@(()=>price.price_name)" />
                         </TextInput>
-                        <TextInput @bind-text="@model.payment_type_name_kh" label="Payment Type kh" />
-                        <NumberInputInt @bind-text="@model.sort_order" label="Sort Order" width="100%" />
-                        <TextInput label="Note" @bind-text="@model.note" type="textarea" />
-                        <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="Select Currency">
-                            <ValidationMessage For="@(()=>model.currency_id)" />
-                        </SelectCurrency>
-                        <ComInputCheckBox @bind-value="@model.status" label="Status" />
-
                         @foreach (var b in business_branches)
                         {
                             <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" /></div>
                         }
+                        <SelectStatus @bind-selected_value="@price.status" />
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
@@ -54,28 +47,27 @@
                 <FooterCenter>
                     <ButtonGroup class_name="uk-width-1-1">
                         <Button type="submit" icon="save">Save</Button>
-                        <LinkButton url="paymenttype" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                        <LinkButton url="pricerule" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
                     </ButtonGroup>
                 </FooterCenter>
             </PageFooter>
         </EditForm>
     </PageContainer>
-
 }
 
 @code{
     [Parameter] public int id { get; set; }
     [Parameter] public int clone_id { get; set; }
-    PaymentTypeModel model = new PaymentTypeModel();
+    PriceRuleModel price = new PriceRuleModel();
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
-    string ControllerApi = "PaymentType";
+    string ControllerApi = "PriceRule";
     public string api_url
     {
         get
         {
             string query = ControllerApi;
             query = query + $"({(id == 0 ? clone_id : id)})?";
-            query = query + "$expand=business_branch_payment_types($select=payment_type_id,business_branch_id)";
+            query = query + "$expand=business_branch_prices($select=price_rule_id,business_branch_id)";
             return query;
         }
     }
@@ -94,11 +86,11 @@
         var resp = await http.ApiGet(api_url);
         if (resp.IsSuccess)
         {
-            model = JsonSerializer.Deserialize<PaymentTypeModel>(resp.Content.ToString());
+            price = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
             if (clone_id > 0)
             {
-                model.id = 0;
-                model.created_date = DateTime.Now;
+                price.id = 0;
+                price.created_date = DateTime.Now;
             }
         }
         is_loading_data = false;
@@ -107,12 +99,12 @@
     async Task LoadBusinessBranch()
     {
         is_loading_data = true;
-        var resp = await http.ApiGetOData("BusinessBranch?$expand=business_branch_payment_types($select=payment_type_id,business_branch_id)&$filter=is_deleted eq false");
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=business_branch_prices($select=price_rule_id,business_branch_id)&$filter=is_deleted eq false");
         if (resp.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
 
-            foreach (var bp in model.business_branch_payment_types)
+            foreach (var bp in price.business_branch_prices)
             {
                 foreach (var b in business_branches.Where(r => r.id == bp.business_branch_id))
                 {
@@ -123,29 +115,28 @@
         is_loading_data = false;
     }
 
-
-    async Task SavePaymentType_Click()
+    async Task SavePriceRule_Click()
     {
         is_saving = true;
-        model.business_branch_payment_types.Clear();
+        price.business_branch_prices.Clear();
         foreach (var a in business_branches.ToList())
         {
             if (a.is_selected)
             {
-                model.business_branch_payment_types.Add(new BusinessBranchPaymentTypeModel()
+                price.business_branch_prices.Add(new BusinessBranchPriceRule()
                 {
                     business_branch_id = a.id,
-                    payment_type_id = id
+                    price_rule_id = id
                 });
             }
         }
 
-        var post = await http.ApiPost("PaymentType/Save", model);
+        var post = await http.ApiPost("PriceRule/Save", price);
         if (post.IsSuccess)
         {
             toast.Add("Save Successfully!", MatToastType.Success);
-            nav.NavigateTo("paymenttype");
-            model = new PaymentTypeModel();
+            nav.NavigateTo("pricerule");
+            price = new PriceRuleModel();
         }
         else
         {

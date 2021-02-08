@@ -26,10 +26,8 @@ namespace eAPI.Controllers
             db = _db;
         }
 
-
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
-        [AllowAnonymous]      
+        [EnableQuery(MaxExpansionDepth = 8)]   
         public IQueryable<PaymentTypeModel> Get()
         {            
             return db.PaymentTypes;

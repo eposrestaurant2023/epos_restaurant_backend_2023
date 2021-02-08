@@ -16,11 +16,11 @@ namespace eAPI.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class VendorController : ODataController
+    public class VendorGroupController : ODataController
     {
 
         private readonly ApplicationDbContext db;
-        public VendorController(ApplicationDbContext _db)
+        public VendorGroupController(ApplicationDbContext _db)
         {
             db = _db;
         }
@@ -29,48 +29,53 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [AllowAnonymous]
-        public IQueryable<VendorModel> Get()
+        public IQueryable<VendorGroupModel> Get()
         {
            
-                return db.Vendors;
+                return db.VendorGroups;
            
         }
 
         
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] VendorModel u)
+        public async Task<ActionResult<string>> Save([FromBody] VendorGroupModel u)
         {
+           
+            
+            
             if (u.id == 0)
             {
-                db.Vendors.Add(u);
+                db.VendorGroups.Add(u);
                 }
             else
             {
-                db.Vendors.Update(u);
+                db.VendorGroups.Update(u);
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
+
+
         }
 
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<VendorModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<VendorGroupModel>> DeleteRecord(int id) //Delete
         {
-            var u = await db.Vendors.FindAsync(id);
+            var u = await db.VendorGroups.FindAsync(id);
             u.is_deleted = !u.is_deleted;
             
-            db.Vendors.Update(u);
+            db.VendorGroups.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
         }
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<VendorModel> Get([FromODataUri] int key)
+        public SingleResult<VendorGroupModel> Get([FromODataUri] int key)
         {
-            var s = db.Vendors.Where(r => r.id == key).AsQueryable();
+            var s = db.VendorGroups.Where(r => r.id == key).AsQueryable();
 
             return SingleResult.Create(s);
         }
