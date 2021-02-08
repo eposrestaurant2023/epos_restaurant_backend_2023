@@ -41,11 +41,11 @@
                         <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="Select Currency">
                             <ValidationMessage For="@(()=>model.currency_id)" />
                         </SelectCurrency>
-                        <ComInputCheckBox @bind-value="@model.status" label="Status" />
+                        <SelectStatus @bind-selected_value="@model.status" />
 
                         @foreach (var b in business_branches)
                         {
-                            <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" /></div>
+                            <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" /></div>
                         }
                     </UIContainerBox>
                 </UIGridCenter>
