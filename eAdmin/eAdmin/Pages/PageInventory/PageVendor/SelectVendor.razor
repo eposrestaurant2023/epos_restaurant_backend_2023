@@ -2,7 +2,7 @@
 @inherits SelectvendorBase
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
-<Modal IsSimpleMode="false" Title="Select Customer" @bind-IsOpened="@is_open" OnClosed="@onCloseClick" ModalWidth="800px">
+<Modal IsSimpleMode="false" Title="Select Vendor" @bind-IsOpened="@is_open" OnClosed="@onCloseClick" ModalWidth="800px">
     <ModalBody>
         <ComSearch place_holder="@keyword" KeywordChanged="@OnSearch" show_advance_filter="false" />
         <Spacing Number="10" />
@@ -27,10 +27,10 @@
             </TableHeader>
             <RowTemplate Context="m">
                 <TdCenter>
-                    <Image ImageUrl="@http.ImageUrl(m.ph)" IsBackgroundImage="true" Width="50px" Height="50px" />
+                    <Image ImageUrl="@http.ImageUrl(m.photo)" IsBackgroundImage="true" Width="50px" Height="50px" />
                 </TdCenter>
-                <td><a @onclick="@(()=>SelectVendorClick(m))">@m.vendor_code_name</a></td>
-                <td>@m.vendor_phone</td>
+                <td><a @onclick="@(()=>SelectVendorClick(m))">@m.vendor_display_name</a></td>
+                <td>@m.mobile_phone</td>
                 <td>@m.company_name</td>
                 <td>
                     <Button OnClick="@(()=>SelectVendorClick(m))">Select</Button>

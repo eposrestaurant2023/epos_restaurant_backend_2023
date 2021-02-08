@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace eAdmin.Pages.PageInventory
+namespace eAdmin.Pages.PageInventory.PageVendor
 {
     public class SelectvendorBase : PageCore
     {
