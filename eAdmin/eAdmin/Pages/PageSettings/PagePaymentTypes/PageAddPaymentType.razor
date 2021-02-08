@@ -7,7 +7,7 @@
 @if (!is_loading)
 {
     <Title Value="Outlet & Station"></Title>
-    <PageContainer roles="@gv.GetRole("outlet_station")">
+    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "payment_type_edit" : "payment_type_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">

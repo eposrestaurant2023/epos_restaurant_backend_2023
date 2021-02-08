@@ -7,7 +7,7 @@
 @if (!is_loading)
 {
     <Title Value="Outlet & Station"></Title>
-    <PageContainer roles="@gv.GetRole("outlet_station")">
+    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "price_rule_edit" : "price_rule_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
