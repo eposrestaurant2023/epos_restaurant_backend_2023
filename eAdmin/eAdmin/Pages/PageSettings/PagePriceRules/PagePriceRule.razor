@@ -9,10 +9,15 @@
     <PageContainer roles="@gv.GetRole("payment_type_management")">
         <PageHeader>
             <HeaderLeft>
-                <PageTitle ShowFilter="false">
+                <PageTitle ShowFilter="true">
                     <HeaderTemplate>
-                        Price Rule
+                        @state.page_title
                     </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="Status">
+                            <ModuleView module_views="@gv.GetModuleView("page_price_rule")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
@@ -84,7 +89,6 @@
                                         </tr>
                                     }
                                 }
-
                             </table>
                         </div>
                     </div>
@@ -97,29 +101,56 @@
 
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
-    string ControllerApi = "PriceRule";
+    string controller_api = "PriceRule";
+    string StateKey = "278484567G21458loiuytytkjhTonB3PCz2Ts";
+    string api_query = "?$expand=business_branch_prices";
+    string ControllerApi
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(state.pager.order_by))
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}{api_query}&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            return url + GetFilter(state.filters);
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
+
+        state = await GetState(StateKey);
+        if (state.page_title == "")
+        {
+            state.page_title = "Price Rule";
+            var default_view = gv.GetDefaultModuleView("page_price_rule");
+            if (default_view != null)
+            {
+                state.page_title = default_view.title;
+                state.filters = default_view.filters;
+            }
+        }
         await LoadData();
         await LoadBusinessBranch();
-        is_loading = false;
+
     }
 
     async Task LoadData(string api_url = "")
     {
-        is_loading_data = true;
+        is_loading = true;
         if (string.IsNullOrEmpty(api_url))
         {
-            api_url = $"{ControllerApi}?$expand=business_branch_prices&$filter=is_deleted eq false";
+            api_url = $"{ControllerApi}";
         }
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {
             price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(resp.Content.ToString());
         }
-        is_loading_data = false;
+        is_loading = false;
     }
 
     async Task LoadBusinessBranch()
@@ -161,7 +192,7 @@
         p.is_loading = true;
         if (await js.Confirm("Delete Price Rule", "Are you sure you want to delete this record?"))
         {
-            var resp = await http.ApiPost(ControllerApi + "/delete/" + p.id);
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
             {
                 await LoadData();
@@ -176,7 +207,7 @@
         p.is_loading = true;
         if (await js.Confirm("Restore Price Rule", "Are you sure you want to restore this record?"))
         {
-            var resp = await http.ApiPost(ControllerApi + "/delete/" + p.id);
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
             if (resp.IsSuccess)
             {
@@ -206,11 +237,21 @@
         var PriceRule = new PriceRuleModel();
         PriceRule = p;
         PriceRule.status = !PriceRule.status;
-        var resp = await http.ApiPost(ControllerApi + $"/status/{p.id}");
+        var resp = await http.ApiPost(controller_api + $"/status/{p.id}");
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);
             await LoadData();
         }
+    }
+
+    async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.pager.order_by = m.default_order_by;
+        state.pager.order_by_type = m.default_order_by_type;
+        state.page_title = m.title;
+        await LoadData();
     }
 }
