@@ -16,19 +16,22 @@
         <ValidationMessage For="@(() => model.vendor_name)" />
     </TextInput>
 
-    <SelectVendorGroup @bind-selected_value="@model.vendor_group_id"/>
+    <SelectVendorGroup @bind-selected_value="@model.vendor_group_id" show_empty="true">
+        <ValidationMessage For="@(()=>model.vendor_group_id)" />
+    </SelectVendorGroup>
 
     <TextInput label="Company Name" @bind-text="@model.company_name" />
     
-    <SelectProvince @bind-selected_value="@model.province_id"/>
+    <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
+        <ValidationMessage For="@(()=>model.province_id)" /> 
+    </SelectProvince>
 
     <TextInput label="Email" @bind-text="@model.email_address" />
 
     <TextInput label="Office Phone" @bind-text="@model.office_phone" />
 
     <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
-
-
+     
 
     <SelectStatus @bind-selected_value="@model.status" />
 
