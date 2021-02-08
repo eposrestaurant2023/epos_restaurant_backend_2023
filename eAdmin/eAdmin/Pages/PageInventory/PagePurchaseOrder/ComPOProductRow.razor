@@ -19,9 +19,19 @@
         </div> 
         <div>
             <Icon OnClick="@(()=> { purchase_order_product.is_add_note = !purchase_order_product.is_add_note; })" icon="chat" />
-            <Column is_visible="@purchase_order_product.is_add_note">
+
+            @if (purchase_order_product.is_add_note)
+            {
+            <div>
                 <TextInput @bind-text="@purchase_order_product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
-            </Column>
+            </div>
+            }
+            else
+            {
+                <Column is_visible="@(!string.IsNullOrEmpty(purchase_order_product.note))" ClassName="text-area wrp-comment-tt text-muted">
+                    @purchase_order_product.note
+                </Column>
+            }
         </div>
     </div>
 </td>

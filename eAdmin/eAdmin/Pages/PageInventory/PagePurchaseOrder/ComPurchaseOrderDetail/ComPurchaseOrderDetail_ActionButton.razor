@@ -6,7 +6,7 @@
 <Loading is_loading="@is_loading" />
 <ButtonGroup>
     <Button title="Print" icon="print" is_visible="@(po.is_deleted == false && po.status == true)" OnClick="Print_Click" />
-    <Button roles="@gv.GetRole("purchase_order_edit")" OnClick="@(()=>nav.NavigateTo($"inventory/purchaseorder/edit/{po.id}"))" icon="edit" title="Edit" is_visible="@(po.can_edit && !po.is_fulfilled)" />
+    <Button roles="@gv.GetRole("purchase_order_edit")" OnClick="@(()=>nav.NavigateTo($"purchaseorder/edit/{po.id}"))" icon="edit" title="Edit" is_visible="@(po.can_edit && !po.is_fulfilled)" />
     <Button roles="@gv.GetRole("purchase_order_payment_add")" icon="payment" title="Add Payment" is_visible="@(po.is_deleted == false && po.status == true && po.balance > 0)" OnClick="@OnAddPayment">
         (@po.payments.Where(r=>!r.is_deleted).Count())
     </Button>
@@ -19,7 +19,7 @@
                      File="@file"
                      IsVisible="@(!po.is_deleted)" />
 
-<AddButton roles="@gv.GetRole("purchase_order_add")" url="inventory/purchaseorder/new">New Purchase Order</AddButton>
+<AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">New Purchase Order</AddButton>
 <MoreButton is_loading="@po.is_loading">
     <MoreButtonItem roles="@gv.GetRole("purchase_order_edit")" icon="cached" is_visible="@po.is_fulfilled" OnClick="@CancelFulfilled_Click">Cancel Fulfilled</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@po.can_delete" OnClick="@DeleteInvoice_Click">Delete Invoice</MoreButtonItem>
