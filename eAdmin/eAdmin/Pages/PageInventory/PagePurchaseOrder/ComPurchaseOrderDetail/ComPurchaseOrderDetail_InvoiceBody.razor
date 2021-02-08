@@ -9,7 +9,7 @@
             <Image ImageUrl="@http.ImageUrl(sp.product.photo)" data-caption="@sp.product?.product_display_name" PopupImageUrl="@http.ImageUrl(sp.product.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
         </TdCenter>
         <td class="cust_wirth_space">
-            <ComAuthorize roles="@gv.GetRole("product_view")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
+            <ComAuthorize roles="@gv.GetRole("product_management")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
                 <div>@sp.product?.product_display_name</div>
             </ComAuthorize>
             <div>

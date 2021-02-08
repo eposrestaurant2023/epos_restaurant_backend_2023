@@ -1,21 +1,21 @@
-﻿@*@inject IHttpService http;
+﻿@inject IHttpService http;
 @inject IMatToaster toast;
 @inject IJSRuntime js
 @if (!is_loading)
 {
     <UIGridCenter>
-        <UIContainerBox Title="Payment History" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = 0; })" show_print="@(po.active_payments.Count() > 0)" OnPrint="@(()=>is_print = true)">
+        <UIContainerBox Title="Payment History" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = Guid.Empty; })" show_print="@(po.active_payments.Count() > 0)" OnPrint="@(()=>is_print = true)">
           @if (po.active_payments.Count() > 0)
             {
                 @foreach (var p in po.active_payments.OrderByDescending(r => r.created_date))
                 {
-                    <UIListBox ImageUrl="@p.payment_type?.payment_type_image">
+                    <UIListBox ImageUrl="@p.payment_type?.photo">
                         <ContentLeft>
                             <div>
-                                <ComAuthorize roles="@gv.GetRole("purchase_order_management")" url="@("inventory/purchaseorder/"+p.purchase_order_id)">@p.purchase_order?.document_number</ComAuthorize>
+                                <ComAuthorize roles="@gv.GetRole("purchase_order_management")" url="@("purchaseorder/"+p.purchase_order_id)">@p.purchase_order?.document_number</ComAuthorize>
                             </div>
                             <div>
-                                <span>@p.payment_type?.payment_type_name</span>
+                                <span>@p.payment_type?.payment_type_name_en</span>
                             </div>
                             <div>
                                 <span>@p.payment_date.ToString(gv.date_format)</span>
@@ -52,15 +52,15 @@
 
     @if (is_add_payment)
     { 
-        <ComPurchaseOrderDetail_AddPayment po_id="@po_id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload"/>
+        @*<ComPurchaseOrderDetail_AddPayment po_id="@po_id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload"/>*@
     }
     @if (is_print)
     {
-        <ComPreviewReport parent_id="117" report_id="185" id="sale_id" @bind-IsOpened="is_print" />
+        @*<ComPreviewReport parent_id="117" report_id="185" id="sale_id" @bind-IsOpened="is_print" />*@
     }
 }
 @code {
-    int payment_id = 0;
+    Guid payment_id = Guid.Empty;
     bool is_loading, is_add_payment, is_print;
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public PurchaseOrderModel po { get; set; } = new PurchaseOrderModel();
@@ -117,6 +117,7 @@
         {
             api_url = api_url + $" id eq {po.id}";
         }
+
         var resp = await http.ApiGetOData(api_url);
         List<PurchaseOrderModel> po_list = JsonSerializer.Deserialize<List<PurchaseOrderModel>>(resp.Content.ToString());
         po.payments = po_list.SelectMany(r => r.payments).ToList();
@@ -127,4 +128,4 @@
         await on_reload.InvokeAsync(true);
         await LoadPaymentHistory();
     }
-}*@
+}
