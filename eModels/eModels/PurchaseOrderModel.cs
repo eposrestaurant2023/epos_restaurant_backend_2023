@@ -86,18 +86,18 @@ namespace eModels
             }
             set { _discountable_amount = value; }
         }
-        private decimal _sale_product_discount_amount;
-        public decimal sale_product_discount_amount
+        private decimal _po_product_discount_amount;
+        public decimal po_product_discount_amount
         {
             get
             {
                 if (purchase_order_products.Count > 0)
                 {
-                    _sale_product_discount_amount = active_purchase_order_products.Sum(r => r.total_discount);
+                    _po_product_discount_amount = active_purchase_order_products.Sum(r => r.total_discount);
                 }
-                return _sale_product_discount_amount;
+                return _po_product_discount_amount;
             }
-            set { _sale_product_discount_amount = value; }
+            set { _po_product_discount_amount = value; }
         }
 
         private string _discount_type = "Percent"; //Percent and Amount;
@@ -193,7 +193,7 @@ namespace eModels
         {
             get
             {
-                _grand_total_discount = total_discount + sale_product_discount_amount;
+                _grand_total_discount = total_discount + po_product_discount_amount;
                 return _grand_total_discount;
             }
             set {

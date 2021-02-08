@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210208081833_remove_outlet_id_from_tbl_document_number")]
+    partial class remove_outlet_id_from_tbl_document_number
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1614,9 +1616,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("product_type_id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -1627,8 +1626,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("product_category_id");
-
-                    b.HasIndex("product_type_id");
 
                     b.ToTable("tbl_product");
                 });
@@ -1925,9 +1922,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("paid_amount")
                         .HasColumnType("decimal(16,4)");
 
-                    b.Property<decimal>("po_product_discount_amount")
-                        .HasColumnType("decimal(16,4)");
-
                     b.Property<DateTime>("purchase_date")
                         .HasColumnType("date");
 
@@ -1938,6 +1932,9 @@ namespace eAPI.Migrations
                     b.Property<string>("reference_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("sale_product_discount_amount")
+                        .HasColumnType("decimal(16,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -3269,15 +3266,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.ProductTypeModel", "product_type")
-                        .WithMany()
-                        .HasForeignKey("product_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("product_category");
-
-                    b.Navigation("product_type");
                 });
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>

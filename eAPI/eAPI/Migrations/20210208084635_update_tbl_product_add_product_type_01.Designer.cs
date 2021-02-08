@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210208084635_update_tbl_product_add_product_type_01")]
+    partial class update_tbl_product_add_product_type_01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1614,7 +1616,7 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("product_type_id")
+                    b.Property<int?>("product_type_id")
                         .HasColumnType("int");
 
                     b.Property<bool>("status")
@@ -3271,9 +3273,7 @@ namespace eAPI.Migrations
 
                     b.HasOne("eModels.ProductTypeModel", "product_type")
                         .WithMany()
-                        .HasForeignKey("product_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("product_type_id");
 
                     b.Navigation("product_category");
 

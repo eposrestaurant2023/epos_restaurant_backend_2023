@@ -6,9 +6,9 @@
             {
                 <option value="0">@empty_text</option>
             }
-            @foreach (var p in gv.customer_groups.Where(r => r.status  && !r.is_deleted))
+            @foreach (var p in gv.provinces)
             {
-                <option value="@p.id">@p.customer_group_name_en</option>
+                <option value="@p.id">@p.province_name</option>
             }
         </select>
         @ChildContent
