@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System;                         
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-//using eAPIClient.Models;
-using eModels;
+using eAPIClient.Models;     
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;         
 using NETCore.Encrypt;
 
 

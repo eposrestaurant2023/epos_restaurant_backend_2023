@@ -5,8 +5,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using eModels;
+using System.ComponentModel.DataAnnotations.Schema;   
+using eAPIClient.Models;
 ////using eAPIClient.Models;using eModels;
 
 
@@ -24,7 +24,7 @@ namespace eAPIClient
         {
             foreach (var property in builder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
             {
-                property.SetColumnType("decimal(16,4)");
+                property.SetColumnType("decimal(19,4)");
             }
 
             foreach (var property in builder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(string)))
@@ -43,6 +43,8 @@ namespace eAPIClient
         public DbSet<ProductModifierModel> ProductModifiers { get; set; }
         public DbSet<ProductPortionModel> ProductPortions { get; set; }
         public DbSet<ProductPriceModel> ProductPrices { get; set; }
+        public DbSet<WorkingDayModel> WorkingDays { get; set; }
+        public DbSet<CashierShiftModel> CashierShifts { get; set; }
 
 
     }

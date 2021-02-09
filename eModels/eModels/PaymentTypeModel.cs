@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using eShareModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eModels

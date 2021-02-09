@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-//using eAPIClient.Models;
+using System.Linq;              
+using System.Threading.Tasks;   
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NETCore.Encrypt;
+using Microsoft.EntityFrameworkCore;    
 using eAPIClient.Services;
 using Microsoft.Extensions.Configuration;
-using System.Text.Json;
-using eModels;
+using System.Text.Json;    
+using eAPIClient.Models;
 
 namespace eAPIClient.Controllers
 {
