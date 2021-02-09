@@ -22,10 +22,7 @@ namespace eAPIClient.Models
     public class UserBusinessBranchModel
     {
         public int user_id { get; set; }
-
         public UserModel user { get; set; }
-
-
         public Guid business_branch_id { get; set; }
    
     }

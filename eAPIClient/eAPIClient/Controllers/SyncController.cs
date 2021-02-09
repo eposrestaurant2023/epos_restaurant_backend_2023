@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using eAPIClient.Models;
+//using eAPIClient.Models;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +12,7 @@ using NETCore.Encrypt;
 using eAPIClient.Services;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
+using eModels;
 
 namespace eAPIClient.Controllers
 {

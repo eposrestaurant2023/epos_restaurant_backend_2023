@@ -20,6 +20,7 @@ namespace eAPIClient.Models
         public int id { get; set; }
     }
 
+
     public class KeyGUIDModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
