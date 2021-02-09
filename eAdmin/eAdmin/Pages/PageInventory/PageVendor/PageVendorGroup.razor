@@ -47,7 +47,7 @@
                 <RowTemplate Context="p">
                     <td>@p.vendor_group_name_en (@p.vendor_group_name_kh)</td>
                     <td>
-                        <LabelActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@p.status" is_loading="@p.is_change_status" />
+                        <LabelActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@(!p.is_deleted && p.status)" is_loading="@p.is_change_status" />
                         <LabelInActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@(!p.status && !p.is_deleted)" is_loading="@p.is_change_status" />
                         <LabelDeleted is_visible="@p.is_deleted"/>
                     </td>
