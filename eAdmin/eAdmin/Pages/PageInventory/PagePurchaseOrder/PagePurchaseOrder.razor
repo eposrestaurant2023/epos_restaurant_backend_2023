@@ -25,7 +25,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("purchase_order_add")" url="inventory/purchaseorder/new">New</AddButton>
+                <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">New</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
@@ -66,7 +66,7 @@
                         <TdCenter>@p.purchase_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("purchase_order_management")" url="@($"purchaseorder/{p.id}")">
-                                <div>@p.document_number</div>
+                                @p.document_number
                             </ComAuthorize>
                         </TdCenter>
                         <TdCenter>@p.reference_number</TdCenter>

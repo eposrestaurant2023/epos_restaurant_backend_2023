@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 namespace eModels
 {
     [Table("tbl_purchase_order_payment")]
-    public class PurchaseOrderPaymentModel : CoreModel
+    public class PurchaseOrderPaymentModel : CoreGUIDModel
     {
         public PurchaseOrderPaymentModel()
-        {
-            histories = new List<HistoryModel>();
+        { 
+            //
         }
-        public List<HistoryModel> histories { get; set; }
         public string reference_number { get; set; }
 
         public int payment_type_id { get; set; }
@@ -27,7 +26,7 @@ namespace eModels
 
         public int? purhcase_order_id { get; set; }
         [ForeignKey("purhcase_order_id")]
-        public PurchaseOrderModel purchase_order { get; set; } 
+        public PurchaseOrderModel purchase_order { get; set; }
 
         public decimal payment_amount { get; set; }
 

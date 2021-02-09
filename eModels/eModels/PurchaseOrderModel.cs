@@ -12,7 +12,7 @@ namespace eModels
         public PurchaseOrderModel()
         {
             purchase_order_products = new List<PurchaseOrderProductModel>();
-            payments = new List<PaymentModel>();
+            purchase_order_payments = new List<PurchaseOrderPaymentModel>();
             histories = new List<HistoryModel>();
         }
 
@@ -176,16 +176,16 @@ namespace eModels
         }
         public decimal paid_amount { get; set; }
         public bool is_paid { get; set; }
-        
-        public List<PaymentModel> payments { get; set; }
+
+        public List<PurchaseOrderPaymentModel> purchase_order_payments { get; set; }
         public List<PurchaseOrderProductModel> purchase_order_products { get; set; }
 
         [NotMapped, JsonIgnore]
-        public List<PaymentModel> active_payments
+        public List<PurchaseOrderPaymentModel> active_payments
         {
             get
             {
-                return payments.Where(r => !r.is_deleted).ToList();
+                return purchase_order_payments.Where(r => !r.is_deleted).ToList();
             }
         }
         private decimal _grand_total_discount { get; set; }

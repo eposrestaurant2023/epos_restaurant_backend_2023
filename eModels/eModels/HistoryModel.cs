@@ -40,6 +40,14 @@ namespace eModels
         [ForeignKey("customer_id")]
         public virtual CustomerModel customer { get; set; }       
         
+        public Guid? purchase_order_payment_id { get; set; }
+        [ForeignKey("purchase_order_payment_id")]
+        public virtual PurchaseOrderPaymentModel purchase_order_payment { get; set; }
+
+        public Guid? payment_id { get; set; }
+        [ForeignKey("payment_id")]
+        public virtual PaymentModel payment { get; set; }
+
         public int? vendor_id { get; set; }
         [ForeignKey("vendor_id")]
         public virtual VendorModel vendor { get; set; } 

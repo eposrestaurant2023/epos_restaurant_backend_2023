@@ -2,13 +2,13 @@
 
 namespace eAPI.Migrations
 {
-    public partial class xxxxxxx : Migration
+    public partial class status_ : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "is_deleted",
-                table: "tbl_product_printer",
+                name: "status",
+                table: "tbl_business_branch_price_rule",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -17,8 +17,8 @@ namespace eAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "is_deleted",
-                table: "tbl_product_printer");
+                name: "status",
+                table: "tbl_business_branch_price_rule");
         }
     }
 }
