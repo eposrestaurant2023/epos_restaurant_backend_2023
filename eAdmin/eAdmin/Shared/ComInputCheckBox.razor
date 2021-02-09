@@ -4,19 +4,28 @@
     {
         @if (label_inline)
         {
-            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                <label class="uk-form-label cp">
-
+            <div class="uk-form-horizontal">
+                <div class="uk-margin-small">
                     @if (!is_read_only)
                     {
-                        <input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label
+                        <label class="uk-form-label" for="@id">@label</label>
+                        <div class="uk-form-controls">
+                            <input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value">
+                        </div>
+
                     }
                     else
                     {
-                        <input disabled @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label
+                        <label class="uk-form-label" for="@id">@label</label>
+                        <div class="uk-form-controls">
+                            <input disabled @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value">
+                        </div>
+
                     }
-                </label>
+
+                </div>
             </div>
+          
         }
         else
         {

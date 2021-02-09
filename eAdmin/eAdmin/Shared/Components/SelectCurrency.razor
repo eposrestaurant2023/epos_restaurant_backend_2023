@@ -1,19 +1,22 @@
-﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id">@label</label>
-    <div class="uk-form-controls">
-        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
-            @if (show_empty)
-            {
-                <option value="0">@empty_text</option>
-            }
-            @foreach (var p in gv.currencies.Where(r => r.status))
-            {
-                <option value="@p.id">@p.currency_name_en</option>
-            }
-        </select>
-        @ChildContent
+﻿<div class="uk-form-horizontal">
+    <div class="uk-margin-small">
+        <label class="uk-form-label" for="@id">@label</label>
+        <div class="uk-form-controls">
+            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                @if (show_empty)
+                {
+                    <option value="0">@empty_text</option>
+                }
+                @foreach (var p in gv.currencies.Where(r => r.status))
+                {
+                    <option value="@p.id">@p.currency_name_en</option>
+                }
+            </select>
+            @ChildContent
+        </div>
     </div>
 </div>
+
 
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }

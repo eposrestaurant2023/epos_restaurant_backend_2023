@@ -38,24 +38,24 @@
                         <TextInput @bind-text="@model.payment_type_name_kh" label="Payment Type kh" />
                         <NumberInputInt @bind-text="@model.sort_order" label="Sort Order" width="100%" />
                         <TextInput label="Note" @bind-text="@model.note" type="textarea" />
-                        <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="Select Currency">
+                        <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="Select Currency" label="Currency">
                             <ValidationMessage For="@(()=>model.currency_id)" />
                         </SelectCurrency>
                         <SelectStatus @bind-selected_value="@model.status" />
 
                         @foreach (var b in business_branches)
                         {
-                            <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" /></div>
+                            <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true"/></div>
                         }
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ButtonGroup class_name="uk-width-1-1">
+                   
                         <Button type="submit" icon="save">Save</Button>
                         <LinkButton url="paymenttype" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
-                    </ButtonGroup>
+                  
                 </FooterCenter>
             </PageFooter>
         </EditForm>

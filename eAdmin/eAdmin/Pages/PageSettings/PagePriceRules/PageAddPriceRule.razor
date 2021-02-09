@@ -38,7 +38,7 @@
                         <SelectStatus @bind-selected_value="@price.status" />
                         @foreach (var b in business_branches)
                         {
-                            <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" /></div>
+                            <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" label_inline="true"/></div>
                         }
                     </UIContainerBox>
                 </UIGridCenter>
