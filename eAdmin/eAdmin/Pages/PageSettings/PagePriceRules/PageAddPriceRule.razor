@@ -31,15 +31,15 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="Payment Type">
+                    <UIContainerBox Title="Price Rule">
                         <TextInput label="Name" @bind-text="@price.price_name">
                             <ValidationMessage For="@(()=>price.price_name)" />
                         </TextInput>
+                        <SelectStatus @bind-selected_value="@price.status" />
                         @foreach (var b in business_branches)
                         {
                             <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" /></div>
                         }
-                        <SelectStatus @bind-selected_value="@price.status" />
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
