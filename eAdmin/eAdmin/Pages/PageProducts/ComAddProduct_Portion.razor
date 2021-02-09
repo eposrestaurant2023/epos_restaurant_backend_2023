@@ -105,14 +105,14 @@
             if (data.Any())
             {
                 int default_price_rule_id = data.FirstOrDefault().price_rule_id;
-                
+
             }
 
         }
         is_loading = false;
     }
 
-  
+
 
     void OnChangeStatus(PriceRuleModel p)
     {
@@ -142,7 +142,9 @@
 
     bool IsPriceRuleActive(PriceRuleModel p)
     {
-        return model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.price_rule_id == p.id).FirstOrDefault().status;
+        
+            return model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.price_rule_id == p.id).FirstOrDefault().status;
+       
     }
 
 
