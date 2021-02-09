@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using eShareModel;
 
-namespace eModels
+namespace eAPIClient.Models
 {
     [Table("tbl_sale")]
     public class SaleModel : SaleShareModel
@@ -13,16 +13,11 @@ namespace eModels
         public SaleModel()
         {
             payments = new List<PaymentModel>();
-            histories = new List<HistoryModel>();
         }
-
-        public List<HistoryModel> histories { get; set; }
         public int outlet_id { get; set; }
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
         public Guid? business_branch_id { get; set; }
-        [ForeignKey("business_branch_id")]
-        public BusinessBranchModel business_branch { get; set; }
         public Guid customer_id { get; set; }
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }

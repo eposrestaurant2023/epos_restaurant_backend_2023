@@ -5,18 +5,12 @@ using System.Text;
 using System.Text.Json.Serialization;
 using eShareModel;
 
-namespace eModels
+namespace eAPIClient.Models
 {
 
     [Table("tbl_payment")]
     public class PaymentModel : PaymentShareModel
     {
-        public PaymentModel()
-        {
-            histories = new List<HistoryModel>();
-        }
-        public List<HistoryModel> histories { get; set; }
-
         public int payment_type_id { get; set; }
         [ForeignKey("payment_type_id")]
         public PaymentTypeModel payment_type { get; set; }

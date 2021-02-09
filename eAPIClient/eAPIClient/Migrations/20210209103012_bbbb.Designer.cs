@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210209103012_bbbb")]
+    partial class bbbb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -890,59 +892,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_sale_product");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.StationModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_already_config")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("station_name_en")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("station_name_kh")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("outlet_id");
-
-                    b.ToTable("tbl_station");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.UserModel", b =>
                 {
                     b.Property<int>("id")
@@ -1163,17 +1112,6 @@ namespace eAPIClient.Migrations
                     b.Navigation("product_type");
 
                     b.Navigation("sale");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.StationModel", b =>
-                {
-                    b.HasOne("eAPIClient.Models.OutletModel", "outlet")
-                        .WithMany()
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.CustomerGroupModel", b =>
