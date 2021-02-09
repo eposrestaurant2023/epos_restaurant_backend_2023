@@ -33,8 +33,8 @@
 }
 .ribbon {
     position: absolute;
-    left: -5px;
-    top: -5px;
+    left: -4px;
+    top: -10px;
     z-index: 1;
     overflow: hidden;
     width: 75px;
@@ -42,45 +42,45 @@
     text-align: right;
 }
 
-    .ribbon span {
-        font-size: 10px;
-        font-weight: bold;
-        color: #FFF;
-        text-transform: uppercase;
-        text-align: center;
-        line-height: 20px;
-        transform: rotate( -45deg );
-        -webkit-transform: rotate( -45deg );
-        width: 81px;
-        display: block;
-        background: #79A70A;
-        background: linear-gradient(#5899dc 0%, #5899dc 100%);
-        box-shadow: 0 3px 10px -5px rgb(0 0 0);
-        position: absolute;
-        top: 13px;
-        left: -19px;
-    }
+.ribbon span {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFF;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 20px;
+    transform: rotate( -45deg );
+    -webkit-transform: rotate( -45deg );
+    width: 81px;
+    display: block;
+    background: #79A70A;
+    background: linear-gradient(#5899dc 0%, #5899dc 100%);
+    box-shadow: 0 3px 10px -5px rgb(0 0 0);
+    position: absolute;
+    top: 13px;
+    left: -19px;
+}
 
-        .ribbon span::before {
-            content: "";
-            position: absolute;
-            left: 0px;
-            top: 100%;
-            z-index: -1;
-            border-left: 3px solid #5899dc;
-            border-right: 3px solid transparent;
-            border-bottom: 3px solid transparent;
-            border-top: 3px solid #5899dc;
-        }
+.ribbon span::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 100%;
+    z-index: -1;
+    border-left: 3px solid #5899dc;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #5899dc;
+}
 
-        .ribbon span::after {
-            content: "";
-            position: absolute;
-            right: 0px;
-            top: 100%;
-            z-index: -1;
-            border-left: 3px solid transparent;
-            border-right: 3px solid #5899dc;
-            border-bottom: 3px solid transparent;
-            border-top: 3px solid #5899dc;
-        }
+.ribbon span::after {
+    content: "";
+    position: absolute;
+    right: 0px;
+    top: 100%;
+    z-index: -1;
+    border-left: 3px solid transparent;
+    border-right: 3px solid #5899dc;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #5899dc;
+}

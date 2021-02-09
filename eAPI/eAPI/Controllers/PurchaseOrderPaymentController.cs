@@ -106,30 +106,30 @@ namespace eAPI.Controllers
             return Ok(p);
              
         }
- 
 
 
-        //[HttpPost]
-        //[Route("delete/{id}")]
-        //public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
-        //{
 
-        //    PurchaseOrderPaymentModel p = db.PurchaseOrderPayments.Find(id);
-        //    SaleModel s = db.Sales.Find(p.sale_id);
-        //    HistoryModel h = new HistoryModel("Delete Sale Payment");
-        //    h.description = $"Delete Sale Payment. Invoice Number: {s.document_number}";
-        //    h.document_number = s.document_number;
-        //    h.customer_id = s.customer_id;
-        //    h.sale_id = s.id;
-        //    p.histories.Add(h);
-        //    p.is_deleted = true;
-        //    db.PurchaseOrderPayments.Update(p);
-        //    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+        [HttpPost]
+        [Route("delete/{id}")]
+        public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
+        {
 
-        //    db.Database.ExecuteSqlRaw("exec  sp_update_sale_payment " + p.sale_id);
-        //    return Ok(h);
-             
-        //}
+            PurchaseOrderPaymentModel p = db.PurchaseOrderPayments.Find(id);
+            PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
+            HistoryModel h = new HistoryModel("Delete PO Payment");
+            h.description = $"Delete PO Payment. Invoice Number: {s.document_number}";
+            h.document_number = s.document_number;
+            h.vendor_id = s.vendor_id;
+            h.purchase_order_id = s.id;
+            p.histories.Add(h);
+            p.is_deleted = true;
+            db.PurchaseOrderPayments.Update(p);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw("exec  sp_update_purchase_order_payment " + p.purchase_order_id);
+            return Ok(h);
+
+        }
 
     }
 }

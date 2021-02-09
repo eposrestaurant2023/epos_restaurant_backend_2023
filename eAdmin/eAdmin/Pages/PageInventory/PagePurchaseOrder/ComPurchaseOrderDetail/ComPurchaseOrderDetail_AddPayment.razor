@@ -139,13 +139,10 @@
         if (resp.IsSuccess)
         {
             po = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
-
         }
         else
         {
-
             toast.Add("Can not get PO ID.", MatToastType.Warning);
-
         }
     }
     async Task LoadPayment()
