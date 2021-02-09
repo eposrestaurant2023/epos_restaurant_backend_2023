@@ -1,19 +1,24 @@
 ﻿@typeparam TItem
 <Com is_visible="@(!string.IsNullOrEmpty(InputLabel))">
-    <label class="uk-form-label" for="@id">@InputLabel</label>
-    <div class="wrp-input uk-form-controls">
-        <Icon className="uk-form-icon" icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" />
-        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small">
-            <Com is_visible="@ShowEmptyText">
-                <option value="@(Guid.Empty)">@EmptyText</option>
-            </Com>
-            @foreach (var item in Items)
-            {
-                @SelectOptions(item)
-            }
-        </select>
-        @ValidationTemplate
+    <div class="uk-form-horizontal">
+        <div class="uk-margin-small">
+            <label class="uk-form-label" for="@id">@InputLabel</label>
+            <div class="wrp-input uk-form-controls">
+                <Icon className="uk-form-icon" icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" />
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small">
+                    <Com is_visible="@ShowEmptyText">
+                        <option value="@(Guid.Empty)">@EmptyText</option>
+                    </Com>
+                    @foreach (var item in Items)
+                    {
+                        @SelectOptions(item)
+                    }
+                </select>
+                @ValidationTemplate
+            </div>
+        </div>
     </div>
+  
 </Com>
 <Com is_visible="@string.IsNullOrEmpty(InputLabel)">
     <div class="wrp-input uk-form-controls">

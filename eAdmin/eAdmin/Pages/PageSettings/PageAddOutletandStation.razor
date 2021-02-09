@@ -35,7 +35,7 @@
                                 <ValidationMessage For="@(() => model.business_branch_id )" />
                             </ValidationTemplate>
                         </SelectGUID>
-                        <ComInputCheckBox @bind-value="@model.status" label="Status" />
+                        <ComInputCheckBox @bind-value="@model.status" label="Status" label_inline="true"/>
 
                     </UIContainerBox>
                     <UIContainerBox Title="Station Info" is_show_add_button="true" OnAddClick="@(()=>Add_station())">
@@ -69,10 +69,8 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ButtonGroup class_name="uk-width-1-1">
-                        <Button type="submit" icon="save">Save</Button>
-                        <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
-                    </ButtonGroup>
+                    <Button type="submit" icon="save">Save</Button>
+                    <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
                 </FooterCenter>
             </PageFooter>
 
