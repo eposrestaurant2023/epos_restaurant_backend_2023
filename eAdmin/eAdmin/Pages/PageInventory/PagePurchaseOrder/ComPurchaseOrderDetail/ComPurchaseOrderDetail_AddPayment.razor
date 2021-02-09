@@ -113,7 +113,7 @@
         }
         else
         {
-            model.purhcase_order_id = po_id;
+            model.purchase_order_id = po_id;
         }
 
         //load default payment
@@ -150,7 +150,7 @@
     }
     async Task LoadPayment()
     {
-        var resp = await http.ApiGet($"Payment({id})");
+        var resp = await http.ApiGet($"PurchaseOrderPayment({id})");
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<PurchaseOrderPaymentModel>(resp.Content.ToString());
@@ -158,7 +158,6 @@
         }
         else
         {
-
             toast.Add("Error Loading Payment.", MatToastType.Warning);
 
         }
@@ -186,8 +185,9 @@
             is_saving = false;
             return;
         }
-
-        var resp = await http.ApiPost("payment/purchaseorder/save", model);
+         
+        
+        var resp = await http.ApiPost("PurchaseOrderPayment/save", model);
         if (resp.IsSuccess)
         {
             await OnSave.InvokeAsync(true);

@@ -1,5 +1,5 @@
-﻿@inject IHttpService http;
-@inject IMatToaster toast;
+﻿@inject IHttpService http
+@inject IMatToaster toast
 @inject IJSRuntime js
 @if (!is_loading)
 {
@@ -12,7 +12,7 @@
                     <UIListBox ImageUrl="@p.payment_type?.photo">
                         <ContentLeft>
                             <div>
-                                <ComAuthorize roles="@gv.GetRole("purchase_order_management")" url="@("purchaseorder/"+p.purhcase_order_id)">@p.purchase_order?.document_number</ComAuthorize>
+                                <ComAuthorize roles="@gv.GetRole("purchase_order_management")" url="@("purchaseorder/"+p.purchase_order_id)">@p.purchase_order?.document_number</ComAuthorize>
                             </div>
                             <div>
                                 <span>@p.payment_type?.payment_type_name_en</span>
@@ -84,7 +84,7 @@
     void EditPayment_Click(PurchaseOrderPaymentModel p)
     {
         payment_id = p.id;
-        po.id = Convert.ToInt32(p.purhcase_order_id);
+        po.id = Convert.ToInt32(p.purchase_order_id);
         is_add_payment = true;
     }
 
