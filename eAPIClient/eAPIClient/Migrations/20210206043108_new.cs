@@ -119,13 +119,13 @@ namespace eAPIClient.Migrations
                         column: x => x.menu_id,
                         principalTable: "tbl_menu",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_tbl_product_menu_tbl_product_product_id",
                         column: x => x.product_id,
                         principalTable: "tbl_product",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,7 +145,7 @@ namespace eAPIClient.Migrations
                         column: x => x.product_id,
                         principalTable: "tbl_product",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,7 +167,7 @@ namespace eAPIClient.Migrations
                         column: x => x.product_id,
                         principalTable: "tbl_product",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,7 +187,7 @@ namespace eAPIClient.Migrations
                         column: x => x.product_id,
                         principalTable: "tbl_product",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
