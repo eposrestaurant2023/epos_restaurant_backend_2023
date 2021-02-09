@@ -7,7 +7,7 @@
             <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
         </div>
     </div>
-    <DateInput label="PO Date" value="@model.purchase_date" valueChanged="@onDateChange" icon="layers" />
+    <DateInput label="PO Date" value="@model.purchase_date" valueChanged="@OnDateChange" icon="layers" />
     <SelectBusinessBranch @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
     <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
 </div>
@@ -16,7 +16,7 @@
     [Parameter] public PurchaseOrderModel model { get; set; }
     [Parameter] public EventCallback<PurchaseOrderModel> modelChanged { get; set; }
       
-    async Task onDateChange(DateTime date)
+    async Task OnDateChange(DateTime date)
     {
         model.purchase_date = date;
         await modelChanged.InvokeAsync(model);

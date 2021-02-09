@@ -1,5 +1,5 @@
 ﻿@inherits PageCore;
-<ComPurchaseOrderDetail_RibbonStatus po="po" /> 
+<ComPurchaseOrderDetail_RibbonStatus po="po" />
     <div class="btn_show_logo" @onclick="@ShowHideLogo">@(state.pager.show_logo ? "Hide Logo" : "Show Logo") <span uk-icon="icon: image; ratio: 0.8;"></span></div>
     <PageHeader is_subpage="true">
         <HeaderLeft ClassName="uk-flex-top">
@@ -45,7 +45,6 @@
             <div class="box-invoice-header-info">
                 <div class="invoice-header-title">Invoice Information</div>
                 <table class="invoice_header_description">
-
                     <tr>
                         <td>Invoice Date:</td>
                         <td>@po.purchase_date.ToString(gv.date_format)</td>

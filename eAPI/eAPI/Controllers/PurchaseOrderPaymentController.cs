@@ -58,7 +58,7 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] PurchaseOrderPaymentModel p)
         {
-            //validat check if payment is over sale amount
+            //validat check if payment is over PO amount
             PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
             if (p.id == Guid.Empty)
             {
@@ -82,8 +82,8 @@ namespace eAPI.Controllers
             }
             //end check validation
 
-            HistoryModel h = new HistoryModel($"{(p.id != Guid.Empty? "Update Sale Payment":"Create New Payment" )}");
-            h.description = $"{(p.id != Guid.Empty ? "Update sale payment." : "Create new payment.")} Invoice Number: {s.document_number}";
+            HistoryModel h = new HistoryModel($"{(p.id != Guid.Empty? "Update PO Payment":"Create New Payment" )}");
+            h.description = $"{(p.id != Guid.Empty ? "Update PO payment." : "Create new payment.")} Invoice Number: {s.document_number}";
             h.document_number = s.document_number;
             h.vendor_id = s.vendor_id;
             h.purchase_order_id = s.id;
@@ -111,13 +111,13 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<HistoryModel>> DeleteRecord(Guid id) //Delete
         {
 
             PurchaseOrderPaymentModel p = db.PurchaseOrderPayments.Find(id);
             PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
-            HistoryModel h = new HistoryModel("Delete PO Payment");
-            h.description = $"Delete PO Payment. Invoice Number: {s.document_number}";
+            HistoryModel h = new HistoryModel("Deleted PO Payment");
+            h.description = $"Deleted PO Payment. Invoice Number: {s.document_number}";
             h.document_number = s.document_number;
             h.vendor_id = s.vendor_id;
             h.purchase_order_id = s.id;

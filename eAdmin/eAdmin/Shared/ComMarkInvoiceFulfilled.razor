@@ -1,0 +1,26 @@
+﻿<Com is_visible="@is_visible">
+    <div style="min-width: 794px">
+        <ComAlert type="success" show_close="false">
+            <Grid ClassName="uk-grid-small">
+                <div class="uk-width-auto">
+                    <Icon icon="help" size="50px" icon_color="#32d296" />
+                </div>
+                <div class="uk-width-expand">
+                    <p class="uk-text-bold">@title</p>
+                    <p>@message</p>
+                </div>
+                <div class="uk-width-auto">
+                    <Button OnClick="@OnClick" class_name="fulfilled">Mark as Fulfilled</Button>
+                </div>
+            </Grid>
+        </ComAlert>
+        <Spacing Number="25" />
+    </div>
+    
+</Com>
+@code {
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string title { get; set; } = "What Next?";
+    [Parameter] public string message { get; set; } = "You can mark this invoice as Fulfilled.";
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

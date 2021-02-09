@@ -186,7 +186,10 @@ namespace eModels
         {
             get
             {
-                return purchase_order_payments.Where(r => !r.is_deleted).ToList();
+                if (purchase_order_payments.Any())
+                    return purchase_order_payments.Where(r => !r.is_deleted).ToList();
+                else
+                    return new List<PurchaseOrderPaymentModel> ();
             }
         }
         private decimal _grand_total_discount { get; set; }

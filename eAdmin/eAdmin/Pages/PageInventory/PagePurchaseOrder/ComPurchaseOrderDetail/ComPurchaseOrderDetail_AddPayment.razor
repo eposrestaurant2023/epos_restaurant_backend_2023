@@ -21,7 +21,6 @@
                     <NumberInput @bind-text="@model.payment_amount" label="Payment Amount" />
                 </UIContainerBox>
 
-
                 <UIContainerBox Icon="notes" Title="Notes">
                     <TextInput @bind-text="@model.payment_note" type="textarea" placeholder="Enter notes..." />
                 </UIContainerBox>
@@ -172,7 +171,7 @@
 
         if (model.payment_amount > po_balance)
         {
-            toast.Add("Payment amount cannot greater than sale balance.", MatToastType.Warning);
+            toast.Add("Payment amount cannot greater than po balance.", MatToastType.Warning);
             is_saving = false;
             return;
         }
@@ -194,7 +193,7 @@
         else
         {
             await OnSave.InvokeAsync(false);
-            toast.Add("Cannot add payment ", MatToastType.Warning);
+            toast.Add("Cannot add payment.", MatToastType.Warning);
             is_saving = false;
             return;
         }
