@@ -53,6 +53,7 @@
                         @HeaderTemplate("vendor_code", "Code", "uk-text-center")
                         @HeaderTemplate("vendor_name", "Vendor Name", "uk-text-left")
                         @HeaderTemplate("company_name", "Company Name", "uk-text-left")
+                        @HeaderTemplate("vendor_group_name_en", "Vendor Group", "uk-text-left")
                         @HeaderTemplate("mobile_phone", "Mobile Phone", "uk-text-center")
                         @HeaderTemplate("office_phone", "Office Phone", "uk-text-center")
                         @HeaderTemplate("total_payable", "Total Payable", "uk-text-right")
@@ -75,6 +76,9 @@
 
                         <td>
                             @p.company_name
+                        </td>
+                        <td>
+                            @p.vendor_group?.vendor_group_name_en
                         </td>
                         <TdCenter>
                             @p.mobile_phone

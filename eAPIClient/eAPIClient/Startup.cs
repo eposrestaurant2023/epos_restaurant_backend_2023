@@ -3,27 +3,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;      
+using System.Linq;               
+using Microsoft.EntityFrameworkCore;          
 using Microsoft.AspNetCore.Authentication;
 using eAPIClient.Helpers;
 using eAPIClient.Services;
 using Microsoft.OData.Edm;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
-//using eAPIClient.Models;
-using eModels;
-using Microsoft.AspNet.OData.Routing;
-using Microsoft.AspNet.OData.Routing.Conventions;
-using System.Web.Http;
-
+using eAPIClient.Models;     
 namespace eAPIClient
 {
     public class Startup

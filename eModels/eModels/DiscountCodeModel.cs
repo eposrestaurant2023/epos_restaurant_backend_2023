@@ -1,4 +1,5 @@
 ﻿using eModels.Attribute;
+using eShareModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

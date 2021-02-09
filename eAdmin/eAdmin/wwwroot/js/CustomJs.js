@@ -32,7 +32,7 @@ function SetActiveMenu() {
     $(".uk-nav-sub a").closest(".uk-parent").removeClass('uk-open');
 
     $(".uk-nav-sub .active").closest(".uk-parent").children("a").addClass('active');
-    $(".uk-nav-sub a").closest(".uk-nav-sub").attr("aria-hidden", "true").attr("hidden","hidden");
+    $(".uk-nav-sub a").closest(".uk-nav-sub").attr("aria-hidden", "true").attr("hidden", "hidden");
 
     $(".uk-nav-sub .active").closest(".uk-parent").addClass("uk-open");
     $(".uk-nav-sub .active").closest(".uk-nav-sub").attr("aria-hidden", "false").removeAttr("hidden");

@@ -1,5 +1,5 @@
-﻿@inject IHttpService http;
-@inject IMatToaster toast;
+﻿@inject IHttpService http
+@inject IMatToaster toast
 @inject IJSRuntime js
 @if (!is_loading)
 {
@@ -12,7 +12,7 @@
                     <UIListBox ImageUrl="@p.payment_type?.photo">
                         <ContentLeft>
                             <div>
-                                <ComAuthorize roles="@gv.GetRole("purchase_order_management")" url="@("purchaseorder/"+p.purhcase_order_id)">@p.purchase_order?.document_number</ComAuthorize>
+                                <ComAuthorize roles="@gv.GetRole("purchase_order_management")" url="@("purchaseorder/"+p.purchase_order_id)">@p.purchase_order?.document_number</ComAuthorize>
                             </div>
                             <div>
                                 <span>@p.payment_type?.payment_type_name_en</span>
@@ -34,10 +34,10 @@
                                 </div>
                             </div>
                             <Spacing Number="10" />
-                            <Column ClassName="uk-text-right" is_visible="@(!is_parent_deleted)">
-                                <Icon icon="print" OnClick="@(()=>is_print = true)" roles="@gv.GetRole("sale_edit")" title="Print" />
-                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" roles="@gv.GetRole("sale_edit")" title="Edit" />
-                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("sale_payment_delete")" title="Delete" />
+                            <Column ClassName="uk-text-right">
+                                <Icon icon="print" OnClick="@(()=>is_print = true)" roles="@gv.GetRole("purchase_order_edit")" title="Print" />
+                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" roles="@gv.GetRole("purchase_order_edit")" title="Edit" />
+                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("purchase_order_payment_delete")" title="Delete" />
                             </Column>
                         </ContentRight>
                     </UIListBox>
@@ -66,8 +66,7 @@
     [Parameter] public PurchaseOrderModel po { get; set; } = new PurchaseOrderModel();
 
     [Parameter] public int vendor_id { get; set; }
-    [Parameter] public int po_id { get; set; }
-    [Parameter] public bool is_parent_deleted { get; set; } = false;
+    [Parameter] public int po_id { get; set; } 
     [Parameter] public EventCallback<bool> on_reload { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -84,7 +83,7 @@
     void EditPayment_Click(PurchaseOrderPaymentModel p)
     {
         payment_id = p.id;
-        po.id = Convert.ToInt32(p.purhcase_order_id);
+        po.id = Convert.ToInt32(p.purchase_order_id);
         is_add_payment = true;
     }
 
@@ -93,7 +92,7 @@
     {
         if (await js.Confirm("Delete payment", "Are you sure you want to delete this payment?", SweetAlertMessageType.question))
         {
-            var resp = await http.ApiPost("payment/purchaseorder/delete/" + p.id);
+            var resp = await http.ApiPost("PurchaseOrderPayment/delete/" + p.id);
             if (resp.IsSuccess)
             {
                 toast.Add("Delete payment successfully", MatToastType.Success);

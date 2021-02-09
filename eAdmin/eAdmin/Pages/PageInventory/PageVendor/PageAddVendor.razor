@@ -29,7 +29,7 @@
             </HeaderRight>
         </PageHeader>
         <EditForm Model="@model" OnValidSubmit="@Save_Click">
-            <ValidationSummary />
+            <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox Title="Vendor Photo" ClassName="uk-text-center">
@@ -41,7 +41,7 @@
                         <TextInput label="Code" text="@model.vendor_code" is_read_only="true">
                             <ValidationMessage For="@(()=>model.vendor_code)" />
                         </TextInput>
-                        <SelectInt Items="@vendor_group" @bind-SelectedValue="@model.vendor_group_id" ShowEmptyText="true" EmptyText="Select Vendor Group">
+                        <SelectInt Items="@vendor_group" @bind-SelectedValue="@model.vendor_group_id" ShowEmptyText="true" EmptyText="Select Vendor Group" InputLabel="Vendor Group">
                             <SelectOptions Context="b">
                                 <option value="@b.id">@b.vendor_group_name_en</option>
                             </SelectOptions>
@@ -52,23 +52,23 @@
                         <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
                             <ValidationMessage For="@(()=>model.province_id)" />
                         </SelectProvince>
-                        <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
+                        <TextInput label="Vendor Name" @bind-text="@model.vendor_name" >
                             <ValidationMessage For="@(() => model.vendor_name)" />
                         </TextInput>
                         <TextInput label="Company Name" @bind-text="@model.company_name" />
                         <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
                         <TextInput label="Office Phone" @bind-text="@model.office_phone" />
-                        <TextInput label="Address" type="textarea" @bind-text="@model.address"/>
-                        <TextInput label="Note" type="textarea" @bind-text="@model.note"/>
+                        <TextInput label="Address" type="textarea" @bind-text="@model.address" />
+                        <TextInput label="Note" type="textarea" @bind-text="@model.note" />
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                   
-                        <Button type="submit" icon="save" class_name="uk-button uk-button-primary button-large" is_visible="@(!is_saving)">Save</Button>
-                        <Button  is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
-                  
+
+                    <Button type="submit" icon="save" class_name="uk-button uk-button-primary button-large" is_visible="@(!is_saving)">Save</Button>
+                    <Button is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
+
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -147,6 +147,7 @@
 
     async Task Save_Click(EditContext editContext)
     {
+       
         model.vendor_group = null;
         VendorModel d = model;
         if (!is_saving)
