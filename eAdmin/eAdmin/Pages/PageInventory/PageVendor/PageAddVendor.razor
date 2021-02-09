@@ -159,10 +159,11 @@
             var res = await http.ApiPost($"{controller_api}/save", save_outlet);
             if (res.IsSuccess)
             {
-                obj = JsonSerializer.Deserialize<OutletModel>(res.Content.ToString());
+                var v = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
 
                 toast.Add("Saving successfully", MatToastType.Success);
-                nav.NavigateTo($"vendor/{id}");
+
+                nav.NavigateTo($"vendor/{v.id}");
             }
             else
             {

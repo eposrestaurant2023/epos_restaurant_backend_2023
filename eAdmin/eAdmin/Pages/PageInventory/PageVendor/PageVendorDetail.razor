@@ -1,0 +1,123 @@
+﻿@page "/vendor/{id:int}"
+@inherits eAdmin.Pages.PageVendors.PageVendorDetail
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@if (!is_loading && !is_error)
+{
+
+    <Title Value="@($"Vendor | {model.vendor_name}")"></Title>
+    <PageContainer roles="@gv.GetRole("vendor_view")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @model.vendor_display_name 
+                        <LabelDeleted is_visible="@model.is_deleted" />
+                        <LabelActive is_visible="@(!model.is_deleted && model.status)" />
+                        <LabelInActive is_visible="@(!model.is_deleted && !model.status)" />
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"vendor/edit/{model.id}"))" is_visible="@(!model.is_deleted)"/>
+                <RefreshButton OnClick="@LoadData" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab ClassName="control-header-tab">
+                <TabHeader>
+                    <TabHeaderItem>Overview</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)">Sale History</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)">Sale Product History</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">Comments</TabHeaderItem>
+                </TabHeader>
+                <TabBody>
+                    <TabItem>
+                        <UIGridCenter>
+                            <UISummaryBox ImageUrl="@model.photo">
+                                <ContentLeft>
+                                    <table>
+                                        <tr>
+                                            <th>Vendor Name</th>
+                                            <td>@model.vendor_name</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company</th>
+                                            <td>@model.company_name</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Vendor Group</th>
+                                            <td>@model.vendor_group?.vendor_group_name_en</td>
+                                        </tr>
+
+                                    </table>
+                                </ContentLeft>
+                                <ContentRight>
+                                    <table>
+                                        <tr>
+                                            <th>Mobile Phone</th>
+                                            <td>@model.mobile_phone</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Office Phone</th>
+                                            <td>@model.office_phone</td>
+                                        </tr>
+                                       
+
+                                        <tr>
+                                            <th></th>
+                                            <td>
+                                                <div class="uk-text-large">000</div>
+                                                <div class="uk-text-small uk-text-italic">Credit Ballance</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </ContentRight>
+                            </UISummaryBox>
+
+                            <UIContainerBox Title="Social Media Information">
+                                <ListTable>
+                                    <ListTableItem ItemTitle="Email">@model.email_address</ListTableItem>
+
+                                </ListTable>
+                            </UIContainerBox>
+
+
+
+
+
+                            <UIContainerBox Title="Note" is_visible="@(!string.IsNullOrEmpty(model.note))">
+                                @model.note
+                            </UIContainerBox>
+                            <UIContainerBox Title="Address" is_visible="@(!string.IsNullOrEmpty(model.address))">
+                                @model.address
+                            </UIContainerBox>
+                        </UIGridCenter>
+                    </TabItem>
+                   
+                    <TabItem>
+                    </TabItem>
+                    <TabItem>
+                      
+                    </TabItem>
+                    
+                   
+
+                    <TabItem>
+                    </TabItem>
+                </TabBody>
+            </Tab>
+        </PageBody>
+    </PageContainer>
+
+   
+
+    
+}
+@if (is_error)
+{
+    <Error title="Customer Detail">
+        @error_text
+    </Error>
+}
+

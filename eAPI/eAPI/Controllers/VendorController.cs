@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using eAPI.Services;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
@@ -20,9 +21,11 @@ namespace eAPI.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public VendorController(ApplicationDbContext _db)
+        private readonly AppService app;
+        public VendorController(ApplicationDbContext _db, AppService _app)
         {
             db = _db;
+            app = _app;
         }
 
 
@@ -40,16 +43,24 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] VendorModel u)
         {
+            bool is_new = true;
             if (u.id == 0)
             {
+                is_new = true;
+                string document_number = await app.GetDocumentNumber(21);
+                u.vendor_code = document_number;
                 db.Vendors.Add(u);
-                }
+            }
             else
             {
                 db.Vendors.Update(u);
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            if (is_new)
+            {
+                await app.SaveDocumentNumber(21);
+            }
             return Ok(u);
         }
 
