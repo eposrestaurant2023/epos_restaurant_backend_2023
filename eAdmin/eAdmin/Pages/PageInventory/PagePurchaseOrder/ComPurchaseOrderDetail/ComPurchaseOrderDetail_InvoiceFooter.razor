@@ -62,14 +62,13 @@
                     <a> @po.paid_amount.ToString(gv.currency_format)</a>
                     <div class="wpr-payment-drop" uk-drop>
                         <div class="uk-card payment_list_item uk-padding-small uk-card-default bg-01">
-                            @foreach (var p in po.payments.Where(r=>!r.is_deleted))
+                            @foreach (var p in po.purchase_order_payments.Where(r=>!r.is_deleted))
                             {
                                 <div>@(p.payment_date.ToString(gv.date_format))</div>
                                 <div>@p.payment_type.payment_type_name_en</div>
                                 <div>@p.payment_note</div>
                                 <div>Paid: @p.payment_amount.ToString(gv.currency_format)</div>
                                 <div>By: @p.created_by on @p.created_date.ToString(gv.date_time_format)</div>
-                                 
                                 <hr />
                             }
                         </div>

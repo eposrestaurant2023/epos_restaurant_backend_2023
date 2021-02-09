@@ -179,7 +179,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             save_model.stock_location = null;
             save_model.business_branch = null;
 
-            is_saving = true; 
+            is_saving = true;
 
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)
