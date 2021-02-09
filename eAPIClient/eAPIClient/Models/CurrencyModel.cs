@@ -8,7 +8,7 @@ using System.Text;
 namespace eAPIClient.Models
 {
     [Table("tbl_currency")]
-    public class CurrencyModel    : KeyModel
+    public class CurrencyModel : KeyModel
     {
         public Guid business_branch_id { get; set; }
 
@@ -23,11 +23,11 @@ namespace eAPIClient.Models
         public string currency_format { get; set; }
 
 
-        [Column(TypeName = "decimal(16,10)")]
+        [Column(TypeName = "decimal(19,8)")]
         public decimal exchange_rate { get; set; }
 
 
-        [Column(TypeName = "decimal(16,10)")]
+        [Column(TypeName = "decimal(19,8)")]
         public decimal change_exchange_rate { get; set; }
 
         public bool is_main { get; set; }
