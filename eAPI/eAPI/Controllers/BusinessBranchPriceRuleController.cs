@@ -69,5 +69,16 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(d);
         }
+
+        [HttpPost]
+        [Route("delete/{id}/{price_id}")]
+        public async Task<ActionResult<BusinessBranchPriceRule>> DeleteRecord(Guid id , int price_id) //Delete
+        {
+            var u = await db.BusinessBranchPriceRules.Where(r=>r.business_branch_id == id && r.price_rule_id == price_id).FirstAsync();
+            u.is_deleted = !u.is_deleted;
+            db.BusinessBranchPriceRules.Update(u);
+            await db.SaveChangesAsync();
+            return Ok(u);
+        }
     }
 }

@@ -34,6 +34,7 @@ namespace eModels
         public PriceRuleModel price_rule { get; set; }
         public bool is_default { get; set; }
         public bool status { get; set; } = true;
+        public bool is_deleted { get; set; } = false;
     }
 
 

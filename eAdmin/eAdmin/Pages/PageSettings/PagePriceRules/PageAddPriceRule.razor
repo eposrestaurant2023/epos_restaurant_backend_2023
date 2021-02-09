@@ -130,17 +130,23 @@
                 });
             }
         }
-
-        var post = await http.ApiPost("PriceRule/Save", price);
-        if (post.IsSuccess)
+        if (business_branches.Where(r=>r.is_selected == true).Count() > 0)
         {
-            toast.Add("Save Successfully!", MatToastType.Success);
-            nav.NavigateTo("pricerule");
-            price = new PriceRuleModel();
+            var post = await http.ApiPost("PriceRule/Save", price);
+            if (post.IsSuccess)
+            {
+                toast.Add("Save Successfully!", MatToastType.Success);
+                nav.NavigateTo("pricerule");
+                price = new PriceRuleModel();
+            }
+            else
+            {
+                toast.Add(post.Content.ToString(), MatToastType.Warning);
+            }
         }
         else
         {
-            toast.Add(post.Content.ToString(), MatToastType.Warning);
+            toast.Add("Please choose business branch.", MatToastType.Warning);
         }
         is_saving = false;
     }
