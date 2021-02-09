@@ -25,9 +25,27 @@ namespace eAPI.Controllers
             db = _db;
         }
 
-
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
+        public IQueryable<VendorGroupModel> Get(string keyword = "")
+        {
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return db.VendorGroups.Where(r =>
+                (
+                (r.vendor_group_name_en ?? "") +
+                (r.vendor_group_name_en ?? "") +
+                (r.note ?? "")
+                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
+            }
+            else
+            {
+                return db.VendorGroups;
+            }
+        }
+
+
+
         [AllowAnonymous]
         public IQueryable<VendorGroupModel> Get()
         {

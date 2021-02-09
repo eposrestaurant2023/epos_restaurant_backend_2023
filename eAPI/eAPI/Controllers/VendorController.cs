@@ -32,6 +32,27 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [AllowAnonymous]
+
+        public IQueryable<VendorModel> Get(string keyword = "")
+        {
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return db.Vendors.Where(r =>
+                (
+                (r.vendor_code ?? "") +
+                (r.vendor_name ?? "") +
+                (r.company_name ?? "") +
+                (r.mobile_phone ?? "") +
+                (r.office_phone ?? "") +
+                (r.email_address ?? "") +
+                (r.note ?? "")
+                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
+            }
+            else
+            {
+                return db.Vendors;
+            }
+        }
         public IQueryable<VendorModel> Get()
         {
            

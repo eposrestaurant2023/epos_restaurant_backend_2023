@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210209050324_update_tbl_payments_po_0988804010")]
+    partial class update_tbl_payments_po_0988804010
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,9 +205,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.HasKey("business_branch_id", "price_rule_id");

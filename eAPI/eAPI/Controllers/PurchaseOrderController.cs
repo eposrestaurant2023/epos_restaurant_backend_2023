@@ -8,7 +8,7 @@ using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;   
+using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
 namespace eAPI.Controllers
@@ -29,15 +29,15 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-  
+
         public IQueryable<PurchaseOrderModel> Get(string keyword = "")
-         {
+        {
             if (!string.IsNullOrEmpty(keyword))
             {
                 return db.PurchaseOrders.Where(r =>
                 (
                 (r.document_number ?? "") +
-                (r.reference_number ?? "") +  
+                (r.reference_number ?? "") +
                 (r.vendor.vendor_name ?? "")
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
@@ -56,7 +56,7 @@ namespace eAPI.Controllers
                 string document_number = await app.GetDocumentNumber(doc.FirstOrDefault());
                 p.document_number = document_number;
             }
-            
+
             if (p.id == 0)
             {
                 db.PurchaseOrders.Add(p);
@@ -65,7 +65,7 @@ namespace eAPI.Controllers
             {
 
                 db.PurchaseOrders.Update(p);
-                
+
             }
 
             AddHistory(p);
@@ -126,6 +126,7 @@ namespace eAPI.Controllers
             return Ok(u);
         }
 
+
         //[HttpPost]
         //[Route("MarkAsFulfilled/{id}")]
         //public async Task<ActionResult> MarkAsFulfilled(int id) //mark as fullfileld 
@@ -142,7 +143,7 @@ namespace eAPI.Controllers
         //    List<InventoryTransactionModel> inv_list = new List<InventoryTransactionModel>();
         //    foreach (PurchaseOrderProductModel d in data.Where(r => r.is_inventory_product))
         //    {
-                
+
         //        d.is_fulfilled = true;
         //        InventoryTransactionModel inv = new InventoryTransactionModel();
 
@@ -181,6 +182,8 @@ namespace eAPI.Controllers
 
         //}
 
+
+
         //[HttpPost]
         //[Route("CancelFulfilled/{id}")]
         //public async Task<ActionResult> CancelFulfilled(int id) //mark as fullfileld 
@@ -188,7 +191,7 @@ namespace eAPI.Controllers
         //    UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
         //    PurchaseOrderModel s = db.PurchaseOrders.Find(id);
-            
+
         //    s.is_fulfilled = false;
         //    //add to history 
         //    var data = db.PurchaseOrdersProducts.Where(r => r.purchase_order_id == id && r.is_deleted == false);
@@ -196,7 +199,7 @@ namespace eAPI.Controllers
         //    foreach (PurchaseOrderProductModel d in data.Where(r => r.is_inventory_product))
         //    {
         //        d.is_fulfilled = false;
-                
+
         //        InventoryTransactionModel inv = new InventoryTransactionModel();
 
         //        inv.inventory_transaction_type_id = 2;

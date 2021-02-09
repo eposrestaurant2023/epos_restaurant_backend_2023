@@ -49,8 +49,6 @@ namespace eAPI.Controllers
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
-
-
         }
 
         [HttpGet("find")]
@@ -58,9 +56,18 @@ namespace eAPI.Controllers
         public SingleResult<BusinessBranchPriceRule> Get([FromODataUri] Guid key)
         {
             var s = db.BusinessBranchPriceRules.Where(r => r.business_branch_id == key).AsQueryable();
-
             return SingleResult.Create(s);
         }
-    }
 
+        [HttpPost]
+        [Route("status/{id}/{price_id}")]
+        public async Task<ActionResult<BusinessBranchPriceRule>> UpdateStatus(Guid id , int price_id)
+        {
+            var d = await db.BusinessBranchPriceRules.Where(r=>r.business_branch_id == id && r.price_rule_id == price_id).FirstAsync();
+            d.status = !d.status;
+            db.BusinessBranchPriceRules.Update(d);
+            await db.SaveChangesAsync();
+            return Ok(d);
+        }
+    }
 }

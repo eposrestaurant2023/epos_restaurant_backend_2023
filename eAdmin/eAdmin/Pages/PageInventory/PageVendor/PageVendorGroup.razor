@@ -10,7 +10,7 @@
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                       @state.page_title
+                        @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="Status">
@@ -26,6 +26,8 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+
+           
             <Table 
                      PerPage="@state.pager.per_page"
                        TotalItem="@TotalRecord"
@@ -47,7 +49,7 @@
                 <RowTemplate Context="p">
                     <td>@p.vendor_group_name_en (@p.vendor_group_name_kh)</td>
                     <td>
-                        <LabelActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@p.status" is_loading="@p.is_change_status" />
+                        <LabelActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@(!p.is_deleted && p.status)" is_loading="@p.is_change_status" />
                         <LabelInActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@(!p.status && !p.is_deleted)" is_loading="@p.is_change_status" />
                         <LabelDeleted is_visible="@p.is_deleted"/>
                     </td>
@@ -179,12 +181,13 @@
     async Task OnEdit(int id)
     {
         is_loading_data = true;
+        ShowModal = true;
         var get_result = await http.ApiGet($"VendorGroup({id})");
         if (get_result.IsSuccess)
         {
             vendor_group = JsonSerializer.Deserialize<VendorGroupModel>(get_result.Content.ToString());
             ModalTitle = "Edit" + ": " + vendor_group.vendor_group_name_en;
-            ShowModal = true;
+
         }
         is_loading_data = false;
     }

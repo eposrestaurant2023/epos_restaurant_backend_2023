@@ -23,7 +23,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 string url = $"PurchaseOrder({id})?";
                 url = url + "$expand=vendor,";
                 url = url + "purchase_order_products($expand=product,product_type),";
-                url = url + "payments($expand=payment_type),";
+                url = url + "purchase_order_payments($expand=payment_type),";
                 url = url + "business_branch,";
                 url = url + "stock_location";
                 return url;
@@ -108,14 +108,14 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             is_loading_data = false;
         }
 
-        public void EditPayment_Click(PaymentModel p)
+        public void EditPayment_Click(PurchaseOrderPaymentModel p)
         {
             payment_id = p.id;
             is_add_payment = true;
         }
 
 
-        public async Task DeletePayment_Click(PaymentModel p)
+        public async Task DeletePayment_Click(PurchaseOrderPaymentModel p)
         {
             is_loading_data = true;
             if (await js.Confirm("Delete payment", "Are you sure you want to delete this payment?", SweetAlertMessageType.question))

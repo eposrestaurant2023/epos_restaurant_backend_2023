@@ -7,6 +7,9 @@
 {
     <Title Value="@state.page_title"></Title>
     <PageContainer roles="@gv.GetRole("price_rule_management")">
+        <div style="word-break:break-word">
+            @ControllerApi
+        </div>
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="true">
@@ -51,7 +54,8 @@
                         <div>
                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
-                                    <Th>Name</Th>
+                                    <ThAuto>Name</ThAuto>
+                                    <ThCenter>Status</ThCenter>
                                     <Th></Th>
                                 </tr>
                                 @foreach (var bp in d.business_branch_prices)
@@ -74,15 +78,15 @@
                                                 else
                                                 {
                                                     <LabelDeleted is_visible="@s.is_deleted" />
-                                                    <LabelActive is_visible="@(!s.is_deleted && s.status)" OnClick="(() => OnToogleStatusLabel(s))" roles="@gv.GetRole("price_rule_edit")" is_loading="@s.is_change_status" />
-                                                    <LabelInActive is_visible="@(!s.is_deleted && !s.status)" OnClick="(() => OnToogleStatusLabel(s))" roles="@gv.GetRole("price_rule_edit")" is_loading="@s.is_change_status" />
+                                                    <LabelActive is_visible="@(!s.is_deleted && bp.status)" OnClick="(() => OnToogleStatusLabel(bp))" roles="@gv.GetRole("price_rule_edit")" is_loading="@s.is_change_status" />
+                                                    <LabelInActive is_visible="@(!s.is_deleted && !bp.status)" OnClick="(() => OnToogleStatusLabel(bp))" roles="@gv.GetRole("price_rule_edit")" is_loading="@s.is_change_status" />
                                                 }
                                             </TdCenter>
                                             <TdActions is_loading="@s.is_loading">
                                                 <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="edit" is_visible="@(!s.is_deleted)" OnClick="@(()=>OnEdit(s.id))">Edit</TableActionItem>
                                                 <TableActionItem roles="@gv.GetRole("price_rule_add")" icon="file_copy" OnClick="@(()=>Clone_Click(s.id))">Clone</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="highlight_off" is_visible="@(s.status && !s.is_deleted && !bp.is_default)" OnClick="@(()=>OnToogleStatus(s))">Inactive</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="check" is_visible="@(!s.status && !s.is_deleted && !bp.is_default)" OnClick="@(() => OnToogleStatus(s))">Active</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="highlight_off" is_visible="@(s.status && !s.is_deleted && !bp.is_default)" OnClick="@(()=>OnToogleStatus(bp))">Inactive</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="check" is_visible="@(!s.status && !s.is_deleted && !bp.is_default)" OnClick="@(() => OnToogleStatus(bp))">Active</TableActionItem>
                                                 <TableActionItem roles="@gv.GetRole("price_rule_delete")" icon="delete" is_visible="@(!s.is_deleted)" OnClick="@(() => OnDelete(s))">Delete</TableActionItem>
                                                 <TableActionItem roles="@gv.GetRole("price_rule_restore")" icon="refresh" is_visible="@(s.is_deleted)" OnClick="@(()=>OnRestore(s))">Restore</TableActionItem>
                                             </TdActions>
@@ -103,7 +107,7 @@
     List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
     string controller_api = "PriceRule";
     string StateKey = "278484567G21458loiuytytkjhTonB3PCz2Ts";
-    string api_query = "?$expand=business_branch_prices";
+    string api_query = "?$expand=business_branch_prices($select=price_rule_id,business_branch_id,status,is_default)";
     string ControllerApi
     {
         get
@@ -155,7 +159,7 @@
 
     async Task LoadBusinessBranch()
     {
-        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_prices($select=price_rule_id,business_branch_id,is_default)&$filter=is_deleted eq false");
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_prices($select=price_rule_id,business_branch_id,status,is_default)&$filter=is_deleted eq false");
         business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
     }
 
@@ -218,26 +222,26 @@
         p.is_loading = false;
     }
 
-    async Task OnToogleStatus(PriceRuleModel p)
+    async Task OnToogleStatus(BusinessBranchPriceRule p)
     {
-        p.is_loading = true;
+        //p.is_loading = true;
         await SaveStatus(p);
-        p.is_loading = false;
+        //p.is_loading = false;
     }
 
-    async Task OnToogleStatusLabel(PriceRuleModel p)
+    async Task OnToogleStatusLabel(BusinessBranchPriceRule p)
     {
-        p.is_change_status = true;
+        //p.is_change_status = true;
         await SaveStatus(p);
-        p.is_change_status = false;
+        //p.is_change_status = false;
     }
 
-    async Task SaveStatus(PriceRuleModel p)
+    async Task SaveStatus(BusinessBranchPriceRule p)
     {
-        var PriceRule = new PriceRuleModel();
+        var PriceRule = new BusinessBranchPriceRule();
         PriceRule = p;
         PriceRule.status = !PriceRule.status;
-        var resp = await http.ApiPost(controller_api + $"/status/{p.id}");
+        var resp = await http.ApiPost($"BusinessBranchPriceRule/status/{p.business_branch_id}/{p.price_rule_id}");
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);

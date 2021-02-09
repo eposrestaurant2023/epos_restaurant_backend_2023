@@ -74,7 +74,7 @@
 
     public PurchaseOrderModel po { get; set; }
 
-    PaymentModel model = new PaymentModel();
+    PurchaseOrderPaymentModel model = new PurchaseOrderPaymentModel();
 
 
     public bool can_enter_payment
@@ -117,7 +117,7 @@
         }
 
         //load default payment
-
+        
         if (po != null) {
             if (id == Guid.Empty)
             {
@@ -139,26 +139,22 @@
         if (resp.IsSuccess)
         {
             po = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
-
         }
         else
         {
-
             toast.Add("Can not get PO ID.", MatToastType.Warning);
-
         }
     }
     async Task LoadPayment()
     {
-        var resp = await http.ApiGet($"Payment({id})");
+        var resp = await http.ApiGet($"PurchaseOrderPayment({id})");
         if (resp.IsSuccess)
         {
-            model = JsonSerializer.Deserialize<PaymentModel>(resp.Content.ToString());
+            model = JsonSerializer.Deserialize<PurchaseOrderPaymentModel>(resp.Content.ToString());
 
         }
         else
         {
-
             toast.Add("Error Loading Payment.", MatToastType.Warning);
 
         }
@@ -186,12 +182,13 @@
             is_saving = false;
             return;
         }
-
-        var resp = await http.ApiPost("payment/purchaseorder/save", model);
+         
+        
+        var resp = await http.ApiPost("PurchaseOrderPayment/save", model);
         if (resp.IsSuccess)
         {
             await OnSave.InvokeAsync(true);
-            model = new PaymentModel();
+            model = new PurchaseOrderPaymentModel();
             toast.Add("Add payment successfully", MatToastType.Success);
         }
         else
@@ -206,7 +203,7 @@
     }
 
     void ToogleModal(bool _open = false) {
-        model = new PaymentModel();
+        model = new PurchaseOrderPaymentModel();
         is_opened = _open;
         is_openedChanged.InvokeAsync(_open);
     }

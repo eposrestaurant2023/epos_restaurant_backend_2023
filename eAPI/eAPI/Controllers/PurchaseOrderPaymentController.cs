@@ -19,11 +19,11 @@ namespace eAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class PaymentController : ODataController
+    public class PurchaseOrderPaymentController : ODataController
     {
         private readonly ApplicationDbContext db;
         private readonly AppService app;
-        public PaymentController(ApplicationDbContext _db, AppService _app)
+        public PurchaseOrderPaymentController(ApplicationDbContext _db, AppService _app)
         {
             db = _db;
             app = _app;
@@ -31,12 +31,12 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]   
-        public IQueryable<PaymentModel> Get(string keyword = "")
+        public IQueryable<PurchaseOrderPaymentModel> Get(string keyword = "")
         {
             if (!string.IsNullOrEmpty(keyword))
             {
-              return (from r in db.Payments
-                           where 
+              return (from r in db.PurchaseOrderPayments
+                      where 
                                  EF.Functions.Like((
                                  (r.reference_number ?? " ")).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                            select r);
@@ -44,22 +44,22 @@ namespace eAPI.Controllers
             }
             else
             {
-                return db.Payments.AsQueryable();
+                return db.PurchaseOrderPayments.AsQueryable();
             }
         }
 
         [HttpGet("getsingle")]
         [EnableQuery(MaxExpansionDepth = 8)]     
-        public async Task<SingleResult<PaymentModel>> Get([FromODataUri] Guid key)
+        public async Task<SingleResult<PurchaseOrderPaymentModel>> Get([FromODataUri] Guid key)
         {
-            return await Task.Factory.StartNew(() => SingleResult.Create<PaymentModel>(db.Payments.Where(r => r.id == key).AsQueryable()));
+            return await Task.Factory.StartNew(() => SingleResult.Create<PurchaseOrderPaymentModel>(db.PurchaseOrderPayments.Where(r => r.id == key).AsQueryable()));
         }
 
-        [HttpPost("sale/save")]
-        public async Task<ActionResult<string>> Save([FromBody] PaymentModel p)
+        [HttpPost("save")]
+        public async Task<ActionResult<string>> Save([FromBody] PurchaseOrderPaymentModel p)
         {
             //validat check if payment is over sale amount
-            SaleModel s = db.Sales.Find(p.sale_id);
+            PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
             if (p.id == Guid.Empty)
             {
                
@@ -70,10 +70,10 @@ namespace eAPI.Controllers
 
             }else
             {
-                var payments = db.Payments.Where(r => r.sale_id == p.sale_id && !r.is_deleted && r.id!=p.id);
-                if (payments.Any())
+                var PurchaseOrderPayments = db.PurchaseOrderPayments.Where(r => r.purchase_order_id == p.purchase_order_id && !r.is_deleted && r.id != p.id);
+                if (PurchaseOrderPayments.Any())
                 {
-                    if (payments.Sum(r => r.payment_amount) + p.payment_amount > s.total_amount)
+                    if (PurchaseOrderPayments.Sum(r => r.payment_amount) + p.payment_amount > s.total_amount)
                     {
                         return StatusCode(300, "Payment amount cannot greater than Balance Amount");
                     }
@@ -85,73 +85,51 @@ namespace eAPI.Controllers
             HistoryModel h = new HistoryModel($"{(p.id != Guid.Empty? "Update Sale Payment":"Create New Payment" )}");
             h.description = $"{(p.id != Guid.Empty ? "Update sale payment." : "Create new payment.")} Invoice Number: {s.document_number}";
             h.document_number = s.document_number;
-            h.customer_id = s.customer_id;
-            h.sale_id = s.id;
+            h.vendor_id = s.vendor_id;
+            h.purchase_order_id = s.id;
+
             p.histories.Add(h);
 
 
             if (p.id == Guid.Empty)
             {
-                db.Payments.Add(p);
+                db.PurchaseOrderPayments.Add(p);
             }
             else
             {
-                db.Payments.Update(p);
+                db.PurchaseOrderPayments.Update(p);
             }
              
                 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            db.Database.ExecuteSqlRaw("exec  sp_update_sale_payment " + p.sale_id);
+            db.Database.ExecuteSqlRaw("exec sp_update_purchase_order_payment " + p.purchase_order_id);
             return Ok(p);
              
         }
 
-        
 
 
         [HttpPost]
-        [Route("sale/delete/{id}")]
+        [Route("delete/{id}")]
         public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
         {
 
-            PaymentModel p = db.Payments.Find(id);
-            SaleModel s = db.Sales.Find(p.sale_id);
-            HistoryModel h = new HistoryModel("Delete Sale Payment");
-            h.description = $"Delete Sale Payment. Invoice Number: {s.document_number}";
+            PurchaseOrderPaymentModel p = db.PurchaseOrderPayments.Find(id);
+            PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
+            HistoryModel h = new HistoryModel("Delete PO Payment");
+            h.description = $"Delete PO Payment. Invoice Number: {s.document_number}";
             h.document_number = s.document_number;
-            h.customer_id = s.customer_id;
-            h.sale_id = s.id;
+            h.vendor_id = s.vendor_id;
+            h.purchase_order_id = s.id;
             p.histories.Add(h);
             p.is_deleted = true;
-            db.Payments.Update(p);
+            db.PurchaseOrderPayments.Update(p);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            db.Database.ExecuteSqlRaw("exec  sp_update_sale_payment " + p.sale_id);
+            db.Database.ExecuteSqlRaw("exec  sp_update_purchase_order_payment " + p.purchase_order_id);
             return Ok(h);
-             
+
         }
-
-        //[HttpPost]
-        //[Route("purchaseorder/delete/{id}")]
-        //public async Task<ActionResult<HistoryModel>> DeletePORecord(int id) //Delete
-        //{
-
-        //    PaymentModel p = db.Payments.Find(id);
-        //    PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
-        //    HistoryModel h = new HistoryModel("Delete PO Payment");
-        //    h.description = $"Delete PO Payment. Invoice Number: {s.document_number}";
-        //    h.document_number = s.document_number;
-        //    h.vendor_id = s.vendor_id;
-        //    h.purchase_order_id = s.id;
-        //    p.histories.Add(h);
-        //    p.is_deleted = true;
-        //    db.Payments.Update(p);
-        //    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
-        //    db.Database.ExecuteSqlRaw("exec  sp_update_purchase_order_payment " + p.purchase_order_id);
-        //    return Ok(h);
-
-        //}
 
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210209032156_update_tbl_payments_po_09888")]
+    partial class update_tbl_payments_po_09888
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,9 +205,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.HasKey("business_branch_id", "price_rule_id");
@@ -671,6 +670,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<Guid?>("PaymentModelid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int?>("ProductModelid")
                         .HasColumnType("int");
 
@@ -724,17 +726,11 @@ namespace eAPI.Migrations
                     b.Property<int?>("outlet_id")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("payment_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
                     b.Property<int?>("purchase_order_id")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("purchase_order_payment_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("sale_id")
                         .HasColumnType("uniqueidentifier");
@@ -761,15 +757,13 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("PaymentModelid");
+
                     b.HasIndex("ProductModelid");
 
                     b.HasIndex("PurchaseOrderModelid");
 
                     b.HasIndex("customer_id");
-
-                    b.HasIndex("payment_id");
-
-                    b.HasIndex("purchase_order_payment_id");
 
                     b.HasIndex("sale_id");
 
@@ -2035,12 +2029,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("payment_type_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("purchase_order_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("reference_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -2049,10 +2037,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
-
-                    b.HasIndex("payment_type_id");
-
-                    b.HasIndex("purchase_order_id");
 
                     b.ToTable("tbl_purchase_order_payment");
                 });
@@ -3077,6 +3061,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
+                    b.HasOne("eModels.PaymentModel", null)
+                        .WithMany("histories")
+                        .HasForeignKey("PaymentModelid");
+
                     b.HasOne("eModels.ProductModel", null)
                         .WithMany("histories")
                         .HasForeignKey("ProductModelid");
@@ -3088,14 +3076,6 @@ namespace eAPI.Migrations
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
-
-                    b.HasOne("eModels.PaymentModel", "payment")
-                        .WithMany("histories")
-                        .HasForeignKey("payment_id");
-
-                    b.HasOne("eModels.PurchaseOrderPaymentModel", "purchase_order_payment")
-                        .WithMany("histories")
-                        .HasForeignKey("purchase_order_payment_id");
 
                     b.HasOne("eModels.SaleModel", "sale")
                         .WithMany("histories")
@@ -3110,10 +3090,6 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
-
-                    b.Navigation("payment");
-
-                    b.Navigation("purchase_order_payment");
 
                     b.Navigation("sale");
 
@@ -3412,25 +3388,6 @@ namespace eAPI.Migrations
                     b.Navigation("stock_location");
 
                     b.Navigation("vendor");
-                });
-
-            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
-                {
-                    b.HasOne("eModels.PaymentTypeModel", "payment_type")
-                        .WithMany()
-                        .HasForeignKey("payment_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
-                        .WithMany("purchase_order_payments")
-                        .HasForeignKey("purchase_order_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("payment_type");
-
-                    b.Navigation("purchase_order");
                 });
 
             modelBuilder.Entity("eModels.PurchaseOrderProductModel", b =>
@@ -3741,14 +3698,7 @@ namespace eAPI.Migrations
                 {
                     b.Navigation("histories");
 
-                    b.Navigation("purchase_order_payments");
-
                     b.Navigation("purchase_order_products");
-                });
-
-            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
-                {
-                    b.Navigation("histories");
                 });
 
             modelBuilder.Entity("eModels.RoleModel", b =>

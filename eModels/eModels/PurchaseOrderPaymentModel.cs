@@ -10,7 +10,7 @@ using eShareModel;
 namespace eModels
 {
     [Table("tbl_purchase_order_payment")]
-    public class PurchaseOrderPaymentModel : CoreModel
+    public class PurchaseOrderPaymentModel : CoreGUIDModel
     {
         public PurchaseOrderPaymentModel()
         {
@@ -26,9 +26,9 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime payment_date { get; set; } = DateTime.Now;
 
-        public int? purhcase_order_id { get; set; }
-        [ForeignKey("purhcase_order_id")]
-        public PurchaseOrderModel purchase_order { get; set; } 
+        public int purchase_order_id { get; set; }
+        [ForeignKey("purchase_order_id")]
+        public PurchaseOrderModel purchase_order { get; set; }
 
         public decimal payment_amount { get; set; }
 
