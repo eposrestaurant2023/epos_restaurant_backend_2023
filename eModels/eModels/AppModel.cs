@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
@@ -34,7 +35,6 @@ namespace eModels
     public class DocumentNumberModel : KeyModel
     {
         public string document_name { get; set; }
-        public int outlet_id { get; set; }
         public string prefix { get; set; }
         public string format { get; set; }
         public int counter { get; set; }
@@ -189,10 +189,12 @@ namespace eModels
         public ApiResponseModel()
         {
             customers = new List<CustomerModel>();
+            vendors = new List<VendorModel>();
         }
         public string message { get; set; }
 
         public List<CustomerModel> customers { get; set; }
+        public List<VendorModel> vendors { get; set; }
     }
 
 

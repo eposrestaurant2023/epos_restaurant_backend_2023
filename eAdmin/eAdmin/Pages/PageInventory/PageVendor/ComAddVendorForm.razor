@@ -1,0 +1,63 @@
+﻿@inherits PageCore
+<UIContainerBox Title="Vendor Photo" ClassName="uk-text-center">
+    <UIFlexCenter>
+        <FileUpload @bind-ImageUrl="@model.photo" />
+    </UIFlexCenter>
+</UIContainerBox>
+
+<UIContainerBox>
+    <TextInput label="Vendor Code" @bind-text="@model.vendor_code" is_read_only="@model.is_auto_generate_vendor_code">
+        <ValidationMessage For="@(()=>model.vendor_code)" />
+    </TextInput>
+
+    <ComInputCheckBox is_read_only="@(model.id > 0)" @bind-value="@model.is_auto_generate_vendor_code" label="Auto generate vendor code" />
+
+    <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
+        <ValidationMessage For="@(() => model.vendor_name)" />
+    </TextInput>
+
+    <SelectVendorGroup @bind-selected_value="@model.vendor_group_id" show_empty="true">
+        <ValidationMessage For="@(()=>model.vendor_group_id)" />
+    </SelectVendorGroup>
+
+    <TextInput label="Company Name" @bind-text="@model.company_name" />
+    
+    <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
+        <ValidationMessage For="@(()=>model.province_id)" /> 
+    </SelectProvince>
+
+    <TextInput label="Email" @bind-text="@model.email_address" />
+
+    <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+
+    <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
+     
+
+    <SelectStatus @bind-selected_value="@model.status" />
+
+</UIContainerBox>
+
+<UIContainerBox Title="Address & Note">
+    <Tab>
+        <TabHeader>
+            <TabHeaderItem>Address</TabHeaderItem>
+            <TabHeaderItem>Note</TabHeaderItem>
+        </TabHeader>
+        <TabBody>
+            <TabItem>
+                <textarea class="uk-textarea  uk-text-left" placeholder="Address" @bind="model.address" rows="2">@model.address</textarea>
+            </TabItem>
+            <TabItem>
+                <textarea class="uk-textarea  uk-text-left" placeholder="Note" @bind="model.note" rows="2">@model.note</textarea>
+            </TabItem>
+        </TabBody>
+    </Tab>
+</UIContainerBox>
+ 
+
+
+@code {
+     
+    [Parameter] public VendorModel model { get; set; }
+ 
+}

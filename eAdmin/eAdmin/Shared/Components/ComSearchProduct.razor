@@ -1,0 +1,375 @@
+﻿@inherits PageCore;
+
+<Loading is_loading="@(is_loading || is_loading_data)"/>
+<Modal IsSimpleMode="false" IsOpened="@is_open" IsOpenedChanged="@(()=>CancelClick())"   Title="Please select a product" isFullModal="uk-modal-container" custom_class_body="model-overflow-hidden">
+    <ModalBody ClassName="model-overflow-with-footer">
+            <Grid ClassName="uk-grid-divider uk-grid-small">
+                <Column ClassName="uk-width-3-5">
+                    <div class="search-product-model">
+                        <ComSearchV2 Keyword="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@SearchProduct" />
+                        <Button custom_class="btn-search-filter-product" type="button" icon="filter_list" title="Filter Products" />
+                        <div uk-dropdown="mode: click; pos: bottom-right">
+                            <div class="uk-navbar-dropdown-grid uk-child-width-expand mega-dropdown filter-select-product" uk-grid>
+                                <PageFilter use_list="false" title="Categories">
+                                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="All Categories" />
+                                </PageFilter>
+                            </div>
+                            <div class="uk-text-right" style="padding: 0px 14px 14px 14px">
+                                <hr />
+                                <Button icon="search" OnClick="FilterClick" width="100px">Search</Button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-scroll-y">
+                        <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+ 
+                        <Table PerPage="@pg.per_page"
+                               TotalItem="@TotalRecord"
+                               CurrentPage="@pg.current_page"
+                               OnPagerChange="@SelectChange"
+                               OnPageChange="@ChangePager"
+                               Items="@product_list.ToList()"
+                               isLoading="is_loading"
+                               ShowPaging="false"
+                               EmptyText="There are no product found"
+                               CustomClass="tbl-slt-product tbl-header-vertical-top">
+                            <TableHeader>
+                                <ThCenter>Image</ThCenter> 
+                                <ThAuto>Product</ThAuto>
+                                <ThRight>Cost</ThRight> 
+                                <ThCenter>Unit</ThCenter>
+                                <th></th>
+                            </TableHeader>
+                            <RowTemplate Context="c">
+                                <TdCenter Width="20px">
+                                    <div class="product-image-model">
+                                        <Image ImageUrl="@http.ImageUrl(c.photo)" PopupImageUrl="@http.ImageUrl(c.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                                    </div>
+                                </TdCenter>
+                                <td>
+                                    <div class="product-name-code">
+                                        <div class="product-name">
+                                            <a @onclick="@(() => ChooseProduct_Click(c))">
+                                                @c.product_display_name
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <TdRight>@c.cost.ToString(gv.currency_format)</TdRight> 
+                                <TdCenter>@c.unit</TdCenter> 
+                                <TdCenter>
+                                    <button uk-tooltip="Select product" class="uk-button uk-button-primary uk-button-small" @onclick="@(() => ChooseProduct_Click(c))" style="width:120px;">
+                                        Select <Icon icon="arrow_right_alt" />
+                                    </button>
+                                </TdCenter>
+                            </RowTemplate>
+                        </Table>
+                    </div>
+                </Column>
+                <Column ClassName="uk-width-2-5">
+                    <div class="uk-position-relative uk-height-1-1">
+                        <div class="title-slt-product">
+                           <h3 class="title uk-margin-remove-bottom">Selected Products</h3>
+                        </div>
+                        <div class="wrp-expense-frm table-scroll-y">
+ 
+                            <Table PerPage="@pg.per_page"
+                                   Items="@selected_products"
+                                   ShowPaging="false"
+                                   EmptyText="There are no product found"
+                                   CustomClass="tbl-slt-product uk-margin-remove">
+                                <TableHeader>
+                                    <ThCenter>Image</ThCenter>
+                                    <ThAuto>Product</ThAuto>
+                                    <ThRight>Cost</ThRight> 
+                                    <ThCenter>Quantity</ThCenter>
+                                    <ThCenter>Unit</ThCenter>
+                                    <th></th>
+                                </TableHeader>
+                                <RowTemplate Context="p">
+                                    <TdCenter>
+                                        <div class="product-image-model">
+                                            <Image ImageUrl="@http.ImageUrl(p.product?.photo)" PopupImageUrl="@http.ImageUrl(p.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                                        </div>
+                                    </TdCenter>
+                                    <td>
+                                        <div class="product-name-code">
+                                            <div>@p.product?.product_display_name</div>
+                                        </div>
+                                    </td>
+                                    <TdRight>@p.cost.ToString(gv.main_currency_format)</TdRight>
+                                    <TdCenter><NumberInput @bind-text="@p.quantity" class_name="uk-text-center uk-form-small" /></TdCenter>
+                                    <TdCenter>@p.unit</TdCenter>
+                                    <td>
+                                        <Icon icon="delete" OnClick="@(()=> { RemoveSeletedProduct(p); })" className="icon-remove-product" title="Remove Product" />
+                                    </td>
+                                </RowTemplate>
+                            </Table>
+                        </div>
+                    </div>
+                </Column>
+            </Grid>
+    </ModalBody>
+    <ModalFooter is_action_form="false">
+        <Grid ClassName="uk-grid-small  uk-grid">
+            <Column ClassName="uk-width-2-3">
+                <Grid ClassName="uk-grid-small">
+                    <Column ClassName="uk-width-auto">
+                        <Grid ClassName="uk-grid-small">
+                            <Column ClassName="uk-width-auto">
+                                <ComPagerPerPage OnChange="@SelectChange" PerPage="@pg.per_page" />
+                            </Column>
+                            <Column ClassName="uk-width-expand uk-flex-middle uk-flex">
+                                <PagerInfo TotalItem="@TotalRecord" CurrentPage="pg.current_page" PerPage="pg.per_page" />
+                            </Column>
+                        </Grid>
+                    </Column>
+                    <Column ClassName="uk-width-expand">
+                        <ComTotalPager TotalRecord="@TotalRecord" PerPage="@pg.per_page" CurrentPage="@pg.current_page" SelectedPage="@ChangePager" IsVisible="@(totalPage > 1)" />
+                    </Column>
+                </Grid>
+            </Column>
+            <Column ClassName="uk-width-1-3">
+                <UkFlex>
+                    <FlexItem class_name="uk-margin-auto-left">
+                        <div class="btn-comfirm-box">
+                            @if (is_saving)
+                            {
+                                <Button type="button" line_icon="la-check" custom_class="btn-confirm">Confirm <Spinner/></Button>
+                            }
+                            else
+                            {
+                                <Button OnClick="@ConfirmSelectProduct" type="button" line_icon="la-check" custom_class="btn-confirm">Confirm</Button>
+                                <Button OnClick="@CancelClick" icon="reply" class_name="danger">Cancel</Button>
+                            }
+                        </div>
+                    </FlexItem>
+                </UkFlex>
+            </Column>
+        </Grid>        
+    </ModalFooter>
+</Modal>
+ 
+
+@code{
+
+    [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
+
+    [Parameter] public EventCallback<string> OnSearchProduct { get; set; }
+    [Parameter] public bool IsPurchaseOrderSearch { get; set; } = false;
+    public List<ProductModel> product_list { get; set; } = new List<ProductModel>();
+    [Parameter] public bool is_open { get; set; }
+    [Parameter] public EventCallback<bool> is_openChanged { get; set; }
+    [Parameter] public string keyword { get; set; }
+    [Parameter] public EventCallback<string> keywordChanged { get; set; }
+
+    public List<SelectedProductModel> selected_products { get; set; } = new List<SelectedProductModel>();
+    public SelectedProductModel selected_product { get; set; } = new SelectedProductModel();
+    [Parameter] public EventCallback<List<SelectedProductModel>> OnConfirmSelectedProductClick { get; set; }
+
+    ProductModel product;
+
+    string controller_api = "product";
+    int totalPage {
+        get {
+            if (pg.per_page > 0)
+            {
+                return Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(TotalRecord) / Convert.ToDecimal(pg.per_page)));
+            }
+            return 0;
+        }
+    }
+
+    async Task CancelClick()
+    {
+        keyword = "";
+        await keywordChanged.InvokeAsync(keyword);
+        await Cancel_click.InvokeAsync(new MouseEventArgs());
+        await is_openChanged.InvokeAsync(false);
+    }
+
+    public string ControllerApi
+    {
+        get
+        {
+            if (state.pager.order_by == "")
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";          
+            return   url + GetFilter(state.filters) + " and (is_inventory_product eq true or is_ingredient_product eq true)";
+
+        }
+    }
+    PagerModel pg = new PagerModel() { order_by_type = "desc" };
+    int TotalRecord = 0;
+
+    async Task SearchProduct(string _keyword)
+    {
+        is_loading = true;
+        pg.current_page = 1;
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", _keyword, true);
+        await LoadData();
+        is_loading = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        state = new StateModel();
+        state.pager = new PagerModel();
+        state.filters.Add(new FilterModel()
+        {
+            key = "is_deleted",
+            value1 = "false"
+        });
+        state.filters.Add(new FilterModel()
+        {
+            key = "status",
+            value1 = "true"
+        });
+
+        if (!string.IsNullOrEmpty(keyword)) {
+            state.filters.Add(new FilterModel()
+            {
+                key = "keyword",
+                value2 = keyword
+            });
+        }
+        await LoadData();
+    }
+
+    public async Task ChangePager(int _page)
+    {
+        pg.current_page = _page;
+        StateHasChanged();
+        await LoadData();
+    }
+
+    public async Task SelectChange(int perpage)
+    {
+        is_loading = true;
+        pg.per_page = perpage;
+        pg.current_page = 1;
+        await LoadData();
+        is_loading = false;
+    }
+    async Task OrderBy(string col_name = "")
+    {
+        pg.order_by = col_name;
+        pg.order_by_type = (pg.order_by_type == "asc" ? "desc" : "asc");
+        await LoadData();
+    }
+
+    public async Task LoadData()
+    {
+        is_loading = true;
+        var res = await http.ApiGetOData(ControllerApi);
+        if (res.IsSuccess)
+        {
+            TotalRecord = res.Count;
+            product_list = JsonSerializer.Deserialize<List<ProductModel>>(res.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+
+    void ChooseProduct_Click(ProductModel p)
+    {
+        // get selected product
+        var sp = selected_products.Where(r => r.product.id == p.id);
+        if (sp.Count() > 0)
+        {
+            sp.FirstOrDefault().quantity = sp.FirstOrDefault().quantity + 1;
+        }
+        else
+        {
+            selected_products.Add(new SelectedProductModel()
+            {
+                product = p,
+                cost = p.cost,
+                quantity = 1,
+                unit = p.unit
+            });
+        }
+
+    }
+
+    void OnConfirmSeletedProductVariant(List<SelectedProductModel> sp)
+    {
+        selected_products = sp;
+    }
+
+    void RemoveSeletedProduct(SelectedProductModel p)
+    {
+        selected_products.Remove(p);
+    }
+
+    async Task ConfirmSelectProduct()
+    {
+        is_saving = true;
+        keyword = "";
+        await OnConfirmSelectedProductClick.InvokeAsync(selected_products);
+        await keywordChanged.InvokeAsync(keyword);
+        await is_openChanged.InvokeAsync(false);
+        is_saving = true;
+    }
+
+    async Task FilterClick()
+    {
+        pg = new PagerModel();
+        state.filters.RemoveAll(r => r.filter_info_text != "");
+
+        // product category
+        if (state.product_category.id > 0)
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "product_category_id",
+                value1 = state.product_category.id.ToString(),
+                filter_title = "Product Category",
+                state_property_name = "product_category",
+                filter_info_text = state.product_category.product_category_en,
+                is_clear_all = true
+            });
+        }
+
+
+        await LoadData();
+    }
+
+
+    public async Task RemoveAllFilter()
+    {
+        is_loading = true;
+        foreach (var f in state.filters.Where(r => r.is_clear_all == true))
+        {
+            RemoveFilter(state, f.state_property_name);
+        }
+
+        state.filters.RemoveAll(r => r.is_clear_all == true);
+        state.pager.current_page = 1;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+    public async Task RemoveFilter(FilterModel f)
+    {
+        is_loading = true;
+        string[] remove_key = f.remove_key.Split(',');
+        foreach (var k in remove_key)
+        {
+            state.filters.RemoveAll(r => r.key == k);
+        }
+
+        state.pager.current_page = 1;
+        //gv.RemoveFilter
+        RemoveFilter(state, f.state_property_name);
+        await LoadData();
+        is_loading = false;
+    }
+
+}
+

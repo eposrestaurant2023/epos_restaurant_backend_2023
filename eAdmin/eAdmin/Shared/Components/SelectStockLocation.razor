@@ -6,9 +6,9 @@
             {
                 <option value="0">@empty_text</option>
             }
-            @foreach (var p in gv.stock_locations)
+            @foreach (var p in gv.stock_locations.Where(r => r.business_branch_id == business_branch_id))
             {
-                <option value="@p.id">@p.stock_location_name</option>
+                <option value="@p.id">@p.stock_location_name (@p.business_branch?.business_branch_name_en)</option>
             }
 
         </select>
@@ -22,32 +22,21 @@
     [Parameter] public string label { get; set; } = "Stock Location";
     [Parameter] public string icon { get; set; }
     [Parameter] public bool show_empty { get; set; } = false;
-    [Parameter] public bool is_active_default { get; set; } = false;
     [Parameter] public string empty_text { get; set; } = "Select Stock Location";
 
     [Parameter] public string width { get; set; } = "100%";
     [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public Guid business_branch_id { get; set; }
     [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
 
     [Parameter] public StockLocationModel stock_location { get; set; }
     [Parameter] public EventCallback<StockLocationModel> stock_locationChanged { get; set; }
-    int stock_location_default_id = 0;
 
     public int SelectedValue
     {
         get
         {
-            if (is_active_default)
-            {
-                stock_location_default_id = gv.stock_locations.Where(r =>r.is_default).FirstOrDefault().id;
-                selected_value = stock_location_default_id;
-                return stock_location_default_id;
-            }
-            else
-            {
-                return stock_location == null ? selected_value : stock_location.id;
-            }
-
+            return stock_location == null ? selected_value : stock_location.id;
         }
     }
 

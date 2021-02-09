@@ -60,6 +60,7 @@ namespace eModels
         
         public HashSet<string> multi_select_guid_2 { get; set; }
         public List<string> multi_select_value_2 { get; set; }
+        public VendorModel vendor { get; set; } = new VendorModel();
     }
 
     public class DateRangeModel
@@ -193,7 +194,9 @@ namespace eModels
         public string state_property_name { get; set; }
         public string sql_statement { get; set; }
     }
-
+    public class FilterGroupModel { 
+    
+    }
     public enum FilterOperator
     {
         eq, ne, gt, ge, lt, le, and, or, not, contains, suspicious_case, crime_case, notfilter

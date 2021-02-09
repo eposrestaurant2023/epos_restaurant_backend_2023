@@ -22,16 +22,16 @@ namespace eModels
 
         }
 
-        
-         
- 
-
-
         [Required(ErrorMessage = "Please select a category.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
         public int product_category_id { get; set; }
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
+
+        public int product_type_id { get; set; } = 1;
+        [ForeignKey("product_type_id")]
+        public ProductTypeModel product_type { get; set; }
+
         [MaxLength(50)]
         public string product_code { get; set; }
 
@@ -85,6 +85,9 @@ namespace eModels
         }
 
         public bool is_inventory_product { get; set; }
+        public bool is_menu_product { get; set; }
+        public bool is_ingredient_product { get; set; }
+        public decimal cost { get; set; }
         public List<HistoryModel> histories { get; set; }
 
         [NotMapped, JsonIgnore]
@@ -186,4 +189,15 @@ namespace eModels
 
     }
 
+    public class SelectedProductModel
+    {
+        public ProductModel product { get; set; }
+        // Both Data
+        public string unit { get; set; } = "Unit";
+        public decimal price { get; set; }
+        public decimal cost { get; set; }
+        public decimal quantity { get; set; } = 1;
+        public bool is_allow_discount { get; set; }
+
+    }
 }

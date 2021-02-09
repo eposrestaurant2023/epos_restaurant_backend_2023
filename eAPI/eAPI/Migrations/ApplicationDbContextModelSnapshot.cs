@@ -77,14 +77,24 @@ namespace eAPI.Migrations
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("purchase_order_id")
+                        .HasColumnType("int");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("vendor_id")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
                     b.HasIndex("customer_id");
 
                     b.HasIndex("product_id");
+
+                    b.HasIndex("purchase_order_id");
+
+                    b.HasIndex("vendor_id");
 
                     b.ToTable("tbl_attach_files");
                 });
@@ -642,9 +652,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("prefix")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -665,6 +672,12 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("ProductModelid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseOrderModelid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PurchaseOrderPaymentModelid")
                         .HasColumnType("int");
 
                     b.Property<decimal>("amount")
@@ -717,6 +730,9 @@ namespace eAPI.Migrations
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("purchase_order_id")
+                        .HasColumnType("int");
+
                     b.Property<Guid?>("sale_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -737,17 +753,26 @@ namespace eAPI.Migrations
                     b.Property<int?>("user_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("vendor_id")
+                        .HasColumnType("int");
+
                     b.HasKey("id");
 
                     b.HasIndex("PaymentModelid");
 
                     b.HasIndex("ProductModelid");
 
+                    b.HasIndex("PurchaseOrderModelid");
+
+                    b.HasIndex("PurchaseOrderPaymentModelid");
+
                     b.HasIndex("customer_id");
 
                     b.HasIndex("sale_id");
 
                     b.HasIndex("user_id");
+
+                    b.HasIndex("vendor_id");
 
                     b.ToTable("tbl_history");
                 });
@@ -1133,6 +1158,9 @@ namespace eAPI.Migrations
                     b.Property<int>("payment_type_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("purchase_order_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("reference_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -1146,6 +1174,8 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("payment_type_id");
+
+                    b.HasIndex("purchase_order_id");
 
                     b.HasIndex("sale_id");
 
@@ -1526,6 +1556,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<decimal>("cost")
+                        .HasColumnType("decimal(16,4)");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1554,7 +1587,13 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_ingredient_product")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_inventory_product")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_menu_product")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_open_product")
@@ -1593,6 +1632,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<int>("product_type_id")
+                        .HasColumnType("int");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -1603,6 +1645,8 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("product_category_id");
+
+                    b.HasIndex("product_type_id");
 
                     b.ToTable("tbl_product");
                 });
@@ -1811,6 +1855,312 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_product_type");
+                });
+
+            modelBuilder.Entity("eModels.ProvinceModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("province_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_province");
+                });
+
+            modelBuilder.Entity("eModels.PurchaseOrderModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<decimal>("balance")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("discount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<string>("discount_type")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int?>("discount_user_id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("discountable_amount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<string>("document_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("due_date")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("grand_total_discount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_fulfilled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_over_due")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_paid")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_partially_paid")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("paid_amount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("po_product_discount_amount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<DateTime>("purchase_date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("purchase_order_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("reference_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("stock_location_id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("sub_total")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<string>("term_conditions")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("total_amount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("total_discount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("total_quantity")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<int>("vendor_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("vendor_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("business_branch_id");
+
+                    b.HasIndex("discount_user_id");
+
+                    b.HasIndex("stock_location_id");
+
+                    b.HasIndex("vendor_id");
+
+                    b.ToTable("tbl_purchase_order");
+                });
+
+            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_create_payment_in_puchase_order")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("payment_amount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<DateTime>("payment_date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("payment_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("payment_type_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("purhcase_order_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("reference_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("payment_type_id");
+
+                    b.HasIndex("purhcase_order_id");
+
+                    b.ToTable("tbl_purchase_order_payment");
+                });
+
+            modelBuilder.Entity("eModels.PurchaseOrderProductModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<decimal>("cost")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("discount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<string>("discount_type")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("grand_total")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("invoice_discount_amount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<bool>("is_allow_discount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_fulfilled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_inventory_product")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("multiplier")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("product_type_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("purchase_order_id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("quantity")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("regular_price")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("selling_price")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("sub_total")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("total_amount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal>("total_discount")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<string>("unit")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("product_id");
+
+                    b.HasIndex("product_type_id");
+
+                    b.HasIndex("purchase_order_id");
+
+                    b.ToTable("tbl_purchase_order_product");
                 });
 
             modelBuilder.Entity("eModels.RoleModel", b =>
@@ -2173,11 +2523,11 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("is_default")
                         .HasColumnType("bit");
-
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
 
                     b.Property<string>("stock_location_name")
                         .HasColumnType("nvarchar(max)")
@@ -2185,7 +2535,7 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("outlet_id");
+                    b.HasIndex("business_branch_id");
 
                     b.ToTable("tbl_stock_location");
                 });
@@ -2455,6 +2805,55 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_user");
                 });
 
+            modelBuilder.Entity("eModels.VendorGroupModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("vendor_group_name_en")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("vendor_group_name_kh")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_vendor_group");
+                });
+
             modelBuilder.Entity("eModels.VendorModel", b =>
                 {
                     b.Property<int>("id")
@@ -2490,6 +2889,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<bool>("is_auto_generate_vendor_code")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -2509,6 +2911,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<int>("province_id")
+                        .HasColumnType("int");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -2520,12 +2925,19 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<int>("vendor_group_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("vendor_name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
+
+                    b.HasIndex("province_id");
+
+                    b.HasIndex("vendor_group_id");
 
                     b.ToTable("tbl_vendor");
                 });
@@ -2540,9 +2952,21 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("product_id");
 
+                    b.HasOne("eModels.VendorModel", "purchase_order")
+                        .WithMany()
+                        .HasForeignKey("purchase_order_id");
+
+                    b.HasOne("eModels.VendorModel", "vendor")
+                        .WithMany()
+                        .HasForeignKey("vendor_id");
+
                     b.Navigation("customer");
 
                     b.Navigation("product");
+
+                    b.Navigation("purchase_order");
+
+                    b.Navigation("vendor");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchPaymentTypeModel", b =>
@@ -2664,6 +3088,14 @@ namespace eAPI.Migrations
                         .WithMany("histories")
                         .HasForeignKey("ProductModelid");
 
+                    b.HasOne("eModels.PurchaseOrderModel", null)
+                        .WithMany("histories")
+                        .HasForeignKey("PurchaseOrderModelid");
+
+                    b.HasOne("eModels.PurchaseOrderPaymentModel", null)
+                        .WithMany("histories")
+                        .HasForeignKey("PurchaseOrderPaymentModelid");
+
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
@@ -2676,11 +3108,17 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("user_id");
 
+                    b.HasOne("eModels.VendorModel", "vendor")
+                        .WithMany()
+                        .HasForeignKey("vendor_id");
+
                     b.Navigation("customer");
 
                     b.Navigation("sale");
 
                     b.Navigation("user");
+
+                    b.Navigation("vendor");
                 });
 
             modelBuilder.Entity("eModels.MenuModel", b =>
@@ -2766,11 +3204,17 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
+                        .WithMany("payments")
+                        .HasForeignKey("purchase_order_id");
+
                     b.HasOne("eModels.SaleModel", "sale")
                         .WithMany("payments")
                         .HasForeignKey("sale_id");
 
                     b.Navigation("payment_type");
+
+                    b.Navigation("purchase_order");
 
                     b.Navigation("sale");
                 });
@@ -2863,7 +3307,15 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.ProductTypeModel", "product_type")
+                        .WithMany()
+                        .HasForeignKey("product_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("product_category");
+
+                    b.Navigation("product_type");
                 });
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
@@ -2934,6 +3386,83 @@ namespace eAPI.Migrations
                     b.Navigation("product");
                 });
 
+            modelBuilder.Entity("eModels.PurchaseOrderModel", b =>
+                {
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                        .WithMany()
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.UserModel", "discount_user")
+                        .WithMany()
+                        .HasForeignKey("discount_user_id");
+
+                    b.HasOne("eModels.StockLocationModel", "stock_location")
+                        .WithMany()
+                        .HasForeignKey("stock_location_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.VendorModel", "vendor")
+                        .WithMany()
+                        .HasForeignKey("vendor_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("business_branch");
+
+                    b.Navigation("discount_user");
+
+                    b.Navigation("stock_location");
+
+                    b.Navigation("vendor");
+                });
+
+            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
+                {
+                    b.HasOne("eModels.PaymentTypeModel", "payment_type")
+                        .WithMany()
+                        .HasForeignKey("payment_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
+                        .WithMany()
+                        .HasForeignKey("purhcase_order_id");
+
+                    b.Navigation("payment_type");
+
+                    b.Navigation("purchase_order");
+                });
+
+            modelBuilder.Entity("eModels.PurchaseOrderProductModel", b =>
+                {
+                    b.HasOne("eModels.ProductModel", "product")
+                        .WithMany()
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.ProductTypeModel", "product_type")
+                        .WithMany()
+                        .HasForeignKey("product_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
+                        .WithMany("purchase_order_products")
+                        .HasForeignKey("purchase_order_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product");
+
+                    b.Navigation("product_type");
+
+                    b.Navigation("purchase_order");
+                });
+
             modelBuilder.Entity("eModels.SaleModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -2999,13 +3528,13 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StockLocationModel", b =>
                 {
-                    b.HasOne("eModels.OutletModel", "outlet")
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
                         .WithMany()
-                        .HasForeignKey("outlet_id")
+                        .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("outlet");
+                    b.Navigation("business_branch");
                 });
 
             modelBuilder.Entity("eModels.TableGroupModel", b =>
@@ -3085,6 +3614,25 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("role");
+                });
+
+            modelBuilder.Entity("eModels.VendorModel", b =>
+                {
+                    b.HasOne("eModels.ProvinceModel", "province")
+                        .WithMany()
+                        .HasForeignKey("province_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.VendorGroupModel", "vendor_group")
+                        .WithMany("vendors")
+                        .HasForeignKey("vendor_group_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("province");
+
+                    b.Navigation("vendor_group");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
@@ -3192,6 +3740,20 @@ namespace eAPI.Migrations
                     b.Navigation("product_prices");
                 });
 
+            modelBuilder.Entity("eModels.PurchaseOrderModel", b =>
+                {
+                    b.Navigation("histories");
+
+                    b.Navigation("payments");
+
+                    b.Navigation("purchase_order_products");
+                });
+
+            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
+                {
+                    b.Navigation("histories");
+                });
+
             modelBuilder.Entity("eModels.RoleModel", b =>
                 {
                     b.Navigation("permission_option_roles");
@@ -3226,6 +3788,11 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
                     b.Navigation("user_business_branchs");
+                });
+
+            modelBuilder.Entity("eModels.VendorGroupModel", b =>
+                {
+                    b.Navigation("vendors");
                 });
 #pragma warning restore 612, 618
         }

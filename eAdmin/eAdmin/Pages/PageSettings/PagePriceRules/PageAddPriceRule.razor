@@ -1,0 +1,147 @@
+﻿@page "/pricerule/new"
+@page "/pricerule/edit/{id:int}"
+@page "/pricerule/clone/{clone_id:int}"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Outlet & Station"></Title>
+    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "price_rule_edit" : "price_rule_add")}")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        <span>
+                            @if (clone_id > 0)
+                            {
+                                @("Clone : " + price.price_name)
+                            }
+                            else
+                            {
+                                @(id>0? $"Edit : {price.price_name}" : "New Price Rule")
+                            }
+                        </span>
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true"></HeaderRight>
+        </PageHeader>
+        <EditForm Model="@price" OnValidSubmit="@SavePriceRule_Click">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox Title="Payment Type">
+                        <TextInput label="Name" @bind-text="@price.price_name">
+                            <ValidationMessage For="@(()=>price.price_name)" />
+                        </TextInput>
+                        @foreach (var b in business_branches)
+                        {
+                            <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" /></div>
+                        }
+                        <SelectStatus @bind-selected_value="@price.status" />
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <ButtonGroup class_name="uk-width-1-1">
+                        <Button type="submit" icon="save">Save</Button>
+                        <LinkButton url="pricerule" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+                    </ButtonGroup>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+}
+
+@code{
+    [Parameter] public int id { get; set; }
+    [Parameter] public int clone_id { get; set; }
+    PriceRuleModel price = new PriceRuleModel();
+    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
+    string ControllerApi = "PriceRule";
+    public string api_url
+    {
+        get
+        {
+            string query = ControllerApi;
+            query = query + $"({(id == 0 ? clone_id : id)})?";
+            query = query + "$expand=business_branch_prices($select=price_rule_id,business_branch_id)";
+            return query;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        await LoadBusinessBranch();
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(api_url);
+        if (resp.IsSuccess)
+        {
+            price = JsonSerializer.Deserialize<PriceRuleModel>(resp.Content.ToString());
+            if (clone_id > 0)
+            {
+                price.id = 0;
+                price.created_date = DateTime.Now;
+            }
+        }
+        is_loading_data = false;
+    }
+
+    async Task LoadBusinessBranch()
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=business_branch_prices($select=price_rule_id,business_branch_id)&$filter=is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+
+            foreach (var bp in price.business_branch_prices)
+            {
+                foreach (var b in business_branches.Where(r => r.id == bp.business_branch_id))
+                {
+                    b.is_selected = true;
+                }
+            }
+        }
+        is_loading_data = false;
+    }
+
+    async Task SavePriceRule_Click()
+    {
+        is_saving = true;
+        price.business_branch_prices.Clear();
+        foreach (var a in business_branches.ToList())
+        {
+            if (a.is_selected)
+            {
+                price.business_branch_prices.Add(new BusinessBranchPriceRule()
+                {
+                    business_branch_id = a.id,
+                    price_rule_id = id
+                });
+            }
+        }
+
+        var post = await http.ApiPost("PriceRule/Save", price);
+        if (post.IsSuccess)
+        {
+            toast.Add("Save Successfully!", MatToastType.Success);
+            nav.NavigateTo("pricerule");
+            price = new PriceRuleModel();
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+}

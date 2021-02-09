@@ -11,10 +11,9 @@ namespace eModels
     {
         [Key]
         public int id { get; set; }
-
-        public int outlet_id { get; set; }
-        [ForeignKey("outlet_id")]
-        public OutletModel outlet { get; set; }
+        public Guid business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
         public string stock_location_name { get; set; }
         public bool is_default { get; set; }
 

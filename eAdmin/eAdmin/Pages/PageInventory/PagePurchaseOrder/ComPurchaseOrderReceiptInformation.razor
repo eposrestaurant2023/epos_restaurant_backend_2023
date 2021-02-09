@@ -1,0 +1,24 @@
+﻿@inject IHttpService http
+
+<div class="uk-form-horizontal">
+    <div class="uk-margin-small">
+        <label class="uk-form-label"><Icon icon="layers" size="16px" />Referance #</label>
+        <div class="uk-form-controls">
+            <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
+        </div>
+    </div>
+    <DateInput label="PO Date" value="@model.purchase_date" valueChanged="@onDateChange" icon="layers" />
+    <SelectBusinessBranch @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
+    <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
+</div>
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public PurchaseOrderModel model { get; set; }
+    [Parameter] public EventCallback<PurchaseOrderModel> modelChanged { get; set; }
+      
+    async Task onDateChange(DateTime date)
+    {
+        model.purchase_date = date;
+        await modelChanged.InvokeAsync(model);
+    }
+}

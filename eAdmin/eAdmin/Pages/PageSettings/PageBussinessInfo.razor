@@ -104,8 +104,8 @@
 
                                     </table>
                                     <div>
-                                        <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                        <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                        <LabelActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                        <LabelInActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
 
                                     </div>
                                 </ContentLeft>

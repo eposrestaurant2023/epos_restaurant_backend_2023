@@ -1,0 +1,319 @@
+﻿@page "/vendorgroup"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Vendor Group"></Title>
+    <PageContainer roles="@gv.GetRole("vendor_group_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle>
+                    <HeaderTemplate>
+                       @state.page_title
+                    </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="Status">
+                            <ModuleView module_views="@gv.GetModuleView("page_vendor_group")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <Button icon="add" OnClick="@OnOpenModel">New</Button>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Table 
+                     PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                      Items="@models"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto"
+                       EmptyText="There is no record.">
+                <TableHeader>
+                    <ThAuto>Name (Kh) </ThAuto>
+                    <Th>Action</Th>
+                    <Th></Th>
+                </TableHeader>
+                <RowTemplate Context="p">
+                    <td>@p.vendor_group_name_en (@p.vendor_group_name_kh)</td>
+                    <td>
+                        <LabelActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@p.status" is_loading="@p.is_change_status" />
+                        <LabelInActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@(!p.status && !p.is_deleted)" is_loading="@p.is_change_status" />
+                        <LabelDeleted is_visible="@p.is_deleted"/>
+                    </td>
+                    <TdActions>
+                        <TableActionItem OnClick="@(()=>OnEdit(p.id))" icon="edit" is_visible="@(!p.is_deleted)">Edit </TableActionItem>
+                        <TableActionItem icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
+                        <TableActionItem icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
+                        <TableActionItem  icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">Delete</TableActionItem>
+                        <TableActionItem  icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">Restore</TableActionItem>
+                    </TdActions>
+                </RowTemplate>
+            </Table>
+            
+        </PageBody>
+    </PageContainer>
+
+    <EditFormContext model="@vendor_group" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
+ 
+        <TextInput label="Vendor name En" @bind-text="@vendor_group.vendor_group_name_en" />
+        <TextInput label="Vendor name Kh" @bind-text="@vendor_group.vendor_group_name_kh" />
+
+    </EditFormContext>
+
+
+
+}
+
+@code{
+    string guid = Guid.NewGuid().ToString();
+    bool ShowModal = false;
+    List<VendorGroupModel> models = new List<VendorGroupModel>();
+    [Parameter] public bool IsSubmitting { get; set; } = false;
+    VendorGroupModel vendor_group { get; set; } = new VendorGroupModel();
+
+    string ModalTitle = "";
+    public int TotalRecord = 0;
+    public string StateKey = "098484567Gs254254njht8kjhTonB3PCz2Ts"; //Storage and Session Key
+
+    string controller_api = "VendorGroup";
+
+    public string ControllerApi
+    {
+        get
+        {
+            if (state.pager.order_by == "")
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+
+            return url + GetFilter(state.filters);
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        state = await GetState(StateKey);
+        if (state.page_title == "")
+        {
+            state.page_title = "Vendor Group";
+            var default_view = gv.GetDefaultModuleView("page_vendor_group");
+            if (default_view != null)
+            {
+                state.page_title = default_view.title;
+                state.filters = default_view.filters;
+            }
+        }
+        if (state.filters.Count == 0)
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "is_deleted",
+                value1 = "false"
+            });
+        }
+        await LoadData(state.api_url);
+        is_loading = false;
+    }
+
+    public async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+            await SetState(StateKey, state);
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<VendorGroupModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+        }
+        is_loading = false;
+    }
+
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        var res = await http.ApiPost("VendorGroup/save", vendor_group);
+        if (res.IsSuccess)
+        {
+            toast.Add("Save sucessfully", MatToastType.Success);
+
+            await LoadData();
+        }
+        else
+        {
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+        }
+
+        ShowModal = false;
+        vendor_group = new VendorGroupModel();
+        is_saving = false;
+
+    }
+
+    void OnOpenModel()
+    {
+        ShowModal = !ShowModal;
+    }
+
+    async Task OnEdit(int id)
+    {
+        is_loading_data = true;
+        var get_result = await http.ApiGet($"VendorGroup({id})");
+        if (get_result.IsSuccess)
+        {
+            vendor_group = JsonSerializer.Deserialize<VendorGroupModel>(get_result.Content.ToString());
+            ModalTitle = "Edit" + ": " + vendor_group.vendor_group_name_en;
+            ShowModal = true;
+        }
+        is_loading_data = false;
+    }
+
+    async Task OnDelete(VendorGroupModel p)
+    {
+        p.is_loading = true;
+        if (await js.Confirm("Delete Vendorgroup", "Are you sure you want to delete this record?", SweetAlertMessageType.question))
+        {
+
+            var resp = await http.ApiPost(ControllerApi + "/delete/" + p.id);
+
+
+            if (resp.IsSuccess)
+            {
+                await LoadData();
+            }
+            toast.Add("Delete Province successfully", MatToastType.Success);
+
+        }
+
+        p.is_loading = false;
+
+    }
+
+    void AddNew()
+    {
+        vendor_group = new VendorGroupModel();
+        ShowModal = true;
+    }
+    public async Task SelectChange(int perpage)
+    {
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+    public async Task ChangePager(int _page)
+    {
+        state.pager.current_page = _page;
+        await LoadData();
+    }
+
+    public async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+
+    public async Task OnSearch(string keyword)
+    {
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword);
+        await LoadData();
+    }
+
+
+
+    public async Task OnToogleStatus(VendorGroupModel p)
+    {
+        p.is_loading = true;
+        await SaveStatus(p);
+        p.is_loading = false;
+    }
+    public async Task OnToogleStatusLabel(VendorGroupModel p)
+    {
+        p.is_change_status = true;
+        await SaveStatus(p);
+        p.is_change_status = false;
+    }
+
+
+    public async Task SaveStatus(VendorGroupModel p)
+    {
+        var vendorGroup = new VendorGroupModel();
+        vendorGroup = p;
+        vendorGroup.status = !vendorGroup.status;
+        string d = JsonSerializer.Serialize(vendorGroup);
+        var resp = await http.ApiPost(controller_api + "/save", vendorGroup);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+            if (models.Count() == 1 && state.pager.current_page > 1)
+            {
+                state.pager.current_page = state.pager.current_page - 1;
+            }
+            await ReloadVendorGroup();
+            await LoadData();
+        }
+    }
+
+
+    async Task ReloadVendorGroup()
+    {
+        var resp_gv = await http.ApiGet("GlobalVariable?$expand=vendor_groups");
+        if (resp_gv.IsSuccess)
+        {
+            var data = JsonSerializer.Deserialize<GlobalVariableModel>(resp_gv.Content.ToString());
+
+        }
+    }
+
+    public async Task OnDeleteRestore(VendorGroupModel p, bool is_delete = true)
+    {
+        p.is_loading = true;
+        string conf_title = $"{(is_delete ? "Delete" : "Restore")} Vendor Group";
+        string conf_message = $"({p.vendor_group_name_en}), Are you sure to {(is_delete ? "delete" : "restore")}?";
+        string toast_msg = $"Record ({p.vendor_group_name_en}) was {(is_delete ? "deleted" : "restored")}";
+        if (await js.Confirm(conf_title, conf_message))
+        {
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+            if (resp.IsSuccess)
+            {
+                toast.Add(toast_msg, MatToastType.Success);
+                if (models.Count() == 1 && state.pager.current_page > 0)
+                {
+                    state.pager.current_page = state.pager.current_page - 1;
+                }
+                await ReloadVendorGroup();
+                await LoadData();
+            }
+        }
+        p.is_loading = false;
+    }
+
+
+
+}

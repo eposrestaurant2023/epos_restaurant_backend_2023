@@ -151,6 +151,7 @@ namespace eAdmin.Pages
                                 filter_values = $"({filter_values})    ";
 
                             }
+
                             if (!string.IsNullOrEmpty(filter_values))
                             {
                                 filter = $"{filter} {filter_values}";
@@ -241,6 +242,10 @@ namespace eAdmin.Pages
 
                 case "outlet":
                     state.outlet = new OutletModel();
+                    break;
+
+                case "vendor":
+                    state.vendor = new VendorModel();
                     break;
                    
                
