@@ -52,10 +52,11 @@
                         <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
                             <ValidationMessage For="@(()=>model.province_id)" />
                         </SelectProvince>
-                        <TextInput label="Vendor Name" @bind-text="@model.vendor_name" >
+                        <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
                             <ValidationMessage For="@(() => model.vendor_name)" />
                         </TextInput>
                         <TextInput label="Company Name" @bind-text="@model.company_name" />
+                        <SelectStatus @bind-selected_value="@model.status" label="Status"/>
                         <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
                         <TextInput label="Office Phone" @bind-text="@model.office_phone" />
                         <TextInput label="Address" type="textarea" @bind-text="@model.address" />
