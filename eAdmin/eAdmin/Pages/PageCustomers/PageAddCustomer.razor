@@ -41,7 +41,7 @@
             <PageFooter>
                 <FooterCenter> 
                     <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
-                    <Button icon="save_alt" class_name="uk-button uk-button-multiple button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
+                    <Button icon="save_alt" class_name="uk-button uk-button-primary button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
                     <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
                 </FooterCenter>
             </PageFooter>
