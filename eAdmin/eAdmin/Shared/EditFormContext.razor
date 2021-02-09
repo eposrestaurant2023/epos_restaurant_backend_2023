@@ -1,5 +1,5 @@
 ﻿ 
-<EditForm @onsubmit:preventDefault="true" Model="model" Context="formContext" class="@form_attributes">
+<EditForm @onsubmit:preventDefault="true" Model="model" Context="formContext" class="@form_attributes" >
     <ObjectGraphDataAnnotationsValidator />
     <Modal IsSimpleMode="false" Title="@title" IsOpened="@is_opened" IsOpenedChanged="(()=>OnCancelClick())" ModalWidth="@modal_width">
         <ModalBody>

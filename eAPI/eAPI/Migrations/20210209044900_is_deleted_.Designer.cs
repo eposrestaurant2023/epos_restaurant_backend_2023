@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210209044900_is_deleted_")]
+    partial class is_deleted_
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2041,7 +2043,7 @@ namespace eAPI.Migrations
                     b.Property<int>("payment_type_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("purchase_order_id")
+                    b.Property<int?>("purhcase_order_id")
                         .HasColumnType("int");
 
                     b.Property<string>("reference_number")
@@ -2055,7 +2057,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("payment_type_id");
 
-                    b.HasIndex("purchase_order_id");
+                    b.HasIndex("purhcase_order_id");
 
                     b.ToTable("tbl_purchase_order_payment");
                 });
@@ -3097,7 +3099,7 @@ namespace eAPI.Migrations
                         .HasForeignKey("payment_id");
 
                     b.HasOne("eModels.PurchaseOrderPaymentModel", "purchase_order_payment")
-                        .WithMany("histories")
+                        .WithMany()
                         .HasForeignKey("purchase_order_payment_id");
 
                     b.HasOne("eModels.SaleModel", "sale")
@@ -3427,9 +3429,7 @@ namespace eAPI.Migrations
 
                     b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
                         .WithMany("purchase_order_payments")
-                        .HasForeignKey("purchase_order_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("purhcase_order_id");
 
                     b.Navigation("payment_type");
 
@@ -3747,11 +3747,6 @@ namespace eAPI.Migrations
                     b.Navigation("purchase_order_payments");
 
                     b.Navigation("purchase_order_products");
-                });
-
-            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
-                {
-                    b.Navigation("histories");
                 });
 
             modelBuilder.Entity("eModels.RoleModel", b =>

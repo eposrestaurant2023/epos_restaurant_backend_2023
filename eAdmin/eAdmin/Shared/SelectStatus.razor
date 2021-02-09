@@ -1,11 +1,12 @@
-﻿ 
-<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id">Status</label>
-    <div class="uk-form-controls">
-        <select id="@id" value="@selected_value.ToString()" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small" style="width:@Width">
-            <option value="True">Active</option>   
-            <option value="False">Inactive</option>   
-        </select>
+﻿ <div class="uk-form-horizontal">
+    <div class="uk-margin-small">
+        <label class="uk-form-label" for="@id">Status</label>
+        <div class="uk-form-controls">
+            <select id="@id" value="@selected_value.ToString()" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small" style="width:@Width">
+                <option value="True">Active</option>
+                <option value="False">Inactive</option>
+            </select>
+        </div>
     </div>
 </div>
 
