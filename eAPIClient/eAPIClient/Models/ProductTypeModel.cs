@@ -9,8 +9,6 @@ namespace eAPIClient.Models
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }    
-
-        [MaxLength(100)]
         public string product_type_name { get; set; }
 
         public int sort_order { get; set; } = 0;

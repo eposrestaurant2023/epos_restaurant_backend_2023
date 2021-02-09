@@ -10,15 +10,11 @@ namespace eAPIClient.Models
     [Table("tbl_payment_type")]
     public class PaymentTypeModel : CoreModel
     {
-
-        [Required(ErrorMessage = "Please select a currency.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a currency.")]
         public int currency_id { get; set; }
         [ForeignKey("currency_id")]
         public CurrencyModel currency { get; set; }
 
         private string _payment_type_name_en;
-        [MaxLength(50)]
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string payment_type_name_en
         {
@@ -30,7 +26,6 @@ namespace eAPIClient.Models
                 }
             }
         }
-        [MaxLength(50)]
         public string payment_type_name_kh { get; set; }
         public string photo { get; set; }
         public bool is_build_in { get; set; }

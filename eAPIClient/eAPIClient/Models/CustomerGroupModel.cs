@@ -15,8 +15,6 @@ namespace eAPIClient.Models
         }
 
         private string _customer_group_name_en;
-        [Required(ErrorMessage ="Field cannot be blank.")]  
-        [MaxLength(50)]
         public string customer_group_name_en
         {
             get { return _customer_group_name_en; }
@@ -27,8 +25,6 @@ namespace eAPIClient.Models
                 }
             }
         }
-
-        [MaxLength(50)]
         public string customer_group_name_kh { get; set; }
 
 

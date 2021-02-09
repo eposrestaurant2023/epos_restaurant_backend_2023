@@ -14,11 +14,8 @@ namespace eAPIClient.Models
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
 
-
         private string _station_name_en;
         
-        [MaxLength(50)]
-        [Required(ErrorMessage = "Field cannot be blank.")]
         public string station_name_en
         {
             get { return _station_name_en; }
@@ -29,7 +26,6 @@ namespace eAPIClient.Models
                 }
             }
         }
-        [MaxLength(50)]
         public string station_name_kh { get; set; }
         public bool is_already_config { get; set; } = false;         
 

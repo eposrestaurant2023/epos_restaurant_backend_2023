@@ -12,14 +12,11 @@ namespace eAPIClient.Models
     {
         public Guid business_branch_id { get; set; }
 
-        [MaxLength(50)]
         public string currency_name_en { get; set; }
 
-        [MaxLength(50)]
         public string currency_name_kh { get; set; }
 
 
-        [MaxLength(50)]
         public string currency_format { get; set; }
 
 

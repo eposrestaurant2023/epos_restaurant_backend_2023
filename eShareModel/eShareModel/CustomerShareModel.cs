@@ -12,8 +12,6 @@ namespace eShareModel
         public string customer_code { get; set; }
 
         private string _customer_name_en;
-        [Required(ErrorMessage = "Field cannot be blank.")]
-        [MaxLength(50)]
         public string customer_name_en
         {
             get { return _customer_name_en; }
@@ -24,27 +22,26 @@ namespace eShareModel
                 }
             }
         }
-        [MaxLength(50)]
+       
         public string customer_name_kh { get; set; }
 
-        [MaxLength(10)]
+
         public string gender { get; set; }
 
-        [MaxLength(50)]
+
         public string email { get; set; }
 
-        [MaxLength(100)]
+
         public string address { get; set; }
 
-        [MaxLength(50)]
+
         public string phone_1 { get; set; }
 
-        [MaxLength(50)]
         public string phone_2 { get; set; }
         public string photo { get; set; }
       
 
-        [MaxLength(50)]
+
         public string   nationality { get; set; }
 
 
