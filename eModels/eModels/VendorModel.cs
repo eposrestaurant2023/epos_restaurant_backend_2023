@@ -12,7 +12,7 @@ namespace eModels
     public class VendorModel : CoreModel
     {
         [Required(ErrorMessage = "Please select vendor code.")]
-        public string vendor_code { get; set; } ="New"
+        public string vendor_code { get; set; } = "New";
         [Required(ErrorMessage = "Please select vendor name.")]
         public string vendor_name { get; set; }
         public string photo { get; set; }
