@@ -16,12 +16,7 @@ namespace eAPI.Controllers
 
     public class AppController : ControllerBase
     {
-
-        
-
         public IConfiguration Configuration { get; }
-
-
         private readonly ApplicationDbContext db;
         public AppController(ApplicationDbContext _db, IConfiguration configuration)
         {
