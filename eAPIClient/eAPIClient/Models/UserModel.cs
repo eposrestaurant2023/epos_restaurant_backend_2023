@@ -6,15 +6,14 @@ using System.Text.Json.Serialization;
 
 namespace eAPIClient.Models
 {
- 
+    [Table("tbl_user")]
     public class UserModel 
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
-
         public string username { get; set; }
         public string full_name { get; set; }
-        [MaxLength(20)]
         public string password { get; set; } = "";
         public int pin_code { get; set; }
 

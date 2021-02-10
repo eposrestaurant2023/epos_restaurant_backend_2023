@@ -15,7 +15,6 @@ namespace eModels
         public OutletModel()
         {
             stations = new List<StationModel>();
-            table_group_screens = new List<TableGroupScreenModel>();
         }
 
         [Required(ErrorMessage = "Please select a business branch.")]
@@ -46,7 +45,6 @@ namespace eModels
 
 
         public List<StationModel> stations { get; set; }
-        public List<TableGroupScreenModel> table_group_screens { get; set; }
 
     }
 }
