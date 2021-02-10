@@ -90,7 +90,7 @@
                         </TdRight>
                         <TdActions is_loading="@p.is_loading">
                             <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@((!p.is_deleted && !p.is_paid) && (!p.is_partially_paid && !p.is_fulfilled))" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
                         </TdActions>
                     </RowTemplate>

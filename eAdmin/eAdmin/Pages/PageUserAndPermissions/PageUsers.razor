@@ -11,7 +11,7 @@
 @if (!is_loading)
 {
     <Title Value="User Management"></Title>
-    <PageContainer roles="@gv.GetRole("user_management")">
+    <PageContainer roles="@gv.GetRole("user_account")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
@@ -42,16 +42,20 @@
                        Items="@users_list"
                        ShowCounter="true">
                     <TableHeader>
+                        <ThCenter>Image</ThCenter>
                         @HeaderTemplate("full_name", "Full Name", "uk-width-auto uk-text-left")
-                        <ThAuto OnClick="@(async () => await OrderBy("username"))" OrderBy="@(state.pager.order_by == "username")" OrderByType="@state.pager.order_by_type">User Name</ThAuto>
+                        <Th OnClick="@(async () => await OrderBy("username"))" OrderBy="@(state.pager.order_by == "username")" OrderByType="@state.pager.order_by_type">User Name</Th>
                         @HeaderTemplate("role/role_name", "User Type", "uk-width-auto uk-text-left")
                         @HeaderTemplate("phone_number", "Phone Number", "uk-width-auto uk-text-center")
                         @HeaderTemplate("email", "Email", "uk-width-auto uk-text-left")
-                        <th>Note</th>
+                        <ThAuto>Note</ThAuto>
                         <ThCenter>Status</ThCenter>
                         <th></th>
                     </TableHeader>
                     <RowTemplate Context="user">
+                        <TdCenter>
+                            <Image ImageUrl="@http.ImageUrl(user.photo)" PopupImageUrl="@http.ImageUrl(user.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                        </TdCenter>
                         <td>@user.full_name</td>
                         <td>
                             @if (!user.is_deleted && !user.is_buildin)
@@ -115,8 +119,8 @@
     string password_uri;
     string old_username = ""; 
 
-    string controller_api = "user";
-    string StateKey = "gjRAWATLJl9jspMN456oiefawefawf3U9asdsa";
+    string controller_api = "User";
+    string StateKey = "55sNaBpzJlLzhs9IjuzqEODlwfBSCTTx";
     public string ControllerApi
     {
         get
@@ -127,7 +131,7 @@
                 state.pager.order_by_type = "desc";
             }
 
-            string select = "$select=username,role_id,email,phone_number,password,full_name,user_profile_img,created_date,created_by,is_deleted,note,status,id,is_buildin&$expand=role($select=role_name,description,id)";
+            string select = "$select=username,role_id,email,phone_1,password,full_name,photo,created_date,created_by,is_deleted,note,status,id,is_buildin&$expand=role($select=role_name,description,id)";
 
 
             string url = $"{controller_api}?{select}&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
@@ -211,7 +215,7 @@
         {
             roles = await LoadRoles();
         }
-        var resp = await http.ApiGet(controller_api + $"({_user.id})?$expand=user_outlets");
+        var resp = await http.ApiGet(controller_api + $"({_user.id})?$expand=user_business_branchs");
         if (resp.IsSuccess)
         {
             user = JsonSerializer.Deserialize<UserModel>(resp.Content.ToString());

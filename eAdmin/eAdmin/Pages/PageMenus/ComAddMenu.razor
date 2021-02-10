@@ -31,8 +31,43 @@
                 <SelectStatus label="Status" @bind-selected_value="@model.status" />
 
             </UIContainerBox>
-            <UIContainerBox Title="Preview">
-                <div style="background:@model.background_color;color:@model.text_color; margin:20px; padding:50px"  >@model.menu_name_en</div>
+            <UIContainerBox Title="Preview"> 
+                <Grid ClassName="uk-grid-small">
+                    <div class="uk-width-2-5">
+                        <div class="box" style="background:@model.background_color;color:@model.text_color;margin: 0px auto;">
+                            <div class="icon_edit">
+                                <Icon icon="edit" icon_color="@model.text_color" />
+                                <button>
+                                    <Icon icon="check_box_outline_blank" icon_color="@model.text_color" />
+                                </button> 
+                            </div>
+                            <div style="text-align: center; line-height: 130px;">
+                                <span>@(string.IsNullOrEmpty(model.menu_name_en)?"Empty" : model.menu_name_en)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-5">
+                        <div class="uk-text-center" style="height: 130px;line-height: 130px;">
+                            <Icon icon="arrow_right_alt" size="45px" icon_color="#757575"/>
+                        </div>
+                    </div>
+                    <div class="uk-width-2-5">
+                        <div class="box" style="background:@model.background_color;color:@model.text_color; margin: 0px auto;">
+                            <div class="icon_edit">
+                                <Icon icon="edit" icon_color="@model.text_color" />
+                                <button>
+                                    <Icon icon="check_box" icon_color="@model.text_color" />
+                                </button> 
+                            </div>
+                            <div class="ribbon">
+                                <span class="">Select</span>
+                            </div>
+                            <div style="text-align: center; line-height: 130px;">
+                                <span>@(string.IsNullOrEmpty(model.menu_name_en)?"Empty" : model.menu_name_en)</span>
+                            </div>
+                        </div>
+                    </div>
+                </Grid>
             </UIContainerBox>
 
             
