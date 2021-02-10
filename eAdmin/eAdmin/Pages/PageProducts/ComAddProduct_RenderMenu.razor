@@ -27,30 +27,37 @@
 
     @foreach (var m in GetMenus)
     {
-        <div style="position:relative;" class="uk-width-1-4">
-            <div class="icon_edit"> 
-                <Icon icon="edit" icon_color="@m.text_color" @onclick="@(()=>EditMenu(m))" /> 
-                <Com is_visible="@(!IsMenuSelected(m))">
-                    <button>
-                        <Icon icon="check_box_outline_blank" icon_color="@m.text_color" @onclick="@(()=>OnSelectMenu(m))" />
-                    </button>
-                </Com>
-                <Com is_visible="@(IsMenuSelected(m))">
-                    <button>
-                        <Icon icon="check_box" icon_color="@m.text_color" @onclick="@(()=>OnUnSelectMenu(m))" />
-                    </button>
-                </Com>
+<div style="position:relative;" class="uk-width-1-4">
+    <div class="icon_edit">
+        <Icon icon="edit" icon_color="@m.text_color" @onclick="@(()=>EditMenu(m))" />
+        <Com is_visible="@(!IsMenuSelected(m))">
+            <button>
+                <Icon icon="check_box_outline_blank" icon_color="@m.text_color" @onclick="@(()=>OnSelectMenu(m))" />
+            </button>
+        </Com>
+        <Com is_visible="@(IsMenuSelected(m))">
+            <button>
+                <Icon icon="check_box" icon_color="@m.text_color" @onclick="@(()=>OnUnSelectMenu(m))" />
+            </button>
+        </Com>
+    </div>
+    <Com is_visible="@(!IsMenuSelected(m))">
+        <div @onclick="@(()=>MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color;">
+            <div>
+                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
             </div>
-            <div @onclick="@(()=>MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color;">
-                <Com is_visible="@(IsMenuSelected(m))">
-                    <div class="ribbon">
-                        <span class="">Select</span>
-                    </div>
-                </Com> 
-                <div> 
-                    <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
-                </div> 
+        </div>
+    </Com>
+    <Com is_visible="@(IsMenuSelected(m))">
+        <div @onclick="@(()=>MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color;border:1px solid #cf564d;">
+            <div>
+                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
             </div>
+        </div>
+    </Com>
+
+
+
         </div>
     }
 
