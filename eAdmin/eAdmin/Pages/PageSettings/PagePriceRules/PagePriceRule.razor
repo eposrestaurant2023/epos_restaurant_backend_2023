@@ -53,7 +53,7 @@
                                     <ThCenter>Status</ThCenter>
                                     <Th></Th>
                                 </tr>
-                                @foreach (var bp in d.business_branch_prices)
+                                @foreach (var bp in business_branch_prices.Where(r=>r.is_deleted == false && r.business_branch_id == d.id))
                                 {
                                     @foreach (var s in price_rules.Where(r => r.id == bp.price_rule_id))
                                     {
@@ -83,7 +83,6 @@
                                                 <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="highlight_off" is_visible="@(bp.status && !bp.is_deleted && !bp.is_default)" OnClick="@(()=>OnToogleStatus(bp))">Inactive</TableActionItem>
                                                 <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="check" is_visible="@(!bp.status && !bp.is_deleted && !bp.is_default)" OnClick="@(() => OnToogleStatus(bp))">Active</TableActionItem>
                                                 <TableActionItem roles="@gv.GetRole("price_rule_delete")" icon="delete" is_visible="@(!bp.is_deleted)" OnClick="@(() => OnDelete(bp))">Delete</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("price_rule_restore")" icon="refresh" is_visible="@(bp.is_deleted)" OnClick="@(()=>OnRestore(bp))">Restore</TableActionItem>
                                             </TdActions>
                                         </tr>
                                     }
@@ -100,9 +99,10 @@
 
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
+    List<BusinessBranchPriceRule> business_branch_prices = new List<BusinessBranchPriceRule>();
     string controller_api = "PriceRule";
     string StateKey = "278484567G21458loiuytytkjhTonB3PCz2Ts";
-    string api_query = "?$expand=business_branch_prices($select=price_rule_id,business_branch_id,status,is_default)";
+    string api_query = "?$expand=business_branch_prices";
     string ControllerApi
     {
         get
@@ -149,12 +149,18 @@
         {
             price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(resp.Content.ToString());
         }
+
+        var res = await http.ApiGetOData($"BusinessBranchPriceRule?$filter=is_deleted eq false");
+        if (res.IsSuccess)
+        {
+            business_branch_prices = JsonSerializer.Deserialize<List<BusinessBranchPriceRule>>(res.Content.ToString());
+        }
         is_loading = false;
     }
 
     async Task LoadBusinessBranch()
     {
-        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_prices($select=price_rule_id,business_branch_id,status,is_default)&$filter=is_deleted eq false");
+        var res = await http.ApiGetOData($"BusinessBranch?$filter=is_deleted eq false");
         business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
     }
 
@@ -195,8 +201,8 @@
             if (resp.IsSuccess)
             {
                 await LoadData();
+                toast.Add("Delete Price Rule successfully", MatToastType.Success);
             }
-            toast.Add("Delete Price Rule successfully", MatToastType.Success);
         }
         //p.is_loading = false;
     }

@@ -47,39 +47,26 @@ namespace eAPIClient.Controllers
         {
 
             string business_branch_id = config.GetValue<string>("business_branch_id");
-
-
             //run script prepare config data 
-            var x = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" });
-            
-
+            var x = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" }); 
             List<MenuModel> menu_datas = await GetRemoteMenu(business_branch_id);
-            
-            
             //product have printer and modifier
             List<ProductModel> product_datas = await GetRemoteProduct(business_branch_id);
-
             List<ProductMenuModel> product_menu_datas = await GetRemoteProductMenu(business_branch_id);
 
             //get product price 
             List<ProductPriceModel> product_price_datas = await GetRemoteProductPrice(business_branch_id);
- 
             // run this when all data read from server done success
             //run clear all old data
             if (is_get_remote_data_success)
             {
                 db.Database.ExecuteSqlRaw("exec sp_delete_menu_and_product");
-
-
                 db.Menus.AddRange(menu_datas);
                 db.Products.AddRange(product_datas);
-
                 db.SaveChanges();
 
                 db.ProductMenus.AddRange(product_menu_datas);
-
                 db.ProductPrices.AddRange(product_price_datas);
-
                 db.SaveChanges();
 
 
@@ -103,7 +90,7 @@ namespace eAPIClient.Controllers
             }
             return new List<MenuModel>();
         }
-           async Task<List<ProductModel>> GetRemoteProduct(string business_branch_id)
+        async Task<List<ProductModel>> GetRemoteProduct(string business_branch_id)
         {
 
             //$expand=product_printers($select=id,printer_name,ip_address_port;$filter=is_deleted eq false)
@@ -121,8 +108,7 @@ namespace eAPIClient.Controllers
                 is_get_remote_data_success = false;
             }
             return new List<ProductModel>();
-        } 
-        
+        }            
         async Task<List<ProductMenuModel>> GetRemoteProductMenu(string business_branch_id)
         {
             string url = "ProductMenu?";
@@ -143,9 +129,6 @@ namespace eAPIClient.Controllers
             }
             return new List<ProductMenuModel>();
         }
-
-
-
         async Task<List<ProductPriceModel>> GetRemoteProductPrice(string business_branch_id)
         {
             string url = "BusinessBranchProductPrice?";
@@ -162,11 +145,22 @@ namespace eAPIClient.Controllers
             }
             return new List<ProductPriceModel>();
         }
+        async Task<List<UserModel>> GetRemoteUser(string business_branch_id)
+        {
+            string url = "BusinessBranchProductPrice?";
+            url = url + $"&$filter=business_branch_id eq {business_branch_id}";
 
+            var resp = await http.ApiGetOData(url);
+            if (resp.IsSuccess)
+            {
+                return JsonSerializer.Deserialize<List<UserModel>>(resp.Content.ToString());
+            }
+            else
+            {
+                is_get_remote_data_success = false;
+            }
+            return new List<UserModel>();
+        }
 
-
-    }
-
-
-
+    }   
 }

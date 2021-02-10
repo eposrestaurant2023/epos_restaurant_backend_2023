@@ -8,14 +8,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eAPIClient.Models
 {
     [Table("tbl_payment_type")]
-    public class PaymentTypeModel : CoreModel
+    public class PaymentTypeModel
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int id { get; set; }
         public int currency_id { get; set; }
         [ForeignKey("currency_id")]
         public CurrencyModel currency { get; set; }
 
         private string _payment_type_name_en;
-        [Required(ErrorMessage = "Field cannot be blank.")]
         public string payment_type_name_en
         {
             get { return _payment_type_name_en; }
@@ -28,7 +30,6 @@ namespace eAPIClient.Models
         }
         public string payment_type_name_kh { get; set; }
         public string photo { get; set; }
-        public bool is_build_in { get; set; }
         public int sort_order { get; set; }
         public string note { get; set; }
     }

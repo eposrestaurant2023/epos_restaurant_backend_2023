@@ -74,12 +74,8 @@ namespace eAPIClient.Controllers
         [Route("get_user")]
         public UserModel GetCurrentUser([FromQuery] int user_id)
         {
-
-
-            var data = db.Users;
+            var data = db.Users.Where(r=>r.id==user_id).ToList();
             return data.FirstOrDefault();
-
-
         }
 
         
