@@ -1543,7 +1543,7 @@ button.shipping {
     margin: 0 0 0 -15px;
     box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
     background-color: #fff;
-    z-index: 0;
+    z-index: 8;
     padding: 10px;
     display: block;
     justify-content: normal;

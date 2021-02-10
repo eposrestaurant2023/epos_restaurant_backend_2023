@@ -33,7 +33,7 @@
                             }
                         }else
                         {
-                            <p>There is no selected menu</p>
+                            <ComEmptyTemplate empty="There is no selected menu." padding_top_bottom="20px"/>
                         }
                     </div>
                     <ComAddProduct_RenderMenu business_branch_id="@b.id" OnMenuSelected="@OnMenuSelected"   selected_menus="@model.product_menus" />

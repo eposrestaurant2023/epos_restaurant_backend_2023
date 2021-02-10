@@ -34,9 +34,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
 
         protected override async Task OnInitializedAsync()
-        {
-            is_loading = true;
-
+        { 
             if (!is_error)
             {
 
@@ -60,15 +58,12 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                     history.vendor_id = model.vendor_id;
 
                 }
-            }
-
-
-            is_loading = false;
+            } 
         }
 
         public async Task LoadData()
         {
-
+            is_loading = true;
             var resp = await http.ApiGet(api_url);
             if (resp.IsSuccess)
             {
@@ -78,7 +73,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             {
                 is_loading_data = false;
             }
-
+            is_loading = false;
         }
         public void ShowComment()
         {

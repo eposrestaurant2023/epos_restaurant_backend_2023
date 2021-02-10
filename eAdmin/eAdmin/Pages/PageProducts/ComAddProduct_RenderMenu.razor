@@ -19,7 +19,6 @@
                 <div class="pos_icon_back">
                     <Icon icon="reply " icon_color="#333333" size="43px" />
                     <div>Back</div>
-
                 </div>
             </div>
         </div>
@@ -29,10 +28,8 @@
     @foreach (var m in GetMenus)
     {
         <div style="position:relative;" class="uk-width-1-4">
-            <div class="icon_edit">
-
-                <Icon icon="edit" icon_color="@m.text_color" @onclick="@(()=>EditMenu(m))" />
-
+            <div class="icon_edit"> 
+                <Icon icon="edit" icon_color="@m.text_color" @onclick="@(()=>EditMenu(m))" /> 
                 <Com is_visible="@(!IsMenuSelected(m))">
                     <button>
                         <Icon icon="check_box_outline_blank" icon_color="@m.text_color" @onclick="@(()=>OnSelectMenu(m))" />
@@ -49,13 +46,10 @@
                     <div class="ribbon">
                         <span class="">Select</span>
                     </div>
-                </Com>
-
-                <div>
-
+                </Com> 
+                <div> 
                     <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
-                </div>
-
+                </div> 
             </div>
         </div>
     }
@@ -69,7 +63,6 @@
                 <div class="pos_icon_back">
                     <Icon icon="add" icon_color="#333333" size="43px" />
                     <div>Add</div>
-
                 </div>
             </div>
         </div>
@@ -78,9 +71,8 @@
 
     }
     else
-    {
-        <p>There is no root menu</p>
-
+    { 
+        <ComEmptyTemplate empty="There is no root menu." padding_top_bottom="25px"/>
     }
     <hr />
 
