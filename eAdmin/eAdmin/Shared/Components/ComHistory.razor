@@ -36,43 +36,31 @@
                         }
                         else
                         {
-                            <Grid ClassName="uk-flex uk-flex-bottom">
-                                <Column ClassName="uk-width-1-1	">
-                                    <div class="wrp-commnet-content uk-grid-collapse uk-grid-small" uk-grid>
-                                        <div class="uk-width-auto">
-                                            <div class="uk-padding-small">
-                                                <Image ImageUrl="@http.ImageUrl(h.user?.photo)" PopupImageUrl="@http.ImageUrl(h.user?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                    <Grid ClassName="uk-grid-small">
+                        <div class="uk-width-expand">
+                            <div class="description">@h.description</div>
+                        </div>
+                        <div class="uk-width-auto">
+                            <div class="wrp-comment-tt">@h.created_date.ToString("MMM dd yyyy ") at @h.created_date.ToString("HH:mm")</div> 
+                            <div class="uk-flex uk-flex-inline uk-flex-middle">
+                                <div>
+                                    <Image ImageUrl="@http.ImageUrl(h.user?.photo)" PopupImageUrl="@http.ImageUrl(h.user?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
+                                </div>
+                                <div>
+                                    <span class="wrp-comment-tt"><strong style="color:#4677cc;">By @h.created_by</strong> </span>
+                                    <div style="text-align: right; margin-right: 10px;">
+                                        <div class="uk-flex">
+                                            <div>
+                                                <Icon icon="edit" is_visible="@(h.module=="comment" && !IsReadonly)" OnClick="@(() => EditComment(h))" roles="@RoleEdit" />
+                                                <Icon icon="delete" is_visible="@(h.module=="comment" &&  !IsReadonly)" OnClick="@(() => OnDeleteClick(h))" roles="@RoleDelete" />
                                             </div>
-                                        </div>
-                                        <div class="uk-width-expand">
-                                            <div class="uk-padding-small pdl-00">
-                                                <div class="uk-flex uk-flex-between">
-                                                    <div>
-                                                        <span class="wrp-comment-tt"><strong class="uk-text-baseline text-muted">By @h.created_by</strong> </span>
-                                                        <div class="description">@h.description</div>
-                                                    </div>
-                                                    <div>
-                                                        <div style="text-align: right; margin-right: 10px;">
-                                                            <div class="uk-flex">
-                                                                <div> 
-                                                                    <Icon icon="edit" is_visible="@(h.module=="comment" && !IsReadonly)" OnClick="@(() => EditComment(h))" roles="@RoleEdit"/>
-                                                                    <Icon icon="delete" is_visible="@(h.module=="comment" &&  !IsReadonly)" OnClick="@(() => OnDeleteClick(h))" roles="@RoleDelete"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <Column ClassName="uk-width-1-1 uk-margin-remove-top uk-text-right">
-                                                <div style="margin-right:10px;">
-                                                    <span class="wrp-comment-tt"><strong class="uk-text-baseline text-muted">Date:</strong>    </span>  @h.created_date.ToString(gv.date_time_format)
-                                                </div>
-                                            </Column>
                                         </div>
                                     </div>
-                                </Column>
-                            </Grid>
+                                </div>
+                            </div>
+
+                        </div>
+                    </Grid>
                         }
                     </div>
                 }
