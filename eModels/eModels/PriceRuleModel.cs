@@ -36,6 +36,8 @@ namespace eModels
         public bool is_default { get; set; }
         public bool status { get; set; } = true;
         public bool is_deleted { get; set; } = false;
+        public bool is_loading { get; set; } = false;
+        public bool is_change_status { get; set; } = false;
     }
 
 
