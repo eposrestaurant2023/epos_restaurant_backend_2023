@@ -29,7 +29,7 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    z-index: 9;
+    z-index: 1;
 }
 .ribbon {
     position: absolute;

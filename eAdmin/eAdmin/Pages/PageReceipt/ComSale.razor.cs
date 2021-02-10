@@ -42,45 +42,42 @@ namespace eAdmin.Pages.PageReceipt
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
+            
             if (is_receipt_list)
                 StateKey = "Elist9hUndmRGRECEIPTnBau9T3AEj";
             else
                 StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj";
 
-            state = await GetState(StateKey); 
-            if (state.page_title == "")
-            {
-                if (is_receipt_list)
-                    state.page_title = "Receipt List";
-                else
-                    state.page_title = "Void Receipt";
+            state = await GetState(StateKey);
+            state.filters.Clear();
+ 
+            if (is_receipt_list)
+                state.page_title = "Receipt List";
+            else
+                state.page_title = "Void Receipt";
 
-                var default_view = gv.GetDefaultModuleView("page_sale");
-                if (default_view != null)
-                {
-                    state.page_title = default_view.title;
-                    state.filters = default_view.filters;
-                }    
-            } 
-            if (state.filters.Count == 0)
+            var default_view = gv.GetDefaultModuleView("page_sale");
+            if (default_view != null)
             {
-                if (is_receipt_list)
+                state.page_title = default_view.title;
+                state.filters = default_view.filters;
+            }
+
+            if (is_receipt_list)
+            {
+                state.filters.Add(new FilterModel()
                 {
-                    state.filters.Add(new FilterModel()
-                    {
-                        key = "is_deleted",
-                        value1 = "false"
-                    });
-                }
-                else
+                    key = "is_deleted",
+                    value1 = "false"
+                });
+            }
+            else
+            {
+                state.filters.Add(new FilterModel()
                 {
-                    state.filters.Add(new FilterModel()
-                    {
-                        key = "is_deleted",
-                        value1 = "true"
-                    });
-                }
-                                
+                    key = "is_deleted",
+                    value1 = "true"
+                });
             }
 
             Console.WriteLine(JsonSerializer.Serialize(state.filters));

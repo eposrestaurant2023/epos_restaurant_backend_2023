@@ -187,6 +187,12 @@ namespace eAPI.Migrations
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("is_change_status")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_loading")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -205,10 +211,16 @@ namespace eAPI.Migrations
                     b.Property<int>("price_rule_id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("is_change_status")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_default")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_loading")
                         .HasColumnType("bit");
 
                     b.Property<bool>("status")
@@ -505,8 +517,7 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("address")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("created_by")
@@ -525,14 +536,11 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("customer_name_en")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("customer_name_kh")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("date_of_birth")
@@ -547,21 +555,18 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("email")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("gender")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("nationality")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("note")
@@ -569,13 +574,11 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("phone_1")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("phone_2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("photo")
@@ -2614,32 +2617,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_table_group");
                 });
 
-            modelBuilder.Entity("eModels.TableGroupScreenModel", b =>
-                {
-                    b.Property<int>("table_group_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("station_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("screen_height")
-                        .HasColumnType("int");
-
-                    b.Property<int>("screen_width")
-                        .HasColumnType("int");
-
-                    b.HasKey("table_group_id", "outlet_id", "station_id");
-
-                    b.HasIndex("outlet_id");
-
-                    b.HasIndex("station_id");
-
-                    b.ToTable("tbl_table_group_screen");
-                });
-
             modelBuilder.Entity("eModels.TableModel", b =>
                 {
                     b.Property<int>("id")
@@ -3551,33 +3528,6 @@ namespace eAPI.Migrations
                     b.Navigation("outlet");
                 });
 
-            modelBuilder.Entity("eModels.TableGroupScreenModel", b =>
-                {
-                    b.HasOne("eModels.OutletModel", "outlet")
-                        .WithMany("table_group_screens")
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StationModel", "station")
-                        .WithMany("table_group_screens")
-                        .HasForeignKey("station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.TableGroupModel", "table_group")
-                        .WithMany("table_group_screens")
-                        .HasForeignKey("table_group_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("outlet");
-
-                    b.Navigation("station");
-
-                    b.Navigation("table_group");
-                });
-
             modelBuilder.Entity("eModels.TableModel", b =>
                 {
                     b.HasOne("eModels.TableGroupModel", "table_group")
@@ -3689,8 +3639,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.OutletModel", b =>
                 {
                     b.Navigation("stations");
-
-                    b.Navigation("table_group_screens");
                 });
 
             modelBuilder.Entity("eModels.PaymentModel", b =>
@@ -3776,15 +3724,8 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch_settings");
                 });
 
-            modelBuilder.Entity("eModels.StationModel", b =>
-                {
-                    b.Navigation("table_group_screens");
-                });
-
             modelBuilder.Entity("eModels.TableGroupModel", b =>
                 {
-                    b.Navigation("table_group_screens");
-
                     b.Navigation("tables");
                 });
 

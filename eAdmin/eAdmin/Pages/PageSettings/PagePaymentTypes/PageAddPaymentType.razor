@@ -135,21 +135,29 @@
                 model.business_branch_payment_types.Add(new BusinessBranchPaymentTypeModel()
                 {
                     business_branch_id = a.id,
-                    payment_type_id = id
+                    payment_type_id = id,
+                    status = model.status
                 });
             }
         }
 
-        var post = await http.ApiPost("PaymentType/Save", model);
-        if (post.IsSuccess)
+        if (business_branches.Where(r => r.is_selected == true).Count() > 0)
         {
-            toast.Add("Save Successfully!", MatToastType.Success);
-            nav.NavigateTo("paymenttype");
-            model = new PaymentTypeModel();
+            var post = await http.ApiPost("PaymentType/Save", model);
+            if (post.IsSuccess)
+            {
+                toast.Add("Save Successfully!", MatToastType.Success);
+                nav.NavigateTo("paymenttype");
+                model = new PaymentTypeModel();
+            }
+            else
+            {
+                toast.Add(post.Content.ToString(), MatToastType.Warning);
+            }
         }
         else
         {
-            toast.Add(post.Content.ToString(), MatToastType.Warning);
+            toast.Add("Please choose business branch.", MatToastType.Warning);
         }
         is_saving = false;
     }

@@ -10,10 +10,6 @@ namespace eModels
     [Table("tbl_station")]
     public  class StationModel   : CoreModel
     {
-        public StationModel()
-        { 
-            table_group_screens = new List<TableGroupScreenModel>();
-        }
 
         public int outlet_id { get; set; }
         [ForeignKey("outlet_id")]
@@ -37,8 +33,6 @@ namespace eModels
         [MaxLength(50)]
         public string station_name_kh { get; set; }
         public bool is_already_config { get; set; } = false;         
-
-        public List<TableGroupScreenModel> table_group_screens { get; set; }
 
     }
 }

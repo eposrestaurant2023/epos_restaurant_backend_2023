@@ -1543,7 +1543,7 @@ button.shipping {
     margin: 0 0 0 -15px;
     box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
     background-color: #fff;
-    z-index: 0;
+    z-index: 8;
     padding: 10px;
     display: block;
     justify-content: normal;
@@ -1870,7 +1870,7 @@ margin-top: 15px;
 }
 
 .uk-flex-inline > * {
-    margin-right: 15px;
+    margin-right: 5px;
     align-self: center;
 }
 
@@ -4543,9 +4543,8 @@ ul.uk-nav-sub a i.material-icons {
     margin-top: 0 !important;
 }
 .comment-bg {
-    padding: 12px;
-    background: #f1f8ff;
-    border: 1px solid #c8e1ff;
+    background: #e1ecf4;
+    padding:10px;
 }
 .comment-system {
     background: #f6fbff;
@@ -4569,9 +4568,13 @@ ul.uk-nav-sub a i.material-icons {
 .uk-button-act-comment.delete-comment .material-icons-outlined {
     color: red !important
 }
+.wrp-comment-tt {
+    font-size: 12px;
+    color: #6a737c;
+}
 .comment-box-n-control {
-    border-radius: 6px;
-    margin-bottom: 25px;
+    border-radius: 2px;
+    margin-bottom: 15px;
     position: relative;
 }
 .wrp-exp-vendor-filter .vendertypeheadnullitem {
@@ -4877,13 +4880,6 @@ h1.wrp-expense-total span.total-expense-amount{
 @media screen and (min-width: 1600px) {
 }
 
-
-
-
-
-/*
-        Login page new desgin 2020 07 07
-*/
 
 .wrp-login-page {
     display: flex;

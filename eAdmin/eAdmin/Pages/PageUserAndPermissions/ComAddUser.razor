@@ -5,6 +5,7 @@
 <EditFormContext Cancel_Click="Cancel_click" model="user" is_opened="is_dialog_open" title="@modal_title" Save_Click="SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
 
     <FileUpload @bind-ImageUrl="@user.photo" />
+    <Spacing Number="10"/>
     <TextInput label="Full Name" @bind-text="@user.full_name">
         <ValidationMessage For="@(() => user.full_name)" />
     </TextInput>
