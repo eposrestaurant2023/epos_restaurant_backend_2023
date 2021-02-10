@@ -74,11 +74,9 @@ namespace eAPI.Controllers
         [Route("delete/{id}/{price_id}")]
         public async Task<ActionResult<BusinessBranchPriceRule>> DeleteRecord(Guid id , int price_id) //Delete
         {
-            var u = await db.BusinessBranchPriceRules.Where(r=>r.business_branch_id == id && r.price_rule_id == price_id).FirstAsync();
-            u.is_deleted = !u.is_deleted;
-            db.BusinessBranchPriceRules.Update(u);
+            db.Database.ExecuteSqlRaw($"delete tbl_business_branch_price_rule where price_rule_id = {price_id} and business_branch_id = '{id}'");
             await db.SaveChangesAsync();
-            return Ok(u);
+            return Ok();
         }
     }
 }
