@@ -126,7 +126,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             {
                 string url = $"PurchaseOrder({id})?";
                 url += $"$expand=vendor,";
-                url += $"payments($expand=payment_type;$filter=is_deleted eq false),";
+                url += $"purchase_order_payments($expand=payment_type;$filter=is_deleted eq false),";
                 url += $"purchase_order_products($expand=product;$filter=is_deleted eq false)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
@@ -178,6 +178,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             save_model.purchase_order_products.ForEach(r => r.product = null);
             save_model.stock_location = null;
             save_model.business_branch = null;
+            save_model.purchase_order_payments = null;
 
             is_saving = true;
 

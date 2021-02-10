@@ -5,42 +5,22 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using eShareModel;
 
-namespace eModels
+namespace eShareModel
 {
-    [Table("tbl_purchase_order")]
-    public class PurchaseOrderModel : CoreModel
+    public class SaleShareModel : CoreGUIDModel
     {
-        public PurchaseOrderModel()
+        public SaleShareModel()
         {
-            purchase_order_products = new List<PurchaseOrderProductModel>();
-            purchase_order_payments = new List<PurchaseOrderPaymentModel>();
-            histories = new List<HistoryModel>();
+            sale_products = new List<SaleProductShareModel>();
         }
 
-        public List<HistoryModel> histories { get; set; }
-
-        public Guid business_branch_id { get; set; }
-        [ForeignKey("business_branch_id")]
-        public BusinessBranchModel business_branch { get; set; }
-
-        public int stock_location_id { get; set; }
-        [ForeignKey("stock_location_id")]
-        public StockLocationModel stock_location { get; set; }
-
         public string document_number { get; set; } = "New";
-
         [Column(TypeName = "date")]
-        public DateTime purchase_date { get; set; } = DateTime.Now;
-        public int vendor_id { get; set; }
-        [ForeignKey("vendor_id")]
-        public VendorModel vendor { get; set; }
-        public int? discount_user_id { get; set; }
-        [ForeignKey("discount_user_id")]
-        public UserModel discount_user { get; set; }
-        public string vendor_note { get; set; }
+        public DateTime sale_date { get; set; } = DateTime.Now;
+        public string customer_note { get; set; }
         public string reference_number { get; set; }
         public string term_conditions { get; set; }
-        public string purchase_order_note { get; set; }
+        public string sale_note { get; set; }
         public bool is_partially_paid { get; set; }
         public bool is_fulfilled { get; set; }
         public bool is_over_due { get; set; }
@@ -53,9 +33,9 @@ namespace eModels
         {
             get
             {
-                if (purchase_order_products.Count > 0)
+                if (sale_products.Count > 0)
                 {
-                    _total_quantity = active_purchase_order_products.Sum(r => r.quantity);
+                    _total_quantity = active_sale_products.Sum(r => r.quantity);
                 }
                 return _total_quantity;
             }
@@ -66,9 +46,9 @@ namespace eModels
         {
             get
             {
-                if (purchase_order_products.Count > 0)
+                if (sale_products.Count > 0)
                 {
-                    _sub_total = active_purchase_order_products.Sum(r => r.sub_total);
+                    _sub_total = active_sale_products.Sum(r => r.sub_total);
                 }
                 return _sub_total;
             }
@@ -79,26 +59,26 @@ namespace eModels
         {
             get
             {
-                if (purchase_order_products.Count > 0)
+                if (sale_products.Count > 0)
                 {
-                    _discountable_amount = active_purchase_order_products.Where(r => r.is_allow_discount == true && r.discount == 0).Sum(r => r.sub_total);
+                    _discountable_amount = active_sale_products.Where(r => r.is_allow_discount == true && r.discount == 0).Sum(r => r.sub_total);
                 }
                 return _discountable_amount;
             }
             set { _discountable_amount = value; }
         }
-        private decimal _po_product_discount_amount;
-        public decimal po_product_discount_amount
+        private decimal _sale_product_discount_amount;
+        public decimal sale_product_discount_amount
         {
             get
             {
-                if (purchase_order_products.Count > 0)
+                if (sale_products.Count > 0)
                 {
-                    _po_product_discount_amount = active_purchase_order_products.Sum(r => r.total_discount);
+                    _sale_product_discount_amount = active_sale_products.Sum(r => r.total_discount);
                 }
-                return _po_product_discount_amount;
+                return _sale_product_discount_amount;
             }
-            set { _po_product_discount_amount = value; }
+            set { _sale_product_discount_amount = value; }
         }
 
         private string _discount_type = "Percent"; //Percent and Amount;
@@ -157,7 +137,7 @@ namespace eModels
         {
             get
             {
-                if (active_purchase_order_products.Count() > 0)
+                if (active_sale_products.Count() > 0)
                 {
                     _total_amount = sub_total - grand_total_discount;
                 }
@@ -178,43 +158,35 @@ namespace eModels
         public decimal paid_amount { get; set; }
         public bool is_paid { get; set; }
 
-        public List<PurchaseOrderPaymentModel> purchase_order_payments { get; set; }
-        public List<PurchaseOrderProductModel> purchase_order_products { get; set; }
-
+        public bool is_new_customer { get; set; }
+        public decimal total_cost { get; set; }
         [NotMapped, JsonIgnore]
-        public List<PurchaseOrderPaymentModel> active_payments
-        {
-            get
-            {
-                if (purchase_order_payments.Any())
-                    return purchase_order_payments.Where(r => !r.is_deleted).ToList();
-                else
-                    return new List<PurchaseOrderPaymentModel> ();
-            }
-        }
+        public List<SaleProductShareModel> sale_products { get; set; } 
         private decimal _grand_total_discount { get; set; }
         public decimal grand_total_discount
         {
             get
             {
-                _grand_total_discount = total_discount + po_product_discount_amount;
+                _grand_total_discount = total_discount + sale_product_discount_amount;
                 return _grand_total_discount;
             }
-            set {
+            set
+            {
                 _grand_total_discount = value;
             }
-            
+
         }
 
 
         [NotMapped, JsonIgnore]
-        public List<PurchaseOrderProductModel> active_purchase_order_products
+        public List<SaleProductShareModel> active_sale_products
         {
             get
             {
-                return purchase_order_products.Where(r => r.is_deleted == false).ToList();
+                return sale_products.Where(r => r.is_deleted == false).ToList();
             }
         }
+        
 
         [NotMapped, JsonIgnore]
         public bool can_delete
@@ -242,7 +214,7 @@ namespace eModels
                 return !is_deleted;
             }
         }
-      
+
     }
 
 

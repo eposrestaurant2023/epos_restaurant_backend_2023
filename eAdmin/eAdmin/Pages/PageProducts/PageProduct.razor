@@ -52,13 +52,11 @@
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        <ThCenter>Image</ThCenter>
-
-                        @HeaderTemplate("product/product_category_id", "Category", "uk-text-center")
+                        <ThCenter>Image</ThCenter> 
                         @HeaderTemplate("product_code", "Code", "uk-text-center")
                         @HeaderTemplate("product_name_en", "Name (En)", "col-auto")
                         @HeaderTemplate("product_name_kh", "Name (Kh)", "col-auto")
-                         
+                        @HeaderTemplate("product_category/product_category_en", "Category")
                        <ThRight>Price</ThRight>
                         @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
@@ -66,8 +64,7 @@
                     <RowTemplate Context="p">
                         <TdCenter>
                             <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
-                        </TdCenter>
-                        <TdCenter>@p.product_category?.product_category_en</TdCenter>
+                        </TdCenter> 
                         <TdCenter>
                             <a href="@($"product/{p.id}")">@p.product_code</a>
                         </TdCenter>
@@ -77,16 +74,16 @@
                         <td>
                             <a href="@($"product/{p.id}")">@p.product_name_kh</a>
                         </td>
- 
+                        <td>@p.product_category?.product_category_en</td>
                         <TdRight>
                             @if (p.min_price == p.max_price)
-                                {
-                                <span>@p.min_price.ToString(gv.currency_format)</span>
-                                }
-                                else
-                                {
-                                <span>@p.min_price.ToString(gv.currency_format) - @p.max_price.ToString(gv.currency_format)</span>
-                                }
+                            {
+                            <span>@p.min_price.ToString(gv.currency_format)</span>
+                            }
+                            else
+                            {
+                            <span>@p.min_price.ToString(gv.currency_format) - @p.max_price.ToString(gv.currency_format)</span>
+                            }
                         </TdRight>
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />

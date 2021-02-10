@@ -5,16 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using eShareModel;
 
-namespace eModels
+namespace eAPIClient.Models
 {
     [Table("tbl_customer")]
     public class CustomerModel : CustomerShareModel
     {
-        public CustomerModel()
-        {
-            customer_business_branchs = new List<CustomerBusinessBranchModel>();
-        }
-
         [NotMapped]
         [JsonIgnore]
         public string customer_code_name { get { return customer_code + "-" + customer_name_en; } }
@@ -25,7 +20,7 @@ namespace eModels
         [ForeignKey("customer_group_id")]
         public CustomerGroupModel customer_group { get; set; }
 
-        public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
+        public int business_branch_id { get; set; }
 
     }
 }

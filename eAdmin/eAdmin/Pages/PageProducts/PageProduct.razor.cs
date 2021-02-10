@@ -196,7 +196,35 @@ namespace eAdmin.Pages.PageProducts
 
         public async Task FilterClick()
         {
+            state.filters.RemoveAll(r => r.filter_info_text != "");
 
+            if (state.product_group != null && state.product_group.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "product_category/product_group_id",
+                    value1 = state.product_group.id.ToString(),
+                    filter_title = "Product Group",
+                    state_property_name = "product_group",
+                    filter_info_text = state.product_group.product_group_en,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+
+            if (state.product_category != null && state.product_category.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "product_category_id",
+                    value1 = state.product_category.id.ToString(),
+                    filter_title = "Product Category",
+                    state_property_name = "product_category",
+                    filter_info_text = state.product_category.product_category_en,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
 
             state.pager.current_page = 1;
             await LoadData();

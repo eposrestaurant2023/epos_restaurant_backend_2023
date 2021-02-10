@@ -232,6 +232,10 @@ namespace eAdmin.Pages
                     state.product_category = new ProductCategoryModel();
                     break;
 
+                case "product_group":
+                    state.product_group = new ProductGroupModel();
+                    break;
+
                 case "customer_group":
                     state.customer_group = new CustomerGroupModel();
                     break;
