@@ -135,7 +135,8 @@
                 model.business_branch_payment_types.Add(new BusinessBranchPaymentTypeModel()
                 {
                     business_branch_id = a.id,
-                    payment_type_id = id
+                    payment_type_id = id,
+                    status = model.status
                 });
             }
         }

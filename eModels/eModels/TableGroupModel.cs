@@ -13,7 +13,6 @@ namespace eModels
         public TableGroupModel()
         {
             tables = new List<TableModel>();
-            table_group_screens = new List<TableGroupScreenModel>();
         }
 
 
@@ -45,6 +44,5 @@ namespace eModels
         public string photo { get; set; }
 
         public List<TableModel> tables { get; set; }
-        public List<TableGroupScreenModel> table_group_screens { get; set; }
     }
 }
