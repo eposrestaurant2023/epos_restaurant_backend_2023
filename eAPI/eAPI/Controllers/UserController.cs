@@ -164,7 +164,7 @@ namespace eAPI.Controllers
                 var data = from a in db.Users.Where(r => !r.is_deleted && r.status && r.is_allow_front_end_login)
                            join b in db.UserBusinessBranches.Where(r => r.business_branch_id == business_branch_id) on a.id equals b.user_id
                            select new
-                           {    a.id,
+                           {   a.id,
                                a.full_name,
                                a.username,
                                a.pin_code,

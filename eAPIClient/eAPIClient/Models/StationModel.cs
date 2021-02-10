@@ -8,7 +8,7 @@ using eShareModel;
 namespace eAPIClient.Models
 {
     [Table("tbl_station")]
-    public  class StationModel   : CoreModel
+    public  class StationModel  : CoreNoIdentityModel
     {
         public int outlet_id { get; set; }
         [ForeignKey("outlet_id")]
