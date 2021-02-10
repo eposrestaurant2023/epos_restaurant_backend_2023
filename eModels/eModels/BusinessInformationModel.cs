@@ -103,5 +103,6 @@ namespace eModels
         public int payment_type_id { get; set; }
         [ForeignKey("payment_type_id")]
         public PaymentTypeModel payment_type { get; set; }
+        public bool status { get; set; }
     }
 }
