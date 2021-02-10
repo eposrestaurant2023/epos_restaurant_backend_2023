@@ -46,13 +46,17 @@
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        <Th OnClick="@(async () => await OrderBy("customer_group_name"))" OrderBy="@(state.pager.order_by == "customer_group_name")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">Name (Kh)</Th>
+                        <Th OnClick="@(async () => await OrderBy("customer_group_name_en"))" OrderBy="@(state.pager.order_by == "customer_group_name_en")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">Name En</Th>
+                        <Th OnClick="@(async () => await OrderBy("customer_group_name_kh"))" OrderBy="@(state.pager.order_by == "customer_group_name_kh")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">Name Kh</Th>
                         @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("customer_group_edit")" OnClick="@(()=>OnEdit(p.id))">@p.customer_group_name_en (@p.customer_group_name_kh)</ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("customer_group_edit")" OnClick="@(()=>OnEdit(p.id))">@p.customer_group_name_en</ComAuthorize>
+                        </td>
+                        <td>
+                            <ComAuthorize roles="@gv.GetRole("customer_group_edit")" OnClick="@(()=>OnEdit(p.id))">@p.customer_group_name_kh</ComAuthorize>
                         </td>
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />

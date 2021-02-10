@@ -1,5 +1,5 @@
-﻿@*@inject IHttpService http;
-@inject NavigationManager nav;
+﻿@inject IHttpService http
+@inject NavigationManager nav
 
 @foreach (var sp in sale.active_sale_products)
 {
@@ -47,4 +47,4 @@
     [Parameter] public SaleModel sale { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
-}*@
+}

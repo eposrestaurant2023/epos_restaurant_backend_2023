@@ -38,7 +38,6 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] BusinessBranchPaymentTypeModel u)
         {
-
             if (u.business_branch_id == Guid.Empty)
             {
                 db.BusinessBranchPaymentTypes.Add(u);
@@ -47,11 +46,8 @@ namespace eAPI.Controllers
             {
                 db.BusinessBranchPaymentTypes.Update(u);
             }
-
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
-
-
         }
 
         [HttpGet("find")]
@@ -59,8 +55,18 @@ namespace eAPI.Controllers
         public SingleResult<BusinessBranchPaymentTypeModel> Get([FromODataUri] Guid key)
         {
             var s = db.BusinessBranchPaymentTypes.Where(r => r.business_branch_id == key).AsQueryable();
-
             return SingleResult.Create(s);
+        }
+
+        [HttpPost]
+        [Route("status/{id}/{payment_type_id}")]
+        public async Task<ActionResult<BusinessBranchPaymentTypeModel>> UpdateStatus(Guid id, int payment_type_id)
+        {
+            var d = await db.BusinessBranchPaymentTypes.Where(r => r.business_branch_id == id && r.payment_type_id == payment_type_id).FirstAsync();
+            d.status = !d.status;
+            db.BusinessBranchPaymentTypes.Update(d);
+            await db.SaveChangesAsync();
+            return Ok(d);
         }
 
         [HttpPost]

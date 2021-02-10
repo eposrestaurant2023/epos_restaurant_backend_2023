@@ -338,9 +338,7 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.OutletModel", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
 
                     b.Property<string>("outlet_name_en")
                         .HasColumnType("nvarchar(max)")
@@ -421,9 +419,7 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.PaymentTypeModel", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
 
                     b.Property<int>("currency_id")
                         .HasColumnType("int");
@@ -874,11 +870,28 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.StationModel", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("is_already_config")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("outlet_id")
@@ -891,6 +904,9 @@ namespace eAPIClient.Migrations
                     b.Property<string>("station_name_kh")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -1004,9 +1020,7 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.UserModel", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
 
                     b.Property<string>("full_name")
                         .HasColumnType("nvarchar(max)")

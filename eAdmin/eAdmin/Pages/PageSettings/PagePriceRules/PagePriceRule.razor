@@ -66,13 +66,11 @@
                                             <TdCenter>
                                                 @if (bp.is_default)
                                                 {
-                                                    <LabelDeleted is_visible="@bp.is_deleted" />
                                                     <LabelActive is_visible="@(!bp.is_deleted && bp.status)" is_loading="@s.is_change_status" />
                                                     <LabelInActive is_visible="@(!bp.is_deleted && !bp.status)" is_loading="@s.is_change_status" />
                                                 }
                                                 else
                                                 {
-                                                    <LabelDeleted is_visible="@bp.is_deleted" />
                                                     <LabelActive is_visible="@(!bp.is_deleted && bp.status)" OnClick="(() => OnToogleStatusLabel(bp))" roles="@gv.GetRole("price_rule_edit")" is_loading="@s.is_change_status" />
                                                     <LabelInActive is_visible="@(!bp.is_deleted && !bp.status)" OnClick="(() => OnToogleStatusLabel(bp))" roles="@gv.GetRole("price_rule_edit")" is_loading="@s.is_change_status" />
                                                 }

@@ -187,6 +187,12 @@ namespace eAPI.Migrations
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("is_change_status")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_loading")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -205,10 +211,16 @@ namespace eAPI.Migrations
                     b.Property<int>("price_rule_id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("is_change_status")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_default")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_loading")
                         .HasColumnType("bit");
 
                     b.Property<bool>("status")
