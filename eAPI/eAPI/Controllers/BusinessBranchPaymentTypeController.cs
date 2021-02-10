@@ -62,6 +62,15 @@ namespace eAPI.Controllers
 
             return SingleResult.Create(s);
         }
+
+        [HttpPost]
+        [Route("delete/{id}/{payment_type_id}")]
+        public async Task<ActionResult<BusinessBranchPaymentTypeModel>> DeleteRecord(Guid id, int payment_type_id) //Delete
+        {
+            db.Database.ExecuteSqlRaw($"delete tbl_business_branch_payment_type where payment_type_id = {payment_type_id} and business_branch_id = '{id}'");
+            await db.SaveChangesAsync();
+            return Ok();
+        }
     }
 
 }
