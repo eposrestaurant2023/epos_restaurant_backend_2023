@@ -6,9 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eAPIClient.Models
 {
     [Table("tbl_customer_group")]
-    public  class CustomerGroupModel :CoreModel
+    public  class CustomerGroupModel: CoreModel
     {
- 
         public CustomerGroupModel()
         {
          customers = new List<CustomerModel>();
@@ -26,13 +25,7 @@ namespace eAPIClient.Models
             }
         }
         public string customer_group_name_kh { get; set; }
-
-
         public string note { get; set; }
-
-
-    public List<CustomerModel> customers { get; set; }
-
-       
+        public List<CustomerModel> customers { get; set; }
     }
 }
