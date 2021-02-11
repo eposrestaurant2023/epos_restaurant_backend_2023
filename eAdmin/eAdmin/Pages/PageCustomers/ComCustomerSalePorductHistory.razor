@@ -26,7 +26,7 @@
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
-                    <Spacing Number="12" />
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true"/>
                     <SelectProductCategory show_empty="true" @bind-product_category="@state.product_category" />
 
                 </ComSearch>
@@ -99,64 +99,64 @@
         </Column>
 
 @code {
-        [Parameter] public Guid customer_id { get; set; }
-        [Parameter] public int product_id { get; set; }
+    [Parameter] public Guid customer_id { get; set; }
+    [Parameter] public int product_id { get; set; }
 
-        List<SaleProductModel> models = new List<SaleProductModel>();
-        int TotalRecord = 0;
+    List<SaleProductModel> models = new List<SaleProductModel>();
+    int TotalRecord = 0;
 
-        string controller_api = "saleproduct";
-        string select = "$expand=sale,product";
-        string ControllerApi
+    string controller_api = "saleproduct";
+    string select = "$expand=sale,product";
+    string ControllerApi
     {
-            get
+        get
         {
-                if (string.IsNullOrEmpty(state.pager.order_by))
+            if (string.IsNullOrEmpty(state.pager.order_by))
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?{select}";
+            url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+
+
+            if (!state.filters.Where(r => r.key == "is_deleted").Any())
+            {
+                state.filters.Add(new FilterModel()
                 {
-                    state.pager.order_by = "id";
-                    state.pager.order_by_type = "desc";
-                }
-                string url = $"{controller_api}?{select}";
-                url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                    key = "is_deleted",
+                    value1 = "false"
+                });
+            }
 
-
-                if (!state.filters.Where(r => r.key == "is_deleted").Any())
+            if (customer_id !=Guid.Empty)
+            {
+                if (!state.filters.Where(r => r.key == "sale/customer_id").Any())
                 {
                     state.filters.Add(new FilterModel()
                     {
-                        key = "is_deleted",
-                        value1 = "false"
+                        key = "sale/customer_id",
+                        value1 = customer_id.ToString()
                     });
                 }
-
-                if (customer_id !=Guid.Empty)
-                {
-                    if (!state.filters.Where(r => r.key == "sale/customer_id").Any())
-                    {
-                        state.filters.Add(new FilterModel()
-                        {
-                            key = "sale/customer_id",
-                            value1 = customer_id.ToString()
-                        });
-                    }
-                }
-                if (product_id > 0) {
-
-                    if (!state.filters.Where(r => r.key == "product_id").Any())
-                    {
-                        state.filters.Add(new FilterModel()
-                        {
-                            key = "product_id",
-                            value1 = product_id.ToString()
-                        });
-                    }
-                }
-
-
-
-                return url + GetFilter(state.filters);
             }
+            if (product_id > 0) {
+
+                if (!state.filters.Where(r => r.key == "product_id").Any())
+                {
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "product_id",
+                        value1 = product_id.ToString()
+                    });
+                }
+            }
+
+
+
+            return url + GetFilter(state.filters);
         }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -301,6 +301,7 @@
                 will_remove = true
             });
         }
+
         state.pager.current_page = 1;
         await LoadData();
     }
