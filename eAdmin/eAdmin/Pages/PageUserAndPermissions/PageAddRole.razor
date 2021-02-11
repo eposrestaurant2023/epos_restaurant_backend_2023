@@ -25,46 +25,7 @@
                 <TextInput label="Role Name" @bind-text="@model.role_name" />
                 <TextInput type="textarea" label="Description" @bind-text="@model.description" />
 
-                <Spacing Number="20" />
-                <div class="uk-grid-small" uk-grid>
-                    <div class="uk-width-1-3">
-                        <div class="report-item">
-                            <div class="report-header">
-                                Front End
-                            </div>
-                            <div class="report-content">
-                                @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
-                                {
-                                    <div class="cus_margin">
-                                        <ComInputCheckBox label="@fn.note" label_inline="true" @bind-value="fn.is_checked" />
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div class="uk-width-1-3">
-                        <div class="report-item">
-                            <div class="report-header">
-                                Back End
-                            </div>
-                            <div>
-                                <ComPerMissionOptionTree parent_id="null" PermissionOptions="@permissionoption" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="uk-width-1-3">
-                        <div class="report-item">
-                            <div class="report-header">
-                                Report
-                            </div>
-                            <div class="report-content">
-                                
-                                @*<ComPerMissionOptionTree parent_id="44" PermissionOptions="@permissionoption.Where(r=>r.is_report==true).ToList()"/>*@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                
             </PageBody>
 
             <PageFooter>
@@ -92,7 +53,6 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        await LoadPermissionOption("");
         await LoadData("");
         is_loading = false;
     }
@@ -120,30 +80,6 @@
             model = JsonSerializer.Deserialize<RoleModel>(resp.Content.ToString());
         }
         is_loading_data = false;
-    }
-
-
-
-    async Task LoadPermissionOption(string api_url = "")
-    {
-
-        is_loading_data = true;
-
-        if (string.IsNullOrEmpty(api_url))
-        {
-
-            api_url = "PermissionOption?$expand=permission_option_roles($select=permission_option_id,role_id,is_delete)";
-        }
-
-        var resp = await http.ApiGetOData(api_url);
-        if (resp.IsSuccess)
-        {
-
-            permissionoption = JsonSerializer.Deserialize<List<PermissionOptionModel>>(resp.Content.ToString());
-
-        }
-        is_loading_data = false;
-
     }
 
     protected async Task SaveRole_Click()
