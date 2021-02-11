@@ -112,7 +112,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "provinces,";
                     api_url = api_url + "vendors,";
                     api_url = api_url + "vendor_groups";
-                    var xx = api_url;
+
                     GetResponse res = await http.ApiGet(api_url);
 
                     if (res.IsSuccess)

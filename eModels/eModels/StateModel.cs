@@ -55,11 +55,13 @@ namespace eModels
         public List<BusinessBranchModel> business_branch { get; set; } = new List<BusinessBranchModel>();
         public OutletModel outlet { get; set; } = new OutletModel();
         public ProductGroupModel product_group { get; set; } = new ProductGroupModel();
-        public HashSet<string> multi_select_guid_1 { get; set; }
+        public HashSet<string> multi_select_id_1 { get; set; }
         public List<string> multi_select_value_1 { get; set; }
         
-        public HashSet<string> multi_select_guid_2 { get; set; }
+        public HashSet<string> multi_select_id_2 { get; set; }
         public List<string> multi_select_value_2 { get; set; }
+
+        public HashSet<string> multi_select_string_1 { get; set; }
         public VendorModel vendor { get; set; } = new VendorModel();
     }
 
@@ -194,9 +196,7 @@ namespace eModels
         public string state_property_name { get; set; }
         public string sql_statement { get; set; }
     }
-    public class FilterGroupModel { 
-    
-    }
+ 
     public enum FilterOperator
     {
         eq, ne, gt, ge, lt, le, and, or, not, contains, suspicious_case, crime_case, notfilter

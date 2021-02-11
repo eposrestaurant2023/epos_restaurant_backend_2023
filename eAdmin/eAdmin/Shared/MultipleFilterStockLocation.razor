@@ -1,0 +1,32 @@
+﻿ 
+<MudItem>
+    <MudSelect T="string" Dense="true" Label="Stock Location" MultiSelection="true" SelectedValues="selected_stock_location" SelectedValuesChanged="@OnSelectedValuesStockLocation">
+    @foreach (var option in gv.stock_locations)
+    {
+        <MudSelectItem T="string" Value="@option.stock_location_name.ToString()"  >@option.stock_location_name (@option.business_branch?.business_branch_name_en)</MudSelectItem>
+    }
+    </MudSelect>
+</MudItem>
+ 
+    @code {
+
+        [CascadingParameter] public GlobalVariableModel gv { get; set; }
+        [Parameter] public HashSet<string> selected_stock_location { get; set; } = new HashSet<string>();
+        [Parameter] public EventCallback<HashSet<string>> selected_stock_locationChanged { get; set; }
+
+        [Parameter] public EventCallback<List<string>> stock_location_id { get; set; }
+
+        void OnSelectedValuesStockLocation(HashSet<string> selected)
+        {
+            List<string> values = new List<string>(); 
+            selected_stock_location = selected;
+            values.Clear();
+            foreach (var x in selected_stock_location.ToList())
+            {
+                values.Add(gv.stock_locations.Where(r=>r.stock_location_name==x).FirstOrDefault().id.ToString()); 
+            }  
+            selected_stock_locationChanged.InvokeAsync(selected_stock_location);
+            stock_location_id.InvokeAsync(values);
+        }
+
+    }

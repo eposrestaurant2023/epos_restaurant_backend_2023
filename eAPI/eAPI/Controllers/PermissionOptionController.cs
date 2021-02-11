@@ -40,9 +40,6 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] PermissionOptionModel u)
         {
-           
-            
-            
             if (u.id == 0)
             {
                 db.PermissionOption.Add(u);
@@ -51,11 +48,21 @@ namespace eAPI.Controllers
             {
                 db.PermissionOption.Update(u);
             }
-
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
+        }
 
-
+        [HttpPost("save/multiple")]
+        public async Task<ActionResult<string>> SaveMultiple([FromBody] List<PermissionOptionModel> p)
+        {
+            foreach (var _p in p)
+            {
+                db.Database.ExecuteSqlRaw($"delete tbl_permission_option_role where permission_option_id = {_p.id}");
+                db.PermissionOptionRole.AddRange(_p.permission_option_roles);
+            }
+            db.PermissionOption.UpdateRange(p);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok();
         }
 
 

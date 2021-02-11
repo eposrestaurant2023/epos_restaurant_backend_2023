@@ -7,13 +7,12 @@ using eShareModel;
 
 namespace eModels
 {
-    [Table("tbl_purchase_order")]
-    public class PurchaseOrderModel : CoreModel
+    [Table("tbl_stock_take")]
+    public class StockTakeModel : CoreModel
     {
-        public PurchaseOrderModel()
+        public StockTakeModel()
         {
-            purchase_order_products = new List<PurchaseOrderProductModel>();
-            purchase_order_payments = new List<PurchaseOrderPaymentModel>();
+            stock_take_products = new List<StockTakeProductModel>();
             histories = new List<HistoryModel>();
         }
 
@@ -30,32 +29,20 @@ namespace eModels
         public string document_number { get; set; } = "New";
 
         [Column(TypeName = "date")]
-        public DateTime purchase_date { get; set; } = DateTime.Now;
-        public int vendor_id { get; set; }
-        [ForeignKey("vendor_id")]
-        public VendorModel vendor { get; set; }
-        public int? discount_user_id { get; set; }
-        [ForeignKey("discount_user_id")]
-        public UserModel discount_user { get; set; }
-        public string vendor_note { get; set; }
+        public DateTime stock_take_date { get; set; } = DateTime.Now;
         public string reference_number { get; set; }
         public string term_conditions { get; set; }
-        public string purchase_order_note { get; set; }
-        public bool is_partially_paid { get; set; }
+        public string note { get; set; }
         public bool is_fulfilled { get; set; }
-        public bool is_over_due { get; set; }
-
-        [Column(TypeName = "date")]
-        public DateTime? due_date { get; set; }
 
         private decimal _total_quantity;
         public decimal total_quantity
         {
             get
             {
-                if (purchase_order_products.Count > 0)
+                if (stock_take_products.Count > 0)
                 {
-                    _total_quantity = active_purchase_order_products.Sum(r => r.quantity);
+                    _total_quantity = active_stock_take_products.Sum(r => r.quantity);
                 }
                 return _total_quantity;
             }
@@ -66,9 +53,9 @@ namespace eModels
         {
             get
             {
-                if (purchase_order_products.Count > 0)
+                if (stock_take_products.Count > 0)
                 {
-                    _sub_total = active_purchase_order_products.Sum(r => r.sub_total);
+                    _sub_total = active_stock_take_products.Sum(r => r.sub_total);
                 }
                 return _sub_total;
             }
@@ -79,26 +66,26 @@ namespace eModels
         {
             get
             {
-                if (purchase_order_products.Count > 0)
+                if (stock_take_products.Count > 0)
                 {
-                    _discountable_amount = active_purchase_order_products.Where(r => r.is_allow_discount == true && r.discount == 0).Sum(r => r.sub_total);
+                    _discountable_amount = active_stock_take_products.Where(r => r.discount == 0).Sum(r => r.sub_total);
                 }
                 return _discountable_amount;
             }
             set { _discountable_amount = value; }
         }
-        private decimal _po_product_discount_amount;
-        public decimal po_product_discount_amount
+        private decimal _stock_take_product_discount_amount;
+        public decimal stock_take_product_discount_amount
         {
             get
             {
-                if (purchase_order_products.Count > 0)
+                if (stock_take_products.Count > 0)
                 {
-                    _po_product_discount_amount = active_purchase_order_products.Sum(r => r.total_discount);
+                    _stock_take_product_discount_amount = active_stock_take_products.Sum(r => r.total_discount);
                 }
-                return _po_product_discount_amount;
+                return _stock_take_product_discount_amount;
             }
-            set { _po_product_discount_amount = value; }
+            set { _stock_take_product_discount_amount = value; }
         }
 
         private string _discount_type = "Percent"; //Percent and Amount;
@@ -157,7 +144,7 @@ namespace eModels
         {
             get
             {
-                if (active_purchase_order_products.Count() > 0)
+                if (active_stock_take_products.Count() > 0)
                 {
                     _total_amount = sub_total - grand_total_discount;
                 }
@@ -165,28 +152,15 @@ namespace eModels
             }
             set { _total_amount = value; }
         }
-        private decimal _balance;
-        public decimal balance
-        {
-            get
-            {
-                _balance = total_amount - paid_amount;
-                return _balance;
-            }
-            set { _balance = value; }
-        }
-        public decimal paid_amount { get; set; }
-        public bool is_paid { get; set; }
 
-        public List<PurchaseOrderPaymentModel> purchase_order_payments { get; set; }
-        public List<PurchaseOrderProductModel> purchase_order_products { get; set; }
+        public List<StockTakeProductModel> stock_take_products { get; set; }
  
         private decimal _grand_total_discount { get; set; }
         public decimal grand_total_discount
         {
             get
             {
-                _grand_total_discount = total_discount + po_product_discount_amount;
+                _grand_total_discount = total_discount + stock_take_product_discount_amount;
                 return _grand_total_discount;
             }
             set {
@@ -197,11 +171,11 @@ namespace eModels
 
 
         [NotMapped, JsonIgnore]
-        public List<PurchaseOrderProductModel> active_purchase_order_products
+        public List<StockTakeProductModel> active_stock_take_products
         {
             get
             {
-                return purchase_order_products.Where(r => r.is_deleted == false).ToList();
+                return stock_take_products.Where(r => r.is_deleted == false).ToList();
             }
         }
 
@@ -212,23 +186,6 @@ namespace eModels
             {
                 //return paid_amount == 0 && !is_paid && !is_deleted && total_visited==0; 
                 return !is_deleted && !is_fulfilled;
-            }
-        }
-        [NotMapped, JsonIgnore]
-        public bool can_restore
-        {
-            get
-            {
-                return is_deleted;
-            }
-        }
-
-        [NotMapped, JsonIgnore]
-        public bool can_edit
-        {
-            get
-            {
-                return !is_deleted;
             }
         }
       

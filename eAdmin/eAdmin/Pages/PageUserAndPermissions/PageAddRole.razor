@@ -47,9 +47,6 @@
     RoleModel model = new RoleModel();
     string ControllerApi = "Role";
 
-
-
-
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
@@ -85,23 +82,12 @@
     protected async Task SaveRole_Click()
     {
         is_saving = true;
-        model.permission_option_roles.Clear();
-        foreach (var a in permissionoption.ToList())
-        {
-            if (a.is_checked)
-            {
-                model.permission_option_roles.Add(new PermissionOptionRoleModel()
-                {
-                    permission_option_id = a.id,
-                    role_id = model.id
-                });
-            }
-        }
         var post = await http.ApiPost("Role/Save", model);
         if (post.IsSuccess)
         {
             model = JsonSerializer.Deserialize<RoleModel>(post.Content.ToString());
             toast.Add("Save Successfully!", MatToastType.Success);
+            nav.NavigateTo($"role/permission/{model.id}");
         }
         else
         {
