@@ -1,4 +1,5 @@
 ﻿@inherits PageCore
+@using System.Globalization;
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @{
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
@@ -22,11 +23,9 @@
         <RefreshButton OnClick="@(async()=>await LoadData())" />
         <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
             <FilterDateRange @bind-dates="@state.date_range" />
-            <Spacing Number="12" />
         </ComSearch>
     </HeaderRight>
 </PageHeader>
-
 <Com is_visible="@(!is_loading)">
     <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
     <Com is_visible="@(models != null)">
@@ -63,13 +62,13 @@
                     @p.sale_note
                 </td>
                 <TdRight>
-                    @p.total_amount.ToString(gv.main_currency_format)
+                    @p.total_amount.ToString(gv.main_currency_format, CultureInfo.CurrentCulture)
                 </TdRight>
                 <TdRight>
                     @p.paid_amount.ToString(gv.main_currency_format)
                 </TdRight>
                 <TdRight>
-                    @p.balance.ToString(gv.main_currency_format)
+                    @p.balance
                 </TdRight>
                 <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
                 <td>@p.created_by</td>
@@ -89,7 +88,6 @@
 
 @code {
     [Parameter] public Guid customer_id { get; set; }
-
     List<SaleModel> models = new List<SaleModel>();
     int TotalRecord = 0;
 
