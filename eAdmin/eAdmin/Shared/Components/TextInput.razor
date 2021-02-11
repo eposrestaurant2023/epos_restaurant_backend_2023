@@ -4,7 +4,7 @@
 
 @if (!string.IsNullOrEmpty(label))
 {
-<div class="uk-form-horizontal">
+<div class="@(is_horizontal?"uk-form-horizontal":"")">
     <div class="uk-margin-small">
         <label class="uk-form-label" for="@id">@label</label>
         <div class="uk-form-controls">
@@ -87,6 +87,7 @@ else
     [Parameter] public int row { get; set; } = 5;
     [Parameter] public bool is_read_only { get; set; } = false;
     [Parameter] public bool is_height_auto { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = false;
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [Parameter]

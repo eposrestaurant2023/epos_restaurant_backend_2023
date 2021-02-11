@@ -276,7 +276,7 @@ namespace eAdmin.Pages.PageReceipt
                 // clear filter business
                 if (k == "outlet/business_branch_id")
                 {
-                    state.multi_select_guid_1.Clear();
+                    state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
                     
@@ -284,7 +284,7 @@ namespace eAdmin.Pages.PageReceipt
                 // clear filter outlet
                  if (k == "outlet_id")
                 {
-                    state.multi_select_guid_2.Clear();
+                    state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
                 }
                     
@@ -307,7 +307,7 @@ namespace eAdmin.Pages.PageReceipt
                 // clear filter business
                 if (f.key == "outlet/business_branch_id")
                 {
-                    state.multi_select_guid_1.Clear();
+                    state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
 
@@ -315,7 +315,7 @@ namespace eAdmin.Pages.PageReceipt
                 // clear filter outlet
                 if (f.key == "outlet_id")
                 {
-                    state.multi_select_guid_2.Clear();
+                    state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
                 }
 
