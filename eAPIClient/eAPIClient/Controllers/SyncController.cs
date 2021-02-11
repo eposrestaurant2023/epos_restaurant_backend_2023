@@ -62,11 +62,14 @@ namespace eAPIClient.Controllers
             {
                 db.Database.ExecuteSqlRaw("exec sp_delete_menu_and_product");
                 db.Menus.AddRange(menu_datas);
+                
                 db.Products.AddRange(product_datas);
                 db.SaveChanges();
 
+                
                 db.ProductMenus.AddRange(product_menu_datas);
                 db.ProductPrices.AddRange(product_price_datas);
+                
                 db.SaveChanges();
 
 

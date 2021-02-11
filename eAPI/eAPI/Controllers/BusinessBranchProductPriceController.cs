@@ -25,17 +25,11 @@ namespace eAPI.Controllers
             db = _db;
         }
 
-
-
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        public IQueryable<BusinessBranchProductPriceModel> Get()
+        public List<BusinessBranchProductPriceModel> Get()
         {
-          
-                return db.BusinessBranchProductPrices;
-           
+                return db.BusinessBranchProductPrices.ToList();
         }
-         
     }
-
 }

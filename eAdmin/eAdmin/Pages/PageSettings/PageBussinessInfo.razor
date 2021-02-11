@@ -80,7 +80,16 @@
                         @foreach (var d in models)
                         {
 
-
+                           @* <UICard>
+                                <UICardHeader ImageUrl="@d.logo">
+                                    @d.business_branch_name_en (@d.business_branch_name_kh)
+                                </UICardHeader>
+                               sdfg
+                                <UICardFooter>
+                                    <LabelActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                    <LabelInActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                </UICardFooter>
+                            </UICard>*@
                             <UISummaryBox ImageUrl="@d.logo" ShowImage="true" Icon="edit" OnClick="@(()=>OnEdit(d.id))">
 
                                 <ContentLeft>

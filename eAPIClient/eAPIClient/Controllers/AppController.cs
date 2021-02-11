@@ -14,8 +14,7 @@ using NETCore.Encrypt;
 namespace eAPIClient.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    [Authorize]
+    [Route("api")]      
     public class AppController : ODataController
     {
 
@@ -99,9 +98,13 @@ namespace eAPIClient.Controllers
             var c = db.Users.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(c);
         }
-         
 
-
+        [HttpGet("is_working")]
+        [EnableQuery(MaxExpansionDepth = 0)]             
+        public ActionResult<bool> IsAPIWorking()
+        {
+            return Ok();
+        }  
     }
 
 }
