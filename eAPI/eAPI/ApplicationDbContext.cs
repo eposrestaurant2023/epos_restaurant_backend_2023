@@ -30,8 +30,8 @@ namespace eAPI
                 property.SetCollation("Khmer_100_BIN");
             }
 
-
-            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
+            builder.Entity<BusinessBranchRoleModel>().HasKey(t => new { t.role_id, t.business_branch_id });
+            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });           
             builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
             builder.Entity<PermissionOptionRoleModel>()
                 .HasOne(pt => pt.permission_option)
@@ -114,6 +114,7 @@ namespace eAPI
         public DbSet<VendorGroupModel> VendorGroups{ get; set; }
         public DbSet<StockTakeModel> StockTakes { get; set; }
         public DbSet<StockTakeProductModel> StockTakeProducts { get; set; }
+        public DbSet<BusinessBranchRoleModel> businessBranchRoles { get; set; }
 
     }
 
