@@ -4,10 +4,10 @@
 @if (!is_loading)
 {
     <UIGridCenter>
-        <UIContainerBox Title="Payment History" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = Guid.Empty; })" show_print="@(po.active_payments.Count() > 0)" OnPrint="@(()=>is_print = true)">
-          @if (po.active_payments.Count() > 0)
+        <UIContainerBox Title="Payment History" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = Guid.Empty; })" show_print="@(po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())" OnPrint="@(()=>is_print = true)">
+          @if (po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())
             {
-                @foreach (var p in po.active_payments.OrderByDescending(r => r.created_date))
+                @foreach (var p in po.purchase_order_payments.Where(r=>r.is_deleted == false).OrderByDescending(r => r.created_date))
                 {
                     <UIListBox ImageUrl="@p.payment_type?.photo">
                         <ContentLeft>
@@ -37,7 +37,7 @@
                             <Column ClassName="uk-text-right">
                                 <Icon icon="print" OnClick="@(()=>is_print = true)" roles="@gv.GetRole("purchase_order_edit")" title="Print" />
                                 <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" roles="@gv.GetRole("purchase_order_edit")" title="Edit" />
-                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("purchase_order_payment_delete")" title="Delete" />
+                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("purchase_order_delete_payment")" title="Delete" />
                             </Column>
                         </ContentRight>
                     </UIListBox>
