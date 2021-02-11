@@ -35,7 +35,7 @@ if (!isLoading || permission != null)
                         <div class="uk-width-1-2">
                             <div class="spacing40"></div>
                             <CascadingValue Value="@PermissionOptions">
-                                <ComPerMissionOptionTree role_id="@role_id" parent_id="null" OnSelect="@SelectedPermission_Click" />
+                                <ComPerMissionOptionTree role_id="@role_id" parent_id="null" OnSelectChanged="@SelectedPermission_Click" />
                             </CascadingValue>
                         </div>
                     </div>
