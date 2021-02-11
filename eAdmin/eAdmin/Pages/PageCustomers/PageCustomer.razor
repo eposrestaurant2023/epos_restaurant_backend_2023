@@ -62,7 +62,7 @@
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>
-                            <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                            <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="false" IsBackgroundImage="false" Width="50px" Height="50px" />
                         </TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_code</ComAuthorize>

@@ -75,7 +75,7 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<HistoryModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
         {
             var u = await db.Histories.FindAsync(id);
             u.is_deleted = !u.is_deleted;
