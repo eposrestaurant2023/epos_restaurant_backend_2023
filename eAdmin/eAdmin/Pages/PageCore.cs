@@ -154,7 +154,7 @@ namespace eAdmin.Pages
 
                             if (!string.IsNullOrEmpty(filter_values))
                             {
-                                filter = $"{filter} {filter_values}";
+                                filter = $"{filter} {filter_values} {a.filter_join_operator}";
                             }
                             else
                             {

@@ -33,6 +33,9 @@
                         <label sclass="uk-form-label">Vendor</label> 
                         <VendorTypeahead @bind-vendor="@state.vendor"/>
                     </div>
+                    <MultipleFilterBusinessBranch @bind-selected_business="@state.multi_select_id_1" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <Spacing Number="15"/>
+                    <MultipleFilterStockLocation @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
@@ -55,7 +58,9 @@
                         @HeaderTemplate("purchase_date", "PO Date", "uk-text-center")
                         @HeaderTemplate("document_number", "Document#", "uk-text-center")
                         @HeaderTemplate("referance_number", "Referance#", "uk-text-center")
-                        @HeaderTemplate("vendor/vendor_name", "Vendor", "col-auto") 
+                        @HeaderTemplate("vendor/vendor_name", "Vendor", "col-auto")
+                        @HeaderTemplate("business_branch/business_branch_name_en", "Business Branch")
+                        @HeaderTemplate("stock_location/stock_location_name", "Stock Location")
                         <ThRight>Total Amount</ThRight>
                         <ThRight>Paid Amount</ThRight>
                         <ThRight>Balance</ThRight>
@@ -75,6 +80,13 @@
                                 <ComVendorInfo vendor="p.vendor" />
                             </ComAuthorize>
                         </td>
+                        <td>
+                            @p.business_branch?.business_branch_name_en
+                        </td>
+                        <td>
+                            @p.stock_location?.stock_location_name
+                        </td>
+
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>

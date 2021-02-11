@@ -29,7 +29,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=vendor($select=id,vendor_code,vendor_name,photo,company_name)";
+                url += $"$expand=vendor($select=id,vendor_code,vendor_name,photo,company_name),business_branch($select=business_branch_name_en),stock_location($select=stock_location_name)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -145,6 +145,59 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 });
             }
 
+            // filter business
+            if (state.multi_select_value_1 != null)
+            {
+
+                string value = "";
+                foreach (var x in state.multi_select_value_1)
+                {
+                    value += x + ",";
+                }
+                if (!string.IsNullOrEmpty(value))
+                {
+                    value = value.Substring(0, value.Length - 1);
+                }
+
+                state.filters.Add(new FilterModel()
+                {
+                    key = "business_branch_id",
+                    value1 = value,
+                    filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = value,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+
+            // filter outlet
+            if (state.multi_select_value_2 != null)
+            {
+
+                string value = "";
+                foreach (var x in state.multi_select_value_2)
+                {
+                    value += x + ",";
+                }
+                if (!string.IsNullOrEmpty(value))
+                {
+                    value = value.Substring(0, value.Length - 1);
+                }
+
+                state.filters.Add(new FilterModel()
+                {
+                    key = "stock_location_id",
+                    value1 = value,
+                    filter_title = "Stock Location",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = value,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
             state.pager.current_page = 1;
             await LoadData();
         }
