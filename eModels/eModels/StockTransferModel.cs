@@ -23,11 +23,11 @@ namespace eModels
         /// FROM LOCATION
         /// </summary>
         public Guid from_business_branch_id { get; set; }
-        [ForeignKey("form_business_branch_id")]
-        public BusinessBranchModel form_business_branch { get; set; }
+        [ForeignKey("from_business_branch_id")]
+        public BusinessBranchModel from_business_branch { get; set; }
 
         public int from_stock_location_id { get; set; }
-        [ForeignKey("form_stock_location_id")]
+        [ForeignKey("from_stock_location_id")]
         public StockLocationModel from_stock_location { get; set; }
 
         /// <summary>
