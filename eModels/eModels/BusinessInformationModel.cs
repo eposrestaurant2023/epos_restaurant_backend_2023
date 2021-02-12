@@ -40,6 +40,7 @@ namespace eModels
             user_business_branches = new List<UserBusinessBranchModel>();
             business_branch_settings = new List<BusinessBranchSettingModel>();
             cashier_notes = new List<NoteModel>();
+            business_branch_roles = new List<BusinessBranchRoleModel>();
         }
 
         private string _business_branch_name_en;
@@ -91,6 +92,7 @@ namespace eModels
         public List<BusinessBranchPriceRule> business_branch_prices { get; set; }
         public List<UserBusinessBranchModel> user_business_branches { get; set; }
         public List<BusinessBranchSettingModel> business_branch_settings { get; set; }
+        public List<BusinessBranchRoleModel> business_branch_roles { get; set; }
         public List<NoteModel> cashier_notes { get; set; }
     }
 

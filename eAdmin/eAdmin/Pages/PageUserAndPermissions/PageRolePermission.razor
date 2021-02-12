@@ -24,17 +24,12 @@
                     <div class="uk-width-1-3">
                         <div class="report-item">
                             <div class="report-header">
-                                @if (permissionoption.Where(r=>r.is_checked == true).Count()>0)
-                                {
-                                    <div>Has</div>
-                                }
                                 Front End
                             </div>
                             <div class="report-content">
                                 @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
                                 {
                                     <div class="cus_margin">
-                                        @fn.is_checked
                                         <ComInputCheckBox label="@fn.note" label_inline="true" @bind-value="fn.is_checked" />
                                     </div>
                                 }
@@ -129,7 +124,7 @@
             }
             //a.permission_option_roles = new List<PermissionOptionRoleModel>();
         }
-        var post = await http.ApiPost("PermissionOption/save/multiple", permissionoption.Where(r=>r.is_checked == true));
+        var post = await http.ApiPost($"PermissionOption/save/multiple/{role_id}", permissionoption.Where(r=>r.is_checked == true));
         if (post.IsSuccess)
         {
             //permissionoption = JsonSerializer.Deserialize<List<PermissionOptionModel>>(post.Content.ToString());

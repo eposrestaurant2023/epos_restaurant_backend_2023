@@ -11,6 +11,7 @@ namespace eModels
         public RoleModel()
         {                                      
             permission_option_roles = new List<PermissionOptionRoleModel>();
+            business_branch_roles = new List<BusinessBranchRoleModel>();
         }
 
 
@@ -22,5 +23,6 @@ namespace eModels
         public bool is_buildin { get; set; }
 
         public List<PermissionOptionRoleModel> permission_option_roles { get; set; }  
+        public List<BusinessBranchRoleModel> business_branch_roles { get; set; }  
     }
 }
