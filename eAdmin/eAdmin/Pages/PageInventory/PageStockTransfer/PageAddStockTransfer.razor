@@ -1,0 +1,88 @@
+﻿@page "/stocktransfer/new"
+@page "/stocktransfer/edit/{id:int}"
+
+@inherits PageAddStockTransferBase
+
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+<Com is_visible="@(!is_loading && !is_error)">
+    <Title Value="Add Stock Transfer"></Title>
+    <PageContainer>
+        <PageBody>
+            <div class="content-add-sale">
+                <div class="section-content">
+                    <Spacing Number="20" />
+                    <ComPurchaseOrderSearchProduct productChanged="@OnSearchProduct" select_productsChanged="@OnSearchProducts" />
+                </div>
+                <Spacing Number="20" />
+                <Grid ClassName="uk-grid-small uk-grid-divider">
+                    <div class="uk-width-1-3@s">
+                        <div class="panel-empty">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />Referance #</label>
+                                <div class="uk-form-controls">
+                                    <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
+                                </div>
+                            </div>
+                            <DateInput label="Stock Take Date" value="@model.stock_transfer_date" icon="layers" /> 
+                        </div>
+                    </div>
+                    <div class="uk-width-expand@s">
+                        <Grid ClassName="uk-grid-small">
+                            <div class="uk-width-expand@s">
+                                <div class="panel">
+                                    <div class="sub_title font-sm">From Stock</div>
+                                    <div>
+                                        <SelectBusinessBranch @bind-selected_value="@model.from_business_branch_id" show_empty="true" icon="layers" />
+                                        <SelectStockLocation @bind-selected_value="@model.from_stock_location_id" business_branch_id="@model.from_business_branch_id" show_empty="true" icon="layers" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-width-auto@s">
+                                <div class="uk-height-1-1 uk-position-relative" style="width:50px">
+                                    <Icon icon="arrow_forward" size="50px" icon_color="#a0aab7" className="position-middle"/>
+                                </div>
+                            </div>
+                            <div class="uk-width-expand@s">
+                                <div class="panel">
+                                    <div class="sub_title font-sm">To Stock</div>
+                                    <div>
+                                        <SelectBusinessBranch @bind-selected_value="@model.to_business_branch_id" show_empty="true" icon="layers" />
+                                        <SelectStockLocation @bind-selected_value="@model.to_stock_location_id" business_branch_id="@model.to_business_branch_id" show_empty="true" icon="layers" />
+                                    </div>
+                                </div>
+                            </div>
+                        </Grid>
+                    </div>
+                </Grid>
+                <hr />
+                <section class="wrp-sale-invoice-body">
+                    <h3 class="title uk-display-inline-block">
+                        <Icon icon="shopping_cart" />
+                        <span class="title">Stock Transfer Products</span>
+                    </h3>
+                    <Spacing Number="10" />
+                    <ComStockTransferProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
+                    <hr />
+                    <Spacing Number="10" />
+                    <ComStockTransferSummary @bind-model="@model"/>
+                </section>
+            </div>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <Button disabled="@(is_saving || model.active_stock_transfer_products.Count()<=0)" OnClick="@OnSaveClick" icon="save">Save</Button>
+                @if (is_saving)
+                {
+                    <button class="uk-button uk-button-danger" onclick="history.go(-1)" disabled><Icon icon="reply" /> Cancel</button>
+                }
+                else
+                {
+                    <button class="uk-button uk-button-danger" onclick="history.go(-1)"><Icon icon="reply" /> Cancel</button>
+                }
+            </FooterCenter>
+            <FooterRight>
+                <strong class="uk-margin-small-right">Total Amount</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
+            </FooterRight>
+        </PageFooter>
+    </PageContainer>
+</Com>

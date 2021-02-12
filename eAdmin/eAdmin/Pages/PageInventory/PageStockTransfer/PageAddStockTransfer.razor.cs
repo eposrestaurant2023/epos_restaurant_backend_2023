@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace eAdmin.Pages.PageInventory.PageStockTake
 {
-    public class PageAddStockTakeBase : PageCore
+    public class PageAddStockTransferBase : PageCore
     {
         [Parameter] public int id { get; set; }
 
-        public StockTakeModel model = new StockTakeModel(); 
+        public StockTransferModel model = new StockTransferModel(); 
         public bool is_show_back { get; set; } = false;
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            title = (id > 0 ? "Edit Stock Take" : "New Stock Take");
+            title = (id > 0 ? "Edit Stock Transfer" : "New Stock Transfer");
 
             if (!is_error)
             {
@@ -32,7 +32,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             if (model.is_fulfilled)
             {
                 is_error = true;
-                error_text = "This Stock Take is already fulfilled";
+                error_text = "This Stock Transfer is already fulfilled";
             }
 
         }
@@ -52,7 +52,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
         void AddItemToSaleProduct(SelectedProductModel sp)
         {
-            var old_sale_product = model.active_stock_take_products.Where(r => r.product.id == sp.product.id);
+            var old_sale_product = model.active_stock_transfer_products.Where(r => r.product.id == sp.product.id);
             if (old_sale_product != null && old_sale_product.Count() > 0)
             {
                 old_sale_product.FirstOrDefault().quantity = old_sale_product.FirstOrDefault().quantity + sp.quantity;
@@ -61,18 +61,18 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
 
             //add new record
-            StockTakeProductModel d = new StockTakeProductModel();
+            StockTransferProductModel d = new StockTransferProductModel();
             d.product_id = sp.product.id;
             d.product = sp.product;
             d.product_type_id = sp.product.product_type_id;
             d.quantity = sp.quantity;
             d.cost= sp.product.cost;
-            model.stock_take_products.Add(d);
+            model.stock_transfer_products.Add(d);
             
 
         }
 
-        public void OnPOInformationChange(StockTakeModel _model)
+        public void OnPOInformationChange(StockTransferModel _model)
         {
 
             model = _model;
@@ -84,11 +84,11 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             if (id > 0)
             {
                 string url = $"StockTake({id})?";
-                url += $"$expand=stock_take_products($expand=product;$filter=is_deleted eq false)";
+                url += $"$expand=stock_transfer_products($expand=product;$filter=is_deleted eq false)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
-                    model = JsonSerializer.Deserialize<StockTakeModel>(resp.Content.ToString());
+                    model = JsonSerializer.Deserialize<StockTransferModel>(resp.Content.ToString());
                 }
             }
             is_loading_data = false;
@@ -98,39 +98,50 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
         public async Task OnSaveClick()
         {
-            if (model.business_branch_id == Guid.Empty)
+            if (model.to_business_branch_id == Guid.Empty)
             {
-                toast.Add("Please select business branch.", MatToastType.Warning);
-                return;
-            }
-
-            if (model.stock_location_id == 0)
-            {
-                toast.Add("Please select stock location.", MatToastType.Warning);
-                return;
-            }
-
-            if (model.active_stock_take_products.Count() <= 0)
-            {
-                toast.Add("Stock take item cannot be empty.", MatToastType.Warning);
+                toast.Add("Please select to business branch.", MatToastType.Warning);
                 return;
             }
             
-            StockTakeModel save_model = JsonSerializer.Deserialize<StockTakeModel>(JsonSerializer.Serialize(model)); 
-            save_model.stock_take_products.ForEach(r => r.product = null);
-            save_model.stock_location = null;
-            save_model.business_branch = null;
+            if (model.from_business_branch_id == Guid.Empty)
+            {
+                toast.Add("Please select from business branch.", MatToastType.Warning);
+                return;
+            }
+
+            if (model.to_stock_location_id == 0)
+            {
+                toast.Add("Please select to stock location.", MatToastType.Warning);
+                return;
+            }
+            if (model.from_stock_location_id == 0)
+            {
+                toast.Add("Please select from stock location.", MatToastType.Warning);
+                return;
+            }
+
+            if (model.active_stock_transfer_products.Count() <= 0)
+            {
+                toast.Add("Stock transfer item cannot be empty.", MatToastType.Warning);
+                return;
+            }
+            
+            StockTransferModel save_model = JsonSerializer.Deserialize<StockTransferModel>(JsonSerializer.Serialize(model)); 
+            save_model.stock_transfer_products.ForEach(r => r.product = null);
+            save_model.to_stock_location = save_model.from_stock_location = null;
+            save_model.to_business_branch = save_model.from_business_branch = null;
 
             is_saving = true;
 
             Console.WriteLine(JsonSerializer.Serialize(save_model));
 
-            var resp = await http.ApiPost("StockTake/save", save_model);
+            var resp = await http.ApiPost("StockTransfer/save", save_model);
             if (resp.IsSuccess)
             {
                 toast.Add("Save successfully.", MatToastType.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
-                nav.NavigateTo($"stocktake/{_model.id}");
+                nav.NavigateTo($"stocktransfer/{_model.id}");
             }
             else
             {

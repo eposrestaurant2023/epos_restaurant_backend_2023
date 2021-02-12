@@ -1,0 +1,69 @@
+﻿@inject IJSRuntime js
+@inject IHttpService http
+@inject IMatToaster toast
+<div class="wrp-selected-items">
+
+    @if (model != null)
+    {
+        <Table ShowTotalCount="false"
+               Items="@model.active_stock_transfer_products"
+               ShowPager="false"
+               ShowPagination="false"
+               ShowPaging="false"
+               CustomClass="set-verticle-top_custo"
+               EmptyText="There's no record in the system">
+            <TableHeader>
+                <ThCenter>Image</ThCenter>
+                <ThCenter>Code</ThCenter>
+                <ThAuto>Detail</ThAuto>
+                <ThCenter>Quanlity</ThCenter>
+                <ThRight>Cost</ThRight>
+                <ThCenter width="160px">Discount</ThCenter>
+                <ThRight>Amount</ThRight>
+                <th></th>
+            </TableHeader>
+            <RowTemplate Context="p">
+                <ComStockTransferProductRow product="@p" productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
+            </RowTemplate>
+        </Table>
+    }
+ 
+</div>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public StockTransferModel model { get; set; }
+    [Parameter] public EventCallback<StockTransferModel> modelChanged { get; set; }
+    public bool is_remove { get; set; }
+    async Task ProductChanged(StockTransferProductModel sp)
+    {
+        await modelChanged.InvokeAsync(model);
+    }
+
+
+    async Task RemoveProduct(StockTransferProductModel sp)
+    {
+        if (sp.id == 0)
+        {
+            model.stock_transfer_products.Remove(sp);
+        }
+        else
+        {
+            if (await js.Confirm("Delete Item", "Are you sure to delete this record?"))
+            {
+                sp.is_deleted = true;
+            }
+        }
+        
+        await modelChanged.InvokeAsync(model);
+    }
+    async Task CloneProduct(StockTransferProductModel sp)
+    {
+        var json = JsonSerializer.Serialize(sp);
+        var data = JsonSerializer.Deserialize<StockTransferProductModel>(json);
+        data.id = 0;
+        model.stock_transfer_products.Add(data);
+
+        await modelChanged.InvokeAsync(model);
+    }
+}

@@ -647,6 +647,7 @@ input[type="text"] {
 label {
     min-height: 12px;
     display: block;
+    margin-bottom: 4px;
 }
 
 .unit-divider:not(:first-child) {
@@ -1796,8 +1797,11 @@ ul.validation-errors {
     list-style-position: outside;
     padding: 0;
 }
-.wrp-descrition{
-
+.position-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .wrp-comment {
 /*    margin: 25px 250px auto;*/
@@ -6918,4 +6922,13 @@ div.mud-input-slot.mud-input-root:hover {
 }
 .box-select-typeahead .blazored-typeahead__input {
     height: 40px !important;
+}
+.panel, .panel-empty {
+    padding: 12px;
+    border: 1px solid transparent;
+}
+.panel {
+    border: 1px solid #d0d0d0;
+    background-color: #f3f3f3;
+    border-radius: 4px;
 }

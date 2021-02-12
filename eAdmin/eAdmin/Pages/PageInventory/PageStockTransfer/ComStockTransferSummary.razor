@@ -1,0 +1,95 @@
+﻿<Grid ClassName="uk-grid-small">
+    <div class="uk-width-2-3@s">
+        <Tab>
+            <TabHeader>
+                <TabHeaderItem class_name="uk-padding-remove">Stock Trnasfer Note</TabHeaderItem>
+                <TabHeaderItem>Term & Conditions</TabHeaderItem>
+            </TabHeader>
+            <TabBody>
+                <TabItem>
+                    <TextInput type="textarea" @bind-text="@model.note" placeholder="Stock Trnasfer Note..."/>
+                </TabItem>
+                <TabItem>
+                    <TextInput type="textarea" @bind-text="@model.term_conditions" placeholder="Term & Conditions" />
+                </TabItem>
+            </TabBody>
+        </Tab>
+    </div>
+    <div class="uk-width-1-3@s">
+        <div class="wrp-sub-total uk-form-horizontal">
+            <div class="uk-width-1-1">
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-expand" uk-leader>Sub Total</div>
+                    <div>@model.sub_total.ToString(gv.main_currency_format)</div>
+                </div>
+                @if (model.stock_take_product_discount_amount > 0)
+                {
+                    <hr />
+                    <div class="uk-grid-small" uk-grid>
+                        <div class="uk-width-expand" uk-leader>Total Item Discount</div>
+                        <div>@model.stock_take_product_discount_amount.ToString(gv.main_currency_format)</div>
+                    </div>
+                }
+                @if (model.discountable_amount > 0)
+                {
+                    <hr />
+                    <div class="uk-grid-small" uk-grid>
+                        <div class="uk-width-expand" uk-leader>Discountable Amount</div>
+                        <div>@model.discountable_amount.ToString(gv.main_currency_format)</div>
+                    </div>
+                    <hr />
+                    <UkFlex class_name="uk-width-1-1">
+                        <FlexItem class_name="uk-text-left">
+                            Discount
+                        </FlexItem>
+                        <FlexItem class_name="uk-margin-left-auto">
+                            <UkFlex>
+                                <FlexItem class_name="uk-margin-remove">
+                                    <select class="uk-select uk-form-width-small uk-form-small" value="@model.discount_type" @onchange="@((e)=>OnDiscountTypeChanged((string)e.Value))">
+                                        <option value="Percent">%</option>
+                                        <option value="Amount">$</option>
+                                    </select>
+                                </FlexItem>
+                                <FlexItem class_name="uk-margin-remove">
+                                    <NumberInput text="@model.discount" textChanged="OnDiscountTypeChanged" text_format="@(model.discount_type == "Percent" ? "#,##0.##" : gv.main_currency_format)" />
+                                </FlexItem>
+                            </UkFlex>
+                        </FlexItem>
+                        <FlexItem class_name="uk-margin-remove">
+                            @model.total_discount.ToString(gv.main_currency_format)
+                        </FlexItem>
+                    </UkFlex>
+                }
+
+
+
+
+                @if (model.grand_total_discount > 0)
+                {
+                    <hr />
+                    <div class="uk-grid-small" uk-grid>
+                        <div class="uk-width-expand" uk-leader>Total Discount</div>
+                        <div>@model.grand_total_discount.ToString(gv.main_currency_format)</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</Grid>
+@code{
+    
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public StockTransferModel model { get; set; }
+    [Parameter] public EventCallback<StockTransferModel> modelChanged { get; set; } 
+ 
+    async Task OnDiscountTypeChanged(string type)
+    {
+        model.discount_type = type;
+        await modelChanged.InvokeAsync(model);
+    }
+    async Task OnDiscountTypeChanged(decimal value)
+    {
+        model.discount = value;
+        await modelChanged.InvokeAsync(model);
+    }
+}
