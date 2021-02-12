@@ -1,4 +1,4 @@
-﻿@*@page "/stocktake/new"
+﻿@page "/stocktake/new"
 @page "/stocktake/edit/{id:int}"
 
 @inherits PageAddStockTakeBase
@@ -16,32 +16,42 @@
                 <Spacing Number="20" />
                 <Grid ClassName="uk-grid-small uk-grid-divider uk-child-width-1-2">
                     <div>
-                        Left
+                        <div class="uk-form-horizontal">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />Referance #</label>
+                                <div class="uk-form-controls">
+                                    <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
+                                </div>
+                            </div>
+                            <DateInput label="Stock Take Date" value="@model.stock_take_date" icon="layers" /> 
+                        </div>
                     </div>
                     <div>
                         <div class="section-content">
-                            <ComPurchaseOrderReceiptInformation model="@model" modelChanged="@OnPOInformationChange" />
+                            <div class="uk-form-horizontal">
+                                <SelectBusinessBranch @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
+                                <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
+                            </div>
                         </div>
-                        <Spacing Number="10" />
                     </div>
                 </Grid>
                 <hr />
                 <section class="wrp-sale-invoice-body">
                     <h3 class="title uk-display-inline-block">
                         <Icon icon="shopping_cart" />
-                        <span class="title">PO Products</span>
+                        <span class="title">Stock Take Products</span>
                     </h3>
                     <Spacing Number="10" />
-                    <ComPurchaseOrderProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
+                    <ComStockTakeProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
                     <hr />
                     <Spacing Number="10" />
-                    <ComPurchaseOrderSummary is_allow_discount="true" @bind-model="@model" OnTotalPaymentClick="(() => is_show_add_payment = true)" />
+                    <ComStockTakeSummary @bind-model="@model"/>
                 </section>
             </div>
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <Button disabled="@(is_saving || model.active_purchase_order_products.Count()<=0)" OnClick="@OnSaveClick" icon="save">Save</Button>
+                <Button disabled="@(is_saving || model.active_stock_take_products.Count()<=0)" OnClick="@OnSaveClick" icon="save">Save</Button>
                 @if (is_saving)
                 {
                     <button class="uk-button uk-button-danger" onclick="history.go(-1)" disabled><Icon icon="reply" /> Cancel</button>
@@ -56,4 +66,4 @@
             </FooterRight>
         </PageFooter>
     </PageContainer>
-</Com>*@
+</Com>

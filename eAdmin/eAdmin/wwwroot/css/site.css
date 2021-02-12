@@ -2841,13 +2841,13 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
     }
 
     .ribbon .fulfilled:before {
-        border-top: 3px solid #32d296;
-        border-left: 3px solid #32d296;
+    border-top: 3px solid #0dabab;
+    border-left: 3px solid #0dabab;
     }
 
     .ribbon .fulfilled:after {
-        border-right: 3px solid #32d296;
-        border-top: 3px solid #32d296;
+    border-right: 3px solid #0dabab;
+    border-top: 3px solid #0dabab;
     }
     .ribbon .draft:before {
         border-top: 3px solid #727272;
@@ -2996,10 +2996,15 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
 .uk-label.aging {
     background: #007bae;
 }
-    .uk-label.draft,
-    .ribbon .draft {
-        background: #acacac;
-    }
+.uk-label.draft,
+.ribbon .draft {
+    background: #acacac;
+}
+
+.uk-label.deleted,
+.ribbon .deleted {
+    background: #f0506e;
+}
 
 .uk-label.fulfilled,
 .ribbon .fulfilled {
@@ -3204,7 +3209,7 @@ button.issue_invoice {
     color: #5d5d5d;
     text-transform: capitalize;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .material-icons {

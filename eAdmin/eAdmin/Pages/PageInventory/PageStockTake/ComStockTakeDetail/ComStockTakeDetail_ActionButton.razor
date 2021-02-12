@@ -1,0 +1,113 @@
+﻿@inject IHttpService http
+@inject IJSRuntime js 
+@inject IMatToaster toast
+@inject NavigationManager nav
+
+<Loading is_loading="@is_loading" />
+<ButtonGroup>
+    <Button title="Print" icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click" />
+    <Button roles="@gv.GetRole("stock_take_edit")" OnClick="@(()=>nav.NavigateTo($"stocktake/edit/{model.id}"))" icon="edit" title="Edit" is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
+</ButtonGroup>
+
+<ComAttachFileButton RoleAdd="@gv.GetRole("stock_take_add")"
+                     RoleEdit="@gv.GetRole("stock_take_edit")"
+                     RoleDelete="@gv.GetRole("stock_take_delete")"
+                     ApiFilter="@($"purchase_order_id eq {model.id} ")"
+                     File="@file"
+                     IsVisible="@(!model.is_deleted)" />
+
+<AddButton roles="@gv.GetRole("stock_take_add")" url="stocktake/new">New Stock Take</AddButton>
+<MoreButton is_loading="@model.is_loading">
+    <MoreButtonItem roles="@gv.GetRole("stock_take_edit")" icon="cached" is_visible="@model.is_fulfilled" OnClick="@CancelFulfilled_Click">Cancel Fulfilled</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("stock_take_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">Delete Invoice</MoreButtonItem>
+    @*<MoreButtonItem roles="@gv.GetRole("sale_restore")" icon="refresh" is_visible="@(sale.can_restore)" OnClick="@RestoreInvoice_Click">Restore Invoice</MoreButtonItem>*@
+</MoreButton>
+
+@if (is_open_print)
+{
+    <ComPreviewReport parent_id="117" report_id="118" id="@model.id" IsOpened="is_open_print" OnClose="@(()=>is_open_print=false)" />
+}
+ 
+
+@code {
+    [Parameter] public StockTakeModel model { get; set; }
+    [Parameter] public EventCallback<StockTakeModel> modelChanged { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    AttachFilesModel file = new AttachFilesModel();
+    bool is_loading;
+    protected override void OnInitialized()
+    { 
+        file.stock_take_id = model.id;
+    }
+
+
+    bool is_open_print = false;
+
+    void Print_Click()
+    {
+
+        is_open_print = true;
+    }
+
+    async Task DeleteInvoice_Click()
+    {
+        is_loading = true;
+        if (await js.Confirm("Delete Stock Take Invoice", "Are you sure you want to delete this stock take invoice?", SweetAlertMessageType.question))
+        {
+            var resp = await http.ApiPost($"stocktake/delete/{model.id}");
+            if (resp.IsSuccess)
+            {
+                model.is_deleted = !model.is_deleted;
+                await modelChanged.InvokeAsync(model);
+                toast.Add("Delete stock take invoice successfully.", MatToastType.Success);
+            }
+            else
+            {
+                toast.Add(resp.Content, MatToastType.Warning);
+            }
+        }
+
+        is_loading = false;
+
+    }
+    async Task RestoreInvoice_Click()
+    {
+
+
+        is_loading = true;
+        if (await js.Confirm("Restore Stock Take Invoice", "Are you sure you want to restore this stock take invoice?", SweetAlertMessageType.question))
+        {
+            var resp = await http.ApiPost($"stocktake/delete/{model.id}");
+            if (resp.IsSuccess)
+            {
+
+                model.is_deleted = !model.is_deleted;
+                await modelChanged.InvokeAsync(model);
+                toast.Add("Restore stock take invoice successfully.", MatToastType.Success);
+            }
+            else
+            {
+                toast.Add(resp.Content, MatToastType.Warning);
+            }
+        }
+
+        is_loading = false;
+    }
+
+    async Task CancelFulfilled_Click()
+    {
+        is_loading = true;
+        if (await js.Confirm("Cancel Fulfilled", "Are you sure you want to cancel fulfilled?"))
+        {
+            var resp = await http.ApiPost("StockTake/CancelFulfilled/" + model.id);
+            if (resp.IsSuccess)
+            {
+                model.is_fulfilled = !model.is_fulfilled;
+                await modelChanged.InvokeAsync(model);
+                toast.Add("Cancel fulfilled successfully", MatToastType.Success);
+            }
+        }
+
+        is_loading = false;
+    }
+}

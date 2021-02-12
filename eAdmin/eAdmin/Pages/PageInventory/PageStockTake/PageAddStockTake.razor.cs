@@ -84,7 +84,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             if (id > 0)
             {
                 string url = $"StockTake({id})?";
-                url += $"$expand=purchase_order_products($expand=product;$filter=is_deleted eq false)";
+                url += $"$expand=stock_take_products($expand=product;$filter=is_deleted eq false)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
