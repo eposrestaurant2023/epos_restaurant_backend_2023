@@ -13,13 +13,13 @@
             </HeaderTemplate>
             <FilterTemplate>
                 <PageFilter title="Status">
-                    <ModuleView module_views="@gv.GetModuleView("page_sale")" OnClick="@ViewClick" />
+                    <ModuleView module_views="@gv.GetModuleView("page_purchase_order")" OnClick="@ViewClick" />
                 </PageFilter>
             </FilterTemplate>
         </PageTitle>
     </HeaderLeft>
     <HeaderRight>
-        <AddButton roles="@gv.GetRole("sale_add")" url="@($"sale/customer/{customer_id}")">New</AddButton>
+        <AddButton roles="@gv.GetRole("sale_add")" url="@($"sale/vendor/{vendor_id}")">New</AddButton>
         <RefreshButton OnClick="@(async()=>await LoadData())" />
         <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
             <FilterDateRange @bind-dates="@state.date_range" />
@@ -44,9 +44,9 @@
                ScrollClass="uk-overflow-auto"
                EmptyText="There is no record.">
             <TableHeader>
-                @HeaderTemplate("sale_date", "Date", "uk-text-center")
+                @HeaderTemplate("purchase_date", "Date", "uk-text-center")
                 @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                <ThAuto>Sale Note</ThAuto>
+                <ThAuto>Purchase Note</ThAuto>
                 <ThRight>Total Amount</ThRight>
                 <ThRight>Paid Amount</ThRight>
                 <ThRight>Balance</ThRight>
@@ -56,12 +56,12 @@
                 <th class="uk-width-auto"></th>
             </TableHeader>
             <RowTemplate Context="p">
-                <TdCenter>@p.sale_date.ToString(gv.date_format)</TdCenter>
+                <TdCenter>@p.purchase_date.ToString(gv.date_format)</TdCenter>
                 <TdCenter>
-                    <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.id}")">@p.document_number</ComAuthorize>
+                    <ComAuthorize roles="@gv.GetRole("purchase_order_view")" url="@($"purchaseorder/{p.id}")">@p.document_number</ComAuthorize>
                 </TdCenter>
                 <td>
-                    @p.sale_note
+                    @p.purchase_order_note
                 </td>
                 <TdRight>
                     @p.total_amount.ToString(gv.main_currency_format, CultureInfo.CurrentCulture)
@@ -75,14 +75,13 @@
                 <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
                 <td>@p.created_by</td>
                 <TdRight>
-                    <ComSaleStatus sale="@p" />
+                    <ComPurchaseOrderStatus po="@p" />
                     <LabelDeleted is_visible="@(p.is_deleted)" />
                 </TdRight>
-                <TdCenter>
-                    <a href="@($"receiptlist/{p.id}")">
-                        <Icon icon="remove_red_eye" is_url="true" />
-                    </a>
-                </TdCenter>
+                <TdActions is_loading="@p.is_loading">
+                    <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
+                    <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
+                </TdActions>
                
             </RowTemplate>
         </Table>
@@ -90,11 +89,11 @@
 </Com>
 
 @code {
-    [Parameter] public Guid customer_id { get; set; }
-    List<SaleModel> models = new List<SaleModel>();
+    [Parameter] public int vendor_id { get; set; }
+    List<PurchaseOrderModel> models = new List<PurchaseOrderModel>();
     int TotalRecord = 0;
 
-    string controller_api = "sale";
+    string controller_api = "PurchaseOrder";
     string ControllerApi
     {
         get
@@ -116,12 +115,12 @@
                 });
             }
 
-            if (!state.filters.Where(r => r.key == "customer_id").Any())
+            if (!state.filters.Where(r => r.key == "vendor_id").Any())
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "customer_id",
-                    value1 = customer_id.ToString()
+                    key = "vendor_id",
+                    value1 = vendor_id.ToString()
                 });
             }
             return url + GetFilter(state.filters);
@@ -132,7 +131,7 @@
     {
         is_loading = true;
         state = new StateModel();
-        state.page_title = "All Sales";
+        state.page_title = "All Purchase";
         await LoadData();
         is_loading = false;
     }
@@ -151,7 +150,7 @@
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {
-            models = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());
+            models = JsonSerializer.Deserialize<List<PurchaseOrderModel>>(resp.Content.ToString());
             TotalRecord = resp.Count;
         }
 
@@ -235,7 +234,7 @@
                 {
                     key = "sale_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                    filter_title = "Sale Date",
+                    filter_title = "Purchase Date",
                     filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                     filter_operator = "Ge",
                     is_clear_all = true,

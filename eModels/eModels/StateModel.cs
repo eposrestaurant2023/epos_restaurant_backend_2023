@@ -52,7 +52,7 @@ namespace eModels
 
 
         public CustomerModel customer { get; set; } = new CustomerModel();
-        public List<BusinessBranchModel> business_branch { get; set; } = new List<BusinessBranchModel>();
+        public BusinessBranchModel business_branch { get; set; } = new BusinessBranchModel();
         public OutletModel outlet { get; set; } = new OutletModel();
         public ProductGroupModel product_group { get; set; } = new ProductGroupModel();
         public HashSet<string> multi_select_id_1 { get; set; }
