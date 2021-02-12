@@ -1,68 +1,79 @@
 ﻿@page "/role/permission/{role_id:int}"
 @inherits PageCore
-
-<PageContainer roles="@gv.GetRole("role_manager")">
-    <PageHeader>
-        <HeaderLeft>
-            <PageTitle ShowFilter="false">
-                <HeaderTemplate>
-                    <span>@*@((id > 0)? "Edit Role" : "New Role")*@</span>
-                </HeaderTemplate>
-            </PageTitle>
-        </HeaderLeft>
-        <HeaderRight ShowBackButton="true">
-        </HeaderRight>
-    </PageHeader>
-    <!--<EditForm Model="@model" OnValidSubmit="@SaveRole_Click">
-        <DataAnnotationsValidator />
-        <PageBody>
-            <Spacing Number="20" />
-            <div class="uk-grid-small" uk-grid>
-                <div class="uk-width-1-3">
-                    <div class="report-item">
-                        <div class="report-header">
-                            Front End
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Outlet & Station"></Title>
+    <PageContainer roles="@gv.GetRole("role_manager")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        <span>Permission</span>
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@permissionoption" OnValidSubmit="@SaveRole_Click">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <Spacing Number="20" />
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-width-1-3">
+                        <div class="report-item">
+                            <div class="report-header">
+                                Front End
+                            </div>
+                            <div class="report-content">
+                                @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
+                                {
+                                    <div class="cus_margin">
+                                        <ComInputCheckBox label="@fn.note" label_inline="true" @bind-value="fn.is_checked" />
+                                    </div>
+                                }
+                            </div>
                         </div>
-                        <div class="report-content">
-                            @foreach (var fn in permissionoption.Where(r => r.is_front_end == true).ToList())
-                            {
-                                <div class="cus_margin">
-                                    <ComInputCheckBox label="@fn.note" label_inline="true" @bind-value="fn.is_checked" />
-                                </div>
-                            }
+                    </div>
+                    <div class="uk-width-1-3">
+                        <div class="report-item">
+                            <div class="report-header">
+                                Back End
+                            </div>
+                            <div>
+                                <ComPerMissionOptionTree OnSelectChanged="@OnPermissionChanged" parent_id="null" PermissionOptions="@permissionoption" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-3">
+                        <div class="report-item">
+                            <div class="report-header">
+                                Report
+                            </div>
+                            <div class="report-content">
+
+                                @*<ComPerMissionOptionTree parent_id="44" PermissionOptions="@permissionoption.Where(r=>r.is_report==true).ToList()"/>*@
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="uk-width-1-3">
-                    <div class="report-item">
-                        <div class="report-header">
-                            Back End
-                        </div>
-                        <div>
-                            <ComPerMissionOptionTree parent_id="null" PermissionOptions="@permissionoption" />
-                        </div>
-                    </div>
-                </div>
-                <div class="uk-width-1-3">
-                    <div class="report-item">
-                        <div class="report-header">
-                            Report
-                        </div>
-                        <div class="report-content">-->
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button type="submit" icon="save" custom_class="button-large">Save</Button>
+                    <LinkButton url="role" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+}
 
-                            @*<ComPerMissionOptionTree parent_id="44" PermissionOptions="@permissionoption.Where(r=>r.is_report==true).ToList()"/>*@
-                        <!--</div>
-                    </div>
-                </div>
-            </div>
-
-        </PageBody>
-    </EditForm>-->
-</PageContainer>
 
 @code {
     [Parameter] public int role_id { get; set; }
     List<PermissionOptionModel> permissionoption = new List<PermissionOptionModel>();
+    PermissionOptionModel model = new PermissionOptionModel();
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
@@ -73,11 +84,57 @@
     async Task LoadData()
     {
         is_loading_data = true;
-        var resp = await http.ApiGetOData("PermissionOption?$expand=permission_option_roles($select=permission_option_id,role_id,is_delete");
+        var resp = await http.ApiGetOData($"PermissionOption?$expand=permission_option_roles($select=permission_option_id,role_id,is_delete)");
         if (resp.IsSuccess)
         {
             permissionoption = JsonSerializer.Deserialize<List<PermissionOptionModel>>(resp.Content.ToString());
+            foreach (var p in permissionoption)
+            {
+                foreach (var pb in p.permission_option_roles.Where(r=>r.role_id == role_id && r.permission_option_id == p.id))
+                {
+                    p.is_checked = true;
+                }
+            }
         }
         is_loading_data = false;
+    }
+    int select_id = 0;
+
+    void OnPermissionChanged(PermissionOptionModel permission)
+    {
+        foreach (var p in permissionoption.Where(r=>r.id == permission.id))
+        {
+            p.is_checked = !p.is_checked;
+        }
+    }
+
+    async Task SaveRole_Click()
+    {
+        is_saving = true;
+        permissionoption.ForEach(r=>r.permission_option_roles.Clear());
+        foreach (var a in permissionoption.ToList())
+        {
+            if (a.is_checked)
+            {
+                a.permission_option_roles.Add(new PermissionOptionRoleModel()
+                {
+                    permission_option_id = a.id,
+                    role_id = role_id
+                });
+            }
+            //a.permission_option_roles = new List<PermissionOptionRoleModel>();
+        }
+        var post = await http.ApiPost($"PermissionOption/save/multiple/{role_id}", permissionoption.Where(r=>r.is_checked == true));
+        if (post.IsSuccess)
+        {
+            //permissionoption = JsonSerializer.Deserialize<List<PermissionOptionModel>>(post.Content.ToString());
+            toast.Add("Save Successfully!", MatToastType.Success);
+            nav.NavigateTo("role");
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+        is_saving = false;
     }
 }

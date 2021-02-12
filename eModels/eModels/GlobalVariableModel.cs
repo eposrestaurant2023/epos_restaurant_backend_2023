@@ -48,7 +48,7 @@ namespace eModels
         //============================
         private string get_setting_value(int id)
         {
-            return settings.Where(r => r.id == id).FirstOrDefault()?.setting_title;
+            return settings.Where(r => r.id == id).FirstOrDefault()?.setting_description;
         }
         public string date_format
         {
@@ -96,14 +96,14 @@ namespace eModels
         {
             get
             {
-                return "c2";
+                return "C2";
             }
         }
         public string currency_format
         {
             get
             {
-                return main_currency_format;
+                return get_setting_value(55);
             }
         }
         public string second_currency_format
