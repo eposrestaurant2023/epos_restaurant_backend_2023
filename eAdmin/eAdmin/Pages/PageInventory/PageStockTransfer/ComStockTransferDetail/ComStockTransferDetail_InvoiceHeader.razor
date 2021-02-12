@@ -1,0 +1,120 @@
+﻿@inherits PageCore;
+<ComStockTransferDetail_RibbonStatus model="model" />
+    <div class="btn_show_logo" @onclick="@ShowHideLogo">@(state.pager.show_logo ? "Hide Logo" : "Show Logo") <span uk-icon="icon: image; ratio: 0.8;"></span></div>
+    <PageHeader is_subpage="true">
+        <HeaderLeft ClassName="uk-flex-top">
+            <div>
+                @if (state.pager.show_logo)
+                {
+                    <img src="@http.ImageUrl(gv.business_info.company_logo)" class="uk-image" width="130" />
+                }
+                <div class="uk-text-top">
+                    <div class="font-xxl">@gv.business_info.company_name</div>
+                    <div>@gv.business_info.address</div>
+                    <div>@gv.business_info.contact_office_number</div>
+                    <div>@gv.business_info.contact_phone_number</div>
+                </div>
+            </div>
+        </HeaderLeft>
+        <HeaderRight ClassName="uk-flex-top">
+            <div class="uk-text-right">
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">Invoice</h2>
+                <div class="uk-margin-small-bottom">
+                    @if (is_view_detail)
+                    {
+                    <AuthorizeView Roles="@gv.GetRole("stock_transfer_view")">
+                        <span>INV# @model.document_number</span>
+                    </AuthorizeView>
+                    }
+                    else
+                    {
+                        <span>INV# @model.document_number</span>
+                    }
+
+                </div>
+                <div>Total Amount</div>
+                <div class="font-xxl"> @model.total_amount.ToString(gv.currency_format)</div>
+            </div>
+        </HeaderRight>
+    </PageHeader>
+    <Grid ClassName="uk-grid-small">
+        <div class="uk-width-expand">
+            <div style="width: 260px;">
+                <div class="sub_title font-sm">From Stock Location</div>
+                <table class="uk-width-1-1">
+                    @if (model.from_business_branch != null)
+                    {
+                        <tr>
+                            <td class="uk-padding-left-remove">Business Branch :</td>
+                            <td>@model.from_business_branch?.business_branch_name_en</td>
+                        </tr>
+                    }
+
+                    @if (model.from_stock_location != null)
+                    {
+                        <tr>
+                            <td class="uk-padding-left-remove">Stock Location :</td>
+                            <td>@model.from_stock_location?.stock_location_name</td>
+                        </tr>
+                    }
+                </table>
+                <Spacing Number="15"/>
+                <div class="sub_title font-sm">To Stock Location</div>
+                <table class="uk-width-1-1">
+                    @if (model.to_business_branch != null)
+                    {
+                        <tr>
+                            <td class="uk-padding-left-remove">Business Branch :</td>
+                            <td>@model.to_business_branch?.business_branch_name_en</td>
+                        </tr>
+                    }
+
+                    @if (model.to_stock_location != null)
+                    {
+                        <tr>
+                            <td class="uk-padding-left-remove">Stock Location :</td>
+                            <td>@model.to_stock_location?.stock_location_name</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="uk-width-auto">
+            <div class="box-invoice-header-info">
+                <div class="invoice-header-title">Invoice Information</div>
+                <table class="invoice_header_description">
+                    <tr>
+                        <td>Invoice Date :</td>
+                        <td>@model.stock_transfer_date.ToString(gv.date_format)</td>
+                    </tr>
+                    <tr>
+                        <td>Referance # :</td>
+                        <td>@model.reference_number</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </Grid>
+ 
+@code {
+    [Parameter] public StockTransferModel model { get; set; }
+    [Parameter] public bool is_view_detail { get; set; } = false;
+
+    string StateKey = "STOCKTRANESFER0r9u0rPURHEADERIN007";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        state = await GetState(StateKey);
+        is_loading = false;
+
+    }
+    public async Task ShowHideLogo()
+    {
+        state.pager.show_logo = !state.pager.show_logo;
+        await SetState(StateKey, state);
+    }
+
+
+}

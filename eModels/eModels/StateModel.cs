@@ -60,8 +60,11 @@ namespace eModels
         
         public HashSet<string> multi_select_id_2 { get; set; }
         public List<string> multi_select_value_2 { get; set; }
+        public HashSet<string> multi_select_id_3 { get; set; }
+        public List<string> multi_select_value_3 { get; set; }
 
-        public HashSet<string> multi_select_string_1 { get; set; }
+        public HashSet<string> multi_select_id_4 { get; set; }
+        public List<string> multi_select_value_4 { get; set; }
         public VendorModel vendor { get; set; } = new VendorModel();
     }
 

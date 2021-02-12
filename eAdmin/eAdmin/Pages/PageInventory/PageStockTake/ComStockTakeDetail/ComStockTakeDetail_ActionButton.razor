@@ -12,7 +12,7 @@
 <ComAttachFileButton RoleAdd="@gv.GetRole("stock_take_add")"
                      RoleEdit="@gv.GetRole("stock_take_edit")"
                      RoleDelete="@gv.GetRole("stock_take_delete")"
-                     ApiFilter="@($"purchase_order_id eq {model.id} ")"
+                     ApiFilter="@($"stock_take_id eq {model.id} ")"
                      File="@file"
                      IsVisible="@(!model.is_deleted)" />
 

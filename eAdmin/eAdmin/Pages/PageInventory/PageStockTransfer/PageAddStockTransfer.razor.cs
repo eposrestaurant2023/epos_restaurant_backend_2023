@@ -83,8 +83,9 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             is_loading_data = true;
             if (id > 0)
             {
-                string url = $"StockTake({id})?";
-                url += $"$expand=stock_transfer_products($expand=product;$filter=is_deleted eq false)";
+                string url = $"StockTransfer({id})?";
+                url += $"$expand=stock_transfer_products($expand=product;$filter=is_deleted eq false),";
+                url += $"from_business_branch($select=business_branch_name_en),from_stock_location($select=stock_location_name)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
@@ -103,16 +104,16 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 toast.Add("Please select to business branch.", MatToastType.Warning);
                 return;
             }
-            
-            if (model.from_business_branch_id == Guid.Empty)
-            {
-                toast.Add("Please select from business branch.", MatToastType.Warning);
-                return;
-            }
-
+             
             if (model.to_stock_location_id == 0)
             {
                 toast.Add("Please select to stock location.", MatToastType.Warning);
+                return;
+            }
+
+            if (model.from_business_branch_id == Guid.Empty)
+            {
+                toast.Add("Please select from business branch.", MatToastType.Warning);
                 return;
             }
             if (model.from_stock_location_id == 0)

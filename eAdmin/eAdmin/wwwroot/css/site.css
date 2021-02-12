@@ -288,9 +288,7 @@
     font-size: 12px;
     color: #8e8e8e;
 }
-.filter-content .uk-form-controls input{
-    color:#fff;
-}
+ 
 .uk-label {
     font-size: 10px;
     display: inline-flex;
@@ -6931,4 +6929,10 @@ div.mud-input-slot.mud-input-root:hover {
     border: 1px solid #d0d0d0;
     background-color: #f3f3f3;
     border-radius: 4px;
+}
+.control-advince-filter-group {
+    padding: 12px;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    margin-top: 25px;
 }
