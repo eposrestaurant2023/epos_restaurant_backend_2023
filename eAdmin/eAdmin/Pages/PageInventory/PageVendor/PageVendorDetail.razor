@@ -27,8 +27,8 @@
             <Tab ClassName="control-header-tab">
                 <TabHeader>
                     <TabHeaderItem>Overview</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)">Sale History</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)">Sale Product History</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>purchase_history_tab_click=true)">Purchase History</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>purchase_product_history_tab_click = true)">Purchase Product History</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">Comments</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
@@ -62,8 +62,6 @@
                                             <th>Office Phone</th>
                                             <td>@model.office_phone</td>
                                         </tr>
-                                       
-
                                         <tr>
                                             <th></th>
                                             <td>
@@ -82,10 +80,6 @@
                                 </ListTable>
                             </UIContainerBox>
 
-
-
-
-
                             <UIContainerBox Title="Note" is_visible="@(!string.IsNullOrEmpty(model.note))">
                                 @model.note
                             </UIContainerBox>
@@ -96,13 +90,18 @@
                     </TabItem>
                    
                     <TabItem>
+
+                        @if (purchase_history_tab_click)
+                        {
+                            <ComPurchase_History vendor_id="@id"/>
+                        }
                     </TabItem>
                     <TabItem>
-                      
+                      @if (purchase_product_history_tab_click)
+                      {
+                          <ComPurchase_Product_History vendor_id="@id"/>
+                      }
                     </TabItem>
-                    
-                   
-
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
                             <UIContainerBox Title="Comment and History">
