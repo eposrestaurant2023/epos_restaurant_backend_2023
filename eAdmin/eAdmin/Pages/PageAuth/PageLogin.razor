@@ -28,16 +28,16 @@
                             </div>
                             @if (IsShowMessage)
                             {
-                                <small style="color:red">@Message</small>
+                            <small style="color:red">@Message</small>
                             }
                             <div class="uk-text-center">
                                 @if (IsSpinning)
                                 {
-                                    <button class="btn-login" type="button">Login ... </button>
+                                <button class="btn-login" type="button">Login ... </button>
                                 }
                                 else
                                 {
-                                    <button class="btn-login" type="submit">Login </button>
+                                <button class="btn-login" type="submit">Login </button>
                                 }
                             </div>
 
@@ -55,11 +55,12 @@
     </div>
 </div>
 @code {
+   [CascadingParameter] public GlobalVariableModel gv { get; set; }
     AuthenticateModel model = new AuthenticateModel();
     string Message = "";
     bool IsShowMessage = false;
     bool IsSpinning = false;
-   
+
     public async Task LoginUser()
     {
         IsSpinning = true;
@@ -74,37 +75,39 @@
         var resp = await http.ApiPost("user/auth/login", model);
         if (resp.IsSuccess)
         {
-            UserModel user =  JsonSerializer.Deserialize<UserModel>(resp.Content.ToString());
-            if (user != null)
-            {
-                try
-                {
-  
-                    var user_convert =EncryptProvider.Base64Encrypt(resp.Content.ToString());
-                    await storageService.SetItemAsync("_Authorization", user_convert);
-                    await authenticationStateProvider.GetAuthenticationStateAsync();
-                    nav.NavigateTo("/", true);
-                }
-                catch(Exception ex)
-                {
-                    string message = ex.Message;
-                    IsShowMessage = true;
+            UserModel user =  JsonSerializer.Deserialize<UserModel>
+    (resp.Content.ToString());
+    if (user != null)
+    {
+    try
+    {
 
-                    Message = "Invalid username and password.";
-                }
-            }
-            else
-            {
-                IsShowMessage = true;
-                Message = "Invalid username and password.";
-            }
-        }
-        else
-        {
-            IsShowMessage = true;
-            Message = "Invalid username and password.";
-        }
-        IsSpinning = false;
+    var user_convert =EncryptProvider.Base64Encrypt(resp.Content.ToString());
+    await storageService.SetItemAsync("_Authorization", user_convert);
+    await authenticationStateProvider.GetAuthenticationStateAsync();
+    nav.NavigateTo("Resterant2021", true);
+    }
+    catch(Exception ex)
+    {
+    string message = ex.Message;
+    IsShowMessage = true;
+
+    Message = "Invalid username and password.";
+    }
+    }
+    else
+    {
+    IsShowMessage = true;
+    Message = "Invalid username and password.";
+    }
+    }
+    else
+    {
+    IsShowMessage = true;
+    Message = "Invalid username and password.";
+    }
+    IsSpinning = false;
     }
 
-}
+    }
+
