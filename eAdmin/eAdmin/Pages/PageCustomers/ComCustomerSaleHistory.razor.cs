@@ -9,16 +9,17 @@ using System;
 using MatBlazor;
 using eAdmin.JSHelpers;
 
-namespace eAdmin.Pages.PageInventory.PageStockTake
+namespace eAdmin.Pages.PageCustomers.CustomerDetails
 {
-    public class PageStockTakeBase : PageCore
+    public class ComCustomerSaleHistoryBase : PageCore
     { 
-        public List<StockTakeModel> models = new List<StockTakeModel>();
-        public StockTakeModel model = new StockTakeModel();       
-        public string StateKey = "ENsg9hUndmRGPUStockTake09830212"; //Storage and Session Key      
-        public int TotalRecord = 0;
+        [Parameter] public Guid customer_id { get; set; }
+        public List<SaleModel> models = new List<SaleModel>();
+        public SaleModel model = new SaleModel();
+        public string StateKey = "";   
+        public int TotalRecord = 0; 
 
-        string controller_api = "StockTake";
+        string controller_api = "sale";
         public string ControllerApi
         {
             get
@@ -29,7 +30,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=business_branch($select=business_branch_name_en),stock_location($select=stock_location_name)";
+                url += $"$expand=outlet($select=id,outlet_name_en,outlet_name_kh;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -38,30 +39,29 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
         protected override async Task OnInitializedAsync()
         {
-            is_loading = true;
-             
+            is_loading = true; 
+                StateKey = "XCUSTOMERsaledmRGrRwdzVOID201545AEj";
+
             state = await GetState(StateKey);
-            state.filters.Clear();
-            if (state.page_title == "")
-            {
-                state.page_title = "Stock Take";
-                var default_view = gv.GetDefaultModuleView("page_stock_take");
-                if (default_view != null)
-                {
-                    state.page_title = default_view.title;
-                    state.filters = default_view.filters;
-                }    
-            }
+            state.filters.Clear(); 
 
-            if (state.filters.Count == 0)
+            var default_view = gv.GetDefaultModuleView("page_sale");
+            if (default_view != null)
             {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "is_deleted",
-                    value1 = "false"
-                });                
+                state.page_title = default_view.title;
+                state.filters = default_view.filters;
             }
-
+             
+            state.filters.Add(new FilterModel()
+            {
+                key = "is_deleted",
+                value1 = "false"
+            });
+            state.filters.Add(new FilterModel()
+            {
+                key = "customer_id",
+                value1 = customer_id.ToString()
+            });
             await LoadData();
         }   
 
@@ -78,9 +78,9 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {
-                models = JsonSerializer.Deserialize<List<StockTakeModel>>(resp.Content.ToString());
+                models = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
-            }
+            } 
             is_loading = false;
         }
 
@@ -102,16 +102,15 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         public async Task FilterClick()
         {
             state.filters.RemoveAll(r => r.filter_info_text != "");
-
             //start date
             if (state.date_range.is_visible)
             {
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "stock_take_date",
+                        key = "sale_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "Stock Take Date",
+                        filter_title = "Sale Date",
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
@@ -123,7 +122,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_take_date",
+                    key = "sale_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",
@@ -136,18 +135,18 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             {
 
                 string value = "";
-                foreach (var x in state.multi_select_value_1)
+                foreach(var x in state.multi_select_value_1)
                 {
                     value += x + ",";
                 }
                 if (!string.IsNullOrEmpty(value))
                 {
                     value = value.Substring(0, value.Length - 1);
-                }
+                } 
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "business_branch_id",
+                    key = "outlet/business_branch_id",
                     value1 = value,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -157,26 +156,25 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                     will_remove = true
                 });
             }
-
             // filter outlet
             if (state.multi_select_value_2 != null)
             {
 
                 string value = "";
-                foreach (var x in state.multi_select_value_2)
+                foreach(var x in state.multi_select_value_2)
                 {
                     value += x + ",";
                 }
                 if (!string.IsNullOrEmpty(value))
                 {
                     value = value.Substring(0, value.Length - 1);
-                }
+                } 
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_location_id",
+                    key = "outlet_id",
                     value1 = value,
-                    filter_title = "Stock Location",
+                    filter_title = "Outlet",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = value,
@@ -184,66 +182,11 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                     will_remove = true
                 });
             }
+
             state.pager.current_page = 1;
             await LoadData();
         }
 
-        public async Task RemoveFilter(FilterModel f)
-        {
-            is_loading = true;
-            string[] remove_key = f.remove_key.Split(',');
-            foreach (var k in remove_key)
-            {
-                // clear filter business
-                if (k == "business_branch_id")
-                {
-                    state.multi_select_id_1.Clear();
-                    state.multi_select_value_1.Clear();
-                }
-
-
-                // clear filter stock location
-                if (k == "stock_location_id")
-                {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
-                }
-                state.filters.RemoveAll(r => r.key == k);
-            }
-
-            state.pager.current_page = 1;
-            //gv.RemoveFilter
-            RemoveFilter(state, f.state_property_name);
-            await LoadData();
-            is_loading = false;
-        }
-
-        public async Task RemoveAllFilter()
-        {
-            is_loading = true;
-            foreach (var f in state.filters.Where(r => r.is_clear_all == true))
-            {
-                // clear filter business
-                if (f.key == "business_branch_id")
-                {
-                    state.multi_select_id_1.Clear();
-                    state.multi_select_value_1.Clear();
-                }
-
-                // clear filter stock location
-                if (f.key == "stock_location_id")
-                {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
-                }
-                RemoveFilter(state, f.state_property_name);
-            }
-
-            state.filters.RemoveAll(r => r.is_clear_all == true);
-            state.pager.current_page = 1;
-            await LoadData();
-            is_loading = false;
-        }
         public async Task SelectChange(int perpage)
         {
             state.pager.per_page = perpage;
@@ -269,15 +212,15 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             await LoadData();
         }
 
-        public async Task OnDelete(StockTakeModel p)
+        public async Task OnDelete(SaleModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Stock Take", "Are you sure you want to delete this record?"))
+            if (await js.Confirm("Delete Sale", "Are you sure you want to delete this record?"))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete Stock Take successfully", MatToastType.Success);
+                    toast.Add("Delete sale successfully", MatToastType.Success);
                     if (models.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -286,6 +229,68 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 }
             }
             p.is_loading = false;
+        }
+
+        public async Task RemoveFilter(FilterModel f)
+        {
+            is_loading = true;
+            string[] remove_key = f.remove_key.Split(',');
+            foreach (var k in remove_key)
+            {
+                // clear filter business
+                if (k == "outlet/business_branch_id")
+                {
+                    state.multi_select_id_1.Clear();
+                    state.multi_select_value_1.Clear();
+                }
+                    
+
+                // clear filter outlet
+                 if (k == "outlet_id")
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
+                    
+
+                state.filters.RemoveAll(r => r.key == k);
+            }
+
+            state.pager.current_page = 1;
+            //gv.RemoveFilter
+            RemoveFilter(state, f.state_property_name);
+            await LoadData();
+            is_loading = false;
+        }
+
+        public async Task RemoveAllFilter()
+        {
+            is_loading = true;
+            foreach (var f in state.filters.Where(r => r.is_clear_all == true))
+            {
+                // clear filter business
+                if (f.key == "outlet/business_branch_id")
+                {
+                    state.multi_select_id_1.Clear();
+                    state.multi_select_value_1.Clear();
+                }
+
+
+                // clear filter outlet
+                if (f.key == "outlet_id")
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
+
+                RemoveFilter(state, f.state_property_name);
+            }
+             
+
+            state.filters.RemoveAll(r => r.is_clear_all == true);
+            state.pager.current_page = 1;
+            await LoadData();
+            is_loading = false;
         }
     }
 }

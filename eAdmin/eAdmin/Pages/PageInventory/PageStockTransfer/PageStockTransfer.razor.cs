@@ -212,7 +212,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 });
             }
 
-            // filter to outlet
+            // filter to stock location
             if (state.multi_select_value_4 != null)
             {
 
@@ -250,6 +250,33 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
             string[] remove_key = f.remove_key.Split(',');
             foreach (var k in remove_key)
             {
+                // clear filter from business
+                if (k == "from_business_branch_id")
+                {
+                    state.multi_select_id_1.Clear();
+                    state.multi_select_value_1.Clear();
+                }
+
+                // clear filter from stock location
+                if (k == "from_stock_location_id")
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
+
+                // clear filter from business
+                if (k == "to_business_branch_id")
+                {
+                    state.multi_select_id_3.Clear();
+                    state.multi_select_value_3.Clear();
+                }
+
+                // clear filter from stock location
+                if (k == "to_stock_location_id")
+                {
+                    state.multi_select_id_4.Clear();
+                    state.multi_select_value_4.Clear();
+                }
                 state.filters.RemoveAll(r => r.key == k);
             }
 
@@ -265,6 +292,33 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
             is_loading = true;
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
+                // clear filter from business
+                if (f.key == "from_business_branch_id")
+                {
+                    state.multi_select_id_1.Clear();
+                    state.multi_select_value_1.Clear();
+                }
+
+                // clear filter from stock location
+                if (f.key == "from_stock_location_id")
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
+
+                // clear filter from business
+                if (f.key == "to_business_branch_id")
+                {
+                    state.multi_select_id_3.Clear();
+                    state.multi_select_value_3.Clear();
+                }
+
+                // clear filter from stock location
+                if (f.key == "to_stock_location_id")
+                {
+                    state.multi_select_id_4.Clear();
+                    state.multi_select_value_4.Clear();
+                }
                 RemoveFilter(state, f.state_property_name);
             }
 
