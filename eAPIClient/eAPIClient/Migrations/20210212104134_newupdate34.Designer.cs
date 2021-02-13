@@ -3,83 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210212104134_newupdate34")]
+    partial class newupdate34
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
-
-            modelBuilder.Entity("eAPIClient.Models.CashierShiftModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("close_amount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("closed_by")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("closed_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("exchange_rate")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<bool>("is_closed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("open_amount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("shift_id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("working_day_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("shift_id");
-
-                    b.HasIndex("working_day_id");
-
-                    b.ToTable("tbl_cashier_shift");
-                });
 
             modelBuilder.Entity("eAPIClient.Models.ConfigDataModel", b =>
                 {
@@ -872,23 +812,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_setting");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.ShiftModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("shift_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_shift");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.StationModel", b =>
                 {
                     b.Property<int>("id")
@@ -1124,23 +1047,89 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_working_day");
                 });
 
+            modelBuilder.Entity("eShareModel.CashierShiftShareModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("close_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<string>("closed_by")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("closed_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("exchange_rate")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<bool>("is_closed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("open_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<int>("shift_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("shift_id");
+
+                    b.ToTable("CashierShiftShareModel");
+                });
+
+            modelBuilder.Entity("eShareModel.ShiftModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("shift_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.ToTable("ShiftModel");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.CashierShiftModel", b =>
                 {
-                    b.HasOne("eAPIClient.Models.ShiftModel", "shift")
-                        .WithMany("cashier_shift")
-                        .HasForeignKey("shift_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("eShareModel.CashierShiftShareModel");
 
-                    b.HasOne("eAPIClient.Models.WorkingDayModel", "working_day")
-                        .WithMany("cashier_shifts")
-                        .HasForeignKey("working_day_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("working_day_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Navigation("shift");
+                    b.HasIndex("working_day_id");
 
-                    b.Navigation("working_day");
+                    b.ToTable("tbl_cashier_shift");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.CustomerModel", b =>
@@ -1313,6 +1302,34 @@ namespace eAPIClient.Migrations
                     b.Navigation("table_group");
                 });
 
+            modelBuilder.Entity("eShareModel.CashierShiftShareModel", b =>
+                {
+                    b.HasOne("eShareModel.ShiftModel", "shift")
+                        .WithMany("cashier_shift")
+                        .HasForeignKey("shift_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("shift");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.CashierShiftModel", b =>
+                {
+                    b.HasOne("eShareModel.CashierShiftShareModel", null)
+                        .WithOne()
+                        .HasForeignKey("eAPIClient.Models.CashierShiftModel", "id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("eAPIClient.Models.WorkingDayModel", "working_day")
+                        .WithMany("cashier_shifts")
+                        .HasForeignKey("working_day_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("working_day");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.CustomerGroupModel", b =>
                 {
                     b.Navigation("customers");
@@ -1339,11 +1356,6 @@ namespace eAPIClient.Migrations
                     b.Navigation("sale_products");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.ShiftModel", b =>
-                {
-                    b.Navigation("cashier_shift");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.TableGroupModel", b =>
                 {
                     b.Navigation("tables");
@@ -1352,6 +1364,11 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.WorkingDayModel", b =>
                 {
                     b.Navigation("cashier_shifts");
+                });
+
+            modelBuilder.Entity("eShareModel.ShiftModel", b =>
+                {
+                    b.Navigation("cashier_shift");
                 });
 #pragma warning restore 612, 618
         }

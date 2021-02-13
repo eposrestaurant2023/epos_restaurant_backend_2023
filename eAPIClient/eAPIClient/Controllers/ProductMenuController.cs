@@ -22,7 +22,7 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        
+        [AllowAnonymous]
         public IQueryable<ProductMenuModel> Get()
         { 
 

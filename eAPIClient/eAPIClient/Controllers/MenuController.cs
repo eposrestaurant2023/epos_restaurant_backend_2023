@@ -21,7 +21,7 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth =0)]
-        
+        [AllowAnonymous]
         public IQueryable<MenuModel> Get()
         { 
 

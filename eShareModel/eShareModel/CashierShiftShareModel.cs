@@ -15,5 +15,6 @@ namespace eShareModel
 
         [Column(TypeName ="decimal(19,8)")]
         public decimal exchange_rate { get; set; }
+
     }
 }
