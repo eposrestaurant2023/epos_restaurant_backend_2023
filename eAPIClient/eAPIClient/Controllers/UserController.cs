@@ -1,4 +1,5 @@
-﻿using System;                         
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -27,11 +28,12 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         
-        public IQueryable<UserModel> Get()
-        { 
+        public List<UserModel> Get()
+        {
 
+            var data = db.ConfigDatas.Find(1);
 
-                return db.Users;
+                return System.Text.Json.JsonSerializer.Deserialize<List<UserModel>>(data.data).ToList();
            
         }
 
