@@ -10,6 +10,6 @@ namespace eAPIClient.Models
     [Table("tbl_shift")]
     public class ShiftModel : ShiftShareModel
     {
-        public List<CashierShiftModel> cashier_shift { get; set; }
+        
     }
 }

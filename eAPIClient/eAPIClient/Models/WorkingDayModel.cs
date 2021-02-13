@@ -26,10 +26,7 @@ namespace eAPIClient.Models
         public Guid working_day_id { get; set; }
         [ForeignKey("working_day_id")]
         public  WorkingDayModel working_day { get; set; }
-
-        public int shift_id { get; set; }
-        [ForeignKey("shift_id")]
-        public ShiftModel shift { get; set; }
+        public string shift { get; set; }
 
     }
 }
