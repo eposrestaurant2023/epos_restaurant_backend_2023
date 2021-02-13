@@ -34,8 +34,6 @@ namespace eModels
         public string term_conditions { get; set; }
         public string note { get; set; }
         public bool is_fulfilled { get; set; }
-        [Column(TypeName = "date")]
-        public DateTime? due_date { get; set; }
 
         private decimal _total_quantity;
         public decimal total_quantity

@@ -1,4 +1,4 @@
-﻿@page "/role/edit/{role_id:int}";
+﻿@*@page "/role/edit/permission/{role_id:int}";
 @inherits PageCore
 @inject IJSRuntime jsRuntime
 
@@ -35,7 +35,7 @@ if (!isLoading || permission != null)
                         <div class="uk-width-1-2">
                             <div class="spacing40"></div>
                             <CascadingValue Value="@PermissionOptions">
-                                <ComPerMissionOptionTree role_id="@role_id" parent_id="null" OnSelect="@SelectedPermission_Click" />
+                                <ComPerMissionOptionTree role_id="@role_id" parent_id="null" OnSelectChanged="@SelectedPermission_Click" />
                             </CascadingValue>
                         </div>
                     </div>
@@ -165,4 +165,4 @@ if (!isLoading || permission != null)
 
 
     }
-}
+}*@

@@ -1,0 +1,91 @@
+﻿@page "/stocktake/{id:int}";
+@inherits PageStockTakeDetailBase
+
+@if (is_loading_data || is_loading)
+{
+    <Loading is_loading="@( is_loading_data || is_loading_data)" /> 
+}
+
+@if (!is_loading && is_error == false)
+{
+    <Title Value="@($"Stock Take Invoice: {model.document_number}")" ></Title>
+
+    <PageContainer roles="@gv.GetRole("stock_take_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Stock Take Invoice #:  @model.document_number
+                        <ComStockTakeStatus model="@model"/>
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <ComStockTakeDetail_ActionButton @bind-model="@model" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab>
+                <TabHeader>
+                    <TabHeaderItem>Invoice</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowComment">Comment and History</TabHeaderItem>
+                </TabHeader>
+
+                <TabBody>
+                    <TabItem>
+                        <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
+                        <ComPage>
+                            <ComStockTakeDetail_InvoiceHeader model="@model"/>
+                            <Spacing Number="20" />
+                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <ThCenter>Image</ThCenter>
+                                        <th class="col-auto">Item</th>
+                                        <th class="uk-text-center">QTY</th>
+                                        <th class="uk-text-center">Unit</th>
+                                        <th class="uk-text-right">Cost</th>
+                                        <th class="uk-text-right">Dis.</th>
+                                        <th class="uk-text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                    <ComStockTakeDetail_InvoiceBody model="@model"/>
+                                </tbody>
+                                <tfoot> 
+                                    <ComStockTakeDetail_InvoiceFooter model="@model"/>
+                                </tfoot>
+                            </table>
+                            <Spacing Number="20" />
+                            <ComStockTakeDetail_Note model="@model"/>
+                            <ComStockTakeDetail_FooterInformation model="@model"/>
+                        </ComPage>
+                    </TabItem>
+                    <TabItem>
+                        @if (is_show_comment)
+                        {
+                            <ComHistory RoleAdd="@gv.GetRole("stock_take_add")"
+                                        RoleDelete="@gv.GetRole("stock_take_delete")"
+                                        RoleEdit="@gv.GetRole("stock_take_edit")"
+                                        ApiFilter="@($"stock_take_id eq {id}")"
+                                        history="@history" />
+                                        
+                        }
+
+                    </TabItem>
+
+                </TabBody>
+            </Tab>
+            <div class="spacing40"></div>
+        </PageBody>
+    </PageContainer>
+
+}
+
+@if (is_error)
+{
+    <Error title="Stock Take Detail">
+        @error_text
+    </Error>
+}

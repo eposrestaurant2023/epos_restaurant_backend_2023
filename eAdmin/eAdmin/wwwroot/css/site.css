@@ -288,9 +288,7 @@
     font-size: 12px;
     color: #8e8e8e;
 }
-.filter-content .uk-form-controls input{
-    color:#fff;
-}
+ 
 .uk-label {
     font-size: 10px;
     display: inline-flex;
@@ -647,6 +645,7 @@ input[type="text"] {
 label {
     min-height: 12px;
     display: block;
+    margin-bottom: 4px;
 }
 
 .unit-divider:not(:first-child) {
@@ -1796,8 +1795,11 @@ ul.validation-errors {
     list-style-position: outside;
     padding: 0;
 }
-.wrp-descrition{
-
+.position-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .wrp-comment {
 /*    margin: 25px 250px auto;*/
@@ -2841,13 +2843,13 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
     }
 
     .ribbon .fulfilled:before {
-        border-top: 3px solid #32d296;
-        border-left: 3px solid #32d296;
+    border-top: 3px solid #0dabab;
+    border-left: 3px solid #0dabab;
     }
 
     .ribbon .fulfilled:after {
-        border-right: 3px solid #32d296;
-        border-top: 3px solid #32d296;
+    border-right: 3px solid #0dabab;
+    border-top: 3px solid #0dabab;
     }
     .ribbon .draft:before {
         border-top: 3px solid #727272;
@@ -2996,10 +2998,15 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
 .uk-label.aging {
     background: #007bae;
 }
-    .uk-label.draft,
-    .ribbon .draft {
-        background: #acacac;
-    }
+.uk-label.draft,
+.ribbon .draft {
+    background: #acacac;
+}
+
+.uk-label.deleted,
+.ribbon .deleted {
+    background: #f0506e;
+}
 
 .uk-label.fulfilled,
 .ribbon .fulfilled {
@@ -3204,7 +3211,7 @@ button.issue_invoice {
     color: #5d5d5d;
     text-transform: capitalize;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .material-icons {
@@ -6913,4 +6920,19 @@ div.mud-input-slot.mud-input-root:hover {
 }
 .box-select-typeahead .blazored-typeahead__input {
     height: 40px !important;
+}
+.panel, .panel-empty {
+    padding: 12px;
+    border: 1px solid transparent;
+}
+.panel {
+    border: 1px solid #d0d0d0;
+    background-color: #f3f3f3;
+    border-radius: 4px;
+}
+.control-advince-filter-group {
+    padding: 12px;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    margin-top: 25px;
 }

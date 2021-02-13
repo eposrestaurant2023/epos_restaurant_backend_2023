@@ -1,4 +1,5 @@
 ﻿@page "/role/new"
+@page "/role/edit/{id:int}"
 @inject IJSRuntime js
 @inherits PageCore;
 
@@ -24,8 +25,11 @@
 
                 <TextInput label="Role Name" @bind-text="@model.role_name" />
                 <TextInput type="textarea" label="Description" @bind-text="@model.description" />
+                @foreach (var b in businesses)
+                {
+                <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
+                }
 
-                
             </PageBody>
 
             <PageFooter>
@@ -44,55 +48,50 @@
 @code{
     [Parameter] public int id { get; set; }
     List<PermissionOptionModel> permissionoption = new List<PermissionOptionModel>();
+    List<BusinessBranchModel> businesses = new List<BusinessBranchModel>();
     RoleModel model = new RoleModel();
     string ControllerApi = "Role";
-
-
-
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        await LoadData("");
+        await LoadData();
+        await LoadBusinessBranch();
         is_loading = false;
     }
 
-    async Task LoadData(string api_url = "")
+    async Task LoadData()
     {
-
         is_loading_data = true;
-
-        //if (string.IsNullOrEmpty(api_url))
-        //{
-        //    api_url = ControllerApi;
-        //    api_url = api_url + $"({id})?";
-        //    api_url = api_url + "$expand=Stations($select=id,station_name_en,station_name_kh;$filter= is_deleted eq false),";
-        //    api_url = api_url + "business_branch($select=id,business_branch_name_en,business_branch_name_kh)";
-
-
-
-
-        //}
-
-        var resp = await http.ApiGet("role?$expand=permission_option_roles($select=permission_option_id,role_id,is_delete)");
-        if (resp.IsSuccess)
+        if (id>0)
         {
-            model = JsonSerializer.Deserialize<RoleModel>(resp.Content.ToString());
+            var resp = await http.ApiGet($"role({id})?$expand=permission_option_roles($select=permission_option_id,role_id,is_delete)");
+            if (resp.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<RoleModel>(resp.Content.ToString());
+                
+            }
         }
         is_loading_data = false;
+    }
+
+    async Task LoadBusinessBranch()
+    {
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_roles&$filter=is_deleted eq false");
+        businesses = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
     }
 
     protected async Task SaveRole_Click()
     {
         is_saving = true;
-        model.permission_option_roles.Clear();
-        foreach (var a in permissionoption.ToList())
+        model.business_branch_roles.Clear();
+        foreach (var a in businesses.ToList())
         {
-            if (a.is_checked)
+            if (a.is_selected)
             {
-                model.permission_option_roles.Add(new PermissionOptionRoleModel()
+                model.business_branch_roles.Add(new BusinessBranchRoleModel()
                 {
-                    permission_option_id = a.id,
+                    business_branch_id = a.id,
                     role_id = model.id
                 });
             }
@@ -102,6 +101,7 @@
         {
             model = JsonSerializer.Deserialize<RoleModel>(post.Content.ToString());
             toast.Add("Save Successfully!", MatToastType.Success);
+            nav.NavigateTo($"role/permission/{model.id}");
         }
         else
         {

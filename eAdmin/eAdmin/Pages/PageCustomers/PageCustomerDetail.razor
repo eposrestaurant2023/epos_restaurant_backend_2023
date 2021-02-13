@@ -1,10 +1,8 @@
 ﻿@page "/customer/{id}"
 @inherits PageCustomerDetails
-
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @if (!is_loading && !is_error)
 {
-
     <Title Value="@($"Customer | {model.customer_code_name}")"></Title>
     <PageContainer roles="@gv.GetRole("customer_view")">
         <PageHeader>

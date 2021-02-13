@@ -121,6 +121,9 @@ namespace eAPI
             var p = odataBuilder.EntitySet<PermissionOptionRoleModel>("PermissionOptionRole");
             p.EntityType.HasKey(r => new { r.role_id, r.permission_option_id });
 
+            var r = odataBuilder.EntitySet<BusinessBranchRoleModel>("BusinessBranchRole");
+            r.EntityType.HasKey(r => new { r.role_id, r.business_branch_id });
+
             odataBuilder.EntitySet<UserModel>("User");
             var u = odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
             u.EntityType.HasKey(r => new { r.user_id, r.business_branch_id });
@@ -176,8 +179,11 @@ namespace eAPI
             odataBuilder.EntitySet<PurchaseOrderProductModel>("PurchaseOrderProduct");
             odataBuilder.EntitySet<StockLocationModel>("StockLocation");
             odataBuilder.EntitySet<VendorGroupModel>("VendorGroup");
+            odataBuilder.EntitySet<SaleProductModel>("SaleProduct");
             odataBuilder.EntitySet<StockTakeModel>("StockTake");
             odataBuilder.EntitySet<StockTakeProductModel>("StockTakeProduct");
+            odataBuilder.EntitySet<StockTransferModel>("StockTransfer");
+            odataBuilder.EntitySet<StockTransferProductModel>("StockTransferProduct");
             return odataBuilder.GetEdmModel();
         }
     }

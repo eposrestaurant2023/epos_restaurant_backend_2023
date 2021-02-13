@@ -58,9 +58,8 @@
                         @HeaderTemplate("purchase_date", "PO Date", "uk-text-center")
                         @HeaderTemplate("document_number", "Document#", "uk-text-center")
                         @HeaderTemplate("referance_number", "Referance#", "uk-text-center")
-                        @HeaderTemplate("vendor/vendor_name", "Vendor", "col-auto")
-                        @HeaderTemplate("business_branch/business_branch_name_en", "Business Branch")
-                        @HeaderTemplate("stock_location/stock_location_name", "Stock Location")
+                        @HeaderTemplate("vendor/vendor_name", "Vendor", "col-auto") 
+                        @HeaderTemplate("stock_location/stock_location_name", "Stock Location (Business Branch)")
                         <ThRight>Total Amount</ThRight>
                         <ThRight>Paid Amount</ThRight>
                         <ThRight>Balance</ThRight>
@@ -79,12 +78,9 @@
                             <ComAuthorize roles="@gv.GetRole("vendor_view")" url="@($"vendor/{p.vendor_id}")">
                                 <ComVendorInfo vendor="p.vendor" />
                             </ComAuthorize>
-                        </td>
+                        </td> 
                         <td>
-                            @p.business_branch?.business_branch_name_en
-                        </td>
-                        <td>
-                            @p.stock_location?.stock_location_name
+                            @p.stock_location?.stock_location_name (@p.business_branch?.business_branch_name_en)
                         </td>
 
                         <TdRight>

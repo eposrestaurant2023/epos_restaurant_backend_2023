@@ -26,9 +26,10 @@
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
-                    <Spacing Number="12" />
+                    <SelectBusinessBranch @bind-business_branch="@state.business_branch" show_empty="true" />
+                    <SelectOutlet @bind-outlet="@state.outlet" show_empty="true" />
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" />
                     <SelectProductCategory show_empty="true" @bind-product_category="@state.product_category" />
-
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
@@ -49,7 +50,6 @@
                        EmptyText="There is no record.">
                     <TableHeader>
                         @HeaderTemplate("sale_date", "Date", "uk-text-center")
-                        
                         @HeaderTemplate("document_number", "Document#", "uk-text-center")
                         @HeaderTemplate("product/product_name", "Product", "col-auto")
                         <ThCenter>Quantity</ThCenter>
@@ -89,74 +89,75 @@
                             <LabelDeleted is_visible="@(p.is_deleted)" />
                             
                         </TdRight>
-                        <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("sale_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"sale/{p.sale_id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("sale_edit")" icon="edit" is_visible="@(!p.is_deleted)" url="@($"sale/edit/{p.sale_id}")">Edit</TableActionItem>
-                        </TdActions>
+                        <TdCenter>
+                            <a href="@($"receiptlist/{p.sale_id}")">
+                                <Icon icon="remove_red_eye" is_url="true" />
+                            </a>
+                        </TdCenter>
                     </RowTemplate>
                 </Table>
             </Com>
         </Column>
 
 @code {
-        [Parameter] public Guid customer_id { get; set; }
-        [Parameter] public int product_id { get; set; }
+    [Parameter] public Guid customer_id { get; set; }
+    [Parameter] public int product_id { get; set; }
 
-        List<SaleProductModel> models = new List<SaleProductModel>();
-        int TotalRecord = 0;
+    List<SaleProductModel> models = new List<SaleProductModel>();
+    int TotalRecord = 0;
 
-        string controller_api = "saleproduct";
-        string select = "$expand=sale,product";
-        string ControllerApi
+    string controller_api = "saleproduct";
+    string select = "$expand=sale,product";
+    string ControllerApi
     {
-            get
+        get
         {
-                if (string.IsNullOrEmpty(state.pager.order_by))
+            if (string.IsNullOrEmpty(state.pager.order_by))
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?{select}";
+            url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+
+
+            if (!state.filters.Where(r => r.key == "is_deleted").Any())
+            {
+                state.filters.Add(new FilterModel()
                 {
-                    state.pager.order_by = "id";
-                    state.pager.order_by_type = "desc";
-                }
-                string url = $"{controller_api}?{select}";
-                url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                    key = "is_deleted",
+                    value1 = "false"
+                });
+            }
 
-
-                if (!state.filters.Where(r => r.key == "is_deleted").Any())
+            if (customer_id !=Guid.Empty)
+            {
+                if (!state.filters.Where(r => r.key == "sale/customer_id").Any())
                 {
                     state.filters.Add(new FilterModel()
                     {
-                        key = "is_deleted",
-                        value1 = "false"
+                        key = "sale/customer_id",
+                        value1 = customer_id.ToString()
                     });
                 }
-
-                if (customer_id !=Guid.Empty)
-                {
-                    if (!state.filters.Where(r => r.key == "sale/customer_id").Any())
-                    {
-                        state.filters.Add(new FilterModel()
-                        {
-                            key = "sale/customer_id",
-                            value1 = customer_id.ToString()
-                        });
-                    }
-                }
-                if (product_id > 0) {
-
-                    if (!state.filters.Where(r => r.key == "product_id").Any())
-                    {
-                        state.filters.Add(new FilterModel()
-                        {
-                            key = "product_id",
-                            value1 = product_id.ToString()
-                        });
-                    }
-                }
-
-
-
-                return url + GetFilter(state.filters);
             }
+            if (product_id > 0) {
+
+                if (!state.filters.Where(r => r.key == "product_id").Any())
+                {
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "product_id",
+                        value1 = product_id.ToString()
+                    });
+                }
+            }
+
+
+
+            return url + GetFilter(state.filters);
         }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -301,6 +302,26 @@
                 will_remove = true
             });
         }
+
+
+        if (state.outlet.id > 0)
+        {
+            //outlet
+            state.filters.Add(new FilterModel()
+            {
+                key = "outlet/outlet_id",
+                value1 = state.outlet.id.ToString(),
+                is_clear_all = true,
+                filter_title = "Outlet",
+                state_property_name = "outlet",
+                filter_info_text = state.outlet.outlet_name_en,
+                filter_operator = "eq",
+                will_remove = true
+            });
+        }
+
+ 
+
         state.pager.current_page = 1;
         await LoadData();
     }

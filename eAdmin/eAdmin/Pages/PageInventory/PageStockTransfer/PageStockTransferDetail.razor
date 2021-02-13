@@ -1,0 +1,91 @@
+﻿@page "/stocktransfer/{id:int}";
+@inherits PageStockTransferDetailBase
+
+@if (is_loading_data || is_loading)
+{
+    <Loading is_loading="@( is_loading_data || is_loading_data)" /> 
+}
+
+@if (!is_loading && is_error == false)
+{
+    <Title Value="@($"Stock Transfer Invoice: {model.document_number}")" ></Title>
+
+    <PageContainer roles="@gv.GetRole("stock_transfer_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Stock Transfer Invoice #:  @model.document_number
+                        <ComStockTransferStatus model="@model"/>
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <ComStockTransferDetail_ActionButton @bind-model="@model" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab>
+                <TabHeader>
+                    <TabHeaderItem>Invoice</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowComment">Comment and History</TabHeaderItem>
+                </TabHeader>
+
+                <TabBody>
+                    <TabItem>
+                        <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
+                        <ComPage>
+                            <ComStockTransferDetail_InvoiceHeader model="@model"/>
+                            <Spacing Number="20" />
+                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <ThCenter>Image</ThCenter>
+                                        <th class="col-auto">Item</th>
+                                        <th class="uk-text-center">QTY</th>
+                                        <th class="uk-text-center">Unit</th>
+                                        <th class="uk-text-right">Cost</th>
+                                        <th class="uk-text-right">Dis.</th>
+                                        <th class="uk-text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                    <ComStockTransferDetail_InvoiceBody model="@model"/>
+                                </tbody>
+                                <tfoot> 
+                                    <ComStockTransferDetail_InvoiceFooter model="@model"/>
+                                </tfoot>
+                            </table>
+                            <Spacing Number="20" />
+                            <ComStockTransferDetail_Note model="@model"/>
+                            <ComStockTransferDetail_FooterInformation model="@model"/>
+                        </ComPage>
+                    </TabItem>
+                    <TabItem>
+                        @if (is_show_comment)
+                        {
+                            <ComHistory RoleAdd="@gv.GetRole("stock_transfer_add")"
+                                        RoleDelete="@gv.GetRole("stock_transfer_delete")"
+                                        RoleEdit="@gv.GetRole("stock_transfer_edit")"
+                                        ApiFilter="@($"stock_transfer_id eq {id}")"
+                                        history="@history" />
+                                        
+                        }
+
+                    </TabItem>
+
+                </TabBody>
+            </Tab>
+            <div class="spacing40"></div>
+        </PageBody>
+    </PageContainer>
+
+}
+
+@if (is_error)
+{
+    <Error title="Stock Transfer Detail">
+        @error_text
+    </Error>
+}
