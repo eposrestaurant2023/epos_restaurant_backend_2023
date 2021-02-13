@@ -33,8 +33,8 @@ namespace eModels
         }
 
         [MaxLength(200)]
-        public string product_category_kh { get; set; } 
-
+        public string product_category_kh { get; set; }
+        public bool is_ingredient_category { get; set; }
         public List<ProductModel> products { get; set; }
     }
 }

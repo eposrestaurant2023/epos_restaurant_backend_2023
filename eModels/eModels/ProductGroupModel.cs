@@ -36,6 +36,7 @@ namespace eModels
         public string product_group_kh { get; set; }
 
         public int sort_order { get; set; }
+        public bool is_built_in { get; set; }
 
 
         public List<ProductCategoryModel> product_categories { get; set; }

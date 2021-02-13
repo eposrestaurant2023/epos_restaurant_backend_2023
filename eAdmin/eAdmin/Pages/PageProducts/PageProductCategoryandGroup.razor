@@ -32,21 +32,27 @@
                                         @d.product_group_en
                                     </span>
                                 </div>
-                                <div class="uk-float-right">
+                                <Column ClassName="uk-float-right">
                                     <div> 
-                                        <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp"/>
-                                        <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp"/>
-  
-                                        <span style="margin-right:5px;">
-                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
-                                        </span>
+                                        @if(!d.is_built_in){
+                                            <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp"/>
+                                            <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp"/>
+                                        }
+                                        else{
+                                            <LabelActive is_visible="@d.status"/>
+                                        }
+                                        <Com is_visible="@(!d.is_built_in)">
+                                            <span style="margin-right:5px;">
+                                                <Icon icon="delete" OnClick="@(()=>click_delete(d))"/>
+                                            </span>
+                                        </Com>
                                         <span>
                                             <a href="@($"productcategory/edit/{d.id}")">
                                                 <Icon icon="edit" />
                                             </a>
                                         </span>
                                     </div>
-                                </div>
+                                </Column>
                             </div>
                         </div>
                     

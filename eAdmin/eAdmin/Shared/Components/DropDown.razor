@@ -1,0 +1,13 @@
+﻿<Com is_visible="@is_visible">
+    <div class="wpr-payment-drop @class_name" uk-drop>
+        <div class="uk-card payment_list_item uk-padding-small uk-card-default bg-01">
+            @ChildContent
+        </div>
+    </div>
+</Com>
+@code {
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string class_name { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+}

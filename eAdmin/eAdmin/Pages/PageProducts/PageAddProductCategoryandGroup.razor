@@ -24,12 +24,12 @@
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox Title="Product Group">
-                        <TextInput @bind-text="@model.product_group_code" label="Product Group Code"/>
-                        <TextInput @bind-text="@model.product_group_en" label="Product Group Name En">
+                        <TextInput @bind-text="@model.product_group_code" label="Product Group Code" is_read_only="@model.is_built_in"/>
+                        <TextInput @bind-text="@model.product_group_en" label="Product Group Name En" is_read_only="@model.is_built_in">
                             <ValidationMessage For="@(() => model.product_group_en )" />
                         </TextInput>
-                        <TextInput @bind-text="@model.product_group_en" label="Product Group Name Kh" />
-                        <ComInputCheckBox @bind-value="@model.status" label="Status" />
+                        <TextInput @bind-text="@model.product_group_en" label="Product Group Name Kh" is_read_only="@model.is_built_in"/>
+                        <ComInputCheckBox @bind-value="@model.status" label="Status" is_read_only="@model.is_built_in"/>
 
                     </UIContainerBox>
                     <UIContainerBox Title="Product Category" is_show_add_button="true" OnAddClick="@(()=>Add_Product_Category())">
