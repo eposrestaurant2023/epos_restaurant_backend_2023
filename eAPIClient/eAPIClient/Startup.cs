@@ -56,7 +56,12 @@ namespace eAPIClient
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-      
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
+
+
 
             services.AddScoped<AppService>();
             // configure DI for application services
