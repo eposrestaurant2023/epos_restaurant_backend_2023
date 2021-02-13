@@ -1,5 +1,5 @@
-﻿@inject IHttpService http;
-@inject IMatToaster toast;
+﻿@inject IHttpService http
+@inject IMatToaster toast
 
 <Modal IsSimpleMode="false" Title="PO Payment" OnClosed="@(()=>ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
     <ModalBody>
@@ -15,9 +15,9 @@
             @if (can_enter_payment)
             {
                 <UIContainerBox>
-                    <TextInput label="Reference #" @bind-text="@model.reference_number" />
-                    <DateInput @bind-Value="@model.payment_date" label="Payment Date" />
-                    <SelectPaymentType @bind-selected_value="@model.payment_type_id" show_empty="true" />
+                    <TextInput label="Reference #" @bind-text="@model.reference_number" is_horizontal="false"/>
+                    <DateInput @bind-Value="@model.payment_date" label="Payment Date" /> 
+                    <SelectPaymentType @bind-selected_value="@model.payment_type_id" payment_type="@model.payment_type"/>
                     <NumberInput @bind-text="@model.payment_amount" label="Payment Amount" />
                 </UIContainerBox>
 

@@ -55,7 +55,14 @@ namespace eModels
         
         public Guid? sale_id { get; set; }
         [ForeignKey("sale_id")]
-        public virtual SaleModel sale { get; set; }
+        public virtual SaleModel sale { get; set; }       
+        public int? stock_take_id { get; set; }
+        [ForeignKey("stock_take_id")]
+        public virtual StockTakeModel stock_take { get; set; }
+        
+        public int? stock_transfer_id { get; set; }
+        [ForeignKey("stock_transfer_id")]
+        public virtual StockTransferModel stock_transfer { get; set; }
 
    
 

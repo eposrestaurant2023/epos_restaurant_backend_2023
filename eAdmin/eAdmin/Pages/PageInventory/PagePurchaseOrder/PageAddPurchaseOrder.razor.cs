@@ -178,9 +178,11 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             save_model.purchase_order_products.ForEach(r => r.product = null);
             save_model.stock_location = null;
             save_model.business_branch = null;
-            save_model.purchase_order_payments = null;
+            save_model.purchase_order_payments = null; 
 
             is_saving = true;
+
+            Console.WriteLine(JsonSerializer.Serialize(save_model));
 
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)

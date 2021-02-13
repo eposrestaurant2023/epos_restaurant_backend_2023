@@ -1,0 +1,90 @@
+﻿@page "/stocktake"
+@inherits PageStockTakeBase
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (!is_loading)
+{
+    <Title Value="Stock Take"></Title>
+    <PageContainer roles="@gv.GetRole("stock_take_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle>
+                    <HeaderTemplate>
+                        @state.page_title
+                    </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="Status">
+                            <ModuleView module_views="@gv.GetModuleView("page_stock_take")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <AddButton roles="@gv.GetRole("stock_take_add")" url="stocktake/new">New</AddButton>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <FilterDateRange @bind-dates="@state.date_range" />
+                    <MultipleFilterBusinessBranch @bind-selected_business="@state.multi_select_id_1" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <Spacing Number="15"/>
+                    <MultipleFilterStockLocation @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                </ComSearch>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            <Com is_visible="@(models != null)">
+                <Table Items="@models"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto"
+                       EmptyText="There is no record.">
+                    <TableHeader>
+                        @HeaderTemplate("stock_take_date", "Stock Take Date", "uk-text-center")
+                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
+                        @HeaderTemplate("referance_number", "Referance#", "uk-text-center") 
+                        @HeaderTemplate("stock_location/stock_location_name", "Stock Location (Business Branch)","col-auto")
+                        <ThRight>Total Amount</ThRight>
+                        <ThRight>Status</ThRight>
+                        <th class="uk-width-auto"></th>
+                    </TableHeader>
+                    <RowTemplate Context="p">
+                        <TdCenter>@p.stock_take_date.ToString(gv.date_format)</TdCenter>
+                        <TdCenter>
+                            <ComAuthorize roles="@gv.GetRole("stock_take_management")" url="@($"stocktake/{p.id}")">
+                                @p.document_number
+                            </ComAuthorize>
+                        </TdCenter>
+                        <TdCenter>@p.reference_number</TdCenter>
+                        <td>
+                            @p.stock_location?.stock_location_name (@p.business_branch?.business_branch_name_en)
+                        </td>
+
+                        <TdRight>
+                            @p.total_amount.ToString(gv.main_currency_format)
+                        </TdRight>  
+                        <TdRight>
+                            <ComStockTakeStatus model="@p" />
+                        </TdRight>
+                        <TdActions is_loading="@p.is_loading">
+                            <TableActionItem roles="@gv.GetRole("stock_take_management")" icon="visibility" url="@($"stocktake/{p.id}")">View</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("stock_take_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"stocktake/edit/{p.id}")">Edit</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("stock_take_delete")" icon="delete" is_visible="@(!p.is_deleted && !p.is_fulfilled)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
+                        </TdActions>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        </PageBody>
+    </PageContainer>
+}

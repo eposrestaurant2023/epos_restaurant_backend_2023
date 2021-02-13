@@ -7,21 +7,21 @@
                     <div class="@(ChildPermissionOption(p.id).Count() > 0 && show_delete ? "parent_title" : "") @(p.is_checked ? "focus" : "")" style="margin-top: 4px;">
                         @if (p.is_checked)
                         {
-                            <input class="uk-checkbox" type="checkbox" id="@p.id" style="margin-right: 18px;" @onchange="@(async(e)=> {   await SelectPermission_Click(p); })" checked/>
+                            <input class="uk-checkbox" type="checkbox" id="@p.id" style="margin-right: 18px;" @onchange="@(async(e)=> {   await SelectPermission_Click(p); })" checked="@p.is_checked" />
                         }
                         else
                         {
-                            <input class="uk-checkbox" type="checkbox" id="@p.id" style="margin-right: 18px;" @onchange="@(async(e)=> { await SelectPermission_Click(p); })" />
+                            <input class="uk-checkbox" type="checkbox" id="@p.id" style="margin-right: 18px;" @onchange="@(async(e)=> { await SelectPermission_Click(p); })" checked="@p.is_checked" />
                         }
                         <span @onclick="(()=> { p.is_open_child = !p.is_open_child; })">
-                            <Icon icon="@(p.is_open_child?"indeterminate_check_box":"add_box")" icon_color="@(p.is_open_child?"#2cc189":"#000000")" size="20px" is_visible="@(PermissionOptions.Where(r=>r.parent_id == p.id).Any())"/>
+                            <Icon icon="@(p.is_open_child?"indeterminate_check_box":"add_box")" icon_color="@(p.is_open_child?"#2cc189":"#000000")" size="20px" is_visible="@(PermissionOptions.Where(r=>r.parent_id == p.id).Any())" />
                             <span>@p.note</span>
                         </span>
                     </div>
                     @if (ChildPermissionOption(p.id).Count() > 0)
                     {
                     <div style="display: @(p.is_open_child?"block":"none");">
-                        <ComPerMissionOptionTree role_id="@role_id" parent_id="@p.id" OnSelect="@SelectPermission_Click" PermissionOptions="@PermissionOptions" />
+                        <ComPerMissionOptionTree role_id="@role_id" parent_id="@p.id" OnSelectChanged="@SelectPermission_Click" PermissionOptions="@PermissionOptions" />
                     </div>
                     }
                 </div>
@@ -40,10 +40,10 @@
     [Parameter] public bool show_delete { get; set; } = false;
     [Parameter] public bool is_parent { get; set; } = false;
     [Parameter] public int role_id { get; set; }
-    [Parameter] public EventCallback<PermissionOptionModel> OnSelect { get; set; }
+    [Parameter] public EventCallback<PermissionOptionModel> OnSelectChanged { get; set; }
     [Parameter] public int? parent_id { get; set; }
     async Task SelectPermission_Click(PermissionOptionModel permission)
     {
-        await OnSelect.InvokeAsync(permission);
+        await OnSelectChanged.InvokeAsync(permission);
     }
 }

@@ -1,4 +1,5 @@
 ﻿@inherits PageCore
+@using System.Globalization;
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @{
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
@@ -22,11 +23,11 @@
         <RefreshButton OnClick="@(async()=>await LoadData())" />
         <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
             <FilterDateRange @bind-dates="@state.date_range" />
-            <Spacing Number="12" />
+            <SelectBusinessBranch @bind-business_branch="@state.business_branch" show_empty="true" />
+            <SelectOutlet @bind-outlet="@state.outlet" show_empty="true" />
         </ComSearch>
     </HeaderRight>
 </PageHeader>
-
 <Com is_visible="@(!is_loading)">
     <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
     <Com is_visible="@(models != null)">
@@ -63,25 +64,26 @@
                     @p.sale_note
                 </td>
                 <TdRight>
-                    @p.total_amount.ToString(gv.main_currency_format)
+                    @p.total_amount.ToString(gv.main_currency_format, CultureInfo.CurrentCulture)
                 </TdRight>
                 <TdRight>
                     @p.paid_amount.ToString(gv.main_currency_format)
                 </TdRight>
                 <TdRight>
-                    @p.balance.ToString(gv.main_currency_format)
+                    @p.balance
                 </TdRight>
                 <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
                 <td>@p.created_by</td>
                 <TdRight>
                     <ComSaleStatus sale="@p" />
                     <LabelDeleted is_visible="@(p.is_deleted)" />
-
                 </TdRight>
-                <TdActions is_loading="@p.is_loading">
-                    <TableActionItem roles="@gv.GetRole("sale_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"sale/{p.id}")">View</TableActionItem>
-                    <TableActionItem roles="@gv.GetRole("sale_edit")" icon="edit" is_visible="@(!p.is_deleted)" url="@($"sale/edit/{p.id}")">Edit</TableActionItem>
-                </TdActions>
+                <TdCenter>
+                    <a href="@($"receiptlist/{p.id}")">
+                        <Icon icon="remove_red_eye" is_url="true" />
+                    </a>
+                </TdCenter>
+               
             </RowTemplate>
         </Table>
     </Com>
@@ -89,7 +91,6 @@
 
 @code {
     [Parameter] public Guid customer_id { get; set; }
-
     List<SaleModel> models = new List<SaleModel>();
     int TotalRecord = 0;
 
@@ -253,6 +254,23 @@
                 will_remove = true,
                 state_property_name = "date_range"
             });
+
+
+            if (state.outlet.id > 0)
+            {
+                //outlet
+                state.filters.Add(new FilterModel()
+                {
+                    key = "outlet/outlet_id",
+                    value1 = state.outlet.id.ToString(),
+                    is_clear_all = true,
+                    filter_title = "Outlet",
+                    state_property_name = "outlet",
+                    filter_info_text = state.outlet.outlet_name_en,
+                    filter_operator = "eq",
+                    will_remove = true
+                });
+            }
         }
 
 

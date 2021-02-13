@@ -39,7 +39,15 @@ namespace eModels
         
         public int? purchase_order_id { get; set; }
         [ForeignKey("purchase_order_id")]
-        public VendorModel purchase_order { get; set; }
+        public PurchaseOrderModel purchase_order { get; set; }
+
+        public int? stock_take_id { get; set; }
+        [ForeignKey("stock_take_id")]
+        public StockTakeModel stock_take { get; set; }
+
+        public int? stock_transfer_id { get; set; }
+        [ForeignKey("stock_transfer_id")]
+        public StockTransferModel stock_transfer { get; set; }
 
     }
 

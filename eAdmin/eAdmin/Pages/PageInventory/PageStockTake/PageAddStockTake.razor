@@ -1,0 +1,69 @@
+﻿@page "/stocktake/new"
+@page "/stocktake/edit/{id:int}"
+
+@inherits PageAddStockTakeBase
+
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+<Com is_visible="@(!is_loading && !is_error)">
+    <Title Value="Add Stock Take"></Title>
+    <PageContainer>
+        <PageBody>
+            <div class="content-add-sale">
+                <div class="section-content">
+                    <Spacing Number="20" />
+                    <ComPurchaseOrderSearchProduct productChanged="@OnSearchProduct" select_productsChanged="@OnSearchProducts" />
+                </div>
+                <Spacing Number="20" />
+                <Grid ClassName="uk-grid-small uk-grid-divider uk-child-width-1-2">
+                    <div>
+                        <div class="uk-form-horizontal">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />Referance #</label>
+                                <div class="uk-form-controls">
+                                    <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
+                                </div>
+                            </div>
+                            <DateInput label="Stock Take Date" value="@model.stock_take_date" icon="layers" /> 
+                        </div>
+                    </div>
+                    <div>
+                        <div class="section-content">
+                            <div class="uk-form-horizontal">
+                                <SelectBusinessBranch @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
+                                <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
+                            </div>
+                        </div>
+                    </div>
+                </Grid>
+                <hr />
+                <section class="wrp-sale-invoice-body">
+                    <h3 class="title uk-display-inline-block">
+                        <Icon icon="upload" />
+                        <span class="title">Stock Take Products</span>
+                    </h3>
+                    <Spacing Number="10" />
+                    <ComStockTakeProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
+                    <hr />
+                    <Spacing Number="10" />
+                    <ComStockTakeSummary @bind-model="@model"/>
+                </section>
+            </div>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <Button disabled="@(is_saving || model.active_stock_take_products.Count()<=0)" OnClick="@OnSaveClick" icon="save">Save</Button>
+                @if (is_saving)
+                {
+                    <button class="uk-button uk-button-danger" onclick="history.go(-1)" disabled><Icon icon="reply" /> Cancel</button>
+                }
+                else
+                {
+                    <button class="uk-button uk-button-danger" onclick="history.go(-1)"><Icon icon="reply" /> Cancel</button>
+                }
+            </FooterCenter>
+            <FooterRight>
+                <strong class="uk-margin-small-right">Total Amount</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
+            </FooterRight>
+        </PageFooter>
+    </PageContainer>
+</Com>
