@@ -87,12 +87,13 @@
     {
         is_loading = true;
         await LoadData();
+        await loadRole();
         is_loading = false;
     }
 
     async Task loadRole()
     {
-        var res = await http.ApiGet($"role/{role_id}");
+        var res = await http.ApiGet($"role({role_id})?$select=id,role_name");
         if (res.IsSuccess)
         {
             role = JsonSerializer.Deserialize<RoleModel>(res.Content.ToString());

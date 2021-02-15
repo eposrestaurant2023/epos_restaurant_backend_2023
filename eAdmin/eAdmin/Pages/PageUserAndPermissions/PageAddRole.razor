@@ -23,7 +23,9 @@
             <DataAnnotationsValidator />
             <PageBody>
 
-                <TextInput label="Role Name" @bind-text="@model.role_name" />
+                <TextInput label="Role Name" @bind-text="@model.role_name">
+                    <ValidationMessage For="@(()=>model.role_name)"/>
+                </TextInput>
                 <TextInput type="textarea" label="Description" @bind-text="@model.description" />
                 @foreach (var b in businesses)
                 {
@@ -35,7 +37,7 @@
             <PageFooter>
                 <FooterCenter> 
                     <Button type="submit" icon="save" custom_class="button-large">Save</Button>
-                    <LinkButton url="outletstation" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton> 
+                    <LinkButton url="role" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton> 
                 </FooterCenter>
             </PageFooter>
 
