@@ -111,6 +111,8 @@ namespace eAPIClient
             odataBuilder.EntitySet<WorkingDayModel>("WorkingDay");
             odataBuilder.EntitySet<CashierShiftModel>("CashierShift");
             odataBuilder.EntitySet<ShiftModel>("Shift");
+            odataBuilder.EntitySet<CustomerModel>("Customer");
+            odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
             return odataBuilder.GetEdmModel();
         }
     }

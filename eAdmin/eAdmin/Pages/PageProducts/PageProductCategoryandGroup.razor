@@ -18,10 +18,8 @@
                 <LinkButton url="productcategory/new" icon="add" background="uk-button-primary" Class_Name="button-create button-large">New Category & Group</LinkButton>
             </HeaderRight>
         </PageHeader>
-
             <PageBody>
                 <UIGridCenter>
-
                     @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
                     {
                     <div class="container-layout">
@@ -33,19 +31,13 @@
                                     </span>
                                 </div>
                                 <Column ClassName="uk-float-right">
-                                    <div> 
-                                        @if(!d.is_built_in){
-                                            <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp"/>
-                                            <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp"/>
-                                        }
-                                        else{
-                                            <LabelActive is_visible="@d.status"/>
-                                        }
-                                        <Com is_visible="@(!d.is_built_in)">
-                                            <span style="margin-right:5px;">
-                                                <Icon icon="delete" OnClick="@(()=>click_delete(d))"/>
-                                            </span>
-                                        </Com>
+                                    <div>  
+                                        <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp"/>
+                                        <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp"/>
+ 
+                                        <span style="margin-right:5px;">
+                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))"/>
+                                        </span>
                                         <span>
                                             <a href="@($"productcategory/edit/{d.id}")">
                                                 <Icon icon="edit" />
@@ -76,17 +68,10 @@
                                         </TdCenter>
                                     </tr>
                                 }
-
-
                             </table>
                         </div>
                     </div>
-                      
-
                     }
-
-
-
                 </UIGridCenter>
             </PageBody>
     </PageContainer>
