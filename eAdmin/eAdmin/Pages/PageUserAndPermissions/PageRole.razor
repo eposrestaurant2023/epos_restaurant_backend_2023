@@ -242,6 +242,11 @@
     }
     async Task SaveStatus(RoleModel r)
     {
+        if (gv.current_login_user.role.role_name == r.role_name)
+        {
+            toast.Add("You cannot change status of the current login user type.",MatToastType.Warning);
+            return;
+        }
         var resp = await http.ApiPost(controller_api + "/status/" + r.id);
         if (resp.IsSuccess)
         {
