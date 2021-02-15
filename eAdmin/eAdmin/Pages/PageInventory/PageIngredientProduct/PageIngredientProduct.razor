@@ -30,7 +30,6 @@
                 <AddButton roles="@gv.GetRole("ingredient_product_add")" OnClick="@(()=>nav.NavigateTo("ingredientproduct/new"))">New Ingredient Product</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="All Product Group" />
                     <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="All Product Category" is_ingredient_category="true"/>
                 </ComSearch>
             </HeaderRight>
