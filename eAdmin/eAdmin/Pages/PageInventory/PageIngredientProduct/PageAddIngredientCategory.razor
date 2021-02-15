@@ -1,17 +1,16 @@
-﻿@page "/productcategory/new"
-@page "/productcategory/edit/{id:int}"
+﻿@page "/ingredientcategory/edit/{id:int}"
 @inject IJSRuntime js
 @inherits PageCore;
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Outlet & Station"></Title>
+    <Title Value="Ingredient Category"></Title>
     <PageContainer roles="@gv.GetRole("product_category_group")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @(id > 0? "Edit Product Category & Group" : "New Product Category & Group")
+                        Edit Ingredient Category
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -22,17 +21,8 @@
         <EditForm Model="@model" OnValidSubmit="@Save_Click"  @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
-                <UIGridCenter>
-                    <UIContainerBox Title="Product Group">
-                        <TextInput @bind-text="@model.product_group_code" label="Product Group Code" is_read_only="@model.is_built_in"/>
-                        <TextInput @bind-text="@model.product_group_en" label="Product Group Name En" is_read_only="@model.is_built_in">
-                            <ValidationMessage For="@(() => model.product_group_en )" />
-                        </TextInput>
-                        <TextInput @bind-text="@model.product_group_en" label="Product Group Name Kh" is_read_only="@model.is_built_in"/>
-                        <ComInputCheckBox @bind-value="@model.status" label="Status" is_read_only="@model.is_built_in"/>
-
-                    </UIContainerBox>
-                    <UIContainerBox Title="Product Category" is_show_add_button="true" OnAddClick="@(()=>Add_Product_Category())">
+                <UIGridCenter> 
+                    <UIContainerBox Title="Ingredient Category" is_show_add_button="true" OnAddClick="@(()=>Add_Product_Category())">
                         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
                             <tr>
                                 <th>Category Name En</th>
@@ -148,10 +138,8 @@
 
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
-        {
-
-            product_category = JsonSerializer.Deserialize<List<ProductCategoryModel>>(resp.Content.ToString());
-
+        { 
+            product_category = JsonSerializer.Deserialize<List<ProductCategoryModel>>(resp.Content.ToString()); 
         }
         is_loading_data = false;
 
@@ -196,6 +184,7 @@
             is_saving = true;
 
             Object obj = new Object();
+            d.product_categories.ForEach(r => r.is_ingredient_category = true);
             ProductGroupModel save_product_group = JsonSerializer.Deserialize<ProductGroupModel>(JsonSerializer.Serialize(d));
 
             var res = await http.ApiPost($"{ControllerApi}/save", save_product_group);
@@ -204,7 +193,7 @@
                 obj = JsonSerializer.Deserialize<ProductGroupModel>(res.Content.ToString());
 
                 toast.Add("Saving successfully", MatToastType.Success);
-                nav.NavigateTo($"productcategory");
+                nav.NavigateTo($"ingredientcategory");
             }
             else
             {

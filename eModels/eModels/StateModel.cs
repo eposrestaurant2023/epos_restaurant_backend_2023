@@ -124,8 +124,7 @@ namespace eModels
             {
                 start_date = DateTime.Now;
                 end_date = DateTime.Now;
-            }
-            is_visible = true;
+            } 
         }
         public DateTime start_date { get; set; }
         public DateTime end_date { get; set; }
@@ -198,6 +197,8 @@ namespace eModels
         public bool will_remove { get; set; } = false;
         public string state_property_name { get; set; }
         public string sql_statement { get; set; }
+
+        public bool is_show_on_infor { get; set; } = true;
     }
  
     public enum FilterOperator

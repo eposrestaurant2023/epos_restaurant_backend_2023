@@ -503,6 +503,17 @@ input[type="text"] {
 .input-group-form > *:not(:last-child) {
     margin-right: 15px;
 }
+
+.items-hr:not(:last-child) {
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+.nomal-item .nomal-item-title {
+    font-size: 12px;
+    color: #adadad;
+    font-style: italic;
+}
 .Color_#ff{
     color:#fff;
 }

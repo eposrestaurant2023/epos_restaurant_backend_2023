@@ -63,13 +63,10 @@
                     </TabItem>
                     <TabItem>
                         @if (sale_product_history_tab_click)
-                        {
-                            <ComCustomerSalePorductHistory customer_id="@Guid.Parse(id)" />
+                        { 
+                            <ComCustomerSaleProductHistory customer_id="@Guid.Parse(id)" />
                         }
                     </TabItem>
-                    
-                   
-
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
                             <UIContainerBox Title="Comment and History">

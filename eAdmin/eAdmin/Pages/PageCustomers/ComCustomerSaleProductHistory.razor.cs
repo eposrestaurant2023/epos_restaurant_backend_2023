@@ -9,18 +9,16 @@ using System;
 using MatBlazor;
 using eAdmin.JSHelpers;
 
-namespace eAdmin.Pages.PageReceipt
+namespace eAdmin.Pages.PageCustomers.CustomerDetails
 {
-    public class ComSaleBase : PageCore
-    {
-
-        [Parameter] public bool is_receipt_list { get; set; } 
-        public List<SaleModel> models = new List<SaleModel>();
-        public SaleModel model = new SaleModel();
-        public string StateKey = "";   
+    public class ComCustomerSaleProductHistoryBase : PageCore
+    { 
+        [Parameter] public Guid customer_id { get; set; }
+        public List<SaleProductModel> models = new List<SaleProductModel>();
+        public string StateKey = "";
         public int TotalRecord = 0; 
 
-        string controller_api = "sale";
+        string controller_api = "saleproduct";
         public string ControllerApi
         {
             get
@@ -31,7 +29,7 @@ namespace eAdmin.Pages.PageReceipt
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
+                url += $"$expand=sale($expand=outlet($select=id,outlet_name_en,outlet_name_kh;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))),product($select=id,product_name_en,product_name_kh,product_code,photo)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -40,73 +38,27 @@ namespace eAdmin.Pages.PageReceipt
 
         protected override async Task OnInitializedAsync()
         {
-            is_loading = true;
-            
-            if (is_receipt_list)
-                StateKey = "Elist9hUndmRGRECEIPTnBau9T3AEj";
-            else
-                StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj";
+            is_loading = true; 
+            StateKey = "STOMERPRODUCTsaledmRGrRwdzVOID20154coN";
 
             state = await GetState(StateKey);
             state.filters.Clear();
- 
-            if (is_receipt_list)
-                state.page_title = "Receipt List";
-            else
-                state.page_title = "Void Receipt";
-
             var default_view = gv.GetDefaultModuleView("page_sale");
             if (default_view != null)
             {
-                state.page_title = default_view.title;
+                state.page_title = "Sale Products";
                 state.filters = default_view.filters;
             }
-
-            if (is_receipt_list)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "is_deleted",
-                    value1 = "false"
-                });
-            }
-            else
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "is_deleted",
-                    value1 = "true"
-                });
-            }
-
-            //Business Branch Filter
             state.filters.Add(new FilterModel()
             {
-                key = "business_branch_id",
-                value1 = gv.business_branch_ids_filter,
-                filter_title = "Business Branch",
-                filter_operator = "multiple",
-                state_property_name = "list_selected_values",
-                filter_info_text = gv.business_branch_ids_filter,
-                is_clear_all = true,
-                will_remove = true,
-                is_show_on_infor = false
+                key = "is_deleted",
+                value1 = "false"
             });
-
-            //Outlet Filter
             state.filters.Add(new FilterModel()
             {
-                key = "outlet_id",
-                value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter),
-                filter_title = "Outlet",
-                filter_operator = "multiple",
-                state_property_name = "list_selected_values",
-                filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter),
-                is_clear_all = true,
-                will_remove = true,
-                is_show_on_infor = false
-            }); 
-
+                key = "sale/customer_id",
+                value1 = customer_id.ToString()
+            });
             await LoadData();
         }   
 
@@ -123,26 +75,10 @@ namespace eAdmin.Pages.PageReceipt
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {
-                models = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());
+                models = JsonSerializer.Deserialize<List<SaleProductModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
             } 
             is_loading = false;
-        }
-
-        public async Task ViewClick(ModuleViewModel m)
-        {
-            state.filters.Clear();
-            state.filters = m.filters;
-            state.pager.order_by = m.default_order_by;
-            state.pager.order_by_type = m.default_order_by_type;
-            state.page_title = m.title;
-            state.pager.current_page = 1;
-            await LoadData();
-        }
-
-        public async Task AddNew()
-        {
-            await Task.Delay(100);
         }
         public async Task FilterClick()
         {
@@ -153,7 +89,7 @@ namespace eAdmin.Pages.PageReceipt
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "sale_date",
+                        key = "sale/sale_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
                         filter_title = "Sale Date",
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
@@ -167,7 +103,7 @@ namespace eAdmin.Pages.PageReceipt
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale_date",
+                    key = "sale/sale_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",
@@ -175,66 +111,36 @@ namespace eAdmin.Pages.PageReceipt
                     state_property_name = "date_range"
                 });  
             }
-            // customer
-            if (state.customer != null)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "customer_id",
-                    value1 = state.customer.id.ToString(),
-                    filter_title = "Customer",
-                    state_property_name = "customer",
-                    filter_info_text = state.customer.customer_code_name,
-                    is_clear_all = true,
-                    will_remove = true
-                });
-            }
-
             // filter business
-            string business_branch_ids = "";
             if (state.multi_select_value_1 != null)
             {
-               
+
+                string value = "";
                 foreach(var x in state.multi_select_value_1)
                 {
-                    business_branch_ids += x + ",";
+                    value += x + ",";
                 }
-                if (!string.IsNullOrEmpty(business_branch_ids))
+                if (!string.IsNullOrEmpty(value))
                 {
-                    business_branch_ids = business_branch_ids.Substring(0, business_branch_ids.Length - 1);
+                    value = value.Substring(0, value.Length - 1);
                 } 
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "business_branch_id",
-                    value1 = business_branch_ids,
+                    key = "sale/outlet/business_branch_id",
+                    value1 = value,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = business_branch_ids,
+                    filter_info_text = value,
                     is_clear_all = true,
                     will_remove = true
                 });
             }
-            else
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "business_branch_id",
-                    value1 = gv.business_branch_ids_filter,
-                    filter_title = "Business Branch",
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = gv.business_branch_ids_filter,
-                    is_clear_all = true,
-                    will_remove = true ,
-                    is_show_on_infor =false
-                });
-            }
-
             // filter outlet
             if (state.multi_select_value_2 != null)
-            { 
+            {
+
                 string value = "";
                 foreach(var x in state.multi_select_value_2)
                 {
@@ -247,7 +153,7 @@ namespace eAdmin.Pages.PageReceipt
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "outlet_id",
+                    key = "sale/outlet_id",
                     value1 = value,
                     filter_title = "Outlet",
                     filter_operator = "multiple",
@@ -257,19 +163,36 @@ namespace eAdmin.Pages.PageReceipt
                     will_remove = true
                 });
             }
-            else
+
+            if (state.product_category.id > 0)
             {
+                //product category
                 state.filters.Add(new FilterModel()
                 {
-                    key = "outlet_id",
-                    value1 = gv.outlet_ids_filter(business_branch_ids),
-                    filter_title = "Outlet",
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
+                    key = "product/product_category_id",
+                    value1 = state.product_category.id.ToString(),
                     is_clear_all = true,
-                    will_remove = true,
-                    is_show_on_infor = false
+                    filter_title = "Product Category",
+                    state_property_name = "product_category",
+                    filter_info_text = state.product_category.product_category_en,
+                    filter_operator = "eq",
+                    will_remove = true
+                });
+            }
+
+            if (state.product_group.id > 0)
+            {
+     
+                state.filters.Add(new FilterModel()
+                {
+                    key = "product/product_category/product_group/product_group_en",
+                    value1 = state.product_group.id.ToString(),
+                    is_clear_all = true,
+                    filter_title = "Product Group",
+                    state_property_name = "product_group",
+                    filter_info_text = state.product_group.product_group_en,
+                    filter_operator = "eq",
+                    will_remove = true
                 });
             }
 
@@ -302,25 +225,6 @@ namespace eAdmin.Pages.PageReceipt
             await LoadData();
         }
 
-        public async Task OnDelete(SaleModel p)
-        {
-            p.is_loading = true;
-            if (await js.Confirm("Delete Sale", "Are you sure you want to delete this record?"))
-            {
-                var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
-                if (resp.IsSuccess)
-                {
-                    toast.Add("Delete sale successfully", MatToastType.Success);
-                    if (models.Count() == 1 && state.pager.current_page > 0)
-                    {
-                        state.pager.current_page = state.pager.current_page - 1;
-                    }
-                    await LoadData();
-                }
-            }
-            p.is_loading = false;
-        }
-
         public async Task RemoveFilter(FilterModel f)
         {
             is_loading = true;
@@ -328,18 +232,18 @@ namespace eAdmin.Pages.PageReceipt
             foreach (var k in remove_key)
             {
                 // clear filter business
-                if (k == "business_branch_id" && state.multi_select_id_1 != null)
-                { 
-                        state.multi_select_id_1.Clear();
+                if (k == "sale/outlet/business_branch_id")
+                {
+                    state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
                     
 
                 // clear filter outlet
-                 if (k == "outlet_id" && state.multi_select_id_2 != null)
-                    { 
-                        state.multi_select_id_2.Clear();
-                        state.multi_select_value_2.Clear(); 
+                 if (k == "sale/outlet_id")
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
                 }
                     
 
@@ -359,7 +263,7 @@ namespace eAdmin.Pages.PageReceipt
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
                 // clear filter business
-                if (f.key == "business_branch_id")
+                if (f.key == "sale/outlet/business_branch_id")
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
@@ -367,7 +271,7 @@ namespace eAdmin.Pages.PageReceipt
 
 
                 // clear filter outlet
-                if (f.key == "outlet_id")
+                if (f.key == "sale/outlet_id")
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();

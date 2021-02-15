@@ -1,0 +1,70 @@
+﻿
+<MudItem>
+
+    <MudSelect T="string" Dense="true" Label="Outlet" MultiSelection="true" SelectedValues="selected_outlet" SelectedValuesChanged="@OnSelectedValuesOutlet">
+        @foreach (var option in outlets)
+        {
+            <MudSelectItem T="string" Value="@($"{option.outlet_name_en} ({option.bustiness_branch_name})" )">@($"{option.outlet_name_en} ({option.bustiness_branch_name})")</MudSelectItem>
+        }
+    </MudSelect>
+</MudItem>
+
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public List<string> business_branch_ids { get; set; }
+    [Parameter] public EventCallback<List<string>> business_branch_idsChanged { get; set; }
+    [Parameter] public HashSet<string> selected_outlet { get; set; } = new HashSet<string>();
+    [Parameter] public EventCallback<HashSet<string>> selected_outletChanged { get; set; }
+    [Parameter] public EventCallback<List<string>> outlet_id { get; set; }
+  
+
+
+    List<OutletModel> outlets
+    {
+        get
+        {
+            List<OutletModel> _outlets = new List<OutletModel>();
+            var data = gv.current_login_user.role.business_branch_roles.SelectMany(r => r.business_branch.outlets.Where(x => !x.is_deleted)).ToList();
+     
+            if (business_branch_ids != null)
+            {
+                if (business_branch_ids.Count() > 0)
+                {
+                    foreach (var id in business_branch_ids)
+                    {
+                        string business_branch_name = gv.bussiness_branches.Where(r => r.id == Guid.Parse(id)).FirstOrDefault().business_branch_name_en;
+
+                        data.Where(r => r.business_branch_id == Guid.Parse(id)).ToList().ForEach(v => v.bustiness_branch_name = business_branch_name);
+                        _outlets.AddRange(data.Where(r => r.business_branch_id == Guid.Parse(id)));
+                    }
+                    return _outlets.OrderBy(r => r.bustiness_branch_name).ToList();
+                }
+            }
+
+            foreach (var b in gv.bussiness_branches.ToList())
+            {
+                data.Where(r => r.business_branch_id == b.id).ToList().ForEach(v => v.bustiness_branch_name = b.business_branch_name_en);
+            }
+
+            return data.OrderBy(r => r.bustiness_branch_name).ToList();
+        }
+    }
+
+
+
+
+    void OnSelectedValuesOutlet(HashSet<string> selected)
+    {
+        List<string> values = new List<string>();
+        selected_outlet = selected;
+        values.Clear();
+        foreach (var x in selected_outlet.ToList())
+        {
+            values.Add(outlets.Where(r => ($"{ r.outlet_name_en} ({r.bustiness_branch_name})") == x).FirstOrDefault().id.ToString());
+        }
+        selected_outletChanged.InvokeAsync(selected_outlet);
+        outlet_id.InvokeAsync(values);
+    }
+
+}

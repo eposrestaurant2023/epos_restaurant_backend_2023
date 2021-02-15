@@ -55,9 +55,9 @@ namespace eAPI.Controllers
         [HttpPost("save/multiple/{role_id}")]
         public async Task<ActionResult<string>> SaveMultiple([FromBody] List<PermissionOptionModel> p,int role_id)
         {
+            db.Database.ExecuteSqlRaw($"delete tbl_permission_option_role where role_id = {role_id}");
             foreach (var _p in p)
-            {
-                db.Database.ExecuteSqlRaw($"delete tbl_permission_option_role where permission_option_id = {_p.id} and role_id = {role_id}");
+            {                
                 db.PermissionOptionRole.AddRange(_p.permission_option_roles);
             }
             db.PermissionOption.UpdateRange(p);

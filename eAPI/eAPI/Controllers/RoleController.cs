@@ -50,19 +50,14 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] RoleModel u)
         {
-            u.business_branch_roles.ForEach(r => r.role = null);
-            u.business_branch_roles.ForEach(r => r.business_branch = null);
+            db.Database.ExecuteSqlRaw($"delete tbl_business_branch_role where role_id = {u.id}");
+            db.businessBranchRoles.AddRange(u.business_branch_roles);
             if (u.id == 0)
             {
                 db.Roles.Add(u);
             }
             else
             {
-                db.Database.ExecuteSqlRaw($"delete tbl_permission_option_role where permission_option_id = {u.id}");                
-                db.PermissionOptionRole.AddRange(u.permission_option_roles);
-
-                db.Database.ExecuteSqlRaw($"delete tbl_business_branch_role where role_id = {u.id}");
-                db.businessBranchRoles.AddRange(u.business_branch_roles);
                 db.Roles.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -83,6 +78,17 @@ namespace eAPI.Controllers
         {
             var u = await db.Roles.FindAsync(id);
             u.is_deleted = !u.is_deleted;            
+            db.Roles.Update(u);
+            await db.SaveChangesAsync();
+            return Ok(u);
+        }
+
+        [HttpPost]
+        [Route("status/{id}")]
+        public async Task<ActionResult<RoleModel>> ChangeStatus(int id) //Delete
+        {
+            var u = await db.Roles.FindAsync(id);
+            u.status = !u.status;
             db.Roles.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);

@@ -228,6 +228,10 @@ namespace eAdmin.Pages
         {
             switch (key)
             {
+                case "date_range":
+                    state.date_range = new DateRangeModel(3);
+                    break;
+
                 case "product_category":
                     state.product_category = new ProductCategoryModel();
                     break;

@@ -9,6 +9,7 @@
 @if (!is_loading)
 {
     <Title Value="@state.page_title" ></Title>  
+    @System.Text.Json.JsonSerializer.Serialize(ControllerApi) 
     <PageContainer>
         <PageHeader>
             <HeaderLeft>
@@ -22,8 +23,8 @@
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
-                    <MultipleFilterBusinessBranch @bind-selected_business="@state.multi_select_id_1" business_id="@((val)=>state.multi_select_value_1=val)" />
-                    <MultipleFilterOutlet @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
+                    <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1"  @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                     <div class="uk-form-controls" style="margin-bottom: 10px;margin-top: 20px;">
                         <label sclass="uk-form-label">Customer</label>
                         <CustomerTypeahead @bind-customer="@state.customer" />
@@ -62,13 +63,11 @@
                         <TdCenter>
                             <div><a href="@(is_receipt_list?$"receiptlist/{p.id}":$"voidreceipt/{p.id}")">@p.document_number</a></div>
                         </TdCenter>
-                        <td>
-                            <a href="@($"customer/{p.customer_id}")">
-                                <ComCustomerInfo customer="p.customer" />
-                            </a>
+                        <td> 
+                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
-                            @p.outlet?.business_branch?.business_branch_name_en
+                            @p.business_branch?.business_branch_name_en
                         </td>
                         <td>
                             @p.outlet?.outlet_name_en
@@ -90,4 +89,8 @@
             </Com>
         </PageBody>
     </PageContainer> 
+}
+
+@code{
+
 }

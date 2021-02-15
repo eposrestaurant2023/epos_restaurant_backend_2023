@@ -1,22 +1,14 @@
-﻿<div class="invoice-sub-title">Payment List</div>
-<Spacing Number="14"/>
-<table class="uk-table uk-margin-remove sale-dt-payment-info">
-    <thead>
-        <tr>
-            <th>Payment Type</th>
-            <th class="uk-text-right">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var i in payments)
-        {
-            <tr>
-                <td>@i.payment_type?.payment_type_name_en </td>
-                <td class="uk-text-right">@i.payment_amount </td>
-            </tr>
-        }
-    </tbody>
-</table>
+﻿<DropDown>
+    @foreach (var p in payments.Where(r=>!r.is_deleted))
+    {
+        <div class="items-hr">
+            <ComItemInfo title="Date" content="@(p.payment_date.ToString(gv.date_format))"/>
+            <ComItemInfo title="Payment Type" content="@p.payment_type?.payment_type_name_en"/>
+            <ComItemInfo title="Paid" content="@p.payment_amount.ToString(gv.currency_format)"/>
+            <ComItemInfo title="By" content="@($"{p.created_by} on {p.created_date.ToString(gv.date_time_format)}")"/>
+        </div>
+    }
+</DropDown>
 @code {
     [Parameter] public List<PaymentModel> payments { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }

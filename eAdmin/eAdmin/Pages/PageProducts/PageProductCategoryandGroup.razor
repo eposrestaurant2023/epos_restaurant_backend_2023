@@ -18,10 +18,8 @@
                 <LinkButton url="productcategory/new" icon="add" background="uk-button-primary" Class_Name="button-create button-large">New Category & Group</LinkButton>
             </HeaderRight>
         </PageHeader>
-
             <PageBody>
                 <UIGridCenter>
-
                     @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
                     {
                     <div class="container-layout">
@@ -32,13 +30,13 @@
                                         @d.product_group_en
                                     </span>
                                 </div>
-                                <div class="uk-float-right">
-                                    <div> 
+                                <Column ClassName="uk-float-right">
+                                    <div>  
                                         <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp"/>
                                         <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp"/>
-  
+ 
                                         <span style="margin-right:5px;">
-                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
+                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))"/>
                                         </span>
                                         <span>
                                             <a href="@($"productcategory/edit/{d.id}")">
@@ -46,7 +44,7 @@
                                             </a>
                                         </span>
                                     </div>
-                                </div>
+                                </Column>
                             </div>
                         </div>
                     
@@ -70,17 +68,10 @@
                                         </TdCenter>
                                     </tr>
                                 }
-
-
                             </table>
                         </div>
                     </div>
-                      
-
                     }
-
-
-
                 </UIGridCenter>
             </PageBody>
     </PageContainer>
@@ -108,7 +99,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=product_categories($select=product_category_en,status,product_category_kh,id;$filter= is_deleted eq false)";
+            api_url = $"{ControllerApi}?$expand=product_categories($select=product_category_en,status,product_category_kh,id;$filter= is_deleted eq false)&$filter=is_built_in eq false";
         }
 
         var resp = await http.ApiGetOData(api_url);

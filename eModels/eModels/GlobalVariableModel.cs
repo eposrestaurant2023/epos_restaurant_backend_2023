@@ -43,6 +43,50 @@ namespace eModels
         public int current_outlet_id { get; set; }
 
 
+        public string business_branch_ids_filter
+        {
+            get
+            {
+                string _data = "";
+                foreach (var b in current_login_user.role.business_branch_roles.Select(r => r.business_branch).ToList())
+                {
+                    _data += $"{b.id},";
+                } 
+               if(!string.IsNullOrEmpty(_data))
+                    _data = _data.Substring(0, _data.Length - 1);
+
+                return _data;
+            }
+        }
+        public string outlet_ids_filter(string _business_branch_ids)
+        {
+            
+            string _data = "";
+
+            if (string.IsNullOrEmpty( _business_branch_ids ))
+            { 
+                foreach (var id in _business_branch_ids.Split(',').ToList())
+                {
+                    foreach (var o in outlets.Where(r => r.business_branch_id.ToString() == id && !r.is_deleted).ToList())
+                    {
+                        _data += $"{o.id},";
+                    }
+                } 
+            }
+            else
+            { 
+                foreach (var o in current_login_user.role.business_branch_roles.SelectMany(r=>r.business_branch.outlets.Where(x=>!x.is_deleted).ToList()).ToList())
+                {
+                    _data += $"{o.id},";
+                }
+            } 
+            if(!string.IsNullOrEmpty(_data))
+               _data = _data.Substring(0, _data.Length - 1); 
+
+            return _data;
+        }
+
+
 
         //Note
         //============================

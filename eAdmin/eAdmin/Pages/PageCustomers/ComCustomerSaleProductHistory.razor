@@ -1,4 +1,4 @@
-﻿@inherits ComCustomerSaleHistoryBase
+﻿@inherits ComCustomerSaleProductHistoryBase
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -12,15 +12,15 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>
-                        @state.page_title
-                    </HeaderTemplate>
+                    <HeaderTemplate>@state.page_title</HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight> 
+            <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" />
+                    <SelectProductCategory show_empty="true" @bind-product_category="@state.product_category" />
                     <SelectBusinessBranchMutiple @bind-selected_business="@state.multi_select_id_1" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                 </ComSearch>
@@ -42,41 +42,49 @@
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        @HeaderTemplate("sale_date", "Sale Date", "uk-text-center")
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("outlet/business_branch/business_branch_name_en", "Business Branch","col-auto")
-                        @HeaderTemplate("outlet/outlet_name_en", "Outlet","col-auto")
-                        <ThRight>Total Amount</ThRight>
-                        <ThRight>Paid Amount</ThRight>
-                        <ThRight>Balance</ThRight>
+                        @HeaderTemplate("sale/sale_date", "Sale Date", "uk-text-center")
+                        @HeaderTemplate("sale/document_number", "Document#", "uk-text-center")
+                        @HeaderTemplate("sale/product/product_name", "Product Name", "col-auto")
+                        @HeaderTemplate("sale/outlet/business_branch/business_branch_name_en", "Business Branch")
+                        @HeaderTemplate("sale/outlet/outlet_name_en", "Outlet")
+                        <ThCenter>Quantity</ThCenter>
+                        <ThRight>Price</ThRight>
+                        <ThRight>Discount</ThRight>
+                        <ThRight>Amount</ThRight>
                         <ThCenter>Created Date</ThCenter>
                         <th>Created By</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
-                        <TdCenter>@p.sale_date.ToString(gv.date_format)</TdCenter>
+                        <TdCenter>@p.sale.sale_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <div><a href="receiptlist/@p.id">@p.document_number</a></div>
+                            <div><a href="receiptlist/@p.sale_id">@p.sale?.document_number</a></div>
                         </TdCenter>
-                        <td>
-                            @p.outlet?.business_branch?.business_branch_name_en
+                        <td> 
+                            <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">@p.product?.product_display_name</ComProfileInfo>
                         </td>
                         <td>
-                            @p.outlet?.outlet_name_en
+                            @p.sale?.outlet?.business_branch?.business_branch_name_en
                         </td>
+                        <td>
+                            @p.sale?.outlet?.outlet_name_en
+                        </td>
+                        <TdCenter>
+                            <span>@p.quantity.ToString(gv.quantity_format)</span>
+                        </TdCenter> 
+                        <TdRight>
+                            @p.selling_price.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_discount.ToString(gv.main_currency_format)
+                        </TdRight>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
-                        </TdRight>
-                        <TdRight>
-                            @p.paid_amount.ToString(gv.main_currency_format)
-                        </TdRight>
-                        <TdRight>
-                            @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>
                         <TdCenter>
-                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
                         </TdCenter>
                     </RowTemplate>
                 </Table>

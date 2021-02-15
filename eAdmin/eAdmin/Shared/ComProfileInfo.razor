@@ -1,0 +1,33 @@
+﻿@inject IHttpService http
+<Com is_visible="@is_visible">
+    <UkFlex>
+        <FlexItem>
+            <Image ImageUrl="@http.ImageUrl(photo)" IsBackgroundImage="true" Width="35px" Height="35px" IsLightBox="true" />
+        </FlexItem>
+        <FlexItem class_name="uk-margin-small-left">
+            <div>
+                @if (string.IsNullOrEmpty(url))
+                {
+                    @ChildContent
+                }
+                else if(string.IsNullOrEmpty(role) && !string.IsNullOrEmpty(url))
+                {
+                    <a href="@url" target="@(is_target?"_blank":"_self")">@ChildContent</a>
+                }
+                else
+                {
+                    <ComAuthorize roles="@gv.GetRole(@role)" url="@(url)">@ChildContent</ComAuthorize>
+                }
+            </div>
+        </FlexItem>
+    </UkFlex>
+</Com>
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public string photo { get; set; }
+    [Parameter] public string url { get; set; }
+    [Parameter] public string role { get; set; }
+    [Parameter] public bool is_target { get; set; } = false; 
+    [Parameter] public bool is_visible { get; set; } = true; 
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

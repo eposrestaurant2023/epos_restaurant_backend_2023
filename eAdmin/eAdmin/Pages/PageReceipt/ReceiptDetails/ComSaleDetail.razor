@@ -1,4 +1,5 @@
-﻿@inherits ComSaleDetailBase
+﻿
+@inherits ComSaleDetailBase
 
 @if (is_loading_data || is_loading)
 {
@@ -20,7 +21,7 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="false"/>
+            <HeaderRight ShowBackButton="true"/>
         </PageHeader>
         <PageBody>
             <Tab>
@@ -55,7 +56,6 @@
                                 </tfoot>
                             </table>
                             <Spacing Number="15" />
-                            <ComSaleDetail_PaymentInformation payments="@sale.payments" />
                             <ComSaleDetailFooterInformation sale="@sale" />
                         </ComPage>
                     </TabItem> 

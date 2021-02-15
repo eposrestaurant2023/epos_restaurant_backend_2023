@@ -1,10 +1,15 @@
 ﻿<PageContainer>
-    <PageBody>
+    <PageBody class_name="uk-height-1-1">
         <div class="uk-position-center uk-text-center page_error">
             <Icon className="error_warning" icon="report" />
-            <div class="page_error_type_title">Page Not Found</div>
-            <p>There isn't anything found in this address, please check this url and try again.</p>
+            <div class="page_error_type_title">@Title</div>
+            <p>@Content</p>
             <a class="uk-button error_page_btn" onclick="history.go(-1);">Back</a>
         </div>
     </PageBody>
 </PageContainer>
+
+@code{
+    [Parameter] public string Title { get; set; } = "Page Not Found";
+    [Parameter] public string Content { get; set; } = "There isn't anything found in this address, please check this url and try again.";
+}

@@ -1,8 +1,8 @@
 ﻿@page "/product/{id:int}"
-@inject IHttpService http;
-@inject NavigationManager nav; 
-@inject IMatToaster toast;
-@inject IJSRuntime js; 
+@inject IHttpService http
+@inject NavigationManager nav
+@inject IMatToaster toast
+@inject IJSRuntime js
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 

@@ -55,7 +55,7 @@ namespace eAdmin.Shared
                 if (!user.Identity.IsAuthenticated)
                 {
                     List<UserModel> _users = new List<UserModel>();
-                    var res_user = await http.ApiGet($"user/get_user?user_id={user.FindFirstValue(ClaimTypes.NameIdentifier)}&$expand=role($select=role_name),employee,outlet");
+                    var res_user = await http.ApiGet($"user/get_user?user_id={user.FindFirstValue(ClaimTypes.NameIdentifier)}");
                     if (res_user.IsSuccess)
                     {
                         _users = JsonSerializer.Deserialize<List<UserModel>>(res_user.Content.ToString());
@@ -75,7 +75,7 @@ namespace eAdmin.Shared
                 {
                     IsLoading = true;
                     UserModel _users = new UserModel();
-                    string user_url = $"user/get_user?user_id={user.FindFirstValue(ClaimTypes.NameIdentifier)}&$expand=role($select=role_name)";
+                    string user_url = $"user/get_user?user_id={user.FindFirstValue(ClaimTypes.NameIdentifier)}";
                     var res_user = await http.ApiGet(user_url);
                     if (res_user.IsSuccess)
                     {
