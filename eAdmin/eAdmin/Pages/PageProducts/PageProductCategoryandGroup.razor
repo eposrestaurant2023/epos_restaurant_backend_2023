@@ -114,7 +114,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=product_categories($select=product_category_en,status,product_category_kh,id;$filter= is_deleted eq false)";
+            api_url = $"{ControllerApi}?$expand=product_categories($select=product_category_en,status,product_category_kh,id;$filter= is_deleted eq false)&$filter=is_built_in eq false";
         }
 
         var resp = await http.ApiGetOData(api_url);

@@ -130,8 +130,10 @@ namespace eAPI.Controllers
             var data = db.Users.Where(r => r.id == user_id && !r.is_deleted && r.status)
                 .Include(r => r.role)
                     .ThenInclude(r=>r.business_branch_roles)
-                    .ThenInclude(r=>r.business_branch)
-                    .ThenInclude(r=>r.outlets).Take(1);
+                    .ThenInclude(r=>r.business_branch).ThenInclude(r=>r.outlets).AsNoTracking()
+                    .Include(r => r.role)
+                    .ThenInclude(r => r.business_branch_roles)
+                    .ThenInclude(r => r.business_branch).ThenInclude(r => r.stock_locations).AsNoTracking().Take(1);
             return data.FirstOrDefault();
 
 

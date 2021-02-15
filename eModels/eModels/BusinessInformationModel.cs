@@ -41,7 +41,10 @@ namespace eModels
             business_branch_settings = new List<BusinessBranchSettingModel>();
             cashier_notes = new List<NoteModel>();
             business_branch_roles = new List<BusinessBranchRoleModel>();
+            stock_locations = new List<StockLocationModel>();
         }
+
+        public List<StockLocationModel> stock_locations { get; set; }
 
         private string _business_branch_name_en;
 
