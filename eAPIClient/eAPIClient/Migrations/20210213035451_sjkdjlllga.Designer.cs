@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210213035451_sjkdjlllga")]
+    partial class sjkdjlllga
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,10 +29,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal?>("close_amount")
                         .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("close_note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("closed_by")
                         .HasColumnType("nvarchar(max)")
@@ -67,13 +65,8 @@ namespace eAPIClient.Migrations
                     b.Property<decimal?>("open_amount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<string>("open_note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("shift")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
+                    b.Property<int>("shift_id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -82,6 +75,8 @@ namespace eAPIClient.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("id");
+
+                    b.HasIndex("shift_id");
 
                     b.HasIndex("working_day_id");
 
@@ -1133,11 +1128,19 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.CashierShiftModel", b =>
                 {
+                    b.HasOne("eAPIClient.Models.ShiftModel", "shift")
+                        .WithMany("cashier_shift")
+                        .HasForeignKey("shift_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eAPIClient.Models.WorkingDayModel", "working_day")
                         .WithMany("cashier_shifts")
                         .HasForeignKey("working_day_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("shift");
 
                     b.Navigation("working_day");
                 });
@@ -1336,6 +1339,11 @@ namespace eAPIClient.Migrations
                     b.Navigation("payments");
 
                     b.Navigation("sale_products");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.ShiftModel", b =>
+                {
+                    b.Navigation("cashier_shift");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.TableGroupModel", b =>

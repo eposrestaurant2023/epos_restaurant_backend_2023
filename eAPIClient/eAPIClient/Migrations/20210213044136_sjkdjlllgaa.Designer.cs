@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210213044136_sjkdjlllgaa")]
+    partial class sjkdjlllgaa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,10 +29,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal?>("close_amount")
                         .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("close_note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("closed_by")
                         .HasColumnType("nvarchar(max)")
@@ -66,10 +64,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal?>("open_amount")
                         .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("open_note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("shift")
                         .HasColumnType("nvarchar(max)")
