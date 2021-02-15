@@ -65,11 +65,11 @@
         is_loading_data = true;
         if (id>0)
         {
-            var resp = await http.ApiGet($"role({id})?$expand=permission_option_roles($select=permission_option_id,role_id,is_delete)");
+            var resp = await http.ApiGet($"role({id})");
             if (resp.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<RoleModel>(resp.Content.ToString());
-                
+
             }
         }
         is_loading_data = false;
@@ -79,33 +79,47 @@
     {
         var res = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_roles&$filter=is_deleted eq false");
         businesses = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
+        foreach (var p in businesses)
+        {
+            foreach (var pb in p.business_branch_roles.Where(r => r.role_id == model.id && r.business_branch_id == p.id))
+            {
+                p.is_selected = true;
+            }
+        }
     }
 
     protected async Task SaveRole_Click()
     {
         is_saving = true;
-        model.business_branch_roles.Clear();
-        foreach (var a in businesses.ToList())
+        if (businesses.Where(r=>r.is_selected == true).Any())
         {
-            if (a.is_selected)
+            model.business_branch_roles.Clear();
+            foreach (var a in businesses.ToList())
             {
-                model.business_branch_roles.Add(new BusinessBranchRoleModel()
+                if (a.is_selected)
                 {
-                    business_branch_id = a.id,
-                    role_id = model.id
-                });
+                    model.business_branch_roles.Add(new BusinessBranchRoleModel()
+                    {
+                        business_branch_id = a.id,
+                        role_id = model.id
+                    });
+                }
             }
-        }
-        var post = await http.ApiPost("Role/Save", model);
-        if (post.IsSuccess)
-        {
-            model = JsonSerializer.Deserialize<RoleModel>(post.Content.ToString());
-            toast.Add("Save Successfully!", MatToastType.Success);
-            nav.NavigateTo($"role/permission/{model.id}");
+            var post = await http.ApiPost("Role/Save", model);
+            if (post.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<RoleModel>(post.Content.ToString());
+                toast.Add("Save Successfully!", MatToastType.Success);
+                nav.NavigateTo($"role/edit/permission/{model.id}");
+            }
+            else
+            {
+                toast.Add(post.Content.ToString(), MatToastType.Warning);
+            }
         }
         else
         {
-            toast.Add(post.Content.ToString(), MatToastType.Warning);
+            toast.Add("Please choose Business branch.",MatToastType.Warning) ;
         }
 
         is_saving = false;
