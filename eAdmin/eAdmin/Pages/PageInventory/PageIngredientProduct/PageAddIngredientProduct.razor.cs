@@ -36,11 +36,11 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             {
                 if (id > 0)
                 {
-                    return "product_edit";
+                    return "ingredient_product_edit";
                 }
                 else
                 {
-                    return "product_add";
+                    return "ingredient_product_add";
                 }
 
             }
@@ -118,10 +118,11 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         }
 
         public async Task Save_Click()
-        { 
+        {
             is_saving = true;
 
             ProductModel save_model = new ProductModel();
+
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
  
             //remove menu
@@ -130,6 +131,9 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             save_model.is_ingredient_product = true;
             save_model.is_menu_product = false;
 
+            var xx = JsonSerializer.Serialize(save_model);
+
+            Console.WriteLine(xx);
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
