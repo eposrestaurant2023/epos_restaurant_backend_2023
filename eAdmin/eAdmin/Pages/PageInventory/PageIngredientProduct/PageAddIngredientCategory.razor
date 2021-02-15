@@ -1,0 +1,233 @@
+﻿@page "/ingredientcategory/edit/{id:int}"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Ingredient Category"></Title>
+    <PageContainer roles="@gv.GetRole("product_category_group")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Edit Ingredient Category
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="@Save_Click"  @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter> 
+                    <UIContainerBox Title="Ingredient Category" is_show_add_button="true" OnAddClick="@(()=>Add_Product_Category())">
+                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                            <tr>
+                                <th>Category Name En</th>
+                                <th>Category Name Kh</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                            @if (model.product_categories.Any())
+                            {
+                                foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
+                                {
+                                    <tr>
+                                        <td>  <TextInput label="" placeholder="Product Category Name En " @bind-text="@s.product_category_en" /></td>
+                                        <td>  <TextInput label="" placeholder="Product Category Name Kh " @bind-text="@s.product_category_kh" /></td>
+                                        <td>
+                                            <LabelActive OnClick="@(()=>s.status=false)" is_visible="@s.status" />
+                                            <LabelInActive OnClick="@(()=>s.status=true)" is_visible="@(!s.status)" />
+                                        </td>
+                                        <td>
+                                            <Icon icon="delete" OnClick="@(()=>Delete_Product_Category(s))" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4">
+                                        <ComEmptyTemplate />
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                        
+                        
+                    </UIContainerBox>
+
+
+                </UIGridCenter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter> 
+                        <Button type="submit" icon="save">Save</Button>
+                        <LinkButton url="productcategory" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton> 
+                </FooterCenter>
+            </PageFooter>
+
+        </EditForm>
+
+    </PageContainer>
+  
+}
+
+@code{
+    [Parameter] public int id { get; set; }
+    ProductGroupModel model = new ProductGroupModel();
+
+    List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
+    string ControllerApi = "ProductGroup";
+   
+    public string api_url
+    {
+        get
+        {
+            string query = ControllerApi;
+            query = query + $"({id})?";
+            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status)";
+
+            return query;
+
+        }
+    }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData("");
+        await LoadProductCategory("");
+        is_loading = false;
+    }
+
+
+
+    async Task Activebutton(OutletModel b)
+    {
+
+        b.is_change_status = true;
+        await Task.Delay(1000);
+        b.status = !b.status;
+
+        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+        }
+
+        b.is_change_status = false;
+
+    }
+
+    async Task LoadProductCategory(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = "ProductCategory";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        { 
+            product_category = JsonSerializer.Deserialize<List<ProductCategoryModel>>(resp.Content.ToString()); 
+        }
+        is_loading_data = false;
+
+    }
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = ControllerApi;
+            api_url = api_url + $"({id})?";
+            api_url = api_url + "$expand=product_categories($select=id,product_category_en,product_category_kh,status;$filter= is_deleted eq false),";
+
+
+        }
+
+        var resp = await http.ApiGet(api_url);
+        if (resp.IsSuccess)
+        {
+
+            model = JsonSerializer.Deserialize<ProductGroupModel>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+
+
+    void OnclickProductCategory(ProductCategoryModel st)
+    {
+        model.product_categories.Add(st);
+    }
+
+    async Task Save_Click(EditContext editContext)
+    {
+        ProductGroupModel d = model;
+        if (!is_saving)
+        {
+            is_saving = true;
+
+            Object obj = new Object();
+            d.product_categories.ForEach(r => r.is_ingredient_category = true);
+            ProductGroupModel save_product_group = JsonSerializer.Deserialize<ProductGroupModel>(JsonSerializer.Serialize(d));
+
+            var res = await http.ApiPost($"{ControllerApi}/save", save_product_group);
+            if (res.IsSuccess)
+            {
+                obj = JsonSerializer.Deserialize<ProductGroupModel>(res.Content.ToString());
+
+                toast.Add("Saving successfully", MatToastType.Success);
+                nav.NavigateTo($"ingredientcategory");
+            }
+            else
+            {
+                is_saving = false;
+                toast.Add(res.Content.ToString(), MatToastType.Warning);
+            }
+        }
+    }
+
+
+    void Add_Product_Category()
+    {
+        model.product_categories.Add(new ProductCategoryModel()
+        {
+            product_category_en = "Category " + (model.product_categories.Count()+1),
+            product_category_kh = "Category " + (model.product_categories.Count() + 1),
+
+        }) ;
+
+
+
+    }
+
+    void Delete_Product_Category(ProductCategoryModel s)
+    {
+        if(s.id == 0)
+        {
+            model.product_categories.Remove(s);
+        }
+        else
+        {
+            s.is_deleted = true;
+        }
+    }
+
+
+}

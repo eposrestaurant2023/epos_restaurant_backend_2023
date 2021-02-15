@@ -20,24 +20,41 @@
                 {
                     <option value="0">@empty_text</option>
                 }
-                @foreach (var p in gv.product_categories.Where(r=>r.is_deleted ==false))
+
+                @if (is_ingredient_category)
                 {
-                    <option value="@p.id">@p.product_category_en</option>
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true))
+                    {
+                        <option value="@p.id">@p.product_category_en</option>
+                    }
+                }else{
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == false))
+                    {
+                        <option value="@p.id">@p.product_category_en</option>
+                    }
                 }
             </select>
         }
         else
         {
-    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((String)ui.Value))" class="uk-select uk-form-small @width">
-        @if (show_empty)
-        {
-            <option value="0">@empty_text</option>
-        }
-        @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false))
-        {
-            <option value="@p.id">@p.product_category_en</option>
-        }
-    </select>
+            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((String)ui.Value))" class="uk-select uk-form-small @width">
+                @if (show_empty)
+                {
+                    <option value="0">@empty_text</option>
+                }
+                @if (is_ingredient_category)
+                {
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true))
+                    {
+                        <option value="@p.id">@p.product_category_en</option>
+                    }
+                }else{
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == false))
+                    {
+                        <option value="@p.id">@p.product_category_en</option>
+                    }
+                }
+            </select>
         }
 
         @ChildContent
@@ -45,11 +62,10 @@
 </div>
 
 @code{
-
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public string line_icon { get; set; } = "";
     [Parameter] public string icon { get; set; } = "";
-
+    [Parameter] public bool is_ingredient_category { get; set; } = false;
     [Parameter] public int selected_value { get; set; }
     [Parameter] public ProductCategoryModel product_category { get; set; }
     [Parameter] public bool show_empty { get; set; } = false;

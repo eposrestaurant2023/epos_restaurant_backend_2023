@@ -1,0 +1,99 @@
+﻿@page "/ingredientcategory"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    if(model != null){
+    <Title Value="@model.product_group_en"></Title>
+    <PageContainer roles="@gv.GetRole("product_category_group")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @model.product_group_en
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"ingredientcategory/edit/{model.id}"))" />
+            </HeaderRight>
+        </PageHeader>
+            <PageBody>
+                <UIGridCenter> 
+                    <div class="container-layout">
+                        <div class="title-header">
+                            <div class="uk-panel">
+                                <div class="uk-float-left">
+                                    <span>
+                                        @model.product_group_en
+                                    </span>
+                                </div>
+                            </div>
+                        </div> 
+                        <hr />
+                        <div>
+                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                <tr>
+                                    <Th>Product Category Name en</Th>
+                                    <Th>Product Category Name Kh</Th>
+                                    <ThCenter>Status</ThCenter>
+                                </tr>
+
+                                @foreach (var s in model.product_categories)
+                                {
+                                    <tr>
+                                        <td>@s.product_category_en</td>
+                                        <td>@s.product_category_kh </td>
+                                        <TdCenter>
+                                            <LabelActive  is_visible="@s.status" is_loading="@s.is_change_status" />
+                                            <LabelInActive  is_visible="@(!s.status)" is_loading="@s.is_change_status" />
+                                        </TdCenter>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </UIGridCenter>
+            </PageBody>
+    </PageContainer>
+    }
+    else
+    {
+        <PageNotFound Title="Ingredient Category Error" Content="Cannot get ingredient category error !!!"/>
+    }
+}
+
+@code{
+    ProductGroupModel model = new ProductGroupModel();
+    string ControllerApi = "ProductGroup";
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = $"{ControllerApi}?$expand=product_categories($select=product_category_en,status,product_category_kh,id;$filter= is_deleted eq false)&$filter=is_built_in eq true";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<List<ProductGroupModel>>(resp.Content.ToString()).FirstOrDefault();
+        }
+        is_loading_data = false;
+
+    }
+}
