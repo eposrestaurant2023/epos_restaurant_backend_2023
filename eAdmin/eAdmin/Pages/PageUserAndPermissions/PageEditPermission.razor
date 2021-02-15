@@ -3,8 +3,8 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Outlet & Station"></Title>
-    <PageContainer roles="@gv.GetRole("role_manager")">
+    <Title Value="Set Permission"></Title>
+    <PageContainer roles="@gv.GetRole($"({role_id > 0})? {"role_edit"} : {"role_add"})")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -60,8 +60,7 @@
                                 Report
                             </div>
                             <div class="report-content">
-
-                                @*<ComPerMissionOptionTree parent_id="44" PermissionOptions="@permissionoption.Where(r=>r.is_report==true).ToList()"/>*@
+                                <ComPerMissionOptionTree parent_id="44" PermissionOptions="@permissionoption.Where(r=>r.is_report==true).ToList()"/>
                             </div>
                         </div>
                     </div>

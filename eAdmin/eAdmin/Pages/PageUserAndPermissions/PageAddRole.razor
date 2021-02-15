@@ -6,8 +6,8 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Outlet & Station"></Title>
-    <PageContainer roles="@gv.GetRole("role_manager")">
+    <Title Value="@((id > 0)? "Edit Role" : "New Role")"></Title>
+    <PageContainer roles="@gv.GetRole($"({id > 0})? {"role_edit"} : {"role_add"})")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -22,7 +22,6 @@
         <EditForm Model="@model" OnValidSubmit="@SaveRole_Click">
             <DataAnnotationsValidator />
             <PageBody>
-
                 <TextInput label="Role Name" @bind-text="@model.role_name">
                     <ValidationMessage For="@(()=>model.role_name)"/>
                 </TextInput>
@@ -31,18 +30,14 @@
                 {
                 <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
                 }
-
             </PageBody>
-
             <PageFooter>
                 <FooterCenter> 
                     <Button type="submit" icon="save" custom_class="button-large">Save</Button>
                     <LinkButton url="role" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton> 
                 </FooterCenter>
             </PageFooter>
-
         </EditForm>
-
     </PageContainer>
 
 }
