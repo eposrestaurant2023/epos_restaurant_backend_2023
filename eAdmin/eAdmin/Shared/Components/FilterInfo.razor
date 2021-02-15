@@ -1,15 +1,50 @@
 ﻿@if (filters.Count() > 0)
 {
     <div class="wrp-filter-label">
-        @foreach (var d in filters.Where(r => r.filter_info_text != "").OrderBy(r => r.sort_order).ToList())
+        @foreach (var d in filters.Where(r => r.filter_info_text != "" && r.is_show_on_infor).OrderBy(r => r.sort_order).ToList())
         {
         <div class="uk-label filter-label-item">
-            <span>
-                @d.filter_title : @(d.filter_operator == "multiple"?" * ":d.filter_info_text) <Icon icon="clear" OnClick="@(()=>RemoveFilterClick(d))" />
-            </span>
+            @if (d.filter_operator == "multiple" && d.key == "business_branch_id")
+            {
+                if (d.value1.Split(',').Length > 1)
+                {
+                    <span>
+                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @d.filter_title : @gv.bussiness_branches.Where(r => r.id.ToString() == d.value1).FirstOrDefault().business_branch_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                    </span>
+                }
+
+            }
+            else if (d.filter_operator == "multiple" && d.key == "outlet_id")
+            {
+
+                if (d.value1.Split(',').Length > 1)
+                {
+                    <span>
+                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @d.filter_title : @gv.outlets.Where(r => r.id.ToString() == d.value1).FirstOrDefault().outlet_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                    </span>
+                }
+            }
+            else
+            {
+                <span>
+                    @d.filter_title : @(d.filter_operator == "multiple" ? " * " : d.filter_info_text) <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                </span>
+            }
         </div>
         }
-        @if (filters.Where(r => r.filter_info_text != "" && r.will_remove == true).Count() > 1)
+        @if (filters.Where(r => r.filter_info_text != "" && r.will_remove == true && r.is_show_on_infor).Count() > 1)
         {
             <a @onclick="@OnRemoveAllFilterClick" class="clear_all_filters">Clear All</a>
         }
@@ -17,6 +52,7 @@
     <Spacing Number="5"/>
 }
 @code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public List<FilterModel> filters { get; set; }
 
     [Parameter] public EventCallback<FilterModel> OnRemoveFilterClick { get; set; }

@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 using eShareModel;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -45,6 +46,9 @@ namespace eModels
 
 
         public List<StationModel> stations { get; set; }
+
+        [NotMapped,JsonIgnore] 
+        public string bustiness_branch_name { get; set; }
 
     }
 }

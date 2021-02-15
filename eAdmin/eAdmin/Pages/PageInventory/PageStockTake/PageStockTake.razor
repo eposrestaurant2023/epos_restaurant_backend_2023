@@ -29,9 +29,9 @@
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
-                    <MultipleFilterBusinessBranch @bind-selected_business="@state.multi_select_id_1" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <SelectBusinessBranchMutiple @bind-selected_business="@state.multi_select_id_1" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <Spacing Number="15"/>
-                    <MultipleFilterStockLocation @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                    <SelectStockLocationMultiple @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
