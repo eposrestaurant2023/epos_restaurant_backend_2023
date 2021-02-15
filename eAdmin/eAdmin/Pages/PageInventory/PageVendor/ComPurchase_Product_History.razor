@@ -32,6 +32,7 @@
         </ComSearch>
     </HeaderRight>
 </PageHeader>
+@ControllerApi
 <Column is_visible="@(!is_loading)">
     <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
     <Com is_visible="@(models != null)">

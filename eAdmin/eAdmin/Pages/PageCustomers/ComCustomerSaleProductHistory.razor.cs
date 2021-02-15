@@ -29,7 +29,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=sale($expand=outlet($select=id,outlet_name_en,outlet_name_kh;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))),product($select=id,product_name_en,product_name_kh,product_code,photo)";
+                url += $"$expand=sale($expand=outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)),product($select=id,product_name_en,product_name_kh,product_code,photo)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -59,6 +59,91 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 key = "sale/customer_id",
                 value1 = customer_id.ToString()
             });
+
+            // filter business
+            string business_branch_ids = "";
+            if (state.multi_select_value_1 != null)
+            {
+
+                foreach (var x in state.multi_select_value_1)
+                {
+                    business_branch_ids += x + ",";
+                }
+                if (!string.IsNullOrEmpty(business_branch_ids))
+                {
+                    business_branch_ids = business_branch_ids.Substring(0, business_branch_ids.Length - 1);
+                }
+
+                state.filters.Add(new FilterModel()
+                {
+                    key = "sale/business_branch_id",
+                    value1 = business_branch_ids,
+                    filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = business_branch_ids,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+            else
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "sale/business_branch_id",
+                    value1 = gv.business_branch_ids_filter,
+                    filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.business_branch_ids_filter,
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+
+            // filter outlet
+            if (state.multi_select_value_2 != null)
+            {
+                string value = "";
+                foreach (var x in state.multi_select_value_2)
+                {
+                    value += x + ",";
+                }
+                if (!string.IsNullOrEmpty(value))
+                {
+                    value = value.Substring(0, value.Length - 1);
+                }
+
+                state.filters.Add(new FilterModel()
+                {
+                    key = "outlet_id",
+                    value1 = value,
+                    filter_title = "Outlet",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = value,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+            else
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "outlet_id",
+                    value1 = gv.outlet_ids_filter(business_branch_ids),
+                    filter_title = "Outlet",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+
+
             await LoadData();
         }   
 
@@ -127,7 +212,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale/outlet/business_branch_id",
+                    key = "sale/business_branch_id",
                     value1 = value,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -232,20 +317,20 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             foreach (var k in remove_key)
             {
                 // clear filter business
-                if (k == "sale/outlet/business_branch_id")
+                if (k == "sale/business_branch_id" && state.multi_select_id_1 != null)
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
-                    
+
 
                 // clear filter outlet
-                 if (k == "sale/outlet_id")
+                if (k == "sale/outlet_id" && state.multi_select_id_2 != null)
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
                 }
-                    
+
 
                 state.filters.RemoveAll(r => r.key == k);
             }
@@ -256,14 +341,13 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             await LoadData();
             is_loading = false;
         }
-
         public async Task RemoveAllFilter()
         {
             is_loading = true;
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
                 // clear filter business
-                if (f.key == "sale/outlet/business_branch_id")
+                if (f.key == "sale/business_branch_id")
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
@@ -279,7 +363,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
                 RemoveFilter(state, f.state_property_name);
             }
-             
+
 
             state.filters.RemoveAll(r => r.is_clear_all == true);
             state.pager.current_page = 1;
