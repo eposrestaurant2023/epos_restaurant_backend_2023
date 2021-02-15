@@ -23,13 +23,14 @@
         <RefreshButton OnClick="@(async()=>await LoadData())" />
         <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
             <FilterDateRange @bind-dates="@state.date_range" />
-            <SelectBusinessBranch @bind-business_branch="@state.business_branch" show_empty="true" />
-            <SelectOutlet @bind-outlet="@state.outlet" show_empty="true" />
+            <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
         </ComSearch>
     </HeaderRight>
 </PageHeader>
-<Com is_visible="@(!is_loading)">
-    <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+@ControllerApi
+<FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+
+
     <Com is_visible="@(models != null)">
         <Table Items="@models"
                PerPage="@state.pager.per_page"
@@ -82,11 +83,11 @@
                     <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
                     <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
                 </TdActions>
-               
+
             </RowTemplate>
         </Table>
     </Com>
-</Com>
+
 
 @code {
     [Parameter] public int vendor_id { get; set; }
@@ -132,6 +133,26 @@
         is_loading = true;
         state = new StateModel();
         state.page_title = "All Purchase";
+
+
+        //Business Branch Filter
+        state.filters.Add(new FilterModel()
+        {
+            key = "business_branch_id",
+            value1 = gv.business_branch_ids_filter,
+            filter_title = "Business Branch",
+            filter_operator = "multiple",
+            state_property_name = "list_selected_values",
+            filter_info_text = gv.business_branch_ids_filter,
+            is_clear_all = true,
+            will_remove = true,
+            is_show_on_infor = false
+        });
+
+
+
+
+
         await LoadData();
         is_loading = false;
     }
@@ -176,35 +197,7 @@
         await LoadData();
     }
 
-    public async Task RemoveFilter(FilterModel f)
-    {
-        is_loading = true;
-        string[] remove_key = f.remove_key.Split(',');
-        foreach (var k in remove_key)
-        {
-            state.filters.RemoveAll(r => r.key == k);
-        }
 
-        state.pager.current_page = 1;
-        //gv.RemoveFilter
-        RemoveFilter(state, f.state_property_name);
-        await LoadData();
-        is_loading = false;
-    }
-
-    public async Task RemoveAllFilter()
-    {
-        is_loading = true;
-        foreach (var f in state.filters.Where(r => r.is_clear_all == true))
-        {
-            RemoveFilter(state, f.state_property_name);
-        }
-
-        state.filters.RemoveAll(r => r.is_clear_all == true);
-        state.pager.current_page = 1;
-        await LoadData();
-        is_loading = false;
-    }
 
     public async Task ViewClick(ModuleViewModel m)
     {
@@ -226,54 +219,103 @@
     public async Task FilterClick()
     {
         state.filters.RemoveAll(r => r.filter_info_text != "");
-        //start date
-        if (state.date_range.is_visible)
+        // filter business
+        string business_branch_ids = "";
+        if (state.multi_select_value_1 != null)
         {
-            state.filters.Add(
-                new FilterModel()
-                {
-                    key = "sale_date",
-                    value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                    filter_title = "Purchase Date",
-                    filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
-                    filter_operator = "Ge",
-                    is_clear_all = true,
-                    will_remove = true,
-                    state_property_name = "date_range"
-                }
-            );
 
-            //end date
+            foreach (var x in state.multi_select_value_1)
+            {
+                business_branch_ids += x + ",";
+            }
+            if (!string.IsNullOrEmpty(business_branch_ids))
+            {
+                business_branch_ids = business_branch_ids.Substring(0, business_branch_ids.Length - 1);
+            }
+
             state.filters.Add(new FilterModel()
             {
-                key = "sale_date",
-                value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
+                key = "business_branch_id",
+                value1 = business_branch_ids,
+                filter_title = "Business Branch",
+                filter_operator = "multiple",
+                state_property_name = "list_selected_values",
+                filter_info_text = business_branch_ids,
                 is_clear_all = true,
-                filter_operator = "Le",
-                will_remove = true,
-                state_property_name = "date_range"
+                will_remove = true
             });
-
-
-            if (state.outlet.id > 0)
+        }
+        else
+        {
+            state.filters.Add(new FilterModel()
             {
-                //outlet
-                state.filters.Add(new FilterModel()
-                {
-                    key = "outlet/outlet_id",
-                    value1 = state.outlet.id.ToString(),
-                    is_clear_all = true,
-                    filter_title = "Outlet",
-                    state_property_name = "outlet",
-                    filter_info_text = state.outlet.outlet_name_en,
-                    filter_operator = "eq",
-                    will_remove = true
-                });
-            }
+                key = "business_branch_id",
+                value1 = gv.business_branch_ids_filter,
+                filter_title = "Business Branch",
+                filter_operator = "multiple",
+                state_property_name = "list_selected_values",
+                filter_info_text = gv.business_branch_ids_filter,
+                is_clear_all = true,
+                will_remove = true,
+                is_show_on_infor = false
+            });
         }
 
 
         state.pager.current_page = 1;
         await LoadData();
     }
+
+    public async Task RemoveFilter(FilterModel f)
+    {
+        is_loading = true;
+        string[] remove_key = f.remove_key.Split(',');
+        foreach (var k in remove_key)
+        {
+            // clear filter business
+            if (k == "business_branch_id")
+            {
+                state.multi_select_id_1.Clear();
+                state.multi_select_value_1.Clear();
+            }
+
+
+
+
+            state.filters.RemoveAll(r => r.key == k);
+        }
+
+        state.pager.current_page = 1;
+        //gv.RemoveFilter
+        RemoveFilter(state, f.state_property_name);
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task RemoveAllFilter()
+    {
+        is_loading = true;
+        foreach (var f in state.filters.Where(r => r.is_clear_all == true))
+        {
+            // clear filter business
+            if (f.key == "business_branch_id")
+            {
+                state.multi_select_id_1.Clear();
+                state.multi_select_value_1.Clear();
+            }
+
+
+
+            RemoveFilter(state, f.state_property_name);
+        }
+
+
+        state.filters.RemoveAll(r => r.is_clear_all == true);
+        state.pager.current_page = 1;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
 }
