@@ -65,7 +65,7 @@
                     <td>
                         <ComTableActions is_loading="@(r.is_loading)" is_visible="@(!r.is_buildin)">
                             <TableActionItem roles="@gv.GetRole("role_edit")" icon="edit" OnClick="@(() => nav.NavigateTo($"role/edit/{r.id}"))" is_visible="@(r.status && !r.is_deleted)">Edit</TableActionItem>
-                            <TableActionItem icon="lock" url="@($"/role/permission/{r.id}")" is_visible="@(r.status && !r.is_deleted)">Set Permission</TableActionItem>
+                            <TableActionItem icon="lock" url="@($"/role/edit/permission/{r.id}")" is_visible="@(r.status && !r.is_deleted)">Set Permission</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("role_edit")" icon="highlight_off" is_visible="@(r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">Inactive</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("role_edit")" icon="check" is_visible="@(!r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">Active</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("role_delete")" icon="delete" is_visible="@(!r.is_deleted)" OnClick="(()=>OnDelete(r))">Delete</TableActionItem>
@@ -242,6 +242,11 @@
     }
     async Task SaveStatus(RoleModel r)
     {
+        if (gv.current_login_user.role.role_name == r.role_name)
+        {
+            toast.Add("You cannot change status of the current login user type.",MatToastType.Warning);
+            return;
+        }
         var resp = await http.ApiPost(controller_api + "/status/" + r.id);
         if (resp.IsSuccess)
         {

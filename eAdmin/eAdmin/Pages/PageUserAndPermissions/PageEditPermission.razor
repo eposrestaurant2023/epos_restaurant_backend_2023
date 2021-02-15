@@ -1,4 +1,4 @@
-﻿@page "/role/permission/{role_id:int}"
+﻿@page "/role/edit/permission/{role_id:int}"
 @inherits PageCore
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
@@ -9,11 +9,19 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        <span>Permission</span>
+                        <span>Set Permission - @role.role_name</span>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
+                @if (permissionoption.Where(r => r.permission_option_roles.Count == 0).ToList().Count > 0)
+                {
+                    <Button OnClick="@(() => SelectAllRoleClick(true))">Select All</Button>
+                }
+                else
+                {
+                    <Button OnClick="@(() => SelectAllRoleClick())">Unselect All</Button>
+                }
             </HeaderRight>
         </PageHeader>
         <EditForm Model="@permissionoption" OnValidSubmit="@SaveRole_Click">
@@ -74,11 +82,22 @@
     [Parameter] public int role_id { get; set; }
     List<PermissionOptionModel> permissionoption = new List<PermissionOptionModel>();
     PermissionOptionModel model = new PermissionOptionModel();
+    RoleModel role = new RoleModel();
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         await LoadData();
+        await loadRole();
         is_loading = false;
+    }
+
+    async Task loadRole()
+    {
+        var res = await http.ApiGet($"role({role_id})?$select=id,role_name");
+        if (res.IsSuccess)
+        {
+            role = JsonSerializer.Deserialize<RoleModel>(res.Content.ToString());
+        }
     }
 
     async Task LoadData()
@@ -97,7 +116,7 @@
             }
         }
         is_loading_data = false;
-    } 
+    }
 
     void OnPermissionChanged(PermissionOptionModel permission)
     {
@@ -121,12 +140,10 @@
                     role_id = role_id
                 });
             }
-            //a.permission_option_roles = new List<PermissionOptionRoleModel>();
         }
         var post = await http.ApiPost($"PermissionOption/save/multiple/{role_id}", permissionoption.Where(r=>r.is_checked == true));
         if (post.IsSuccess)
         {
-            //permissionoption = JsonSerializer.Deserialize<List<PermissionOptionModel>>(post.Content.ToString());
             toast.Add("Save Successfully!", MatToastType.Success);
             nav.NavigateTo("role");
         }
@@ -135,5 +152,18 @@
             toast.Add(post.Content.ToString(), MatToastType.Warning);
         }
         is_saving = false;
+    }
+
+    async Task SelectAllRoleClick(bool is_select = false)
+    {
+        await Task.Delay(10);
+        if (is_select)
+        {
+            permissionoption.Where(r => r.permission_option_roles.Where(r => r.role_id == role_id).ToList().Count == 0).Select(r => { r.permission_option_roles.Add(new PermissionOptionRoleModel(role_id, r.id)); return r.is_checked = true; }).ToList();
+        }
+        else
+        {
+            permissionoption.Where(r => r.permission_option_roles.Where(r=>r.role_id == role_id).ToList().Count > 0).Select(r => { r.permission_option_roles.Clear(); return r.is_checked = false; }).ToList();
+        }
     }
 }

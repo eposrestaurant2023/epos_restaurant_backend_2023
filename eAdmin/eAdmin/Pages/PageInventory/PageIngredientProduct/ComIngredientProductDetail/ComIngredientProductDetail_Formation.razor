@@ -1,0 +1,48 @@
+﻿<UIGridCenter>
+    <UISummaryBox Title="Ingredient Product Information"  ShowImage="true" ImageUrl="@model.photo">
+        <ContentLeft>
+            <table>
+                <tr>
+                    <th>Code</th>
+                    <td>@model.product_code</td>
+                </tr>
+                <tr>
+                    <th>Name En</th>
+                    <td>@model.product_name_en</td>
+                </tr>
+                <tr>
+                    <th>Name Kh</th>
+                    <td>@model.product_name_kh</td>
+                </tr>
+                <tr>
+                    <th>Category</th>
+                    <td>@model.product_category?.product_category_en</td>
+                </tr>                
+            </table>
+        </ContentLeft>
+        <ContentRight>
+            <table>
+                <tr>
+                    <th>Cost</th>
+                    <td>@model.cost.ToString(gv.currency_format)</td>
+                </tr>
+                <tr>
+                    <td>Is Inventory</td>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_inventory_product" /></td>
+                </tr>
+            </table>
+        </ContentRight>
+
+    </UISummaryBox>
+    <UIContainerBox Title="Note" is_visible="@(!string.IsNullOrEmpty(model.note))">
+        <div class="area-text">
+        @model.note
+        </div>
+    </UIContainerBox>
+</UIGridCenter>
+
+
+@code {
+    [Parameter] public ProductModel model { get; set; }
+    [CascadingParameter] GlobalVariableModel gv { get; set; }
+}

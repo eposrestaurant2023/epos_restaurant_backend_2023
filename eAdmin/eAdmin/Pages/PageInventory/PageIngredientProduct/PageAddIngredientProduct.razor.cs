@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-namespace eAdmin.Pages.PageProducts
+namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 {
-    public class PageAddProductBase : PageCore
+    public class PageAddIngredientProductBase : PageCore
     {
 
         [Parameter] public int id { get; set; }
@@ -21,11 +21,11 @@ namespace eAdmin.Pages.PageProducts
 
                 if (id > 0)
                 {
-                    return "Edit Product";
+                    return "Edit Ingredient Product";
                 }
                 else
                 {
-                    return "New Product";
+                    return "New Ingredient Product";
                 }
             }
         }
@@ -36,11 +36,11 @@ namespace eAdmin.Pages.PageProducts
             {
                 if (id > 0)
                 {
-                    return "product_edit";
+                    return "ingredient_product_edit";
                 }
                 else
                 {
-                    return "product_add";
+                    return "ingredient_product_add";
                 }
 
             }
@@ -49,10 +49,6 @@ namespace eAdmin.Pages.PageProducts
         public string api_url { get {
 
                 string url = $"Product({id})?";
-                url = url + "$expand=product_printers,";
-                url = url + "product_portions($expand=product_prices;$filter=is_deleted eq false),";
-                url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
-                url = url + "product_modifiers($expand=modifier;$filter=is_deleted eq false)";
                 return url;
             } }
 
@@ -65,10 +61,10 @@ namespace eAdmin.Pages.PageProducts
         {
             if (id == 0)
             {
-                nav.NavigateTo("product");
+                nav.NavigateTo("ingredientproduct");
             }else
             {
-                nav.NavigateTo("/product/" + id);
+                nav.NavigateTo("ingredientproduct/" + id);
             }
         }
 
@@ -123,35 +119,36 @@ namespace eAdmin.Pages.PageProducts
 
         public async Task Save_Click()
         {
-
-             
             is_saving = true;
 
             ProductModel save_model = new ProductModel();
+
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-            if (save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Count() > 0)
-            {
-                save_model.min_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Min(r => r.price);
-                save_model.max_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Max(r => r.price);
-            }
+ 
             //remove menu
             save_model.product_menus.ForEach(r => r.menu = null);
-            save_model.is_menu_product = true;
+            save_model.product_portions = null;
+            save_model.is_ingredient_product = true;
+            save_model.is_menu_product = false;
+
+            var xx = JsonSerializer.Serialize(save_model);
+
+            Console.WriteLine(xx);
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add("Save product successfully", MatToastType.Success);
+                toast.Add("Save ingredient product successfully", MatToastType.Success);
                 if (is_save_and_new)
                 {
                     model = new ProductModel();
                     model.product_category_id = save_model.product_category_id;
 
-                    nav.NavigateTo("product/new");
+                    nav.NavigateTo("ingredientproduct/new");
 
                 }else
                 {
                     save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
-                    nav.NavigateTo($"product/{save_model.id}"); 
+                    nav.NavigateTo($"ingredientproduct/{save_model.id}"); 
                 }
             }
             else
