@@ -1,0 +1,112 @@
+﻿@inherits PageCore;
+ 
+<BlazoredTypeahead SearchMethod="SearchProduct" @bind-Value="@selected_product" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
+    <SelectedTemplate>
+        @context.product_name_en
+    </SelectedTemplate>
+    <ResultTemplate>
+
+
+        @if (result_count > 0)
+        {
+            <span>@context.product_name_en</span>
+        }
+        else
+        {
+            <span>Add @context.product_name_en</span>
+        }
+
+    </ResultTemplate>
+     
+</BlazoredTypeahead>
+
+@code{
+    
+    [Parameter] public string label { get; set; } = "product";
+    [Parameter] public string status { get; set; } = "";
+    [Parameter] public string placeholder { get; set; } = "Select product";
+    [Parameter] public ProductModel product { get; set; }
+    [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
+    [Parameter] public int? modifer_id { get; set; }
+    [Parameter] public EventCallback<int> product_idChanged { get; set; }
+    
+    int result_count = 0;
+    string product_name;
+
+    public async Task<IEnumerable<ProductModel>> SearchProduct(string searchText)
+    {
+
+        string api_url = $"product?keyword={searchText}&$orderby=product_name_en asc&$top=20";
+
+        state.filters.Clear();
+
+        state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+
+        state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
+
+        if (status == "Active")
+        {
+            state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
+        }
+        else if (status == "Inactive")
+        {
+            state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
+        }
+
+        api_url = api_url + GetFilter(state.filters);
+        var res = await http.ApiGetOData(api_url);
+        if (res.IsSuccess)
+        {
+            var result = JsonSerializer.Deserialize<List<ProductModel>>(res.Content.ToString());
+            result_count = result.Count();
+
+            if (result_count ==0 && searchText!="")
+            {
+                result.Add(new ProductModel() { product_name_en = searchText });
+            }
+
+            return result;
+
+        }
+        return new List<ProductModel>();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (product != null)
+        {
+            if (product.id == 0)
+            {
+                selected_product = null;
+            }
+            else
+            {
+                selected_product = product;
+            }
+        }
+        await SearchProduct("");
+    }
+
+    private ProductModel _selected_product;
+    public ProductModel selected_product
+    {
+        get
+        {
+            _selected_product = product;
+            return _selected_product;
+        }
+        set
+        {
+            _selected_product = value;
+            productChanged.InvokeAsync(value);
+            if (value != null)
+            {
+                product_idChanged.InvokeAsync(value.id);
+            }
+            else
+            {
+                product_idChanged.InvokeAsync(0);
+            }
+        }
+    }
+}

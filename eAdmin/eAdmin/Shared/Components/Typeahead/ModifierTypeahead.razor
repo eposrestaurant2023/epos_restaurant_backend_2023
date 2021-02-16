@@ -21,7 +21,7 @@
 </BlazoredTypeahead>
 
 @code{
-
+    
     [Parameter] public string label { get; set; } = "Modifier";
     [Parameter] public string status { get; set; } = "";
     [Parameter] public string placeholder { get; set; } = "Select Modifier";
@@ -29,8 +29,7 @@
     [Parameter] public EventCallback<ModifierModel> modifierChanged { get; set; }
     [Parameter] public int? modifer_id { get; set; }
     [Parameter] public EventCallback<int> modifier_idChanged { get; set; }
-
-
+    
     int result_count = 0;
 
     public async Task<IEnumerable<ModifierModel>> SearchModifier(string searchText)
