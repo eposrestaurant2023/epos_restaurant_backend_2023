@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210216075414_change_config_dataxxd")]
+    partial class change_config_dataxxd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,6 +198,12 @@ namespace eAPI.Migrations
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("is_change_status")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_loading")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -435,6 +443,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("change_exchange_rate")
                         .HasColumnType("decimal(16,4)");
 
@@ -463,6 +474,8 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
+
+                    b.HasIndex("business_branch_id");
 
                     b.ToTable("tbl_currency");
                 });
@@ -3487,6 +3500,17 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
 
                     b.Navigation("setting");
+                });
+
+            modelBuilder.Entity("eModels.CurrencyModel", b =>
+                {
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                        .WithMany()
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("business_branch");
                 });
 
             modelBuilder.Entity("eModels.CustomerBusinessBranchModel", b =>

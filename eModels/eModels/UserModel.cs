@@ -52,10 +52,7 @@ namespace eModels
         public string photo { get; set; } = "";
 
         [NotMapped,  JsonIgnore ]
-        public string new_password { get; set; }
-
-
-        public List<UserBusinessBranchModel> user_business_branchs { get; set; }
+        public string new_password { get; set; }    
 
     }
 }

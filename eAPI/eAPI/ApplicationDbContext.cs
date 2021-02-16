@@ -42,8 +42,7 @@ namespace eAPI
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
             builder.Entity<BusinessBranchSettingModel>().HasKey(t => new { t.setting_id, t.business_branch_id });
             builder.Entity<BusinessBranchPriceRule>().HasKey(t => new { t.business_branch_id, t.price_rule_id });
-            builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});
-            builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});              
+            builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});                          
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
             builder.Entity<ProductIngredientModel>().HasOne(r=>r.product_ingredient).WithMany(r=>r.product_ingredients);         
@@ -80,8 +79,7 @@ namespace eAPI
         public DbSet<PrinterModel> Printers{ get; set; }
         public DbSet<StationModel> Stations{ get; set; }
         public DbSet<TableGroupModel> TableGroups{ get; set; }
-        public DbSet<TableModel> Tables{ get; set; }
-        public DbSet<UserBusinessBranchModel> UserBusinessBranches{ get; set; }
+        public DbSet<TableModel> Tables{ get; set; }                                 
         public DbSet<ProductGroupModel> ProductGroups { get; set; }
         public DbSet<ProductCategoryModel> ProductCategories{ get; set; }
         public DbSet<ProductModel> Products{ get; set; }
