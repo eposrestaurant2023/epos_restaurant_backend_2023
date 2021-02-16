@@ -61,6 +61,9 @@
                                     <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" />
                                     <ComInputCheckBox @bind-value="@model.is_inventory_product" label="Is Inventory Product" />
                                     <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="Is Ingredient Product" />
+                                    <Com is_visible="@model.is_ingredient_product">
+                                        <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
+                                    </Com>
                                     <SelectStatus @bind-selected_value="@model.status" />
                                 </UIContainerBox>
                                 <ComAddProduct_Portion model="@model" />
