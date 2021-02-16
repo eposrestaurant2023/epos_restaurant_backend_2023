@@ -1,5 +1,5 @@
 ﻿<EditFormContext Cancel_Click="@OnCancelClick" model="@models" is_opened="is_open" title="Product Ingredient" Save_Click="OnSaveClick" modal_width="800px">
-    @*<IngredientProductTypeahead @bind-product="@modifier" />*@
+    <IngredientProductTypeahead @bind-product="@product" />
     <hr/>
     @JsonSerializer.Serialize(models)
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
@@ -36,9 +36,10 @@
 @code {
     [Parameter] public List<ProductIngredientModel> models { get; set; }
     [Parameter] public bool is_open { get; set; }
-    [Parameter] public EventCallback<bool> is_openChanged { get; set; }
-
+    [Parameter] public EventCallback<bool> is_openChanged { get; set; } 
     [Parameter] public EventCallback<List<ProductIngredientModel>> Save_Click { get; set; }
+ 
+
     async Task OnCancelClick()
     {
         await is_openChanged.InvokeAsync(false);

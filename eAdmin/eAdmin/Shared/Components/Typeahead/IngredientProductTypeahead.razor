@@ -5,8 +5,6 @@
         @context.product_name_en
     </SelectedTemplate>
     <ResultTemplate>
-
-
         @if (result_count > 0)
         {
             <span>@context.product_name_en</span>
@@ -15,9 +13,7 @@
         {
             <span>Add @context.product_name_en</span>
         }
-
     </ResultTemplate>
-     
 </BlazoredTypeahead>
 
 @code{
@@ -27,7 +23,6 @@
     [Parameter] public string placeholder { get; set; } = "Select product";
     [Parameter] public ProductModel product { get; set; }
     [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
-    [Parameter] public int? modifer_id { get; set; }
     [Parameter] public EventCallback<int> product_idChanged { get; set; }
     
     int result_count = 0;
