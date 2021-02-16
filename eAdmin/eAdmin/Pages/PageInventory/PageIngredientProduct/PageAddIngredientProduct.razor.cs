@@ -131,9 +131,6 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             save_model.is_ingredient_product = true;
             save_model.is_menu_product = false;
 
-            var xx = JsonSerializer.Serialize(save_model);
-
-            Console.WriteLine(xx);
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {

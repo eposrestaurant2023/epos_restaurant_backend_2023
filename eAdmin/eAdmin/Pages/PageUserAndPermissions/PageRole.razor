@@ -22,7 +22,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton url="role/new" custom_class="button-large">New User Type</AddButton>
+                <AddButton roles="@gv.GetRole("role_add")" url="role/new" custom_class="button-large">New User Type</AddButton>
                 <RefreshButton OnClick="@(()=>LoadData(""))" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
@@ -65,7 +65,7 @@
                     <td>
                         <ComTableActions is_loading="@(r.is_loading)" is_visible="@(!r.is_buildin)">
                             <TableActionItem roles="@gv.GetRole("role_edit")" icon="edit" OnClick="@(() => nav.NavigateTo($"role/edit/{r.id}"))" is_visible="@(r.status && !r.is_deleted)">Edit</TableActionItem>
-                            <TableActionItem icon="lock" url="@($"/role/edit/permission/{r.id}")" is_visible="@(r.status && !r.is_deleted)">Set Permission</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_set_permission")" icon="lock" url="@($"/role/edit/permission/{r.id}")" is_visible="@(r.status && !r.is_deleted)">Set Permission</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("role_edit")" icon="highlight_off" is_visible="@(r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">Inactive</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("role_edit")" icon="check" is_visible="@(!r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">Active</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("role_delete")" icon="delete" is_visible="@(!r.is_deleted)" OnClick="(()=>OnDelete(r))">Delete</TableActionItem>
