@@ -1,0 +1,11 @@
+﻿@if(is_loading){
+    <Button><Spinner /></Button>
+}else{
+    @ChildContent
+}
+
+@code {
+    [Parameter] public bool is_loading { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+}
