@@ -1,0 +1,72 @@
+﻿@inject IHttpService http
+@inject IMatToaster toast
+
+<UIContainerBox Title="Product Ingredients" is_show_add_button="@(!models.Any())" is_show_edit_button="@models.Any()" OnAddClick="@(()=>show_modal=true)" OnEditClick="@(()=>show_modal=true)">
+    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <ThAuto>Ingredient Name</ThAuto>
+            <ThCenter>Quantity</ThCenter>
+            <ThCenter>Unit</ThCenter>
+            <ThRight>Cost</ThRight>
+            <ThCenter></ThCenter>
+        </tr>
+        @foreach(var p in models)
+        {
+            <tr>
+                <td>
+                    @p.product_ingredient?.product_display_name
+                </td>
+                <TdCenter>
+                    @p.quantity
+                </TdCenter>
+                <TdCenter>@p.unit</TdCenter>
+                <TdRight>@p.cost.ToString(gv.currency_format)</TdRight>
+                <TdRight>
+                    <Icon icon="delete"/>
+                </TdRight>
+            </tr>
+        }
+    </table> 
+</UIContainerBox>
+
+<ComProductDetail_AddIngredientProduct models="@models" is_open="@show_modal" Save_Click="OnSave"/>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_id { get; set; }
+
+    List<ProductIngredientModel> models = new List<ProductIngredientModel>();
+
+    bool is_loading, show_modal;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task LoadData()
+    {
+        is_loading = true;
+
+        if (product_id > 0)
+        {
+            var resp = await http.ApiGetOData($"ProductIngredient?$select=*&$expand=product_menu,product_ingredient))&$filter=product_menu_id eq {product_id} and is_deleted eq false");
+            if (resp.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<ProductIngredientModel>>(resp.Content.ToString());
+
+            }
+        }
+        is_loading = false; 
+    }
+
+    public async Task OnSave()
+    {
+        show_modal = false;
+        await LoadData();
+    }
+    
+}

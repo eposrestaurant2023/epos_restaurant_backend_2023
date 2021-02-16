@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq.Expressions;
 using eShareModel;
 
 namespace eModels
@@ -18,5 +19,20 @@ namespace eModels
         [ForeignKey("product_ingredient_id")]
         public ProductModel product_ingredient { get; set; }
 
+        public decimal quantity { get; set; }
+
+        public string unit { get; set; } = "Unit";
+        public decimal cost { get; set; } 
+
+        private decimal _total_cost;
+
+        public decimal total_cost
+        {
+            get {
+
+                return quantity * cost; 
+            }
+            set { _total_cost = value; }
+        }
     }
 }
