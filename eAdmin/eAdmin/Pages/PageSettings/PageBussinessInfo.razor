@@ -139,10 +139,6 @@
                                     </table>
                                 </ContentRight>
                             </UISummaryBox>
-
-
-
-
                         }
                     </UIContainerBox>
                 </UIGridCenter>
@@ -164,8 +160,7 @@
             <TextInput type="textarea" label="Note" @bind-text="@business_brnach.note" />          
         </EditFormContext>
  
-        <EditFormContext is_submitting="@is_saving" model="@model" Save_Click="@Save_Click_Businessinfo" Cancel_Click="@Oncanel_Business_Info" is_opened="@ShowModel_Business_Infor" title="Edit Business Information" modal_width="800px">
-           
+        <EditFormContext is_submitting="@is_saving" model="@model" Save_Click="@Save_Click_Businessinfo" Cancel_Click="@Oncanel_Business_Info" is_opened="@ShowModel_Business_Infor" title="@title" modal_width="800px">
             <FileUpload @bind-ImageUrl="@model.company_logo" />
             <TextInput label="Company Name" @bind-text="@model.company_name">
                 <ValidationMessage For="@(() => model.company_name)" />
@@ -274,18 +269,17 @@
 
     }
 
-
-
     void OnOpenModel()
     {
+        title = "Add New Business Branch";
         ShowModal = !ShowModal;
     }
 
-  
     void Oncanel_Business_Info()
     {
         ShowModel_Business_Infor = false;
     }
+
     async Task OnEdit(Guid id)
     {
         is_loading_data = true;
@@ -293,7 +287,7 @@
         if (get_result.IsSuccess)
         {
             business_brnach = JsonSerializer.Deserialize<BusinessBranchModel>(get_result.Content.ToString());
-            ModalTitle = "Edit" + ": " + business_brnach.business_branch_name_en;
+            title = "Edit" + ": " + business_brnach.business_branch_name_en;
             ShowModal = true;
         }
         is_loading_data = false;
