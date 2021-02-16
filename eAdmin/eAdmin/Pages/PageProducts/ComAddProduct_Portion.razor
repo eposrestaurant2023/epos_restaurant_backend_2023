@@ -7,74 +7,71 @@
     {
         @if (model.product_portions.Any())
         {
-<div class="uk-overflow-auto">
+                <div class="uk-overflow-auto">
+                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                        <thead>
+                            <tr>
+                                <ThAuto>Portion</ThAuto>
+                                <th>Multplier</th>
+                                <th>Cost</th>
+                                @foreach (var p in gv.price_rules)
+                                {
+                                    <ThCenter>
+                                        @p.price_name
 
+                                    </ThCenter>
+                                }
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                @foreach (var p in gv.price_rules)
+                                {
+                                    <ThCenter>
 
+                                        <LabelActive is_visible="@(IsPriceRuleActive(p))" />
+                                        <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
+                                    </ThCenter>
+                                }
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var pp in model.product_portions.Where(r => r.is_deleted == false))
+                            {
+                                <tr>
+                                    <td>
+                                        <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name" width="150px"/>
 
-    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
-        <thead>
-            <tr>
-                <ThAuto>Portion</ThAuto>
-                <th>Multplier</th>
-                <th>Cost</th>
-                @foreach (var p in gv.price_rules)
-                {
-                    <ThCenter>
-                        @p.price_name
+                                    </td>
+                                    <TdCenter>
+                                        <NumberInput placeholder="Multipler" @bind-text="@pp.multiplier" />
+                                    </TdCenter>
+                                    <TdCenter>
+                                        <NumberInput placeholder="Cost" @bind-text="@pp.cost" />
+                                    </TdCenter>
+                                    @foreach (var p in price_rules)
+                                    {
 
-                    </ThCenter>
-                }
-                <th></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                @foreach (var p in gv.price_rules)
-                {
-                    <ThCenter>
+                                        <TdCenter>
+                                            <NumberInput placeholder="@p.price_name"
+                                                         @bind-text="@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price"
+                                                         is_read_only="@(!@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)"
+                                                         class_name="uk-text-center" />
+                                        </TdCenter>
+                                    }
+                                    <td>
+                                        <Icon icon="delete" OnClick="@(() => DeletePortion(pp))" is_visible="@(model.product_portions.Where(r => r.is_deleted == false).Count() > 1)" />
+                                    </td>
+                                </tr>
 
-                        <LabelActive is_visible="@(IsPriceRuleActive(p))" />
-                        <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
-                    </ThCenter>
-                }
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var pp in model.product_portions.Where(r => r.is_deleted == false))
-            {
-                <tr>
-                    <td>
-                        <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name" width="150px"/>
+                            }
 
-                    </td>
-                    <TdCenter>
-                        <NumberInput placeholder="Multipler" @bind-text="@pp.multiplier" />
-                    </TdCenter>
-                    <TdCenter>
-                        <NumberInput placeholder="Cost" @bind-text="@pp.cost" />
-                    </TdCenter>
-                    @foreach (var p in price_rules)
-                    {
-
-                        <TdCenter>
-                            <NumberInput placeholder="@p.price_name"
-                                         @bind-text="@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price"
-                                         is_read_only="@(!@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)"
-                                         class_name="uk-text-center" />
-                        </TdCenter>
-                    }
-                    <td>
-                        <Icon icon="delete" OnClick="@(() => DeletePortion(pp))" is_visible="@(model.product_portions.Where(r => r.is_deleted == false).Count() > 1)" />
-                    </td>
-                </tr>
-
-            }
-
-        </tbody>
-    </table>
-</div>
+                        </tbody>
+                    </table>
+                </div>
 
         }else
         {

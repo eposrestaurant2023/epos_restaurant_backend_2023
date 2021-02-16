@@ -12,7 +12,17 @@
                     <TextArea @bind-Value="@description" PlaceHolder="Comment" ClassName="textarea-comment" Row="5"/>
                     <hr />
                     <div class="uk-text-right">
-                        <Button disabled="@is_saving" OnClick="@OnSaveClick">Add Comment<Spinner is_spinning="is_saving" /></Button>
+                        @if (is_saving)
+                        {
+                            <Button>
+                                <Spinner/>
+                            </Button>
+                        }
+                        else
+                        {
+                            <Button OnClick="@OnSaveClick">Add Comment</Button>
+                        }
+
                     </div>
                 </EditForm>
             </AuthorizeView>
@@ -30,7 +40,7 @@
                                 <ValidationSummary />
                                 <textarea @bind="@h.description" class="uk-textarea uk-width-1-1 uk-resize-vertical" />
                                 <div class="uk-margin-small-bottom"></div>
-                                <Button OnClick="@(() => OnUpdateClick(h))" disabled="@h.is_saving">Save <Spinner is_spinning="@h.is_saving" /></Button>
+                                <Button OnClick="@(() => OnUpdateClick(h))" disabled="@h.is_saving">Save </Button>
                                 <Button OnClick="@(() => OnCancelClick(h))" disabled="@h.is_saving" class_name="default">Cancel</Button>
                             </EditForm>
                         }

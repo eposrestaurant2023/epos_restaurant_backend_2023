@@ -1557,6 +1557,7 @@ button.shipping {
     padding: 10px;
     display: block;
     justify-content: normal;
+    width:100%;
 }
 .app-layout.is_open .wrp-action-form {
     width: calc(100% - 280px)!important;
