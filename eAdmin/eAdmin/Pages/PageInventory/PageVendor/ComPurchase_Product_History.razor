@@ -25,8 +25,8 @@
         <RefreshButton OnClick="@(async()=>await LoadData())" />
         <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
             <FilterDateRange @bind-dates="@state.date_range" />
-            <SelectBusinessBranch @bind-business_branch="@state.business_branch" show_empty="true" />
-            <SelectOutlet @bind-outlet="@state.outlet" show_empty="true" />
+            <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+           
             <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" />
             <SelectProductCategory show_empty="true" @bind-product_category="@state.product_category" />
         </ComSearch>
@@ -35,69 +35,69 @@
 <Column is_visible="@(!is_loading)">
     <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
     <Com is_visible="@(models != null)">
-      
-                <Table Items="@models"
-                       PerPage="@state.pager.per_page"
-                       TotalItem="@TotalRecord"
-                       CurrentPage="@state.pager.current_page"
-                       OnPagerChange="@SelectChange"
-                       OnPageChange="@ChangePager"
-                       isLoading="@is_loading"
-                       ShowPager="true"
-                       ShowCounter="true"
-                       ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
-                    <TableHeader>
-                        @HeaderTemplate("sale_date", "Date", "uk-text-center")
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("product/product_name", "Product", "col-auto")
-                        <ThCenter>Quantity</ThCenter>
-                        <ThRight>Price</ThRight>
-                        <ThRight>Discount</ThRight>
-                        <ThRight>Amount</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <Th>Created By</Th>
-                        <ThCenter>Status</ThCenter>
-                        <th class="uk-width-auto"></th>
-                    </TableHeader>
-                    <RowTemplate Context="p">
 
-                        <TdCenter>@p.purchase_order?.purchase_date.ToString(gv.date_format)</TdCenter>
+        <Table Items="@models"
+               PerPage="@state.pager.per_page"
+               TotalItem="@TotalRecord"
+               CurrentPage="@state.pager.current_page"
+               OnPagerChange="@SelectChange"
+               OnPageChange="@ChangePager"
+               isLoading="@is_loading"
+               ShowPager="true"
+               ShowCounter="true"
+               ClassName="uk-table-small uk-table-striped uk-table-hover"
+               ScrollClass="uk-overflow-auto"
+               EmptyText="There is no record.">
+            <TableHeader>
+                @HeaderTemplate("sale_date", "Date", "uk-text-center")
+                @HeaderTemplate("document_number", "Document#", "uk-text-center")
+                @HeaderTemplate("product/product_name", "Product", "col-auto")
+                <ThCenter>Quantity</ThCenter>
+                <ThRight>Price</ThRight>
+                <ThRight>Discount</ThRight>
+                <ThRight>Amount</ThRight>
+                <ThCenter>Created Date</ThCenter>
+                <Th>Created By</Th>
+                <ThCenter>Status</ThCenter>
+                <th class="uk-width-auto"></th>
+            </TableHeader>
+            <RowTemplate Context="p">
 
-                        <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.purchase_order_id}")">@p.purchase_order?.document_number</ComAuthorize>
-                        </TdCenter>
-                        <td>
-                            <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.product_id}")">@p.product?.product_name_en</ComAuthorize>
-                        </td>
-                        <TdCenter>
-                            <span>@p.quantity.ToString(gv.quantity_format)</span>
-                        </TdCenter>
-                        <TdRight>
-                            @p.selling_price.ToString(gv.main_currency_format)
-                        </TdRight>
-                        <TdRight>
-                            @p.total_discount.ToString(gv.main_currency_format)
-                        </TdRight>
-                        <TdRight>
-                            @p.total_amount.ToString(gv.main_currency_format)
-                        </TdRight>
-                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
-                        <td>@p.created_by</td>
-                        <TdRight>
-                            <LabelDeleted is_visible="@(p.is_deleted)" />
-                        </TdRight>
-                        <TdCenter>
-                            <TdActions is_loading="@p.is_loading">
-                                <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
-                            </TdActions>
-                        </TdCenter>
-                    </RowTemplate>
-                </Table>
-  
-        
+                <TdCenter>@p.purchase_order?.purchase_date.ToString(gv.date_format)</TdCenter>
+
+                <TdCenter>
+                    <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.purchase_order_id}")">@p.purchase_order?.document_number</ComAuthorize>
+                </TdCenter>
+                <td>
+                    <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.product_id}")">@p.product?.product_name_en</ComAuthorize>
+                </td>
+                <TdCenter>
+                    <span>@p.quantity.ToString(gv.quantity_format)</span>
+                </TdCenter>
+                <TdRight>
+                    @p.selling_price.ToString(gv.main_currency_format)
+                </TdRight>
+                <TdRight>
+                    @p.total_discount.ToString(gv.main_currency_format)
+                </TdRight>
+                <TdRight>
+                    @p.total_amount.ToString(gv.main_currency_format)
+                </TdRight>
+                <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
+                <td>@p.created_by</td>
+                <TdRight>
+                    <LabelDeleted is_visible="@(p.is_deleted)" />
+                </TdRight>
+                <TdCenter>
+                    <TdActions is_loading="@p.is_loading">
+                        <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
+                    </TdActions>
+                </TdCenter>
+            </RowTemplate>
+        </Table>
+
+
     </Com>
 </Column>
 
@@ -168,6 +168,21 @@
         state = new StateModel();
 
         state.page_title = "All Purchase Products";
+        //Business Branch Filter
+        state.filters.Add(new FilterModel()
+        {
+            key = "purchase_order/business_branch_id",
+            value1 = gv.business_branch_ids_filter,
+            filter_title = "Business Branch",
+            filter_operator = "multiple",
+            state_property_name = "list_selected_values",
+            filter_info_text = gv.business_branch_ids_filter,
+            is_clear_all = true,
+            will_remove = true,
+            is_show_on_infor = false
+        });
+
+
 
         await LoadData();
         is_loading = false;
@@ -208,53 +223,6 @@
     {
         state.pager.order_by = col_name;
         state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
-        await LoadData();
-    }
-
-    public async Task RemoveFilter(FilterModel f)
-    {
-        is_loading = true;
-        string[] remove_key = f.remove_key.Split(',');
-        foreach (var k in remove_key)
-        {
-            state.filters.RemoveAll(r => r.key == k);
-        }
-
-        state.pager.current_page = 1;
-        //gv.RemoveFilter
-        RemoveFilter(state, f.state_property_name);
-        await LoadData();
-        is_loading = false;
-    }
-
-    public async Task RemoveAllFilter()
-    {
-        is_loading = true;
-        foreach (var f in state.filters.Where(r => r.is_clear_all == true))
-        {
-            RemoveFilter(state, f.state_property_name);
-        }
-
-        state.filters.RemoveAll(r => r.is_clear_all == true);
-        state.pager.current_page = 1;
-        await LoadData();
-        is_loading = false;
-    }
-
-    public async Task ViewClick(ModuleViewModel m)
-    {
-        state.filters.Clear();
-        state.filters = m.filters;
-        state.pager.order_by = m.default_order_by;
-        state.pager.order_by_type = m.default_order_by_type;
-        state.page_title = m.title;
-        state.pager.current_page = 1;
-        await LoadData();
-    }
-    public async Task OnSearch(string keyword)
-    {
-        state.pager = new PagerModel();
-        SetFilterValue2(state.filters, "keyword", keyword);
         await LoadData();
     }
 
@@ -307,26 +275,121 @@
         }
 
 
-        if (state.outlet.id > 0)
+        // filter business
+        string business_branch_ids = "";
+        if (state.multi_select_value_1 != null)
         {
-            //outlet
+
+            foreach (var x in state.multi_select_value_1)
+            {
+                business_branch_ids += x + ",";
+            }
+            if (!string.IsNullOrEmpty(business_branch_ids))
+            {
+                business_branch_ids = business_branch_ids.Substring(0, business_branch_ids.Length - 1);
+            }
+
             state.filters.Add(new FilterModel()
             {
-                key = "outlet/outlet_id",
-                value1 = state.outlet.id.ToString(),
+                key = "purchase_order/business_branch_id",
+                value1 = business_branch_ids,
+                filter_title = "Business Branch",
+                filter_operator = "multiple",
+                state_property_name = "list_selected_values",
+                filter_info_text = business_branch_ids,
                 is_clear_all = true,
-                filter_title = "Outlet",
-                state_property_name = "outlet",
-                filter_info_text = state.outlet.outlet_name_en,
-                filter_operator = "eq",
                 will_remove = true
             });
         }
+        else
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "business_branch_id",
+                value1 = gv.business_branch_ids_filter,
+                filter_title = "Business Branch",
+                filter_operator = "multiple",
+                state_property_name = "list_selected_values",
+                filter_info_text = gv.business_branch_ids_filter,
+                is_clear_all = true,
+                will_remove = true,
+                is_show_on_infor = false
+            });
+        }
 
-
+      
 
         state.pager.current_page = 1;
         await LoadData();
     }
+
+
+    public async Task RemoveFilter(FilterModel f)
+    {
+        is_loading = true;
+        string[] remove_key = f.remove_key.Split(',');
+        foreach (var k in remove_key)
+        {
+            // clear filter business
+            if (k == "purchase_order/business_branch_id" && state.multi_select_id_1 != null)
+            {
+                state.multi_select_id_1.Clear();
+                state.multi_select_value_1.Clear();
+            }
+
+
+
+            state.filters.RemoveAll(r => r.key == k);
+        }
+
+        state.pager.current_page = 1;
+        //gv.RemoveFilter
+        RemoveFilter(state, f.state_property_name);
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task RemoveAllFilter()
+    {
+        is_loading = true;
+        foreach (var f in state.filters.Where(r => r.is_clear_all == true))
+        {
+            // clear filter business
+            if (f.key == "purchase_order/business_branch_id")
+            {
+                state.multi_select_id_1.Clear();
+                state.multi_select_value_1.Clear();
+            }
+
+
+        
+
+            RemoveFilter(state, f.state_property_name);
+        }
+
+        state.filters.RemoveAll(r => r.is_clear_all == true);
+        state.pager.current_page = 1;
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.pager.order_by = m.default_order_by;
+        state.pager.order_by_type = m.default_order_by_type;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+    public async Task OnSearch(string keyword)
+    {
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword);
+        await LoadData();
+    }
+
+
 }
 
