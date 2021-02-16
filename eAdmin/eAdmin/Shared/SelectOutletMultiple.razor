@@ -34,7 +34,6 @@
                     foreach (var id in business_branch_ids)
                     {
                         string business_branch_name = gv.bussiness_branches.Where(r => r.id == Guid.Parse(id)).FirstOrDefault().business_branch_name_en;
-
                         data.Where(r => r.business_branch_id == Guid.Parse(id)).ToList().ForEach(v => v.bustiness_branch_name = business_branch_name);
                         _outlets.AddRange(data.Where(r => r.business_branch_id == Guid.Parse(id)));
                     }

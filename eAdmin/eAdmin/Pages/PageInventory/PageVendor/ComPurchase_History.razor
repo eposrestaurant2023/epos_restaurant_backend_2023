@@ -30,7 +30,6 @@
 @ControllerApi
 <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
 
-
     <Com is_visible="@(models != null)">
         <Table Items="@models"
                PerPage="@state.pager.per_page"
@@ -38,7 +37,7 @@
                CurrentPage="@state.pager.current_page"
                OnPagerChange="@SelectChange"
                OnPageChange="@ChangePager"
-               isLoading="@is_loading_data"
+               isLoading="@is_loading"
                ShowPager="true"
                ShowCounter="true"
                ClassName="uk-table-small uk-table-striped uk-table-hover"
@@ -57,32 +56,33 @@
                 <th class="uk-width-auto"></th>
             </TableHeader>
             <RowTemplate Context="p">
-                <TdCenter>@p.purchase_date.ToString(gv.date_format)</TdCenter>
-                <TdCenter>
-                    <ComAuthorize roles="@gv.GetRole("purchase_order_view")" url="@($"purchaseorder/{p.id}")">@p.document_number</ComAuthorize>
-                </TdCenter>
-                <td>
-                    @p.purchase_order_note
-                </td>
-                <TdRight>
-                    @p.total_amount.ToString(gv.main_currency_format, CultureInfo.CurrentCulture)
-                </TdRight>
-                <TdRight>
-                    @p.paid_amount.ToString(gv.main_currency_format)
-                </TdRight>
-                <TdRight>
-                    @p.balance
-                </TdRight>
-                <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
-                <td>@p.created_by</td>
-                <TdRight>
-                    <ComPurchaseOrderStatus po="@p" />
-                    <LabelDeleted is_visible="@(p.is_deleted)" />
-                </TdRight>
-                <TdActions is_loading="@p.is_loading">
-                    <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
-                    <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
-                </TdActions>
+            
+                    <TdCenter>@p.purchase_date.ToString(gv.date_format)</TdCenter>
+                    <TdCenter>
+                        <ComAuthorize roles="@gv.GetRole("purchase_order_view")" url="@($"purchaseorder/{p.id}")">@p.document_number</ComAuthorize>
+                    </TdCenter>
+                    <td>
+                        @p.purchase_order_note
+                    </td>
+                    <TdRight>
+                        @p.total_amount.ToString(gv.main_currency_format, CultureInfo.CurrentCulture)
+                    </TdRight>
+                    <TdRight>
+                        @p.paid_amount.ToString(gv.main_currency_format)
+                    </TdRight>
+                    <TdRight>
+                        @p.balance
+                    </TdRight>
+                    <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
+                    <td>@p.created_by</td>
+                    <TdRight>
+                        <ComPurchaseOrderStatus po="@p" />
+                        <LabelDeleted is_visible="@(p.is_deleted)" />
+                    </TdRight>
+                    <TdActions is_loading="@p.is_loading">
+                        <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
+                    </TdActions>
 
             </RowTemplate>
         </Table>

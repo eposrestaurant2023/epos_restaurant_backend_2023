@@ -27,7 +27,7 @@
             </HeaderLeft>
             <HeaderRight ShowBackButton="true"></HeaderRight>
         </PageHeader>
-        <EditForm Model="@price" OnValidSubmit="@SavePriceRule_Click">
+        <EditForm Model="@price" OnValidSubmit="@SavePriceRule_Click" @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
@@ -45,10 +45,10 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ButtonGroup class_name="uk-width-1-1">
+                    <ComButtonLoading is_loading="@is_saving">
                         <Button type="submit" icon="save">Save</Button>
                         <LinkButton url="pricerule" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
-                    </ButtonGroup>
+                    </ComButtonLoading>                            
                 </FooterCenter>
             </PageFooter>
         </EditForm>

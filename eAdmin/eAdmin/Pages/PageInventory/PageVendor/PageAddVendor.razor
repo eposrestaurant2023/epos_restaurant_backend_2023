@@ -38,38 +38,68 @@
                         </UIFlexCenter>
                     </UIContainerBox>
                     <UIContainerBox>
-                        <TextInput label="Code" text="@model.vendor_code" is_read_only="true">
-                            <ValidationMessage For="@(()=>model.vendor_code)" />
-                        </TextInput>
-                        <SelectInt Items="@vendor_group" @bind-SelectedValue="@model.vendor_group_id" ShowEmptyText="true" EmptyText="Select Vendor Group" InputLabel="Vendor Group">
-                            <SelectOptions Context="b">
-                                <option value="@b.id">@b.vendor_group_name_en</option>
-                            </SelectOptions>
-                            <ValidationTemplate>
-                                <ValidationMessage For="@(() => model.vendor_group_id )" />
-                            </ValidationTemplate>
-                        </SelectInt>
-                        <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
-                            <ValidationMessage For="@(()=>model.province_id)" />
-                        </SelectProvince>
-                        <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
-                            <ValidationMessage For="@(() => model.vendor_name)" />
-                        </TextInput>
-                        <TextInput label="Company Name" @bind-text="@model.company_name" />
-                        <SelectStatus @bind-selected_value="@model.status" label="Status"/>
-                        <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
-                        <TextInput label="Office Phone" @bind-text="@model.office_phone" />
-                        <TextInput label="Address" type="textarea" @bind-text="@model.address" />
-                        <TextInput label="Note" type="textarea" @bind-text="@model.note" />
+                        @if (is_loading)
+                        {
+                            <Spinner />
+                        }
+                        else
+                        {
+                            <TextInput label="Code" text="@model.vendor_code" is_read_only="true">
+                                <ValidationMessage For="@(()=>model.vendor_code)" />
+                            </TextInput>
+                            <SelectInt Items="@vendor_group" @bind-SelectedValue="@model.vendor_group_id" ShowEmptyText="true" EmptyText="Select Vendor Group" InputLabel="Vendor Group">
+                                <SelectOptions Context="b">
+                                    <option value="@b.id">@b.vendor_group_name_en</option>
+                                </SelectOptions>
+                                <ValidationTemplate>
+                                    <ValidationMessage For="@(() => model.vendor_group_id )" />
+                                </ValidationTemplate>
+                            </SelectInt>
+                            <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
+                                <ValidationMessage For="@(()=>model.province_id)" />
+                            </SelectProvince>
+                            <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
+                                <ValidationMessage For="@(() => model.vendor_name)" />
+                            </TextInput>
+                            <TextInput label="Company Name" @bind-text="@model.company_name" />
+                            <SelectStatus @bind-selected_value="@model.status" label="Status" />
+                            <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
+                            <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+                        }
+
+                    </UIContainerBox>
+                    <UIContainerBox Title="ADDRESS & NOTE">
+                        @if (is_loading)
+                        {
+                            <Spinner/>
+                        }
+                        else
+                        {
+                            <Tab>
+                                <TabHeader>
+                                    <TabHeaderItem>Address</TabHeaderItem>
+                                    <TabHeaderItem>Note</TabHeaderItem>
+                                </TabHeader>
+                                <TabBody>
+                                    <TabItem>
+                                        <textarea class="uk-textarea  uk-text-left" placeholder="Address" @bind="model.address" rows="2">@model.address</textarea>
+                                    </TabItem>
+                                    <TabItem>
+                                        <textarea class="uk-textarea  uk-text-left" placeholder="Note" @bind="model.note" rows="2">@model.note</textarea>
+                                    </TabItem>
+                                </TabBody>
+                            </Tab>
+                        }
+
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-
-                    <Button type="submit" icon="save" class_name="uk-button uk-button-primary button-large" is_visible="@(!is_saving)">Save</Button>
-                    <Button is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
-
+                    <ComButtonLoading is_loading="@is_saving">
+                    <Button type="submit" icon="save" class_name="uk-button uk-button-primary button-large">Save</Button>
+                    <Button class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
+                    </ComButtonLoading>
                 </FooterCenter>
             </PageFooter>
         </EditForm>

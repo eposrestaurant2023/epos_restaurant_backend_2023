@@ -66,7 +66,7 @@
         </PageBody>
     </PageContainer>
 
-    <EditFormContext model="@vendor_group" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
+    <EditFormContext model="@vendor_group" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle" is_submitting="is_saving">
 
         <TextInput label="Vendor name En" @bind-text="@vendor_group.vendor_group_name_en" />
         <TextInput label="Vendor name Kh" @bind-text="@vendor_group.vendor_group_name_kh" />
