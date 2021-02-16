@@ -19,22 +19,28 @@
             <HeaderRight ShowBackButton="true">
             </HeaderRight>
         </PageHeader>
-        <EditForm Model="@model" OnValidSubmit="@SaveRole_Click">
+        <EditForm Model="@model" OnValidSubmit="@SaveRole_Click" @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
-                <TextInput label="Role Name" @bind-text="@model.role_name">
-                    <ValidationMessage For="@(()=>model.role_name)"/>
-                </TextInput>
-                <TextInput type="textarea" label="Description" @bind-text="@model.description" />
-                @foreach (var b in businesses)
-                {
-                <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
-                }
+                <UIGridCenter>
+                    <UIContainerBox Title="Role">
+                        <TextInput label="Role Name" @bind-text="@model.role_name">
+                            <ValidationMessage For="@(()=>model.role_name)" />
+                        </TextInput>
+                        <TextInput type="textarea" label="Description" @bind-text="@model.description" />
+                        @foreach (var b in businesses)
+                        {
+                            <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
+                        }
+                    </UIContainerBox>
+                </UIGridCenter>                        
             </PageBody>
             <PageFooter>
-                <FooterCenter> 
-                    <Button type="submit" icon="save" custom_class="button-large">Save</Button>
-                    <LinkButton url="role" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton> 
+                <FooterCenter>
+                    <ComButtonLoading is_loading="@is_saving">
+                        <Button type="submit" icon="save" custom_class="button-large">Save</Button>
+                        <LinkButton url="role" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton>
+                    </ComButtonLoading>                        
                 </FooterCenter>
             </PageFooter>
         </EditForm>

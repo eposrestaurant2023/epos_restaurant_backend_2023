@@ -9,10 +9,15 @@
     <PageContainer roles="@gv.GetRole("payment_type_management")">
         <PageHeader>
             <HeaderLeft>
-                <PageTitle ShowFilter="false">
+                <PageTitle>
                     <HeaderTemplate>
-                        Payment Type
+                        @state.page_title
                     </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="Status">
+                            <ModuleView module_views="@gv.GetModuleView("page_payment_type")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
@@ -22,27 +27,7 @@
         </PageHeader>
         <PageBody>
             <UIGridCenter>
-                @foreach (var d in business_branches.Where(r => r.is_deleted == false).ToList())
-                {
                     <div class="container-layout">
-                        <div class="title-header">
-                            <div class="uk-panel">
-                                <div class="uk-float-left">
-                                    <span>
-                                        @d.business_branch_name_en
-                                    </span>
-                                </div>
-                                <div class="uk-float-right">
-                                    <div>
-                                        <span>
-                                            <LabelActive roles="@gv.GetRole("payment_type_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                            <LabelInActive roles="@gv.GetRole("payment_type_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
                         <div>
                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
@@ -51,59 +36,68 @@
                                     <ThCenter>Status</ThCenter>
                                     <Th></Th>
                                 </tr>
-                                @foreach (var bp in business_branch_payment_types.Where(r=>r.business_branch_id == d.id))
-                                {
-                                    @foreach (var s in payment_types.Where(r => r.id == bp.payment_type_id))
+                                    @foreach (var s in payment_types)
                                     {
-                            <tr>
-                                <td>
-                                    <Image ImageUrl="@(http.ImageUrl(s.photo))" IsBackgroundImage="true" Width="50px" Height="50px" />
-                                </td>
-                                <td>
-                                    @if (s.is_build_in == false)
-                                    {
-                                        @if (!s.is_deleted)
+                                <tr>
+                                    <td>
+                                        <Image ImageUrl="@(http.ImageUrl(s.photo))" IsBackgroundImage="true" Width="50px" Height="50px" />
+                                    </td>
+                                    <td>
+                                        @if (s.is_build_in == false)
                                         {
-                                            <ComAuthorize OnClick="@(()=>OnEdit(s.id))" roles="@gv.GetRole("payment_type_edit")">
+                                            @if (!s.is_deleted)
+                                            {
+                                                <ComAuthorize OnClick="@(()=>OnEdit(s.id))" roles="@gv.GetRole("payment_type_edit")">
+                                                    @s.payment_type_name_en
+                                                </ComAuthorize>
+                                                foreach (var bp in business_branch_payment_types.Where(r=>r.payment_type_id == s.id).ToList())
+                                                {
+                                                    foreach (var bb in business_branches.Where(r => r.is_deleted == false && r.id == bp.business_branch_id).ToList())
+                                                    {
+                                                        <div style="color:#bab4b4;font-style:italic">
+                                                            <span>@bb.business_branch_name_en</span>
+                                                        </div>                                                        
+                                                    }
+                                                }
+
+                                            }
+                                            else
+                                            {
                                                 @s.payment_type_name_en
-                                            </ComAuthorize>
+                                            }
                                         }
                                         else
                                         {
                                             @s.payment_type_name_en
                                         }
+                                    </td>
+                                    <TdCenter>
+                                        @if (s.is_build_in)
+                                        {
+                                            <LabelDeleted is_visible="@s.is_deleted" />
+                                            <LabelActive is_visible="@(!s.is_deleted && s.status)" is_loading="@s.is_change_status" />
+                                            <LabelInActive is_visible="@(!s.is_deleted && !s.status)" is_loading="@s.is_change_status" />
+                                        }
+                                        else
+                                        {
+                                            <LabelDeleted is_visible="@s.is_deleted" />
+                                            <LabelActive is_visible="@(s.status && !s.is_deleted)" OnClick="(() => OnToogleStatusLabel(s))" roles="@gv.GetRole("payment_type_edit")" is_loading="@s.is_change_status" />
+                                            <LabelInActive is_visible="@(!s.status && !s.is_deleted)" OnClick="(() => OnToogleStatusLabel(s))" roles="@gv.GetRole("payment_type_edit")" is_loading="@s.is_change_status" />
+                                        }
+                                    </TdCenter>
+                                    <TdActions is_loading="@s.is_loading">
+                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="edit" is_visible="@(!s.is_deleted)" OnClick="@(()=>OnEdit(s.id))">Edit</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_add")" icon="file_copy" OnClick="@(()=>Clone_Click(s.id))">Clone</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="highlight_off" is_visible="@(s.status && !s.is_deleted)" OnClick="@(()=>OnToogleStatus(s))">Inactive</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="check" is_visible="@(!s.status && !s.is_deleted)" OnClick="@(() => OnToogleStatus(s))">Active</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_delete")" icon="delete" is_visible="@(!s.is_deleted && !s.is_build_in)" OnClick="@(() => OnDelete(s))">Delete</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_restore")" icon="refresh" is_visible="@(s.is_deleted)" OnClick="@(()=>OnRestore(s))">Restore</TableActionItem>
+                                    </TdActions>
+                                </tr>
                                     }
-                                    else
-                                    {
-                                        @s.payment_type_name_en
-                                    }
-                                </td>
-                                <TdCenter>
-                                    @if (s.is_build_in)
-                                    {
-                                        <LabelActive is_visible="@(!s.is_deleted && bp.status)" is_loading="@bp.is_change_status" />
-                                        <LabelInActive is_visible="@(!s.is_deleted && !bp.status)" is_loading="@bp.is_change_status" />
-                                    }
-                                    else
-                                    {
-                                        <LabelActive is_visible="@(bp.status && !s.is_deleted)" OnClick="(() => OnToogleStatusLabel(bp))" roles="@gv.GetRole("payment_type_edit")" is_loading="@bp.is_change_status" />
-                                        <LabelInActive is_visible="@(!bp.status && !s.is_deleted)" OnClick="(() => OnToogleStatusLabel(bp))" roles="@gv.GetRole("payment_type_edit")" is_loading="@bp.is_change_status" />
-                                    }
-                                </TdCenter>
-                                <TdActions is_loading="@s.is_loading">
-                                    <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="edit" is_visible="@(!s.is_deleted)" OnClick="@(()=>OnEdit(s.id))">Edit</TableActionItem>
-                                    <TableActionItem roles="@gv.GetRole("payment_type_add")" icon="file_copy" OnClick="@(()=>Clone_Click(s.id))">Clone</TableActionItem>
-                                    <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="highlight_off" is_visible="@(bp.status && !s.is_deleted)" OnClick="@(()=>OnToogleStatus(bp))">Inactive</TableActionItem>
-                                    <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="check" is_visible="@(!bp.status && !s.is_deleted)" OnClick="@(() => OnToogleStatus(bp))">Active</TableActionItem>
-                                    <TableActionItem roles="@gv.GetRole("payment_type_delete")" icon="delete" is_visible="@(!s.is_deleted && !s.is_build_in)" OnClick="@(() => OnDelete(bp))">Delete</TableActionItem>
-                                </TdActions>
-                            </tr>
-                                    }
-                                }
                             </table>
                         </div>
                     </div>
-                }
             </UIGridCenter>
         </PageBody>
     </PageContainer>
@@ -134,7 +128,6 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-
         state = await GetState(StateKey);
         if (state.page_title == "")
         {
@@ -146,10 +139,8 @@
                 state.filters = default_view.filters;
             }
         }
-
         await LoadData();
         await LoadBusinessBranch();
-
     }
 
     async Task LoadBusinessBranch()
@@ -208,12 +199,12 @@
         is_loading_data = false;
     }
 
-    async Task OnDelete(BusinessBranchPaymentTypeModel p)
+    async Task OnDelete(PaymentTypeModel p)
     {
         p.is_loading = true;
         if (await js.Confirm("Delete Payment Type", "Are you sure you want to delete this record?"))
         {
-            var resp = await http.ApiPost($"BusinessBranchPaymentType/delete/{p.business_branch_id}/{p.payment_type_id}");
+            var resp = await http.ApiPost($"PaymentType/delete/{p.id}");
             if (resp.IsSuccess)
             {
                 await LoadData();
@@ -238,31 +229,39 @@
         p.is_loading = false;
     }
 
-    async Task OnToogleStatus(BusinessBranchPaymentTypeModel p)
+    async Task OnToogleStatus(PaymentTypeModel p)
     {
         p.is_loading = true;
         await SaveStatus(p);
         p.is_loading = false;
     }
 
-    async Task OnToogleStatusLabel(BusinessBranchPaymentTypeModel p)
+    async Task OnToogleStatusLabel(PaymentTypeModel p)
     {
         p.is_change_status = true;
         await SaveStatus(p);
         p.is_change_status = false;
     }
 
-    async Task SaveStatus(BusinessBranchPaymentTypeModel p)
+    async Task SaveStatus(PaymentTypeModel p)
     {
-        var paymentType = new BusinessBranchPaymentTypeModel();
-        paymentType = p;
-        paymentType.status = !paymentType.status;
-        var resp = await http.ApiPost($"BusinessBranchPaymentType/status/{p.business_branch_id}/{p.payment_type_id}");
+        var resp = await http.ApiPost($"PaymentType/status/{p.id}");
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);
             await LoadData();
         }
+    }
+
+    async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.pager.order_by = m.default_order_by;
+        state.pager.order_by_type = m.default_order_by_type;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
+        await LoadData();
     }
 }
 
