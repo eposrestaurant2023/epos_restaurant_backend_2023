@@ -7,7 +7,7 @@
 @if (!is_loading)
 {
     <Title Value="@((id > 0)? "Edit Role" : "New Role")"></Title>
-    <PageContainer roles="@gv.GetRole($"({id > 0})? {"role_edit"} : {"role_add"})")">
+    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "role_edit" : "role_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
