@@ -68,8 +68,10 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button type="submit" icon="save" custom_class="button-large">Save</Button>
-                    <LinkButton url="role" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton>
+                    <ComButtonLoading is_loading="@is_saving">
+                        <Button type="submit" icon="save" custom_class="button-large">Save</Button>
+                        <LinkButton url="role" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton>
+                    </ComButtonLoading>                        
                 </FooterCenter>
             </PageFooter>
         </EditForm>
