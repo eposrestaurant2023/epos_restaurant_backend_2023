@@ -34,44 +34,53 @@
                 <TabBody>
                     <TabItem>
                         <UIGridCenter>
-                            <UISummaryBox ImageUrl="@model.photo">
-                                <ContentLeft>
-                                    <table>
-                                        <tr>
-                                            <th>Vendor Name</th>
-                                            <td>@model.vendor_name</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Company</th>
-                                            <td>@model.company_name</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Vendor Group</th>
-                                            <td>@model.vendor_group?.vendor_group_name_en</td>
-                                        </tr>
+                            @if (is_loading)
+                            {
+                                <Spinner />
+                            }
+                            else
+                            {
+                                <UISummaryBox ImageUrl="@model.photo">
 
-                                    </table>
-                                </ContentLeft>
-                                <ContentRight>
-                                    <table>
-                                        <tr>
-                                            <th>Mobile Phone</th>
-                                            <td>@model.mobile_phone</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Office Phone</th>
-                                            <td>@model.office_phone</td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <td>
-                                                <div class="uk-text-large">000</div>
-                                                <div class="uk-text-small uk-text-italic">Credit Ballance</div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </ContentRight>
-                            </UISummaryBox>
+                                    <ContentLeft>
+                                        <table>
+                                            <tr>
+                                                <th>Vendor Name</th>
+                                                <td>@model.vendor_name</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Company</th>
+                                                <td>@model.company_name</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Vendor Group</th>
+                                                <td>@model.vendor_group?.vendor_group_name_en</td>
+                                            </tr>
+
+                                        </table>
+                                    </ContentLeft>
+                                    <ContentRight>
+                                        <table>
+                                            <tr>
+                                                <th>Mobile Phone</th>
+                                                <td>@model.mobile_phone</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Office Phone</th>
+                                                <td>@model.office_phone</td>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <td>
+                                                    <div class="uk-text-large">000</div>
+                                                    <div class="uk-text-small uk-text-italic">Credit Ballance</div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </ContentRight>
+                                </UISummaryBox>
+                            }
+
 
                             <UIContainerBox Title="Social Media Information">
                                 <ListTable>

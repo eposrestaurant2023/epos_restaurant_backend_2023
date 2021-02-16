@@ -27,7 +27,7 @@
             </HeaderLeft>
             <HeaderRight ShowBackButton="true"></HeaderRight>
         </PageHeader>
-        <EditForm Model="@model" OnValidSubmit="@SavePaymentType_Click">
+        <EditForm Model="@model" OnValidSubmit="@SavePaymentType_Click" @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
@@ -52,10 +52,10 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                   
+                    <ComButtonLoading is_loading="@is_saving">
                         <Button type="submit" icon="save">Save</Button>
                         <LinkButton url="paymenttype" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
-                  
+                    </ComButtonLoading>
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -123,7 +123,6 @@
         is_loading_data = false;
     }
 
-
     async Task SavePaymentType_Click()
     {
         is_saving = true;
@@ -140,24 +139,16 @@
                 });
             }
         }
-
-        if (business_branches.Where(r => r.is_selected == true).Count() > 0)
+        var post = await http.ApiPost("PaymentType/Save", model);
+        if (post.IsSuccess)
         {
-            var post = await http.ApiPost("PaymentType/Save", model);
-            if (post.IsSuccess)
-            {
-                toast.Add("Save Successfully!", MatToastType.Success);
-                nav.NavigateTo("paymenttype");
-                model = new PaymentTypeModel();
-            }
-            else
-            {
-                toast.Add(post.Content.ToString(), MatToastType.Warning);
-            }
+            toast.Add("Save Successfully!", MatToastType.Success);
+            nav.NavigateTo("paymenttype");
+            model = new PaymentTypeModel();
         }
         else
         {
-            toast.Add("Please choose business branch.", MatToastType.Warning);
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
         }
         is_saving = false;
     }
