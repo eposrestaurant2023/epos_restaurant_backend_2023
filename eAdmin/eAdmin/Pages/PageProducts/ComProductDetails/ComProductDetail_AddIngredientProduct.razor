@@ -1,7 +1,7 @@
 ﻿<EditFormContext Cancel_Click="@OnCancelClick" model="@models" is_opened="is_open" title="Product Ingredient" Save_Click="OnSaveClick" modal_width="800px">
     <IngredientProductTypeahead @bind-product="@product" />
     <hr/>
-    @JsonSerializer.Serialize(models)
+    @JsonSerializer.Serialize(product)
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
             <ThAuto>Ingredient Name</ThAuto>
@@ -17,13 +17,13 @@
                     @p.product_ingredient?.product_display_name
                 </td>
                 <TdCenter> 
-                    <NumberInput @bind-text="@p.quantity"/>
+                    <NumberInput @bind-text="@p.quantity" width="80px" class_name="uk-text-center"/>
                 </TdCenter>
                 <TdCenter>
-                    <TextInput @bind-text="@p.unit"/>
+                    <TextInput @bind-text="@p.unit" width="100px" class_name="uk-text-center"/>
                 </TdCenter>
                 <TdRight>
-                    <NumberInput @bind-text="@p.cost"/>
+                    <NumberInput @bind-text="@p.cost" width="120px" class_name="uk-text-right"/>
                 </TdRight>
                 <TdRight>
                     <Icon icon="delete"/>
@@ -46,8 +46,6 @@
     }
     async Task OnSaveClick()
     {
-        Console.WriteLine(JsonSerializer.Serialize(models));
-        
         await Save_Click.InvokeAsync(models);
         await is_openChanged.InvokeAsync(false); 
     }
@@ -57,11 +55,14 @@
     {
         get { return _product; }
         set {
+            Console.WriteLine(models.Where(r=>r.product_ingredient_id != value.id).Count());
 
-            if(!models.Where(r=>r.is_deleted==false && r.product_menu.product_name_en.Trim().ToLower().Contains(value.product_name_en.ToLower().Trim())).Any())
+            @*if (models.Where(r=>r.product_ingredient_id))
             {
-                models.Add(new ProductIngredientModel() { product_ingredient = value , product_ingredient_id=value.id });
-            }
+                
+            }*@
+
+            models.Add(new ProductIngredientModel() { product_ingredient = value , product_ingredient_id=value.id });
 
             value = null;
             _product = value;
