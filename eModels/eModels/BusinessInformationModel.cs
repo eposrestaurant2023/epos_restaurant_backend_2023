@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -36,8 +37,7 @@ namespace eModels
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
             printers = new List<PrinterModel>();
             business_branch_payment_types = new List<BusinessBranchPaymentTypeModel>();
-            business_branch_prices = new List<BusinessBranchPriceRule>();
-            user_business_branches = new List<UserBusinessBranchModel>();
+            business_branch_prices = new List<BusinessBranchPriceRule>();  
             business_branch_settings = new List<BusinessBranchSettingModel>();
             cashier_notes = new List<NoteModel>();
             business_branch_roles = new List<BusinessBranchRoleModel>();
@@ -92,8 +92,7 @@ namespace eModels
         public List<PrinterModel> printers { get; set; }
 
         public List<BusinessBranchPaymentTypeModel> business_branch_payment_types { get; set; }
-        public List<BusinessBranchPriceRule> business_branch_prices { get; set; }
-        public List<UserBusinessBranchModel> user_business_branches { get; set; }
+        public List<BusinessBranchPriceRule> business_branch_prices { get; set; }   
         public List<BusinessBranchSettingModel> business_branch_settings { get; set; }
         public List<BusinessBranchRoleModel> business_branch_roles { get; set; }
         public List<NoteModel> cashier_notes { get; set; }
@@ -109,7 +108,10 @@ namespace eModels
         [ForeignKey("payment_type_id")]
         public PaymentTypeModel payment_type { get; set; }
         public bool status { get; set; }
+
+        [NotMapped,JsonIgnore]
         public bool is_change_status { get; set; }
+        [NotMapped, JsonIgnore]
         public bool is_loading { get; set; }
     }
 }

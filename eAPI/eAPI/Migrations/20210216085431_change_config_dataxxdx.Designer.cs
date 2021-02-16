@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210216085431_change_config_dataxxdx")]
+    partial class change_config_dataxxdx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,6 +198,12 @@ namespace eAPI.Migrations
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("is_change_status")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_loading")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -1575,9 +1583,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<decimal>("cost")
-                        .HasColumnType("decimal(16,4)");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1603,18 +1608,8 @@ namespace eAPI.Migrations
                     b.Property<int>("product_menu_id")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(16,4)");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<decimal>("total_cost")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<string>("unit")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 

@@ -122,12 +122,7 @@ namespace eAPI
             p.EntityType.HasKey(r => new { r.role_id, r.permission_option_id });
 
             var r = odataBuilder.EntitySet<BusinessBranchRoleModel>("BusinessBranchRole");
-            r.EntityType.HasKey(r => new { r.role_id, r.business_branch_id });
-
-            odataBuilder.EntitySet<UserModel>("User");
-            var u = odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
-            u.EntityType.HasKey(r => new { r.user_id, r.business_branch_id });
-
+            r.EntityType.HasKey(r => new { r.role_id, r.business_branch_id });   
             var bs = odataBuilder.EntitySet<BusinessBranchSettingModel>("BusinessBranchSetting");
             bs.EntityType.HasKey(r => new { r.setting_id, r.business_branch_id, r.setting_value });
 
@@ -140,6 +135,7 @@ namespace eAPI
             var bp = odataBuilder.EntitySet<BusinessBranchPriceRule>("BusinessBranchPriceRule");
             bp.EntityType.HasKey(r => new { r.price_rule_id, r.business_branch_id });
 
+            odataBuilder.EntitySet<UserModel>("User");     
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
             odataBuilder.EntitySet<CustomerModel>("Customer");
@@ -168,8 +164,7 @@ namespace eAPI
             odataBuilder.EntitySet<ModifierModel>("Modifier");
             odataBuilder.EntitySet<ModifierGroupModel>("ModifierGroup");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
-            odataBuilder.EntitySet<HistoryModel>("History");
-            odataBuilder.EntitySet<UserBusinessBranchModel>("UserBusinessBranch");
+            odataBuilder.EntitySet<HistoryModel>("History");                          
             odataBuilder.EntitySet<ConfigDataModel>("ConfigData");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
             odataBuilder.EntitySet<BusinessBranchProductPriceModel>("BusinessBranchProductPrice");
