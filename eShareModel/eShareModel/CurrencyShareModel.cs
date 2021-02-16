@@ -17,11 +17,11 @@ namespace eShareModel
         public string currency_format { get; set; }
 
 
-        [Column(TypeName = "decimal(16,10)")]
+        [Column(TypeName = "decimal(19,10)")]
         public decimal exchange_rate { get; set; }
 
 
-        [Column(TypeName = "decimal(16,10)")]
+        [Column(TypeName = "decimal(19,10)")]
         public decimal change_exchange_rate { get; set; }
 
         public bool is_main { get; set; }
