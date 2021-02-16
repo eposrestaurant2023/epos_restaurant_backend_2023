@@ -51,18 +51,18 @@
                     <UIContainerBox Title="Table Info">
                         <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
                             <div>
-                                <NumberInputInt @bind-text="@min" placeholder="Min" />
+                                <NumberInputInt label="Min" @bind-text="@min" placeholder="Min" />
                             </div>
                             <div>
-                                <NumberInputInt @bind-text="@max" placeholder="Max" />
+                                <NumberInputInt label="Max" @bind-text="@max" placeholder="Max" />
                             </div>
                         </div>
                         <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
                             <div>
-                                <TextInput @bind-text="@prefix" placeholder="Prefix" />
+                                <TextInput label="Prefix" @bind-text="@prefix" placeholder="Prefix" />
                             </div>
                             <div>
-                                <TextInput @bind-text="@number_format" placeholder="Format" />
+                                <TextInput label="Format" @bind-text="@number_format" placeholder="Format" />
                             </div>
                         </div>
                         <Spacing Number="10"/>
@@ -102,10 +102,10 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button type="submit" icon="save" is_visible="@(!is_saving)">Save</Button>
-                    <SavingButton is_saving="@is_saving"/>
-
-                    <LinkButton url="tablegroupandtable" icon="reply" Class_Name="uk-button-danger" is_visible="@(!is_saving)">Cancel</LinkButton>
+                    <ComButtonLoading is_loading="@is_saving">
+                        <Button type="submit" icon="save" is_visible="@(!is_saving)">Save</Button>
+                        <LinkButton url="tablegroupandtable" icon="reply" Class_Name="uk-button-danger" is_visible="@(!is_saving)">Cancel</LinkButton>
+                    </ComButtonLoading>                        
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -194,6 +194,7 @@
                 is_saving = false;
                 toast.Add(res.Content.ToString(), MatToastType.Warning);
             }
+            is_saving = false;
         }
     }
 

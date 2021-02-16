@@ -47,8 +47,10 @@
                     </PageBody>
         <PageFooter>
             <FooterCenter>
-                 <SavingButton is_saving="@is_saving"/>
-                <Button OnClick="@Save_Click" is_visible="@(!is_saving)">Save</Button>
+                <ComButtonLoading is_loading="@is_saving">
+                    <SavingButton is_saving="@is_saving" />
+                    <Button OnClick="@Save_Click" is_visible="@(!is_saving)">Save</Button>
+                </ComButtonLoading>                    
             </FooterCenter>
         </PageFooter>
         </PageContainer>

@@ -24,7 +24,14 @@ namespace eAPIClient
         {
             foreach (var property in builder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
             {
-                property.SetColumnType("decimal(19,4)");
+                if (property.GetColumnType() == "decimal(19,10)")
+                {
+                    property.SetColumnType("decimal(19,10)");
+                }
+                else
+                {
+                    property.SetColumnType("decimal(19,4)");
+                }
             }
 
             foreach (var property in builder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(string)))
