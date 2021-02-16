@@ -45,7 +45,8 @@ namespace eAPI
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});
             builder.Entity<UserBusinessBranchModel>().HasKey(t => new { t.user_id, t.business_branch_id});              
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
-            builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();                
+            builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
+            builder.Entity<ProductIngredientModel>().HasOne(r=>r.product_ingredient).WithMany(r=>r.product_ingredients);         
             builder.Entity<NumberModel>().HasNoKey();
         
         
@@ -117,6 +118,7 @@ namespace eAPI
         public DbSet<StockTransferModel> StockTransfers { get; set; }
         public DbSet<StockTransferProductModel> StockTransferProducts { get; set; }
         public DbSet<BusinessBranchRoleModel> businessBranchRoles { get; set; }
+        public DbSet<ProductIngredientModel> ProductIngredients { get; set; }
 
     }
 
