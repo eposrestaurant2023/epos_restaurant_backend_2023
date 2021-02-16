@@ -147,15 +147,9 @@
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
-
-      
-
     </PageContainer>
 
-
-
-    
-        <EditFormContext model="@business_brnach" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
+        <EditFormContext is_submitting="@is_saving" model="@business_brnach" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
         
             <FileUpload @bind-ImageUrl="@business_brnach.logo" />
             <TextInput label="Business Branch Name En" @bind-text="@business_brnach.business_branch_name_en">
@@ -167,14 +161,10 @@
             <TextInput label="Email" @bind-text="@business_brnach.email" />
             <TextInput label="WebSite" @bind-text="@business_brnach.website" />
             <TextInput type="textarea" label="Address" @bind-text="@business_brnach.address_en" />
-            <TextInput type="textarea" label="Note" @bind-text="@business_brnach.note" />
-          
+            <TextInput type="textarea" label="Note" @bind-text="@business_brnach.note" />          
         </EditFormContext>
-   
-
-
  
-        <EditFormContext model="@model" Save_Click="@Save_Click_Businessinfo" Cancel_Click="@Oncanel_Business_Info" is_opened="@ShowModel_Business_Infor" title="Edit Business Information" modal_width="800px">
+        <EditFormContext is_submitting="@is_saving" model="@model" Save_Click="@Save_Click_Businessinfo" Cancel_Click="@Oncanel_Business_Info" is_opened="@ShowModel_Business_Infor" title="Edit Business Information" modal_width="800px">
            
             <FileUpload @bind-ImageUrl="@model.company_logo" />
             <TextInput label="Company Name" @bind-text="@model.company_name">
