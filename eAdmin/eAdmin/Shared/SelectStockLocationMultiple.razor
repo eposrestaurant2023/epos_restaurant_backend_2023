@@ -9,7 +9,7 @@
 </MudItem>
  
     @code {
-
+         
         [CascadingParameter] public GlobalVariableModel gv { get; set; }
         [Parameter] public HashSet<string> selected_stock_location { get; set; } = new HashSet<string>();
         [Parameter] public EventCallback<HashSet<string>> selected_stock_locationChanged { get; set; }
