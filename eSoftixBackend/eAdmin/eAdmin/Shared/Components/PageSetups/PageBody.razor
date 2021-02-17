@@ -1,0 +1,9 @@
+﻿<div class="page_body @class_card @class_name">
+    @ChildContent
+</div>
+
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string class_name { get; set; }
+    [Parameter] public string class_card { get; set; } = "uk-card-default";
+}

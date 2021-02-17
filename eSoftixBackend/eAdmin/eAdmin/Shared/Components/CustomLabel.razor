@@ -1,0 +1,8 @@
+﻿<div class="text-title normal-label" style="background: @BackgroundColor; color: @Color">@Text</div>
+
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string BackgroundColor { get; set; }
+    [Parameter] public string Color { get; set; }
+    [Parameter] public string Text { get; set; }
+}

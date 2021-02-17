@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using System.Collections.Generic;
+@using Microsoft.JSInterop;
+
+@if (!string.IsNullOrEmpty(label))
+{
+    <div class="uk-margin-small">
+        <label class="uk-form-label" for="@id">@label</label>
+        <div class="uk-form-controls">
+            @if (type == "text")
+            {
+                @if (is_read_only)
+                {
+                    <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" disabled @attributes="@CustomAttributes" style="width:@width" />
+                }
+                else
+                {
+                    <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+                }
+
+            }
+            else if (type == "email")
+            {
+                <input type="email" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+            }
+            else if (type == "password")
+            {
+                <input type="password" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+            }
+            else if (type == "textarea")
+            {
+                <textarea class="uk-textarea @(is_height_auto ? "": "uk-height-small") @class_name uk-text-left" id="@id" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" rows="@row" @attributes="@CustomAttributes" style="width:@width">@text</textarea>
+
+            }
+            else if (type == "color")
+            {
+                <input type="color" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+            }
+
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{
+    @if (type == "text")
+    {
+        @if (is_read_only)
+        {
+            <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" disabled title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+        }
+        else
+        {
+            <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+        }
+
+    }
+    else if (type == "email")
+    {
+        <input type="email" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+    }
+    else if (type == "password")
+    {
+        <input type="password" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+    }
+    else if (type == "textarea")
+    {
+        <textarea class="uk-textarea @(is_height_auto ? "": "uk-height-small") uk-text-left @class_name" id="@id" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" rows="@row" title="@title" @attributes="@CustomAttributes" style="width:@width">@text</textarea>
+    }
+    else if (type == "color")
+    {
+        <input type="color" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+    }
+    @ChildContent
+}
+@code{
+
+    [Parameter] public string text { get; set; } = "";
+    [Parameter] public string placeholder { get; set; } = "";
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public string type { get; set; } = "text";
+    [Parameter] public string title { get; set; } = "";
+    [Parameter] public string class_name { get; set; } = "";
+    [Parameter] public string width { get; set; } = "";
+    [Parameter] public int row { get; set; } = 5;
+    [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_height_auto { get; set; } = false;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<string> textChanged { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> CustomAttributes { get; set; }
+    public string guid = System.Guid.NewGuid().ToString();
+    Guid id = Guid.NewGuid();
+
+
+
+    protected override void OnInitialized()
+    {
+
+        if (placeholder == "")
+        {
+            placeholder = label;
+        }
+    }
+
+    private async Task TextChange(string txt)
+    {
+        text = txt;
+        await textChanged.InvokeAsync(text);
+    }
+}
+
+

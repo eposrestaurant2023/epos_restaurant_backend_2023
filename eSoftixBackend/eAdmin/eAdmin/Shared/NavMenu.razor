@@ -1,0 +1,47 @@
+﻿
+<div class="top-row pl-4 navbar navbar-dark uk-visible@l">
+    <a class="navbar-brand" href="">ePOSRestauran</a>
+</div>
+<div class="main_nav @NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="uk-nav-default uk-nav-parent-icon flex-column" uk-nav>
+        @foreach (var d in gv.MainMenu().ToList())
+        {
+            if (gv.SubMenu(d.id).Count() > 0)
+            {
+                <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@d.note">
+                    @foreach (var sub in gv.SubMenu(d.id))
+                    {
+                        <SubMenuItem roles="@sub.roles" url="@sub.url">@sub.note</SubMenuItem>
+                    }
+                </ParentMenuItem>
+            }
+            else
+            {
+                if (d.url == "/")
+                {
+                    <MenuItemDynamic IconName="@d.icon" Match="NavLinkMatch.All">@d.note</MenuItemDynamic>
+                }
+                else
+                {
+                    <MenuItemDynamic IconName="@d.icon" MenuUrl="@d.url">@d.note</MenuItemDynamic>
+                }
+
+            }
+
+        }
+    </ul>
+</div>
+
+
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    bool collapseNavMenu = true;
+
+    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

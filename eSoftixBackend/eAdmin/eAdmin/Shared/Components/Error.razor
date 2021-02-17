@@ -1,0 +1,30 @@
+﻿<Title Value="@title"/>
+<PageContainer>
+    <PageHeader>
+        <HeaderLeft>
+            <PageTitle ShowFilter="false">
+                <HeaderTemplate>
+                   @title
+                </HeaderTemplate>
+            </PageTitle>
+        </HeaderLeft>
+        
+    </PageHeader>
+    <PageBody class_name="error-page">
+        <div class="uk-position-center uk-text-center page_error">
+            <Icon className="error_warning" icon="report" />
+            <div class="page_error_type_title">Your Request Has Canceled</div>
+            <div class="uk-alert-warning" uk-alert>
+                @ChildContent
+            </div>
+            <a class="uk-button error_page_btn" onclick="history.go(-1);">Back</a>
+        </div>
+        <div style="clear:both">&nbsp;</div>
+    </PageBody>
+</PageContainer>
+@code{
+
+    [Parameter] public string title { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+}

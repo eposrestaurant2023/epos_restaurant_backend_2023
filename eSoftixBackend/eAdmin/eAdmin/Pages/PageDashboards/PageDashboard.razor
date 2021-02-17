@@ -1,0 +1,32 @@
+﻿@page "/dashboard"
+@inherits PageCore
+
+<Loading is_loading="@is_loading"/>
+<Title Value="Dashboard"></Title>
+<PageContainer roles=@gv.GetRole("dashboard")>
+    <PageHeader>
+        <HeaderLeft>
+            <PageTitle ShowFilter="false">
+                <HeaderTemplate>
+                    Dashboard 
+                </HeaderTemplate>
+            </PageTitle>
+        </HeaderLeft>
+        <HeaderRight>
+             <RefreshButton OnClick="@(async()=>await LoadData())" />
+        </HeaderRight>
+    </PageHeader>
+    <PageBody class_card="no-card-dashboard">
+        <h1>Dashboard</h1>
+    </PageBody>
+</PageContainer>
+
+@code{
+
+    async Task LoadData()
+    {
+        is_loading = true;
+        await Task.Delay(500);
+        is_loading = false;
+    }
+}

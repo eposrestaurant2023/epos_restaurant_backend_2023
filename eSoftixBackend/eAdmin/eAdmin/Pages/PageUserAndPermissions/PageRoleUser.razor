@@ -1,0 +1,200 @@
+﻿@*@page "/role"
+@page "/role/parent/{parent_id}"
+@using Models;
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.EntityFrameworkCore;
+@inherits PageCore
+@inject RoleManager<ApplicationRole> _RolerManager
+@attribute [Authorize(Roles = "Admin")]
+
+<Loading is_loading="@is_loading" />
+
+@if (!is_loading)
+{
+    <CascadingValue Value="role">
+
+
+        <PageContainer>
+            <PageHeader>
+                <HeaderLeft>
+                    <PageTitle Columnms="1">
+                        <HeaderTemplate>
+                            @page_title
+                        </HeaderTemplate>
+                        <FilterTemplate>
+                            <PageFilter>
+                                <li><a href="role" @onclick="@LoadRole" class="uk-drop-close">All Roles</a></li>
+                                @foreach (var parent in filter_menu_roles)
+                                {
+                                    <li><a href="role/parent/@parent.Id" @onclick="@LoadRole" class="uk-drop-close">@parent.Description</a></li>
+                                }
+                            </PageFilter>
+                        </FilterTemplate>
+                    </PageTitle>
+                </HeaderLeft>
+                <HeaderRight>
+                    <Button roles="Admin" icon="add" OnClick="@(()=>OpenAddRoleDialog_Click(null))">New</Button>
+                    <RefreshButton OnClick="@LoadRole"/>
+                    <ComSearch place_holder="@keyword" rout="roleuser/search/" empty_rout="roleuser" />
+                </HeaderRight>
+            </PageHeader>
+
+            <PageBody>
+                <ComRoleTree is_edit_on_select="false" OnSelect="@EditRole_Click" OnDeleteRole="@DeleteRole_Click" roles="@roles.Where(r=>r.parent_id==null).ToList()" show_delete="true" OnAdd="@OpenAddRoleDialog_Click" is_parent="true" />
+                <div class="spacing40"></div>
+            </PageBody>
+        </PageContainer>
+        @if (is_add_role_open)
+        {
+            <ComAddRole is_opened="is_add_role_open" Role_Click="@SaveRole" Cancel_Click="(() => is_add_role_open = false)" title="@title" roles="@roles.Where(r=>r.parent_id==null).ToList()" selected_role="@parent_role" />
+        }
+
+    </CascadingValue>
+    
+}
+
+@code{ 
+    [Parameter] public string parent_id { get; set; } = "";
+    string keyword, title;
+    List<ApplicationRole> roles = new List<ApplicationRole>();
+    List<ApplicationRole> filter_menu_roles = new List<ApplicationRole>();
+    ApplicationRole role = new ApplicationRole();
+    ApplicationRole parent_role = new ApplicationRole();
+    bool is_add_role_open;
+    bool is_new = true;
+    bool is_first_load = true;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRole();
+    }
+
+
+    async Task LoadRole()
+    {
+
+        if (!is_loading)
+        {
+            is_loading = true;
+            await Task.Delay(delay_time);
+
+            if (filter_menu_roles.Count() == 0)
+            {
+                filter_menu_roles = await _RolerManager.Roles.Where(r => r.parent_id == null).OrderBy(r => r.Description).ToListAsync();
+            }
+
+            if (!String.IsNullOrEmpty(parent_id))
+            {
+
+                roles = await _RolerManager.Roles.Where(r => r.Id == parent_id).OrderBy(r => r.Description).ToListAsync();
+                page_title = $" Roles : { filter_menu_roles.Where(r => r.Id == parent_id).FirstOrDefault().Description}";
+
+            }
+            else
+            {
+                roles = await _RolerManager.Roles.OrderBy(r => r.Description).ToListAsync();
+                page_title = "All Roles";
+            }
+
+            is_loading = false;
+        }
+    }
+
+    void OpenAddRoleDialog_Click(ApplicationRole _selected_role)
+    {
+        is_new = true;
+        role = new ApplicationRole();
+        parent_role = _selected_role;
+        title = "New Role";
+        is_add_role_open = true;
+    }
+
+    public async Task SaveRole(ApplicationRole r)
+    {
+        role.parent_id = r.parent_id;
+        if (is_new)
+        {
+
+            var dup = roles.Where(r => r.Name == role.Name);
+            if (dup.Count() > 0)
+            {
+                toast.Add("This role is aleady exist", MatToastType.Warning);
+                return;
+            }
+        }
+        else
+        {
+            var dup = roles.Where(r => r.Name == role.Name && r.Id != role.Id);
+            if (dup.Count() > 0)
+            {
+                toast.Add("This role is aleady exist", MatToastType.Warning);
+                return;
+            }
+        }
+
+
+
+        if (!role.is_saving)
+        {
+            role.is_saving = true;
+            await Task.Delay(delay_time);
+
+            if (string.IsNullOrEmpty(role.parent_id))
+            {
+                role.parent_id = null;
+            }
+
+            if (is_new)
+            {
+                var result = await _RolerManager.CreateAsync(role);
+                if (result.Succeeded)
+                {
+                    roles.Add(role);
+
+                }
+                else
+                {
+                    toast.Add("This role is aleady exist", MatToastType.Warning);
+
+                }
+            }
+            else
+            {
+                await _RolerManager.UpdateAsync(role);
+            }
+
+            role.parent = roles.Where(r => r.Id == role.parent_id).FirstOrDefault();
+
+            is_new = false;
+            is_add_role_open = false;
+            role.is_saving = false;
+        }
+
+
+    }
+
+
+    public void EditRole_Click(ApplicationRole r)
+    {
+        title = "Edit Role";
+        is_new = false;
+        role = r;
+        is_add_role_open = true;
+    }
+
+    public async Task DeleteRole_Click(ApplicationRole r)
+    {
+        r.is_loading = true;
+        if (await js.Confirm("Delete", "Are you sure you want to delete this role ?", SweetAlertMessageType.question))
+        {
+            await _RolerManager.DeleteAsync(r);
+            await app_service.DeleteRole(r.Id);
+            roles.Remove(r);
+        }
+        r.is_loading = false;
+    }
+
+
+}*@

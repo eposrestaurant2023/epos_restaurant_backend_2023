@@ -1,0 +1,8 @@
+.uk-form-controls .blazored-typeahead__input {
+    border: 1px solid #e5e5e5;
+}
+.uk-form-controls .blazored-typeahead__input-mask-wrapper {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: #fff;
+}

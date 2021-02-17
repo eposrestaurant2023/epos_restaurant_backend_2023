@@ -1,0 +1,66 @@
+﻿@inherits PageCore
+<UIContainerBox Title="Customer Photo" ClassName="uk-text-center">
+    <UIFlexCenter>
+        <FileUpload @bind-ImageUrl="@model.photo" />
+    </UIFlexCenter>
+</UIContainerBox>
+
+<UIContainerBox>
+    <TextInput label="Code" text="@model.customer_code" is_read_only="true">
+         
+    </TextInput>
+    <TextInput label="Name(EN)" @bind-text="@model.customer_name_en">
+        <ValidationMessage For="@(() => model.customer_name_en)" />
+    </TextInput>
+    <TextInput label="Name(KH)" @bind-text="@model.customer_name_kh" />
+    <TextInput label="Phone 1" @bind-text="@model.phone_1" />
+    <TextInput label="Phone 2" @bind-text="@model.phone_2" />
+    <SelectGender @bind-selected_value="model.gender" />
+     
+    <SelectStatus @bind-selected_value="@model.status" />
+</UIContainerBox>
+
+ 
+
+<UIContainerBox Title="Other information">
+   
+    <SelectCountry @bind-selected_value="@model.nationality" show_empty="true" />
+ 
+</UIContainerBox>
+
+<UIContainerBox Title="Social Media Information">
+    <TextInput label="Email" @bind-text="@model.email" />
+ 
+</UIContainerBox>
+
+ 
+
+<UIContainerBox Title="Address & Note">
+    <Tab>
+        <TabHeader>
+            <TabHeaderItem>Address</TabHeaderItem>
+            <TabHeaderItem>Note</TabHeaderItem>
+        </TabHeader>
+        <TabBody>
+            <TabItem>
+                <textarea class="uk-textarea  uk-text-left" placeholder="Address" @bind="model.address" rows="2">@model.address</textarea>
+            </TabItem>
+            <TabItem>
+                <textarea class="uk-textarea  uk-text-left" placeholder="Note" @bind="model.note" rows="2">@model.note</textarea>
+            </TabItem>
+        </TabBody>
+    </Tab>
+</UIContainerBox>
+ 
+
+
+@code {
+
+ 
+    [Parameter] public CustomerModel model { get; set; }
+ 
+
+    
+
+    
+}
