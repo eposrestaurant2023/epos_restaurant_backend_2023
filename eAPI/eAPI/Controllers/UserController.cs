@@ -54,6 +54,7 @@ namespace eAPI.Controllers
         public virtual async Task<ActionResult<UserModel>> Post([FromBody] AuthenticateModel u)
         {
             var pass_encr = EncryptProvider.Base64Encrypt(u.Password);
+
             var data = await Task.Factory.StartNew(() => db.Users.Where(r => r.username == u.Username && r.password == pass_encr && !r.is_deleted && r.status).Include(r => r.role).AsQueryable());
             if (data == null || data.Count() <= 0)
             {
