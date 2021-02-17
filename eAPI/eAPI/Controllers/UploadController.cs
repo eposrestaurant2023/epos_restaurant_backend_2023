@@ -29,7 +29,7 @@ namespace eAPI.Controllers
             var root_image = await db.Settings.FindAsync(1);
 
             //===============================Note
-            string directory_path = this.environment.ContentRootPath + "\\" + root_image.setting_title + folder + "\\";
+            string directory_path = this.environment.ContentRootPath + "\\upload\\";
 
 
             if (!Directory.Exists(directory_path))

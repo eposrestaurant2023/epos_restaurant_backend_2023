@@ -1575,9 +1575,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<decimal>("cost")
-                        .HasColumnType("decimal(16,4)");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1603,18 +1600,8 @@ namespace eAPI.Migrations
                     b.Property<int>("product_menu_id")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(16,4)");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<decimal>("total_cost")
-                        .HasColumnType("decimal(16,4)");
-
-                    b.Property<string>("unit")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 

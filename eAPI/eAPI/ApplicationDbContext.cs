@@ -124,6 +124,7 @@ namespace eAPI
         public DbSet<StockTransferProductModel> StockTransferProducts { get; set; }
         public DbSet<BusinessBranchRoleModel> businessBranchRoles { get; set; }
         public DbSet<ProductIngredientModel> ProductIngredients { get; set; }
+        public DbSet<UnitModel> Units { get; set; }
 
     }
 
