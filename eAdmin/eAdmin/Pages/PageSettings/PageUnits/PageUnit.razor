@@ -1,0 +1,108 @@
+﻿@page "/setting/unit"
+@inject IHttpService http;
+@inject IMatToaster toast;
+<Loading is_loading="@(is_loading || is_saving)" />
+@if (!is_loading)
+{
+    <Title Value="Unit"></Title>
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Unit
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <RefreshButton OnClick="@OnInitializedAsync" />
+            </HeaderRight>
+        </PageHeader>
+
+        <PageBody>
+            <UIGridCenter>
+                @if (unit_categories.Any())
+                {
+                    @foreach (var b in unit_categories)
+                    {
+                        <ComAccordion>
+                            <Header>
+                                @b.category_name
+                            </Header>
+                            <Content>
+                                <ComAddUnit units="@b.units" />
+                                <hr />
+                                <Button OnClick="@(()=>AddUnit(b))">Add Unit</Button>
+                            </Content>
+                        </ComAccordion>
+
+                    }
+                }
+                else
+                {
+            <ComAlert type="warning">There is no unit. Please enter unit first.</ComAlert>
+                }
+            </UIGridCenter>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComButtonLoading is_loading="@is_saving">
+                    <SavingButton is_saving="@is_saving" />
+                    <Button OnClick="@Save_Click" is_visible="@(!is_saving)">Save</Button>
+                </ComButtonLoading>
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+}
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    List<UnitCategoryModel> unit_categories = new List<UnitCategoryModel>();
+    bool is_loading, is_saving;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        var resp = await http.ApiGetOData($"UnitCategory?$expand=unit($filter=is_deleted eq false)&$filter=is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            unit_categories = JsonSerializer.Deserialize<List<UnitCategoryModel>>(resp.Content.ToString());
+        }
+        else
+        {
+            toast.Add("Loading printer fail.", MatToastType.Warning);
+        }
+    }
+
+    void AddUnit(UnitCategoryModel b)
+    {
+        b.units.Add(new UnitModel());
+    }
+
+    async Task Save_Click()
+    {
+        if (unit_categories.SelectMany(r => r.units).Where(r => r.is_deleted == false && r.unit_name.Trim() == "").Any())
+        {
+            toast.Add("Please enter unit name", MatToastType.Warning);
+            return;
+        }
+        is_saving = true;
+        var resp = await http.ApiPost("UnitCategory/save/multiple", unit_categories);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Save Printer successfully", MatToastType.Success);
+            await LoadData();
+        }
+        else
+        {
+            toast.Add("Save Unit Fail", MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+}

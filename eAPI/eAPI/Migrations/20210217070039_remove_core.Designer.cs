@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210217070039_remove_core")]
+    partial class remove_core
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3224,19 +3226,11 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("unit_category_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("unit_categoryid")
-                        .HasColumnType("int");
-
                     b.Property<string>("unit_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
-
-                    b.HasIndex("unit_categoryid");
 
                     b.ToTable("tbl_unit");
                 });
@@ -3324,10 +3318,6 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<int>("user_code")
-                        .HasMaxLength(2)
-                        .HasColumnType("int");
 
                     b.Property<string>("username")
                         .IsRequired()
@@ -4255,15 +4245,6 @@ namespace eAPI.Migrations
                     b.Navigation("table_group");
                 });
 
-            modelBuilder.Entity("eModels.UnitModel", b =>
-                {
-                    b.HasOne("eModels.UnitCategoryModel", "unit_category")
-                        .WithMany("units")
-                        .HasForeignKey("unit_categoryid");
-
-                    b.Navigation("unit_category");
-                });
-
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
                     b.HasOne("eModels.RoleModel", "role")
@@ -4453,11 +4434,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.TableGroupModel", b =>
                 {
                     b.Navigation("tables");
-                });
-
-            modelBuilder.Entity("eModels.UnitCategoryModel", b =>
-                {
-                    b.Navigation("units");
                 });
 
             modelBuilder.Entity("eModels.VendorGroupModel", b =>
