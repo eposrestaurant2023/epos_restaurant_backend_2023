@@ -44,19 +44,12 @@ namespace eAPI.Controllers
             return await Task.Factory.StartNew(() => SingleResult.Create<ProductIngredientModel>(db.ProductIngredients.Where(r => r.id == key).AsQueryable()));
         }
 
-        [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] ProductIngredientModel u)
-        {            
-            if (u.id == 0)
-            {
-                db.ProductIngredients.Add(u);
-            }
-            else
-            { 
-                db.ProductIngredients.Update(u);
-            }            
+        [HttpPost("multiple/save")]
+        public async Task<ActionResult<string>> Save([FromBody] List<ProductIngredientModel> pis)
+        { 
+            db.ProductIngredients.AddRange(pis); 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(u);
+            return Ok(pis);
         }
 
         [HttpGet("find")]
