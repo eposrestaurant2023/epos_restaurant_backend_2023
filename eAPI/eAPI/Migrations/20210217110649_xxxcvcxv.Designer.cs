@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210217110649_xxxcvcxv")]
+    partial class xxxcvcxv
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1593,11 +1595,11 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ingredient_id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("product_ingredient_id")
+                        .HasColumnType("int");
 
                     b.Property<int>("product_menu_id")
                         .HasColumnType("int");
@@ -1620,7 +1622,7 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("ingredient_id");
+                    b.HasIndex("product_ingredient_id");
 
                     b.HasIndex("product_menu_id");
 
@@ -3870,9 +3872,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductIngredientModel", b =>
                 {
-                    b.HasOne("eModels.ProductModel", "ingredient")
+                    b.HasOne("eModels.ProductModel", "product_ingredient")
                         .WithMany("product_ingredients")
-                        .HasForeignKey("ingredient_id")
+                        .HasForeignKey("product_ingredient_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -3888,7 +3890,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ingredient");
+                    b.Navigation("product_ingredient");
 
                     b.Navigation("product_menu");
 
