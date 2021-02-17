@@ -1,7 +1,8 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 <UIGridCenter>
-    <UIContainerBox Title="Product Ingredients" is_show_add_button="@(!models.Any())" is_show_edit_button="@models.Any()" OnAddClick="@(()=>show_modal=true)" OnEditClick="@(()=>show_modal=true)">
+@foreach(var pp in model.product_portions){
+    <UIContainerBox Title="@pp.portion_name" is_show_add_button="@(!model.product_ingredients.Any())" is_show_edit_button="@model.product_ingredients.Any()" OnAddClick="@(()=>show_modal=true)" OnEditClick="@(()=>show_modal=true)">
         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
             <tr>
                 <ThAuto>Ingredient Name</ThAuto>
@@ -11,19 +12,19 @@
                 <ThRight>Total Cost</ThRight>
             </tr>
 
-            @if(models.Any()){
-                foreach(var p in models)
+            @if(model.product_ingredients.Any()){
+                foreach(var pi in model.product_ingredients)
                 {
                     <tr>
                         <td>
-                            @p.product_ingredient?.product_display_name
+                            @pi.product_ingredient?.product_display_name
                         </td>
                         <TdCenter>
-                            @p.quantity
+                            @pi.quantity
                         </TdCenter>
-                        <TdCenter>@p.unit</TdCenter>
-                        <TdRight>@p.cost.ToString(gv.currency_format)</TdRight>
-                        <TdRight>@p.total_cost.ToString(gv.currency_format)</TdRight>
+                        <TdCenter>@pi.unit</TdCenter>
+                        <TdRight>@pi.cost.ToString(gv.currency_format)</TdRight>
+                        <TdRight>@pi.total_cost.ToString(gv.currency_format)</TdRight>
                     </tr>
                 }
             }
@@ -37,14 +38,15 @@
             }
         </table>
     </UIContainerBox>
+    }
 </UIGridCenter>
-<ComProductDetail_AddIngredientProduct models="@models" @bind-is_open="@show_modal" Save_Click="OnSave"/>
+@*<ComProductDetail_AddIngredientProduct models="@models" @bind-is_open="@show_modal" Save_Click="OnSave"/>*@
 
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int product_id { get; set; }
 
-    List<ProductIngredientModel> models = new List<ProductIngredientModel>();
+    ProductModel model = new ProductModel();
 
     bool is_loading, show_modal;
 
@@ -61,12 +63,11 @@
         is_loading = true;
 
         if (product_id > 0)
-        {
-            var resp = await http.ApiGetOData($"ProductIngredient?$select=*&$expand=product_menu,product_ingredient))&$filter=product_menu_id eq {product_id} and is_deleted eq false");
+        { 
+            var resp = await http.ApiGet($"Product({product_id})?$select=id&$expand=product_portions,product_ingredients))");
             if (resp.IsSuccess)
             {
-                models = JsonSerializer.Deserialize<List<ProductIngredientModel>>(resp.Content.ToString());
-
+                model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString()); 
             }
         }
         is_loading = false; 
