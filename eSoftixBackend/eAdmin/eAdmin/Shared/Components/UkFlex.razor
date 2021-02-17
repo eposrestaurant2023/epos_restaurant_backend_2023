@@ -1,0 +1,9 @@
+﻿<div class="custom-flex uk-flex @class_name @flex_align">
+    @ChildContent
+</div>
+@code{
+    [Parameter] public string class_name { get; set; }
+    [Parameter] public string flex_align { get; set; } = "uk-flex-middle";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+}

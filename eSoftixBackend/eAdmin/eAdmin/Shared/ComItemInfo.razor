@@ -1,0 +1,33 @@
+﻿@inject IHttpService http
+<div class="item-info-right">
+    <div class="uk-grid-small" uk-grid>
+        <div class="uk-width-auto">
+            <Image ImageUrl="@http.ImageUrl(ImageUrl)" IsLightBox="false" IsBackgroundImage="true" Width="25px" Height="25px" />
+        </div>
+        <div class="uk-width-expand uk-position-relative" style="padding-left: 5px;">
+            <div class="item-info-title">
+                <Column is_visible="@(!string.IsNullOrEmpty(TextCode))">
+                    @TextCode
+                </Column>
+                <Column is_visible="@(!string.IsNullOrEmpty(Title))">
+                    @Title
+                </Column>
+            </div>
+            @ChildContent
+        </div>
+        <Column ClassName="pos-label" is_visible="@(!string.IsNullOrEmpty(Visited))">
+            <div class="txt-status-visited">
+                <span>@Visited</span>
+            </div>
+        </Column>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string TextCode { get; set; } = "";
+    [Parameter] public string ImageUrl { get; set; } = "";
+    [Parameter] public string Visited { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

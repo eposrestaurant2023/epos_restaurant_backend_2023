@@ -1,0 +1,33 @@
+﻿<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">@label</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small">
+            <option value="">Please Select An Option</option>
+            <option value="dd-MM-yyyy">dd-MM-yyyy</option>
+            <option value="MM/dd/yyyy">MM/dd/yyyy</option>
+            <option value="MM/dd/yyyy">MM/dd/yyyy</option>
+            <option value="dddd, dd MMMM yyyy">dddd, dd MMMM yyyy</option>
+        </select>
+    </div>
+</div>
+
+@code{ 
+    [Parameter] public string selected_value { get; set; } = "dd-MM-yyyy";
+    [Parameter] public string label { get; set; } = "Date";
+
+
+    [Parameter]
+    public EventCallback<string> selected_valueChanged { get; set; }
+
+
+
+    Guid id = Guid.NewGuid();
+
+
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = n;
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+}

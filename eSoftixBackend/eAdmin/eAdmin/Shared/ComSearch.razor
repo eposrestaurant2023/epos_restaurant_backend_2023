@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.JSInterop;
+
+@inject Microsoft.JSInterop.IJSRuntime js;
+ 
+<EditForm Model="@dummy" OnSubmit="Search" @attributes="@searchFormAttributes" class="@($"uk-search uk-search-default {FrmClass}")">
+    <div class="control-addon @(show_advance_filter?"control-addon-right":"") control-addon-left">
+        <span uk-search-icon></span>
+        <input class="uk-search-input" @bind="@search_text" type="search" placeholder="@placeholder" @ref="txt_search" @bind:event="oninput" />
+        @if (show_advance_filter)
+        {
+            <span class="input-addon-right" uk-toggle="@($"target: #{advance_filter_id}")">
+                <Icon icon="tune"/>
+            </span>
+        }
+      
+    </div>
+</EditForm>
+@if (show_advance_filter)
+{
+    <FilterFly Id="@advance_filter_id" OnSearch="@OnFillterClick">
+        @ChildContent
+    </FilterFly>
+}
+
+@code{
+    [Parameter] public string place_holder { get; set; } = "Search...";
+    public string dummy { get; set; } = "";
+    [Parameter] public EventCallback<string> KeywordChanged { get; set; }
+    [Parameter] public string search_text { get; set; } = "";
+    [Parameter] public string FrmClass { get; set; } = "";
+    [Parameter] public string advance_filter_id { get; set; } = "advance_filter"+string.Format("{0:yyyy_MM_dd_HH_mm_ss}",DateTime.Now);
+    [Parameter] public bool show_advance_filter { get; set; } = true;
+    [Parameter] public EventCallback OnFillterClick { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    private ElementReference txt_search;
+
+
+
+    public Dictionary<string, object> searchFormAttributes { get; set; } = new Dictionary<string, object>()
+    {
+                { "class", "uk-search uk-search-default"}
+    };
+
+
+    public string placeholder
+    {
+        get
+        {
+
+            return string.IsNullOrEmpty(place_holder) ? "Search" : place_holder;
+
+        }
+    }
+
+    async Task Search()
+    {
+
+        await KeywordChanged.InvokeAsync(search_text);
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("JsFunctions.focusElement", txt_search);
+        }
+    }
+
+}

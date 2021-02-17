@@ -30,7 +30,7 @@
                                 @b.category_name
                             </Header>
                             <Content>
-                                <ComAddUnit units="@b.units" />
+                                <ComAddUnit units="@b.units.OrderBy(r=>r.sort_order).ToList()" />
                                 <hr />
                                 <Button OnClick="@(()=>AddUnit(b))">Add Unit</Button>
                             </Content>
@@ -69,14 +69,14 @@
 
     async Task LoadData()
     {
-        var resp = await http.ApiGetOData($"UnitCategory?$expand=unit($filter=is_deleted eq false)&$filter=is_deleted eq false");
+        var resp = await http.ApiGetOData($"UnitCategory?$expand=units($filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             unit_categories = JsonSerializer.Deserialize<List<UnitCategoryModel>>(resp.Content.ToString());
         }
         else
         {
-            toast.Add("Loading printer fail.", MatToastType.Warning);
+            toast.Add("Loading unit fail.", MatToastType.Warning);
         }
     }
 

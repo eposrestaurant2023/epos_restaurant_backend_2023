@@ -1,0 +1,328 @@
+﻿@page "/role"
+@inherits PageCore
+@using System.Text.Json;
+
+<Loading is_loading="@(is_loading_data || is_loading)" />
+ 
+@if (!is_loading)
+{
+    <Title Value="Role & Permission"/>
+    <PageContainer roles="@gv.GetRole("role_manager")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle>
+                    <HeaderTemplate>
+                        @state.page_title
+                    </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="Status">
+                            <ModuleView sub_title="Product Category" module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <AddButton OnClick="@AddNew" roles="@gv.GetRole("role_add")">New</AddButton>
+                <RefreshButton OnClick="@(()=>LoadData(""))" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Table Items="@roles_list"
+                   PerPage="@state.pager.per_page"
+                   TotalItem="@TotalRecord"
+                   ShowCounter="true"
+                   ShowPager="true"
+                   ShowPagination="true"
+                   CurrentPage="@state.pager.current_page"
+                   OnPagerChange="@SelectChange"
+                   OnPageChange="@ChangePager"
+                   isLoading="@is_loading_data">
+                <TableHeader>
+                    <ThAuto OnClick="@(async () => await OrderBy("role_name"))" OrderBy="@(state.pager.order_by == "role_name")" OrderByType="@state.pager.order_by_type">User Type Name</ThAuto>
+                    <ThAuto OnClick="@(async () => await OrderBy("description"))" OrderBy="@(state.pager.order_by == "description")" OrderByType="@state.pager.order_by_type">Description</ThAuto>
+                    <Th  OrderByType="@state.pager.order_by_type">Status</Th>
+                    <Th ClassName="col-action"></Th>
+                </TableHeader>
+                <RowTemplate Context="r">
+                    <td>
+                        @if (!r.is_buildin)
+                        {
+                        <ComAuthorize OnClick="@(() => OnEdit(r.id))" roles="@gv.GetRole("role_edit")">
+                            @r.role_name
+                        </ComAuthorize>
+                        }else
+                        {
+                            <span>@r.role_name</span>
+                        }
+                    </td>
+                    <td>@r.description</td>
+                    <td>
+                        <LabelDeleted is_visible="@r.is_deleted" />
+                        <LabelActive roles="@gv.GetRole("role_edit")" is_visible="@(!r.is_deleted && r.status)" is_loading="@r.is_change_status" OnClick="@(()=>OnToogleStatusLabel(r))" />
+                        <LabelInActive roles="@gv.GetRole("role_edit")" is_visible="@(!r.is_deleted && !r.status)" is_loading="@r.is_change_status" OnClick="@(()=>OnToogleStatusLabel(r))" />
+                    </td>
+                    <td>
+                        <ComTableActions is_loading="@(r.is_loading)" is_visible="@(!r.is_buildin)">
+                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="edit" @onclick="(() => OnEdit(r.id))" is_visible="@(r.status && !r.is_deleted)">Edit</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_set_permission")" icon="lock" url="@($"/role/edit/{r.id}")" is_visible="@(r.status && !r.is_deleted)">Set Permission</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="highlight_off" is_visible="@(r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">Inactive</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="check" is_visible="@(!r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">Active</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_delete")" icon="delete" is_visible="@(!r.is_deleted)" OnClick="(()=>OnDelete(r))">Delete</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_restore")" icon="refresh" is_visible="@(r.is_deleted)" OnClick="(()=>OnRestore(r))">Restore</TableActionItem>
+                        </ComTableActions>
+                    </td>
+                </RowTemplate>
+            </Table>
+        </PageBody>
+    </PageContainer>
+
+    <AuthorizeView >
+        @if (is_open)
+        {
+            <ComAddRole Save_Click="@OnSave" model="role" is_dialog_open="@is_open" Cancel_click="@(() => { is_open = false;   role = new RoleModel();})" title="@ModalTitle" />
+        }
+    </AuthorizeView>
+
+}
+
+@code{
+    List<RoleModel> roles_list = new List<RoleModel>();
+    RoleModel role = new RoleModel();
+
+    public string StateKey { get { return "SWwLKswetmeUUKsSwe:}/SEUewervvvw%^&*"; } }
+    bool is_open;
+    int TotalRecord = 0;
+
+    string controller_api = "role", ModalTitle = "";
+
+    public string ControllerApi
+    {
+        get
+        {
+            if (state.pager.order_by == "")
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+
+            string select = "$select=role_name,id,description,status,is_deleted,is_buildin";
+
+
+            string url = $"{controller_api}?{select}&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            return url + GetFilter(state.filters);
+
+        }
+    }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+
+        state = await GetState(StateKey);
+
+        if (state.page_title == "")
+        {
+            state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+            state.page_title = $"All Role";
+            var default_view = gv.GetDefaultModuleView("page_role");
+            if (default_view != null)
+            {
+
+                state.page_title = default_view.title;
+                state.filters = default_view.filters;
+            }
+        }
+
+
+        await LoadData(state.api_url);
+
+    }
+
+    async Task OnEdit(int id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(controller_api + $"({id})");
+        if (resp.IsSuccess)
+        {
+            role = JsonSerializer.Deserialize<RoleModel>(resp.Content.ToString());
+        }
+        ModalTitle = "Edit:" + role.role_name;
+        is_open = true;
+        is_loading_data = false;
+    }
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading = true;
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+            await SetState(StateKey, state);
+
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            roles_list = JsonSerializer.Deserialize<List<RoleModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+        }
+        is_loading = false;
+
+    }
+
+    async Task OrderBy(string col_name = "")
+    {
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+        await LoadData();
+    }
+
+    async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
+        await LoadData();
+
+    }
+
+
+    public async Task SelectChange(int perpage)
+    {
+        is_loading = true;
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task ChangePager(int _page)
+    {
+        is_loading = true;
+        state.pager.current_page = _page;
+        await LoadData();
+        is_loading = false;
+    }
+    async Task OnSearch(string keyword)
+    {
+        is_loading = true;
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword, true);
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task OnSave()
+    {
+        is_saving = true;
+        is_loading_data = true;
+        var resp = await http.ApiPost(controller_api + "/save", role);
+        if (resp.IsSuccess)
+        {
+            await LoadData();
+            is_open = false;
+            role = new RoleModel();
+            toast.Add("Save successfully", MatToastType.Success);
+        }
+        else
+        {
+            toast.Add(resp.Content.ToString(), MatToastType.Warning);
+        }
+        is_saving = false;
+        is_loading_data = false;
+    }
+
+    void AddNew()
+    {
+        is_open = true;
+        ModalTitle = $"New Role";
+    }
+
+    async Task OnToogleStatus(RoleModel p)
+    {
+        p.is_loading = true;
+        await SaveStatus(p);
+        p.is_loading = false;
+    }
+
+    async Task OnToogleStatusLabel(RoleModel r)
+    {
+        r.is_change_status = true;
+        await SaveStatus(r);
+        r.is_change_status = false;
+    }
+    async Task SaveStatus(RoleModel r)
+    {
+        var resp = await http.ApiPost(controller_api + "/status/" + r.id);
+        if (resp.IsSuccess)
+        {
+            await LoadData();
+
+            if (roles_list.Count() == 0 && state.pager.current_page > 1)
+            {
+                state.pager.current_page = state.pager.current_page - 1;
+                await LoadData();
+            }
+
+            toast.Add("Save Successfully", MatToastType.Success);
+
+        }
+    }
+    async Task OnDelete(RoleModel p)
+    {
+        p.is_loading = true;
+        if (await js.Confirm("Delete Role", "Are you sure you want to delete this this record?", SweetAlertMessageType.question))
+        {
+
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+
+
+            if (resp.IsSuccess)
+            {
+
+                if (roles_list.Count() == 1 && state.pager.current_page > 0)
+                {
+                    state.pager.current_page = state.pager.current_page - 1;
+                }
+
+                await LoadData();
+            }
+            toast.Add("Delete Role successfully", MatToastType.Success);
+
+        }
+
+        p.is_loading = false;
+
+    }
+
+    async Task OnRestore(RoleModel p)
+    {
+        p.is_loading = true;
+        if (await js.Confirm("Restore Role", "Are you sure you want to restore this this record?", SweetAlertMessageType.question))
+        {
+
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+
+            if (resp.IsSuccess)
+            {
+                if (roles_list.Count() == 1 && state.pager.current_page > 1)
+                {
+                    state.pager.current_page = state.pager.current_page - 1;
+                }
+                await LoadData();
+            }
+            toast.Add("Restore Role successfully", MatToastType.Success);
+
+        }
+        p.is_loading = false;
+
+    }
+}

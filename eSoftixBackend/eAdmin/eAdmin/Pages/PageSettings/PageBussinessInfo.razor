@@ -1,0 +1,92 @@
+﻿@page "/businessinfo"
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Company Information"></Title>
+    <PageContainer roles="@gv.GetRole("business_information_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Company Information
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="Save_Click" @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox>
+                        <UkFlex class_name="uk-flex-center">
+                            <FileUpload @bind-ImageUrl="@model.company_logo" guid="bus_capture_001" />
+                        </UkFlex>
+                    </UIContainerBox>
+                    <UIContainerBox>
+                        <TextInput label="Company Name" @bind-text="@model.company_name">
+                            <ValidationMessage For="@(() => model.company_name)" />
+                        </TextInput>
+                        <TextInput label="Company Name KH" @bind-text="@model.company_name_kh">
+                            <ValidationMessage For="@(() => model.company_name_kh)" />
+                        </TextInput>
+                        <TextInput type="textarea" label="Address" @bind-text="@model.address" />
+                        <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
+                        <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+                        <TextInput label="Contact Name" @bind-text="@model.contact_name" />
+                        <TextInput label="Phone Number" @bind-text="@model.contact_phone_number" />
+                        <TextInput label="Office Phone" @bind-text="@model.contact_office_number" />
+                        <TextInput label="Office Email" @bind-text="@model.email" />
+                        <TextInput label="Contact Email" @bind-text="@model.contact_email" />
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button roles="@gv.GetRole("business_information_add")" icon="save" disabled="is_saving" type="submit">
+                        @if (is_saving)
+                        {
+                            <Spinner />
+                        }
+                        else
+                        {
+                            <span>Save</span>
+                        }
+                    </Button>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+
+    </PageContainer>
+}
+
+@code{
+    string guid = Guid.NewGuid().ToString();
+
+    BusinessInformationModel model { get; set; } = new BusinessInformationModel();
+    InputFileData file { get; set; } = new InputFileData();
+    protected override void OnInitialized()
+    {
+        is_loading = true;
+       
+        is_loading = false;
+    }
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        var res = await http.ApiPost("Company/save", model);
+        if (res.IsSuccess)
+        {
+            toast.Add("Save sucessfully", MatToastType.Success);
+        }
+        else
+        {
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+        }
+
+        is_saving = false;
+    }
+
+
+}

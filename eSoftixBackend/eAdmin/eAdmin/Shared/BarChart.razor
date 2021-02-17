@@ -1,0 +1,87 @@
+﻿@using ChartJs.Blazor.ChartJS.BarChart
+@using ChartJs.Blazor.ChartJS.BarChart.Axes
+@using ChartJs.Blazor.ChartJS.Common.Axes
+@using ChartJs.Blazor.ChartJS.Common.Axes.Ticks
+
+@using ChartJs.Blazor.ChartJS.Common.Wrappers
+@using ChartJs.Blazor.Charts
+
+
+@if (!is_loading)
+{
+    <ChartJsBarChart @ref="_barChart" Config="@_barChartConfig" Width="@Width" Height="@Height" />
+
+}
+
+@code
+{
+
+    private BarConfig _barChartConfig;
+    private ChartJsBarChart _barChart;
+    private BarDataset<DoubleWrapper> _barDataSet;
+
+    [Parameter] public Int32? Width { get; set; } = 600;
+    [Parameter] public Int32? Height { get; set; } = 300;
+    [Parameter] public BarChartModel Data { get; set; } = new BarChartModel();
+    bool is_loading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        await Task.Delay(100);
+
+        _barChartConfig = new BarConfig
+        {
+            Options = new BarOptions
+            {
+
+                MaintainAspectRatio = false,
+                Scales = new BarScales
+                {
+                    XAxes = new List<CartesianAxis>
+    {
+                        new BarCategoryAxis
+                        {
+                            BarPercentage = 0.8,
+                            BarThickness = BarThickness.Flex
+                        }
+                    },
+                    YAxes = new List<CartesianAxis>
+    {
+                        new BarLinearCartesianAxis
+                        {
+                            Ticks = new LinearCartesianTicks
+                            {
+                                BeginAtZero = true
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        _barChartConfig.Data.Labels.AddRange(Data.label);
+
+        foreach (var d in Data.data)
+        {
+            _barDataSet = new BarDataset<DoubleWrapper>
+            {
+                Label = d.label.ToString(),
+                BackgroundColor = d.color,
+                BorderWidth = 0,
+                HoverBackgroundColor = BaseColor.DefaultLight,
+                HoverBorderColor = BaseColor.HvoverChartBorder,
+                HoverBorderWidth = 1,
+                BorderColor = BaseColor.ChartBorder,
+            };
+
+            _barDataSet.AddRange(d.data.Wrap());
+            _barChartConfig.Data.Datasets.Add(_barDataSet);
+        }
+
+        is_loading = false;
+    }
+
+
+}

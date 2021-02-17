@@ -1,0 +1,45 @@
+﻿@if (is_visible)
+{
+    @if (roles == "")
+    {
+
+        <li>
+            @if (url != "")
+            {
+                <a href="@url"><Icon icon="@icon" className="@icon"/> @ChildContent</a>
+            }
+            else
+            {
+                <a @onclick="@OnClick" class="uk-drop-close"><Icon icon="@icon" className="@icon" /> @ChildContent</a>
+            }
+        </li>
+
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+            <li>
+                @if (url != "")
+                {
+                    <a href="@url"><Icon icon="@icon" className="@icon"/> @ChildContent</a>
+                }
+                else
+                {
+                    <a @onclick="@OnClick" class="uk-drop-close"><Icon icon="@icon" className="@icon"/> @ChildContent</a>
+                }
+            </li>
+        </AuthorizeView>
+    }
+
+}
+
+
+@code{
+    [Parameter] public string icon { get; set; } = "";
+    [Parameter] public string url { get; set; } = "";
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+}

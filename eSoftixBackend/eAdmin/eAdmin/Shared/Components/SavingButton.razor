@@ -1,0 +1,9 @@
+﻿@if (is_saving)
+{
+<button Type="button" class="uk-button uk-button-primary ">
+    <div uk-spinner></div>   Save...
+</button>
+}
+@code{
+    [Parameter] public bool is_saving { get; set; } = true;
+}

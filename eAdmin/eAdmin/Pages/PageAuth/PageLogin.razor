@@ -20,11 +20,11 @@
                         <div>
                             <div class="uk-form-control">
                                 <input id="username" @bind="@model.Username" type="text" placeholder="Enter username" class="uk-input" />
-                                @*<ValidationMessage For="@(()=>model.Username)" />*@
+                                <ValidationMessage For="@(()=>model.Username)" />
                             </div>
                             <div class="uk-form-control">
                                 <input id="password" @bind="@model.Password" type="password" placeholder="Enter password" class="uk-input" />
-                                @*<ValidationMessage For="@(()=>model.Password)" />*@
+                                <ValidationMessage For="@(()=>model.Password)" />
                             </div>
                             @if (IsShowMessage)
                             {

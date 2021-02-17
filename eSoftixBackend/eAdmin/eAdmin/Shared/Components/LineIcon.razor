@@ -1,0 +1,36 @@
+﻿@inherits UIComponentBase
+@if (IsVisible)
+{
+    @if (IconUrl != "")
+    {
+        @if (!is_target)
+        {
+            <a href="@IconUrl" uk-tooltip="@Title">
+                <i class="@IconType @IconName @ClassName @Cursor" @onclick="@OnClick" @attributes="CustomAttributes" style="font-size:@icon_size"></i>
+            </a>
+        }
+        else
+        {
+            <a href="@IconUrl" uk-tooltip="@Title" target="_blank">
+                <i class="@IconType @IconName @ClassName @Cursor" @onclick="@OnClick" @attributes="CustomAttributes" style="font-size:@icon_size"></i>
+            </a>
+        }
+    }
+    else
+    {
+        <i class="@IconType @IconName @ClassName @Cursor" @onclick="@OnClick" @attributes="CustomAttributes" uk-tooltip="@Title" style="font-size:@icon_size"></i>
+    }
+
+
+}
+
+@code{
+    [Parameter] public bool is_target { get; set; } = false;
+    [Parameter] public string IconName { get; set; } = "";
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Cursor { get; set; } = "cp";
+    [Parameter] public string IconUrl { get; set; } = "";
+    [Parameter] public string icon_size { get; set; } = "";
+    [Parameter] public string IconType { get; set; } = "las";
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+}
