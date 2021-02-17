@@ -1,0 +1,120 @@
+﻿@inherits PageCore;
+<EditFormContext Cancel_Click="OnCancelClick" model="@model" is_opened="is_opened" title="@title" Save_Click="@(async()=>await Save_Click(false))" is_submitting="@is_saving" modal_width="800px">
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+        <ComAddCustomerForm model="@model" />
+    }
+</EditFormContext>
+
+@if (is_customer_exist)
+{
+    <ComExistingCustomerInformation data="@existing_customer_info" is_opened="@is_customer_exist" OnClose="@(()=>is_customer_exist=false)" OnSaveNewRecord="@SaveNewRecord" OnSelectCustomer="@OnSelectExistingCustomer"  />
+}
+
+@code{
+
+    [Parameter] public bool is_opened { get; set; }
+    [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
+    [Parameter] public int id { get; set; }
+
+    [Parameter] public bool is_customer_exist { get; set; }
+    CustomerModel model = new CustomerModel();
+
+    ApiResponseModel existing_customer_info = new ApiResponseModel();
+
+    [Parameter] public EventCallback<CustomerModel> OnSave { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!is_loading)
+        {
+            is_loading = true;
+
+           
+
+            if (id > 0)
+            {
+                var res = await http.ApiGet($"customer({id})");
+                if (res.IsSuccess)
+                {
+                    model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                    title = $"Edit : {model.customer_name_en}";
+                }
+                else
+                {
+                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    is_loading = false;
+                }
+            }
+            else
+            {
+                title = "Add New Customer";
+            }
+            is_loading = false;
+        }
+    }
+
+
+    async Task Save_Click(bool allow_add_duplicate_record=false)
+    {
+        if (!is_saving)
+        {
+            is_saving = true;
+
+            var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_add_duplicate_record}", model);
+            if (res.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                toast.Add("Saving Customer successfully", MatToastType.Success);
+                await OnSave.InvokeAsync(model);
+                await is_openedChanged.InvokeAsync(false);
+
+            }
+            else
+            {
+                is_saving = false;
+                //check response code status and
+                if (res.status_code >= 400 && res.status_code <= 499)
+                {
+                    is_customer_exist = true;
+                    existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
+                    toast.Add(existing_customer_info.message, MatToastType.Warning);
+
+                }
+                else
+                {
+                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                }
+
+            }
+            //testing
+            is_saving = false;
+
+        }
+    }
+
+    async Task SaveNewRecord()
+    {
+        is_customer_exist = false;
+        await Save_Click(true);
+
+    }
+
+    async Task OnSelectExistingCustomer(CustomerModel c)
+    {
+        await OnSave.InvokeAsync(c);
+    }
+
+    async Task OnCancelClick() {
+        is_opened = false;
+        await is_openedChanged.InvokeAsync(false);
+        await OnCancel.InvokeAsync(true);
+    }
+}
+
+

@@ -1,0 +1,24 @@
+﻿
+@if (RowSpan > 0 && ColSpan > 0)
+{
+    <td @onclick="@OnClick" rowspan="@RowSpan" colspan="@ColSpan"  class="uk-text-right @ClassName">@ChildContent</td>
+}
+else if (RowSpan > 0)
+{
+    <td @onclick="@OnClick" rowspan="@RowSpan"  class="uk-text-right @ClassName">@ChildContent</td>
+}
+else if (ColSpan > 0)
+{
+    <td @onclick="@OnClick" colspan="@ColSpan"  class="uk-text-right @ClassName">@ChildContent</td>
+}
+else
+{
+    <td @onclick="@OnClick" class="uk-text-right @ClassName">@ChildContent</td>
+}
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter] public int RowSpan { get; set; } = 0;
+    [Parameter] public int ColSpan { get; set; } = 0;
+    [Parameter] public string ClassName { get; set; } = "";
+}

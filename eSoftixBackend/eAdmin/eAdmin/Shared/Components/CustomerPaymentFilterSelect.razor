@@ -1,0 +1,22 @@
+﻿<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">Status</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="@selected_value.ToString()" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small" style="width:@Width">
+            <option value="all">All</option>
+            <option value="unpaid">Unpaid</option>
+            <option value="paid">Paid</option>
+        </select>
+    </div>
+</div>
+
+@code{
+    [Parameter] public string selected_value { get; set; } = "all";
+    [Parameter] public string label { get; set; } = "Status";
+    [Parameter] public string Width { get; set; } = "100%";
+    [Parameter]  public EventCallback<string> selected_valueChanged { get; set; } 
+    Guid id = Guid.NewGuid(); 
+    private async Task SelectedValueChange(string n)
+    { 
+        await selected_valueChanged.InvokeAsync(n);
+    }
+}

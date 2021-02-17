@@ -1,0 +1,55 @@
+﻿<Com is_visible="is_visible">
+    @if (!string.IsNullOrEmpty(empty))
+    {
+        <div class="uk-flex no-record-msg @align" style="height:@height">
+            <Grid ClassName="uk-grid-small uk-width-1-1">
+                <Column ClassName="uk-text-center">
+                    @if (line_icon != "")
+                    {
+                        <LineIcon IconName="@line_icon" ClassName="color_nodata" />
+                    }
+                    else if (icon != "")
+                    {
+
+                        <Icon icon="@icon" className="color_nodata" />
+                    }
+                </Column>
+                <Column ClassName="uk-width-1-1 uk-margin-remove-top">
+                    <h4 class="color_nodata">@empty</h4>
+                </Column>
+            </Grid>
+        </div>
+
+
+    }
+    else
+    {
+        <div class="uk-flex no-record-msg @align" style="height:@height">
+            <Grid ClassName="uk-grid-small uk-width-1-1">
+                <Column ClassName="uk-text-center">
+                    @if (line_icon != "")
+                    {
+                        <LineIcon IconName="@line_icon" ClassName="color_nodata" />
+                    }
+                    else if (icon != "")
+                    {
+
+                        <Icon icon="@icon" className="color_nodata" />
+                    }
+                </Column>
+                <Column ClassName="uk-width-1-1 uk-margin-remove-top">
+                    <h4 class="color_nodata">@empty</h4>
+                </Column>
+            </Grid>
+        </div>
+    }
+</Com>
+@code {
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string line_icon { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "";
+    [Parameter] public string empty { get; set; } = "There's no record in the system";
+    [Parameter] public string height { get; set; } = "500px";
+    [Parameter] public string align { get; set; } = "";
+
+}

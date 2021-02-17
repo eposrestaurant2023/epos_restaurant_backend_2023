@@ -1,0 +1,20 @@
+﻿@if (is_visible)
+{
+        if (!isNull)
+        {
+            @ChildContent
+        }
+        else
+        {
+            <Com is_visible="@(!string.IsNullOrEmpty(empty_text))">
+            <span>@empty_text</span>
+            </Com>
+        }
+}
+
+@code{
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool isNull { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "-";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

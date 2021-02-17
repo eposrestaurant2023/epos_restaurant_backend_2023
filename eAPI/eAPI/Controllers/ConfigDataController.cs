@@ -3,13 +3,8 @@ using eAPI.Controllers;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;         
+using System.Collections.Generic;   
 
 namespace eOpticalAPI.Controllers
 {
@@ -26,6 +21,7 @@ namespace eOpticalAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 0)]
+        [AllowAnonymous]
         public ActionResult<List<ConfigDataModel>> Get()
         {
              

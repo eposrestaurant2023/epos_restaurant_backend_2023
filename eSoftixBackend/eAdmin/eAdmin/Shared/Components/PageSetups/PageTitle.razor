@@ -1,0 +1,66 @@
+﻿<div>
+
+    @if (ShowFilter)
+    {
+        @if (is_subpage)
+        {
+            <div class="sub_page">
+                <Icon icon="@Icon" className="title_page_icon" />
+                @HeaderTemplate
+                <Icon icon="filter_list" />
+            </div>
+        }
+        else
+        {
+            <h1 class="uk-text-light uk-text-large title_page_action">
+                <Icon icon="@Icon" className="title_page_icon" />
+                @HeaderTemplate
+                <Icon icon="filter_list" />
+            </h1>
+        }
+        <div uk-dropdown="mode: click">
+            <div class="uk-navbar-dropdown-grid uk-child-width-expand mega-dropdown" uk-grid>
+                @FilterTemplate
+            </div>
+        </div>
+    }
+    else
+    {
+        @if (is_subpage)
+        {
+            <div class="sub_page">
+                <Icon icon="@Icon" className="title_page_icon" />
+                @HeaderTemplate
+            </div>
+        }
+        else
+        {
+            <h1 class="uk-text-light uk-text-large title_page_action @ClassTittle">
+                <Icon icon="@Icon" className="title_page_icon" />
+                @HeaderTemplate
+            </h1>
+        }
+
+    }
+
+</div>
+
+
+
+@code{
+
+    [Parameter] public int Columnms { get; set; }
+    [Parameter] public bool ShowFilter { get; set; } = true;
+    [Parameter] public string Icon { get; set; }
+    [Parameter] public string ClassTittle { get; set; } = "";
+    [Parameter] public bool is_subpage { get; set; } = false;
+
+    [Parameter] public RenderFragment HeaderTemplate { get; set; }
+
+    [Parameter] public RenderFragment FilterTemplate { get; set; }
+
+
+
+}
+
+

@@ -1,0 +1,57 @@
+﻿
+@if (!string.IsNullOrEmpty(roles))
+{
+    <AuthorizeView Roles="@roles">
+        @if (is_visible)
+        {
+            @if (string.IsNullOrEmpty(target))
+            {
+                <i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i>
+            }
+            else
+            {
+    <i class="@theme @className" uk-tooltip="@title" @onclick="OnClick" uk-toggle="target: @target" style="color: @icon_color; font-size: @size;">@icon</i>
+            }
+        }
+    </AuthorizeView>
+}
+else
+{
+    @if (is_visible)
+    {
+        @if (string.IsNullOrEmpty(target))
+        {
+<i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i>
+        }
+        else
+        {
+<i class="@theme @className" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;" uk-toggle="target: @target">@icon</i>
+        }
+    }
+}
+
+@code{
+    [Parameter] public string icon { get; set; } = "add";
+    [Parameter] public string theme { get; set; } = "material-icons-outlined";
+    [Parameter] public string title { get; set; } = "";
+    [Parameter] public string target { get; set; } = "";
+    [Parameter] public string className { get; set; } = "";
+    [Parameter] public string icon_color { get; set; } = "";
+    [Parameter] public string size { get; set; } = "";
+    [Parameter] public string cursor { get; set; } = "cp";
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        className = (className == "" ? icon : className);
+        if (icon == "")
+        {
+            is_visible = false;
+        }
+
+    }
+
+}

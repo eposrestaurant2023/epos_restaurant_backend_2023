@@ -2,18 +2,16 @@
 @inherits PageCore
  
 
-<EditFormContext Cancel_Click="Cancel_click" model="user" is_opened="is_dialog_open" title="@modal_title" Save_Click="SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
-
+<EditFormContext Cancel_Click="Cancel_click" model="user" is_opened="is_dialog_open" title="@modal_title" Save_Click="@SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
+    <DataAnnotationsValidator/>
     <FileUpload @bind-ImageUrl="@user.photo" />
     <Spacing Number="10" />
-    <NumberInputInt label="User Code" @bind-text="@user.user_code">
-        <ValidationMessage For="@(() => user.user_code)" />
-    </NumberInputInt>
+    @*<NumberInputInt label="User Code" @bind-text="@user.user_code"/>
 
     @if (user.is_allow_front_end_login)
     {
         <NumberInputInt label="Pin Code" @bind-text="@user.pin_code" />
-    }
+    }*@
 
     <TextInput label="Full Name" @bind-text="@user.full_name">
         <ValidationMessage For="@(() => user.full_name)" />

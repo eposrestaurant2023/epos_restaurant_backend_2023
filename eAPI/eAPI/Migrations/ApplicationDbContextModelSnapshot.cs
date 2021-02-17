@@ -384,9 +384,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.ConfigDataModel", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1603,6 +1601,9 @@ namespace eAPI.Migrations
                     b.Property<int>("product_menu_id")
                         .HasColumnType("int");
 
+                    b.Property<int>("product_portion_id")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("quantity")
                         .HasColumnType("decimal(19,4)");
 
@@ -1621,6 +1622,8 @@ namespace eAPI.Migrations
                     b.HasIndex("product_ingredient_id");
 
                     b.HasIndex("product_menu_id");
+
+                    b.HasIndex("product_portion_id");
 
                     b.ToTable("tbl_product_ingredient");
                 });
@@ -2561,6 +2564,23 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_setting");
+                });
+
+            modelBuilder.Entity("eModels.ShiftModel", b =>
+                {
+                    b.Property<int>("id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("shift_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("sort_order")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_shift");
                 });
 
             modelBuilder.Entity("eModels.StationModel", b =>
@@ -3861,9 +3881,17 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.ProductPortionModel", "product_portion")
+                        .WithMany("product_ingredients")
+                        .HasForeignKey("product_portion_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("product_ingredient");
 
                     b.Navigation("product_menu");
+
+                    b.Navigation("product_portion");
                 });
 
             modelBuilder.Entity("eModels.ProductMenuModel", b =>
@@ -4398,6 +4426,8 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductPortionModel", b =>
                 {
+                    b.Navigation("product_ingredients");
+
                     b.Navigation("product_prices");
                 });
 

@@ -1,0 +1,30 @@
+﻿
+<EditFormContext Cancel_Click="Cancel_click" model="setting" is_opened="is_dialog_open" title="@title" Save_Click="SaveSetting_Click" is_submitting="setting.is_saving">   
+    @if (setting.input_type == "date")
+    {
+        <ComSelectDateFormat label="Date Format" @bind-selected_value="@setting.setting_value" />
+    }
+    else if (setting.input_type == "datetime")
+    {
+        <ComSelectDateTimeFormat label="Date Time Format" @bind-selected_value="@setting.setting_value"/>
+    }
+    else
+    {
+        <TextInput label="Setting Value" @bind-text="@setting.setting_value" placeholder="Setting Value" type="@setting.input_type" />
+    }
+</EditFormContext>
+
+
+@code{
+    [Parameter] public SettingModel setting { get; set; }
+    [Parameter] public bool is_dialog_open { get; set; }
+    [Parameter] public string title { get; set; }
+    [Parameter] public EventCallback<SettingModel> SaveSetting { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
+       
+    async Task SaveSetting_Click()
+    {
+        await SaveSetting.InvokeAsync(setting);
+    }
+
+} 

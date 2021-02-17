@@ -1,0 +1,158 @@
+﻿@page "/setting"
+@inherits PageCore
+
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="General Setting"></Title>
+    <PageContainer roles="@gv.GetRole("general_setting_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @title
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <RefreshButton OnClick="RefreshSetting_Click" />
+                <ComSearchV2 Keyword="@keyword" KeywordChanged="@FilterSettingByKeyword" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Table 
+                   ShowPaging="false"
+                   ShowCounter="true"
+                   Items="@settings" 
+                   EmptyIcon="setting" 
+                   EmptyText="No Data Found">
+                <TableHeader>
+                    <Th OnClick="@(async () => await SortOrder("setting_title"))" OrderBy="@(pg.order_by == "setting_title")" OrderByType="@pg.order_by_type" ClassName="cp">Setting Title</Th>
+                    
+                    <Th>setting Value</Th>
+                    <ThAuto>Descript</ThAuto>
+                    <th></th>
+                </TableHeader>
+                <RowTemplate Context="s">
+                    <td>
+                        @s.setting_title
+                    </td>
+                    <td>
+                        <div class="text-pre-wrap">@s.setting_value</div>
+                    </td>
+                    <td>
+                        <div class="text-pre-wrap">@s.setting_description</div>
+                    </td>
+                    <td>
+                        <Icon roles="@gv.GetRole("general_setting_edit")" title="Edit" icon="edit" OnClick="@(()=>EditSetting_Click(s))"/>
+                    </td>                    
+                </RowTemplate>
+            </Table>
+        </PageBody>
+    </PageContainer>
+    @if (is_open)
+    {
+        <ComEditSetting setting="setting" is_dialog_open="is_open" Cancel_click="CancelEdit_Click" title="@setting.setting_title" SaveSetting="SaveSetting_Click" />
+    }
+}
+
+@code{
+    [Parameter] public string keyword { get; set; } = "";
+    List<SettingModel> settings = new List<SettingModel>();
+    SettingModel setting = new SettingModel();
+    PagerModel pg = new PagerModel();
+    bool is_open;
+    int TotalRecord=0;
+    string old_title, old_value, old_desc;
+    string keyword_query = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!is_loading)
+        {
+            is_loading = true;
+            settings = await LoadSetting();
+            title = "All Setting";
+            is_loading = false;
+        }
+    }
+
+    void EditSetting_Click(SettingModel s)
+    {
+        is_open = true;
+        setting = s;
+
+        old_title = s.setting_title;
+        old_value = s.setting_value;
+        old_desc = s.setting_description;
+    }
+
+    async Task FilterSettingByKeyword(string _keyword)
+    {
+        keyword = _keyword;
+        pg.current_page = 1;
+        if (!string.IsNullOrEmpty(keyword))
+        {
+            keyword_query = $"keyword={keyword}";
+            settings = await LoadSetting(keyword);
+        }
+        else
+        {
+            keyword = "";
+            keyword_query = "";
+            settings = await LoadSetting(keyword);
+        }
+    }
+
+    async Task SaveSetting_Click()
+    {
+        setting.is_saving = true;
+        var res = await http.ApiPost("setting/save", setting);
+        string dd = JsonSerializer.Serialize(setting);
+        if (res.IsSuccess)
+        {
+            toast.Add("Updated Successfully.", MatToastType.Success);
+        }
+        setting.is_saving = false;
+        is_open = false;
+    }
+
+    void CancelEdit_Click()
+    {
+        setting.setting_title = old_title;
+        setting.setting_value = old_value;
+        setting.setting_description = old_desc;
+        is_open = false;
+    }
+
+    async Task<List<SettingModel>> LoadSetting(string keyword = "", bool is_clear = false)
+    {
+        is_loading = true;
+
+        string paging_query = $"&$orderby={pg.order_by} {pg.order_by_type}";
+        var res = await http.ApiGetOData($"setting?{keyword_query}&$count=true&$top={pg.per_page}&$skip={ pg.per_page * (pg.current_page - 1)}{paging_query}&$filter= status eq true ");
+        string query = $"setting?{keyword_query}&$count=true&$top={pg.per_page}&$skip={ pg.per_page * (pg.current_page - 1)}{paging_query}";
+        List<SettingModel> settings = new List<SettingModel>();
+        if (res.IsSuccess)
+        {
+            TotalRecord = res.Count;
+            settings = JsonSerializer.Deserialize<List<SettingModel>>(res.Content.ToString());
+        }
+        is_loading = false;
+        return settings;
+    }
+
+    async Task SortOrder(string col_name = "")
+    {
+        pg.order_by = col_name;
+        pg.order_by_type = (pg.order_by_type == "asc" ? "desc" : "asc");
+        settings = await LoadSetting();
+    }
+
+    async Task RefreshSetting_Click()
+    {
+        settings = await LoadSetting("", true);
+    }
+}
+
+

@@ -1,0 +1,35 @@
+﻿@if (roles == "")
+{
+    @if (url != "")
+    {
+        <li><a href="@url" class="uk-drop-close">@ChildContent</a></li>
+    }
+    else
+    {
+        <li><a @onclick="@OnClick" class="uk-drop-close">@ChildContent</a></li>
+    }
+
+}
+else
+{
+    <AuthorizeView Roles="@roles">
+        @if (url != "")
+        {
+            <li><a href="@url" class="uk-drop-close">@ChildContent</a></li>
+        }
+        else
+        {
+            <li><a @onclick="@OnClick" class="uk-drop-close">@ChildContent</a></li>
+        }
+    </AuthorizeView>
+}
+
+
+
+
+@code{
+    [Parameter] public string url { get; set; } = "";
+    [Parameter] public RenderFragment @ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter] public string roles { get; set; } = "";
+}
