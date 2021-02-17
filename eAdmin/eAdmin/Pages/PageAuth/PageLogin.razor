@@ -64,13 +64,13 @@
     public async Task LoginUser()
     {
         IsSpinning = true;
-        //if (string.IsNullOrWhiteSpace(model.Username) || model.Password == "")
-        //{
-        //    IsShowMessage = true;
-        //    Message = "Username or Password is required.";
-        //    IsSpinning = false;
-        //    return;
-        //}
+        if (string.IsNullOrWhiteSpace(model.Username) || model.Password == "")
+        {
+            IsShowMessage = true;
+            Message = "Username or Password is required.";
+            IsSpinning = false;
+            return;
+        }
 
         var resp = await http.ApiPost("user/auth/login", model);
         if (resp.IsSuccess)
