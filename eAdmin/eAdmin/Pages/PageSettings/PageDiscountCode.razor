@@ -4,116 +4,115 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Discount Code"/>
+    <Title Value="Discount Code"></Title>
     <PageContainer roles="@gv.GetRole("discount_code")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                      Discount Code
+                        Discount Code
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
         </PageHeader>
 
         <PageBody>
+          
             <UIGridCenter>
-                @foreach (var b in business_branh)
-                {
-                    <ComAccordion>
-                        <Header>
-                            @b.business_branch_name_en
-                        </Header>
-                        <Content>
-                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
 
-                                <tr>
-                                    <Th>Discound Code Label</Th>
-                                    <Th>Discound Code Value</Th>
-                                    <ThCenter>Status</ThCenter>
-                                    <Th></Th>
-                                </tr>
-                                @foreach (var d in models)
-                                {
+                @if (is_loading)
+                {
+                    <Spinner />
+                }
+                else
+                {
+                    @foreach (var b in branches)
+                    {
+                        <ComAccordion>
+                            <Header>
+                                @b.business_branch_name_en
+                            </Header>
+                            <Content>
+                                <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+
                                     <tr>
-                                        <td>@d.discount_label</td>
-                                        <td>@d.discount_value.ToString(gv.quantity_format)</td>
-                                        <TdCenter>
-                                            <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                            <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                        </TdCenter>
-                                        <td> <Icon OnClick="@(() => OnEdit(d.id))" icon="edit" /></td>
+                                        <Th>Discound Code Label</Th>
+                                        <Th>Discound Code Value</Th>
+                                        <ThCenter>Status</ThCenter>
+                                        <Th></Th>
                                     </tr>
-                                }
-                            </table>
-                            <hr />
-                            <Button OnClick="@OnOpenModel">Add Discount Code</Button>
-                        </Content>
-                    </ComAccordion>
+                                    @foreach (var d in b.discount_codes.Where(r => r.is_deleted == false))
+                                    {
+                                        <tr>
+                                            <td><TextInput @bind-text="@d.discount_label" label="" placeholder="Discount Label" /></td>
+                                            <td><NumberInput @bind-text="@d.discount_value" label="" placeholder="Discount Value" /></td>
+                                            <TdCenter>
+                                                <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                                <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                            </TdCenter>
+                                            <td> <Icon OnClick="@(() => OnDelete(b,d))" icon="delete" /></td>
+                                        </tr>
+                                    }
+                                </table>
+                                <hr />
+                                <Button OnClick="@(()=>AddDiscount(b))">Add Discount Code</Button>
+                            </Content>
+                        </ComAccordion>
+                    }
                 }
 
-                </UIGridCenter>
+
+            </UIGridCenter>
         </PageBody>
 
-
+        <PageFooter>
+            <FooterCenter>
+                <ComButtonLoading is_loading="@is_saving">
+                    <SavingButton is_saving="@is_saving" />
+                    <Button OnClick="@Save_Click" is_visible="@(!is_saving)">Save</Button>
+                </ComButtonLoading>
+            </FooterCenter>
+        </PageFooter>
 
     </PageContainer>
 
-
-
-
-    <EditFormContext model="@discount_code" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
-        <SelectGUID Items="business_branh" @bind-SelectedValue="@discount_code.business_branch_id" InputLabel="Business Branch" EmptyText="Select Business Branch" ShowEmptyText="true">
-            <SelectOptions Context="b">
-                <option value="@b.id">@b.business_branch_name_en</option>
-            </SelectOptions>
-            <ValidationTemplate>
-                <ValidationMessage For="@(() => discount_code.business_branch_id )" />
-            </ValidationTemplate>
-        </SelectGUID>
-        <TextInput label="Discound code label" @bind-text="@discount_code.discount_label" />
-        <NumberInput label="Discount code value" @bind-text="@discount_code.discount_value" />
-
-    </EditFormContext>
+ 
 
 
 }
 
 @code{
-    string guid = Guid.NewGuid().ToString();
-    bool ShowModal = false;
-    List<DiscountCodeModel> models = new List<DiscountCodeModel>();
-    [Parameter] public bool IsSubmitting { get; set; } = false;
-    DiscountCodeModel discount_code { get; set; } = new DiscountCodeModel();
-    List<BusinessBranchModel> business_branh = new List<BusinessBranchModel>();
-    string ControllerApi = "DiscountCode";
-    string ModalTitle = "";
+
+
+    List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         await LoadData();
-        await LoadBusinessBranch("");
+
         is_loading = false;
     }
 
+    void AddDiscount(BusinessBranchModel b){
+        b.discount_codes.Add(new DiscountCodeModel() { business_branch_id = b.id });
+
+    }
 
 
-    async Task LoadData(string api_url = "")
+    async Task LoadData()
     {
 
         is_loading_data = true;
 
-        if (string.IsNullOrEmpty(api_url))
-        {
-            api_url = $"{ControllerApi}?$expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh,address_en,address_kh)";
-        }
+        string api_url = $"BusinessBranch?$expand=discount_codes";
+
 
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {
 
-            models = JsonSerializer.Deserialize<List<DiscountCodeModel>>(resp.Content.ToString());
+            branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
 
         }
         is_loading_data = false;
@@ -124,105 +123,56 @@
 
     async Task Save_Click()
     {
-        is_saving = true;
-        discount_code.business_branch = null;
-        var res = await http.ApiPost("DiscountCode/save", discount_code);
-        if (res.IsSuccess)
+
+        if (branches.SelectMany(r => r.discount_codes).Where(r => r.is_deleted == false && (r.discount_label.Trim() == "" || r.discount_value==0 )).Any())
         {
-            toast.Add("Save sucessfully", MatToastType.Success);
+
+            toast.Add("Please enter printer name", MatToastType.Warning);
+            return;
+        }
+
+        is_saving = true;
+
+        string xx = JsonSerializer.Serialize(branches);
+
+        var resp = await http.ApiPost("BusinessBranch/save/multiple", branches);
+        if (resp.IsSuccess)
+        {
+
+            toast.Add("Save Discount Codes successfully", MatToastType.Success);
 
             await LoadData();
         }
         else
         {
-            toast.Add(res.Content.ToString(), MatToastType.Warning);
-        }
 
-        ShowModal = false;
-        discount_code = new DiscountCodeModel();
+            toast.Add("Save Discount Codes Fail", MatToastType.Warning);
+        }
         is_saving = false;
-
     }
 
 
 
-    void OnOpenModel()
-    {
-        ShowModal = !ShowModal;
-    }
 
-    async Task OnEdit(int id)
+    void  OnDelete(BusinessBranchModel b, DiscountCodeModel v)
     {
-        is_loading_data = true;
-        var get_result = await http.ApiGet($"DiscountCode({id})");
-        if (get_result.IsSuccess)
+
+        if (v.id == 0)
         {
-            discount_code = JsonSerializer.Deserialize<DiscountCodeModel>(get_result.Content.ToString());
-            ModalTitle = "Edit" + ": " + discount_code.discount_label;
-            ShowModal = true;
+            b.discount_codes.Remove(v);
         }
-        is_loading_data = false;
-    }
-
-
-    async Task LoadBusinessBranch(string api_url = "")
-    {
-
-        is_loading_data = true;
-
-        if (string.IsNullOrEmpty(api_url))
+        else
         {
-
-            api_url = "BusinessBranch";
+            v.is_deleted = true;
         }
 
-        var resp = await http.ApiGetOData(api_url);
-        if (resp.IsSuccess)
-        {
-
-            business_branh = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
-
-        }
-        is_loading_data = false;
-
     }
 
-    async Task OnDelete(DiscountCodeModel v)
-    {
-        is_loading_data = true;
-        v.is_loading = true;
-        if (await js.Confirm("Are You Sure To Delete"))
-        {
-            var postr = await http.ApiPost($"{ControllerApi}/delete/{v.id}");
-            if (postr.IsSuccess)
-            {
-                await js.Toast("Deleted Sucessfully", AlertType.success);
-            }
-        }
-        v.is_loading = false;
-        is_loading_data = false;
-    }
 
-    void AddNew()
-    {
-        discount_code = new DiscountCodeModel();
-        ShowModal = true;
-    }
 
-    async Task Activebutton(DiscountCodeModel b)
+    void Activebutton(DiscountCodeModel b)
     {
-
-        b.is_change_status = true;
-        await Task.Delay(1000);
         b.status = !b.status;
-
-        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
-        if (resp.IsSuccess)
-        {
-            toast.Add("Change status successfully", MatToastType.Success);
-        }
-
-        b.is_change_status = false;
 
     }
 }
