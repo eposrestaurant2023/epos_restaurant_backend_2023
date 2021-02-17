@@ -38,30 +38,30 @@
                         </UIFlexCenter>
                     </UIContainerBox>
                     <UIContainerBox>
-                      
-                            <TextInput label="Code" text="@model.vendor_code" is_read_only="true">
-                                <ValidationMessage For="@(()=>model.vendor_code)" />
-                            </TextInput>
-                            <SelectInt Items="@vendor_group" @bind-SelectedValue="@model.vendor_group_id" ShowEmptyText="true" EmptyText="Select Vendor Group" InputLabel="Vendor Group">
-                                <SelectOptions Context="b">
-                                    <option value="@b.id">@b.vendor_group_name_en</option>
-                                </SelectOptions>
-                                <ValidationTemplate>
-                                    <ValidationMessage For="@(() => model.vendor_group_id )" />
-                                </ValidationTemplate>
-                            </SelectInt>
 
-                            <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
-                                <ValidationMessage For="@(() => model.vendor_name)" />
-                            </TextInput>
-                            <TextInput label="Company Name" @bind-text="@model.company_name" />
-                            <SelectStatus @bind-selected_value="@model.status" label="Status" />
-                            <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
-                            <TextInput label="Office Phone" @bind-text="@model.office_phone" />
-                            <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
-                                <ValidationMessage For="@(()=>model.province_id)" />
-                            </SelectProvince>
-                   
+                        <TextInput label="Code" text="@model.vendor_code" is_read_only="true">
+                            <ValidationMessage For="@(()=>model.vendor_code)" />
+                        </TextInput>
+                        <SelectInt Items="@vendor_group" @bind-SelectedValue="@model.vendor_group_id" ShowEmptyText="true" EmptyText="Select Vendor Group" InputLabel="Vendor Group">
+                            <SelectOptions Context="b">
+                                <option value="@b.id">@b.vendor_group_name_en</option>
+                            </SelectOptions>
+                            <ValidationTemplate>
+                                <ValidationMessage For="@(() => model.vendor_group_id )" />
+                            </ValidationTemplate>
+                        </SelectInt>
+
+                        <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
+                            <ValidationMessage For="@(() => model.vendor_name)" />
+                        </TextInput>
+                        <TextInput label="Company Name" @bind-text="@model.company_name" />
+
+                        <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
+                        <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+                        <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
+                            <ValidationMessage For="@(()=>model.province_id)" />
+                        </SelectProvince>
+                        <SelectStatus @bind-selected_value="@model.status" label="Status" />
 
                     </UIContainerBox>
                     <UIContainerBox Title="ADDRESS & NOTE">

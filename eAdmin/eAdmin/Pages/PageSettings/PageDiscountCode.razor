@@ -18,49 +18,41 @@
 
         <PageBody>
             <UIGridCenter>
-                <UIContainerBox Title="Discound Code" is_show_add_button="true" OnAddClick="@OnOpenModel">
-                    @foreach (var d in models)
-                    {
-                        <div class="container-layout">
-                            <div class="title-header">
-                                <div class="uk-panel">
-                                    <div class="uk-float-left">
-                                        <span>@d.business_branch?.business_branch_name_en</span>
-                                    </div>
-                                </div>
-                            </div>
+                @foreach (var b in business_branh)
+                {
+                    <ComAccordion>
+                        <Header>
+                            @b.business_branch_name_en
+                        </Header>
+                        <Content>
+                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+
+                                <tr>
+                                    <Th>Discound Code Label</Th>
+                                    <Th>Discound Code Value</Th>
+                                    <ThCenter>Status</ThCenter>
+                                    <Th></Th>
+                                </tr>
+                                @foreach (var d in models)
+                                {
+                                    <tr>
+                                        <td>@d.discount_label</td>
+                                        <td>@d.discount_value.ToString(gv.quantity_format)</td>
+                                        <TdCenter>
+                                            <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                            <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                        </TdCenter>
+                                        <td> <Icon OnClick="@(() => OnEdit(d.id))" icon="edit" /></td>
+                                    </tr>
+                                }
+                            </table>
                             <hr />
-                            <div>
-                                <div class="uk-grid-small" uk-grid>
-                                    <div class="uk-width-expand">
-                                        <table>
-                                            <tr>
-                                                <th>Discound Code Label</th>
-                                                <td>@d.discount_label</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Discound Code Value</th>
-                                                <td>@d.discount_value.ToString(gv.quantity_format)</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="uk-width-auto">
-                                        <div class="uk-flex uk-flex-inline">
-                                            <div>
-                                                <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                                <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                            </div>
-                                            <div>
-                                                <Icon OnClick="@(()=>OnEdit(d.id))" icon="edit"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </UIContainerBox>
-            </UIGridCenter>
+                            <Button OnClick="@OnOpenModel">Add Discount Code</Button>
+                        </Content>
+                    </ComAccordion>
+                }
+
+                </UIGridCenter>
         </PageBody>
 
 
@@ -151,6 +143,7 @@
         is_saving = false;
 
     }
+
 
 
     void OnOpenModel()
