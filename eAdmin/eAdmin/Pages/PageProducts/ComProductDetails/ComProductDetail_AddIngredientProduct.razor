@@ -1,4 +1,6 @@
-﻿<EditFormContext Cancel_Click="@OnCancelClick" model="@models" is_opened="is_open" title="Product Ingredient" Save_Click="OnSaveClick" modal_width="800px">
+﻿@inject IHttpService http
+@inject IMatToaster toast
+<EditFormContext Cancel_Click="@OnCancelClick" model="@models" is_opened="is_open" title="Product Ingredient" Save_Click="OnSaveClick" modal_width="800px">
     <IngredientProductTypeahead @bind-product="@product" />
     <hr/> 
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
@@ -14,7 +16,7 @@
             {
                 <tr>
                     <td>
-                        @p.product_ingredient?.product_display_name
+                        @p.ingredient?.product_display_name
                     </td>
                     <TdCenter> 
                         <NumberInput @bind-text="@p.quantity" width="80px" class_name="uk-text-center"/>
@@ -45,21 +47,48 @@
 @code {
     [Parameter] public List<ProductIngredientModel> models { get; set; }
     [Parameter] public int selected_product_portion_id { get; set; }
+    [Parameter] public int selected_product_menu_id { get; set; }
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; } 
     [Parameter] public EventCallback<List<ProductIngredientModel>> Save_Click { get; set; }
      
+    bool is_saving;
+
     async Task OnCancelClick()
     {
         await is_openChanged.InvokeAsync(false);
     }
+
     async Task OnSaveClick()
     {
-        Console.WriteLine(JsonSerializer.Serialize(models));
         
-        await Save_Click.InvokeAsync(models);
-        await is_openChanged.InvokeAsync(false); 
+
+        is_saving = true;
+        
+        List<ProductIngredientModel> save_models = new List<ProductIngredientModel>();
+        save_models = JsonSerializer.Deserialize<List<ProductIngredientModel>>(JsonSerializer.Serialize(models));
+
+        save_models.ForEach(r => r.product_menu = null);
+        save_models.ForEach(r => r.product_portion = null);
+        save_models.ForEach(r => r.ingredient = null);
+        
+        Console.WriteLine(JsonSerializer.Serialize(save_models));
+
+        var resp = await http.ApiPost("ProductIngredient/multiple/save", save_models);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Save product successfully", MatToastType.Success);
+            await is_openChanged.InvokeAsync(false); 
+        }
+        else
+        {
+
+            toast.Add("Save product fail", MatToastType.Warning);
+        }
+        is_saving = false;
+        
     }
+
     private ProductModel _product;
 
     public ProductModel product
@@ -68,13 +97,13 @@
         set {
             Console.WriteLine(value.id);
 
-            if (models.Where(r=>r.product_ingredient_id == value.id).Any())
+            if (models.Where(r=>r.ingredient_id == value.id).Any())
             {
-                models.Where(r => r.product_ingredient_id == value.id).FirstOrDefault().quantity = models.Where(r => r.product_ingredient_id == value.id).FirstOrDefault().quantity + 1;
+                models.Where(r => r.ingredient_id == value.id).FirstOrDefault().quantity = models.Where(r => r.ingredient_id == value.id).FirstOrDefault().quantity + 1;
             }
             else
             {
-                models.Add(new ProductIngredientModel() { product_ingredient = value , product_ingredient_id=value.id, product_portion_id = selected_product_portion_id });
+                models.Add(new ProductIngredientModel() { ingredient = value , ingredient_id=value.id, product_portion_id = selected_product_portion_id, product_menu_id = selected_product_menu_id });
             }
             value = null;
             _product = value;

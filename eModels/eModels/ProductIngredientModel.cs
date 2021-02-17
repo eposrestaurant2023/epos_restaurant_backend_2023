@@ -16,9 +16,9 @@ namespace eModels
         [ForeignKey("product_menu_id")]
         public ProductModel product_menu { get; set; }
 
-        public int product_ingredient_id { get; set; }
-        [ForeignKey("product_ingredient_id")]
-        public ProductModel product_ingredient { get; set; }
+        public int ingredient_id { get; set; }
+        [ForeignKey("ingredient_id")]
+        public ProductModel ingredient { get; set; }
         
         public int product_portion_id { get; set; }
         [ForeignKey("product_portion_id")]
