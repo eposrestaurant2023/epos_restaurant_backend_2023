@@ -1,7 +1,6 @@
 ﻿<EditFormContext Cancel_Click="@OnCancelClick" model="@models" is_opened="is_open" title="Product Ingredient" Save_Click="OnSaveClick" modal_width="800px">
     <IngredientProductTypeahead @bind-product="@product" />
     <hr/>
-    @JsonSerializer.Serialize(product)
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
             <ThAuto>Ingredient Name</ThAuto>
@@ -10,24 +9,34 @@
             <ThRight>Cost</ThRight>
             <ThCenter></ThCenter>
         </tr>
-        @foreach(var p in models)
+        @if(models.Any()){
+            foreach(var p in models)
+            {
+                <tr>
+                    <td>
+                        @p.product_ingredient?.product_display_name
+                    </td>
+                    <TdCenter> 
+                        <NumberInput @bind-text="@p.quantity" width="80px" class_name="uk-text-center"/>
+                    </TdCenter>
+                    <TdCenter>
+                        <TextInput @bind-text="@p.unit" width="100px" class_name="uk-text-center"/>
+                    </TdCenter>
+                    <TdRight>
+                        <NumberInput @bind-text="@p.cost" width="120px" class_name="uk-text-right"/>
+                    </TdRight>
+                    <TdRight>
+                        <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))"/>
+                    </TdRight>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>
-                    @p.product_ingredient?.product_display_name
+                <td colspan="5">
+                <ComEmptyTemplate padding_top_bottom="25px"/>
                 </td>
-                <TdCenter> 
-                    <NumberInput @bind-text="@p.quantity" width="80px" class_name="uk-text-center"/>
-                </TdCenter>
-                <TdCenter>
-                    <TextInput @bind-text="@p.unit" width="100px" class_name="uk-text-center"/>
-                </TdCenter>
-                <TdRight>
-                    <NumberInput @bind-text="@p.cost" width="120px" class_name="uk-text-right"/>
-                </TdRight>
-                <TdRight>
-                    <Icon icon="delete"/>
-                </TdRight>
             </tr>
         }
     </table>
@@ -38,14 +47,14 @@
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; } 
     [Parameter] public EventCallback<List<ProductIngredientModel>> Save_Click { get; set; }
- 
-
+     
     async Task OnCancelClick()
     {
         await is_openChanged.InvokeAsync(false);
     }
     async Task OnSaveClick()
     {
+        
         await Save_Click.InvokeAsync(models);
         await is_openChanged.InvokeAsync(false); 
     }
@@ -55,17 +64,23 @@
     {
         get { return _product; }
         set {
-            Console.WriteLine(models.Where(r=>r.product_ingredient_id != value.id).Count());
+            Console.WriteLine(value.id);
 
-            @*if (models.Where(r=>r.product_ingredient_id))
+            if (models.Where(r=>r.product_ingredient_id == value.id).Any())
             {
-                
-            }*@
-
-            models.Add(new ProductIngredientModel() { product_ingredient = value , product_ingredient_id=value.id });
-
+                models.Where(r => r.product_ingredient_id == value.id).FirstOrDefault().quantity = models.Where(r => r.product_ingredient_id == value.id).FirstOrDefault().quantity + 1;
+            }
+            else
+            {
+                models.Add(new ProductIngredientModel() { product_ingredient = value , product_ingredient_id=value.id });
+            }
             value = null;
             _product = value;
         }
+    }
+
+    void OnDeleteClick(ProductIngredientModel p)
+    {
+        models.Remove(p);
     }
 }

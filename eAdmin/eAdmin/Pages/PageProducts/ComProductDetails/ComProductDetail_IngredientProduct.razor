@@ -1,35 +1,44 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
-
-<UIContainerBox Title="Product Ingredients" is_show_add_button="@(!models.Any())" is_show_edit_button="@models.Any()" OnAddClick="@(()=>show_modal=true)" OnEditClick="@(()=>show_modal=true)">
-    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-        <tr>
-            <ThAuto>Ingredient Name</ThAuto>
-            <ThCenter>Quantity</ThCenter>
-            <ThCenter>Unit</ThCenter>
-            <ThRight>Cost</ThRight>
-            <ThCenter></ThCenter>
-        </tr>
-        @foreach(var p in models)
-        {
+<UIGridCenter>
+    <UIContainerBox Title="Product Ingredients" is_show_add_button="@(!models.Any())" is_show_edit_button="@models.Any()" OnAddClick="@(()=>show_modal=true)" OnEditClick="@(()=>show_modal=true)">
+        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
             <tr>
-                <td>
-                    @p.product_ingredient?.product_display_name
-                </td>
-                <TdCenter>
-                    @p.quantity
-                </TdCenter>
-                <TdCenter>@p.unit</TdCenter>
-                <TdRight>@p.cost.ToString(gv.currency_format)</TdRight>
-                <TdRight>
-                    <Icon icon="delete"/>
-                </TdRight>
+                <ThAuto>Ingredient Name</ThAuto>
+                <ThCenter>Quantity</ThCenter>
+                <ThCenter>Unit</ThCenter>
+                <ThRight>Cost</ThRight>
+                <ThRight>Total Cost</ThRight>
             </tr>
-        }
-    </table> 
-</UIContainerBox>
 
-<ComProductDetail_AddIngredientProduct models="@models" is_open="@show_modal" Save_Click="OnSave"/>
+            @if(models.Any()){
+                foreach(var p in models)
+                {
+                    <tr>
+                        <td>
+                            @p.product_ingredient?.product_display_name
+                        </td>
+                        <TdCenter>
+                            @p.quantity
+                        </TdCenter>
+                        <TdCenter>@p.unit</TdCenter>
+                        <TdRight>@p.cost.ToString(gv.currency_format)</TdRight>
+                        <TdRight>@p.total_cost.ToString(gv.currency_format)</TdRight>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">
+                    <ComEmptyTemplate padding_top_bottom="25px"/>
+                    </td>
+                </tr>
+            }
+        </table>
+    </UIContainerBox>
+</UIGridCenter>
+<ComProductDetail_AddIngredientProduct models="@models" @bind-is_open="@show_modal" Save_Click="OnSave"/>
 
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
