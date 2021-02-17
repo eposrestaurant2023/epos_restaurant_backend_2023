@@ -1,24 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace eAPIClient.Migrations
+namespace eAPI.Migrations
 {
-    public partial class abcd : Migration
+    public partial class shiftx : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "id",
-                table: "tbl_currency");
+            
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
+            migrationBuilder.AlterColumn<int>(
                 name: "id",
-                table: "tbl_currency",
+                table: "tbl_config_data",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                oldClrType: typeof(int),
+                oldType: "int")
+                .Annotation("SqlServer:Identity", "1, 1");
         }
     }
 }

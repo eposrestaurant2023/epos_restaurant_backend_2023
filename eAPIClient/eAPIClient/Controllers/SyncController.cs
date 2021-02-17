@@ -10,6 +10,7 @@ using eAPIClient.Services;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;    
 using eAPIClient.Models;
+using System.Runtime.CompilerServices;
 
 namespace eAPIClient.Controllers
 {
@@ -17,10 +18,8 @@ namespace eAPIClient.Controllers
     [Route("api/[controller]")]
     [Authorize]
     public class SyncController : ODataController
-    {
-
-        bool is_get_remote_data_success=true;
-
+    {    
+        bool is_get_remote_data_success=true;    
         private readonly ApplicationDbContext db;
         private readonly IHttpService http;
         private readonly IConfiguration config;
@@ -29,17 +28,7 @@ namespace eAPIClient.Controllers
             db = _db;
             http = _http;
             config = _config;
-        }
-
-
-        [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
-
-        public IQueryable<UserModel> Get()
-        {
-            return db.Users;
-        }
-
+        }   
 
         [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
@@ -48,7 +37,7 @@ namespace eAPIClient.Controllers
 
             string business_branch_id = config.GetValue<string>("business_branch_id");
             //run script prepare config data 
-            var x = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" }); 
+            var prepare = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data ", procedure_parameter = $"'{business_branch_id}'" }); 
             List<MenuModel> menu_datas = await GetRemoteMenu(business_branch_id);
             //product have printer and modifier
             List<ProductModel> product_datas = await GetRemoteProduct(business_branch_id);
@@ -58,44 +47,48 @@ namespace eAPIClient.Controllers
             List<ProductPriceModel> product_price_datas = await GetRemoteProductPrice(business_branch_id);
             // run this when all data read from server done success
             //run clear all old data
+
+            //Get Config Data
+            List<ConfigDataModel> config_datas = await GetConfigData(business_branch_id);
             if (is_get_remote_data_success)
             {
                 db.Database.ExecuteSqlRaw("exec sp_delete_menu_and_product");
-                db.Menus.AddRange(menu_datas);
-                
+                db.Menus.AddRange(menu_datas);   
                 db.Products.AddRange(product_datas);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
-                
+
                 db.ProductMenus.AddRange(product_menu_datas);
                 db.ProductPrices.AddRange(product_price_datas);
-                
-                db.SaveChanges();
-
-
+                await db.SaveChangesAsync();
                 db.Database.ExecuteSqlRaw("exec sp_update_product_portion_price");
 
+
+                //Config Data
+                db.Database.ExecuteSqlRaw("delete tbl_config_data;");
+                db.ConfigDatas.AddRange(config_datas);
+                await db.SaveChangesAsync();
+                //
+                return Ok();
             }
-            return Ok();
+            return BadRequest();
 
         }
 
         async Task<List<MenuModel>> GetRemoteMenu(string business_branch_id)
-        {
-           
+        {      
+            is_get_remote_data_success = false;
             var resp = await http.ApiGetOData($"Menu?$select=id,parent_id,menu_name_en,menu_name_kh,text_color,background_color&$filter=business_branch_id eq {business_branch_id} and is_deleted eq false and status eq true");
             if (resp.IsSuccess)
             {
-              return  JsonSerializer.Deserialize<List<MenuModel>>(resp.Content.ToString());
-            }else
-            {
-                is_get_remote_data_success = false;
-            }
+                is_get_remote_data_success = true;
+                return  JsonSerializer.Deserialize<List<MenuModel>>(resp.Content.ToString());
+            } 
             return new List<MenuModel>();
         }
         async Task<List<ProductModel>> GetRemoteProduct(string business_branch_id)
         {
-
+            is_get_remote_data_success = false;
             //$expand=product_printers($select=id,printer_name,ip_address_port;$filter=is_deleted eq false)
             string url = $"product?$select=id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_allow_free,is_open_product,is_inventory_product";
             url = url + $"&$expand=product_printers($select=id,product_id,printer_name,ip_address_port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
@@ -105,15 +98,14 @@ namespace eAPIClient.Controllers
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
-              return  JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
-            }else
-            {
-                is_get_remote_data_success = false;
-            }
+                is_get_remote_data_success = true;
+                return  JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
+            } 
             return new List<ProductModel>();
         }            
         async Task<List<ProductMenuModel>> GetRemoteProductMenu(string business_branch_id)
         {
+            is_get_remote_data_success = false;
             string url = "ProductMenu?";
             url = url + "&$filter=is_deleted eq false and  ";
             url = url + "menu/is_deleted eq false  and ";
@@ -125,44 +117,36 @@ namespace eAPIClient.Controllers
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
-              return  JsonSerializer.Deserialize<List<ProductMenuModel>>(resp.Content.ToString());
-            }else
-            {
-                is_get_remote_data_success = false;
-            }
+                is_get_remote_data_success = true;
+                return  JsonSerializer.Deserialize<List<ProductMenuModel>>(resp.Content.ToString());
+            } 
             return new List<ProductMenuModel>();
         }
         async Task<List<ProductPriceModel>> GetRemoteProductPrice(string business_branch_id)
         {
+            is_get_remote_data_success = false;
             string url = "BusinessBranchProductPrice?";
-            url = url + $"&$filter=business_branch_id eq {business_branch_id}";
-
+            url = url + $"&$filter=business_branch_id eq {business_branch_id}";   
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
+                is_get_remote_data_success = true;
                 return JsonSerializer.Deserialize<List<ProductPriceModel>>(resp.Content.ToString());
-            }
-            else
-            {
-                is_get_remote_data_success = false;
-            }
+            }   
             return new List<ProductPriceModel>();
         }
-        async Task<List<UserModel>> GetRemoteUser(string business_branch_id)
+        async Task<List<ConfigDataModel>> GetConfigData(string business_branch_id)
         {
-            string url = "BusinessBranchProductPrice?";
-            url = url + $"&$filter=business_branch_id eq {business_branch_id}";
-
+            is_get_remote_data_success = false;
+            string url = "Configdata?$select=id,data,config_type,note";
+            url = url + $"&$filter=business_branch_id eq {business_branch_id}";  
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
-                return JsonSerializer.Deserialize<List<UserModel>>(resp.Content.ToString());
-            }
-            else
-            {
-                is_get_remote_data_success = false;
-            }
-            return new List<UserModel>();
+                is_get_remote_data_success = true;
+                return JsonSerializer.Deserialize<List<ConfigDataModel>>(resp.Content.ToString());
+            }  
+            return new List<ConfigDataModel>();
         }
 
     }   

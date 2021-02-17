@@ -90,10 +90,9 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.ConfigDataModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("config_type")
                         .HasColumnType("nvarchar(max)")
