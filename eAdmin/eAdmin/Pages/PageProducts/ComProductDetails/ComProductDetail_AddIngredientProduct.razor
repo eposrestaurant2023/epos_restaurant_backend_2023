@@ -1,6 +1,6 @@
 ﻿<EditFormContext Cancel_Click="@OnCancelClick" model="@models" is_opened="is_open" title="Product Ingredient" Save_Click="OnSaveClick" modal_width="800px">
     <IngredientProductTypeahead @bind-product="@product" />
-    <hr/>
+    <hr/> 
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
             <ThAuto>Ingredient Name</ThAuto>
@@ -44,6 +44,7 @@
 
 @code {
     [Parameter] public List<ProductIngredientModel> models { get; set; }
+    [Parameter] public int selected_product_portion_id { get; set; }
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; } 
     [Parameter] public EventCallback<List<ProductIngredientModel>> Save_Click { get; set; }
@@ -54,6 +55,7 @@
     }
     async Task OnSaveClick()
     {
+        Console.WriteLine(JsonSerializer.Serialize(models));
         
         await Save_Click.InvokeAsync(models);
         await is_openChanged.InvokeAsync(false); 
@@ -72,7 +74,7 @@
             }
             else
             {
-                models.Add(new ProductIngredientModel() { product_ingredient = value , product_ingredient_id=value.id });
+                models.Add(new ProductIngredientModel() { product_ingredient = value , product_ingredient_id=value.id, product_portion_id = selected_product_portion_id });
             }
             value = null;
             _product = value;
