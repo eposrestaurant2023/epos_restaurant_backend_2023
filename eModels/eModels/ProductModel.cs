@@ -145,8 +145,10 @@ namespace eModels
         public ProductPortionModel()
         {
             product_prices = new List<ProductPriceModel>();
-           
+            product_ingredients = new List<ProductIngredientModel>();
+
         }
+        public List<ProductIngredientModel> product_ingredients { get; set; }
         public ProductPortionModel(List<PriceRuleModel> price_rules )
         {
             product_prices = new List<ProductPriceModel>();
