@@ -72,24 +72,12 @@
                                     </table>
                                 </ContentRight>
                             </UISummaryBox>
-                      
-
-
                     </UIContainerBox>
+
+                    @*business branch*@
                     <UIContainerBox Title="Brance Information" is_show_add_button="true" OnAddClick="@OnOpenModel">
                         @foreach (var d in models)
                         {
-
-                           @* <UICard>
-                                <UICardHeader ImageUrl="@d.logo">
-                                    @d.business_branch_name_en (@d.business_branch_name_kh)
-                                </UICardHeader>
-                               sdfg
-                                <UICardFooter>
-                                    <LabelActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                    <LabelInActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                </UICardFooter>
-                            </UICard>*@
                             <UISummaryBox ImageUrl="@d.logo" ShowImage="true" Icon="edit" OnClick="@(()=>OnEdit(d.id))">
 
                                 <ContentLeft>
@@ -264,7 +252,7 @@
         }
 
         ShowModel_Business_Infor = false;
-   
+
         is_saving = false;
 
     }
@@ -272,6 +260,7 @@
     void OnOpenModel()
     {
         title = "Add New Business Branch";
+        business_brnach = new BusinessBranchModel();
         ShowModal = !ShowModal;
     }
 
