@@ -19,7 +19,7 @@ namespace eModels
         [ForeignKey("product_ingredient_id")]
         public ProductModel product_ingredient { get; set; }
 
-        public decimal quantity { get; set; }
+        public decimal quantity { get; set; } = 1;
 
         public string unit { get; set; } = "Unit";
         public decimal cost { get; set; } 
