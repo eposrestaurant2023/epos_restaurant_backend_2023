@@ -55,6 +55,7 @@ namespace eAPI.Controllers
             gv.bussiness_branches = db.BusinessBranches.ToList();
             gv.printers = db.Printers.ToList();
             gv.price_rules= db.PriceRules.Where(r=>r.is_deleted==false && r.status).ToList();
+            gv.units= db.Units.Where(r=>r.is_deleted==false && r.status).ToList();
 
             return Ok(gv);
         }

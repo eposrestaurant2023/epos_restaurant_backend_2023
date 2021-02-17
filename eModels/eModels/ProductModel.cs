@@ -58,8 +58,11 @@ namespace eModels
 
         public string photo { get; set; } = "placeholder.png";
         public string note { get; set; }
+ 
 
-        public string unit { get; set; } = "Unit";
+        public int unit_id { get; set; }
+        [ForeignKey("unit_id")]
+        public UnitModel unit{ get; set; }
 
         public bool is_allow_discount { get; set; } = true;
         public bool is_allow_free { get; set; } = true;

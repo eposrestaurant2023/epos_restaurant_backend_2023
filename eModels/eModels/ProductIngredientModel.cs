@@ -23,7 +23,10 @@ namespace eModels
 
         public decimal quantity { get; set; } = 1;
 
-        public string unit { get; set; } = "Unit";
+        public int unit_id { get; set; }
+        [ForeignKey("unit_id")]
+        public UnitModel unit { get; set; }
+
         public decimal cost { get; set; } 
 
         private decimal _total_cost;
