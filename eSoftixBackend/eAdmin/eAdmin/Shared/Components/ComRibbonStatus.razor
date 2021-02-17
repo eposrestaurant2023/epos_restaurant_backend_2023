@@ -1,0 +1,11 @@
+﻿
+@if (sale.is_deleted)
+{
+    <div class="ribbon"><span class="uk-label-danger">Deleted</span></div>
+}
+else
+{  
+}
+@code{
+    [Parameter] public SaleModel sale { get; set; }
+}

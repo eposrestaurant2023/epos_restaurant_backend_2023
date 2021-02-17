@@ -1,0 +1,21 @@
+﻿@if (!string.IsNullOrEmpty(Text)) {
+<div class="@ClassName">
+    <div class="text-overflow @(IsReadMore?"is-read-more":null)">@Text</div>
+    @if (Text.Length >= 60)
+    {
+        <span class="uk-link" @onclick="ToogleText">@(!IsReadMore? "--read more" : "--less")</span>
+    }
+</div> 
+}
+
+
+@code{
+    [Parameter] public string ClassName { get; set; }
+    [Parameter] public string Text { get; set; }
+    bool IsReadMore;
+
+    void ToogleText() {
+        IsReadMore = !IsReadMore;
+        StateHasChanged();
+    }
+}

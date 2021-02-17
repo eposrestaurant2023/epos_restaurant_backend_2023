@@ -1,0 +1,13 @@
+﻿<th class="table-header @TextAlign @ClassName" @onclick="@OnClick" style="width:@Width">
+    @ChildContent
+    <Icon icon="@(OrderByType == "asc"?"arrow_downward":"arrow_upward")" is_visible="@OrderBy"/>
+</th>
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string TextAlign { get; set; } = "";
+    [Parameter] public string Width { get; set; } = "";
+    [Parameter] public string OrderByType { get; set; } = "";
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter] public bool OrderBy { get; set; } = false;
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

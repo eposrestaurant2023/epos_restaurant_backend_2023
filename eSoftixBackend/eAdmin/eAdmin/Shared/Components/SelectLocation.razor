@@ -1,0 +1,71 @@
+﻿<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+            @foreach (var p in gv.stock_locations)
+            {
+                <option value="@p.id">@p.stock_location_name</option>
+            }
+
+        </select>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Stock Location";
+    [Parameter] public string icon { get; set; }
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_active_default { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Stock Location";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
+
+    [Parameter] public StockLocationModel stock_location { get; set; }
+    [Parameter] public EventCallback<StockLocationModel> stock_locationChanged { get; set; }
+    int stock_location_default_id = 0;
+
+    public int SelectedValue
+    {
+        get
+        {
+            if (is_active_default)
+            {
+                stock_location_default_id = gv.stock_locations.Where(r =>r.is_default).FirstOrDefault().id;
+                selected_value = stock_location_default_id;
+                return stock_location_default_id;
+            }
+            else
+            {
+                return stock_location == null ? selected_value : stock_location.id;
+            }
+
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Int32.Parse(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+        if (selected_value == 0)
+        {
+            await stock_locationChanged.InvokeAsync(new StockLocationModel());
+        }
+        else
+        {
+            await stock_locationChanged.InvokeAsync(gv.stock_locations.Where(r => r.id == selected_value).FirstOrDefault());
+        }
+
+    }
+
+}

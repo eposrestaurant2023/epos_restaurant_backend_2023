@@ -1,0 +1,33 @@
+﻿@if (is_visible) {
+<AuthorizeView Roles="@roles">
+    <Authorized>
+        @if (url != "")
+        {
+            <a href="@url" target="@target" uk-tooltip="@Title" style="color: @text_color;">
+                @ChildContent
+            </a>
+        }
+        else
+        {
+            <a @onclick="@OnClick" uk-tooltip="@Title" style="color: @text_color;">
+                @ChildContent
+            </a>
+        }
+
+    </Authorized>
+    <NotAuthorized>
+        @ChildContent
+    </NotAuthorized>
+</AuthorizeView>
+  }
+@code{
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public string url { get; set; } = "";
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string text_color { get; set; } = "";
+    [Parameter] public string target { get; set; } = "_self";
+    [Parameter] public bool is_visible { get; set; } = true;
+
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

@@ -1,0 +1,15 @@
+﻿@inject IHttpService http
+<Com is_visible="customer != null">
+    <UkFlex>
+        <FlexItem>
+            <Image ImageUrl="@http.ImageUrl(customer.photo)" IsBackgroundImage="true" Width="35px" Height="35px" IsLightBox="true" />
+        </FlexItem>
+        <FlexItem class_name="uk-margin-small-left">
+            <div>@customer.customer_name_en</div>
+            
+        </FlexItem>
+    </UkFlex>
+</Com>
+@code{ 
+    [Parameter] public CustomerModel customer { get; set; } = new CustomerModel();
+}

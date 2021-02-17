@@ -1,0 +1,15 @@
+﻿<div class="date-view">
+    <div class="header">@Date.ToString("MMM")</div>
+    <div class="content">
+        <div>
+            @Date.ToString("dd")
+        </div>
+        <div class="year">
+            @Date.ToString("yyyy")
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter] public DateTime Date { get; set; } = DateTime.Now;
+}

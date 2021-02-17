@@ -1,0 +1,23 @@
+﻿<Com is_visible="roles.Count() > 0">
+    @foreach (var r in roles)
+    {
+        <Com is_visible="@(r.permission_option_roles?.Where(r => r.permission_option_id == permission_option_id).Count() > 0)">
+            <input class="uk-checkbox" type="checkbox" id="@r.id" @onchange="@(async(e)=> { r.is_selected = (bool)e.Value; await SelectRole_Click(r); })" checked />
+        </Com>
+        <Com is_visible="@(r.permission_option_roles?.Where(r => r.permission_option_id == permission_option_id).Count() == 0)">
+            <input class="uk-checkbox" type="checkbox" id="@r.id" @onchange="@(async(e)=> { r.is_selected = (bool)e.Value; await SelectRole_Click(r); })" />
+        </Com>
+        <p>@r.role_name</p>
+    }
+</Com>
+
+
+@code {
+    [Parameter] public List<RoleModel> roles { get; set; } = new List<RoleModel>();
+    [Parameter] public int permission_option_id { get; set; } = 0;
+    [Parameter] public EventCallback<RoleModel> OnSelect { get; set; }
+    async Task SelectRole_Click(RoleModel role)
+    {
+        await OnSelect.InvokeAsync(role);
+    }
+}

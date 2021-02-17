@@ -1,0 +1,41 @@
+﻿@if (is_visible)
+{
+    if ( string.IsNullOrWhiteSpace(roles))
+    {
+        if (!string.IsNullOrWhiteSpace(url))
+        {
+            <li><a href="@url"><Icon icon="@icon"/> @ChildContent</a></li>
+        }
+        else
+        {
+            <li><a @onclick="@OnClick" class="uk-drop-close"><Icon icon="@icon" /> @ChildContent</a></li>
+        }
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+            @if (!string.IsNullOrWhiteSpace(url))
+            {
+            <li><a href="@url" ><Icon icon="@icon" /> @ChildContent</a></li>
+            }
+            else
+            {
+            <li><a @onclick="@OnClick" class="uk-drop-close"><Icon icon="@icon" /> @ChildContent</a></li>
+            }
+        </AuthorizeView>
+    }
+
+
+
+}
+
+
+@code{
+    [Parameter] public string icon { get; set; } = "add";
+    [Parameter] public string url { get; set; } = "";
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+}

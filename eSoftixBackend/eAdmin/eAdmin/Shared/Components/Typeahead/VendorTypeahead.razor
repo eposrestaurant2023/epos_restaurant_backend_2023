@@ -1,0 +1,85 @@
+﻿@inherits PageCore;
+<div class="uk-margin-small">
+    <label class="uk-form-label">Vendor</label>
+    <div class="uk-form-controls">
+        <BlazoredTypeahead SearchMethod="Search" @bind-Value="@selected" Placeholder="@placeholder" ShowDropDownOnFocus="true">
+            <SelectedTemplate>
+                <Grid>
+                    <Column>
+                        <label style="color:black">@context.vendor_code | @context.vendor_name</label>
+                    </Column>
+                </Grid>
+            </SelectedTemplate>
+            <ResultTemplate>
+                <Grid>
+                    <Column>
+                        <label>@context.vendor_code | @context.vendor_name</label>
+                    </Column>
+                </Grid>
+            </ResultTemplate>
+        </BlazoredTypeahead>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Vendor";
+    [Parameter] public string status { get; set; } = "";
+    [Parameter] public string placeholder { get; set; } = "Select Vendor";
+    [Parameter] public VendorModel vendor { get; set; }
+    [Parameter] public EventCallback<VendorModel> vendorChanged { get; set; }
+    [Parameter] public EventCallback<int> vendor_changed { get; set; }
+    public async Task<IEnumerable<VendorModel>> Search(string searchText)
+    {
+        string api_url = $"vendor?$select=id,vendor_code,vendor_name,mobile_phone,company_name&filter=status eq true and is_deleted eq false&$orderby=vendor_name asc&$top=10&?keyword={searchText}";
+        api_url = api_url + GetFilter(state.filters);
+        var res = await http.ApiGetOData(api_url);
+        if (res.IsSuccess)
+        {
+            var result = JsonSerializer.Deserialize<List<VendorModel>>(res.Content.ToString());
+            return result;
+        }
+        return new List<VendorModel>();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (vendor != null)
+        {
+            if (vendor.id == 0)
+            {
+                selected = null;
+            }
+            else
+            {
+                selected = vendor;
+            }
+        }
+        await Search("");
+    }
+
+    private VendorModel _selected;
+    public VendorModel selected
+    {
+        get
+        {
+            _selected = vendor;
+            return _selected;
+        }
+        set
+        {
+            _selected = value;
+            vendorChanged.InvokeAsync(value);
+            if (value == null)
+            {
+                vendor_changed.InvokeAsync(0);
+            }
+            else
+            {
+                vendor_changed.InvokeAsync(value.id);
+            }
+
+        }
+    }
+}

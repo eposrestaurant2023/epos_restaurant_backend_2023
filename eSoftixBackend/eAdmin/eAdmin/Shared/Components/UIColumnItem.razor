@@ -1,0 +1,8 @@
+﻿<Column>
+    <div>
+        @ChildContent
+    </div>
+</Column>
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

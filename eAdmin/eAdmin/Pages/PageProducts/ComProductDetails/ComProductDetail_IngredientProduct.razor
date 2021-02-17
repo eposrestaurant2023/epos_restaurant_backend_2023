@@ -1,7 +1,13 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 <UIGridCenter>
-    <UIContainerBox Title="Product Ingredients" is_show_add_button="@(!models.Any())" is_show_edit_button="@models.Any()" OnAddClick="@(()=>show_modal=true)" OnEditClick="@(()=>show_modal=true)">
+@foreach(var pp in model.product_portions){
+    <UIContainerBox Title="@pp.portion_name" 
+        is_show_add_button="@(!model.product_ingredients.Where(r=>r.product_portion_id == pp.id).Any())"
+        is_show_edit_button="@model.product_ingredients.Where(r=>r.product_portion_id == pp.id).Any()"
+        OnAddClick="@(()=>OnShowModal(model.product_ingredients.Where(r=>r.product_portion_id == pp.id).ToList(), pp.id))"
+        OnEditClick="@(()=>OnShowModal(model.product_ingredients.Where(r=>r.product_portion_id == pp.id).ToList(), pp.id))">
+
         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
             <tr>
                 <ThAuto>Ingredient Name</ThAuto>
@@ -11,19 +17,19 @@
                 <ThRight>Total Cost</ThRight>
             </tr>
 
-            @if(models.Any()){
-                foreach(var p in models)
+            @if(model.product_ingredients.Where(r=>r.product_portion_id == pp.id).Any()){
+                foreach(var pi in model.product_ingredients.Where(r=>r.product_portion_id == pp.id).ToList())
                 {
                     <tr>
                         <td>
-                            @p.product_ingredient?.product_display_name
+                            @pi.product_ingredient?.product_display_name
                         </td>
                         <TdCenter>
-                            @p.quantity
+                            @pi.quantity
                         </TdCenter>
-                        <TdCenter>@p.unit</TdCenter>
-                        <TdRight>@p.cost.ToString(gv.currency_format)</TdRight>
-                        <TdRight>@p.total_cost.ToString(gv.currency_format)</TdRight>
+                        <TdCenter>@pi.unit</TdCenter>
+                        <TdRight>@pi.cost.ToString(gv.currency_format)</TdRight>
+                        <TdRight>@pi.total_cost.ToString(gv.currency_format)</TdRight>
                     </tr>
                 }
             }
@@ -37,16 +43,21 @@
             }
         </table>
     </UIContainerBox>
+    <Spacing Number="25"/>
+    }
 </UIGridCenter>
-<ComProductDetail_AddIngredientProduct models="@models" @bind-is_open="@show_modal" Save_Click="OnSave"/>
-
+<Com is_visible="@(model != null && product_portion_id > 0)">
+    <ComProductDetail_AddIngredientProduct models="@product_ingredients" @bind-is_open="@show_modal" Save_Click="OnSave" selected_product_portion_id="@product_portion_id"/>
+</Com>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public int product_id { get; set; }
-
-    List<ProductIngredientModel> models = new List<ProductIngredientModel>();
+    [Parameter] public int product_id { get; set; } 
+    ProductModel model = new ProductModel();
+    List<ProductIngredientModel> product_ingredients = new List<ProductIngredientModel>();
 
     bool is_loading, show_modal;
+
+    int product_portion_id = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -61,12 +72,11 @@
         is_loading = true;
 
         if (product_id > 0)
-        {
-            var resp = await http.ApiGetOData($"ProductIngredient?$select=*&$expand=product_menu,product_ingredient))&$filter=product_menu_id eq {product_id} and is_deleted eq false");
+        { 
+            var resp = await http.ApiGet($"Product({product_id})?$select=id&$expand=product_portions,product_ingredients");
             if (resp.IsSuccess)
             {
-                models = JsonSerializer.Deserialize<List<ProductIngredientModel>>(resp.Content.ToString());
-
+                model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString()); 
             }
         }
         is_loading = false; 
@@ -77,5 +87,14 @@
         show_modal = false;
         await LoadData();
     }
+
+     void OnShowModal(List<ProductIngredientModel> _product_ingredients, int _product_portion_id)
+    {
+        product_portion_id = _product_portion_id;
+        product_ingredients = _product_ingredients;
+        show_modal = true;
+        
+    }
+
     
 }

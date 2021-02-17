@@ -1,0 +1,59 @@
+﻿<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+            @foreach (var p in gv.outlets)
+            {
+                <option value="@p.id">@p.outlet_name_en</option>
+            }
+        </select>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Outlet";
+    [Parameter] public string icon { get; set; }
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Outlet";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
+
+    [Parameter] public OutletModel outlet { get; set; }
+    [Parameter] public EventCallback<OutletModel> outletChanged { get; set; }
+
+
+    public int SelectedValue
+    {
+        get
+        {
+                return outlet == null ? selected_value : outlet.id;
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Int32.Parse(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+        if (selected_value == 0)
+        {
+            await outletChanged.InvokeAsync(new OutletModel());
+        }
+        else
+        {
+            await outletChanged.InvokeAsync(gv.outlets.Where(r => r.id == selected_value).FirstOrDefault());
+        }
+
+    }
+
+}

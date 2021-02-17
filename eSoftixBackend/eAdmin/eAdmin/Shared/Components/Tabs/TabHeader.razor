@@ -1,0 +1,8 @@
+﻿<ul uk-tab class="@CssClass">
+    @ChildContent
+</ul>
+@code{
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+}
