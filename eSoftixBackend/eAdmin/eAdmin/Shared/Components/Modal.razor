@@ -1,0 +1,56 @@
+﻿@if (IsOpened)
+{
+    is_visible_class = "uk-animation-fast uk-animation-fade";
+}
+else
+{
+    is_visible_class = "uk-hidden";
+}
+<Com is_visible="IsOpened">
+    <div class="custom-modal uk-position-fixed uk-position-cover uk-overlay @is_visible_class @isFullModal">
+        <div class="content border-raduic_cus uk-position-relative " style="width: @ModalWidth;border-radius:4px !important;">
+            <div class="modal-header">
+                <button @onclick="@CloseClick" class="uk-modal-close-default" type="button" uk-close></button>
+                <div class="modal-title">@Title</div>
+            </div>
+            @if (IsSimpleMode)
+            {
+                <div class="modal-body @custom_class_body">
+                    @ChildContent
+                </div>
+            }
+            else
+            {
+                @ChildContent
+            }
+        </div>
+    </div>
+</Com>
+
+@code{
+
+    [Parameter] public bool IsOpened { get; set; } = false;
+    [Parameter] public EventCallback<bool> IsOpenedChanged { get; set; } 
+    [Parameter] public EventCallback<MouseEventArgs> OnClosed { get; set; } 
+
+    [Parameter] public bool IsSimpleMode { get; set; } = true;
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public string ModalWidth { get; set; } = "auto";
+    [Parameter] public string Title { get; set; } = "";
+
+    string is_visible_class = "uk-hidden";
+
+    [Parameter] public string isFullModal { get; set; } = "modal-normal";
+    [Parameter] public string BodyScroll { get; set; } = "100%";
+    [Parameter] public string custom_class_body { get; set; } = "";
+
+    async Task CloseClick()
+    {
+        await OnClosed.InvokeAsync(new MouseEventArgs());
+        await IsOpenedChanged.InvokeAsync(false);
+    }
+
+
+}

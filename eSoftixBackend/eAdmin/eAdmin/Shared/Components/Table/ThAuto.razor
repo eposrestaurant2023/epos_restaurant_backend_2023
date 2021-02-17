@@ -1,0 +1,26 @@
+﻿@if (is_visible)
+{
+    @if (align == "")
+    {
+<th class="col-auto table-header @ClassName" @onclick="OnClick">
+    @ChildContent
+    <Icon icon="@(OrderByType == "asc"?"arrow_downward":"arrow_upward")" is_visible="@OrderBy" />
+</th>
+    }
+    else
+    {
+        <th class="col-auto table-header uk-text-@align @ClassName" @onclick="OnClick">
+            @ChildContent
+            <Icon icon="@(OrderByType == "asc"?"arrow_downward":"arrow_upward")" is_visible="@OrderBy"/>
+        </th>
+    }
+}
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string align { get; set; } = "";
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool OrderBy { get; set; } = false;
+    [Parameter] public string OrderByType { get; set; } = "";
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

@@ -1,0 +1,168 @@
+﻿@page "/role/edit/{role_id:int}";
+@inherits PageCore
+@inject IJSRuntime jsRuntime
+
+<Loading is_loading="@(isLoading || is_saving)" />
+@if (!is_error)
+{
+if (!isLoading || permission != null)
+{
+    <PageContainer roles="@gv.GetRole($"role_set_permission")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Set Permission - @role.role_name
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                @if (PermissionOptions.Where(r => r.permission_option_roles.Count == 0).ToList().Count > 0)
+                {
+                    <Button OnClick="@(() => SelectAllRoleClick(true))">Select All</Button>
+                }
+                else
+                {
+                    <Button OnClick="@(() => SelectAllRoleClick())">Unselect All</Button>
+                }
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="role" OnValidSubmit="@SaveRole_Click">
+            <PageBody>
+                <div class="spacing20"></div>
+                <div uk-grid>
+                    <div class="uk-width-1-1 uk-width-1-2@m">
+                        <div class="uk-width-1-2">
+                            <div class="spacing40"></div>
+                            <CascadingValue Value="@PermissionOptions">
+                                <ComPerMissionOptionTree role_id="@role_id" parent_id="null" OnSelect="@SelectedPermission_Click" />
+                            </CascadingValue>
+                        </div>
+                    </div>
+                </div>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button OnClick="@SaveRole_Click" disabled="@is_saving">Save</Button>
+                    <Button icon="reply" OnClick="@(() => js.HistoryBack())" disabled="@is_saving" class_name="danger">Cancel</Button>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+}
+}
+
+@if (is_error)
+{
+    <Error title="Role and Permission">
+        @error_text
+    </Error>
+}
+@code{
+    [Parameter] public int role_id { get; set; }
+    public bool isLoading;
+    public bool input_error;
+    string error;
+    public bool is_check_all = false;
+
+    public PermissionOptionRoleModel permission;
+    public List<PermissionOptionModel> PermissionOptions = new List<PermissionOptionModel>();
+    public RoleModel role = new RoleModel();
+    public List<RoleModel> roles { get; set; } = new List<RoleModel>();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        await LoadData();
+        if (!role.is_buildin)
+        {
+            await LoadPermission();
+
+        }else
+        {
+            is_error = true;
+            error_text = "You cannot edit permission of buil-in role.";
+        }
+
+
+        isLoading = false;
+
+
+    }
+
+    protected async Task SaveRole_Click()
+    {
+        is_saving = true;
+        role.permission_option_roles = PermissionOptions.SelectMany(r => r.permission_option_roles).ToList();
+        var post = await http.ApiPost("Role/SavePermission", role);
+        if (post.IsSuccess)
+        {
+            toast.Add("Save Successfully!", MatToastType.Success);
+
+            nav.NavigateTo("role");
+        }
+        else
+        {
+            error = post.Content.ToString();
+            toast.Add(post.Content.ToString(), MatToastType.Success);
+        }
+        is_saving = false;
+    }
+
+    protected async Task LoadData()
+    {
+        if (role_id > 0)
+        {
+            string query = $"role({role_id})?$expand=permission_option_roles($select=role_id,permission_option_id)";
+            var res = await http.ApiGet(query);
+            if (res.IsSuccess)
+            {
+                role = JsonSerializer.Deserialize<RoleModel>(res.Content.ToString());
+            }
+        }
+    }
+    public async Task LoadPermission()
+    {
+
+        var res = await http.ApiGetOData($"PermissionOption?$select=id,option_name,note,parent_id&$expand=permission_option_roles($select=role_id,permission_option_id;$filter=role_id eq {role_id})");
+        if (res.IsSuccess)
+        {
+
+            PermissionOptions = JsonSerializer.Deserialize<List<PermissionOptionModel>>(res.Content.ToString());
+
+        }
+
+
+    }
+
+    public async Task SelectedPermission_Click(PermissionOptionModel p)
+    {
+        await Task.Delay(100);
+        if (p.permission_option_roles.Count > 0)
+        {
+            p.permission_option_roles.Clear();
+        }
+        else
+        {
+            p.permission_option_roles.Add(new PermissionOptionRoleModel() { role_id = role_id, permission_option_id = p.id });
+        }
+
+
+    }
+    public async Task SelectAllRoleClick(bool is_select = false)
+    {
+        await Task.Delay(10);
+        if (is_select)
+        {
+            PermissionOptions.Where(r => r.permission_option_roles.Count == 0).Select(r => { r.permission_option_roles.Add(new PermissionOptionRoleModel(role_id, r.id)); return r; }).ToList();
+        }
+        else
+        {
+            PermissionOptions.Where(r => r.permission_option_roles.Count > 0).Select(r => { r.permission_option_roles.Clear(); return r; }).ToList();
+        }
+
+
+    }
+}
