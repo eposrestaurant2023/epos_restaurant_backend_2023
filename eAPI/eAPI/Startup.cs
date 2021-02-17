@@ -180,6 +180,8 @@ namespace eAPI
             odataBuilder.EntitySet<StockTransferModel>("StockTransfer");
             odataBuilder.EntitySet<StockTransferProductModel>("StockTransferProduct");
             odataBuilder.EntitySet<ProductIngredientModel>("ProductIngredient");
+            odataBuilder.EntitySet<UnitModel>("Unit");
+            odataBuilder.EntitySet<UnitCategoryModel>("UnitCategory");
             return odataBuilder.GetEdmModel();
         }
     }

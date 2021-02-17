@@ -57,7 +57,7 @@ namespace eAPI.Controllers
 
         }
 
-         [HttpPost("save/multiple")]
+        [HttpPost("save/multiple")]
         public async Task<ActionResult<string>> SaveMultiple([FromBody] List<BusinessBranchModel> branches)
         {
 

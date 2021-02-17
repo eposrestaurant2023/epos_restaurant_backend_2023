@@ -1,0 +1,42 @@
+﻿@inject IMatToaster toast;
+<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+    <tr>
+        <Th>Unit Name</Th>
+        <ThCenter>Type Name</ThCenter>
+        <ThCenter>Multiplier</ThCenter>
+        <ThCenter>Sort Order</ThCenter>
+        <Th></Th>
+    </tr>
+    @foreach (var p in units.Where(r => r.is_deleted == false))
+    {
+        <tr>
+            <td><TextInput @bind-text="@p.unit_name" placeholder="Unit Name" /></td>
+            <TdCenter><TextInput @bind-text="@p.type_name" placeholder="Type Name" /></TdCenter>
+            <TdCenter><NumberInput @bind-text="@p.multiplier" placeholder="Multiplier" /></TdCenter>
+            <TdCenter><NumberInputInt @bind-text="@p.sort_order" placeholder="Sort Order" /></TdCenter>
+            <TdCenter>
+                <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))" />
+            </TdCenter>
+        </tr>
+    }
+</table>
+
+@code {
+
+    [Parameter] public List<UnitModel> units { get; set; }
+
+    UnitModel unit = new UnitModel();
+
+    void DeletePrinter(UnitModel p)
+    {
+        if (p.id == 0)
+        {
+            units.Remove(p);
+        }
+        else
+        {
+            p.is_deleted = true;
+        }
+    }
+
+}

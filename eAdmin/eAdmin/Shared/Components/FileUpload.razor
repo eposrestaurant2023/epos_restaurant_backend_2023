@@ -56,7 +56,7 @@
             var ms = new MemoryStream();
             await file.WriteToStreamAsync(ms);
 
-            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name;
+            string _new_image = (Guid.NewGuid()).ToString() + file.Name;
 
             var bytecontent = new ByteArrayContent(ms.GetBuffer());
             bytecontent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
