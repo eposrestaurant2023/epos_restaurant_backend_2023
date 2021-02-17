@@ -45,12 +45,12 @@
 </EditFormContext>
 
 @code {
-    [Parameter] public List<ProductIngredientModel> models { get; set; }
-    [Parameter] public int selected_product_portion_id { get; set; }
-    [Parameter] public int selected_product_menu_id { get; set; }
+    [Parameter] public ProductPortionModel product_portion { get; set; }
+     
+     
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; } 
-    [Parameter] public EventCallback<List<ProductIngredientModel>> Save_Click { get; set; }
+    [Parameter] public EventCallback<ProductPortionModel> Save_Click { get; set; }
      
     bool is_saving;
 
@@ -65,20 +65,18 @@
 
         is_saving = true;
         
-        List<ProductIngredientModel> save_models = new List<ProductIngredientModel>();
-        save_models = JsonSerializer.Deserialize<List<ProductIngredientModel>>(JsonSerializer.Serialize(models));
+       ProductPortionModel save_models = new ProductPortionModel();
+        save_models = JsonSerializer.Deserialize<ProductPortionModel>(JsonSerializer.Serialize(product_portion));
 
-        save_models.ForEach(r => r.product_menu = null);
-        save_models.ForEach(r => r.product_portion = null);
         save_models.ForEach(r => r.ingredient = null);
-        
-        Console.WriteLine(JsonSerializer.Serialize(save_models));
-
-        var resp = await http.ApiPost("ProductIngredient/multiple/save", save_models);
+  
+        var resp = await http.ApiPost("ProductPortion/save", save_models);
         if (resp.IsSuccess)
         {
+              save_models = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());
             toast.Add("Save product successfully", MatToastType.Success);
             await is_openChanged.InvokeAsync(false); 
+            await Save_Click.InvokeAsync(save_models);
         }
         else
         {
@@ -97,7 +95,7 @@
         set {
             Console.WriteLine(value.id);
 
-            if (models.Where(r=>r.ingredient_id == value.id).Any())
+            if (product_portion.product_ingredi .Where(r=>r.ingredient_id == value.id).Any())
             {
                 models.Where(r => r.ingredient_id == value.id).FirstOrDefault().quantity = models.Where(r => r.ingredient_id == value.id).FirstOrDefault().quantity + 1;
             }

@@ -20,7 +20,7 @@ namespace eModels
             product_portions = new List<ProductPortionModel>();
             product_menus = new List<ProductMenuModel>();
             product_modifiers = new List<ProductModifierModel>();
-            ingredients = new List<ProductIngredientModel>();
+          
 
         }
 
@@ -91,8 +91,7 @@ namespace eModels
         public bool is_ingredient_product { get; set; }
         public decimal cost { get; set; }
         public List<HistoryModel> histories { get; set; }
-        public List<ProductIngredientModel> ingredients { get; set; }
-
+   
         [NotMapped, JsonIgnore]
         public string product_display_name
         {

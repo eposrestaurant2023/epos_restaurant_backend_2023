@@ -69,7 +69,20 @@ namespace eAPI.Controllers
 
         }
 
-      
+        [HttpPost("save/multiple")]
+        public async Task<ActionResult<string>> SaveMultiple([FromBody] List<ProductPortionModel> data)
+        {
+
+          
+            db.ProductPortions.UpdateRange(data);
+
+
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
+            return Ok(data);
+        }
+
 
 
         [HttpPost]

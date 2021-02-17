@@ -12,10 +12,7 @@ namespace eModels
     public  class ProductIngredientModel   : CoreModel
     {
 
-        public int product_menu_id { get; set; }
-        [ForeignKey("product_menu_id")]
-        public ProductModel product_menu { get; set; }
-
+       
         public int ingredient_id { get; set; }
         [ForeignKey("ingredient_id")]
         public ProductModel ingredient { get; set; }
