@@ -175,20 +175,6 @@ namespace eAdmin.Pages.PageReceipt
                     state_property_name = "date_range"
                 });  
             }
-            // customer
-            if (state.customer != null)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "customer_id",
-                    value1 = state.customer.id.ToString(),
-                    filter_title = "Customer",
-                    state_property_name = "customer",
-                    filter_info_text = state.customer.customer_code_name,
-                    is_clear_all = true,
-                    will_remove = true
-                });
-            }
 
             // filter business
             string business_branch_ids = "";
@@ -270,6 +256,20 @@ namespace eAdmin.Pages.PageReceipt
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false
+                });
+            }
+            // customer
+            if (state.customer != null)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "customer_id",
+                    value1 = state.customer.id.ToString(),
+                    filter_title = "Customer",
+                    state_property_name = "customer",
+                    filter_info_text = state.customer.customer_code_name,
+                    is_clear_all = true,
+                    will_remove = true
                 });
             }
 

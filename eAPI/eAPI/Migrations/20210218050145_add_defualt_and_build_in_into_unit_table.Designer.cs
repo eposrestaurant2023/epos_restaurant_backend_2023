@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210218050145_add_defualt_and_build_in_into_unit_table")]
+    partial class add_defualt_and_build_in_into_unit_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1623,28 +1625,6 @@ namespace eAPI.Migrations
                     b.HasIndex("unit_id");
 
                     b.ToTable("tbl_product_ingredient");
-                });
-
-            modelBuilder.Entity("eModels.ProductIngredientRelatedModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("ingredient_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("ingredient_id");
-
-                    b.HasIndex("product_id");
-
-                    b.ToTable("tbl_product_ingredient_related");
                 });
 
             modelBuilder.Entity("eModels.ProductMenuModel", b =>
@@ -3918,25 +3898,6 @@ namespace eAPI.Migrations
                     b.Navigation("product_portion");
 
                     b.Navigation("unit");
-                });
-
-            modelBuilder.Entity("eModels.ProductIngredientRelatedModel", b =>
-                {
-                    b.HasOne("eModels.ProductModel", "ingredient")
-                        .WithMany()
-                        .HasForeignKey("ingredient_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany()
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ingredient");
-
-                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("eModels.ProductMenuModel", b =>
