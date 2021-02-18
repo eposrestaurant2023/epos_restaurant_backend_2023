@@ -21,5 +21,6 @@ namespace eModels
         public int unit_category_id { get; set; }
         [ForeignKey("unit_category_id")]
         public UnitCategoryModel unit_category { get; set; }
+
     }
 }

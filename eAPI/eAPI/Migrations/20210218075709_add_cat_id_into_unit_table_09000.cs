@@ -2,7 +2,7 @@
 
 namespace eAPI.Migrations
 {
-    public partial class add_unit_category_ids : Migration
+    public partial class add_cat_id_into_unit_table_09000 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,14 +20,6 @@ namespace eAPI.Migrations
                 table: "tbl_unit",
                 newName: "IX_tbl_unit_unit_category_id");
 
-            migrationBuilder.DropColumn(
-                name: "unit_category_id",
-                table: "tbl_unit");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_tbl_unit_tbl_unit_category_unit_category_id",
-                table: "tbl_unit");
-
             migrationBuilder.AddForeignKey(
                 name: "FK_tbl_unit_tbl_unit_category_unit_category_id",
                 table: "tbl_unit",
@@ -40,20 +32,16 @@ namespace eAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_tbl_unit_tbl_unit_category_unit_categoryid",
-                table: "tbl_unit");
-
-            migrationBuilder.DropColumn(
-                name: "unit_category_id",
+                name: "FK_tbl_unit_tbl_unit_category_unit_category_id",
                 table: "tbl_unit");
 
             migrationBuilder.RenameColumn(
-                name: "unit_categoryid",
+                name: "unit_category_id",
                 table: "tbl_unit",
                 newName: "UnitCategoryModelid");
 
             migrationBuilder.RenameIndex(
-                name: "IX_tbl_unit_unit_categoryid",
+                name: "IX_tbl_unit_unit_category_id",
                 table: "tbl_unit",
                 newName: "IX_tbl_unit_UnitCategoryModelid");
 
