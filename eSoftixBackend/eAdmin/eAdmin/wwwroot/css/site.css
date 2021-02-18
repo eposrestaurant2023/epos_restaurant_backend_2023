@@ -6746,3 +6746,31 @@ button.reconciled {
             padding-right: 2px;
             font-size: 12px;
         }
+.bg_kpi.bg_all_customer {
+    background: #f79743;
+}
+.kpi-panel {
+    color: white;
+    text-align: center;
+    padding: 8px;
+}
+.bg_kpi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius:4px;
+}
+
+.bg_kpi.bg_all_customer {
+    background: #f79743;
+}
+.title_number {
+    font-size: 25px;
+    font-weight: 100;
+    margin-bottom: 10px;
+}
+.title-kpi {
+    font-size: 15px;
+    text-transform: capitalize;
+}
+

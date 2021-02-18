@@ -26,6 +26,7 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Upload\" />
+    <Folder Include="Upload\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

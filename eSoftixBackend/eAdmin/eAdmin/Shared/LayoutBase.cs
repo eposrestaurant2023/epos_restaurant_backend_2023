@@ -56,6 +56,7 @@ namespace eAdmin.Shared
                 {
                     List<UserModel> _users = new List<UserModel>();
                     var res_user = await http.ApiGet($"user/get_user?user_id={user.FindFirstValue(ClaimTypes.NameIdentifier)}&$expand=role($select=role_name),employee,outlet");
+                    Console.WriteLine($"user/get_user?user_id={user.FindFirstValue(ClaimTypes.NameIdentifier)}&$expand=role($select=role_name),employee,outlet");
                     if (res_user.IsSuccess)
                     {
                         _users = JsonSerializer.Deserialize<List<UserModel>>(res_user.Content.ToString());
@@ -99,8 +100,7 @@ namespace eAdmin.Shared
                  
                     api_url = api_url + "settings,";
                     api_url = api_url + "currencies,";
-                    api_url = api_url + "business_info,";
-                    api_url = api_url + "roles,";
+                    api_url = api_url + "roles";
                  
                  
                     GetResponse res = await http.ApiGet(api_url);
