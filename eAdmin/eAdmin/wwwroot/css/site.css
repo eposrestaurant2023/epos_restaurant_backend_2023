@@ -956,12 +956,21 @@ a, .btn-link {
 }
 .uk-button-primary,
 .fc-button-primary,
-.uk-button-default {
-    color: #12344d!important;
+.uk-button-default,
+.loading-button {
+    color: #12344d !important;
     background-image: linear-gradient(to bottom,#fff,#f3f5f7);
     border: 1px solid #cfd7df !important;
 }
-
+.loading-button {
+    opacity: 1 !important;
+    background-image: linear-gradient(to bottom,#e4e4e4,#ececec) !important;
+}
+.loading-button .uk-spinner,
+.loading-button .uk-spinner > svg,
+.loading-button .uk-spinner > svg > circle {
+    opacity: 1 !important;
+}
 .uk-button-danger {
     border: 1px solid #f19ead !important;
     background-image: linear-gradient(to bottom,#ff98ab,#f0506e);
@@ -1934,27 +1943,27 @@ h3.title.heading {
     transition: .2s ease-in-out;
 }
 
-    .custom-modal.modal-normal {
-        display: flex;
-        justify-content: center;
-    }
+.custom-modal.modal-normal {
+    display: flex;
+    justify-content: center;
+}
 
-    .custom-modal .content {
-        background: #fff;
-        height: max-content;
-    }
+.custom-modal .content {
+    background: #fff;
+    height: max-content;
+}
 
-    .custom-modal.modal-normal .modal-body {
-        max-height: 70vh;
-        overflow: auto;
-        padding: 15px 30px;
-    }
-    .custom-modal.full_modal .modal-body {
-        min-height: calc(100vh - 200px);
-    }
-    .modal-body {
-        padding: 10px;
-    }
+.custom-modal.modal-normal .modal-body {
+    max-height: 70vh;
+    overflow: auto;
+    padding: 15px;
+}
+.custom-modal.full_modal .modal-body {
+    min-height: calc(100vh - 200px);
+}
+.modal-body {
+    padding: 10px;
+}
 
 .inner-popup-content {
     background: #fff;
