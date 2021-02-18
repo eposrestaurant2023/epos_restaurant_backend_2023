@@ -5,7 +5,14 @@
         <ModalBody>
             @ChildContent
         </ModalBody>
-        <ModalFooter is_open_button_save_and_new="@is_open_button_save_and_new" OnNewSaveClick="@(()=>onNewSubmit(formContext))" show_deleted="@show_deleted" is_submitting="is_submitting" OnCancelClick="OnCancelClick" OnSaveClick="@(()=>onSubmit(formContext))" OnDeleteClick="OnDeleteClcik" is_visible="@is_footer_visible" />
+        <ModalFooter is_open_button_save_and_new="@is_open_button_save_and_new" 
+                     OnNewSaveClick="@(()=>onNewSubmit(formContext))"
+                     show_deleted="@show_deleted"
+                     is_submitting="is_submitting"
+                     OnCancelClick="OnCancelClick" 
+                     OnSaveClick="@(()=>onSubmit(formContext))" 
+                     OnDeleteClick="OnDeleteClcik" 
+                     is_visible="@is_footer_visible" />
     </Modal>
 </EditForm>
 

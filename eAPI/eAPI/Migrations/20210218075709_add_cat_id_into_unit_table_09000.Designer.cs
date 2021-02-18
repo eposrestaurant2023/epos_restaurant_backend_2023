@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210218075709_add_cat_id_into_unit_table_09000")]
+    partial class add_cat_id_into_unit_table_09000
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3270,7 +3272,7 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("unit_category_id")
+                    b.Property<int?>("unit_category_id")
                         .HasColumnType("int");
 
                     b.Property<string>("unit_name")
@@ -4337,9 +4339,7 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.UnitCategoryModel", "unit_category")
                         .WithMany("units")
-                        .HasForeignKey("unit_category_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("unit_category_id");
 
                     b.Navigation("unit_category");
                 });

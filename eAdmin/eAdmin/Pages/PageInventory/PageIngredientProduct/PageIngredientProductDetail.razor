@@ -1,4 +1,4 @@
-﻿@page "/ingredientproduct/{id:int}"
+﻿@page "/ingredient/{id:int}"
 @inject IHttpService http
 @inject NavigationManager nav
 @inject IMatToaster toast
@@ -10,8 +10,8 @@
 @if (!is_loading)
 {
 
-    <Title Value="Product Detail"></Title>
-    <PageContainer roles="@gv.GetRole("product_management")">
+    <Title Value="Ingredient Detail"></Title>
+    <PageContainer roles="@gv.GetRole("ingredient_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -24,7 +24,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"ingredientproduct/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"ingredient/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
                 <ComAttachFileButton RoleAdd="@gv.GetRole("ingredient_add")"
                                      RoleEdit="@gv.GetRole("ingredient_edit")"
                                      RoleDelete="@gv.GetRole("ingredient_delete")"
@@ -49,10 +49,14 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>General Information</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>show_association_products = true)">Association Products</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">Comment  and History</TabHeaderItem>
                     
                 </TabHeader>
                 <TabBody>
+                    <TabItem>
+                        <ComIngredientProductDetail_AssociationProducts product_id="@model.id"/>
+                    </TabItem>
                     <TabItem>
                         <ComIngredientProductDetail_Formation model="@model"/>
                     </TabItem>
@@ -84,7 +88,7 @@
         [Parameter] public int id { get; set; }
         [CascadingParameter] public GlobalVariableModel gv { get; set; }
     public ProductModel model { get; set; }
-    bool is_loading, is_loading_data,show_comment_tab;
+    bool is_loading, is_loading_data,show_comment_tab,show_association_products;
 
     public string api_url { get {
             string url = $"Product({id})";

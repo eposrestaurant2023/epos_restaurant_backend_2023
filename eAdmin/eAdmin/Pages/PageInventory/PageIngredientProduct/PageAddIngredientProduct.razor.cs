@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 {
-    public class PageAddIngredientProductBase : PageCore
+    public class PageAddIngredientBase : PageCore
     {
 
         [Parameter] public int id { get; set; }
@@ -21,11 +21,11 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
                 if (id > 0)
                 {
-                    return "Edit Ingredient Product";
+                    return "Edit Ingredient";
                 }
                 else
                 {
-                    return "New Ingredient Product";
+                    return "New Ingredient";
                 }
             }
         }
@@ -61,10 +61,10 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         {
             if (id == 0)
             {
-                nav.NavigateTo("ingredientproduct");
+                nav.NavigateTo("ingredient");
             }else
             {
-                nav.NavigateTo("ingredientproduct/" + id);
+                nav.NavigateTo("ingredient/" + id);
             }
         }
 
@@ -134,24 +134,24 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add("Save ingredient product successfully", MatToastType.Success);
+                toast.Add("Save ingredient successfully", MatToastType.Success);
                 if (is_save_and_new)
                 {
                     model = new ProductModel();
                     model.product_category_id = save_model.product_category_id;
 
-                    nav.NavigateTo("ingredientproduct/new");
+                    nav.NavigateTo("ingredient/new");
 
                 }else
                 {
                     save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
-                    nav.NavigateTo($"ingredientproduct/{save_model.id}"); 
+                    nav.NavigateTo($"ingredient/{save_model.id}"); 
                 }
             }
             else
             {
 
-                toast.Add("Save product fail", MatToastType.Warning);
+                toast.Add("Save ingredient fail", MatToastType.Warning);
             }
             is_saving = false;
 
