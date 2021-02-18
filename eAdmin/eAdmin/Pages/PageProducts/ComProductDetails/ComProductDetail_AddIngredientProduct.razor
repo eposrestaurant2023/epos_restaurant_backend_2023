@@ -9,7 +9,7 @@
             <ThAuto>Ingredient Name</ThAuto>
             <ThCenter>Quantity</ThCenter>
             <ThCenter>Unit</ThCenter>
-            <ThRight>Cost</ThRight>
+            <ThRight>Cost </ThRight>
             <ThRight>Total</ThRight>
             <ThCenter></ThCenter>
         </tr>
@@ -27,7 +27,7 @@
                         <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto"/>
                     </TdCenter>
                     <TdRight>
-                        <NumberInput @bind-text="@p.cost" class_name="uk-text-right"/>
+                        <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px"/>
                     </TdRight>
                     <TdRight>
                        @p.total_cost.ToString(gv.currency_format)

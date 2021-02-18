@@ -47,7 +47,25 @@ namespace eAPIClient.Controllers
                 var s = db.ConfigDatas.Where(r => r.config_type == config_type).AsQueryable();
                 return SingleResult.Create(s);   
            
-        }  
+        }
+        [HttpPost]
+        [EnableQuery(MaxExpansionDepth = 0)]
+        public async Task<ActionResult<ConfigDataModel>> Post(string config_type, string value)
+        {
+            try
+            {
+                ConfigDataModel _d = db.ConfigDatas.Where(r => r.config_type == config_type).FirstOrDefault();
+                _d.data = value;
+                db.ConfigDatas.Update(_d);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(_d);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+        }
     }
 
 }
