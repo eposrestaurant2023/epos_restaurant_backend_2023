@@ -1,0 +1,34 @@
+﻿@if (data != null)
+{
+    <ComPieChart data="data" />
+}
+
+@code{
+    bool is_loading;
+    List<PieChartModel> data = new List<PieChartModel>();
+    protected override void OnInitialized()
+    {
+        is_loading = true;
+        data.Add(new PieChartModel()
+        {
+            value = 20,
+            label = "Project Type 1",
+            color = "#f79743",
+        });
+        data.Add(new PieChartModel()
+        {
+            value = 20,
+            label = "Project Type 2",
+            color = "#8e3fff"
+        });
+        Console.WriteLine(JsonSerializer.Serialize(data));
+        
+        is_loading = false;
+    }
+
+    //public class ProjectByProjectType
+    //{
+    //    public string label { get; set; }
+    //    public double value { get; set; }
+    //}
+}

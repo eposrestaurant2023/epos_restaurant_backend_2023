@@ -1,0 +1,64 @@
+﻿@using ChartJs.Blazor.Charts
+@using ChartJs.Blazor.ChartJS.PieChart
+@using ChartJs.Blazor.ChartJS.Common.Properties
+@using ChartJs.Blazor.Util
+@using System.Collections.Generic;
+@using ChartJs.Blazor.ChartJS.Common.Enums;
+@inherits PageCore;
+@if (data != null && data.Count() > 0)
+{
+    <ChartJsPieChart @ref="_pieChartJs" Config="@_config" Width="250" Height="300" />
+}
+
+@code {
+    [Parameter] public List<PieChartModel> data { get; set; } = new List<PieChartModel>();
+    private PieConfig _config;
+    private ChartJsPieChart _pieChartJs;
+
+    List<string> bar_chart_colors = new List<string>();
+
+    protected override void OnInitialized()
+    {
+
+        if (data != null)
+        {
+            foreach (var d in data)
+            {
+                bar_chart_colors.Add(d.color);
+
+            }
+            _config = new PieConfig
+            {
+                Options = new PieOptions
+                {
+                    MaintainAspectRatio = false,
+                    Animation = new ArcAnimation
+                    {
+                        AnimateRotate = true,
+                        AnimateScale = true
+                    },
+                    Legend = new ChartJs.Blazor.ChartJS.Common.Handlers.Legend
+                    {
+                        Position = Position.Right
+                    }
+                }
+            };
+
+
+            var pieSet = new PieDataset
+            {
+                BackgroundColor = bar_chart_colors.ToArray(),
+                BorderWidth = 0,
+                HoverBackgroundColor = ColorUtil.RandomColorString(),
+                HoverBorderColor = ColorUtil.RandomColorString(),
+                HoverBorderWidth = 1,
+                BorderColor = "#ffffff"
+            };
+            _config.Data.Labels.AddRange(data.Select(r => r.label ));
+
+            pieSet.Data.AddRange(data.Select(r => r.value));
+            _config.Data.Datasets.Add(pieSet);
+        }
+
+    }
+}
