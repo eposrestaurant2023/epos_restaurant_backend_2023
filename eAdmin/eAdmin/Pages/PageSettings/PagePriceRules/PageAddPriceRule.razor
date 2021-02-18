@@ -91,6 +91,10 @@
             {
                 price.id = 0;
                 price.created_date = DateTime.Now;
+                foreach (var s in price.business_branch_prices)
+                {
+                    s.is_default = false;
+                }
             }
         }
         is_loading_data = false;
