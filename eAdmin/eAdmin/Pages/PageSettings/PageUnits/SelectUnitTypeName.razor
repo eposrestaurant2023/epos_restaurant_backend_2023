@@ -1,0 +1,30 @@
+﻿<div class="uk-form-horizontal">
+    <div class="uk-margin-small">
+        @*<label class="uk-form-label" for="@id"></label>*@
+        <div class="uk-form-controls">
+            <select id="@id" value="@selected_value.ToString()" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small" style="width:@Width">
+                <option value="Reference">Reference</option>
+                <option value="Smaller than Reference">Smaller than Reference</option>
+                <option value="Bigger than Reference">Bigger than Reference</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter] public string selected_value { get; set; } = "Reference";
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public string Width { get; set; } = "100%";
+
+
+    [Parameter]
+    public EventCallback<string> selected_valueChanged { get; set; }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = n ;
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+}

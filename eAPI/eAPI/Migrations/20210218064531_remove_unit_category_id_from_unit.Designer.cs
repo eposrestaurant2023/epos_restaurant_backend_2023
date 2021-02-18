@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210218064531_remove_unit_category_id_from_unit")]
+    partial class remove_unit_category_id_from_unit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3210,6 +3212,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int?>("UnitCategoryModelid")
+                        .HasColumnType("int");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -3248,19 +3253,13 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("unit_category_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("unit_categoryid")
-                        .HasColumnType("int");
-
                     b.Property<string>("unit_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
-                    b.HasIndex("unit_categoryid");
+                    b.HasIndex("UnitCategoryModelid");
 
                     b.ToTable("tbl_unit");
                 });
@@ -4297,11 +4296,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.UnitModel", b =>
                 {
-                    b.HasOne("eModels.UnitCategoryModel", "unit_category")
+                    b.HasOne("eModels.UnitCategoryModel", null)
                         .WithMany("units")
-                        .HasForeignKey("unit_categoryid");
-
-                    b.Navigation("unit_category");
+                        .HasForeignKey("UnitCategoryModelid");
                 });
 
             modelBuilder.Entity("eModels.UserModel", b =>
