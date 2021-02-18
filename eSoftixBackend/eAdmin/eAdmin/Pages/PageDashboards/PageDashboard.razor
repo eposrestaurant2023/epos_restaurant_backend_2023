@@ -19,7 +19,7 @@
     <PageBody class_card="no-card-dashboard">
         <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
             <Column ClassName="uk-width-1-4">
-                <ComKpi Value="@(500.ToString())" Label="All Customer"/>
+                <ComKpi Value="@(500.ToString())" Label="All Customer" />
             </Column>
             <Column ClassName="uk-width-1-4">
                 <ComKpi Value="@(500.ToString())" Label="All Project" />
@@ -40,14 +40,67 @@
                 <ComKpi Value="@(500.ToString())" Label="This Week Expired" />
             </Column>
             <Column ClassName="uk-width-1-4">
-                <ComKpi Value="@(500.ToString())" Label="This Month" />
+                <ComKpi Value="@(500.ToString())" Label="This Month" bg_class="" />
             </Column>
         </div>
-            
+        <Spacing Number="20" />
+        <Grid ClassName="uk-text-center uk-grid-small">
+            <div class="uk-width-3-5">
+                <ComPanel Title="New Register Customer" ClassName="uk-padding">
+                    <LineChart Height="450" Data="@line_data" />
+                    
+                </ComPanel>
+            </div>
+            <div class="uk-width-2-5">
+                <ComPanel Title="Project" ClassName="uk-padding">
+                    <Tab>
+                        <TabHeader>
+                            <TabHeaderItem>Project</TabHeaderItem>
+                            <TabHeaderItem>Customer</TabHeaderItem>
+                        </TabHeader>
+                        <TabBody>
+                            <TabItem>
+                                hi1
+                                <ComProjectByProjectTypePiechart />
+                            </TabItem>
+                            <TabItem>
+                                hi2
+                                <ComCustomerByCustomerGroupPiechart />
+                            </TabItem>
+                        </TabBody>
+                    </Tab>
+                </ComPanel>
+            </div>
+        </Grid>
     </PageBody>
 </PageContainer>
 
 @code{
+
+    LineChartModel line_data = new LineChartModel();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        line_data.label = new string[] {"Jan","Feb", "Mar", "Apr", "May","June", "July", };
+        line_data.data.Add(new ChartDataModel {
+            data=new double[] { 50,60,20,40,22,35},
+            label="Close Project",
+            color= "#a742f5"
+        });
+        line_data.data.Add(new ChartDataModel
+        {
+            data = new double[] { 25, 60, 30, 50, 22, 30 },
+            label = "Register Project",
+            color= "#4287f5"
+        });
+        line_data.data.Add(new ChartDataModel
+        {
+            data = new double[] { 15, 25, 21, 40, 55, 35 },
+            label = "New Project",
+            color= "#42f5a4"
+        });
+        is_loading = false;
+    }
 
     async Task LoadData()
     {

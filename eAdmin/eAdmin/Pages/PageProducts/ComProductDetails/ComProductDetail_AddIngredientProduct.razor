@@ -97,8 +97,8 @@
                 data.FirstOrDefault().quantity = data.FirstOrDefault().quantity + 1;
             }
             else
-            {
-                product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id,unit_id=value.unit_id });
+            { 
+                product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id,unit_id=value.unit_id, cost = value.cost });
             }
             value = null;
             _product = value;
