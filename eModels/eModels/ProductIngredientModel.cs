@@ -26,9 +26,7 @@ namespace eModels
         public int unit_id { get; set; }
         [ForeignKey("unit_id")]
         public UnitModel unit { get; set; }
-
-        public decimal cost { get; set; } 
-
+         
         private decimal _total_cost;
 
         public decimal total_cost
@@ -39,5 +37,20 @@ namespace eModels
             }
             set { _total_cost = value; }
         }
+
+        private decimal _cost;
+
+        public decimal cost
+        {
+            get {
+                if (ingredient != null && id == 0)
+                {
+                    return ingredient.cost;
+                }
+                return _cost;
+            }
+            set { _cost = value; }
+        }
+
     }
 }
