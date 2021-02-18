@@ -35,7 +35,7 @@
                     <TdRight>
                         <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))"/>
                     </TdRight>
-                </tr>
+                </tr> 
             }
     <tfoot>
         <tr>
@@ -52,7 +52,6 @@
             </TdRight>
             <TdRight>
                 @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.total_cost).ToString(gv.currency_format)
-
             </TdRight>
             <TdRight>
                 
@@ -124,7 +123,7 @@
         save_model = JsonSerializer.Deserialize<ProductPortionModel>(JsonSerializer.Serialize(product_portion));
 
         save_model.product_ingredients.ForEach(r => r.ingredient = null);
-
+        Console.WriteLine(JsonSerializer.Serialize(save_model));
         var resp = await http.ApiPost("ProductPortion/save", save_model);
         if (resp.IsSuccess)
         {

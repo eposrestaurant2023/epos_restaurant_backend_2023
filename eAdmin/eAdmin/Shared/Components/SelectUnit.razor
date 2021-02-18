@@ -1,5 +1,25 @@
-﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id">@label</label>
+﻿
+@if(!string.IsNullOrEmpty(label)){
+    <div class="uk-margin-small">
+        <label class="uk-form-label" for="@id">@label</label>
+        <div class="uk-form-controls">
+            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                @if (show_empty)
+                {
+                    <option value="0">@empty_text</option>
+                }
+                @foreach (var p in gv.units.Where(r => r.status  && !r.is_deleted))
+                {
+                    <option value="@p.id">@p.unit_name</option>
+                }
+            </select>
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{
+    
     <div class="uk-form-controls">
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
@@ -13,8 +33,7 @@
         </select>
         @ChildContent
     </div>
-</div>
-
+}
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }

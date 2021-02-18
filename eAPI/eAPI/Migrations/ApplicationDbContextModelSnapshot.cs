@@ -1625,6 +1625,28 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_product_ingredient");
                 });
 
+            modelBuilder.Entity("eModels.ProductIngredientRelatedModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ingredient_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("ingredient_id");
+
+                    b.HasIndex("product_id");
+
+                    b.ToTable("tbl_product_ingredient_related");
+                });
+
             modelBuilder.Entity("eModels.ProductMenuModel", b =>
                 {
                     b.Property<int>("id")
@@ -3896,6 +3918,25 @@ namespace eAPI.Migrations
                     b.Navigation("product_portion");
 
                     b.Navigation("unit");
+                });
+
+            modelBuilder.Entity("eModels.ProductIngredientRelatedModel", b =>
+                {
+                    b.HasOne("eModels.ProductModel", "ingredient")
+                        .WithMany()
+                        .HasForeignKey("ingredient_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.ProductModel", "product")
+                        .WithMany()
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ingredient");
+
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("eModels.ProductMenuModel", b =>
