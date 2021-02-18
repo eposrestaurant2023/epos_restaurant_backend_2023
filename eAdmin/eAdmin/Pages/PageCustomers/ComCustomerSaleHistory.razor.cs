@@ -176,7 +176,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "outlet/business_branch_id",
+                    key = "business_branch_id",
                     value1 = business_branch_ids,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -190,7 +190,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "outlet/business_branch_id",
+                    key = "business_branch_id",
                     value1 = gv.business_branch_ids_filter,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -298,7 +298,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             foreach (var k in remove_key)
             {
                 // clear filter business
-                if (k == "outlet/business_branch_id")
+                if (k == "business_branch_id")
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
@@ -329,7 +329,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
                 // clear filter business
-                if (f.key == "outlet/business_branch_id")
+                if (f.key == "business_branch_id")
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();

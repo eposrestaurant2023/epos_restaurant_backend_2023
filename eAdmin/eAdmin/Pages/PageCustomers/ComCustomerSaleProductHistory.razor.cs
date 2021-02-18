@@ -76,7 +76,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale/business_branch_id",
+                    key = "business_branch_id",
                     value1 = business_branch_ids,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -90,7 +90,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale/business_branch_id",
+                    key = "business_branch_id",
                     value1 = gv.business_branch_ids_filter,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -196,58 +196,22 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     state_property_name = "date_range"
                 });  
             }
-            // filter business
-            if (state.multi_select_value_1 != null)
+            if (state.product_group.id > 0)
             {
-
-                string value = "";
-                foreach(var x in state.multi_select_value_1)
-                {
-                    value += x + ",";
-                }
-                if (!string.IsNullOrEmpty(value))
-                {
-                    value = value.Substring(0, value.Length - 1);
-                } 
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale/business_branch_id",
-                    value1 = value,
-                    filter_title = "Business Branch",
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = value,
+                    key = "product/product_category/product_group/product_group_en",
+                    value1 = state.product_group.id.ToString(),
                     is_clear_all = true,
+                    filter_title = "Product Group",
+                    state_property_name = "product_group",
+                    filter_info_text = state.product_group.product_group_en,
+                    filter_operator = "eq",
                     will_remove = true
                 });
             }
-            // filter outlet
-            if (state.multi_select_value_2 != null)
-            {
 
-                string value = "";
-                foreach(var x in state.multi_select_value_2)
-                {
-                    value += x + ",";
-                }
-                if (!string.IsNullOrEmpty(value))
-                {
-                    value = value.Substring(0, value.Length - 1);
-                } 
-
-                state.filters.Add(new FilterModel()
-                {
-                    key = "sale/outlet_id",
-                    value1 = value,
-                    filter_title = "Outlet",
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = value,
-                    is_clear_all = true,
-                    will_remove = true
-                });
-            }
 
             if (state.product_category.id > 0)
             {
@@ -265,18 +229,57 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 });
             }
 
-            if (state.product_group.id > 0)
+    
+
+            // filter business
+            if (state.multi_select_value_1 != null)
             {
-     
+
+                string value = "";
+                foreach (var x in state.multi_select_value_1)
+                {
+                    value += x + ",";
+                }
+                if (!string.IsNullOrEmpty(value))
+                {
+                    value = value.Substring(0, value.Length - 1);
+                }
+
                 state.filters.Add(new FilterModel()
                 {
-                    key = "product/product_category/product_group/product_group_en",
-                    value1 = state.product_group.id.ToString(),
+                    key = "business_branch_id",
+                    value1 = value,
+                    filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = value,
                     is_clear_all = true,
-                    filter_title = "Product Group",
-                    state_property_name = "product_group",
-                    filter_info_text = state.product_group.product_group_en,
-                    filter_operator = "eq",
+                    will_remove = true
+                });
+            }
+            // filter outlet
+            if (state.multi_select_value_2 != null)
+            {
+
+                string value = "";
+                foreach (var x in state.multi_select_value_2)
+                {
+                    value += x + ",";
+                }
+                if (!string.IsNullOrEmpty(value))
+                {
+                    value = value.Substring(0, value.Length - 1);
+                }
+
+                state.filters.Add(new FilterModel()
+                {
+                    key = "outlet_id",
+                    value1 = value,
+                    filter_title = "Outlet",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = value,
+                    is_clear_all = true,
                     will_remove = true
                 });
             }
@@ -317,7 +320,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             foreach (var k in remove_key)
             {
                 // clear filter business
-                if (k == "sale/business_branch_id" && state.multi_select_id_1 != null)
+                if (k == "business_branch_id" && state.multi_select_id_1 != null)
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
@@ -325,7 +328,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
 
                 // clear filter outlet
-                if (k == "sale/outlet_id" && state.multi_select_id_2 != null)
+                if (k == "outlet_id" && state.multi_select_id_2 != null)
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
@@ -347,7 +350,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
                 // clear filter business
-                if (f.key == "sale/business_branch_id")
+                if (f.key == "business_branch_id")
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
@@ -355,7 +358,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
 
                 // clear filter outlet
-                if (f.key == "sale/outlet_id")
+                if (f.key == "outlet_id")
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
