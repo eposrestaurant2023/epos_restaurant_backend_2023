@@ -1,10 +1,10 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 <Loading is_loading="@is_saving"/>
-<EditFormContext Cancel_Click="@OnCancelClick" model="@product_portion" is_opened="is_open" title="Product Ingredient" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
+<EditFormContext Cancel_Click="@OnCancelClick" model="@product_portion" is_opened="is_open" title="@($"Ingredients Of {product_portion.portion_name}")" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
     <IngredientProductTypeahead @bind-product="@product" />
     <hr/> 
-    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
             <ThAuto>Ingredient Name</ThAuto>
             <ThCenter>Quantity</ThCenter>
@@ -21,13 +21,13 @@
                         @p.ingredient?.product_display_name
                     </td>
                     <TdCenter> 
-                        <NumberInput @bind-text="@p.quantity" width="80px" class_name="uk-text-center"/>
+                        <NumberInput @bind-text="@p.quantity" class_name="uk-text-center"/>
                     </TdCenter>
                     <TdCenter>
-                        <SelectUnit @bind-selected_value="@p.unit_id" label=""/>
+                        <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto"/>
                     </TdCenter>
                     <TdRight>
-                        <NumberInput @bind-text="@p.cost" width="120px" class_name="uk-text-right"/>
+                        <NumberInput @bind-text="@p.cost" class_name="uk-text-right"/>
                     </TdRight>
                     <TdRight>
                        @p.total_cost.ToString(gv.currency_format)
@@ -123,7 +123,8 @@
         save_model = JsonSerializer.Deserialize<ProductPortionModel>(JsonSerializer.Serialize(product_portion));
 
         save_model.product_ingredients.ForEach(r => r.ingredient = null);
-        Console.WriteLine(JsonSerializer.Serialize(save_model));
+        save_model.product_ingredients.ForEach(r => r.unit = null);
+         
         var resp = await http.ApiPost("ProductPortion/save", save_model);
         if (resp.IsSuccess)
         {
