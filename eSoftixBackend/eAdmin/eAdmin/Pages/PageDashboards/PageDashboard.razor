@@ -3,7 +3,7 @@
 
 <Loading is_loading="@is_loading"/>
 <Title Value="Dashboard"></Title>
-<PageContainer roles=@gv.GetRole("dashboard")>
+<PageContainer roles=@gv.GetRole("dashboard_management")>
     <PageHeader>
         <HeaderLeft>
             <PageTitle ShowFilter="false">
@@ -17,7 +17,33 @@
         </HeaderRight>
     </PageHeader>
     <PageBody class_card="no-card-dashboard">
-        <h1>Dashboard</h1>
+        <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
+            <Column ClassName="uk-width-1-4">
+                <ComKpi Value="@(500.ToString())" Label="All Customer"/>
+            </Column>
+            <Column ClassName="uk-width-1-4">
+                <ComKpi Value="@(500.ToString())" Label="All Project" />
+            </Column>
+            <Column ClassName="uk-width-1-4">
+                <ComKpi Value="@(500.ToString())" Label="New Customer (MTD)" />
+            </Column>
+            <Column ClassName="uk-width-1-4">
+                <ComKpi Value="@(500.ToString())" Label="New Project (MTD)" />
+            </Column>
+            <Column ClassName="uk-width-1-4">
+                <ComKpi Value="@(500.ToString())" Label="Active Project" />
+            </Column>
+            <Column ClassName="uk-width-1-4">
+                <ComKpi Value="@(500.ToString())" Label="Today Expired Station" />
+            </Column>
+            <Column ClassName="uk-width-1-4">
+                <ComKpi Value="@(500.ToString())" Label="This Week Expired" />
+            </Column>
+            <Column ClassName="uk-width-1-4">
+                <ComKpi Value="@(500.ToString())" Label="This Month" />
+            </Column>
+        </div>
+            
     </PageBody>
 </PageContainer>
 
