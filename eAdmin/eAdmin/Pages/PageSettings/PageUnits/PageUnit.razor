@@ -10,7 +10,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Unit
+                        Unit of Measurement (UoM)
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -30,7 +30,7 @@
                                 @b.category_name
                             </Header>
                             <Content>
-                                <ComAddUnit units="@b.units.OrderBy(r=>r.sort_order).ToList()" />
+                                <ComAddUnit units="@b.units" />
                                 <hr />
                                 <Button OnClick="@(()=>AddUnit(b))">Add Unit</Button>
                             </Content>
@@ -82,7 +82,7 @@
 
     void AddUnit(UnitCategoryModel b)
     {
-        b.units.Add(new UnitModel());
+        b.units.Add(new UnitModel() { type_name ="Reference"});
     }
 
     async Task Save_Click()

@@ -137,6 +137,9 @@ namespace eAdmin.Pages.PageProducts
             //remove menu
             save_model.product_menus.ForEach(r => r.menu = null);
             save_model.is_menu_product = true;
+
+            Console.WriteLine(JsonSerializer.Serialize(save_model));
+
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {

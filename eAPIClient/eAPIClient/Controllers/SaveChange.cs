@@ -16,7 +16,7 @@ namespace eAPIClient.Controllers
        
         public static async Task SaveAsync(ApplicationDbContext db, int user_id)
         { 
-            var config = db.ConfigDatas.Find(1);
+            var config = db.ConfigDatas.Where(r=>r.config_type=="user").FirstOrDefault();
             UserModel user = new UserModel();
             if (config != null)
             {
@@ -78,7 +78,7 @@ namespace eAPIClient.Controllers
 
         public static void Save(ApplicationDbContext db, int user_id)
         {
-            var config = db.ConfigDatas.Find(1);
+            var config = db.ConfigDatas.Where(r => r.config_type == "user").FirstOrDefault();
             UserModel user = new UserModel();
             if (config != null)
             {

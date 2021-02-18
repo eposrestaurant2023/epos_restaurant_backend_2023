@@ -1,0 +1,55 @@
+﻿@inject IMatToaster toast
+@inject IHttpService http
+<UIContainerBox Title="Association Products">
+
+        <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+            <tr>
+                <ThAuto>Product Name</ThAuto>
+                <th>Category</th>
+                <ThCenter>Status</ThCenter> 
+            </tr>
+
+            @if (models.Any())
+            {
+                foreach (var p in models)
+                {
+                    <tr>
+                        <td>
+                            @p.product?.product_display_name
+                        </td>
+                        <td>@p.product?.product_category?.product_category_en</td>
+                        <TdCenter>
+                            <LabelDeleted is_visible="@p.product.is_deleted" />
+                            <LabelActive is_visible="@(!p.product.is_deleted && p.product.status)"/>
+                            <LabelInActive is_visible="@(!p.product.is_deleted && !p.product.status)"/>
+                        </TdCenter> 
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">
+                        <ComEmptyTemplate padding_top_bottom="25px" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </UIContainerBox>
+@code {
+    [Parameter] public int product_id { get; set; }
+    List<ProductIngredientRelatedModel> models = new List<ProductIngredientRelatedModel>();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+            is_loading = true;
+            var resp = await http.ApiGetOData($"ProductIngredientRelated?$filter=product_id eq {product_id}&$expand=product($select=id,is_deleted,status,product_code,product_name_en,product_name_kh;$expand=product_category($select=id,product_category_en,product_category_kh))");
+            if (resp.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<ProductIngredientRelatedModel>>(resp.Content.ToString());
+            }else{
+                toast.Add("Cannot get data.", MatToastType.Warning);
+            }
+            is_loading = false;
+        }
+}

@@ -1,4 +1,4 @@
-﻿@page "/ingredientproduct"
+﻿@page "/ingredient"
 @inherits PageIngredientProductBase
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
@@ -11,8 +11,8 @@
 @if (!is_loading)
 {
 
-    <Title Value="Ingredient Products"></Title>
-    <PageContainer roles="@gv.GetRole("ingredient_product_management")">
+    <Title Value="Ingredients"></Title>
+    <PageContainer roles="@gv.GetRole("ingredient_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
@@ -21,13 +21,13 @@
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="Status">
-                            <ModuleView module_views="@gv.GetModuleView("page_ingredient_product")" OnClick="@ViewClick" />
+                            <ModuleView module_views="@gv.GetModuleView("page_ingredient")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("ingredient_product_add")" OnClick="@(()=>nav.NavigateTo("ingredientproduct/new"))">New Ingredient Product</AddButton>
+                <AddButton roles="@gv.GetRole("ingredient_add")" OnClick="@(()=>nav.NavigateTo("ingredient/new"))">New Ingredient</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="All Product Category" is_ingredient_category="true"/>
@@ -64,13 +64,13 @@
                             <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
                         </TdCenter> 
                         <TdCenter> 
-                            <ComAuthorize roles="@gv.GetRole("ingredient_product_view")" url="@($"ingredientproduct/{p.id}")">@p.product_code</ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_code</ComAuthorize>
                         </TdCenter>
                         <td> 
-                            <ComAuthorize roles="@gv.GetRole("ingredient_product_view")" url="@($"ingredientproduct/{p.id}")">@p.product_name_en</ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_en</ComAuthorize>
                         </td>
                         <td> 
-                            <ComAuthorize roles="@gv.GetRole("ingredient_product_view")" url="@($"ingredientproduct/{p.id}")">@p.product_name_kh</ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_kh</ComAuthorize>
                         </td>
                         <td>@p.product_category?.product_category_en</td>
                         <TdRight>
@@ -78,17 +78,17 @@
                         </TdRight>
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />
-                            <LabelActive is_visible="@(!p.is_deleted && p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("ingredient_product_edit")" is_loading="@p.is_change_status" />
-                            <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("ingredient_product_edit")" is_loading="@p.is_change_status" />
+                            <LabelActive is_visible="@(!p.is_deleted && p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("ingredient_edit")" is_loading="@p.is_change_status" />
+                            <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("ingredient_edit")" is_loading="@p.is_change_status" />
                         </TdCenter>
                         <TdActions is_loading="@p.is_loading">
-                            <TableActionItem icon="visibility" is_visible="@(!p.is_deleted)" url="@($"ingredientproduct/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("ingredient_product_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("ingredient_product_add")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">Clone</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("ingredient_product_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("ingredient_product_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("ingredient_product_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("ingredient_product_edit")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                            <TableActionItem icon="visibility" is_visible="@(!p.is_deleted)" url="@($"ingredient/{p.id}")">View</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("ingredient_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("ingredient_add")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">Clone</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("ingredient_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("ingredient_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("ingredient_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("ingredient_edit")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
                         </TdActions>
                     </RowTemplate>
                 </Table>

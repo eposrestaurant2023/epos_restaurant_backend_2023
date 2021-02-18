@@ -1,5 +1,5 @@
 ﻿@if(is_loading){
-    <Button><Spinner /></Button>
+    <Button custom_class="loading-button" disabled="true"><Spinner /> Saving...</Button>
 }else{
     @ChildContent
 }

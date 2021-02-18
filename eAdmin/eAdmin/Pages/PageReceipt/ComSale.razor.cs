@@ -19,7 +19,6 @@ namespace eAdmin.Pages.PageReceipt
         public SaleModel model = new SaleModel();
         public string StateKey = "";   
         public int TotalRecord = 0; 
-
         string controller_api = "sale";
         public string ControllerApi
         {
@@ -48,6 +47,7 @@ namespace eAdmin.Pages.PageReceipt
                 StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj";
 
             state = await GetState(StateKey);
+            Console.WriteLine(JsonSerializer.Serialize(state));
             state.filters.Clear();
  
             if (is_receipt_list)
@@ -175,20 +175,6 @@ namespace eAdmin.Pages.PageReceipt
                     state_property_name = "date_range"
                 });  
             }
-            // customer
-            if (state.customer != null)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "customer_id",
-                    value1 = state.customer.id.ToString(),
-                    filter_title = "Customer",
-                    state_property_name = "customer",
-                    filter_info_text = state.customer.customer_code_name,
-                    is_clear_all = true,
-                    will_remove = true
-                });
-            }
 
             // filter business
             string business_branch_ids = "";
@@ -228,7 +214,7 @@ namespace eAdmin.Pages.PageReceipt
                     filter_info_text = gv.business_branch_ids_filter,
                     is_clear_all = true,
                     will_remove = true ,
-                    is_show_on_infor =false
+                    is_show_on_infor =true
                 });
             }
 
@@ -269,7 +255,21 @@ namespace eAdmin.Pages.PageReceipt
                     filter_info_text = gv.outlet_ids_filter(business_branch_ids),
                     is_clear_all = true,
                     will_remove = true,
-                    is_show_on_infor = false
+                    is_show_on_infor = true
+                });
+            }
+            // customer
+            if (state.customer != null)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "customer_id",
+                    value1 = state.customer.id.ToString(),
+                    filter_title = "Customer",
+                    state_property_name = "customer",
+                    filter_info_text = state.customer.customer_code_name,
+                    is_clear_all = true,
+                    will_remove = true
                 });
             }
 
