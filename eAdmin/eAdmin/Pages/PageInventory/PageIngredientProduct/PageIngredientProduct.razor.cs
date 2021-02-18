@@ -61,14 +61,14 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         public void OnEdit(int id)
         {
             is_loading_data = true;
-            nav.NavigateTo($"ingredientproduct/edit/{id}");
+            nav.NavigateTo($"ingredient/edit/{id}");
             is_loading_data = false;
         }
 
         public void Clone_Click(int id)
         {
             is_loading_data = true;
-            nav.NavigateTo($"ingredientproduct/clone/{id}");
+            nav.NavigateTo($"ingredient/clone/{id}");
             is_loading_data = false;
         }
 

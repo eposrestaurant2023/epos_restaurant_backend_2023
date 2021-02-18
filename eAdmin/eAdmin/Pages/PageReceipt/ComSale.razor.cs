@@ -19,7 +19,6 @@ namespace eAdmin.Pages.PageReceipt
         public SaleModel model = new SaleModel();
         public string StateKey = "";   
         public int TotalRecord = 0; 
-
         string controller_api = "sale";
         public string ControllerApi
         {
