@@ -28,9 +28,10 @@ namespace eModels
         [MaxLength(20)]
         public string password { get; set; } = "";
 
-        [MaxLength(2)]
-        public int user_code { get; set; }
-        public int pin_code { get; set; }
+        [MaxLength(20)]
+        [Required]
+        public int user_code { get; set; } = 0;
+        public int pin_code { get; set; } = 0;
 
         [MaxLength(50)]
         public string email { get; set; }

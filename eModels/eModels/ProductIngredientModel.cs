@@ -12,13 +12,10 @@ namespace eModels
     public  class ProductIngredientModel   : CoreModel
     {
 
-        public int product_menu_id { get; set; }
-        [ForeignKey("product_menu_id")]
-        public ProductModel product_menu { get; set; }
-
-        public int product_ingredient_id { get; set; }
-        [ForeignKey("product_ingredient_id")]
-        public ProductModel product_ingredient { get; set; }
+       
+        public int ingredient_id { get; set; }
+        [ForeignKey("ingredient_id")]
+        public ProductModel ingredient { get; set; }
         
         public int product_portion_id { get; set; }
         [ForeignKey("product_portion_id")]
@@ -26,7 +23,10 @@ namespace eModels
 
         public decimal quantity { get; set; } = 1;
 
-        public string unit { get; set; } = "Unit";
+        public int unit_id { get; set; }
+        [ForeignKey("unit_id")]
+        public UnitModel unit { get; set; }
+
         public decimal cost { get; set; } 
 
         private decimal _total_cost;

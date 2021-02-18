@@ -61,7 +61,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> SaveMultiple([FromBody] List<BusinessBranchModel> branches)
         {
 
-            string xx = JsonSerializer.Serialize(branches);
+        
             db.BusinessBranches.UpdateRange(branches);
 
 

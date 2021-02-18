@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210217165324_fix_unitx")]
+    partial class fix_unitx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1739,7 +1741,11 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("unit_id")
+                    b.Property<string>("unit")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int?>("unit_id")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -3925,17 +3931,15 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.UnitModel", "unit")
+                    b.HasOne("eModels.UnitModel", "unit_object")
                         .WithMany()
-                        .HasForeignKey("unit_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("unit_id");
 
                     b.Navigation("product_category");
 
                     b.Navigation("product_type");
 
-                    b.Navigation("unit");
+                    b.Navigation("unit_object");
                 });
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>

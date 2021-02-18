@@ -47,7 +47,9 @@ namespace eAPI.Controllers
         [HttpPost("multiple/save")]
         public async Task<ActionResult<string>> Save([FromBody] List<ProductIngredientModel> pis)
         { 
-            db.ProductIngredients.AddRange(pis); 
+
+            db.ProductIngredients.AddRange(pis.Where(r=>r.id == 0).ToList());
+            db.ProductIngredients.UpdateRange(pis.Where(r=>r.id > 0).ToList());
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(pis);
         }

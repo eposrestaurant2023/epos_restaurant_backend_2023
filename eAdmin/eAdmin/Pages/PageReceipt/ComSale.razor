@@ -12,11 +12,25 @@
     <PageContainer>
         <PageHeader>
             <HeaderLeft>
-                <PageTitle ShowFilter="false">
-                    <HeaderTemplate>
-                        @state.page_title
-                    </HeaderTemplate>
-                </PageTitle>
+                @if (is_receipt_list)
+                {
+                    <PageTitle ShowFilter="false">
+
+                        <HeaderTemplate>
+                            Receipt List
+                        </HeaderTemplate>
+                    </PageTitle>
+                }
+                else
+                {
+                    <PageTitle ShowFilter="false">
+
+                        <HeaderTemplate>
+                            Void Receipt List
+                        </HeaderTemplate>
+                    </PageTitle>
+                }
+
             </HeaderLeft>
             <HeaderRight> 
                 <RefreshButton OnClick="@(async()=>await LoadData())" />

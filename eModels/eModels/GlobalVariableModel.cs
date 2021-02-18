@@ -19,6 +19,7 @@ namespace eModels
         public List<PaymentTypeModel> payment_types { get; set; }
         public List<VendorModel> vendors { get; set; }
         public List<VendorGroupModel> vendor_groups { get; set; }
+        public List<UnitModel> units { get; set; }
           
   
         public List<CountryModel> countries { get; set; }

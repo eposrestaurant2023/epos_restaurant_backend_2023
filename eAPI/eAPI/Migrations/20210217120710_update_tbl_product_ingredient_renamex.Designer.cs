@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210217120710_update_tbl_product_ingredient_renamex")]
+    partial class update_tbl_product_ingredient_renamex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1611,16 +1613,15 @@ namespace eAPI.Migrations
                     b.Property<decimal>("total_cost")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<int>("unit_id")
-                        .HasColumnType("int");
+                    b.Property<string>("unit")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
                     b.HasIndex("ingredient_id");
 
                     b.HasIndex("product_portion_id");
-
-                    b.HasIndex("unit_id");
 
                     b.ToTable("tbl_product_ingredient");
                 });
@@ -1739,16 +1740,15 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("unit_id")
-                        .HasColumnType("int");
+                    b.Property<string>("unit")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
                     b.HasIndex("product_category_id");
 
                     b.HasIndex("product_type_id");
-
-                    b.HasIndex("unit_id");
 
                     b.ToTable("tbl_product");
                 });
@@ -3879,17 +3879,9 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.UnitModel", "unit")
-                        .WithMany()
-                        .HasForeignKey("unit_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ingredient");
 
                     b.Navigation("product_portion");
-
-                    b.Navigation("unit");
                 });
 
             modelBuilder.Entity("eModels.ProductMenuModel", b =>
@@ -3925,17 +3917,9 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.UnitModel", "unit")
-                        .WithMany()
-                        .HasForeignKey("unit_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("product_category");
 
                     b.Navigation("product_type");
-
-                    b.Navigation("unit");
                 });
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
