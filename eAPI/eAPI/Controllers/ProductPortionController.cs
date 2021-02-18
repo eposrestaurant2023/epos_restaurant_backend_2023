@@ -64,6 +64,10 @@ namespace eAPI.Controllers
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
+            db.Database.ExecuteSqlRaw("exec sp_update_product_ingredient_related " + u.product_id.ToString());
+
+             
+
             return Ok(u);
 
 

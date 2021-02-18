@@ -99,7 +99,7 @@
         is_loading = true;
         await Task.Delay(100);
 
-        var resp = await http.ApiGetOData($"ProductPortion?$select=portion_name, multiplier,cost&$expand=product_prices($select=price_rule_id,is_default,price,is_deleted,status)&$filter=product_id eq {product_id} and is_deleted eq false");
+        var resp = await http.ApiGetOData($"ProductPortion?$select=portion_name, multiplier,cost&$expand=product_prices($select=price_rule_id,price,is_deleted,status)&$filter=product_id eq {product_id} and is_deleted eq false");
         if (resp.IsSuccess)
         {
             product_portions = JsonSerializer.Deserialize<List<ProductPortionModel>>(resp.Content.ToString());
