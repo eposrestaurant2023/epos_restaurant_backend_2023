@@ -1625,6 +1625,28 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_product_ingredient");
                 });
 
+            modelBuilder.Entity("eModels.ProductIngredientRelatedModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ingredient_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("ingredient_id");
+
+                    b.HasIndex("product_id");
+
+                    b.ToTable("tbl_product_ingredient_related");
+                });
+
             modelBuilder.Entity("eModels.ProductMenuModel", b =>
                 {
                     b.Property<int>("id")
@@ -3226,6 +3248,12 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("is_built_in")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_defualt")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -3245,16 +3273,13 @@ namespace eAPI.Migrations
                     b.Property<int>("unit_category_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("unit_categoryid")
-                        .HasColumnType("int");
-
                     b.Property<string>("unit_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
-                    b.HasIndex("unit_categoryid");
+                    b.HasIndex("unit_category_id");
 
                     b.ToTable("tbl_unit");
                 });
@@ -3892,6 +3917,25 @@ namespace eAPI.Migrations
                     b.Navigation("unit");
                 });
 
+            modelBuilder.Entity("eModels.ProductIngredientRelatedModel", b =>
+                {
+                    b.HasOne("eModels.ProductModel", "ingredient")
+                        .WithMany()
+                        .HasForeignKey("ingredient_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.ProductModel", "product")
+                        .WithMany()
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ingredient");
+
+                    b.Navigation("product");
+                });
+
             modelBuilder.Entity("eModels.ProductMenuModel", b =>
                 {
                     b.HasOne("eModels.MenuModel", "menu")
@@ -4293,7 +4337,9 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.UnitCategoryModel", "unit_category")
                         .WithMany("units")
-                        .HasForeignKey("unit_categoryid");
+                        .HasForeignKey("unit_category_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("unit_category");
                 });

@@ -127,6 +127,7 @@ namespace eAPI
         public DbSet<ShiftModel> Shifts { get; set; }
         public DbSet<UnitModel> Units { get; set; }
         public DbSet<UnitCategoryModel> UnitCategorys { get; set; }
+        public DbSet<ProductIngredientRelatedModel> ProductIngredientRelateds { get; set; }
 
     }
 

@@ -7,15 +7,17 @@
         <ThCenter>Sort Order</ThCenter>
         <Th></Th>
     </tr>
-    @foreach (var p in units.Where(r => r.is_deleted == false))
+    @foreach (var p in units.OrderBy(r=>r.sort_order).Where(r => r.is_deleted == false))
     {
         <tr>
-            <td><TextInput @bind-text="@p.unit_name" placeholder="Unit Name" /></td>
-            <TdCenter><TextInput @bind-text="@p.type_name" placeholder="Type Name" /></TdCenter>
-            <TdCenter><NumberInput @bind-text="@p.multiplier" placeholder="Multiplier" /></TdCenter>
-            <TdCenter><NumberInputInt @bind-text="@p.sort_order" placeholder="Sort Order" /></TdCenter>
+            <td><TextInput is_read_only="@p.is_built_in" @bind-text="@p.unit_name" placeholder="Unit Name" /></td>
             <TdCenter>
-                <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))" />
+                <SelectUnitTypeName is_read_only="@p.is_built_in" @bind-selected_value="@p.type_name"/>
+            </TdCenter>
+            <TdCenter><NumberInput is_read_only="@p.is_built_in" @bind-text="@p.multiplier" placeholder="Multiplier" /></TdCenter>
+            <TdCenter><NumberInputInt is_read_only="@p.is_built_in" @bind-text="@p.sort_order" placeholder="Sort Order" /></TdCenter>
+            <TdCenter>
+                <Icon is_visible="@(!p.is_built_in)" icon="delete" OnClick="@(()=>DeletePrinter(p))" />
             </TdCenter>
         </tr>
     }

@@ -6113,15 +6113,11 @@ button.reconciled {
         padding: 14px;
     }
 
-    .db-panel {
-        padding: 12px;
+    .dashboard-panel-title {
+        font-size: 14px;
+        font-weight: 600;
+        padding-bottom: 12px;
     }
-
-        .db-panel .dashboard-panel-title {
-            font-size: 14px;
-            font-weight: 600;
-            padding-bottom: 12px;
-        }
 
     .tab-remove-margin .uk-tab {
         margin-left: -12px;
@@ -6773,4 +6769,6 @@ button.reconciled {
     font-size: 15px;
     text-transform: capitalize;
 }
-
+.chartjs-render-monitor{
+    min-height:300px !important;
+}
