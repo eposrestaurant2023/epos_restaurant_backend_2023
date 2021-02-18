@@ -36,11 +36,11 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             {
                 if (id > 0)
                 {
-                    return "ingredient_product_edit";
+                    return "ingredient_edit";
                 }
                 else
                 {
-                    return "ingredient_product_add";
+                    return "ingredient_add";
                 }
 
             }

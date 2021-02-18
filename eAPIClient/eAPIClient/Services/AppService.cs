@@ -55,7 +55,7 @@ namespace eAPIClient.Services
         {
 
             await Task.Delay(100);
-            var config = db.ConfigDatas.Find(1);
+            var config = db.ConfigDatas.Where(r=>r.config_type=="user" ).FirstOrDefault();
             if (config != null)
             {
                 List<UserModel> users = JsonSerializer.Deserialize<List<UserModel>>(config.data);
