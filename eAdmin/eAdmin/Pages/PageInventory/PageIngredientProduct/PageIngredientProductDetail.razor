@@ -55,11 +55,12 @@
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComIngredientProductDetail_AssociationProducts product_id="@model.id"/>
-                    </TabItem>
-                    <TabItem>
                         <ComIngredientProductDetail_Formation model="@model"/>
                     </TabItem>
+                    <TabItem>
+                        <ComIngredientProductDetail_AssociationProducts ingredient_id="@model.id"/>
+                    </TabItem>
+                    
                     <TabItem>
                         @if (show_comment_tab)
                         {
