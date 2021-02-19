@@ -12,19 +12,16 @@
                         <thead>
                             <tr>
                                 <ThAuto>Portion</ThAuto>
-                                <th>Multplier</th>
                                 <th>Cost</th>
                                 @foreach (var p in gv.price_rules)
                                 {
                                     <ThCenter>
-                                        @p.price_name
-
+                                        @p.price_name 
                                     </ThCenter>
                                 }
                                 <th></th>
                             </tr>
                             <tr>
-                                <th></th>
                                 <th></th>
                                 <th></th>
                                 @foreach (var p in gv.price_rules)
