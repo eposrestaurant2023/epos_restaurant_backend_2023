@@ -54,10 +54,8 @@
                         <ThCenter>Image</ThCenter>
                         @HeaderTemplate("customer_code", "Code", "uk-text-center")
                         @HeaderTemplate("customer_name", "Name (Kh)", "col-auto")
-                        @HeaderTemplate("created_outlet/outlet_name", "Outlet")
                         @HeaderTemplate("phone_number_1", "Phone", "uk-text-center")
                         @HeaderTemplate("gender", "Gender", "uk-text-center")
-                        @HeaderTemplate("total_receivable", "Total Receivable", "uk-text-right")
                         @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
                     </TableHeader>
@@ -80,9 +78,6 @@
                         <td>
                             @p.gender
                         </td>
-                        <TdRight>
-                            00
-                        </TdRight>
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />
                             <LabelActive is_visible="@(!p.is_deleted && p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("customer_edit")" is_loading="@p.is_change_status" />
