@@ -48,7 +48,7 @@
             <div class="uk-width-3-5">
                 <ComPanel Title="New Register Customer" ClassName="uk-padding">
                     <LineChart Height="450" Data="@line_data" />
-                    
+
                 </ComPanel>
             </div>
             <div class="uk-width-2-5">
@@ -60,15 +60,26 @@
                         </TabHeader>
                         <TabBody>
                             <TabItem>
-                                hi1
                                 <ComProjectByProjectTypePiechart />
                             </TabItem>
                             <TabItem>
-                                hi2
                                 <ComCustomerByCustomerGroupPiechart />
                             </TabItem>
                         </TabBody>
                     </Tab>
+                </ComPanel>
+            </div>
+        </Grid>
+        <Spacing Number="20" />
+        <Grid ClassName="uk-width-2-5">
+            <div>
+                <ComPanel Title="Upcomming">
+
+                </ComPanel>
+            </div>
+            <div>
+                <ComPanel Title="Recently">
+
                 </ComPanel>
             </div>
         </Grid>
