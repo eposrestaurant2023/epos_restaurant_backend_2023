@@ -1,32 +1,67 @@
-﻿ 
-<MudItem>
-    <MudSelect T="string" Dense="true" Label="Stock Location" MultiSelection="true" SelectedValues="selected_stock_location" SelectedValuesChanged="@OnSelectedValuesStockLocation">
-    @foreach (var option in gv.stock_locations)
-    {
-        <MudSelectItem T="string" Value="@option.stock_location_name.ToString()"  >@option.stock_location_name (@option.business_branch?.business_branch_name_en)</MudSelectItem>
-    }
+﻿<MudItem> 
+    <MudSelect T="string" Dense="true" Label="Stock Location" MultiSelection="true" SelectedValues="selected_stock_location" SelectedValuesChanged="@OnSelectedValuesOutlet">
+        @foreach (var option in stock_locations)
+        {
+            <MudSelectItem T="string" Value="@($"{option.stock_location_name} ({option.bustiness_branch_name})" )">@($"{option.stock_location_name} ({option.bustiness_branch_name})")</MudSelectItem>
+        }
     </MudSelect>
 </MudItem>
- 
-    @code {
-         
-        [CascadingParameter] public GlobalVariableModel gv { get; set; }
-        [Parameter] public HashSet<string> selected_stock_location { get; set; } = new HashSet<string>();
-        [Parameter] public EventCallback<HashSet<string>> selected_stock_locationChanged { get; set; }
 
-        [Parameter] public EventCallback<List<string>> stock_location_id { get; set; }
+@code {
 
-        void OnSelectedValuesStockLocation(HashSet<string> selected)
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public List<string> business_branch_ids { get; set; }
+    [Parameter] public EventCallback<List<string>> business_branch_idsChanged { get; set; }
+    [Parameter] public HashSet<string> selected_stock_location { get; set; } = new HashSet<string>();
+    [Parameter] public EventCallback<HashSet<string>> selected_stock_locationChanged { get; set; }
+    [Parameter] public EventCallback<List<string>> stock_location_id { get; set; }
+
+
+
+    List<StockLocationModel> stock_locations
+    {
+        get
         {
-            List<string> values = new List<string>(); 
-            selected_stock_location = selected;
-            values.Clear();
-            foreach (var x in selected_stock_location.ToList())
-            {
-                values.Add(gv.stock_locations.Where(r=>r.stock_location_name==x).FirstOrDefault().id.ToString()); 
-            }  
-            selected_stock_locationChanged.InvokeAsync(selected_stock_location);
-            stock_location_id.InvokeAsync(values);
-        }
+            List<StockLocationModel> _stock_location = new List<StockLocationModel>();
+            var data = gv.current_login_user.role.business_branch_roles.SelectMany(r => r.business_branch.stock_locations).ToList();
 
+            if (business_branch_ids != null)
+            {
+                if (business_branch_ids.Count() > 0)
+                {
+                    foreach (var id in business_branch_ids)
+                    {
+                        string business_branch_name = gv.bussiness_branches.Where(r => r.id == Guid.Parse(id)).FirstOrDefault().business_branch_name_en;
+                        data.Where(r => r.business_branch_id == Guid.Parse(id)).ToList().ForEach(v => v.bustiness_branch_name = business_branch_name);
+                        _stock_location.AddRange(data.Where(r => r.business_branch_id == Guid.Parse(id)));
+                    }
+                    return _stock_location.OrderBy(r => r.bustiness_branch_name).ToList();
+                }
+            }
+
+            foreach (var b in gv.bussiness_branches.ToList())
+            {
+                data.Where(r => r.business_branch_id == b.id).ToList().ForEach(v => v.bustiness_branch_name = b.business_branch_name_en);
+            }
+
+            return data.OrderBy(r => r.bustiness_branch_name).ToList();
+        }
     }
+
+
+
+
+    void OnSelectedValuesOutlet(HashSet<string> selected)
+    {
+        List<string> values = new List<string>();
+        selected_stock_location = selected;
+        values.Clear();
+        foreach (var x in selected_stock_location.ToList())
+        {
+            values.Add(stock_locations.Where(r => ($"{ r.stock_location_name} ({r.bustiness_branch_name})") == x).FirstOrDefault().id.ToString());
+        }
+        selected_stock_locationChanged.InvokeAsync(selected_stock_location);
+        stock_location_id.InvokeAsync(values);
+    }
+
+}

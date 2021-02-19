@@ -24,7 +24,7 @@
     {
         get
         {
-            List<OutletModel> _outlets = new List<OutletModel>();
+            List<OutletModel> _stock_location = new List<OutletModel>();
             var data = gv.current_login_user.role.business_branch_roles.SelectMany(r => r.business_branch.outlets.Where(x => !x.is_deleted)).ToList();
      
             if (business_branch_ids != null)
@@ -35,9 +35,9 @@
                     {
                         string business_branch_name = gv.bussiness_branches.Where(r => r.id == Guid.Parse(id)).FirstOrDefault().business_branch_name_en;
                         data.Where(r => r.business_branch_id == Guid.Parse(id)).ToList().ForEach(v => v.bustiness_branch_name = business_branch_name);
-                        _outlets.AddRange(data.Where(r => r.business_branch_id == Guid.Parse(id)));
+                        _stock_location.AddRange(data.Where(r => r.business_branch_id == Guid.Parse(id)));
                     }
-                    return _outlets.OrderBy(r => r.bustiness_branch_name).ToList();
+                    return _stock_location.OrderBy(r => r.bustiness_branch_name).ToList();
                 }
             }
 
