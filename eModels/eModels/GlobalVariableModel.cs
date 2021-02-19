@@ -44,6 +44,24 @@ namespace eModels
         public int current_outlet_id { get; set; }
 
 
+        public List<BusinessBranchModel> business_branch_by_role
+        {
+            get
+            {
+                
+                return current_login_user.role.business_branch_roles.Select(r => r.business_branch).ToList();
+            }
+        }
+
+        public List<StockLocationModel> stock_location_by_role
+        {
+            get
+            {
+                return current_login_user.role.business_branch_roles.SelectMany(r => r.business_branch.stock_locations.ToList()).ToList();
+            }
+        }
+
+
         public string business_branch_ids_filter
         {
             get

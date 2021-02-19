@@ -6,9 +6,9 @@
             {
                 <option value="@Guid.Empty">@empty_text</option>
             }
-            @foreach (var p in gv.current_login_user.role.business_branch_roles.Where(r=>!r.is_delete))
+            @foreach (var p in gv.bussiness_branches)
             {
-                <option value="@p.business_branch_id">@p.business_branch?.business_branch_name_en</option>
+                <option value="@p.id">@p.business_branch_name_en</option>
             }
         </select>
         @ChildContent
