@@ -95,7 +95,8 @@ namespace eAdmin.Shared
                     api_url = api_url + "permission_options($select=id,parent_id,option_name,roles,url,report_title,report_title_kh,note,icon,show_in_menu,sort_order),";
                     api_url = api_url + "module_views,";
                     api_url = api_url + "payment_types,";
-   
+                    api_url = api_url + "outlets,";
+                    api_url = api_url + "countries,";
                     api_url = api_url + "customer_groups,";
                  
                     api_url = api_url + "settings,";

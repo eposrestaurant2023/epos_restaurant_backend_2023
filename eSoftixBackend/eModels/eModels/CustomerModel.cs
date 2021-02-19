@@ -8,7 +8,14 @@ namespace eModels
     [Table("tbl_customer")]
     public class CustomerModel : CoreModel
     {
-     
+        public CustomerModel()
+        {
+            contacts = new List<ContactModel>();
+            if (contacts.Count == 0)
+            {
+                contacts.Add(new ContactModel());
+            }
+        }
 
         [Required(ErrorMessage = "Please select a customer group.")]
         public int customer_group_id { get; set; }
@@ -30,9 +37,7 @@ namespace eModels
                 }
             }
         }
-
-        
-
+        public string province { get; set; }
         public string customer_name_kh { get; set; }
 
         public string customer_code_name { get; set; }
@@ -51,7 +56,7 @@ namespace eModels
         public string phone_2 { get; set; }
         public string photo { get; set; }
 
-
+        public string position { get; set; }
 
         public string nationality { get; set; }
 
@@ -60,6 +65,9 @@ namespace eModels
         public DateTime date_of_birth { get; set; } = DateTime.Now.AddYears(-18);
 
         public string note { get; set; }
+        public string telegram { get; set; }
+
+        public List<ContactModel> contacts { get; set; }
 
 
     }

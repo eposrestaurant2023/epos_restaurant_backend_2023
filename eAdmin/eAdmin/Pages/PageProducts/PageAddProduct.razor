@@ -58,14 +58,11 @@
 
                                     <ComInputCheckBox @bind-value="@model.is_allow_discount" label="Allow Discount" />
                                     <ComInputCheckBox @bind-value="@model.is_allow_free" label="Allow Free" />
-                                    <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" />
-                                    <ComInputCheckBox @bind-value="@model.is_inventory_product" label="Is Inventory Product" />
-                                    <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="Is Ingredient Product" />
-                                    <Com is_visible="@model.is_ingredient_product">
-                                        <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
-                                    </Com>
+                                    <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" /> 
                                     <SelectStatus @bind-selected_value="@model.status" />
                                 </UIContainerBox>
+
+                                <ComAddInventoryProduct @bind-model="@model"/>
                                 <ComAddProduct_Portion model="@model" />
                                 <ComAddProduct_Printer @bind-model="@model" />
                                 <ComAddProduct_Menu @bind-model="@model" />

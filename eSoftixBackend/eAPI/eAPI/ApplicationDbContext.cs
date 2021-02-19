@@ -67,8 +67,8 @@ namespace eAPI
         public DbSet<BusinessBranchModel> BusinessBranchs { get; set; }
  
         public DbSet<NoteModel> Notes{ get; set; }
-    
- 
+        public DbSet<ContactModel> Contacts { get; set; }
+
         public DbSet<StationModel> Stations{ get; set; }
  
     
