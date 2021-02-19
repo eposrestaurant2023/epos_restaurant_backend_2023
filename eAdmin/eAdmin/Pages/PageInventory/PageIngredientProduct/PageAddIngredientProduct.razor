@@ -46,7 +46,7 @@
                             <ValidationMessage For="@(()=>model.product_category_id)" />
                         </SelectProductCategory>
 
-                        <ComAddInventoryProduct @bind-model="@model" is_show_ingredient="false"/>
+                        @*<ComAddInventoryProduct @bind-model="@model" is_show_ingredient="false"/>*@
 
                         <SelectStatus @bind-selected_value="@model.status" />
 

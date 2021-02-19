@@ -12,6 +12,7 @@ using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using MatBlazor;
+using eAdmin.Shared.Extensions;
 
 namespace eAdmin
 {
@@ -23,6 +24,7 @@ namespace eAdmin
             builder.RootComponents.Add<App>("#app");
             builder.Services.AddLocalization();
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
 
             builder.Services.AddScoped<IHttpService, HttpService>();
             builder.Services.AddScoped(x => {
@@ -51,8 +53,9 @@ namespace eAdmin
 
 
 
-
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+            await host.SetDefaultCulture();
+            await host.RunAsync();
         }
     }
 }

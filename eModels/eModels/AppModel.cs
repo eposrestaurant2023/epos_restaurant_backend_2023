@@ -11,7 +11,7 @@ namespace eModels
     class AppModel
     {
     }
-
+   
     public class AuthenticateModel
     {
         [Required]

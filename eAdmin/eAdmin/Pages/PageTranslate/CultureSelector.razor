@@ -1,0 +1,52 @@
+﻿@inject NavigationManager NavManager
+@inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Components;
+@using Microsoft.JSInterop;
+@using System.Globalization;
+
+<select  @bind="Culture">
+    @foreach (var d in cultures)
+    {
+        <option value="@d.lang_code">@d.lang_name</option>
+    }
+</select>
+
+@code{
+    List<languages> cultures = new List<languages>();
+    protected override void OnInitialized()
+    {
+        languages L = new languages();
+
+        cultures.Add(new languages() { lang_name = "English", lang_code = "en-EN" });
+        cultures.Add(new languages() { lang_name = "Khmer", lang_code = "km-KH" });
+        cultures.Add(new languages() { lang_name = "Thai", lang_code = "th-TH" });
+        cultures.Add(new languages() { lang_name = "Korean", lang_code = "ko-KR" });
+        cultures.Add(new languages() { lang_name = "Chinese", lang_code = "zh-CN" });
+
+        
+    }
+
+    public class languages
+    {
+
+        public string lang_name { get; set; }
+        public string lang_code { get; set; }
+
+
+    }
+
+
+    CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                var js = (IJSInProcessRuntime)JSRuntime;
+                js.InvokeVoid("blazorCulture.set", value.Name);
+
+            }
+        }
+    }
+}
