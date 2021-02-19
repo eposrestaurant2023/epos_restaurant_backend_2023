@@ -30,17 +30,17 @@
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <div class="uk-form-controls" style="margin-bottom: 10px;">
-                        <label sclass="uk-form-label">Vendor</label> 
-                        <VendorTypeahead @bind-vendor="@state.vendor"/>
+                        <label sclass="uk-form-label">Vendor</label>
+                        <VendorTypeahead @bind-vendor="@state.vendor" />
                     </div>
-                    <SelectBusinessBranchMutiple @bind-selected_business="@state.multi_select_id_1" business_id="@((val)=>state.multi_select_value_1=val)" />
-                    <Spacing Number="15"/>
-                    <SelectStockLocationMultiple @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                    <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            @ControllerApi
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
                        PerPage="@state.pager.per_page"
