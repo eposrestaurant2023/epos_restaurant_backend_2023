@@ -164,10 +164,8 @@ namespace eAdmin.Shared
 
             
             is_loading_default = true;
-            if (firstRender)
-            {
-                await js.InvokeVoidAsync("SetActiveMenu");
-            }
+            
+            await js.InvokeVoidAsync("SetActiveMenu");
             
             is_loading_default = false;
         }
