@@ -36,7 +36,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <RefreshButton OnClick="@(async()=>await LoadData())"/>
+                                                    <RefreshButton OnClick="@(async()=>await LoadData())" />
                                                 }
                                             </li>
                                         </ul>
@@ -45,10 +45,10 @@
                                                 <ComQuickAddMenu />
                                             </li>
                                         </ul>
-                                       <ul class="uk-navbar-nav topactt">
+                                        <ul class="uk-navbar-nav topactt">
 
                                             <li>
-                                               @if (gv.current_login_user != null)
+                                                @if (gv.current_login_user != null)
                                                 {
                                                     <div style="background-image:url(@(image_base_url + gv.current_login_user?.photo))" class="main_profile_image"></div>
                                                 }
@@ -65,7 +65,7 @@
 
 
                                                     @*Note*@
-                                        @*===================================*@
+                                                    @*===================================*@
                                                     <div class="help-support"><a href="@gv.settings.Where(r=>r.id == 7).Select(r=>r.setting_title).FirstOrDefault()" target="_blank"><Icon icon="help_outline" />Help and Support</a></div>
                                                     <div>
                                                         <LoginDisplay />

@@ -2,11 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Shared\ResourceTranslateFiles\Resource.Design.cs" />
-  </ItemGroup>
  
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
@@ -31,10 +28,6 @@
 	</ItemGroup>
  
 	<ItemGroup>
-	  <None Include="Shared\ResourceTranslateFiles\Resource.Design.cs" />
-	</ItemGroup>
- 
-	<ItemGroup>
 	  <ProjectReference Include="..\..\eModels\eModels\eModels.csproj" />
 	</ItemGroup>
  
@@ -47,8 +40,13 @@
 	</ItemGroup>
  
 	<ItemGroup>
-	  <EmbeddedResource Update="Shared\ResourceTranslateFiles\Resource.de.resx">
+	  <EmbeddedResource Update="Shared\ResourceTranslateFiles\Resource.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resource].Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Shared\ResourceTranslateFiles\Resource.km.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resourceth.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	  <EmbeddedResource Update="Shared\ResourceTranslateFiles\Resource.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>

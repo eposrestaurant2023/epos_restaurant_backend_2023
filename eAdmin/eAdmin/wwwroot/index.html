@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -68,6 +69,13 @@
     <script type='text/javascript' language='javascript' src='js/chartjsblazorinterop.js'></script>
     <script type="text/javascript" src="js/webcam.min.js"></script>
 
+
+    <script>
+        window.blazorCulture = {
+            get: () => localStorage['lang'],
+            set: (value) => localStorage['lang'] = value
+        };
+    </script>
 </body>
 
 </html>

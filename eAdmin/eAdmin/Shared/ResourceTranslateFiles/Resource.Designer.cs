@@ -61,7 +61,7 @@ namespace eAdmin.Shared.ResourceTranslateFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hello.
+        ///   Looks up a localized string similar to HELLO.
         /// </summary>
         public static string helloworld {
             get {
