@@ -9,15 +9,14 @@ using System;
 using MatBlazor;
 using eAdmin.JSHelpers;
 
-namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
+namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
 {
-    public class PagePurchaseOrderBase : PageCore
+    public class POHistoryBase : PageCore
     { 
+        [Parameter] public int vendor_id { get; set; }
         public List<PurchaseOrderModel> models = new List<PurchaseOrderModel>();
-        public PurchaseOrderModel model = new PurchaseOrderModel();       
-        public string StateKey = "ENsg9hUndmRGPURCHASE09332221"; //Storage and Session Key      
         public int TotalRecord = 0;
-
+        public string  StateKey = "STOPOsaledmRGrRwd5021D20154coN";
         string controller_api = "PurchaseOrder";
         public string ControllerApi
         {
@@ -29,7 +28,6 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=vendor($select=id,vendor_code,vendor_name,photo,company_name),business_branch($select=business_branch_name_en),stock_location($select=stock_location_name)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -39,26 +37,22 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-
+            StateKey += vendor_id;
             state = await GetState(StateKey);
-            if (state.page_title == "")
+
+            var default_view = gv.GetDefaultModuleView("page_purchase_order");
+            if (default_view != null)
             {
-                state.page_title = "Purchase Order";
-                var default_view = gv.GetDefaultModuleView("page_purchase_order");
-                if (default_view != null)
-                {
-                    state.page_title = default_view.title;
-                    state.filters = default_view.filters;
-                }    
+                state.page_title = default_view.title;
             }
 
-            if (state.filters.Count == 0)
+            if (state.filters.Where(r => r.key == "vendor_id").Count() == 0)
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "is_deleted",
-                    value1 = "false"
-                });                
+                    key = "vendor_id",
+                    value1 = vendor_id.ToString()
+                });
             }
 
             await LoadData();
@@ -67,13 +61,12 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         public async Task LoadData(string api_url="")
         {
             is_loading = true;
-            
             if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
             {
                 //Business Branch Filter
                 state.filters.Add(new FilterModel()
                 {
-                    key = "business_branch_id",
+                    key = "purchase_order/business_branch_id",
                     value1 = gv.business_branch_ids_filter,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -86,7 +79,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             }
             if (state.filters.Where(r => r.key == "stock_location_id").Count() == 0)
             {
-                //Stock Location Filter
+                //Outlet Filter
                 state.filters.Add(new FilterModel()
                 {
                     key = "stock_location_id",
@@ -101,6 +94,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 });
             }
 
+            //
 
             if (string.IsNullOrEmpty(api_url))
             {
@@ -117,22 +111,6 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             }
             is_loading = false;
         }
-
-        public async Task ViewClick(ModuleViewModel m)
-        {
-            state.filters.Clear();
-            state.filters = m.filters;
-            state.pager.order_by = m.default_order_by;
-            state.pager.order_by_type = m.default_order_by_type;
-            state.page_title = m.title;
-            state.pager.current_page = 1;
-            await LoadData();
-        }
-
-        public async Task AddNew()
-        {
-            await Task.Delay(100);
-        }
         public async Task FilterClick()
         {
             state.filters.RemoveAll(r => r.filter_info_text != "");
@@ -144,7 +122,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                     {
                         key = "purchase_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "PO Date",
+                        filter_title = "Purchase Date",
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
@@ -163,21 +141,8 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                     will_remove = true,
                     state_property_name = "date_range"
                 });  
-            }
-            // customer
-            if (state.vendor != null)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "vendor_id",
-                    value1 = state.vendor.id.ToString(),
-                    filter_title = "Vendor",
-                    state_property_name = "vendor",
-                    filter_info_text = state.vendor.vendor_display_name,
-                    is_clear_all = true,
-                    will_remove = true
-                });
-            }
+            } 
+             
 
             // filter business
             string business_branch_ids = "";
@@ -221,7 +186,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 });
             }
 
-            // filter stock location
+            // filter outlet
             if (state.multi_select_value_2 != null)
             {
                 string value = "";
@@ -251,11 +216,11 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 state.filters.Add(new FilterModel()
                 {
                     key = "stock_location_id",
-                    value1 = gv.stock_location_ids_filter(business_branch_ids),
+                    value1 = gv.outlet_ids_filter(business_branch_ids),
                     filter_title = "Stock Location",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.stock_location_ids_filter(business_branch_ids),
+                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false
@@ -264,9 +229,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
             state.pager.current_page = 1;
             await LoadData();
-
-
-    }
+        }
 
         public async Task RemoveFilter(FilterModel f)
         {
@@ -281,7 +244,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                     state.multi_select_value_1.Clear();
                 }
 
-                // clear filter stock location
+                // clear filter outlet
                 if (k == "stock_location_id" && state.multi_select_id_2 != null)
                 {
                     state.multi_select_id_2.Clear();
@@ -296,13 +259,11 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             await LoadData();
             is_loading = false;
         }
-
         public async Task RemoveAllFilter()
         {
             is_loading = true;
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
-
                 // clear filter business
                 if (f.key == "business_branch_id")
                 {
@@ -311,20 +272,24 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 }
 
 
-                // clear filter stock location
+                // clear filter outlet
                 if (f.key == "stock_location_id")
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
                 }
+
                 RemoveFilter(state, f.state_property_name);
             }
+
 
             state.filters.RemoveAll(r => r.is_clear_all == true);
             state.pager.current_page = 1;
             await LoadData();
             is_loading = false;
         }
+
+
         public async Task SelectChange(int perpage)
         {
             state.pager.per_page = perpage;
@@ -344,29 +309,11 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             await LoadData();
         }
         public async Task OrderBy(string col_name = "")
-        {          
+        {
             state.pager.order_by = col_name;
-            state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");      
+            state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
             await LoadData();
         }
 
-        public async Task OnDelete(PurchaseOrderModel p)
-        {
-            p.is_loading = true;
-            if (await js.Confirm("Delete PO", "Are you sure you want to delete this record?"))
-            {
-                var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
-                if (resp.IsSuccess)
-                {
-                    toast.Add("Delete PO successfully", MatToastType.Success);
-                    if (models.Count() == 1 && state.pager.current_page > 0)
-                    {
-                        state.pager.current_page = state.pager.current_page - 1;
-                    }
-                    await LoadData();
-                }
-            }
-            p.is_loading = false;
-        }
     }
 }
