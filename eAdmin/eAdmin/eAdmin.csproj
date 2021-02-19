@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Shared\ResourceTranslateFiles\Resource.Design.cs" />
+  </ItemGroup>
  
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
@@ -16,6 +20,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.2" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="5.0.3" />
 		<PackageReference Include="NETCore.Encrypt" Version="2.0.9" />
 		<PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
 		<PackageReference Include="MudBlazor" Version="1.2.4" />
@@ -26,7 +31,29 @@
 	</ItemGroup>
  
 	<ItemGroup>
+	  <None Include="Shared\ResourceTranslateFiles\Resource.Design.cs" />
+	</ItemGroup>
+ 
+	<ItemGroup>
 	  <ProjectReference Include="..\..\eModels\eModels\eModels.csproj" />
+	</ItemGroup>
+ 
+	<ItemGroup>
+	  <Compile Update="Shared\ResourceTranslateFiles\Resource.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resource.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+ 
+	<ItemGroup>
+	  <EmbeddedResource Update="Shared\ResourceTranslateFiles\Resource.de.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Shared\ResourceTranslateFiles\Resource.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
  
 	<ProjectExtensions><VisualStudio><UserProperties wwwroot_4appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

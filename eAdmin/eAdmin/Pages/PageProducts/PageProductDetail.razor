@@ -7,7 +7,7 @@
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 
-@if (!is_loading)
+@if (model != null && !is_loading)
 {
 
     <Title Value="Product Detail"></Title>
@@ -138,7 +138,7 @@
                 toast.Add("delete product successfully", MatToastType.Success);
                 model.is_deleted = true;
 
-            }
+            } 
         }
 
 

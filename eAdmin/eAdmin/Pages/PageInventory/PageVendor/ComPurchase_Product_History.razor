@@ -26,12 +26,14 @@
         <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
             <FilterDateRange @bind-dates="@state.date_range" />
             <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
-            <SelectStockLocationMultiple/>
+            <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+         
             <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" />
             <SelectProductCategory show_empty="true" @bind-product_category="@state.product_category" />
         </ComSearch>
     </HeaderRight>
 </PageHeader>
+@ControllerApi
 <Column is_visible="@(!is_loading)">
     <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
     <Com is_visible="@(models != null)">
@@ -104,12 +106,11 @@
 @code {
     [Parameter] public int vendor_id { get; set; }
     [Parameter] public int product_id { get; set; }
-
+    public string StateKey = "2O8gVR9PM0V5yKqvmIMiCovS8fhFo4Le"; //Storage and Session Key      
     List<PurchaseOrderProductModel> models = new List<PurchaseOrderProductModel>();
     int TotalRecord = 0;
 
     string controller_api = "PurchaseOrderProduct";
-    string select = "$expand=purchase_order,product";
     string ControllerApi
     {
         get
@@ -119,7 +120,8 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string url = $"{controller_api}?{select}";
+            string url = $"{controller_api}?";
+            url += $"$expand=purchase_order,product";
             url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
 
@@ -165,25 +167,26 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        state = new StateModel();
-
-        state.page_title = "All Purchase Products";
-        //Business Branch Filter
-        state.filters.Add(new FilterModel()
+        state = await GetState(StateKey);
+        if (state.page_title == "")
         {
-            key = "purchase_order/business_branch_id",
-            value1 = gv.business_branch_ids_filter,
-            filter_title = "Business Branch",
-            filter_operator = "multiple",
-            state_property_name = "list_selected_values",
-            filter_info_text = gv.business_branch_ids_filter,
-            is_clear_all = true,
-            will_remove = true,
-            is_show_on_infor = false
-        });
+            state.page_title = "Purchase Order";
+            var default_view = gv.GetDefaultModuleView("page_purchase_order");
+            if (default_view != null)
+            {
+                state.page_title = default_view.title;
+                state.filters = default_view.filters;
+            }
+        }
 
-
-
+        if (state.filters.Count == 0)
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "is_deleted",
+                value1 = "false"
+            });
+        }
         await LoadData();
         is_loading = false;
     }
@@ -192,6 +195,41 @@
     {
         is_loading = true;
         is_loading_data = true;
+
+        if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
+        {
+            //Business Branch Filter
+            state.filters.Add(new FilterModel()
+            {
+                key = "purchase_order/business_branch_id",
+                value1 = gv.business_branch_ids_filter,
+                filter_title = "Business Branch",
+                filter_operator = "multiple",
+                state_property_name = "list_selected_values",
+                filter_info_text = gv.business_branch_ids_filter,
+                is_clear_all = true,
+                will_remove = true,
+                is_show_on_infor = false
+            });
+        }
+        if (state.filters.Where(r => r.key == "stock_location_id").Count() == 0)
+        {
+            //Stock Location Filter
+            state.filters.Add(new FilterModel()
+            {
+                key = "purchase_order/stock_location_id",
+                value1 = gv.stock_location_ids_filter(gv.business_branch_ids_filter),
+                filter_title = "Stock Location",
+                filter_operator = "multiple",
+                state_property_name = "list_selected_values",
+                filter_info_text = gv.stock_location_ids_filter(gv.business_branch_ids_filter),
+                is_clear_all = true,
+                will_remove = true,
+                is_show_on_infor = false
+            });
+        }
+
+
         if (string.IsNullOrEmpty(api_url))
         {
             api_url = $"{ControllerApi}";
@@ -305,7 +343,7 @@
         {
             state.filters.Add(new FilterModel()
             {
-                key = "business_branch_id",
+                key = "purchase_order/business_branch_id",
                 value1 = gv.business_branch_ids_filter,
                 filter_title = "Business Branch",
                 filter_operator = "multiple",
@@ -317,7 +355,49 @@
             });
         }
 
-      
+        // filter stock location
+        if (state.multi_select_value_2 != null)
+        {
+            string value = "";
+            foreach (var x in state.multi_select_value_2)
+            {
+                value += x + ",";
+            }
+            if (!string.IsNullOrEmpty(value))
+            {
+                value = value.Substring(0, value.Length - 1);
+            }
+
+            state.filters.Add(new FilterModel()
+            {
+                key = "purchase_order/stock_location_id",
+                value1 = value,
+                filter_title = "Stock Location",
+                filter_operator = "multiple",
+                state_property_name = "list_selected_values",
+                filter_info_text = value,
+                is_clear_all = true,
+                will_remove = true
+            });
+        }
+        else
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "purchase_order/stock_location_id",
+                value1 = gv.stock_location_ids_filter(business_branch_ids),
+                filter_title = "Stock Location",
+                filter_operator = "multiple",
+                state_property_name = "list_selected_values",
+                filter_info_text = gv.stock_location_ids_filter(business_branch_ids),
+                is_clear_all = true,
+                will_remove = true,
+                is_show_on_infor = false
+            });
+        }
+
+
+
 
         state.pager.current_page = 1;
         await LoadData();
@@ -337,9 +417,14 @@
                 state.multi_select_value_1.Clear();
             }
 
-
-
+            // clear filter stock location
+            if (k == "purchase_order/stock_location_id" && state.multi_select_id_2 != null)
+            {
+                state.multi_select_id_2.Clear();
+                state.multi_select_value_2.Clear();
+            }
             state.filters.RemoveAll(r => r.key == k);
+
         }
 
         state.pager.current_page = 1;
@@ -354,6 +439,8 @@
         is_loading = true;
         foreach (var f in state.filters.Where(r => r.is_clear_all == true))
         {
+
+
             // clear filter business
             if (f.key == "purchase_order/business_branch_id")
             {
@@ -362,7 +449,12 @@
             }
 
 
-        
+            // clear filter stock location
+            if (f.key == "purchase_order/stock_location_id")
+            {
+                state.multi_select_id_2.Clear();
+                state.multi_select_value_2.Clear();
+            }
 
             RemoveFilter(state, f.state_property_name);
         }

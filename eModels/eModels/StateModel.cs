@@ -52,6 +52,7 @@ namespace eModels
 
 
         public CustomerModel customer { get; set; } = new CustomerModel();
+        public StockLocationModel stockLocation { get; set; } = new StockLocationModel();
         public BusinessBranchModel business_branch { get; set; } = new BusinessBranchModel();
         public OutletModel outlet { get; set; } = new OutletModel();
         public ProductGroupModel product_group { get; set; } = new ProductGroupModel();
@@ -66,6 +67,7 @@ namespace eModels
         public HashSet<string> multi_select_id_4 { get; set; }
         public List<string> multi_select_value_4 { get; set; }
         public VendorModel vendor { get; set; } = new VendorModel();
+        
     }
 
     public class DateRangeModel
@@ -194,6 +196,7 @@ namespace eModels
         public int position_id { get; set; }
         public int outlet_id { get; set; }
         public int purchase_id { get; set; }
+        public int stock_location_id { get; set; }
         public bool will_remove { get; set; } = false;
         public string state_property_name { get; set; }
         public string sql_statement { get; set; }
