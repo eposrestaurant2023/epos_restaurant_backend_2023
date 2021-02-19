@@ -113,11 +113,8 @@
 
 
     void OnChangeStatus(PriceRuleModel p)
-    {
-
-
+    { 
         model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price_rule_id==p.id  ).ToList().ForEach(r => r.status = !r.status);
-
     }
 
     void AddProductPortion()

@@ -59,7 +59,7 @@
 @code {
     [Parameter] public int ingredient_id { get; set; }
     List<ProductIngredientRelatedModel> models = new List<ProductIngredientRelatedModel>();
-    bool is_loading;
+
     protected override async Task OnInitializedAsync()
     {
             is_loading = true;
