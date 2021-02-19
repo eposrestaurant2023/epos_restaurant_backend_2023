@@ -10,36 +10,29 @@ namespace eModels
     [Table("tbl_user")]
     public class UserModel : CoreModel
     {
-        [Required(ErrorMessage = "Please select a role")]                     
+        [Required(ErrorMessage = "Please select a role.")]
+        [Range(1, int.MaxValue,ErrorMessage = "Please select a role.")]
         public int role_id { get; set; }
         [ForeignKey("role_id")]
         public RoleModel role { get; set; }
 
-
-
+        [StringLength(20, ErrorMessage = "Full Name is too long.")]
         [Required(ErrorMessage = "Field cannot be blank.")]
-        [MaxLength(20)]
         public string username { get; set; }
 
+        [StringLength(50, ErrorMessage = "Full Name is too long.")]
         [Required(ErrorMessage = "Field cannot be blank.")]
-        [MaxLength(50)]
         public string full_name { get; set; }
 
-        [MaxLength(20)]
+        [StringLength(20, ErrorMessage = "Password is too long.")]
+        [Required(ErrorMessage = "Field cannot be blank.")]
         public string password { get; set; } = "";
 
-        [MaxLength(20)]
-        [Required]
+        [Range(10,99, ErrorMessage = "Value for user code must be between {1} and {2}.")]
         public int user_code { get; set; } = 0;
         public int pin_code { get; set; } = 0;
-
-        [MaxLength(50)]
         public string email { get; set; }
-
-        [MaxLength(50)]
         public string phone_1 { get; set; }
-
-        [MaxLength(50)]
         public string phone_2 { get; set; }           
 
         public string note { get; set; }
