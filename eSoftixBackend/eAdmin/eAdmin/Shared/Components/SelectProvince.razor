@@ -1,0 +1,38 @@
+﻿
+<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">Province</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small" style="width:@Width">
+            <option value="Not Set">Not Set</option>
+        </select>
+    </div>
+</div>
+@code{
+    [Parameter] public string selected_value { get; set; } = "Male";
+    [Parameter] public string Width { get; set; } = "100%";
+    [Parameter] public string label { get; set; } = "Gender";
+
+
+    [Parameter]
+    public EventCallback<string> selected_valueChanged { get; set; }
+
+    string province= @"[{'province':'Not Set'},{'province':'Siem Reap'},{'province':'Phnom Penh'},{'province':'Banteay Meanchey'},{'province':'Battambang'},{'province':'Kampong Cham'},{'province':'Kampong Chhnang'},{'province':'Kampong Speu'},{'province':'Kampong Thom'},{'province':'Kampot'},{'province':'Kandal'},{'province':'Koh Kong'},{'province':'Kep'},{'provinc':\'Kratié'},{'province':'Mondulkiri'},{'province':'Oddar Meanchey'},{'province':'Pailin'},{'province':'Preah Sihanouk'},{'province':'Preah Vihear'},{'province':'Pursat'},{'province':'Prey Veng'},{'province':'Ratanakiri'},{'province':'Stung Treng'},{'province':'Svay Rieng'},{'province':'Takéo'},{\'province':'Tbong Khmum\t'}]";
+    Guid id = Guid.NewGuid();
+
+
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(JsonSerializer.Deserialize<List<ProvinceModel>>(province));
+
+    }
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = n;
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+    class ProvinceModel
+    {
+        public string province { get; set; }
+    }
+}

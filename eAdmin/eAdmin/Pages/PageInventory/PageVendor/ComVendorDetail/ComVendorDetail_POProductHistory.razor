@@ -1,5 +1,5 @@
-﻿@page "/stocktake"
-@inherits PageStockTakeBase
+﻿@inherits POProductHistoryBase
+
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -9,23 +9,14 @@
 
 @if (!is_loading)
 {
-    <Title Value="Stock Take"></Title>
-    <PageContainer roles="@gv.GetRole("stock_take_management")">
-        <PageHeader>
+    <PageContainer is_container="false">
+        <PageHeader is_subpage="true">
             <HeaderLeft>
-                <PageTitle>
-                    <HeaderTemplate>
-                        @state.page_title
-                    </HeaderTemplate>
-                    <FilterTemplate>
-                        <PageFilter title="Status">
-                            <ModuleView module_views="@gv.GetModuleView("page_stock_take")" OnClick="@ViewClick" />
-                        </PageFilter>
-                    </FilterTemplate>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>@state.page_title</HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("stock_take_add")" url="stocktake/new">New</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
@@ -35,55 +26,75 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            @ControllerApi
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+
             <Com is_visible="@(models != null)">
+
                 <Table Items="@models"
                        PerPage="@state.pager.per_page"
                        TotalItem="@TotalRecord"
                        CurrentPage="@state.pager.current_page"
                        OnPagerChange="@SelectChange"
                        OnPageChange="@ChangePager"
-                       isLoading="@is_loading_data"
+                       isLoading="@is_loading"
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        @HeaderTemplate("stock_take_date", "Stock Take Date", "uk-text-center")
+                        @HeaderTemplate("sale_date", "Date", "uk-text-center")
                         @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("referance_number", "Referance#", "uk-text-center") 
-                        @HeaderTemplate("stock_location/stock_location_name", "Stock Location (Business Branch)","col-auto")
-                        <ThRight>Total Amount</ThRight>
-                        <ThRight>Status</ThRight>
+                        @HeaderTemplate("product/product_name", "Product", "col-auto")
+                        <ThCenter>Quantity</ThCenter>
+                        <ThRight>Price</ThRight>
+                        <ThRight>Discount</ThRight>
+                        <ThRight>Amount</ThRight>
+                        <ThCenter>Created Date</ThCenter>
+                        <Th>Created By</Th>
+                        <ThCenter>Status</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
-                        <TdCenter>@p.stock_take_date.ToString(gv.date_format)</TdCenter>
-                        <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("stock_take_management")" url="@($"stocktake/{p.id}")">
-                                @p.document_number
-                            </ComAuthorize>
-                        </TdCenter>
-                        <TdCenter>@p.reference_number</TdCenter>
-                        <td>
-                            @p.stock_location?.stock_location_name (@p.business_branch?.business_branch_name_en)
-                        </td>
 
+                        <TdCenter>@p.purchase_order?.purchase_date.ToString(gv.date_format)</TdCenter>
+
+                        <TdCenter>
+                            <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.purchase_order_id}")">@p.purchase_order?.document_number</ComAuthorize>
+                        </TdCenter>
+                        <td>
+                            <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.product_id}")">@p.product?.product_name_en</ComAuthorize>
+                        </td>
+                        <TdCenter>
+                            <span>@p.quantity.ToString(gv.quantity_format)</span>
+                        </TdCenter>
+                        <TdRight>
+                            @p.selling_price.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_discount.ToString(gv.main_currency_format)
+                        </TdRight>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
-                        </TdRight>  
-                        <TdRight>
-                            <ComStockTakeStatus model="@p" />
                         </TdRight>
-                        <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("stock_take_management")" icon="visibility" url="@($"stocktake/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("stock_take_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"stocktake/edit/{p.id}")">Edit</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("stock_take_delete")" icon="delete" is_visible="@(!p.is_deleted && !p.is_fulfilled)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
-                        </TdActions>
+                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
+                        <td>@p.created_by</td>
+                        <TdRight>
+                            <LabelDeleted is_visible="@(p.is_deleted)" />
+                        </TdRight>
+                        <TdCenter>
+                            <TdActions is_loading="@p.is_loading">
+                                <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
+                            </TdActions>
+                        </TdCenter>
                     </RowTemplate>
                 </Table>
+
+
             </Com>
+
         </PageBody>
-    </PageContainer>
+    </PageContainer> 
 }

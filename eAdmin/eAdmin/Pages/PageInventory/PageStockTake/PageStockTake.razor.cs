@@ -39,9 +39,11 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-             
+
+            StateKey += model.id;
             state = await GetState(StateKey);
-            state.filters.Clear();
+
+
             if (state.page_title == "")
             {
                 state.page_title = "Stock Take";
@@ -68,6 +70,40 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         public async Task LoadData(string api_url="")
         {
             is_loading = true;
+            if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
+            {
+                //Business Branch Filter
+                state.filters.Add(new FilterModel()
+                {
+                    key = "business_branch_id",
+                    value1 = gv.business_branch_ids_filter,
+                    filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.business_branch_ids_filter,
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+            if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
+            {
+                //Outlet Filter
+                state.filters.Add(new FilterModel()
+                {
+                    key = "stock_location_id",
+                    value1 = gv.stock_location_ids_filter(gv.business_branch_ids_filter),
+                    filter_title = "Stock Location",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.stock_location_ids_filter(gv.business_branch_ids_filter),
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+
+
             if (string.IsNullOrEmpty(api_url))
             {
                 api_url = $"{ControllerApi}";
@@ -131,37 +167,52 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                     state_property_name = "date_range"
                 });  
             }
+
             // filter business
+            string business_branch_ids = "";
             if (state.multi_select_value_1 != null)
             {
 
-                string value = "";
                 foreach (var x in state.multi_select_value_1)
                 {
-                    value += x + ",";
+                    business_branch_ids += x + ",";
                 }
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(business_branch_ids))
                 {
-                    value = value.Substring(0, value.Length - 1);
+                    business_branch_ids = business_branch_ids.Substring(0, business_branch_ids.Length - 1);
                 }
 
                 state.filters.Add(new FilterModel()
                 {
                     key = "business_branch_id",
-                    value1 = value,
+                    value1 = business_branch_ids,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = value,
+                    filter_info_text = business_branch_ids,
                     is_clear_all = true,
                     will_remove = true
+                });
+            }
+            else
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "business_branch_id",
+                    value1 = gv.business_branch_ids_filter,
+                    filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.business_branch_ids_filter,
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
                 });
             }
 
             // filter outlet
             if (state.multi_select_value_2 != null)
             {
-
                 string value = "";
                 foreach (var x in state.multi_select_value_2)
                 {
@@ -184,6 +235,23 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                     will_remove = true
                 });
             }
+            else
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "stock_location_id",
+                    value1 = gv.outlet_ids_filter(business_branch_ids),
+                    filter_title = "Stock Location",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+
+
             state.pager.current_page = 1;
             await LoadData();
         }
@@ -194,16 +262,16 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             string[] remove_key = f.remove_key.Split(',');
             foreach (var k in remove_key)
             {
+
                 // clear filter business
-                if (k == "business_branch_id")
+                if (k == "business_branch_id" && state.multi_select_id_1 != null)
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
 
-
-                // clear filter stock location
-                if (k == "stock_location_id")
+                // clear filter outlet
+                if (k == "stock_location_id" && state.multi_select_id_2 != null)
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();

@@ -62,7 +62,10 @@ namespace eModels
 
         public int unit_id { get; set; } = 1;
         [ForeignKey("unit_id")]
-        public UnitModel unit{ get; set; }
+        public UnitModel unit{ get; set; }       
+        public int? vendor_id { get; set; }
+        [ForeignKey("vendor_id")]
+        public VendorModel vendor { get; set; }
 
         public bool is_allow_discount { get; set; } = true;
         public bool is_allow_free { get; set; } = true;

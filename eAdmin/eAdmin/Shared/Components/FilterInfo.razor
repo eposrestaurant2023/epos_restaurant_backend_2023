@@ -35,6 +35,21 @@
                             @d.filter_title : @gv.outlets.Where(r => r.id.ToString() == d.value1).FirstOrDefault().outlet_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
                         </span>
                     }
+                }else if (d.filter_operator == "multiple" && d.key == "stock_location_id")
+                {
+
+                    if (d.value1.Split(',').Length > 1)
+                    {
+                        <span>
+                            @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @d.filter_title : @gv.stock_locations.Where(r => r.id ==Convert.ToInt32(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
                 }
                 else
                 {
