@@ -1,5 +1,31 @@
-﻿<h3>SelectVendorTypeaheadForm</h3>
+﻿ 
+<div class="@(is_horizontal?"uk-form-horizontal":"") @class_name">
+    <div class="uk-margin-small">
+        <Com is_visible="@(!string.IsNullOrEmpty(label))">
+            <label class="uk-form-label">@label</label>
+        </Com> 
+        <div class="uk-form-controls"> 
+            <VendorTypeahead @bind-vendor="@vendor" vendor_changed="@OnSelectVendor"/>
+            @ChildContent
+        </div>
+    </div>
+</div> 
+@code{
+    [Parameter] public string label { get; set; } = "Select Primary Vendor";
+    [Parameter] public string class_name { get; set; } = "";
+    [Parameter] public bool is_horizontal { get; set; } = true;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public VendorModel vendor { get; set; }
+    [Parameter] public EventCallback<VendorModel> vendorChanged { get; set; }
+    [Parameter] public int vendor_id { get; set; } = 0;
+    [Parameter] public EventCallback<int> vendor_idChanged { get; set; }
 
-@code {
-
+    async Task OnSelectVendor()
+    {
+        await vendor_idChanged.InvokeAsync(vendor.id);
+        await vendorChanged.InvokeAsync(vendor); 
+    }
+     
 }
+
+
