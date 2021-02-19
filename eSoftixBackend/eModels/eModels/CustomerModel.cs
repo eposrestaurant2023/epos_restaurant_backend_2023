@@ -30,9 +30,7 @@ namespace eModels
                 }
             }
         }
-
-        
-
+        public string province { get; set; }
         public string customer_name_kh { get; set; }
 
         public string customer_code_name { get; set; }
@@ -51,7 +49,7 @@ namespace eModels
         public string phone_2 { get; set; }
         public string photo { get; set; }
 
-
+        public string position { get; set; }
 
         public string nationality { get; set; }
 
@@ -60,6 +58,8 @@ namespace eModels
         public DateTime date_of_birth { get; set; } = DateTime.Now.AddYears(-18);
 
         public string note { get; set; }
+
+        public List<ContactModel> contacts { get; set; }
 
 
     }

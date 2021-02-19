@@ -7,7 +7,7 @@
 
 <UIContainerBox>
     <TextInput label="Code" text="@model.customer_code" is_read_only="true">
-         
+
     </TextInput>
     <TextInput label="Name(EN)" @bind-text="@model.customer_name_en">
         <ValidationMessage For="@(() => model.customer_name_en)" />
@@ -16,24 +16,36 @@
     <TextInput label="Phone 1" @bind-text="@model.phone_1" />
     <TextInput label="Phone 2" @bind-text="@model.phone_2" />
     <SelectGender @bind-selected_value="model.gender" />
-     
+
     <SelectStatus @bind-selected_value="@model.status" />
 </UIContainerBox>
 
- 
+<UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
+    @foreach (var c in model.contacts)
+    {
+        <TextInput @bind-text="@c.contact_name"></TextInput>
+        <TextInput @bind-text="@c.phone_1"></TextInput>
+        <TextInput @bind-text="@c.phone_2"></TextInput>
+        <TextInput @bind-text="@c.postion"></TextInput>
+        <SelectGender @bind-selected_value="@c.gender"/>
+        <TextInput @bind-text="@c.email_address"></TextInput>
+    }
+</UIContainerBox>
+
 
 <UIContainerBox Title="Other information">
-   
+
     <SelectCountry @bind-selected_value="@model.nationality" show_empty="true" />
- 
+
 </UIContainerBox>
 
 <UIContainerBox Title="Social Media Information">
     <TextInput label="Email" @bind-text="@model.email" />
- 
+
 </UIContainerBox>
 
- 
+
+
 
 <UIContainerBox Title="Address & Note">
     <Tab>
@@ -51,16 +63,19 @@
         </TabBody>
     </Tab>
 </UIContainerBox>
- 
+
 
 
 @code {
 
- 
+
     [Parameter] public CustomerModel model { get; set; }
- 
 
-    
+    void AddContact_Click()
+    {
+        model.contacts.Add(new ContactModel());
+    }
 
-    
+
+
 }
