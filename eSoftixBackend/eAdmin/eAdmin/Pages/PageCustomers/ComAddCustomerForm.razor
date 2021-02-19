@@ -7,7 +7,7 @@
 
 <UIContainerBox>
     <TextInput label="Code" text="@model.customer_code" is_read_only="true">
-         
+
     </TextInput>
     <TextInput label="Name(EN)" @bind-text="@model.customer_name_en">
         <ValidationMessage For="@(() => model.customer_name_en)" />
@@ -16,24 +16,45 @@
     <TextInput label="Phone 1" @bind-text="@model.phone_1" />
     <TextInput label="Phone 2" @bind-text="@model.phone_2" />
     <SelectGender @bind-selected_value="model.gender" />
-     
+
     <SelectStatus @bind-selected_value="@model.status" />
 </UIContainerBox>
 
- 
+<UIContainerBox Title="Contact Information"  OnAddClick="AddContact_Click" is_show_add_button="true">
+    @foreach (var c in model.contacts)
+    {
+    <div @ondblclick="(()=>AddContact_Click(c))">
+        <TextInput label="Contact Name" @bind-text="@c.contact_name"></TextInput>
+        <TextInput label="Phone Number 1" @bind-text="@c.phone_1"></TextInput>
+        <TextInput label="Phone Number 1" @bind-text="@c.phone_2"></TextInput>
+        <TextInput label="Posotion" @bind-text="@c.postion"></TextInput>
+        <SelectGender @bind-selected_value="@c.gender" />
+        <TextInput label="Telegram" @bind-text="@c.telegram"></TextInput>
+        <TextInput label="Email" @bind-text="@c.email_address"></TextInput>
+        @if (model.contacts.IndexOf(c) != model.contacts.Count - 1)
+        {
+            <hr class="uk-divider-icon">
+        }
+    </div>
+        
+        
+
+    }
+</UIContainerBox>
+
 
 <UIContainerBox Title="Other information">
-   
     <SelectCountry @bind-selected_value="@model.nationality" show_empty="true" />
- 
 </UIContainerBox>
 
 <UIContainerBox Title="Social Media Information">
     <TextInput label="Email" @bind-text="@model.email" />
- 
+    <TextInput label="Telegram" @bind-text="@model.telegram" />
+
 </UIContainerBox>
 
- 
+
+
 
 <UIContainerBox Title="Address & Note">
     <Tab>
@@ -51,16 +72,34 @@
         </TabBody>
     </Tab>
 </UIContainerBox>
- 
+
 
 
 @code {
 
- 
+
     [Parameter] public CustomerModel model { get; set; }
- 
+    [Parameter] public EventCallback<CustomerModel>  modelChanged { get; set; }
 
-    
+    void AddContact_Click()
+    {
+        model.contacts.Add(new ContactModel());
+    }
 
-    
+    async Task AddContact_Click(ContactModel c)
+    {
+        if (c.id == 0)
+        {
+            model.contacts.Remove(c);
+        }
+        else
+        {
+            if (await js.Confirm("Deleted Contact", "Are you sure you want to delete this contact?", SweetAlertMessageType.question))
+            {
+                toast.Add("Contact deleted successfull",MatToastType.Success);
+            }
+
+        }
+    }
+
 }

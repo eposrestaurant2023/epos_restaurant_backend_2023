@@ -23,6 +23,8 @@ namespace eAPI.Controllers
             GlobalVariableModel gv = new GlobalVariableModel();
             gv.permission_options = db.PermissionOption.ToList();
             gv.module_views = db.ModuleViews.ToList();
+            gv.outlets = db.outlets.ToList();
+            gv.countries = db.Countries.ToList();
 
             return Ok(gv);
         } 

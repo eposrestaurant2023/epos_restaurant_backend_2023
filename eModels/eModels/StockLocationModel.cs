@@ -1,8 +1,12 @@
-﻿using System;
+﻿
+using eModels.Attribute;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Text.RegularExpressions;
+using eShareModel;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -17,5 +21,7 @@ namespace eModels
         public string stock_location_name { get; set; }
         public bool is_default { get; set; }
 
+        [NotMapped, JsonIgnore]
+        public string bustiness_branch_name { get; set; }
     }
 }

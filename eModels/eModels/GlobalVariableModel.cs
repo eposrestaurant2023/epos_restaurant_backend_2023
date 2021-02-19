@@ -87,7 +87,33 @@ namespace eModels
             return _data;
         }
 
+        public string stock_location_ids_filter(string _business_branch_ids)
+        {
 
+            string _data = "";
+
+            if (string.IsNullOrEmpty(_business_branch_ids))
+            {
+                foreach (var id in _business_branch_ids.Split(',').ToList())
+                {
+                    foreach (var o in stock_locations.Where(r => r.business_branch_id.ToString() == id).ToList())
+                    {
+                        _data += $"{o.id},";
+                    }
+                }
+            }
+            else
+            {
+                foreach (var o in current_login_user.role.business_branch_roles.SelectMany(r => r.business_branch.stock_locations.ToList()).ToList())
+                {
+                    _data += $"{o.id},";
+                }
+            }
+            if (!string.IsNullOrEmpty(_data))
+                _data = _data.Substring(0, _data.Length - 1);
+
+            return _data;
+        }
 
         //Note
         //============================

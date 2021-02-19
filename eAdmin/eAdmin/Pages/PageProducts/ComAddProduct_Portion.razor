@@ -12,13 +12,11 @@
                         <thead>
                             <tr>
                                 <ThAuto>Portion</ThAuto>
-                                <th>Multplier</th>
                                 <th>Cost</th>
                                 @foreach (var p in gv.price_rules)
                                 {
                                     <ThCenter>
-                                        @p.price_name
-
+                                        @p.price_name 
                                     </ThCenter>
                                 }
                                 <th></th>
@@ -26,11 +24,9 @@
                             <tr>
                                 <th></th>
                                 <th></th>
-                                <th></th>
                                 @foreach (var p in gv.price_rules)
                                 {
                                     <ThCenter>
-
                                         <LabelActive is_visible="@(IsPriceRuleActive(p))" />
                                         <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
                                     </ThCenter>
@@ -45,10 +41,7 @@
                                     <td>
                                         <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name" width="150px"/>
 
-                                    </td>
-                                    <TdCenter>
-                                        <NumberInput placeholder="Multipler" @bind-text="@pp.multiplier" />
-                                    </TdCenter>
+                                    </td> 
                                     <TdCenter>
                                         <NumberInput placeholder="Cost" @bind-text="@pp.cost" />
                                     </TdCenter>
@@ -56,10 +49,12 @@
                                     {
 
                                         <TdCenter>
+                                            @if(pp.product_prices.Where(r => r.price_rule_id == p.id).Any()){
                                             <NumberInput placeholder="@p.price_name"
                                                          @bind-text="@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price"
                                                          is_read_only="@(!@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)"
                                                          class_name="uk-text-center" />
+                                            }
                                         </TdCenter>
                                     }
                                     <td>
@@ -118,11 +113,8 @@
 
 
     void OnChangeStatus(PriceRuleModel p)
-    {
-
-
+    { 
         model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price_rule_id==p.id  ).ToList().ForEach(r => r.status = !r.status);
-
     }
 
     void AddProductPortion()
@@ -153,8 +145,6 @@
             return data.FirstOrDefault().status;
         }
         return false;
-
-
 
     }
 

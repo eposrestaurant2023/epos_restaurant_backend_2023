@@ -1,0 +1,34 @@
+﻿<UIContainerBox Title="Inventory / Ingredient Product">
+    <ComInputCheckBox @bind-value="@model.is_inventory_product" label="Is Inventory Product" />
+    <Com is_visible="@(is_show_ingredient)">
+        <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="Is Ingredient" />
+    </Com>
+    <Com is_visible="@(is_show_ingredient && (model.is_ingredient_product || model.is_inventory_product))">
+        <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
+    </Com>
+    <Com is_visible="@(model.is_inventory_product)">
+        <hr />
+        <Tab>
+            <TabHeader>
+                @foreach (var b in gv.bussiness_branches)
+                {
+                    <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                }
+            </TabHeader>
+            <TabBody>
+                @foreach (var b in gv.bussiness_branches)
+                {
+                    <TabItem>
+                        <h2>@b.business_branch_name_en</h2>
+                    </TabItem>
+                }
+            </TabBody>
+        </Tab>
+    </Com>
+</UIContainerBox>
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public ProductModel model { get; set; } 
+    [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
+    [Parameter] public bool is_show_ingredient { get; set; } = true;
+}

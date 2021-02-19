@@ -29,13 +29,8 @@
                         <TabItem>
                             @foreach (var p in printers.Where(r => r.business_branch_id == b.id))
                             {
-
                                 <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
-
-
-
                             }
-
                         </TabItem>
                     }
                 </TabBody>
