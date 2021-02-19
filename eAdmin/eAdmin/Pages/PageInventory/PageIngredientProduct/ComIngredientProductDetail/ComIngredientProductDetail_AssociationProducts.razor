@@ -24,13 +24,13 @@
                             <Image ImageUrl="@http.ImageUrl(p.product?.photo)" PopupImageUrl="@http.ImageUrl(p.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
                         </TdCenter> 
                         <TdCenter>
-                            <a href="@($"product/{p.id}")">@p.product?.product_code</a>
+                            <a href="@($"product/{p.product_id}")">@p.product?.product_code</a>
                         </TdCenter>
                         <td>
-                            <a href="@($"product/{p.id}")">@p.product?.product_name_en</a>
+                            <a href="@($"product/{p.product_id}")">@p.product?.product_name_en</a>
                         </td>
                         <td>
-                            <a href="@($"product/{p.id}")">@p.product?.product_name_kh</a>
+                            <a href="@($"product/{p.product_id}")">@p.product?.product_name_kh</a>
                         </td>
                         <td>@p.product?.product_category?.product_category_en</td>
                         <TdRight>
@@ -49,7 +49,7 @@
                             <LabelInActive is_visible="@(!p.product.is_deleted && !p.product.status)" />
                         </TdCenter>
                         <TdActions>
-                            <TableActionItem icon="visibility" is_visible="@(!p.product.is_deleted)" url="@($"product/{p.id}")">View</TableActionItem>  
+                            <TableActionItem icon="visibility" is_visible="@(!p.product.is_deleted)" url="@($"product/{p.product_id}")">View</TableActionItem>  
                         </TdActions>
                     </RowTemplate>
                 </Table>
