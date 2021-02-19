@@ -1,5 +1,4 @@
-﻿@filters.Count()
-@if (filters.Count() > 0)
+﻿@if (filters.Count() > 0)
 {
     <div class="wrp-filter-label">
         @foreach (var d in filters.Where(r => r.filter_info_text != "" && r.is_show_on_infor).OrderBy(r => r.sort_order).ToList())

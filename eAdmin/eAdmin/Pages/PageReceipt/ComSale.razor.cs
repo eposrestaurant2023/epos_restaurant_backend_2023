@@ -31,7 +31,7 @@ namespace eAdmin.Pages.PageReceipt
                 }
                 string url = $"{controller_api}?";
                 url += $"$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
-                url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
             }
@@ -40,29 +40,12 @@ namespace eAdmin.Pages.PageReceipt
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            
             if (is_receipt_list)
                 StateKey = "Elist9hUndmRGRECEIPTnBau9T3AEj";
             else
-                StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj";
-
-            state = await GetState(StateKey);
-            Console.WriteLine(JsonSerializer.Serialize(state));
-            state.filters.Clear();
- 
-            if (is_receipt_list)
-                state.page_title = "Receipt List";
-            else
-                state.page_title = "Void Receipt";
-
-            var default_view = gv.GetDefaultModuleView("page_sale");
-            if (default_view != null)
-            {
-                state.page_title = default_view.title;
-                state.filters = default_view.filters;
-            }
-
-            if (is_receipt_list)
+                StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj"; 
+            state = await GetState(StateKey); 
+            if (is_receipt_list && state.filters.Where(r => r.key == "is_deleted").Count() == 0)
             {
                 state.filters.Add(new FilterModel()
                 {
@@ -70,7 +53,7 @@ namespace eAdmin.Pages.PageReceipt
                     value1 = "false"
                 });
             }
-            else
+            else if (!is_receipt_list && state.filters.Where(r => r.key == "is_deleted").Count() == 0)
             {
                 state.filters.Add(new FilterModel()
                 {
@@ -78,41 +61,58 @@ namespace eAdmin.Pages.PageReceipt
                     value1 = "true"
                 });
             }
-
-            //Business Branch Filter
-            state.filters.Add(new FilterModel()
-            {
-                key = "business_branch_id",
-                value1 = gv.business_branch_ids_filter,
-                filter_title = "Business Branch",
-                filter_operator = "multiple",
-                state_property_name = "list_selected_values",
-                filter_info_text = gv.business_branch_ids_filter,
-                is_clear_all = true,
-                will_remove = true,
-                is_show_on_infor = false
-            });
-
-            //Outlet Filter
-            state.filters.Add(new FilterModel()
-            {
-                key = "outlet_id",
-                value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter),
-                filter_title = "Outlet",
-                filter_operator = "multiple",
-                state_property_name = "list_selected_values",
-                filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter),
-                is_clear_all = true,
-                will_remove = true,
-                is_show_on_infor = false
-            }); 
-
             await LoadData();
         }   
 
         public async Task LoadData(string api_url="")
         {
             is_loading = true;
+
+           
+
+
+            if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
+            {
+                //Business Branch Filter
+                state.filters.Add(new FilterModel()
+                {
+                    key = "business_branch_id",
+                    value1 = gv.business_branch_ids_filter,
+                    filter_title = "Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.business_branch_ids_filter,
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+            if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
+            {
+                //Outlet Filter
+                state.filters.Add(new FilterModel()
+                {
+                    key = "outlet_id",
+                    value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter),
+                    filter_title = "Outlet",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter),
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+
+            state.page_title = is_receipt_list ? "Receipt List" : "Void Receipt";
+
+            var default_view = gv.GetDefaultModuleView("page_sale");
+            if (default_view != null)
+            {
+                state.page_title = default_view.title;
+            }
+
+
             if (string.IsNullOrEmpty(api_url))
             {
                 api_url = $"{ControllerApi}";
@@ -214,7 +214,7 @@ namespace eAdmin.Pages.PageReceipt
                     filter_info_text = gv.business_branch_ids_filter,
                     is_clear_all = true,
                     will_remove = true ,
-                    is_show_on_infor =true
+                    is_show_on_infor =false
                 });
             }
 
@@ -255,7 +255,7 @@ namespace eAdmin.Pages.PageReceipt
                     filter_info_text = gv.outlet_ids_filter(business_branch_ids),
                     is_clear_all = true,
                     will_remove = true,
-                    is_show_on_infor = true
+                    is_show_on_infor = false
                 });
             }
             // customer
