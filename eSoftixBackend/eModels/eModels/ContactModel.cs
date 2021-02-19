@@ -17,5 +17,6 @@ namespace eModels
         public string postion { get; set; }
         public string gender { get; set; }
         public string email_address { get; set; }
+        public string telegram { get; set; }
     }
 }

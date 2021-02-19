@@ -1,5 +1,6 @@
 ﻿using eModels;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace eAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]"),Authorize]
     public class CustomerGroupController:ODataController
     {
         private readonly ApplicationDbContext db;
