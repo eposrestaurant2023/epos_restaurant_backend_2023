@@ -60,8 +60,11 @@
                                     <ComInputCheckBox @bind-value="@model.is_allow_free" label="Allow Free" />
                                     <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" /> 
                                     <SelectStatus @bind-selected_value="@model.status" />
+                                    <div style="background:red">
+                                      vendor id  @model.vendor_id
+                                    </div>
                                 </UIContainerBox>
-
+                                
                                 <ComAddInventoryProduct @bind-model="@model"/>
                                 <ComAddProduct_Portion model="@model" />
                                 <ComAddProduct_Printer @bind-model="@model" />

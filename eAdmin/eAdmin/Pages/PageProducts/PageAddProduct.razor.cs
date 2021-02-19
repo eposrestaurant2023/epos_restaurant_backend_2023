@@ -14,6 +14,7 @@ namespace eAdmin.Pages.PageProducts
 
         [Parameter] public int id { get; set; }
         [Parameter] public int clone_id { get; set; }
+        public ProductModel model { get; set; } = new ProductModel();
         public string PageTitle
         {
             get
@@ -56,7 +57,7 @@ namespace eAdmin.Pages.PageProducts
                 return url;
             } }
 
-        public ProductModel model { get; set; } = new ProductModel();
+        
         public bool is_save_and_new { get; set; }
 
 
@@ -138,8 +139,6 @@ namespace eAdmin.Pages.PageProducts
             save_model.product_menus.ForEach(r => r.menu = null);
             save_model.is_menu_product = true;
 
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
-
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
@@ -163,10 +162,6 @@ namespace eAdmin.Pages.PageProducts
                 toast.Add("Save product fail", MatToastType.Warning);
             }
             is_saving = false;
-
-
-    }
-
-
+        }
     }
 }

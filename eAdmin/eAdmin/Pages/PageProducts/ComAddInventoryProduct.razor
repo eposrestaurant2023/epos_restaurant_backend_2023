@@ -3,6 +3,13 @@
     <Com is_visible="@(is_show_ingredient)">
         <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="Is Ingredient" />
     </Com>
+    <Com is_visible="@(model.is_ingredient_product || model.is_inventory_product)">
+        @model.vendor_id
+        <div class="uk-margin-small">
+            <label class="uk-form-label">Select Primary Vendor</label>
+            <VendorTypeahead @bind-vendor="@model.vendor" vendor_changed="@OnSelectVendor"/>
+        </div>
+    </Com>
     <Com is_visible="@(is_show_ingredient && (model.is_ingredient_product || model.is_inventory_product))">
         <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
     </Com>
@@ -28,7 +35,13 @@
 </UIContainerBox>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public ProductModel model { get; set; } 
+    [Parameter] public ProductModel model { get; set; }
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     [Parameter] public bool is_show_ingredient { get; set; } = true;
+
+    async Task OnSelectVendor()
+    {
+        model.vendor_id = model.vendor.id; 
+        await modelChanged.InvokeAsync(model);
+    }
 }
