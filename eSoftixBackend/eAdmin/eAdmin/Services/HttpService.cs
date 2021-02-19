@@ -67,15 +67,12 @@ namespace eAdmin.Services
 
             if (current_login_user.id != 0 && current_login_user != null)
             {
-
                 string pass = EncryptProvider.Base64Decrypt(current_login_user?.password);
                 http.DefaultRequestHeaders.Add("ContentType", "application/json");
                 var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{current_login_user?.username}:{pass}");
                 string val = System.Convert.ToBase64String(plainTextBytes);
                 http.DefaultRequestHeaders.Remove("Authorization");
                 http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-              
-
             }
 
             var resp = await http.GetAsync($"{_configuration.GetValue<string>("apiBaseUrl")}{url}");

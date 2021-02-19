@@ -32,7 +32,7 @@
             </HeaderRight>
         </PageHeader>
         <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click(false))" @attributes="@formAttributes">
-            <DataAnnotationsValidator />
+            
             <PageBody>
                 <UIGridCenter>
                    <ComAddCustomerForm @bind-model="@model"/>
@@ -43,7 +43,6 @@
                     <Button is_visible="@is_saving"><Spinner /></Button>
                     <Button icon="save" class_name="uk-button uk-button-primary" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
                     <Button icon="save" class_name="uk-button uk-button-primary" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
-                    <Button icon="save" class_name="uk-button uk-button-primary" OnClick="@(()=>is_save_and_order = true)" roles="@gv.GetRole("customer_add")" is_visible="@(!is_saving)" type="submit">Save & Invoice</Button>
                     <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger" icon="reply">Cancel</Button>
                 </FooterCenter>
             </PageFooter>
@@ -124,32 +123,23 @@
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
             if (res.IsSuccess)
             {
-                if (res.Content.ToString() == "Customer Code already exist!")
+               
+                model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                toast.Add("Saving Customer successfully", MatToastType.Success);
+                if (is_save_and_new)
                 {
-                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    model = new CustomerModel();
+                    id = 0;
+                    title = "Add New Customer";
                 }
                 else
                 {
-                    model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                    toast.Add("Saving Customer successfully", MatToastType.Success);
-                    if (is_save_and_new)
-                    {
-                        model = new CustomerModel();
-                        id = 0;
-                        title = "Add New Customer";
-                    }
-                    else if (is_save_and_order) {
-                        nav.NavigateTo($"sale/customer/{model.id}");
-                    }
-                    else
-                    {
-                        nav.NavigateTo($"customer/{model.id}");
-                    }
+                    nav.NavigateTo($"customer/{model.id}");
                 }
+                
             }
             else
             {
-
                 is_saving = false;
                 //check response code status and 
                 if(res.status_code >= 400 && res.status_code <= 499)
@@ -158,7 +148,6 @@
                     existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
 
                     toast.Add(existing_customer_info.message, MatToastType.Warning);
-
                 }
                 else
                 {

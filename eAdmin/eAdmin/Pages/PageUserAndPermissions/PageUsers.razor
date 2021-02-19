@@ -2,6 +2,18 @@
 @inherits PageCore
 @inject IMatToaster Toaster
 @using eModels;
+@inject IStringLocalizer<Resource> localizer
+
+<strong>Culture:</strong>
+@*<select class="form-control" @bind="Culture" style="width:300px; margin-left:10px;">
+    @foreach (var culture in cultures)
+    {
+        <option value="@culture">@culture.DisplayName</option>
+    }
+</select>*@
+
+<h1>@localizer["helloworld"]</h1>
+@localizer["welcome"]
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @{
@@ -97,7 +109,7 @@
                     </RowTemplate>
                 </Table>
             </div>
-            <AuthorizeView Roles="@gv.GetRole("user_add")">
+            <AuthorizeView Roles="@gv.GetRole($"{(user.id == 0 ? "user_add" : "user_edit")}")">
                 @if (is_dialog_open)
                 {
                     <ComAddUser is_dialog_open="@is_dialog_open" user="@user" Cancel_click="@(() => { is_dialog_open = false;   user = new UserModel();})" Save_User_click="@SaveUser_Click" modal_title="@title" />
@@ -117,7 +129,7 @@
     int TotalItem;
     bool is_dialog_open;
     string password_uri;
-    string old_username = ""; 
+    string old_username = "";
 
     string controller_api = "User";
     string StateKey = "55sNaBpzJlLzhs9IjuzqEODlwfBSCTTx";
@@ -215,7 +227,7 @@
         {
             roles = await LoadRoles();
         }
-        var resp = await http.ApiGet(controller_api + $"({_user.id})?$expand=user_business_branchs");
+        var resp = await http.ApiGet(controller_api + $"({_user.id})");
         if (resp.IsSuccess)
         {
             user = JsonSerializer.Deserialize<UserModel>(resp.Content.ToString());
@@ -244,7 +256,8 @@
 
         if (user.id > 0 && user.id == gv.current_login_user.id)
         {
-            if (user.status == false) {
+            if (user.status == false)
+            {
                 toast.Add("You cannot disable current login user.", MatToastType.Warning);
                 return;
             }
