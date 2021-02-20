@@ -4,7 +4,7 @@
 @using Microsoft.JSInterop;
 @using System.Globalization;
 
-<select  @bind="Culture">
+<select  @bind="Culture" class="uk-select">
     @foreach (var d in cultures)
     {
         <option value="@d.lang_code">@d.lang_name</option>

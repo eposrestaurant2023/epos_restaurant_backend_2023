@@ -56,6 +56,7 @@ namespace eAPI.Controllers
             gv.printers = db.Printers.ToList();
             gv.price_rules= db.PriceRules.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.units= db.Units.Where(r=>r.is_deleted==false && r.status).ToList();
+            gv.unit_categories= db.UnitCategorys.ToList();
 
             return Ok(gv);
         }
@@ -122,6 +123,22 @@ namespace eAPI.Controllers
             }
         }
 
+        [HttpGet("SaleProduct")]
+        [EnableQuery(MaxExpansionDepth =0)]
+        public async Task<List<SaleProductModel>> GetSaleProduct(string keyword)
+        {
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return  await (db.SaleProducts.Where(r =>
+                (
+                (r.selling_price.ToString() ?? "") +
+                (r.sale.document_number ?? "")
+                
+                ).ToLower().Trim().Contains(keyword.ToLower().Trim())).ToListAsync());
+            }
+            return  await (db.SaleProducts.ToListAsync());
+
+        }
 
         [HttpGet("NoteCategory")]
         [EnableQuery]

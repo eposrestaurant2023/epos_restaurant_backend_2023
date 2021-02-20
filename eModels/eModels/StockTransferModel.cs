@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -183,6 +184,27 @@ namespace eModels
             }
             
         }
+
+        private decimal _multipler = 1;
+
+        public decimal multiplier
+        {
+            get { return _multipler; }
+            set
+            {
+                if (value == 0)
+                {
+                    value = 1;
+                }
+                _multipler = value;
+
+            }
+        }
+        [Required(ErrorMessage = "Please select unit.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
+        public int unit_id { get; set; } = 1;
+        [ForeignKey("unit_id")]
+        public UnitModel unit { get; set; }
 
 
         [NotMapped, JsonIgnore]

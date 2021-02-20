@@ -5,7 +5,11 @@
         <ContentLeft>
             <table>
                 <tr>
-                    <th>Customer</th>
+                    <th>Customer Code</th>
+                    <td>@model.customer_code</td>
+                </tr>
+                <tr>
+                    <th>Customer (En)</th>
                     <td>@model.customer_name_en</td>
                 </tr>
                 <tr>
@@ -13,7 +17,7 @@
                     <td>@model.customer_name_kh</td>
                 </tr>
                 <tr>
-                    <th>Customer Group</th>
+                    <th>Group</th>
                     <td>@model.customer_group?.customer_group_name_en</td>
                 </tr>
                

@@ -59,10 +59,11 @@ namespace eModels
         public string photo { get; set; } = "placeholder.png";
         public string note { get; set; }
 
-
+        [Required(ErrorMessage = "Please select unit.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
         public int unit_id { get; set; } = 1;
         [ForeignKey("unit_id")]
-        public UnitModel unit{ get; set; }       
+        public UnitModel unit{ get; set; }
         public int? vendor_id { get; set; }
         [ForeignKey("vendor_id")]
         public VendorModel vendor { get; set; }
@@ -130,9 +131,6 @@ namespace eModels
         public int printer_id { get; set; }
         [ForeignKey("printer_id")]
         public PrinterModel printer { get; set; }
-
-
-
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product{ get; set; }
@@ -168,8 +166,12 @@ namespace eModels
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
-      
-         
+
+        [Required(ErrorMessage = "Please select unit.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
+        public int unit_id { get; set; } = 1;
+        [ForeignKey("unit_id")]
+        public UnitModel unit { get; set; }
 
         [MaxLength(100)]
         [Required(ErrorMessage = "Field cannot be blank.")]
