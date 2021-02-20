@@ -25,10 +25,8 @@ namespace eAPI.Controllers
             db = _db;
         }
 
-
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
-        
+        [EnableQuery(MaxExpansionDepth = 8)]        
         public IQueryable<UserModel> Get(string keyword = "")
         {
             if (!string.IsNullOrWhiteSpace(keyword))
@@ -64,11 +62,20 @@ namespace eAPI.Controllers
             return Ok(data.FirstOrDefault());
         }
 
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        [Route("find")]
+        public SingleResult<UserModel> Get([FromODataUri] int key)
+        {
+            var c = db.Users.Where(r => r.id == key).AsQueryable();            
+            return SingleResult.Create(c);
+        }
+
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromQuery] string password, [FromBody] UserModel u)
         {
             //check if user duplicate
-            if (u.id.ToString() == "")
+            if (u.id == 0)
             {
                 var user = db.Users.Where(r => r.username.ToLower().Trim() == u.username.ToLower().Trim() && r.is_deleted == false);
                 if (user.Count() > 0)
@@ -89,9 +96,14 @@ namespace eAPI.Controllers
             {
                 u.password = EncryptProvider.Base64Encrypt(password);
             }
-            if (u.id.ToString() == "")
+            //dup user code
+            var d = db.Users.Where(r=>r.id == u.id).First();
+            if (db.Users.Where(r => (r.user_code == u.user_code) && (u.user_code != d.user_code)).Count()>0)
             {
-
+                return StatusCode(301, $"User Code {u.user_code} is already exists.");
+            }
+            if (u.id == 0)
+            {                
                 db.Users.Add(u);
             }
             else
@@ -187,16 +199,7 @@ namespace eAPI.Controllers
             db.Users.Update(d);
             await db.SaveChangesAsync();
             return Ok(d);
-        }
-
-        [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
-        [Route("find")]
-        public SingleResult<UserModel> Get([FromODataUri] int key)
-        {
-            var c = db.Users.Where(r => r.id == key).AsQueryable();
-            return SingleResult.Create(c);
-        }
+        }         
 
         [HttpPost]
         [Route("delete/{id}")]
