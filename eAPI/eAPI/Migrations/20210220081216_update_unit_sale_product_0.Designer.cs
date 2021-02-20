@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210220081216_update_unit_sale_product_0")]
+    partial class update_unit_sale_product_0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2556,7 +2558,7 @@ namespace eAPI.Migrations
                     b.Property<decimal>("total_discount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<int>("unit_id")
+                    b.Property<int?>("unit_id")
                         .HasColumnType("int");
 
                     b.HasKey("id");
@@ -4201,9 +4203,7 @@ namespace eAPI.Migrations
 
                     b.HasOne("eModels.UnitModel", "unit")
                         .WithMany()
-                        .HasForeignKey("unit_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("unit_id");
 
                     b.Navigation("product");
 

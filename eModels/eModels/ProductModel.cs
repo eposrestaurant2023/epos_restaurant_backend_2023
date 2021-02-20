@@ -170,6 +170,8 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
 
+        [Required(ErrorMessage = "Please select unit.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
         public int unit_id { get; set; } = 1;
         [ForeignKey("unit_id")]
         public UnitModel unit { get; set; }

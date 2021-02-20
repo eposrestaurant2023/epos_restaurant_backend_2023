@@ -100,7 +100,7 @@
 
     public string api_url { get {
             string url = $"Product({id})";
-            url = url + "?$expand=product_category($select=product_category_en)";
+            url = url + "?$expand=product_category($select=product_category_en),unit($select=unit_name)";
             return url;
         }
     }
