@@ -8,9 +8,17 @@
                 {
                     <option value="0">@empty_text</option>
                 }
-                @foreach (var p in gv.units.Where(r => r.status  && !r.is_deleted))
+                @if (is_relevance_category)
                 {
-                    <option value="@p.id">@p.unit_name</option>
+                    foreach (var p in gv.units.Where(r => (r.status  && !r.is_deleted) && r.unit_category_id == unit_category_id))
+                    {
+                        <option value="@p.id">@p.unit_name</option>
+                    }
+                }else{
+                    foreach (var p in gv.units.Where(r => r.status  && !r.is_deleted))
+                    {
+                        <option value="@p.id">@p.unit_name</option>
+                    }
                 }
             </select>
             @ChildContent
@@ -19,14 +27,23 @@
 }
 else
 { 
+    @unit_category_id
 <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width;">
     @if (show_empty)
     {
         <option value="0">@empty_text</option>
     }
-    @foreach (var p in gv.units.Where(r => r.status  && !r.is_deleted))
+    @if (is_relevance_category)
     {
-        <option value="@p.id">@p.unit_name</option>
+        foreach (var p in gv.units.Where(r => (r.status  && !r.is_deleted) && r.unit_category_id == unit_category_id))
+        {
+         <option value="@p.id">@p.unit_name</option>
+        }
+    }else{
+        foreach (var p in gv.units.Where(r => r.status  && !r.is_deleted))
+        {
+            <option value="@p.id">@p.unit_name</option>
+        }
     }
 </select>
 @ChildContent
@@ -36,6 +53,7 @@ else
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string label { get; set; } = "Unit";
     [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_relevance_category { get; set; } = false;
     [Parameter] public string empty_text { get; set; } = "Select Unit";
 
     [Parameter] public string width { get; set; } = "100%";
@@ -46,6 +64,8 @@ else
 
     [Parameter] public UnitModel unit { get; set; }
     [Parameter] public EventCallback<UnitModel> unitChanged { get; set; }
+
+    [Parameter] public int unit_category_id { get; set; }
 
 
     public int SelectedValue

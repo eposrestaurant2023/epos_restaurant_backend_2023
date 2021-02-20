@@ -14,6 +14,7 @@ namespace eAdmin.Pages.PageProducts
 
         [Parameter] public int id { get; set; }
         [Parameter] public int clone_id { get; set; }
+        public int unit_category_id { get; set; }
         public ProductModel model { get; set; } = new ProductModel();
         public string PageTitle
         {

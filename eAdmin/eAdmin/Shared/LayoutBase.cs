@@ -95,7 +95,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "module_views,";
                     api_url = api_url + "payment_types,";
                     api_url = api_url + "product_groups,";
-                    api_url = api_url + "product_categories,";   
+                    api_url = api_url + "product_categories,";
                     api_url = api_url + "customer_groups,";
                     api_url = api_url + "settings,";
                     api_url = api_url + "currencies,";
@@ -112,7 +112,9 @@ namespace eAdmin.Shared
                     api_url = api_url + "provinces,";
                     api_url = api_url + "vendors,";
                     api_url = api_url + "vendor_groups,";
-                    api_url = api_url + "units";
+                    api_url = api_url + "units,";
+                    api_url = api_url + "product_categories,";
+                    api_url = api_url + "unit_categories";
 
                     GetResponse res = await http.ApiGet(api_url);
 
