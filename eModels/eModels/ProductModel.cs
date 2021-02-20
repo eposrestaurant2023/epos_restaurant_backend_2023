@@ -131,9 +131,6 @@ namespace eModels
         public int printer_id { get; set; }
         [ForeignKey("printer_id")]
         public PrinterModel printer { get; set; }
-
-
-
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product{ get; set; }
