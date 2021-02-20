@@ -20,7 +20,7 @@ namespace eModels
 
         public Guid sale_id { get; set; }
         [ForeignKey("sale_id")]
-        public SaleModel sale { get; set; }
+        public virtual SaleModel sale { get; set; }
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }

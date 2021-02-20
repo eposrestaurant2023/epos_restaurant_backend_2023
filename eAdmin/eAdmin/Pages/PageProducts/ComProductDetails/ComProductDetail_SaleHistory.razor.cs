@@ -62,12 +62,12 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
         public async Task LoadData(string api_url="")
         {
             is_loading = true; 
-            if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
+            if (state.filters.Where(r => r.key == "sale/business_branch_id").Count() == 0)
             {
                 //Business Branch Filter
                 state.filters.Add(new FilterModel()
                 {
-                    key = "business_branch_id",
+                    key = "sale/business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -78,12 +78,12 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     is_show_on_infor = false
                 });
             }
-            if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
+            if (state.filters.Where(r => r.key == "sale/outlet_id").Count() == 0)
             {
                 //Outlet Filter
                 state.filters.Add(new FilterModel()
                 {
-                    key = "outlet_id",
+                    key = "sale/outlet_id",
                     value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
                     filter_title = "Outlet",
                     filter_operator = "multiple",
@@ -175,7 +175,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "business_branch_id",
+                    key = "sale/business_branch_id",
                     value1 = business_branch_ids,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -189,7 +189,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "business_branch_id",
+                    key = "sale/business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -216,7 +216,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "outlet_id",
+                    key = "sale/outlet_id",
                     value1 = value,
                     filter_title = "Outlet",
                     filter_operator = "multiple",
@@ -230,7 +230,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "outlet_id",
+                    key = "sale/outlet_id",
                     value1 = gv.outlet_ids_filter(business_branch_ids),
                     filter_title = "Outlet",
                     filter_operator = "multiple",
@@ -297,14 +297,14 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             foreach (var k in remove_key)
             {
                 // clear filter business
-                if (k == "business_branch_id" && state.multi_select_id_1 != null)
+                if (k == "sale/business_branch_id" && state.multi_select_id_1 != null)
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 } 
 
                 // clear filter outlet
-                if (k == "outlet_id" && state.multi_select_id_2 != null)
+                if (k == "sale/outlet_id" && state.multi_select_id_2 != null)
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
@@ -325,7 +325,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
                 // clear filter business
-                if (f.key == "business_branch_id")
+                if (f.key == "sale/business_branch_id")
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
@@ -333,7 +333,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
 
                 // clear filter outlet
-                if (f.key == "outlet_id")
+                if (f.key == "sale/outlet_id")
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
