@@ -5000,8 +5000,7 @@ h1.wrp-expense-total span.total-expense-amount{
 .login-form input {
     height: 40px !important;
     color: #808080 !important;
-    background: #d6d6d6 !important;
-    border: 1px solid #ffffff !important;
+    border: 1px solid #e5e5e5 !important;
 }
 .bg_donautchart {
     top: 50%;

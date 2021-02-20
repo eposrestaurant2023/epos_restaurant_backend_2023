@@ -27,7 +27,6 @@
             </HeaderRight>
         </PageHeader>
     <PageBody>
-        @ControllerApi
         <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
         <Com is_visible="@(models != null)">
             <Table Items="@models"

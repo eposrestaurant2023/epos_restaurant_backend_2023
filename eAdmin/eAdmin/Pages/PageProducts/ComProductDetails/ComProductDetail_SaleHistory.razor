@@ -1,5 +1,4 @@
-﻿@inherits POProductHistoryBase
-
+﻿@inherits ComProductDetailSaleHistoryBase
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -13,87 +12,74 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>@state.page_title</HeaderTemplate>
+                    <HeaderTemplate>
+                        @state.page_title
+                    </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight>
+            <HeaderRight> 
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
-                    <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                    <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
+
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            @ControllerApi
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
-
             <Com is_visible="@(models != null)">
-
                 <Table Items="@models"
                        PerPage="@state.pager.per_page"
                        TotalItem="@TotalRecord"
                        CurrentPage="@state.pager.current_page"
                        OnPagerChange="@SelectChange"
                        OnPageChange="@ChangePager"
-                       isLoading="@is_loading"
+                       isLoading="@is_loading_data"
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        @HeaderTemplate("sale_date", "Date", "uk-text-center")
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("product/product_name", "Product", "col-auto")
-                        <ThCenter>Quantity</ThCenter>
-                        <ThRight>Price</ThRight>
-                        <ThRight>Discount</ThRight>
-                        <ThRight>Amount</ThRight>
+                        @HeaderTemplate("sale/sale_date", "Sale Date", "uk-text-center")
+                        @HeaderTemplate("unit", "Unit", "col-auto")
+                        @HeaderTemplate("selling_price", "Selling Price")
+                        <ThRight>Quantity</ThRight>
+                        <ThRight>Total Amount</ThRight>
+                        <ThRight>Grand Total</ThRight>
                         <ThCenter>Created Date</ThCenter>
-                        <Th>Created By</Th>
-                        <ThCenter>Status</ThCenter>
+                        <th>Created By</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
-
-                        <TdCenter>@p.purchase_order?.purchase_date.ToString(gv.date_format)</TdCenter>
-
+                        <TdCenter>@p.sale?.sale_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.purchase_order_id}")">@p.purchase_order?.document_number</ComAuthorize>
+                            <div>@p.unit</div>
                         </TdCenter>
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.product_id}")">@p.product?.product_name_en</ComAuthorize>
+                            @p.selling_price
                         </td>
-                        <TdCenter>
-                            <span>@p.quantity.ToString(gv.quantity_format)</span>
-                        </TdCenter>
+                        <td>
+                            @p.quantity
+                        </td>
                         <TdRight>
-                            @p.selling_price.ToString(gv.main_currency_format)
-                        </TdRight>
-                        <TdRight>
-                            @p.total_discount.ToString(gv.main_currency_format)
+                            @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
+                        
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>
-                        <TdRight>
-                            <LabelDeleted is_visible="@(p.is_deleted)" />
-                        </TdRight>
                         <TdCenter>
-                            <TdActions is_loading="@p.is_loading">
-                                <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
-                            </TdActions>
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
                         </TdCenter>
                     </RowTemplate>
                 </Table>
-
-
             </Com>
-
         </PageBody>
     </PageContainer> 
 }

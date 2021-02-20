@@ -31,15 +31,14 @@
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <div class="uk-form-controls control-advince-filter-group">
                         <label class="uk-form-label uk-text-bold">From Stock</label>
-                        <SelectBusinessBranchMutiple @bind-selected_business="@state.multi_select_id_1" business_id="@((val)=>state.multi_select_value_1=val)" />
-                        <Spacing Number="15"/>
-                        <SelectStockLocationMultiple @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                        <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                        <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
                     </div>
                     <div class="uk-form-controls control-advince-filter-group">
                         <label class="uk-form-label uk-text-bold">To Stock</label>
-                        <SelectBusinessBranchMutiple @bind-selected_business="@state.multi_select_id_3" business_id="@((val)=>state.multi_select_value_3=val)" />
-                        <Spacing Number="15"/>
-                        <SelectStockLocationMultiple @bind-selected_stock_location="@state.multi_select_id_4" stock_location_id="@((val)=>state.multi_select_value_4=val)" />
+                        <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_3" selected_businessChanged="@((val)=> { state.multi_select_id_3 = val;state.multi_select_id_4= null;  } )" business_id="@((val)=>state.multi_select_value_3=val)" />
+                        <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_3" @bind-selected_stock_location="@state.multi_select_id_4" stock_location_id="@((val)=>state.multi_select_value_4=val)" />
+
                     </div>
                 </ComSearch>
             </HeaderRight>

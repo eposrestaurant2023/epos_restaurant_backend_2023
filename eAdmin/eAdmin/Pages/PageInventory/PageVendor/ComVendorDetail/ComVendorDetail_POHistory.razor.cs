@@ -67,11 +67,11 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.filters.Add(new FilterModel()
                 {
                     key = "purchase_order/business_branch_id",
-                    value1 = gv.business_branch_ids_filter,
+                    value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.business_branch_ids_filter,
+                    filter_info_text = gv.business_branch_ids_filter_1,
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false
@@ -83,11 +83,11 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.filters.Add(new FilterModel()
                 {
                     key = "stock_location_id",
-                    value1 = gv.stock_location_ids_filter(gv.business_branch_ids_filter),
+                    value1 = gv.stock_location_ids_filter(gv.business_branch_ids_filter_1),
                     filter_title = "Stock Location",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.stock_location_ids_filter(gv.business_branch_ids_filter),
+                    filter_info_text = gv.stock_location_ids_filter(gv.business_branch_ids_filter_1),
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false
@@ -175,11 +175,11 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.filters.Add(new FilterModel()
                 {
                     key = "business_branch_id",
-                    value1 = gv.business_branch_ids_filter,
+                    value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.business_branch_ids_filter,
+                    filter_info_text = gv.business_branch_ids_filter_1,
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false
