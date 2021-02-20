@@ -53,13 +53,6 @@ namespace eAPI.Controllers
                 return db.Vendors;
             }
         }
-        public IQueryable<VendorModel> Get()
-        {
-           
-                return db.Vendors;
-           
-        }
-
         
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] VendorModel u)
