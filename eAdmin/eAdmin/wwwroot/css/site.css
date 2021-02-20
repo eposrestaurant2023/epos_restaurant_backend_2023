@@ -2271,13 +2271,18 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
 .font_waith_cust ul li{
     display:inline;
 }
-.blazored-typeahead__active-item,
+.blazored-typeahead__active-item ,
 .blazored-typeahead__result:hover,
 .blazored-typeahead__result:focus {
-    background-color: #003580 !important;
-    color: #fff !important;
+    background-color: #003580 !important; 
     cursor: pointer;
 }
+.blazored-typeahead__active-item .text-list-typeahead,
+.blazored-typeahead__result:hover .text-list-typeahead,
+.blazored-typeahead__result:focus .text-list-typeahead {
+    color: #fff !important;
+}
+
 .filter-body .blazored-typeahead__active-item:hover {
     background-color: #003580 !important;
     color: #fff !important;
@@ -6961,4 +6966,15 @@ div.mud-input-slot.mud-input-root:hover {
     border: 1px solid #eaeaea;
     border-radius: 4px;
     margin-top: 25px;
+}
+.form-controls-typeahead .seleted-typeahead,
+.form-controls-typeahead .text-list-typeahead {
+    color: #3c3c3c;
+    line-height: 30px;
+}
+.form-controls-typeahead .blazored-typeahead__clear {
+    border: 1px solid #f19ead !important;
+    background-image: linear-gradient(to bottom,#ff98ab,#f0506e);
+    border-radius: 0px;
+    padding: 0px 12px !important;
 }

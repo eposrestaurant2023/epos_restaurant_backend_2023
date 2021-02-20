@@ -4,7 +4,6 @@
         <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="Is Ingredient" />
     </Com>
     <Com is_visible="@(model.is_ingredient_product || model.is_inventory_product)">
-        @JsonSerializer.Serialize(model.vendor)
         <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
     </Com>
     <Com is_visible="@(is_show_ingredient && (model.is_ingredient_product || model.is_inventory_product))">

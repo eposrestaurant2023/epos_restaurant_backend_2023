@@ -3,19 +3,25 @@
         <ContentLeft>
             <table>
                 <tr>
+                     <th>Product Code</th>
                     <td>@model.product_code</td>
                 </tr>
                 <tr>
+                     <th>Product (En)</th>
                     <td>@model.product_name_en</td>
                 </tr>
                 <tr>
+                    <th>Product (Kh)</th>
                     <td>@model.product_name_kh</td>
                 </tr>
                 <tr>
+                    <th>Categroy</th>
                     <td>@model.product_category?.product_category_en</td>
                 </tr>
-
-                
+                <tr>
+                    <th>Unit</th>
+                    <td>@model.unit?.unit_name</td>
+                </tr>
             </table>
         </ContentLeft>
         <ContentRight>
