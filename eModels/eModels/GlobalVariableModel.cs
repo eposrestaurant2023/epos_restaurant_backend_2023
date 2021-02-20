@@ -31,6 +31,7 @@ namespace eModels
         public List<ModuleViewModel> module_views { get; set; }
         public List<StockLocationModel> stock_locations { get; set; }
         public List<OutletModel> outlets { get; set; }
+        public List<StockTransferModel> stock_stransfer { get; set; }
         public List<ProductTypeModel> product_types { get; set; }
         public List<ProductGroupModel> product_groups { get; set; }
         public List<ProductCategoryModel> product_categories { get; set; }
@@ -62,7 +63,7 @@ namespace eModels
         }
 
 
-        public string business_branch_ids_filter
+        public string business_branch_ids_filter_1
         {
             get
             {
@@ -72,6 +73,21 @@ namespace eModels
                     _data += $"{b.id},";
                 } 
                if(!string.IsNullOrEmpty(_data))
+                    _data = _data.Substring(0, _data.Length - 1);
+
+                return _data;
+            }
+        }
+        public string business_branch_ids_filter_2
+        {
+            get
+            {
+                string _data = "";
+                foreach (var b in current_login_user.role.business_branch_roles.Select(r => r.business_branch).ToList())
+                {
+                    _data += $"{b.id},";
+                }
+                if (!string.IsNullOrEmpty(_data))
                     _data = _data.Substring(0, _data.Length - 1);
 
                 return _data;
