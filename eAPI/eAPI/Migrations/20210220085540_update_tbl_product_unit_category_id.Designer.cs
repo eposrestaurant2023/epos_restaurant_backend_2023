@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210220085540_update_tbl_product_unit_category_id")]
+    partial class update_tbl_product_unit_category_id
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1761,7 +1763,7 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("unit_category_id")
+                    b.Property<int?>("unit_category_id")
                         .HasColumnType("int");
 
                     b.Property<int>("unit_id")
@@ -1775,8 +1777,6 @@ namespace eAPI.Migrations
                     b.HasIndex("product_category_id");
 
                     b.HasIndex("product_type_id");
-
-                    b.HasIndex("unit_category_id");
 
                     b.HasIndex("unit_id");
 
@@ -3988,12 +3988,6 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.UnitCategoryModel", "unit_category")
-                        .WithMany()
-                        .HasForeignKey("unit_category_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eModels.UnitModel", "unit")
                         .WithMany()
                         .HasForeignKey("unit_id")
@@ -4009,8 +4003,6 @@ namespace eAPI.Migrations
                     b.Navigation("product_type");
 
                     b.Navigation("unit");
-
-                    b.Navigation("unit_category");
 
                     b.Navigation("vendor");
                 });

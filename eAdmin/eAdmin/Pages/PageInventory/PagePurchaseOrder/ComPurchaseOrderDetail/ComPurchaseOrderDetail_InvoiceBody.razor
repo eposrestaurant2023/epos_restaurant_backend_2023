@@ -22,7 +22,7 @@
             }
         </td>
         <TdCenter>@sp.quantity.ToString(gv.quantity_format)</TdCenter>
-        <td class="uk-text-center">@sp.unit</td>
+        <td class="uk-text-center">@sp.unit?.unit_name</td>
         <td class="uk-text-right">@sp.selling_price.ToString(gv.currency_format)</td>
         <td class="uk-text-right">
             @if (sp.discount <= 0)

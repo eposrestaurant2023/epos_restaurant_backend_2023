@@ -43,11 +43,10 @@
     else
     {
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@purchase_order_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
-    }
-
-    <div class="uk-text-small">@purchase_order_product.unit</div>
-
-
+    } 
+</TdCenter>
+<TdCenter>
+    <SelectUnit is_relevance_category="false" @bind-unit="@purchase_order_product.unit" unit_category_id="@purchase_order_product.unit.unit_category_id" show_empty="false"/>
 </TdCenter>
 <TdRight>
     <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@purchase_order_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
@@ -67,6 +66,7 @@
         </Grid>
     </Com>
 </TdCenter>
+
 <TdRight>
     @purchase_order_product.total_amount.ToString(gv.currency_format)
 </TdRight>

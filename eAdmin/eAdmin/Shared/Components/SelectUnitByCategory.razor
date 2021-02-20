@@ -1,0 +1,77 @@
+﻿@inject IHttpService http
+@if(!string.IsNullOrEmpty(label)){
+    <div class="uk-margin-small">
+        <label class="uk-form-label" for="@id">@label</label>
+        <div class="uk-form-controls">
+            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width;">
+                @if (show_empty)
+                {
+                    <option value="0">@empty_text</option>
+                }
+                @foreach (var p in units)
+                {
+                    <option value="@p.id">@p.unit_name</option>
+                }
+            </select>
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{ 
+ 
+}
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Unit";
+    [Parameter] public bool show_empty { get; set; } = false; 
+    [Parameter] public string empty_text { get; set; } = "Select Unit";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
+
+    [Parameter] public List<UnitModel> units { get; set; }
+    [Parameter] public EventCallback<UnitModel> unitChanged { get; set; }
+
+    [Parameter] public int unit_category_id { get; set; }
+
+    bool is_laoding = false;
+    Guid id = Guid.NewGuid();
+
+    public int SelectedValue
+    {
+        get
+        {
+            return units == null ? selected_value : units.Where(r=>r.is_defualt).FirstOrDefault().id;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    { 
+        is_laoding = true;
+        var resp = await http.ApiGetOData($"unit?$filter=unit_category_id eq {unit_category_id} and status eq true and is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            units = JsonSerializer.Deserialize<List<UnitModel>>(resp.Content.ToString());
+        }
+        is_laoding = false;
+    }
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Int32.Parse(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+
+        if (selected_value == 0)
+        {
+            await unitChanged.InvokeAsync(new UnitModel());
+        }
+        else
+        {
+            await unitChanged.InvokeAsync(units.Where(r => r.id == selected_value).FirstOrDefault()); 
+        }
+
+    }
+
+}

@@ -22,7 +22,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             {
                 string url = $"PurchaseOrder({id})?";
                 url = url + "$expand=vendor,";
-                url = url + "purchase_order_products($expand=product,product_type),";
+                url = url + "purchase_order_products($expand=product,product_type,unit),";
                 url = url + "purchase_order_payments($expand=payment_type),";
                 url = url + "business_branch,";
                 url = url + "stock_location";
