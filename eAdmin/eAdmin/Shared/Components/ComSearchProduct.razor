@@ -56,7 +56,7 @@
                                     </div>
                                 </td>
                                 <TdRight>@c.cost.ToString(gv.currency_format)</TdRight> 
-                                <TdCenter>@c.unit</TdCenter> 
+                                <TdCenter>@c.unit?.unit_name</TdCenter> 
                                 <TdCenter>
                                     <button uk-tooltip="Select product" class="uk-button uk-button-primary uk-button-small" @onclick="@(() => ChooseProduct_Click(c))" style="width:120px;">
                                         Select <Icon icon="arrow_right_alt" />
@@ -99,7 +99,7 @@
                                     </td>
                                     <TdRight>@p.cost.ToString(gv.main_currency_format)</TdRight>
                                     <TdCenter><NumberInput @bind-text="@p.quantity" class_name="uk-text-center uk-form-small" /></TdCenter>
-                                    <TdCenter>@p.unit</TdCenter>
+                                    <TdCenter><SelectUnit is_relevance_category="true" @bind-unit="@p.unit" unit_category_id="@p.unit_category_id" show_empty="false" label=""/></TdCenter>
                                     <td>
                                         <Icon icon="delete" OnClick="@(()=> { RemoveSeletedProduct(p); })" className="icon-remove-product" title="Remove Product" />
                                     </td>
@@ -197,7 +197,7 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";          
+            string url = $"{controller_api}?$expand=unit&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";          
             return   url + GetFilter(state.filters) + " and (is_inventory_product eq true or is_ingredient_product eq true)";
 
         }
@@ -290,7 +290,9 @@
                 product = p,
                 cost = p.cost,
                 quantity = 1,
-                unit = p.unit?.unit_name
+                unit_category_id = p.unit_category_id,
+                unit = p.unit,
+                unit_id = p.unit_id
             });
         }
 

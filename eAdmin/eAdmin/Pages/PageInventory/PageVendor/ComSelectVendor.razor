@@ -57,11 +57,13 @@
         await vendorChanged.InvokeAsync(cm);
         is_open_add_vendor = false;
     }
-
-    async Task OnSelectVendor()
+     
+    async Task OnSelectVendor(VendorModel _vendor)
     {
-        await vendor_idChanged.InvokeAsync(vendor.id);
-        await vendorChanged.InvokeAsync(vendor);
+        vendor_id = _vendor.id;
+        vendor = _vendor;
+        await vendor_idChanged.InvokeAsync(vendor.id); 
+        await vendorChanged.InvokeAsync(vendor); 
         is_open_add_vendor = false;
     }
     void OpenVendorModal()

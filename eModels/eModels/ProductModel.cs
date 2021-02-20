@@ -210,7 +210,9 @@ namespace eModels
     {
         public ProductModel product { get; set; }
         // Both Data
-        public string unit { get; set; } = "Unit";
+        public UnitModel unit { get; set; }
+        public int unit_id { get; set; }
+        public int unit_category_id { get; set; }
         public decimal price { get; set; }
         public decimal cost { get; set; }
         public decimal quantity { get; set; } = 1;

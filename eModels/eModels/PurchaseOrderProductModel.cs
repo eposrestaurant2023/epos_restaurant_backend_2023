@@ -177,8 +177,9 @@ namespace eModels
 
         [NotMapped, JsonIgnore]
         public bool is_can_delete { get; set; } = true;
+        [NotMapped, JsonIgnore]
+        public int unit_category_id { get; set; }
 
-       
     }
 
 }

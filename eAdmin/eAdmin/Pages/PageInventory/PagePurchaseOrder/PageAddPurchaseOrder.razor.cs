@@ -63,11 +63,15 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 return;
             }
 
+            Console.WriteLine(sp.unit_category_id);
 
             //add new record
             PurchaseOrderProductModel d = new PurchaseOrderProductModel();
             d.product_id = sp.product.id;
             d.product = sp.product;
+            d.unit = sp.unit;
+            d.unit_id = sp.unit.id;
+            d.unit_category_id = sp.unit_category_id;
             d.product_type_id = sp.product.product_type_id; 
             d.is_allow_discount = sp.is_allow_discount;
             d.quantity = sp.quantity;
@@ -175,11 +179,10 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             //prepare sale data for send to controller
             PurchaseOrderModel save_model = JsonSerializer.Deserialize<PurchaseOrderModel>(JsonSerializer.Serialize(model));
             save_model.vendor = null;
-            save_model.purchase_order_products.ForEach(r => r.product = null);
+            save_model.purchase_order_products.ForEach(r => { r.product = null; r.unit = null; });
             save_model.stock_location = null;
             save_model.business_branch = null;
-            save_model.purchase_order_payments = null; 
-
+            save_model.purchase_order_payments = null;  
             is_saving = true;
 
             Console.WriteLine(JsonSerializer.Serialize(save_model));

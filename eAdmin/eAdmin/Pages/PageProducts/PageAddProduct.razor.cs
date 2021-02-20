@@ -139,6 +139,7 @@ namespace eAdmin.Pages.PageProducts
             save_model.product_menus.ForEach(r => r.menu = null);
             save_model.is_menu_product = true;
             save_model.vendor = null;
+            save_model.unit_category = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)

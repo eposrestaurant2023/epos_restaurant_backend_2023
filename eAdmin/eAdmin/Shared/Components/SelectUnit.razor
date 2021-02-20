@@ -26,9 +26,8 @@
     </div>
 }
 else
-{ 
-    @unit_category_id
-<select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width;">
+{
+<select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: auto; min-width:80px;">
     @if (show_empty)
     {
         <option value="0">@empty_text</option>
@@ -51,7 +50,7 @@ else
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string label { get; set; } = "Unit";
+    [Parameter] public string label { get; set; }
     [Parameter] public bool show_empty { get; set; } = false;
     [Parameter] public bool is_relevance_category { get; set; } = false;
     [Parameter] public string empty_text { get; set; } = "Select Unit";
