@@ -1,6 +1,6 @@
 ﻿@inherits PageCore;
 <BlazoredTypeahead SearchMethod="Search" @bind-Value="@selected" Placeholder="@placeholder" ShowDropDownOnFocus="true">
-    <SelectedTemplate> 
+    <SelectedTemplate>
         <Grid ClassName="uk-grid-small">
             <Column ClassName="uk-width-auto">
                 <Image ImageUrl="@(http.ImageUrl(context.photo))" PopupImageUrl="@(http.ImageUrl(context.photo))" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
@@ -19,7 +19,7 @@
                 <Column ClassName="uk-width-expand uk-text-left">
                     @context.vendor_display_name
                 </Column>
-            </Grid> 
+            </Grid>
         </Grid>
     </ResultTemplate>
 </BlazoredTypeahead>
@@ -30,7 +30,8 @@
     [Parameter] public string placeholder { get; set; } = "Select Vendor";
     [Parameter] public VendorModel vendor { get; set; }
     [Parameter] public EventCallback<VendorModel> vendorChanged { get; set; }
-    [Parameter] public EventCallback<int> vendor_changed { get; set; }
+    [Parameter] public EventCallback<int> vendor_idChanged { get; set; }
+    [Parameter] public int vendor_id { get; set; }
     public async Task<IEnumerable<VendorModel>> Search(string searchText)
     {
         string api_url = $"vendor?$select=id,vendor_code,vendor_name,mobile_phone,company_name,photo&filter=status eq true and is_deleted eq false&$orderby=vendor_name asc&$top=10&?keyword={searchText}";
@@ -74,11 +75,11 @@
             vendorChanged.InvokeAsync(value);
             if (value == null)
             {
-                vendor_changed.InvokeAsync(0);
+                vendor_idChanged.InvokeAsync(0);
             }
             else
             {
-                vendor_changed.InvokeAsync(value.id);
+                vendor_idChanged.InvokeAsync(value.id);
             }
 
         }

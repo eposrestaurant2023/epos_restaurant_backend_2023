@@ -5,7 +5,7 @@
             <label class="uk-form-label">@label</label>
         </Com> 
         <div class="uk-form-controls"> 
-            <VendorTypeahead @bind-vendor="@vendor" vendor_changed="@OnSelectVendor"/>
+            <VendorTypeahead vendor="@vendor" vendorChanged="@OnSelectVendor" />
             @ChildContent
         </div>
     </div>
@@ -20,9 +20,11 @@
     [Parameter] public int vendor_id { get; set; } = 0;
     [Parameter] public EventCallback<int> vendor_idChanged { get; set; }
 
-    async Task OnSelectVendor()
+    async Task OnSelectVendor(VendorModel _vendor)
     {
-        await vendor_idChanged.InvokeAsync(vendor.id);
+        vendor_id = _vendor.id;
+        vendor = _vendor;
+        await vendor_idChanged.InvokeAsync(vendor.id); 
         await vendorChanged.InvokeAsync(vendor); 
     }
      

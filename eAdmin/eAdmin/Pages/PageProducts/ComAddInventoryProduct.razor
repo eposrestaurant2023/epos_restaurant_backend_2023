@@ -5,7 +5,7 @@
     </Com>
     <Com is_visible="@(model.is_ingredient_product || model.is_inventory_product)">
         @JsonSerializer.Serialize(model.vendor)
-        <SelectVendorTypeaheadForm vendor="model.vendor" vendorChanged="OnSelectVendor"/>
+        <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
     </Com>
     <Com is_visible="@(is_show_ingredient && (model.is_ingredient_product || model.is_inventory_product))">
         <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />

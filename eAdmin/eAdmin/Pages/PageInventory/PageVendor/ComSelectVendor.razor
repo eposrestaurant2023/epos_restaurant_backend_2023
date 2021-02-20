@@ -20,7 +20,7 @@
                             </div>
                         </Com>
                         <Com is_visible="@(vendor?.vendor_display_name is null)">
-                            <VendorTypeahead @bind-vendor="@vendor" vendor_changed="@OnSelectVendor"/>
+                            <VendorTypeahead vendor="@vendor" vendorChanged="@OnSelectVendor"/>
                         </Com>
                     </div>
                     <Button icon="search" OnClick="@(() => is_open = true)" is_visible="@(vendor_id == 0)" custom_class="btn-typeahead-action"/>

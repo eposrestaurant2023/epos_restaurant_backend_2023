@@ -5,12 +5,13 @@
 @inject IHttpService  http;
 @inject NavigationManager nav;
 @inject IStringLocalizer<Resource> localizer
+@inject IConfiguration config
 
 
 
 <AuthorizeView>
     <Authorized>
-        <Redirect url="dashboard" />
+        <Redirect url="@(config.GetValue<string>("siteName"))" />
     </Authorized>
     <NotAuthorized Context="x">
         <EditForm Model="model" OnValidSubmit="LoginUser">
@@ -89,12 +90,10 @@
             if (user != null)
             {
                 try
-                {
-
+                { 
                     var user_convert = EncryptProvider.Base64Encrypt(resp.Content.ToString());
                     await storageService.SetItemAsync("_Authorization", user_convert);
-                    await authenticationStateProvider.GetAuthenticationStateAsync();
-                    nav.NavigateTo("Resterant2021", true);
+                    await authenticationStateProvider.GetAuthenticationStateAsync(); 
                 }
                 catch (Exception ex)
                 {
