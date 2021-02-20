@@ -97,17 +97,23 @@ namespace eAPI.Controllers
                 u.password = EncryptProvider.Base64Encrypt(password);
             }
             //dup user code
-            var d = db.Users.Where(r=>r.id == u.id).First();
-            if (db.Users.Where(r => (r.user_code == u.user_code) && (u.user_code != d.user_code)).Count()>0)
-            {
-                return StatusCode(301, $"User Code {u.user_code} is already exists.");
-            }
+
             if (u.id == 0)
-            {                
+            {
+                var user = db.Users.Where(r => r.user_code == u.user_code && r.is_deleted == false);
+                if (user.Count() > 0)
+                {
+                    return StatusCode(301, $"User Code {u.user_code} is already exists.");
+                }
                 db.Users.Add(u);
             }
             else
             {
+                var user = db.Users.Where(r => r.user_code == u.user_code && r.id != u.id && r.is_deleted == false);
+                if (user.Count() > 0)
+                {
+                    return StatusCode(301, $"User Code {u.user_code} is already exists.");
+                }
                 u.role = null;
                 db.Users.Update(u);
             }
