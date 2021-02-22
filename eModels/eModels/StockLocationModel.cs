@@ -13,6 +13,10 @@ namespace eModels
     [Table("tbl_stock_location")]
     public class StockLocationModel
     {
+        public StockLocationModel()
+        {
+            stock_location_products = new List<StockLocationProductModel>();
+        }
         [Key]
         public int id { get; set; }
         public Guid business_branch_id { get; set; }
@@ -23,5 +27,28 @@ namespace eModels
 
         [NotMapped, JsonIgnore]
         public string bustiness_branch_name { get; set; }
+
+        public List<StockLocationProductModel> stock_location_products { get; set; }
     }
+
+    
+    [Table("tbl_stock_location_product")]
+    public class StockLocationProductModel
+    {
+        [Key]
+        public int id { get; set; }
+        public int stock_location_id { get; set; }
+        [ForeignKey("stock_location_id")]
+        public StockLocationModel stock_location { get; set; }
+              public int product_id { get; set; }
+        [ForeignKey("product_id")]
+        public ProductModel product { get; set; }
+
+        public decimal quantity { get; set; }
+        public decimal min_quantity { get; set; }
+        public decimal max_quantity { get; set; }
+
+    }
+
+
 }

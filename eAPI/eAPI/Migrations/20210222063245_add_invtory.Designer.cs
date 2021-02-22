@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222063245_add_invtory")]
+    partial class add_invtory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -836,13 +838,6 @@ namespace eAPI.Migrations
                     b.Property<int>("inventory_transaction_type_id")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<decimal>("old_quantity")
                         .HasColumnType("decimal(19,4)");
 
@@ -850,9 +845,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("purchase_order_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("purchase_order_product_id")
                         .HasColumnType("int");
 
                     b.Property<decimal>("quantity")
@@ -875,10 +867,6 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime>("transaction_date")
                         .HasColumnType("date");
-
-                    b.Property<string>("unit")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("url")
                         .HasColumnType("nvarchar(max)")
@@ -1808,19 +1796,10 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_inventory_product")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_low_inventory")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_menu_product")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_open_product")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_out_of_stock")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_over_stock")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("max_price")
@@ -1859,11 +1838,11 @@ namespace eAPI.Migrations
                     b.Property<int>("product_type_id")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
+
+                    b.Property<int>("unit_category_id")
+                        .HasColumnType("int");
 
                     b.Property<int>("unit_id")
                         .HasColumnType("int");
@@ -1876,6 +1855,8 @@ namespace eAPI.Migrations
                     b.HasIndex("product_category_id");
 
                     b.HasIndex("product_type_id");
+
+                    b.HasIndex("unit_category_id");
 
                     b.HasIndex("unit_id");
 
@@ -2385,9 +2366,8 @@ namespace eAPI.Migrations
                     b.Property<decimal>("total_discount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<string>("unit")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
+                    b.Property<int>("unit_id")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -2396,6 +2376,8 @@ namespace eAPI.Migrations
                     b.HasIndex("product_type_id");
 
                     b.HasIndex("purchase_order_id");
+
+                    b.HasIndex("unit_id");
 
                     b.ToTable("tbl_purchase_order_product");
                 });
@@ -2626,20 +2608,8 @@ namespace eAPI.Migrations
                     b.Property<decimal>("multiplier")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<string>("product_code")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<int>("product_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("product_name_en")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("product_name_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("product_type_id")
                         .HasColumnType("int");
@@ -2693,16 +2663,9 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .HasColumnType("int");
 
-                    b.Property<string>("group_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("input_type")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("is_public")
-                        .HasColumnType("bit");
 
                     b.Property<string>("setting_description")
                         .HasColumnType("nvarchar(max)")
@@ -2711,13 +2674,6 @@ namespace eAPI.Migrations
                     b.Property<string>("setting_title")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("setting_value")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -4170,6 +4126,12 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.UnitCategoryModel", "unit_category")
+                        .WithMany()
+                        .HasForeignKey("unit_category_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eModels.UnitModel", "unit")
                         .WithMany()
                         .HasForeignKey("unit_id")
@@ -4185,6 +4147,8 @@ namespace eAPI.Migrations
                     b.Navigation("product_type");
 
                     b.Navigation("unit");
+
+                    b.Navigation("unit_category");
 
                     b.Navigation("vendor");
                 });
@@ -4337,11 +4301,19 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.UnitModel", "unit")
+                        .WithMany()
+                        .HasForeignKey("unit_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("product");
 
                     b.Navigation("product_type");
 
                     b.Navigation("purchase_order");
+
+                    b.Navigation("unit");
                 });
 
             modelBuilder.Entity("eModels.SaleModel", b =>
@@ -4372,7 +4344,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.SaleProductModel", b =>
                 {
                     b.HasOne("eModels.ProductModel", "product")
-                        .WithMany("sale_products")
+                        .WithMany()
                         .HasForeignKey("product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -4737,8 +4709,6 @@ namespace eAPI.Migrations
                     b.Navigation("product_portions");
 
                     b.Navigation("product_printers");
-
-                    b.Navigation("sale_products");
 
                     b.Navigation("stock_location_products");
                 });

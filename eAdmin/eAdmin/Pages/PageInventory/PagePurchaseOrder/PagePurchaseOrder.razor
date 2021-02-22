@@ -1,5 +1,7 @@
 ﻿@page "/purchaseorder"
 @inherits PagePurchaseOrderBase
+@inject IStringLocalizer<Resource> lang;
+
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -55,12 +57,12 @@
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        @HeaderTemplate("purchase_date", "PO Date", "uk-text-center")
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("referance_number", "Referance#", "uk-text-center")
-                        @HeaderTemplate("vendor/vendor_name", "Vendor", "col-auto") 
-                        @HeaderTemplate("stock_location/stock_location_name", "Stock Location (Business Branch)")
-                        <ThRight>Total Amount</ThRight>
+                        @HeaderTemplate("purchase_date", lang["PO Date"], "uk-text-center")
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")
+                        @HeaderTemplate("vendor/vendor_name", lang["Vendor"], "col-auto")
+                        @HeaderTemplate("stock_location/stock_location_name", lang["Stock Location (Business Branch)"])
+                        <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>Paid Amount</ThRight>
                         <ThRight>Balance</ThRight>
                         <ThCenter>Status</ThCenter>
@@ -78,7 +80,7 @@
                             <ComAuthorize roles="@gv.GetRole("vendor_view")" url="@($"vendor/{p.vendor_id}")">
                                 <ComVendorInfo vendor="p.vendor" />
                             </ComAuthorize>
-                        </td> 
+                        </td>
                         <td>
                             @p.stock_location?.stock_location_name (@p.business_branch?.business_branch_name_en)
                         </td>

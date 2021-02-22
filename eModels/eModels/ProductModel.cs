@@ -20,9 +20,19 @@ namespace eModels
             product_portions = new List<ProductPortionModel>();
             product_menus = new List<ProductMenuModel>();
             product_modifiers = new List<ProductModifierModel>();
-          
+            stock_location_products = new List<StockLocationProductModel>();
+            sale_products = new List<SaleProductModel>();
 
         }
+
+        public bool is_out_of_stock { get; set; } = false;
+        public bool is_low_inventory { get; set; } = false;
+        public bool is_over_stock { get; set; } = false;
+        public decimal quantity { get; set; }
+
+
+
+        public List<StockLocationProductModel> stock_location_products { get; set; }
 
         [Required(ErrorMessage = "Please select a category.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
@@ -117,6 +127,7 @@ namespace eModels
 
 
         public List<ProductModifierModel> product_modifiers { get; set; }
+        public List<SaleProductModel> sale_products { get; set; }
 
 
         public decimal min_price { get; set; }
@@ -207,8 +218,8 @@ namespace eModels
     {
         public ProductModel product { get; set; }
         // Both Data
-        public UnitModel unit { get; set; }
-        public int unit_id { get; set; }
+        public UnitModel unit { get; set; }        
+        public int unit_category_id { get; set; }
         public decimal price { get; set; }
         public decimal cost { get; set; }
         public decimal quantity { get; set; } = 1;

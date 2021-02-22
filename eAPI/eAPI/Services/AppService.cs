@@ -74,57 +74,20 @@ namespace eAPI.Services
             db.DocumentNumbers.Update(dc);
             await db.SaveChangesAsync();
         }
-        //public string GetProductDocumentNumber(ProductCategoryModel pc)
-        //{
-        //    generate_code:
-        //    string code = "";
-
-        //    if (string.IsNullOrEmpty(pc.format))
-        //    {
-        //        code =  string.Format("{0}{1:" + pc.digit + "}", pc.prefix, pc.counter + 1);
-        //    }
-        //    else
-        //    {
-        //        code =  string.Format("{0}{1:" + pc.format + "}{2:" + pc.digit + "}", pc.prefix, DateTime.Now, pc.counter + 1);
-        //    }
-        //    //check with database
-        //    var data = db.Products.Where(r => r.product_code.Trim().ToLower() == code.ToLower().Trim()).ToList();
-        //    if (data.Any())
-        //    {
-        //        pc.counter = pc.counter + 1;
-        //        goto generate_code;
-        //    }
-        //    pc.counter = pc.counter + 1;
-        //    return code;
 
 
-        //}
+        public async Task AddInventoryTransaction(InventoryTransactionModel item)
+        {
 
-
-
-        //public async Task SaveProductDocumentNumber(int id)
-        //{
-        //    ProductCategoryModel pc = db.ProductCategories.Find(id);
-
-        //    pc.counter = pc.counter + 1;
-        //    db.ProductCategories.Update(pc);
-        //    await db.SaveChangesAsync();
-
-
-        //}
-
-        //public async Task AddInventoryTransaction(InventoryTransactionModel item)
-        //{
-           
-        //    db.InventoryTransactions.Add(item);
-        //    try
-        //    {
-        //        await db.SaveChangesAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ex.ToString();
-        //    }
-        //}
+            db.InventoryTransactions.Add(item);
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+        }
     }
 }

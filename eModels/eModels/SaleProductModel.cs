@@ -34,7 +34,7 @@ namespace eModels
         public int unit_id { get; set; } = 1;
         [ForeignKey("unit_id")]
         public UnitModel unit { get; set; }
-
+       
 
         private decimal _multipler = 1;
 

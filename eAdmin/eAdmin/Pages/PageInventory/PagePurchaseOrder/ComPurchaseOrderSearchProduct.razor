@@ -74,10 +74,8 @@
                         ProductModel p = data.FirstOrDefault();
                         SelectedProductModel sp = new SelectedProductModel();
                         sp.product = p;
+                        sp.unit = p.unit;
                         sp.cost = p.cost;
-                        sp.unit = sp.unit;
-                        sp.unit_id = p.unit_id;
-                        sp.is_allow_discount = p.is_allow_discount;
                         await productChanged.InvokeAsync(sp);
                         keyword = "";
                     }
