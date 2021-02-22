@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222063245_add_invtory")]
+    partial class add_invtory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1794,19 +1796,10 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_inventory_product")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_low_inventory")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_menu_product")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_open_product")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_out_of_stock")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_over_stock")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("max_price")
@@ -1844,9 +1837,6 @@ namespace eAPI.Migrations
 
                     b.Property<int>("product_type_id")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");

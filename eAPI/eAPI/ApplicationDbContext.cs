@@ -128,6 +128,10 @@ namespace eAPI
         public DbSet<UnitModel> Units { get; set; }
         public DbSet<UnitCategoryModel> UnitCategorys { get; set; }
         public DbSet<ProductIngredientRelatedModel> ProductIngredientRelateds { get; set; }
+        public DbSet<InventoryTransactionModel> InventoryTransactions{ get; set; }
+        public DbSet<InventoryTransactionTypeModel> InventoryTransactionTypes{ get; set; }
+        public DbSet<StockLocationProductModel> StockLocationProducts{ get; set; }
+
 
     }
 

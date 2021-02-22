@@ -20,9 +20,18 @@ namespace eModels
             product_portions = new List<ProductPortionModel>();
             product_menus = new List<ProductMenuModel>();
             product_modifiers = new List<ProductModifierModel>();
-          
+            stock_location_products = new List<StockLocationProductModel>();
 
         }
+
+        public bool is_out_of_stock { get; set; } = false;
+        public bool is_low_inventory { get; set; } = false;
+        public bool is_over_stock { get; set; } = false;
+        public decimal quantity { get; set; }
+
+
+
+        public List<StockLocationProductModel> stock_location_products { get; set; }
 
         [Required(ErrorMessage = "Please select a category.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
