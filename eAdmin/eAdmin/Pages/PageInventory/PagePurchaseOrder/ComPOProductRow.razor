@@ -46,8 +46,10 @@
     } 
 </TdCenter>
 <TdCenter>
-@purchase_order_product.unit_category_id | @JsonSerializer.Serialize(purchase_order_product.unit)
-    <SelectUnit is_relevance_category="true" @bind-unit="@purchase_order_product.unit" unit_category_id="@purchase_order_product.unit_category_id" show_empty="false"/>
+@purchase_order_product.unit.unit_category_id | @JsonSerializer.Serialize(purchase_order_product.unit)
+    <Com is_visible="@(purchase_order_product.unit != null)">
+        <SelectUnit is_relevance_category="true" @bind-unit="@purchase_order_product.unit" unit_category_id="@purchase_order_product.unit.unit_category_id" show_empty="false"/>
+    </Com>
 </TdCenter>
 <TdRight>
     <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@purchase_order_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />

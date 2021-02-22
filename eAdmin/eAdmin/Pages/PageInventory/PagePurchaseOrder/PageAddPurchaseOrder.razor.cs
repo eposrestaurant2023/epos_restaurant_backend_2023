@@ -69,7 +69,6 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             d.product = sp.product;
             d.unit = sp.unit;
             d.unit_id = sp.unit.id;
-            d.unit_category_id = sp.unit_category_id;
             d.product_type_id = sp.product.product_type_id; 
             d.is_allow_discount = sp.is_allow_discount;
             d.quantity = sp.quantity;
@@ -128,6 +127,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             {
                 string url = $"PurchaseOrder({id})?";
                 url += $"$expand=vendor,";
+                url += $"unit,";
                 url += $"purchase_order_payments($expand=payment_type;$filter=is_deleted eq false),";
                 url += $"purchase_order_products($expand=product;$filter=is_deleted eq false)";
                 var resp = await http.ApiGet(url);
