@@ -123,22 +123,6 @@ namespace eAPI.Controllers
             }
         }
 
-        [HttpGet("SaleProduct")]
-        [EnableQuery(MaxExpansionDepth =0)]
-        public async Task<List<SaleProductModel>> GetSaleProduct(string keyword)
-        {
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                return  await (db.SaleProducts.Where(r =>
-                (
-                (r.selling_price.ToString() ?? "") +
-                (r.sale.document_number ?? "")
-                
-                ).ToLower().Trim().Contains(keyword.ToLower().Trim())).ToListAsync());
-            }
-            return  await (db.SaleProducts.ToListAsync());
-
-        }
 
         [HttpGet("NoteCategory")]
         [EnableQuery]

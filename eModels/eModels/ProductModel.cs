@@ -21,6 +21,7 @@ namespace eModels
             product_menus = new List<ProductMenuModel>();
             product_modifiers = new List<ProductModifierModel>();
             stock_location_products = new List<StockLocationProductModel>();
+            sale_products = new List<SaleProductModel>();
 
         }
 
@@ -129,6 +130,7 @@ namespace eModels
 
 
         public List<ProductModifierModel> product_modifiers { get; set; }
+        public List<SaleProductModel> sale_products { get; set; }
 
 
         public decimal min_price { get; set; }

@@ -120,6 +120,9 @@
   <data name="helloworld" xml:space="preserve">
     <value>សួស្តី!</value>
   </data>
+  <data name="Total Amount" xml:space="preserve">
+    <value>សូមស្វាគមន៍</value>
+  </data>
   <data name="welcome" xml:space="preserve">
     <value>សូមស្វាគមន៍</value>
   </data>

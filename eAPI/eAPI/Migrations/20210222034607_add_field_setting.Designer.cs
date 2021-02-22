@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222034607_add_field_setting")]
+    partial class add_field_setting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -817,84 +819,6 @@ namespace eAPI.Migrations
                     b.HasIndex("vendor_id");
 
                     b.ToTable("tbl_history");
-                });
-
-            modelBuilder.Entity("eModels.InventoryTransactionModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("inventory_transaction_type_id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("old_quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("purchase_order_id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("quantity_on_hand")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int?>("sale_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("stock_location_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("stock_take_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("stock_transfer_id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("transaction_date")
-                        .HasColumnType("date");
-
-                    b.Property<string>("url")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("inventory_transaction_type_id");
-
-                    b.HasIndex("product_id");
-
-                    b.HasIndex("stock_location_id");
-
-                    b.ToTable("tbl_inventory_transaction");
-                });
-
-            modelBuilder.Entity("eModels.InventoryTransactionTypeModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("inventory_transaction_type_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_inventory_transaction_type");
                 });
 
             modelBuilder.Entity("eModels.MenuModel", b =>
@@ -1794,19 +1718,10 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_inventory_product")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_low_inventory")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_menu_product")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_open_product")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_out_of_stock")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_over_stock")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("max_price")
@@ -1844,9 +1759,6 @@ namespace eAPI.Migrations
 
                     b.Property<int>("product_type_id")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -2811,37 +2723,6 @@ namespace eAPI.Migrations
                     b.HasIndex("business_branch_id");
 
                     b.ToTable("tbl_stock_location");
-                });
-
-            modelBuilder.Entity("eModels.StockLocationProductModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<decimal>("max_quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("min_quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("stock_location_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("product_id");
-
-                    b.HasIndex("stock_location_id");
-
-                    b.ToTable("tbl_stock_location_product");
                 });
 
             modelBuilder.Entity("eModels.StockTakeModel", b =>
@@ -3903,33 +3784,6 @@ namespace eAPI.Migrations
                     b.Navigation("vendor");
                 });
 
-            modelBuilder.Entity("eModels.InventoryTransactionModel", b =>
-                {
-                    b.HasOne("eModels.InventoryTransactionTypeModel", "inventory_transaction_type")
-                        .WithMany("inventory_transactions")
-                        .HasForeignKey("inventory_transaction_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany()
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("inventory_transaction_type");
-
-                    b.Navigation("product");
-
-                    b.Navigation("stock_location");
-                });
-
             modelBuilder.Entity("eModels.MenuModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -4434,25 +4288,6 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
                 });
 
-            modelBuilder.Entity("eModels.StockLocationProductModel", b =>
-                {
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany("stock_location_products")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany("stock_location_products")
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
-
-                    b.Navigation("stock_location");
-                });
-
             modelBuilder.Entity("eModels.StockTakeModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -4678,11 +4513,6 @@ namespace eAPI.Migrations
                     b.Navigation("customer_business_branchs");
                 });
 
-            modelBuilder.Entity("eModels.InventoryTransactionTypeModel", b =>
-                {
-                    b.Navigation("inventory_transactions");
-                });
-
             modelBuilder.Entity("eModels.MenuModel", b =>
                 {
                     b.Navigation("menus");
@@ -4746,7 +4576,6 @@ namespace eAPI.Migrations
 
                     b.Navigation("product_printers");
 
-                    b.Navigation("stock_location_products");
                     b.Navigation("sale_products");
                 });
 
@@ -4790,11 +4619,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.SettingModel", b =>
                 {
                     b.Navigation("business_branch_settings");
-                });
-
-            modelBuilder.Entity("eModels.StockLocationModel", b =>
-                {
-                    b.Navigation("stock_location_products");
                 });
 
             modelBuilder.Entity("eModels.StockTakeModel", b =>
