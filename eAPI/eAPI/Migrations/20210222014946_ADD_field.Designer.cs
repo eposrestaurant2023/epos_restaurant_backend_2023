@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222014946_ADD_field")]
+    partial class ADD_field
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2595,16 +2597,9 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .HasColumnType("int");
 
-                    b.Property<string>("group_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("input_type")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("is_public")
-                        .HasColumnType("bit");
 
                     b.Property<string>("setting_description")
                         .HasColumnType("nvarchar(max)")
@@ -2613,13 +2608,6 @@ namespace eAPI.Migrations
                     b.Property<string>("setting_title")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("setting_value")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");

@@ -116,5 +116,9 @@ namespace eShareModel
             set { _total_amount = value; }
         }
 
+        public string product_name_en { get; set; }
+        public string product_name_kh { get; set; }
+        public string product_code { get; set; }
+
     }
 }

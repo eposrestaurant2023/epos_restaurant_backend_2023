@@ -20,7 +20,7 @@ namespace eModels
             product_portions = new List<ProductPortionModel>();
             product_menus = new List<ProductMenuModel>();
             product_modifiers = new List<ProductModifierModel>();
-          
+            sale_products = new List<SaleProductModel>();
 
         }
 
@@ -120,6 +120,7 @@ namespace eModels
 
 
         public List<ProductModifierModel> product_modifiers { get; set; }
+        public List<SaleProductModel> sale_products { get; set; }
 
 
         public decimal min_price { get; set; }
