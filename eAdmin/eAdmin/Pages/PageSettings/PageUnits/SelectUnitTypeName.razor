@@ -1,4 +1,4 @@
-﻿<div class="uk-form-horizontal">
+﻿<div class="@(is_horizontal?"uk-form-horizontal":"")">
     <div class="uk-margin-small">
         @*<label class="uk-form-label" for="@id"></label>*@
         @if (is_read_only)
@@ -27,6 +27,7 @@
     [Parameter] public string label { get; set; } = "";
     [Parameter] public string Width { get; set; } = "100%";
     [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
 
 
     [Parameter]
