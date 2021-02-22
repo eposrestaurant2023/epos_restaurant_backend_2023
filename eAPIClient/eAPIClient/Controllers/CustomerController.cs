@@ -29,11 +29,29 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)] 
-        public IQueryable<CustomerModel> Get()
+        public IQueryable<CustomerModel> Get(string keyword="")
         {
-           
+            if(string.IsNullOrEmpty(keyword))
+            {
                 return db.Customers;
-           
+
+            }
+            else
+            {
+                return (from r in db.Customers
+                        where
+                              EF.Functions.Like(
+                                  (
+                                     (r.customer_code ?? " ") +
+                                     (r.customer_name_en ?? " ") +
+                                     (r.customer_name_kh ?? " ") 
+                                  ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        select r);
+
+            }
+
+
+
         }
 
         
@@ -43,6 +61,7 @@ namespace eAPIClient.Controllers
          
             if (u.id == Guid.Empty)
             {
+                u.is_deleted = false;
                 db.Customers.Add(u);
             }
             else
