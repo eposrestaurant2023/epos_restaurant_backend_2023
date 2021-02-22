@@ -50,11 +50,8 @@ namespace eModels
 
             }
         }
-        [Required(ErrorMessage = "Please select unit.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
-        public int unit_id { get; set; } = 1;
-        [ForeignKey("unit_id")]
-        public UnitModel unit { get; set; }
+
+        public string unit { get; set; }
 
         private decimal _quantity = 1;
         public decimal quantity

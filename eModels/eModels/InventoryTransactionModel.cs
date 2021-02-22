@@ -26,6 +26,10 @@ namespace eModels
         [ForeignKey("stock_location_id")]
         public StockLocationModel stock_location { get; set; }
 
+        public int? purchase_order_product_id { get; set; }
+
+        public string unit { get; set; }
+        public decimal multiplier { get; set; }
         public decimal old_quantity { get; set; }
         public decimal quantity { get; set; }
         public decimal quantity_on_hand { get; set; }
@@ -39,6 +43,7 @@ namespace eModels
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
 
+        public string note { get; set; }
     }
 
     [Table("tbl_inventory_transaction_type")]
