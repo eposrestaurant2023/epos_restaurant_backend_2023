@@ -27,10 +27,7 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
            
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
-         
+      
         public bool is_allow_discount { get; set; } = true;
 
         public string note { get; set; }
@@ -61,23 +58,9 @@ namespace eModels
         }
 
         public decimal cost { get; set; }
-        public decimal regular_price { get; set; }
+        public decimal regular_cost { get; set; }
 
-        private decimal _selling_price;
-
-        public decimal selling_price
-        {
-            get { return _selling_price; }
-            set
-            {
-                _selling_price = value;
-                if (value <= discount)
-                {
-                    discount = value;
-                }
-            }
-        }
-
+  
 
         private decimal _discount;
 
@@ -89,11 +72,11 @@ namespace eModels
                 _discount = value;
                 if (discount_type == "Percent" && (_discount > 100))
                 {
-                    _discount = (selling_price > 100 ? 100 : selling_price);
+                    _discount = (cost > 100 ? 100 : cost);
                 }
-                else if (discount_type != "Percent" && (_discount > selling_price))
+                else if (discount_type != "Percent" && (_discount > cost))
                 {
-                    _discount = selling_price;
+                    _discount = cost;
                 }
             }
         }
@@ -108,9 +91,9 @@ namespace eModels
             set
             {
                 _discount_type = value;
-                if (value != "Percent" && discount > selling_price)
+                if (value != "Percent" && discount > cost)
                 {
-                    discount = selling_price;
+                    discount = cost;
                 }
                 else if (value == "Percent" && discount > 100)
                 {

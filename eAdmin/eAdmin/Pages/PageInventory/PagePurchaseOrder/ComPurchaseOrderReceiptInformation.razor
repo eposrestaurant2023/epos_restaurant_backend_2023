@@ -8,7 +8,7 @@
         </div>
     </div>
     <DateInput label="PO Date" value="@model.purchase_date" valueChanged="@OnDateChange" icon="layers" />
-    <SelectBusinessBranch @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
+    <SelectBusinessBranchByRole @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
     <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
 </div>
 @code{

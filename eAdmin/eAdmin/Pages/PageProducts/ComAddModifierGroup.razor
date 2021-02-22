@@ -1,0 +1,25 @@
+﻿@using eModels;
+@inherits PageCore
+
+
+<EditFormContext Cancel_Click="Cancel_click" model="@modifier" is_opened="is_dialog_open" title="@modal_title" Save_Click="@SaveUser_Click" is_submitting="modifier.is_loading" modal_width="800px">
+    <TextInput label="Name" @bind-text="@modifier.modifier_group_name">
+        <ValidationMessage For="@(() => modifier.modifier_group_name)" />
+    </TextInput>
+    <SelectStatus label=" Status" @bind-selected_value="@modifier.status" />
+</EditFormContext>
+@code{
+    [Parameter] public string modal_title { get; set; } = "";
+    [Parameter] public ModifierGroupModel modifier { get; set; } = new ModifierGroupModel();
+    [Parameter] public bool is_dialog_open { get; set; }
+
+    [Parameter] public EventCallback<ModifierGroupModel> Save_click { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
+
+    async Task SaveUser_Click()
+    {
+
+        await Save_click.InvokeAsync(modifier);
+    }
+}
+

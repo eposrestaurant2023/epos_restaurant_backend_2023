@@ -21,7 +21,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             get
             {
                 string url = $"StockTake({id})?";
-                url = url + "$expand=stock_take_products($expand=product,product_type),";  
+                url = url + "$expand=stock_take_products($expand=product),";  
                 url = url + "business_branch,";
                 url = url + "stock_location";
                 return url;

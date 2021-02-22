@@ -12,9 +12,6 @@
 {
     <Title Value="User Management"></Title>
     <PageContainer roles="@gv.GetRole("user_account")">
-        <div style="word-break:break-word">
-            @test
-        </div>
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
@@ -121,7 +118,6 @@
     bool is_dialog_open;
     string password_uri;
     string old_username = "";
-    string test = "";
     string controller_api = "User";
     string StateKey = "55sNaBpzJlLzhs9IjuzqEODlwfBSCTTx";
     public string ControllerApi

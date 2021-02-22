@@ -44,7 +44,7 @@ namespace eAPI.Controllers
             gv.product_categories = db.ProductCategories.Where(r => r.is_deleted == false).ToList();
             gv.currencies = db.Currencies.ToList();
             gv.roles = db.Roles.ToList();
-            gv.product_types = db.ProductTypes.ToList();
+ 
             gv.countries = db.Countries.ToList();
             gv.stock_locations = db.StockLocations.ToList();
             gv.outlets = db.Outlets.ToList();

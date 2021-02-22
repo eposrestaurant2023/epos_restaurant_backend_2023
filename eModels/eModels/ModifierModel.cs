@@ -7,10 +7,8 @@ using eShareModel;
 namespace eModels
 {
     [Table("tbl_modifier")]
-   public class ModifierModel     : CoreModel
+   public class ModifierModel : CoreModel
     {
-
-
         public int? modifier_group_id { get; set; }
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
@@ -18,14 +16,11 @@ namespace eModels
 
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string modifier_name { get; set; }
-
-
     }
 
     [Table("tbl_modifier_group")]
     public class ModifierGroupModel : CoreModel
     {
-
         public ModifierGroupModel()
         {
             modifiers = new List<ModifierModel>();
@@ -33,11 +28,8 @@ namespace eModels
         }
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string modifier_group_name { get; set; }
-
-
         public List<ModifierModel> modifiers { get; set; }
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
-
     }
 
 
