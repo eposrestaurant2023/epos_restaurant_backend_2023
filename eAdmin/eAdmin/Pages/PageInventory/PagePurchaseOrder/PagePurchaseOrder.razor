@@ -42,7 +42,6 @@
         </PageHeader>
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
-            @ControllerApi
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
                        PerPage="@state.pager.per_page"

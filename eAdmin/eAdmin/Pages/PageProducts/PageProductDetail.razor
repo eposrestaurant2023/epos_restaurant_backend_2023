@@ -50,8 +50,10 @@
                 <TabHeader>
                     <TabHeaderItem>General Information</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_recipe_tab=true)">Recipe</TabHeaderItem>
-                    <TabHeaderItem>Sale History</TabHeaderItem>
-                    <TabHeaderItem>Purchase History</TabHeaderItem>
+                    <TabHeaderItem OnClick="(()=>show_sale_history = true)">Sale History</TabHeaderItem>
+                    <TabHeaderItem OnClick="(()=>show_purchase_history = true)">Purchase History</TabHeaderItem>
+                    <TabHeaderItem OnClick="(()=>show_stock_stransfer = true)">Stock Transfer</TabHeaderItem>
+                    <TabHeaderItem OnClick="(()=>show_stock_take = true)">Stock Take</TabHeaderItem>
                     <TabHeaderItem>Inventory Transaction</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">Comment  and History</TabHeaderItem>
                     
@@ -66,10 +68,31 @@
                         </Com>
                     </TabItem>
                     <TabItem>
-                       <ComProductDetail_SaleHistory product_id="@id"/>
+                        @if (show_sale_history)
+                        {
+                            <ComProductDetail_SaleHistory product_id="@id" />
+                        }
+
                     </TabItem>
                     <TabItem>
-                        <ComProductDetail_POHistory product_id="@id"/>
+                        @if (show_purchase_history)
+                        {
+                        <ComProductDetail_POHistory product_id="@id" />
+                        }
+                        
+                    </TabItem>
+                    <TabItem>
+                        @if (show_stock_stransfer) { 
+
+                        <ComProductDetail_StockTransferHistory product_id="@id" />
+                        }
+
+                    </TabItem>
+                    <TabItem>
+                        @if (show_stock_take)
+                        {
+                        <ComProductDetail_StockTakeHistory product_id="@id"/>
+                        }
                     </TabItem>
                     <TabItem></TabItem>
                     <TabItem>
@@ -100,7 +123,7 @@
     [Parameter] public int id { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     public ProductModel model { get; set; }
-    bool is_loading, is_loading_data,show_comment_tab,show_recipe_tab;
+    bool is_loading, is_loading_data,show_comment_tab,show_recipe_tab,show_purchase_history,show_sale_history,show_stock_stransfer,show_stock_take;
 
     public string api_url { get {
             string url = $"Product({id})";
