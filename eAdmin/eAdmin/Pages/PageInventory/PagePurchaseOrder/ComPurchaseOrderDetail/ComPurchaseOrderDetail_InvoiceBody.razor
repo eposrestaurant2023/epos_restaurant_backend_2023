@@ -12,9 +12,7 @@
             <ComAuthorize roles="@gv.GetRole("product_management")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
                 <div>@sp.product?.product_display_name</div>
             </ComAuthorize>
-            <div>
-                <LabelProductType product_type_id="sp.product_type_id" />
-            </div>
+          
 
             @if (!string.IsNullOrEmpty(sp.note))
             {
@@ -22,7 +20,7 @@
             }
         </td>
         <TdCenter>@sp.quantity.ToString(gv.quantity_format)</TdCenter>
-        <td class="uk-text-center">@sp.unit?.unit_name</td>
+        <td class="uk-text-center">@sp.unit</td>
         <td class="uk-text-right">@sp.selling_price.ToString(gv.currency_format)</td>
         <td class="uk-text-right">
             @if (sp.discount <= 0)

@@ -7,6 +7,7 @@
     <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
         @purchase_order_product?.product?.product_code
     </ComAuthorize>
+   
 </TdCenter>
 <td>
     <div>
@@ -46,8 +47,8 @@
     } 
 </TdCenter>
 <TdCenter>
-@purchase_order_product.unit_category_id | @JsonSerializer.Serialize(purchase_order_product.unit)
-    <SelectUnit is_relevance_category="true" @bind-unit="@purchase_order_product.unit" unit_category_id="@purchase_order_product.unit_category_id" show_empty="false"/>
+    @purchase_order_product.unit | @purchase_order_product.multiplier
+    <SelectUnitName  @bind-unit_name="@purchase_order_product.unit" @bind-multiplier="@purchase_order_product.multiplier" unit_category_id="@purchase_order_product.product.unit.unit_category_id" show_empty="false"/>
 </TdCenter>
 <TdRight>
     <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@purchase_order_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />

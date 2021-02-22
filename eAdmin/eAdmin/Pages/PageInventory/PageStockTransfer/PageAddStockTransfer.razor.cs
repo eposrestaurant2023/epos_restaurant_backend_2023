@@ -64,7 +64,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             StockTransferProductModel d = new StockTransferProductModel();
             d.product_id = sp.product.id;
             d.product = sp.product;
-            d.product_type_id = sp.product.product_type_id;
+         
             d.quantity = sp.quantity;
             d.cost= sp.product.cost;
             model.stock_transfer_products.Add(d);
