@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222105213_update_tbl_product_stock_take")]
+    partial class update_tbl_product_stock_take
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -872,9 +874,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("stock_take_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("stock_take_product_id")
                         .HasColumnType("int");
 
                     b.Property<int?>("stock_transfer_id")
@@ -2872,6 +2871,9 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime>("stock_take_date")
                         .HasColumnType("date");
+
+                    b.Property<decimal>("sub_total")
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("term_conditions")
                         .HasColumnType("nvarchar(max)")

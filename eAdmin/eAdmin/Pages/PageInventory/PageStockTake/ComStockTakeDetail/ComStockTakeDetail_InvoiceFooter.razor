@@ -1,65 +1,19 @@
 ﻿ 
+<tr>
+    <td colspan="5" class="uk-text-right">Total Quantity</td>
+    <td class="uk-text-right bg_hightlight">
+        @model.active_stock_take_products.Sum(r => r.quantity).ToString(gv.quantity_format)
+    </td>
+</tr>
+@if (model.total_amount > 0)
+{
     <tr>
-        <td colspan="7" class="uk-text-right">Total Quantity</td>
+        <td colspan="5" class="uk-text-right">Total Amount</td>
         <td class="uk-text-right bg_hightlight">
-            @model.active_stock_take_products.Sum(r => r.quantity).ToString(gv.quantity_format)
+            @model.total_amount.ToString(gv.currency_format)
         </td>
     </tr>
-    <tr>
-        <td colspan="7" class="uk-text-right">Sub Total</td>
-        <td class="uk-text-right bg_hightlight">
-            @model.sub_total.ToString(gv.currency_format)
-        </td>
-    </tr>
-
-
-    @if (model.stock_take_product_discount_amount > 0)
-    {
-        <tr>
-            <td colspan="7" class="uk-text-right">Total Item Discount</td>
-            <td class="uk-text-right bg_hightlight">@model.stock_take_product_discount_amount.ToString(gv.currency_format)</td>
-        </tr>
-    }
-
-    @if (model.discount > 0 )
-    {
-        <tr>
-            <td colspan="7" class="uk-text-right">Invoice Discount @(model.discount_type == "Percent" ? ("(" + (model.discount / 100).ToString("P")) + ")" : "")</td>
-            <td class="uk-text-right bg_hightlight">
-
-                <span>
-                    @model.total_discount.ToString(gv.currency_format)
-                </span>
-
-            </td>
-        </tr>
-    }
-    @if (model.total_discount > 0)
-    {
-        <tr>
-            <td colspan="7" class="uk-text-right">Total Discount</td>
-            <td class="uk-text-right bg_hightlight">
-                @model.grand_total_discount.ToString(gv.currency_format)
-            </td>
-        </tr>
-    }
-
-    @if (model.total_amount > 0)
-    {
-        <tr>
-            <td colspan="7" class="uk-text-right">Grand Total</td>
-            <td class="uk-text-right bg_hightlight">
-                @model.total_amount.ToString(gv.currency_format)
-            </td>
-        </tr>
- }
-
-
-
- 
-
-
-
+}
 
 @code{
     [Parameter] public StockTakeModel model { get; set; }

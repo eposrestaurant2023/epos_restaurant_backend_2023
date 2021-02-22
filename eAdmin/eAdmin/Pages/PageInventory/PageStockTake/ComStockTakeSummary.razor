@@ -19,59 +19,9 @@
         <div class="wrp-sub-total uk-form-horizontal">
             <div class="uk-width-1-1">
                 <div class="uk-grid-small" uk-grid>
-                    <div class="uk-width-expand" uk-leader>Sub Total</div>
-                    <div>@model.sub_total.ToString(gv.main_currency_format)</div>
+                    <div class="uk-width-expand" uk-leader>Total Amount</div>
+                    <div>@model.total_amount.ToString(gv.main_currency_format)</div>
                 </div>
-                @if (model.stock_take_product_discount_amount > 0)
-                {
-                    <hr />
-                    <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Total Item Discount</div>
-                        <div>@model.stock_take_product_discount_amount.ToString(gv.main_currency_format)</div>
-                    </div>
-                }
-                @if (model.discountable_amount > 0)
-                {
-                    <hr />
-                    <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Discountable Amount</div>
-                        <div>@model.discountable_amount.ToString(gv.main_currency_format)</div>
-                    </div>
-                    <hr />
-                    <UkFlex class_name="uk-width-1-1">
-                        <FlexItem class_name="uk-text-left">
-                            Discount
-                        </FlexItem>
-                        <FlexItem class_name="uk-margin-left-auto">
-                            <UkFlex>
-                                <FlexItem class_name="uk-margin-remove">
-                                    <select class="uk-select uk-form-width-small uk-form-small" value="@model.discount_type" @onchange="@((e)=>OnDiscountTypeChanged((string)e.Value))">
-                                        <option value="Percent">%</option>
-                                        <option value="Amount">$</option>
-                                    </select>
-                                </FlexItem>
-                                <FlexItem class_name="uk-margin-remove">
-                                    <NumberInput text="@model.discount" textChanged="OnDiscountTypeChanged" text_format="@(model.discount_type == "Percent" ? "#,##0.##" : gv.main_currency_format)" />
-                                </FlexItem>
-                            </UkFlex>
-                        </FlexItem>
-                        <FlexItem class_name="uk-margin-remove">
-                            @model.total_discount.ToString(gv.main_currency_format)
-                        </FlexItem>
-                    </UkFlex>
-                }
-
-
-
-
-                @if (model.grand_total_discount > 0)
-                {
-                    <hr />
-                    <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Total Discount</div>
-                        <div>@model.grand_total_discount.ToString(gv.main_currency_format)</div>
-                    </div>
-                }
             </div>
         </div>
     </div>
@@ -81,15 +31,5 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public StockTakeModel model { get; set; }
     [Parameter] public EventCallback<StockTakeModel> modelChanged { get; set; } 
- 
-    async Task OnDiscountTypeChanged(string type)
-    {
-        model.discount_type = type;
-        await modelChanged.InvokeAsync(model);
-    }
-    async Task OnDiscountTypeChanged(decimal value)
-    {
-        model.discount = value;
-        await modelChanged.InvokeAsync(model);
-    }
+
 }
