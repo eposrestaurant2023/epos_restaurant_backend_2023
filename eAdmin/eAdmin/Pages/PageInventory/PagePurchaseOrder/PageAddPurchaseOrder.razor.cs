@@ -68,8 +68,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             d.product_id = sp.product.id;
             d.product = sp.product;
             d.unit = sp.unit.unit_name;
-            d.multiplier = sp.unit.multiplier;
-            d.unit_category_id = sp.unit_category_id;
+            d.multiplier = sp.unit.multiplier; 
             d.product_type_id = sp.product.product_type_id; 
             d.is_allow_discount = sp.is_allow_discount;
             d.quantity = sp.quantity;
