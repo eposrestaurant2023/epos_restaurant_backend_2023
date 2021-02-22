@@ -6,8 +6,19 @@
 
 <Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 <Com is_visible="@(!is_loading && !is_error)">
-    <Title Value="Add PO"></Title>
+    <Title Value="@title"></Title>
     <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @title
+                    </HeaderTemplate>
+                   
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true"/>
+        </PageHeader>
         <PageBody>
             <div class="content-add-sale">
                 <div class="section-content">

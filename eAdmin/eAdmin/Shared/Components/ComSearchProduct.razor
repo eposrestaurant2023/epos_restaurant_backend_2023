@@ -99,7 +99,10 @@
                                     </td>
                                     <TdRight>@p.cost.ToString(gv.main_currency_format)</TdRight>
                                     <TdCenter><NumberInput @bind-text="@p.quantity" class_name="uk-text-center uk-form-small" /></TdCenter>
-                                    <TdCenter></TdCenter>
+                                    <TdCenter>
+                                        <SelectUnit label="" @bind-unit="@p.unit" unit_category_id="@p.product.unit.unit_category_id" />
+
+                                    </TdCenter>
                                     <td>
                                         <Icon icon="delete" OnClick="@(()=> { RemoveSeletedProduct(p); })" className="icon-remove-product" title="Remove Product" />
                                     </td>
@@ -277,7 +280,7 @@
     void ChooseProduct_Click(ProductModel p)
     {
         // get selected product
-        var sp = selected_products.Where(r => r.product.id == p.id);
+        var sp = selected_products.Where(r => r.product.id == p.id && p.unit_id == r.unit.id);
         if (sp.Count() > 0)
         {
             sp.FirstOrDefault().quantity = sp.FirstOrDefault().quantity + 1;
@@ -287,6 +290,7 @@
             selected_products.Add(new SelectedProductModel()
             {
                 product = p,
+                unit = p.unit,
                 cost = p.cost,
                 quantity = 1 
             });

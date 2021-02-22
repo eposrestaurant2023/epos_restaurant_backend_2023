@@ -140,24 +140,28 @@ namespace eAPI.Controllers
             db.PurchaseOrders.Update(s);
             await db.SaveChangesAsync();
            // add to history
-            var data = db.PurchaseOrderProducts.Where(r => r.purchase_order_id == id && r.is_deleted == false);
+            var data = db.PurchaseOrderProducts.Where(r => r.purchase_order_id == id && r.is_deleted == false && r.is_inventory_product == true);
             
-            foreach (PurchaseOrderProductModel d in data.Where(r => r.is_inventory_product))
+            foreach (PurchaseOrderProductModel d in data)
             {
 
                 InventoryTransactionModel inv = new InventoryTransactionModel();
+                inv.reference_number = s.document_number;
+                inv.transaction_date = s.purchase_date;
                 inv.inventory_transaction_type_id = 4;
                 inv.stock_location_id = s.stock_location_id;
                 inv.purchase_order_id = s.id;
                 inv.product_id = d.product_id;
-                inv.purchase_order_id = d.id;
+                inv.purchase_order_product_id = d.id;
                 inv.quantity = d.quantity;
                 inv.unit = d.unit;
                 inv.multiplier = d.multiplier;
                 inv.created_by = user.created_by;
-                inv.note = $"Stock In Fulfilled ({s.document_number})";
+                inv.url = "purchaseorder/" + inv.purchase_order_id;
+                inv.note = $"Purchase Order Fulfilled ({s.document_number})";
 
                 await app.AddInventoryTransaction(inv);
+
             }
  
 
