@@ -215,12 +215,13 @@ namespace eModels
     {
         public ProductModel product { get; set; }
         // Both Data
-     
-        public int unit_category_id { get; set; }
+
         public decimal price { get; set; }
         public decimal cost { get; set; }
         public decimal quantity { get; set; } = 1;
         public bool is_allow_discount { get; set; }
+
+        public UnitModel unit { get; set; }
 
     }
 }

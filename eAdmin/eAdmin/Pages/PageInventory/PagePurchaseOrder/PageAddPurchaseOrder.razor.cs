@@ -56,7 +56,10 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
         void AddItemToSaleProduct(SelectedProductModel sp)
         {
-            var old_sale_product = model.active_purchase_order_products.Where(r => r.product.id == sp.product.id);
+            var old_sale_product = model.active_purchase_order_products.Where(r => r.product.id == sp.product.id && r.unit.Trim().ToLower() == sp.unit.unit_name.Trim().ToLower());
+
+
+
             if (old_sale_product != null && old_sale_product.Count() > 0)
             {
                 old_sale_product.FirstOrDefault().quantity = old_sale_product.FirstOrDefault().quantity + sp.quantity;
@@ -68,13 +71,14 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
             d.product_id = sp.product.id;
             d.product = sp.product;
-            d.unit = sp.product.unit.unit_name;
-            d.multiplier = sp.product.unit.multiplier;
-
-          
+            d.unit = sp.unit.unit_name;
+            d.multiplier = sp.unit.multiplier;
             d.is_allow_discount = sp.is_allow_discount;
+            d.is_inventory_product = sp.product.is_inventory_product;
             d.quantity = sp.quantity;
             d.cost= sp.product.cost;
+            d.regular_cost= sp.product.cost;
+
             d.is_allow_discount = sp.product.is_allow_discount; 
 
 
@@ -183,7 +187,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             //prepare sale data for send to controller
             PurchaseOrderModel save_model = JsonSerializer.Deserialize<PurchaseOrderModel>(JsonSerializer.Serialize(model));
             save_model.vendor = null;
-            save_model.purchase_order_products.ForEach(r => { r.product = null; r.unit = null; });
+            save_model.purchase_order_products.ForEach(r => { r.product = null; });
             save_model.stock_location = null;
             save_model.business_branch = null;
             save_model.purchase_order_payments = null;  

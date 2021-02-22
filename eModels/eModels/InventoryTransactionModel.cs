@@ -16,6 +16,9 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime transaction_date { get; set; }
 
+        public string reference_number { get; set; }
+
+
         public int inventory_transaction_type_id { get; set; }
         [ForeignKey("inventory_transaction_type_id")]
         public InventoryTransactionTypeModel inventory_transaction_type{ get; set; }
@@ -41,7 +44,7 @@ namespace eModels
 
         public string url { get; set; }
         public string created_by { get; set; }
-        public DateTime created_date { get; set; }
+        public DateTime created_date { get; set; } = DateTime.Now;
 
         public string note { get; set; }
     }

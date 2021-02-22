@@ -10,11 +10,8 @@
 }
 @if (!is_loading)
 {
-    <Title Value="modifier Management"></Title>
-    <PageContainer roles="@gv.GetRole("user_account")">
-        <div style="word-break:break-word">
-            @ControllerApi
-        </div>
+    <Title Value="Modifier Group Management"></Title>
+    <PageContainer roles="@gv.GetRole("modifier_group_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
@@ -23,13 +20,13 @@
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="Status">
-                            <ModuleView module_views="@gv.GetModuleView("page_user")" OnClick="@ViewClick" />
+                            <ModuleView module_views="@gv.GetModuleView("page_modifier")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("user_add")" OnClick="Add_click">New</AddButton>
+                <AddButton roles="@gv.GetRole("modifier_add")" OnClick="Add_click">New</AddButton>
                 <RefreshButton OnClick="@OnInitializedAsync" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
@@ -45,34 +42,35 @@
                        Items="@modifer_groups"
                        ShowCounter="true">
                     <TableHeader>
-                        @HeaderTemplate("modifier_group_name", "Name", "uk-width-auto uk-text-left")
+                        @HeaderTemplate("modifier_group_name", "Name", "col-auto")
                         <ThCenter>Status</ThCenter>
                         <th></th>
                     </TableHeader>
                     <RowTemplate Context="m">
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("user_edit")" OnClick="@(() => Edit_Click(m))">
+                            <ComAuthorize roles="@gv.GetRole("modifier_edit")" OnClick="@(() => Edit_Click(m))">
                                 @m.modifier_group_name
                             </ComAuthorize>
                         </td>
                         <TdCenter>
-                            <LabelActive is_visible="@(m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("user_edit")" is_loading="@m.is_change_status" />
-                            <LabelInActive is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("user_edit")" is_loading="@m.is_change_status" />
+                            <LabelActive is_visible="@(m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
+                            <LabelInActive is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
                             <LabelDeleted is_visible="@(m.is_deleted)" />
                         </TdCenter>
                         <TdCenter>
                             <ComTableActions is_loading="@(m.is_loading)">
-                                <TableActionItem roles="@gv.GetRole("user_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">Edit</TableActionItem>
-                                <TableActionItem icon="check" roles="@gv.GetRole("user_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">Active</TableActionItem>
-                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("user_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">Inactive</TableActionItem>
-                                <TableActionItem icon="delete" roles="@gv.GetRole("user_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">Delete</TableActionItem>
-                                <TableActionItem icon="refresh" roles="@gv.GetRole("user_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">Restore</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">Edit</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">Clone</TableActionItem>
+                                <TableActionItem icon="check" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">Active</TableActionItem>
+                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">Inactive</TableActionItem>
+                                <TableActionItem icon="delete" roles="@gv.GetRole("modifier_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">Delete</TableActionItem>
+                                <TableActionItem icon="refresh" roles="@gv.GetRole("modifier_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">Restore</TableActionItem>
                             </ComTableActions>
                         </TdCenter>
                     </RowTemplate>
                 </Table>
             </div>
-            <AuthorizeView Roles="@gv.GetRole($"{(modifier.id == 0 ? "user_add" : "user_edit")}")">
+            <AuthorizeView Roles="@gv.GetRole($"{(modifier.id == 0 ? "modifier_add" : "modifier_edit")}")">
                 @if (is_dialog_open)
                 {
                     <ComAddModifierGroup is_dialog_open="@is_dialog_open" modifier="@modifier" Cancel_click="@(() => { is_dialog_open = false; modifier = new ModifierGroupModel(); })" Save_click="@Save_Click" modal_title="@title" />
@@ -89,9 +87,6 @@
     ModifierGroupModel modifier = new ModifierGroupModel();
     int TotalItem;
     bool is_dialog_open;
-    string password_uri;
-    string old_username = "";
-    string test = "";
     string controller_api = "ModifierGroup";
     string StateKey = "55sNaBpzJlLzh21535lkinhglwfBSCTTx";
 
@@ -118,7 +113,7 @@
         if (state.page_title == "")
         {
             state.page_title = $"All modifier";
-            var default_view = gv.GetDefaultModuleView("page_user");
+            var default_view = gv.GetDefaultModuleView("page_modifier");
             if (default_view != null)
             {
                 state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
@@ -138,17 +133,13 @@
 
     async Task LoadData(string api_url = "")
     {
-
         is_loading = true;
         if (string.IsNullOrEmpty(api_url))
         {
-
             api_url = $"{ControllerApi}";
             state.api_url = api_url;
             await SetState(StateKey, state);
-
         }
-
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {
@@ -156,7 +147,6 @@
             TotalItem = resp.Count;
         }
         is_loading = false;
-
     }
 
     async Task Edit_Click(ModifierGroupModel _user)
@@ -190,14 +180,27 @@
             {
                 state.pager.current_page = state.pager.current_page - 1;
             }
-
+            await LoadData();
         }
         else
         {
             toast.Add(resp.Content.ToString(), MatToastType.Danger);
 
         }
-        u.is_loading = true;
+        u.is_loading = false;
+    }
+
+    async Task Clone_Click(int id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiPost(controller_api +"/clone/"+ $"{id}");
+        if (resp.IsSuccess)
+        {
+            modifier = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+        }
+        title = "Clone : " + modifier.modifier_group_name;
+        is_dialog_open = true;
+        is_loading_data = false;
     }
 
     async Task OnRestore(ModifierGroupModel p)
@@ -305,23 +308,19 @@
     async Task Save_Click(ModifierGroupModel modifier)
     {
         modifier.is_loading = true;
-
-        if (modifier.id > 0 && modifier.id == gv.current_login_user.id)
+        var res = await http.ApiPost($"{controller_api}/save", modifier);
+        if (res.IsSuccess)
         {
-            var res = await http.ApiPost($"modifier/save", modifier);
-            if (res.IsSuccess)
-            {
-                var u = JsonSerializer.Deserialize<ModifierGroupModel>(res.Content.ToString());
-                toast.Add("Save Successfully", MatToastType.Success);
-                await LoadData();
-                is_dialog_open = false;
-            }
-            else
-            {
-                toast.Add(res.Content.ToString(), MatToastType.Warning);
-            }
-            modifier.is_loading = false;
+            var u = JsonSerializer.Deserialize<ModifierGroupModel>(res.Content.ToString());
+            toast.Add("Save Successfully", MatToastType.Success);
+            await LoadData();
+            is_dialog_open = false;
         }
+        else
+        {
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+        }
+        modifier.is_loading = false;
     }
 }
 
