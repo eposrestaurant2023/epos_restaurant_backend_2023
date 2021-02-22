@@ -64,7 +64,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             StockTakeProductModel d = new StockTakeProductModel();
             d.product_id = sp.product.id;
             d.product = sp.product;
-            d.product_type_id = sp.product.product_type_id;
+            
             d.quantity = sp.quantity;
             d.cost= sp.product.cost;
             model.stock_take_products.Add(d);

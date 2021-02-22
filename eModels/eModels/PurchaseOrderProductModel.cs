@@ -27,10 +27,7 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
            
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
-         
+      
         public bool is_allow_discount { get; set; } = true;
 
         public string note { get; set; }

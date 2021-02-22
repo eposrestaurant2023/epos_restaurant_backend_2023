@@ -62,7 +62,7 @@
     {
         if (keyword != "")
         {
-            string api = $"Product?$filter=tolower(product_code) eq '{keyword.Trim().ToLower()}' {filter_for_PO}";
+            string api = $"Product?$expand=unit&$filter=tolower(product_code) eq '{keyword.Trim().ToLower()}' {filter_for_PO}";
             var resp = await http.ApiGetOData(api);
             if (resp.IsSuccess)
             {
@@ -74,7 +74,7 @@
                         ProductModel p = data.FirstOrDefault();
                         SelectedProductModel sp = new SelectedProductModel();
                         sp.product = p;
-                        sp.unit = p.unit;
+                         
                         sp.cost = p.cost;
                         await productChanged.InvokeAsync(sp);
                         keyword = "";
