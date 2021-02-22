@@ -39,10 +39,7 @@ namespace eModels
         public int product_category_id { get; set; }
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
-
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
+ 
 
         [MaxLength(50)]
         public string product_code { get; set; }
@@ -68,9 +65,6 @@ namespace eModels
 
         public string photo { get; set; } = "placeholder.png";
         public string note { get; set; }
-        public int unit_category_id { get; set; } = 1;
-        [ForeignKey("unit_category_id")]
-        public UnitCategoryModel unit_category { get; set; }
 
         [Required(ErrorMessage = "Please select unit.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
@@ -221,7 +215,7 @@ namespace eModels
     {
         public ProductModel product { get; set; }
         // Both Data
-        public UnitModel unit { get; set; }        
+     
         public int unit_category_id { get; set; }
         public decimal price { get; set; }
         public decimal cost { get; set; }

@@ -96,7 +96,7 @@
         var resp = await http.ApiPost("UnitCategory/save/multiple", unit_categories);
         if (resp.IsSuccess)
         {
-            toast.Add("Save Printer successfully", MatToastType.Success);
+            toast.Add("Save Unit successfully", MatToastType.Success);
             await LoadData();
         }
         else

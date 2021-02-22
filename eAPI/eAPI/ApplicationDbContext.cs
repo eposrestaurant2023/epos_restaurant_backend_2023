@@ -90,7 +90,7 @@ namespace eAPI
         public DbSet<ProductGroupModel> ProductGroups { get; set; }
         public DbSet<ProductCategoryModel> ProductCategories{ get; set; }
         public DbSet<ProductModel> Products{ get; set; }
-        public DbSet<ProductTypeModel> ProductTypes{ get; set; }          
+         
         public DbSet<StockLocationModel> StockLocations{ get; set; }
         public DbSet<VendorModel> Vendors{ get; set; }
         public DbSet<BusinessInformationModel> BusinessInformations{ get; set; }

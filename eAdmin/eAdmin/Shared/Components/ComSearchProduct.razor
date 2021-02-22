@@ -97,9 +97,9 @@
                                             <div>@p.product?.product_display_name</div>
                                         </div>
                                     </td>
-                                    <TdRight>@p.cost.ToString(gv.main_currency_format) @(System.Text.Json.JsonSerializer.Serialize(p.unit))</TdRight>
+                                    <TdRight>@p.cost.ToString(gv.main_currency_format)</TdRight>
                                     <TdCenter><NumberInput @bind-text="@p.quantity" class_name="uk-text-center uk-form-small" /></TdCenter>
-                                    <TdCenter><SelectUnit is_relevance_category="true" @bind-unit="@p.unit" show_empty="false" label=""/></TdCenter>
+                                    <TdCenter></TdCenter>
                                     <td>
                                         <Icon icon="delete" OnClick="@(()=> { RemoveSeletedProduct(p); })" className="icon-remove-product" title="Remove Product" />
                                     </td>
@@ -274,7 +274,6 @@
         is_loading = false;
     }
 
-
     void ChooseProduct_Click(ProductModel p)
     {
         // get selected product
@@ -289,9 +288,7 @@
             {
                 product = p,
                 cost = p.cost,
-                quantity = 1,
-                unit_category_id = p.unit_category_id,
-                unit = p.unit
+                quantity = 1 
             });
         }
 
