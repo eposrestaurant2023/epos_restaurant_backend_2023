@@ -43,6 +43,7 @@ namespace eAPIClient.Controllers
          
             if (u.id == Guid.Empty)
             {
+                u.is_deleted = false;
                 db.Customers.Add(u);
             }
             else
