@@ -1,12 +1,12 @@
 ﻿ 
     <tr>
-        <td colspan="7" class="uk-text-right">Total Quantity</td>
+        <td colspan="6" class="uk-text-right">Total Quantity</td>
         <td class="uk-text-right bg_hightlight">
             @po.active_purchase_order_products.Sum(r => r.quantity).ToString(gv.quantity_format)
         </td>
     </tr>
     <tr>
-        <td colspan="7" class="uk-text-right">Sub Total</td>
+        <td colspan="6" class="uk-text-right">Sub Total</td>
         <td class="uk-text-right bg_hightlight">
             @po.sub_total.ToString(gv.currency_format)
         </td>
@@ -16,7 +16,7 @@
     @if (po.po_product_discount_amount > 0)
     {
         <tr>
-            <td colspan="7" class="uk-text-right">Total Item Discount</td>
+            <td colspan="6" class="uk-text-right">Total Item Discount</td>
             <td class="uk-text-right bg_hightlight">@po.po_product_discount_amount.ToString(gv.currency_format)</td>
         </tr>
     }
@@ -24,7 +24,7 @@
     @if (po.discount > 0 )
     {
         <tr>
-            <td colspan="7" class="uk-text-right">Invoice Discount @(po.discount_type == "Percent" ? ("(" + (po.discount / 100).ToString("P")) + ")" : "")</td>
+            <td colspan="6" class="uk-text-right">Invoice Discount @(po.discount_type == "Percent" ? ("(" + (po.discount / 100).ToString("P")) + ")" : "")</td>
             <td class="uk-text-right bg_hightlight">
 
                 <span>
@@ -37,7 +37,7 @@
     @if (po.total_discount > 0)
     {
         <tr>
-            <td colspan="7" class="uk-text-right">Total Discount</td>
+            <td colspan="6" class="uk-text-right">Total Discount</td>
             <td class="uk-text-right bg_hightlight">
                 @po.grand_total_discount.ToString(gv.currency_format)
             </td>
@@ -47,7 +47,7 @@
     @if (po.total_amount > 0)
     {
         <tr>
-            <td colspan="7" class="uk-text-right">Grand Total</td>
+            <td colspan="6" class="uk-text-right">Grand Total</td>
             <td class="uk-text-right bg_hightlight">
                 @po.total_amount.ToString(gv.currency_format)
             </td>
@@ -56,7 +56,7 @@
     @if (po.paid_amount > 0)
     {
         <tr>
-            <td colspan="7" class="uk-text-right">Total Paid</td>
+            <td colspan="6" class="uk-text-right">Total Paid</td>
             <td class="uk-text-right bg_hightlight">
                 <div class="uk-inline">
                     <a> @po.paid_amount.ToString(gv.currency_format)</a>
@@ -81,7 +81,7 @@
     @if (po.paid_amount > 0)
     {
         <tr>
-            <td colspan="7" class="uk-text-right">Balance Due</td>
+            <td colspan="6" class="uk-text-right">Balance Due</td>
             <td class="uk-text-right bg_hightlight">
                 @po.balance.ToString(gv.currency_format)
             </td>

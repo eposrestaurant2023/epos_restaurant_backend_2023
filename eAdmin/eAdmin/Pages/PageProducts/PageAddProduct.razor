@@ -55,7 +55,7 @@
                                         <ValidationMessage For="@(()=>model.product_category_id)" />
                                     </SelectProductCategory>
                                     <SelectUnitCategory label="Unit Category" @bind-selected_value="@unit_category_id" show_empty="false"/>
-                                    <SelectUnit label="Unit" @bind-unit="@model.unit" @bind-selected_value="@model.unit_id" unit_category_id="@unit_category_id" is_relevance_category="true" show_empty="true">
+                                    <SelectUnit label="Unit" @bind-unit="@model.unit" @bind-selected_value="@model.unit_id" unit_category_id="@unit_category_id"   show_empty="true">
                                         <ValidationMessage For="@(()=>model.unit_id)" />
                                     </SelectUnit>
                                     <ComInputCheckBox @bind-value="@model.is_allow_discount" label="Allow Discount" />
