@@ -64,7 +64,6 @@
         var purchase_order_product = JsonSerializer.Deserialize<PurchaseOrderProductModel>(json);
         purchase_order_product.id = 0;
         model.purchase_order_products.Add(purchase_order_product);
-
         await modelChanged.InvokeAsync(model);
     }
 }

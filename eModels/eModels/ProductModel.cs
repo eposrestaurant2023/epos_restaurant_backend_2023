@@ -20,19 +20,26 @@ namespace eModels
             product_portions = new List<ProductPortionModel>();
             product_menus = new List<ProductMenuModel>();
             product_modifiers = new List<ProductModifierModel>();
-          
+            stock_location_products = new List<StockLocationProductModel>();
+            sale_products = new List<SaleProductModel>();
 
         }
+
+        public bool is_out_of_stock { get; set; } = false;
+        public bool is_low_inventory { get; set; } = false;
+        public bool is_over_stock { get; set; } = false;
+        public decimal quantity { get; set; }
+
+
+
+        public List<StockLocationProductModel> stock_location_products { get; set; }
 
         [Required(ErrorMessage = "Please select a category.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
         public int product_category_id { get; set; }
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
-
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
+ 
 
         [MaxLength(50)]
         public string product_code { get; set; }
@@ -58,9 +65,6 @@ namespace eModels
 
         public string photo { get; set; } = "placeholder.png";
         public string note { get; set; }
-        public int unit_category_id { get; set; } = 1;
-        [ForeignKey("unit_category_id")]
-        public UnitCategoryModel unit_category { get; set; }
 
         [Required(ErrorMessage = "Please select unit.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
@@ -120,6 +124,7 @@ namespace eModels
 
 
         public List<ProductModifierModel> product_modifiers { get; set; }
+        public List<SaleProductModel> sale_products { get; set; }
 
 
         public decimal min_price { get; set; }
@@ -210,7 +215,8 @@ namespace eModels
     {
         public ProductModel product { get; set; }
         // Both Data
-        public string unit { get; set; } = "Unit";
+     
+        public int unit_category_id { get; set; }
         public decimal price { get; set; }
         public decimal cost { get; set; }
         public decimal quantity { get; set; } = 1;

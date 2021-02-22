@@ -20,7 +20,13 @@ namespace eModels
         public string setting_title { get; set; }
         public string setting_description { get; set; }
         public string input_type { get; set; }
+
+        public int sort_order { get; set; }
+        public string setting_value { get; set; }
+        public string group_name { get; set; }
         public bool status { get; set; }
+        public bool is_public { get; set; }
+        
 
         [NotMapped ]
         [JsonIgnore]

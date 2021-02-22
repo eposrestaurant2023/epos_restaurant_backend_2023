@@ -24,17 +24,14 @@ namespace eModels
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
-
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
+ 
 
         [Required(ErrorMessage = "Please select unit.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
         public int unit_id { get; set; } = 1;
         [ForeignKey("unit_id")]
         public UnitModel unit { get; set; }
-
+       
 
         private decimal _multipler = 1;
 

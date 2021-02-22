@@ -27,10 +27,7 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
            
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
-         
+      
         public bool is_allow_discount { get; set; } = true;
 
         public string note { get; set; }
@@ -50,11 +47,8 @@ namespace eModels
 
             }
         }
-        [Required(ErrorMessage = "Please select unit.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
-        public int unit_id { get; set; } = 1;
-        [ForeignKey("unit_id")]
-        public UnitModel unit { get; set; }
+
+        public string unit { get; set; }
 
         private decimal _quantity = 1;
         public decimal quantity
@@ -177,8 +171,6 @@ namespace eModels
 
         [NotMapped, JsonIgnore]
         public bool is_can_delete { get; set; } = true;
-
-       
     }
 
 }
