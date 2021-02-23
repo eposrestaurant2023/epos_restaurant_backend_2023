@@ -42,8 +42,8 @@ namespace eAPIClient.Controllers
                         where
                               EF.Functions.Like(
                                   (
-                                     (r.customer_code ?? " ") +
-                                     (r.customer_name_en ?? " ") +
+                                     (r.customer_code ?? " ") + " " +
+                                     (r.customer_name_en ?? " ") + " "+
                                      (r.customer_name_kh ?? " ") 
                                   ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                         select r);
