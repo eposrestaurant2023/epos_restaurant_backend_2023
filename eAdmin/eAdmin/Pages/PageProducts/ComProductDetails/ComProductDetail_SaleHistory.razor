@@ -13,7 +13,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @state.page_title
+                        All Sale History
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -44,10 +44,11 @@
                        EmptyText="There is no record.">
                     <TableHeader>
                         @HeaderTemplate("sale/sale_date", "Sale Date", "uk-text-center")
+                        @HeaderTemplate("sale/document_number", "Document", "uk-text-center")
                         @HeaderTemplate("sale/customer/customer_name_en", "Customer", "col-auto")
                         @HeaderTemplate("unit", "Unit", "uk-text-center")
-                        @HeaderTemplate("selling_price", "Selling Price")
-                        <ThRight>Quantity</ThRight>
+                        @HeaderTemplate("selling_price", "Selling Price", "uk-text-rigth")
+                        <ThCenter>Quantity</ThCenter>
                         <ThRight>Total Amount</ThRight>
                         <ThRight>Grand Total</ThRight>
                         <ThCenter>Created Date</ThCenter>
@@ -56,18 +57,26 @@
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.sale?.sale_date.ToString(gv.date_format)</TdCenter>
+                        <TdCenter>
+                            <a href="@($"receiptlist/{p.sale_id}")">
+                                @p.sale?.document_number
+                            </a>
+                        </TdCenter>
                         <td>
-                            @p.sale?.customer?.customer_code_name
+                            <a href="@($"customer/{p.sale?.customer?.id}")">
+                                @p.sale?.customer?.customer_code_name
+                             </a>
+
                         </td>
                         <TdCenter>
                             <div>@p.unit?.unit_name</div>
                         </TdCenter>
-                        <td>
-                            @p.selling_price
-                        </td>
-                        <td>
-                            @p.quantity
-                        </td>
+                        <TdRight>
+                            @p.selling_price.ToString(gv.currency_format)
+                        </TdRight>
+                        <TdCenter>
+                            @p.quantity.ToString(gv.quantity_format)
+                        </TdCenter>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
@@ -77,7 +86,7 @@
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>
                         <TdCenter>
-                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
                         </TdCenter>
                     </RowTemplate>
                 </Table>

@@ -54,7 +54,7 @@
                     <TabHeaderItem OnClick="(()=>show_purchase_history = true)">Purchase History</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_stock_stransfer = true)">Stock Transfer</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_stock_take = true)">Stock Take</TabHeaderItem>
-                    <TabHeaderItem>Inventory Transaction</TabHeaderItem>
+                    <TabHeaderItem OnClick="(()=>show_inventory_strasation = true)">Inventory Transaction</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">Comment  and History</TabHeaderItem>
                     
                 </TabHeader>
@@ -94,7 +94,11 @@
                         <ComProductDetail_StockTakeHistory product_id="@id"/>
                         }
                     </TabItem>
-                    <TabItem></TabItem>
+                    <TabItem>
+                        @if (show_inventory_strasation)
+                        {
+                        <ComProductDetail_InventoryTransactionHistory product_id="@id"/> }
+                    </TabItem>
                     <TabItem>
                         @if (show_comment_tab)
                         {
@@ -123,7 +127,7 @@
     [Parameter] public int id { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     public ProductModel model { get; set; }
-    bool is_loading, is_loading_data,show_comment_tab,show_recipe_tab,show_purchase_history,show_sale_history,show_stock_stransfer,show_stock_take;
+    bool is_loading, is_loading_data, show_comment_tab, show_recipe_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation;
 
     public string api_url { get {
             string url = $"Product({id})";
@@ -165,7 +169,7 @@
                 toast.Add("delete product successfully", MatToastType.Success);
                 model.is_deleted = true;
 
-            } 
+            }
         }
 
 

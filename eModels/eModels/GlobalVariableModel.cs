@@ -30,6 +30,7 @@ namespace eModels
         public List<RoleModel> roles { get; set; }
         public List<ModuleViewModel> module_views { get; set; }
         public List<StockLocationModel> stock_locations { get; set; }
+        public List<InventoryTransactionTypeModel> inventory_transaction_type { get; set; }
         public List<OutletModel> outlets { get; set; }
         public List<StockTransferModel> stock_stransfer { get; set; }
  

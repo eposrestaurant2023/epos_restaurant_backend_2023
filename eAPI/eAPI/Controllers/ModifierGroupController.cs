@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
-
 namespace eAPI.Controllers
 {
     [ApiController]
@@ -33,7 +32,8 @@ namespace eAPI.Controllers
             {
                 return db.ModifierGroups.Where(r =>
                 (
-                (r.modifier_group_name ?? "") 
+                (r.modifier_group_name_en ?? "") +
+                (r.modifier_group_name_kh ?? "") 
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
             else
@@ -54,12 +54,19 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ModifierGroupModel u)
         {
+            db.Database.ExecuteSqlRaw($"delete tbl_modifier where modifier_group_id = {u.id}");
+            db.Database.ExecuteSqlRaw($"delete tbl_modifier_group_item where modifier_group_id = {u.id}");
+            db.Database.ExecuteSqlRaw($"delete tbl_modifier_group_product_category where modifer_group_id = {u.id}");
+            db.Modifiers.AddRange(u.modifiers);
+            db.ModifierGroupItems.AddRange(u.modifier_group_items);
+            db.ModifierGroupProductCategories.AddRange(u.modifier_group_product_categories);
             if (u.id == 0)
             {
                 db.ModifierGroups.Add(u);
             }
             else
-            {                
+            {             
+                
                 db.ModifierGroups.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));

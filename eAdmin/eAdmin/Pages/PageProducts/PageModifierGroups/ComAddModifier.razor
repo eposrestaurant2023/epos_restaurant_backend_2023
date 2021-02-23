@@ -1,0 +1,40 @@
+﻿<UIContainerBox Title="Modifiers">
+    <ModifierTypeahead @bind-modifier="@modifier" />
+    <hr />
+    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <Th>Modifier Name</Th>
+            <ThCenter></ThCenter>
+        </tr>
+        @foreach (var m in models.Where(r => r.is_deleted == false))
+        {
+            <tr>
+                <td>
+                    @m.modifier_name
+                </td>
+                <TdCenter>
+                    @*<Icon icon="delete" OnClick="@(()=>DeleteModifier(m))" is_visible="@(m.modifier_group_id==0)" />*@
+                </TdCenter>
+            </tr>
+        }
+    </table>
+
+</UIContainerBox>
+@code{
+    public List<ModifierModel> models { get; set; } = new List<ModifierModel>();
+    private ModifierModel model;
+    public ModifierModel modifier
+    {
+        get { return model; }
+        set
+        {
+
+            if (!models.Where(r => r.is_deleted == false).Any())
+            {
+                models.Add(new ModifierModel() { modifier_name = value.modifier_name, id = value.id });
+            }
+            value = null;
+            model = value;
+        }
+    }
+}
