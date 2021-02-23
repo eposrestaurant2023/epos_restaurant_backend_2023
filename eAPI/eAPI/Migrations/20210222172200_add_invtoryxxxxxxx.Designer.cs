@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222172200_add_invtoryxxxxxxx")]
+    partial class add_invtoryxxxxxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -882,9 +884,6 @@ namespace eAPI.Migrations
                     b.Property<int?>("stock_take_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("stock_take_product_id")
-                        .HasColumnType("int");
-
                     b.Property<int?>("stock_transfer_id")
                         .HasColumnType("int");
 
@@ -1022,12 +1021,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("modifier_group_name_en")
+                    b.Property<string>("modifier_group_name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("modifier_group_name_kh")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -2858,9 +2853,22 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("discount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<string>("discount_type")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("discountable_amount")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<string>("document_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("grand_total_discount")
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -2885,11 +2893,20 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("stock_take_date")
                         .HasColumnType("date");
 
+                    b.Property<decimal>("stock_take_product_discount_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("sub_total")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<string>("term_conditions")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("total_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("total_discount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_quantity")
@@ -2930,7 +2947,17 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("discount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<string>("discount_type")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<decimal>("grand_total")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("invoice_discount_amount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
@@ -2955,9 +2982,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("quantity")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<decimal>("regular_cost")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -2970,15 +2994,19 @@ namespace eAPI.Migrations
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<string>("unit")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
+                    b.Property<decimal>("total_discount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<int>("unit_id")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
                     b.HasIndex("product_id");
 
                     b.HasIndex("stock_take_id");
+
+                    b.HasIndex("unit_id");
 
                     b.ToTable("tbl_stock_take_product");
                 });
@@ -4391,9 +4419,17 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.UnitModel", "unit")
+                        .WithMany()
+                        .HasForeignKey("unit_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("product");
 
                     b.Navigation("stock_take");
+
+                    b.Navigation("unit");
                 });
 
             modelBuilder.Entity("eModels.StockTransferModel", b =>

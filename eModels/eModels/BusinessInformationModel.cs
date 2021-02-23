@@ -26,6 +26,7 @@ namespace eModels
         public string contact_phone_number { get; set; }
         public string contact_office_number { get; set; }
         public string contact_email { get; set; }
+        public string color { get; set; }
     }
 
     [Table("tbl_business_branch")]
@@ -85,6 +86,7 @@ namespace eModels
         public string website { get; set; }
           
         public string note{ get; set; }
+        public string color{ get; set; }
 
         public string logo { get; set; }
         public List<OutletModel>  outlets { get; set; }
