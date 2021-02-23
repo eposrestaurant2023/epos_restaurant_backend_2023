@@ -13,7 +13,9 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>@state.page_title</HeaderTemplate>
+                    <HeaderTemplate>
+                      Stock Stransfer History
+                    </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
@@ -53,22 +55,27 @@
                         @HeaderTemplate("stock_transfer/stock_transfer_date",lang["Date"], "uk-text-center")
                         @HeaderTemplate("stock_transfer/document_number",lang["Document#"], "uk-text-center")
                         <ThCenter>Reference Number</ThCenter>
+                        <ThAuto>Note</ThAuto>
                         <ThCenter>Quantity</ThCenter>
                         <ThRight>Cost</ThRight>
                         <ThRight> Grand Total</ThRight>
                         <ThCenter>Created Date</ThCenter>
-                        <Th>Created By</Th>
+                        <ThCenter>Created By</ThCenter>
                     </TableHeader>
                     <RowTemplate Context="p">
+                        
                         <TdCenter>@p.stock_transfer?.stock_transfer_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
                             @p.stock_transfer?.document_number
                         </TdCenter>
-                        <td>
+                        <TdCenter>
                             @p.stock_transfer?.reference_number
+                        </TdCenter>
+                        <td>
+                            @p.stock_transfer?.note
                         </td>
                         <TdCenter>
-                            @p.quantity
+                            @p.quantity.ToString(gv.quantity_format)
                         </TdCenter>
                         <TdRight>
                             @p.cost.ToString(gv.main_currency_format)
@@ -76,8 +83,8 @@
                         <TdRight>
                             @p.grand_total.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
-                        <td>@p.created_by</td>
+                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
+                        <TdCenter>@p.created_by</TdCenter>
                     </RowTemplate>
                 </Table>
             </Com>

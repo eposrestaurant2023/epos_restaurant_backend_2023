@@ -57,6 +57,7 @@ namespace eAPI.Controllers
             gv.price_rules= db.PriceRules.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.units= db.Units.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.unit_categories= db.UnitCategorys.ToList();
+            gv.inventory_transaction_type= db.InventoryTransactionTypes.ToList();
 
             return Ok(gv);
         }

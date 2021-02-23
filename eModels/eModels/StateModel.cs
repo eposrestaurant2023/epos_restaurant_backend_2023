@@ -37,6 +37,19 @@ namespace eModels
             }
         }
 
+        private InventoryTransactionTypeModel _inventory_stransation_type = new InventoryTransactionTypeModel();
+
+        public InventoryTransactionTypeModel inventory_stransation_type
+        {
+            get { return _inventory_stransation_type; }
+            set
+            {
+                _inventory_stransation_type = value;
+                if (value == null)
+                    inventory_stransation_type = new InventoryTransactionTypeModel();
+            }
+        }
+
         private ProductCategoryModel _product_category = new ProductCategoryModel();
 
         public ProductCategoryModel product_category
