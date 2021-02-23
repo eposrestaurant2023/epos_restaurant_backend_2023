@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210223073929_dd")]
+    partial class dd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,10 +134,6 @@ namespace eAPI.Migrations
                     b.Property<string>("business_branch_name_kh")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("color")
-                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("created_by")
@@ -306,10 +304,6 @@ namespace eAPI.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("address")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("color")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -994,21 +988,6 @@ namespace eAPI.Migrations
                     b.HasIndex("parent_id");
 
                     b.ToTable("tbl_menu");
-                });
-
-            modelBuilder.Entity("eModels.ModifierGroupItemModel", b =>
-                {
-                    b.Property<int>("modifier_group_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("modifier_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("modifier_group_id", "modifier_id");
-
-                    b.HasIndex("modifier_id");
-
-                    b.ToTable("tbl_modifier_group_item");
                 });
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
@@ -3907,25 +3886,6 @@ namespace eAPI.Migrations
                     b.Navigation("parent");
                 });
 
-            modelBuilder.Entity("eModels.ModifierGroupItemModel", b =>
-                {
-                    b.HasOne("eModels.ModifierGroupModel", "modifier_group")
-                        .WithMany("modifier_group_items")
-                        .HasForeignKey("modifier_group_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany("modifier_group_items")
-                        .HasForeignKey("modifier_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("modifier");
-
-                    b.Navigation("modifier_group");
-                });
-
             modelBuilder.Entity("eModels.ModifierGroupProductCategoryModel", b =>
                 {
                     b.HasOne("eModels.ModifierGroupModel", "modifier_group")
@@ -4155,7 +4115,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
                 {
                     b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany("product_modifiers")
+                        .WithMany()
                         .HasForeignKey("modifier_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -4607,18 +4567,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
                 {
-                    b.Navigation("modifier_group_items");
-
                     b.Navigation("modifier_group_product_categories");
 
                     b.Navigation("modifiers");
-                });
-
-            modelBuilder.Entity("eModels.ModifierModel", b =>
-                {
-                    b.Navigation("modifier_group_items");
-
-                    b.Navigation("product_modifiers");
                 });
 
             modelBuilder.Entity("eModels.OutletModel", b =>

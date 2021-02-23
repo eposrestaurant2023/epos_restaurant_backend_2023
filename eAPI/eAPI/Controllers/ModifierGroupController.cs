@@ -33,7 +33,8 @@ namespace eAPI.Controllers
             {
                 return db.ModifierGroups.Where(r =>
                 (
-                (r.modifier_group_name ?? "") 
+                (r.modifier_group_name_en ?? "") +
+                (r.modifier_group_name_kh ?? "") 
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
             else

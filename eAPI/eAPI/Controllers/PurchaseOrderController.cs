@@ -52,7 +52,7 @@ namespace eAPI.Controllers
         {
             if (p.id == 0)
             {
-                var doc = db.DocumentNumbers.Where(r => r.document_name == "PO Document");
+                var doc = db.DocumentNumbers.Where(r => r.document_name == "PO Document" );
                 string document_number = await app.GetDocumentNumber(doc.FirstOrDefault());
                 p.document_number = document_number;
             }

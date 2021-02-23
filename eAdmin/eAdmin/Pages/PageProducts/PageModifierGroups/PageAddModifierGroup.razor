@@ -1,0 +1,137 @@
+﻿@page "/modifiergroup/new"
+@page "/modifiergroup/edit/{id:int}"
+@page "/modifiergroup/clone/{clone_id:int}"
+@inherits PageCore
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@if (!is_loading && !is_error)
+{
+    <Title Value="@title"></Title>
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @title
+                    </HeaderTemplate>
+
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@modifier_group"  @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox>
+                        <TextInput label="Name En" text="@modifier_group.modifier_group_name_en">
+                            <ValidationMessage For="@(()=>modifier_group.modifier_group_name_en)" />
+                        </TextInput>
+                        <TextInput label="Name Kh" text="@modifier_group.modifier_group_name_kh" />
+                        <SelectStatus @bind-selected_value="@modifier_group.status" />
+                    </UIContainerBox>
+                </UIGridCenter>
+                <UIGridCenter>
+                    <ComAddModifier models="@modifiers" />
+                </UIGridCenter>
+                <UIGridCenter>
+                    <UIContainerBox>
+                            <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Modifier Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var m in modifiers.Where(r=>r.is_deleted == false))
+                                    {
+                                    <tr>
+                                        <td>
+                                            <InputCheckbox @bind-Value="@m.is_selected" />
+                                        </td>
+                                        <td>@m.modifier_name</td>
+                                    </tr>
+                                    }
+                                </tbody>                                    
+                            </table>
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <ComButtonLoading is_loading="@is_saving">
+                        <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("product_add")" type="submit">Save</Button>
+                        @*<Button icon="save" class_name="uk-button uk-button-primary button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("product_add")" type="submit">Save & New</Button>*@
+                        @*<Button OnClick="@OnCancel" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>*@
+                    </ComButtonLoading>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+}
+else
+{
+    <Spinner />
+}
+@if (is_error)
+{
+    <Error title="Product">@error_text</Error>
+}
+
+@code{      
+    [Parameter] public int clone_id { get; set; }
+    [Parameter] public int id { get; set; }
+    string controller_api = "ModifierGroup";
+    ModifierGroupModel modifier_group = new ModifierGroupModel();
+    List<ModifierModel> modifiers = new List<ModifierModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        await LoadModifiers();
+    }
+
+    async Task LoadData()
+    {
+        is_loading = true;
+        if (clone_id > 0 || id > 0)
+        {
+            if (clone_id > 0)
+            {
+                var resp = await http.ApiGet(controller_api + $"/clone/{clone_id}");
+                if (resp.IsSuccess)
+                {
+                    modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+                }
+            }
+            else
+            {
+                var resp = await http.ApiGet(controller_api + $"/edit/{id}");
+                if (resp.IsSuccess)
+                {
+                    modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+                }
+            }
+        }
+        else
+        {
+            title = "Add New Modifier Group";
+            modifier_group = new ModifierGroupModel();
+        }
+        is_loading = false;
+    }
+
+    async Task LoadModifiers()
+    {
+        var res = await http.ApiGetOData($"Modifier?$expand=product_modifiers&$filter= is_deleted eq false");
+        if (res.IsSuccess)
+        {
+
+        }
+    }
+}

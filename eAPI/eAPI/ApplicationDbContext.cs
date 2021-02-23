@@ -44,6 +44,7 @@ namespace eAPI
                 .HasOne(pt => pt.permission_option)
                 .WithMany(p => p.permission_option_roles)
                 .HasForeignKey(pt => pt.permission_option_id);                   
+            builder.Entity<ModifierGroupItemModel>().HasKey(t => new { t.modifier_group_id, t.modifier_id});
             builder.Entity<CustomerBusinessBranchModel>().HasKey(t => new { t.customer_id, t.business_branch_id});
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
