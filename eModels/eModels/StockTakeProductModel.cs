@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,6 @@ namespace eModels
 
         public bool is_inventory_product { get; set; }
         public bool is_fulfilled { get; set; }
-        public decimal multiplier { get; set; } = 1 ;
         public int stock_take_id { get; set; }
         [ForeignKey("stock_take_id")]
         public StockTakeModel stock_take { get; set; }
@@ -27,13 +27,9 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
            
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; } 
-
+    
         public string note { get; set; }
-
-        public string unit { get; set; } = "Unit";
+         
       
         private decimal _quantity = 1;
         public decimal quantity
@@ -43,48 +39,11 @@ namespace eModels
         }
 
         public decimal cost { get; set; }
+        public decimal regular_cost { get; set; }
 
-
-        private decimal _discount;
-
-        public decimal discount
-        {
-            get { return _discount; }
-            set
-            {
-                _discount = value;
-                if (discount_type == "Percent" && (_discount > 100))
-                {
-                    _discount = (cost > 100 ? 100 : cost);
-                }
-                else if (discount_type != "Percent" && (_discount > cost))
-                {
-                    _discount = cost;
-                }
-            }
-        }
-        public decimal invoice_discount_amount { get; set; }
         public decimal grand_total { get; set; }
 
-        private string _discount_type = "Percent";//  Percentage , Amount
-
-        public string discount_type
-        {
-            get { return _discount_type; }
-            set
-            {
-                _discount_type = value;
-                if (value != "Percent" && discount > cost)
-                {
-                    discount = cost;
-                }
-                else if (value == "Percent" && discount > 100)
-                {
-                    discount = 100;
-                }
-            }
-        }
-
+  
 
         private decimal _sub_total;
         public decimal sub_total
@@ -97,34 +56,35 @@ namespace eModels
             set { _sub_total = value; }
         }
 
-        private decimal _total_discount;
-        public decimal total_discount
-        {
-            get
-            {
-                if (discount_type == "Percent")
-                    _total_discount = sub_total * discount / 100;
-                else
-                    _total_discount = discount;
-
-                return _total_discount;
-            }
-            set { _total_discount = value; }
-        }
-
+ 
 
         private decimal _total_amount;
         public decimal total_amount
         {
             get
             {
-                _total_amount = sub_total - total_discount;
+                _total_amount = sub_total;
                 return _total_amount;
             }
             set { _total_amount = value; }
         }
 
+        private decimal _multipler = 1;
 
+        public decimal multiplier
+        {
+            get { return _multipler; }
+            set
+            {
+                if (value == 0)
+                {
+                    value = 1;
+                }
+                _multipler = value;
+
+            }
+        }
+        public string unit { get; set; }
 
         private bool _is_add_note;
         [NotMapped, JsonIgnore]

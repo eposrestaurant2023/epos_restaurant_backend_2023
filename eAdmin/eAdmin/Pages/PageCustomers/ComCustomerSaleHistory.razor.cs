@@ -69,11 +69,11 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 state.filters.Add(new FilterModel()
                 {
                     key = "business_branch_id",
-                    value1 = gv.business_branch_ids_filter,
+                    value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.business_branch_ids_filter,
+                    filter_info_text = gv.business_branch_ids_filter_1,
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false
@@ -85,11 +85,11 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 state.filters.Add(new FilterModel()
                 {
                     key = "outlet_id",
-                    value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter),
+                    value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
                     filter_title = "Outlet",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter),
+                    filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false
@@ -191,11 +191,11 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 state.filters.Add(new FilterModel()
                 {
                     key = "business_branch_id",
-                    value1 = gv.business_branch_ids_filter,
+                    value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.business_branch_ids_filter,
+                    filter_info_text = gv.business_branch_ids_filter_1,
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false

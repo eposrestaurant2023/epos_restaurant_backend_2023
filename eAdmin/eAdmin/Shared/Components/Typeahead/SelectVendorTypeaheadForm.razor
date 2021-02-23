@@ -4,7 +4,7 @@
         <Com is_visible="@(!string.IsNullOrEmpty(label))">
             <label class="uk-form-label">@label</label>
         </Com> 
-        <div class="uk-form-controls"> 
+        <div class="uk-form-controls form-controls-typeahead"> 
             <VendorTypeahead vendor="@vendor" vendorChanged="@OnSelectVendor" />
             @ChildContent
         </div>

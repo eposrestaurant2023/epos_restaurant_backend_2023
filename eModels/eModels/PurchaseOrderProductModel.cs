@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,6 @@ namespace eModels
 
         public bool is_inventory_product { get; set; }
         public bool is_fulfilled { get; set; }
-        public decimal multiplier { get; set; } = 1 ;
         public int purchase_order_id { get; set; }
         [ForeignKey("purchase_order_id")]
         public PurchaseOrderModel purchase_order { get; set; }
@@ -27,16 +27,32 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
            
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
-         
+      
         public bool is_allow_discount { get; set; } = true;
 
         public string note { get; set; }
 
-        public string unit { get; set; } = "Unit";
-      
+        private decimal _multipler = 1;
+
+        public decimal multiplier
+        {
+            get { return _multipler; }
+            set
+            {
+
+                if (value == 0)
+                {
+                    value = 1;
+                }
+                cost = (regular_cost / _multipler) * value;
+                regular_cost = (regular_cost / _multipler) * value; 
+                _multipler = value;
+
+            }
+        }
+
+        public string unit { get; set; }
+
         private decimal _quantity = 1;
         public decimal quantity
         {
@@ -45,23 +61,9 @@ namespace eModels
         }
 
         public decimal cost { get; set; }
-        public decimal regular_price { get; set; }
+        public decimal regular_cost { get; set; }
 
-        private decimal _selling_price;
-
-        public decimal selling_price
-        {
-            get { return _selling_price; }
-            set
-            {
-                _selling_price = value;
-                if (value <= discount)
-                {
-                    discount = value;
-                }
-            }
-        }
-
+  
 
         private decimal _discount;
 
@@ -73,11 +75,11 @@ namespace eModels
                 _discount = value;
                 if (discount_type == "Percent" && (_discount > 100))
                 {
-                    _discount = (selling_price > 100 ? 100 : selling_price);
+                    _discount = (cost > 100 ? 100 : cost);
                 }
-                else if (discount_type != "Percent" && (_discount > selling_price))
+                else if (discount_type != "Percent" && (_discount > cost))
                 {
-                    _discount = selling_price;
+                    _discount = cost;
                 }
             }
         }
@@ -92,9 +94,9 @@ namespace eModels
             set
             {
                 _discount_type = value;
-                if (value != "Percent" && discount > selling_price)
+                if (value != "Percent" && discount > cost)
                 {
-                    discount = selling_price;
+                    discount = cost;
                 }
                 else if (value == "Percent" && discount > 100)
                 {
@@ -158,8 +160,6 @@ namespace eModels
 
         [NotMapped, JsonIgnore]
         public bool is_can_delete { get; set; } = true;
-
-       
     }
 
 }

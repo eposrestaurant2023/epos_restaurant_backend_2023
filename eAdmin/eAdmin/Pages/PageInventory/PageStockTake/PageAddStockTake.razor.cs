@@ -52,23 +52,32 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
         void AddItemToSaleProduct(SelectedProductModel sp)
         {
-            var old_sale_product = model.active_stock_take_products.Where(r => r.product.id == sp.product.id);
+            var old_sale_product = model.active_stock_take_products.Where(r => r.product.id == sp.product.id && r.unit.Trim().ToLower() == sp.unit.unit_name.Trim().ToLower());
+
+
+
             if (old_sale_product != null && old_sale_product.Count() > 0)
             {
                 old_sale_product.FirstOrDefault().quantity = old_sale_product.FirstOrDefault().quantity + sp.quantity;
                 return;
             }
 
-
             //add new record
             StockTakeProductModel d = new StockTakeProductModel();
+
             d.product_id = sp.product.id;
             d.product = sp.product;
-            d.product_type_id = sp.product.product_type_id;
+            d.unit = sp.unit.unit_name;
+            d.multiplier = sp.unit.multiplier; 
+            d.is_inventory_product = sp.product.is_inventory_product;
             d.quantity = sp.quantity;
-            d.cost= sp.product.cost;
+            d.cost = sp.product.cost;
+            d.regular_cost = sp.product.cost; 
+
+
+
+
             model.stock_take_products.Add(d);
-            
 
         }
 
@@ -84,7 +93,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             if (id > 0)
             {
                 string url = $"StockTake({id})?";
-                url += $"$expand=stock_take_products($expand=product;$filter=is_deleted eq false)";
+                url += $"$expand=stock_take_products($expand=product($expand=unit);$filter=is_deleted eq false)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
@@ -122,8 +131,6 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             save_model.business_branch = null;
 
             is_saving = true;
-
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
 
             var resp = await http.ApiPost("StockTake/save", save_model);
             if (resp.IsSuccess)

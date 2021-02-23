@@ -1,0 +1,326 @@
+﻿@page "/modifergroup";
+@inherits PageCore
+@inject IMatToaster Toaster
+@using eModels;
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+@if (!is_loading)
+{
+    <Title Value="Modifier Group Management"></Title>
+    <PageContainer roles="@gv.GetRole("modifier_group_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle>
+                    <HeaderTemplate>
+                        @state.page_title
+                    </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="Status">
+                            <ModuleView module_views="@gv.GetModuleView("page_modifier")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <AddButton roles="@gv.GetRole("modifier_add")" OnClick="Add_click">New</AddButton>
+                <RefreshButton OnClick="@OnInitializedAsync" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <div class="cus_overflow-auto">
+                <Table ShowPager="true"
+                       TotalItem="TotalItem"
+                       OnPageChange="@OnPageChange"
+                       OnPagerChange="@OnPagerChange"
+                       PerPage="@state.pager.per_page"
+                       CurrentPage="@state.pager.current_page"
+                       Items="@modifer_groups"
+                       ShowCounter="true">
+                    <TableHeader>
+                        @HeaderTemplate("modifier_group_name", "Name", "col-auto")
+                        <ThCenter>Status</ThCenter>
+                        <th></th>
+                    </TableHeader>
+                    <RowTemplate Context="m">
+                        <td>
+                            <ComAuthorize roles="@gv.GetRole("modifier_edit")" OnClick="@(() => Edit_Click(m))">
+                                @m.modifier_group_name
+                            </ComAuthorize>
+                        </td>
+                        <TdCenter>
+                            <LabelActive is_visible="@(m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
+                            <LabelInActive is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
+                            <LabelDeleted is_visible="@(m.is_deleted)" />
+                        </TdCenter>
+                        <TdCenter>
+                            <ComTableActions is_loading="@(m.is_loading)">
+                                <TableActionItem roles="@gv.GetRole("modifier_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">Edit</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">Clone</TableActionItem>
+                                <TableActionItem icon="check" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">Active</TableActionItem>
+                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">Inactive</TableActionItem>
+                                <TableActionItem icon="delete" roles="@gv.GetRole("modifier_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">Delete</TableActionItem>
+                                <TableActionItem icon="refresh" roles="@gv.GetRole("modifier_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">Restore</TableActionItem>
+                            </ComTableActions>
+                        </TdCenter>
+                    </RowTemplate>
+                </Table>
+            </div>
+            <AuthorizeView Roles="@gv.GetRole($"{(modifier.id == 0 ? "modifier_add" : "modifier_edit")}")">
+                @if (is_dialog_open)
+                {
+                    <ComAddModifierGroup is_dialog_open="@is_dialog_open" modifier="@modifier" Cancel_click="@(() => { is_dialog_open = false; modifier = new ModifierGroupModel(); })" Save_click="@Save_Click" modal_title="@title" />
+                }
+            </AuthorizeView>
+        </PageBody>
+    </PageContainer>
+}
+
+@code {
+    [Parameter] public string id { get; set; }
+    [Parameter] public string status { get; set; }
+    List<ModifierGroupModel> modifer_groups = new List<ModifierGroupModel>();
+    ModifierGroupModel modifier = new ModifierGroupModel();
+    int TotalItem;
+    bool is_dialog_open;
+    string controller_api = "ModifierGroup";
+    string StateKey = "55sNaBpzJlLzh21535lkinhglwfBSCTTx";
+
+    public string ControllerApi
+    {
+        get
+        {
+            if (state.pager.order_by == "")
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            return url + GetFilter(state.filters);
+
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+
+        state = await GetState(StateKey);
+        if (state.page_title == "")
+        {
+            state.page_title = $"All modifier";
+            var default_view = gv.GetDefaultModuleView("page_modifier");
+            if (default_view != null)
+            {
+                state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+                state.page_title = string.Format(default_view.title);
+                state.filters = default_view.filters;
+                if (!string.IsNullOrEmpty(default_view.default_order_by))
+                {
+                    state.pager.order_by = default_view.default_order_by;
+                    state.pager.order_by_type = default_view.default_order_by_type;
+                }
+            }
+        }
+
+        await LoadData(state.api_url);
+        is_loading = false;
+    }
+
+    async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+            await SetState(StateKey, state);
+        }
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            modifer_groups = JsonSerializer.Deserialize<List<ModifierGroupModel>>(resp.Content.ToString());
+            TotalItem = resp.Count;
+        }
+        is_loading = false;
+    }
+
+    async Task Edit_Click(ModifierGroupModel _user)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(controller_api + $"({_user.id})");
+        if (resp.IsSuccess)
+        {
+            modifier = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+        }
+        title = "Edit : " + modifier.modifier_group_name;
+        is_dialog_open = true;
+        is_loading_data = false;
+    }
+
+    void Add_click()
+    {
+        modifier = new ModifierGroupModel();
+        title = "New Modifier";
+        is_dialog_open = true;
+    }
+
+    async Task OnChangeStatus(ModifierGroupModel u)
+    {
+        u.is_loading = true;
+        var resp = await http.ApiPost(controller_api + "/status/" + u.id);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", MatToastType.Success);
+            if (modifer_groups.Count() == 1 && state.pager.current_page > 1)
+            {
+                state.pager.current_page = state.pager.current_page - 1;
+            }
+            await LoadData();
+        }
+        else
+        {
+            toast.Add(resp.Content.ToString(), MatToastType.Danger);
+
+        }
+        u.is_loading = false;
+    }
+
+    async Task Clone_Click(int id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiPost(controller_api +"/clone/"+ $"{id}");
+        if (resp.IsSuccess)
+        {
+            modifier = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+        }
+        title = "Clone : " + modifier.modifier_group_name;
+        is_dialog_open = true;
+        is_loading_data = false;
+    }
+
+    async Task OnRestore(ModifierGroupModel p)
+    {
+        p.is_loading = true;
+        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_group_name + "?", SweetAlertMessageType.question))
+        {
+
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+
+            if (resp.IsSuccess)
+            {
+                if (modifer_groups.Count() == 1 && state.pager.current_page > 1)
+                {
+                    state.pager.current_page = state.pager.current_page - 1;
+                }
+                await LoadData();
+                toast.Add("Restore modifier successfully", MatToastType.Success);
+            }
+            else
+            {
+                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            }
+
+
+        }
+        p.is_loading = false;
+
+    }
+
+    async Task OnDelete(ModifierGroupModel p)
+    {
+        if (p.id == gv.current_login_user.id)
+        {
+            toast.Add("You cannot delete current login modifier.", MatToastType.Warning);
+            return;
+        }
+
+
+        p.is_loading = true;
+        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_group_name + "?", SweetAlertMessageType.question))
+        {
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+
+            if (resp.IsSuccess)
+            {
+                if (modifer_groups.Count() == 1 && state.pager.current_page > 0)
+                {
+                    state.pager.current_page = state.pager.current_page - 1;
+                }
+
+                await LoadData();
+            }
+            toast.Add("Delete modifier successfully", MatToastType.Success);
+
+        }
+
+        p.is_loading = false;
+
+    }
+
+    async Task OnPagerChange(int total)
+    {
+        is_loading = true;
+        state.pager.current_page = 1;
+        state.pager.per_page = total;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task OnPageChange(int current_page)
+    {
+        is_loading = true;
+        state.pager.current_page = current_page;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
+        await LoadData();
+
+    }
+
+    async Task OnSearch(string keyword)
+    {
+        is_loading = true;
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword, true);
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task OrderBy(string col_name = "")
+    {
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+        await LoadData();
+    }
+
+    async Task Save_Click(ModifierGroupModel modifier)
+    {
+        modifier.is_loading = true;
+        var res = await http.ApiPost($"{controller_api}/save", modifier);
+        if (res.IsSuccess)
+        {
+            var u = JsonSerializer.Deserialize<ModifierGroupModel>(res.Content.ToString());
+            toast.Add("Save Successfully", MatToastType.Success);
+            await LoadData();
+            is_dialog_open = false;
+        }
+        else
+        {
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+        }
+        modifier.is_loading = false;
+    }
+}
+

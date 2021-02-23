@@ -25,6 +25,7 @@ namespace eModels
         public decimal weight { get; set; }
         public decimal volumes { get; set; }
         public string unit { get; set; }
+        public bool is_built_in { get; set; }
         public List<UnitModel> units { get; set; }
     }
 }

@@ -139,99 +139,33 @@ namespace eAPI.Controllers
             s.is_fulfilled = true;
             db.PurchaseOrders.Update(s);
             await db.SaveChangesAsync();
-            //add to history 
-            //var data = db.PurchaseOrdersProducts.Where(r => r.purchase_order_id == id && r.is_deleted == false);
-            //List<InventoryTransactionModel> inv_list = new List<InventoryTransactionModel>();
-            //foreach (PurchaseOrderProductModel d in data.Where(r => r.is_inventory_product))
-            //{
-
-            //    d.is_fulfilled = true;
-            //    InventoryTransactionModel inv = new InventoryTransactionModel();
-            //    inv.inventory_transaction_type_id = 2;
-            //    inv.stock_location_id = s.stock_location_id;
-            //    inv.stock_in_id = s.id;
-            //    inv.product_id = d.product_id;
-            //    inv.stock_in_product_id = d.id;
-            //    inv.quantity = d.quantity;
-            //    inv.unit = d.unit;
-            //    inv.multiplier = d.multiplier;
-            //    inv.created_by = user.created_by;
-            //    inv.note = $"Stock In Fulfilled ({s.document_number})";
-
-            //    inv_list.Add(inv);
-            //}
-
-            //if (inv_list.Count() > 0)
-            //{
-            //    db.InventoryTransactions.AddRange(inv_list);
-            //}
-
-            try
-            {
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            }
-            catch (Exception ex)
+           // add to history
+            var data = db.PurchaseOrderProducts.Where(r => r.purchase_order_id == id && r.is_deleted == false && r.is_inventory_product == true);
+            
+            foreach (PurchaseOrderProductModel d in data)
             {
 
+                InventoryTransactionModel inv = new InventoryTransactionModel();
+                inv.reference_number = s.document_number;
+                inv.transaction_date = s.purchase_date;
+                inv.inventory_transaction_type_id = 4;
+                inv.stock_location_id = s.stock_location_id;
+                inv.purchase_order_id = s.id;
+                inv.product_id = d.product_id;
+                inv.purchase_order_product_id = d.id;
+                inv.quantity = d.quantity;
+                inv.unit = d.unit;
+                inv.multiplier = d.multiplier;
+                inv.created_by = user.created_by;
+                inv.url = "purchaseorder/" + inv.purchase_order_id;
+                inv.note = $"Purchase Order Fulfilled ({s.document_number})";
+
+                await app.AddInventoryTransaction(inv);
             }
-            //db.Database.ExecuteSqlRaw("exec [sp_stock_in_update_to_inventory] " + s.id);
             return Ok();
 
         }
 
 
-
-        [HttpPost]
-        [Route("CancelFulfilled/{id}")]
-        public async Task<ActionResult> CancelFulfilled(int id) //mark as fullfileld 
-        {
-            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
-            PurchaseOrderModel s = db.PurchaseOrders.Find(id);
-
-            s.is_fulfilled = false;
-            db.PurchaseOrders.Update(s);
-            await db.SaveChangesAsync();
-            //add to history 
-            //var data = db.PurchaseOrdersProducts.Where(r => r.purchase_order_id == id && r.is_deleted == false);
-            //List<InventoryTransactionModel> inv_list = new List<InventoryTransactionModel>();
-            //foreach (PurchaseOrderProductModel d in data.Where(r => r.is_inventory_product))
-            //{
-            //    d.is_fulfilled = false;
-
-            //    InventoryTransactionModel inv = new InventoryTransactionModel();
-
-            //    inv.inventory_transaction_type_id = 2;
-            //    inv.stock_location_id = s.stock_location_id;
-            //    inv.sale_id = s.id;
-            //    inv.product_id = d.product_id;
-            //    inv.sale_product_id = d.id;
-            //    inv.product_variant_id = d.product_variant_id;
-            //    inv.quantity = d.quantity * -1;
-            //    inv.unit = d.unit;
-            //    inv.multiplier = d.multiplier;
-            //    inv.created_by = user.created_by;
-            //    inv.note = $"PO Canceled Fulfilled ({s.document_number})";
-
-            //    inv_list.Add(inv);
-            //}
-            //if (inv_list.Count() > 0)
-            //{
-            //    db.InventoryTransactions.AddRange(inv_list);
-            //}
-
-
-            try
-            {
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            }
-            catch (Exception ex)
-            {
-
-            }
-            //db.Database.ExecuteSqlRaw("exec [sp_po_update_to_inventory] " + s.id);
-            return Ok();
-
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -183,7 +184,6 @@ namespace eModels
             }
             
         }
-
 
         [NotMapped, JsonIgnore]
         public List<StockTransferProductModel> active_stock_transfer_products

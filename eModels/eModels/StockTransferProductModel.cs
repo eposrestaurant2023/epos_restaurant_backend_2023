@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,6 @@ namespace eModels
 
         public bool is_inventory_product { get; set; }
         public bool is_fulfilled { get; set; }
-        public decimal multiplier { get; set; } = 1 ;
         public int stock_transfer_id { get; set; }
         [ForeignKey("stock_transfer_id")]
         public StockTransferModel stock_transfer { get; set; }
@@ -27,14 +27,31 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
            
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; } 
+    
 
         public string note { get; set; }
 
-        public string unit { get; set; } = "Unit";
-      
+        private decimal _multipler = 1;
+
+        public decimal multiplier
+        {
+            get { return _multipler; }
+            set
+            {
+                if (value == 0)
+                {
+                    value = 1;
+                }
+                _multipler = value;
+
+            }
+        }
+        [Required(ErrorMessage = "Please select unit.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
+        public int unit_id { get; set; } = 1;
+        [ForeignKey("unit_id")]
+        public UnitModel unit { get; set; }
+
         private decimal _quantity = 1;
         public decimal quantity
         {

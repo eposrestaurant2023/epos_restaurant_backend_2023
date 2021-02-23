@@ -2,10 +2,6 @@
 @inherits PageCore
 @inject IMatToaster Toaster
 @using eModels;
-@inject IStringLocalizer<Resource> localizer
-
-<h1>@localizer["helloworld"]</h1>
-@localizer["welcome"]
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @{
@@ -122,7 +118,6 @@
     bool is_dialog_open;
     string password_uri;
     string old_username = "";
-
     string controller_api = "User";
     string StateKey = "55sNaBpzJlLzhs9IjuzqEODlwfBSCTTx";
     public string ControllerApi
@@ -276,6 +271,7 @@
             password_uri = $"?password={user.password}";
         }
         var res = await http.ApiPost($"user/save{password_uri}", user);
+
         if (res.IsSuccess)
         {
             var u = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());

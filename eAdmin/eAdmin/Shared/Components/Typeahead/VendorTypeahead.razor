@@ -5,7 +5,7 @@
             <Column ClassName="uk-width-auto">
                 <Image ImageUrl="@(http.ImageUrl(context.photo))" PopupImageUrl="@(http.ImageUrl(context.photo))" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
             </Column>
-            <Column ClassName="uk-width-expand color_text">
+            <Column ClassName="uk-width-expand seleted-typeahead">
                 @context.vendor_display_name
             </Column>
         </Grid>
@@ -16,7 +16,7 @@
                 <Column ClassName="uk-width-auto">
                     <Image ImageUrl="@(http.ImageUrl(context.photo))" PopupImageUrl="@(http.ImageUrl(context.photo))" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
                 </Column>
-                <Column ClassName="uk-width-expand uk-text-left">
+                <Column ClassName="uk-width-expand uk-text-left text-list-typeahead">
                     @context.vendor_display_name
                 </Column>
             </Grid>
@@ -34,7 +34,7 @@
     [Parameter] public int vendor_id { get; set; }
     public async Task<IEnumerable<VendorModel>> Search(string searchText)
     {
-        string api_url = $"vendor?$select=id,vendor_code,vendor_name,mobile_phone,company_name,photo&filter=status eq true and is_deleted eq false&$orderby=vendor_name asc&$top=10&?keyword={searchText}";
+        string api_url = $"vendor?$select=id,vendor_code,vendor_name,mobile_phone,company_name,photo&$filter=status eq true and is_deleted eq false&$orderby=vendor_name asc&$top=10&keyword={searchText}";
         api_url = api_url + GetFilter(state.filters);
         var res = await http.ApiGetOData(api_url);
         if (res.IsSuccess)

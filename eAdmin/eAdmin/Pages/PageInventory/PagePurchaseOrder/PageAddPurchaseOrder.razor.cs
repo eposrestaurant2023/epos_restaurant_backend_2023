@@ -56,23 +56,34 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
         void AddItemToSaleProduct(SelectedProductModel sp)
         {
-            var old_sale_product = model.active_purchase_order_products.Where(r => r.product.id == sp.product.id);
+            var old_sale_product = model.active_purchase_order_products.Where(r => r.product.id == sp.product.id && r.unit.Trim().ToLower() == sp.unit.unit_name.Trim().ToLower());
+
+
+
             if (old_sale_product != null && old_sale_product.Count() > 0)
             {
                 old_sale_product.FirstOrDefault().quantity = old_sale_product.FirstOrDefault().quantity + sp.quantity;
                 return;
             }
 
-
             //add new record
             PurchaseOrderProductModel d = new PurchaseOrderProductModel();
+
             d.product_id = sp.product.id;
             d.product = sp.product;
-            d.product_type_id = sp.product.product_type_id; 
+            d.unit = sp.unit.unit_name;
+            d.multiplier = sp.unit.multiplier;
             d.is_allow_discount = sp.is_allow_discount;
+            d.is_inventory_product = sp.product.is_inventory_product;
             d.quantity = sp.quantity;
-            d.cost= sp.product.cost;
+            d.cost= sp.cost;
+            d.regular_cost= sp.cost;
+
             d.is_allow_discount = sp.product.is_allow_discount; 
+
+
+
+
             model.purchase_order_products.Add(d);
             
 
@@ -127,7 +138,8 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 string url = $"PurchaseOrder({id})?";
                 url += $"$expand=vendor,";
                 url += $"purchase_order_payments($expand=payment_type;$filter=is_deleted eq false),";
-                url += $"purchase_order_products($expand=product;$filter=is_deleted eq false)";
+                url += $"purchase_order_products($expand=product($expand=unit($select=unit_category_id));$filter =is_deleted eq false)";
+
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
@@ -175,14 +187,11 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             //prepare sale data for send to controller
             PurchaseOrderModel save_model = JsonSerializer.Deserialize<PurchaseOrderModel>(JsonSerializer.Serialize(model));
             save_model.vendor = null;
-            save_model.purchase_order_products.ForEach(r => r.product = null);
+            save_model.purchase_order_products.ForEach(r => { r.product = null; });
             save_model.stock_location = null;
             save_model.business_branch = null;
-            save_model.purchase_order_payments = null; 
-
+            save_model.purchase_order_payments = null;  
             is_saving = true;
-
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
 
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)

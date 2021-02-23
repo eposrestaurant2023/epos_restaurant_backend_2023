@@ -17,11 +17,11 @@ namespace eAPIClient.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class CustomerController : ODataController
+    public class CustomerGroupController : ODataController
     {
 
         private readonly ApplicationDbContext db;
-        public CustomerController(ApplicationDbContext _db)
+        public CustomerGroupController(ApplicationDbContext _db)
         {
             db = _db;
         }
@@ -29,48 +29,50 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)] 
-        public IQueryable<CustomerModel> Get()
+        public IQueryable<CustomerGroupModel> Get()
         {
            
-                return db.Customers;
+                return db.CustomerGroups;
            
         }
 
         
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] CustomerModel u)
+        public async Task<ActionResult<string>> Save([FromBody] CustomerGroupModel u)
         {
          
-            if (u.id == Guid.Empty)
+            if (u.id == 0)
             {
-                db.Customers.Add(u);
+                db.CustomerGroups.Add(u);
             }
             else
             {
-                db.Customers.Update(u);
+                db.CustomerGroups.Update(u);
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
+
+
         }
 
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<CustomerModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<CustomerGroupModel>> DeleteRecord(int id) //Delete
         {
-            var u = await db.Customers.FindAsync(id);
+            var u = await db.CustomerGroups.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-            db.Customers.Update(u);
+            db.CustomerGroups.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
         }
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<CustomerModel> Get([FromODataUri] Guid key)
+        public SingleResult<CustomerGroupModel> Get([FromODataUri] int key)
         {
-            var s = db.Customers.Where(r => r.id == key).AsQueryable();
+            var s = db.CustomerGroups.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(s);
         }
     }

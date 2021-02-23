@@ -26,7 +26,6 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            @ControllerApi
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
 
             <Com is_visible="@(models != null)">
@@ -57,7 +56,6 @@
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
-
                         <TdCenter>@p.purchase_order?.purchase_date.ToString(gv.date_format)</TdCenter>
 
                         <TdCenter>
@@ -70,7 +68,7 @@
                             <span>@p.quantity.ToString(gv.quantity_format)</span>
                         </TdCenter>
                         <TdRight>
-                            @p.selling_price.ToString(gv.main_currency_format)
+                            @p.cost.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
                             @p.total_discount.ToString(gv.main_currency_format)

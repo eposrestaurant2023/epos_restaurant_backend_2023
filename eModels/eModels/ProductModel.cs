@@ -20,19 +20,26 @@ namespace eModels
             product_portions = new List<ProductPortionModel>();
             product_menus = new List<ProductMenuModel>();
             product_modifiers = new List<ProductModifierModel>();
-          
+            stock_location_products = new List<StockLocationProductModel>();
+            sale_products = new List<SaleProductModel>();
 
         }
+
+        public bool is_out_of_stock { get; set; } = false;
+        public bool is_low_inventory { get; set; } = false;
+        public bool is_over_stock { get; set; } = false;
+        public decimal quantity { get; set; }
+
+
+
+        public List<StockLocationProductModel> stock_location_products { get; set; }
 
         [Required(ErrorMessage = "Please select a category.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
         public int product_category_id { get; set; }
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
-
-        public int product_type_id { get; set; } = 1;
-        [ForeignKey("product_type_id")]
-        public ProductTypeModel product_type { get; set; }
+ 
 
         [MaxLength(50)]
         public string product_code { get; set; }
@@ -59,10 +66,13 @@ namespace eModels
         public string photo { get; set; } = "placeholder.png";
         public string note { get; set; }
 
-
+        [Required(ErrorMessage = "Please select unit.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
         public int unit_id { get; set; } = 1;
         [ForeignKey("unit_id")]
-        public UnitModel unit{ get; set; }       
+        public UnitModel unit{ get; set; }
+
+
         public int? vendor_id { get; set; }
         [ForeignKey("vendor_id")]
         public VendorModel vendor { get; set; }
@@ -114,6 +124,7 @@ namespace eModels
 
 
         public List<ProductModifierModel> product_modifiers { get; set; }
+        public List<SaleProductModel> sale_products { get; set; }
 
 
         public decimal min_price { get; set; }
@@ -130,9 +141,6 @@ namespace eModels
         public int printer_id { get; set; }
         [ForeignKey("printer_id")]
         public PrinterModel printer { get; set; }
-
-
-
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product{ get; set; }
@@ -168,8 +176,12 @@ namespace eModels
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
-      
-         
+
+        [Required(ErrorMessage = "Please select unit.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
+        public int unit_id { get; set; } = 1;
+        [ForeignKey("unit_id")]
+        public UnitModel unit { get; set; }
 
         [MaxLength(100)]
         [Required(ErrorMessage = "Field cannot be blank.")]
@@ -203,11 +215,27 @@ namespace eModels
     {
         public ProductModel product { get; set; }
         // Both Data
-        public string unit { get; set; } = "Unit";
+
         public decimal price { get; set; }
         public decimal cost { get; set; }
         public decimal quantity { get; set; } = 1;
         public bool is_allow_discount { get; set; }
+         
+
+        private UnitModel _unit;
+
+        public UnitModel unit
+        {
+            get { return _unit; }
+            set {
+                if(_unit != null)
+                {
+                    cost = (cost / _unit.multiplier) * value.multiplier;
+                }
+                _unit = value; 
+            }
+        }
+
 
     }
 }

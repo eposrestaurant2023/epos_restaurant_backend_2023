@@ -17,11 +17,11 @@ namespace eAPIClient.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class CustomerGroupController : ODataController
+    public class CustomerController : ODataController
     {
 
         private readonly ApplicationDbContext db;
-        public CustomerGroupController(ApplicationDbContext _db)
+        public CustomerController(ApplicationDbContext _db)
         {
             db = _db;
         }
@@ -29,50 +29,66 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)] 
-        public IQueryable<CustomerGroupModel> Get()
+        public IQueryable<CustomerModel> Get(string keyword="")
         {
-           
-                return db.CustomerGroups;
-           
+            if(string.IsNullOrEmpty(keyword))
+            {
+                return db.Customers;
+
+            }
+            else
+            {
+                return (from r in db.Customers
+                        where
+                              EF.Functions.Like(
+                                  (
+                                     (r.customer_code ?? " ") +
+                                     (r.customer_name_en ?? " ") +
+                                     (r.customer_name_kh ?? " ") 
+                                  ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        select r);
+
+            }
+
+
+
         }
 
         
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] CustomerGroupModel u)
+        public async Task<ActionResult<string>> Save([FromBody] CustomerModel u)
         {
          
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
-                db.CustomerGroups.Add(u);
+                db.Customers.Add(u);
             }
             else
             {
-                db.CustomerGroups.Update(u);
+                db.Customers.Update(u);
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
-
-
         }
 
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<CustomerGroupModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<CustomerModel>> DeleteRecord(int id) //Delete
         {
-            var u = await db.CustomerGroups.FindAsync(id);
+            var u = await db.Customers.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-            db.CustomerGroups.Update(u);
+            db.Customers.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
         }
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<CustomerGroupModel> Get([FromODataUri] int key)
+        public SingleResult<CustomerModel> Get([FromODataUri] Guid key)
         {
-            var s = db.CustomerGroups.Where(r => r.id == key).AsQueryable();
+            var s = db.Customers.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(s);
         }
     }

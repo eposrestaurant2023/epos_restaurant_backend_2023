@@ -44,7 +44,7 @@ namespace eAPI.Controllers
             gv.product_categories = db.ProductCategories.Where(r => r.is_deleted == false).ToList();
             gv.currencies = db.Currencies.ToList();
             gv.roles = db.Roles.ToList();
-            gv.product_types = db.ProductTypes.ToList();
+ 
             gv.countries = db.Countries.ToList();
             gv.stock_locations = db.StockLocations.ToList();
             gv.outlets = db.Outlets.ToList();
@@ -56,6 +56,7 @@ namespace eAPI.Controllers
             gv.printers = db.Printers.ToList();
             gv.price_rules= db.PriceRules.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.units= db.Units.Where(r=>r.is_deleted==false && r.status).ToList();
+            gv.unit_categories= db.UnitCategorys.ToList();
 
             return Ok(gv);
         }

@@ -8,12 +8,8 @@ namespace eShareModel
     {
         public bool is_inventory_product { get; set; }
         public bool is_fulfilled { get; set; }
-        public decimal multiplier { get; set; } = 1;
         public bool is_allow_discount { get; set; } = true;
-
-        public string sale_product_note { get; set; }
-
-        public string unit { get; set; } = "Unit";
+        public string sale_product_note { get; set; } 
 
         private decimal _quantity = 1;
         public decimal quantity
@@ -119,6 +115,10 @@ namespace eShareModel
             }
             set { _total_amount = value; }
         }
+
+        public string product_name_en { get; set; }
+        public string product_name_kh { get; set; }
+        public string product_code { get; set; }
 
     }
 }

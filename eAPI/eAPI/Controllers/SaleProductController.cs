@@ -3,98 +3,65 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
+using eAPI.Services;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;   
 using NETCore.Encrypt;
-
+using System.Text.Json;
 
 namespace eAPI.Controllers
 {
-    [ApiController]
     [Authorize]
+    [ApiController]
     [Route("api/[controller]")]
     public class SaleProductController : ODataController
     {
-
         private readonly ApplicationDbContext db;
-        public SaleProductController(ApplicationDbContext _db)
+        private readonly AppService app;
+        public SaleProductController(ApplicationDbContext _db, AppService _app)
         {
             db = _db;
-        }
+            app = _app;
+        }        
 
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
+        [EnableQuery(MaxExpansionDepth = 8)]   
         public IQueryable<SaleProductModel> Get(string keyword = "")
         {
             if (!string.IsNullOrEmpty(keyword))
             {
-                return db.SaleProducts.Where(r =>
-                (
-                (r.sale_product_note ?? "") 
-                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
+              return (from r in db.SaleProducts
+                           where 
+                                 EF.Functions.Like(
+                                     (
+                                        (r.sale.document_number ?? " ") + 
+                                        (r.sale.customer.customer_name_en ?? " ") +
+                                        (r.sale.customer.customer_name_kh ?? " ") + 
+                                        (r.product_name_en ?? " ") + 
+                                        (r.product_name_kh ?? " ") + 
+                                        (r.product_code ?? " ") + 
+                                        (r.sale.reference_number ?? " ")
+                                     ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                           select r);
+
             }
             else
             {
-                return db.SaleProducts;
+                return db.SaleProducts.AsQueryable();
             }
         }
 
-
-
-        [AllowAnonymous]
-        public IQueryable<SaleProductModel> Get()
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        [Route("getsingle")]
+        public async Task<SingleResult<SaleProductModel>> Get([FromODataUri] Guid key)
         {
-
-            return db.SaleProducts;
-
+            return await Task.Factory.StartNew(() => SingleResult.Create<SaleProductModel>(db.SaleProducts.Where(r => r.id == key).AsQueryable()));
         }
 
-
-        //[HttpPost("save")]
-        //public async Task<ActionResult<string>> Save([FromBody] SaleProductModel u)
-        //{
-
-
-
-        //    if (u.id == 0)
-        //    {
-        //        db.SaleProducts.Add(u);
-        //    }
-        //    else
-        //    {
-        //        db.SaleProducts.Update(u);
-        //    }
-
-        //    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-        //    return Ok(u);
-
-
-        //}
-
-
-        [HttpPost]
-        [Route("delete/{id}")]
-        public async Task<ActionResult<SaleProductModel>> DeleteRecord(int id) //Delete
-        {
-            var u = await db.SaleProducts.FindAsync(id);
-            u.is_deleted = !u.is_deleted;
-
-            db.SaleProducts.Update(u);
-            await db.SaveChangesAsync();
-            return Ok(u);
-        }
-
-        //[HttpGet("find")]
-        //[EnableQuery(MaxExpansionDepth = 4)]
-        //public SingleResult<SaleProductModel> Get([FromODataUri] int key)
-        //{
-        //    var s = db.SaleProducts.Where(r => r.id == key).AsQueryable();
-
-        //    return SingleResult.Create(s);
-        //}
     }
-
 }
