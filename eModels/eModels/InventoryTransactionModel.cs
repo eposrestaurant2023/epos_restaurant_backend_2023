@@ -30,6 +30,7 @@ namespace eModels
         public StockLocationModel stock_location { get; set; }
 
         public int? purchase_order_product_id { get; set; }
+        public int? stock_take_product_id { get; set; }
 
         public string unit { get; set; }
         public decimal multiplier { get; set; }
