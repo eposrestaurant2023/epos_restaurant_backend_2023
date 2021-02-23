@@ -9,6 +9,10 @@ namespace eModels
     [Table("tbl_modifier")]
    public class ModifierModel : CoreModel
     {
+        public ModifierModel()
+        {
+            product_modifiers = new List<ProductModifierModel>();
+        }
         public int? modifier_group_id { get; set; }
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
@@ -16,6 +20,7 @@ namespace eModels
 
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string modifier_name { get; set; }
+        public List<ProductModifierModel> product_modifiers { get; set; }
 
     }
 
@@ -28,7 +33,8 @@ namespace eModels
             modifier_group_product_categories = new List<ModifierGroupProductCategoryModel>();
         }
         [Required(ErrorMessage = "Field cannot be blank.")]
-        public string modifier_group_name { get; set; }
+        public string modifier_group_name_en { get; set; }
+        public string modifier_group_name_kh { get; set; }
         public List<ModifierModel> modifiers { get; set; }
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
     }
