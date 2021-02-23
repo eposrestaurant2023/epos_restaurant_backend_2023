@@ -1,6 +1,7 @@
 ﻿using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,14 @@ namespace eAPI.Controllers
             gv.customer_groups = db.CustomerGroups.ToList();
 
             return Ok(gv);
-        } 
-       
+        }
+        [HttpPost]
+        [Route("GetData")]
+        public string GetData([FromBody] FilterModel f)
+        {
+            var d = db.StoreProcedureResult.FromSqlRaw(string.Format("exec {0} {1}", f.procedure_name, f.procedure_parameter)).ToList().FirstOrDefault();
+            string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
+            return r;
+        }
     }
 }
