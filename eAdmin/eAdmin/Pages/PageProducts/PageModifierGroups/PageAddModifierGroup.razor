@@ -24,20 +24,42 @@
         </PageHeader>
         <EditForm Model="@modifier_group"  @attributes="@formAttributes">
             <DataAnnotationsValidator />
-            <PageBody>   
-                    <UIGridCenter>
-                        <UIContainerBox>
-                            <TextInput label="Name En" text="@modifier_group.modifier_group_name_en">
-                                <ValidationMessage For="@(()=>modifier_group.modifier_group_name_en)"/>
-                            </TextInput>
-                            <TextInput label="Name Kh" text="@modifier_group.modifier_group_name_kh"/>
-                            <SelectStatus @bind-selected_value="@modifier_group.status" />
-                        </UIContainerBox>
-                    </UIGridCenter>
-                    <UIGridCenter>
-                        @*<ComAddProduct_Modifier model="@modifiers" />*@
-                        <ComAddModifier models="@modifiers"/>
-                    </UIGridCenter>
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox>
+                        <TextInput label="Name En" text="@modifier_group.modifier_group_name_en">
+                            <ValidationMessage For="@(()=>modifier_group.modifier_group_name_en)" />
+                        </TextInput>
+                        <TextInput label="Name Kh" text="@modifier_group.modifier_group_name_kh" />
+                        <SelectStatus @bind-selected_value="@modifier_group.status" />
+                    </UIContainerBox>
+                </UIGridCenter>
+                <UIGridCenter>
+                    <ComAddModifier models="@modifiers" />
+                </UIGridCenter>
+                <UIGridCenter>
+                    <UIContainerBox>
+                            <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Modifier Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var m in modifiers.Where(r=>r.is_deleted == false))
+                                    {
+                                    <tr>
+                                        <td>
+                                            <InputCheckbox @bind-Value="@m.is_selected" />
+                                        </td>
+                                        <td>@m.modifier_name</td>
+                                    </tr>
+                                    }
+                                </tbody>                                    
+                            </table>
+                    </UIContainerBox>
+                </UIGridCenter>
             </PageBody>
             <PageFooter>
                 <FooterCenter>
