@@ -29,6 +29,8 @@
     <UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
         @foreach (var c in model.contacts)
         {
+            <div class="uk-text-right"><Icon icon="trash" title="Delete This Contact" OnClick="@(()=>DeleteContact_Click(c))" /></div>
+            <Spacing Number="10"/>
             <div @ondblclick="(()=>DeleteContact_Click(c))">
                 <TextInput label="Contact Name" @bind-text="@c.contact_name">
                     <ValidationMessage For="(()=>c.contact_name)" />
@@ -54,7 +56,7 @@
 
 
     <UIContainerBox Title="Other information">
-        @*<SelectProvince @bind-selected_value="@model.province"/>*@
+        <SelectProvince @bind-selected_value="@model.province"/>
     </UIContainerBox>
 
     <UIContainerBox Title="Social Media Information">
