@@ -72,7 +72,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             d.is_inventory_product = sp.product.is_inventory_product;
             d.quantity = sp.quantity;
             d.cost = sp.cost;
-            d.regular_cost = sp.product.cost; 
+            d.regular_cost = sp.cost; 
 
 
 

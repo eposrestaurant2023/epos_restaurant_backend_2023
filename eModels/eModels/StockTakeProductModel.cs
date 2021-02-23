@@ -79,9 +79,9 @@ namespace eModels
                 if (value == 0)
                 {
                     value = 1;
-                }
-                cost = (regular_cost / _multipler) * value;
-                regular_cost = (regular_cost / _multipler) * value;
+                } 
+                    cost = (regular_cost / _multipler) * value;
+                    regular_cost = (regular_cost / _multipler) * value; 
                 _multipler = value;
 
             }

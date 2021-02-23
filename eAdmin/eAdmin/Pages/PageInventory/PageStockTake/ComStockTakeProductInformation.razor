@@ -23,6 +23,7 @@
                 <th></th>
             </TableHeader>
             <RowTemplate Context="p">
+                 
                 <ComStockTakeProductRow stock_take_product="@p" stock_take_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
         </Table>
@@ -62,8 +63,7 @@
         var json = JsonSerializer.Serialize(sp);
         var data = JsonSerializer.Deserialize<StockTakeProductModel>(json);
         data.id = 0;
-        model.stock_take_products.Add(data);
-        Console.WriteLine(JsonSerializer.Serialize(model));
+        model.stock_take_products.Add(data); 
         await modelChanged.InvokeAsync(model);
 
     }
