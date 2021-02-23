@@ -202,14 +202,14 @@ namespace eModels
         {
             get
             {
-                return "C2";
+                return "#,###,##0.00##";
             }
         }
         public string currency_format
         {
             get
             {
-                return get_setting_value(55);
+                return "#,###,##0.00##";
             }
         }
         public string second_currency_format

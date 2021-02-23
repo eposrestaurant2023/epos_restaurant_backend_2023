@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210222111622_update_tbl_product_stock_take_09078")]
+    partial class update_tbl_product_stock_take_09078
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,10 +134,6 @@ namespace eAPI.Migrations
                     b.Property<string>("business_branch_name_kh")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("color")
-                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("created_by")
@@ -306,10 +304,6 @@ namespace eAPI.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("address")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("color")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -880,9 +874,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("stock_take_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("stock_take_product_id")
                         .HasColumnType("int");
 
                     b.Property<int?>("stock_transfer_id")

@@ -12,7 +12,7 @@
         <tr>
             <td><TextInput is_read_only="@p.is_built_in" @bind-text="@p.unit_name" placeholder="Unit Name" /></td>
             <TdCenter>
-                <SelectUnitTypeName is_read_only="@p.is_built_in" @bind-selected_value="@p.type_name"/>
+                <SelectUnitTypeName is_read_only="@p.is_built_in" @bind-selected_value="@p.type_name" is_horizontal="false"/>
             </TdCenter>
             <TdCenter><NumberInput is_read_only="@p.is_built_in" @bind-text="@p.multiplier" placeholder="Multiplier" /></TdCenter>
             <TdCenter><NumberInputInt is_read_only="@p.is_built_in" @bind-text="@p.sort_order" placeholder="Sort Order" /></TdCenter>

@@ -1,4 +1,4 @@
-﻿<div class="uk-form-horizontal">
+﻿<div class="@(is_horizontal?"uk-form-horizontal":"")">
     <div class="uk-margin-small">
         @*<label class="uk-form-label" for="@id"></label>*@
         @if (is_read_only)
@@ -6,6 +6,8 @@
             <div class="uk-form-controls">
                 <select disabled id="@id" value="@selected_value.ToString()" class="uk-select uk-width-medium uk-form-small" style="width:@Width">
                     <option value="Reference">Reference</option>
+                    <option value="Smaller than Reference">Smaller than Reference</option>
+                    <option value="Bigger than Reference">Bigger than Reference</option>
                 </select>
             </div>
         }
@@ -27,6 +29,7 @@
     [Parameter] public string label { get; set; } = "";
     [Parameter] public string Width { get; set; } = "100%";
     [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
 
 
     [Parameter]

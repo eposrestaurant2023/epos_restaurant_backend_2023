@@ -220,8 +220,22 @@ namespace eModels
         public decimal cost { get; set; }
         public decimal quantity { get; set; } = 1;
         public bool is_allow_discount { get; set; }
+         
 
-        public UnitModel unit { get; set; }
+        private UnitModel _unit;
+
+        public UnitModel unit
+        {
+            get { return _unit; }
+            set {
+                if(_unit != null)
+                {
+                    cost = (cost / _unit.multiplier) * value.multiplier;
+                }
+                _unit = value; 
+            }
+        }
+
 
     }
 }

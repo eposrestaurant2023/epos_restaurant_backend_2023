@@ -76,8 +76,8 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             d.is_allow_discount = sp.is_allow_discount;
             d.is_inventory_product = sp.product.is_inventory_product;
             d.quantity = sp.quantity;
-            d.cost= sp.product.cost;
-            d.regular_cost= sp.product.cost;
+            d.cost= sp.cost;
+            d.regular_cost= sp.cost;
 
             d.is_allow_discount = sp.product.is_allow_discount; 
 

@@ -46,8 +46,7 @@
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@purchase_order_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
     } 
 </TdCenter>
-<TdCenter>
-   
+<TdCenter> 
     <SelectUnitName  @bind-unit_name="@purchase_order_product.unit" @bind-multiplier="@purchase_order_product.multiplier" unit_category_id="@purchase_order_product.product.unit.unit_category_id" show_empty="false"/>
 </TdCenter>
 <TdRight>
