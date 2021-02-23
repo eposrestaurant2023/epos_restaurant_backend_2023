@@ -121,6 +121,9 @@ namespace eAPI
             var m = odataBuilder.EntitySet<ModifierGroupItemModel>("ModifierGroupItem");
             m.EntityType.HasKey(r => new { r.modifier_group_id, r.modifier_id });
 
+            var mp = odataBuilder.EntitySet<ModifierGroupProductCategoryModel>("ModifierGroupProductCategory");
+            mp.EntityType.HasKey(r => new { r.modifer_group_id, r.product_category_id });
+
             var p = odataBuilder.EntitySet<PermissionOptionRoleModel>("PermissionOptionRole");
             p.EntityType.HasKey(r => new { r.role_id, r.permission_option_id });
 

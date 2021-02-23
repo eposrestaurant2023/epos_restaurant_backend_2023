@@ -1,0 +1,29 @@
+﻿@inherits PageCore
+
+<UIContainerBox>
+    <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name En</th>
+                <th>Name Kh</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in product_categories.Where(r => r.is_deleted == false))
+            {
+                <tr>
+                    <td>
+                        <InputCheckbox @bind-Value="@p.is_selected" />
+                    </td>
+                    <td>@p.product_category_en</td>
+                    <td>@p.product_category_kh</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</UIContainerBox>
+
+@code {
+    [Parameter] public List<ProductCategoryModel> product_categories { get; set; } = new List<ProductCategoryModel>();
+}

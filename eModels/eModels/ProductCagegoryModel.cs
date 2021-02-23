@@ -12,6 +12,7 @@ namespace eModels
         public ProductCategoryModel()
         {
             products = new List<ProductModel>();
+            modifier_group_product_categories = new List<ModifierGroupProductCategoryModel>();
         }
 
         public int product_group_id { get; set; }
@@ -36,5 +37,6 @@ namespace eModels
         public string product_category_kh { get; set; }
         public bool is_ingredient_category { get; set; }
         public List<ProductModel> products { get; set; }
+        public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
     }
 }

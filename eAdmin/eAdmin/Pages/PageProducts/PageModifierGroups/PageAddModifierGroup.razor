@@ -18,47 +18,28 @@
 
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true">
-
-            </HeaderRight>
+            <HeaderRight ShowBackButton="true"/>
         </PageHeader>
-        <EditForm Model="@modifier_group"  @attributes="@formAttributes">
+        <EditForm Model="@modifier_group" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox>
-                        <TextInput label="Name En" text="@modifier_group.modifier_group_name_en">
+                        <TextInput label="Name En" @bind-text="@modifier_group.modifier_group_name_en">
                             <ValidationMessage For="@(()=>modifier_group.modifier_group_name_en)" />
                         </TextInput>
-                        <TextInput label="Name Kh" text="@modifier_group.modifier_group_name_kh" />
+                        <TextInput label="Name Kh" @bind-text="@modifier_group.modifier_group_name_kh" />
                         <SelectStatus @bind-selected_value="@modifier_group.status" />
                     </UIContainerBox>
                 </UIGridCenter>
                 <UIGridCenter>
-                    <ComAddModifier models="@modifiers" />
+                    <ComAddModifier/>
                 </UIGridCenter>
                 <UIGridCenter>
-                    <UIContainerBox>
-                            <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Modifier Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var m in modifiers.Where(r=>r.is_deleted == false))
-                                    {
-                                    <tr>
-                                        <td>
-                                            <InputCheckbox @bind-Value="@m.is_selected" />
-                                        </td>
-                                        <td>@m.modifier_name</td>
-                                    </tr>
-                                    }
-                                </tbody>                                    
-                            </table>
-                    </UIContainerBox>
+                    <ComAddModifierGroupItem modifiers="@modifiers"/>
+                </UIGridCenter>
+                <UIGridCenter>
+                    <ComAddModifierGroupProductCategory product_categories="@product_categories"/>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
@@ -88,12 +69,14 @@ else
     string controller_api = "ModifierGroup";
     ModifierGroupModel modifier_group = new ModifierGroupModel();
     List<ModifierModel> modifiers = new List<ModifierModel>();
+    List<ProductCategoryModel> product_categories = new List<ProductCategoryModel>();
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         await LoadData();
-        await LoadModifiers();
+        await LoadModifierGroupItem();
+        await LoadModifierGroupProductCategory();
     }
 
     async Task LoadData()
@@ -126,12 +109,57 @@ else
         is_loading = false;
     }
 
-    async Task LoadModifiers()
+    async Task LoadModifierGroupItem()
     {
         var res = await http.ApiGetOData($"Modifier?$expand=product_modifiers&$filter= is_deleted eq false");
         if (res.IsSuccess)
         {
-
+            modifiers = JsonSerializer.Deserialize<List<ModifierModel>>(res.Content.ToString());
         }
+    }
+
+    async Task LoadModifierGroupProductCategory()
+    {
+        var res = await http.ApiGetOData($"ProductCategory?$expand=modifier_group_product_categories&$filter= is_deleted eq false");
+        if (res.IsSuccess)
+        {
+            product_categories = JsonSerializer.Deserialize<List<ProductCategoryModel>>(res.Content.ToString());
+        }
+    }
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        modifier_group.modifiers.Clear();
+        modifier_group.modifier_group_items.Clear();
+        modifier_group.modifier_group_product_categories.Clear();
+        foreach (var a in modifiers.ToList())
+        {
+            if (a.is_selected)
+            {
+                modifier_group.modifier_group_items.Add(new ModifierGroupItemModel()
+                {
+                    modifier_id = a.id,
+                    modifier_group_id = id
+                });
+            }
+        }
+        foreach (var a in product_categories.ToList())
+        {
+            if (a.is_selected)
+            {
+                modifier_group.modifier_group_product_categories.Add(new ModifierGroupProductCategoryModel()
+                {
+                    product_category_id = a.id,
+                    modifer_group_id = id
+                });
+            }
+        }
+        var resp = await http.ApiPost("ModifierGroup/Save", modifier_group);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Save Modifier Group successfully", MatToastType.Success);
+        }
+        is_saving = false;
     }
 }

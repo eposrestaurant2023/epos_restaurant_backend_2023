@@ -1,0 +1,27 @@
+﻿@inherits PageCore
+
+<UIContainerBox>
+    <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Modifier Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in modifiers.Where(r => r.is_deleted == false))
+            {
+                <tr>
+                    <td>
+                        <InputCheckbox @bind-Value="@m.is_selected" />
+                    </td>
+                    <td>@m.modifier_name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</UIContainerBox>
+
+@code{
+    [Parameter] public List<ModifierModel> modifiers { get; set; } = new List<ModifierModel>();
+}

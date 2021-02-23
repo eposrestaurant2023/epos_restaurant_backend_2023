@@ -21,7 +21,7 @@
 
 </UIContainerBox>
 @code{
-    [Parameter] public List<ModifierModel> models { get; set; }
+    public List<ModifierModel> models { get; set; } = new List<ModifierModel>();
     private ModifierModel model;
     public ModifierModel modifier
     {
