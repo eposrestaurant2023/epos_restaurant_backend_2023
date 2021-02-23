@@ -16,6 +16,7 @@ namespace eModels
 
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string modifier_name { get; set; }
+
     }
 
     [Table("tbl_modifier_group")]

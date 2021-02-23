@@ -152,9 +152,9 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "purchase_order/purchase_date",
+                        key = "stock_transfer/stock_transfer_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "Purchase Date",
+                        filter_title = "Stock Transfer Date",
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
@@ -166,7 +166,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "purchase_order/purchase_date",
+                    key = "stock_transfer/stock_transfer_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",
@@ -248,11 +248,11 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.filters.Add(new FilterModel()
                 {
                     key = "stock_transfer/from_stock_location_id",
-                    value1 = gv.outlet_ids_filter(business_branch_ids),
+                    value1 = gv.stock_location_ids_filter(business_branch_ids),
                     filter_title = "From Stock Location",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
+                    filter_info_text = gv.stock_location_ids_filter(business_branch_ids),
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false
@@ -331,11 +331,11 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.filters.Add(new FilterModel()
                 {
                     key = "stock_transfer/to_stock_location_id",
-                    value1 = gv.outlet_ids_filter(business_branch_ids),
+                    value1 = gv.stock_location_ids_filter(business_branch_ids),
                     filter_title = "To Stock Location",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
+                    filter_info_text = gv.stock_location_ids_filter(business_branch_ids),
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false

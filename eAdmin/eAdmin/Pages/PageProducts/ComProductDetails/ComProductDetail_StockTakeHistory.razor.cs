@@ -213,11 +213,11 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.filters.Add(new FilterModel()
                 {
                     key = "stock_take/stock_location_id",
-                    value1 = gv.outlet_ids_filter(business_branch_ids),
+                    value1 = gv.stock_location_ids_filter(business_branch_ids),
                     filter_title = "Stock Location",
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
-                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
+                    filter_info_text = gv.stock_location_ids_filter(business_branch_ids),
                     is_clear_all = true,
                     will_remove = true,
                     is_show_on_infor = false

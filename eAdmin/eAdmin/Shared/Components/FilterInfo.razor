@@ -4,7 +4,7 @@
         @foreach (var d in filters.Where(r => r.filter_info_text != "" && r.is_show_on_infor).OrderBy(r => r.sort_order).ToList())
         {
         <div class="uk-label filter-label-item">
-            @if (d.filter_operator == "multiple" && d.key == "business_branch_id")
+            @if (d.filter_operator == "multiple" && (d.key == "purchase_order/business_branch_id" || d.key== "sale/business_branch_id" || d.key == "business_branch_id"))
             {
                 if (d.value1.Split(',').Length > 1)
                 {
@@ -20,7 +20,7 @@
                 }
 
             }
-            else if (d.filter_operator == "multiple" && d.key == "outlet_id")
+            else if (d.filter_operator == "multiple" && ( d.key == "sale/outlet_id" || d.key == "outlet_id"))
             {
 
                 if (d.value1.Split(',').Length > 1)
@@ -36,7 +36,7 @@
                     </span>
                 }
             }
-            else if (d.filter_operator == "multiple" && d.key == "stock_location_id")
+            else if (d.filter_operator == "multiple" && (d.key == "purchase_order/stock_location_id" || d.key == "stock_location_id"))
             {
 
                 if (d.value1.Split(',').Length > 1)
