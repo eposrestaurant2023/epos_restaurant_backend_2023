@@ -12,10 +12,6 @@ namespace eModels
         public CustomerModel()
         {
             contacts = new List<ContactModel>();
-            if (contacts.Count == 0)
-            {
-                contacts.Add(new ContactModel());
-            }
         }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select customer Group")]

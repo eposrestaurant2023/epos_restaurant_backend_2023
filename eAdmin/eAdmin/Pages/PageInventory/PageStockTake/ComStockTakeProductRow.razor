@@ -1,65 +1,65 @@
-﻿@inject IHttpService http;
+﻿@inject IHttpService http
 
-<TdCenter>
-    <Image ImageUrl="@http.ImageUrl(product?.product?.photo)" PopupImageUrl="@http.ImageUrl(product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+<TdCenter> 
+    <Image ImageUrl="@http.ImageUrl(stock_take_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(stock_take_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
 </TdCenter>
 <TdCenter>
-    <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{product.product_id}")" target="true">
-        @product?.product?.product_code
+    <ComAuthorize roles="@gv.GetRole("stock_take_product_view")" url="@($"stock_take_product/{stock_take_product.product_id}")" target="true">
+        @stock_take_product?.product?.product_code
     </ComAuthorize>
 </TdCenter>
 <td>
     <div>
         <div>
             <span>
-                <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{product.product_id}")" target="true">
-                    @product?.product?.product_display_name
+                <ComAuthorize roles="@gv.GetRole("stock_take_product_view")" url="@($"stock_take_product/{stock_take_product.product_id}")" target="true">
+                    @stock_take_product?.product?.product_display_name
                 </ComAuthorize> 
             </span>
         </div> 
         <div>
-            <Icon OnClick="@(()=> { product.is_add_note = !product.is_add_note; })" icon="chat" />
+            <Icon OnClick="@(()=> { stock_take_product.is_add_note = !stock_take_product.is_add_note; })" icon="chat" />
 
-            @if (product.is_add_note)
+            @if (stock_take_product.is_add_note)
             {
             <div>
-                <TextInput @bind-text="@product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
+                <TextInput @bind-text="@stock_take_product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
             </div>
             }
             else
             {
-                <Column is_visible="@(!string.IsNullOrEmpty(product.note))" ClassName="text-area wrp-comment-tt text-muted">
-                    @product.note
+                <Column is_visible="@(!string.IsNullOrEmpty(stock_take_product.note))" ClassName="text-area wrp-comment-tt text-muted">
+                    @stock_take_product.note
                 </Column>
             }
         </div>
     </div>
 </td>
 <TdCenter>
-    @if (product.is_fulfilled)
+    @if (stock_take_product.is_fulfilled)
     {
-        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@product.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
+        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@stock_take_product.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
     }
     else
     {
-        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
+        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@stock_take_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
     }
 </TdCenter>
 <TdCenter> 
-    <SelectUnitName  @bind-unit_name="@product.unit" @bind-multiplier="@product.multiplier" unit_category_id="@product.product.unit.unit_category_id" show_empty="false"/>
+    <SelectUnitName  @bind-unit_name="@stock_take_product.unit" @bind-multiplier="@stock_take_product.multiplier" unit_category_id="@stock_take_product.product.unit.unit_category_id" show_empty="false"/>
 </TdCenter>
 <TdRight>
-    <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
+    <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@stock_take_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
 </TdRight>
 <TdRight>
-    @product.total_amount.ToString(gv.currency_format)
+    @stock_take_product.total_amount.ToString(gv.currency_format)
 </TdRight>
-<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
+<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-stock_take_product" title="Remove Product" /></td>
 
 
 @code{
-    [Parameter] public StockTakeProductModel product { get; set; }
-    [Parameter] public EventCallback<StockTakeProductModel> productChanged { get; set; }
+    [Parameter] public StockTakeProductModel stock_take_product { get; set; }
+    [Parameter] public EventCallback<StockTakeProductModel> stock_take_productChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnRemove { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -67,12 +67,12 @@
 
     async Task QuantityChange(decimal qty)
     {
-        product.quantity = qty;
-        await productChanged.InvokeAsync(product);
+        stock_take_product.quantity = qty;
+        await stock_take_productChanged.InvokeAsync(stock_take_product);
     }
     async Task CostChange(decimal _cost)
     {
-        product.cost = _cost;
-        await productChanged.InvokeAsync(product);
+        stock_take_product.cost = _cost;
+        await stock_take_productChanged.InvokeAsync(stock_take_product);
     }
 }

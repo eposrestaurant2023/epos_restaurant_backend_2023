@@ -118,6 +118,9 @@ namespace eAPI
             odataBuilder.EntitySet<RoleModel>("Role");
             odataBuilder.EntitySet<PermissionOptionModel>("PermissionOption");
 
+            var m = odataBuilder.EntitySet<ModifierGroupItemModel>("ModifierGroupItem");
+            m.EntityType.HasKey(r => new { r.modifier_group_id, r.modifier_id });
+
             var p = odataBuilder.EntitySet<PermissionOptionRoleModel>("PermissionOptionRole");
             p.EntityType.HasKey(r => new { r.role_id, r.permission_option_id });
 
@@ -183,6 +186,7 @@ namespace eAPI
             odataBuilder.EntitySet<UnitModel>("Unit");
             odataBuilder.EntitySet<UnitCategoryModel>("UnitCategory");
             odataBuilder.EntitySet<ProductIngredientRelatedModel>("ProductIngredientRelated");
+            odataBuilder.EntitySet<InventoryTransactionModel>("InventoryTransaction");
             return odataBuilder.GetEdmModel();
         }
     }

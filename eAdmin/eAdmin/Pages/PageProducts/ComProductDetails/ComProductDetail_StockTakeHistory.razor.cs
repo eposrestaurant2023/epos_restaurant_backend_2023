@@ -27,7 +27,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=stock_take($select=id,business_branch_id,stock_location_id,document_number,stock_take_date,reference_number)";
+                url += $"$expand=stock_take($select=id,business_branch_id,stock_location_id,document_number,stock_take_date,reference_number,note)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -138,6 +138,21 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     filter_operator = "Le",
                     will_remove = true,
                     state_property_name = "date_range"
+                });
+            }
+
+            // customer group
+            if (state.inventory_stransation_type != null && state.inventory_stransation_type.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "inventory_transaction_type_id",
+                    value1 = state.inventory_stransation_type.id.ToString(),
+                    filter_title = "Inventory Stransation Type",
+                    state_property_name = "inventory_transaction_type",
+                    filter_info_text = state.inventory_stransation_type.inventory_transaction_type_name,
+                    is_clear_all = true,
+                    will_remove = true
                 });
             }
 

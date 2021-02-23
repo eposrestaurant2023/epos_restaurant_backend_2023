@@ -37,15 +37,13 @@ namespace eAPI
                 .WithMany(p => p.permission_option_roles)
                 .HasForeignKey(pt => pt.permission_option_id);
               
- 
-        
 
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
            
             builder.Entity<NumberModel>().HasNoKey();
         }
 
-
+        public DbSet<StoreProcedureResultModel> StoreProcedureResult { get; set; }
         public DbSet<UserModel> Users { get; set; }
         public DbSet<RoleModel> Roles { get; set; }
         public DbSet<PermissionOptionModel> PermissionOption { get; set; }

@@ -67,7 +67,7 @@
     {
         get
         {
-            return $"customer({id})?$expand=customer_health_issues";
+            return $"customer({id})?$expand=contacts";
         }
     }
 
@@ -76,7 +76,7 @@
         if (!is_loading)
         {
             is_loading = true;
-             
+
             if (id > 0 || clone_id > 0)
             {
                 if (id > 0)
@@ -109,6 +109,10 @@
             else
             {
                 title = "Add New Customer";
+                if (model.contacts.Count == 0)
+                {
+                    model.contacts.Add(new ContactModel());
+                }
             }
             is_loading = false;
         }
@@ -119,11 +123,11 @@
         if (!is_saving)
         {
             is_saving = true;
-            
+            Console.WriteLine(JsonSerializer.Serialize(model));
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
             if (res.IsSuccess)
             {
-               
+
                 model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
                 toast.Add("Saving Customer successfully", MatToastType.Success);
                 if (is_save_and_new)
@@ -136,7 +140,7 @@
                 {
                     nav.NavigateTo($"customer/{model.id}");
                 }
-                
+
             }
             else
             {
