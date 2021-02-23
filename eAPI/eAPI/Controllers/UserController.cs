@@ -144,7 +144,7 @@ namespace eAPI.Controllers
         [HttpGet]
         [Route("get_user")]
 
-        public UserModel GetCurrentUser([FromQuery] int user_id)
+        public ActionResult< UserModel> GetCurrentUser([FromQuery] int user_id)
         { 
             var data = db.Users.Where(r => r.id == user_id && !r.is_deleted && r.status)
                 .Include(r => r.role)
@@ -153,7 +153,15 @@ namespace eAPI.Controllers
                     .Include(r => r.role)
                     .ThenInclude(r => r.business_branch_roles)
                     .ThenInclude(r => r.business_branch).ThenInclude(r => r.stock_locations).AsNoTracking().Take(1);
-            return data.FirstOrDefault();
+
+            if (data.Any())
+            {
+                return Ok(data.FirstOrDefault());
+            }else
+            {
+                return NotFound();
+            }
+            
 
 
         }

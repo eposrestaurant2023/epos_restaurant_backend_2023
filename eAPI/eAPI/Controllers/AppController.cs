@@ -1,5 +1,6 @@
 ﻿using eModels;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ namespace eAPI.Controllers
 {
     [ApiController]
     [Route("api")]
-
+ 
 
     public class AppController : ControllerBase
     {
@@ -27,6 +28,7 @@ namespace eAPI.Controllers
 
         [HttpGet("GlobalVariable")]
         [EnableQuery(MaxExpansionDepth = 0)]
+      
         public ActionResult<GlobalVariableModel> GetGlobalVariable(bool status = true)
         {
             db.Database.ExecuteSqlRaw("exec sp_startup");

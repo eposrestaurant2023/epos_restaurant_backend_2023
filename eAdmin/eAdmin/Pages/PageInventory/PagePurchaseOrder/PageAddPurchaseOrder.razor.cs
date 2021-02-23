@@ -190,6 +190,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             save_model.purchase_order_payments = null;  
             is_saving = true;
 
+          
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)
             {

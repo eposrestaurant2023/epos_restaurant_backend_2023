@@ -1,10 +1,13 @@
 ﻿@inject NavigationManager NavManager
 @inject IJSRuntime JSRuntime
+@inject ILocalStorageService local;
 @using Microsoft.AspNetCore.Components;
 @using Microsoft.JSInterop;
 @using System.Globalization;
 
-<select  @bind="Culture" class="uk-select">
+
+ 
+<select  @bind="@current_lang" class="uk-select">
     @foreach (var d in cultures)
     {
         <option value="@d.lang_code">@d.lang_name</option>
@@ -13,7 +16,7 @@
 
 @code{
     List<languages> cultures = new List<languages>();
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         languages L = new languages();
 
@@ -23,8 +26,16 @@
         cultures.Add(new languages() { lang_name = "Korean", lang_code = "ko-KR" });
         cultures.Add(new languages() { lang_name = "Chinese", lang_code = "zh-CN" });
 
-        
+
+        _current_lang = await local.GetItemAsync<string>("lang");
+        if (string.IsNullOrEmpty(_current_lang))
+        {
+            _current_lang = "en-EN";
+        }
+
     }
+
+
 
     public class languages
     {
@@ -34,6 +45,24 @@
 
 
     }
+
+    private string _current_lang;
+
+    public string current_lang
+    {
+        get {
+
+
+
+            return _current_lang; }
+        set { _current_lang = value;
+            var js = (IJSInProcessRuntime)JSRuntime;
+            js.InvokeVoid("blazorCulture.set", value);
+            NavManager.NavigateTo("login", true);
+        }
+    }
+
+
 
 
     CultureInfo Culture
