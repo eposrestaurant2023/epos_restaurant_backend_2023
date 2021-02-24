@@ -26,32 +26,8 @@ namespace eModels
         public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
-           
-    
-
+        public string unit { get; set; }
         public string note { get; set; }
-
-        private decimal _multipler = 1;
-
-        public decimal multiplier
-        {
-            get { return _multipler; }
-            set
-            {
-                if (value == 0)
-                {
-                    value = 1;
-                }
-                _multipler = value;
-
-            }
-        }
-        [Required(ErrorMessage = "Please select unit.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
-        public int unit_id { get; set; } = 1;
-        [ForeignKey("unit_id")]
-        public UnitModel unit { get; set; }
-
         private decimal _quantity = 1;
         public decimal quantity
         {
@@ -60,48 +36,29 @@ namespace eModels
         }
 
         public decimal cost { get; set; }
+        public decimal regular_cost { get; set; }
 
-
-        private decimal _discount;
-
-        public decimal discount
+        private decimal _multipler;
+        public decimal multiplier
         {
-            get { return _discount; }
+            get { return _multipler; }
             set
             {
-                _discount = value;
-                if (discount_type == "Percent" && (_discount > 100))
+
+                if (value == 0)
                 {
-                    _discount = (cost > 100 ? 100 : cost);
+                    value = 1;
                 }
-                else if (discount_type != "Percent" && (_discount > cost))
-                {
-                    _discount = cost;
-                }
+
+                cost = (cost / (_multipler == 0 ? value : _multipler)) * value;
+                regular_cost = (regular_cost / (_multipler == 0 ? value : _multipler)) * value;
+
+
+                _multipler = value;
+
             }
-        }
-        public decimal invoice_discount_amount { get; set; }
+        } 
         public decimal grand_total { get; set; }
-
-        private string _discount_type = "Percent";//  Percentage , Amount
-
-        public string discount_type
-        {
-            get { return _discount_type; }
-            set
-            {
-                _discount_type = value;
-                if (value != "Percent" && discount > cost)
-                {
-                    discount = cost;
-                }
-                else if (value == "Percent" && discount > 100)
-                {
-                    discount = 100;
-                }
-            }
-        }
-
 
         private decimal _sub_total;
         public decimal sub_total
@@ -113,21 +70,7 @@ namespace eModels
             }
             set { _sub_total = value; }
         }
-
-        private decimal _total_discount;
-        public decimal total_discount
-        {
-            get
-            {
-                if (discount_type == "Percent")
-                    _total_discount = sub_total * discount / 100;
-                else
-                    _total_discount = discount;
-
-                return _total_discount;
-            }
-            set { _total_discount = value; }
-        }
+ 
 
 
         private decimal _total_amount;
@@ -135,7 +78,7 @@ namespace eModels
         {
             get
             {
-                _total_amount = sub_total - total_discount;
+                _total_amount = sub_total;
                 return _total_amount;
             }
             set { _total_amount = value; }

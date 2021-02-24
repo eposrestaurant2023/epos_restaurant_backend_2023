@@ -45,16 +45,14 @@
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@stock_take_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
     }
 </TdCenter>
-<TdCenter> 
-
+<TdCenter>
     <SelectUnitName  @bind-unit_name="@stock_take_product.unit" @bind-multiplier="@stock_take_product.multiplier" unit_category_id="@stock_take_product.product.unit.unit_category_id" show_empty="false"/>
 </TdCenter>
 <TdRight>
     <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@stock_take_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
 </TdRight>
 <TdRight>
-    @stock_take_product.total_amount.ToString(gv.currency_format)  
-
+    @stock_take_product.total_amount.ToString(gv.currency_format)
 </TdRight>
 <td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
 

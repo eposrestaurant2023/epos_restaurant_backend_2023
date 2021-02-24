@@ -52,7 +52,8 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
         void AddItemToSaleProduct(SelectedProductModel sp)
         {
-            var old_sale_product = model.active_stock_transfer_products.Where(r => r.product.id == sp.product.id);
+            var old_sale_product = model.active_stock_transfer_products.Where(r => r.product.id == sp.product.id && r.unit.Trim().ToLower() == sp.unit.unit_name.Trim().ToLower());
+ 
             if (old_sale_product != null && old_sale_product.Count() > 0)
             {
                 old_sale_product.FirstOrDefault().quantity = old_sale_product.FirstOrDefault().quantity + sp.quantity;
