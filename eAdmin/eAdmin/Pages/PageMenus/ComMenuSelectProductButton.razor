@@ -1,0 +1,16 @@
+﻿@inherits PageCore
+
+<div class="uk-width-1-4" style="position: relative;">
+    <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@AddSubMenu">
+        <div class="pos_icon_back">
+            <Icon icon="add" icon_color="#333333" size="43px" />
+            <div>Add</div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
+    [Parameter] public EventCallback<MouseEventArgs> AddSubMenu { get; set; }
+
+}
