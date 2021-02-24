@@ -32,7 +32,7 @@
                                 <div class="panel">
                                     <div class="sub_title font-sm">@lang["From Stock"]</div>
                                     <div>
-                                        <SelectBusinessBranch @bind-selected_value="@model.from_business_branch_id" show_empty="true" icon="layers" />
+                                        <SelectBusinessBranchByRole @bind-selected_value="@model.from_business_branch_id" show_empty="true" icon="layers" />
                                         <SelectStockLocation @bind-selected_value="@model.from_stock_location_id" business_branch_id="@model.from_business_branch_id" show_empty="true" icon="layers" />
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@
                                     <div class="sub_title font-sm">@lang["To Stock"]</div>
                                     <div>
                                         <SelectBusinessBranchByRole @bind-selected_value="@model.to_business_branch_id" show_empty="true" icon="layers" />
-                                        <SelectStockLocationByRole @bind-selected_value="@model.to_stock_location_id" business_branch_id="@model.to_business_branch_id" show_empty="true" icon="layers" />
+                                        <SelectStockLocation @bind-selected_value="@model.to_stock_location_id" business_branch_id="@model.to_business_branch_id" show_empty="true" icon="layers" />
                                     </div>
                                 </div>
                             </div>

@@ -52,7 +52,7 @@ namespace eModels
             get
             {
                 
-                return current_login_user.role.business_branch_roles.Select(r => r.business_branch).ToList();
+                return current_login_user.role.business_branch_roles.Where(r => !r.is_delete).Select(r => r.business_branch).ToList();
             }
         }
 
@@ -60,7 +60,7 @@ namespace eModels
         {
             get
             {
-                return current_login_user.role.business_branch_roles.SelectMany(r => r.business_branch.stock_locations.ToList()).ToList();
+                return current_login_user.role.business_branch_roles.Where(r => !r.is_delete).SelectMany(r => r.business_branch.stock_locations.ToList()).ToList();
             }
         }
 
@@ -70,7 +70,7 @@ namespace eModels
             get
             {
                 string _data = "";
-                foreach (var b in current_login_user.role.business_branch_roles.Select(r => r.business_branch).ToList())
+                foreach (var b in current_login_user.role.business_branch_roles.Where(r => !r.is_delete).Select(r => r.business_branch).ToList())
                 {
                     _data += $"{b.id},";
                 } 
@@ -85,7 +85,7 @@ namespace eModels
             get
             {
                 string _data = "";
-                foreach (var b in current_login_user.role.business_branch_roles.Select(r => r.business_branch).ToList())
+                foreach (var b in current_login_user.role.business_branch_roles.Where(r=>!r.is_delete).Select(r => r.business_branch).ToList())
                 {
                     _data += $"{b.id},";
                 }
@@ -112,7 +112,7 @@ namespace eModels
             }
             else
             { 
-                foreach (var o in current_login_user.role.business_branch_roles.SelectMany(r=>r.business_branch.outlets.Where(x=>!x.is_deleted).ToList()).ToList())
+                foreach (var o in current_login_user.role.business_branch_roles.Where(r => !r.is_delete).SelectMany(r=>r.business_branch.outlets.Where(x=>!x.is_deleted).ToList()).ToList())
                 {
                     _data += $"{o.id},";
                 }
@@ -140,7 +140,7 @@ namespace eModels
             }
             else
             {
-                foreach (var o in current_login_user.role.business_branch_roles.SelectMany(r => r.business_branch.stock_locations.ToList()).ToList())
+                foreach (var o in current_login_user.role.business_branch_roles.Where(r => !r.is_delete).SelectMany(r => r.business_branch.stock_locations.ToList()).ToList())
                 {
                     _data += $"{o.id},";
                 }

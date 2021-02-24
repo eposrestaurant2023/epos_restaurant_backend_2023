@@ -39,7 +39,7 @@
                     <div>
                         <div class="section-content">
                             <div class="uk-form-horizontal">
-                                <SelectBusinessBranch @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
+                                <SelectBusinessBranchByRole @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
                                 <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
                             </div>
                         </div>

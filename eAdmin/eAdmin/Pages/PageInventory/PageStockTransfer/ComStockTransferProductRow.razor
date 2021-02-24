@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-
+@inject IStringLocalizer<Resource> lang
 <TdCenter>
     <Image ImageUrl="@http.ImageUrl(stock_transfer_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(stock_transfer_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
 </TdCenter>
@@ -38,7 +38,7 @@
 <TdCenter>
     <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@stock_transfer_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
 </TdCenter>
-<TdCenter>
+<TdCenter> 
     <SelectUnitName  @bind-unit_name="@stock_transfer_product.unit" @bind-multiplier="@stock_transfer_product.multiplier" unit_category_id="@stock_transfer_product.product.unit.unit_category_id" show_empty="false"/>
 </TdCenter>
 <TdRight>
@@ -47,7 +47,7 @@
 <TdRight>
     @stock_transfer_product.total_amount.ToString(gv.currency_format)
 </TdRight>
-<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
+<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title=@lang["Clone Product"] /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
 
 
 @code{

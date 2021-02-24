@@ -1,6 +1,7 @@
 ﻿@inherits PageCore;
+@inject IStringLocalizer<Resource> lang
 <ComStockTransferDetail_RibbonStatus model="model" />
-    <div class="btn_show_logo" @onclick="@ShowHideLogo">@(state.pager.show_logo ? "Hide Logo" : "Show Logo") <span uk-icon="icon: image; ratio: 0.8;"></span></div>
+    <div class="btn_show_logo" @onclick="@ShowHideLogo">@(state.pager.show_logo ? lang["Hide Logo"] : lang["Show Logo"]) <span uk-icon="icon: image; ratio: 0.8;"></span></div>
     <PageHeader is_subpage="true">
         <HeaderLeft ClassName="uk-flex-top">
             <div>
@@ -18,7 +19,7 @@
         </HeaderLeft>
         <HeaderRight ClassName="uk-flex-top">
             <div class="uk-text-right">
-                <h2 class="uk-text-uppercase uk-margin-small-bottom">Invoice</h2>
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["Invoice"]</h2>
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
@@ -32,7 +33,7 @@
                     }
 
                 </div>
-                <div>Total Amount</div>
+                <div>@lang["Total Amount"]</div>
                 <div class="font-xxl"> @model.total_amount.ToString(gv.currency_format)</div>
             </div>
         </HeaderRight>
@@ -40,12 +41,12 @@
     <Grid ClassName="uk-grid-small">
         <div class="uk-width-expand">
             <div style="width: 260px;">
-                <div class="sub_title font-sm">From Stock Location</div>
+                <div class="sub_title font-sm">@lang["From Stock Location"]</div>
                 <table class="uk-width-1-1">
                     @if (model.from_business_branch != null)
                     {
                         <tr>
-                            <td class="uk-padding-left-remove">Business Branch :</td>
+                            <td class="uk-padding-left-remove">@lang["Business Branch"] :</td>
                             <td>@model.from_business_branch?.business_branch_name_en</td>
                         </tr>
                     }
@@ -53,18 +54,18 @@
                     @if (model.from_stock_location != null)
                     {
                         <tr>
-                            <td class="uk-padding-left-remove">Stock Location :</td>
+                            <td class="uk-padding-left-remove">@lang["Stock Location"] :</td>
                             <td>@model.from_stock_location?.stock_location_name</td>
                         </tr>
                     }
                 </table>
                 <Spacing Number="15"/>
-                <div class="sub_title font-sm">To Stock Location</div>
+                <div class="sub_title font-sm">@lang["To Stock Location"]</div>
                 <table class="uk-width-1-1">
                     @if (model.to_business_branch != null)
                     {
                         <tr>
-                            <td class="uk-padding-left-remove">Business Branch :</td>
+                            <td class="uk-padding-left-remove">@lang["Business Branch"] :</td>
                             <td>@model.to_business_branch?.business_branch_name_en</td>
                         </tr>
                     }
@@ -72,7 +73,7 @@
                     @if (model.to_stock_location != null)
                     {
                         <tr>
-                            <td class="uk-padding-left-remove">Stock Location :</td>
+                            <td class="uk-padding-left-remove">@lang["Stock Location"] :</td>
                             <td>@model.to_stock_location?.stock_location_name</td>
                         </tr>
                     }
@@ -81,14 +82,14 @@
         </div>
         <div class="uk-width-auto">
             <div class="box-invoice-header-info">
-                <div class="invoice-header-title">Invoice Information</div>
+                <div class="invoice-header-title">@lang["Invoice Information"]</div>
                 <table class="invoice_header_description">
                     <tr>
-                        <td>Invoice Date :</td>
+                        <td>@lang["Invoice Date"] :</td>
                         <td>@model.stock_transfer_date.ToString(gv.date_format)</td>
                     </tr>
                     <tr>
-                        <td>Referance # :</td>
+                        <td>@lang["Referance #"] :</td>
                         <td>@model.reference_number</td>
                     </tr>
                 </table>

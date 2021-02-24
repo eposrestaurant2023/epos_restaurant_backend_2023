@@ -9,7 +9,7 @@
 
 @if (!is_loading)
 {
-    <Title Value="Stock Take"></Title>
+    <Title Value="@lang["Stock Take"]"></Title>
     <PageContainer roles="@gv.GetRole("stock_transfer_management")">
         <PageHeader>
             <HeaderLeft>
@@ -18,14 +18,14 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_stock_transfer")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("stock_transfer_add")" url="stocktransfer/new">New</AddButton>
+                <AddButton roles="@gv.GetRole("stock_transfer_add")" url="stocktransfer/new">@lang["New"]</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
@@ -35,7 +35,7 @@
                         <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
                     </div>
                     <div class="uk-form-controls control-advince-filter-group">
-                        <label class="uk-form-label uk-text-bold">To Stock</label>
+                        <label class="uk-form-label uk-text-bold">@lang["To Stock"]</label>
                         <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_3" selected_businessChanged="@((val)=> { state.multi_select_id_3 = val;state.multi_select_id_4= null;  } )" business_id="@((val)=>state.multi_select_value_3=val)" />
                         <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_3" @bind-selected_stock_location="@state.multi_select_id_4" stock_location_id="@((val)=>state.multi_select_value_4=val)" />
 
@@ -56,16 +56,15 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         @HeaderTemplate("stock_transfer_date", "Stock Take Date", "uk-text-center")
                         @HeaderTemplate("document_number", "Document#", "uk-text-center")
                         @HeaderTemplate("referance_number", "Referance#", "uk-text-center") 
-                        @HeaderTemplate("from_stock_location/stock_location_name", "From Stock Location (Business Branch)","col-auto")
-                        @HeaderTemplate("to_stock_location/stock_location_name", "To Stock Location (Business Branch)","col-auto")
-                        <ThRight>Total Amount</ThRight>
-                        <ThRight>Status</ThRight>
+                        @HeaderTemplate("from_stock_location/stock_location_name", lang["From Stock Location (Business Branch)"],"col-auto")
+                        @HeaderTemplate("to_stock_location/stock_location_name", lang["To Stock Location (Business Branch)"],"col-auto")
+                        <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Status"]</ThRight>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -89,9 +88,9 @@
                             <ComStockTransferStatus model="@p"/>
                         </TdRight>
                         <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("stock_transfer_management")" icon="visibility" url="@($"stocktransfer/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("stock_transfer_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"stocktransfer/edit/{p.id}")">Edit</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("stock_transfer_delete")" icon="delete" is_visible="@(!p.is_deleted && !p.is_fulfilled)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("stock_transfer_management")" icon="visibility" url="@($"stocktransfer/{p.id}")">@lang["View"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("stock_transfer_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"stocktransfer/edit/{p.id}")">@lang["Edit"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("stock_transfer_delete")" icon="delete" is_visible="@(!p.is_deleted && !p.is_fulfilled)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
                         </TdActions>
                     </RowTemplate>
                 </Table>
