@@ -123,6 +123,9 @@
   <data name="Login" xml:space="preserve">
     <value>ចូលប្រព័ន្ធ</value>
   </data>
+  <data name="There's no record in the system" xml:space="preserve">
+    <value>គ្មានទិន្នន័យក្នុងប្រព័ន្ធ</value>
+  </data>
   <data name="Total Amount" xml:space="preserve">
     <value>សូមស្វាគមន៍</value>
   </data>

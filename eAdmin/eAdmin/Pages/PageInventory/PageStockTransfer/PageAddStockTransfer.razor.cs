@@ -22,7 +22,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            title = (id > 0 ? "Edit Stock Transfer" : "New Stock Transfer");
+            title = (id > 0 ? lang["Edit Stock Transfer"] : lang["New Stock Transfer"]);
 
             if (!is_error)
             {
@@ -32,7 +32,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             if (model.is_fulfilled)
             {
                 is_error = true;
-                error_text = "This Stock Transfer is already fulfilled";
+                error_text = lang["This Stock Transfer is already fulfilled"];
             }
 
         }
@@ -106,13 +106,13 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         {
             if (model.to_business_branch_id == Guid.Empty)
             {
-                toast.Add("Please select to business branch.", MatToastType.Warning);
+                toast.Add(lang["Please select to business branch."], MatToastType.Warning);
                 return;
             }
              
             if (model.to_stock_location_id == 0)
             {
-                toast.Add("Please select to stock location.", MatToastType.Warning);
+                toast.Add(lang["Please select to stock location."], MatToastType.Warning);
                 return;
             }
 
@@ -123,13 +123,13 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             }
             if (model.from_stock_location_id == 0)
             {
-                toast.Add("Please select from stock location.", MatToastType.Warning);
+                toast.Add(lang["Please select from stock location."], MatToastType.Warning);
                 return;
             }
 
             if (model.active_stock_transfer_products.Count() <= 0)
             {
-                toast.Add("Stock transfer item cannot be empty.", MatToastType.Warning);
+                toast.Add(lang["Stock transfer item cannot be empty."], MatToastType.Warning);
                 return;
             }
             
@@ -145,7 +145,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             var resp = await http.ApiPost("StockTransfer/save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add("Save successfully.", MatToastType.Success);
+                toast.Add(lang["Save successfully."], MatToastType.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
                 nav.NavigateTo($"stocktransfer/{_model.id}");
             }
