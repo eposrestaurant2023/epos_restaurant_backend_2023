@@ -225,6 +225,9 @@
     /* border-radius: 0px; */
     border-right: 0px;
 }
+.page_body{
+    margin-bottom:30px;
+}
 .bg_footer_add_product {
     background: #ececec;
     color: #5d5d5d;

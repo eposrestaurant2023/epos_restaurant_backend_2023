@@ -1,103 +1,70 @@
 ﻿@inject IHttpService http
 
 <TdCenter>
-    <Image ImageUrl="@http.ImageUrl(product?.product?.photo)" PopupImageUrl="@http.ImageUrl(product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+    <Image ImageUrl="@http.ImageUrl(stock_transfer_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(stock_transfer_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
 </TdCenter>
 <TdCenter>
-    <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{product.product_id}")" target="true">
-        @product?.product?.product_code
+    <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{stock_transfer_product.product_id}")" target="true">
+        @stock_transfer_product?.product?.product_code
     </ComAuthorize>
 </TdCenter>
 <td>
     <div>
         <div>
             <span>
-                <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{product.product_id}")" target="true">
-                    @product?.product?.product_display_name
+                <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{stock_transfer_product.product_id}")" target="true">
+                    @stock_transfer_product?.product?.product_display_name
                 </ComAuthorize> 
             </span>
         </div> 
         <div>
-            <Icon OnClick="@(()=> { product.is_add_note = !product.is_add_note; })" icon="chat" />
+            <Icon OnClick="@(()=> { stock_transfer_product.is_add_note = !stock_transfer_product.is_add_note; })" icon="chat" />
 
-            @if (product.is_add_note)
+            @if (stock_transfer_product.is_add_note)
             {
             <div>
-                <TextInput @bind-text="@product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
+                <TextInput @bind-text="@stock_transfer_product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
             </div>
             }
             else
             {
-                <Column is_visible="@(!string.IsNullOrEmpty(product.note))" ClassName="text-area wrp-comment-tt text-muted">
-                    @product.note
+                <Column is_visible="@(!string.IsNullOrEmpty(stock_transfer_product.note))" ClassName="text-area wrp-comment-tt text-muted">
+                    @stock_transfer_product.note
                 </Column>
             }
         </div>
     </div>
 </td>
 <TdCenter>
-    @if (product.is_fulfilled)
-    {
-        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@product.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
-    }
-    else
-    {
-        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
-    }
-
-    <div class="uk-text-small">@product.unit</div>
-
-
+    <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@stock_transfer_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
+</TdCenter>
+<TdCenter>
+    <SelectUnitName  @bind-unit_name="@stock_transfer_product.unit" @bind-multiplier="@stock_transfer_product.multiplier" unit_category_id="@stock_transfer_product.product.unit.unit_category_id" show_empty="false"/>
 </TdCenter>
 <TdRight>
-    <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
+    <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@stock_transfer_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
 </TdRight>
-<TdCenter> 
-        <Grid ClassName="uk-grid-small">
-            <div class="uk-width-2-3">
-                <NumberInput wrp_class="uk-width-1-1 uk-margin-remove" text="@product.discount" textChanged="@DiscountChange" text_format="@(product.discount_type == "Percent" ? "#,##0.##" : gv.main_currency_format)" />
-            </div>
-            <div class="uk-width-1-3 uk-padding-remove">
-                <select class="uk-select uk-form-width-small uk-form-small" value="@product.discount_type" @onchange="@((e) => DiscountTypeChange((string)e.Value))">
-                    <option value="Percent">%</option>
-                    <option value="Amount">$</option>
-                </select>
-            </div>
-        </Grid> 
-</TdCenter>
 <TdRight>
-    @product.total_amount.ToString(gv.currency_format)
+    @stock_transfer_product.total_amount.ToString(gv.currency_format)
 </TdRight>
 <td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
 
 
 @code{
-    [Parameter] public StockTransferProductModel product { get; set; }
-    [Parameter] public EventCallback<StockTransferProductModel> productChanged { get; set; }
+    [Parameter] public StockTransferProductModel stock_transfer_product { get; set; }
+    [Parameter] public EventCallback<StockTransferProductModel> stock_transfer_productChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnRemove { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
-
     async Task QuantityChange(decimal qty)
     {
-        product.quantity = qty;
-        await productChanged.InvokeAsync(product);
+        stock_transfer_product.quantity = qty;
+        await stock_transfer_productChanged.InvokeAsync(stock_transfer_product);
     }
     async Task CostChange(decimal _cost)
     {
-        product.cost = _cost;
-        await productChanged.InvokeAsync(product);
-    }
-    async Task DiscountChange(decimal discount)
-    {
-        product.discount = discount;
-        await productChanged.InvokeAsync(product);
-    }
-
-    async Task DiscountTypeChange(string discount_type)
-    {
-        product.discount_type = discount_type;
-        await productChanged.InvokeAsync(product);
+        stock_transfer_product.cost = _cost;
+        await stock_transfer_productChanged.InvokeAsync(stock_transfer_product);
     }
 }
