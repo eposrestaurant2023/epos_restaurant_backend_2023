@@ -255,8 +255,10 @@ namespace eAdmin.Pages
                 case "vendor":
                     state.vendor = new VendorModel();
                     break;
+                case "inventory_transaction_type":
+                    state.inventory_stransation_type = new InventoryTransactionTypeModel();
+                    break;
                    
-               
                 default:
                     break;
             }

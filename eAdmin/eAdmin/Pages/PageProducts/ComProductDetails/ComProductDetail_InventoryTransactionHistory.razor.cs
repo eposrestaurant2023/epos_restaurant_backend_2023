@@ -137,6 +137,22 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 });
             }
 
+
+
+            // customer group
+            if (state.inventory_stransation_type != null && state.inventory_stransation_type.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "inventory_transaction_type_id",
+                    value1 = state.inventory_stransation_type.id.ToString(),
+                    filter_title = "Inventory Stransation Type",
+                    state_property_name = "inventory_transaction_type",
+                    filter_info_text = state.inventory_stransation_type.inventory_transaction_type_name,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
             // filter business
             string business_branch_ids = "";
             if (state.multi_select_value_1 != null)
