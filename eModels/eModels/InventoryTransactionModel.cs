@@ -31,6 +31,7 @@ namespace eModels
 
         public int? purchase_order_product_id { get; set; }
         public int? stock_take_product_id { get; set; }
+        public int? stock_transfer_product_id { get; set; }
 
         public string unit { get; set; }
         public decimal multiplier { get; set; }
