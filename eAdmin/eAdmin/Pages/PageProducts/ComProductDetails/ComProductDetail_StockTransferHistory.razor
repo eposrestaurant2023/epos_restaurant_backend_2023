@@ -54,26 +54,33 @@
                     <TableHeader>
                         @HeaderTemplate("stock_transfer/stock_transfer_date",lang["Date"], "uk-text-center")
                         @HeaderTemplate("stock_transfer/document_number",lang["Document#"], "uk-text-center")
-                        <ThCenter>Reference Number</ThCenter>
-                        <ThAuto>Note</ThAuto>
-                        <ThCenter>Quantity</ThCenter>
-                        <ThRight>Cost</ThRight>
-                        <ThRight> Grand Total</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <ThCenter>Created By</ThCenter>
+                        <ThCenter>@lang["Reference Number"]</ThCenter>
+                        <ThAuto>@lang["From Stock"]</ThAuto>
+                        <ThAuto>@lang["To Stock"]</ThAuto>
+                        <ThCenter>@lang["Quantity"]</ThCenter>
+                        <ThRight>@lang["Cost"]</ThRight>
+                        <ThRight> @lang["Grand Total"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <ThCenter>@lang["Created By"]</ThCenter>
                     </TableHeader>
                     <RowTemplate Context="p">
                         
                         <TdCenter>@p.stock_transfer?.stock_transfer_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            @p.stock_transfer?.document_number
-                        </TdCenter>
+                            <a href="@($"stocktransfer/{p.stock_transfer.id}")">
+                                @p.stock_transfer?.document_number
+                                </a>
+                       </TdCenter>
                         <TdCenter>
                             @p.stock_transfer?.reference_number
                         </TdCenter>
                         <td>
-                            @p.stock_transfer?.note
+                            @p.stock_transfer?.from_business_branch?.business_branch_name_en (@p.stock_transfer?.from_stock_location?.stock_location_name)
                         </td>
+                        <td>
+                            @p.stock_transfer?.to_business_branch?.business_branch_name_en (@p.stock_transfer?.to_stock_location?.stock_location_name)
+                        </td>
+                      
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)
                         </TdCenter>

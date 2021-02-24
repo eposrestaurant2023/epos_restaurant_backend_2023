@@ -1,0 +1,124 @@
+﻿@page "/menu"
+@inherits PageCore
+<Loading is_loading="@(is_loading || is_loading_data)" />
+<Title Value="Menus"></Title>
+
+@if (!is_loading)
+{
+<PageContainer>
+
+    <PageHeader>
+        <HeaderLeft>
+            <PageTitle ShowFilter="false">
+                <HeaderTemplate>
+                    Root Menu
+                </HeaderTemplate>
+            </PageTitle>
+        </HeaderLeft>
+        <HeaderRight>
+            <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">Add New Root Menu</Button>
+            <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
+        </HeaderRight>
+    </PageHeader>
+    <PageBody>
+ 
+        <Grid ClassName="uk-grid-small">
+            <Column ClassName="uk-width-1-3">
+                <ComBusinessBranhRootMenu menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@current_menu_id" />
+            </Column>
+            <Column ClassName="uk-width-2-3">
+                <ComMainMenu menus="@menus" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" keyword="@keyword"/>
+            </Column>
+        </Grid>
+
+
+    </PageBody>
+    <PageFooter>
+        <FooterCenter>
+            <Button>Save</Button>
+        </FooterCenter>
+    </PageFooter>
+</PageContainer>
+}
+@if (show_add_menu)
+{
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" />
+
+}
+@code
+{
+
+    List<MenuModel> menus = new List<MenuModel>();
+    MenuModel menu = new  MenuModel ();
+
+    int current_menu_id;
+
+    bool show_add_menu;
+    string keyword;
+
+    string controller_api = "Menu";
+    public string ControllerApi
+    {
+        get
+        {
+            string url = $"{controller_api}?";
+            url += $"$expand=product_menus($expand=product($select=id,photo,product_name_en,product_name_kh))";
+            url = url + GetFilter(state.filters);
+
+
+            return url;
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+
+
+        state.filters.RemoveAll(r=>r.key== "business_branch_id" || r.key=="is_deleted");
+
+        state.filters.Add(new FilterModel()
+        {
+            key = "business_branch_id",
+            filter_operator = "multiple",
+            value1 = gv.business_branch_ids_filter_1,
+
+        });
+        state.filters.Add(new FilterModel()
+        {
+            key = "is_deleted",
+            value1 ="false"
+        });
+
+
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            menus = JsonSerializer.Deserialize<List<MenuModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+    void AddRootMenu()
+    {
+
+    }
+    void OnSearch()
+    {
+
+    }
+}
+

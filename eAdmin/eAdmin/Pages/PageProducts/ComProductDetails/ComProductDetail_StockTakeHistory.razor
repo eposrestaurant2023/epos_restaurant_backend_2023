@@ -45,24 +45,30 @@
                     <TableHeader>
                         @HeaderTemplate("stock_take/stock_take_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("stock_take/document_number", lang["Document#"], "uk-text-center")
-                        <ThCenter>Reference Number</ThCenter>
-                        <ThAuto>Note</ThAuto>
-                        <ThCenter>Quantity</ThCenter>
-                        <ThRight>Cost</ThRight>
-                        <ThRight> Grand Total</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <ThCenter>Created By</ThCenter>
+                        <ThCenter>@lang["Reference Number"]</ThCenter>
+                        <ThAuto>@lang["Business Branch"]</ThAuto>
+                        <ThAuto>@lang["Stock Location"]</ThAuto>
+                        <ThCenter>@lang["Quantity"]</ThCenter>
+                        <ThRight>@lang["Cost"]</ThRight>
+                        <ThRight> @lang["Grand Total"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <ThCenter>@lang["Created By"]</ThCenter>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.stock_take?.stock_take_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            @p.stock_take?.document_number
+                            <a href="@($"stocktake/{p.stock_take.id}")">
+                                @p.stock_take?.document_number
+                            </a> 
                         </TdCenter>
                         <TdCenter>
                             @p.stock_take?.reference_number
                         </TdCenter>
                         <td>
-                            @p.stock_take?.note
+                            @p.stock_take?.business_branch?.business_branch_name_en 
+                        </td>
+                        <td>
+                            @p.stock_take?.stock_location?.stock_location_name
                         </td>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)
