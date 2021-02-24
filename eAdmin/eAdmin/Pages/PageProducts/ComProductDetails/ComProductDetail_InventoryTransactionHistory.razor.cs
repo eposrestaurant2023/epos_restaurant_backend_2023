@@ -137,6 +137,22 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 });
             }
 
+
+
+            // customer group
+            if (state.inventory_stransation_type != null && state.inventory_stransation_type.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "inventory_transaction_type_id",
+                    value1 = state.inventory_stransation_type.id.ToString(),
+                    filter_title = "Inventory Stransation Type",
+                    state_property_name = "inventory_transaction_type",
+                    filter_info_text = state.inventory_stransation_type.inventory_transaction_type_name,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
             // filter business
             string business_branch_ids = "";
             if (state.multi_select_value_1 != null)
@@ -260,15 +276,23 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 // clear filter business
                 if (f.key == "stock_location/business_branch_id")
                 {
-                    state.multi_select_id_1.Clear();
-                    state.multi_select_value_1.Clear();
+                    if(state.multi_select_id_1 != null) state.multi_select_id_1.Clear();
+                    if (state.multi_select_value_1 != null) state.multi_select_value_1.Clear();
                 }
 
                 // clear filter stock location
                 if (f.key == "stock_location_id")
                 {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
+                    if (state.multi_select_id_2 != null)
+                    {
+                        state.multi_select_id_2.Clear();
+                    }
+
+                    if (state.multi_select_value_2 != null)
+                    {
+                        state.multi_select_value_2.Clear();
+                    }
+                    
                 }
 
                 RemoveFilter(state, f.state_property_name);

@@ -1,19 +1,24 @@
-﻿<UIContainerBox Title="Modifiers">
+﻿@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="Modifiers">
     <ModifierTypeahead @bind-modifier="@modifier" />
     <hr />
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
-            <Th>Modifier Name</Th>
+            <Th>@lang["Modifier Name"]</Th>
+            <ThRight>@lang["Price"]</ThRight>
             <ThCenter></ThCenter>
         </tr>
-        @foreach (var m in models.Where(r => r.is_deleted == false))
+        @foreach (var m in modifer_group.modifier_group_items.Where(r => r.is_deleted == false))
         {
             <tr>
                 <td>
-                    @m.modifier_name
+                    @m.modifier.modifier_name
                 </td>
+                <TdRight>
+                    <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]"/>
+                </TdRight>
                 <TdCenter>
-                    @*<Icon icon="delete" OnClick="@(()=>DeleteModifier(m))" is_visible="@(m.modifier_group_id==0)" />*@
+                    <Icon icon="delete" OnClick="@(()=>DeleteModifier(m))"  />
                 </TdCenter>
             </tr>
         }
@@ -21,20 +26,40 @@
 
 </UIContainerBox>
 @code{
-    public List<ModifierModel> models { get; set; } = new List<ModifierModel>();
-    private ModifierModel model;
+    [Parameter] public ModifierGroupModel modifer_group { get; set; }
+
+    private ModifierModel _modifier;
+
     public ModifierModel modifier
     {
-        get { return model; }
+        get { return _modifier; }
         set
         {
 
-            if (!models.Where(r => r.is_deleted == false).Any())
+
+            if (!modifer_group.modifier_group_items.Where(r => r.modifier_id == value.id && r.is_deleted == false).Any())
             {
-                models.Add(new ModifierModel() { modifier_name = value.modifier_name, id = value.id });
+                modifer_group.modifier_group_items.Add(new ModifierGroupItemModel() { modifier = value, modifier_id = value.id });
             }
+
             value = null;
-            model = value;
+
+            _modifier = value;
         }
     }
+
+
+
+    void DeleteModifier(ModifierGroupItemModel m)
+    {
+        if (m.modifier_group_id == 0)
+        {
+            modifer_group.modifier_group_items.Remove(m);
+        }
+        else {
+            m.is_deleted = true;
+        }
+    }
+
+
 }

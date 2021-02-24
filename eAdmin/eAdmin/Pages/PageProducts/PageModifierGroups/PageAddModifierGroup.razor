@@ -2,6 +2,7 @@
 @page "/modifiergroup/edit/{id:int}"
 @page "/modifiergroup/clone/{clone_id:int}"
 @inherits PageCore
+@inject IStringLocalizer<Resource> lang
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
@@ -18,7 +19,7 @@
 
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true"/>
+            <HeaderRight ShowBackButton="true" />
         </PageHeader>
         <EditForm Model="@modifier_group" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
             <DataAnnotationsValidator />
@@ -33,21 +34,19 @@
                     </UIContainerBox>
                 </UIGridCenter>
                 <UIGridCenter>
-                    <ComAddModifier/>
+                    <ComAddModifier modifer_group="@modifier_group" />
                 </UIGridCenter>
-                <UIGridCenter>
-                    <ComAddModifierGroupItem modifiers="@modifiers"/>
-                </UIGridCenter>
-                <UIGridCenter>
-                    <ComAddModifierGroupProductCategory product_categories="@product_categories"/>
+
+                <UIGridCenter >
+                    <ComAddModifierGroupProductCategory  modifier_group="@modifier_group" />
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
                 <FooterCenter>
                     <ComButtonLoading is_loading="@is_saving">
-                        <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("product_add")" type="submit">Save</Button>
-                        @*<Button icon="save" class_name="uk-button uk-button-primary button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("product_add")" type="submit">Save & New</Button>*@
-                        @*<Button OnClick="@OnCancel" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>*@
+                        <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("product_add")" type="submit">@lang["Save"]</Button>
+                        <Button icon="save" class_name="uk-button uk-button-primary button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("product_add")" type="submit">@lang["Save & New"]</Button>
+                        <Button OnClick="@OnCancel" class_name="uk-button uk-button-danger button-large" icon="reply">@lang["Cancel"]</Button>
                     </ComButtonLoading>
                 </FooterCenter>
             </PageFooter>
@@ -63,20 +62,18 @@ else
     <Error title="Product">@error_text</Error>
 }
 
-@code{      
+@code{
     [Parameter] public int clone_id { get; set; }
     [Parameter] public int id { get; set; }
     string controller_api = "ModifierGroup";
     ModifierGroupModel modifier_group = new ModifierGroupModel();
-    List<ModifierModel> modifiers = new List<ModifierModel>();
-    List<ProductCategoryModel> product_categories = new List<ProductCategoryModel>();
 
+    bool is_save_and_new = false;
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         await LoadData();
-        await LoadModifierGroupItem();
-        await LoadModifierGroupProductCategory();
+
     }
 
     async Task LoadData()
@@ -94,7 +91,7 @@ else
             }
             else
             {
-                var resp = await http.ApiGet(controller_api + $"/edit/{id}");
+                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_group_items($expand=modifier;$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
                 if (resp.IsSuccess)
                 {
                     modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
@@ -109,57 +106,43 @@ else
         is_loading = false;
     }
 
-    async Task LoadModifierGroupItem()
-    {
-        var res = await http.ApiGetOData($"Modifier?$expand=product_modifiers&$filter= is_deleted eq false");
-        if (res.IsSuccess)
-        {
-            modifiers = JsonSerializer.Deserialize<List<ModifierModel>>(res.Content.ToString());
-        }
-    }
-
-    async Task LoadModifierGroupProductCategory()
-    {
-        var res = await http.ApiGetOData($"ProductCategory?$expand=modifier_group_product_categories&$filter= is_deleted eq false");
-        if (res.IsSuccess)
-        {
-            product_categories = JsonSerializer.Deserialize<List<ProductCategoryModel>>(res.Content.ToString());
-        }
-    }
-
     async Task Save_Click()
     {
         is_saving = true;
-        modifier_group.modifiers.Clear();
-        modifier_group.modifier_group_items.Clear();
-        modifier_group.modifier_group_product_categories.Clear();
-        foreach (var a in modifiers.ToList())
-        {
-            if (a.is_selected)
-            {
-                modifier_group.modifier_group_items.Add(new ModifierGroupItemModel()
-                {
-                    modifier_id = a.id,
-                    modifier_group_id = id
-                });
-            }
-        }
-        foreach (var a in product_categories.ToList())
-        {
-            if (a.is_selected)
-            {
-                modifier_group.modifier_group_product_categories.Add(new ModifierGroupProductCategoryModel()
-                {
-                    product_category_id = a.id,
-                    modifer_group_id = id
-                });
-            }
-        }
-        var resp = await http.ApiPost("ModifierGroup/Save", modifier_group);
+
+        ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
+
+        save_model.modifier_group_items.Where(r => r.modifier.id > 0).ToList().ForEach(r => r.modifier = null);
+        save_model.modifier_group_product_categories.ForEach(r => r.product_category = null);
+
+        var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)
         {
             toast.Add("Save Modifier Group successfully", MatToastType.Success);
+            save_model = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+            if (is_save_and_new)
+            {
+
+            }else
+            {
+                nav.NavigateTo("modifiergroup/" + save_model.id);
+            }
+
+        }
+        else {
+            toast.Add("Save modifier group fail.", MatToastType.Warning);
         }
         is_saving = false;
+    }
+
+    void OnCancel() {
+        if (id > 0)
+        {
+            nav.NavigateTo("modifiergroup/" + id);
+        }else
+        {
+            nav.NavigateTo("modifiergroup");
+        }
+
     }
 }
