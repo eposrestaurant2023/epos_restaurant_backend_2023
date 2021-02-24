@@ -11,7 +11,7 @@
                 <tr>
                     @if (ShowCounter)
                     {
-                        <ThCenter>Nº</ThCenter>
+                        <ThCenter>@lang["Nº"]</ThCenter>
                     }
                     @TableHeader
                 </tr>
@@ -98,18 +98,18 @@
 
      private string _EmptyText;
      [Parameter]
-        public string EmptyText
-        {
-            get
+    public string EmptyText
+    {
+        get
         {
 
-            if (String.IsNullOrEmpty(_EmptyText))
-            {
-                _EmptyText = lang["There's no record in the system"];
-            }
-            return _EmptyText;
+        if (string.IsNullOrEmpty(_EmptyText))
+        {
+            _EmptyText = lang["There's no record in the system"];
         }
-        set { _EmptyText = value; }
+        return _EmptyText;
+        }
+    set { _EmptyText = value; }
     }
     
 

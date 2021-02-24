@@ -1,6 +1,7 @@
-﻿@if (is_visible)
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_visible)
 {
-    <label class="uk-label uk-label-danger text-center"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))"/>Deleted</label>
+    <label class="uk-label uk-label-danger text-center"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))"/>@lang["Deleted"]</label>
 }
 
 @code{

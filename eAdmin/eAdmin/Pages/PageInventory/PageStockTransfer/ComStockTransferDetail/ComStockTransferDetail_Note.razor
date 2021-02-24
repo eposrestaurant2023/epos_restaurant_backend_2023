@@ -1,10 +1,13 @@
-﻿<Grid ClassName="uk-grid-small">
+﻿
+@inject IStringLocalizer<Resource> lang
+
+<Grid ClassName="uk-grid-small">
     <Column ClassName="uk-width-1-3">
         @if (!string.IsNullOrEmpty(model.note))
         {
             <div>
-                <div class="sub_title font-sm">Notes:</div>
-                <div>
+                <div class="sub_title font-sm">@lang["Note"]</div>
+                <div class="text-area">
                     @model.note
                 </div>
             </div>

@@ -89,7 +89,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             if (id > 0)
             {
                 string url = $"StockTransfer({id})?";
-                url += $"$expand=stock_transfer_products($expand=product;$filter=is_deleted eq false),";
+                url += $"$expand=stock_transfer_products($expand=product($expand=unit);$filter=is_deleted eq false),";
                 url += $"from_business_branch($select=business_branch_name_en),from_stock_location($select=stock_location_name)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
