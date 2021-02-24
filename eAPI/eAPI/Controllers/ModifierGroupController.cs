@@ -54,20 +54,23 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<ModifierGroupModel>> Save([FromBody] ModifierGroupModel u)
         {
-             
-           
-           
+            
             if (u.id == 0)
             {
+                u.modifier_group_product_categories.ForEach(r => r.modifier_group = null);
+                u.modifier_group_product_categories.ForEach(r => r.modifer_group_id = 0);
+                u.modifier_group_product_categories.ForEach(r => r.id = 0);
+                u.modifier_group_product_categories.ForEach(r => r.product_category = null);
                 db.ModifierGroups.Add(u);
             }
             else
-            {             
-                
+            {      
                 db.ModifierGroups.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-         
+
+            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer {u.id},0" );
+
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             return Ok(db.ModifierGroups.Find(u.id));
         }
@@ -85,12 +88,24 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("clone/{id}")]
-        public async Task<ActionResult<ModifierGroupModel>> Clone(int id) //Delete
+        public ActionResult<ModifierGroupModel> Clone(int id) //clone
         {
-            var u = await db.ModifierGroups.FindAsync(id);
-            u.id = 0;
-            u.created_date = DateTime.Now;
-            return Ok(u);
+            var u = db.ModifierGroups.Where(r=>r.id == id)
+                .Include(r=>r.modifier_group_items.Where(r=>r.is_deleted == false)).ThenInclude(r=>r.modifier)
+                .Include(r=>r.modifier_group_product_categories.Where(r=>r.is_deleted == false)).ThenInclude(r=>r.product_category).ToList();
+            if (u.Any())
+            {
+                ModifierGroupModel m = u.FirstOrDefault();
+                m.id = 0;
+                m.created_date = DateTime.Now;
+                m.modifier_group_items.ForEach(r => r.modifier_group_id = 0);
+                m.modifier_group_product_categories.ForEach(r => r.modifer_group_id = 0);
+                return Ok(m);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]

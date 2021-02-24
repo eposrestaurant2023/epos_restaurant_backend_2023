@@ -48,7 +48,7 @@
                     </TableHeader>
                     <RowTemplate Context="m">
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("modifier_edit")" OnClick="@(() => Edit_Click(m))">
+                            <ComAuthorize roles="@gv.GetRole("modifier_edit")" OnClick="@(()=>nav.NavigateTo($"modifiergroup/{m.id}"))" >
                                 @m.modifier_group_name_en
                             </ComAuthorize>
                         </td>
