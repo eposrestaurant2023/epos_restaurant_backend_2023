@@ -61,15 +61,10 @@
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <Button disabled="@(is_saving || model.active_stock_take_products.Count()<=0)" OnClick="@OnSaveClick" icon="save">Save</Button>
-                @if (is_saving)
-                {
-                    <button class="uk-button uk-button-danger" onclick="history.go(-1)" disabled><Icon icon="reply" /> Cancel</button>
-                }
-                else
-                {
+                <ComButtonLoading is_loading="@is_saving">
+                    <Button disabled="@(model.active_stock_take_products.Count()<=0)" OnClick="@OnSaveClick" icon="save">Save</Button>
                     <button class="uk-button uk-button-danger" onclick="history.go(-1)"><Icon icon="reply" /> Cancel</button>
-                }
+                </ComButtonLoading>
             </FooterCenter>
             <FooterRight>
                 <strong class="uk-margin-small-right">Total Amount</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>

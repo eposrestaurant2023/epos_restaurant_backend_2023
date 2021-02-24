@@ -83,10 +83,11 @@ else
         {
             if (clone_id > 0)
             {
-                var resp = await http.ApiGet(controller_api + $"/clone/{clone_id}");
+                var resp = await http.ApiPost(controller_api + $"/clone/{clone_id}");
                 if (resp.IsSuccess)
                 {
                     modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+                    title = $"Clone : {modifier_group.modifier_group_name_en}";
                 }
             }
             else
@@ -95,6 +96,7 @@ else
                 if (resp.IsSuccess)
                 {
                     modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+                    title = $"Edit : {modifier_group.modifier_group_name_en}";
                 }
             }
         }

@@ -31,6 +31,7 @@ namespace eModels
         public decimal quantity { get; set; }
 
 
+       
 
         public List<StockLocationProductModel> stock_location_products { get; set; }
 
