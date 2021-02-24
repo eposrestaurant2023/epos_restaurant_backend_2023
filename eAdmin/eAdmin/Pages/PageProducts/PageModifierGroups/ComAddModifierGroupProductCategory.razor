@@ -1,20 +1,49 @@
-﻿@inherits PageCore
-
-<UIContainerBox>
+﻿@inject IHttpService http;
+@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@lang["Product Categories"]">
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+        foreach (var g in product_groups)
+        {
+ <h3 class="title">@g.product_group_code - @g.product_group_en </h3>
+ <hr/>
     <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
         <thead>
             <tr>
-                <th></th>
-                <th>Name En</th>
-                <th>Name Kh</th>
+                <th>
+                    @if (g.is_selected)
+                    {
+                        <input type="checkbox" checked @onchange="@(() => SelectAllCategory(false, g))" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" @onchange="@(() => SelectAllCategory(true, g))" />
+                    }
+                    
+                </th>
+                <th>@lang["Name En"]</th>
+                <th>@lang["Name Kh"]</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var p in product_categories.Where(r => r.is_deleted == false))
+            @foreach (var p in g.product_categories)
             {
                 <tr>
                     <td>
-                        <InputCheckbox @bind-Value="@p.is_selected" />
+                        @if (modifier_group.modifier_group_product_categories.Where(r => r.product_category_id == p.id && r.is_deleted == false).Any())
+                        {
+                            <input type="checkbox" checked @onchange="@(() => OnSelectProductCategory(false, p))" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" @onchange="@(() => OnSelectProductCategory(true, p))" />
+                        }
+
+
                     </td>
                     <td>@p.product_category_en</td>
                     <td>@p.product_category_kh</td>
@@ -22,8 +51,67 @@
             }
         </tbody>
     </table>
+
+
+        }
+
+    }
+
 </UIContainerBox>
 
 @code {
-    [Parameter] public List<ProductCategoryModel> product_categories { get; set; } = new List<ProductCategoryModel>();
+    [Parameter] public ModifierGroupModel modifier_group { get; set; }
+
+    List<ProductGroupModel> product_groups = new List<ProductGroupModel>();
+    bool is_loading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiGetOData("ProductGroup?$expand=product_categories($filter=is_deleted eq false and status eq true)&$filter=is_deleted eq false and status eq true and id gt 1");
+        if (resp.IsSuccess)
+        {
+            product_groups = JsonSerializer.Deserialize<List<ProductGroupModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+    void SelectAllCategory(bool is_selected, ProductGroupModel g)
+    {
+        g.is_selected = is_selected;
+        foreach(var pc in g.product_categories)
+        {
+            OnSelectProductCategory(g.is_selected, pc);
+        }
+    }
+    void OnSelectProductCategory(bool is_selected, ProductCategoryModel pc)
+    {
+        if (is_selected)
+        {
+            var data = modifier_group.modifier_group_product_categories.Where(r => r.product_category_id == pc.id);
+
+            if (data.Any())
+            {
+                data.FirstOrDefault().is_deleted = false;
+            }
+            else {
+                modifier_group.modifier_group_product_categories.Add(new ModifierGroupProductCategoryModel() { product_category_id = pc.id });
+            }
+        }else
+        {
+            var data = modifier_group.modifier_group_product_categories.Where(r => r.product_category_id == pc.id && r.is_deleted == false).Take(1);
+            if (data.Any())
+            {
+
+                if (data.FirstOrDefault().id > 0)
+                {
+                    data.FirstOrDefault().is_deleted = true;
+                }
+                else {
+                    modifier_group.modifier_group_product_categories.Remove(data.FirstOrDefault());
+                }
+            }
+        }
+    }
+
 }

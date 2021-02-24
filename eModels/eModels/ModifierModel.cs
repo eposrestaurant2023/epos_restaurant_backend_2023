@@ -34,6 +34,11 @@ namespace eModels
         public int modifier_id { get; set; }
         [ForeignKey("modifier_id")]
         public ModifierModel modifier { get; set; }
+
+
+        public decimal price { get; set; }
+        public bool is_deleted { get; set; } = false;
+
     }
 
     [Table("tbl_modifier_group")]
@@ -41,14 +46,14 @@ namespace eModels
     {
         public ModifierGroupModel()
         {
-            modifiers = new List<ModifierModel>();
+            
             modifier_group_product_categories = new List<ModifierGroupProductCategoryModel>();
             modifier_group_items = new List<ModifierGroupItemModel>();
         }
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string modifier_group_name_en { get; set; }
         public string modifier_group_name_kh { get; set; }
-        public List<ModifierModel> modifiers { get; set; }
+      
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
     }
@@ -66,6 +71,8 @@ namespace eModels
         public int product_category_id { get; set; }
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
+
+        public bool is_deleted { get; set; }
     }
 
     [Table("tbl_product_modifier")]
