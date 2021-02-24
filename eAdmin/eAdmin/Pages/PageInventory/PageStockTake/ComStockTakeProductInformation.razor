@@ -24,7 +24,6 @@
                 <th></th>
 </TableHeader>
             <RowTemplate Context="p">
-
                 <ComStockTakeProductRow stock_take_product="@p" stock_take_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
         </Table>
