@@ -13,6 +13,9 @@ namespace eModels
         {
             product_menus = new List<ProductMenuModel>();
         }
+
+        public int? root_menu_id { get; set; }
+
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
