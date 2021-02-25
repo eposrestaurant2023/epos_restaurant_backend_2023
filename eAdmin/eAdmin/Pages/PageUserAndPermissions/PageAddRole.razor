@@ -37,10 +37,7 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ComButtonLoading is_loading="@is_saving">
-                        <Button type="submit" icon="save" custom_class="button-large">Save</Button>
-                        <LinkButton url="role" icon="reply" Class_Name="uk-button-danger button-large">Cancel</LinkButton>
-                    </ComButtonLoading>                        
+                    <ComSavingFormButton is_loading="@is_saving" cancel_url="role"/>
                 </FooterCenter>
             </PageFooter>
         </EditForm>

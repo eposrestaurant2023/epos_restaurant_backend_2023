@@ -83,11 +83,7 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ComButtonLoading is_loading="@is_saving">
-                        <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("product_add")" type="submit">Save</Button>
-                        <Button icon="save" class_name="uk-button uk-button-primary button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("product_add")" type="submit">Save & New</Button>
-                        <Button OnClick="@OnCancel" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
-                    </ComButtonLoading>
+                    <ComSavingFormButton is_loading="@is_saving" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)" is_show_cancel_action="true" OnCancel="@OnCancel"/>
                 </FooterCenter>
             </PageFooter>
         </EditForm>

@@ -1,17 +1,18 @@
 ﻿@page "/setting/printer"
 @inject IHttpService http;
 @inject IMatToaster toast;
+@inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
 {
    
-    <Title Value="Printers"></Title>
+    <Title Value="@lang["Printers"]"></Title>
     <PageContainer roles="@gv.GetRole("printer_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Printers
+                        @lang["Printers"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -24,34 +25,30 @@
             <UIGridCenter>
                 @if (branches.Any())
                 {
-                @foreach (var b in branches)
-                {
-                     <ComAccordion>
-                         <Header>
-                             @b.business_branch_name_en
-                         </Header>
-                         <Content>
-                             <ComPrinters printers="@b.printers" />
-                             <hr />
-                             <Button OnClick="@(()=>AddPrinter(b))">Add Printer</Button>
-                         </Content>
-                     </ComAccordion>
+                    @foreach (var b in branches)
+                    {
+                         <ComAccordion>
+                             <Header>
+                                 @b.business_branch_name_en
+                             </Header>
+                             <Content>
+                                 <ComPrinters printers="@b.printers" />
+                                 <hr />
+                                 <Button OnClick="@(()=>AddPrinter(b))">@lang["Add Printer"]</Button>
+                             </Content>
+                         </ComAccordion>
                     
+                    }
                 }
-                }else
+                else
                 {
-                    <ComAlert type="warning">There is no business branch. Please enter business branch first.</ComAlert>
+                    <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
                 }
             </UIGridCenter>
-
-           
-                    </PageBody>
+        </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComButtonLoading is_loading="@is_saving">
-                    <SavingButton is_saving="@is_saving" />
-                    <Button OnClick="@Save_Click" is_visible="@(!is_saving)">Save</Button>
-                </ComButtonLoading>                    
+                <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@Save_Click"/>
             </FooterCenter>
         </PageFooter>
         </PageContainer>
@@ -87,7 +84,7 @@
         else
         {
 
-            toast.Add("Loading printer fail.", MatToastType.Warning);
+            toast.Add(lang["Loading printer fail."], MatToastType.Warning);
         }
 
 
@@ -104,7 +101,7 @@
         if(branches.SelectMany(r=>r.printers).Where(r=>r.is_deleted==false && r.printer_name.Trim() == "").Any())
         {
 
-            toast.Add("Please enter printer name", MatToastType.Warning);
+            toast.Add(lang["Please enter printer name"], MatToastType.Warning);
             return;
         }
 
@@ -114,14 +111,14 @@
         if (resp.IsSuccess)
         {
 
-            toast.Add("Save Printer successfully", MatToastType.Success);
+            toast.Add(lang["Save Printer successfully"], MatToastType.Success);
 
             await LoadData();
         }
         else
         {
 
-            toast.Add("Save Printer Fail", MatToastType.Warning);
+            toast.Add(lang["Save Printer Fail"], MatToastType.Warning);
         }
         is_saving = false;
     }
