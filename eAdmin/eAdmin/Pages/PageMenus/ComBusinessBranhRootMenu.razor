@@ -1,18 +1,18 @@
 ﻿@inherits PageCore
-
-@foreach (var b in gv.business_branch_by_role)
-{
-    <div style="color:red">
-        @b.business_branch_name_en
-    </div>
-    @foreach(var n in menus.Where(r=>r.business_branch_id == b.id))
+<div class="bg_business_rootmenu">
+    @foreach (var b in gv.business_branch_by_role)
     {
-<Button OnClick="@(()=>MenuClick(n))">@n.menu_name_en | @n.is_selected</Button> 
-
-     <hr/>
+        <div style="color:red">
+            @b.business_branch_name_en
+        </div>
+        @foreach (var n in menus.Where(r => r.business_branch_id == b.id))
+        {
+            <button @onclick="@(()=>MenuClick(n))" class="@(n.is_deleted?"Action":"")">
+                @n.menu_name_en
+            </button>
+        }
     }
-}
-
+</div>
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public int menu_id { get; set; }

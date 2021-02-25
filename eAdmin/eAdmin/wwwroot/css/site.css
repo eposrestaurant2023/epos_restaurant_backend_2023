@@ -6985,3 +6985,7 @@ div.mud-input-slot.mud-input-root:hover {
 z-index:999999!important;
 
 }
+.bg_business_rootmenu {
+    background: #ebeff3;
+    padding: 15px;
+}
