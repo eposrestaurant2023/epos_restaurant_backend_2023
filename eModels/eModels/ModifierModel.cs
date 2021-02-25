@@ -19,8 +19,7 @@ namespace eModels
 
 
         [Required(ErrorMessage = "Field cannot be blank.")]
-        public string modifier_name { get; set; }
-        public int sort_order { get; set; }
+        public string modifier_name { get; set; }        
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
 
@@ -36,7 +35,7 @@ namespace eModels
         [ForeignKey("modifier_id")]
         public ModifierModel modifier { get; set; }
 
-
+        public int sort_order { get; set; }
         public decimal price { get; set; }
         public bool is_deleted { get; set; } = false;
 
