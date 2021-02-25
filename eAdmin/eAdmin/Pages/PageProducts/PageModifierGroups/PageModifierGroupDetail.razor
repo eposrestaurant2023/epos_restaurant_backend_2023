@@ -54,62 +54,23 @@
                                             <th>Name En</th>
                                             <td>@modifier_group.modifier_group_name_en</td>
                                         </tr>
-                                        <tr>
-                                            <th>Name Kh</th>
-                                            <td>@modifier_group.modifier_group_name_kh</td>
-                                        </tr>
-                                    </table>
-                                </UIContainerBox>
-                            </UIGridCenter>
-                            <UIGridCenter>
-                                <UIContainerBox Title="Modifier">
-                                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                        <tr>
-                                            <Th>@lang["Modifier Name"]</Th>
-                                            <ThRight>@lang["Price"]</ThRight>
-                                        </tr>
-                                        @foreach (var m in modifier_group.modifier_group_items.Where(r => r.is_deleted == false))
+                                        @if (!string.IsNullOrEmpty(modifier_group.modifier_group_name_kh))
                                         {
                                             <tr>
-                                                <td>
-                                                    @m.modifier.modifier_name
-                                                </td>
-                                                <TdRight>
-                                                    @m.price.ToString(gv.currency_format)
-                                                </TdRight>
+                                                <th>Name Kh</th>
+                                                <td>@modifier_group.modifier_group_name_kh</td>
                                             </tr>
                                         }
                                     </table>
                                 </UIContainerBox>
                             </UIGridCenter>
                             <UIGridCenter>
-                                <UIContainerBox Title="Product Categories">
-                                    @foreach (var g in product_groups.Where(r => (r.product_categories.SelectMany(r=>r.modifier_group_product_categories.Where(r=>r.modifer_group_id == id)).Count() > 0)))
-                                    {
-                                        <h3 class="title">@g.product_group_code - @g.product_group_en </h3>
-                                        <hr />
-                                        <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>@lang["Name En"]</th>
-                                                    <th>@lang["Name Kh"]</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var mp in g.product_categories.SelectMany(r => r.modifier_group_product_categories))
-                                                {
-                                                    @foreach (var p in g.product_categories.Where(r => r.id == mp.product_category_id && mp.modifer_group_id == id))
-                                                    {
-                                                        <tr>
-                                                            <td>@p.product_category_en</td>
-                                                            <td>@p.product_category_kh</td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    }
-                                </UIContainerBox>
+                                @*===========modifier group item=========*@
+                                <ComModifierGroupDetail_Modifier modifier_group="@modifier_group"/>
+                            </UIGridCenter>
+                            <UIGridCenter>
+                                @*===========modifier group product category=========*@
+                                <ComModifierGroup_ProductCategory modifier_group_id="@id" product_groups="@product_groups" />
                             </UIGridCenter>
                         </TabItem>
                         @*============comment===========*@

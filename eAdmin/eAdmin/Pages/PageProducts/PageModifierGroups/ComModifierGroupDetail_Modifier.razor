@@ -1,0 +1,26 @@
+﻿@inject IStringLocalizer<Resource> lang
+
+<UIContainerBox Title="Modifier">
+    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <Th>@lang["Modifier Name"]</Th>
+            <ThRight>@lang["Price"]</ThRight>
+        </tr>
+        @foreach (var m in modifier_group.modifier_group_items.Where(r => r.is_deleted == false))
+        {
+            <tr>
+                <td>
+                    @m.modifier.modifier_name
+                </td>
+                <TdRight>
+                    @m.price.ToString(gv.currency_format)
+                </TdRight>
+            </tr>
+        }
+    </table>
+</UIContainerBox>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public ModifierGroupModel modifier_group { get; set; } = new ModifierGroupModel();
+}
