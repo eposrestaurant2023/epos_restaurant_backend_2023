@@ -1,7 +1,7 @@
 ﻿
  
 <UIContainerBox Title="Menus">
-    (@keyword)
+    (@current_menu_id)
         @if (current_menu_id != parent_menu_id)
         {
             <h3 class="title">@menus.Where(r => r.id == current_menu_id).FirstOrDefault().menu_path</h3>
@@ -16,7 +16,7 @@
 
                     @if (current_menu_id != parent_menu_id)
                     {
-                         <ComMenuBackButton />
+                         <ComMenuBackButton current_menu_id="@current_menu_id" parent_menu_id="@parent_menu_id" OnClick="@OnBack"/>
                     }
 
 
@@ -124,7 +124,7 @@
 
     void OnBack()
     {
-        current_menu_id = parent_menu_id;
+        current_menu_id == parent_menu_id;
         if (current_menu_id > 0)
         {
             var d = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
