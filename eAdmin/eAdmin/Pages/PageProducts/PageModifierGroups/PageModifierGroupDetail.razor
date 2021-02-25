@@ -7,7 +7,7 @@
 @if (!is_loading && !is_error)
 {
     <Title Value="@title"></Title>
-    <PageContainer>
+    <PageContainer roles="@gv.GetRole("modifier_group_view")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -20,20 +20,20 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifiergroup/edit/{modifier_group.id}"))" is_visible="@(!modifier_group.is_deleted)" />
-                <ComAttachFileButton RoleAdd="@gv.GetRole("product_add")"
-                                     RoleEdit="@gv.GetRole("product_edit")"
-                                     RoleDelete="@gv.GetRole("product_delete")"
+                <Button roles="@gv.GetRole("modifier_group_edit")" icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifiergroup/edit/{modifier_group.id}"))" is_visible="@(!modifier_group.is_deleted)" />
+                <ComAttachFileButton RoleAdd="@gv.GetRole("modifier_group_add")"
+                                     RoleEdit="@gv.GetRole("modifier_group_edit")"
+                                     RoleDelete="@gv.GetRole("modifier_group_delete")"
                                      ApiFilter="@($"modifier_group_id eq {id} ")"
                                      File="@(new AttachFilesModel() { modifier_group_id =  id })"
                                      IsVisible="@(!modifier_group.is_deleted)" />
-                <AddButton url="modifiergroup/new" roles="@gv.GetRole("product_add")">New Modifier</AddButton>
+                <AddButton url="modifiergroup/new" roles="@gv.GetRole("modifier_group_add")">New Modifier</AddButton>
                 <MoreButton is_loading="@(modifier_group.is_loading ||modifier_group.is_change_status || modifier_group.is_deleting || modifier_group.is_restoring)">
-                    <MoreButtonItem roles="@gv.GetRole("product_add")" icon="file_copy" url="@($"modifiergroup/clone/{modifier_group.id}")">Clone</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="highlight_off" is_visible="@(!modifier_group.is_deleted && modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">Inactive</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="check" is_visible="@(!modifier_group.is_deleted && !modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">Active</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_delete")" icon="delete" is_visible="@(!modifier_group.is_deleted)" OnClick="@(()=>OnDelete(modifier_group))">Delete</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="refresh" is_visible="@(modifier_group.is_deleted)" OnClick="@(()=>OnRestore(modifier_group))">Restore</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_group_add")" icon="file_copy" url="@($"modifiergroup/clone/{modifier_group.id}")">Clone</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_group_edit")" icon="highlight_off" is_visible="@(!modifier_group.is_deleted && modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">Inactive</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_group_edit")" icon="check" is_visible="@(!modifier_group.is_deleted && !modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">Active</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_group_delete")" icon="delete" is_visible="@(!modifier_group.is_deleted)" OnClick="@(()=>OnDelete(modifier_group))">Delete</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_group_restore")" icon="refresh" is_visible="@(modifier_group.is_deleted)" OnClick="@(()=>OnRestore(modifier_group))">Restore</MoreButtonItem>
 
                 </MoreButton>
                 <RefreshButton OnClick="@LoadData" />
@@ -75,7 +75,7 @@
                                                     @m.modifier.modifier_name
                                                 </td>
                                                 <TdRight>
-                                                    @m.price
+                                                    @m.price.ToString(gv.currency_format)
                                                 </TdRight>
                                             </tr>
                                         }
@@ -84,7 +84,7 @@
                             </UIGridCenter>
                             <UIGridCenter>
                                 <UIContainerBox Title="Product Categories">
-                                    @foreach (var g in product_groups.Where(r => r.product_categories.Count() > 0))
+                                    @foreach (var g in product_groups.Where(r => (r.product_categories.SelectMany(r=>r.modifier_group_product_categories.Where(r=>r.modifer_group_id == id)).Count() > 0)))
                                     {
                                         <h3 class="title">@g.product_group_code - @g.product_group_en </h3>
                                         <hr />
@@ -118,9 +118,9 @@
                         {
                             <UIGridCenter>
                                 <UIContainerBox Title="Comment and History">
-                                    <ComHistory RoleAdd="@gv.GetRole("product_add")"
-                                                RoleDelete="@gv.GetRole("product_delete")"
-                                                RoleEdit="@gv.GetRole("product_add")"
+                                    <ComHistory RoleAdd="@gv.GetRole("modifier_group_add")"
+                                                RoleDelete="@gv.GetRole("modifier_group_delete")"
+                                                RoleEdit="@gv.GetRole("modifier_group_edit")"
                                                 ApiFilter="@($"modifier_group_id eq {id}")"
                                                 history="@(new HistoryModel() { modifier_group_id = id})" />
                                 </UIContainerBox>

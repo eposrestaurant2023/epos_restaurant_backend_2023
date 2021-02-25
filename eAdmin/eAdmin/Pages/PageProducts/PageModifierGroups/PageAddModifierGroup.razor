@@ -9,14 +9,13 @@
 @if (!is_loading && !is_error)
 {
     <Title Value="@title"></Title>
-    <PageContainer>
+    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "modifier_group_edit" : "modifier_group_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
                         @title
                     </HeaderTemplate>
-
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true" />
@@ -124,12 +123,16 @@ else
             save_model = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
             if (is_save_and_new)
             {
-
-            }else
+                modifier_group = new ModifierGroupModel();
+                modifier_group.modifier_group_items = new List<ModifierGroupItemModel>();
+                modifier_group.modifier_group_product_categories = new List<ModifierGroupProductCategoryModel>();
+                nav.NavigateTo("modifiergroup/new");
+                await LoadData();
+            }
+            else
             {
                 nav.NavigateTo("modifiergroup/" + save_model.id);
             }
-
         }
         else {
             toast.Add("Save modifier group fail.", MatToastType.Warning);
