@@ -49,6 +49,8 @@ namespace eModels
             
             modifier_group_product_categories = new List<ModifierGroupProductCategoryModel>();
             modifier_group_items = new List<ModifierGroupItemModel>();
+            histories = new List<HistoryModel>();
+            attach_files = new List<AttachFilesModel>();
         }
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string modifier_group_name_en { get; set; }
@@ -56,6 +58,8 @@ namespace eModels
       
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
+        public List<HistoryModel> histories { get; set; }
+        public List<AttachFilesModel> attach_files { get; set; }
     }
 
     [Table("tbl_modifier_group_product_category")]

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210225030324_his_modifier_id")]
+    partial class his_modifier_id
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,9 +72,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_document_file")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("modifier_group_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -98,8 +97,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("customer_id");
-
-                    b.HasIndex("modifier_group_id");
 
                     b.HasIndex("product_id");
 
@@ -3646,10 +3643,6 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("customer_id");
 
-                    b.HasOne("eModels.ModifierGroupModel", "modifier_group")
-                        .WithMany("attach_files")
-                        .HasForeignKey("modifier_group_id");
-
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany()
                         .HasForeignKey("product_id");
@@ -3671,8 +3664,6 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
-
-                    b.Navigation("modifier_group");
 
                     b.Navigation("product");
 
@@ -4603,8 +4594,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
                 {
-                    b.Navigation("attach_files");
-
                     b.Navigation("histories");
 
                     b.Navigation("modifier_group_items");
