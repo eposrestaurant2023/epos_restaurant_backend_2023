@@ -13,6 +13,12 @@
     position: relative;
     border-radius: 4px;
 }
+.box_menu {
+    color: #666;
+    height: 130px;
+    position: relative;
+    border-radius: 4px;
+}
 .box_select_menu {
     border: 1px solid #eaeaec;
     padding: 20px;
@@ -26,6 +32,19 @@
     top: 22%;
 }
 .icon_edit {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1;
+}
+
+.icon_edit_menu {
+    position: absolute;
+    top: 5px;
+    right: 21px;
+    z-index: 1;
+}
+.icon_edit_menu_product {
     position: absolute;
     top: 5px;
     right: 5px;

@@ -1049,6 +1049,8 @@ h3.title, h1.title {
     font-size: 11px !important;
     text-transform: uppercase !important;
     font-family: inherit !important;
+    margin-bottom: 10px !important;
+    margin-top: 10px !important;
 }
 h3.title-search, h1.title-search {
     font-weight: 800 !important;
@@ -6986,6 +6988,20 @@ z-index:999999!important;
 
 }
 .bg_business_rootmenu {
-    background: #ebeff3;
     padding: 15px;
+    border: 1px solid #e1e4e8;
+}
+.button_color_button {
+    width: 100%;
+    background: #f1f8ff;
+    text-align: right;
+    padding: 8px;
+    border: 1px solid #c8e1ff;
+    border-radius: 4px;
+    margin-bottom:5px;
+}
+.bg_business_rootmenu .selected {
+    background: #0366d6;
+    color: #ffffff;
+    border: none;
 }
