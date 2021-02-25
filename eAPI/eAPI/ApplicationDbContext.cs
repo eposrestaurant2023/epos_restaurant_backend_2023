@@ -37,6 +37,7 @@ namespace eAPI
                 property.SetCollation("Khmer_100_BIN");
             }
 
+            builder.Entity<ModifierIngredientModel>().HasKey(t => new { t.modifier_id, t.ingredient_id });
             builder.Entity<BusinessBranchRoleModel>().HasKey(t => new { t.role_id, t.business_branch_id });
             builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });           
             builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
@@ -133,6 +134,7 @@ namespace eAPI
         public DbSet<InventoryTransactionTypeModel> InventoryTransactionTypes{ get; set; }
         public DbSet<StockLocationProductModel> StockLocationProducts{ get; set; }
         public DbSet<ModifierGroupItemModel> ModifierGroupItems { get; set; }
+        public DbSet<ModifierIngredientModel> ModifierIngredients { get; set; }
 
 
     }

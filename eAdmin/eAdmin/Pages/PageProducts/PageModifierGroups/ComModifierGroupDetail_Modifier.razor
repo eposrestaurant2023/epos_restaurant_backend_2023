@@ -1,4 +1,5 @@
 ﻿@inject IStringLocalizer<Resource> lang
+@inject NavigationManager nav
 
 <UIContainerBox Title="Modifier">
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
@@ -10,7 +11,9 @@
         {
             <tr>
                 <td>
-                    @m.modifier.modifier_name
+                    <ComAuthorize roles="@gv.GetRole("modifier_view")" OnClick="@(()=>nav.NavigateTo($"modifier/{m.modifier_id}"))">
+                        @m.modifier.modifier_name
+                    </ComAuthorize>                    
                 </td>
                 <TdRight>
                     @m.price.ToString(gv.currency_format)

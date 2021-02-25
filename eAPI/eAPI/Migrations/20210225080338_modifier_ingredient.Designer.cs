@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210225080338_modifier_ingredient")]
+    partial class modifier_ingredient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1109,26 +1111,12 @@ namespace eAPI.Migrations
                     b.Property<int>("ingredient_id")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("total_cost")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("unit_id")
-                        .HasColumnType("int");
 
                     b.HasKey("modifier_id", "ingredient_id");
 
                     b.HasIndex("ingredient_id");
-
-                    b.HasIndex("unit_id");
 
                     b.ToTable("tbl_modifier_ingredient");
                 });
@@ -3998,17 +3986,9 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.UnitModel", "unit")
-                        .WithMany("modifier_ingredients")
-                        .HasForeignKey("unit_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ingredient");
 
                     b.Navigation("modifier");
-
-                    b.Navigation("unit");
                 });
 
             modelBuilder.Entity("eModels.ModifierModel", b =>
@@ -4810,11 +4790,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.UnitCategoryModel", b =>
                 {
                     b.Navigation("units");
-                });
-
-            modelBuilder.Entity("eModels.UnitModel", b =>
-                {
-                    b.Navigation("modifier_ingredients");
                 });
 
             modelBuilder.Entity("eModels.VendorGroupModel", b =>
