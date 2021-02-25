@@ -20,6 +20,7 @@ namespace eModels
 
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string modifier_name { get; set; }
+        public int sort_order { get; set; }
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
 
