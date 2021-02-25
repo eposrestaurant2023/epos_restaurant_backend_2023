@@ -21,7 +21,6 @@
         </HeaderRight>
     </PageHeader>
     <PageBody>
- 
         <Grid ClassName="uk-grid-small">
             <Column ClassName="uk-width-1-3">
                 <ComBusinessBranhRootMenu menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@current_menu_id" />
@@ -30,8 +29,6 @@
                 <ComMainMenu menus="@menus" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" keyword="@keyword"/>
             </Column>
         </Grid>
-
-
     </PageBody>
     <PageFooter>
         <FooterCenter>

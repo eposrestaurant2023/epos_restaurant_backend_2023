@@ -1,33 +1,103 @@
-﻿ 
+﻿@inherits PageCore
+
 <div class="@(is_horizontal?"uk-form-horizontal":"") @class_name">
     <div class="uk-margin-small">
         <Com is_visible="@(!string.IsNullOrEmpty(label))">
             <label class="uk-form-label">@label</label>
-        </Com> 
-        <div class="uk-form-controls form-controls-typeahead"> 
-            <VendorTypeahead vendor="@vendor" vendorChanged="@OnSelectVendor" />
+        </Com>
+        <div class="uk-form-controls form-controls-typeahead">
+            <BlazoredTypeahead SearchMethod="Search" @bind-Value="@selected" Placeholder="@placeholder" ShowDropDownOnFocus="true">
+                <SelectedTemplate>
+                    <Grid ClassName="uk-grid-small">
+                        <Column ClassName="uk-width-auto">
+                            <Image ImageUrl="@(http.ImageUrl(context.photo))" PopupImageUrl="@(http.ImageUrl(context.photo))" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
+                        </Column>
+                        <Column ClassName="uk-width-expand seleted-typeahead">
+                            @context.vendor_display_name
+                        </Column>
+                    </Grid>
+                </SelectedTemplate>
+                <ResultTemplate>
+                    <Grid>
+                        <Grid ClassName="uk-grid-small uk-grid-divider">
+                            <Column ClassName="uk-width-auto">
+                                <Image ImageUrl="@(http.ImageUrl(context.photo))" PopupImageUrl="@(http.ImageUrl(context.photo))" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
+                            </Column>
+                            <Column ClassName="uk-width-expand uk-text-left text-list-typeahead">
+                                @context.vendor_display_name
+                            </Column>
+                        </Grid>
+                    </Grid>
+                </ResultTemplate>
+            </BlazoredTypeahead>
             @ChildContent
         </div>
     </div>
-</div> 
+</div>
+
+
 @code{
-    [Parameter] public string label { get; set; } = "Select Primary Vendor";
-    [Parameter] public string class_name { get; set; } = "";
-    [Parameter] public bool is_horizontal { get; set; } = true;
     [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string placeholder { get; set; } = "Select Vendor";
     [Parameter] public VendorModel vendor { get; set; }
     [Parameter] public EventCallback<VendorModel> vendorChanged { get; set; }
-    [Parameter] public int vendor_id { get; set; } = 0;
     [Parameter] public EventCallback<int> vendor_idChanged { get; set; }
-
-    async Task OnSelectVendor(VendorModel _vendor)
+    [Parameter] public int vendor_id { get; set; }
+    [Parameter] public string class_name { get; set; }
+    [Parameter] public bool is_horizontal { get; set; }
+    [Parameter] public string label { get; set; }
+    public async Task<IEnumerable<VendorModel>> Search(string searchText)
     {
-        vendor_id = _vendor.id;
-        vendor = _vendor;
-        await vendor_idChanged.InvokeAsync(vendor.id); 
-        await vendorChanged.InvokeAsync(vendor); 
+        string api_url = $"vendor?$select=id,vendor_code,vendor_name,mobile_phone,company_name,photo&$filter=status eq true and is_deleted eq false&$orderby=vendor_name asc&$top=10&keyword={searchText}";
+        api_url = api_url + GetFilter(state.filters);
+        var res = await http.ApiGetOData(api_url);
+        if (res.IsSuccess)
+        {
+            var result = JsonSerializer.Deserialize<List<VendorModel>>(res.Content.ToString());
+            return result;
+        }
+        return new List<VendorModel>();
     }
-     
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (vendor != null)
+        {
+            if (vendor.id == 0)
+            {
+                selected = null;
+            }
+            else
+            {
+                selected = vendor;
+            }
+        }
+        await Search("");
+    }
+
+    private VendorModel _selected;
+    public VendorModel selected
+    {
+        get
+        {
+            _selected = vendor;
+            return _selected;
+        }
+        set
+        {
+            _selected = value;
+            vendorChanged.InvokeAsync(value);
+            if (value == null)
+            {
+                vendor_idChanged.InvokeAsync(0);
+            }
+            else
+            {
+                vendor_idChanged.InvokeAsync(value.id);
+            }
+
+        }
+    }
 }
 
 

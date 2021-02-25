@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210225031602_sort_order_modifier")]
+    partial class sort_order_modifier
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1023,9 +1025,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
-
                     b.HasKey("modifier_group_id", "modifier_id");
 
                     b.HasIndex("modifier_id");
@@ -1134,6 +1133,9 @@ namespace eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("sort_order")
+                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");

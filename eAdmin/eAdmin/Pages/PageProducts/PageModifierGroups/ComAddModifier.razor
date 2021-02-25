@@ -6,21 +6,25 @@
         <tr>
             <Th>@lang["Modifier Name"]</Th>
             <ThRight>@lang["Price"]</ThRight>
+            <ThRight>@lang["Sort Order"]</ThRight>
             <ThCenter></ThCenter>
         </tr>
-        @foreach (var m in modifer_group.modifier_group_items.Where(r => r.is_deleted == false))
+        @foreach (var m in modifer_group.modifier_group_items.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order))
         {
-            <tr>
-                <td>
-                    @m.modifier.modifier_name
-                </td>
-                <TdRight>
-                    <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]"/>
-                </TdRight>
-                <TdCenter>
-                    <Icon icon="delete" OnClick="@(()=>DeleteModifier(m))"  />
-                </TdCenter>
-            </tr>
+    <tr>
+        <td>
+            @m.modifier.modifier_name
+        </td>
+        <TdRight>
+            <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" />
+        </TdRight>
+        <TdRight>
+            <NumberInputInt @bind-text="@m.sort_order" label="" placeholder="@lang["Sort Order"]" />
+        </TdRight>
+        <TdCenter>
+            <Icon icon="delete" OnClick="@(()=>DeleteModifier(m))" />
+        </TdCenter>
+    </tr>
         }
     </table>
 
