@@ -141,6 +141,9 @@ namespace eAPI
             var bp = odataBuilder.EntitySet<BusinessBranchPriceRule>("BusinessBranchPriceRule");
             bp.EntityType.HasKey(r => new { r.price_rule_id, r.business_branch_id });
 
+            var mi = odataBuilder.EntitySet<ModifierIngredientModel>("ModifierIngredient");
+            mi.EntityType.HasKey(r => new { r.modifier_id, r.ingredient_id });
+
             odataBuilder.EntitySet<UserModel>("User");     
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
@@ -191,6 +194,7 @@ namespace eAPI
             odataBuilder.EntitySet<ProductIngredientRelatedModel>("ProductIngredientRelated");
             odataBuilder.EntitySet<InventoryTransactionModel>("InventoryTransaction");
             odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
+            odataBuilder.EntitySet<StockLocationProductModel>("StockLocationProduct");
             return odataBuilder.GetEdmModel();
         }
     }

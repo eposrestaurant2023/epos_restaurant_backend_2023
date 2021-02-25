@@ -1,4 +1,4 @@
-﻿@page "/modifiergroup";
+﻿@page "/modifier";
 @inherits PageCore
 @inject IMatToaster Toaster
 @using eModels;
@@ -11,7 +11,7 @@
 @if (!is_loading)
 {
     <Title Value="Modifier Group Management"></Title>
-    <PageContainer roles="@gv.GetRole("modifier_group_management")">
+    <PageContainer roles="@gv.GetRole("modifier_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
@@ -20,13 +20,13 @@
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="Status">
-                            <ModuleView module_views="@gv.GetModuleView("page_modifier_group")" OnClick="@ViewClick" />
+                            <ModuleView module_views="@gv.GetModuleView("page_modifier")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("modifier_group_add")" OnClick="@(()=> nav.NavigateTo("modifiergroup/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("modifier_add")" OnClick="@(()=> nav.NavigateTo("modifier/new"))">New</AddButton>
                 <RefreshButton OnClick="@OnInitializedAsync" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
@@ -39,33 +39,33 @@
                        OnPagerChange="@OnPagerChange"
                        PerPage="@state.pager.per_page"
                        CurrentPage="@state.pager.current_page"
-                       Items="@modifer_groups"
+                       Items="@modifiers"
                        ShowCounter="true">
                     <TableHeader>
-                        @HeaderTemplate("modifier_group_name", "Name", "col-auto")
+                        @HeaderTemplate("modifier_name", "Name", "col-auto")
                         <ThCenter>Status</ThCenter>
                         <th></th>
                     </TableHeader>
                     <RowTemplate Context="m">
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("modifier_group_view")" OnClick="@(()=>nav.NavigateTo($"modifiergroup/{m.id}"))" >
-                                @m.modifier_group_name_en
+                            <ComAuthorize roles="@gv.GetRole("modifier_view")" OnClick="@(()=>nav.NavigateTo($"modifier/{m.id}"))" >
+                                @m.modifier_name
                             </ComAuthorize>
                         </td>
                         <TdCenter>
-                            <LabelActive is_visible="@(m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_group_edit")" is_loading="@m.is_change_status" />
-                            <LabelInActive is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_group_edit")" is_loading="@m.is_change_status" />
+                            <LabelActive is_visible="@(m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
+                            <LabelInActive is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
                             <LabelDeleted is_visible="@(m.is_deleted)" />
                         </TdCenter>
                         <TdCenter>
                             <ComTableActions is_loading="@(m.is_loading)">
-                                <TableActionItem roles="@gv.GetRole("modifier_group_view")" icon="visibility" is_visible="@(!m.is_deleted)" url="@($"modifiergroup/{m.id}")">View</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("modifier_group_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">Edit</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("modifier_group_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">Clone</TableActionItem>
-                                <TableActionItem icon="check" roles="@gv.GetRole("modifier_group_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">Active</TableActionItem>
-                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_group_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">Inactive</TableActionItem>
-                                <TableActionItem icon="delete" roles="@gv.GetRole("modifier_group_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">Delete</TableActionItem>
-                                <TableActionItem icon="refresh" roles="@gv.GetRole("modifier_group_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">Restore</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_view")" icon="visibility" is_visible="@(!m.is_deleted)" url="@($"modifier/{m.id}")">View</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">Edit</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">Clone</TableActionItem>
+                                <TableActionItem icon="check" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">Active</TableActionItem>
+                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">Inactive</TableActionItem>
+                                <TableActionItem icon="delete" roles="@gv.GetRole("modifier_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">Delete</TableActionItem>
+                                <TableActionItem icon="refresh" roles="@gv.GetRole("modifier_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">Restore</TableActionItem>
                             </ComTableActions>
                         </TdCenter>
                     </RowTemplate>
@@ -77,11 +77,11 @@
 
 @code {
     [Parameter] public string status { get; set; }
-    List<ModifierGroupModel> modifer_groups = new List<ModifierGroupModel>();
+    List<ModifierModel> modifiers = new List<ModifierModel>();
     int TotalItem;
     bool is_dialog_open;
-    string controller_api = "ModifierGroup";
-    string StateKey = "55sNaBpzJlLzh21535lkinhglwfBSCTTx";
+    string controller_api = "Modifier";
+    string StateKey = "55sNaBpzJlLzh2114785239lwfBSCTTx";
 
     public string ControllerApi
     {
@@ -105,8 +105,8 @@
         state = await GetState(StateKey);
         if (state.page_title == "")
         {
-            state.page_title = $"All modifier group";
-            var default_view = gv.GetDefaultModuleView("page_modifier_group");
+            state.page_title = $"All modifier";
+            var default_view = gv.GetDefaultModuleView("page_modifier");
             if (default_view != null)
             {
                 state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
@@ -136,30 +136,30 @@
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {
-            modifer_groups = JsonSerializer.Deserialize<List<ModifierGroupModel>>(resp.Content.ToString());
+            modifiers = JsonSerializer.Deserialize<List<ModifierModel>>(resp.Content.ToString());
             TotalItem = resp.Count;
         }
         is_loading = false;
     }
 
-    void Edit_Click(ModifierGroupModel _user)
+    void Edit_Click(ModifierModel _user)
     {
-        nav.NavigateTo($"modifiergroup/edit/{_user.id}");
+        nav.NavigateTo($"modifier/edit/{_user.id}");
     }
 
     void Clone_Click(int id)
     {
-        nav.NavigateTo($"modifiergroup/clone/{id}");
+        nav.NavigateTo($"modifier/clone/{id}");
     }
 
-    async Task OnChangeStatus(ModifierGroupModel u)
+    async Task OnChangeStatus(ModifierModel u)
     {
         u.is_loading = true;
         var resp = await http.ApiPost(controller_api + "/status/" + u.id);
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);
-            if (modifer_groups.Count() == 1 && state.pager.current_page > 1)
+            if (modifiers.Count() == 1 && state.pager.current_page > 1)
             {
                 state.pager.current_page = state.pager.current_page - 1;
             }
@@ -173,20 +173,20 @@
         u.is_loading = false;
     }
 
-    async Task OnRestore(ModifierGroupModel p)
+    async Task OnRestore(ModifierModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Restore modifier group", "Are you sure you want to restore " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_name + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
             {
-                if (modifer_groups.Count() == 1 && state.pager.current_page > 1)
+                if (modifiers.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
                 }
                 await LoadData();
-                toast.Add("Restore modifier group successfully", MatToastType.Success);
+                toast.Add("Restore modifier successfully", MatToastType.Success);
             }
             else
             {
@@ -196,20 +196,20 @@
         p.is_loading = false;
     }
 
-    async Task OnDelete(ModifierGroupModel p)
+    async Task OnDelete(ModifierModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete modifier group", "Are you sure you want to delete " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_name + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
             if (resp.IsSuccess)
             {
-                if (modifer_groups.Count() == 1 && state.pager.current_page > 0)
+                if (modifiers.Count() == 1 && state.pager.current_page > 0)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
                 }
-                toast.Add("Delete modifier group successfully", MatToastType.Success);
+                toast.Add("Delete modifier successfully", MatToastType.Success);
                 await LoadData();
             }
         }
@@ -259,13 +259,13 @@
         await LoadData();
     }
 
-    async Task Save_Click(ModifierGroupModel modifier)
+    async Task Save_Click(ModifierModel modifier)
     {
         modifier.is_loading = true;
         var res = await http.ApiPost($"{controller_api}/save", modifier);
         if (res.IsSuccess)
         {
-            var u = JsonSerializer.Deserialize<ModifierGroupModel>(res.Content.ToString());
+            var u = JsonSerializer.Deserialize<ModifierModel>(res.Content.ToString());
             toast.Add("Save Successfully", MatToastType.Success);
             await LoadData();
             is_dialog_open = false;

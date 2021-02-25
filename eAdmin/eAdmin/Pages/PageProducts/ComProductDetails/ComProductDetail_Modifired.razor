@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
 
-<UIContainerBox Title="Modifier">
+<UIContainerBox Title="@lang["Modifier Information"]">
 <Com is_visible="@(!is_loading)">
     <Table Items="@models" 
             TotalItem="@TotalRecord"
@@ -35,13 +35,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         is_loading = true;
-        var resp = await http.ApiGetOData($"ProductModifier?$expand=modifier($select=id,modifier_group_id,modifier_name)&$filter=product_id eq {product_id} and is_deleted eq false and status eq true");
-        if (resp.IsSuccess)
-        {
-            models = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
-            TotalRecord = resp.Count;
+        if(product_id > 0){
+            var resp = await http.ApiGetOData($"ProductModifier?$expand=modifier($select=id,modifier_group_id,modifier_name)&$filter=product_id eq {product_id} and is_deleted eq false and status eq true");
+            if (resp.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
+                TotalRecord = resp.Count;
+            }
         }
         is_loading = false;
     }

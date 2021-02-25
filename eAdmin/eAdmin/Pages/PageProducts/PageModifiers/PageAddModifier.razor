@@ -1,0 +1,143 @@
+﻿@page "/modifier/new"
+@page "/modifier/edit/{id:int}"
+@page "/modifier/clone/{clone_id:int}"
+@inherits PageCore
+@inject IStringLocalizer<Resource> lang
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@if (!is_loading && !is_error)
+{
+    <Title Value="@title"></Title>
+    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "modifier_edit" : "modifier_add")}")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @title
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true" />
+        </PageHeader>
+        <EditForm Model="@modifier" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox>
+                        <TextInput label="Name En" @bind-text="@modifier.modifier_name">
+                            <ValidationMessage For="@(()=>modifier.modifier_name)" />
+                        </TextInput>
+                        <SelectStatus @bind-selected_value="@modifier.status" />
+                    </UIContainerBox>
+                </UIGridCenter>
+                <UIGridCenter>
+                    <UIContainerBox>
+                        <eAdmin.Pages.PageProducts.PageModifiers.ComAddIngredient model="@modifier"/>
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter> 
+                    <ComSavingFormButton is_loading="@is_saving" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)" is_show_cancel_action="true" OnCancel="@OnCancel"/>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+}
+else
+{
+    <Spinner />
+}
+@if (is_error)
+{
+    <Error title="Product">@error_text</Error>
+}
+
+@code{
+    [Parameter] public int clone_id { get; set; }
+    [Parameter] public int id { get; set; }
+    string controller_api = "Modifier";
+    ModifierModel modifier = new ModifierModel();
+
+    bool is_save_and_new = false;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+    }
+
+
+    async Task LoadData()
+    {
+        is_loading = true;
+        if (clone_id > 0 || id > 0)
+        {
+            if (clone_id > 0)
+            {
+                var resp = await http.ApiPost(controller_api + $"/clone/{clone_id}");
+                if (resp.IsSuccess)
+                {
+                    modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
+                    title = $"Clone : {modifier.modifier_name}";
+                }
+            }
+            else
+            {
+                var resp = await http.ApiGet($"{controller_api}({id})");
+                if (resp.IsSuccess)
+                {
+                    modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
+                    title = $"Edit : {modifier.modifier_name}";
+                }
+            }
+        }
+        else
+        {
+            title = "Add New Modifier";
+            modifier = new ModifierModel();
+        }
+        is_loading = false;
+    }
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+
+        ModifierModel save_model = JsonSerializer.Deserialize<ModifierModel>(JsonSerializer.Serialize(modifier));
+        //save_model.product_modifiers = null;
+        save_model.modifier_ingredients.ForEach(r => r.ingredient = null);
+        save_model.modifier_ingredients.ForEach(r => r.modifier = null);
+        var resp = await http.ApiPost("Modifier/Save", save_model);
+        if (resp.IsSuccess)
+        {
+            toast.Add("Save Modifier successfully", MatToastType.Success);
+            save_model = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
+            if (is_save_and_new)
+            {
+                modifier = new ModifierModel();
+                nav.NavigateTo("modifier/new");
+                await LoadData();
+            }
+            else
+            {
+                nav.NavigateTo("modifier/" + save_model.id);
+            }
+        }
+        else {
+            toast.Add("Save modifier fail.", MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+
+    void OnCancel() {
+        if (id > 0)
+        {
+            nav.NavigateTo("modifier/" + id);
+        }else
+        {
+            nav.NavigateTo("modifier");
+        }
+
+    }
+}

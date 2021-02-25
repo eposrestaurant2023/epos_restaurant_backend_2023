@@ -1,4 +1,5 @@
-﻿<UIGridCenter>
+﻿
+<UIGridCenter>
     <UISummaryBox Title="Ingredient Product Information"  ShowImage="true" ImageUrl="@model.photo">
         <ContentLeft>
             <table>
@@ -43,8 +44,11 @@
         @model.note
         </div>
     </UIContainerBox>
+    <Com is_visible="@model.is_inventory_product">
+        <Spacing Number="10"/>
+        <ComProductDetail_InventoryInformation product_id="@model.id"/>
+    </Com>
 </UIGridCenter>
-
 
 @code {
     [Parameter] public ProductModel model { get; set; }

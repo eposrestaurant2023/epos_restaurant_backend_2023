@@ -12,6 +12,7 @@ namespace eModels
         public ModifierModel()
         {
             product_modifiers = new List<ProductModifierModel>();
+            modifier_ingredients = new List<ModifierIngredientModel>();
         }
         public int? modifier_group_id { get; set; }
         [ForeignKey("modifier_group_id")]
@@ -22,6 +23,7 @@ namespace eModels
         public string modifier_name { get; set; }        
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
+        public List<ModifierIngredientModel> modifier_ingredients { get; set; }
 
     }
 

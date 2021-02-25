@@ -78,7 +78,7 @@ namespace eAPIClient.Controllers
         async Task<List<MenuModel>> GetRemoteMenu(string business_branch_id)
         {      
             is_get_remote_data_success = false;
-            var resp = await http.ApiGetOData($"Menu?$select=id,parent_id,menu_name_en,menu_name_kh,text_color,background_color&$filter=business_branch_id eq {business_branch_id} and is_deleted eq false and status eq true");
+            var resp = await http.ApiGetOData($"Menu?$select=id,parent_id,menu_name_en,menu_name_kh,text_color,background_color,root_menu_id&$filter=business_branch_id eq {business_branch_id} and is_deleted eq false and status eq true");
             if (resp.IsSuccess)
             {
                 is_get_remote_data_success = true;
