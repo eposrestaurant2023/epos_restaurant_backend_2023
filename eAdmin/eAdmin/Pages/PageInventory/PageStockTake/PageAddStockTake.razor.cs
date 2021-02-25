@@ -67,13 +67,13 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
             d.product_id = sp.product.id;
             d.product = sp.product;
-            d.unit = sp.unit.unit_name;
-            d.multiplier = sp.unit.multiplier; 
+           
             d.is_inventory_product = sp.product.is_inventory_product;
             d.quantity = sp.quantity;
-            d.cost = sp.product.cost;
-            d.regular_cost = sp.product.cost; 
-
+            d.cost = sp.cost;
+            d.regular_cost = sp.cost;
+            d.unit = sp.unit.unit_name;
+            d.multiplier = sp.unit.multiplier;
 
 
 
@@ -131,7 +131,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             save_model.business_branch = null;
 
             is_saving = true;
-
+          Console.WriteLine( JsonSerializer.Serialize(save_model));
             var resp = await http.ApiPost("StockTake/save", save_model);
             if (resp.IsSuccess)
             {

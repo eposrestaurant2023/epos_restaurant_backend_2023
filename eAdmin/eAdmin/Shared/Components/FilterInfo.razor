@@ -4,7 +4,7 @@
         @foreach (var d in filters.Where(r => r.filter_info_text != "" && r.is_show_on_infor).OrderBy(r => r.sort_order).ToList())
         {
         <div class="uk-label filter-label-item">
-            @if (d.filter_operator == "multiple" && (d.key == "purchase_order/business_branch_id" || d.key== "sale/business_branch_id" || d.key == "business_branch_id"))
+            @if (d.filter_operator == "multiple" && (d.key == "stock_location/business_branch_id" || d.key == "stock_take/business_branch_id" || d.key == "purchase_order/business_branch_id" || d.key== "sale/business_branch_id" || d.key == "business_branch_id"))
             {
                 if (d.value1.Split(',').Length > 1)
                 {
@@ -36,7 +36,7 @@
                     </span>
                 }
             }
-            else if (d.filter_operator == "multiple" && (d.key == "purchase_order/stock_location_id" || d.key == "stock_location_id"))
+            else if (d.filter_operator == "multiple" && (d.key == "stock_take/stock_location_id" || d.key == "purchase_order/stock_location_id" || d.key == "stock_location_id"))
             {
 
                 if (d.value1.Split(',').Length > 1)
@@ -52,7 +52,7 @@
                     </span>
                 }
             }
-            else if (d.filter_operator == "multiple" && d.key == "from_business_branch_id")
+            else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/from_business_branch_id" || d.key == "from_business_branch_id"))
             {
 
                 if (d.value1.Split(',').Length > 1)
@@ -68,7 +68,7 @@
                     </span>
                 }
             }
-            else if (d.filter_operator == "multiple" && d.key == "to_business_branch_id")
+            else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/to_business_branch_id" || d.key == "to_business_branch_id"))
             {
 
                 if (d.value1.Split(',').Length > 1)
@@ -84,7 +84,7 @@
                     </span>
                 }
             }
-            else if (d.filter_operator == "multiple" && d.key == "from_stock_location_id")
+            else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/from_stock_location_id" || d.key == "from_stock_location_id"))
             {
 
                 if (d.value1.Split(',').Length > 1)
@@ -100,7 +100,7 @@
                     </span>
                 }
             }
-            else if (d.filter_operator == "multiple" && d.key == "to_stock_location_id")
+            else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/to_stock_location_id" || d.key == "to_stock_location_id"))
             {
 
                 if (d.value1.Split(',').Length > 1)

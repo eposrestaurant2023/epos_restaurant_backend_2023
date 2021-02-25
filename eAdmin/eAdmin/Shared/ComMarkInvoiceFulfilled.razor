@@ -1,4 +1,5 @@
-﻿<Com is_visible="@is_visible">
+﻿@inject IStringLocalizer<Resource> lang
+<Com is_visible="@is_visible">
     <div style="min-width: 794px">
         <ComAlert type="success" show_close="false">
             <Grid ClassName="uk-grid-small">
@@ -10,7 +11,7 @@
                     <p>@message</p>
                 </div>
                 <div class="uk-width-auto">
-                    <Button OnClick="@OnClick" class_name="fulfilled">Mark as Fulfilled</Button>
+                    <Button OnClick="@OnClick" class_name="fulfilled">@lang["Mark as Fulfilled"]</Button>
                 </div>
             </Grid>
         </ComAlert>
@@ -20,7 +21,39 @@
 </Com>
 @code {
     [Parameter] public bool is_visible { get; set; } = true;
-    [Parameter] public string title { get; set; } = "What Next?";
-    [Parameter] public string message { get; set; } = "You can mark this invoice as Fulfilled.";
+
+    private string _title;
+    [Parameter] 
+    public string title
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_title)){
+                _title = lang["What Next?"];
+            }
+            return _title;
+        }
+        set
+        {
+            _title = value;
+        }
+    }
+
+    private string _message;
+    [Parameter] 
+    public string message
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_message))
+                _message = lang["You can mark this invoice as Fulfilled."];
+
+            return _message;
+        }
+        set
+        {
+            _message = value;
+        }
+    }
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 }

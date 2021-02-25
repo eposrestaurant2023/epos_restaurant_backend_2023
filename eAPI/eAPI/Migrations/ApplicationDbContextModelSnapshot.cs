@@ -70,6 +70,9 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_document_file")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("modifier_group_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -95,6 +98,8 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("customer_id");
+
+                    b.HasIndex("modifier_group_id");
 
                     b.HasIndex("product_id");
 
@@ -132,6 +137,10 @@ namespace eAPI.Migrations
                     b.Property<string>("business_branch_name_kh")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("color")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("created_by")
@@ -302,6 +311,10 @@ namespace eAPI.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("address")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("color")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -739,6 +752,9 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("modifier_group_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("module")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -801,6 +817,8 @@ namespace eAPI.Migrations
                     b.HasIndex("PurchaseOrderModelid");
 
                     b.HasIndex("customer_id");
+
+                    b.HasIndex("modifier_group_id");
 
                     b.HasIndex("payment_id");
 
@@ -878,6 +896,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("stock_transfer_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("stock_transfer_product_id")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("transaction_date")
@@ -988,6 +1009,30 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_menu");
                 });
 
+            modelBuilder.Entity("eModels.ModifierGroupItemModel", b =>
+                {
+                    b.Property<int>("modifier_group_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("modifier_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("price")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<int>("sort_order")
+                        .HasColumnType("int");
+
+                    b.HasKey("modifier_group_id", "modifier_id");
+
+                    b.HasIndex("modifier_id");
+
+                    b.ToTable("tbl_modifier_group_item");
+                });
+
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
                 {
                     b.Property<int>("id")
@@ -1014,8 +1059,12 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("modifier_group_name")
+                    b.Property<string>("modifier_group_name_en")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("modifier_group_name_kh")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -1033,6 +1082,9 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("modifer_group_id")
                         .HasColumnType("int");
@@ -2994,16 +3046,6 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("discount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("discount_type")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("discountable_amount")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<string>("document_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -3013,9 +3055,6 @@ namespace eAPI.Migrations
 
                     b.Property<int>("from_stock_location_id")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("grand_total_discount")
-                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -3034,9 +3073,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("stock_take_product_discount_amount")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<DateTime>("stock_transfer_date")
                         .HasColumnType("date");
 
@@ -3054,9 +3090,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("total_discount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_quantity")
@@ -3101,17 +3134,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("discount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("discount_type")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<decimal>("grand_total")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("invoice_discount_amount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
@@ -3136,6 +3159,9 @@ namespace eAPI.Migrations
                     b.Property<decimal>("quantity")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<decimal>("regular_cost")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -3148,19 +3174,15 @@ namespace eAPI.Migrations
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<decimal>("total_discount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("unit_id")
-                        .HasColumnType("int");
+                    b.Property<string>("unit")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
                     b.HasIndex("product_id");
 
                     b.HasIndex("stock_transfer_id");
-
-                    b.HasIndex("unit_id");
 
                     b.ToTable("tbl_stock_transfer_product");
                 });
@@ -3627,6 +3649,10 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("customer_id");
 
+                    b.HasOne("eModels.ModifierGroupModel", "modifier_group")
+                        .WithMany("attach_files")
+                        .HasForeignKey("modifier_group_id");
+
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany()
                         .HasForeignKey("product_id");
@@ -3648,6 +3674,8 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
+
+                    b.Navigation("modifier_group");
 
                     b.Navigation("product");
 
@@ -3791,6 +3819,10 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("customer_id");
 
+                    b.HasOne("eModels.ModifierGroupModel", "modifier_group")
+                        .WithMany("histories")
+                        .HasForeignKey("modifier_group_id");
+
                     b.HasOne("eModels.PaymentModel", "payment")
                         .WithMany("histories")
                         .HasForeignKey("payment_id");
@@ -3820,6 +3852,8 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
+
+                    b.Navigation("modifier_group");
 
                     b.Navigation("payment");
 
@@ -3880,6 +3914,25 @@ namespace eAPI.Migrations
                     b.Navigation("parent");
                 });
 
+            modelBuilder.Entity("eModels.ModifierGroupItemModel", b =>
+                {
+                    b.HasOne("eModels.ModifierGroupModel", "modifier_group")
+                        .WithMany("modifier_group_items")
+                        .HasForeignKey("modifier_group_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.ModifierModel", "modifier")
+                        .WithMany("modifier_group_items")
+                        .HasForeignKey("modifier_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("modifier");
+
+                    b.Navigation("modifier_group");
+                });
+
             modelBuilder.Entity("eModels.ModifierGroupProductCategoryModel", b =>
                 {
                     b.HasOne("eModels.ModifierGroupModel", "modifier_group")
@@ -3889,7 +3942,7 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("eModels.ProductCategoryModel", "product_category")
-                        .WithMany()
+                        .WithMany("modifier_group_product_categories")
                         .HasForeignKey("product_category_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3902,7 +3955,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.ModifierModel", b =>
                 {
                     b.HasOne("eModels.ModifierGroupModel", "modifier_group")
-                        .WithMany("modifiers")
+                        .WithMany()
                         .HasForeignKey("modifier_group_id");
 
                     b.Navigation("modifier_group");
@@ -4109,7 +4162,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
                 {
                     b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany()
+                        .WithMany("product_modifiers")
                         .HasForeignKey("modifier_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -4433,17 +4486,9 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.UnitModel", "unit")
-                        .WithMany()
-                        .HasForeignKey("unit_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("product");
 
                     b.Navigation("stock_transfer");
-
-                    b.Navigation("unit");
                 });
 
             modelBuilder.Entity("eModels.TableGroupModel", b =>
@@ -4561,9 +4606,20 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
                 {
-                    b.Navigation("modifier_group_product_categories");
+                    b.Navigation("attach_files");
 
-                    b.Navigation("modifiers");
+                    b.Navigation("histories");
+
+                    b.Navigation("modifier_group_items");
+
+                    b.Navigation("modifier_group_product_categories");
+                });
+
+            modelBuilder.Entity("eModels.ModifierModel", b =>
+                {
+                    b.Navigation("modifier_group_items");
+
+                    b.Navigation("product_modifiers");
                 });
 
             modelBuilder.Entity("eModels.OutletModel", b =>
@@ -4595,6 +4651,8 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductCategoryModel", b =>
                 {
+                    b.Navigation("modifier_group_product_categories");
+
                     b.Navigation("products");
                 });
 

@@ -68,18 +68,23 @@ namespace eModels
             }
             set { _total_amount = value; }
         }
-
-        private decimal _multipler = 1;
-
+        
+        private decimal _multipler;
         public decimal multiplier
         {
             get { return _multipler; }
             set
             {
+
                 if (value == 0)
                 {
                     value = 1;
                 }
+ 
+                    cost = (cost / (_multipler==0?value:_multipler)) * value;
+                    regular_cost = (regular_cost / (_multipler == 0 ? value : _multipler)) * value;
+                
+                    
                 _multipler = value;
 
             }

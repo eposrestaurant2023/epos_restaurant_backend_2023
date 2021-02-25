@@ -54,24 +54,22 @@
 
                         <TdCenter>@p.purchase_order?.purchase_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("purchase_order_view")" url="@($"purchaseorder/{p.id}")">@p.purchase_order?.document_number</ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("purchase_order_view")" url="@($"purchaseorder/{p.purchase_order_id}")">@p.purchase_order?.document_number</ComAuthorize>
                         </TdCenter>
                         <td>
                             @p.purchase_order?.purchase_order_note
                         </td>
                         <TdRight>
-                            @p.total_amount
+                            @p.total_amount.ToString(gv.currency_format)
                         </TdRight>
                         <TdRight>
                             @p.grand_total.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
+                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>
-                        <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
-                           
-                        </TdActions>
-
+                        <TdCenter>
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"purchaseorder/{p.purchase_order_id}"))" />
+                        </TdCenter>
                     </RowTemplate>
                 </Table>
             </Com>

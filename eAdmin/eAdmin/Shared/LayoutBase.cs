@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Components;
 using Blazored.LocalStorage;
 
 
+
+
 namespace eAdmin.Shared
 {
     public class LayoutBase : LayoutComponentBase
@@ -61,15 +63,19 @@ namespace eAdmin.Shared
                         _users = JsonSerializer.Deserialize<List<UserModel>>(res_user.Content.ToString());
                         if (_users.FirstOrDefault() != null)
                         {
-                            gv.current_login_user = _users.FirstOrDefault();    
-                            
+                            gv.current_login_user = _users.FirstOrDefault();
+
                         }
                         else
                         {
-                            nav.NavigateTo("/", true);
+                            nav.NavigateTo("/");
                         }
+                    }else
+                    {
+                        await Logout();
                     }
                 }
+                 
 
                 if (user.Identity.IsAuthenticated)
                 {
@@ -87,7 +93,7 @@ namespace eAdmin.Shared
                     }
                     else
                     {
-                        nav.NavigateTo("/auth/logout");
+                         await Logout();
                     }
 
                     string api_url = "GlobalVariable?$expand=";
@@ -114,6 +120,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "vendor_groups,";
                     api_url = api_url + "units,";
                     api_url = api_url + "product_categories,";
+                    api_url = api_url + "inventory_transaction_type,";
                     api_url = api_url + "unit_categories";
 
                     GetResponse res = await http.ApiGet(api_url);
@@ -144,6 +151,12 @@ namespace eAdmin.Shared
             IsLoading = false;
         }
 
+
+        async Task Logout() {
+            var localStateProvider = (LocalAuthenticationStateProvider)AuthenticationStateProvider;
+            await localStateProvider.LogoutAsync();
+            nav.NavigateTo("login");
+        }
 
         public void ToggleUserModal()
         {

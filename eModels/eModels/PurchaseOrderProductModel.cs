@@ -44,7 +44,7 @@ namespace eModels
                 {
                     value = 1;
                 }
-                cost = (regular_cost / _multipler) * value;
+                cost = (cost / _multipler) * value;
                 regular_cost = (regular_cost / _multipler) * value; 
                 _multipler = value;
 

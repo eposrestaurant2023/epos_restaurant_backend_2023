@@ -1,0 +1,67 @@
+﻿@inject IStringLocalizer<Resource> lang
+
+@if(is_loading){
+    <Button custom_class="loading-button" disabled="true"><Spinner /> @lang["Saving"]...</Button>
+}else{
+    if(is_show_save_submit){
+        <Button icon="save" class_name="uk-button uk-button-primary button-large" type="submit" disabled="@disabled_save_button">@lang["Save"]</Button>
+    }else if(is_show_save_action){
+         <Button icon="save" class_name="uk-button uk-button-primary button-large" type="button" disabled="@disabled_save_button" OnClick="@Save">@lang["Save"]</Button>
+    }
+    
+    if(is_show_save_new){
+        <Button icon="save" class_name="uk-button uk-button-primary button-large" OnClick="@SaveNew" type="submit" disabled="@disabled_save_button">@lang["Save  & New"]</Button>
+    }
+
+    @ChildContent
+    if(is_show_cancel){
+        if (!string.IsNullOrEmpty(cancel_url)){
+            <LinkButton url="@cancel_url" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+        }
+        else if(is_show_cancel_back){
+          <button class="uk-button uk-button-danger" onclick="history.go(-1)"><Icon icon="reply" />@lang["Cancel"]</button>
+        }
+        else if (is_show_cancel_action)
+        {
+            <Button OnClick="@Cancel" class_name="uk-button uk-button-danger button-large" icon="reply">@lang["Cancel"]</Button>
+        }
+    }
+}
+
+@code {
+    [Parameter] public bool is_loading { get; set; }
+    [Parameter] public bool is_show_cancel_back { get; set; } = true;
+    [Parameter] public bool is_show_cancel_action { get; set; } = false;
+    [Parameter] public bool is_show_cancel { get; set; } = true;
+    [Parameter] public bool is_show_save_new { get; set; } = false;
+    [Parameter] public bool is_show_save_action { get; set; } = false;
+    [Parameter] public bool is_show_save_submit { get; set; } = true;
+    [Parameter] public bool disabled_save_button { get; set; } = false;
+    [Parameter] public string cancel_url { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnSave { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnSaveNew { get; set; }
+
+    
+    async Task Cancel(MouseEventArgs e)
+    {
+        await OnCancel.InvokeAsync(new MouseEventArgs());
+    }
+    
+    async Task Save(MouseEventArgs e)
+    {
+        if(!disabled_save_button){
+            await OnSave.InvokeAsync(new MouseEventArgs());
+        }
+        
+    }
+
+    async Task SaveNew(MouseEventArgs e)
+    {
+        if(!disabled_save_button){
+            await OnSaveNew.InvokeAsync(new MouseEventArgs());
+        }
+    }
+    
+}

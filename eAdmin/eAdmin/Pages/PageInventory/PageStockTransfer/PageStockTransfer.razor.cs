@@ -44,7 +44,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
             state = await GetState(StateKey);
             if (state.page_title == "")
             {
-                state.page_title = "Stock Transfer";
+                state.page_title = lang["Stock Transfer"];
                 var default_view = gv.GetDefaultModuleView("page_stock_transfer");
                 if (default_view != null)
                 {
@@ -108,7 +108,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "to_business_branch_id",
                     value1 = gv.business_branch_ids_filter_2,
-                    filter_title = "To Business Branch",
+                    filter_title = lang["To Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.business_branch_ids_filter_2,
@@ -124,7 +124,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "to_stock_location_id",
                     value1 = gv.stock_location_ids_filter(gv.business_branch_ids_filter_2),
-                    filter_title = "to Stock Location",
+                    filter_title = lang["To Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.stock_location_ids_filter(gv.business_branch_ids_filter_2),
@@ -176,7 +176,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                     {
                         key = "stock_transfer_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "Stock Transfer Date",
+                        filter_title = lang["Stock Transfer Date"],
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
@@ -215,7 +215,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "from_business_branch_id",
                     value1 = business_branch_ids,
-                    filter_title = "From Business Branch",
+                    filter_title = lang["From Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = business_branch_ids,
@@ -229,7 +229,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "from_business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
-                    filter_title = "From Business Branch",
+                    filter_title = lang["From Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.business_branch_ids_filter_1,
@@ -256,7 +256,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "from_stock_location_id",
                     value1 = value,
-                    filter_title = "From Stock Location",
+                    filter_title = lang["From Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = value,
@@ -270,7 +270,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "from_stock_location_id",
                     value1 = gv.outlet_ids_filter(business_branch_ids),
-                    filter_title = "From Stock Location",
+                    filter_title = lang["From Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.outlet_ids_filter(business_branch_ids),
@@ -298,7 +298,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "to_business_branch_id",
                     value1 = to_business_branch_ids,
-                    filter_title = "To Business Branch",
+                    filter_title = lang["To Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = to_business_branch_ids,
@@ -312,7 +312,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "to_business_branch_id",
                     value1 = gv.business_branch_ids_filter_2,
-                    filter_title = "To Business Branch",
+                    filter_title = lang["To Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.business_branch_ids_filter_2,
@@ -339,7 +339,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "to_stock_location_id",
                     value1 = value,
-                    filter_title = "To Stock Location",
+                    filter_title = lang["To Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = value,
@@ -353,7 +353,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "to_stock_location_id",
                     value1 = gv.outlet_ids_filter(business_branch_ids),
-                    filter_title = "To Stock Location",
+                    filter_title = lang["To Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.outlet_ids_filter(business_branch_ids),
@@ -481,12 +481,12 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
         public async Task OnDelete(StockTransferModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Stock Transfer", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Stock Transfer"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete Stock Transfer successfully", MatToastType.Success);
+                    toast.Add(lang["Delete Stock Transfer successfully"], MatToastType.Success);
                     if (models.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;

@@ -69,8 +69,18 @@ namespace eAPI.Controllers
 
             AddHistory(p);
 
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(p);
+            try
+            {
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+
+                return Ok(p);
+            }
+            catch(Exception ex) {
+                return StatusCode(415,"Save data fail. Please try again.");
+            }
+            return NotFound();
+          
         }
         void AddHistory(StockTakeModel s)
         {

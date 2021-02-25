@@ -1,5 +1,6 @@
 ﻿using eModels;
 using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ namespace eAPI.Controllers
 {
     [ApiController]
     [Route("api")]
-
+ 
 
     public class AppController : ControllerBase
     {
@@ -27,6 +28,7 @@ namespace eAPI.Controllers
 
         [HttpGet("GlobalVariable")]
         [EnableQuery(MaxExpansionDepth = 0)]
+      
         public ActionResult<GlobalVariableModel> GetGlobalVariable(bool status = true)
         {
             db.Database.ExecuteSqlRaw("exec sp_startup");
@@ -57,6 +59,7 @@ namespace eAPI.Controllers
             gv.price_rules= db.PriceRules.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.units= db.Units.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.unit_categories= db.UnitCategorys.ToList();
+            gv.inventory_transaction_type= db.InventoryTransactionTypes.ToList();
 
             return Ok(gv);
         }

@@ -1,0 +1,79 @@
+﻿@inherits InventoryTransactionProductDetailHistoryBase
+@inject IStringLocalizer<Resource> lang
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+
+@if (!is_loading)
+{
+    <PageContainer is_container="false">
+        <PageHeader is_subpage="true">
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                     @lang["All Inventory Transation History"] 
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <FilterDateRange @bind-dates="@state.date_range" />
+                    <SelectInventoryTransactionType @bind-inventory_transaction_type="@state.inventory_stransation_type" show_empty="true" empty_text="All Inventory Transation"/>
+                    <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                </ComSearch>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+          <Com is_visible="@(models != null)">
+                <Table Items="@models"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto"
+                       EmptyText="There is no record.">
+                    <TableHeader>
+                        <ThCenter>@lang["Date"]</ThCenter>
+                        <ThCenter>@lang["Reference Number"]</ThCenter>
+                        <ThAuto>@lang["Inventory Transaction Type"]</ThAuto>
+                        <ThCenter>@lang["Old Quantity"]</ThCenter>
+                        <ThCenter>@lang["Quantity"]</ThCenter>
+                        <ThCenter>@lang["Quantity On Hand"]</ThCenter>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <ThCenter>@lang["Created By"]</ThCenter>
+                    </TableHeader>
+                    <RowTemplate Context="p">
+                        <TdCenter>@p.transaction_date.ToString(gv.date_format)</TdCenter>
+                        <TdCenter>
+                            <a href="@(p.url)">
+                                @p.reference_number
+                            </a>
+                           
+                        </TdCenter>
+                        <td>
+                            @p.inventory_transaction_type?.inventory_transaction_type_name
+                        </td>
+                        <TdCenter>
+                            @p.old_quantity.ToString(gv.quantity_format)
+                        </TdCenter>
+                        <TdCenter>
+                            @p.quantity.ToString(gv.quantity_format)
+                        </TdCenter>
+                        <TdCenter>
+                            @p.quantity_on_hand.ToString(gv.quantity_format)
+                        </TdCenter>
+                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
+                        <TdCenter>@p.created_by</TdCenter>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        </PageBody>
+    </PageContainer>
+}

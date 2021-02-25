@@ -8,6 +8,6 @@
     {
         var localStateProvider = (LocalAuthenticationStateProvider)authenticationStateProvider;
         await localStateProvider.LogoutAsync();
-        nav.NavigateTo("auth/login", true);
+        nav.NavigateTo("login");
     }
 }

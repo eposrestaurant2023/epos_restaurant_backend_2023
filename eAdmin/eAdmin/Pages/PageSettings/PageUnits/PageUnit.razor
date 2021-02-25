@@ -1,16 +1,17 @@
 ﻿@page "/setting/unit"
 @inject IHttpService http;
 @inject IMatToaster toast;
+@inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
 {
-    <Title Value="Unit"></Title>
+    <Title Value="@lang["Unit"]"></Title>
     <PageContainer>
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Unit of Measurement (UoM)
+                        @lang["Unit of Measurement (UoM)"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -32,7 +33,7 @@
                             <Content>
                                 <ComAddUnit units="@b.units" />
                                 <hr />
-                                <Button OnClick="@(()=>AddUnit(b))">Add Unit</Button>
+                                <Button OnClick="@(()=>AddUnit(b))">@lang["Add Unit"]</Button>
                             </Content>
                         </ComAccordion>
 
@@ -40,16 +41,13 @@
                 }
                 else
                 {
-            <ComAlert type="warning">There is no unit. Please enter unit first.</ComAlert>
+            <ComAlert type="warning">@lang["There is no unit. Please enter unit first."]</ComAlert>
                 }
             </UIGridCenter>
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComButtonLoading is_loading="@is_saving">
-                    <SavingButton is_saving="@is_saving" />
-                    <Button OnClick="@Save_Click" is_visible="@(!is_saving)">Save</Button>
-                </ComButtonLoading>
+                <ComSavingFormButton is_loading="@is_saving" OnSave="@Save_Click" is_show_cancel="false"/>
             </FooterCenter>
         </PageFooter>
     </PageContainer>
@@ -76,32 +74,32 @@
         }
         else
         {
-            toast.Add("Loading unit fail.", MatToastType.Warning);
+            toast.Add(lang["Loading unit fail."], MatToastType.Warning);
         }
     }
 
     void AddUnit(UnitCategoryModel b)
     {
-        b.units.Add(new UnitModel() { type_name ="Reference"});
+        b.units.Add(new UnitModel() { type_name = lang["Reference"]});
     }
 
     async Task Save_Click()
     {
         if (unit_categories.SelectMany(r => r.units).Where(r => r.is_deleted == false && r.unit_name.Trim() == "").Any())
         {
-            toast.Add("Please enter unit name", MatToastType.Warning);
+            toast.Add(lang["Please enter unit name"], MatToastType.Warning);
             return;
         }
         is_saving = true;
         var resp = await http.ApiPost("UnitCategory/save/multiple", unit_categories);
         if (resp.IsSuccess)
         {
-            toast.Add("Save Unit successfully", MatToastType.Success);
+            toast.Add(lang["Save Unit successfully"], MatToastType.Success);
             await LoadData();
         }
         else
         {
-            toast.Add("Save Unit Fail", MatToastType.Warning);
+            toast.Add(lang["Save Unit Fail"], MatToastType.Warning);
         }
         is_saving = false;
     }

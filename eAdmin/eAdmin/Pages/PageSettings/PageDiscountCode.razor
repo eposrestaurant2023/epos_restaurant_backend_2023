@@ -66,10 +66,7 @@
 
         <PageFooter>
             <FooterCenter>
-                <ComButtonLoading is_loading="@is_saving">
-                    <SavingButton is_saving="@is_saving" />
-                    <Button OnClick="@Save_Click" is_visible="@(!is_saving)">Save</Button>
-                </ComButtonLoading>
+                <ComSavingFormButton is_loading="@is_saving" is_show_save_action="true" OnSave="@Save_Click" is_show_cancel="false"/>
             </FooterCenter>
         </PageFooter>
 

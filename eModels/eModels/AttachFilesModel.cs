@@ -49,6 +49,10 @@ namespace eModels
         [ForeignKey("stock_transfer_id")]
         public StockTransferModel stock_transfer { get; set; }
 
+        public int? modifier_group_id { get; set; }
+        [ForeignKey("modifier_group_id")]
+        public ModifierGroupModel modifier_group { get; set; }
+
     }
 
     public class InputFileData

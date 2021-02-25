@@ -10,13 +10,12 @@
 @if (!is_loading)
 {
     <PageContainer is_container="false">
-        <div style="word-break:break-word">
-            @ControllerApi
-        </div>
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>@state.page_title</HeaderTemplate>
+                    <HeaderTemplate>
+                      All Stock Take History
+                    </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
@@ -46,23 +45,33 @@
                     <TableHeader>
                         @HeaderTemplate("stock_take/stock_take_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("stock_take/document_number", lang["Document#"], "uk-text-center")
-                        <ThCenter>Reference Number</ThCenter>
-                        <ThCenter>Quantity</ThCenter>
-                        <ThRight>Cost</ThRight>
-                        <ThRight> Grand Total</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <Th>Created By</Th>
+                        <ThCenter>@lang["Reference Number"]</ThCenter>
+                        <ThAuto>@lang["Business Branch"]</ThAuto>
+                        <ThAuto>@lang["Stock Location"]</ThAuto>
+                        <ThCenter>@lang["Quantity"]</ThCenter>
+                        <ThRight>@lang["Cost"]</ThRight>
+                        <ThRight> @lang["Grand Total"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <ThCenter>@lang["Created By"]</ThCenter>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.stock_take?.stock_take_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            @p.stock_take?.document_number
+                            <a href="@($"stocktake/{p.stock_take.id}")">
+                                @p.stock_take?.document_number
+                            </a> 
+                        </TdCenter>
+                        <TdCenter>
+                            @p.stock_take?.reference_number
                         </TdCenter>
                         <td>
-                            @p.stock_take?.reference_number
+                            @p.stock_take?.business_branch?.business_branch_name_en 
+                        </td>
+                        <td>
+                            @p.stock_take?.stock_location?.stock_location_name
                         </td>
                         <TdCenter>
-                            @p.quantity
+                            @p.quantity.ToString(gv.quantity_format)
                         </TdCenter>
                         <TdRight>
                             @p.cost.ToString(gv.main_currency_format)
@@ -70,8 +79,8 @@
                         <TdRight>
                             @p.grand_total.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
-                        <td>@p.created_by</td>
+                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
+                        <TdCenter>@p.created_by</TdCenter>
                     </RowTemplate>
                 </Table>
             </Com>

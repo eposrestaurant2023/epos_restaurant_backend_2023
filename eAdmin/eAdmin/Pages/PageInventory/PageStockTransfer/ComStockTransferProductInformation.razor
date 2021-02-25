@@ -1,6 +1,7 @@
 ﻿@inject IJSRuntime js
 @inject IHttpService http
 @inject IMatToaster toast
+@inject IStringLocalizer<Resource> lang
 <div class="wrp-selected-items">
 
     @if (model != null)
@@ -10,20 +11,19 @@
                ShowPager="false"
                ShowPagination="false"
                ShowPaging="false"
-               CustomClass="set-verticle-top_custo"
-               EmptyText="There's no record in the system">
+               CustomClass="set-verticle-top_custo">
             <TableHeader>
-                <ThCenter>Image</ThCenter>
-                <ThCenter>Code</ThCenter>
-                <ThAuto>Detail</ThAuto>
-                <ThCenter>Quanlity</ThCenter>
-                <ThRight>Cost</ThRight>
-                <ThCenter width="160px">Discount</ThCenter>
-                <ThRight>Amount</ThRight>
+                <ThCenter>@lang["Image"]</ThCenter>
+                <ThCenter>@lang["Code"]</ThCenter>
+                <ThAuto>@lang["Detail"]</ThAuto>
+                <ThCenter>@lang["Quanlity"]</ThCenter>
+                <ThCenter>@lang["Unit"]</ThCenter>
+                <ThRight>@lang["Price"]</ThRight>
+                <ThRight>@lang["Amount"]</ThRight>
                 <th></th>
             </TableHeader>
             <RowTemplate Context="p">
-                <ComStockTransferProductRow product="@p" productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
+                <ComStockTransferProductRow stock_transfer_product="@p" stock_transfer_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
         </Table>
     }
@@ -49,7 +49,7 @@
         }
         else
         {
-            if (await js.Confirm("Delete Item", "Are you sure to delete this record?"))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure to delete this record?"]))
             {
                 sp.is_deleted = true;
             }

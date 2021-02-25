@@ -2,11 +2,12 @@
 @inject IJSRuntime js 
 @inject IMatToaster toast
 @inject NavigationManager nav
+@inject IStringLocalizer<Resource> lang
 
 <Loading is_loading="@is_loading" />
 <ButtonGroup>
     <Button title="Print" icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click" />
-    <Button roles="@gv.GetRole("stock_transfer_edit")" OnClick="@(()=>nav.NavigateTo($"stocktransfer/edit/{model.id}"))" icon="edit" title="Edit" is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
+    <Button roles="@gv.GetRole("stock_transfer_edit")" OnClick="@(()=>nav.NavigateTo($"stocktransfer/edit/{model.id}"))" icon="edit" title=@lang["Edit"] is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
 </ButtonGroup>
 
 <ComAttachFileButton RoleAdd="@gv.GetRole("stock_transfer_add")"
@@ -16,10 +17,9 @@
                      File="@file"
                      IsVisible="@(!model.is_deleted)" />
 
-<AddButton roles="@gv.GetRole("stock_transfer_add")" url="stocktransfer/new">New Stock Transfer</AddButton>
-<MoreButton is_loading="@model.is_loading">
-    <MoreButtonItem roles="@gv.GetRole("stock_transfer_edit")" icon="cached" is_visible="@model.is_fulfilled" OnClick="@CancelFulfilled_Click">Cancel Fulfilled</MoreButtonItem>
-    <MoreButtonItem roles="@gv.GetRole("stock_transfer_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">Delete Invoice</MoreButtonItem>
+<AddButton roles="@gv.GetRole("stock_transfer_add")" url="stocktransfer/new">@lang["New Stock Transfer"]</AddButton>
+<MoreButton is_loading="@model.is_loading"> 
+    <MoreButtonItem roles="@gv.GetRole("stock_transfer_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
     @*<MoreButtonItem roles="@gv.GetRole("sale_restore")" icon="refresh" is_visible="@(sale.can_restore)" OnClick="@RestoreInvoice_Click">Restore Invoice</MoreButtonItem>*@
 </MoreButton>
 
@@ -69,22 +69,5 @@
 
         is_loading = false;
 
-    }
-
-    async Task CancelFulfilled_Click()
-    {
-        is_loading = true;
-        if (await js.Confirm("Cancel Fulfilled", "Are you sure you want to cancel fulfilled?"))
-        {
-            var resp = await http.ApiPost("StockTransfer/CancelFulfilled/" + model.id);
-            if (resp.IsSuccess)
-            {
-                model.is_fulfilled = !model.is_fulfilled;
-                await modelChanged.InvokeAsync(model);
-                toast.Add("Cancel fulfilled successfully", MatToastType.Success);
-            }
-        }
-
-        is_loading = false;
     }
 }

@@ -1,0 +1,69 @@
+﻿@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="Modifiers">
+    <ModifierTypeahead @bind-modifier="@modifier" />
+    <hr />
+    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <Th>@lang["Modifier Name"]</Th>
+            <ThRight>@lang["Price"]</ThRight>
+            <ThRight>@lang["Sort Order"]</ThRight>
+            <ThCenter></ThCenter>
+        </tr>
+        @foreach (var m in modifer_group.modifier_group_items.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order))
+        {
+    <tr>
+        <td>
+            @m.modifier.modifier_name
+        </td>
+        <TdRight>
+            <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" />
+        </TdRight>
+        <TdRight>
+            <NumberInputInt @bind-text="@m.sort_order" label="" placeholder="@lang["Sort Order"]" />
+        </TdRight>
+        <TdCenter>
+            <Icon icon="delete" OnClick="@(()=>DeleteModifier(m))" />
+        </TdCenter>
+    </tr>
+        }
+    </table>
+
+</UIContainerBox>
+@code{
+    [Parameter] public ModifierGroupModel modifer_group { get; set; }
+
+    private ModifierModel _modifier;
+
+    public ModifierModel modifier
+    {
+        get { return _modifier; }
+        set
+        {
+
+
+            if (!modifer_group.modifier_group_items.Where(r => r.modifier_id == value.id && r.is_deleted == false).Any())
+            {
+                modifer_group.modifier_group_items.Add(new ModifierGroupItemModel() { modifier = value, modifier_id = value.id });
+            }
+
+            value = null;
+
+            _modifier = value;
+        }
+    }
+
+
+
+    void DeleteModifier(ModifierGroupItemModel m)
+    {
+        if (m.modifier_group_id == 0)
+        {
+            modifer_group.modifier_group_items.Remove(m);
+        }
+        else {
+            m.is_deleted = true;
+        }
+    }
+
+
+}

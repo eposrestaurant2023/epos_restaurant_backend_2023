@@ -51,11 +51,8 @@
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
-                <FooterCenter>
-                    <ComButtonLoading is_loading="@is_saving">
-                        <Button type="submit" icon="save">Save</Button>
-                        <LinkButton url="paymenttype" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
-                    </ComButtonLoading>
+                <FooterCenter> 
+                    <ComSavingFormButton is_loading="@is_saving" cancel_url="paymenttype"/>
                 </FooterCenter>
             </PageFooter>
         </EditForm>

@@ -64,7 +64,9 @@ namespace eModels
         [ForeignKey("stock_transfer_id")]
         public virtual StockTransferModel stock_transfer { get; set; }
 
-   
+        public int? modifier_group_id { get; set; }
+        [ForeignKey("modifier_group_id")]
+        public virtual ModifierGroupModel modifier_group { get; set; }
 
         public string document_number { get; set; } = "";
         public string module { get; set; } = "";

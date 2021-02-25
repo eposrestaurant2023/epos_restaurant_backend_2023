@@ -8,14 +8,14 @@
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"Stock Transfer Invoice: {model.document_number}")" ></Title>
+    <Title Value="@($"{lang["Stock Transfer Invoice"]} : {model.document_number}")" ></Title>
 
     <PageContainer roles="@gv.GetRole("stock_transfer_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Stock Transfer Invoice #:  @model.document_number
+                        @lang["Stock Transfer Invoice #"] @model.document_number
                         <ComStockTransferStatus model="@model"/>
                     </HeaderTemplate>
                 </PageTitle>
@@ -27,8 +27,8 @@
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem>Invoice</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowComment">Comment and History</TabHeaderItem>
+                    <TabHeaderItem>@lang["Invoice"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
 
                 <TabBody>
@@ -40,14 +40,13 @@
                             <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <ThCenter>Image</ThCenter>
-                                        <th class="col-auto">Item</th>
-                                        <th class="uk-text-center">QTY</th>
-                                        <th class="uk-text-center">Unit</th>
-                                        <th class="uk-text-right">Cost</th>
-                                        <th class="uk-text-right">Dis.</th>
-                                        <th class="uk-text-right">Amount</th>
+                                        <th>@lang["No"]</th>
+                                        <ThCenter>@lang["Image"]</ThCenter>
+                                        <th class="col-auto">@lang["Item"]</th>
+                                        <th class="uk-text-center">@lang["QTY"]</th>
+                                        <th class="uk-text-right">@lang["Unit"]</th>
+                                        <th class="uk-text-right">@lang["Price"]</th>
+                                        <th class="uk-text-right">@lang["Amount"]</th>
                                     </tr>
                                 </thead>
                                 <tbody> 
@@ -85,7 +84,7 @@
 
 @if (is_error)
 {
-    <Error title="Stock Transfer Detail">
+    <Error title="@lang["Stock Transfer Detail"]">
         @error_text
     </Error>
 }

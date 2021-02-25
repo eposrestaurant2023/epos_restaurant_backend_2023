@@ -12,6 +12,9 @@ using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using NETCore.Encrypt;
 using System.Text.Json;
+using Microsoft.Extensions.Localization;
+using eAdmin.Shared.ResourceTranslateFiles;
+
 namespace eAdmin.Pages
 {
     
@@ -26,7 +29,7 @@ namespace eAdmin.Pages
         [Inject] protected ILocalStorageService localStorage { get; set; }
         [Inject] protected ISessionStorageService sessionStorage { get; set; }
         [Inject] protected NavigationManager nav { get; set; }
-
+        [Inject] protected IStringLocalizer<Resource> lang { get; set; }
         public bool is_loading { get; set; } = false;
         public bool is_loading_data { get; set; } = false;
         public bool is_error { get; set; } = false;
@@ -255,8 +258,10 @@ namespace eAdmin.Pages
                 case "vendor":
                     state.vendor = new VendorModel();
                     break;
+                case "inventory_transaction_type":
+                    state.inventory_stransation_type = new InventoryTransactionTypeModel();
+                    break;
                    
-               
                 default:
                     break;
             }

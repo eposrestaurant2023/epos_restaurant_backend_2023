@@ -26,7 +26,9 @@
 @code{
     [Parameter] public string place_holder { get; set; } = "Search...";
     public string dummy { get; set; } = "";
+    [Parameter] public string Keyword { get; set; }
     [Parameter] public EventCallback<string> KeywordChanged { get; set; }
+
     [Parameter] public string search_text { get; set; } = "";
     [Parameter] public string FrmClass { get; set; } = "";
     [Parameter] public string advance_filter_id { get; set; } = "advance_filter"+string.Format("{0:yyyy_MM_dd_HH_mm_ss}",DateTime.Now);

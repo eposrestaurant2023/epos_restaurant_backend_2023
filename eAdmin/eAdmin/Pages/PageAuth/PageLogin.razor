@@ -4,7 +4,7 @@
 @inject AuthenticationStateProvider  authenticationStateProvider
 @inject IHttpService  http;
 @inject NavigationManager nav;
-@inject IStringLocalizer<Resource> localizer
+@inject IStringLocalizer<Resource> lang
 @inject IConfiguration config
 
 
@@ -43,11 +43,11 @@
                             <div class="uk-text-center">
                                 @if (IsSpinning)
                                 {
-                                    <button class="btn-login" type="button">Login ... </button>
+                                <button class="btn-login" type="button"> <Spinner/> @lang["Login"]  </button>
                                 }
                                 else
                                 {
-                                    <button class="btn-login" type="submit">Login </button>
+                            <button class="btn-login" type="submit">@lang["Login"] </button>
                                 }
                             </div>
 

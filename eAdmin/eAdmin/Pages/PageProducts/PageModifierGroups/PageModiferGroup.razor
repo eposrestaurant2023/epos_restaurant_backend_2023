@@ -1,4 +1,4 @@
-﻿@page "/modifergroup";
+﻿@page "/modifiergroup";
 @inherits PageCore
 @inject IMatToaster Toaster
 @using eModels;
@@ -26,7 +26,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("modifier_add")" OnClick="Add_click">New</AddButton>
+                <AddButton roles="@gv.GetRole("modifier_add")" OnClick="@(()=> nav.NavigateTo("modifiergroup/new"))">New</AddButton>
                 <RefreshButton OnClick="@OnInitializedAsync" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
@@ -48,8 +48,8 @@
                     </TableHeader>
                     <RowTemplate Context="m">
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("modifier_edit")" OnClick="@(() => Edit_Click(m))">
-                                @m.modifier_group_name
+                            <ComAuthorize roles="@gv.GetRole("modifier_edit")" OnClick="@(()=>nav.NavigateTo($"modifiergroup/{m.id}"))" >
+                                @m.modifier_group_name_en
                             </ComAuthorize>
                         </td>
                         <TdCenter>
@@ -70,21 +70,13 @@
                     </RowTemplate>
                 </Table>
             </div>
-            <AuthorizeView Roles="@gv.GetRole($"{(modifier.id == 0 ? "modifier_add" : "modifier_edit")}")">
-                @if (is_dialog_open)
-                {
-                    <ComAddModifierGroup is_dialog_open="@is_dialog_open" modifier="@modifier" Cancel_click="@(() => { is_dialog_open = false; modifier = new ModifierGroupModel(); })" Save_click="@Save_Click" modal_title="@title" />
-                }
-            </AuthorizeView>
         </PageBody>
     </PageContainer>
 }
 
 @code {
-    [Parameter] public string id { get; set; }
     [Parameter] public string status { get; set; }
     List<ModifierGroupModel> modifer_groups = new List<ModifierGroupModel>();
-    ModifierGroupModel modifier = new ModifierGroupModel();
     int TotalItem;
     bool is_dialog_open;
     string controller_api = "ModifierGroup";
@@ -149,24 +141,14 @@
         is_loading = false;
     }
 
-    async Task Edit_Click(ModifierGroupModel _user)
+    void Edit_Click(ModifierGroupModel _user)
     {
-        is_loading_data = true;
-        var resp = await http.ApiGet(controller_api + $"({_user.id})");
-        if (resp.IsSuccess)
-        {
-            modifier = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
-        }
-        title = "Edit : " + modifier.modifier_group_name;
-        is_dialog_open = true;
-        is_loading_data = false;
+        nav.NavigateTo($"modifiergroup/edit/{_user.id}");
     }
 
-    void Add_click()
+    void Clone_Click(int id)
     {
-        modifier = new ModifierGroupModel();
-        title = "New Modifier";
-        is_dialog_open = true;
+        nav.NavigateTo($"modifiergroup/clone/{id}");
     }
 
     async Task OnChangeStatus(ModifierGroupModel u)
@@ -190,27 +172,12 @@
         u.is_loading = false;
     }
 
-    async Task Clone_Click(int id)
-    {
-        is_loading_data = true;
-        var resp = await http.ApiPost(controller_api +"/clone/"+ $"{id}");
-        if (resp.IsSuccess)
-        {
-            modifier = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
-        }
-        title = "Clone : " + modifier.modifier_group_name;
-        is_dialog_open = true;
-        is_loading_data = false;
-    }
-
     async Task OnRestore(ModifierGroupModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_group_name + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
         {
-
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
-
             if (resp.IsSuccess)
             {
                 if (modifer_groups.Count() == 1 && state.pager.current_page > 1)
@@ -224,24 +191,14 @@
             {
                 toast.Add(resp.Content.ToString(), MatToastType.Warning);
             }
-
-
         }
         p.is_loading = false;
-
     }
 
     async Task OnDelete(ModifierGroupModel p)
     {
-        if (p.id == gv.current_login_user.id)
-        {
-            toast.Add("You cannot delete current login modifier.", MatToastType.Warning);
-            return;
-        }
-
-
         p.is_loading = true;
-        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_group_name + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -251,15 +208,11 @@
                 {
                     state.pager.current_page = state.pager.current_page - 1;
                 }
-
                 await LoadData();
             }
             toast.Add("Delete modifier successfully", MatToastType.Success);
-
         }
-
         p.is_loading = false;
-
     }
 
     async Task OnPagerChange(int total)

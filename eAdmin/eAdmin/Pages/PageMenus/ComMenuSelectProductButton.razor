@@ -1,0 +1,62 @@
+﻿<div style="position:relative;" class="uk-width-1-4">
+    <div class="icon_edit">
+        <Com is_visible="@(!IsMenuSelected())">
+            <button>
+                <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" />
+            </button>
+        </Com>
+        <Com is_visible="@(IsMenuSelected())">
+            <button>
+                <Icon icon="check_box" icon_color="@menu.text_color" @onclick="@OnUnSelectMenu" />
+            </button>
+        </Com>
+    </div>
+
+    <Com is_visible="@(!IsMenuSelected())">
+        <div @onclick="@OnClick" class="box cp" style="background:@menu.background_color;color:@menu.text_color;">
+            <div>
+                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
+            </div>
+        </div>
+    </Com>
+
+
+    <Com is_visible="@(IsMenuSelected())">
+        <div @onclick="@OnClick" class="box cp" style="background:@menu.background_color;color:@menu.text_color; border:1px solid #cf564d;">
+            <div>
+                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
+            </div>
+        </div>
+    </Com>
+
+</div>
+
+@code {
+    [Parameter] public MenuModel menu { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public int menu_id { get; set; }
+    [Parameter] public EventCallback<int> menu_idChanged { get; set; }
+
+
+    async Task OnClick()
+    {
+
+        await menu_idChanged.InvokeAsync(menu.id);
+
+    }
+
+    async Task OnSelectMenu()
+    {
+
+    }
+
+    async Task OnUnSelectMenu()
+    {
+
+    }
+
+    bool IsMenuSelected()
+    {
+        return true;
+    }
+}

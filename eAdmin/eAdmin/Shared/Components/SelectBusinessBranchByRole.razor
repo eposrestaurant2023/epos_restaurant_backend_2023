@@ -1,4 +1,5 @@
-﻿<div class="uk-margin-small">
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-margin-small">
     <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
     <div class="uk-form-controls">
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
@@ -18,10 +19,39 @@
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string label { get; set; } = "Business Branch";
+    private string _label;
+    [Parameter]
+    public string label
+    {
+        get
+        {
+
+            if (String.IsNullOrEmpty(_label))
+            {
+                _label = lang["Business Branch"];
+            }
+            return _label;
+        }
+        set { _label = value; }
+    }
+
+    private string _empty_text;
+    [Parameter]
+    public string empty_text
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_empty_text))
+            {
+                _empty_text = lang["Select Business Branch"];
+            }
+            return _empty_text;
+        }
+        set { _empty_text = value; }
+    }
     [Parameter] public string icon { get; set; }
-    [Parameter] public bool show_empty { get; set; } = false; 
-    [Parameter] public string empty_text { get; set; } = "Select Business Branch";
+    [Parameter] public bool show_empty { get; set; } = false;
+    
     [Parameter] public string width { get; set; } = "100%";
     [Parameter] public Guid selected_value { get; set; } = new Guid();
     [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }

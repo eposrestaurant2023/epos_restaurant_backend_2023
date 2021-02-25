@@ -1,0 +1,30 @@
+﻿@inherits PageCore
+
+@foreach (var b in gv.business_branch_by_role)
+{
+    <div style="color:red">
+        @b.business_branch_name_en
+    </div>
+    @foreach(var n in menus.Where(r=>r.business_branch_id == b.id))
+    {
+<Button OnClick="@(()=>MenuClick(n))">@n.menu_name_en | @n.is_selected</Button> 
+
+     <hr/>
+    }
+}
+
+@code {
+    [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
+    [Parameter] public int menu_id { get; set; }
+    [Parameter] public EventCallback<int> menu_idChanged { get; set; }
+
+
+    async Task MenuClick(MenuModel m)
+    {
+        m.is_selected = true;
+        await menu_idChanged.InvokeAsync(m.id);
+
+    }
+
+
+}

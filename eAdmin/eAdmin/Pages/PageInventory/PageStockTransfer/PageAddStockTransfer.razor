@@ -18,21 +18,21 @@
                     <div class="uk-width-1-3@s">
                         <div class="panel-empty">
                             <div class="uk-margin-small">
-                                <label class="uk-form-label"><Icon icon="layers" size="16px" />Referance #</label>
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
                                 <div class="uk-form-controls">
-                                    <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
+                                    <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" />
                                 </div>
                             </div>
-                            <DateInput label="Stock Transfer Date" value="@model.stock_transfer_date" icon="layers" /> 
+                            <DateInput label="@lang["Stock Transfer Date"]" value="@model.stock_transfer_date" icon="layers" /> 
                         </div>
                     </div>
                     <div class="uk-width-expand@s">
                         <Grid ClassName="uk-grid-small">
                             <div class="uk-width-expand@s">
                                 <div class="panel">
-                                    <div class="sub_title font-sm">From Stock</div>
+                                    <div class="sub_title font-sm">@lang["From Stock"]</div>
                                     <div>
-                                        <SelectBusinessBranch @bind-selected_value="@model.from_business_branch_id" show_empty="true" icon="layers" />
+                                        <SelectBusinessBranchByRole @bind-selected_value="@model.from_business_branch_id" show_empty="true" icon="layers" />
                                         <SelectStockLocation @bind-selected_value="@model.from_stock_location_id" business_branch_id="@model.from_business_branch_id" show_empty="true" icon="layers" />
                                     </div>
                                 </div>
@@ -44,9 +44,9 @@
                             </div>
                             <div class="uk-width-expand@s">
                                 <div class="panel">
-                                    <div class="sub_title font-sm">To Stock</div>
+                                    <div class="sub_title font-sm">@lang["To Stock"]</div>
                                     <div>
-                                        <SelectBusinessBranch @bind-selected_value="@model.to_business_branch_id" show_empty="true" icon="layers" />
+                                        <SelectBusinessBranchByRole @bind-selected_value="@model.to_business_branch_id" show_empty="true" icon="layers" />
                                         <SelectStockLocation @bind-selected_value="@model.to_stock_location_id" business_branch_id="@model.to_business_branch_id" show_empty="true" icon="layers" />
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                 <section class="wrp-sale-invoice-body">
                     <h3 class="title uk-display-inline-block">
                         <Icon icon="local_shipping" />
-                        <span class="title">Stock Transfer Products</span>
+                        <span class="title">@lang["Stock Transfer Products"]</span>
                     </h3>
                     <Spacing Number="10" />
                     <ComStockTransferProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
@@ -69,19 +69,11 @@
             </div>
         </PageBody>
         <PageFooter>
-            <FooterCenter>
-                <Button disabled="@(is_saving || model.active_stock_transfer_products.Count()<=0)" OnClick="@OnSaveClick" icon="save">Save</Button>
-                @if (is_saving)
-                {
-                    <button class="uk-button uk-button-danger" onclick="history.go(-1)" disabled><Icon icon="reply" /> Cancel</button>
-                }
-                else
-                {
-                    <button class="uk-button uk-button-danger" onclick="history.go(-1)"><Icon icon="reply" /> Cancel</button>
-                }
+            <FooterCenter> 
+                <ComSavingFormButton is_loading="@is_saving" is_show_save_action="true" OnSave="@OnSaveClick" disabled_save_button="@(model.active_stock_transfer_products.Count()<=0)"/>
             </FooterCenter>
             <FooterRight>
-                <strong class="uk-margin-small-right">Total Amount</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
+                <strong class="uk-margin-small-right">@lang["Total Amount"]</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
             </FooterRight>
         </PageFooter>
     </PageContainer>

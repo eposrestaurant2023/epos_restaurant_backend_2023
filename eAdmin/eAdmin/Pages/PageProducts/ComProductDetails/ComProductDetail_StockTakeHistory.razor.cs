@@ -27,7 +27,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=stock_take($select=id,business_branch_id,stock_location_id,document_number,stock_take_date,reference_number)";
+                url += $"$expand=stock_take($select=id,business_branch_id,stock_location_id,document_number,stock_take_date,reference_number;$expand=business_branch,stock_location)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -140,6 +140,8 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     state_property_name = "date_range"
                 });
             }
+
+        
 
             // filter business
             string business_branch_ids = "";

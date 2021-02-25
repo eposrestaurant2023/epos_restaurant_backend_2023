@@ -57,9 +57,6 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         void AddItemToSaleProduct(SelectedProductModel sp)
         {
             var old_sale_product = model.active_purchase_order_products.Where(r => r.product.id == sp.product.id && r.unit.Trim().ToLower() == sp.unit.unit_name.Trim().ToLower());
-
-
-
             if (old_sale_product != null && old_sale_product.Count() > 0)
             {
                 old_sale_product.FirstOrDefault().quantity = old_sale_product.FirstOrDefault().quantity + sp.quantity;
@@ -193,6 +190,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             save_model.purchase_order_payments = null;  
             is_saving = true;
 
+          
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)
             {
