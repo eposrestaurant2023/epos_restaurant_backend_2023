@@ -6,7 +6,7 @@
 
 @if (!is_loading)
 {
-    <Title Value="add new vendor"></Title>
+    <Title Value="@lang["Add New Vendor"]"></Title>
     <PageContainer>
         <PageHeader>
             <HeaderLeft>
@@ -14,11 +14,11 @@
                     <HeaderTemplate>
                         @if (id > 0)
                         {
-                            <div>Edit Vendor</div>
+                            <div>@lang["Edit Vendor"]</div>
                         }
                         else
                         {
-                            <div>Add New Vendor</div>
+                            <div>@lang["Add New Vendor"]</div>
                         }
                     </HeaderTemplate>
                   
@@ -32,17 +32,17 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="Vendor Photo" ClassName="uk-text-center">
+                    <UIContainerBox Title="@lang["Vendor Photo"]" ClassName="uk-text-center">
                         <UIFlexCenter>
                             <FileUpload @bind-ImageUrl="@model.photo" />
                         </UIFlexCenter>
                     </UIContainerBox>
                     <UIContainerBox>
 
-                        <TextInput label="Code" text="@model.vendor_code" is_read_only="true">
+                        <TextInput label="@lang["Code"]" text="@model.vendor_code" is_read_only="true">
                             <ValidationMessage For="@(()=>model.vendor_code)" />
                         </TextInput>
-                        <SelectInt Items="@vendor_group" @bind-SelectedValue="@model.vendor_group_id" ShowEmptyText="true" EmptyText="Select Vendor Group" InputLabel="Vendor Group">
+                        <SelectInt Items="@vendor_group" @bind-SelectedValue="@model.vendor_group_id" ShowEmptyText="true" EmptyText="@lang["Select Vendor Group"]" InputLabel="@lang["Vendor Group"]">
                             <SelectOptions Context="b">
                                 <option value="@b.id">@b.vendor_group_name_en</option>
                             </SelectOptions>
@@ -51,25 +51,25 @@
                             </ValidationTemplate>
                         </SelectInt>
 
-                        <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
+                        <TextInput label="@lang["Vendor Name"]" @bind-text="@model.vendor_name">
                             <ValidationMessage For="@(() => model.vendor_name)" />
                         </TextInput>
-                        <TextInput label="Company Name" @bind-text="@model.company_name" />
+                        <TextInput label="@lang["Company Name"]" @bind-text="@model.company_name" />
 
-                        <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
-                        <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+                        <TextInput label="@lang["Mobile Phone"]" @bind-text="@model.mobile_phone" />
+                        <TextInput label="@lang["Office Phone"]" @bind-text="@model.office_phone" />
                         <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
                             <ValidationMessage For="@(()=>model.province_id)" />
                         </SelectProvince>
                         <SelectStatus @bind-selected_value="@model.status" label="Status" />
 
                     </UIContainerBox>
-                    <UIContainerBox Title="ADDRESS & NOTE">
+                    <UIContainerBox Title="@lang["Address & Note"]">
                      
                             <Tab>
                                 <TabHeader>
-                                    <TabHeaderItem>Address</TabHeaderItem>
-                                    <TabHeaderItem>Note</TabHeaderItem>
+                                    <TabHeaderItem>@lang["Address"]</TabHeaderItem>
+                                    <TabHeaderItem>@lang["Note"]</TabHeaderItem>
                                 </TabHeader>
                                 <TabBody>
                                     <TabItem>
@@ -86,10 +86,7 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ComButtonLoading is_loading="@is_saving">
-                    <Button type="submit" icon="save" class_name="uk-button uk-button-primary button-large">Save</Button>
-                    <Button class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
-                    </ComButtonLoading>
+                    <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="true" OnCancel="@OnCancel" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)"/>
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -98,6 +95,7 @@
 @code{
     [Parameter] public int id { get; set; }
     [Parameter] public int clone_id { get; set; }
+    [Parameter] public bool is_save_and_new { get; set; }
     VendorModel model = new VendorModel();
     List<VendorGroupModel> vendor_group = new List<VendorGroupModel>();
     string controller_api = "Vendor"; 
@@ -182,19 +180,36 @@
             {
                 var v = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
 
-                toast.Add("Saving successfully", MatToastType.Success);
-
-                nav.NavigateTo($"vendor/{v.id}");
+                toast.Add(lang["Saving successfully"], MatToastType.Success);
+                if (is_save_and_new)
+                {
+                    model = new VendorModel();
+                    id = 0;
+                    title = lang["Add New Vendor"];
+                }
+                else
+                {
+                    nav.NavigateTo($"vendor/{v.id}");
+                }
+                
             }
             else
             {
-                is_saving = false;
                 toast.Add(res.Content.ToString(), MatToastType.Warning);
             }
+            is_saving = false;
         }
 
     }
-
-
-
+    void OnCancel()
+    {
+        if (id > 0)
+        {
+            nav.NavigateTo($"vendor/{id}");
+        }
+        else
+        {
+            nav.NavigateTo("vendor");
+        }
+    }
 }

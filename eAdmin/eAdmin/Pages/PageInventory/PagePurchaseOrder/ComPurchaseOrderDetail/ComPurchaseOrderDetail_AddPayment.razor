@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
-
+@inject IStringLocalizer<Resource> lang
 <Modal IsSimpleMode="false" Title="PO Payment" OnClosed="@(()=>ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
     <ModalBody>
         @if (is_loading)
@@ -9,27 +9,27 @@
         }
         else
         {
-            <UIContainerBox Title="PO Balance Amount">
-                <NumberInput text="@po_balance" label="Balance" is_read_only="true" />
+            <UIContainerBox Title="@lang["PO Balance Amount"]">
+                <NumberInput text="@po_balance" label="@lang["Balance"]" is_read_only="true" />
             </UIContainerBox>
             @if (can_enter_payment)
             {
                 <UIContainerBox>
                     <TextInput label="Reference #" @bind-text="@model.reference_number" is_horizontal="true"/>
-                    <DateInput @bind-Value="@model.payment_date" label="Payment Date" /> 
+                    <DateInput @bind-Value="@model.payment_date" label="@lang["Payment Date"]" /> 
                     <SelectPaymentType @bind-selected_value="@model.payment_type_id" payment_type="@model.payment_type"/>
-                    <NumberInput @bind-text="@model.payment_amount" label="Payment Amount"/>
+                    <NumberInput @bind-text="@model.payment_amount" label="@lang["Payment Amount"]"/>
                 </UIContainerBox>
 
-                <UIContainerBox Icon="notes" Title="Notes">
-                    <TextInput @bind-text="@model.payment_note" type="textarea" placeholder="Enter notes..." />
+                <UIContainerBox Icon="notes" Title="@lang["Notes"]">
+                    <TextInput @bind-text="@model.payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" />
                 </UIContainerBox>
 
             }
             else
             {
                 <UIContainerBox>
-                    Cannot add payment for this sale invoice.
+                    @lang["Cannot add payment for this sale invoice."]
                 </UIContainerBox>
             }
         }
@@ -42,12 +42,12 @@
                 <div class="uk-margin-auto-left">
                     @if (is_loading)
                     {
-                        <Button icon="save" OnClick="@Save_Click">Save <Spinner /></Button>
+                        <Button icon="save" OnClick="@Save_Click">@lang["Saving"] <Spinner /></Button>
                     }
                     else
                     {
-                        <Button icon="save" OnClick="@Save_Click">Save</Button>
-                        <Button icon="reply" class_name="danger" OnClick="@(()=>ToogleModal(false))">Cancel</Button>
+                        <Button icon="save" OnClick="@Save_Click">@lang["Save"]</Button>
+                        <Button icon="reply" class_name="danger" OnClick="@(()=>ToogleModal(false))">@lang["Cancel"]</Button>
                     }
                 </div>
             </div>
@@ -141,7 +141,7 @@
         }
         else
         {
-            toast.Add("Can not get PO ID.", MatToastType.Warning);
+            toast.Add(lang["Can not get PO ID."], MatToastType.Warning);
         }
     }
     async Task LoadPayment()
@@ -164,20 +164,20 @@
         is_saving = true;
         if (model.payment_amount <= 0)
         {
-            toast.Add("Please enter payment amount.", MatToastType.Warning);
+            toast.Add(lang["Please enter payment amount."], MatToastType.Warning);
             is_saving = false;
             return;
         }
 
         if (model.payment_amount > po_balance)
         {
-            toast.Add("Payment amount cannot greater than po balance.", MatToastType.Warning);
+            toast.Add(lang["Payment amount cannot greater than po balance."], MatToastType.Warning);
             is_saving = false;
             return;
         }
         if(model.payment_type_id <= 0)
         {
-            toast.Add("Please select a payment type.", MatToastType.Warning);
+            toast.Add(lang["Please select a payment type."], MatToastType.Warning);
             is_saving = false;
             return;
         }
@@ -188,12 +188,12 @@
         {
             await OnSave.InvokeAsync(true);
             model = new PurchaseOrderPaymentModel();
-            toast.Add("Add payment successfully", MatToastType.Success);
+            toast.Add(lang["Add payment successfully"], MatToastType.Success);
         }
         else
         {
             await OnSave.InvokeAsync(false);
-            toast.Add("Cannot add payment.", MatToastType.Warning);
+            toast.Add(lang["Cannot add payment."], MatToastType.Warning);
             is_saving = false;
             return;
         }

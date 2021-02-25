@@ -102,10 +102,7 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ComButtonLoading is_loading="@is_saving">
-                        <Button type="submit" icon="save" is_visible="@(!is_saving)">Save</Button>
-                        <LinkButton url="tablegroupandtable" icon="reply" Class_Name="uk-button-danger" is_visible="@(!is_saving)">Cancel</LinkButton>
-                    </ComButtonLoading>                        
+                    <ComSavingFormButton is_loading="@is_saving" cancel_url="tablegroupandtable"/>
                 </FooterCenter>
             </PageFooter>
         </EditForm>
