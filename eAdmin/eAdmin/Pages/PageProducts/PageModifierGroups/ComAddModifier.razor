@@ -19,7 +19,7 @@
             <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" />
         </TdRight>
         <TdRight>
-            <NumberInput @bind-text="@m.sort_order" label="" placeholder="@lang["Sort Order"]" />
+            <NumberInputInt @bind-text="@m.sort_order" label="" placeholder="@lang["Sort Order"]" />
         </TdRight>
         <TdCenter>
             <Icon icon="delete" OnClick="@(()=>DeleteModifier(m))" />
