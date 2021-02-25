@@ -1,16 +1,62 @@
-﻿@inherits PageCore
-
-<div class="uk-width-1-4" style="position: relative;">
-    <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@AddSubMenu">
-        <div class="pos_icon_back">
-            <Icon icon="add" icon_color="#333333" size="43px" />
-            <div>Add</div>
-        </div>
+﻿<div style="position:relative;" class="uk-width-1-4">
+    <div class="icon_edit">
+        <Com is_visible="@(!IsMenuSelected())">
+            <button>
+                <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" />
+            </button>
+        </Com>
+        <Com is_visible="@(IsMenuSelected())">
+            <button>
+                <Icon icon="check_box" icon_color="@menu.text_color" @onclick="@OnUnSelectMenu" />
+            </button>
+        </Com>
     </div>
+
+    <Com is_visible="@(!IsMenuSelected())">
+        <div @onclick="@OnClick" class="box cp" style="background:@menu.background_color;color:@menu.text_color;">
+            <div>
+                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
+            </div>
+        </div>
+    </Com>
+
+
+    <Com is_visible="@(IsMenuSelected())">
+        <div @onclick="@OnClick" class="box cp" style="background:@menu.background_color;color:@menu.text_color; border:1px solid #cf564d;">
+            <div>
+                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
+            </div>
+        </div>
+    </Com>
+
 </div>
 
 @code {
-    [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
-    [Parameter] public EventCallback<MouseEventArgs> AddSubMenu { get; set; }
+    [Parameter] public MenuModel menu { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public int menu_id { get; set; }
+    [Parameter] public EventCallback<int> menu_idChanged { get; set; }
 
+
+    async Task OnClick()
+    {
+
+        await menu_idChanged.InvokeAsync(menu.id);
+
+    }
+
+    async Task OnSelectMenu()
+    {
+
+    }
+
+    async Task OnUnSelectMenu()
+    {
+
+    }
+
+    bool IsMenuSelected()
+    {
+        return true;
+    }
 }

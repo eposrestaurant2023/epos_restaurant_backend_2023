@@ -15,10 +15,10 @@
             @if (can_enter_payment)
             {
                 <UIContainerBox>
-                    <TextInput label="Reference #" @bind-text="@model.reference_number" is_horizontal="false"/>
+                    <TextInput label="Reference #" @bind-text="@model.reference_number" is_horizontal="true"/>
                     <DateInput @bind-Value="@model.payment_date" label="Payment Date" /> 
                     <SelectPaymentType @bind-selected_value="@model.payment_type_id" payment_type="@model.payment_type"/>
-                    <NumberInput @bind-text="@model.payment_amount" label="Payment Amount" />
+                    <NumberInput @bind-text="@model.payment_amount" label="Payment Amount"/>
                 </UIContainerBox>
 
                 <UIContainerBox Icon="notes" Title="Notes">
