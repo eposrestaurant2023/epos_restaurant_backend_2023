@@ -42,9 +42,42 @@ namespace eAPIClient.Models
         public int id { get; set; }
 
 
-        public string product_code { get; set; } = "";
-        public string product_name_en { get; set; } = "";
-        public string product_name_kh { get; set; } = "";
+   
+
+        private string _product_code ="";
+
+        public string product_code
+        {
+            get { return _product_code; }
+            set {
+                _product_code = value; 
+                keyword +=value +" ";
+            }
+        }
+
+
+        private string _product_name_en ="";
+
+        public string product_name_en
+        {
+            get { return _product_name_en; }
+            set { 
+                _product_name_en = value;
+                keyword +=  value +" ";
+            }
+        }
+
+        private string _product_name_kh = "";
+
+        public string product_name_kh
+        {
+            get { return _product_name_kh; }
+            set
+            {
+                _product_name_kh = value;
+                keyword += value+" ";
+            }
+        } 
         public string photo { get; set; }
         public bool is_allow_discount { get; set; }
         public bool is_allow_free { get; set; }
@@ -53,18 +86,10 @@ namespace eAPIClient.Models
         public List<ProductPrinterModel> product_printers { get; set; }
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<ProductPortionModel> product_portions { get; set; }
-
-      
-
-        private string _keyword="";
-
         public string keyword
         {
-            get {
-                _keyword = product_code + " " + product_name_en + " "+ product_name_kh;
-                return _keyword; 
-            }
-            set { _keyword = value; }
+            get;
+            set;
         }
 
 

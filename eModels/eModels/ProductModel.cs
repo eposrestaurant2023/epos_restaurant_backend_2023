@@ -40,10 +40,10 @@ namespace eModels
         public int product_category_id { get; set; }
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
- 
+
 
         [MaxLength(50)]
-        public string product_code { get; set; }
+        public string product_code { get; set; } = "";
 
         private string _product_name_en;
         [Required(ErrorMessage = "Field cannot be blank.")]
@@ -60,9 +60,9 @@ namespace eModels
                 }
             }
         }
-                                                               
+
         [MaxLength(250)]
-        public string product_name_kh { get; set; }   
+        public string product_name_kh { get; set; } = "";
 
         public string photo { get; set; } = "placeholder.png";
         public string note { get; set; }
