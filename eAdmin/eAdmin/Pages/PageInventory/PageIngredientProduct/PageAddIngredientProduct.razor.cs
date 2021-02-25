@@ -14,6 +14,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
         [Parameter] public int id { get; set; }
         [Parameter] public int clone_id { get; set; }
+        public ProductModel model { get; set; } = new ProductModel();
         public string PageTitle
         {
             get
@@ -52,7 +53,6 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 return url;
             } }
 
-        public ProductModel model { get; set; } = new ProductModel();
         public bool is_save_and_new { get; set; }
 
 

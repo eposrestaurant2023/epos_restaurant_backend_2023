@@ -46,8 +46,8 @@
                             <ValidationMessage For="@(()=>model.product_category_id)" />
                         </SelectProductCategory> 
                         <SelectStatus @bind-selected_value="@model.status" />
-                    </UIContainerBox>  
-                    @*<ComAddInventoryProduct @bind-model="@model" is_show_ingredient="false"/>*@
+                    </UIContainerBox>
+                    <ComAddInventoryProduct @bind-model="@model" is_show_ingredient="false"/>
                     <UIContainerBox Title="Note">
                         <TextInput label="" placeholder="Note" @bind-text="@model.note" type="textarea" row="2" />
                     </UIContainerBox>

@@ -24,11 +24,11 @@ namespace eAdmin.Pages.PageProducts
 
                 if (id > 0)
                 {
-                    return "Edit Product";
+                    return lang["Edit Product"];
                 }
                 else
                 {
-                    return "New Product";
+                    return lang["New Product"];
                 }
             }
         }
@@ -55,7 +55,8 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "$expand=product_printers,";
                 url = url + "product_portions($expand=product_prices;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
-                url = url + "product_modifiers($expand=modifier;$filter=is_deleted eq false)";
+                url = url + "product_modifiers($expand=modifier;$filter=is_deleted eq false),";
+                url = url + "stock_location_products";
                 return url;
             } }
 
@@ -71,7 +72,7 @@ namespace eAdmin.Pages.PageProducts
                 nav.NavigateTo("product");
             }else
             {
-                nav.NavigateTo("/product/" + id);
+                nav.NavigateTo("product/" + id);
             }
         }
 
@@ -139,13 +140,15 @@ namespace eAdmin.Pages.PageProducts
             }
             //remove menu
             save_model.product_menus.ForEach(r => r.menu = null);
+            save_model.stock_location_products.ForEach(r => r.stock_location = null);
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
+            Console.WriteLine(JsonSerializer.Serialize(save_model));
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add("Save product successfully", MatToastType.Success);
+                toast.Add(lang["Save product successfully"], MatToastType.Success);
                 if (is_save_and_new)
                 {
                     model = new ProductModel();
@@ -162,7 +165,7 @@ namespace eAdmin.Pages.PageProducts
             else
             {
 
-                toast.Add("Save product fail", MatToastType.Warning);
+                toast.Add(lang["Save product fail"], MatToastType.Warning);
             }
             is_saving = false;
         }
