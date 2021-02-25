@@ -38,15 +38,18 @@ namespace eAPIClient.Controllers
             }
             else
             {
-                return (from r in db.Customers
-                        where
-                              EF.Functions.Like(
-                                  (
-                                     (r.customer_code ?? " ") +
-                                     (r.customer_name_en ?? " ") +
-                                     (r.customer_name_kh ?? " ") 
-                                  ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
-                        select r);
+                var data = from r in db.Customers
+                           where
+                                 EF.Functions.Like(
+                                     (
+                                        (r.customer_code ?? " ") +
+                                        (r.customer_name_en ?? " ") +
+                                        (r.customer_name_kh ?? " ")
+                                     ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                           select r;
+
+
+                return data;
 
             }
 
