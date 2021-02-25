@@ -193,6 +193,8 @@ namespace eAPI
             odataBuilder.EntitySet<UnitCategoryModel>("UnitCategory");
             odataBuilder.EntitySet<ProductIngredientRelatedModel>("ProductIngredientRelated");
             odataBuilder.EntitySet<InventoryTransactionModel>("InventoryTransaction");
+            odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
+            odataBuilder.EntitySet<StockLocationProductModel>("StockLocationProduct");
             return odataBuilder.GetEdmModel();
         }
     }

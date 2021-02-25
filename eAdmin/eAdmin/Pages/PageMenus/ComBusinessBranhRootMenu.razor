@@ -17,13 +17,15 @@
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public int menu_id { get; set; }
     [Parameter] public EventCallback<int> menu_idChanged { get; set; }
-
+    [Parameter] public string keyword { get; set; }
+    [Parameter] public EventCallback<string> keywordChanged { get; set; }
 
     async Task MenuClick(MenuModel m)
     {
         m.is_selected = true;
         await menu_idChanged.InvokeAsync(m.id);
-
+        await keywordChanged.InvokeAsync("");
+        
     }
 
 

@@ -1,0 +1,66 @@
+﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
+
+<UIContainerBox Title="@lang["Inventory Information"]">
+<Com is_visible="@(!is_loading)">
+    <Table Items="@models" 
+            TotalItem="@TotalRecord"
+            isLoading="@is_loading"
+            ShowPager="false"
+            ShowCounter="true"
+            ShowPaging="false"
+            ClassName="uk-table-small uk-table-striped uk-table-hover"
+            ScrollClass="uk-overflow-auto">
+        <TableHeader>
+            <ThAuto>@lang["Business Branch"]</ThAuto>
+            <ThAuto>@lang["Stock Location"]</ThAuto>
+            <ThCenter>@lang["QTY"]</ThCenter> 
+            <ThCenter>@lang["Min QTY"]</ThCenter>
+            <ThCenter>@lang["Max QTY"]</ThCenter>
+        </TableHeader>
+        <RowTemplate Context="p">
+            <td>@p.stock_location?.business_branch?.business_branch_name_en</td>
+            <td>
+                <div>
+                    @p.stock_location?.stock_location_name
+                </div>
+                <Column ClassName="uk-text-left">
+                    <LabelOverStock is_visible="@p.is_over_stock" />
+                    <LabelLowStock is_visible="@p.is_low_stock" />
+                    <LabelOutOfStock is_visible="@p.is_out_of_stock" />
+                </Column>
+            </td>
+            <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
+            <TdCenter>@p.min_quantity.ToString(gv.quantity_format)</TdCenter>
+            <TdCenter>@p.max_quantity.ToString(gv.quantity_format)</TdCenter>
+        </RowTemplate>
+         <TableFooter>
+            <tr>
+                <td colspan="3">@lang["Total Quantity"]</td>
+                <TdCenter>@models.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                <td colspan="2"></td>
+            </tr>
+        </TableFooter>
+    </Table>
+</Com>
+</UIContainerBox>
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_id {get; set;}
+     List<StockLocationProductModel> models = new List<StockLocationProductModel>();
+    bool is_loading;
+    int TotalRecord = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        var resp = await http.ApiGetOData($"StockLocationProduct?$expand=stock_location($select=stock_location_name;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))&$filter=product_id eq {product_id}");
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<StockLocationProductModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+        }
+        is_loading = false;
+    }
+}

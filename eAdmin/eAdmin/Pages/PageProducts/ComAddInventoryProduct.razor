@@ -1,4 +1,5 @@
-﻿<UIContainerBox Title="Inventory / Ingredient Product">
+﻿@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="Inventory / Ingredient Product">
     <ComInputCheckBox @bind-value="@model.is_inventory_product" label="Is Inventory Product" />
     <Com is_visible="@(is_show_ingredient)">
         <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="Is Ingredient" />
@@ -9,24 +10,47 @@
     <Com is_visible="@(is_show_ingredient && (model.is_ingredient_product || model.is_inventory_product))">
         <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
     </Com>
-    <Com is_visible="@(model.is_inventory_product)">
-        <hr />
-        <Tab>
-            <TabHeader>
-                @foreach (var b in gv.bussiness_branches)
+    <Com is_visible="@(model.is_inventory_product)"> 
+        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+            <thead>
+                <tr> 
+                    <ThAuto>@lang["Stock Location"]</ThAuto>
+                    <ThCenter>@lang["QTY"]</ThCenter> 
+                    <ThCenter>@lang["Min QTY"]</ThCenter>
+                    <ThCenter>@lang["Max QTY"]</ThCenter>
+                </tr>
+            </thead>
+            <tbody> 
+                @foreach (var p in model.stock_location_products)
                 {
-                    <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                    <tr>
+                        <td>
+                            <div> 
+                                @gv.stock_locations.Where(r=>r.id==p.stock_location_id).FirstOrDefault().stock_location_name
+                            </div>
+                            <div>
+                                <Label Text="@gv.stock_locations.Where(r=>r.id==p.stock_location_id).FirstOrDefault().business_branch?.business_branch_name_en"/>
+                            </div>
+                        </td>
+                        <td>
+                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.quantity" text_format="@gv.quantity_format" width="100px"/>
+                        </td>
+                        <td>
+                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.min_quantity" text_format="@gv.quantity_format" width="100px" />
+                        </td>
+                        <td>
+                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.max_quantity" text_format="@gv.quantity_format" width="100px" />
+                        </td>
+                    </tr>
+
                 }
-            </TabHeader>
-            <TabBody>
-                @foreach (var b in gv.bussiness_branches)
-                {
-                    <TabItem>
-                        <h2>@b.business_branch_name_en</h2>
-                    </TabItem>
-                }
-            </TabBody>
-        </Tab>
+                <tr>
+                    <td>@lang["Total Quantity"]</td>
+                    <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
+                    <td colspan="2"></td>
+                </tr>
+            </tbody>
+        </table> 
     </Com>
 </UIContainerBox>
 @code {
@@ -35,7 +59,19 @@
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     [Parameter] public bool is_show_ingredient { get; set; } = true;
 
-
+    bool is_loading;
+    protected override  void OnInitialized()
+    {
+        is_loading = true;
+        if (model.id == 0)
+        {
+            foreach(var d in gv.stock_locations)
+            {
+                model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
+            }
+        }
+        is_loading = false;
+    }
     async Task OnSelectVendor(VendorModel v)
     { 
         model.vendor_id = v.id;
