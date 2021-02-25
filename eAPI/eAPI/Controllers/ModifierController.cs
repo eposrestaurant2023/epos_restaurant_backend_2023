@@ -63,7 +63,7 @@ namespace eAPI.Controllers
                 db.Modifiers.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(db.Modifiers.Find(u.id));
+            return Ok(u);
         }
 
         [HttpPost]

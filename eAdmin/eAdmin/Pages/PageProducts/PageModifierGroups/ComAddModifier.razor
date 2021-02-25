@@ -39,8 +39,6 @@
         get { return _modifier; }
         set
         {
-
-
             if (!modifer_group.modifier_group_items.Where(r => r.modifier_id == value.id && r.is_deleted == false).Any())
             {
                 modifer_group.modifier_group_items.Add(new ModifierGroupItemModel() { modifier = value, modifier_id = value.id });

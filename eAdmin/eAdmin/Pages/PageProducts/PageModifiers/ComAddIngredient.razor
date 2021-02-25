@@ -36,7 +36,6 @@
                         <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))" />
                     </TdRight>
                 </tr>
-
             }
             <tfoot>
                 <tr>
@@ -71,7 +70,7 @@
 
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public ProductModel model { get; set; }
+    [Parameter] public ModifierModel model { get; set; }
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
 
@@ -91,7 +90,7 @@
             }
             else
             {
-                model.modifier_ingredients.Add(new ModifierIngredientModel() {ingredient = value, unit_id = value.unit_id, cost = value.cost });
+                model.modifier_ingredients.Add(new ModifierIngredientModel() {ingredient = value,ingredient_id = value.id, unit_id = value.unit_id, cost = value.cost });
             }
             value = null;
             _product = value;

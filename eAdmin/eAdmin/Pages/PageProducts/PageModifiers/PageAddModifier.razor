@@ -33,7 +33,7 @@
                 </UIGridCenter>
                 <UIGridCenter>
                     <UIContainerBox>
-                        <eAdmin.Pages.PageProducts.PageModifiers.ComAddIngredient model="@product"/>
+                        <eAdmin.Pages.PageProducts.PageModifiers.ComAddIngredient model="@modifier"/>
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
@@ -59,7 +59,6 @@ else
     [Parameter] public int id { get; set; }
     string controller_api = "Modifier";
     ModifierModel modifier = new ModifierModel();
-    ProductModel product = new ProductModel();
 
     bool is_save_and_new = false;
     protected override async Task OnInitializedAsync()
@@ -106,7 +105,9 @@ else
         is_saving = true;
 
         ModifierModel save_model = JsonSerializer.Deserialize<ModifierModel>(JsonSerializer.Serialize(modifier));
-
+        //save_model.product_modifiers = null;
+        save_model.modifier_ingredients.ForEach(r => r.ingredient = null);
+        save_model.modifier_ingredients.ForEach(r => r.modifier = null);
         var resp = await http.ApiPost("Modifier/Save", save_model);
         if (resp.IsSuccess)
         {
