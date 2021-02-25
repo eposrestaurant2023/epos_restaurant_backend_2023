@@ -6,7 +6,7 @@
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="@title"></Title>
+    <Title Value="Modifier Group Detail"></Title>
     <PageContainer roles="@gv.GetRole("modifier_group_view")">
         <PageHeader>
             <HeaderLeft>
@@ -34,7 +34,6 @@
                     <MoreButtonItem roles="@gv.GetRole("modifier_group_edit")" icon="check" is_visible="@(!modifier_group.is_deleted && !modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">Active</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("modifier_group_delete")" icon="delete" is_visible="@(!modifier_group.is_deleted)" OnClick="@(()=>OnDelete(modifier_group))">Delete</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("modifier_group_restore")" icon="refresh" is_visible="@(modifier_group.is_deleted)" OnClick="@(()=>OnRestore(modifier_group))">Restore</MoreButtonItem>
-
                 </MoreButton>
                 <RefreshButton OnClick="@LoadData" />
             </HeaderRight>
