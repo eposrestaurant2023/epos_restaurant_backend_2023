@@ -8,14 +8,14 @@
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"PO Invoice: {model.document_number}")" ></Title>
+    <Title Value="@($"{lang["PO Invoice"]} : {model.document_number}")" ></Title>
 
     <PageContainer roles="@gv.GetRole("purchase_order_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        PO Invoice #:  @model.document_number
+                        @lang["PO Invoice #"] : @model.document_number
                         <LabelDeleted is_visible="@model.is_deleted" />
                         <ComPurchaseOrderStatus po="@model" />
                     </HeaderTemplate>
@@ -28,9 +28,9 @@
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem roles="@gv.GetRole("purchase_order_management")">Invoice</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowPaymentHistory">Payment</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowComment">Comment and History</TabHeaderItem>
+                    <TabHeaderItem roles="@gv.GetRole("purchase_order_management")">@lang["Invoice"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
 
                 <TabBody>
@@ -42,14 +42,14 @@
                             <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <ThCenter>Image</ThCenter>
-                                        <th class="col-auto">Item</th>
-                                        <th class="uk-text-center">QTY</th>
+                                        <th>@lang["No"]</th>
+                                        <ThCenter>@lang["Image"]</ThCenter>
+                                        <th class="col-auto">@lang["Item"]</th>
+                                        <th class="uk-text-center">@lang["QTY"]</th>
                                        
-                                        <th class="uk-text-right">Price</th>
-                                        <th class="uk-text-right">Dis.</th>
-                                        <th class="uk-text-right">Amount</th>
+                                        <th class="uk-text-right">@lang["Price"]</th>
+                                        <th class="uk-text-right">@lang["Dis."]</th>
+                                        <th class="uk-text-right">@lang["Amount"]</th>
                                     </tr>
                                 </thead>
                                 <tbody> 
@@ -94,7 +94,7 @@
 
 @if (is_error)
 {
-    <Error title="Sale Detail">
+    <Error title="@lang["Purchase Order Detail"]">
         @error_text
     </Error>
 }
