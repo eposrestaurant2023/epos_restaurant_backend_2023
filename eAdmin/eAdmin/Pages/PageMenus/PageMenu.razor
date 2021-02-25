@@ -22,11 +22,11 @@
     </PageHeader>
     <PageBody>
         <Grid ClassName="uk-grid-small">
-            <Column ClassName="uk-width-1-3">
-                <ComBusinessBranhRootMenu menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@current_menu_id" />
+            <Column ClassName="uk-width-1-5">
+                <ComBusinessBranhRootMenu menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword"/>
             </Column>
-            <Column ClassName="uk-width-2-3">
-                <ComMainMenu menus="@menus" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" keyword="@keyword"/>
+            <Column ClassName="uk-width-4-5">
+                <ComMainMenu menus="@menus" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" @bind-keyword="@keyword"/>
             </Column>
         </Grid>
     </PageBody>
@@ -59,7 +59,7 @@
         get
         {
             string url = $"{controller_api}?";
-            url += $"$expand=product_menus($expand=product($select=id,photo,product_name_en,product_name_kh))";
+            url += $"$expand=product_menus($expand=product($select=id,photo,product_name_en,product_name_kh);$filter=is_deleted eq false)";
             url = url + GetFilter(state.filters);
 
 

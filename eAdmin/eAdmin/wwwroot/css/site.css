@@ -6981,3 +6981,7 @@ div.mud-input-slot.mud-input-root:hover {
     border-radius: 0px;
     padding: 0px 12px !important;
 }
+.mdc-snackbar {
+z-index:999999!important;
+
+}

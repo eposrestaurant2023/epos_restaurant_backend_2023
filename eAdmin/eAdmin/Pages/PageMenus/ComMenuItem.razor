@@ -40,11 +40,14 @@
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public  int  menu_id { get; set; }
     [Parameter] public EventCallback<int> menu_idChanged { get; set; }
+    [Parameter] public string keyword { get; set; }
+    [Parameter] public EventCallback<string> keywordChanged { get; set; }
 
 
     async Task OnClick() {
 
         await menu_idChanged.InvokeAsync(menu.id);
+        await keywordChanged.InvokeAsync("");
 
     }
 
