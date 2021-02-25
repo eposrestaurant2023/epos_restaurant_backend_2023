@@ -1,0 +1,48 @@
+﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
+
+<UIContainerBox Title="Modifier">
+<Com is_visible="@(!is_loading)">
+    <Table Items="@models" 
+            TotalItem="@TotalRecord"
+            isLoading="@is_loading"
+            ShowPager="false"
+            ShowCounter="true"
+            ShowPaging="false"
+            ClassName="uk-table-small uk-table-striped uk-table-hover"
+            ScrollClass="uk-overflow-auto">
+        <TableHeader>
+            <ThAuto>@lang["Modifier Name"]</ThAuto>
+            <ThCenter>@lang["Modifier Group"]</ThCenter>
+            <ThCenter>@lang["Price"]</ThCenter>
+        </TableHeader>
+        <RowTemplate Context="p">
+            <td>@p.modifier?.modifier_name</td>
+            <TdCenter>Group</TdCenter>
+            <TdCenter>
+                @p.price.ToString(gv.main_currency_format)
+            </TdCenter>
+        </RowTemplate>
+    </Table>
+</Com>
+</UIContainerBox>
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_id {get; set;}
+     List<ProductModifierModel> models = new List<ProductModifierModel>();
+    bool is_loading;
+    int TotalRecord = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        var resp = await http.ApiGetOData($"ProductModifier?$expand=modifier($select=id,modifier_group_id,modifier_name)&$filter=product_id eq {product_id} and is_deleted eq false and status eq true");
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+        }
+        is_loading = false;
+    }
+}
