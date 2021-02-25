@@ -1,25 +1,26 @@
-﻿<UIGridCenter>
-    <UISummaryBox Title="Product Information"  ShowImage="true" ImageUrl="@model.photo">
+﻿@inject IStringLocalizer<Resource> lang
+<UIGridCenter>
+    <UISummaryBox Title="@lang["Product Information"]"  ShowImage="true" ImageUrl="@model.photo">
         <ContentLeft>
             <table>
                 <tr>
-                     <th>Product Code</th>
+                     <th>@lang["Product Code"]</th>
                     <td>@model.product_code</td>
                 </tr>
                 <tr>
-                     <th>Product (En)</th>
+                     <th>@lang["Product (En)"]</th>
                     <td>@model.product_name_en</td>
                 </tr>
                 <tr>
-                    <th>Product (Kh)</th>
+                    <th>@lang["Product (Kh)"]</th>
                     <td>@model.product_name_kh</td>
                 </tr>
                 <tr>
-                    <th>Categroy</th>
+                    <th>@lang["Categroy"]</th>
                     <td>@model.product_category?.product_category_en</td>
                 </tr>
                 <tr>
-                    <th>Unit</th>
+                    <th>@lang["Unit"]</th>
                     <td>@model.unit?.unit_name</td>
                 </tr>
             </table>
@@ -27,23 +28,23 @@
         <ContentRight>
             <table>
                 <tr>
-                    <td>Allow Discount</td>
+                    <td>@lang["Allow Discount"]</td>
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
                 </tr>
                 <tr>
-                    <td>Allow Free</td>
+                    <td>@lang["Allow Free"]</td>
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
                 </tr>
                 <tr>
-                    <td>Is Opened Product</td>
+                    <td>@lang["Is Opened Product"]</td>
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_open_product" /></td>
                 </tr>
                 <tr>
-                    <td>Is Inventory</td>
+                    <td>@lang["Is Inventory"]</td>
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_inventory_product" /></td>
                 </tr>
                 <tr>
-                    <td>Is Ingredient Product</td>
+                    <td>@lang["Is Ingredient Product"]</td>
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_ingredient_product" /></td>
                 </tr>
             </table>
@@ -52,6 +53,9 @@
     </UISummaryBox>
     <Spacing Number="10"/>
     <ComProductDetail_Portion product_id="@model.id"/>
+    <Spacing Number="10"/>
+
+    <ComProductDetail_Modifired product_id="@model.id"/>
     <Spacing Number="10"/>
 
     <ComProductDetail_Menu product_id="@model.id"/>

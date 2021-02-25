@@ -1,38 +1,35 @@
 ﻿
  
 <UIContainerBox Title="Menus">
-    (@current_menu_id)
+ 
         @if (current_menu_id != parent_menu_id)
         {
-            <h3 class="title">@menus.Where(r => r.id == current_menu_id).FirstOrDefault().menu_path</h3>
+            <h3 class="title">@current_menu.menu_path</h3>
         }
 
         @if (menus.Any())
         {
-
-
                 <div class="ribbons-wrapper uk-grid-small" uk-grid>
-
-
                     @if (current_menu_id != parent_menu_id)
                     {
-                         <ComMenuBackButton current_menu_id="@current_menu_id" parent_menu_id="@parent_menu_id" OnClick="@OnBack"/>
+                         <ComMenuBackButton OnClick="@OnBack"/>
                     }
-
 
                     @foreach (var m in GetMenus)
                     {
-                        <ComMenuItem menu="m" @bind-menu_id="@current_menu_id">@(GetMenuName(m))</ComMenuItem>
+                        <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">@(GetMenuName(m))</ComMenuItem>
                     }
 
-                    
+                    @if (string.IsNullOrEmpty(keyword))
+                    {
+                        <ComMenuSelectProductButton menu="@current_menu"/>
+                    }
 
-                <ComMenuSelectProductButton/>
-             @if (current_menu_id > 0)
-             {
-                    <ComMenuAddButton />
-             }
-</div>
+                     @if (current_menu_id > 0)
+                     {
+                            <ComMenuAddButton />
+                     }
+                 </div>
         }
 </UIContainerBox>
 
@@ -43,6 +40,7 @@
 
     [Parameter] public int current_menu_id { get; set; }
     [Parameter] public string keyword { get; set; }
+    [Parameter] public EventCallback< string> keywordChanged { get; set; }
 
     [Parameter] public int parent_menu_id { get; set; }
 
@@ -73,6 +71,10 @@
         }
     }
 
+    public MenuModel current_menu { get {
+
+            return menus.Where(r => r.id == current_menu_id).FirstOrDefault();
+        } }
 
     string GetMenuName(MenuModel m)
     {
@@ -124,19 +126,9 @@
 
     void OnBack()
     {
-        current_menu_id = parent_menu_id;
-        if (current_menu_id > 0)
-        {
-            var d = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
-            if (d.parent_id == null)
-            {
-                parent_menu_id = 0;
-            }
-            else
-            {
-                parent_menu_id = Convert.ToInt32(d.parent_id);
-            }
-        }
+
+        var d = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
+        current_menu_id = Convert.ToInt32( d.parent_id);
     }
 
     void AddRootMenu()

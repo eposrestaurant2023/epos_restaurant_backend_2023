@@ -1,62 +1,45 @@
-﻿<div style="position:relative;" class="uk-width-1-4">
-    <div class="icon_edit">
-        <Com is_visible="@(!IsMenuSelected())">
-            <button>
-                <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" />
-            </button>
-        </Com>
-        <Com is_visible="@(IsMenuSelected())">
-            <button>
-                <Icon icon="check_box" icon_color="@menu.text_color" @onclick="@OnUnSelectMenu" />
-            </button>
-        </Com>
-    </div>
-
-    <Com is_visible="@(!IsMenuSelected())">
-        <div @onclick="@OnClick" class="box cp" style="background:@menu.background_color;color:@menu.text_color;">
-            <div>
-                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
-            </div>
+﻿
+@if (menu != null)
+{
+    foreach (var m in menu.product_menus.Where(r => r.is_deleted == false))
+    {
+        <div>
+            @m.product.product_name_en | @m.product.photo |
+            <Button OnClick="@(()=>RemoveProduct(m))">Remove</Button>
         </div>
-    </Com>
 
-
-    <Com is_visible="@(IsMenuSelected())">
-        <div @onclick="@OnClick" class="box cp" style="background:@menu.background_color;color:@menu.text_color; border:1px solid #cf564d;">
-            <div>
-                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
-            </div>
-        </div>
-    </Com>
-
-</div>
+    }
+    @if (deleted_product_menu != null && show_undo_delete == true)
+    {
+        <MatSnackbar @bind-IsOpen="@show_undo_delete">
+            <MatSnackbarContent>Product @deleted_product_menu.product.product_name_kh  has been remove from this menu @menu.menu_name_en.</MatSnackbarContent>
+            <MatSnackbarActions>
+                <MatButton Raised="true" OnClick="@UndoDelete">Undo</MatButton>
+            </MatSnackbarActions>
+        </MatSnackbar>
+    }
+}
+ 
 
 @code {
     [Parameter] public MenuModel menu { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public int menu_id { get; set; }
-    [Parameter] public EventCallback<int> menu_idChanged { get; set; }
 
+    ProductMenuModel deleted_product_menu = new ProductMenuModel();
 
-    async Task OnClick()
+    bool show_undo_delete = false;
+
+    void RemoveProduct(ProductMenuModel deleted_item)
     {
-
-        await menu_idChanged.InvokeAsync(menu.id);
-
+        deleted_item.is_deleted = true;
+        deleted_product_menu = deleted_item;
+        show_undo_delete = true;
     }
 
-    async Task OnSelectMenu()
+    void UndoDelete()
     {
-
+        deleted_product_menu.is_deleted = false;
+        show_undo_delete = false;
     }
 
-    async Task OnUnSelectMenu()
-    {
 
-    }
-
-    bool IsMenuSelected()
-    {
-        return true;
-    }
 }
