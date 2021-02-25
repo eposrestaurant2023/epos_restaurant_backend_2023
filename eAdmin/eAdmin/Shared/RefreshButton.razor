@@ -1,4 +1,4 @@
-﻿<Button icon="refresh" title="Refresh"  OnClick="@OnClick" is_visible="@is_visible" class_name="@($"{button_type} btn-no-text")" custom_class="button-large" />
+﻿<Button icon="refresh" title="Refresh"  OnClick="@OnClick" is_visible="@is_visible" class_name="@($"{button_type} btn-no-text")" custom_class="button-large"/>
 @code{
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
     [Parameter] public bool is_visible { get; set; } = true;

@@ -1,25 +1,50 @@
-﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id">@label</label>
-    <div class="uk-form-controls">
-        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
-            @if (show_empty)
-            {
-                <option value="0">@empty_text</option>
-            }
-            @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted))
-            {
-                <option value="@p.id">@p.payment_type_name_en</option>
-            }
-        </select>
-        @ChildContent
+﻿@if (is_horizontal)
+{
+    <div class="@(is_horizontal?"uk-form-horizontal":"")">
+        <div class="uk-margin-small">
+            <label class="uk-form-label" for="@id">@label</label>
+            <div class="uk-form-controls">
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
+                    @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted))
+                    {
+                        <option value="@p.id">@p.payment_type_name_en</option>
+                    }
+                </select>
+                @ChildContent
+            </div>
+        </div>
     </div>
-</div>
+}
+else
+{
+        <div class="uk-margin-small">
+            <label class="uk-form-label" for="@id">@label</label>
+            <div class="uk-form-controls">
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
+                    @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted))
+                    {
+                        <option value="@p.id">@p.payment_type_name_en</option>
+                    }
+                </select>
+                @ChildContent
+            </div>
+        </div>
+}
 
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string label { get; set; } = "Payment Type";
     [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
     [Parameter] public string empty_text { get; set; } = "Select Payment Type";
 
     [Parameter] public string width { get; set; } = "100%";

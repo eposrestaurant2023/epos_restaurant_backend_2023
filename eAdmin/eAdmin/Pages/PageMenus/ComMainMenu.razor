@@ -124,7 +124,7 @@
 
     void OnBack()
     {
-        current_menu_id == parent_menu_id;
+        current_menu_id = parent_menu_id;
         if (current_menu_id > 0)
         {
             var d = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
