@@ -1,36 +1,39 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @foreach (var s in modifer_group.modifier_group_items.Where(r => r.is_section == true))
 {
-    <UIContainerBox Title="Modifiers">
-        <ModifierTypeahead @bind-modifier="@modifier" />
-        <hr />
-        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+<UIContainerBox Title="Modifiers">
+    @*<TextInput @bind-text="@s.section_name" label="Section Name" />*@
+    @*<ComInputCheckBox @bind-value="@s.is_required" label="Is Required" />*@
+    @*<ComInputCheckBox @bind-value="@s.is_multiple_select" label="Allow Multiple Select" />*@
+    <ModifierTypeahead @bind-modifier="@modifier" />
+    <hr />
+    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <Th>@lang["Modifier Name"]</Th>
+            <ThRight>@lang["Price"]</ThRight>
+            <ThRight>@lang["Sort Order"]</ThRight>
+            <ThCenter></ThCenter>
+        </tr>
+        @foreach (var m in modifer_group.modifier_group_items.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
+        {
             <tr>
-                <Th>@lang["Modifier Name"]</Th>
-                <ThRight>@lang["Price"]</ThRight>
-                <ThRight>@lang["Sort Order"]</ThRight>
-                <ThCenter></ThCenter>
+                <td>
+                    @m.modifier.modifier_name
+                </td>
+                <TdRight>
+                    <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" />
+                </TdRight>
+                <TdRight>
+                    <NumberInputInt @bind-text="@m.sort_order" label="" placeholder="@lang["Sort Order"]" />
+                </TdRight>
+                <TdCenter>
+                    <Icon icon="delete" OnClick="@(()=>DeleteModifier(m))" />
+                </TdCenter>
             </tr>
-            @foreach (var m in modifer_group.modifier_group_items.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
-            {
-                <tr>
-                    <td>
-                        @m.modifier.modifier_name
-                    </td>
-                    <TdRight>
-                        <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" />
-                    </TdRight>
-                    <TdRight>
-                        <NumberInputInt @bind-text="@m.sort_order" label="" placeholder="@lang["Sort Order"]" />
-                    </TdRight>
-                    <TdCenter>
-                        <Icon icon="delete" OnClick="@(()=>DeleteModifier(m))" />
-                    </TdCenter>
-                </tr>
-            }
-        </table>
+        }
+    </table>
 
-    </UIContainerBox>
+</UIContainerBox>
 }
 
 @code{

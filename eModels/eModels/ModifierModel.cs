@@ -52,6 +52,9 @@ namespace eModels
 
         public int sort_order { get; set; }
         public bool is_section { get; set; }
+        public bool is_required { get; set; }
+        public bool is_multiple_select { get; set; }
+        public string section_name { get; set; }
         public decimal price { get; set; }
 
     }
