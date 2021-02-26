@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eAdmin.Pages.PageCustomers
 {
-    public class PageVendors : PageCore
+    public class PageVendorBase : PageCore
     {
         public List<VendorModel> Vendor = new List<VendorModel>();
         public VendorModel model = new VendorModel();
@@ -137,7 +137,7 @@ namespace eAdmin.Pages.PageCustomers
             var resp = await http.ApiPost(controller_api + "/save", vendor);
             if (resp.IsSuccess)
             {
-                toast.Add("Change status successfully", MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MatToastType.Success);
                 if (Vendor.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
@@ -150,12 +150,12 @@ namespace eAdmin.Pages.PageCustomers
         public async Task OnDelete(VendorModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete vendor", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Vendor"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete vendor successfully", MatToastType.Success);
+                    toast.Add(lang["Delete vendor successfully"], MatToastType.Success);
                     if (Vendor.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -169,7 +169,7 @@ namespace eAdmin.Pages.PageCustomers
         public async Task OnRestore(VendorModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Restore vendor", "Are you sure you want to restore this record?"))
+            if (await js.Confirm(lang["Restore vendor"], lang["Are you sure you want to restore this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -181,7 +181,7 @@ namespace eAdmin.Pages.PageCustomers
                     }
                     await LoadData();
                 }
-                toast.Add("Restore vendor successfully", MatBlazor.MatToastType.Success);
+                toast.Add(lang["Restore vendor successfully"], MatBlazor.MatToastType.Success);
             }
             p.is_loading = false;
         }

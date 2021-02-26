@@ -30,10 +30,6 @@ namespace eModels
         public bool is_low_inventory { get; set; } = false;
         public bool is_over_stock { get; set; } = false;
         public decimal quantity { get; set; }
-
-
-       
-
         public List<StockLocationProductModel> stock_location_products { get; set; }
 
         [Required(ErrorMessage = "Please select a category.")]
@@ -70,7 +66,7 @@ namespace eModels
 
         [Required(ErrorMessage = "Please select unit.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
-        public int unit_id { get; set; } = 1;
+        public int unit_id { get; set; }
         [ForeignKey("unit_id")]
         public UnitModel unit{ get; set; }
 
@@ -109,7 +105,7 @@ namespace eModels
         public bool is_ingredient_product { get; set; }
         public decimal cost { get; set; }
         public List<HistoryModel> histories { get; set; }
-   
+
         [NotMapped, JsonIgnore]
         public string product_display_name
         {
@@ -239,6 +235,18 @@ namespace eModels
             }
         }
 
+
+    }
+
+    public class CreatedProductInventoryModel
+    {
+        public int stock_location_id { get; set; }
+        public int product_id { get; set; }
+        public decimal quantity { get; set; }
+        public decimal min_quantity { get; set; }
+        public decimal max_quantity { get; set; }
+ 
+        public string unit { get; set; }
 
     }
 }

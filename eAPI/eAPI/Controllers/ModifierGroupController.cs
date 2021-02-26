@@ -54,13 +54,22 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<ModifierGroupModel>> Save([FromBody] ModifierGroupModel u)
         {
-            
+            foreach (var pm in u.modifier_group_items)
+            {
+                pm.children.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+            }
+
             if (u.id == 0)
             {
                 u.modifier_group_product_categories.ForEach(r => r.modifier_group = null);
                 u.modifier_group_product_categories.ForEach(r => r.modifer_group_id = 0);
                 u.modifier_group_product_categories.ForEach(r => r.id = 0);
                 u.modifier_group_product_categories.ForEach(r => r.product_category = null);
+                u.modifier_group_items.ForEach(r=>r.id = 0);
+                u.modifier_group_items.ForEach(r => r.modifier_group = null);
+                u.modifier_group_items.ForEach(r => r.modifier_group_id = 0);
+                u.modifier_group_items.ForEach(r => r.modifier = null);
+                u.modifier_group_items.ForEach(r => r.modifier_id = 0);
                 db.ModifierGroups.Add(u);
             }
             else
@@ -92,6 +101,7 @@ namespace eAPI.Controllers
         {
             var u = db.ModifierGroups.Where(r=>r.id == id)
                 .Include(r=>r.modifier_group_items.Where(r=>r.is_deleted == false)).ThenInclude(r=>r.modifier)
+                .Include(r=>r.modifier_group_items.Where(r=>r.is_deleted == false)).ThenInclude(r=>r.children).ThenInclude(r=>r.modifier)
                 .Include(r=>r.modifier_group_product_categories.Where(r=>r.is_deleted == false)).ThenInclude(r=>r.product_category).ToList();
             if (u.Any())
             {

@@ -86,7 +86,7 @@ namespace eAPI
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                Path.Combine(env.ContentRootPath, "upload")),
+                Path.Combine(env.ContentRootPath, "Upload")),
                 RequestPath = "/upload"
             });
 
@@ -117,13 +117,10 @@ namespace eAPI
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
             odataBuilder.EntitySet<CustomerModel>("Customer");
-            odataBuilder.EntitySet<PaymentTypeModel>("PaymentType");
 
             odataBuilder.EntitySet<AttachFilesModel>("AttachFiles");
             odataBuilder.EntitySet<SettingModel>("Setting");
-            odataBuilder.EntitySet<HistoryModel>("History");
 
-            odataBuilder.EntitySet<CountryModel>("Country");
              return odataBuilder.GetEdmModel();
         }
     }

@@ -17,6 +17,7 @@ namespace eAdmin.Pages.PageProducts
         public ProductModel model { get; set; } = new ProductModel();
 
         public int unit_category_id = 0;
+        public bool can_update_stock = false;
         public string PageTitle
         {
             get
@@ -55,7 +56,7 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "$expand=product_printers,";
                 url = url + "product_portions($expand=product_prices;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
-                url = url + "product_modifiers($expand=modifier;$filter=is_deleted eq false),";
+                url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
                 url = url + "stock_location_products";
                 return url;
             } }
@@ -89,6 +90,7 @@ namespace eAdmin.Pages.PageProducts
             {
                 await CloneProduct();
             }
+            await CheckStockProduct();
             is_loading = false;
         }
 
@@ -96,7 +98,7 @@ namespace eAdmin.Pages.PageProducts
         public async Task LoadData()
         {
             is_loading = true;
-
+            
             if (id > 0)
             {
                 var resp = await http.ApiGet(api_url);
@@ -105,7 +107,7 @@ namespace eAdmin.Pages.PageProducts
                     model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
                 }
             }
-
+            
             is_loading = false;
 
         }
@@ -124,15 +126,26 @@ namespace eAdmin.Pages.PageProducts
             is_loading = false;
 
         }
-
+ 
         public async Task Save_Click()
-        {
-
-             
+        { 
             is_saving = true;
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
+            if (unit_category_id == 0)
+            {
+                toast.Add(lang["Please Select Unit Category."], MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            else if (save_model.unit == null)
+            { 
+                toast.Add(lang["Please Select Unit."], MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+
             if (save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Count() > 0)
             {
                 save_model.min_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Min(r => r.price);
@@ -140,12 +153,11 @@ namespace eAdmin.Pages.PageProducts
             }
             //remove menu
             save_model.product_menus.ForEach(r => r.menu = null);
-            save_model.stock_location_products.ForEach(r => r.stock_location = null);
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
-            var resp = await http.ApiPost("Product/Save", save_model);
+ 
+            var resp = await http.ApiPost($"Product/Save?is_update_stock={can_update_stock}", save_model);
             if (resp.IsSuccess)
             {
                 toast.Add(lang["Save product successfully"], MatToastType.Success);
@@ -153,7 +165,8 @@ namespace eAdmin.Pages.PageProducts
                 {
                     model = new ProductModel();
                     model.product_category_id = save_model.product_category_id;
-
+                    is_save_and_new = false;
+                    save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
                     nav.NavigateTo("product/new");
 
                 }else
@@ -168,6 +181,22 @@ namespace eAdmin.Pages.PageProducts
                 toast.Add(lang["Save product fail"], MatToastType.Warning);
             }
             is_saving = false;
+        }
+
+        public async Task CheckStockProduct()
+        {
+            can_update_stock = false;
+            var resp_transaction = await http.ApiGetOData($"InventoryTransaction?$filter=inventory_transaction_type_id ne 1 and product_id eq {id}&$count=true");
+            if (resp_transaction.IsSuccess)
+            {
+                can_update_stock = resp_transaction.Count == 0?true:false;
+            }
+            else
+            {
+
+                toast.Add("Error Check Product Inventory Transcation!!!", MatToastType.Warning);
+
+            }
         }
     }
 }

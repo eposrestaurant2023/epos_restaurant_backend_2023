@@ -87,7 +87,7 @@ else
             }
             else
             {
-                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_group_items($expand=modifier;$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
+                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_group_items($expand=modifier,parent,children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
                 if (resp.IsSuccess)
                 {
                     modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
@@ -109,8 +109,6 @@ else
 
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
 
-        save_model.modifier_group_items.Where(r => r.modifier.id > 0).ToList().ForEach(r => r.modifier = null);
-        save_model.modifier_group_product_categories.ForEach(r => r.product_category = null);
 
         var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)

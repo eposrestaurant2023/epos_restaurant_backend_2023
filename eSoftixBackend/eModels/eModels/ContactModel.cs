@@ -6,6 +6,7 @@ using System.Text;
 
 namespace eModels
 {
+    [Table("tbl_contact")]
     public class ContactModel:CoreModel
     {
         public int customer_id { get; set; }
