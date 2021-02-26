@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210226092919_x")]
+    partial class x
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -973,7 +975,7 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("allow_append_quantity")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("allow_display_in_pos_order_list")
+                    b.Property<bool>("allow_in_pos_order_list")
                         .HasColumnType("bit");
 
                     b.Property<bool>("allow_send_to_printer")
@@ -992,16 +994,12 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("status_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("submited_status_id")
-                        .HasColumnType("int");
+                    b.Property<bool>("submited_status_id")
+                        .HasColumnType("bit");
 
                     b.HasKey("id");
 

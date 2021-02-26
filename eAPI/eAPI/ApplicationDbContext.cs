@@ -133,6 +133,7 @@ namespace eAPI
         public DbSet<InventoryTransactionTypeModel> InventoryTransactionTypes{ get; set; }
         public DbSet<StockLocationProductModel> StockLocationProducts{ get; set; }
         public DbSet<ModifierGroupItemModel> ModifierGroupItems { get; set; }
+        public DbSet<SaleProductStatusModel> SaleProductStatuses { get; set; }
 
 
     }

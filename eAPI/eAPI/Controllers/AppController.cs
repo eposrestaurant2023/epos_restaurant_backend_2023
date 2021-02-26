@@ -126,6 +126,14 @@ namespace eAPI.Controllers
             }
         }
 
+        [HttpGet("SaleProductStatus")]
+        [EnableQuery]
+        public async Task<List<SaleProductStatusModel>> GetSaleProductStatus()
+        {
+            return await (db.SaleProductStatuses.ToListAsync());
+
+        }
+
 
         [HttpGet("NoteCategory")]
         [EnableQuery]

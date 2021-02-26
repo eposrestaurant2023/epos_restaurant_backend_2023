@@ -43,8 +43,7 @@ namespace eAPI.Controllers
                                         (r.sale.customer.customer_name_kh ?? " ") + 
                                         (r.product_name_en ?? " ") + 
                                         (r.product_name_kh ?? " ") + 
-                                        (r.product_code ?? " ") + 
-                                        (r.sale.reference_number ?? " ")
+                                        (r.product_code ?? " ")  
                                      ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                            select r);
 
