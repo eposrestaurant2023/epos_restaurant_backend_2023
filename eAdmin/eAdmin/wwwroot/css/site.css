@@ -1942,6 +1942,7 @@ h3.title.heading {
 .uk-overlay {
     background: rgba(189, 189, 189, 0.65);
     z-index: 9;
+    color:#000;
 }
 
 .custom-modal {
@@ -4620,6 +4621,7 @@ ul.uk-nav-sub a i.material-icons {
     border-radius: 2px;
     margin-bottom: 15px;
     position: relative;
+    padding:10px;
 }
 .wrp-exp-vendor-filter .vendertypeheadnullitem {
     padding-top: 13px !important;
@@ -6989,6 +6991,7 @@ z-index:999999!important;
 }
 .bg_business_rootmenu {
     padding: 15px;
+    border-radius:4px;
     border: 1px solid #e1e4e8;
 }
 .button_color_button {

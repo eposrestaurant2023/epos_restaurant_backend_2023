@@ -1,6 +1,6 @@
 ﻿@if (selected_date != null)
 {
-    <ComInputCheckBox label="Filter by Date" @bind-value="@selected_date.is_visible" />
+    <ComInputCheckBox label="Filter by Date" @bind-value="@selected_date.is_visible"/>
     @if (selected_date.is_visible)
     {
 
@@ -12,8 +12,9 @@
         if (dates.id == 8)
         {
             <label class="uk-form-label">@label</label>
-            <DateInput @bind-value="@selected_date.start_date" width="300px" ClassName="date_custom" />
-            <DateInput @bind-value="@selected_date.end_date" width="300px" ClassName="date_custom" />
+            <DateInput @bind-value="@selected_date.start_date" ClassName="date_custom" is_horizontal="false" is_inline="true"/>
+            <Spacing Number="5"/>
+            <DateInput @bind-value="@selected_date.end_date" ClassName="date_custom" is_horizontal="false" is_inline="true"/>
         }
 
     }

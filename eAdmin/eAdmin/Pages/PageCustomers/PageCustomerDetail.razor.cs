@@ -12,6 +12,8 @@ namespace eAdmin.Pages.PageCustomers
     public class PageCustomerDetails : PageCore
     {
         [Parameter] public string id { get; set; }
+
+        List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
         public CustomerModel model { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";

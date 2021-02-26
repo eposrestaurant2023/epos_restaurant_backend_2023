@@ -43,7 +43,7 @@
                     <TableHeader>
                         @HeaderTemplate("purchase_date", "Date", "uk-text-center")
                         @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        <ThAuto>Purchase Note</ThAuto>
+                        <ThCenter>Quantity</ThCenter>
                         <ThRight>Total Amount</ThRight>
                         <ThRight>Paid Amount</ThRight>
                         <ThRight>Balance</ThRight>
@@ -58,19 +58,19 @@
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("purchase_order_view")" url="@($"purchaseorder/{p.id}")">@p.document_number</ComAuthorize>
                         </TdCenter>
-                        <td>
-                            @p.purchase_order_note
-                        </td>
+                        <TdCenter>
+                            @p.total_quantity.ToString(gv.quantity_format)
+                        </TdCenter>
                         <TdRight>
-                            @p.total_amount
+                            @p.total_amount.ToString(gv.currency_format)
                         </TdRight>
                         <TdRight>
                             @p.paid_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.balance
+                            @p.balance.ToString(gv.currency_format)
                         </TdRight>
-                        <TdCenter>@p.created_date.ToString(gv.date_format)</TdCenter>
+                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>
                         <TdRight>
                             <ComPurchaseOrderStatus po="@p" />

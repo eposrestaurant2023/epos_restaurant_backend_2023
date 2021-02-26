@@ -51,14 +51,14 @@
                        ScrollClass="uk-overflow-auto"
                       >
                     <TableHeader>
-                        <ThCenter>Image</ThCenter> 
-                        @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-                        @HeaderTemplate("product_name_en", lang["Product Name (En)"], "col-auto")
-                        @HeaderTemplate("product_name_kh", lang["Product Name (Kh)"], "col-auto")
-                        @HeaderTemplate("product_category/product_category_en", lang["Category"])
-                        @HeaderTemplate("quantity", lang["Quantity"],"uk-text-center")
-                       <ThRight>Price</ThRight>
-                        @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
+                        <ThCenter>Image</ThCenter>
+                        @HeaderTemplate("product_code", "Code", "uk-text-center")
+                        @HeaderTemplate("product_name_en", "Name (En)", "col-auto")
+                        @HeaderTemplate("product_name_kh", "Name (Kh)", "col-auto")
+                        @HeaderTemplate("product_category/product_category_en", "Category")
+                        <ThCenter>Quality</ThCenter>
+                        <ThRight>Price</ThRight>
+                        @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -76,7 +76,7 @@
                         </td>
                         <td>@p.product_category?.product_category_en</td>
                         <TdCenter>
-                            @p.quantity.ToString(gv.quantity_format)
+                           @p.quantity.ToString(gv.quantity_format)
                         </TdCenter>
                         <TdRight>
                             @if (p.min_price == p.max_price)
