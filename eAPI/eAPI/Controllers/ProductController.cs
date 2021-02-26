@@ -61,18 +61,18 @@ namespace eAPI.Controllers
 
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u, bool is_update_stock = false)
-        { 
+        {
             if (u.product_modifiers != null && u.product_modifiers.Any())
             {
-                foreach(var pm in u.product_modifiers)
+                foreach (var pm in u.product_modifiers)
                 {
                     pm.children.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
-                } 
+                }
             }
-            
+
             u.product_menus.ForEach(r => r.menu = null);
 
-            u.stock_location_products.ForEach(r=>r.stock_location = null);
+            u.stock_location_products.ForEach(r => r.stock_location = null);
 
             // update stock transfer
             List<InventoryTransactionModel> inventory_transactions = new List<InventoryTransactionModel>();
@@ -80,6 +80,9 @@ namespace eAPI.Controllers
             {
                 if (u.stock_location_products != null && u.stock_location_products.Any())
                 {
+                    
+                    db.InventoryTransactions.RemoveRange(db.InventoryTransactions.Where(r => r.product_id == u.id));
+
                     foreach (var s in u.stock_location_products)
                     {
                         InventoryTransactionModel inventory_transaction = new InventoryTransactionModel();
@@ -90,9 +93,8 @@ namespace eAPI.Controllers
                         inventory_transaction.unit = u.unit.unit_name;
                         inventory_transaction.multiplier = u.unit.multiplier;
                         inventory_transaction.reference_number = u.product_code;
-
                         inventory_transactions.Add(inventory_transaction);
-                    }
+                    } 
                 }
                 
             }
@@ -130,8 +132,8 @@ namespace eAPI.Controllers
                 }
                 else
                 {
-                    // remopve inventory transaction
-                    //db.InventoryTransactions.RemoveAll(r => r.product_id == u.id);
+                    db.InventoryTransactions.RemoveRange(db.InventoryTransactions.Where(r => r.product_id == u.id));
+                    db.StockLocationProducts.RemoveRange(db.StockLocationProducts.Where(r => r.product_id == u.id));
                 }
             }
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record"); 
