@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210226073007_is_section_bool")]
+    partial class is_section_bool
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1038,12 +1040,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_multiple_select")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_required")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_section")
                         .HasColumnType("bit");
 
@@ -1058,10 +1054,6 @@ namespace eAPI.Migrations
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("section_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210226072449_add_parent_child_modi_group_item_2021_SSS")]
+    partial class add_parent_child_modi_group_item_2021_SSS
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1038,15 +1040,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_multiple_select")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_required")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_section")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("modifier_group_id")
                         .HasColumnType("int");
 
@@ -1058,10 +1051,6 @@ namespace eAPI.Migrations
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("section_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
@@ -4022,7 +4011,7 @@ namespace eAPI.Migrations
                         .HasForeignKey("modifier_id");
 
                     b.HasOne("eModels.ModifierGroupItemModel", "parent")
-                        .WithMany("children")
+                        .WithMany()
                         .HasForeignKey("parent_id");
 
                     b.Navigation("modifier");
@@ -4730,11 +4719,6 @@ namespace eAPI.Migrations
                     b.Navigation("menus");
 
                     b.Navigation("product_menus");
-                });
-
-            modelBuilder.Entity("eModels.ModifierGroupItemModel", b =>
-                {
-                    b.Navigation("children");
                 });
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
