@@ -11,6 +11,10 @@ namespace eModels
     [Table("tbl_unit")]
     public class UnitModel : CoreModel
     {
+        public UnitModel()
+        {
+            modifier_ingredients = new List<ModifierIngredientModel>();
+        }
         public string unit_name { get; set; }
         public string type_name { get; set; }
         public decimal multiplier { get; set; }
@@ -21,6 +25,7 @@ namespace eModels
         public int unit_category_id { get; set; }
         [ForeignKey("unit_category_id")]
         public UnitCategoryModel unit_category { get; set; }
+        public List<ModifierIngredientModel> modifier_ingredients { get; set; }
 
     }
 }

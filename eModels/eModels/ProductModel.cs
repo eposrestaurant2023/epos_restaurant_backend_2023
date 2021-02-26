@@ -21,7 +21,9 @@ namespace eModels
             product_menus = new List<ProductMenuModel>();
             product_modifiers = new List<ProductModifierModel>();
             stock_location_products = new List<StockLocationProductModel>();
-            sale_products = new List<SaleProductModel>(); 
+            sale_products = new List<SaleProductModel>();
+            modifier_ingredients = new List<ModifierIngredientModel>();
+
         }
 
         public bool is_out_of_stock { get; set; } = false;
@@ -121,6 +123,7 @@ namespace eModels
 
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<SaleProductModel> sale_products { get; set; }
+        public List<ModifierIngredientModel> modifier_ingredients { get; set; }
 
 
         public decimal min_price { get; set; }

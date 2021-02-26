@@ -3,9 +3,9 @@
 @page "/product/clone/{clone_id:int}"
 
 @inherits PageAddProductBase
-
-<Loading is_loading="@(is_loading || is_loading_data)" />
  
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
 @if (!is_loading && !is_error)
 {
 
@@ -60,11 +60,11 @@
                                     </SelectUnit>
                                     <ComInputCheckBox @bind-value="@model.is_allow_discount" label="Allow Discount" />
                                     <ComInputCheckBox @bind-value="@model.is_allow_free" label="Allow Free" />
-                                    <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" /> 
+                                    <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" />
                                     <SelectStatus @bind-selected_value="@model.status" />
                                 </UIContainerBox>
-                                
-                                <ComAddInventoryProduct @bind-model="@model"/>
+
+                                <ComAddInventoryProduct @bind-model="@model" />
                                 <ComAddProduct_Portion model="@model" />
                                 <ComAddProduct_Printer @bind-model="@model" />
                                 <ComAddProduct_Menu @bind-model="@model" />
@@ -83,7 +83,7 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ComSavingFormButton is_loading="@is_saving" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)" is_show_cancel_action="true" OnCancel="@OnCancel"/>
+                    <ComSavingFormButton is_loading="@is_saving" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)" is_show_cancel_action="true" OnCancel="@OnCancel" />
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -91,7 +91,7 @@
 }
 else
 {
-    <Spinner/>
+    <Spinner />
 }
 @if (is_error)
 {

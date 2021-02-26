@@ -10,6 +10,7 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using NETCore.Encrypt;
 
 
@@ -63,7 +64,10 @@ namespace eAPI.Controllers
         { 
             if (u.product_modifiers != null && u.product_modifiers.Any())
             {
-                u.product_modifiers.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+                foreach(var pm in u.product_modifiers)
+                {
+                    pm.children.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+                } 
             }
             
             u.product_menus.ForEach(r => r.menu = null);
@@ -96,11 +100,9 @@ namespace eAPI.Controllers
             {
                 u.stock_location_products = null;
             }
-
-
+            
             u.unit = null;
 
-            var sxs = JsonSerializer.Serialize(u);
             if (u.id == 0)
             {
 

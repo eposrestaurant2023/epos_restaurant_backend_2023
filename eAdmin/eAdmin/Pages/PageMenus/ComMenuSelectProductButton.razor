@@ -1,13 +1,43 @@
-﻿
+﻿@inherits PageCore
 @if (menu != null)
 {
     foreach (var m in menu.product_menus.Where(r => r.is_deleted == false))
     {
-        <div>
-            @m.product.product_name_en | @m.product.photo |
-            <Button OnClick="@(()=>RemoveProduct(m))">Remove</Button>
+<div style="position:relative;" class="uk-width-1-6">
+
+    @if (!string.IsNullOrEmpty(m.product?.photo))
+    {
+    <div>
+        <div class="icon_edit_menu_product">
+            <button>
+                <Icon icon="delete" icon_color="red" @onclick="@(()=>RemoveProduct(m))" />
+            </button>
+        </div>
+        <div class="uk-inline">
+            <Image ImageUrl="@http.ImageUrl(m.product?.photo)" IsLightBox="false" IsBackgroundImage="false" />
+            <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-padding-remove" style="padding:5px;text-align:center;">
+                <p>@m.product?.product_name_en</p>
+            </div>
         </div>
 
+    </div>
+    }
+    else
+    {
+        <div class="icon_edit_menu">
+            <button>
+                <Icon icon="delete" icon_color="#fff" @onclick="@(()=>RemoveProduct(m))" />
+            </button>
+        </div>
+        <div class="box cp" style="background:#000;color:#fff;">
+            <div>
+                <div style="text-align: center; align-items: center; padding-top: 47px;">
+                    @m.product.product_name_en
+                </div>
+            </div>
+        </div>
+    }
+</div>
     }
     @if (deleted_product_menu != null && show_undo_delete == true)
     {
@@ -19,7 +49,7 @@
         </MatSnackbar>
     }
 }
- 
+
 
 @code {
     [Parameter] public MenuModel menu { get; set; }
