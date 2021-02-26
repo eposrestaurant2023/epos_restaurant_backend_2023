@@ -1,7 +1,14 @@
 ﻿
  
 <UIContainerBox Title="Menus">
- 
+    @if (menu == null)
+    {
+        <div>
+            Please Select Menu
+        </div>
+    }
+    else
+    {
         @if (current_menu_id != parent_menu_id)
         {
             <h3 class="title">@current_menu.menu_path</h3>
@@ -9,28 +16,36 @@
 
         @if (menus.Any())
         {
-                <div class="ribbons-wrapper uk-grid-small" uk-grid>
-                    @if (current_menu_id != parent_menu_id)
-                    {
-                         <ComMenuBackButton OnClick="@OnBack"/>
-                    }
+<div class="ribbons-wrapper uk-grid-small" uk-grid>
+    @if (current_menu_id != parent_menu_id)
+    {
+        <ComMenuBackButton OnClick="@OnBack" />
+    }
 
-                    @foreach (var m in GetMenus)
-                    {
-                        <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">@(GetMenuName(m))</ComMenuItem>
-                    }
+    @foreach (var m in GetMenus)
+    {
+        <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">@(GetMenuName(m))</ComMenuItem>
+    }
 
-                    @if (string.IsNullOrEmpty(keyword))
-                    {
-                        <ComMenuSelectProductButton menu="@current_menu"/>
-                    }
+    @if (string.IsNullOrEmpty(keyword))
+    {
+        <ComMenuSelectProductButton menu="@current_menu" />
+    }
 
-                     @if (current_menu_id > 0)
-                     {
-                            <ComMenuAddButton />
-                     }
-                 </div>
+    @if (current_menu_id > 0)
+    {
+        <ComAssignProductButton />
+    }
+
+    @if (current_menu_id > 0)
+    {
+        <ComMenuAddButton />
+    }
+
+</div>
         }
+    }
+
 </UIContainerBox>
 
 

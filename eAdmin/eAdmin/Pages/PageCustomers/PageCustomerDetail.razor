@@ -27,7 +27,6 @@
 
                 <SplitButton roles="@gv.GetRole("customer_add")" alignment="left" url="customer/new" main_button_text="New">
                     <SplitButtonItem roles="@gv.GetRole("customer_add")" url="customer/new">New Customer</SplitButtonItem>
-                    <SplitButtonItem roles="@gv.GetRole("customer_add")" url="@($"customer/{model.id}/visit/new")">New Customer Visit</SplitButtonItem>
                     <SplitButtonItem roles="@gv.GetRole("sale_add")" url="@($"sale/customer/{id}")">New Sale Invoice</SplitButtonItem>
                 </SplitButton>
 
@@ -52,7 +51,7 @@
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComCustomerDetail_CustomerInformation model="@model" />
+                        <ComCustomerDetail_CustomerInformation model="@model"/>
                     </TabItem>
                    
                     <TabItem>
