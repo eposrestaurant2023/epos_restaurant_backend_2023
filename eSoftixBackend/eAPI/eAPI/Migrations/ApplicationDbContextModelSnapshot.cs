@@ -199,6 +199,7 @@ namespace eAPI.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("contact_name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -233,6 +234,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("phone_1")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -255,7 +257,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("customer_id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("tbl_contact");
                 });
 
             modelBuilder.Entity("eModels.CountryModel", b =>
@@ -382,6 +384,10 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("company_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -402,6 +408,7 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("customer_name_en")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -440,6 +447,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("phone_1")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -1069,7 +1077,7 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.ToTable("StoreProcedureResults");
+                    b.ToTable("StoreProcedureResultModel");
                 });
 
             modelBuilder.Entity("eModels.UserModel", b =>

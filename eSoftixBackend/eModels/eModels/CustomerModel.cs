@@ -56,7 +56,8 @@ namespace eModels
         public string photo { get; set; }
 
         public string position { get; set; }
-
+        public string company_name { get; set; }
+        
         public string nationality { get; set; }
 
 

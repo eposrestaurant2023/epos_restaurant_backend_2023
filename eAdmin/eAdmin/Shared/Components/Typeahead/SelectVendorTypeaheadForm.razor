@@ -45,7 +45,7 @@
     [Parameter] public int vendor_id { get; set; }
     [Parameter] public string class_name { get; set; }
     [Parameter] public bool is_horizontal { get; set; }
-    [Parameter] public string label { get; set; }
+    [Parameter] public string label { get; set; } = "Vendor";
     public async Task<IEnumerable<VendorModel>> Search(string searchText)
     {
         string api_url = $"vendor?$select=id,vendor_code,vendor_name,mobile_phone,company_name,photo&$filter=status eq true and is_deleted eq false&$orderby=vendor_name asc&$top=10&keyword={searchText}";

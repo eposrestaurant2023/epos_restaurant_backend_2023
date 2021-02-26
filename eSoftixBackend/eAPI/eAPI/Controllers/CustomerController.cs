@@ -14,7 +14,7 @@ namespace eAPI.Controllers
 {
     [ApiController,Authorize]
     [Route("api/[Controller]")]
-    public class CustomerController:ODataController
+    public class CustomerController:ControllerBase
     {
         private readonly ApplicationDbContext db;
         private readonly AppService app;
@@ -25,10 +25,25 @@ namespace eAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get(string keyword="")
+        [EnableQuery]
+        public IQueryable<CustomerModel> Get(string keyword="")
         {
-            var c = db.Customers.ToList();
-            return Ok(c);
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                var customer = from r in db.Customers
+                        where EF.Functions.Like((
+                              (r.customer_name_en ?? " ") +
+                              (r.customer_code ?? " ") +
+                              (r.customer_name_kh ?? " ") +
+                              (r.note ?? " ") +
+                              (r.position ?? " ") +
+                              (r.customer_group.customer_group_name_en ?? " ") +
+                              (r.customer_group.customer_group_name_kh ?? " ")).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        select r;
+                return customer;
+            }
+                var c = db.Customers.AsQueryable();
+                return c;
         }
         [HttpPost,Route("save")]
 
@@ -65,7 +80,7 @@ namespace eAPI.Controllers
                     return StatusCode(401, new ApiResponseModel() { message = $"Customer name kh ({p.customer_name_en}) is duplicate with other customer.", customers = check_data.ToList() });
                 }
             }
-            
+            p.customer_group = null;
             if (p.id == 0)
             {
                 p.customer_code = await app.GetDocumentNumber(1);
@@ -88,6 +103,29 @@ namespace eAPI.Controllers
         {
             var c = db.Customers.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(c);
+        }
+        [HttpPost]
+        [EnableQuery(MaxExpansionDepth = 0)]
+        [Route("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var c = await db.Customers.FindAsync(id);
+            c.is_deleted = !c.is_deleted;
+            db.Customers.Update(c);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(c);
+        }
+
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 0)]
+        [Route("clone/{id}")]
+
+        public async Task<IActionResult> Clone(int id)
+        {
+            var c = await db.Customers.FindAsync(id);
+            c.is_deleted = !c.is_deleted;
+            c.id = 0;
+            return Ok(c);
         }
 
     }

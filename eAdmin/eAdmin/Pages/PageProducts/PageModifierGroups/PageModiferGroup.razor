@@ -105,8 +105,8 @@
         state = await GetState(StateKey);
         if (state.page_title == "")
         {
-            state.page_title = $"All modifier";
-            var default_view = gv.GetDefaultModuleView("page_modifier");
+            state.page_title = $"All modifier group";
+            var default_view = gv.GetDefaultModuleView("page_modifier_group");
             if (default_view != null)
             {
                 state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
@@ -176,7 +176,7 @@
     async Task OnRestore(ModifierGroupModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Restore modifier group", "Are you sure you want to restore " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
@@ -186,7 +186,7 @@
                     state.pager.current_page = state.pager.current_page - 1;
                 }
                 await LoadData();
-                toast.Add("Restore modifier successfully", MatToastType.Success);
+                toast.Add("Restore modifier group successfully", MatToastType.Success);
             }
             else
             {
@@ -199,7 +199,7 @@
     async Task OnDelete(ModifierGroupModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Delete modifier group", "Are you sure you want to delete " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -209,9 +209,9 @@
                 {
                     state.pager.current_page = state.pager.current_page - 1;
                 }
+                toast.Add("Delete modifier group successfully", MatToastType.Success);
                 await LoadData();
             }
-            toast.Add("Delete modifier successfully", MatToastType.Success);
         }
         p.is_loading = false;
     }

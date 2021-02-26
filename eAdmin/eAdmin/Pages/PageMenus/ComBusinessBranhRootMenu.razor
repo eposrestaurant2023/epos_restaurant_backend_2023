@@ -1,18 +1,20 @@
 ﻿@inherits PageCore
-
-@foreach (var b in gv.business_branch_by_role)
-{
-    <div style="color:red">
-        @b.business_branch_name_en
-    </div>
-    @foreach(var n in menus.Where(r=>r.business_branch_id == b.id))
+<div class="bg_business_rootmenu">
+    @foreach (var b in gv.business_branch_by_role)
     {
-<Button OnClick="@(()=>MenuClick(n))">@n.menu_name_en | @n.is_selected</Button> 
-
-     <hr/>
+        <h3 class="title uk-margin-remove-top uk-margin-remove-bottom">
+            @b.business_branch_name_en
+        </h3>
+        @foreach (var n in menus.Where(r => r.business_branch_id == b.id))
+        {
+            <button @onclick="@(()=>MenuClick(n))" class="@(n.is_selected? "selected" : "") button_color_button">
+                <div style="text-align:left;width:100%">
+                    @n.menu_name_en
+                </div>
+            </button>
+        }
     }
-}
-
+</div>
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public int menu_id { get; set; }
@@ -22,10 +24,14 @@
 
     async Task MenuClick(MenuModel m)
     {
+
+        if (menus.Where(r => r.is_selected == true && r.parent_id == null).Any()) {
+            menus.Where(r => r.is_selected == true && r.parent_id == null).FirstOrDefault().is_selected = false;
+        }
         m.is_selected = true;
         await menu_idChanged.InvokeAsync(m.id);
         await keywordChanged.InvokeAsync("");
-        
+
     }
 
 

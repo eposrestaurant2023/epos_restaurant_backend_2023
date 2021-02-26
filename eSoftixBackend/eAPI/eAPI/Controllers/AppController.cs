@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace eAPI.Controllers
@@ -30,6 +31,18 @@ namespace eAPI.Controllers
 
             return Ok(gv);
         }
+        [HttpPost]
+        [Route("Contact/delete/{contact_id}")]
+        public async Task<ActionResult<ContactModel>> DeleteContact(int contact_id)
+        {
+            var contact = await db.Contacts.FindAsync(contact_id);
+            contact.is_deleted = !contact.is_deleted;
+            db.Contacts.Update(contact);
+
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(contact);
+        }
+
         [HttpPost]
         [Route("GetData")]
         public string GetData([FromBody] FilterModel f)

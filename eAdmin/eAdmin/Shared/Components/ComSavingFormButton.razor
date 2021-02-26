@@ -3,7 +3,7 @@
 @if(is_loading){
     <Button custom_class="loading-button" disabled="true"><Spinner /> @lang["Saving"]...</Button>
 }else{
-    if(is_show_save_submit){
+    if(is_show_save_submit && !is_show_save_action){
         <Button icon="save" class_name="uk-button uk-button-primary button-large" type="submit" disabled="@disabled_save_button">@lang["Save"]</Button>
     }else if(is_show_save_action){
          <Button icon="save" class_name="uk-button uk-button-primary button-large" type="button" disabled="@disabled_save_button" OnClick="@Save">@lang["Save"]</Button>

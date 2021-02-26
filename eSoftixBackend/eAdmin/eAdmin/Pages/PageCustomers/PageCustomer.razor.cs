@@ -33,7 +33,7 @@ namespace eAdmin.Pages.PageCustomers
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$expand=created_outlet&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                string url = $"{controller_api}?$expand=contacts($select=contact_name,phone_1),customer_group($select=customer_group_name_en,customer_group_name_kh)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters);
             }
         }
@@ -60,7 +60,7 @@ namespace eAdmin.Pages.PageCustomers
                     value1 = "false"
                 });
             }
-            await LoadData(state.api_url);
+            await LoadData();
             is_loading = false;
         }
 
@@ -195,8 +195,20 @@ namespace eAdmin.Pages.PageCustomers
 
         public async Task FilterClick()
         {
-            
-
+            state.filters.RemoveAll(r => r.filter_info_text != "");
+            if (state.customer_group != null && state.customer_group.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "customer_group_id",
+                    value1 = state.customer_group.id.ToString(),
+                    filter_title = "Customer Group",
+                    state_property_name = "customer_group",
+                    filter_info_text = state.customer_group.customer_group_name_en,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
             state.pager.current_page = 1;
             await LoadData();
         }

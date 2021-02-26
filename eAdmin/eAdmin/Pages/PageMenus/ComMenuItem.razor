@@ -1,5 +1,5 @@
-﻿ <div style="position:relative;" class="uk-width-1-4">
-    <div class="icon_edit">
+﻿ <div style="position:relative;" class="uk-width-1-6">
+    <div class="icon_edit_menu">
         <Icon icon="edit" icon_color="@menu.text_color" @onclick="@EditMenu" />
         <Com is_visible="@(!IsMenuSelected())">
             <button>
@@ -8,13 +8,13 @@
         </Com>
         <Com is_visible="@(IsMenuSelected())">
             <button>
-                <Icon icon="check_box" icon_color="@menu.text_color" @onclick="@OnUnSelectMenu" />
+                <Icon icon="delete" icon_color="@menu.text_color" @onclick="@OnUnSelectMenu" />
             </button>
         </Com>
     </div>
 
     <Com is_visible="@(!IsMenuSelected())">
-        <div @onclick="@OnClick" class="box cp" style="background:@menu.background_color;color:@menu.text_color;">
+        <div @onclick="@OnClick" class="box_menu cp" style="background:@menu.background_color;color:@menu.text_color;">
             <div>
                 <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
             </div>
@@ -23,7 +23,7 @@
 
 
     <Com is_visible="@(IsMenuSelected())">
-        <div @onclick="@OnClick" class="box cp" style="background:@menu.background_color;color:@menu.text_color; border:1px solid #cf564d;">
+        <div @onclick="@OnClick" class="box_menu cp" style="background:@menu.background_color;color:@menu.text_color; border:1px solid #cf564d;">
             <div>
                 <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
             </div>

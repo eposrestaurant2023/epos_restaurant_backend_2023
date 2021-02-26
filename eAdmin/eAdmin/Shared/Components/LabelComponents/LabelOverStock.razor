@@ -1,0 +1,14 @@
+﻿
+@if (is_visible)
+{
+<Label Background="#000000" Color="#fff">Over Stock <Com is_visible="@(product_amount > 0)"> : @product_amount</Com></Label>
+}
+
+
+@code
+{
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public int product_amount { get; set; } = 0;
+ 
+
+}

@@ -48,6 +48,33 @@ namespace eModels
         public decimal min_quantity { get; set; }
         public decimal max_quantity { get; set; }
 
+        [NotMapped, JsonIgnore]
+        public bool is_out_of_stock
+        {
+            get
+            {
+                return quantity <= 0;
+            }
+        }
+
+        [NotMapped, JsonIgnore]
+        public bool is_low_stock
+        {
+            get
+            {
+                return ((quantity < min_quantity && quantity > 0) && min_quantity > 0);
+            }
+        }
+
+        [NotMapped, JsonIgnore]
+        public bool is_over_stock
+        {
+            get
+            {
+                return (quantity > max_quantity && max_quantity > 0);
+            }
+        }
+
     }
 
 

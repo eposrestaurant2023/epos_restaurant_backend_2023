@@ -73,7 +73,10 @@ else
     {
         get
         {
-            return unit == null ? selected_value : unit.id;
+            if(show_empty)
+                return unit == null ? 0 : unit.id;
+            else
+                return unit == null ? selected_value : unit.id;
         }
     }
 

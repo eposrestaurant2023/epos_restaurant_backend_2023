@@ -1,0 +1,112 @@
+﻿@inject IHttpService http
+@inject IMatToaster toast
+<Loading is_loading="@is_saving" />
+    <IngredientProductTypeahead @bind-product="@product" />
+    <hr />
+    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <ThAuto>Ingredient Name</ThAuto>
+            <ThCenter>Quantity</ThCenter>
+            <ThCenter>Unit</ThCenter>
+            <ThRight>Cost </ThRight>
+            <ThRight>Total</ThRight>
+            <ThCenter></ThCenter>
+        </tr>
+        @if (model.modifier_ingredients.Where(r => r.is_deleted == false).Any())
+        {
+            foreach (var p in model.modifier_ingredients.Where(r => r.is_deleted == false))
+            {
+                <tr>
+                    <td>
+                        @p.ingredient.product_display_name
+                    </td>
+                    <TdCenter>
+                        <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
+                    </TdCenter>
+                    <TdCenter>
+                        <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" />
+                    </TdCenter>
+                    <TdRight>
+                        <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
+                    </TdRight>
+                    <TdRight>
+                        @p.total_cost.ToString(gv.currency_format)
+                    </TdRight>
+                    <TdRight>
+                        <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))" />
+                    </TdRight>
+                </tr>
+            }
+            <tfoot>
+                <tr>
+                    <td>
+                        Total
+                    </td>
+                    <TdCenter>
+                        @model.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
+                    </TdCenter>
+                    <TdCenter>
+                    </TdCenter>
+                    <TdRight>
+                    </TdRight>
+                    <TdRight>
+                        @model.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.cost).ToString(gv.currency_format)
+                    </TdRight>
+                    <TdRight>
+
+                    </TdRight>
+                </tr>
+            </tfoot>
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">
+                    <ComEmptyTemplate padding_top_bottom="25px" />
+                </td>
+            </tr>
+        }
+    </table>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public ModifierModel model { get; set; }
+    [Parameter] public bool is_open { get; set; }
+    [Parameter] public EventCallback<bool> is_openChanged { get; set; }
+
+    bool is_saving;
+    private ProductModel _product;
+
+    public ProductModel product
+    {
+        get { return _product; }
+        set
+        {
+            var data = model.modifier_ingredients.Where(r => r.ingredient_id == value.id && r.is_deleted == false);
+
+            if (data.Any())
+            {
+                data.FirstOrDefault().quantity = data.FirstOrDefault().quantity + 1;
+            }
+            else
+            {
+                model.modifier_ingredients.Add(new ModifierIngredientModel() {ingredient = value,ingredient_id = value.id, unit_id = value.unit_id, cost = value.cost });
+            }
+            value = null;
+            _product = value;
+        }
+    }
+
+
+    void OnDeleteClick(ModifierIngredientModel p)
+    {
+        if (p.ingredient_id > 0)
+        {
+            p.is_deleted = true;
+        }
+        else
+        {
+            model.modifier_ingredients.Remove(p);
+        }
+    }
+}
