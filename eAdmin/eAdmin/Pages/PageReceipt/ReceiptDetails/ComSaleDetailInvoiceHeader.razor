@@ -47,20 +47,8 @@
                 <table class="invoice_header_description">
                     <tr>
                         <td>Invoice Date:</td>
-                        <td>@sale.sale_date.ToString(gv.date_format)</td>
-                    </tr>
-
-                    @if (sale.due_date != null)
-                    {
-                        <tr>
-                            <td>Due Date:</td>
-                            <td>@string.Format(gv.date_format, sale.due_date)</td>
-                        </tr>
-                    }
-                    <tr>
-                        <td>Referance #:</td>
-                        <td>@sale.reference_number</td>
-                    </tr>
+                        <td>@sale.created_date.ToString(gv.date_format)</td>
+                    </tr> 
                     @if (sale.business_branch != null)
                     {
                         <tr>

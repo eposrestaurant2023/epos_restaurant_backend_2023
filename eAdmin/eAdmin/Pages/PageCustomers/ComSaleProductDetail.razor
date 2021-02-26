@@ -46,9 +46,7 @@
                    ClassName="uk-table-small uk-table-striped uk-table-hover"
                    ScrollClass="uk-overflow-auto"
                    EmptyText="There is no record.">
-                <TableHeader>
-                    @HeaderTemplate("sale_date", "Date", "uk-text-center")
-
+                <TableHeader> 
                     @HeaderTemplate("document_number", "Document#", "uk-text-center")
                     @HeaderTemplate("customer/customer_name", "Customer", "col-auto")
                     <ThCenter>Qty / Time(s)</ThCenter>
@@ -60,9 +58,7 @@
                     <ThCenter>Status</ThCenter>
                     <th class="uk-width-auto"></th>
                 </TableHeader>
-                <RowTemplate Context="p">
-                    <TdCenter>@p.sale?.sale_date.ToString(gv.date_format)</TdCenter>
-
+                <RowTemplate Context="p"> 
                     <TdCenter>
                         <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.sale_id}")">@p.sale?.document_number</ComAuthorize>
                     </TdCenter>
@@ -75,7 +71,7 @@
                         <span>@p.quantity.ToString(gv.quantity_format)</span>
                     </TdCenter>
                     <TdRight>
-                        @p.selling_price.ToString(gv.main_currency_format)
+                        @p.price.ToString(gv.main_currency_format)
                     </TdRight>
                     <TdRight>
                         @p.discount.ToString(gv.main_currency_format)
