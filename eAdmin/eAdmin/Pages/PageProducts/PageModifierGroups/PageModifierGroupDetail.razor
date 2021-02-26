@@ -158,13 +158,13 @@ else
     async Task OnRestore(ModifierGroupModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Restore modifier group", "Are you sure you want to restore " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
             {
                 await LoadData();
-                toast.Add("Restore modifier successfully", MatToastType.Success);
+                toast.Add("Restore modifier group successfully", MatToastType.Success);
             }
             else
             {
@@ -177,7 +177,7 @@ else
     async Task OnDelete(ModifierGroupModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Delete modifier group", "Are you sure you want to delete " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -185,7 +185,7 @@ else
             {
                 await LoadData();
             }
-            toast.Add("Delete modifier successfully", MatToastType.Success);
+            toast.Add("Delete modifier group successfully", MatToastType.Success);
         }
         p.is_loading = false;
     }

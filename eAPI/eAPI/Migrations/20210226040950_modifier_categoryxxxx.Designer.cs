@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210226040950_modifier_categoryxxxx")]
+    partial class modifier_categoryxxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1014,38 +1016,14 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupItemModel", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<int>("modifier_group_id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("modifier_id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("modifier_group_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("modifier_id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("parent_id")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,4)");
@@ -1053,16 +1031,9 @@ namespace eAPI.Migrations
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("modifier_group_id");
+                    b.HasKey("modifier_group_id", "modifier_id");
 
                     b.HasIndex("modifier_id");
-
-                    b.HasIndex("parent_id");
 
                     b.ToTable("tbl_modifier_group_item");
                 });
@@ -2052,6 +2023,9 @@ namespace eAPI.Migrations
                     b.Property<int?>("parent_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("parentid")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,4)");
 
@@ -2069,7 +2043,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("modifier_id");
 
-                    b.HasIndex("parent_id");
+                    b.HasIndex("parentid");
 
                     b.HasIndex("product_id");
 
@@ -4002,21 +3976,19 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.ModifierGroupModel", "modifier_group")
                         .WithMany("modifier_group_items")
-                        .HasForeignKey("modifier_group_id");
+                        .HasForeignKey("modifier_group_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eModels.ModifierModel", "modifier")
                         .WithMany("modifier_group_items")
-                        .HasForeignKey("modifier_id");
-
-                    b.HasOne("eModels.ModifierGroupItemModel", "parent")
-                        .WithMany()
-                        .HasForeignKey("parent_id");
+                        .HasForeignKey("modifier_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("modifier");
 
                     b.Navigation("modifier_group");
-
-                    b.Navigation("parent");
                 });
 
             modelBuilder.Entity("eModels.ModifierGroupProductCategoryModel", b =>
@@ -4280,7 +4252,7 @@ namespace eAPI.Migrations
 
                     b.HasOne("eModels.ProductModifierModel", "parent")
                         .WithMany("children")
-                        .HasForeignKey("parent_id");
+                        .HasForeignKey("parentid");
 
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany("product_modifiers")

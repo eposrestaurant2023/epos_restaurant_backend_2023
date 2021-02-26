@@ -9,6 +9,7 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using NETCore.Encrypt;
 
 
@@ -61,9 +62,13 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {
              
-
-
-            u.product_modifiers.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+            
+            foreach(var pm in u.product_modifiers)
+            {
+                pm.children.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+            }
+            
+        
             u.product_menus.ForEach(r => r.menu = null);
             string xx = JsonSerializer.Serialize(u);
             
