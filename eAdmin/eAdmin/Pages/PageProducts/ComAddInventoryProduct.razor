@@ -1,8 +1,8 @@
 ﻿@inject IStringLocalizer<Resource> lang
-<UIContainerBox Title="Inventory / Ingredient Product">
-    <ComInputCheckBox @bind-value="@model.is_inventory_product" label="Is Inventory Product" />
+<UIContainerBox Title="@lang["Inventory / Ingredient Product"]">
+    <ComInputCheckBox @bind-value="@model.is_inventory_product" label="@lang["Is Inventory Product"]" />
     <Com is_visible="@(is_show_ingredient)">
-        <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="Is Ingredient" />
+        <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
     </Com>
     <Com is_visible="@(model.is_ingredient_product || model.is_inventory_product)">
         <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
@@ -11,6 +11,7 @@
         <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
     </Com>
     <Com is_visible="@(model.is_inventory_product)"> 
+        @if(model.stock_location_products != null && model.stock_location_products.Any()){
         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
             <thead>
                 <tr> 
@@ -21,6 +22,7 @@
                 </tr>
             </thead>
             <tbody> 
+                
                 @foreach (var p in model.stock_location_products)
                 {
                     <tr>
@@ -44,13 +46,17 @@
                     </tr>
 
                 }
-                <tr>
-                    <td>@lang["Total Quantity"]</td>
-                    <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
-                    <td colspan="2"></td>
-                </tr>
+                
+                <tfooter>
+                    <tr>
+                        <td>@lang["Total Quantity"]</td>
+                        <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tfooter>
             </tbody>
         </table> 
+        }
     </Com>
 </UIContainerBox>
 @code {
@@ -67,7 +73,7 @@
         {
             foreach(var d in gv.stock_locations)
             {
-                model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
+                model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id });
             }
         }
         is_loading = false;

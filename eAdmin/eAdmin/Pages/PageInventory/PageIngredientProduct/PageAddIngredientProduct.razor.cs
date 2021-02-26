@@ -22,11 +22,11 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
                 if (id > 0)
                 {
-                    return "Edit Ingredient";
+                    return lang["Edit Ingredient"];
                 }
                 else
                 {
-                    return "New Ingredient";
+                    return lang["New Ingredient"];
                 }
             }
         }
@@ -49,7 +49,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
         public string api_url { get {
 
-                string url = $"Product({id})?";
+                string url = $"Product({id})?$expand=stock_location_products";
                 return url;
             } }
 
@@ -127,19 +127,20 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
  
             //remove menu
             save_model.product_menus.ForEach(r => r.menu = null);
+            save_model.stock_location_products.ForEach(r => r.stock_location = null);
             save_model.product_portions = null;
             save_model.is_ingredient_product = true;
             save_model.is_menu_product = false;
-
+            Console.WriteLine(JsonSerializer.Serialize(save_model));
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add("Save ingredient successfully", MatToastType.Success);
+                toast.Add(lang["Save ingredient successfully"], MatToastType.Success);
                 if (is_save_and_new)
                 {
                     model = new ProductModel();
                     model.product_category_id = save_model.product_category_id;
-
+                    is_save_and_new = false;
                     nav.NavigateTo("ingredient/new");
 
                 }else
@@ -147,11 +148,12 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                     save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
                     nav.NavigateTo($"ingredient/{save_model.id}"); 
                 }
+                
             }
             else
             {
 
-                toast.Add("Save ingredient fail", MatToastType.Warning);
+                toast.Add(lang["Save data fail"], MatToastType.Warning);
             }
             is_saving = false;
 
