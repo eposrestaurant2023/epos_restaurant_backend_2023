@@ -83,24 +83,21 @@ namespace eAPI.Controllers
                     foreach (var s in u.stock_location_products)
                     {
                         InventoryTransactionModel inventory_transaction = new InventoryTransactionModel();
-
+                        inventory_transaction.transaction_date = DateTime.Now;
                         inventory_transaction.inventory_transaction_type_id = 1;
                         inventory_transaction.stock_location_id = s.stock_location_id;
                         inventory_transaction.quantity = s.quantity;
                         inventory_transaction.unit = u.unit.unit_name;
                         inventory_transaction.multiplier = u.unit.multiplier;
                         inventory_transaction.reference_number = u.product_code;
-                        inventory_transaction.created_date = DateTime.Now;
+
                         inventory_transactions.Add(inventory_transaction);
                     }
                 }
-                u.stock_location_products.ForEach(r=>r.stock_location = null);
-            }
-            else
-            {
-                u.stock_location_products = null;
+                
             }
             
+
             u.unit = null;
 
             if (u.id == 0)
@@ -115,16 +112,27 @@ namespace eAPI.Controllers
                 db.Products.Update(u);
             } 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            
+            
+            
             if (is_update_stock)
             {
-                inventory_transactions.ForEach(r => { 
-                    r.url = (u.is_ingredient_product && !u.is_menu_product) ? "ingredient/" + u.id : "product/" + u.id; 
-                    r.product_id = u.id; 
-                    r.reference_number = u.product_code; 
-                    r.note = (u.is_ingredient_product && !u.is_menu_product) ? $"Created New Ingredient ({u.product_code})" : $"Created New Product ({u.product_code})"; 
-                }) ;
-                db.InventoryTransactions.AddRange(inventory_transactions);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                if (u.is_inventory_product)
+                {
+                    inventory_transactions.ForEach(r => {
+                        r.url = (u.is_ingredient_product && !u.is_menu_product) ? "ingredient/" + u.id : "product/" + u.id;
+                        r.product_id = u.id;
+                        r.reference_number = u.product_code;
+                        r.note = (u.is_ingredient_product && !u.is_menu_product) ? $"Created New Ingredient ({u.product_code})" : $"Created New Product ({u.product_code})";
+                    });
+                    db.InventoryTransactions.AddRange(inventory_transactions);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                }
+                else
+                {
+                    // remopve inventory transaction
+                    //db.InventoryTransactions.RemoveAll(r => r.product_id == u.id);
+                }
             }
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record"); 
             return Ok(u); 

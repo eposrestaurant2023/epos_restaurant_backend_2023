@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIContainerBox Title="@lang["Inventory / Ingredient Product"]">
-    <ComInputCheckBox @bind-value="@model.is_inventory_product" label="@lang["Is Inventory Product"]" />
+    <ComInputCheckBox @bind-value="@model.is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(!can_update_stock)"/>
     <Com is_visible="@(is_show_ingredient)">
         <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
     </Com>
@@ -35,7 +35,7 @@
                             </div>
                         </td>
                         <td>
-                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.quantity" text_format="@gv.quantity_format" width="100px"/>
+                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.quantity" text_format="@gv.quantity_format" width="100px"  is_read_only="@(!can_update_stock)"/>
                         </td>
                         <td>
                             <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.min_quantity" text_format="@gv.quantity_format" width="100px" />
@@ -64,6 +64,7 @@
     [Parameter] public ProductModel model { get; set; } 
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     [Parameter] public bool is_show_ingredient { get; set; } = true;
+    [Parameter] public bool can_update_stock { get; set; } = false;
 
     bool is_loading;
     protected override  void OnInitialized()

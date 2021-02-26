@@ -133,8 +133,13 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-
-            if(save_model.unit == null)
+            if (unit_category_id == 0)
+            {
+                toast.Add(lang["Please Select Unit Category."], MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            else if (save_model.unit == null)
             { 
                 toast.Add(lang["Please Select Unit."], MatToastType.Warning);
                 is_saving = false;
