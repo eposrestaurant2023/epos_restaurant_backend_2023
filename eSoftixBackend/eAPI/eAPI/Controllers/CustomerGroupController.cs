@@ -29,10 +29,30 @@ namespace eAPI.Controllers
         {
             if (group.id == 0)
             {
+                List<CustomerGroupModel> exsisting_data = db.CustomerGroups.Where(r => r.customer_group_name_kh.Trim().ToLower() == group.customer_group_name_kh.Trim().ToLower() && r.is_deleted == false).ToList();
+                if (exsisting_data.Any())
+                {
+                    return Conflict($"Customer group {group.customer_group_name_kh} already exist!");
+                }
+                exsisting_data = db.CustomerGroups.Where(r => r.customer_group_name_en.Trim().ToLower() == group.customer_group_name_kh.Trim().ToLower() && r.id != group.id).ToList();
+                if (exsisting_data.Any())
+                {
+                    return Conflict($"Customer group {group.customer_group_name_en} already exist!");
+                }
                 db.CustomerGroups.Add(group);
             }
             else
             {
+                List<CustomerGroupModel> exsisting_data = db.CustomerGroups.Where(r => r.customer_group_name_kh.Trim().ToLower() == group.customer_group_name_kh.Trim().ToLower() && r.id != group.id && r.is_deleted == false).ToList();
+                if (exsisting_data.Any())
+                {
+                    return Conflict($"Customer group {group.customer_group_name_kh} already exist!");
+                }
+                exsisting_data = db.CustomerGroups.Where(r => r.customer_group_name_en.Trim().ToLower() == group.customer_group_name_kh.Trim().ToLower() && r.id != group.id).ToList();
+                if (exsisting_data.Any())
+                {
+                    return Conflict($"Customer group {group.customer_group_name_en} already exist!");
+                }
                 db.CustomerGroups.Update(group);
             }
 

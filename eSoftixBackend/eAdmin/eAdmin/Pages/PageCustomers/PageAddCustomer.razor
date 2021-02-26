@@ -31,7 +31,7 @@
             <HeaderRight ShowBackButton="true">
             </HeaderRight>
         </PageHeader>
-        <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click(false))" @attributes="@formAttributes">
+        <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click(true))" @attributes="@formAttributes">
             
             <PageBody>
                 <UIGridCenter>
@@ -48,11 +48,6 @@
             </PageFooter>
         </EditForm>        
     </PageContainer>
-
-    @if (is_customer_exist)
-    {
-        <ComExistingCustomerInformation data="@existing_customer_info" is_opened="@is_customer_exist" OnClose="@(()=>is_customer_exist=false)" OnSaveNewRecord="@SaveNewRecord"/>
-    }
 }
 @code{
     [Parameter] public int id { get; set; }
@@ -67,7 +62,7 @@
     {
         get
         {
-            return $"customer({id})?$expand=contacts";
+            return $"customer({id})?$expand=contacts($filter=is_deleted eq false)";
         }
     }
 
@@ -123,7 +118,7 @@
         if (!is_saving)
         {
             is_saving = true;
-            Console.WriteLine(JsonSerializer.Serialize(model));
+           
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
             if (res.IsSuccess)
             {
@@ -135,6 +130,8 @@
                     model = new CustomerModel();
                     id = 0;
                     title = "Add New Customer";
+                    nav.NavigateTo("customer/new");
+                    model.contacts.Add(new ContactModel());
                 }
                 else
                 {
@@ -148,7 +145,6 @@
                 //check response code status and 
                 if(res.status_code >= 400 && res.status_code <= 499)
                 {
-                    is_customer_exist = true;
                     existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
 
                     toast.Add(existing_customer_info.message, MatToastType.Warning);

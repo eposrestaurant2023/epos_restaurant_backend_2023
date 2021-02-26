@@ -25,7 +25,7 @@ namespace eAdmin.Pages.PageCustomers
             get
             {
                 string query = $"{controller_api}({id})";
-                query += $"?$expand=customer_group,created_outlet,customer_health_issues($expand=health_issue)";   
+                query += $"?$expand=customer_group,contacts";   
                 return query;
             }
         }

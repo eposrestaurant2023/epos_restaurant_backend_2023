@@ -1,0 +1,26 @@
+﻿<div class="uk-text-right"><Icon icon="delete" title="Delete This Contact" OnClick="@(()=>DeleteContact_Click(contact))" /></div>
+<Spacing Number="10" />
+<TextInput label="Contact Name" @bind-text="@contact.contact_name">
+    <ValidationMessage For="(()=>contact.contact_name)" />
+</TextInput>
+<TextInput label="Phone Number 1" @bind-text="@contact.phone_1">
+    <ValidationMessage For="(()=>contact.phone_1)" />
+</TextInput>
+<TextInput label="Phone Number 2" @bind-text="@contact.phone_2"></TextInput>
+<TextInput label="Posotion" @bind-text="@contact.postion"></TextInput>
+<SelectGender @bind-selected_value="@contact.gender" />
+<TextInput label="Telegram" @bind-text="@contact.telegram"></TextInput>
+<TextInput label="Email" @bind-text="@contact.email_address"></TextInput>
+
+
+
+@code {
+    [Parameter] public ContactModel contact { get; set; }
+    [Parameter] public EventCallback<ContactModel> contactChanged { get; set; }
+    [Parameter] public EventCallback<ContactModel> OnDeleteContact { get; set; }
+
+    async Task DeleteContact_Click(ContactModel contact)
+    {
+        await OnDeleteContact.InvokeAsync(contact);
+    }
+}
