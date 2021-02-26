@@ -50,6 +50,7 @@ namespace eAPIClient.Controllers
 
             //Get Config Data
             List<ConfigDataModel> config_datas = await GetConfigData(business_branch_id);
+            List<SaleProductStatusModel> sale_product_statuses = await GetSaleProductStatus();
             if (is_get_remote_data_success)
             {
                 db.Database.ExecuteSqlRaw("exec sp_delete_menu_and_product");
@@ -65,8 +66,29 @@ namespace eAPIClient.Controllers
 
 
                 //Config Data
-                db.Database.ExecuteSqlRaw("delete tbl_config_data;");
-                db.ConfigDatas.AddRange(config_datas);
+
+               
+               
+
+                foreach(var a in sale_product_statuses)
+                {
+                    var _sps = db.SaleProductStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
+                    if (_sps.Count() <= 0)
+                    {     
+                       db.SaleProductStatuses.Add(a); 
+                        await db.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        db.SaleProductStatuses.Update(a);
+                        await db.SaveChangesAsync();
+                    }
+                }
+
+
+                string _deleteQuery = string.Format("delete tbl_config_data;");
+                db.Database.ExecuteSqlRaw(_deleteQuery);
+                db.ConfigDatas.AddRange(config_datas);     
                 await db.SaveChangesAsync();
                 //
                 return Ok();
@@ -149,5 +171,17 @@ namespace eAPIClient.Controllers
             return new List<ConfigDataModel>();
         }
 
+
+        async Task<List<SaleProductStatusModel>> GetSaleProductStatus()
+        {
+            is_get_remote_data_success = false;                                     
+            var resp = await http.ApiGet("SaleProductStatus");
+            if (resp.IsSuccess)
+            {
+                is_get_remote_data_success = true;
+                return JsonSerializer.Deserialize<List<SaleProductStatusModel>>(resp.Content.ToString());
+            }
+            return new List<SaleProductStatusModel>();
+        }
     }   
 }

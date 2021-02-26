@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210226042248_change_sale_proeuct")]
+    partial class change_sale_proeuct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -647,9 +649,6 @@ namespace eAPIClient.Migrations
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("cashier_shift_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -660,6 +659,10 @@ namespace eAPIClient.Migrations
 
                     b.Property<Guid?>("customer_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("customer_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -683,7 +686,19 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<DateTime?>("due_date")
+                        .HasColumnType("date");
+
                     b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_fulfilled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_new_customer")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_over_due")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_paid")
@@ -698,6 +713,13 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("paid_amount")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<string>("reference_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("sale_date")
+                        .HasColumnType("date");
+
                     b.Property<string>("sale_note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -711,6 +733,10 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<string>("term_conditions")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,4)");
 
@@ -722,12 +748,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal>("total_quantity")
                         .HasColumnType("decimal(19,4)");
-
-                    b.Property<DateTime>("working_date")
-                        .HasColumnType("date");
-
-                    b.Property<Guid>("working_day_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("id");
 
@@ -960,52 +980,6 @@ namespace eAPIClient.Migrations
                     b.HasIndex("sale_product_id");
 
                     b.ToTable("tbl_sale_product_modifier");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.SaleProductStatusModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("active_order")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("allow_append_quantity")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("allow_display_in_pos_order_list")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("allow_send_to_printer")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("allow_send_to_printer_when_change_table")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("allow_send_to_printer_when_merge_table")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("allow_void_or_cancel_order")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("color")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("status_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("submited_status_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_sale_product_status");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.SettingModel", b =>
