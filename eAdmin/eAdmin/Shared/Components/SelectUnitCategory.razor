@@ -27,7 +27,7 @@
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string label { get; set; } = "Unit Category";
     [Parameter] public string icon { get; set; }
-    [Parameter] public bool show_empty { get; set; } = false; 
+    [Parameter] public bool show_empty { get; set; } = false;
     [Parameter] public string empty_text { get; set; } = "Select Unit Category";
     [Parameter] public string width { get; set; } = "100%";
     [Parameter] public int selected_value { get; set; }
@@ -42,7 +42,10 @@
     {
         get
         {
-            return unit_category == null ? gv.unit_categories.Where(r=>r.is_built_in).FirstOrDefault().id : unit_category.id;
+            if(show_empty)
+                return unit_category == null ? 0 : unit_category.id;
+            else
+                return unit_category == null ? gv.unit_categories.Where(r=>r.is_built_in).FirstOrDefault().id : unit_category.id;
 
         }
     }

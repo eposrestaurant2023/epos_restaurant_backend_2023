@@ -1,5 +1,5 @@
 ﻿@page "/vendor"
-@inherits PageVendors
+@inherits PageVendorBase
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
@@ -11,23 +11,23 @@
 @if (!is_loading)
 {
 
-    <Title Value="Vendor"></Title>
+    <Title Value="@lang["Vendor"]"></Title>
     <PageContainer roles="@gv.GetRole("vendor_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_vendor")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))">New Vendor</AddButton>
+                <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))">@lang["New Vendor"]</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
                     
@@ -50,15 +50,14 @@
                        EmptyText="There is no record.">
                     <TableHeader>
                         <ThCenter>Image</ThCenter>
-                        @HeaderTemplate("vendor_code", "Code", "uk-text-center")
-                        @HeaderTemplate("vendor_name", "Vendor Name", "uk-text-left")
-                        @HeaderTemplate("company_name", "Company Name", "uk-text-left")
-                        @HeaderTemplate("vendor_group_name_en", "Vendor Group", "uk-text-left")
-                        @HeaderTemplate("mobile_phone", "Mobile Phone", "uk-text-center")
-                        @HeaderTemplate("office_phone", "Office Phone", "uk-text-center")
-                        @HeaderTemplate("total_payable", "Total Payable", "uk-text-right")
-                        @HeaderTemplate("note", "Note", "col-auto")
-                        @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
+                        @HeaderTemplate("vendor_code", lang["Code"], "uk-text-center")
+                        @HeaderTemplate("vendor_name", lang["Vendor Name"], "uk-text-left")
+                        @HeaderTemplate("company_name", lang["Company Name"], "uk-text-left")
+                        @HeaderTemplate("vendor_group_name_en", lang["Vendor Group"], "uk-text-left")
+                        @HeaderTemplate("mobile_phone", lang["Mobile Phone"], "uk-text-center")
+                        @HeaderTemplate("office_phone", lang["Office Phone"], "uk-text-center")
+                        @HeaderTemplate("total_payable", lang["Total Payable"], "uk-text-right")
+                        @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -89,22 +88,18 @@
                         <TdRight>
                             00
                         </TdRight>
-                        <td>
-                            @p.note
-                        </td>
-
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />
                             <LabelActive is_visible="@(!p.is_deleted && p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("vendor_edit")" is_loading="@p.is_change_status" />
                             <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("vendor_edit")" is_loading="@p.is_change_status" />
                         </TdCenter>
                         <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("vendor_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"vendor/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("vendor_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("vendor_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("vendor_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("vendor_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("vendor_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("vendor_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"vendor/{p.id}")">@lang["View"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("vendor_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">@lang["Edit"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("vendor_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("vendor_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("vendor_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("vendor_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">@lang["Restore"]</TableActionItem>
                         </TdActions>
                     </RowTemplate>
                 </Table>

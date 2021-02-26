@@ -28,37 +28,35 @@
             <DataAnnotationsValidator />
             <PageBody>
                <UIGridCenter>
-                    <UIContainerBox Title="Product Photo" ClassName="uk-text-center">
+                    <UIContainerBox Title="@lang["Product Photo"]" ClassName="uk-text-center">
                         <UIFlexCenter>
                             <FileUpload @bind-ImageUrl="@model.photo" />
                         </UIFlexCenter>
                     </UIContainerBox>
                     <UIContainerBox>
-                        <TextInput label="Code" text="@model.product_code">
+                        <TextInput label="@lang["Code"]" text="@model.product_code">
                         </TextInput>
-                        <TextInput label="Product Name(EN)" @bind-text="@model.product_name_en">
+                        <TextInput label="@lang["Product Name(EN)"]" @bind-text="@model.product_name_en">
                             <ValidationMessage For="@(() => model.product_name_en)" />
                         </TextInput>
-                        <TextInput label="Product Name(KH)" @bind-text="@model.product_name_kh" />
+                        <TextInput label="@lang["Product Name(KH)"]" @bind-text="@model.product_name_kh" />
 
-                        <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
+                        <NumberInput label="@lang["Cost"]" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
                         <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true" is_ingredient_category="true">
                             <ValidationMessage For="@(()=>model.product_category_id)" />
                         </SelectProductCategory> 
                         <SelectStatus @bind-selected_value="@model.status" />
                     </UIContainerBox>
-                    @*<ComAddInventoryProduct @bind-model="@model" is_show_ingredient="false"/>*@
-                    <UIContainerBox Title="Note">
+                 
+                    <ComAddInventoryProduct  @bind-model="@model" is_show_ingredient="false"/>
+                    <UIContainerBox Title="@lang["Note"]">
                         <TextInput label="" placeholder="Note" @bind-text="@model.note" type="textarea" row="2" />
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <Button is_visible="@is_saving"><Spinner /></Button>
-                    <Button icon="save" class_name="uk-button uk-button-primary button-large" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
-                    <Button icon="save" class_name="uk-button uk-button-primary button-large" OnClick="@(()=>is_save_and_new = true)" roles="@gv.GetRole("product_add")" is_visible="@(!is_saving)" type="submit">Save & New</Button>
-                    <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger button-large" icon="reply">Cancel</Button>
+                    <ComSavingFormButton is_loading="@is_saving" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)" is_show_cancel_action="true" OnCancel="@OnCancel"/>
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -70,5 +68,5 @@ else
 }
 @if (is_error)
 {
-    <Error title="Product">@error_text</Error>
+    <Error title="@lang["Ingredient"]">@error_text</Error>
 }

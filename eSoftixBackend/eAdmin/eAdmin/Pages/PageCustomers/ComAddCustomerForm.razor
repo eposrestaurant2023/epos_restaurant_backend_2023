@@ -29,9 +29,8 @@
     <UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
         @foreach (var c in model.contacts)
         {
-            <div class="uk-text-right"><Icon icon="trash" title="Delete This Contact" OnClick="@(()=>DeleteContact_Click(c))" /></div>
+            <div class="uk-text-right"><Icon icon="delete" title="Delete This Contact" OnClick="@(()=>DeleteContact_Click(c))" /></div>
             <Spacing Number="10"/>
-            <div @ondblclick="(()=>DeleteContact_Click(c))">
                 <TextInput label="Contact Name" @bind-text="@c.contact_name">
                     <ValidationMessage For="(()=>c.contact_name)" />
                 </TextInput>
@@ -47,7 +46,6 @@
                 {
                     <hr class="uk-divider-icon">
                 }
-            </div>
 
 
 
@@ -109,7 +107,12 @@
             {
                 if (await js.Confirm("Deleted Contact", "Are you sure you want to delete this contact?", SweetAlertMessageType.question))
                 {
-                    toast.Add("Contact deleted successfull", MatToastType.Success);
+                    var res = await http.ApiPost($"contact/delete/{c.id}");
+                    if (res.IsSuccess)
+                    {
+                        toast.Add("Contact deleted successfull", MatToastType.Success);
+                        model.contacts.Remove(c);
+                    }
                 }
             }
 
