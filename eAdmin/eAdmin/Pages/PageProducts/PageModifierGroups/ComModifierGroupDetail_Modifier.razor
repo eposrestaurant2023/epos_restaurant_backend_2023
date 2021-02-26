@@ -1,19 +1,24 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject NavigationManager nav
-
-<UIContainerBox Title="Modifier">
+@foreach (var s in modifier_group.modifier_group_items.Where(r => r.is_section == true).OrderBy(r=>r.sort_order))
+{
+<UIContainerBox Title="@s.section_name">
+    <TextInput is_read_only="true" @bind-text="@s.section_name" label="Section Name" />
+    <ComInputCheckBox is_read_only="true" @bind-value="@s.is_required" label="Is Required" />
+    <ComInputCheckBox is_read_only="true" @bind-value="@s.is_multiple_select" label="Allow Multiple Select" />
+    <hr />
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
             <Th>@lang["Modifier Name"]</Th>
             <ThRight>@lang["Price"]</ThRight>
         </tr>
-        @foreach (var m in modifier_group.modifier_group_items.Where(r => r.is_deleted == false))
+        @foreach (var m in s.children.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order))
         {
             <tr>
                 <td>
                     <ComAuthorize roles="@gv.GetRole("modifier_view")" OnClick="@(()=>nav.NavigateTo($"modifier/{m.modifier_id}"))">
-                        @m.modifier.modifier_name
-                    </ComAuthorize>                    
+                        @m.modifier?.modifier_name
+                    </ComAuthorize>
                 </td>
                 <TdRight>
                     @m.price.ToString(gv.currency_format)
@@ -22,6 +27,9 @@
         }
     </table>
 </UIContainerBox>
+}
+
+
 
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
