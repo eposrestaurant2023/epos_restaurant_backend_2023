@@ -51,6 +51,7 @@ namespace eModels
         public ModifierModel modifier { get; set; }
 
         public int sort_order { get; set; }
+        public bool is_section { get; set; }
         public decimal price { get; set; }
 
     }
