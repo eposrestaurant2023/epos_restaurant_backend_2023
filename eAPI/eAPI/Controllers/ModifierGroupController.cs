@@ -69,7 +69,6 @@ namespace eAPI.Controllers
                 u.modifier_group_items.ForEach(r => r.modifier_group = null);
                 u.modifier_group_items.ForEach(r => r.modifier_group_id = 0);
                 u.modifier_group_items.ForEach(r => r.modifier = null);
-                u.modifier_group_items.ForEach(r => r.modifier_id = 0);
                 db.ModifierGroups.Add(u);
             }
             else
