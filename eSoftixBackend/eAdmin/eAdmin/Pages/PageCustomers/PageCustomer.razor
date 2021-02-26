@@ -30,8 +30,8 @@
                 <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectOutlet @bind-outlet="@state.outlet" show_empty="true" empty_text="All Outlet" />
-                    <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="All Customer Group" />
+                    
+                    <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
@@ -54,10 +54,14 @@
                         <ThCenter>Image</ThCenter>
                         @HeaderTemplate("customer_code", "Code", "uk-text-center")
                         @HeaderTemplate("customer_name", "Name (Kh)", "col-auto")
-                        @HeaderTemplate("customer/customer_group/customer_name_en", "Group", "col-auto")
-                        @HeaderTemplate("phone_number_1", "Phone", "uk-text-center")
+                        @HeaderTemplate("customer/customer_group/customer_name_en", "Customer Group", "col-auto")
+                        @HeaderTemplate("company_name", "Company", "col-auto")
+                        @HeaderTemplate("phone_1", "Phone", "uk-text-left")
                         @HeaderTemplate("gender", "Gender", "uk-text-center")
-                        @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
+                        
+                        <ThAuto ClassName="uk-text-center">
+                            Status
+                        </ThAuto>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -72,12 +76,16 @@
                                 <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_name_en (@p.customer_name_kh)</ComAuthorize>
                             </div>
                         </td>
+
                         <td>
                             @p.customer_group?.customer_group_name_en
                         </td>
-                        <TdCenter>
-                            @p.phone_1
-                        </TdCenter>
+                        <td>
+                            @p.company_name
+                        </td>
+                        <td>
+                            @p.phone_1 @(!string.IsNullOrEmpty(p.phone_2)?$"/ {p.phone_2}":"")
+                        </td>
                         <td>
                             @p.gender
                         </td>

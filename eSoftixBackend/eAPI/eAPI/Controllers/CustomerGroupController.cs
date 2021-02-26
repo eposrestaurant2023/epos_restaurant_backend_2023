@@ -20,7 +20,7 @@ namespace eAPI.Controllers
             this.db = db;
         }
         [EnableQuery,HttpGet]
-        public async Task<ActionResult> Get()
+        public IActionResult Get()
         {
             return Ok(db.CustomerGroups);
         }
