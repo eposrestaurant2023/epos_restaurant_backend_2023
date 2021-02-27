@@ -18,12 +18,13 @@
             {
                 <tr>
                     <td>
-                        @p.ingredient.product_display_name
+                        @p.ingredient?.product_display_name
                     </td>
                     <TdCenter>
                         <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
                     </TdCenter>
                     <TdCenter>
+                        <div>@p.ingredient.unit?.unit_category_id</div>
                         <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" />
                     </TdCenter>
                     <TdRight>
@@ -90,7 +91,7 @@
             }
             else
             {
-                model.modifier_ingredients.Add(new ModifierIngredientModel() {ingredient = value,ingredient_id = value.id, unit_id = value.unit_id, cost = value.cost });
+                model.modifier_ingredients.Add(new ModifierIngredientModel() {ingredient = value,ingredient_id = value.id, unit = value.unit, unit_id = value.unit_id, cost = value.cost });
             }
             value = null;
             _product = value;

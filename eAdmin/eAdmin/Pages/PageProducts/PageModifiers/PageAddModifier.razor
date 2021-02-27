@@ -84,7 +84,7 @@ else
             }
             else
             {
-                var resp = await http.ApiGet($"{controller_api}({id})");
+                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient($expand=unit))");
                 if (resp.IsSuccess)
                 {
                     modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
@@ -116,6 +116,7 @@ else
             if (is_save_and_new)
             {
                 modifier = new ModifierModel();
+                modifier.modifier_ingredients = new List<ModifierIngredientModel>();
                 nav.NavigateTo("modifier/new");
                 await LoadData();
             }
