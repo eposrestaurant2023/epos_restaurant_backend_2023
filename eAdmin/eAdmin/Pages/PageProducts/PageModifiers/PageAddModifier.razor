@@ -84,7 +84,7 @@ else
             }
             else
             {
-                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient($expand=unit))");
+                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit)");
                 if (resp.IsSuccess)
                 {
                     modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
@@ -108,6 +108,7 @@ else
         //save_model.product_modifiers = null;
         save_model.modifier_ingredients.ForEach(r => r.ingredient = null);
         save_model.modifier_ingredients.ForEach(r => r.modifier = null);
+        save_model.modifier_ingredients.ForEach(r => r.unit = null);
         var resp = await http.ApiPost("Modifier/Save", save_model);
         if (resp.IsSuccess)
         {

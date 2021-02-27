@@ -24,8 +24,7 @@
                         <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
                     </TdCenter>
                     <TdCenter>
-                        <div>@p.ingredient.unit?.unit_category_id</div>
-                        <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" />
+                        <SelectUnit unit_category_id="@p.unit.unit_category_id" @bind-selected_value="@p.unit_id" label="" width="auto" />
                     </TdCenter>
                     <TdRight>
                         <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
@@ -97,6 +96,8 @@
             _product = value;
         }
     }
+
+
 
 
     void OnDeleteClick(ModifierIngredientModel p)

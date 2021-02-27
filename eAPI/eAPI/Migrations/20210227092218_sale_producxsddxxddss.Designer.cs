@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210227092218_sale_producxsddxxddss")]
+    partial class sale_producxsddxxddss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,9 +75,6 @@ namespace eAPI.Migrations
                     b.Property<int?>("modifier_group_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("modifier_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -103,8 +102,6 @@ namespace eAPI.Migrations
                     b.HasIndex("customer_id");
 
                     b.HasIndex("modifier_group_id");
-
-                    b.HasIndex("modifier_id");
 
                     b.HasIndex("product_id");
 
@@ -760,9 +757,6 @@ namespace eAPI.Migrations
                     b.Property<int?>("modifier_group_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("modifier_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("module")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -827,8 +821,6 @@ namespace eAPI.Migrations
                     b.HasIndex("customer_id");
 
                     b.HasIndex("modifier_group_id");
-
-                    b.HasIndex("modifier_id");
 
                     b.HasIndex("payment_id");
 
@@ -2909,55 +2901,9 @@ namespace eAPI.Migrations
 
                     b.HasIndex("sale_id");
 
+                    b.HasIndex("status_id");
+
                     b.ToTable("tbl_sale_product");
-                });
-
-            modelBuilder.Entity("eModels.SaleProductModifierModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("modifier_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("price")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("product_modifier_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("sale_product_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("sale_product_id");
-
-                    b.ToTable("tbl_sale_product_modifier");
                 });
 
             modelBuilder.Entity("eModels.SaleProductStatusModel", b =>
@@ -3985,10 +3931,6 @@ namespace eAPI.Migrations
                         .WithMany("attach_files")
                         .HasForeignKey("modifier_group_id");
 
-                    b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany()
-                        .HasForeignKey("modifier_id");
-
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany()
                         .HasForeignKey("product_id");
@@ -4010,8 +3952,6 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
-
-                    b.Navigation("modifier");
 
                     b.Navigation("modifier_group");
 
@@ -4161,10 +4101,6 @@ namespace eAPI.Migrations
                         .WithMany("histories")
                         .HasForeignKey("modifier_group_id");
 
-                    b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany()
-                        .HasForeignKey("modifier_id");
-
                     b.HasOne("eModels.PaymentModel", "payment")
                         .WithMany("histories")
                         .HasForeignKey("payment_id");
@@ -4194,8 +4130,6 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
-
-                    b.Navigation("modifier");
 
                     b.Navigation("modifier_group");
 
@@ -4726,20 +4660,17 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("product");
-
-                    b.Navigation("sale");
-                });
-
-            modelBuilder.Entity("eModels.SaleProductModifierModel", b =>
-                {
-                    b.HasOne("eModels.SaleProductModel", "sale_product")
+                    b.HasOne("eModels.SaleProductStatusModel", "sale_product_staus")
                         .WithMany()
-                        .HasForeignKey("sale_product_id")
+                        .HasForeignKey("status_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("sale_product");
+                    b.Navigation("product");
+
+                    b.Navigation("sale");
+
+                    b.Navigation("sale_product_staus");
                 });
 
             modelBuilder.Entity("eModels.StationModel", b =>

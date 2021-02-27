@@ -12,28 +12,28 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @modifier_group.modifier_group_name_en
-                        <LabelDeleted is_visible="@modifier_group.is_deleted" />
-                        <LabelActive is_visible="@(!modifier_group.is_deleted && modifier_group.status)" is_loading="@modifier_group.is_change_status" />
-                        <LabelInActive is_visible="@(!modifier_group.is_deleted && !modifier_group.status)" is_loading="@modifier_group.is_change_status" />
+                        @modifier.modifier_name
+                        <LabelDeleted is_visible="@modifier.is_deleted" />
+                        <LabelActive is_visible="@(!modifier.is_deleted && modifier.status)" is_loading="@modifier.is_change_status" />
+                        <LabelInActive is_visible="@(!modifier.is_deleted && !modifier.status)" is_loading="@modifier.is_change_status" />
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button roles="@gv.GetRole("modifier_edit")" icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifier/edit/{modifier_group.id}"))" is_visible="@(!modifier_group.is_deleted)" />
+                <Button roles="@gv.GetRole("modifier_edit")" icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifier/edit/{modifier.id}"))" is_visible="@(!modifier.is_deleted)" />
                 <ComAttachFileButton RoleAdd="@gv.GetRole("modifier_add")"
                                      RoleEdit="@gv.GetRole("modifier_edit")"
                                      RoleDelete="@gv.GetRole("modifier_delete")"
                                      ApiFilter="@($"modifier_id eq {id} ")"
-                                     File="@(new AttachFilesModel() { modifier_group_id =  id })"
-                                     IsVisible="@(!modifier_group.is_deleted)" />
-                <AddButton url="modifiergroup/new" roles="@gv.GetRole("modifier_add")">New Modifier</AddButton>
-                <MoreButton is_loading="@(modifier_group.is_loading ||modifier_group.is_change_status || modifier_group.is_deleting || modifier_group.is_restoring)">
-                    <MoreButtonItem roles="@gv.GetRole("modifier_add")" icon="file_copy" url="@($"modifier/clone/{modifier_group.id}")">Clone</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="highlight_off" is_visible="@(!modifier_group.is_deleted && modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">Inactive</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="check" is_visible="@(!modifier_group.is_deleted && !modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">Active</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("modifier_delete")" icon="delete" is_visible="@(!modifier_group.is_deleted)" OnClick="@(()=>OnDelete(modifier_group))">Delete</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("modifier_restore")" icon="refresh" is_visible="@(modifier_group.is_deleted)" OnClick="@(()=>OnRestore(modifier_group))">Restore</MoreButtonItem>
+                                     File="@(new AttachFilesModel() { modifier_id =  id })"
+                                     IsVisible="@(!modifier.is_deleted)" />
+                <AddButton url="modifier/new" roles="@gv.GetRole("modifier_add")">New Modifier</AddButton>
+                <MoreButton is_loading="@(modifier.is_loading ||modifier.is_change_status || modifier.is_deleting || modifier.is_restoring)">
+                    <MoreButtonItem roles="@gv.GetRole("modifier_add")" icon="file_copy" url="@($"modifier/clone/{modifier.id}")">Clone</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="highlight_off" is_visible="@(!modifier.is_deleted && modifier.status)" OnClick="@(()=>OnChangeStatus(modifier))">Inactive</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="check" is_visible="@(!modifier.is_deleted && !modifier.status)" OnClick="@(()=>OnChangeStatus(modifier))">Active</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_delete")" icon="delete" is_visible="@(!modifier.is_deleted)" OnClick="@(()=>OnDelete(modifier))">Delete</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_restore")" icon="refresh" is_visible="@(modifier.is_deleted)" OnClick="@(()=>OnRestore(modifier))">Restore</MoreButtonItem>
                 </MoreButton>
                 <RefreshButton OnClick="@LoadData" />
             </HeaderRight>
@@ -50,21 +50,75 @@
                             <UIContainerBox Title="Information">
                                 <table>
                                     <tr>
-                                        <th>Name En</th>
-                                        <td>@modifier_group.modifier_group_name_en</td>
+                                        <th>Modifier Name</th>
+                                        <td>@modifier.modifier_name</td>
                                     </tr>
-                                    @if (!string.IsNullOrEmpty(modifier_group.modifier_group_name_kh))
-                                    {
-                                        <tr>
-                                            <th>Name Kh</th>
-                                            <td>@modifier_group.modifier_group_name_kh</td>
-                                        </tr>
-                                    }
                                 </table>
                             </UIContainerBox>
                         </UIGridCenter>
                         <UIGridCenter>
-                            <ComModifierGroupDetail_Modifier modifier_group="@modifier_group" />
+                            <UIContainerBox>
+                                <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                    <tr>
+                                        <ThAuto>Ingredient Name</ThAuto>
+                                        <ThCenter>Quantity</ThCenter>
+                                        <ThCenter>Unit</ThCenter>
+                                        <ThRight>Cost </ThRight>
+                                        <ThRight>Total</ThRight>
+                                    </tr>
+                                    @if (modifier.modifier_ingredients.Where(r => r.is_deleted == false).Any())
+                                    {
+                                        foreach (var p in modifier.modifier_ingredients.Where(r => r.is_deleted == false))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @p.ingredient?.product_display_name
+                                                </td>
+                                                <TdCenter>
+                                                    <NumberInput is_read_only="true" @bind-text="@p.quantity" class_name="uk-text-center" />
+                                                </TdCenter>
+                                                <TdCenter>
+                                                    <div>@p.unit?.unit_name</div>
+                                                </TdCenter>
+                                                <TdRight>
+                                                    <NumberInput is_read_only="true" @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
+                                                </TdRight>
+                                                <TdRight>
+                                                    @p.total_cost.ToString(gv.currency_format)
+                                                </TdRight>
+                                            </tr>
+                                        }
+                                        <tfoot>
+                                            <tr>
+                                                <td>
+                                                    Total
+                                                </td>
+                                                <TdCenter>
+                                                    @modifier.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
+                                                </TdCenter>
+                                                <TdCenter>
+                                                </TdCenter>
+                                                <TdRight>
+                                                </TdRight>
+                                                <TdRight>
+                                                    @modifier.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.cost).ToString(gv.currency_format)
+                                                </TdRight>
+                                                <TdRight>
+
+                                                </TdRight>
+                                            </tr>
+                                        </tfoot>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6">
+                                                <ComEmptyTemplate padding_top_bottom="25px" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </UIContainerBox>                                
                         </UIGridCenter>
                     </TabItem>
                     @*============comment===========*@
@@ -77,7 +131,7 @@
                                                 RoleDelete="@gv.GetRole("modifier_delete")"
                                                 RoleEdit="@gv.GetRole("modifier_edit")"
                                                 ApiFilter="@($"modifier_id eq {id}")"
-                                                history="@(new HistoryModel() { modifier_group_id = id})" />
+                                                history="@(new HistoryModel() { modifier_id = id})" />
                                 </UIContainerBox>
                             </UIGridCenter>
                         }
@@ -100,7 +154,7 @@ else
 @code{
     [Parameter] public int id { get; set; }
     string controller_api = "Modifier";
-    ModifierGroupModel modifier_group = new ModifierGroupModel();
+    ModifierModel modifier = new ModifierModel();
     List<ProductGroupModel> product_groups = new List<ProductGroupModel>();
 
     bool is_save_and_new = false;
@@ -109,31 +163,21 @@ else
     {
         is_loading = true;
         await LoadData();
-        await LoadProductGroup();
     }
 
     async Task LoadData()
     {
         is_loading = true;
 
-        var resp = await http.ApiGet($"{controller_api}({id})");
+        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit)");
         if (resp.IsSuccess)
         {
-            modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+            modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
         }
         is_loading = false;
     }
 
-    async Task LoadProductGroup()
-    {
-        var resp = await http.ApiGetOData("ProductGroup?$expand=product_categories($expand=modifier_group_product_categories($filter=is_deleted eq false);$filter=is_deleted eq false and status eq true)&$filter=is_deleted eq false and status eq true and id gt 1 ");
-        if (resp.IsSuccess)
-        {
-            product_groups = JsonSerializer.Deserialize<List<ProductGroupModel>>(resp.Content.ToString());
-        }
-    }
-
-    async Task OnChangeStatus(ModifierGroupModel u)
+    async Task OnChangeStatus(ModifierModel u)
     {
         u.is_loading = true;
         var resp = await http.ApiPost(controller_api + "/status/" + u.id);
@@ -149,10 +193,10 @@ else
         u.is_loading = false;
     }
 
-    async Task OnRestore(ModifierGroupModel p)
+    async Task OnRestore(ModifierModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_name + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
@@ -168,10 +212,10 @@ else
         p.is_loading = false;
     }
 
-    async Task OnDelete(ModifierGroupModel p)
+    async Task OnDelete(ModifierModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_group_name_en + "?", SweetAlertMessageType.question))
+        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_name + "?", SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
