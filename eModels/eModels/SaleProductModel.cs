@@ -16,9 +16,15 @@ namespace eModels
         [ForeignKey("sale_id")]
         public virtual SaleModel sale { get; set; }    
         [ForeignKey("product_id")]
-        public ProductModel product { get; set; }
+        public ProductModel product { get; set; }  
 
-        [ForeignKey("status_id")]
-        public SaleProductStatusModel sale_product_staus { get; set; }
+    }
+
+    [Table("tbl_sale_product_modifier")]
+    public class SaleProductModifierModel : SaleProductModifierShareModel
+    {
+
+        [ForeignKey("sale_product_id")]
+        public SaleProductModel sale_product { get; set; }
     }
 }
