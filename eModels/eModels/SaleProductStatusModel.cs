@@ -7,4 +7,9 @@ namespace eModels
     public  class SaleProductStatusModel      : SaleProductStatusShareModel
     {
     }
+
+    [Table("tbl_sale_status")]
+    public class SaleStatusModel : SaleStatusShareModel
+    {
+    }
 }

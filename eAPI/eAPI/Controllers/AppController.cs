@@ -133,6 +133,13 @@ namespace eAPI.Controllers
             return await (db.SaleProductStatuses.ToListAsync());
 
         }
+        [HttpGet("SaleStatus")]
+        [EnableQuery]
+        public async Task<List<SaleStatusModel>> GetSaleStatus()
+        {
+            return await (db.SaleStatuses.ToListAsync());
+        }
+
 
 
         [HttpGet("NoteCategory")]

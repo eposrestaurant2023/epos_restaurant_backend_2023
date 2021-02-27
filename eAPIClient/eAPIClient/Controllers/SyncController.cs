@@ -50,6 +50,7 @@ namespace eAPIClient.Controllers
 
             //Get Config Data
             List<ConfigDataModel> config_datas = await GetConfigData(business_branch_id);
+            List<SaleStatusModel> sale_statuses = await GetSaleStatus();
             List<SaleProductStatusModel> sale_product_statuses = await GetSaleProductStatus();
             if (is_get_remote_data_success)
             {
@@ -66,22 +67,29 @@ namespace eAPIClient.Controllers
 
 
                 //Config Data
+                foreach (var a in sale_statuses)
+                {
+                    var _sps = db.SaleStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
+                    if (_sps.Count() <= 0)
+                    {
+                        db.SaleStatuses.Add(a);
+                    }
+                    else
+                    {
+                        db.SaleStatuses.Update(a);
+                    }
+                }
 
-               
-               
-
-                foreach(var a in sale_product_statuses)
+                foreach (var a in sale_product_statuses)
                 {
                     var _sps = db.SaleProductStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
                     if (_sps.Count() <= 0)
                     {     
                        db.SaleProductStatuses.Add(a); 
-                        await db.SaveChangesAsync();
                     }
                     else
                     {
                         db.SaleProductStatuses.Update(a);
-                        await db.SaveChangesAsync();
                     }
                 }
 
@@ -115,7 +123,7 @@ namespace eAPIClient.Controllers
             string url = $"product?$select=id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_allow_free,is_open_product,is_inventory_product";
             url = url + $"&$expand=product_printers($select=id,product_id,printer_name,ip_address_port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
             url = url + $"product_modifiers($select=id,product_id,modifier_name,price;$filter=is_deleted eq false),";
-            url = url + $"product_portions($select=id,product_id, portion_name,cost,multiplier;$filter=is_deleted eq false)";
+            url = url + $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";
             url = url + "&$filter=is_deleted eq false and status eq true";
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
@@ -171,6 +179,17 @@ namespace eAPIClient.Controllers
             return new List<ConfigDataModel>();
         }
 
+        async Task<List<SaleStatusModel>> GetSaleStatus()
+        {
+            is_get_remote_data_success = false;
+            var resp = await http.ApiGet("SaleStatus");
+            if (resp.IsSuccess)
+            {
+                is_get_remote_data_success = true;
+                return JsonSerializer.Deserialize<List<SaleStatusModel>>(resp.Content.ToString());
+            }
+            return new List<SaleStatusModel>();
+        }
 
         async Task<List<SaleProductStatusModel>> GetSaleProductStatus()
         {

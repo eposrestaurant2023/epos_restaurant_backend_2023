@@ -135,6 +135,7 @@ namespace eAPI
         public DbSet<StockLocationProductModel> StockLocationProducts{ get; set; }
         public DbSet<ModifierGroupItemModel> ModifierGroupItems { get; set; }
         public DbSet<SaleProductStatusModel> SaleProductStatuses { get; set; }
+        public DbSet<SaleStatusModel> SaleStatuses { get; set; }
 
         public DbSet<ModifierIngredientModel> ModifierIngredients { get; set; }
         

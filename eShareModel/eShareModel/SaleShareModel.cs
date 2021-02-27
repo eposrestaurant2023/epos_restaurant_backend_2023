@@ -39,5 +39,13 @@ namespace eShareModel
 
         //Other 
         public string sale_note { get; set; }
+
+        public int status_id { get; set; }
+
+
+        //
+        public bool? is_closed { get; set; }
+        public string closed_by { get; set; }
+        public DateTime? closed_date { get; set; }
     }
 }

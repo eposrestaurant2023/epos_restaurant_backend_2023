@@ -15,21 +15,37 @@ using NETCore.Encrypt;
 namespace eAPIClient.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class SaleProductStatusController : ODataController
+    [Route("api")]
+    public class StatusController : ODataController
     {
         public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
-        public SaleProductStatusController(ApplicationDbContext _db, IConfiguration configuration)
+        public StatusController(ApplicationDbContext _db, IConfiguration configuration)
         {
             db = _db;
             config = configuration;
         }
 
 
-        [HttpGet]
+        [HttpGet("SaleStatus")]
         [AllowAnonymous]
-        public ActionResult<List<SaleProductStatusModel>> Get()
+        public ActionResult<List<SaleStatusModel>> GetSaleStatus()
+        {
+            try
+            {
+                var data = db.SaleStatuses;
+
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("SaleProductStatus")]
+        [AllowAnonymous]
+        public ActionResult<List<SaleProductStatusModel>> GetSaleProductStatus()
         {
             try
             {

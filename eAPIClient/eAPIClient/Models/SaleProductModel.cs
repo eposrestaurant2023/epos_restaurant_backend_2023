@@ -14,9 +14,9 @@ namespace eAPIClient.Models
       
         [ForeignKey("sale_id")]
         public SaleModel sale { get; set; }
-       
-        [ForeignKey("product_id")]
-        public ProductModel product { get; set; }
+
+        [ForeignKey("status_id")]
+        public SaleProductStatusModel sale_product_status { get; set; }
 
         //List
         public List<SaleProductModifierModel> sale_product_modifiers { get; set; }

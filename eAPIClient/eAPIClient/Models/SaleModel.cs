@@ -15,18 +15,12 @@ namespace eAPIClient.Models
             payments = new List<PaymentModel>();
             sale_products = new List<SaleProductModel>();
         }
-      
-        [ForeignKey("outlet_id")]
-        public OutletModel outlet { get; set; }
-      
-       
+
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
 
         public List<PaymentModel> payments { get; set; }
         public List<SaleProductModel> sale_products { get; set; }
 
-
     }
-
 }

@@ -113,8 +113,8 @@ namespace eAPIClient
             odataBuilder.EntitySet<ShiftModel>("Shift");
             odataBuilder.EntitySet<CustomerModel>("Customer");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
-            odataBuilder.EntitySet<ConfigDataModel>("ConfigData");   
-            odataBuilder.EntitySet<SaleProductStatusModel>("SaleProductStatus");   
+            odataBuilder.EntitySet<ConfigDataModel>("ConfigData");                 
+            odataBuilder.EntitySet<SaleModel>("Sale");   
             return odataBuilder.GetEdmModel();
         }
     }

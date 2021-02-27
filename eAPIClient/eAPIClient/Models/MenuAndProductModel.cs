@@ -157,6 +157,8 @@ namespace eAPIClient.Models
         public decimal cost { get; set; } = 0;
         public decimal multiplier { get; set; } = 0;
 
+        public int unit_id { get; set; }
+
         public string prices { get; set; }
 
 
