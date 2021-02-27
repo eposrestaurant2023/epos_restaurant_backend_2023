@@ -23,10 +23,27 @@
 
     @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
     {
-        <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">@(GetMenuName(m)) </ComMenuItem>
-        <div style="position:absolute;bottom:0px;">
-            <NumberInputInt @bind-text="@m.sort_order" />
+
+<ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">
+    <div class="uk-position-center">
+        @(GetMenuName(m)) <br />
+    </div>
+    @if (is_sort_order)
+    {
+        <div class="uk-position-bottom-center">
+            <NumberInputInt @bind-text="@m.sort_order" width="100px" class_name="uk-text-center uk-form-small"/>
         </div>
+    }
+
+
+
+</ComMenuItem>
+           
+              
+           
+
+
+
     }
 
     @if (string.IsNullOrEmpty(keyword))
@@ -54,7 +71,7 @@
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public Guid business_branch_id { get; set; }
-
+    [Parameter] public bool is_sort_order { get; set; } = true;
     [Parameter] public int current_menu_id { get; set; }
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback< string> keywordChanged { get; set; }
@@ -113,7 +130,7 @@
             return $"{m.menu_name_en}";
         }
     }
-     
+
     bool show_add_menu;
 
     bool IsMenuSelected(MenuModel m)
@@ -135,7 +152,7 @@
         }
     }
 
-    
+
 
     async Task OnSelectMenu(MenuModel m)
     {
