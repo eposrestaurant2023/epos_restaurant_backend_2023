@@ -1,4 +1,7 @@
-﻿using eShareModel;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Http;
+
+using eShareModel;
 using System;                       
 using System.ComponentModel.DataAnnotations.Schema;    
 using System.Net.Http;           
@@ -52,6 +55,10 @@ namespace eModels
         public int? modifier_group_id { get; set; }
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
+
+        public int? modifier_id { get; set; }
+        [ForeignKey("modifier_id")]
+        public ModifierModel modifier { get; set; }
 
     }
 

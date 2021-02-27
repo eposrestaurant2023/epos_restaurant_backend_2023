@@ -79,6 +79,10 @@ namespace eModels
         [ForeignKey("user_id")]
         public UserModel user { get; set; }
 
-       
+        public int? modifier_id { get; set; }
+        [ForeignKey("modifier_id")]
+        public ModifierModel modifier { get; set; }
+
+
     }
 }

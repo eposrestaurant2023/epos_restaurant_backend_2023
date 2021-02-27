@@ -25,10 +25,6 @@ namespace eModels
         [ForeignKey("unit_id")]
         public UnitModel unit { get; set; }
 
-        [NotMapped]
-        [JsonIgnore]
-        public int unit_categery_id {get;set;}
-
         private decimal _total_cost;
         public decimal total_cost
         {

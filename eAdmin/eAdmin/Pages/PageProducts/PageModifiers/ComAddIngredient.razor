@@ -24,7 +24,6 @@
                         <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
                     </TdCenter>
                     <TdCenter>
-                        @p.unit.unit_category_id
                         <SelectUnit unit_category_id="@p.unit.unit_category_id" @bind-selected_value="@p.unit_id" label="" width="auto" />
                     </TdCenter>
                     <TdRight>
