@@ -939,25 +939,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_inventory_transaction_type");
                 });
 
-            modelBuilder.Entity("eModels.KitchenGroupModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("kitchen_group_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_kitchen_group");
-                });
-
             modelBuilder.Entity("eModels.MenuModel", b =>
                 {
                     b.Property<int>("id")
@@ -1013,9 +994,6 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<int?>("root_menu_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("sort_order")
                         .HasColumnType("int");
 
                     b.Property<bool>("status")
@@ -1983,12 +1961,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_over_stock")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_product_has_inventory_transaction")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("kitchen_group_id")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("max_price")
                         .HasColumnType("decimal(19,4)");
 
@@ -2035,8 +2007,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
-
-                    b.HasIndex("kitchen_group_id");
 
                     b.HasIndex("product_category_id");
 
@@ -3120,9 +3090,6 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<decimal>("initial_quantity")
-                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("max_quantity")
                         .HasColumnType("decimal(19,4)");
@@ -4441,10 +4408,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductModel", b =>
                 {
-                    b.HasOne("eModels.KitchenGroupModel", "kitchen_group")
-                        .WithMany("products")
-                        .HasForeignKey("kitchen_group_id");
-
                     b.HasOne("eModels.ProductCategoryModel", "product_category")
                         .WithMany("products")
                         .HasForeignKey("product_category_id")
@@ -4460,8 +4423,6 @@ namespace eAPI.Migrations
                     b.HasOne("eModels.VendorModel", "vendor")
                         .WithMany()
                         .HasForeignKey("vendor_id");
-
-                    b.Navigation("kitchen_group");
 
                     b.Navigation("product_category");
 
@@ -4908,11 +4869,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.InventoryTransactionTypeModel", b =>
                 {
                     b.Navigation("inventory_transactions");
-                });
-
-            modelBuilder.Entity("eModels.KitchenGroupModel", b =>
-                {
-                    b.Navigation("products");
                 });
 
             modelBuilder.Entity("eModels.MenuModel", b =>

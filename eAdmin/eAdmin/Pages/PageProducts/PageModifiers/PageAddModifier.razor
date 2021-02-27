@@ -84,7 +84,7 @@ else
             }
             else
             {
-                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient($expand=unit))");
+                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit)");
                 if (resp.IsSuccess)
                 {
                     modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
