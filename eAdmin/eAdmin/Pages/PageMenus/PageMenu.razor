@@ -16,6 +16,7 @@
             </PageTitle>
         </HeaderLeft>
         <HeaderRight>
+            <Button OnClick="@Sort_Order">Sort Order</Button>
             <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">Add New Root Menu</Button>
             <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
         </HeaderRight>
@@ -26,7 +27,7 @@
                 <ComBusinessBranhRootMenu menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword"/>
             </Column>
             <Column ClassName="uk-width-4-5">
-                <ComMainMenu menus="@menus" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" @bind-keyword="@keyword"/>
+                <ComMainMenu menus="@menus" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" @bind-keyword="@keyword" is_sort_order="is_sort_order"/>
             </Column>
         </Grid>
     </PageBody>
@@ -47,7 +48,7 @@
 
     List<MenuModel> menus = new List<MenuModel>();
     MenuModel menu = new  MenuModel ();
-
+    bool is_sort_order = true;
     int current_menu_id;
 
     bool show_add_menu;
@@ -116,6 +117,10 @@
     void OnSearch()
     {
 
+    }
+    void Sort_Order()
+    {
+        is_sort_order = !is_sort_order;
     }
 }
 

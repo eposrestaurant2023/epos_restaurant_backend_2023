@@ -7,20 +7,24 @@
                 <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" />
             </button>
         </Com>
-        <Com is_visible="@(IsMenuSelected())">
-            <button>
-                <Icon icon="delete" icon_color="@menu.text_color" @onclick="@OnUnSelectMenu" />
-            </button>
-        </Com>
+        <div class="uk-inline button-action-table">
+            <Icon icon="more_vert" />
+            <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
+                <ul class="uk-nav uk-dropdown-nav">
+                    <li> <Icon icon="delete" @onclick="@OnUnSelectMenu" /> Delete </li>
+                    <li> <Icon icon="arrow_back" @onclick="@OnUnSelectMenu" /> Move to </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     @if (!string.IsNullOrEmpty(menu.photo))
     {
         <div>
             <div style="position:relative;">
-                <Image ImageUrl="@http.ImageUrl(menu.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px"/>
+                <Image ImageUrl="@http.ImageUrl(menu.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px" />
                 <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-padding-remove" style="padding:5px !important;text-align:center;">
-                    <p>@menu.menu_name_en</p>
+                    <p></p>
                 </div>
             </div>
 
@@ -30,12 +34,12 @@
     {
         <div @onclick="@OnClick" class="box_menu cp" style="background:@menu.background_color;color:@menu.text_color;">
             <div class="uk-position-center">
-                <div style="text-align: center; align-items: center;">@ChildContent</div>
+                <div style="text-align: center; align-items: center;"> </div>
             </div>
         </div>
     }
 
-
+    @ChildContent
 
 </div>
 
