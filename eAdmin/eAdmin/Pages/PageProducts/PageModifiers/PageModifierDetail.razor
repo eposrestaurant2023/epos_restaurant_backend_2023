@@ -57,68 +57,12 @@
                             </UIContainerBox>
                         </UIGridCenter>
                         <UIGridCenter>
+                            <ComModifierIngredient_Detail modifier="@modifier" />
+                        </UIGridCenter>
+                        <UIGridCenter>
                             <UIContainerBox>
-                                <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                    <tr>
-                                        <ThAuto>Ingredient Name</ThAuto>
-                                        <ThCenter>Quantity</ThCenter>
-                                        <ThCenter>Unit</ThCenter>
-                                        <ThRight>Cost </ThRight>
-                                        <ThRight>Total</ThRight>
-                                    </tr>
-                                    @if (modifier.modifier_ingredients.Where(r => r.is_deleted == false).Any())
-                                    {
-                                        foreach (var p in modifier.modifier_ingredients.Where(r => r.is_deleted == false))
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @p.ingredient?.product_display_name
-                                                </td>
-                                                <TdCenter>
-                                                    <NumberInput is_read_only="true" @bind-text="@p.quantity" class_name="uk-text-center" />
-                                                </TdCenter>
-                                                <TdCenter>
-                                                    <div>@p.unit?.unit_name</div>
-                                                </TdCenter>
-                                                <TdRight>
-                                                    <NumberInput is_read_only="true" @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
-                                                </TdRight>
-                                                <TdRight>
-                                                    @p.total_cost.ToString(gv.currency_format)
-                                                </TdRight>
-                                            </tr>
-                                        }
-                                        <tfoot>
-                                            <tr>
-                                                <td>
-                                                    Total
-                                                </td>
-                                                <TdCenter>
-                                                    @modifier.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
-                                                </TdCenter>
-                                                <TdCenter>
-                                                </TdCenter>
-                                                <TdRight>
-                                                </TdRight>
-                                                <TdRight>
-                                                    @modifier.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.cost).ToString(gv.currency_format)
-                                                </TdRight>
-                                                <TdRight>
 
-                                                </TdRight>
-                                            </tr>
-                                        </tfoot>
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="6">
-                                                <ComEmptyTemplate padding_top_bottom="25px" />
-                                            </td>
-                                        </tr>
-                                    }
-                                </table>
-                            </UIContainerBox>                                
+                            </UIContainerBox>
                         </UIGridCenter>
                     </TabItem>
                     @*============comment===========*@
@@ -138,7 +82,6 @@
                     </TabItem>
                 </TabBody>
             </Tab>
-
         </PageBody>
     </PageContainer>
 }
@@ -155,7 +98,7 @@ else
     [Parameter] public int id { get; set; }
     string controller_api = "Modifier";
     ModifierModel modifier = new ModifierModel();
-    List<ProductGroupModel> product_groups = new List<ProductGroupModel>();
+    List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
 
     bool is_save_and_new = false;
     bool show_comment_tab = false;
@@ -163,6 +106,7 @@ else
     {
         is_loading = true;
         await LoadData();
+        await LoadModifierProduct();
     }
 
     async Task LoadData()
@@ -173,6 +117,18 @@ else
         if (resp.IsSuccess)
         {
             modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+    async Task LoadModifierProduct()
+    {
+        is_loading = true;
+
+        var resp = await http.ApiGet($"ProductModifier?$filter=modifier_id eq {id}");
+        if (resp.IsSuccess)
+        {
+            product_modifiers = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
         }
         is_loading = false;
     }
