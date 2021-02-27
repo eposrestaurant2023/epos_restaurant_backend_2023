@@ -25,7 +25,9 @@
     @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
     {
         <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">@(GetMenuName(m)) </ComMenuItem>
-        <NumberInputInt @bind-text="@m.sort_order" />
+        <div style="position:absolute;bottom:0px;">
+            <NumberInputInt @bind-text="@m.sort_order" />
+        </div>
     }
 
     @if (string.IsNullOrEmpty(keyword))
