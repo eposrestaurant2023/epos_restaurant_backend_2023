@@ -133,6 +133,8 @@ namespace eModels
         public decimal min_price { get; set; }
         public decimal max_price { get; set; }
 
+        public bool is_product_has_inventory_transaction { get; set; } = false;
+
     }
 
 

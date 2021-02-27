@@ -22,9 +22,10 @@
         <ComMenuBackButton OnClick="@OnBack" />
     }
 
-    @foreach (var m in GetMenus)
+    @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
     {
-        <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">@(GetMenuName(m))</ComMenuItem>
+        <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">@(GetMenuName(m)) </ComMenuItem>
+        <NumberInputInt @bind-text="@m.sort_order" />
     }
 
     @if (string.IsNullOrEmpty(keyword))
@@ -69,27 +70,35 @@
 
     MenuModel menu = new MenuModel();
 
+
+
+    private List<MenuModel> _GetMenus;
+
     public List<MenuModel> GetMenus
     {
-        get
-        {
+        get {
+
             if (string.IsNullOrEmpty(keyword))
             {
-                return menus.Where(r => r.parent_id == current_menu_id && r.is_deleted == false).ToList();
+                _GetMenus = menus.Where(r => r.parent_id == current_menu_id && r.is_deleted == false).ToList();
             }
-            else {
-                return menus.Where(r =>r.is_deleted == false && ((r.menu_name_en ?? ""  )+ " " + (r.menu_name_kh ?? "" )).ToString().Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList();
+            else
+            {
+                _GetMenus =  menus.Where(r => r.is_deleted == false && ((r.menu_name_en ?? "") + " " + (r.menu_name_kh ?? "")).ToString().Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList();
             }
-
-
-
-        }
+            return _GetMenus; }
+        set { _GetMenus = value; }
     }
+
+
+
 
     public MenuModel current_menu { get {
 
             return menus.Where(r => r.id == current_menu_id).FirstOrDefault();
         } }
+
+
 
     string GetMenuName(MenuModel m)
     {
@@ -103,7 +112,7 @@
             return $"{m.menu_name_en}";
         }
     }
-
+     
     bool show_add_menu;
 
     bool IsMenuSelected(MenuModel m)
@@ -124,6 +133,8 @@
             menus.Where(r => r.id == m.id).ToList().ForEach(r => r.is_selected = true);
         }
     }
+
+    
 
     async Task OnSelectMenu(MenuModel m)
     {

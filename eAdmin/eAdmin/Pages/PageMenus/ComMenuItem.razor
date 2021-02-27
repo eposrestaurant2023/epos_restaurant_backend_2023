@@ -16,7 +16,7 @@
     <Com is_visible="@(!IsMenuSelected())">
         <div @onclick="@OnClick" class="box_menu cp" style="background:@menu.background_color;color:@menu.text_color;">
             <div>
-                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
+                <div style="text-align: center; align-items: center;">@ChildContent</div>
             </div>
         </div>
     </Com>
@@ -29,12 +29,13 @@
             </div>
         </div>
     </Com>
-     
+   
 </div>
 
 @code {
     [Parameter] public MenuModel menu { get; set; }
 
+   
 
 
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -42,6 +43,7 @@
     [Parameter] public EventCallback<int> menu_idChanged { get; set; }
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
+   
 
 
     async Task OnClick() {
@@ -50,7 +52,7 @@
         await keywordChanged.InvokeAsync("");
 
     }
-
+ 
     async Task EditMenu() {
 
     }

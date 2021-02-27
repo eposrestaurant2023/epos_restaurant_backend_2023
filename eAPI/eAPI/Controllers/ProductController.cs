@@ -72,9 +72,13 @@ namespace eAPI.Controllers
 
             u.product_menus.ForEach(r => r.menu = null);
 
-            u.stock_location_products.ForEach(r => r.stock_location = null);
 
             // update stock transfer
+            
+            u.stock_location_products.ForEach(r => r.stock_location = null);
+            
+           
+
             List<InventoryTransactionModel> inventory_transactions = new List<InventoryTransactionModel>();
             if (is_update_stock)
             {

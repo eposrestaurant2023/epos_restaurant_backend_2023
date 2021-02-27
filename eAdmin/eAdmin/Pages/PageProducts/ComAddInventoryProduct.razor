@@ -35,7 +35,17 @@
                             </div>
                         </td>
                         <td>
-                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="@(!can_update_stock)" />
+                            @if (model.is_product_has_inventory_transaction)
+                            {
+                                <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
+                            }
+                            else
+                            {
+                               
+                                    <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" />
+                               
+                            }
+
                         </td>
                         <td>
                             <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.min_quantity" text_format="@gv.quantity_format" width="100px" />
