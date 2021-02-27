@@ -13,7 +13,7 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>@state.page_title</HeaderTemplate>
+                    <HeaderTemplate>Purchase Order Product</HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
@@ -59,10 +59,14 @@
                         <TdCenter>@p.purchase_order?.purchase_date.ToString(gv.date_format)</TdCenter>
 
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.purchase_order_id}")">@p.purchase_order?.document_number</ComAuthorize>
+                            <a href="@($"purchaseorder/{p.purchase_order?.id}")">
+                                @p.purchase_order?.document_number
+                            </a>
                         </TdCenter>
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{p.product_id}")">@p.product?.product_name_en</ComAuthorize>
+                            <a href="@($"product/{p.product?.id}")">
+                                @p.product?.product_name_en
+                            </a>
                         </td>
                         <TdCenter>
                             <span>@p.quantity.ToString(gv.quantity_format)</span>
@@ -80,6 +84,11 @@
                         <td>@p.created_by</td>
                         <TdRight>
                             <LabelDeleted is_visible="@(p.is_deleted)" />
+                            <LabelActive is_visible="@(p.status && !p.is_deleted)" />
+                            @if (p.is_fulfilled && !p.is_deleted)
+                            {
+                            <span class="uk-label fulfilled">Fulfilled</span>
+                            }
                         </TdRight>
                         <TdCenter>
                             <TdActions is_loading="@p.is_loading">

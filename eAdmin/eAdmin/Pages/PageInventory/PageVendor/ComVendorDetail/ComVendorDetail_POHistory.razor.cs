@@ -66,7 +66,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 //Business Branch Filter
                 state.filters.Add(new FilterModel()
                 {
-                    key = "purchase_order/business_branch_id",
+                    key = "business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",

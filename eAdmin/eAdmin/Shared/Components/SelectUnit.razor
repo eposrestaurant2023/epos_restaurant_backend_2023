@@ -40,6 +40,7 @@ else
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string label { get; set; }
     [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_select_unit_category { get; set; } = false;
      
     [Parameter] public string empty_text { get; set; } = "Select Unit";
 
@@ -57,17 +58,18 @@ else
 
 
     public List<UnitModel> units { get {
-
-
-
+            
             if (unit_category_id > 0)
             {
                 return gv.units.Where(r => (r.status && !r.is_deleted) && r.unit_category_id == unit_category_id).ToList();
             }
+            if(is_select_unit_category){
+                return new List<UnitModel>();
+            }
             return gv.units.Where(r => (r.status && !r.is_deleted)).ToList();
         } }
 
-
+        
 
     public int SelectedValue
     {

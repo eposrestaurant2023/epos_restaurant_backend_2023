@@ -15,7 +15,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @PageTitle @can_update_stock
+                        @PageTitle
                     </HeaderTemplate>
 
                 </PageTitle>
@@ -55,7 +55,7 @@
                                         <ValidationMessage For="@(()=>model.product_category_id)" />
                                     </SelectProductCategory>
                                     <SelectUnitCategory label="@lang["Unit Category"]" @bind-selected_value="@unit_category_id" show_empty="true"/>
-                                    <SelectUnit label="@lang["Unit"]" @bind-unit="@model.unit" @bind-selected_value="@model.unit_id" unit_category_id="@unit_category_id"   show_empty="true">
+                                    <SelectUnit label="@lang["Unit"]" @bind-unit="@model.unit" @bind-selected_value="@model.unit_id" unit_category_id="@unit_category_id" is_select_unit_category="true"  show_empty="true">
                                         <ValidationMessage For="@(()=>model.unit_id)" />
                                     </SelectUnit>
                                     <ComInputCheckBox @bind-value="@model.is_allow_discount" label="Allow Discount" />
@@ -64,7 +64,7 @@
                                     <SelectStatus @bind-selected_value="@model.status" />
                                 </UIContainerBox>
 
-                                <ComAddInventoryProduct @bind-model="@model" />
+                                <ComAddInventoryProduct @bind-model="@model" can_update_stock="@can_update_stock"/>
                                 <ComAddProduct_Portion model="@model" />
                                 <ComAddProduct_Printer @bind-model="@model" />
                                 <ComAddProduct_Menu @bind-model="@model" />

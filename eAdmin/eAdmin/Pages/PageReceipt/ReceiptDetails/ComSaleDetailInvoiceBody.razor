@@ -13,14 +13,14 @@
                 <div>@sp.product?.product_display_name</div>
             </ComAuthorize>
            
-            @if (!string.IsNullOrEmpty(sp.sale_product_note))
+            @if (!string.IsNullOrEmpty(sp.note))
             {
-                <div class="font-xs text-pre-wrap">@sp.sale_product_note</div>
+                <div class="font-xs text-pre-wrap">@sp.note</div>
             }
         </td>
         <TdCenter>@sp.quantity.ToString(gv.quantity_format)</TdCenter>
-        <TdCenter>@sp.unit?.unit_name</TdCenter>
-        <td class="uk-text-right">@sp.selling_price.ToString(gv.currency_format)</td>
+        <TdCenter>@sp.unit</TdCenter>
+        <td class="uk-text-right">@sp.price.ToString(gv.currency_format)</td>
         <td class="uk-text-right">
             @if (sp.discount <= 0)
             {

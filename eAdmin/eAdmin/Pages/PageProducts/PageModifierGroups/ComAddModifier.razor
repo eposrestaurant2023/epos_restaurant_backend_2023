@@ -1,11 +1,15 @@
 ﻿@inject IStringLocalizer<Resource> lang
-@foreach (var s in modifer_group.modifier_group_items.Where(r => r.is_section == true))
+
+@foreach (var s in modifer_group.modifier_group_items.Where(r => r.is_section == true &&r.is_deleted == false).OrderBy(r=>r.sort_order))
 {
-<UIContainerBox Title="Modifiers">
-    @*<TextInput @bind-text="@s.section_name" label="Section Name" />*@
-    @*<ComInputCheckBox @bind-value="@s.is_required" label="Is Required" />*@
-    @*<ComInputCheckBox @bind-value="@s.is_multiple_select" label="Allow Multiple Select" />*@
-    <ModifierTypeahead @bind-modifier="@modifier" />
+<UIContainerBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(()=>DeleteModifierSection(s))">
+    <TextInput @bind-text="@s.section_name" label="Section Name" />
+    <NumberInputInt @bind-text="@s.sort_order" label="Sort Order" />
+    <ComInputCheckBox @bind-value="@s.is_required" label="Is Required" />
+    <ComInputCheckBox @bind-value="@s.is_multiple_select" label="Allow Multiple Select" />
+
+    <hr />
+    <ModifierTypeahead modifier="@modifier" modifierChanged="@((val)=>OnSelectModifier(s, val))" />
     <hr />
     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
@@ -14,11 +18,11 @@
             <ThRight>@lang["Sort Order"]</ThRight>
             <ThCenter></ThCenter>
         </tr>
-        @foreach (var m in modifer_group.modifier_group_items.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
+        @foreach (var m in s.children.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
         {
             <tr>
                 <td>
-                    @m.modifier.modifier_name
+                    @m.modifier?.modifier_name
                 </td>
                 <TdRight>
                     <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" />
@@ -35,6 +39,7 @@
 
 </UIContainerBox>
 }
+<Button OnClick="@AddSection">@lang["Add Section"]</Button>
 
 @code{
     [Parameter] public ModifierGroupModel modifer_group { get; set; }
@@ -46,15 +51,19 @@
         get { return _modifier; }
         set
         {
-            if (!modifer_group.modifier_group_items.Where(r => r.modifier_id == value.id && r.is_deleted == false).Any())
-            {
-                modifer_group.modifier_group_items.Add(new ModifierGroupItemModel() { modifier = value, modifier_id = value.id });
-            }
-
-            value = null;
 
             _modifier = value;
         }
+    }
+
+    void OnSelectModifier(ModifierGroupItemModel parent, ModifierModel child)
+    {
+
+        if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower().Contains(child.modifier_name.ToLower().Trim())).Any())
+        {
+            parent.children.Add(new ModifierGroupItemModel() { modifier = child, modifier_id = child.id });
+        }
+        modifier = null;
     }
 
 
@@ -71,5 +80,25 @@
         }
     }
 
+    void AddSection()
+    {
+        modifer_group.modifier_group_items.Add(new ModifierGroupItemModel()
+        {
+            section_name = "Section Name",
+            is_section = true
+        });
+    }
+
+    void DeleteModifierSection(ModifierGroupItemModel m)
+    {
+        if (m.modifier_group_id == 0)
+        {
+            modifer_group.modifier_group_items.Remove(m);
+        }
+        else
+        {
+            m.is_deleted = true;
+        }
+    }
 
 }

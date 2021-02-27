@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210227032551_kitchen_group_1x")]
+    partial class kitchen_group_1x
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1983,9 +1985,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_over_stock")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_product_has_inventory_transaction")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("kitchen_group_id")
                         .HasColumnType("int");
 
@@ -2614,13 +2613,6 @@ namespace eAPI.Migrations
                     b.Property<Guid>("cashier_shift_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("closed_by")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("closed_date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -2657,9 +2649,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("grand_total_discount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<bool?>("is_closed")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -2687,9 +2676,6 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<int>("status_id")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
@@ -2950,37 +2936,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_sale_product_status");
                 });
 
-            modelBuilder.Entity("eModels.SaleStatusModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("background")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("foreground")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("is_active_order")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_sale_lock")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("priority")
-                        .HasColumnType("int");
-
-                    b.Property<string>("status_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_sale_status");
-                });
-
             modelBuilder.Entity("eModels.SettingModel", b =>
                 {
                     b.Property<int>("id")
@@ -3120,9 +3075,6 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
-
-                    b.Property<decimal>("initial_quantity")
-                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("max_quantity")
                         .HasColumnType("decimal(19,4)");

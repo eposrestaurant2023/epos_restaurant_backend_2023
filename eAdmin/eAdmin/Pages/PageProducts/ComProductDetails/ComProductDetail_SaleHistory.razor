@@ -42,12 +42,11 @@
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
-                    <TableHeader>
-                        @HeaderTemplate("sale/sale_date", "Sale Date", "uk-text-center")
+                    <TableHeader> 
                         @HeaderTemplate("sale/document_number", "Document", "uk-text-center")
                         @HeaderTemplate("sale/customer/customer_name_en", "Customer", "col-auto")
                         @HeaderTemplate("unit", "Unit", "uk-text-center")
-                        @HeaderTemplate("selling_price", "Selling Price", "uk-text-rigth")
+                        @HeaderTemplate("price", "Price", "uk-text-rigth")
                         <ThCenter>Quantity</ThCenter>
                         <ThRight>Total Amount</ThRight>
                         <ThRight>Grand Total</ThRight>
@@ -55,8 +54,7 @@
                         <th>Created By</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
-                    <RowTemplate Context="p">
-                        <TdCenter>@p.sale?.sale_date.ToString(gv.date_format)</TdCenter>
+                    <RowTemplate Context="p"> 
                         <TdCenter>
                             <a href="@($"receiptlist/{p.sale_id}")">
                                 @p.sale?.document_number
@@ -69,10 +67,10 @@
 
                         </td>
                         <TdCenter>
-                            <div>@p.unit?.unit_name</div>
+                            <div>@p.unit</div>
                         </TdCenter>
                         <TdRight>
-                            @p.selling_price.ToString(gv.currency_format)
+                            @p.price.ToString(gv.currency_format)
                         </TdRight>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)

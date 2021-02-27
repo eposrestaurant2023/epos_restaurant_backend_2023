@@ -1,4 +1,5 @@
-﻿ <div style="position:relative;" class="uk-width-1-6">
+﻿@inherits PageCore
+<div style="position:relative;" class="uk-width-1-6">
     <div class="icon_edit_menu">
         <Icon icon="edit" icon_color="@menu.text_color" @onclick="@EditMenu" />
         <Com is_visible="@(!IsMenuSelected())">
@@ -13,23 +14,29 @@
         </Com>
     </div>
 
-    <Com is_visible="@(!IsMenuSelected())">
+    @if (!string.IsNullOrEmpty(menu.photo))
+    {
+        <div>
+            <div style="position:relative;">
+                <Image ImageUrl="@http.ImageUrl(menu.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px"/>
+                <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-padding-remove" style="padding:5px !important;text-align:center;">
+                    <p>@menu.menu_name_en</p>
+                </div>
+            </div>
+
+        </div>
+    }
+    else
+    {
         <div @onclick="@OnClick" class="box_menu cp" style="background:@menu.background_color;color:@menu.text_color;">
-            <div>
-                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
+            <div class="uk-position-center">
+                <div style="text-align: center; align-items: center;">@ChildContent</div>
             </div>
         </div>
-    </Com>
+    }
 
 
-    <Com is_visible="@(IsMenuSelected())">
-        <div @onclick="@OnClick" class="box_menu cp" style="background:@menu.background_color;color:@menu.text_color; border:1px solid #cf564d;">
-            <div>
-                <div style="text-align: center; align-items: center; padding-top: 47px;">@ChildContent</div>
-            </div>
-        </div>
-    </Com>
-     
+
 </div>
 
 @code {
@@ -37,29 +44,35 @@
 
 
 
+
     [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public  int  menu_id { get; set; }
+    [Parameter] public int menu_id { get; set; }
     [Parameter] public EventCallback<int> menu_idChanged { get; set; }
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
 
 
-    async Task OnClick() {
+
+    async Task OnClick()
+    {
 
         await menu_idChanged.InvokeAsync(menu.id);
         await keywordChanged.InvokeAsync("");
 
     }
 
-    async Task EditMenu() {
+    async Task EditMenu()
+    {
 
     }
 
-    async Task OnSelectMenu() {
+    async Task OnSelectMenu()
+    {
 
     }
 
-    async Task OnUnSelectMenu() {
+    async Task OnUnSelectMenu()
+    {
 
     }
 
