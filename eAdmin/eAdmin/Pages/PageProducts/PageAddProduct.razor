@@ -58,13 +58,13 @@
                                     <SelectUnit label="@lang["Unit"]" @bind-unit="@model.unit" @bind-selected_value="@model.unit_id" unit_category_id="@unit_category_id" is_select_unit_category="true"  show_empty="true">
                                         <ValidationMessage For="@(()=>model.unit_id)" />
                                     </SelectUnit>
-                                    <ComInputCheckBox @bind-value="@model.is_allow_discount" label="Allow Discount" />
-                                    <ComInputCheckBox @bind-value="@model.is_allow_free" label="Allow Free" />
-                                    <ComInputCheckBox @bind-value="@model.is_open_product" label="Is Opened Product" />
+                                    <ComInputCheckBox @bind-value="@model.is_allow_discount" label="@lang["Allow Discount"]" />
+                                    <ComInputCheckBox @bind-value="@model.is_allow_free" label="@lang["Allow Free"]" />
+                                    <ComInputCheckBox @bind-value="@model.is_open_product" label="@lang["Is Opened Product"]" />
                                     <SelectStatus @bind-selected_value="@model.status" />
                                 </UIContainerBox>
 
-                                <ComAddInventoryProduct @bind-model="@model" can_update_stock="@can_update_stock"/>
+                                <ComAddInventoryProduct @bind-model="@model"/>
                                 <ComAddProduct_Portion model="@model" />
                                 <ComAddProduct_Printer @bind-model="@model" />
                                 <ComAddProduct_Menu @bind-model="@model" />

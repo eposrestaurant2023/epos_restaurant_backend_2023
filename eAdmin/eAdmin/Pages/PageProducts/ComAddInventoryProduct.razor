@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIContainerBox Title="@lang["Inventory / Ingredient Product"]">
-    <ComInputCheckBox @bind-value="@model.is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(!can_update_stock)"/>
+    <ComInputCheckBox @bind-value="@model.is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)"/>
     <Com is_visible="@(is_show_ingredient)">
         <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
     </Com>
@@ -8,7 +8,7 @@
         <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
     </Com>
     <Com is_visible="@(is_show_ingredient && (model.is_ingredient_product || model.is_inventory_product))">
-        <NumberInput label="Cost" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
+        <NumberInput label="@lang["Cost"]" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
     </Com>
     <Com is_visible="@(model.is_inventory_product)"> 
         @if(model.stock_location_products != null && model.stock_location_products.Any()){
@@ -41,9 +41,7 @@
                             }
                             else
                             {
-                               
-                                    <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" />
-                               
+                                <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" />
                             }
 
                         </td>
@@ -60,7 +58,7 @@
             <tfoot>
                 <tr>
                     <td>@lang["Total Quantity"]</td>
-                    <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
+                    <td class="uk-text-center">@model.stock_location_products.Sum(r => r.initial_quantity).ToString(gv.quantity_format)</td>
                     <td colspan="2"></td>
                 </tr>
             </tfoot>
@@ -73,7 +71,6 @@
     [Parameter] public ProductModel model { get; set; } 
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     [Parameter] public bool is_show_ingredient { get; set; } = true;
-    [Parameter] public bool can_update_stock { get; set; } = false;
 
     bool is_loading;
     protected override  void OnInitialized()

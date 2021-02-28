@@ -90,7 +90,6 @@ namespace eAdmin.Pages.PageProducts
             {
                 await CloneProduct();
             }
-            await CheckStockProduct();
             is_loading = false;
         }
 
@@ -157,7 +156,7 @@ namespace eAdmin.Pages.PageProducts
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
  
-            var resp = await http.ApiPost($"Product/Save?is_update_stock={can_update_stock}", save_model);
+            var resp = await http.ApiPost($"Product/Save", save_model);
             if (resp.IsSuccess)
             {
                 toast.Add(lang["Save product successfully"], MatToastType.Success);
@@ -182,21 +181,6 @@ namespace eAdmin.Pages.PageProducts
             }
             is_saving = false;
         }
-
-        public async Task CheckStockProduct()
-        {
-            can_update_stock = false;
-            var resp_transaction = await http.ApiGetOData($"InventoryTransaction?$filter=inventory_transaction_type_id ne 1 and product_id eq {id}&$count=true");
-            if (resp_transaction.IsSuccess)
-            {
-                can_update_stock = resp_transaction.Count == 0?true:false;
-            }
-            else
-            {
-
-                toast.Add("Error Check Product Inventory Transcation!!!", MatToastType.Warning);
-
-            }
-        }
+         
     }
 }
