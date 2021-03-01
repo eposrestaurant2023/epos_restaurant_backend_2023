@@ -83,7 +83,7 @@ namespace eAPI.Controllers
         [Route("is_default/{id}/{price_id}")]
         public async Task<ActionResult<BusinessBranchPriceRule>> UpdateIsDefault(Guid id, int price_id)
         {
-            var s = db.BusinessBranchPriceRules;
+            var s = db.BusinessBranchPriceRules.Where(r=>r.business_branch_id == id);
             if (s != null)
             {
                 foreach (var e in s)

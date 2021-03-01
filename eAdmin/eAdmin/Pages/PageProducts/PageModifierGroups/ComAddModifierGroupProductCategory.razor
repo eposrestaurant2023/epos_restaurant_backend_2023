@@ -42,8 +42,6 @@
                         {
                             <input type="checkbox" @onchange="@(() => OnSelectProductCategory(true, p))" />
                         }
-
-
                     </td>
                     <td>@p.product_category_en</td>
                     <td>@p.product_category_kh</td>
@@ -94,7 +92,8 @@
             {
                 data.FirstOrDefault().is_deleted = false;
             }
-            else {
+            else 
+            {
                 modifier_group.modifier_group_product_categories.Add(new ModifierGroupProductCategoryModel() { product_category_id = pc.id });
             }
         }else

@@ -40,7 +40,9 @@
                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
                                     <Th>@lang["Name"]</Th>
-                                    <Th>@lang["Is Default"]</Th>
+                                    <Th>
+                                        @lang["Is Default"]                                        
+                                    </Th>
                                 </tr>
                                 @foreach (var bp in d.business_branch_prices.Where(r => r.is_deleted == false && r.business_branch_id == d.id))
                                 {
@@ -48,8 +50,9 @@
                                     {
                                         <tr>
                                             <td>@s.price_name</td>
-                                            <td><ComInputCheckBox is_read_only="@bp.is_default" value="@bp.is_default" valueChanged="@(()=>CheckIsDefault(bp))" /></td>
-
+                                            <td>
+                                                <ComInputCheckBox is_read_only="@bp.is_default" value="@bp.is_default" valueChanged="@(()=>CheckIsDefault(bp))" />
+                                            </td>
                                         </tr>
                                     }
                                 }
@@ -76,7 +79,7 @@
 
     async Task LoadData()
     {
-        var res = await http.ApiGetOData("PriceRule");
+        var res = await http.ApiGetOData("PriceRule?$expand=business_branch_prices");
         if (res.IsSuccess)
         {
             price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(res.Content.ToString());
