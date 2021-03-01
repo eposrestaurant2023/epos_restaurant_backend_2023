@@ -1,11 +1,13 @@
-﻿<DropDown>
+﻿@inject IStringLocalizer<Resource> lang
+<DropDown>
     @foreach (var p in payments.Where(r=>!r.is_deleted))
     {
         <div class="items-hr">
-            <ComItemInfo title="Date" content="@(p.payment_date.ToString(gv.date_format))"/>
-            <ComItemInfo title="Payment Type" content="@p.payment_type?.payment_type_name_en"/>
-            <ComItemInfo title="Paid" content="@p.payment_amount.ToString(gv.currency_format)"/>
-            <ComItemInfo title="By" content="@($"{p.created_by} on {p.created_date.ToString(gv.date_time_format)}")"/>
+            <ComItemInfo title="@lang["Date"]" content="@(p.payment_date.ToString(gv.date_format))"/>
+            <ComItemInfo title="@lang["Payment Type"]" content="@p.payment_type?.payment_type_name_en"/>
+            <ComItemInfo title="@lang["Paid"]" content="@p.payment_amount.ToString(gv.currency_format)"/>
+            <ComItemInfo title="@lang["By"]" content="@($"{p.created_by} {lang["on"]} {p.created_date.ToString(gv.date_time_format)}")"/>
+            
         </div>
     }
 </DropDown>

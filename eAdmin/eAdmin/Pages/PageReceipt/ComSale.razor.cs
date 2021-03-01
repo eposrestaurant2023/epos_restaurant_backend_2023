@@ -153,7 +153,7 @@ namespace eAdmin.Pages.PageReceipt
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "sale_date",
+                        key = "working_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
                         filter_title = "Sale Date",
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
@@ -167,7 +167,7 @@ namespace eAdmin.Pages.PageReceipt
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale_date",
+                    key = "working_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",

@@ -1,199 +1,65 @@
 ﻿@page "/dashboard"
-@using System.Text.Json;
-@inject IConfiguration iconfig
-@inject ILocalStorageService local;
-@using System.ComponentModel.DataAnnotations;
-@using System.ComponentModel.DataAnnotations.Schema;
-@inject IStringLocalizer<Resource> localizer
-@inherits PageCore
-
-
+@inject IStringLocalizer<Resource> lang
 <Loading is_loading="@is_loading" />
-<Title Value="Dashboard"></Title>
+
+<Title Value="@lang["Dashboard"]"></Title>
 <PageContainer roles=@gv.GetRole("dashboard")>
     <PageHeader>
         <HeaderLeft>
             <PageTitle ShowFilter="false">
                 <HeaderTemplate>
-                    @localizer["Dashboard"]
+                    @lang["Dashboard"]
                 </HeaderTemplate>
             </PageTitle>
         </HeaderLeft>
         <HeaderRight>
             <RefreshButton OnClick="@(async()=>await LoadData())" />
         </HeaderRight>
+
     </PageHeader>
     <PageBody>
 
-        <h1>@localizer["helloworld"]</h1>
-        @localizer["welcome"]
-
-        <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
-            <div class="uk-width-1-2 uk-width-1-4@m">
-                <div class="bg_kpi bg_today_amount">
-                    <div class="ttle_number">670</div>
-                    <span class="title-kpi">ចំនួនទឹកប្រាក់លក់បានថ្ងែនេះ</span>
-                </div>
-            </div>
-            <div class="uk-width-1-2 uk-width-1-4@m">
-                <div class="bg_kpi bg_today_mtd">
-                    <div class="ttle_number">808</div>
-                    <span class="title-kpi"> ចំនួនទឹកប្រាក់លក់បានខែនេះ</span>
-
-                </div>
-            </div>
-            <div class="uk-width-1-2 uk-width-1-4@m">
-                <div class="bg_kpi bg_today_quantity">
-                    <div class="ttle_number">340</div>
-                    <span class="title-kpi"> ចំនួនលក់បានថ្ងែនេះ</span>
-
-                </div>
-            </div>
-            <div class="uk-width-1-2 uk-width-1-4@m">
-                <div class="bg_kpi bg_today_quantity_mtd">
-                    <div class="ttle_number"> 12</div>
-                    <span class="title-kpi"> ចំនួនលក់បានខែនេះ</span>
-
-                </div>
-            </div>
-        </div>
-        <Spacing Number="20" />
-        <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .uk-card">
-            <div class="uk-width-2-3">
-                <ComPanel Title="Hourly Sale">
-                    @if (is_loading)
-                    {
-                        <Spinner />
-                    }
-                    else
-                    {
-                        @if (data != null)
-                        {
-                            @*<LineChart Data="@data_line" Height="250" Width="100" />*@
-                        }
-                    }
-
-                </ComPanel>
-            </div>
-            <div class="uk-width-1-3">
-                <ComPanel Title="សង្ខេបការបញ្ជាទិញ">
-                    <div>
-                        <label style="font-size:12px;">Close Orders(6/6)</label>
-                        <div class="progress_bar">
-                            <div style="width:30%" class="uk-background-primary text_persen">12</div>
-                        </div>
-                        <label style="font-size:12px;">Pending Orders (8/6)</label>
-                        <div class="progress_bar">
-                            <div style="width:40%" class="bg_viode_oeder text_persen">
-                                12
-                            </div>
-                        </div>
-
-                        <label style="font-size:12px;">Void Orders (9 /10)</label>
-                        <div class="progress_bar">
-                            <div style="width:50%" class=" bg_pendding_order text_persen">
-                                50
-                            </div>
-                        </div>
-
-                    </div>
-                </ComPanel>
-            </div>
-        </div>
-
-        <Spacing Number="20" />
-
-        <ComPanel Title="Sale Revenue">
-
-
-            @if (is_loading)
-            {
-                <Spinner />
-            }
-            else
-            {
-                @if (data != null)
+        <Tab>
+            <TabHeader>
+                <TabHeaderItem OnClick="@(async()=>await LoadData(gv.business_branch_ids_filter_1))">@lang["All Branch"]</TabHeaderItem>
+                @foreach (var b in gv.business_branch_by_role)
                 {
-                    @*<BarChart Data="@data" Height="325" Width="100" />*@
+                    <TabHeaderItem OnClick="@(async()=>await LoadData(b.id.ToString()))">@b.business_branch_name_en</TabHeaderItem>
                 }
-            }
-
-        </ComPanel>
-
-        <Spacing Number="20" />
-        <ComPanel Title="">
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem>វិកយប័ត្របានគិតលុយហើយថ្មីៗ</TabHeaderItem>
-                    <TabHeaderItem>ផលិតផលដែលលក់ដាច់ជាងគេ</TabHeaderItem>
-
-                </TabHeader>
-                <TabBody>
-                    <TabItem>
-                        @*<div class="uk-grid-collapse cus_selected_button" uk-grid>
-                                @foreach (var n in iconfig["top_number"].ToString().Split(","))
-                                {
-                                    <div class="uk-width-1-3">
-                                        <Button custom_class="@(select_order == n ? "selected" : "")" width="100%" class_name="bg_top">@n</Button>
-                                    </div>
-
-                                }
-                            </div>*@
-
-
-
-                        <Spacing Number="186" />
-                    </TabItem>
-                    <TabItem>
-                        <Spacing Number="186" />
-                    </TabItem>
-
-                </TabBody>
-            </Tab>
-        </ComPanel>
+            </TabHeader>
+        </Tab>
+        @if (!is_loading)
+        {
+            <Spacing Number="20" />
+            <ComDashboard bussiness_branch_id="@business_branch_id" />
+        }
     </PageBody>
+
 </PageContainer>
 
-@code{
-    BarChartModel data = new BarChartModel();
-    LineChartModel data_line = new LineChartModel();
-    int top = 10;
-    string select_order = "10";
+
+
+@code
+{
+    [CascadingParameter]
+    public GlobalVariableModel gv { get; set; }
+    bool is_loading;
+    string business_branch_id = "";
+
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
     }
 
+    async Task LoadData(string _bussess_branch_id="") {
 
-
-
-    async Task Test()
-    {
-        await js.Confirm("xx", "ssssss", SweetAlertMessageType.error);
-    }
-
-    async Task LoadData()
-    {
         is_loading = true;
-        await Task.Delay(500);
-        data.label = new string[] { "daily", "weekly", "monthly", "yearly" };
-        data.data.Add(new ChartDataModel
-        {
-            label = "ប្រាក់ចំណូលប្រចាំខែ ",
-            color = "green",
-            data = new double[] { 12, 45, 12, 12 }
-        });
-
-
-        data_line.label = new string[] { "120", "130", "140", "150", "160", "180" };
-        data_line.data.Add(new ChartDataModel
-        {
-            label = "ប្រាក់ចំណូលតាមម៉ោង",
-            color = "#0288d1",
-            data = new double[] { 1.0, 0.9, 0.8, 0.7, 0.6, 0.5 }
-
-        });
-
+        await Task.Delay(100);
+        if (_bussess_branch_id == "") {
+            _bussess_branch_id = gv.business_branch_ids_filter_1;
+        }
+        business_branch_id = _bussess_branch_id;
         is_loading = false;
     }
+
 }
