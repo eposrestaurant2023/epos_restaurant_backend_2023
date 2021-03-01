@@ -20,7 +20,7 @@
 <AddButton roles="@gv.GetRole("stock_take_add")" url="stocktake/new">@lang["New Stock Take"]</AddButton>
 <MoreButton is_loading="@model.is_loading">
     <MoreButtonItem roles="@gv.GetRole("stock_take_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
-    @*<MoreButtonItem roles="@gv.GetRole("sale_restore")" icon="refresh" is_visible="@(sale.can_restore)" OnClick="@RestoreInvoice_Click">Restore Invoice</MoreButtonItem>*@
+   <MoreButtonItem roles="@gv.GetRole("stock_take_edit")" icon="file_copy">@lang["Clone Invoice"]</MoreButtonItem>
 </MoreButton>
 
 @if (is_open_print)

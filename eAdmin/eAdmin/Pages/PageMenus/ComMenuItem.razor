@@ -1,7 +1,7 @@
 ﻿@inherits PageCore
 <div style="position:relative;" class="uk-width-1-6">
     <div class="icon_edit_menu">
-        <Icon icon="edit" icon_color="@menu.text_color" @onclick="@EditMenu" />
+        <Icon icon="edit" icon_color="@menu.text_color" OnClick="@EditMenu"/>
         <Com is_visible="@(!IsMenuSelected())">
             <button>
                 <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" />
@@ -34,21 +34,26 @@
     {
         <div @onclick="@OnClick" class="box_menu cp" style="background:@menu.background_color;color:@menu.text_color;">
             <div class="uk-position-center">
-                <div style="text-align: center; align-items: center;"> </div>
+                <div style="text-align: center; align-items: center;">
+                    @ChildContent
+                </div>
             </div>
         </div>
     }
 
-    @ChildContent
+
 
 </div>
+@if (show_add_menu)
+{
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" OnSave="@SaveMenu" />
+
+}
 
 @code {
+    [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public MenuModel menu { get; set; }
-
-
-
-
+    bool show_add_menu;
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public int menu_id { get; set; }
     [Parameter] public EventCallback<int> menu_idChanged { get; set; }
@@ -65,10 +70,12 @@
 
     }
 
-    async Task EditMenu()
-    {
 
+    void EditMenu()
+    {
+        show_add_menu = true;
     }
+
 
     async Task OnSelectMenu()
     {
@@ -84,4 +91,11 @@
     {
         return true;
     }
+
+    void SaveMenu(MenuModel m)
+    {
+        menus.Add(m);
+        show_add_menu = false;
+    }
+
 }

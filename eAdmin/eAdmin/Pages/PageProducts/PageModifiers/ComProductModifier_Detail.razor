@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http
 
-<UIContainerBox>
+<UIContainerBox Title="Product Modifier">
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
             <ThCenter>Image</ThCenter>
@@ -60,6 +60,9 @@
                     <TdCenter>
                         @modifier.product_modifiers.Where(r => r.is_deleted == false).Sum(r => r.product.quantity).ToString(gv.quantity_format)
                     </TdCenter>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <TdCenter>
                     </TdCenter>
                     <TdRight>

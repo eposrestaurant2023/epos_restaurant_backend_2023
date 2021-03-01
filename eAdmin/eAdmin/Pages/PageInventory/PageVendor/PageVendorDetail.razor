@@ -117,7 +117,12 @@
                           <ComVendorDetail_POProductHistory vendor_id="@id"/>
                       }
                     </TabItem>
-                    <TabItem></TabItem>
+                    <TabItem>
+                        @if (purchase_payment_history_tab_click)
+                        {
+                            <ComVendorDetail_POPaymentHistory vendor_id="id"/>
+                        }
+                    </TabItem>
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
                             <UIContainerBox Title="Comment and History">

@@ -25,17 +25,7 @@
     {
 
 <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">
-    <div class="uk-position-center">
-        @(GetMenuName(m)) <br />
-    </div>
-    @if (is_sort_order)
-    {
-        <div class="uk-position-bottom-center">
-            <NumberInputInt @bind-text="@m.sort_order" width="100px" class_name="uk-text-center uk-form-small"/>
-        </div>
-    }
-
-
+    @(GetMenuName(m))
 
 </ComMenuItem>
            

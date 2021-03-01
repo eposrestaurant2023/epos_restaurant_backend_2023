@@ -16,7 +16,6 @@
             </PageTitle>
         </HeaderLeft>
         <HeaderRight>
-            <Button OnClick="@Sort_Order">Sort Order</Button>
             <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">Add New Root Menu</Button>
             <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
         </HeaderRight>
@@ -112,7 +111,7 @@
 
     void AddRootMenu()
     {
-
+        show_add_menu = !show_add_menu;
     }
     void OnSearch()
     {

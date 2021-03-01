@@ -108,11 +108,15 @@ namespace eAPI.Controllers
                         await AddProductToInventoryTransaction(u);
                     }
                     else
-                    {
+                    { 
                         if (u.is_product_has_inventory_transaction == false)
                         {
                             await AddProductAdjustmentToInventoryTransaction(u);
                         }
+                        else {
+                            return StatusCode(401, new ApiResponseModel() { message = $"This product was transacted. Please try again."});
+                        }
+
                     }
 
                 }
