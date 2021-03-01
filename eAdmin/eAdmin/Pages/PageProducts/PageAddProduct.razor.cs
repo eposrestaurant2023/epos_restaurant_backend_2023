@@ -15,9 +15,9 @@ namespace eAdmin.Pages.PageProducts
         [Parameter] public int id { get; set; }
         [Parameter] public int clone_id { get; set; }
         public ProductModel model { get; set; } = new ProductModel();
-
-        public int unit_category_id = 0;
-        public bool can_update_stock = false;
+        ApiResponseModel error_saving_info = new ApiResponseModel();
+        public int unit_category_id { get; set; } = 0;
+        public int old_unit_category_id { get; set; } = 0;
         public string PageTitle
         {
             get
@@ -57,7 +57,8 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "product_portions($expand=product_prices;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
-                url = url + "stock_location_products";
+                url = url + "stock_location_products,";
+                url = url + "unit";
                 return url;
             } }
 
@@ -85,8 +86,10 @@ namespace eAdmin.Pages.PageProducts
             is_loading = true;
             if (id > 0)
             {
+                
                 await LoadData();
-            }else if (clone_id > 0)
+            }
+            else if (clone_id > 0)
             {
                 await CloneProduct();
             }
@@ -104,11 +107,25 @@ namespace eAdmin.Pages.PageProducts
                 if (resp.IsSuccess)
                 {
                     model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+                    unit_category_id = model.unit.unit_category_id;
+                    old_unit_category_id = model.unit.unit_category_id;
                 }
             }
             
             is_loading = false;
 
+        }
+        public void onUnitCategoryChange(int val)
+        {
+            if (old_unit_category_id != val) 
+            {
+                var _data = gv.units.Where(r => r.unit_category_id == val && !r.is_deleted && r.status).ToList();
+               
+                model.unit_id = _data.Count > 0? _data.FirstOrDefault().id :0;
+                 
+            } 
+            old_unit_category_id = val; 
+            unit_category_id = val; 
         }
         public async Task CloneProduct()
         {
@@ -132,13 +149,7 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-            if (unit_category_id == 0)
-            {
-                toast.Add(lang["Please Select Unit Category."], MatToastType.Warning);
-                is_saving = false;
-                return;
-            }
-            else if (save_model.unit == null)
+            if (save_model.unit_id == 0)
             { 
                 toast.Add(lang["Please Select Unit."], MatToastType.Warning);
                 is_saving = false;
@@ -155,8 +166,9 @@ namespace eAdmin.Pages.PageProducts
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
- 
+            Console.WriteLine(JsonSerializer.Serialize(save_model));
             var resp = await http.ApiPost($"Product/Save", save_model);
+
             if (resp.IsSuccess)
             {
                 toast.Add(lang["Save product successfully"], MatToastType.Success);
@@ -177,7 +189,18 @@ namespace eAdmin.Pages.PageProducts
             else
             {
 
-                toast.Add(lang["Save product fail"], MatToastType.Warning);
+                if (resp.status_code >= 400 && resp.status_code <= 499)
+                {
+                    error_saving_info = JsonSerializer.Deserialize<ApiResponseModel>(resp.Content.ToString());
+
+                    toast.Add(error_saving_info.message, MatToastType.Warning);
+
+                }
+                else
+                {
+
+                    toast.Add("Save Product Fail!!!", MatToastType.Warning);
+                }
             }
             is_saving = false;
         }
