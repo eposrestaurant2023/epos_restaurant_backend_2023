@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text.Json.Serialization;
 using eShareModel;
 
 namespace eModels
@@ -24,6 +26,13 @@ namespace eModels
         public CustomerModel customer { get; set; }
         public List<PaymentModel> payments { get; set; }
         public List<SaleProductModel> sale_products { get; set; }
+
+        [NotMapped, JsonIgnore]
+
+        public List<SaleProductModel> active_sale_products
+        {
+            get { return sale_products.Where(r => r.is_deleted == false).ToList(); } 
+        }
 
 
     }
