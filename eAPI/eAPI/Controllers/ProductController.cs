@@ -33,14 +33,16 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         public IQueryable<ProductModel> Get(string keyword = "")
         {
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrWhiteSpace(keyword))
             {
-                return db.Products.Where(r =>
-                (
-                (r.product_code ?? "") +
-                (r.product_name_en ?? "") +
-                (r.product_name_kh ?? "") 
-                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
+                var c = from r in db.Products
+                        where EF.Functions.Like((
+                            (r.product_code ?? "") +
+                            (r.product_name_en ?? "") +
+                            (r.product_name_kh ?? "")
+                    ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        select r;
+                return c.AsQueryable();
             }
             else
             {

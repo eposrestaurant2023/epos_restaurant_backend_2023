@@ -183,6 +183,7 @@ namespace eAdmin.Pages.PageProducts
                     await LoadData();
                 }
                 toast.Add("Restore product successfully", MatBlazor.MatToastType.Success);
+                
             }
             p.is_loading = false;
         }
