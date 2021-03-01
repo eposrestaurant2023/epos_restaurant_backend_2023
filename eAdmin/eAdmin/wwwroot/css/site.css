@@ -659,7 +659,6 @@ input[type="text"] {
 label {
     min-height: 12px;
     display: block;
-    margin-bottom: 4px;
 }
 
 .unit-divider:not(:first-child) {
