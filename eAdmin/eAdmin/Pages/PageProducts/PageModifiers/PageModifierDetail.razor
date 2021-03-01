@@ -60,9 +60,7 @@
                             <ComModifierIngredient_Detail modifier="@modifier" />
                         </UIGridCenter>
                         <UIGridCenter>
-                            <UIContainerBox>
-
-                            </UIContainerBox>
+                            <ComProductModifier_Detail modifier="@modifier"/>
                         </UIGridCenter>
                     </TabItem>
                     @*============comment===========*@
@@ -113,7 +111,7 @@ else
     {
         is_loading = true;
 
-        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit)");
+        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit),product_modifiers($expand=product($expand=product_category))");
         if (resp.IsSuccess)
         {
             modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
@@ -125,7 +123,7 @@ else
     {
         is_loading = true;
 
-        var resp = await http.ApiGet($"ProductModifier?$filter=modifier_id eq {id}");
+        var resp = await http.ApiGetOData($"ProductModifier?$filter=modifier_id eq {id}");
         if (resp.IsSuccess)
         {
             product_modifiers = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());

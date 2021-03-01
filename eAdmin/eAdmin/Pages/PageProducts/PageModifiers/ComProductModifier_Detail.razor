@@ -1,0 +1,87 @@
+﻿@inject IHttpService http
+
+<UIContainerBox>
+    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <ThCenter>Image</ThCenter>
+            <ThCenter>Code</ThCenter>
+            <ThAuto>Name (En)</ThAuto>
+            <ThAuto>Name (Kh)</ThAuto>
+            <th>Category</th>
+            <ThCenter>Quality</ThCenter>
+            <ThRight>Price</ThRight>
+            <ThCenter>Status</ThCenter>
+        </tr>
+        @if (modifier.product_modifiers.Where(r => r.is_deleted == false) != null)
+        {
+            foreach (var p in modifier.product_modifiers.Where(r => r.is_deleted == false))
+            {
+                <tr>
+                    <TdCenter>
+                        <Image ImageUrl="@http.ImageUrl(p.product?.photo)" PopupImageUrl="@http.ImageUrl(p.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                    </TdCenter>
+                    <TdCenter>
+                        <a href="@($"product/{p.product_id}")">@p.product?.product_code</a>
+                    </TdCenter>
+
+                    <td>
+                        <a href="@($"product/{p.product_id}")">@p.product?.product_name_en</a>
+                    </td>
+                    <td>
+                        <a href="@($"product/{p.product_id}")">@p.product?.product_name_kh</a>
+                    </td>
+                    <td>@p.product?.product_category?.product_category_en</td>
+                    <TdCenter>
+                        @p.product?.quantity.ToString(gv.quantity_format)
+                    </TdCenter>
+                    <TdRight>
+                        @if (p.product?.min_price == p.product?.max_price)
+                        {
+                            <span>@p.product?.min_price.ToString(gv.currency_format)</span>
+                        }
+                        else
+                        {
+                            <span>@p.product?.min_price.ToString(gv.currency_format) - @p.product?.max_price.ToString(gv.currency_format)</span>
+                        }
+                    </TdRight>
+
+                    <TdCenter>
+                        <LabelDeleted is_visible="@p.is_deleted" />
+                        <LabelActive is_visible="@(!p.is_deleted && p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
+                        <LabelInActive is_visible="@(!p.is_deleted && !p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
+                    </TdCenter>
+                </tr>
+            }
+            <tfoot>
+                <tr>
+                    <td>
+                        Total
+                    </td>
+                    <TdCenter>
+                        @modifier.product_modifiers.Where(r => r.is_deleted == false).Sum(r => r.product.quantity).ToString(gv.quantity_format)
+                    </TdCenter>
+                    <TdCenter>
+                    </TdCenter>
+                    <TdRight>
+                    </TdRight>
+                    <TdRight>
+                        @modifier.product_modifiers.Where(r => r.is_deleted == false).Sum(r => r.product.cost).ToString(gv.currency_format)
+                    </TdRight>
+                </tr>
+            </tfoot>
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">
+                    <ComEmptyTemplate padding_top_bottom="25px" />
+                </td>
+            </tr>
+        }
+    </table>
+</UIContainerBox>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public ModifierModel modifier { get; set; }
+}
