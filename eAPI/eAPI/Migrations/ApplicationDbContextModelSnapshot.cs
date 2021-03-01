@@ -2618,7 +2618,7 @@ namespace eAPI.Migrations
                     b.Property<decimal>("balance")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<Guid?>("business_branch_id")
+                    b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("cashier_shift_id")
@@ -2639,7 +2639,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("customer_id")
+                    b.Property<Guid?>("customer_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("deleted_by")
@@ -2664,16 +2664,10 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<decimal>("grand_total_discount")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<bool?>("is_closed")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_new_customer")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_paid")
@@ -2703,6 +2697,13 @@ namespace eAPI.Migrations
 
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
+
+                    b.Property<int>("table_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("table_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,4)");
@@ -4691,13 +4692,13 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
                         .WithMany()
-                        .HasForeignKey("business_branch_id");
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
-                        .HasForeignKey("customer_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("customer_id");
 
                     b.HasOne("eModels.OutletModel", "outlet")
                         .WithMany()

@@ -529,17 +529,35 @@ namespace eAPIClient.Migrations
                     b.Property<int>("id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("is_multiple_select")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_required")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_section")
+                        .HasColumnType("bit");
+
                     b.Property<string>("modifier_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<int?>("parent_id")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<int>("product_id")
+                    b.Property<int?>("product_id")
                         .HasColumnType("int");
 
+                    b.Property<string>("section_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.HasKey("id");
+
+                    b.HasIndex("parent_id");
 
                     b.HasIndex("product_id");
 
@@ -726,6 +744,13 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
+
+                    b.Property<int>("table_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("table_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,4)");
@@ -1404,11 +1429,15 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.ProductModifierModel", b =>
                 {
+                    b.HasOne("eAPIClient.Models.ProductModifierModel", "parent")
+                        .WithMany("children")
+                        .HasForeignKey("parent_id");
+
                     b.HasOne("eAPIClient.Models.ProductModel", "product")
                         .WithMany("product_modifiers")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("product_id");
+
+                    b.Navigation("parent");
 
                     b.Navigation("product");
                 });
@@ -1524,6 +1553,11 @@ namespace eAPIClient.Migrations
                     b.Navigation("product_portions");
 
                     b.Navigation("product_printers");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.ProductModifierModel", b =>
+                {
+                    b.Navigation("children");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.SaleModel", b =>

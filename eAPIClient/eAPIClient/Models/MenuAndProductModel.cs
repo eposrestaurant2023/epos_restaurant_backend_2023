@@ -135,11 +135,20 @@ namespace eAPIClient.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
-        public int product_id { get; set; }
+        public int? parent_id { get; set; }
+        [ForeignKey("parent_id")]
+        public ProductModifierModel parent { get; set; }    
+        public int? product_id { get; set; }
         [ForeignKey("product_id")]
         public virtual ProductModel product { get; set; }
         public string modifier_name { get; set; }
-        public decimal price { get; set; } = 0;
+        public decimal price { get; set; } = 0;  
+
+        public List<ProductModifierModel> children { get; set; }        
+        public string section_name { get; set; }    
+        public bool is_required { get; set; }
+        public bool is_multiple_select { get; set; }     
+        public bool is_section { get; set; } = false;     
 
     }
     
