@@ -1,0 +1,36 @@
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
+    <div class="uk-width-1-2 uk-width-1-4@m">
+        <div class="bg_kpi bg_today_amount">
+            <div class="ttle_number">@data.today_sale_amount.ToString(gv.currency_format)</div>
+            <span class="title-kpi">@lang["Today Sale Revenue"]</span>
+        </div>
+    </div>
+    <div class="uk-width-1-2 uk-width-1-4@m">
+        <div class="bg_kpi bg_today_mtd">
+            <div class="ttle_number">@data.today_sale_quatity.ToString(gv.quantity_format)</div>
+            <span class="title-kpi">@lang["Today Sale Quantity"]</span>
+
+        </div>
+    </div>
+    <div class="uk-width-1-2 uk-width-1-4@m">
+        <div class="bg_kpi bg_today_quantity">
+            <div class="ttle_number">@data.mtd_sale_amount.ToString(gv.currency_format)</div>
+            <span class="title-kpi">@lang["MTD Sale Revenue"]</span>
+
+        </div>
+    </div>
+    <div class="uk-width-1-2 uk-width-1-4@m">
+        <div class="bg_kpi bg_today_quantity_mtd">
+            <div class="ttle_number">@data.mtd_sale_quantity.ToString(gv.quantity_format)</div>
+            <span class="title-kpi">@lang["MTD Sale Quantity"]</span>
+
+        </div>
+    </div>
+</div>
+
+
+@code{
+    [Parameter] public DashboardKPIModel data { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+} 

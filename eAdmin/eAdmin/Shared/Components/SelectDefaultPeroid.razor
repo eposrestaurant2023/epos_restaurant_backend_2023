@@ -39,7 +39,7 @@
         new FilterOptionModel{ id = 7, name_en = "Last Year",},
         new FilterOptionModel{ id = 8, name_en = "Custom",},
     };
-     
+
     [Parameter] public EventCallback<int> SelectedIdChanged { get; set; }
     [Parameter] public DateRangeModel SelectedValue { get; set; }
 
@@ -48,8 +48,18 @@
 
     private async Task SelectedValueChange(string n)
     {
-        SelectedValue = new DateRangeModel(Convert.ToInt32(n));
-        SelectedValue.id = Convert.ToInt32(n); 
+        if (SelectedValue != null)
+        {
+            DateRangeModel d =  new DateRangeModel(Convert.ToInt32(n));
+            SelectedValue.start_date = d.start_date;
+            SelectedValue.end_date = d.end_date;
+        }
+        else {
+            SelectedValue = new DateRangeModel(Convert.ToInt32(n));
+
+        }
+        SelectedValue.id = Convert.ToInt32(n);
+
         await SelectedValueChanged.InvokeAsync(SelectedValue);
     }
 

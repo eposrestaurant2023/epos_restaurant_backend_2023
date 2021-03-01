@@ -112,16 +112,7 @@ namespace eModels
         public bool show_logo { get; set; } = false;
     }
 
-    public class DashboardKPIModel
-    {
-
-        public decimal today_expense { get; set; }
-        public decimal today_expense_payment { get; set; }
-        public decimal mtd_expense { get; set; }
-        public decimal mtd_expense_payment { get; set; }
-
-    }
-
+  
 
 
     public class LineChartModel
@@ -201,4 +192,15 @@ namespace eModels
 
 
 
+    public class DashboardKPIModel
+    {
+        public decimal today_sale_amount { get; set; }
+        public decimal today_sale_quatity { get; set; }
+        public decimal mtd_sale_amount { get; set; }
+        public decimal mtd_sale_quantity { get; set; }
+        public decimal total_active_order { get; set; }
+        public decimal total_closed_order { get; set; }
+        public decimal total_order { get; set; }
+        public decimal total_deleted_order { get; set; }
+    }
 }
