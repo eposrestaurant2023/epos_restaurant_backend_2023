@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using eAPIClient.Models;
 using Microsoft.AspNet.OData;
@@ -48,14 +49,14 @@ namespace eAPIClient.Controllers
                 return SingleResult.Create(s);   
            
         }
-        [HttpPost]
-        [EnableQuery(MaxExpansionDepth = 0)]
-        public async Task<ActionResult<ConfigDataModel>> Post([FromBody]string value, string config_type)
+        [HttpPost("Save")]
+        [Authorize]
+        public async Task<ActionResult<ConfigDataModel>> POST([FromBody] ConfigDataModel model)
         {
             try
             {
-                ConfigDataModel _d = db.ConfigDatas.Where(r => r.config_type == config_type).FirstOrDefault();
-                _d.data = value;
+                ConfigDataModel _d = db.ConfigDatas.Where(r => r.config_type == model.config_type).FirstOrDefault();   
+                _d.data = model.data;
                 db.ConfigDatas.Update(_d);
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return Ok(_d);
