@@ -108,8 +108,10 @@ namespace eAPI.Controllers
                         await AddProductToInventoryTransaction(u);
                     }
                     else
-                    { 
-                        if (u.is_product_has_inventory_transaction == false)
+                    {
+                        // error 
+                        var xx = db.Products.Where(r => r.id == u.id).FirstOrDefault().is_product_has_inventory_transaction;
+                        if (!db.Products.Where(r => r.id == u.id).FirstOrDefault().is_product_has_inventory_transaction)
                         {
                             await AddProductAdjustmentToInventoryTransaction(u);
                         }
@@ -119,6 +121,13 @@ namespace eAPI.Controllers
 
                     }
 
+                }
+            }
+            else
+            {
+                if (!is_add)
+                {
+                    ////>>????????? where deleted
                 }
             }
           
@@ -138,31 +147,19 @@ namespace eAPI.Controllers
 
             foreach (var s in p.stock_location_products)
             {
- 
                 inv = new InventoryTransactionModel();
                 inv.product_id = p.id;
                 inv.transaction_date = DateTime.Now;
                 inv.inventory_transaction_type_id = 1;
                 inv.stock_location_id = s.stock_location_id;
                 inv.quantity = s.initial_quantity;
-          
                 inv.reference_number = p.product_code;
-
-
                 inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
-               
-                    inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Created New Ingredient ({p.product_code})" : $"Created New Product ({p.product_code})";
-
-                
-
+                inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Created New Ingredient ({p.product_code})" : $"Created New Product ({p.product_code})";
                 inv.created_by = user.full_name;
 
                 db.InventoryTransactions.Add(inv);
                 db.SaveChanges();
-
-
-
-             
             }
 
         }
