@@ -2,23 +2,23 @@
 
 namespace eAPI.Migrations
 {
-    public partial class sale_producxsddxxd : Migration
+    public partial class sale_zx : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "is_active_order",
-                table: "tbl_sale_status",
-                type: "bit",
+            migrationBuilder.AddColumn<int>(
+                name: "testid",
+                table: "tbl_sale",
+                type: "int",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "is_active_order",
-                table: "tbl_sale_status");
+                name: "testid",
+                table: "tbl_sale");
         }
     }
 }
