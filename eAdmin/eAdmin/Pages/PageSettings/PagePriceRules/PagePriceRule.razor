@@ -79,7 +79,7 @@
 
     async Task LoadData()
     {
-        var res = await http.ApiGetOData("PriceRule?$expand=business_branch_prices");
+        var res = await http.ApiGetOData("PriceRule");
         if (res.IsSuccess)
         {
             price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(res.Content.ToString());
