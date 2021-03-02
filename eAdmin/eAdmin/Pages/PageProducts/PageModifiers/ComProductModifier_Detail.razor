@@ -12,7 +12,7 @@
             <ThRight>Price</ThRight>
             <ThCenter>Status</ThCenter>
         </tr>
-        @if (modifier.product_modifiers.Where(r => r.is_deleted == false) != null)
+        @if (modifier.product_modifiers.Where(r => r.is_deleted == false).Any())
         {
             foreach (var p in modifier.product_modifiers.Where(r => r.is_deleted == false))
             {
