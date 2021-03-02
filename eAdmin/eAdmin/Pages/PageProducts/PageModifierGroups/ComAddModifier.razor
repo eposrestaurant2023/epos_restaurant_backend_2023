@@ -12,11 +12,11 @@
                 <hr />
                 <ModifierTypeahead modifier="@modifier" modifierChanged="@((val)=>OnSelectModifier(s, val))" />
                 <hr />
-                <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                     <tr>
-                        <Th>@lang["Modifier Name"]</Th>
+                        <ThAuto>@lang["Modifier Name"]</ThAuto>
                         <ThRight>@lang["Price"]</ThRight>
-                        <ThRight>@lang["Sort Order"]</ThRight>
+                        <ThCenter>@lang["Sort Order"]</ThCenter>
                         <ThCenter></ThCenter>
                     </tr>
                     <ViewEmptyTemplate is_view="@s.children.Where(r => r.is_deleted == false).Any()" colspan="4">
@@ -27,11 +27,11 @@
                                     @m.modifier?.modifier_name
                                 </td>
                                 <TdRight>
-                                    <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" />
+                                    <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" width="100px" class_name="uk-text-right"/>
                                 </TdRight>
-                                <TdRight>
-                                    <NumberInputInt @bind-text="@m.sort_order" label="" placeholder="@lang["Sort Order"]" />
-                                </TdRight>
+                                <TdCenter>
+                                    <NumberInputInt @bind-text="@m.sort_order" label="" placeholder="@lang["Sort Order"]" width="80px" class_name="uk-text-center"/>
+                                </TdCenter>
                                 <TdCenter>
                                     <Icon icon="delete" OnClick="@(()=>DeleteModifier(m))" />
                                 </TdCenter>
