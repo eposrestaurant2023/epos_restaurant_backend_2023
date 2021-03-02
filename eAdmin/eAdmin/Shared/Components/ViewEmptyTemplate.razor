@@ -9,22 +9,22 @@ else
     {
         <tr>
             <td colspan="@colspan">
-                <ComEmptyTemplate empty="@empty" padding_top_bottom="@height" icon="@icon" class_name="@empty_class" />
+                <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size"/>
             </td>
         </tr>
     }
     else
     {
-        <ComEmptyTemplate empty="@empty" padding_top_bottom="@height" icon="@icon" class_name="@empty_class" />
+        <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size"/>
     }
 }
 @code{
     [Parameter] public bool is_view { get; set; }
     [Parameter] public string colspan { get; set; }
-    [Parameter] public string empty { get; set; }
-    [Parameter] public string height { get; set; }
-    [Parameter] public string icon { get; set; }
+    [Parameter] public string icon { get; set; } = "inbox";
+    [Parameter] public string empty { get; set; } = "There's no record in the system";
     [Parameter] public string empty_class { get; set; }
+    [Parameter] public string text_size { get; set; } = "16px";
     [Parameter] public RenderFragment ChildContent { get; set; }
 
 }
