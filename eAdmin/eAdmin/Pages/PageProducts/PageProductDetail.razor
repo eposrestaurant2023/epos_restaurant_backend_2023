@@ -17,9 +17,7 @@
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
                         @model.product_display_name
-                        <LabelDeleted is_visible="@model.is_deleted" />
-                        <LabelActive is_visible="@(!model.is_deleted && model.status)" is_loading="@model.is_change_status" />
-                        <LabelInActive is_visible="@(!model.is_deleted && !model.status)"  is_loading="@model.is_change_status"/>
+                        <ComProductDetail_HeaderStatus model="@model"/>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -130,7 +128,7 @@
 
     public string api_url { get {
             string url = $"Product({id})";
-            url = url + "?$expand=product_category($select=product_category_en),unit($select=unit_name)";
+            url = url + "?$expand=vendor($select=vendor_name,vendor_code),product_category($select=product_category_en),unit($select=unit_name)";
             return url;
         }
     }

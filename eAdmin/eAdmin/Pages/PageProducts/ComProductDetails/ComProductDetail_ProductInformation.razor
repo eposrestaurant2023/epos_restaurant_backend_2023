@@ -28,27 +28,15 @@
         <ContentRight>
             <table>
                 <tr>
-                    <td>@lang["Allow Discount"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
+                    <th>@lang["Cost"]</th>
+                    <td>@model.cost.ToString(gv.currency_format)</td>
                 </tr>
                 <tr>
-                    <td>@lang["Allow Free"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
-                </tr>
-                <tr>
-                    <td>@lang["Is Opened Product"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_open_product" /></td>
-                </tr>
-                <tr>
-                    <td>@lang["Is Inventory"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_inventory_product" /></td>
-                </tr>
-                <tr>
-                    <td>@lang["Is Ingredient Product"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_ingredient_product" /></td>
+                    <th>@lang["Vendor"]</th>
+                    <td>@model.vendor?.vendor_display_name</td>
                 </tr>
             </table>
-        </ContentRight>
+            </ContentRight>
 
     </UISummaryBox>
     <Spacing Number="10"/>
