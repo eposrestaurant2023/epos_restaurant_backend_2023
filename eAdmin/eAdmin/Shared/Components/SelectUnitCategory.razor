@@ -35,24 +35,22 @@
     [Parameter] public UnitCategoryModel unit_category { get; set; }
     [Parameter] public EventCallback<UnitCategoryModel> unit_categoryChanged { get; set; }
 
-    public int unit_category_id { get; set; }
     public bool is_laoding = false;
     Guid id = Guid.NewGuid();
     public int SelectedValue
     {
         get
         {
-            if(show_empty)
-                return unit_category == null ? 0 : unit_category.id;
+            if(selected_value > 0)
+                return unit_category == null ? gv.unit_categories.Find(r=>r.id == selected_value).id : selected_value;
             else
                 return unit_category == null ? gv.unit_categories.Where(r=>r.is_built_in).FirstOrDefault().id : unit_category.id;
-
         }
     }
 
-    
+
     protected override async Task OnInitializedAsync()
-    { 
+    {
         is_laoding = true;
         if (unit_category == null)
         {
