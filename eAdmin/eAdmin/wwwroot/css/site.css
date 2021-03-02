@@ -1051,6 +1051,13 @@ h3.title, h1.title {
     margin-bottom: 10px !important;
     margin-top: 10px !important;
 }
+.iu-box-title {
+    font-weight: 800 !important;
+    color: #333 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    font-family: inherit !important;
+}
 h3.title-search, h1.title-search {
     font-weight: 800 !important;
     color: #333 !important;
