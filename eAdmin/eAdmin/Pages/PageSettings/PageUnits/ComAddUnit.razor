@@ -2,7 +2,7 @@
 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
     <tr>
         <Th>Unit Name</Th>
-        <ThCenter>Type Name</ThCenter>
+        <ThAuto>Type Name</ThAuto>
         <ThCenter>Multiplier</ThCenter>
         <ThCenter>Sort Order</ThCenter>
         <Th></Th>
@@ -11,11 +11,11 @@
     {
         <tr>
             <td><TextInput is_read_only="@p.is_built_in" @bind-text="@p.unit_name" placeholder="Unit Name" /></td>
-            <TdCenter>
+            <td>
                 <SelectUnitTypeName is_read_only="@p.is_built_in" @bind-selected_value="@p.type_name" is_horizontal="false"/>
-            </TdCenter>
+            </td>
             <TdCenter><NumberInput is_read_only="@p.is_built_in" @bind-text="@p.multiplier" placeholder="Multiplier" /></TdCenter>
-            <TdCenter><NumberInputInt is_read_only="@p.is_built_in" @bind-text="@p.sort_order" placeholder="Sort Order" /></TdCenter>
+            <TdCenter><NumberInputInt is_read_only="@p.is_built_in" @bind-text="@p.sort_order" placeholder="Sort Order"/></TdCenter>
             <TdCenter>
                 <Icon is_visible="@(!p.is_built_in)" icon="delete" OnClick="@(()=>DeletePrinter(p))" />
             </TdCenter>

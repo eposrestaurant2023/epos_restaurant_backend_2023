@@ -50,7 +50,7 @@ namespace eAPIClient.Controllers
         }
         [HttpPost]
         [EnableQuery(MaxExpansionDepth = 0)]
-        public async Task<ActionResult<ConfigDataModel>> Post(string config_type, string value)
+        public async Task<ActionResult<ConfigDataModel>> Post([FromBody]string value, string config_type)
         {
             try
             {
