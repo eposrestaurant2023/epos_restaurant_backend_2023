@@ -19,7 +19,13 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"vendor/edit/{model.id}"))" is_visible="@(!model.is_deleted)"/>
+                <ComAttachFileButton RoleAdd="@gv.GetRole("vendor_add")"
+                                     RoleEdit="@gv.GetRole("vendor_edit")"
+                                     RoleDelete="@gv.GetRole("vendor_delete")"
+                                     ApiFilter="@($"vendor_id eq {id} ")"
+                                     File="@(new AttachFilesModel() { vendor_id = id })"
+                                     IsVisible="@(!model.is_deleted)" />
+                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"vendor/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
                 <RefreshButton OnClick="@LoadData" />
             </HeaderRight>
         </PageHeader>
@@ -29,6 +35,7 @@
                     <TabHeaderItem>Overview</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>purchase_history_tab_click=true)">Purchase History</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>purchase_product_history_tab_click = true)">Purchase Product History</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>purchase_payment_history_tab_click = true)">Purchase Payment History</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">Comments</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
@@ -109,6 +116,12 @@
                       {
                           <ComVendorDetail_POProductHistory vendor_id="@id"/>
                       }
+                    </TabItem>
+                    <TabItem>
+                        @if (purchase_payment_history_tab_click)
+                        {
+                            <ComVendorDetail_POPaymentHistory vendor_id="id"/>
+                        }
                     </TabItem>
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
