@@ -18,30 +18,29 @@
             {
                 <tr>
                     <TdCenter>
-                        <Image ImageUrl="@http.ImageUrl(p.product?.photo)" PopupImageUrl="@http.ImageUrl(p.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                        <Image ImageUrl="@http.ImageUrl(p.parent.product?.photo)" PopupImageUrl="@http.ImageUrl(p.parent.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
                     </TdCenter>
                     <TdCenter>
-                        <a href="@($"product/{p.product_id}")">@p.product?.product_code</a>
+                        <a href="@($"product/{p.parent.product_id}")">@p.parent.product?.product_code</a>
                     </TdCenter>
-
                     <td>
-                        <a href="@($"product/{p.product_id}")">@p.product?.product_name_en</a>
+                        <a href="@($"product/{p.parent.product_id}")">@p.parent.product?.product_name_en</a>
                     </td>
                     <td>
-                        <a href="@($"product/{p.product_id}")">@p.product?.product_name_kh</a>
+                        <a href="@($"product/{p.parent.product_id}")">@p.parent.product?.product_name_kh</a>
                     </td>
-                    <td>@p.product?.product_category?.product_category_en</td>
+                    <td>@p.parent.product?.product_category?.product_category_en</td>
                     <TdCenter>
-                        @p.product?.quantity.ToString(gv.quantity_format)
+                        @p.parent.product?.quantity.ToString(gv.quantity_format)
                     </TdCenter>
                     <TdRight>
-                        @if (p.product?.min_price == p.product?.max_price)
+                        @if (p.parent.product?.min_price == p.product?.max_price)
                         {
-                            <span>@p.product?.min_price.ToString(gv.currency_format)</span>
+                            <span>@p.parent.product?.min_price.ToString(gv.currency_format)</span>
                         }
                         else
                         {
-                            <span>@p.product?.min_price.ToString(gv.currency_format) - @p.product?.max_price.ToString(gv.currency_format)</span>
+                            <span>@p.parent.product?.min_price.ToString(gv.currency_format) - @p.parent.product?.max_price.ToString(gv.currency_format)</span>
                         }
                     </TdRight>
 
@@ -52,26 +51,6 @@
                     </TdCenter>
                 </tr>
             }
-            <tfoot>
-                <tr>
-                    <td>
-                        Total
-                    </td>
-                    <TdCenter>
-                        @modifier.product_modifiers.Where(r => r.is_deleted == false).Sum(r => r.product.quantity).ToString(gv.quantity_format)
-                    </TdCenter>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <TdCenter>
-                    </TdCenter>
-                    <TdRight>
-                    </TdRight>
-                    <TdRight>
-                        @modifier.product_modifiers.Where(r => r.is_deleted == false).Sum(r => r.product.cost).ToString(gv.currency_format)
-                    </TdRight>
-                </tr>
-            </tfoot>
         }
         else
         {

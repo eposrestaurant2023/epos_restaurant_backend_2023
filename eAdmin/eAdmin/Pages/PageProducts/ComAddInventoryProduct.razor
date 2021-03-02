@@ -4,10 +4,6 @@
     <Com is_visible="@(is_show_ingredient)">
         <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
     </Com>
-    <Com is_visible="@(is_show_ingredient && (model.is_ingredient_product || model.is_inventory_product))">
-        <NumberInput label="@lang["Cost"]" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
-    </Com>
-
      
     <Com is_visible="@(model.is_inventory_product)"> 
         @if(model.stock_location_products != null && model.stock_location_products.Any()){

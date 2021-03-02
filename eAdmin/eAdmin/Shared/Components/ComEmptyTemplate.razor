@@ -1,5 +1,5 @@
 ﻿<Com is_visible="is_visible">
-    <div class="no-record-msg @align" style="padding-top:@padding_top_bottom; padding-bottom:@padding_top_bottom;">
+    <div class="no-record-msg @align @class_name" style="padding-top:@padding_top_bottom; padding-bottom:@padding_top_bottom;">
         <div>
             <div>
                 @if (line_icon != "")
@@ -13,17 +13,21 @@
                 }
             </div>
             <div>
-                <div class="color_nodata">@empty</div>
+                <div class="color_nodata uk-margin-small-bottom">@empty</div>
+                @ChildContent
             </div>
         </div>
     </div>
 </Com>
 @code {
     [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool is_card { get; set; } = false;
     [Parameter] public string line_icon { get; set; } = "";
     [Parameter] public string icon { get; set; } = "inbox";
     [Parameter] public string empty { get; set; } = "There's no record in the system";
     [Parameter] public string padding_top_bottom { get; set; } = "50px";
     [Parameter] public string align { get; set; } = "uk-text-center";
+    [Parameter] public string class_name { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
 }

@@ -1,0 +1,30 @@
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_view)
+{
+    @ChildContent
+}
+else
+{
+    if (!string.IsNullOrEmpty(colspan))
+    {
+        <tr>
+            <td colspan="@colspan">
+                <ComEmptyTemplate empty="@empty" padding_top_bottom="@height" icon="@icon" class_name="@empty_class" />
+            </td>
+        </tr>
+    }
+    else
+    {
+        <ComEmptyTemplate empty="@empty" padding_top_bottom="@height" icon="@icon" class_name="@empty_class" />
+    }
+}
+@code{
+    [Parameter] public bool is_view { get; set; }
+    [Parameter] public string colspan { get; set; }
+    [Parameter] public string empty { get; set; }
+    [Parameter] public string height { get; set; }
+    [Parameter] public string icon { get; set; }
+    [Parameter] public string empty_class { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+}

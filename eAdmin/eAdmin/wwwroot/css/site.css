@@ -548,7 +548,7 @@ input[type="text"] {
     width: 100%;
     border: none !important;
     border-radius: 5px;
-    margin-top: 3px;
+    margin-top: 0px;
 }
 .sale_from_purchase_order .new_sale_sticky_top .toogle_bar_code {
     background: #32d296;
@@ -1050,6 +1050,13 @@ h3.title, h1.title {
     font-family: inherit !important;
     margin-bottom: 10px !important;
     margin-top: 10px !important;
+}
+.iu-box-title {
+    font-weight: 800 !important;
+    color: #333 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    font-family: inherit !important;
 }
 h3.title-search, h1.title-search {
     font-weight: 800 !important;
@@ -7006,4 +7013,17 @@ z-index:999999!important;
     background: #0366d6;
     color: #ffffff;
     border: none;
+}
+.search-add-typeahead {
+    border: 1px solid #cfd7df;
+    background: #fbfbfb;
+    border-radius: 4px;
+}
+.search-add-typeahead .search-add-icon {
+    width: 40px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-right: 1px solid #cfd7df;
+    background: #f5faff;
 }
