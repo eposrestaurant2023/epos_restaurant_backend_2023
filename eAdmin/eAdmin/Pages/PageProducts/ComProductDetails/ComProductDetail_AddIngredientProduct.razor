@@ -26,7 +26,7 @@
                         <NumberInput @bind-text="@p.quantity" class_name="uk-text-center"/>
                     </TdCenter>
                     <TdCenter>
-                        @JsonSerializer.Serialize(p.unit)
+                     
                         <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" unit_category_id="@p.unit.unit_category_id" />
                     </TdCenter>
                     <TdRight>
@@ -101,7 +101,7 @@
             }
             else
             { 
-                product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id,unit_id=value.unit_id, cost = value.cost });
+                product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id, unit=value.unit,unit_id=value.unit_id, cost = value.cost });
             }
             value = null;
             _product = value;

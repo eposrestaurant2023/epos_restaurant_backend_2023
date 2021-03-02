@@ -17,7 +17,7 @@ using eAdmin.Shared.ResourceTranslateFiles;
 
 namespace eAdmin.Pages
 {
-    
+ 
     public class PageCore : ComponentBase
     {
         [CascadingParameter] public GlobalVariableModel gv { get; set; }

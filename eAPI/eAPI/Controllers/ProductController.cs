@@ -66,6 +66,46 @@ namespace eAPI.Controllers
 
             bool is_add = false;
 
+            //check product if it is already has inv transaction then retail fail
+            if (u.id > 0) {
+                var db_product = db.Products.Where(r => r.id == u.id).AsNoTracking().Include(r=>r.stock_location_products).AsNoTracking();
+                var p = db_product.FirstOrDefault();
+                if (p.is_inventory_product)
+                {
+                    //if user untick is_inventor6y product but product in db already mark as has inv transaction
+                    if (u.is_inventory_product == false && p.is_product_has_inventory_transaction) {
+                        return StatusCode(500, "Is Inventory Status cannot Change. This product is already has inventory transaction.");
+                    }else  {
+                        //use change initialize quantity after product has inv transaction
+                        if (u.stock_location_products.Where(r => (r.initial_quantity - r.initial_adjustment_quantity) != 0).Any())
+                        {
+                            return StatusCode(500, "Quantity cannot change. This product is already has inventory transaction.");
+                        }
+                        
+                    }
+                }
+
+                //when update to prevent quantity change we load quantity from database
+                //and assign to quantitty that save to database again
+                if (u.stock_location_products.Any())
+                {
+                   if(u.stock_location_products.Where(r => r.id > 0).Any() && p.stock_location_products.Any())
+                    {
+                        foreach (var sp in u.stock_location_products) {
+                            var data = p.stock_location_products.Where(r => r.id == sp.id);
+                            if (data.Any()) {
+                                sp.quantity = data.FirstOrDefault().quantity;
+                            }
+                          
+                        }
+                    }
+
+                }
+                //end get quantity from db save to quantity that will submit to db
+
+
+            }
+
             if (u.product_modifiers != null && u.product_modifiers.Any())
             {
                 foreach (var pm in u.product_modifiers)
@@ -75,16 +115,29 @@ namespace eAPI.Controllers
             }
 
             u.product_menus.ForEach(r => r.menu = null);
-
-
-            // update stock transfer
-            
             u.stock_location_products.ForEach(r => r.stock_location = null);
-             
             u.unit = null;
-          
+             
+
+
+
+            //if product is inv product then save init qty to init adjusment qty
+            if (u.is_inventory_product)
+            {
+                if (u.stock_location_products.Any())
+                {
+                    u.stock_location_products.ForEach(r => r.initial_adjustment_quantity = r.initial_quantity);
+ 
+                    
+
+                }
+            }
+
             if (u.id == 0)
             {
+               
+
+
                 is_add = true;
                 db.Products.Add(u);
             }
@@ -109,15 +162,9 @@ namespace eAPI.Controllers
                     }
                     else
                     {
-                        // error 
-                        var xx = db.Products.Where(r => r.id == u.id).FirstOrDefault().is_product_has_inventory_transaction;
-                        if (!db.Products.Where(r => r.id == u.id).FirstOrDefault().is_product_has_inventory_transaction)
-                        {
+                         
                             await AddProductAdjustmentToInventoryTransaction(u);
-                        }
-                        else {
-                            return StatusCode(401, new ApiResponseModel() { message = $"This product was transacted. Please try again."});
-                        }
+                        
 
                     }
 
@@ -132,7 +179,7 @@ namespace eAPI.Controllers
             }
           
            
-            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record"); 
+            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record " + u.id); 
             return Ok(u); 
         }
 
@@ -171,7 +218,7 @@ namespace eAPI.Controllers
 
             UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            foreach (var s in p.stock_location_products.Where(r=>(r.quantity - r.initial_quantity)!=0))
+            foreach (var s in p.stock_location_products.Where(r=>(r.initial_adjustment_quantity- r.initial_quantity)!=0))
             {
 
                 inv = new InventoryTransactionModel();
@@ -251,7 +298,8 @@ namespace eAPI.Controllers
                 p.product_menus.ForEach(r => r.product_id = 0);
                 p.product_menus.ForEach(r => r.menu.menus = new List<MenuModel>());
                 p.product_modifiers.ForEach(r => { r.id = 0; r.product_id = 0; });
-                 
+                p.is_product_has_inventory_transaction = false;
+                
                 return Ok(p);
             }
             else

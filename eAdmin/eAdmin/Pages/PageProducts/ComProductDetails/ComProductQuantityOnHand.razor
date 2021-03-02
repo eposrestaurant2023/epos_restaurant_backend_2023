@@ -1,0 +1,41 @@
+﻿ @inject IHttpService http; 
+@if(product_id>0 && stock_location_id > 0)
+{
+    if (is_loading)
+    {
+    <Spinner/>
+    }
+    else
+    {
+    <span>@quantity.ToString(gv.quantity_format)</span>
+    }
+}else
+{
+    <span>-</span>
+}
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_id { get; set; }
+    [Parameter] public int stock_location_id { get; set; }
+    decimal quantity;
+    bool is_loading;
+       
+        protected override async Task OnParametersSetAsync()
+    {
+        is_loading = true;
+        await Task.Delay(500);
+        var resp = await http.ApiGetOData($"StockLocationProduct?$select=quantity&$filter=product_id eq {product_id} and stock_location_id  eq {stock_location_id}");
+
+        if (resp.IsSuccess)
+        {
+            var data = JsonSerializer.Deserialize<List<StockLocationProductModel>>(resp.Content.ToString());
+            if (data.Any())
+            {
+                quantity = data.FirstOrDefault().quantity;
+            }
+        }
+         
+        is_loading = false;
+
+    }
+}

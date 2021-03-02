@@ -36,6 +36,18 @@
     </div>
 </td>
 <TdCenter>
+    @if (model.from_stock_location_id > 0)
+    {
+        <ComProductQuantityOnHand product_id="@stock_transfer_product.product_id" stock_location_id="@model.from_stock_location_id" />
+
+    }
+    else
+    {
+        <span>-</span>
+    }
+
+</TdCenter>
+<TdCenter>
     <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@stock_transfer_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
 </TdCenter>
 <TdCenter> 
@@ -52,10 +64,23 @@
 
 @code{
     [Parameter] public StockTransferProductModel stock_transfer_product { get; set; }
+   
+    [Parameter]
+    public StockTransferModel model { get; set; }
+
     [Parameter] public EventCallback<StockTransferProductModel> stock_transfer_productChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnRemove { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    bool is_loading_quantity_on_hand;
+    int old_stock_location_id;
+
+
+
+
+
+
 
     async Task QuantityChange(decimal qty)
     {

@@ -188,19 +188,7 @@ namespace eAdmin.Pages.PageProducts
             }
             else
             {
-
-                if (resp.status_code >= 400 && resp.status_code <= 499)
-                {
-                    error_saving_info = JsonSerializer.Deserialize<ApiResponseModel>(resp.Content.ToString());
-
-                    toast.Add(error_saving_info.message, MatToastType.Warning);
-
-                }
-                else
-                {
-
-                    toast.Add(lang["Save Product Fail!."], MatToastType.Warning);
-                }
+                toast.Add(lang[resp.Content.ToString()], MatToastType.Warning);
             }
             is_saving = false;
         }

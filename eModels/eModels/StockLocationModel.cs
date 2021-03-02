@@ -44,11 +44,13 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
 
+ 
         public decimal quantity { get; set; }
         public decimal min_quantity { get; set; }
         public decimal max_quantity { get; set; }
 
         public decimal initial_quantity { get; set; } = 0;
+        public decimal initial_adjustment_quantity { get; set; } = 0;
 
         [NotMapped, JsonIgnore]
         public bool is_out_of_stock
