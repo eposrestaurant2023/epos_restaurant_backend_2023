@@ -53,7 +53,7 @@ else
     [Parameter] public UnitModel unit { get; set; }
     [Parameter] public EventCallback<UnitModel> unitChanged { get; set; }
 
-    [Parameter] public int unit_category_id { get; set; }
+    [Parameter] public int unit_category_id { get; set; } 
 
 
 
@@ -66,7 +66,7 @@ else
             }
             if(is_select_unit_category){
                 return new List<UnitModel>();
-            }
+            } 
             return gv.units.Where(r => (r.status && !r.is_deleted)).ToList();
         } }
 
@@ -76,8 +76,8 @@ else
     {
         get
         {
-            
-                return unit == null ? selected_value : unit.id;
+
+            return unit == null ? selected_value : unit.id;
         }
     }
 

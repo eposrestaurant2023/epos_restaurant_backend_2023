@@ -1,16 +1,18 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
+@inject IStringLocalizer<Resource> lang
+
 <Loading is_loading="@is_saving"/>
 <EditFormContext Cancel_Click="@OnCancelClick" model="@product_portion" is_opened="is_open" title="@($"Ingredients Of {product_portion.portion_name}")" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
     <IngredientProductTypeahead @bind-product="@product" />
     <hr/> 
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
-            <ThAuto>Ingredient Name</ThAuto>
-            <ThCenter>Quantity</ThCenter>
-            <ThCenter>Unit</ThCenter>
-            <ThRight>Cost </ThRight>
-            <ThRight>Total</ThRight>
+            <ThAuto>@lang["Ingredient Name"]</ThAuto>
+            <ThCenter>@lang["Quantity"]</ThCenter>
+            <ThCenter>@lang["Unit"]</ThCenter>
+            <ThRight>@lang["Cost"]</ThRight>
+            <ThRight>@lang["Total Cost"]</ThRight>
             <ThCenter></ThCenter>
         </tr>
         @if(product_portion.product_ingredients.Where(r=>r.is_deleted==false).Any()){
@@ -24,7 +26,8 @@
                         <NumberInput @bind-text="@p.quantity" class_name="uk-text-center"/>
                     </TdCenter>
                     <TdCenter>
-                        <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto"/>
+                        @JsonSerializer.Serialize(p.unit)
+                        <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" unit_category_id="@p.unit.unit_category_id" />
                     </TdCenter>
                     <TdRight>
                         <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px"/>

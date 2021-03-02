@@ -1,18 +1,19 @@
-﻿
- @inject IHttpService http; 
+﻿@inject IHttpService http; 
+@inject IStringLocalizer<Resource> lang
+
     <UIContainerBox Title="@product_portion.portion_name" 
         is_show_add_button="@can_add"
         is_show_edit_button="@can_edit"
         OnAddClick="@(()=> show_modal = true)"
         OnEditClick="@(()=> show_modal = true)">
 
-        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
             <tr>
-                <ThAuto>Ingredient Name</ThAuto>
-                <ThCenter>Quantity</ThCenter>
-                <ThCenter>Unit</ThCenter>
-                <ThRight>Cost</ThRight>
-                <ThRight>Total Cost</ThRight>
+                <ThAuto>@lang["Ingredient Name"]</ThAuto>
+                <ThCenter>@lang["Quantity"]</ThCenter>
+                <ThCenter>@lang["Unit"]</ThCenter>
+                <ThRight>@lang["Cost"]</ThRight>
+                <ThRight>@lang["Total Cost"]</ThRight>
             </tr>
 
             @if (product_portion.product_ingredients.Where(r => r.is_deleted == false).Any())
@@ -34,11 +35,10 @@
                 <tfoot>
                     <tr>
                         <td>
-                            Total Cost
+                            @lang["Total Cost"]
                         </td>
                         <TdCenter>
                             @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
-
                         </TdCenter>
                         <TdCenter>
                         </TdCenter>
@@ -46,7 +46,6 @@
                         </TdRight>
                         <TdRight>
                             @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.total_cost).ToString(gv.currency_format)
-
                         </TdRight>
                        
                     </tr>
@@ -65,7 +64,8 @@
   
    
 <Com is_visible="@show_modal">
-    <ComProductDetail_AddIngredientProduct  @bind-is_open="@show_modal" Save_Click="OnSave"   product_portion="@(JsonSerializer.Deserialize<ProductPortionModel>(JsonSerializer.Serialize(product_portion)))" />
+    @*<ComProductDetail_AddIngredientProduct  @bind-is_open="@show_modal" Save_Click="OnSave"   product_portion="@(JsonSerializer.Deserialize<ProductPortionModel>(JsonSerializer.Serialize(product_portion)))" />*@
+    <ComProductDetail_AddIngredientProduct  @bind-is_open="@show_modal" Save_Click="OnSave"   product_portion="@product_portion" />
 </Com>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -106,7 +106,7 @@
         is_loading = true;
 
 
-        var resp = await http.ApiGet($"ProductPortion({product_portion.id})?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh),unit($select=id,unit_name);$filter=is_deleted eq false)");
+        var resp = await http.ApiGet($"ProductPortion({product_portion.id})?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             product_portion = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());

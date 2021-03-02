@@ -199,7 +199,7 @@ namespace eAdmin.Pages.PageProducts
                 else
                 {
 
-                    toast.Add("Save Product Fail!!!", MatToastType.Warning);
+                    toast.Add(lang["Save Product Fail!."], MatToastType.Warning);
                 }
             }
             is_saving = false;
