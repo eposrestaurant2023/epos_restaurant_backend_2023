@@ -135,6 +135,7 @@ namespace eModels
         public bool is_multiple_select { get; set; }
 
         public bool is_section { get; set; } = false;
+        public int sort_order { get; set; }
 
     } 
 }
