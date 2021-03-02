@@ -1,45 +1,47 @@
 ﻿@inject IStringLocalizer<Resource> lang
- 
-@if (model.product_modifiers.Where(r=>r.is_section).Any())
+
+@if (model.product_modifiers.Where(r => r.is_section).Any())
 {
     foreach (var s in model.product_modifiers.Where(r => r.is_section == true))
     {
-    <UIContainerBox Title="@s.section_name">
-        <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
-        <ComInputCheckBox @bind-value="@s.is_required" label="@lang["Is Required"]" />
-        <ComInputCheckBox @bind-value="@s.is_multiple_select" label="@lang["Allow Multiple Select"]" />
-        <hr />
-        <ModifierTypeahead modifier="@modifier" modifierChanged="@((val)=>OnSelectModifer(s, val))"  />
-        <hr />
-        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-            <tr>
-                <Th>@lang["Modifier Name"]</Th>
-                <ThCenter>@lang["Price"]</ThCenter>
-                <ThCenter>@lang["Sort Order"]</ThCenter>
-                <ThCenter></ThCenter>
-            </tr>
-            @foreach (var pm in s.children.Where(r => r.is_deleted == false && r.is_section == false).OrderBy(r=>r.sort_order))
-            {
+        <UIContainerBox Title="@s.section_name">
+            <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
+            <ComInputCheckBox @bind-value="@s.is_required" label="@lang["Is Required"]" />
+            <ComInputCheckBox @bind-value="@s.is_multiple_select" label="@lang["Allow Multiple Select"]" />
+            <hr />
+            <ModifierTypeahead modifier="@modifier" modifierChanged="@((val)=>OnSelectModifer(s, val))" />
+            <hr />
+            <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                 <tr>
-                    <td>
-                        @pm.modifier.modifier_name
-                    </td>
-                    <TdCenter>
-                        <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-center"/>
-                    </TdCenter>
-                    <TdCenter>
-                        <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="100px" class_name="uk-text-center"/>
-                    </TdCenter>
-                    <TdCenter>
-                        <Icon icon="delete" OnClick="@(() => DeleteModifier(pm))" is_visible="@(pm.modifier_group_id == 0)" />
-                    </TdCenter>
+                    <Th>@lang["Modifier Name"]</Th>
+                    <ThCenter>@lang["Price"]</ThCenter>
+                    <ThCenter>@lang["Sort Order"]</ThCenter>
+                    <ThCenter></ThCenter>
                 </tr>
-            }
-        </table>
-
-    </UIContainerBox>
-
+                @foreach (var pm in s.children.Where(r => r.is_deleted == false && r.is_section == false).OrderBy(r => r.sort_order))
+                {
+                    <tr>
+                        <td>
+                            @pm.modifier.modifier_name
+                        </td>
+                        <TdCenter>
+                            <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-center" />
+                        </TdCenter>
+                        <TdCenter>
+                            <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="100px" class_name="uk-text-center" />
+                        </TdCenter>
+                        <TdCenter>
+                            <Icon icon="delete" OnClick="@(() => DeleteModifier(pm))" is_visible="@(pm.modifier_group_id == 0)" />
+                        </TdCenter>
+                    </tr>
+                }
+            </table>
+        </UIContainerBox>
     }
+    <hr />
+    <div class="uk-text-right">
+        <Button OnClick="@AddSection">@lang["Add Section"]</Button>
+    </div>
 }
 else
 {
@@ -63,7 +65,7 @@ else
         get { return _modifier; }
         set
         {
-             
+
             _modifier = value;
         }
     }
@@ -71,7 +73,7 @@ else
     void OnSelectModifer(ProductModifierModel parent, ModifierModel child)
     {
 
-        if (!parent.children.Where(r => r.is_deleted == false   && r.modifier.modifier_name.Trim().ToLower().Contains(child.modifier_name.ToLower().Trim())).Any())
+        if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower().Contains(child.modifier_name.ToLower().Trim())).Any())
         {
             parent.children.Add(new ProductModifierModel() { modifier = child, modifier_id = child.id });
         }
