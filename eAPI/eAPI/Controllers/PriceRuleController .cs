@@ -53,7 +53,6 @@ namespace eAPI.Controllers
             }
             else
             {
-
                 db.Database.ExecuteSqlRaw($"delete tbl_business_branch_price_rule where price_rule_id = {u.id}");
                 db.BusinessBranchPriceRules.AddRange(u.business_branch_prices);
                 db.PriceRules.Update(u);
