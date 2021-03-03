@@ -1,4 +1,5 @@
 ﻿@inject IHttpService http;
+@inject IStringLocalizer<Resource> lang
 <EditFormContext model="@model" is_opened="@is_opened" title="@title" Cancel_Click="@OnCancel" Save_Click="@Save_Click" is_submitting="@is_saving" modal_width="700px">
     <UIGridCenter>
         @if (is_loading)
@@ -28,11 +29,11 @@
                 <TextInput label="Menu Name(KH)" @bind-text="@model.menu_name_en" />
                 <TextInput label="Text Color" type="color" @bind-text="@model.text_color" />
                 <TextInput label="Background Color" type="color" @bind-text="@model.background_color" />
-                <NumberInputInt label="Sort Order" @bind-text="@model.sort_order"/>
+                <NumberInputInt label="Sort Order" @bind-text="@model.sort_order" />
                 <SelectStatus label="Status" @bind-selected_value="@model.status" />
 
             </UIContainerBox>
-            <UIContainerBox Title="Preview"> 
+            <UIContainerBox Title="Preview">
                 <Grid ClassName="uk-grid-small">
                     <div class="uk-width-2-5">
                         <div class="box" style="background:@model.background_color;color:@model.text_color;margin: 0px auto;">
@@ -40,7 +41,7 @@
                                 <Icon icon="edit" icon_color="@model.text_color" />
                                 <button>
                                     <Icon icon="check_box_outline_blank" icon_color="@model.text_color" />
-                                </button> 
+                                </button>
                             </div>
                             <div style="text-align: center; line-height: 130px;">
                                 <span>@(string.IsNullOrEmpty(model.menu_name_en)?"Empty" : model.menu_name_en)</span>
@@ -49,7 +50,7 @@
                     </div>
                     <div class="uk-width-1-5">
                         <div class="uk-text-center" style="height: 130px;line-height: 130px;">
-                            <Icon icon="arrow_right_alt" size="45px" icon_color="#757575"/>
+                            <Icon icon="arrow_right_alt" size="45px" icon_color="#757575" />
                         </div>
                     </div>
                     <div class="uk-width-2-5">
@@ -58,7 +59,7 @@
                                 <Icon icon="edit" icon_color="@model.text_color" />
                                 <button>
                                     <Icon icon="check_box" icon_color="@model.text_color" />
-                                </button> 
+                                </button>
                             </div>
                             <div class="ribbon">
                                 <span class="">Select</span>
@@ -71,35 +72,40 @@
                 </Grid>
             </UIContainerBox>
 
-            
+
         }
 
-        </UIGridCenter>
-    
+    </UIGridCenter>
+
 </EditFormContext>
 @code {
 
 
     [Parameter] public bool is_opened { get; set; }
-    [Parameter]  public MenuModel menu { get; set; }
-    
+    [Parameter] public MenuModel menu { get; set; }
+
     [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
     [Parameter] public EventCallback<MenuModel> OnSave { get; set; }
 
     MenuModel model = new MenuModel();
 
-    bool is_loading,is_saving;
+    bool is_loading, is_saving;
 
-    public string title { get {
+    public string title
+    {
+        get
+        {
 
             if (model.id == 0)
             {
                 return "Add New Menu";
-            }else
+            }
+            else
             {
                 return "Edit Menu " + model.menu_name_en;
             }
-        } }
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
