@@ -1,4 +1,5 @@
 ﻿@inject IHttpService http;
+@inject IStringLocalizer<Resource> lang
 <div>
 
     @if (current_menu_id > 0)
@@ -10,76 +11,76 @@
     {
 
 
-<div class="ribbons-wrapper uk-grid-small" uk-grid>
+        <div class="ribbons-wrapper uk-grid-small" uk-grid>
 
-    @if (current_menu_id > 0)
-    {
-        <div class="uk-width-1-4" style="position: relative;">
-            <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>OnBack())">
-                <div class="pos_icon_back">
-                    <Icon icon="reply " icon_color="#333333" size="43px" />
-                    <div>Back</div>
+            @if (current_menu_id > 0)
+            {
+                <div class="uk-width-1-4" style="position: relative;">
+                    <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>OnBack())">
+                        <div class="pos_icon_back">
+                            <Icon icon="reply " icon_color="#333333" size="43px" />
+                            <div>Back</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    }
+            }
 
 
-    @foreach (var m in GetMenus)
-    {
-<div style="position:relative;" class="uk-width-1-4">
-    <div class="icon_edit">
-        <Icon icon="edit" icon_color="@m.text_color" @onclick="@(()=>EditMenu(m))" />
-        <Com is_visible="@(!IsMenuSelected(m))">
-            <button>
-                <Icon icon="check_box_outline_blank" icon_color="@m.text_color" @onclick="@(()=>OnSelectMenu(m))" />
-            </button>
-        </Com>
-        <Com is_visible="@(IsMenuSelected(m))">
-            <button>
-                <Icon icon="check_box" icon_color="@m.text_color" @onclick="@(()=>OnUnSelectMenu(m))" />
-            </button>
-        </Com>
-    </div>
-    <Com is_visible="@(!IsMenuSelected(m))">
-        <div @onclick="@(()=>MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color;">
-            <div>
-                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
-            </div>
-        </div>
-    </Com>
-    <Com is_visible="@(IsMenuSelected(m))">
-        <div @onclick="@(()=>MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color; border:1px solid #cf564d;">
-            <div>
-                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
-            </div>
-        </div>
-    </Com>
+            @foreach (var m in GetMenus)
+            {
+                <div style="position:relative;" class="uk-width-1-4">
+                    <div class="icon_edit">
+                        <Icon icon="edit" icon_color="@m.text_color" @onclick="@(()=>EditMenu(m))" />
+                        <Com is_visible="@(!IsMenuSelected(m))">
+                            <button>
+                                <Icon icon="check_box_outline_blank" icon_color="@m.text_color" @onclick="@(()=>OnSelectMenu(m))" />
+                            </button>
+                        </Com>
+                        <Com is_visible="@(IsMenuSelected(m))">
+                            <button>
+                                <Icon icon="check_box" icon_color="@m.text_color" @onclick="@(()=>OnUnSelectMenu(m))" />
+                            </button>
+                        </Com>
+                    </div>
+                    <Com is_visible="@(!IsMenuSelected(m))">
+                        <div @onclick="@(()=>MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color;">
+                            <div>
+                                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
+                            </div>
+                        </div>
+                    </Com>
+                    <Com is_visible="@(IsMenuSelected(m))">
+                        <div @onclick="@(()=>MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color; border:1px solid #cf564d;">
+                            <div>
+                                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
+                            </div>
+                        </div>
+                    </Com>
 
 
 
-        </div>
-    }
-
-    @if (current_menu_id > 0)
-    {
-
-
-        <div class="uk-width-1-4" style="position: relative;">
-            <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>AddSubMenu())">
-                <div class="pos_icon_back">
-                    <Icon icon="add" icon_color="#333333" size="43px" />
-                    <div>Add</div>
                 </div>
-            </div>
+            }
+
+            @if (current_menu_id > 0)
+            {
+
+
+                <div class="uk-width-1-4" style="position: relative;">
+                    <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>AddSubMenu())">
+                        <div class="pos_icon_back">
+                            <Icon icon="add" icon_color="#333333" size="43px" />
+                            <div>Add</div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-    }
-</div>
 
     }
     else
-    { 
-        <ComEmptyTemplate empty="There is no root menu." padding_top_bottom="25px"/>
+    {
+        <ComEmptyTemplate empty="@lang["There is no root menu."]" padding_top_bottom="25px" />
     }
     <hr />
 
@@ -89,7 +90,7 @@
 
 @if (show_add_menu)
 {
-    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" OnSave="@SaveMenu"/>
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" OnSave="@SaveMenu" />
 
 }
 
@@ -128,7 +129,7 @@
 
     bool IsMenuSelected(MenuModel m)
     {
-        return selected_menus.Where(r => r.menu_id == m.id && r.is_deleted ==false).Any();
+        return selected_menus.Where(r => r.menu_id == m.id && r.is_deleted == false).Any();
     }
 
 
@@ -147,7 +148,7 @@
 
     void SetMenuActive()
     {
-        foreach(var m in selected_menus)
+        foreach (var m in selected_menus)
         {
             menus.Where(r => r.id == m.id).ToList().ForEach(r => r.is_selected = true);
         }
@@ -158,7 +159,7 @@
         m.is_selected = true;
         await OnMenuSelected.InvokeAsync(m);
 
-    } 
+    }
     async Task OnUnSelectMenu(MenuModel m)
     {
         m.is_selected = false;
@@ -194,7 +195,7 @@
     void AddSubMenu()
     {
         menu = new MenuModel();
-        menu.parent = menus.Where(r=>r.id==current_menu_id).FirstOrDefault();
+        menu.parent = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
         menu.parent_id = menu.parent.id;
         menu.business_branch_id = business_branch_id;
         show_add_menu = true;
@@ -219,7 +220,8 @@
         if (m.parent_id == null)
         {
             parent_menu_id = 0;
-        }else
+        }
+        else
         {
             parent_menu_id = Convert.ToInt32(m.parent_id);
         }
