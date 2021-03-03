@@ -56,6 +56,7 @@ namespace eModels
         public bool is_multiple_select { get; set; }
         public string section_name { get; set; }
         public decimal price { get; set; }
+         
 
     }
 

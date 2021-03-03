@@ -47,12 +47,11 @@
     <ComProductDetail_Portion product_id="@model.id"/>
     <Spacing Number="10"/>
 
-    <ComProductDetail_Modifired product_id="@model.id"/>
+    <ComProductDetail_Modifired product="@model"/>
     <Spacing Number="10"/>
 
     <ComProductDetail_Menu product_id="@model.id"/>
     <Spacing Number="10"/>
-
     <ComProductDetail_ProductPrinter product_id="@model.id"/>
     <UIContainerBox Title="Note" is_visible="@(!string.IsNullOrEmpty(model.note))">
         @model.note

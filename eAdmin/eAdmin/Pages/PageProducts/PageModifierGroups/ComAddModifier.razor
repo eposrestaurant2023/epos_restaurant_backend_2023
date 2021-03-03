@@ -71,7 +71,7 @@
                 _modifier = value;
             }
         }
-
+        int index_section_name = 0;
         void OnSelectModifier(ModifierGroupItemModel parent, ModifierModel child)
         {
 
@@ -98,9 +98,10 @@
 
         void AddSection()
         {
+            index_section_name++;
             modifer_group.modifier_group_items.Add(new ModifierGroupItemModel()
             {
-                section_name = "Section Name",
+                section_name = "Section Name " + index_section_name.ToString(),
                 is_section = true
             });
         }

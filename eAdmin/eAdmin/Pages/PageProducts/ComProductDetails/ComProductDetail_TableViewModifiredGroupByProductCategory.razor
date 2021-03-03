@@ -1,0 +1,66 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http
+
+@if (!is_loading && models.Any())
+{
+    foreach (var mg in models.Select(r => r.modifier_group).Where(r => r.modifier_group_items.Any()).ToList())
+    {
+        foreach (var m in mg.modifier_group_items)
+        {
+            <tr>
+                <td>
+                    <div>
+
+                        @if (!string.IsNullOrEmpty(mg.modifier_group_name_en))
+                        {
+                        <div>@m.section_name <a href="modifiergroup/@mg.id" target="_blank"><span uk-tooltip="Modifier Group Name">(@mg.modifier_group_name_en)</span></a></div>
+                        }
+                        else
+                        {
+                            <span>@m.section_name</span>
+                        }
+                    </div>
+                    <div class="uk-margin-small-top"> 
+                        <LabelIsRequired is_visible="@m.is_required" />
+                        <LabelIsMultipleSelect is_visible="@m.is_multiple_select" />
+                    </div> 
+                </td>
+                <td colspan="2">
+                    @foreach (var c in m.children.OrderBy(r => r.sort_order))
+                    {
+                        <Grid ClassName="uk-grid-small">
+                            <div class="uk-width-expand" uk-leader>@c.modifier?.modifier_name</div>
+                            <div class="uk-width-auto">@c.price.ToString(gv.main_currency_format)</div>
+                        </Grid>
+                    }
+                </td>
+            </tr>
+        }
+    }
+}
+
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_category_id { get; set; }
+    List<ModifierGroupProductCategoryModel> models = new List<ModifierGroupProductCategoryModel>();
+    string controller_api = "";
+    string expand = "";
+    bool is_loading = false;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        if (product_category_id > 0)
+        {
+            controller_api = "ModifierGroupProductCategory?";
+            expand = "modifier_group($select=id, modifier_group_name_en, modifier_group_name_kh;$expand=modifier_group_items($expand= children($expand = modifier);$filter=is_deleted eq false and status eq true);$filter=is_deleted eq false and status eq true)";
+
+            var resp = await http.ApiGetOData($"{controller_api}$expand={expand}&$filter=product_category_id eq {product_category_id}");
+            if (resp.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<ModifierGroupProductCategoryModel>>(resp.Content.ToString());
+            }
+        }
+        is_loading = false;
+    }
+}

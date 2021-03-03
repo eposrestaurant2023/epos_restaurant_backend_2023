@@ -3286,7 +3286,7 @@ button.issue_invoice {
     view table style
 */
 
-.view_table {
+.view_table, .view_small_table {
     white-space: nowrap !important;
     border: 1px solid #e5e5e5;
 }
@@ -7043,4 +7043,19 @@ z-index:999999!important;
 }
 .ui-box-primary:last-child {
     margin-bottom: 0px!important;
+}
+.vertical-middle {
+    vertical-align: middle !important;
+}
+.view_small_table th {
+    padding: 4px 12px !important;
+    background: #ebeff3;
+    color: #041a15;
+    text-transform: capitalize;
+    font-weight: 400;
+    width: 1px;
+    font-size: 14px;
+}
+.view_small_table th, .view_small_table td {
+    border: 1px solid #d8d8d8;
 }

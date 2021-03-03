@@ -6,7 +6,7 @@
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="Modifier Group Detail"></Title>
+    <Title Value="@lang["Modifier Group Detail"]"></Title>
     <PageContainer roles="@gv.GetRole("modifier_group_view")">
         <PageHeader>
             <HeaderLeft>
@@ -20,7 +20,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button roles="@gv.GetRole("modifier_group_edit")" icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifiergroup/edit/{modifier_group.id}"))" is_visible="@(!modifier_group.is_deleted)" />
+                <Button roles="@gv.GetRole("modifier_group_edit")" icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"modifiergroup/edit/{modifier_group.id}"))" is_visible="@(!modifier_group.is_deleted)" />
                 <ComAttachFileButton RoleAdd="@gv.GetRole("modifier_group_add")"
                                      RoleEdit="@gv.GetRole("modifier_group_edit")"
                                      RoleDelete="@gv.GetRole("modifier_group_delete")"
@@ -41,22 +41,22 @@
             <PageBody>
                 <Tab>
                     <TabHeader>
-                        <TabHeaderItem>Overview</TabHeaderItem>
-                        <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">Comment</TabHeaderItem>
+                        <TabHeaderItem>@lang["Overview"]</TabHeaderItem>
+                        <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment"]</TabHeaderItem>
                     </TabHeader>
                     <TabBody>
                         <TabItem>
                             <UIGridCenter>
-                                <UIContainerBox Title="Information">
+                                <UIContainerBox Title="@lang["Information"]">
                                     <table>
                                         <tr>
-                                            <th>Name En</th>
+                                            <th>@lang["Name En"]</th>
                                             <td>@modifier_group.modifier_group_name_en</td>
                                         </tr>
                                         @if (!string.IsNullOrEmpty(modifier_group.modifier_group_name_kh))
                                         {
                                             <tr>
-                                                <th>Name Kh</th>
+                                                <th>@lang["Name Kh"]</th>
                                                 <td>@modifier_group.modifier_group_name_kh</td>
                                             </tr>
                                         }
@@ -77,7 +77,7 @@
                         @if (show_comment_tab)
                         {
                             <UIGridCenter>
-                                <UIContainerBox Title="Comment and History">
+                                <UIContainerBox Title="@lang["Comment and History"]">
                                     <ComHistory RoleAdd="@gv.GetRole("modifier_group_add")"
                                                 RoleDelete="@gv.GetRole("modifier_group_delete")"
                                                 RoleEdit="@gv.GetRole("modifier_group_edit")"
@@ -99,7 +99,7 @@ else
 }
 @if (is_error)
 {
-    <Error title="Product">@error_text</Error>
+    <Error title="@lang["Modifier Group"]">@error_text</Error>
 }
 
 @code{

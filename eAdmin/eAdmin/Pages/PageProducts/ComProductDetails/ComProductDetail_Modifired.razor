@@ -2,56 +2,22 @@
 @inject IStringLocalizer<Resource> lang
 
 <UIContainerBox Title="@lang["Modifier Information"]">
-<Com is_visible="@(!is_loading)">
-  
-    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
-        <thead>
-            <tr>
-                <ThAuto>@lang["Modifier Name"]</ThAuto>
-                
-                <ThCenter>@lang["Price"]</ThCenter>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var m in models.OrderBy(r=>r.sort_order))
-            {
-
-                <tr>
-                    <th colspan="2">
-                        @m.section_name
-                    <LabelIsRequired is_visible="@m.is_required" />
-                    <LabelIsMultipleSelect is_visible="@m.is_multiple_select" />
-                </th>
-            </tr>
-            @foreach (var c in m.children.OrderBy(r=>r.sort_order))
-            {
-        <tr>
-            <td>@c.modifier?.modifier_name</td>
-          
-            <TdCenter>
-                @c.price.ToString(gv.main_currency_format)
-            </TdCenter>
-        </tr>
-            }
-
-        }
-        </tbody>
-
-        </table>
-</Com>
+    <Com is_visible="@(!is_loading)"> 
+        <ComProductDetail_TableViewModifier models="@models" product_category_id="@product.product_category_id" />
+    </Com>
 </UIContainerBox>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public int product_id {get; set;}
-     List<ProductModifierModel> models = new List<ProductModifierModel>();
+    [Parameter] public ProductModel product {get; set;}
+    List<ProductModifierModel> models = new List<ProductModifierModel>();
     bool is_loading;
     int TotalRecord = 0;
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        if(product_id > 0){
-            var resp = await http.ApiGetOData($"ProductModifier?$expand=children($expand=modifier($select=id,modifier_group_id,modifier_name);$filter=is_deleted eq false)&$filter=product_id eq {product_id} and is_deleted eq false and status eq true");
+        if(product.id > 0){
+            var resp = await http.ApiGetOData($"ProductModifier?$expand=children($expand=modifier($select=id,modifier_group_id,modifier_name);$filter=is_deleted eq false)&$filter=product_id eq {product.id} and is_deleted eq false and status eq true");
             if (resp.IsSuccess)
             {
                 models = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());

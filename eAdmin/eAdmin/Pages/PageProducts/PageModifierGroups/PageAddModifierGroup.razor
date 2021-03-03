@@ -105,8 +105,46 @@ else
 
     async Task Save_Click()
     {
+        Console.WriteLine(JsonSerializer.Serialize(modifier_group.modifier_group_product_categories));
         is_saving = true;
 
+        // where don't add group item
+        if (!modifier_group.modifier_group_items.Where(r=>r.is_deleted == false).Any())
+        {
+            toast.Add("Please add modifier section", MatBlazor.MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+        else
+        {
+            // where didn't add modifier into section
+            foreach (var i in modifier_group.modifier_group_items.Where(r => r.is_deleted == false))
+            {
+                if (!i.children.Where(r=>r.is_deleted == false).Any())
+                {
+                    toast.Add($"Please add modifier into {i.section_name} section.", MatBlazor.MatToastType.Warning);
+                    is_saving = false;
+                    return;
+                }
+            }
+
+        }
+
+        // where section name empty
+        if (modifier_group.modifier_group_items.Where(r=>r.is_deleted == false && string.IsNullOrEmpty(r.section_name)).Any())
+        {
+            toast.Add($"Section name cannot empty.", MatBlazor.MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+
+        // where didn't tick any category product
+        if (!modifier_group.modifier_group_product_categories.Where(r => r.is_deleted == false).Any())
+        {
+            toast.Add($"Please tick product category.", MatBlazor.MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
 
 
