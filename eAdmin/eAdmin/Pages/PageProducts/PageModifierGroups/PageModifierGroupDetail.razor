@@ -7,7 +7,7 @@
 @if (!is_loading && !is_error)
 {
     <Title Value="Modifier Group Detail"></Title>
-    <PageContainer roles="@gv.GetRole("modifier_group_view")">
+    <PageContainer roles="@gv.GetRole("modifier_group_view")">  
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -121,7 +121,7 @@ else
     {
         is_loading = true;
 
-        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_group_items($expand=modifier,parent,children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
+        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());

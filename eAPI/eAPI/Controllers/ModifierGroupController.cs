@@ -56,7 +56,7 @@ namespace eAPI.Controllers
         {
             foreach (var pm in u.modifier_group_items)
             {
-                pm.children.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+                pm.children.ForEach(r => r.modifier = null);
             }
 
             if (u.id == 0)
@@ -65,6 +65,7 @@ namespace eAPI.Controllers
                 u.modifier_group_product_categories.ForEach(r => r.modifer_group_id = 0);
                 u.modifier_group_product_categories.ForEach(r => r.id = 0);
                 u.modifier_group_product_categories.ForEach(r => r.product_category = null);
+
                 u.modifier_group_items.ForEach(r=>r.id = 0);
                 u.modifier_group_items.ForEach(r => r.modifier_group = null);
                 u.modifier_group_items.ForEach(r => r.modifier_group_id = 0);
