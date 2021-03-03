@@ -64,8 +64,7 @@ namespace eAPIClient.Controllers
         {
             try
             {
-                model.customer = null;
-
+                model.customer = null;   
                 if(model.id == Guid.Empty)
                 {
                     db.Sales.Add(model);
@@ -74,11 +73,10 @@ namespace eAPIClient.Controllers
                 {
                     db.Sales.Update(model);
                 }
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));    
                 return Ok(model);
             }
-            catch(Exception ex)
+            catch 
             {
                 return BadRequest();
             }
