@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <Com is_visible="@is_visible">
-    <div class="ui-box @ClassName">
+    <div class="ui-box @ClassName @box_style">
         <Column is_visible="@(!string.IsNullOrEmpty(Title))">
             <Grid ClassName="uk-grid-small">
                 <div class="uk-width-expand">
@@ -46,6 +46,7 @@
     [Parameter] public string Title { get; set; } = "";
     [Parameter] public string Icon { get; set; } = "";
     [Parameter] public string IconRight { get; set; } = "";
+    [Parameter] public string box_style { get; set; } = "ui-box-primary";
     [Parameter] public bool is_visible { get; set; } = true;
     [Parameter] public bool is_status { get; set; } = true;
     [Parameter] public bool is_show_add_button { get; set; } = false;

@@ -3,12 +3,13 @@
 
 @if (is_loading_data || is_loading)
 {
-    <Loading is_loading="@( is_loading_data || is_loading_data)" /> 
+    <Loading is_loading="@( is_loading_data || is_loading_data)" />
+
 }
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"{lang["PO Invoice"]} : {model.document_number}")" ></Title>
+    <Title Value="@($"{lang["PO Invoice"]} : {model.document_number}")"></Title>
 
     <PageContainer roles="@gv.GetRole("purchase_order_management")">
         <PageHeader>
@@ -22,6 +23,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
+                 
                 <ComPurchaseOrderDetail_ActionButton @bind-po="@model" OnAddPayment="@(()=>is_add_payment=true)" />
             </HeaderRight>
         </PageHeader>
@@ -37,7 +39,7 @@
                     <TabItem roles="@gv.GetRole("purchase_order_management")">
                         <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled)" OnClick="@MarkAsFulfilled" />
                         <ComPage>
-                            <ComPurchaseOrderDetail_InvoiceHeader po="@model"/>
+                            <ComPurchaseOrderDetail_InvoiceHeader po="@model" />
                             <Spacing Number="20" />
                             <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
                                 <thead>
@@ -46,29 +48,29 @@
                                         <ThCenter>@lang["Image"]</ThCenter>
                                         <th class="col-auto">@lang["Item"]</th>
                                         <th class="uk-text-center">@lang["QTY"]</th>
-                                       
+
                                         <th class="uk-text-right">@lang["Price"]</th>
                                         <th class="uk-text-right">@lang["Dis."]</th>
                                         <th class="uk-text-right">@lang["Amount"]</th>
                                     </tr>
                                 </thead>
-                                <tbody> 
-                                    <ComPurchaseOrderDetail_InvoiceBody po="@model"/>
+                                <tbody>
+                                    <ComPurchaseOrderDetail_InvoiceBody po="@model" />
                                 </tbody>
-                                <tfoot> 
-                                    <ComPurchaseOrderDetail_InvoiceFooter po="@model"/>
+                                <tfoot>
+                                    <ComPurchaseOrderDetail_InvoiceFooter po="@model" />
                                 </tfoot>
                             </table>
                             <Spacing Number="20" />
-                            <ComPurchaseOrderDetail_PONote po="@model"/>
-                            <ComPurchaseOrderDetail_FooterInformation po="@model"/>
+                            <ComPurchaseOrderDetail_PONote po="@model" />
+                            <ComPurchaseOrderDetail_FooterInformation po="@model" />
                         </ComPage>
                     </TabItem>
- 
+
                     <TabItem>
                         @if (is_show_payment_history)
                         {
-                            <ComPurchaseOrderDetail_PaymentList po="@model" po_id="@model.id" on_reload="LoadData"/>
+                            <ComPurchaseOrderDetail_PaymentList po="@model" po_id="@model.id" on_reload="LoadData" />
                         }
                     </TabItem>
                     <TabItem>
@@ -79,7 +81,7 @@
                                         RoleEdit="@gv.GetRole("purchase_order_edit")"
                                         ApiFilter="@($"purchase_order_id  eq {id}")"
                                         history="@history" />
-                                        
+
                         }
 
                     </TabItem>
@@ -89,7 +91,7 @@
             <div class="spacing40"></div>
         </PageBody>
     </PageContainer>
-
+  
 }
 
 @if (is_error)
@@ -100,6 +102,6 @@
 }
 
 @if (is_add_payment)
-{ 
-    <ComPurchaseOrderDetail_AddPayment po_id="@id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@SavePayment_Click"/>
+{
+    <ComPurchaseOrderDetail_AddPayment po_id="@id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@SavePayment_Click" />
 }

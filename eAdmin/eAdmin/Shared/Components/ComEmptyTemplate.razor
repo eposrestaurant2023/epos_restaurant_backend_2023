@@ -4,16 +4,16 @@
             <div>
                 @if (line_icon != "")
                 {
-                    <LineIcon IconName="@line_icon" ClassName="color_nodata" />
+                    <LineIcon IconName="@line_icon" ClassName="color_nodata" icon_size="@icon_size" />
                 }
                 else if (icon != "")
                 {
 
-                    <Icon icon="@icon" className="color_nodata" />
+                    <Icon icon="@icon" className="color_nodata" size="@icon_size"/>
                 }
             </div>
             <div>
-                <div class="color_nodata uk-margin-small-bottom">@empty</div>
+                <div class="color_nodata uk-margin-small-bottom" style="font-size: @text_size">@empty</div>
                 @ChildContent
             </div>
         </div>
@@ -24,9 +24,11 @@
     [Parameter] public bool is_card { get; set; } = false;
     [Parameter] public string line_icon { get; set; } = "";
     [Parameter] public string icon { get; set; } = "inbox";
+    [Parameter] public string icon_size { get; set; }
     [Parameter] public string empty { get; set; } = "There's no record in the system";
     [Parameter] public string padding_top_bottom { get; set; } = "50px";
     [Parameter] public string align { get; set; } = "uk-text-center";
+    [Parameter] public string text_size { get; set; }
     [Parameter] public string class_name { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
 

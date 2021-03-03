@@ -28,8 +28,6 @@
                         <td>
                             <div>
                                 @gv.stock_locations.Where(r => r.id == p.stock_location_id).FirstOrDefault().stock_location_name
-                            </div>
-                            <div>
                                 <Label Text="@gv.stock_locations.Where(r=>r.id==p.stock_location_id).FirstOrDefault().business_branch?.business_branch_name_en" />
                             </div>
                         </td>

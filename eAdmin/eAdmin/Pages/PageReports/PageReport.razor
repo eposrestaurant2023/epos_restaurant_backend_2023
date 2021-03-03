@@ -21,7 +21,7 @@
             <Grid ClassName="uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2">
                 @foreach (var r in main_report_list)
                 {  
-                        @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)
+                        @if (gv.permission_options.Where(u => u.parent_id == r.id ).Count() > 0)
                         {
                             <Column>
                                 <div class="report-item">
@@ -44,7 +44,7 @@
                 }
             </Grid>
             <Com is_visible="IsOpenedReport">
-                <ComPreviewReport model="@report" report_id="@report.id" parent_id="@(Convert.ToInt32(report.parent_id))" IsOpened="IsOpenedReport" OnClose="@(()=>IsOpenedReport=false)" />
+                <ComPreviewReport model="@report" report_id="@report.id"  IsOpened="IsOpenedReport" OnClose="@(()=>IsOpenedReport=false)" report_parameters="@($"user_id={gv.current_login_user.id}")" />
             </Com>
         </PageBody>
     </PageContainer>

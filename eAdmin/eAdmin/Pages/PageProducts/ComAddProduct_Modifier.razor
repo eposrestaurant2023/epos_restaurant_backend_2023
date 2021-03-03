@@ -13,8 +13,8 @@
             <hr />
             <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                 <tr>
-                    <Th>@lang["Modifier Name"]</Th>
-                    <ThCenter>@lang["Price"]</ThCenter>
+                    <ThAuto>@lang["Modifier Name"]</ThAuto>
+                    <ThRight>@lang["Price"]</ThRight>
                     <ThCenter>@lang["Sort Order"]</ThCenter>
                     <ThCenter></ThCenter>
                 </tr>
@@ -25,10 +25,10 @@
                             @pm.modifier.modifier_name
                         </td>
                         <TdCenter>
-                            <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-center" />
+                            <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-right" />
                         </TdCenter>
                         <TdCenter>
-                            <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="100px" class_name="uk-text-center" />
+                            <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="80px" class_name="uk-text-center" />
                         </TdCenter>
                         <TdCenter>
                             <Icon icon="delete" OnClick="@(() => DeleteModifier(pm))" is_visible="@(pm.modifier_group_id == 0)" />

@@ -7027,3 +7027,20 @@ z-index:999999!important;
     border-right: 1px solid #cfd7df;
     background: #f5faff;
 }
+.ui-box-primary {
+    border-left: 1px solid #c8e1ff;
+    padding: 12px;
+    background: #f7fbff;
+    border-right: 1px solid #c8e1ff;
+    border-bottom: 1px solid #c8e1ff;
+    border-top: 2px solid #1e87f0;
+    border-radius: 6px;
+    margin-bottom: 18px;
+}
+.ui-box-primary table{
+    margin: 0px!important;
+    background-color: #fff!important;
+}
+.ui-box-primary:last-child {
+    margin-bottom: 0px!important;
+}

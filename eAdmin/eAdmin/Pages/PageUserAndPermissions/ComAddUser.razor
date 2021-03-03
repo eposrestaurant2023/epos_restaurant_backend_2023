@@ -22,13 +22,13 @@
     <TextInput label="Password" type="password" @bind-text="@user.password">
         <ValidationMessage For="@(()=>user.password)" />
     </TextInput>
-    <NumberInputInt label="User Code" @bind-text="@(user.user_code)">
+    <TextInput label="User Code" @bind-text="@(user.user_code)">
         <ValidationMessage For="@(()=>user.user_code)" />
-    </NumberInputInt>
+    </TextInput>
 
     @if (user.is_allow_front_end_login)
     {
-        <NumberInputInt label="Pin Code" @bind-text="@user.pin_code" />
+        <TextInput label="Pin Code" @bind-text="@user.pin_code" />
     }
 
     <ComInputCheckBox label="Is Allow Front End Login" @bind-value="user.is_allow_front_end_login" />

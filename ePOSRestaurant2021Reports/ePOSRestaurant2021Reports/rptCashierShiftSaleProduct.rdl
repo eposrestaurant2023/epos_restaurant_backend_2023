@@ -20,7 +20,20 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Report1</Value>
+                    <Value>cashie rshif sale product</Value>
+                    <Style>
+                      <FontFamily>Segoe UI Light</FontFamily>
+                      <FontSize>24pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value />
                     <Style>
                       <FontFamily>Segoe UI Light</FontFamily>
                       <FontSize>24pt</FontSize>
@@ -42,7 +55,7 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>0.86in</Height>
+        <Height>0.87389in</Height>
         <Style />
       </Body>
       <Width>5in</Width>
@@ -57,13 +70,13 @@
   </ReportSections>
   <ReportParameters>
     <ReportParameter Name="user_id">
-      <DataType>String</DataType>
+      <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
           <Value>1</Value>
         </Values>
       </DefaultValue>
-      <Prompt>user_id</Prompt>
+      <Prompt>user id</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
@@ -73,7 +86,7 @@
       <NumberOfRows>2</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>1</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>user_id</ParameterName>
         </CellDefinition>
