@@ -75,11 +75,11 @@
                         </TdRight>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>
-                        <ThCenter>
+                        <TdCenter>
                             <LabelDeleted is_visible="@(p.is_deleted)" />
                             <LabelActive is_visible="@(p.status && !p.is_deleted)" />
                          
-                        </ThCenter>
+                        </TdCenter>
                     </RowTemplate>
                 </Table>
 

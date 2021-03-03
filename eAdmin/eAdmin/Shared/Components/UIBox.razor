@@ -1,12 +1,12 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <Com is_visible="@is_visible">
-    <div class="container-layout @ClassName">
-        <Column is_visible="@(!string.IsNullOrEmpty(Title))" ClassName="title-header">
-            <div class="uk-panel">
-                <div class="uk-float-left">
-                    <Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@Title</span>
-                  </div>
-                <div class="uk-float-right">
+    <div class="ui-box @ClassName @box_style">
+        <Column is_visible="@(!string.IsNullOrEmpty(Title))">
+            <Grid ClassName="uk-grid-small">
+                <div class="uk-width-expand">
+                    <div class="iu-box-title"><Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@Title</span></div>
+                </div>
+                <div class="uk-width-auto">
                     @if (is_show_edit_button)
                     {
                         <Icon icon="edit" title="@lang["Edit Item"]" OnClick="@OnEditClick" />
@@ -32,8 +32,7 @@
                     }
                     <Icon icon="refresh" OnClick="@OnRefresh" is_visible="@show_refresh_button" icon_color="#006edc" />
                 </div>
-            </div>
-            
+            </Grid> 
             <hr />
         </Column>
         <div>
@@ -47,6 +46,7 @@
     [Parameter] public string Title { get; set; } = "";
     [Parameter] public string Icon { get; set; } = "";
     [Parameter] public string IconRight { get; set; } = "";
+    [Parameter] public string box_style { get; set; } = "ui-box-primary";
     [Parameter] public bool is_visible { get; set; } = true;
     [Parameter] public bool is_status { get; set; } = true;
     [Parameter] public bool is_show_add_button { get; set; } = false;

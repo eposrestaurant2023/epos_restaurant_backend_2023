@@ -49,7 +49,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
         public string api_url { get {
 
-                string url = $"Product({id})?$expand=stock_location_products";
+                string url = $"Product({id})?$expand=stock_location_products,vendor";
                 return url;
             } }
 
@@ -131,6 +131,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             save_model.product_portions = null;
             save_model.is_ingredient_product = true;
             save_model.is_menu_product = false;
+            save_model.vendor = null;
             Console.WriteLine(JsonSerializer.Serialize(save_model));
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)

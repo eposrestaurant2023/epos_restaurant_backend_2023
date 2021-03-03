@@ -1,0 +1,14 @@
+﻿@if (model != null) { 
+<Label is_visible="@model.is_allow_discount" Background="#f36822" Text="Allow Discount"/>
+<Label is_visible="@model.is_allow_free" Background="#174756" Text="Allow Free"/>
+<Label is_visible="@model.is_open_product" Background="#494e62" Color="#000" Text="Open Product"/>
+<Label is_visible="@model.is_ingredient_product" Background="#b6e0d6" Color="#000" Text="Ingredient"/>
+<Label is_visible="@model.is_menu_product" Background="#cbb087" Text="Menu Product"/>
+<Label is_visible="@model.is_inventory_product" Text="Inventory"/>
+<LabelActive is_visible="@(!model.is_deleted && model.status)" is_loading="@model.is_change_status" />
+<LabelInActive is_visible="@(!model.is_deleted && !model.status)" is_loading="@model.is_change_status" />
+<LabelDeleted is_visible="@model.is_deleted" />
+}
+@code {
+    [Parameter] public ProductModel model { get; set; }
+}

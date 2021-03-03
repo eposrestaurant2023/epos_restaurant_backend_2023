@@ -42,6 +42,7 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>Overview</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>show_sale_history=true)">Sale History</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">Comment</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
@@ -64,6 +65,12 @@
                         </UIGridCenter>
                     </TabItem>
                     @*============comment===========*@
+                    <TabItem>
+                        @if (show_sale_history)
+                        {
+                            <ComSale is_receipt_list="true" />
+                        }
+                    </TabItem>
                     <TabItem>
                         @if (show_comment_tab)
                         {
@@ -99,6 +106,7 @@ else
     List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
 
     bool is_save_and_new = false;
+    bool show_sale_history = false;
     bool show_comment_tab = false;
     protected override async Task OnInitializedAsync()
     {
@@ -111,7 +119,7 @@ else
     {
         is_loading = true;
 
-        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit),product_modifiers($expand=product($expand=product_category))");
+        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit),product_modifiers($expand=parent($expand=product($expand=product_category)))");
         if (resp.IsSuccess)
         {
             modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());

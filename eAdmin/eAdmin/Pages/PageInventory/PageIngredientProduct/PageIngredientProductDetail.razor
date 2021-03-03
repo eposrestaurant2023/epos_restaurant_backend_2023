@@ -15,9 +15,7 @@
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
                         @model.product_display_name
-                        <LabelDeleted is_visible="@model.is_deleted" />
-                        <LabelActive is_visible="@(!model.is_deleted && model.status)" is_loading="@model.is_change_status" />
-                        <LabelInActive is_visible="@(!model.is_deleted && !model.status)"  is_loading="@model.is_change_status"/>
+                        <ComProductDetail_HeaderStatus model="@model" />
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
