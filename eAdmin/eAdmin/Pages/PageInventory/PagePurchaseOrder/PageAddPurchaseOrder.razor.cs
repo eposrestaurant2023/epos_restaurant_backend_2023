@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 {
-    public class PageAddPurchaseOrderBase : PageCore
+    public class PageAddPurchaseOrderBase  : PageCore
     {
         [Parameter] public int id { get; set; }
         [Parameter] public int vendor_id { get; set; } 

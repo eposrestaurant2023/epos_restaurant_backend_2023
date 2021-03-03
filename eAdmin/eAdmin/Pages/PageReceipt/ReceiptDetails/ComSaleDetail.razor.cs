@@ -5,6 +5,7 @@ using eModels;
 using eAdmin.JSHelpers;
 using MatBlazor;
 using System;
+using System.Security.Cryptography;
 
 namespace eAdmin.Pages.PageReceipt.ReceiptDetails
 {
@@ -87,8 +88,11 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
             await LoadData();
             is_loading_data = false;
         }
- 
 
+        public void PrintReceipt()
+        {
+            is_open_print = true;
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿@inject IHttpService http ;
-<UIContainerBox Title="Product Prices" Icon="monetization_on">
+@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@(lang["Product Prices"])" Icon="monetization_on">
     @if (is_loading)
     {
         <Spinner />
@@ -8,64 +9,73 @@
     {
         @if (product_portions != null && product_portions.Any())
         {
-            <table class="uk-table  not-view-table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
-                <thead>
-                    <tr>
-                        <ThAuto>Portion</ThAuto>
-                        <th>Cost</th>
-                        @foreach (var p in gv.price_rules)
-                        {
-                            <ThCenter>
-                                @p.price_name 
-                            </ThCenter>
-                        } 
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        @foreach (var p in gv.price_rules)
-                        {
-                            <ThCenter> 
-                                <LabelActive is_visible="@(IsPriceRuleActive(p))" />
-                                <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
-                            </ThCenter>
-                        }
-                    </tr>
-                </thead>
-                <tbody> 
-                    @foreach (var pp in product_portions.Where(r => r.is_deleted == false))
+<div class="uk-overflow-auto">
+    <table class="uk-table  not-view-table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+        <thead>
+            <tr>
+                <ThAuto>@lang["Portion"]</ThAuto>
+                <ThCenter>@lang["Unit"]</ThCenter>
+                <th>@lang["Cost"]</th>
+                @foreach (var p in gv.price_rules)
+                {
+                    <ThCenter>
+                        @p.price_name
+                    </ThCenter>
+                }
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                @foreach (var p in gv.price_rules)
+                {
+                    <ThCenter>
+                        <LabelActive is_visible="@(IsPriceRuleActive(p))" />
+                        <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
+                    </ThCenter>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pp in product_portions.Where(r => r.is_deleted == false))
+            {
+                <tr>
+                    <td>
+                        @pp.portion_name
+                    </td>
+                    <td>
+                        @pp.unit?.unit_name (@pp.multiplier.ToString(gv.currency_format))
+                    </td>
+                    <TdCenter>
+                        @pp.cost.ToString(gv.currency_format)
+                    </TdCenter>
+                    @foreach (var p in gv.price_rules)
                     {
-                        <tr>
-                            <td>
-                                @pp.portion_name
-                            </td>
-                            <TdCenter>
-                                @pp.cost.ToString(gv.currency_format)
-                            </TdCenter>
-                            @foreach (var p in gv.price_rules)
+
+                        <TdCenter>
+                            @if (pp.product_prices.Where(r => r.price_rule_id == p.id).Any())
                             {
-
-                                <TdCenter> 
-                                   @if (pp.product_prices.Where(r => r.price_rule_id == p.id).Any()){
-                                        if (pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)
-                                        {
-                                            <span>@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
-                                        }
-                                        else
-                                        {
-                                            <span style="color:#ede7e7" >@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
-                                        }
-                                    }
-                                </TdCenter>
+                                if (pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)
+                                {
+                                    <span>@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
+                                }
+                                else
+                                {
+                                    <span style="color:#ede7e7">@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
+                                }
                             }
-
-                        </tr> 
+                        </TdCenter>
                     }
-                </tbody>
-            </table>
-        }else
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+        }
+        else
         {
-            <p>There is no product price.</p>
+            <p>@lang["There is no product price."]</p>
         }
 
     }
@@ -87,7 +97,7 @@
         is_loading = true;
         await Task.Delay(100);
 
-        var resp = await http.ApiGetOData($"ProductPortion?$select=portion_name, multiplier,cost&$expand=product_prices($select=id,price_rule_id,price,is_deleted,status)&$filter=product_id eq {product_id} and is_deleted eq false");
+        var resp = await http.ApiGetOData($"ProductPortion?$select=portion_name, multiplier,cost&$expand=unit($select=unit_name),product_prices($select=id,price_rule_id,price,is_deleted,status)&$filter=product_id eq {product_id} and is_deleted eq false");
         if (resp.IsSuccess)
         {
             product_portions = JsonSerializer.Deserialize<List<ProductPortionModel>>(resp.Content.ToString());
@@ -99,13 +109,13 @@
     bool IsPriceRuleActive(PriceRuleModel p)
     {
         if (product_portions != null && product_portions.Any())
-        { 
+        {
             var data = product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.price_rule_id == p.id).ToList();
             if (data.Any())
             {
                 return data.FirstOrDefault().status;
             }
-           // return product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.price_rule_id == p.id).FirstOrDefault().status;
+            // return product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.price_rule_id == p.id).FirstOrDefault().status;
         }
         return false;
 

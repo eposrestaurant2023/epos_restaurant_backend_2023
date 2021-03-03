@@ -18,7 +18,9 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true"/>
+            <HeaderRight ShowBackButton="true">
+                <Button icon="print" OnClick="@PrintReceipt"></Button>
+            </HeaderRight>
         </PageHeader>
         <PageBody>
             <Tab>
@@ -73,7 +75,11 @@
             <div class="spacing40"></div>
         </PageBody>
     </PageContainer>
-
+    @if (is_open_print)
+    {
+        
+        <ComPreviewReport IsOpened="@is_open_print"  report_id="191" Title="Sale Receipt" report_parameters="@($"id={id}&user_id={gv.current_login_user.id}")"/>
+    }
 }
 
 @if (is_error)
