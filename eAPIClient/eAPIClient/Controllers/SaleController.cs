@@ -64,6 +64,8 @@ namespace eAPIClient.Controllers
         {
             try
             {
+                model.customer = null;
+
                 if(model.id == Guid.Empty)
                 {
                     db.Sales.Add(model);
