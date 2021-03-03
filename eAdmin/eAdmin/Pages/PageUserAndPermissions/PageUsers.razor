@@ -117,6 +117,7 @@
     int TotalItem;
     bool is_dialog_open;
     string password_uri;
+    string new_password = "";
     string old_username = "";
     string controller_api = "User";
     string StateKey = "55sNaBpzJlLzhs9IjuzqEODlwfBSCTTx";
@@ -249,14 +250,14 @@
                 return;
             }
 
-            if (user.new_password.Length > 0 && user.new_password.Length < 4)
+            if (new_password.Length > 0 && new_password.Length < 2)
             {
                 Toaster.Add("Password is too short or empty.", MatToastType.Warning);
                 user.is_loading = false;
                 return;
             }
 
-            if (user.new_password.Length > 0 || old_username != user.username)
+            if (new_password.Length > 0 || old_username != user.username)
             {
                 if (!await js.Confirm("Change your username or password will be auto logout.", "Are you sure to proceed?", SweetAlertMessageType.question))
                 {
