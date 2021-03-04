@@ -23,13 +23,13 @@
 <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New Purchase Order"]</AddButton>
 <MoreButton is_loading="@po.is_loading">
     <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@po.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
-    <MoreButtonItem roles="@gv.GetRole("purchase_order_add")" icon="file_copy" is_visible="@po.can_edit">@lang["Clone Invoice"]</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("purchase_order_add")" icon="file_copy" is_visible="@po.can_edit" url="@($"purchaseorder/clone/{po.id}")">@lang["Clone Invoice"]</MoreButtonItem>
 </MoreButton>
 
 @if (is_open_print)
 {
 
-    <ComPreviewReport IsOpened="@is_open_print" report_id="195" Title="Purcase Order Receipt" report_parameters="@($"id={po.id}&user_id={gv.current_login_user.id}")" OnClose="@(()=>is_open_print=false)" />
+    <ComPreviewReport IsOpened="@is_open_print" report_id="195" Title="@lang["Purcase Order Receipt"]" report_parameters="@($"id={po.id}&user_id={gv.current_login_user.id}")" OnClose="@(()=>is_open_print=false)" />
 }
 
 @code {

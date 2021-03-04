@@ -296,7 +296,7 @@
     font-size: 10px;
     display: inline-flex;
     padding: 3px 5px;
-}
+} 
 .uk-label .label_customer {
     background: #000;
 }
@@ -1048,8 +1048,8 @@ h3.title, h1.title {
     font-size: 11px !important;
     text-transform: uppercase !important;
     font-family: inherit !important;
-    margin-bottom: 10px !important;
-    margin-top: 10px !important;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 .iu-box-title {
     font-weight: 800 !important;
