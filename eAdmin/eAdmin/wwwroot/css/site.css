@@ -3549,8 +3549,15 @@ button.verified {
 
 .sidebar .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
+} 
+.order-list > li:nth-child(n+2), .order-list > li > ul {
+    margin-top: 10px;
 }
-
+.hover-list li:hover,
+.hover-list li:focus,
+.hover-list li:active {
+    color: #438fe6;
+}
 /*File Uploads Component*/
 .wrp_input_attach_file {
     position: relative;
@@ -7058,4 +7065,12 @@ z-index:999999!important;
 }
 .view_small_table th, .view_small_table td {
     border: 1px solid #d8d8d8;
+}
+.box-list-category {
+    border: 1px solid #ebeff3;
+    padding: 12px;
+    background: #fff;
+}
+.box-list-category:hover {
+    background: #f0f7ff;
 }

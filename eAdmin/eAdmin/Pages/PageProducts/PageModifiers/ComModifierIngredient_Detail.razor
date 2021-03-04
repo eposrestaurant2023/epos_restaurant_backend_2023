@@ -1,12 +1,12 @@
-﻿
-<UIContainerBox Title="Ingredient">
+﻿@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@lang["Ingredient"]">
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
-            <ThAuto>Ingredient Name</ThAuto>
-            <ThCenter>Quantity</ThCenter>
-            <ThCenter>Unit</ThCenter>
-            <ThRight>Cost </ThRight>
-            <ThRight>Total</ThRight>
+            <ThAuto>@lang["Ingredient Name"]</ThAuto>
+            <ThCenter>@lang["Quantity"]</ThCenter>
+            <ThCenter>@lang["Unit"]</ThCenter>
+            <ThRight>@lang["Cost"] </ThRight>
+            <ThRight>@lang["Total"]</ThRight>
         </tr>
         @if (modifier.modifier_ingredients.Where(r => r.is_deleted == false).Any())
         {
@@ -33,7 +33,7 @@
             <tfoot>
                 <tr>
                     <td>
-                        Total
+                        @lang["Total"]
                     </td>
                     <TdCenter>
                         @modifier.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
