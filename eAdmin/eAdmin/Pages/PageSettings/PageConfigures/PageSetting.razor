@@ -1,13 +1,9 @@
 ﻿@page "/configure"
 @inherits PageCore
+@using eAdmin.Pages.PageSettings.PageConfigures
 
 <Loading is_loading="@is_loading" />
 
-
-@{
-    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
-    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
-}
 @if (!is_loading)
 {
     <Title Value="General Setting"></Title>
@@ -36,43 +32,32 @@
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <Table OnPagerChange="@SelectChange"
-                               OnPageChange="@ChangePager"
-                               isLoading="@is_loading_data"
-                               PerPage="@state.pager.per_page"
-                               TotalItem="@TotalRecord"
-                               CurrentPage="@state.pager.current_page"
-                               ShowPaging="true"
-                               ShowCounter="true"
-                               ShowPager="true"
-                               ShowTotalCount="true"
-                               ShowPagination="true"
-                               Items="@settings"
-                               EmptyIcon="setting"
-                               EmptyText="No Data Found">
-                            <TableHeader>
-                                @HeaderTemplate("setting_title", "Setting title")
-                                <ThAuto>Descript</ThAuto>
-                                <th></th>
-                            </TableHeader>
-                            <RowTemplate Context="s">
-                                <td>
-                                    @s.setting_title
-                                </td>
-                                <td>
-                                    <div class="text-pre-wrap">@s.setting_description</div>
-                                </td>
-                                <td>
-                                    <Icon roles="@gv.GetRole("general_setting_edit")" title="Edit" icon="edit" OnClick="@(()=>OnEdit(s))" />
-                                </td>
-                            </RowTemplate>
-                        </Table>
+                        <ComAccordion>
+                            <Header>Show Comfirm Password</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
+                        <ComAccordion>
+                            <Header>Host</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword group_name="host" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
+                        <ComAccordion>
+                            <Header>Report</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword group_name="report" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
                     </TabItem>
                     <TabItem>
-
+                        ESOFTIX PP
                     </TabItem>
-                    <TabItem></TabItem>
-                    <TabItem></TabItem>
+                    <TabItem>
+                        ESOFTIX SR
+                    </TabItem>
+                    <TabItem>BBN EN</TabItem>
                 </TabBody>
             </Tab>
             
@@ -141,7 +126,6 @@
         setting = s;
     }
 
-
     async Task LoadData(string api_url = "")
     {
         is_loading = true;
@@ -159,28 +143,6 @@
             TotalRecord = resp.Count;
         }
         is_loading = false;
-    }
-
-    async Task OrderBy(string col_name = "")
-    {
-
-        state.pager.order_by = col_name;
-        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
-
-        await LoadData();
-    }
-
-    async Task SelectChange(int perpage)
-    {
-        state.pager.per_page = perpage;
-        state.pager.current_page = 1;
-        await LoadData();
-    }
-
-    async Task ChangePager(int _page)
-    {
-        state.pager.current_page = _page;
-        await LoadData();
     }
 
     async Task OnSearch(string keyword)
