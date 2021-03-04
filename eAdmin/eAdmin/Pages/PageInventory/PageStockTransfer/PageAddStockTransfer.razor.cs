@@ -19,6 +19,8 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
         public StockTransferModel model = new StockTransferModel(); 
         public bool is_show_back { get; set; } = false;
+        public bool is_selecting_from_business_branch { get; set; } = false;
+        public bool is_selecting_to_business_branch { get; set; } = false;
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
@@ -126,7 +128,11 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 toast.Add(lang["Please select from stock location."], MatToastType.Warning);
                 return;
             }
-
+            if (model.from_stock_location_id == model.to_stock_location_id)
+            {
+                toast.Add(lang["Cannot transfer to same stock location."], MatToastType.Warning);
+                return;
+            }
             if (model.active_stock_transfer_products.Count() <= 0)
             {
                 toast.Add(lang["Stock transfer item cannot be empty."], MatToastType.Warning);
@@ -155,6 +161,33 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 is_saving = false;
             }
         }
-    
+
+        public void OnFormStockLocationSeletedChange(int _id)
+        {
+            model.from_stock_location_id = _id;
+        }
+        public void OnToStockLocationSeletedChange(int _id)
+        { 
+            model.to_stock_location_id = _id;
+        }
+        public async Task OnFormBusinessBranchSeletedChange(Guid _id)
+        { 
+            is_selecting_from_business_branch = true;
+            model.from_stock_location_id = 0;
+            await Task.Delay(500);
+            model.from_business_branch_id = _id;
+            is_selecting_from_business_branch = false;
+ 
+        }
+        
+        public async Task OnToBusinessBranchSeletedChange(Guid _id)
+        {
+            is_selecting_to_business_branch = true;
+            model.to_stock_location_id = 0;
+            await Task.Delay(500);
+            model.to_business_branch_id = _id;
+            is_selecting_to_business_branch = false;
+        }
+
     }
 }

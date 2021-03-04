@@ -6,17 +6,17 @@
         <div class="uk-form-controls">
             <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" />
         </div>
-    </div>
+    </div> 
     <DateInput label="@lang["PO Date"]" value="@model.purchase_date" valueChanged="@OnDateChange" icon="layers" />
-    <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" />
+    <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
     @if (!is_selecting_bb)
     {
-        <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" />
+        <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="model.stock_location_id" />
     }
     else
     {
         <div class="uk-margin-small">
-            <label class="uk-form-label"><Icon icon="layers" size="16px" /> Stock Location</label>
+            <label class="uk-form-label"><Icon icon="layers" size="16px" /> @lang["Stock Location"]</label>
             <div class="uk-form-controls">
                 <div style="height:30px">
                     <Spinner />
@@ -37,7 +37,7 @@
     }
     async Task OnStockLocationSeletedChange(int _id)
     {
-
+        
         model.stock_location_id = _id;
         await modelChanged.InvokeAsync(model);
 

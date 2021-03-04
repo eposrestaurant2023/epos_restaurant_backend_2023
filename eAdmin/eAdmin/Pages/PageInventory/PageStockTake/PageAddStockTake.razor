@@ -39,10 +39,10 @@
                     <div>
                         <div class="section-content">
                             <div class="uk-form-horizontal">                                  
-                                <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" />
+                                <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id"/>
                                 @if (!is_selecting_business_branch)
                                 {
-                                    <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" />
+                                    <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="@model.stock_location_id"/>
                                 }
                                 else
                                 {

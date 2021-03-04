@@ -6,7 +6,7 @@
 {
     <div class="@(is_horizontal?"uk-form-horizontal":"")">
         <div class="uk-margin-small">
-            <label class="uk-form-label" for="@id">@label</label>
+            <label class="uk-form-label" for="@id"><Icon is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" icon="@icon"/> @label</label>
             <div class="uk-form-controls">
                 @if (type == "text")
                 {
@@ -89,6 +89,7 @@ else
     [Parameter] public string label { get; set; } = "";
     [Parameter] public string type { get; set; } = "text";
     [Parameter] public string title { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "";
     [Parameter] public string class_name { get; set; } = "";
     [Parameter] public string width { get; set; } = "";
     [Parameter] public int row { get; set; } = 5;

@@ -17,12 +17,7 @@
                 <Grid ClassName="uk-grid-small uk-grid-divider">
                     <div class="uk-width-1-3@s">
                         <div class="panel-empty">
-                            <div class="uk-margin-small">
-                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
-                                <div class="uk-form-controls">
-                                    <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" />
-                                </div>
-                            </div>
+                            <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" label="@lang["Referance #"]" icon="layers" is_horizontal="true" />
                             <DateInput label="@lang["Stock Transfer Date"]" value="@model.stock_transfer_date" icon="layers" /> 
                         </div>
                     </div>
@@ -32,8 +27,25 @@
                                 <div class="panel">
                                     <div class="sub_title font-sm">@lang["From Stock"]</div>
                                     <div>
-                                        <SelectBusinessBranchByRole @bind-selected_value="@model.from_business_branch_id" show_empty="true" icon="layers" />
-                                        <SelectStockLocation @bind-selected_value="@model.from_stock_location_id" business_branch_id="@model.from_business_branch_id" show_empty="true" icon="layers" />
+                                        <div class="uk-form-horizontal">
+                                            <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnFormBusinessBranchSeletedChange" selected_value="@model.from_business_branch_id"/>
+                                            @if (!is_selecting_from_business_branch)
+                                            {
+                                                <SelectStockLocation business_branch_id="@model.from_business_branch_id" show_empty="true" icon="layers" selected_value="@model.from_stock_location_id" selected_valueChanged="@OnFormStockLocationSeletedChange" />
+                                            }
+                                            else
+                                            {
+                                                <div class="uk-margin-small">
+                                                    <label class="uk-form-label"><Icon icon="layers" size="16px" /> @lang["Stock Location"]</label>
+                                                    <div class="uk-form-controls">
+                                                        <div style="height:30px">
+                                                            <Spinner />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -46,8 +58,27 @@
                                 <div class="panel">
                                     <div class="sub_title font-sm">@lang["To Stock"]</div>
                                     <div>
-                                        <SelectBusinessBranchByRole @bind-selected_value="@model.to_business_branch_id" show_empty="true" icon="layers" />
-                                        <SelectStockLocation @bind-selected_value="@model.to_stock_location_id" business_branch_id="@model.to_business_branch_id" show_empty="true" icon="layers" />
+                                        <div>
+                                            <div class="uk-form-horizontal">
+                                                <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnToBusinessBranchSeletedChange" selected_value="model.to_business_branch_id"/>
+                                                @if (!is_selecting_to_business_branch)
+                                                {
+                                                    <SelectStockLocation business_branch_id="@model.to_business_branch_id" show_empty="true" icon="layers" selected_value="@model.to_stock_location_id" selected_valueChanged="@OnToStockLocationSeletedChange" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="uk-margin-small">
+                                                        <label class="uk-form-label"><Icon icon="layers" size="16px" /> @lang["Stock Location"]</label>
+                                                        <div class="uk-form-controls">
+                                                            <div style="height:30px">
+                                                                <Spinner />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
