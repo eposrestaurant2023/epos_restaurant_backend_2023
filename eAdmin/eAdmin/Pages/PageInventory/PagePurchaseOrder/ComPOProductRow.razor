@@ -7,7 +7,6 @@
     <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
         @purchase_order_product?.product?.product_code
     </ComAuthorize>
-   
 </TdCenter>
 <td>
     <div>
@@ -73,7 +72,6 @@
         </Grid>
     </Com>
 </TdCenter>
-
 <TdRight>
     @purchase_order_product.total_amount.ToString(gv.currency_format)
 </TdRight>
