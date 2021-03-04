@@ -30,7 +30,7 @@
                             <div class="uk-margin-small">
                                 <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
                                 <div class="uk-form-controls">
-                                    <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
+                                    <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" />
                                 </div>
                             </div>
                             <DateInput label="@lang["Stock Take Date"]" value="@model.stock_take_date" icon="layers" /> 
@@ -39,8 +39,25 @@
                     <div>
                         <div class="section-content">
                             <div class="uk-form-horizontal">
-                                <SelectBusinessBranchByRole @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
-                                <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
+                                @model.business_branch_id | @model.stock_location_id
+                                  
+                                <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" />
+                                @if (!is_selecting_business_branch)
+                                {
+                                    <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" />
+                                }
+                                else
+                                {
+                                    <div class="uk-margin-small">
+                                        <label class="uk-form-label"><Icon icon="layers" size="16px" /> Stock Location</label>
+                                        <div class="uk-form-controls">
+                                            <div style="height:30px">
+                                                <Spinner />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </div>
