@@ -22,7 +22,6 @@
                     </div>
                     <div class="table-scroll-y">
                         <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
- 
                         <Table PerPage="@pg.per_page"
                                TotalItem="@TotalRecord"
                                CurrentPage="@pg.current_page"
@@ -200,7 +199,7 @@
                 state.pager.order_by_type = "desc";
             }
             string url = $"{controller_api}?$expand=unit&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";          
-            return   url + GetFilter(state.filters) + " and (is_inventory_product eq true or is_ingredient_product eq true)";
+            return   url + GetFilter(state.filters) + " and (is_menu_product eq true)";
 
         }
     }

@@ -1950,7 +1950,23 @@ h3.title.heading {
     z-index: 9;
     color:#000;
 }
-
+.uk-overlay-default {
+    background: rgb(255 255 255 / 61%);
+}
+.border_select {
+    border: 1px solid #5899dc;
+}
+.gb_button_select {
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    background: #5899dc;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 .custom-modal {
     transition: .2s ease-in-out;
 }

@@ -25,7 +25,7 @@
                 @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
                 {
 
-                    <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword"    menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
+                    <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
                         @(GetMenuName(m))
 
                     </ComMenuItem>
@@ -44,12 +44,12 @@
 
                 @if (current_menu_id > 0)
                 {
-                    <ComAssignProductButton />
+                    <ComAssignProductButton OnClick="@Click_Select_Produc"/>
                 }
 
                 @if (current_menu_id > 0)
                 {
-                    <ComMenuAddButton />
+                    <ComMenuAddButton OnClick="@OpenAddMenu" />
                 }
 
             </div>
@@ -63,6 +63,17 @@
 
 }
 
+@if (show_add_menu)
+{
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" />
+}
+
+@if (is_select_product)
+{
+    <ComSearchProductMenu/>
+}
+
+
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public Guid business_branch_id { get; set; }
@@ -70,7 +81,7 @@
     [Parameter] public int current_menu_id { get; set; }
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
-
+    bool is_select_product = false;
     [Parameter] public int parent_menu_id { get; set; }
     [Parameter] public int root_menu_id { get; set; }
 
@@ -115,7 +126,10 @@
         }
     }
 
-
+    void OpenAddMenu()
+    {
+        show_add_menu = true;
+    }
 
     string GetMenuName(MenuModel m)
     {
@@ -129,6 +143,12 @@
             return $"{m.menu_name_en}";
         }
     }
+
+    void Click_Select_Produc()
+    {
+        is_select_product = true;
+    }
+
 
     bool show_add_menu;
 

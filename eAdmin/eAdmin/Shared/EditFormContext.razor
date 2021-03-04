@@ -8,6 +8,8 @@
         <ModalFooter is_open_button_save_and_new="@is_open_button_save_and_new" 
                      OnNewSaveClick="@(()=>onNewSubmit(formContext))"
                      show_deleted="@show_deleted"
+                     is_save_button="@is_save"
+                     is_cancel_button="@is_cancel"
                      is_submitting="is_submitting"
                      OnCancelClick="OnCancelClick" 
                      OnSaveClick="@(()=>onSubmit(formContext))" 
@@ -20,6 +22,8 @@
     //[CascadingParameter] public Lang.I18nText.Lang lang { get; set; }
     [Parameter] public bool is_submitting { get; set; } = false;
     [Parameter] public bool is_opened { get; set; }
+    [Parameter] public bool is_save { get; set; }
+    [Parameter] public bool is_cancel { get; set; }
     [Parameter] public bool is_open_button_save_and_new { get; set; }
     [Parameter] public bool is_footer_visible { get; set; } = true;
     [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
