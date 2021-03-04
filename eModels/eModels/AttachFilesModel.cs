@@ -2,9 +2,7 @@
 using System.Net.Http;
 
 using eShareModel;
-using System;                       
-using System.ComponentModel.DataAnnotations.Schema;    
-using System.Net.Http;           
+using System;
 
 namespace eModels
 {

@@ -25,10 +25,10 @@
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox>
-                        <TextInput label="Name En" @bind-text="@modifier_group.modifier_group_name_en">
+                        <TextInput label="@lang["Name En"]" @bind-text="@modifier_group.modifier_group_name_en">
                             <ValidationMessage For="@(()=>modifier_group.modifier_group_name_en)" />
                         </TextInput>
-                        <TextInput label="Name Kh" @bind-text="@modifier_group.modifier_group_name_kh" />
+                        <TextInput label="@lang["Name Kh"]" @bind-text="@modifier_group.modifier_group_name_kh" />
                         <SelectStatus @bind-selected_value="@modifier_group.status" />
                     </UIContainerBox>
                 </UIGridCenter>
@@ -54,7 +54,7 @@ else
 }
 @if (is_error)
 {
-    <Error title="Product">@error_text</Error>
+    <Error title="@lang["Modifier Group"]">@error_text</Error>
 }
 
 @code{
@@ -99,8 +99,7 @@ else
     }
 
     async Task Save_Click()
-    {
-        Console.WriteLine(JsonSerializer.Serialize(modifier_group.modifier_group_product_categories));
+    { 
         is_saving = true;
 
         // where don't add group item
@@ -128,18 +127,11 @@ else
         // where section name empty
         if (modifier_group.modifier_group_items.Where(r=>r.is_deleted == false && string.IsNullOrEmpty(r.section_name)).Any())
         {
-            toast.Add($"Section name cannot empty.", MatBlazor.MatToastType.Warning);
+            toast.Add(lang["Section name cannot empty."], MatBlazor.MatToastType.Warning);
             is_saving = false;
             return;
         }
 
-        // where didn't tick any category product
-        if (!modifier_group.modifier_group_product_categories.Where(r => r.is_deleted == false).Any())
-        {
-            toast.Add($"Please tick product category.", MatBlazor.MatToastType.Warning);
-            is_saving = false;
-            return;
-        }
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
         if (clone_id > 0)
         {
@@ -152,7 +144,7 @@ else
         var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)
         {
-            toast.Add("Save Modifier Group successfully", MatToastType.Success);
+            toast.Add(lang["Save Modifier Group successfully"], MatToastType.Success);
             save_model = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
             if (is_save_and_new)
             {
@@ -168,7 +160,7 @@ else
             }
         }
         else {
-            toast.Add("Save modifier group fail.", MatToastType.Warning);
+            toast.Add(lang["Save modifier group fail."], MatToastType.Warning);
         }
         is_saving = false;
     }
