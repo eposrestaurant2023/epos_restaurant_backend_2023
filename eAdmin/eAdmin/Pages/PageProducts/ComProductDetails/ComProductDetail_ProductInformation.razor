@@ -35,6 +35,18 @@
                     <th>@lang["Vendor"]</th>
                     <td>@model.vendor?.vendor_display_name</td>
                 </tr>
+                <tr>
+                    <th>@lang["Open Product"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_open_product" /></td>
+                </tr>
+                <tr>
+                    <th>@lang["Allow Discount"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
+                </tr>
+                <tr>
+                    <th>@lang["Allow Free"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
+                </tr>
             </table>
             </ContentRight>
 
@@ -53,7 +65,7 @@
     <ComProductDetail_Menu product_id="@model.id"/>
     <Spacing Number="10"/>
     <ComProductDetail_ProductPrinter product_id="@model.id"/>
-    <UIContainerBox Title="Note" is_visible="@(!string.IsNullOrEmpty(model.note))">
+    <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
         @model.note
     </UIContainerBox>
 </UIGridCenter>

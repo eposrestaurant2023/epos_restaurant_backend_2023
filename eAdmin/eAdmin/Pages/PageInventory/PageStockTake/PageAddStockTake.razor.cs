@@ -19,6 +19,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
         public StockTakeModel model = new StockTakeModel(); 
         public bool is_show_back { get; set; } = false;
+        public bool is_selecting_business_branch { get; set; } = false;
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
@@ -145,6 +146,19 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 is_saving = false;
             }
         }
-    
+
+
+        public async Task OnStockLocationSeletedChange(int _id)
+        {
+            model.stock_location_id = _id;
+        }
+        public async Task OnBusinessBranchSeletedChange(Guid _id)
+        {
+            is_selecting_business_branch = true;
+            model.stock_location_id = 0;
+            await Task.Delay(500);
+            model.business_branch_id = _id;
+            is_selecting_business_branch = false;
+        }
     }
 }

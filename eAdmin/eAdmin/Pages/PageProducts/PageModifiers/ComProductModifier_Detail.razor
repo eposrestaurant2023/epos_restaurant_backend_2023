@@ -1,16 +1,16 @@
 ﻿@inject IHttpService http
-
-<UIContainerBox Title="Product Modifier">
+@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@lang["Product Modifier"]">
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
-            <ThCenter>Image</ThCenter>
-            <ThCenter>Code</ThCenter>
-            <ThAuto>Name (En)</ThAuto>
-            <ThAuto>Name (Kh)</ThAuto>
-            <th>Category</th>
-            <ThCenter>Quality</ThCenter>
-            <ThRight>Price</ThRight>
-            <ThCenter>Status</ThCenter>
+            <ThCenter>@lang["Image"]</ThCenter>
+            <ThCenter>@lang["Code"]</ThCenter>
+            <ThAuto>@lang["Name (En)"]</ThAuto>
+            <ThAuto>@lang["Name (Kh)"]</ThAuto>
+            <th>@lang["Category"]</th>
+            <ThCenter>@lang["Quanlity"]</ThCenter>
+            <ThRight>@lang["Price"]</ThRight>
+            <ThCenter>@lang["Status"]</ThCenter>
         </tr>
         @if (modifier.product_modifiers.Where(r => r.is_deleted == false).Any())
         {

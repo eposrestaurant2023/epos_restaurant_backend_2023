@@ -20,7 +20,7 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_ingredient")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
@@ -47,18 +47,17 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        <ThCenter>Image</ThCenter>
-                        @HeaderTemplate("product_code", "Code", "uk-text-center")
-                        @HeaderTemplate("product_name_en", "Name (En)", "col-auto")
-                        @HeaderTemplate("product_name_kh", "Name (Kh)", "col-auto")
+                        <ThCenter>@lang["Image"]</ThCenter>
+                        @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
+                        @HeaderTemplate("product_name_en", lang["Name (En)"], "col-auto")
+                        @HeaderTemplate("product_name_kh", lang["Name (Kh)"], "col-auto")
                         @HeaderTemplate("product_category/product_category_en", "Category")
-                        <ThCenter>Quality</ThCenter>
-                        <ThRight>Cost</ThRight>
+                        <ThCenter>@lang["Quality"]</ThCenter>
+                        <ThRight>@lang["Cost"]</ThRight>
                         <ThRight>
-                            Status
+                            @lang["Status"]
                         </ThRight>
                         <th class="uk-width-auto"></th>
                     </TableHeader>

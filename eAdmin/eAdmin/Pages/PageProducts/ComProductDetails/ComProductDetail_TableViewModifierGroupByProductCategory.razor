@@ -1,0 +1,61 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http
+
+@if (!is_loading && models.Any())
+{
+    if (!is_show_table)
+    {
+        <ComViewModifierGroupItemsByProductCategory models="@models" />
+    }
+    else
+    {
+        <Com is_visible="@(!string.IsNullOrEmpty(title))">
+            <h3 class="title">@title</h3>
+        </Com>
+        <table class="uk-table view_small_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover uk-table-middle uk-margin-remove">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="vertical-middle">@lang["Modifier Section"]</th>
+                    <ThCenter colspan="2">@lang["Modifier Item"]</ThCenter>
+                </tr>
+                <tr>
+                    <th>@lang["Name"]</th>
+                    <ThRight>@lang["Price"]</ThRight>
+                </tr>
+            </thead>
+            <tbody>
+                <ViewEmptyTemplate is_view="@(models.Select(r => r.modifier_group).Where(r => r.modifier_group_items.Any()).Any())" colspan="3" empty="This product's category has no modifier group.">
+                    <ComViewModifierGroupItemsByProductCategory models="@models" />
+                </ViewEmptyTemplate>
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_category_id { get; set; }
+    [Parameter] public bool is_show_table { get; set; }
+    [Parameter] public string title { get; set; }
+    List<ModifierGroupProductCategoryModel> models = new List<ModifierGroupProductCategoryModel>();
+    string controller_api = "";
+    string expand = "";
+    bool is_loading = false;
+    protected override async Task OnParametersSetAsync()
+    {
+        is_loading = true;
+        if (product_category_id > 0)
+        {
+            controller_api = "ModifierGroupProductCategory?";
+            expand = "modifier_group($select=id, modifier_group_name_en, modifier_group_name_kh;$expand=modifier_group_items($expand= children($expand = modifier);$filter=is_deleted eq false and status eq true);$filter=is_deleted eq false and status eq true)";
+
+            var resp = await http.ApiGetOData($"{controller_api}$expand={expand}&$filter=product_category_id eq {product_category_id} and is_deleted eq false");
+            if (resp.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<ModifierGroupProductCategoryModel>>(resp.Content.ToString());
+            }
+        }
+        is_loading = false;
+    }
+}
