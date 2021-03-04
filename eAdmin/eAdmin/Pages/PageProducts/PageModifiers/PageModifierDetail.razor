@@ -41,17 +41,17 @@
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem>Overview</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_sale_history=true)">Sale History</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">Comment</TabHeaderItem>
+                    <TabHeaderItem>@lang["Overview"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>show_sale_history=true)">@lang["Sale History"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
                     <TabItem>
                         <UIGridCenter>
-                            <UIContainerBox Title="Information">
+                            <UIContainerBox Title="@lang["Information"]">
                                 <table>
                                     <tr>
-                                        <th>Modifier Name</th>
+                                        <th>@lang["Modifier Name"]</th>
                                         <td>@modifier.modifier_name</td>
                                     </tr>
                                 </table>

@@ -123,6 +123,11 @@ namespace eAPI.Controllers
             u.status = true;
             u.is_deleted = false;
             u.created_date = DateTime.Now;
+            u.is_fulfilled = false;
+            u.is_paid = false;
+            u.is_over_due = false;
+            u.is_partially_paid = false;
+            u.active_purchase_order_products.ForEach(r => r.id = 0);
             return Ok(u);
         }
 

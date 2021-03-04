@@ -1,43 +1,44 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject NavigationManager nav
 
-<UIContainerBox Title="Modifier">
-    @foreach (var s in modifier_group.modifier_group_items.Where(r => r.is_section == true).OrderBy(r => r.sort_order))
-    {
-        <TextInput is_read_only="true" @bind-text="@s.section_name" label="Section Name" />
-        <div class="uk-child-width-1-3@s" uk-grid>
-            <div>
-                <div class="uk-panel">
-                    <ComInputCheckBox label_inline="true" is_read_only="true" @bind-value="@s.is_required" label="Is Required" />
-                </div>
-            </div>
-            <div>
-                <div class="uk-panel">
-                    <ComInputCheckBox label_inline="true" is_read_only="true" @bind-value="@s.is_multiple_select" label="Allow Multiple Select" />
-                </div>
-            </div>
-        </div>
-        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+<UIContainerBox Title="@lang["Modifier"]">
+    <table class="uk-table view_small_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover uk-table-middle uk-margin-remove">
+        <thead>
             <tr>
-                <Th>@lang["Modifier Name"]</Th>
+                <th rowspan="2" class="vertical-middle">@lang["Modifier Section"]</th>
+                <ThCenter colspan="2">@lang["Modifier Item"]</ThCenter>
+            </tr>
+            <tr>
+                <th>@lang["Modifier Name"]</th>
                 <ThRight>@lang["Price"]</ThRight>
             </tr>
-            @foreach (var m in s.children.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
+        </thead>
+        <tbody>
+            @foreach (var m in modifier_group.modifier_group_items.OrderBy(r=>r.sort_order).ToList())
             {
-                <tr>
-                    <td>
-                        <ComAuthorize roles="@gv.GetRole("modifier_view")" OnClick="@(()=>nav.NavigateTo($"modifier/{m.modifier_id}"))">
-                            @m.modifier?.modifier_name
-                        </ComAuthorize>
-                    </td>
-                    <TdRight>
-                        @m.price.ToString(gv.currency_format)
-                    </TdRight>
-                </tr>
+            <tr>
+                <td>
+                    <div>
+                        <span>@m.section_name</span>
+                    </div>
+                    <div class="uk-margin-small-top">
+                        <LabelIsRequired is_visible="@m.is_required" />
+                        <LabelIsMultipleSelect is_visible="@m.is_multiple_select" />
+                    </div>
+                </td>
+                <td colspan="2">
+                    @foreach (var c in m.children.OrderBy(r => r.sort_order))
+                    {
+                        <Grid ClassName="uk-grid-small">
+                            <div class="uk-width-expand" uk-leader><a href="@($"modifier/{c.modifier.id}")" target="_blank">@c.modifier?.modifier_name</a></div>
+                            <div class="uk-width-auto">@c.price.ToString(gv.main_currency_format)</div>
+                        </Grid>
+                    }
+                </td>
+            </tr>
             }
-        </table>
-        <hr />
-    }
+        </tbody>
+    </table>
 </UIContainerBox>
 
 

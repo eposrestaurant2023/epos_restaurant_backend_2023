@@ -1,6 +1,5 @@
 ﻿@page "/purchaseorder"
 @inherits PagePurchaseOrderBase
-@inject IStringLocalizer<Resource> lang;
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
@@ -27,12 +26,12 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">New</AddButton>
+                <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New PO"]</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <div class="uk-form-controls" style="margin-bottom: 10px;">
-                        <label sclass="uk-form-label">Vendor</label>
+                        <label sclass="uk-form-label">@lang["Vendor"]</label>
                         <VendorTypeahead @bind-vendor="@state.vendor" />
                     </div>
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
@@ -53,8 +52,7 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto" >
                     <TableHeader>
                         @HeaderTemplate("purchase_date", lang["PO Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
@@ -98,9 +96,10 @@
                             <LabelDeleted is_visible="@(p.is_deleted)" />
                         </TdRight>
                         <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@((!p.is_deleted && !p.is_paid) && (!p.is_partially_paid && !p.is_fulfilled))" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">@lang["View"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">@lang["Edit"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="file_copy" url="@($"purchaseorder/clone/{p.id}")">@lang["Clone"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@((!p.is_deleted && !p.is_paid) && (!p.is_partially_paid && !p.is_fulfilled))" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
                         </TdActions>
                     </RowTemplate>
                 </Table>

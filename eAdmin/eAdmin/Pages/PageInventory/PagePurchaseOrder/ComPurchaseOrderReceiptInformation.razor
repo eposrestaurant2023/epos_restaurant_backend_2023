@@ -1,24 +1,54 @@
 ﻿@inject IHttpService http
-
+@inject IStringLocalizer<Resource> lang
 <div class="uk-form-horizontal">
     <div class="uk-margin-small">
-        <label class="uk-form-label"><Icon icon="layers" size="16px" />Referance #</label>
+        <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
         <div class="uk-form-controls">
-            <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
+            <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" />
         </div>
     </div>
-    <DateInput label="PO Date" value="@model.purchase_date" valueChanged="@OnDateChange" icon="layers" />
-    <SelectBusinessBranchByRole @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
-    <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
+    <DateInput label="@lang["PO Date"]" value="@model.purchase_date" valueChanged="@OnDateChange" icon="layers" />
+    <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" />
+    @if (!is_selecting_bb)
+    {
+        <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" />
+    }
+    else
+    {
+        <div class="uk-margin-small">
+            <label class="uk-form-label"><Icon icon="layers" size="16px" /> Stock Location</label>
+            <div class="uk-form-controls">
+                <div style="height:30px">
+                    <Spinner />
+                </div>
+            </div>
+        </div>
+    }
 </div>
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public PurchaseOrderModel model { get; set; }
     [Parameter] public EventCallback<PurchaseOrderModel> modelChanged { get; set; }
-      
+    bool is_selecting_bb = false;
     async Task OnDateChange(DateTime date)
     {
         model.purchase_date = date;
         await modelChanged.InvokeAsync(model);
+    }
+    async Task OnStockLocationSeletedChange(int _id)
+    {
+
+        model.stock_location_id = _id;
+        await modelChanged.InvokeAsync(model);
+
+    }
+    async Task OnBusinessBranchSeletedChange(Guid _id)
+    {
+        is_selecting_bb = true;
+        model.stock_location_id = 0;
+        await Task.Delay(500);
+        model.business_branch_id = _id;
+        await modelChanged.InvokeAsync(model);
+        is_selecting_bb = false;
     }
 }

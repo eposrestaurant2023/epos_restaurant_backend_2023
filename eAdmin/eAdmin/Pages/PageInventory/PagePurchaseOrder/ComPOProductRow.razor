@@ -6,9 +6,9 @@
 <TdCenter>
     <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
         @purchase_order_product?.product?.product_code
-    </ComAuthorize>
-   
+    </ComAuthorize> 
 </TdCenter>
+
 <td>
     <div>
         <div>
@@ -36,9 +36,17 @@
         </div>
     </div>
 </td>
-<td>
-    @*@purchase_order_product?.onha*@
-</td>
+<TdCenter>
+    @if (model.stock_location_id > 0)
+    {
+        <ComProductQuantityOnHand product_id="@purchase_order_product.product_id" stock_location_id="@model.stock_location_id" />
+
+    }
+    else
+    {
+        <span>-</span>
+    }
+</TdCenter>
 <TdCenter>
     @if (purchase_order_product.is_fulfilled)
     {
@@ -85,6 +93,7 @@
     [Parameter] public EventCallback<PurchaseOrderProductModel> purchase_order_productChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnRemove { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; }
+    [Parameter] public PurchaseOrderModel model { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
 
