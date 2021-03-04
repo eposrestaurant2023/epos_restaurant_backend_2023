@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using eShareModel;
 
 namespace eModels
@@ -71,14 +72,37 @@ namespace eModels
             histories = new List<HistoryModel>();
             attach_files = new List<AttachFilesModel>();
         }
+
+        private string _modifier_group_name_en;
         [Required(ErrorMessage = "Field cannot be blank.")]
-        public string modifier_group_name_en { get; set; }
+        public string modifier_group_name_en
+        {
+            get { return _modifier_group_name_en; }
+            set
+            {
+                _modifier_group_name_en = value;
+                if (string.IsNullOrEmpty(modifier_group_name_kh))
+                {
+                    modifier_group_name_kh = value;
+                }
+            }
+        }
         public string modifier_group_name_kh { get; set; }
-      
+        
+
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
         public List<HistoryModel> histories { get; set; }
         public List<AttachFilesModel> attach_files { get; set; }
+
+        [NotMapped, JsonIgnore]
+        public string modifier_group_display_name
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(modifier_group_name_kh) ? modifier_group_name_en : $"{modifier_group_name_en} ({modifier_group_name_kh})");
+            }
+        }
     }
 
     [Table("tbl_modifier_group_product_category")]

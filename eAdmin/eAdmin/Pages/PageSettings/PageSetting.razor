@@ -26,37 +26,56 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Table OnPagerChange="@SelectChange"
-                   OnPageChange="@ChangePager"
-                   isLoading="@is_loading_data"
-                   PerPage="@state.pager.per_page"
-                   TotalItem="@TotalRecord"
-                   CurrentPage="@state.pager.current_page"
-                   ShowPaging="true"
-                   ShowCounter="true"
-                   ShowPager="true"
-                   ShowTotalCount="true"
-                   ShowPagination="true"
-                   Items="@settings"
-                   EmptyIcon="setting"
-                   EmptyText="No Data Found">
-                <TableHeader>
-                    @HeaderTemplate("setting_title", "Setting title")
-                    <ThAuto>Descript</ThAuto>
-                    <th></th>
-                </TableHeader>
-                <RowTemplate Context="s">
-                    <td>
-                        @s.setting_title
-                    </td>
-                    <td>
-                        <div class="text-pre-wrap">@s.setting_description</div>
-                    </td>
-                    <td>
-                        <Icon roles="@gv.GetRole("general_setting_edit")" title="Edit" icon="edit" OnClick="@(()=>OnEdit(s))" />
-                    </td>
-                </RowTemplate>
-            </Table>
+            <Tab>
+                <TabHeader>
+                    <TabHeaderItem>General Setting</TabHeaderItem>
+                    @foreach (var bs in business_branches.Where(r=>r.is_deleted == false))
+                    {
+                        <TabHeaderItem>@bs.business_branch_name_en</TabHeaderItem>
+                    }
+                </TabHeader>
+                <TabBody>
+                    <TabItem>
+                        <Table OnPagerChange="@SelectChange"
+                               OnPageChange="@ChangePager"
+                               isLoading="@is_loading_data"
+                               PerPage="@state.pager.per_page"
+                               TotalItem="@TotalRecord"
+                               CurrentPage="@state.pager.current_page"
+                               ShowPaging="true"
+                               ShowCounter="true"
+                               ShowPager="true"
+                               ShowTotalCount="true"
+                               ShowPagination="true"
+                               Items="@settings"
+                               EmptyIcon="setting"
+                               EmptyText="No Data Found">
+                            <TableHeader>
+                                @HeaderTemplate("setting_title", "Setting title")
+                                <ThAuto>Descript</ThAuto>
+                                <th></th>
+                            </TableHeader>
+                            <RowTemplate Context="s">
+                                <td>
+                                    @s.setting_title
+                                </td>
+                                <td>
+                                    <div class="text-pre-wrap">@s.setting_description</div>
+                                </td>
+                                <td>
+                                    <Icon roles="@gv.GetRole("general_setting_edit")" title="Edit" icon="edit" OnClick="@(()=>OnEdit(s))" />
+                                </td>
+                            </RowTemplate>
+                        </Table>
+                    </TabItem>
+                    <TabItem>
+
+                    </TabItem>
+                    <TabItem></TabItem>
+                    <TabItem></TabItem>
+                </TabBody>
+            </Tab>
+            
         </PageBody>
     </PageContainer>
     @if (is_open)
@@ -99,9 +118,17 @@
             state.page_title = "All Setting";
         }
         await LoadData(state.api_url);
+        await LoadDataBusinessBranch();
         is_loading = false;
     }
-
+    async Task LoadDataBusinessBranch()
+    {
+        var res = await http.ApiGetOData("BusinessBranch");
+        if (res.IsSuccess)
+        {
+            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
+        }
+    }
     void Save_Click()
     {
         is_open = false;

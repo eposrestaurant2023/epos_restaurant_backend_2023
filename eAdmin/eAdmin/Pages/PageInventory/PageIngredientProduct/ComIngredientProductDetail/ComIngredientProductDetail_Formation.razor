@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIGridCenter>
-    <UISummaryBox Title="Ingredient Product Information"  ShowImage="true" ImageUrl="@model.photo">
+    <UISummaryBox Title="@lang["Ingredient Product Information"]"  ShowImage="true" ImageUrl="@model.photo">
         <ContentLeft>
             <table>
                 <tr>
@@ -30,7 +30,19 @@
                 <tr>
                     <td>@lang["Vendor"]</td>
                     <td>@model.vendor?.vendor_display_name</td>
-                </tr> 
+                </tr>
+                <tr>
+                    <th>@lang["Open Product"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_open_product" /></td>
+                </tr>
+                <tr>
+                    <th>@lang["Allow Discount"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
+                </tr>
+                <tr>
+                    <th>@lang["Allow Free"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
+                </tr>
             </table>
         </ContentRight>
 

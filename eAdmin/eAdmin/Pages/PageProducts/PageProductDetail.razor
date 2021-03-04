@@ -17,7 +17,7 @@
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
                         @model.product_display_name
-                        <ComProductDetail_HeaderStatus model="@model"/>
+                        <ComProductDetail_HeaderStatus model="@model" is_menu_product="false"/>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -93,7 +93,8 @@
                     <TabItem>
                         @if (show_inventory_strasation)
                         {
-                        <ComProductDetail_InventoryTransactionHistory product_id="@id"/> }
+                        <ComProductDetail_InventoryTransactionHistory product_id="@id"/> 
+                        }
                     </TabItem>
                     <TabItem>
                         @if (show_comment_tab)

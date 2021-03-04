@@ -25,7 +25,7 @@
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox>
-                        <TextInput label="Name En" @bind-text="@modifier.modifier_name">
+                        <TextInput label="@lang["Name En"]" @bind-text="@modifier.modifier_name">
                             <ValidationMessage For="@(()=>modifier.modifier_name)" />
                         </TextInput>
                         <SelectStatus @bind-selected_value="@modifier.status" />
@@ -51,7 +51,7 @@ else
 }
 @if (is_error)
 {
-    <Error title="Product">@error_text</Error>
+    <Error title="@lang["Modifier"]">@error_text</Error>
 }
 
 @code{
@@ -89,7 +89,7 @@ else
         }
         else
         {
-            title = "Add New Modifier";
+            title = lang["Add New Modifier"];
             modifier = new ModifierModel();
         }
         is_loading = false;
@@ -128,7 +128,7 @@ else
             }
         }
         else {
-            toast.Add("Save modifier fail.", MatToastType.Warning);
+            toast.Add(lang["Save modifier fail."], MatToastType.Warning);
         }
         is_saving = false;
     }
