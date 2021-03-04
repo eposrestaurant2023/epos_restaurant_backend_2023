@@ -25,9 +25,9 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>General Setting</TabHeaderItem>
-                    @foreach (var bs in business_branches.Where(r=>r.is_deleted == false))
+                    @foreach (var bs in business_branches.Where(r => r.is_deleted == false))
                     {
-                        <TabHeaderItem>@bs.business_branch_name_en</TabHeaderItem>
+                        <TabHeaderItem OnClick="@(()=>OnBusinessBranch(bs.id))">@bs.business_branch_name_en</TabHeaderItem>
                     }
                 </TabHeader>
                 <TabBody>
@@ -35,48 +35,54 @@
                         <ComAccordion>
                             <Header>Show Comfirm Password</Header>
                             <Content>
-                                <ComSetting_GroupShowComfirmPassword group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
+                                <ComSetting_GroupShowComfirmPassword is_public="true" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
                             </Content>
                         </ComAccordion>
                         <ComAccordion>
                             <Header>Host</Header>
                             <Content>
-                                <ComSetting_GroupShowComfirmPassword group_name="host" OnEdit="@OnEdit" settings="@settings" />
+                                <ComSetting_GroupShowComfirmPassword is_public="true" group_name="host" OnEdit="@OnEdit" settings="@settings" />
                             </Content>
                         </ComAccordion>
                         <ComAccordion>
                             <Header>Report</Header>
                             <Content>
-                                <ComSetting_GroupShowComfirmPassword group_name="report" OnEdit="@OnEdit" settings="@settings" />
+                                <ComSetting_GroupShowComfirmPassword is_public="true" group_name="report" OnEdit="@OnEdit" settings="@settings" />
                             </Content>
                         </ComAccordion>
                     </TabItem>
+
+
                     <TabItem>
-                        ESOFTIX PP
+                        <ComAccordion>
+                            <Header>Show Comfirm Password</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
                     </TabItem>
+
+
                     <TabItem>
                         ESOFTIX SR
                     </TabItem>
                     <TabItem>BBN EN</TabItem>
                 </TabBody>
             </Tab>
-            
         </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@Save_Click" />
+            </FooterCenter>
+        </PageFooter>
     </PageContainer>
-    @if (is_open)
-    {
-        <ComEditSetting Save_Click="@Save_Click" business_branches="@business_branches" setting="setting" is_dialog_open="@is_open" Cancel_click="@(()=> { is_open = false;setting = new SettingModel(); })" title="@setting.setting_title" />
-    }
 }
 
 @code{
     [Parameter] public string keyword { get; set; } = "";
     List<SettingModel> settings = new List<SettingModel>();
-    SettingModel setting = new SettingModel();
-    PagerModel pg = new PagerModel();
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
-    bool is_open;
-    int TotalRecord = 0;
+    bool is_public = false;
     string StateKey = "278484567Gs47775KJHGytkjhTonB2547935";
     string controller_api = "Setting";
 
@@ -89,7 +95,7 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            string url = $"{controller_api}?$expand=business_branch_settings&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}";
             return url + GetFilter(state.filters);
         }
     }
@@ -114,16 +120,46 @@
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
         }
     }
-    void Save_Click()
+    Guid business_id = new Guid();
+    void OnBusinessBranch(Guid id)
     {
-        is_open = false;
+        business_id = id;
     }
+    async Task Save_Click()
+    {
+        is_saving = true;
+        if (business_id != Guid.NewGuid())
+        {
+            var re = await http.ApiPost("BusinessBranchSetting/save/multiple", setting_.business_branch_settings);
+            if (re.IsSuccess)
+            {
+                toast.Add(lang["Save Setting successfully"], MatToastType.Success);
+            }
+            else
+            {
+                toast.Add(lang["Save Setting fail"], MatToastType.Warning);
+            }
+        }
+        else
+        {
+            var re = await http.ApiPost("save/setting/multiple", settings);
+            if (re.IsSuccess)
+            {
+                toast.Add(lang["Save Setting successfully"], MatToastType.Success);
+            }
+            else
+            {
+                toast.Add(lang["Save Setting fail"], MatToastType.Warning);
+            }
+        }
 
+        is_saving = false;
+    }
+    SettingModel setting_ = new SettingModel();
     void OnEdit(SettingModel s)
     {
         title = "Edit :" + s.setting_title;
-        is_open = true;
-        setting = s;
+        setting_ = s;
     }
 
     async Task LoadData(string api_url = "")
@@ -140,7 +176,6 @@
         if (resp.IsSuccess)
         {
             settings = JsonSerializer.Deserialize<List<SettingModel>>(resp.Content.ToString());
-            TotalRecord = resp.Count;
         }
         is_loading = false;
     }

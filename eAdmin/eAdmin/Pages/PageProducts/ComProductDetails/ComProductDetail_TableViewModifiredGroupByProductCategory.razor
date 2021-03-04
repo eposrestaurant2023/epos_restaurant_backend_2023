@@ -11,13 +11,13 @@
                 <td>
                     <div>
 
-                        @if (!string.IsNullOrEmpty(mg.modifier_group_display_name))
+                        @*@if (!string.IsNullOrEmpty(mg.modifier_group_display_name))
                         { <a href="modifiergroup/@mg.id" target="_blank"><span uk-tooltip="Modifier Group Name">(@mg.modifier_group_display_name)</span></a></div>
                         }
                         else
                         {
                             <span>@m.section_name</span>
-                        }
+                        }*@
                     </div>
                     <div class="uk-margin-small-top"> 
                         <LabelIsRequired is_visible="@m.is_required" />
