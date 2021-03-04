@@ -39,12 +39,26 @@ namespace eShareModel
         public bool is_paid { get; set; }
         public decimal total_cost { get; set; }
 
+
+
+        //Tax
+        public decimal taxable_amount { get; set; }
+        public decimal tax_1_rate { get; set; }
+        public decimal tax_1_amount { get; set; }
+        public decimal tax_1_taxable_amount { get; set; }
+
+        public decimal tax_2_rate { get; set; }
+        public decimal tax_2_amount { get; set; }
+        public decimal tax_2_taxable_amount { get; set; }
+
+        public decimal tax_3_rate { get; set; }
+        public decimal tax_3_amount { get; set; }
+        public decimal tax_3_taxable_amount { get; set; }
+
+
         //Other 
         public string sale_note { get; set; }
-
         public int status_id { get; set; }
-
-
         //
         public bool? is_closed { get; set; }
         public string closed_by { get; set; }
