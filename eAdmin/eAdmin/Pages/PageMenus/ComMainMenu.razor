@@ -1,5 +1,6 @@
 ﻿
 <UIContainerBox Title="Menus">
+
     @if (menu == null)
     {
         <div>
@@ -15,67 +16,69 @@
 
         @if (menus.Any())
         {
-<div class="ribbons-wrapper uk-grid-small" uk-grid>
-    @if (current_menu_id != parent_menu_id)
-    {
-        <ComMenuBackButton OnClick="@OnBack" />
-    }
+            <div class="ribbons-wrapper uk-grid-small" uk-grid>
+                @if (current_menu_id != parent_menu_id)
+                {
+                    <ComMenuBackButton OnClick="@OnBack" />
+                }
 
-    @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
-    {
+                @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
+                {
 
-<ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">
-    @(GetMenuName(m))
+                    <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword"    menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
+                        @(GetMenuName(m))
 
-</ComMenuItem>
-           
-              
-           
+                    </ComMenuItem>
 
 
 
-    }
 
-    @if (string.IsNullOrEmpty(keyword))
-    {
-        <ComMenuSelectProductButton menu="@current_menu" />
-    }
 
-    @if (current_menu_id > 0)
-    {
-        <ComAssignProductButton />
-    }
 
-    @if (current_menu_id > 0)
-    {
-        <ComMenuAddButton />
-    }
+                }
 
-</div>
+                @if (string.IsNullOrEmpty(keyword))
+                {
+                    <ComMenuSelectProductButton menu="@current_menu" />
+                }
+
+                @if (current_menu_id > 0)
+                {
+                    <ComAssignProductButton />
+                }
+
+                @if (current_menu_id > 0)
+                {
+                    <ComMenuAddButton />
+                }
+
+            </div>
         }
     }
 
 </UIContainerBox>
+@if (show_move_menu)
+{
+    <ComMenu_SelectMenu menus="@menus" root_menu_id="@root_menu_id" is_opened="@show_move_menu" @bind-model="@menu" OnCancel="@(()=>show_move_menu=false)" OnSelectMenu="@(()=> { show_move_menu = false;  })" />
 
+}
 
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public Guid business_branch_id { get; set; }
-    [Parameter] public bool is_sort_order { get; set; } = true;
+
     [Parameter] public int current_menu_id { get; set; }
     [Parameter] public string keyword { get; set; }
-    [Parameter] public EventCallback< string> keywordChanged { get; set; }
+    [Parameter] public EventCallback<string> keywordChanged { get; set; }
 
     [Parameter] public int parent_menu_id { get; set; }
+    [Parameter] public int root_menu_id { get; set; }
 
     [Parameter] public EventCallback<MenuModel> OnMenuSelected { get; set; }
 
     [Parameter] public List<ProductMenuModel> selected_menus { get; set; }
 
-
-
-
-
+    bool show_move_menu;
     MenuModel menu = new MenuModel();
 
 
@@ -84,7 +87,8 @@
 
     public List<MenuModel> GetMenus
     {
-        get {
+        get
+        {
 
             if (string.IsNullOrEmpty(keyword))
             {
@@ -92,19 +96,24 @@
             }
             else
             {
-                _GetMenus =  menus.Where(r => r.is_deleted == false && ((r.menu_name_en ?? "") + " " + (r.menu_name_kh ?? "")).ToString().Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList();
+                _GetMenus = menus.Where(r => r.is_deleted == false && ((r.menu_name_en ?? "") + " " + (r.menu_name_kh ?? "")).ToString().Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList();
             }
-            return _GetMenus; }
+            return _GetMenus;
+        }
         set { _GetMenus = value; }
     }
 
 
 
 
-    public MenuModel current_menu { get {
+    public MenuModel current_menu
+    {
+        get
+        {
 
             return menus.Where(r => r.id == current_menu_id).FirstOrDefault();
-        } }
+        }
+    }
 
 
 
@@ -162,7 +171,7 @@
     {
 
         var d = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
-        current_menu_id = Convert.ToInt32( d.parent_id);
+        current_menu_id = Convert.ToInt32(d.parent_id);
     }
 
     void AddRootMenu()
@@ -207,7 +216,13 @@
         }
     }
 
+    void OnMoveMenu(MenuModel m)
+    {
+        menu = m;
+        show_move_menu = true;
 
+
+    }
 
 }
 

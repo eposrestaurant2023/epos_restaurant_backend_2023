@@ -1,0 +1,74 @@
+﻿<EditFormContext model="@model" is_opened="@is_opened" Cancel_Click="@OnCancel" is_footer_visible="false" modal_width="500px">
+  
+    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+        <thead>
+            <tr>
+                <th>Menu Name @root_menu_id</th>
+                <th></th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach(var m in menu_items.Where(r=>r.id!=model.id))
+            {
+                <tr>
+                    <td>
+                    @if (menus.Where(r => r.parent_id == m.id && r.is_deleted == false).Any())
+                    {
+                    <a @onclick="@(() => MenuClick(m))">@m.menu_name_en</a>
+                    }
+                    else { 
+                    <span>@m.menu_name_en</span>
+                    }
+                    </td>
+                    
+                    <td><Button OnClick="@(()=>SelectMenu(m))">Select</Button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</EditFormContext>
+@code {
+
+
+        [Parameter] public List<MenuModel> menus { get; set; }
+        [Parameter] public MenuModel model { get; set; }
+        [Parameter] public EventCallback<MenuModel> modelChanged { get; set; }
+        [Parameter] public bool is_opened { get; set; }
+        [Parameter] public int root_menu_id { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnSelectMenu { get; set; }
+
+        int parent_id;
+    public List<MenuModel> menu_items
+    {
+        get
+        {
+            if (parent_id == 0)
+            {
+                return menus.Where(r => r.parent_id == root_menu_id && r.is_deleted == false).OrderBy(r => r.sort_order).ToList();
+            }
+            else
+            {
+                return menus.Where(r => r.parent_id == parent_id && r.is_deleted == false).OrderBy(r => r.sort_order).ToList();
+            }
+        }
+    }
+
+    void MenuClick(MenuModel m)
+    {
+        parent_id = m.id;
+    }
+
+    async Task SelectMenu(MenuModel parent_menu)
+    {
+        model.parent_id = parent_menu.id;
+        await modelChanged.InvokeAsync(model);
+        await OnSelectMenu.InvokeAsync(null);
+    }
+
+
+
+
+
+}

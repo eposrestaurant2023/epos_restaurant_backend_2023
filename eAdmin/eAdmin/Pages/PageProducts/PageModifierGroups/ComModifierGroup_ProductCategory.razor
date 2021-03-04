@@ -1,31 +1,33 @@
 ﻿@inject IStringLocalizer<Resource> lang
 
 <UIContainerBox Title="Product Categories">
-    @foreach (var g in product_groups.Where(r => (r.product_categories.SelectMany(r => r.modifier_group_product_categories.Where(r => r.modifer_group_id == modifier_group_id)).Count() > 0)))
-    {
-        <h3 class="title">@g.product_group_code - @g.product_group_en </h3>
-        <hr />
-        <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
-            <thead>
-                <tr>
-                    <th>@lang["Name En"]</th>
-                    <th>@lang["Name Kh"]</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var mp in g.product_categories.SelectMany(r => r.modifier_group_product_categories))
-                {
-                    @foreach (var p in g.product_categories.Where(r => r.id == mp.product_category_id && mp.modifer_group_id == modifier_group_id))
+    <ViewEmptyTemplate is_view="@(product_groups.Where(r => (r.product_categories.SelectMany(r => r.modifier_group_product_categories.Where(r => r.modifer_group_id == modifier_group_id)).Count() > 0)).Any())">
+        @foreach (var g in product_groups.Where(r => (r.product_categories.SelectMany(r => r.modifier_group_product_categories.Where(r => r.modifer_group_id == modifier_group_id)).Count() > 0)))
+        {
+            <h3 class="title">@g.product_group_code - @g.product_group_en </h3>
+            <hr />
+            <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
+                <thead>
+                    <tr>
+                        <th>@lang["Name En"]</th>
+                        <th>@lang["Name Kh"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var mp in g.product_categories.SelectMany(r => r.modifier_group_product_categories))
                     {
-                        <tr>
-                            <td>@p.product_category_en</td>
-                            <td>@p.product_category_kh</td>
-                        </tr>
+                        @foreach (var p in g.product_categories.Where(r => r.id == mp.product_category_id && mp.modifer_group_id == modifier_group_id))
+                        {
+                            <tr>
+                                <td>@p.product_category_en</td>
+                                <td>@p.product_category_kh</td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
-    }
+                </tbody>
+            </table>
+        }
+    </ViewEmptyTemplate>    
 </UIContainerBox>
 
 @code {

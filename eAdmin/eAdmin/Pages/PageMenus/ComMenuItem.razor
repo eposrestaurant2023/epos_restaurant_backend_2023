@@ -1,4 +1,5 @@
 ﻿@inherits PageCore
+ 
 <div style="position:relative;" class="uk-width-1-6">
     <div class="icon_edit_menu">
         <Icon icon="edit" icon_color="@menu.text_color" OnClick="@EditMenu"/>
@@ -11,8 +12,8 @@
             <Icon icon="more_vert" />
             <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                 <ul class="uk-nav uk-dropdown-nav">
-                    <li> <Icon icon="delete" @onclick="@OnUnSelectMenu" /> Delete </li>
-                    <li> <Icon icon="arrow_back" @onclick="@OnUnSelectMenu" /> Move to </li>
+                    <li> <Icon icon="delete" @onclick="@OnDeleteMenu" /> Delete </li>
+                    <li> <Icon icon="arrow_back" @onclick="@OnMoveMenu" /> Move to </li>
                 </ul>
             </div>
         </div>
@@ -47,7 +48,7 @@
 @if (show_add_menu)
 {
     <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" OnSave="@SaveMenu" />
-
+    
 }
 
 @code {
@@ -57,8 +58,11 @@
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public int menu_id { get; set; }
     [Parameter] public EventCallback<int> menu_idChanged { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnMoveMenu{ get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnDeleteMenu { get; set; }
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
+    [Parameter] public int parent_menu_id { get; set; }
 
 
 
@@ -76,16 +80,10 @@
         show_add_menu = true;
     }
 
+    void OnSelectMenu() { }
 
-    async Task OnSelectMenu()
-    {
 
-    }
 
-    async Task OnUnSelectMenu()
-    {
-
-    }
 
     bool IsMenuSelected()
     {
