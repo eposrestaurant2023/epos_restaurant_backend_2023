@@ -22,10 +22,13 @@
     @if (!string.IsNullOrEmpty(menu.photo))
     {
         <div>
-            <div style="position:relative;">
+            <div style="position:relative;" @onclick="@OnClick" class="cp">
                 <Image ImageUrl="@http.ImageUrl(menu.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px" />
-                <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-padding-remove" style="padding:5px !important;text-align:center;">
-                    <p></p>
+                <div class="uk-overlay-default uk-position-cover"></div>
+                <div class="uk-position-bottom uk-dark uk-padding-remove" style="padding:5px !important;text-align:center;">
+                    <p>
+                        @ChildContent
+                    </p>
                 </div>
             </div>
 
