@@ -6,9 +6,9 @@
 <TdCenter>
     <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
         @purchase_order_product?.product?.product_code
-    </ComAuthorize>
-   
+    </ComAuthorize> 
 </TdCenter>
+
 <td>
     <div>
         <div>
@@ -37,6 +37,17 @@
     </div>
 </td>
 <TdCenter>
+    @if (model.stock_location_id > 0)
+    {
+        <ComProductQuantityOnHand product_id="@purchase_order_product.product_id" stock_location_id="@model.stock_location_id" />
+
+    }
+    else
+    {
+        <span>-</span>
+    }
+</TdCenter>
+<TdCenter>
     @if (purchase_order_product.is_fulfilled)
     {
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@purchase_order_product.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
@@ -45,6 +56,9 @@
     {
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@purchase_order_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
     } 
+
+
+
 </TdCenter>
 <TdCenter> 
     <SelectUnitName  @bind-unit_name="@purchase_order_product.unit" @bind-multiplier="@purchase_order_product.multiplier" unit_category_id="@purchase_order_product.product.unit.unit_category_id" show_empty="false"/>
@@ -67,7 +81,6 @@
         </Grid>
     </Com>
 </TdCenter>
-
 <TdRight>
     @purchase_order_product.total_amount.ToString(gv.currency_format)
 </TdRight>
@@ -79,6 +92,7 @@
     [Parameter] public EventCallback<PurchaseOrderProductModel> purchase_order_productChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnRemove { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; }
+    [Parameter] public PurchaseOrderModel model { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
 

@@ -28,9 +28,10 @@ namespace eModels
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string password { get; set; } = "";
 
-        [Range(10,99, ErrorMessage = "Value for user code must be between {1} and {2}.")]
-        public int user_code { get; set; } = 0;
-        public int pin_code { get; set; } = 0;
+        [Required]
+        [StringLength(2, ErrorMessage = "Enter 2 didit only.")]
+        public string user_code { get; set; }
+        public string pin_code { get; set; }
         public string email { get; set; }
         public string phone_1 { get; set; }
         public string phone_2 { get; set; }           
@@ -46,9 +47,5 @@ namespace eModels
         public bool is_default { get; set; } = false;
         public bool is_buildin { get; set; } = false;
         public string photo { get; set; } = "";
-
-        [NotMapped,  JsonIgnore ]
-        public string new_password { get; set; }    
-
     }
 }

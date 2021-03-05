@@ -1,7 +1,14 @@
 ﻿
- 
 <UIContainerBox Title="Menus">
- 
+
+    @if (menu == null)
+    {
+        <div>
+            Please Select Menu
+        </div>
+    }
+    else
+    {
         @if (current_menu_id != parent_menu_id)
         {
             <h3 class="title">@current_menu.menu_path</h3>
@@ -9,29 +16,62 @@
 
         @if (menus.Any())
         {
-                <div class="ribbons-wrapper uk-grid-small" uk-grid>
-                    @if (current_menu_id != parent_menu_id)
-                    {
-                         <ComMenuBackButton OnClick="@OnBack"/>
-                    }
+            <div class="ribbons-wrapper uk-grid-small" uk-grid>
+                @if (current_menu_id != parent_menu_id)
+                {
+                    <ComMenuBackButton OnClick="@OnBack" />
+                }
 
-                    @foreach (var m in GetMenus)
-                    {
-                        <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword">@(GetMenuName(m))</ComMenuItem>
-                    }
+                @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
+                {
 
-                    @if (string.IsNullOrEmpty(keyword))
-                    {
-                        <ComMenuSelectProductButton menu="@current_menu"/>
-                    }
+                    <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
+                        @(GetMenuName(m))
 
-                     @if (current_menu_id > 0)
-                     {
-                            <ComMenuAddButton />
-                     }
-                 </div>
+                    </ComMenuItem>
+
+
+
+
+
+
+                }
+
+                @if (string.IsNullOrEmpty(keyword))
+                {
+                    <ComMenuSelectProductButton menu="@current_menu" />
+                }
+
+                @if (current_menu_id > 0)
+                {
+                    <ComAssignProductButton OnClick="@Click_Select_Produc"/>
+                }
+
+                @if (current_menu_id > 0)
+                {
+                    <ComMenuAddButton OnClick="@OpenAddMenu" />
+                }
+
+            </div>
         }
+    }
+
 </UIContainerBox>
+@if (show_move_menu)
+{
+    <ComMenu_SelectMenu menus="@menus" root_menu_id="@root_menu_id" is_opened="@show_move_menu" @bind-model="@menu" OnCancel="@(()=>show_move_menu=false)" OnSelectMenu="@(()=> { show_move_menu = false;  })" />
+
+}
+
+@if (show_add_menu)
+{
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" />
+}
+
+@if (is_select_product)
+{
+    <ComSearchProductMenu/>
+}
 
 
 @code {
@@ -40,41 +80,56 @@
 
     [Parameter] public int current_menu_id { get; set; }
     [Parameter] public string keyword { get; set; }
-    [Parameter] public EventCallback< string> keywordChanged { get; set; }
-
+    [Parameter] public EventCallback<string> keywordChanged { get; set; }
+    bool is_select_product = false;
     [Parameter] public int parent_menu_id { get; set; }
+    [Parameter] public int root_menu_id { get; set; }
 
     [Parameter] public EventCallback<MenuModel> OnMenuSelected { get; set; }
 
     [Parameter] public List<ProductMenuModel> selected_menus { get; set; }
 
-
-
-
-
+    bool show_move_menu;
     MenuModel menu = new MenuModel();
+
+
+
+    private List<MenuModel> _GetMenus;
 
     public List<MenuModel> GetMenus
     {
         get
         {
+
             if (string.IsNullOrEmpty(keyword))
             {
-                return menus.Where(r => r.parent_id == current_menu_id && r.is_deleted == false).ToList();
+                _GetMenus = menus.Where(r => r.parent_id == current_menu_id && r.is_deleted == false).ToList();
             }
-            else {
-                return menus.Where(r =>r.is_deleted == false && ((r.menu_name_en ?? ""  )+ " " + (r.menu_name_kh ?? "" )).ToString().Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList();
+            else
+            {
+                _GetMenus = menus.Where(r => r.is_deleted == false && ((r.menu_name_en ?? "") + " " + (r.menu_name_kh ?? "")).ToString().Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList();
             }
+            return _GetMenus;
+        }
+        set { _GetMenus = value; }
+    }
 
 
 
+
+    public MenuModel current_menu
+    {
+        get
+        {
+
+            return menus.Where(r => r.id == current_menu_id).FirstOrDefault();
         }
     }
 
-    public MenuModel current_menu { get {
-
-            return menus.Where(r => r.id == current_menu_id).FirstOrDefault();
-        } }
+    void OpenAddMenu()
+    {
+        show_add_menu = true;
+    }
 
     string GetMenuName(MenuModel m)
     {
@@ -88,6 +143,12 @@
             return $"{m.menu_name_en}";
         }
     }
+
+    void Click_Select_Produc()
+    {
+        is_select_product = true;
+    }
+
 
     bool show_add_menu;
 
@@ -110,6 +171,8 @@
         }
     }
 
+
+
     async Task OnSelectMenu(MenuModel m)
     {
         m.is_selected = true;
@@ -128,7 +191,7 @@
     {
 
         var d = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
-        current_menu_id = Convert.ToInt32( d.parent_id);
+        current_menu_id = Convert.ToInt32(d.parent_id);
     }
 
     void AddRootMenu()
@@ -173,7 +236,13 @@
         }
     }
 
+    void OnMoveMenu(MenuModel m)
+    {
+        menu = m;
+        show_move_menu = true;
 
+
+    }
 
 }
 

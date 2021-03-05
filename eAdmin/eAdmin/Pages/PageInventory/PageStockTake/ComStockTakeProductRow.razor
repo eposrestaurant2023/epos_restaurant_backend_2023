@@ -36,6 +36,17 @@
     </div>
 </td>
 <TdCenter>
+    @if (model.stock_location_id > 0)
+    {
+        <ComProductQuantityOnHand product_id="@stock_take_product.product_id" stock_location_id="@model.stock_location_id" />
+
+    }
+    else
+    {
+        <span>-</span>
+    }
+</TdCenter>
+<TdCenter>
     @if (stock_take_product.is_fulfilled)
     {
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@stock_take_product.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
@@ -59,9 +70,10 @@
 
 @code{
     [Parameter] public StockTakeProductModel stock_take_product { get; set; }
+    [Parameter] public StockTakeModel model { get; set; }
     [Parameter] public EventCallback<StockTakeProductModel> stock_take_productChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnRemove { get; set; }
-    [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; } 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
 

@@ -5,10 +5,7 @@
 }
 else
 { 
-    @if (sale.is_over_due)
-    {
-        <div class="ribbon"><span class="overdue">Overdue(@System.Math.Floor(@DateTime.Now.Subtract(sale.due_date.Value).TotalDays))</span></div>
-    }else if (sale.total_amount>0 && sale.paid_amount == 0){ 
+    if (sale.total_amount>0 && sale.paid_amount == 0){ 
         <div class="ribbon"><span class="unpaid">Unpaid</span></div>
     }else if (sale.is_partially_paid )
     {

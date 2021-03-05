@@ -11,7 +11,7 @@ namespace eAdmin.Pages.PageCustomers
 {
     public class PageCustomerDetails : PageCore
     {
-        [Parameter] public string id { get; set; }
+        [Parameter] public string id { get; set; } 
         public CustomerModel model { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";
@@ -25,7 +25,8 @@ namespace eAdmin.Pages.PageCustomers
             get
             {
                 string query = $"{controller_api}({id})";
-                query += $"?$expand=customer_group";   
+                query += $"?$expand=customer_group,";   
+                query += $"customer_business_branchs($expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh;$filter=is_deleted eq false and status eq true))";   
                 return query;
             }
         }

@@ -1,0 +1,65 @@
+﻿@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@lang["Ingredient"]">
+    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <ThAuto>@lang["Ingredient Name"]</ThAuto>
+            <ThCenter>@lang["Quantity"]</ThCenter>
+            <ThCenter>@lang["Unit"]</ThCenter>
+            <ThRight>@lang["Cost"] </ThRight>
+            <ThRight>@lang["Total"]</ThRight>
+        </tr>
+        @if (modifier.modifier_ingredients.Where(r => r.is_deleted == false).Any())
+        {
+            foreach (var p in modifier.modifier_ingredients.Where(r => r.is_deleted == false))
+            {
+                <tr>
+                    <td>
+                        @p.ingredient?.product_display_name
+                    </td>
+                    <TdCenter>
+                        <NumberInput is_read_only="true" @bind-text="@p.quantity" class_name="uk-text-center" />
+                    </TdCenter>
+                    <TdCenter>
+                        <div>@p.unit?.unit_name</div>
+                    </TdCenter>
+                    <TdRight>
+                        <NumberInput is_read_only="true" @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
+                    </TdRight>
+                    <TdRight>
+                        @p.total_cost.ToString(gv.currency_format)
+                    </TdRight>
+                </tr>
+            }
+            <tfoot>
+                <tr>
+                    <td>
+                        @lang["Total"]
+                    </td>
+                    <TdCenter>
+                        @modifier.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
+                    </TdCenter>
+                    <TdCenter>
+                    </TdCenter>
+                    <TdRight>
+                    </TdRight>
+                    <TdRight>
+                        @modifier.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.cost).ToString(gv.currency_format)
+                    </TdRight>
+                </tr>
+            </tfoot>
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">
+                    <ComEmptyTemplate padding_top_bottom="25px" />
+                </td>
+            </tr>
+        }
+    </table>
+</UIContainerBox>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public ModifierModel modifier { get; set; }
+}

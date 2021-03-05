@@ -1,124 +1,94 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using System.Collections.Generic;
 
 namespace eShareModel
 {
     public class SaleProductShareModel :CoreGUIDModel
     {
-        public bool is_inventory_product { get; set; }
-        public bool is_fulfilled { get; set; }
-        public bool is_allow_discount { get; set; } = true;
-        public string sale_product_note { get; set; } 
-
-        private decimal _quantity = 1;
-        public decimal quantity
+       
+        public Guid sale_id { get; set; }   
+        public int product_id { get; set; }
+        public string product_code { get; set; } = "";
+        private string _product_name_en="";
+        public string product_name_en
         {
-            get { return _quantity <= 0 ? 1 : _quantity; }
-            set { _quantity = value; }
+            get { return _product_name_en; }
+            set { 
+                _product_name_en = value;
+                if (string.IsNullOrEmpty(product_name_kh))
+                {
+                    product_name_kh = value;
+                }
+            }
         }
+        public string product_name_kh { get; set; } = "";
+        public bool is_inventory_product { get; set; } = false;
+        public bool is_allow_discount { get; set; } = true;
+        public bool is_allow_free { get; set; } = true;
+        public int portion_id { get; set; }
+        public string portion_name { get; set; }
+
+        //
+        public string kitchen_group_name { get; set; }
+        public int kitchen_group_sort_order { get; set; } = 0;
+        //
+        public string unit { get; set; }
+        public double multiplier { get; set; } = 1;
+        public int status_id { get; set; } = 1;
+        public string status_name { get; set; } = "New";
+
+        public bool is_free { get; set; } = false;
 
         public decimal cost { get; set; }
-        public decimal regular_price { get; set; }
+        public decimal reqular_price { get; set; }
+        public decimal price { get; set; }
 
-        private decimal _selling_price;
+        public decimal total_modifier_amount { get; set; }
 
-        public decimal selling_price
-        {
-            get { return _selling_price; }
-            set
-            {
-                _selling_price = value;
-                if (value <= discount)
-                {
-                    discount = value;
-                }
-            }
-        }
+        public decimal quantity { get; set; } 
+        public decimal sub_total { get; set; }
+
+        public decimal discount { get; set; }
+        public string   discount_type { get; set; }
+        public decimal total_discount { get; set; }
+        public decimal total_amount { get; set; }
+        public decimal total_revenue { get; set; }
 
 
-        private decimal _discount;
+        //Tax
+        public decimal taxable_amount { get; set; }
+        public decimal tax_1_rate { get; set; }
+        public decimal tax_1_amount { get; set; }
+        public decimal tax_1_taxable_amount { get; set; }
 
-        public decimal discount
-        {
-            get { return _discount; }
-            set
-            {
-                _discount = value;
-                if (discount_type == "Percent" && (_discount > 100))
-                {
-                    _discount = (selling_price > 100 ? 100 : selling_price);
-                }
-                else if (discount_type != "Percent" && (_discount > selling_price))
-                {
-                    _discount = selling_price;
-                }
-            }
-        }
-        public decimal invoice_discount_amount { get; set; }
-        public decimal grand_total { get; set; }
+        public decimal tax_2_rate { get; set; }
+        public decimal tax_2_amount { get; set; }
+        public decimal tax_2_taxable_amount { get; set; }
 
-        private string _discount_type = "Percent";//  Percentage , Amount
+        public decimal tax_3_rate { get; set; }
+        public decimal tax_3_amount { get; set; }
+        public decimal tax_3_taxable_amount { get; set; }
 
-        public string discount_type
-        {
-            get { return _discount_type; }
-            set
-            {
-                _discount_type = value;
-                if (value != "Percent" && discount > selling_price)
-                {
-                    discount = selling_price;
-                }
-                else if (value == "Percent" && discount > 100)
-                {
-                    discount = 100;
-                }
-            }
-        }
+        //
 
 
-        private decimal _sub_total;
-        public decimal sub_total
-        {
-            get
-            {
-                _sub_total = quantity * selling_price;
-                return _sub_total;
-            }
-            set { _sub_total = value; }
-        }
-
-        private decimal _total_discount;
-        public decimal total_discount
-        {
-            get
-            {
-                if (discount_type == "Percent")
-                    _total_discount = sub_total * discount / 100;
-                else
-                    _total_discount = discount;
-
-                return _total_discount;
-            }
-            set { _total_discount = value; }
-        }
+        //Other
+        public string note { get; set; }
+        public string deleted_note { get; set; }
+        public string free_note { get; set; }
+        public string discount_note { get; set; }
+        public string discount_lable { get; set; }
 
 
-        private decimal _total_amount;
-        public decimal total_amount
-        {
-            get
-            {
-                _total_amount = sub_total - total_discount;
-                return _total_amount;
-            }
-            set { _total_amount = value; }
-        }
+       
 
-        public string product_name_en { get; set; }
-        public string product_name_kh { get; set; }
-        public string product_code { get; set; }
+    }
 
+    public class SaleProductModifierShareModel : CoreGUIDModel
+    {
+        public Guid sale_product_id { get; set; }
+        public string   modifier_name { get; set; }
+        public int product_modifier_id { get; set; }
+        public decimal  price { get; set; }
     }
 }

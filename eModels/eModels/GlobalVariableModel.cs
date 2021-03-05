@@ -155,7 +155,7 @@ namespace eModels
         //============================
         private string get_setting_value(int id)
         {
-            return settings.Where(r => r.id == id).FirstOrDefault()?.setting_description;
+            return settings.Where(r => r.id == id).FirstOrDefault()?.setting_value;
         }
         public string date_format
         {

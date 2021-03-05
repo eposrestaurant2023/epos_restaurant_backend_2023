@@ -7,20 +7,20 @@
 
     @if (!string.IsNullOrEmpty(m.product?.photo))
     {
-    <div>
-        <div class="icon_edit_menu_product">
-            <button>
-                <Icon icon="delete" icon_color="red" @onclick="@(()=>RemoveProduct(m))" />
-            </button>
-        </div>
-        <div class="uk-inline">
-            <Image ImageUrl="@http.ImageUrl(m.product?.photo)" IsLightBox="false" IsBackgroundImage="false" />
-            <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-padding-remove" style="padding:5px;text-align:center;">
-                <p>@m.product?.product_name_en</p>
+        <div>
+            <div class="icon_edit_menu_product">
+                <button>
+                    <Icon icon="delete" icon_color="red" @onclick="@(()=>RemoveProduct(m))" />
+                </button>
             </div>
-        </div>
+            <div style="position:relative;">
+                <Image ImageUrl="@http.ImageUrl(m.product?.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px"/>
+                <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-padding-remove" style="padding:5px !important;text-align:center;">
+                    <p>@m.product?.product_name_en</p>
+                </div>
+            </div>
 
-    </div>
+        </div>
     }
     else
     {

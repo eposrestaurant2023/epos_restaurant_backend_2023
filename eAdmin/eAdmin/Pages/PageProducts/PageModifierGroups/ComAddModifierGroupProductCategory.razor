@@ -7,57 +7,57 @@
     }
     else
     {
-        foreach (var g in product_groups)
-        {
- <h3 class="title">@g.product_group_code - @g.product_group_en </h3>
- <hr/>
-    <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
-        <thead>
-            <tr>
-                <th>
-                    @if (g.is_selected)
-                    {
-                        <input type="checkbox" checked @onchange="@(() => SelectAllCategory(false, g))" />
-                    }
-                    else
-                    {
-                        <input type="checkbox" @onchange="@(() => SelectAllCategory(true, g))" />
-                    }
-                    
-                </th>
-                <th>@lang["Name En"]</th>
-                <th>@lang["Name Kh"]</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in g.product_categories)
-            {
-                <tr>
-                    <td>
-                        @if (modifier_group.modifier_group_product_categories.Where(r => r.product_category_id == p.id && r.is_deleted == false).Any())
+        <Grid ClassName="uk-grid-small uk-grid-divider uk-grid-match uk-child-width-1-2@m">
+            @foreach (var g in product_groups)
+            { 
+            <div>
+                <div class="box-list-category">
+                    <h3 class="title uk-margin-remove">
+                        <label class="cp">
+                            @if (g.is_selected)
+                            {
+                                <input type="checkbox" checked @onchange="@(() => SelectAllCategory(false, g))" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" @onchange="@(() => SelectAllCategory(true, g))" />
+                            }
+                            <span style="margin-left: 5px;">@g.product_group_code - @g.product_group_en</span>
+                        </label>
+                    </h3>
+                    <hr />
+                    <ul class="uk-list hover-list">
+                        @foreach (var p in g.product_categories)
                         {
-                            <input type="checkbox" checked @onchange="@(() => OnSelectProductCategory(false, p))" />
+                        <li>
+                            <label class="cp">
+                                @if (modifier_group.modifier_group_product_categories.Where(r => r.product_category_id == p.id && r.is_deleted == false).Any())
+                                {
+                                    <input type="checkbox" checked @onchange="@(() => OnSelectProductCategory(false, p))" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" @onchange="@(() => OnSelectProductCategory(true, p))" />
+                                }
+                                <span style="margin-left: 5px;">@p.product_category_en (@p.product_category_kh)</span>
+                            </label>
+                        </li>
                         }
-                        else
-                        {
-                            <input type="checkbox" @onchange="@(() => OnSelectProductCategory(true, p))" />
-                        }
-
-
-                    </td>
-                    <td>@p.product_category_en</td>
-                    <td>@p.product_category_kh</td>
-                </tr>
+                    </ul>
+                </div>
+            </div>
             }
-        </tbody>
-    </table>
+        </Grid>
 
 
-        }
 
-    }
 
-</UIContainerBox>
+
+
+
+            }
+
+    </UIContainerBox>
 
 @code {
     [Parameter] public ModifierGroupModel modifier_group { get; set; }
@@ -94,7 +94,8 @@
             {
                 data.FirstOrDefault().is_deleted = false;
             }
-            else {
+            else 
+            {
                 modifier_group.modifier_group_product_categories.Add(new ModifierGroupProductCategoryModel() { product_category_id = pc.id });
             }
         }else

@@ -47,8 +47,8 @@ namespace eModels
 
         public string text_color { get; set; } = "#333333";
         public string background_color { get; set; } = "#ececec";
- 
 
+        public int sort_order { get; set; } = 0;
         private string _menu_path;
 
         public string menu_path

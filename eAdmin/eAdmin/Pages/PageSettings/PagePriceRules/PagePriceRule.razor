@@ -1,22 +1,23 @@
 ﻿@page "/pricerule"
 @inherits PageCore;
+@inject IStringLocalizer<Resource> lang
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @if (!is_loading)
 {
-    <Title Value="Price Rule"></Title>
+    <Title Value="@(lang["Price Rule"])"></Title>
     <PageContainer roles="@gv.GetRole("price_rule_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Price Rule
+                        @lang["Price Rule"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <LinkButton url="pricerule/new" icon="add" background="uk-button-primary" Class_Name="button-large">New</LinkButton>
+                <LinkButton url="pricerule/new" icon="add" background="uk-button-primary" Class_Name="button-large">@lang["New"]</LinkButton>
                 <RefreshButton OnClick="@(async()=>await LoadBusinessBranch())" />
             </HeaderRight>
         </PageHeader>
@@ -38,8 +39,13 @@
                         <div>
                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
-                                    <Th>Name</Th>
-                                    <Th>Is Default</Th>
+                                    <Th>@lang["Name"]</Th>
+                                    <Th>
+                                        @lang["Is Default"]                                        
+                                    </Th>
+                                    <th>
+
+                                    </th>
                                 </tr>
                                 @foreach (var bp in d.business_branch_prices.Where(r => r.is_deleted == false && r.business_branch_id == d.id))
                                 {
@@ -47,8 +53,14 @@
                                     {
                                         <tr>
                                             <td>@s.price_name</td>
-                                            <td><ComInputCheckBox is_read_only="@bp.is_default" value="@bp.is_default" valueChanged="@(()=>CheckIsDefault(bp))" /></td>
-                                         
+                                            <td>
+                                                <ComInputCheckBox is_read_only="@bp.is_default" value="@bp.is_default" valueChanged="@(()=>CheckIsDefault(bp))" />
+                                            </td>
+                                            <TdActions is_loading="@s.is_loading">
+                                                <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="edit" is_visible="@(!bp.is_deleted)" OnClick="@(()=>OnEdit(bp))">Edit</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("payment_type_add")" icon="file_copy" OnClick="@(()=>Clone_Click(bp))">Clone</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("payment_type_delete")" icon="delete" is_visible="@(!bp.is_deleted && !bp.is_default)" OnClick="@(() => OnDelete(bp))">Delete</TableActionItem>
+                                            </TdActions>
                                         </tr>
                                     }
                                 }
@@ -121,16 +133,16 @@
     }
 
 
-    void OnEdit(int id)
+    void OnEdit(BusinessBranchPriceRule p)
     {
         is_loading_data = true;
-        nav.NavigateTo($"PriceRule/edit/{id}");
+        nav.NavigateTo($"pricerule/edit/{p.price_rule_id}");
         is_loading_data = false;
     }
-    void Clone_Click(int id)
+    void Clone_Click(BusinessBranchPriceRule p)
     {
         is_loading_data = true;
-        nav.NavigateTo($"PriceRule/clone/{id}");
+        nav.NavigateTo($"pricerule/clone/{p.price_rule_id}");
         is_loading_data = false;
     }
     async Task OnDelete(BusinessBranchPriceRule p)

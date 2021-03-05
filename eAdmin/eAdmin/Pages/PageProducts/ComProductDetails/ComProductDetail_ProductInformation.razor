@@ -28,50 +28,51 @@
         <ContentRight>
             <table>
                 <tr>
-                    <td>@lang["Allow Discount"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
+                    <th>@lang["Cost"]</th>
+                    <td>@model.cost.ToString(gv.currency_format)</td>
                 </tr>
                 <tr>
-                    <td>@lang["Allow Free"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
+                    <th>@lang["Vendor"]</th>
+                    <td>@model.vendor?.vendor_display_name</td>
                 </tr>
                 <tr>
-                    <td>@lang["Is Opened Product"]</td>
+                    <th>@lang["Open Product"]</th>
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_open_product" /></td>
                 </tr>
                 <tr>
-                    <td>@lang["Is Inventory"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_inventory_product" /></td>
+                    <th>@lang["Allow Discount"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
                 </tr>
                 <tr>
-                    <td>@lang["Is Ingredient Product"]</td>
-                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_ingredient_product" /></td>
+                    <th>@lang["Allow Free"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
                 </tr>
             </table>
-        </ContentRight>
+            </ContentRight>
 
     </UISummaryBox>
     <Spacing Number="10"/>
     <Com is_visible="@model.is_inventory_product">
-        <ComProductDetail_InventoryInformation product_id="@model.id"/>
+        <ComProductDetail_InventoryInformation product="@model"/>
         <Spacing Number="10"/>
     </Com>
     <ComProductDetail_Portion product_id="@model.id"/>
     <Spacing Number="10"/>
 
-    <ComProductDetail_Modifired product_id="@model.id"/>
+    <ComProductDetail_Modifired product="@model"/>
     <Spacing Number="10"/>
 
     <ComProductDetail_Menu product_id="@model.id"/>
     <Spacing Number="10"/>
-
     <ComProductDetail_ProductPrinter product_id="@model.id"/>
-    <UIContainerBox Title="Note" is_visible="@(!string.IsNullOrEmpty(model.note))">
+    <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
         @model.note
     </UIContainerBox>
 </UIGridCenter>
 
 
 @code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel model { get; set; }
 }

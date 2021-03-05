@@ -1,6 +1,7 @@
 ﻿@inject IJSRuntime js
 @inject IHttpService http
 @inject IMatToaster toast
+@inject IStringLocalizer<Resource> lang
 <div class="wrp-selected-items">
 
     @if (model != null)
@@ -10,22 +11,21 @@
                ShowPager="false"
                ShowPagination="false"
                ShowPaging="false"
-               CustomClass="set-verticle-top_custo"
-               EmptyText="There's no record in the system">
+               CustomClass="set-verticle-top_custo">
             <TableHeader>
-                <ThCenter>Image</ThCenter>
-                <ThCenter>Code</ThCenter>
-                <ThAuto>Detail</ThAuto>
-                <ThCenter>Quanlity</ThCenter>
-                <ThCenter>Unit</ThCenter>
-                <ThRight>Price</ThRight>
-                <ThCenter width="160px">Discount</ThCenter>
-                <ThRight>Amount</ThRight>
+                <ThCenter>@lang["Image"]</ThCenter>
+                <ThCenter>@lang["Code"]</ThCenter>
+                <ThAuto>@lang["Detail"]</ThAuto>
+                <ThCenter>@lang["Quanlity On Hand"]</ThCenter>
+                <ThCenter>@lang["Quanlity"]</ThCenter>
+                <ThCenter>@lang["Unit"]</ThCenter>
+                <ThRight>@lang["Price"]</ThRight>
+                <ThCenter width="160px">@lang["Discount"]</ThCenter>
+                <ThRight>@lang["Amount"]</ThRight>
                 <th></th>
             </TableHeader>
             <RowTemplate Context="p">
-                
-                <ComPOProductRow purchase_order_product="@p" purchase_order_productChanged="POProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
+                <ComPOProductRow model="@model" purchase_order_product="@p" purchase_order_productChanged="POProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
         </Table>
     }

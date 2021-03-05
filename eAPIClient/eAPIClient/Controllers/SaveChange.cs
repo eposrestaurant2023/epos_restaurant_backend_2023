@@ -63,9 +63,19 @@ namespace eAPIClient.Controllers
                     }
                      
                 }
- 
 
-               
+
+                //Sale
+                foreach (var item in db.ChangeTracker.Entries()
+               .Where(e => e.State == EntityState.Modified && (e.Entity is SaleModel)))
+                {
+                    var entidad = item.Entity as SaleModel;
+                    if (entidad.is_closed == true)
+                    {
+                        entidad.closed_date = DateTime.Now;
+                        entidad.closed_by = user.full_name;
+                    }
+                }
 
 
 
@@ -106,6 +116,35 @@ namespace eAPIClient.Controllers
                         entidad.deleted_by = user.full_name;
                     }
                 }
+
+                foreach (var item in db.ChangeTracker.Entries()
+               .Where(e => e.State == EntityState.Modified && (e.Entity is WorkingDayModel)))
+                {
+                    var entidad = item.Entity as WorkingDayModel;
+
+                    if (entidad.is_closed == true)
+                    {
+                        entidad.closed_date = DateTime.Now;
+                        entidad.closed_by = user.full_name;
+                    }
+
+                }
+
+
+                //Sale
+                foreach (var item in db.ChangeTracker.Entries()
+               .Where(e => e.State == EntityState.Modified && (e.Entity is SaleModel)))
+                {
+                    var entidad = item.Entity as SaleModel;  
+                    if (entidad.is_closed == true)
+                    {
+                        entidad.closed_date = DateTime.Now;
+                        entidad.closed_by = user.full_name;
+                    }  
+                }
+
+
+
             }
             db.SaveChanges();
         }

@@ -13,8 +13,6 @@ namespace eAPI.Controllers
 {
     [ApiController]
     [Route("api")]
- 
-
     public class AppController : ControllerBase
     {
         public IConfiguration Configuration { get; }
@@ -73,8 +71,8 @@ namespace eAPI.Controllers
         }
 
         [HttpGet("Setting")]
-        [EnableQuery]
-        public ActionResult<List<SettingModel>> Setting(string keyword = "")
+        [EnableQuery(MaxExpansionDepth = 8)]
+        public IQueryable<SettingModel> Setting(string keyword = "")
         {
             if (!string.IsNullOrWhiteSpace(keyword))
             {
@@ -82,11 +80,11 @@ namespace eAPI.Controllers
                 (
                 (r.setting_description ?? "") +
                 (r.setting_title ?? "")
-                ).ToLower().Trim().Contains(keyword.ToLower().Trim())).ToList();
+                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
             else
             {
-                return db.Settings.ToList();
+                return db.Settings;
             }
         }
         [HttpPost("setting/save")]
@@ -97,6 +95,14 @@ namespace eAPI.Controllers
             db.Update(h);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return h;
+        }
+
+        [HttpPost("save/setting/multiple")]
+        public async Task<ActionResult<string>> SaveMultiple([FromBody] List<SettingModel> Settings)
+        {
+            db.Settings.UpdateRange(Settings);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(Settings);
         }
 
         [HttpPost("Company/save")]
@@ -125,6 +131,21 @@ namespace eAPI.Controllers
                 return await (db.Countries.ToListAsync());
             }
         }
+
+        [HttpGet("SaleProductStatus")]
+        [EnableQuery]
+        public async Task<List<SaleProductStatusModel>> GetSaleProductStatus()
+        {
+            return await (db.SaleProductStatuses.ToListAsync());
+
+        }
+        [HttpGet("SaleStatus")]
+        [EnableQuery]
+        public async Task<List<SaleStatusModel>> GetSaleStatus()
+        {
+            return await (db.SaleStatuses.ToListAsync());
+        }
+
 
 
         [HttpGet("NoteCategory")]

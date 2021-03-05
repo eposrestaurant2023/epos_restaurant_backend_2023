@@ -28,19 +28,34 @@
                     <div>
                         <div class="uk-form-horizontal">
                             <div class="uk-margin-small">
-                                <label class="uk-form-label"><Icon icon="layers" size="16px" />Referance #</label>
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
                                 <div class="uk-form-controls">
-                                    <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" />
+                                    <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" />
                                 </div>
                             </div>
-                            <DateInput label="Stock Take Date" value="@model.stock_take_date" icon="layers" /> 
+                            <DateInput label="@lang["Stock Take Date"]" value="@model.stock_take_date" icon="layers" /> 
                         </div>
                     </div>
                     <div>
                         <div class="section-content">
-                            <div class="uk-form-horizontal">
-                                <SelectBusinessBranchByRole @bind-selected_value="@model.business_branch_id" show_empty="true" icon="layers" />
-                                <SelectStockLocation @bind-selected_value="@model.stock_location_id" business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" />
+                            <div class="uk-form-horizontal">                                  
+                                <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id"/>
+                                @if (!is_selecting_business_branch)
+                                {
+                                    <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="@model.stock_location_id"/>
+                                }
+                                else
+                                {
+                                    <div class="uk-margin-small">
+                                        <label class="uk-form-label"><Icon icon="layers" size="16px" /> Stock Location</label>
+                                        <div class="uk-form-controls">
+                                            <div style="height:30px">
+                                                <Spinner />
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -49,7 +64,7 @@
                 <section class="wrp-sale-invoice-body">
                     <h3 class="title uk-display-inline-block">
                         <Icon icon="upload" />
-                        <span class="title">Stock Take Products</span>
+                        <span class="title">@lang["Stock Take Products"]</span>
                     </h3>
                     <Spacing Number="10" />
                     <ComStockTakeProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
@@ -61,10 +76,10 @@
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_loading="@is_saving" disabled_save_button="@(model.active_stock_take_products.Count()<=0)" is_show_save_action="true" />
+                <ComSavingFormButton is_loading="@is_saving" disabled_save_button="@(model.active_stock_take_products.Count()<=0)" OnSave="OnSaveClick" is_show_save_action="true" />
             </FooterCenter>
             <FooterRight>
-                <strong class="uk-margin-small-right">Total Amount</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
+                <strong class="uk-margin-small-right">@lang["Total Amount"]</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
             </FooterRight>
         </PageFooter>
     </PageContainer>

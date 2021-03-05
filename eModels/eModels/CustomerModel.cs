@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text.Json.Serialization;
 using eShareModel;
 
@@ -26,6 +27,24 @@ namespace eModels
         public CustomerGroupModel customer_group { get; set; }
 
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
+        
+        [NotMapped, JsonIgnore] 
+
+        public string customer_business_brach_list
+        {
+            get { 
+                if(customer_business_branchs != null && customer_business_branchs.Any())
+                {
+                    string business = "";
+                    foreach (var b in customer_business_branchs) {
+                        business += b.business_branch.business_branch_name_en + " / ";
+                    }
+                    
+                    return business.Remove(business.LastIndexOf(" / ")).TrimEnd();
+                }
+                return "";
+            }
+        }
 
     }
 }

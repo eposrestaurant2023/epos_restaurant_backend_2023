@@ -1,0 +1,53 @@
+﻿@inject IStringLocalizer<Resource> lang
+@if (models != null)
+{
+<table class="uk-table view_small_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover uk-table-middle uk-margin-remove">
+    <thead>
+        <tr>
+            <th rowspan="2" class="vertical-middle">@lang["Modifier Section"]</th>
+            <ThCenter colspan="2">@lang["Modifier Item"]</ThCenter>
+        </tr>
+        <tr>
+            <th>@lang["Name"]</th>
+            <ThRight>@lang["Price"]</ThRight>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in models.OrderBy(r => r.sort_order))
+        {
+            <tr>
+                <td>
+                    <div>
+                        @m.section_name
+                    </div>
+                    <div>
+                        <LabelIsRequired is_visible="@m.is_required" />
+                        <LabelIsMultipleSelect is_visible="@m.is_multiple_select" />
+                    </div>
+                </td>
+                <td colspan="2">
+                    @foreach (var c in m.children.OrderBy(r => r.sort_order))
+                    {
+                        <Grid ClassName="uk-grid-small">
+                            <div class="uk-width-expand" uk-leader><a href="@($"modifier/{c.modifier_id}")" target="_blank">@c.modifier?.modifier_name</a></div>
+                            <div class="uk-width-auto">@c.price.ToString(gv.main_currency_format)</div>
+                        </Grid>
+                    } 
+                </td>
+            </tr>
+
+        }
+        
+        @if(product_category_id > 0)
+        {
+            <ComProductDetail_TableViewModifiredGroupByProductCategory product_category_id="@product_category_id" />
+        }
+    </tbody> 
+</table>
+}
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public List<ProductModifierModel> models { get; set; }
+    [Parameter] public int product_category_id { get; set; } = 0;
+}

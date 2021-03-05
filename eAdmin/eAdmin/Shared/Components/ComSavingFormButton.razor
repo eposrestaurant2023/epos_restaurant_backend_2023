@@ -16,14 +16,14 @@
     @ChildContent
     if(is_show_cancel){
         if (!string.IsNullOrEmpty(cancel_url)){
-            <LinkButton url="@cancel_url" icon="reply" Class_Name="uk-button-danger">Cancel</LinkButton>
+<LinkButton url="@cancel_url" icon="reply" Class_Name="uk-button-danger">@lang["Cancel"]</LinkButton>
         }
         else if(is_show_cancel_back){
-          <button class="uk-button uk-button-danger" onclick="history.go(-1)"><Icon icon="reply" />@lang["Cancel"]</button>
+          <button class="uk-button uk-button-danger" onclick="history.go(-1)" type="button"><Icon icon="reply"   />@lang["Cancel"]</button>
         }
         else if (is_show_cancel_action)
         {
-            <Button OnClick="@Cancel" class_name="uk-button uk-button-danger button-large" icon="reply">@lang["Cancel"]</Button>
+            <Button OnClick="@Cancel" class_name="uk-button uk-button-danger button-large" icon="reply" type="button">@lang["Cancel"]</Button>
         }
     }
 }

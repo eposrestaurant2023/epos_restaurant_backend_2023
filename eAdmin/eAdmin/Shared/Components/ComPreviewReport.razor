@@ -40,7 +40,7 @@
     </ComModal>
 
 @code {
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+        [CascadingParameter] public GlobalVariableModel gv { get; set; }
     public List<PermissionOptionModel> Reports {
         get {
             return gv.permission_options.Where(r => r.parent_id == parent_id).OrderBy(r=>r.sort_order).ToList();
@@ -51,14 +51,20 @@
     [Parameter] public EventCallback<Boolean> IsOpenedChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnClose { get; set; }
     [Parameter] public string Title { get; set; } = "Report";
-    [Parameter] public int parent_id { get; set; }
-    [Parameter] public int id { get; set; }
+    [Parameter] public string report_parameters { get; set; } = "";
+
+
     [Parameter] public int report_id { get; set; } = 0;
     [Parameter] public bool is_print { get; set; } = false;
 
 
 
+    public int parent_id { get
+        {
+            return Convert.ToInt32( gv.permission_options.Where(r => r.id == report_id).FirstOrDefault().parent_id);
 
+        }
+    }
 
 
 
@@ -88,12 +94,12 @@
         {
             is_loading = true;
             await Task.Delay(500);
-            if (id == 0)
+            if (report_parameters == "")
             {
                 url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true";
             }else
             {
-                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&id={id}";
+                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&{report_parameters}";
             }
 
             is_loading = false;

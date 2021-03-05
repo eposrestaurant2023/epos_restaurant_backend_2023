@@ -38,6 +38,10 @@ namespace eModels
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
 
+        public int? kitchen_group_id { get; set; }
+        [ForeignKey("kitchen_group_id")]
+        public KitchenGroupModel kitchen_group { get; set; }
+
 
         [MaxLength(50)]
         public string product_code { get; set; } = "";
@@ -66,9 +70,9 @@ namespace eModels
 
         [Required(ErrorMessage = "Please select unit.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select unit.")]
-        public int unit_id { get; set; }
+        public int unit_id { get; set; } = 1;
         [ForeignKey("unit_id")]
-        public UnitModel unit{ get; set; }
+        public UnitModel unit { get; set; }
 
 
         public int? vendor_id { get; set; }
@@ -128,6 +132,8 @@ namespace eModels
 
         public decimal min_price { get; set; }
         public decimal max_price { get; set; }
+
+        public bool is_product_has_inventory_transaction { get; set; } = false;
 
     }
 

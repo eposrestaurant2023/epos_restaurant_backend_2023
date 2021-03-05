@@ -35,18 +35,20 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         public IQueryable<CustomerModel> Get(string keyword = "")
         {
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrWhiteSpace(keyword))
             {
-                return db.Customers.Where(r =>
-                (
-                (r.customer_code ?? "") +
-                (r.customer_name_en ?? "") +
-                (r.customer_name_kh ?? "") +
-                (r.phone_1 ?? "") +
-                (r.phone_2 ?? "") +
-                (r.gender ?? "") +
-                (r.note ?? "")
-                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
+                var c = from r in db.Customers
+                        where EF.Functions.Like((
+                            (r.customer_code ?? "") +
+                            (r.customer_name_en ?? "") +
+                            (r.customer_name_kh ?? "") +
+                            (r.phone_1 ?? "") +
+                            (r.phone_2 ?? "") +
+                            (r.gender ?? "") +
+                            (r.note ?? "")
+                    ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        select r;
+                return c.AsQueryable();
             }
             else
             {

@@ -14,8 +14,8 @@
                 }
             <div class="uk-margin-auto-right"> 
                 <Button is_visible="@is_open_button_save_and_new" roles="@RoleAdd" type="submit" icon="save" OnClick="@OnNewSaveClick" disabled="@is_submitting">@lang["Save & New"]</Button>
-                <Button roles="@RoleAdd" type="submit" icon="save" OnClick="OnSaveClick" disabled="@is_submitting">@lang["Save"]</Button>
-                <Button icon="reply" class_name="danger" OnClick="@OnCancelClick" disabled="@is_submitting">@lang["Cancel"]</Button>
+                <Button roles="@RoleAdd" type="submit" icon="save" OnClick="OnSaveClick" disabled="@is_submitting" is_visible="is_save_button">@lang["Save"]</Button>
+                <Button icon="reply" class_name="danger" OnClick="@OnCancelClick" is_visible="is_cancel_button" disabled="@is_submitting">@lang["Cancel"]</Button>
             </div>
             </div>
         }
@@ -32,6 +32,8 @@
         [Parameter] public string ClassName { get; set; }
         [Parameter] public bool is_open_button_save_and_new { get; set; } = false;
         [Parameter] public bool is_submitting { get; set; } = false;
+        [Parameter] public bool is_save_button { get; set; } = true;
+        [Parameter] public bool is_cancel_button { get; set; } = true;
         [Parameter] public bool is_action_form { get; set; } = true;
         [Parameter] public bool show_deleted { get; set; } = false;
         [Parameter] public EventCallback OnCancelClick { get; set; }

@@ -1,24 +1,33 @@
 ﻿@using eModels 
 @using Microsoft.JSInterop;
-@inject IJSRuntime js; 
-@inject IMatToaster toast;
-@inject IHttpService http;
-@inject NavigationManager nav;
+@inject IJSRuntime js
+@inject IMatToaster toast
+@inject IHttpService http
+@inject NavigationManager nav
+@inject IStringLocalizer<Resource> lang
   
-<EditFormContext Cancel_Click="Cancel_click" model="user" is_opened="is_dialog_open" title="@modal_title" Save_Click="SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
-    
-    <FileUpload @bind-ImageUrl="@user.photo" guid="user_capture_001"/>
-    <TextInput label="Full Name" @bind-text="@user.full_name">
+<EditFormContext Cancel_Click="Cancel_click" model="user" is_opened="is_dialog_open" title="@modal_title" Save_Click="@SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
+
+    <FileUpload @bind-ImageUrl="@user.photo" />
+    <Spacing Number="10" />
+    <TextInput is_read_only="true" label="@lang["User Code"]" @bind-text="@user.user_code"/>
+    <TextInput label="@lang["Full Name"]" @bind-text="@user.full_name">
         <ValidationMessage For="@(() => user.full_name)" />
     </TextInput>
-    <TextInput label="Username" @bind-text="@user.username">
-        <ValidationMessage For="@(() => user.username)" />
+
+    <TextInput label="@lang["User Name"]" text="@user.username" is_read_only="true" />
+
+    <TextInput label="@lang["Email"]" @bind-text="@user.email" />
+    <TextInput label="@lang["Phone Number"]" @bind-text="@user.phone_1" />
+
+    <TextInput label="@lang["Password"]" type="password" @bind-text="@new_password">
+        <ValidationMessage For="@(()=>user.password)" />
     </TextInput>
-    <TextInput label="Email Address" @bind-text="@user.email">
-        <ValidationMessage For="@(() => user.email)" />
-    </TextInput>
-    <TextInput label="Phone Number" @bind-text="@user.phone_1" />
-    <TextInput label="New Password" type="password" @bind-text="@user.new_password" />
+
+    @if (user.is_allow_front_end_login)
+    {
+        <TextInput label="@lang["Pin Code"]" @bind-text="@user.pin_code" />
+    }
 </EditFormContext>
 
 @code{
@@ -27,9 +36,11 @@
     public UserModel user { get; set; } = new UserModel();
 
     [Parameter] public bool is_dialog_open { get; set; }
-
+    string new_password = "";
     [Parameter] public EventCallback<bool> Save_User_click { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
+    [Parameter] public EventCallback<UserModel> modelChanged { get; set; }
+    [Parameter] public UserModel model { get; set; }
     bool is_loading;
 
     public string modal_title
@@ -41,6 +52,7 @@
     }
 
     string old_username = "";
+    string password_uri = "";
 
 
     List<RoleModel> roles = new List<RoleModel>();
@@ -50,61 +62,67 @@
     {
         is_loading = true;
 
-        user = JsonSerializer.Deserialize<UserModel>(JsonSerializer.Serialize(gv.current_login_user));
+        user = JsonSerializer.Deserialize<UserModel>(JsonSerializer.Serialize(model));
         old_username = user.username;
         is_loading = false;
     }
-
-
-
     async Task SaveUser_Click()
     {
         user.is_loading = true;
 
-        if (user.new_password.Length > 0 && user.new_password.Length < 4)
+        if (user.id > 0 && user.id == gv.current_login_user.id)
         {
-            toast.Add("Password is too short or empty.", MatToastType.Warning);
-            user.is_loading = false;
-            return;
-        }
-
-        if (user.new_password.Length > 0 || old_username != user.username) {
-            
-            if (!await js.Confirm("Change Username or Password will be auto logout.", "Are you sure to proceed?", SweetAlertMessageType.question))
+            if (user.status == false)
             {
+                toast.Add("You cannot disable current login user.", MatToastType.Warning);
+                return;
+            }
+
+            if (new_password.Length > 0 && new_password.Length < 2)
+            {
+                toast.Add("Password is too short or empty.", MatBlazor.MatToastType.Success);
                 user.is_loading = false;
                 return;
             }
+
+            if (new_password.Length > 0 || old_username != user.username)
+            {
+                if (!await js.Confirm("Change your username or password will be auto logout.", "Are you sure to proceed?", SweetAlertMessageType.question))
+                {
+                    user.is_loading = false;
+                    return;
+                }
+            }
         }
 
-        //save user to db
-
-        string password_uri = "";
-
-        if (!string.IsNullOrEmpty(user.new_password))
+        if (!string.IsNullOrEmpty(new_password))
         {
-            password_uri = $"?password={user.new_password}";
+            password_uri = $"?password={new_password}";
         }
-        var res = await http.ApiPost($"user/SaveUserProfile{password_uri}", user);
+        var res = await http.ApiPost($"user/save{password_uri}", user);
+
         if (res.IsSuccess)
         {
             var u = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
-            gv.current_login_user = u;
             toast.Add("Save Successfully", MatToastType.Success);
-            await Save_User_click.InvokeAsync(true);
-
+            is_dialog_open = false;
+            if (!string.IsNullOrEmpty(new_password))
+            {
+                nav.NavigateTo("Auth/logout", false);
+            }
+            user.is_loading = false;
+            model.photo = u.photo;
+            model.full_name = u.full_name;
+            model.email = u.email;
+            model.phone_1 = u.phone_1;
+            await modelChanged.InvokeAsync(model);
+            await Save_User_click.InvokeAsync(false);
         }
         else
         {
             toast.Add(res.Content.ToString(), MatToastType.Warning);
-
-        }
-        if (!string.IsNullOrEmpty(user.new_password) || old_username != user.username)
-        {
-            nav.NavigateTo("/Auth/logout?returnUrl=/", true);
         }
         user.is_loading = false;
-
     }
 }
 

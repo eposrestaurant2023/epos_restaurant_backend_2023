@@ -16,7 +16,7 @@ namespace eAdmin.Pages.PageVendors
         public bool ShowModal = false;
         public string ModalTitle = "";
         public bool is_comment_loaded, is_show_check_in, show_member_ship_tab;
-        public bool purchase_history_tab_click, purchase_product_history_tab_click, payment_history_tab_click;
+        public bool purchase_history_tab_click, purchase_product_history_tab_click, payment_history_tab_click, purchase_payment_history_tab_click;
         string controller_api = "Vendor";
         List<HistoryModel> histories = new List<HistoryModel>();
 

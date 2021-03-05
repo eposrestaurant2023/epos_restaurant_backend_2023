@@ -25,10 +25,10 @@
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox>
-                        <TextInput label="Name En" @bind-text="@modifier_group.modifier_group_name_en">
+                        <TextInput label="@lang["Name En"]" @bind-text="@modifier_group.modifier_group_name_en">
                             <ValidationMessage For="@(()=>modifier_group.modifier_group_name_en)" />
                         </TextInput>
-                        <TextInput label="Name Kh" @bind-text="@modifier_group.modifier_group_name_kh" />
+                        <TextInput label="@lang["Name Kh"]" @bind-text="@modifier_group.modifier_group_name_kh" />
                         <SelectStatus @bind-selected_value="@modifier_group.status" />
                     </UIContainerBox>
                 </UIGridCenter>
@@ -54,7 +54,7 @@ else
 }
 @if (is_error)
 {
-    <Error title="Product">@error_text</Error>
+    <Error title="@lang["Modifier Group"]">@error_text</Error>
 }
 
 @code{
@@ -76,23 +76,18 @@ else
         is_loading = true;
         if (clone_id > 0 || id > 0)
         {
+            var resp = await http.ApiGet($"{controller_api}({(id != 0 ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
+            if (resp.IsSuccess)
+            {
+                modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+            }
             if (clone_id > 0)
             {
-                var resp = await http.ApiPost(controller_api + $"/clone/{clone_id}");
-                if (resp.IsSuccess)
-                {
-                    modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
-                    title = $"Clone : {modifier_group.modifier_group_name_en}";
-                }
+                title = $"Clone : {modifier_group.modifier_group_name_en}";
             }
             else
             {
-                var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_group_items($expand=modifier;$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
-                if (resp.IsSuccess)
-                {
-                    modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
-                    title = $"Edit : {modifier_group.modifier_group_name_en}";
-                }
+                title = $"Edit : {modifier_group.modifier_group_name_en}";
             }
         }
         else
@@ -104,18 +99,52 @@ else
     }
 
     async Task Save_Click()
-    {
+    { 
         is_saving = true;
 
-        ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
+        // where don't add group item
+        if (!modifier_group.modifier_group_items.Where(r=>r.is_deleted == false).Any())
+        {
+            toast.Add("Please add modifier section", MatBlazor.MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+        else
+        {
+            // where didn't add modifier into section
+            foreach (var i in modifier_group.modifier_group_items.Where(r => r.is_deleted == false))
+            {
+                if (!i.children.Where(r=>r.is_deleted == false).Any())
+                {
+                    toast.Add($"Please add modifier into {i.section_name} section.", MatBlazor.MatToastType.Warning);
+                    is_saving = false;
+                    return;
+                }
+            }
 
-        save_model.modifier_group_items.Where(r => r.modifier.id > 0).ToList().ForEach(r => r.modifier = null);
-        save_model.modifier_group_product_categories.ForEach(r => r.product_category = null);
+        }
+
+        // where section name empty
+        if (modifier_group.modifier_group_items.Where(r=>r.is_deleted == false && string.IsNullOrEmpty(r.section_name)).Any())
+        {
+            toast.Add(lang["Section name cannot empty."], MatBlazor.MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+
+        ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
+        if (clone_id > 0)
+        {
+            save_model.id = 0;
+            save_model.created_by = gv.current_login_user.full_name;
+            save_model.created_date = DateTime.Now;
+            save_model.modifier_group_items.ForEach(r=>r.id=0);
+        }
 
         var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)
         {
-            toast.Add("Save Modifier Group successfully", MatToastType.Success);
+            toast.Add(lang["Save Modifier Group successfully"], MatToastType.Success);
             save_model = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
             if (is_save_and_new)
             {
@@ -131,7 +160,7 @@ else
             }
         }
         else {
-            toast.Add("Save modifier group fail.", MatToastType.Warning);
+            toast.Add(lang["Save modifier group fail."], MatToastType.Warning);
         }
         is_saving = false;
     }

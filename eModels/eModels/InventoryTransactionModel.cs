@@ -34,7 +34,7 @@ namespace eModels
         public int? stock_transfer_product_id { get; set; }
 
         public string unit { get; set; }
-        public decimal multiplier { get; set; }
+        public decimal multiplier { get; set; } = 0;
         public decimal old_quantity { get; set; }
         public decimal quantity { get; set; }
         public decimal quantity_on_hand { get; set; }

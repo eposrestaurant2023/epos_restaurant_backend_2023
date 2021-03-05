@@ -38,7 +38,7 @@
                         <SelectStatus @bind-selected_value="@price.status" />
                         @foreach (var b in business_branches)
                         {
-                            <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" label_inline="true"/></div>
+                            <div><ComInputCheckBox is_read_only="@(b.business_branch_prices.Where(r=>r.price_rule_id == id && r.business_branch_id == b.id && r.is_default == true).Count() > 0)" @bind-value="b.is_selected" label="@b.business_branch_name_en" label_inline="true"/></div>
                         }
                     </UIContainerBox>
                 </UIGridCenter>
@@ -64,7 +64,7 @@
         {
             string query = ControllerApi;
             query = query + $"({(id == 0 ? clone_id : id)})?";
-            query = query + "$expand=business_branch_prices($select=price_rule_id,business_branch_id)";
+            query = query + "$expand=business_branch_prices($select=price_rule_id,business_branch_id,is_default)";
             return query;
         }
     }
@@ -100,7 +100,7 @@
     async Task LoadBusinessBranch()
     {
         is_loading_data = true;
-        var resp = await http.ApiGetOData("BusinessBranch?$expand=business_branch_prices($select=price_rule_id,business_branch_id)&$filter=is_deleted eq false");
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=business_branch_prices($select=price_rule_id,business_branch_id,is_default)&$filter=is_deleted eq false");
         if (resp.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
@@ -128,7 +128,7 @@
                 {
                     business_branch_id = a.id,
                     price_rule_id = id,
-                    status = price.status
+                    is_default = a.business_branch_prices.Where(r=>r.business_branch_id == a.id && r.price_rule_id == id).Select(r=>r.is_default).FirstOrDefault()
                 });
             }
         }

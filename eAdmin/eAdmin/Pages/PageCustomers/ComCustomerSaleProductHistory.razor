@@ -41,8 +41,7 @@
                    ClassName="uk-table-small uk-table-striped uk-table-hover"
                    ScrollClass="uk-overflow-auto"
                    EmptyText="There is no record.">
-                <TableHeader>
-                    @HeaderTemplate("sale/sale_date", "Sale Date", "uk-text-center")
+                <TableHeader> 
                     @HeaderTemplate("sale/document_number", "Document#", "uk-text-center")
                     @HeaderTemplate("sale/product/product_name", "Product Name", "col-auto")
                     @HeaderTemplate("sale/business_branch/business_branch_name_en", "Business Branch")
@@ -55,8 +54,7 @@
                     <th>Created By</th>
                     <th class="uk-width-auto"></th>
                 </TableHeader>
-                <RowTemplate Context="p">
-                    <TdCenter>@p.sale.sale_date.ToString(gv.date_format)</TdCenter>
+                <RowTemplate Context="p"> 
                     <TdCenter>
                         <div><a href="receiptlist/@p.sale_id">@p.sale?.document_number</a></div>
                     </TdCenter>
@@ -73,7 +71,7 @@
                         <span>@p.quantity.ToString(gv.quantity_format)</span>
                     </TdCenter>
                     <TdRight>
-                        @p.selling_price.ToString(gv.main_currency_format)
+                        @p.price.ToString(gv.main_currency_format)
                     </TdRight>
                     <TdRight>
                         @p.total_discount.ToString(gv.main_currency_format)

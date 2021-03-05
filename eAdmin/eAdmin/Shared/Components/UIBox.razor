@@ -1,0 +1,67 @@
+﻿@inject IStringLocalizer<Resource> lang
+<Com is_visible="@is_visible">
+    <div class="ui-box @ClassName @box_style">
+        <Column is_visible="@(!string.IsNullOrEmpty(Title))">
+            <Grid ClassName="uk-grid-small">
+                <div class="uk-width-expand">
+                    <div class="iu-box-title"><Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@Title</span></div>
+                </div>
+                <div class="uk-width-auto">
+                    @if (is_show_edit_button)
+                    {
+                        <Icon icon="edit" title="@lang["Edit Item"]" OnClick="@OnEditClick" />
+                    }
+                    @if (is_show_delete_button)
+                    {
+                        <Icon icon="delete" title="@lang["Delete Item"]" OnClick="@OnDeleteClick" />
+                    }
+                    @if (is_show_add_button)
+                    {
+                        <Icon icon="add_circle_outline" title="@lang["Add Item"]" OnClick="@OnAddClick" />
+                    }
+
+                    @if (is_show_select_button)
+                    {
+                        <span style="margin-right:10px"></span>
+                        <Icon icon="select_all" title="@lang["Select Item"]" OnClick="@OnSelectClick" />
+                    }
+                    @if (show_print)
+                    {
+                        <span style="margin-right:10px"></span>
+                        <Icon icon="print" title="@lang["Print All Payments"]" OnClick="@OnPrint" />
+                    }
+                    <Icon icon="refresh" OnClick="@OnRefresh" is_visible="@show_refresh_button" icon_color="#006edc" />
+                </div>
+            </Grid> 
+            <hr />
+        </Column>
+        <div>
+            @ChildContent
+        </div>
+    </div>
+</Com>
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Icon { get; set; } = "";
+    [Parameter] public string IconRight { get; set; } = "";
+    [Parameter] public string box_style { get; set; } = "ui-box-primary";
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool is_status { get; set; } = true;
+    [Parameter] public bool is_show_add_button { get; set; } = false;
+    [Parameter] public bool is_show_edit_button { get; set; } = false;
+    [Parameter] public bool is_show_delete_button { get; set; } = false;
+    [Parameter] public bool is_show_select_button { get; set; } = false;
+    [Parameter] public bool show_refresh_button { get; set; } = false;
+    [Parameter] public bool is_margin_bottom { get; set; } = false;
+    [Parameter] public bool show_print { get; set; } = false;
+    [Parameter] public EventCallback<MouseEventArgs> OnRefresh { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnAddClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnEditClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnDeleteClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnSelectClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnPrint { get; set; }
+
+
+}

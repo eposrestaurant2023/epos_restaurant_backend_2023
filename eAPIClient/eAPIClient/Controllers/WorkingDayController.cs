@@ -67,10 +67,9 @@ namespace eAPIClient.Controllers
         public async Task<ActionResult<WorkingDayModel>> DeleteRecord(int id) //Delete
         {
             var u = await db.WorkingDays.FindAsync(id);
-            u.is_deleted = !u.is_deleted;
-            
+            u.is_deleted = !u.is_deleted;  
             db.WorkingDays.Update(u);
-            await db.SaveChangesAsync();
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));           
             return Ok(u);
         }
 

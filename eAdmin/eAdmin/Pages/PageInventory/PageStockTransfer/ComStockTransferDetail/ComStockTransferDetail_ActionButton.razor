@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-@inject IJSRuntime js 
+@inject IJSRuntime js
 @inject IMatToaster toast
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
@@ -18,16 +18,20 @@
                      IsVisible="@(!model.is_deleted)" />
 
 <AddButton roles="@gv.GetRole("stock_transfer_add")" url="stocktransfer/new">@lang["New Stock Transfer"]</AddButton>
-<MoreButton is_loading="@model.is_loading"> 
+<MoreButton is_loading="@model.is_loading">
     <MoreButtonItem roles="@gv.GetRole("stock_transfer_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
-    @*<MoreButtonItem roles="@gv.GetRole("sale_restore")" icon="refresh" is_visible="@(sale.can_restore)" OnClick="@RestoreInvoice_Click">Restore Invoice</MoreButtonItem>*@
+    <MoreButtonItem roles="@gv.GetRole("stock_transfer_edit")" icon="file_copy"> @lang["Clone Invoice"]</MoreButtonItem>
 </MoreButton>
+
+
 
 @if (is_open_print)
 {
-    <ComPreviewReport parent_id="117" report_id="118" id="@model.id" IsOpened="is_open_print" OnClose="@(()=>is_open_print=false)" />
+
+    <ComPreviewReport IsOpened="@is_open_print" report_id="201" Title="Stock Transfer Receipt" report_parameters="@($"id={model.id}&user_id={gv.current_login_user.id}")" OnClose="@(()=>is_open_print=false)" />
 }
- 
+
+
 
 @code {
     [Parameter] public StockTransferModel model { get; set; }
@@ -36,7 +40,7 @@
     AttachFilesModel file = new AttachFilesModel();
     bool is_loading;
     protected override void OnInitialized()
-    { 
+    {
         file.stock_transfer_id = model.id;
     }
 

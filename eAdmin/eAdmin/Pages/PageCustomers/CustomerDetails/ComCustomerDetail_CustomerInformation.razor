@@ -1,40 +1,42 @@
 ﻿@inject IHttpService http
-@inject NavigationManager nav  
+@inject NavigationManager nav
+@inject IStringLocalizer<Resource> lang
+
 <UIGridCenter>
     <UISummaryBox ImageUrl="@model.photo">
         <ContentLeft>
             <table>
                 <tr>
-                    <th>Customer Code</th>
+                    <th>@lang["Customer Code"]</th>
                     <td>@model.customer_code</td>
                 </tr>
                 <tr>
-                    <th>Customer (En)</th>
+                    <th>@lang["Customer (En)"]</th>
                     <td>@model.customer_name_en</td>
                 </tr>
                 <tr>
-                    <th>Customer (Kh)</th>
+                    <th>@lang["Customer (Kh)"]</th>
                     <td>@model.customer_name_kh</td>
                 </tr>
                 <tr>
-                    <th>Group</th>
+                    <th>@lang["Group"]</th>
                     <td>@model.customer_group?.customer_group_name_en</td>
                 </tr>
-               
+
             </table>
         </ContentLeft>
         <ContentRight>
             <table>
                 <tr>
-                    <th>Gender</th>
+                    <th>@lang["Gender"]</th>
                     <td>@model.gender</td>
                 </tr>
                 <tr>
-                    <th>City</th>
+                    <th>@lang["City"]</th>
                     <td>@model.address</td>
                 </tr>
                 <tr>
-                    <th>Phone Number</th>
+                    <th>@lang["Phone Number"]</th>
                     <td>@model.phone_1</td>
                 </tr>
 
@@ -42,37 +44,43 @@
                     <th></th>
                     <td>
                         <div class="uk-text-large">000</div>
-                        <div class="uk-text-small uk-text-italic">Credit Ballance</div>
+                        <div class="uk-text-small uk-text-italic">@lang["Credit Ballance"]</div>
                     </td>
                 </tr>
             </table>
         </ContentRight>
     </UISummaryBox>
-     
-    <UIContainerBox Title="Social Media Information">
+
+    <UIContainerBox Title="@lang["Social Media Information"]">
         <ListTable>
-            <ListTableItem ItemTitle="Email">@model.email</ListTableItem>
-          
+            <ListTableItem ItemTitle="@lang["Email"]">@model.email</ListTableItem>
+
         </ListTable>
     </UIContainerBox>
-
-   
- 
-   
-    
-    <UIContainerBox Title="Note" is_visible="@(!string.IsNullOrEmpty(model.note))">
-        @model.note
+    <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
+        <div class="text-area">
+            @model.note
+        </div>
     </UIContainerBox>
-    <UIContainerBox Title="Address" is_visible="@(!string.IsNullOrEmpty(model.address))">
+    <UIContainerBox Title="@lang["Address"]" is_visible="@(!string.IsNullOrEmpty(model.address))">
         @model.address
+    </UIContainerBox>
+    <UIContainerBox Title="@lang["Other Information"]">
+        <ListTable>
+            <ListTableItem ItemTitle="@lang["For Business Branch"]"> @model.customer_business_brach_list</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Created By"]"> @model.created_by</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Created Date"]"> @model.created_date.ToString(gv.date_time_format)</ListTableItem>
+        </ListTable>
     </UIContainerBox>
 </UIGridCenter>
 
 @code {
     [Parameter] public CustomerModel model { get; set; }
 
+    [Parameter] public List<BusinessBranchModel> business_branches { get; set; } = new List<BusinessBranchModel>();
+
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-  
- 
+
+
 }
 

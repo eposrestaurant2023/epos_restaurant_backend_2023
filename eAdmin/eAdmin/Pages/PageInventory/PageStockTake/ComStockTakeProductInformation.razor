@@ -17,6 +17,7 @@
                 <ThCenter>@lang["Image"]</ThCenter>
                 <ThCenter>@lang["Code"]</ThCenter>
                 <ThAuto> @lang["Detail"]</ThAuto>
+                <ThCenter>@lang["Quantity On Hand"]</ThCenter>
                 <ThCenter>@lang["Quantity"]</ThCenter>
                 <ThCenter>@lang["Unit"]</ThCenter>
                 <ThRight>@lang["Price"]</ThRight>
@@ -24,7 +25,7 @@
                 <th></th>
 </TableHeader>
             <RowTemplate Context="p">
-                <ComStockTakeProductRow stock_take_product="@p" stock_take_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
+                <ComStockTakeProductRow model="@model" stock_take_product="@p" stock_take_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
         </Table>
     }

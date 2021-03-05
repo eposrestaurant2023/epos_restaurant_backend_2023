@@ -15,14 +15,12 @@
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
                         @model.product_display_name
-                        <LabelDeleted is_visible="@model.is_deleted" />
-                        <LabelActive is_visible="@(!model.is_deleted && model.status)" is_loading="@model.is_change_status" />
-                        <LabelInActive is_visible="@(!model.is_deleted && !model.status)"  is_loading="@model.is_change_status"/>
+                        <ComProductDetail_HeaderStatus model="@model" is_ingredient="false"/>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"ingredient/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+                <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"ingredient/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
                 <ComAttachFileButton RoleAdd="@gv.GetRole("ingredient_add")"
                                      RoleEdit="@gv.GetRole("ingredient_edit")"
                                      RoleDelete="@gv.GetRole("ingredient_delete")"
@@ -46,7 +44,7 @@
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem>General Information</TabHeaderItem>
+                    <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_association_products = true)">@lang["Association Product"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_inventory_transation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>

@@ -17,7 +17,7 @@ namespace eAdmin.Pages.PageReports
 
             await Task.Delay(100);
             state.page_title = "Reports";
-            main_report_list = gv.permission_options.Where(r => r.parent_id == 44).ToList();
+            main_report_list = gv.permission_options.Where(r => r.parent_id == 44 && r.is_public_report == true).ToList();
             var x = main_report_list;
         }
         public void ViewReportClick(PermissionOptionModel _report)

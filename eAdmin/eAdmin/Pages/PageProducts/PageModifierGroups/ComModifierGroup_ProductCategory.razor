@@ -1,31 +1,29 @@
 ﻿@inject IStringLocalizer<Resource> lang
 
-<UIContainerBox Title="Product Categories">
-    @foreach (var g in product_groups.Where(r => (r.product_categories.SelectMany(r => r.modifier_group_product_categories.Where(r => r.modifer_group_id == modifier_group_id)).Count() > 0)))
-    {
-        <h3 class="title">@g.product_group_code - @g.product_group_en </h3>
-        <hr />
-        <table class="uk-table uk-table-small uk-table-striped uk-table-hover view_table set-verticle-middle">
-            <thead>
-                <tr>
-                    <th>@lang["Name En"]</th>
-                    <th>@lang["Name Kh"]</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var mp in g.product_categories.SelectMany(r => r.modifier_group_product_categories))
-                {
-                    @foreach (var p in g.product_categories.Where(r => r.id == mp.product_category_id && mp.modifer_group_id == modifier_group_id))
-                    {
-                        <tr>
-                            <td>@p.product_category_en</td>
-                            <td>@p.product_category_kh</td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    }
+<UIContainerBox Title="@lang["Product Category"]">
+    <ViewEmptyTemplate is_view="@(product_groups.Where(r => (r.product_categories.SelectMany(r => r.modifier_group_product_categories.Where(r => r.modifer_group_id == modifier_group_id)).Count() > 0)).Any())">
+        <Grid ClassName="uk-grid-small uk-grid-divider uk-grid-match uk-child-width-1-2@m">
+            @foreach (var g in product_groups.Where(r => (r.product_categories.SelectMany(r => r.modifier_group_product_categories.Where(r => r.modifer_group_id == modifier_group_id)).Count() > 0)))
+            {
+            <div> 
+                <div class="box-list-category">
+                    <h3 class="title uk-margin-remove">@g.product_group_code - @g.product_group_en </h3>
+                    <hr />
+                    <ol class="order-list hover-list">
+                        @foreach (var mp in g.product_categories.SelectMany(r => r.modifier_group_product_categories))
+                        {
+                            foreach (var p in g.product_categories.Where(r => r.id == mp.product_category_id && mp.modifer_group_id == modifier_group_id))
+                            {
+                                <li>@p.product_category_en (@p.product_category_kh)</li>
+
+                            }
+                        }
+                    </ol>
+                </div>
+            </div>
+            }
+        </Grid>
+    </ViewEmptyTemplate>    
 </UIContainerBox>
 
 @code {

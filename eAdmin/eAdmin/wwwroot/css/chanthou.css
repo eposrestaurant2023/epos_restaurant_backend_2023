@@ -31,6 +31,11 @@
     left: 37%;
     top: 22%;
 }
+.pos_icon_back_menu {
+    position: absolute;
+    left: 21%;
+    top: 22%;
+}
 .icon_edit {
     position: absolute;
     top: 5px;
@@ -41,7 +46,7 @@
 .icon_edit_menu {
     position: absolute;
     top: 5px;
-    right: 21px;
+    right: 5px;
     z-index: 1;
 }
 .icon_edit_menu_product {

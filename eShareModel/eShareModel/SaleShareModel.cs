@@ -1,57 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text.Json.Serialization;
-using eShareModel;
+﻿using System;                          
+using System.ComponentModel.DataAnnotations.Schema;     
 
 namespace eShareModel
 {
     public class SaleShareModel : CoreGUIDModel
-    {     
+    {
+        public int outlet_id { get; set; }
+        public Guid business_branch_id { get; set; }
+        public Guid? customer_id { get; set; }
+
+        public int table_id { get; set; }
+        public string table_name { get; set; }
+        public Guid working_day_id { get; set; }
+        public Guid cashier_shift_id { get; set; }
 
         public string document_number { get; set; } = "New";
         [Column(TypeName = "date")]
-        public DateTime sale_date { get; set; } = DateTime.Now;
-        public string customer_note { get; set; }
-        public string reference_number { get; set; }
-        public string term_conditions { get; set; }
-        public string sale_note { get; set; }
+        public DateTime working_date { get; set; } = DateTime.Now;
+
+       
         public bool is_partially_paid { get; set; }
-        public bool is_fulfilled { get; set; }
-        public bool is_over_due { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime? due_date { get; set; }      
+        public decimal total_quantity { get; set; }
+        public decimal sub_total { get; set; }
 
-        [NotMapped, JsonIgnore]
-        public bool can_delete
-        {
-            get
-            {
-                //return paid_amount == 0 && !is_paid && !is_deleted && total_visited==0; 
-                return !is_deleted && !is_fulfilled;
-            }
-        }
-        [NotMapped, JsonIgnore]
-        public bool can_restore
-        {
-            get
-            {
-                return is_deleted;
-            }
-        }
 
-        [NotMapped, JsonIgnore]
-        public bool can_edit
-        {
-            get
-            {
-                return !is_deleted;
-            }
-        }
+        //Discount
+        public decimal discountable_amount { get; set; } 
+        public decimal sale_product_discount_amount { get; set; }
+        public string discount_type { get; set; } = "Percent"; //Percent and Amount;
+        public decimal discount { get; set; } = 0;
+        public decimal total_discount { get; set; }
 
+        
+        public decimal total_amount { get; set; }
+        public decimal balance { get; set; }
+        public decimal paid_amount { get; set; }
+        public bool is_paid { get; set; }
+        public decimal total_cost { get; set; }
+
+
+
+        //Tax
+        public decimal taxable_amount { get; set; }
+        public decimal tax_1_rate { get; set; }
+        public decimal tax_1_amount { get; set; }
+        public decimal tax_1_taxable_amount { get; set; }
+
+        public decimal tax_2_rate { get; set; }
+        public decimal tax_2_amount { get; set; }
+        public decimal tax_2_taxable_amount { get; set; }
+
+        public decimal tax_3_rate { get; set; }
+        public decimal tax_3_amount { get; set; }
+        public decimal tax_3_taxable_amount { get; set; }
+
+
+        //Other 
+        public string sale_note { get; set; }
+        public int status_id { get; set; }
+        //
+        public bool? is_closed { get; set; }
+        public string closed_by { get; set; }
+        public DateTime? closed_date { get; set; }
     }
-
-
 }

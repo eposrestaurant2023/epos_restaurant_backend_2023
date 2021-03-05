@@ -5,26 +5,22 @@
 
     <TextInput is_read_only="true" label="Setting Title" @bind-text="@setting.setting_title" placeholder="Setting Value" />
     <hr/>
-    @foreach (var b in business_branches)
+    <TextInput is_read_only="true" label="Business Branch" @bind-text="@bus_branch.business_branch_name_en" />
+    @foreach (var bs in bus_branch_settings.Where(r => r.business_branch_id == bus_branch.id && r.setting_id == setting.id).ToList())
     {
-        <TextInput is_read_only="true" label="Business Branch" @bind-text="@b.business_branch_name_en" />
-
-        foreach (var bs in bus_branch_settings.Where(r => r.business_branch_id == b.id && r.setting_id == setting.id).ToList())
+        @if (setting.input_type == "date")
         {
-            @if (setting.input_type == "date")
-            {
-                <ComSelectDateFormat label="Date Format" @bind-selected_value="@bs.setting_value" />
-            }
-            else if (setting.input_type == "datetime")
-            {
-                <ComSelectDateTimeFormat label="Date Time Format" @bind-selected_value="@bs.setting_value"/>
-            }
-            else
-            {
-                <TextInput label="Setting Value" @bind-text="@bs.setting_value" placeholder="Setting Value" type="@setting.input_type" />
-            }
-            <hr />
+            <ComSelectDateFormat label="Date Format" @bind-selected_value="@bs.setting_value" />
         }
+        else if (setting.input_type == "datetime")
+        {
+            <ComSelectDateTimeFormat label="Date Time Format" @bind-selected_value="@bs.setting_value"/>
+        }
+        else
+        {
+            <TextInput label="Setting Value" @bind-text="@bs.setting_value" placeholder="Setting Value" type="@setting.input_type" />
+        }
+        <hr />
     }
 </EditFormContext>
 
@@ -34,7 +30,7 @@
     [Parameter] public string title { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Save_Click { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
-    [Parameter] public List<BusinessBranchModel> business_branches { get; set; }
+    [Parameter] public BusinessBranchModel bus_branch { get; set; }
     List<BusinessBranchSettingModel> bus_branch_settings { get; set; } = new List<BusinessBranchSettingModel>();
 
     protected override async Task OnInitializedAsync()
@@ -53,15 +49,8 @@
             bus_branch_settings = new List<BusinessBranchSettingModel>();
         }
     }
-
     async Task LoadBusinessBranch()
     {
-        var res = await http.ApiGetOData($"BusinessBranch?$filter=is_deleted eq false and status eq true");
-        if (res.IsSuccess)
-        {
-            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
-        }
-
         var resp = await http.ApiGetOData($"BusinessBranchSetting?$filter=setting_id eq {setting.id}");
         if (resp.IsSuccess)
         {

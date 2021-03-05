@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-@inject  IJSRuntime js 
+@inject IJSRuntime js
 @inject IMatToaster toast
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
@@ -9,7 +9,7 @@
     <Button title="Print" icon="print" is_visible="@(po.is_deleted == false && po.status == true)" OnClick="Print_Click" />
     <Button roles="@gv.GetRole("purchase_order_edit")" OnClick="@(()=>nav.NavigateTo($"purchaseorder/edit/{po.id}"))" icon="edit" title="@lang["Edit"]" is_visible="@(po.can_edit && !po.is_fulfilled)" />
     <Button roles="@gv.GetRole("purchase_order_add_payment")" icon="payment" title="@lang["Add Payment"]" is_visible="@(po.is_deleted == false && po.status == true && po.balance > 0)" OnClick="@OnAddPayment">
-        (@po.purchase_order_payments.Where(r=>!r.is_deleted).Count())
+        (@po.purchase_order_payments.Where(r => !r.is_deleted).Count())
     </Button>
 </ButtonGroup>
 
@@ -23,13 +23,14 @@
 <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New Purchase Order"]</AddButton>
 <MoreButton is_loading="@po.is_loading">
     <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@po.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("purchase_order_add")" icon="file_copy" is_visible="@po.can_edit" url="@($"purchaseorder/clone/{po.id}")">@lang["Clone Invoice"]</MoreButtonItem>
 </MoreButton>
 
 @if (is_open_print)
 {
-    <ComPreviewReport parent_id="117" report_id="118" id="@po.id" IsOpened="is_open_print" OnClose="@(()=>is_open_print=false)" />
+
+    <ComPreviewReport IsOpened="@is_open_print" report_id="195" Title="@lang["Purcase Order Receipt"]" report_parameters="@($"id={po.id}&user_id={gv.current_login_user.id}")" OnClose="@(()=>is_open_print=false)" />
 }
- 
 
 @code {
     [Parameter] public PurchaseOrderModel po { get; set; }

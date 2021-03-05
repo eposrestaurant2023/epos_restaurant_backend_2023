@@ -26,17 +26,16 @@
                                      IsVisible="@(!model.is_deleted)"/>
 
                 <SplitButton roles="@gv.GetRole("customer_add")" alignment="left" url="customer/new" main_button_text="New">
-                    <SplitButtonItem roles="@gv.GetRole("customer_add")" url="customer/new">New Customer</SplitButtonItem>
-                    <SplitButtonItem roles="@gv.GetRole("customer_add")" url="@($"customer/{model.id}/visit/new")">New Customer Visit</SplitButtonItem>
-                    <SplitButtonItem roles="@gv.GetRole("sale_add")" url="@($"sale/customer/{id}")">New Sale Invoice</SplitButtonItem>
+                    <SplitButtonItem roles="@gv.GetRole("customer_add")" url="customer/new">@lang["New Customer"]</SplitButtonItem>
+                    <SplitButtonItem roles="@gv.GetRole("sale_add")" url="@($"sale/customer/{id}")">@lang["New Sale Invoice"]</SplitButtonItem>
                 </SplitButton>
 
                 <MoreButton is_loading="@model.is_loading">
-                    <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">Clone</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => OnToogleStatus(model))">Inactive</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="@(() => OnToogleStatus(model))">Active</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@(() => OnDelete(model))">Delete</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("customer_restore")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@(() => OnRestore(model))">Restore</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Inactive"]</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Active"]</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@(() => OnDelete(model))">@lang["Delete"]</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("customer_restore")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@(() => OnRestore(model))">@lang["Restore"]</MoreButtonItem>
                      
                 </MoreButton>
                 <RefreshButton OnClick="@LoadData" />
@@ -45,14 +44,16 @@
         <PageBody>
             <Tab ClassName="control-header-tab">
                 <TabHeader>
-                    <TabHeaderItem roles="@gv.GetRole("customer_management")">Overview</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)">Sale History</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)">Sale Product History</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">Comments</TabHeaderItem>
-                </TabHeader>
+                    <TabHeaderItem roles="@gv.GetRole("customer_management")">@lang["Overview"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)">
+                        @lang["Sale History"]</TabHeaderItem>
+                        <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)">
+                            @lang["Sale Product History"]</TabHeaderItem>
+                                                                <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">@lang["Comments"]</TabHeaderItem>
+</TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComCustomerDetail_CustomerInformation model="@model" />
+                        <ComCustomerDetail_CustomerInformation model="@model"/>
                     </TabItem>
                    
                     <TabItem>
@@ -69,7 +70,7 @@
                     </TabItem>
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
-                            <UIContainerBox Title="Comment and History">
+                            <UIContainerBox Title="@lang["Comment and History"]">
                                 <ComHistory RoleAdd="@gv.GetRole("customer_add")"
                                             RoleDelete="@gv.GetRole("customer_delete")"
                                             RoleEdit="@gv.GetRole("customer_edit")"

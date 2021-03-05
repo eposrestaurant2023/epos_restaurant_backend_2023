@@ -4,44 +4,47 @@
 
 @if (!string.IsNullOrEmpty(label))
 {
-<div class="@(is_horizontal?"uk-form-horizontal":"")">
-    <div class="uk-margin-small">
-        <label class="uk-form-label" for="@id">@label</label>
-        <div class="uk-form-controls">
-            @if (type == "text")
-            {
-                @if (is_read_only)
+    <div class="@(is_horizontal?"uk-form-horizontal":"")">
+        <div class="uk-margin-small">
+            <label class="uk-form-label" for="@id"><Icon is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" icon="@icon"/> @label</label>
+            <div class="uk-form-controls">
+                @if (type == "text")
                 {
-                    <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" disabled @attributes="@CustomAttributes" style="width:@width" />
+                    @if (is_read_only)
+                    {
+                        <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" disabled @attributes="@CustomAttributes" style="width:@width" />
+                    }
+                    else
+                    {
+                        <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+                    }
+
                 }
-                else
+                else if (type == "email")
                 {
-                    <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+                    <input type="email" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
                 }
+                else if (type == "password")
+                {
+                    <input type="password" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+                }
+                else if (type == "textarea")
+                {
+                    <textarea class="uk-textarea @(is_height_auto ? "": "uk-height-small") @class_name uk-text-left" id="@id" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" rows="@row" @attributes="@CustomAttributes" style="width:@width">@text</textarea>
 
-            }
-            else if (type == "email")
-            {
-                <input type="email" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
-            }
-            else if (type == "password")
-            {
-                <input type="password" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
-            }
-            else if (type == "textarea")
-            {
-                <textarea class="uk-textarea @(is_height_auto ? "": "uk-height-small") @class_name uk-text-left" id="@id" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" rows="@row" @attributes="@CustomAttributes" style="width:@width">@text</textarea>
-
-            }
-            else if (type == "color")
-            {
-                <input type="color" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
-            }
-
-            @ChildContent
+                }
+                else if (type == "color")
+                {
+                    <input type="color" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+                }
+                else if (type == "number")
+                {
+                    <input type="number" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" @attributes="@CustomAttributes" style="width:@width" />
+                }
+                @ChildContent
+            </div>
         </div>
     </div>
-</div>
 }
 else
 {
@@ -49,21 +52,21 @@ else
     {
         @if (is_read_only)
         {
-            <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" disabled title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+            <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" disabled title="@title" @attributes="@CustomAttributes" style="width:@width" />
         }
         else
         {
-            <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+            <input type="text" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width" />
         }
 
     }
     else if (type == "email")
     {
-        <input type="email" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+        <input type="email" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width" />
     }
     else if (type == "password")
     {
-        <input type="password" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+        <input type="password" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width" />
     }
     else if (type == "textarea")
     {
@@ -71,7 +74,11 @@ else
     }
     else if (type == "color")
     {
-        <input type="color" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width"/>
+        <input type="color" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width" />
+    }
+    else if (type == "number")
+    {
+        <input type="number" class="uk-input @class_name uk-form-small" id="@id" value="@text" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" title="@title" @attributes="@CustomAttributes" style="width:@width" />
     }
     @ChildContent
 }
@@ -82,6 +89,7 @@ else
     [Parameter] public string label { get; set; } = "";
     [Parameter] public string type { get; set; } = "text";
     [Parameter] public string title { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "";
     [Parameter] public string class_name { get; set; } = "";
     [Parameter] public string width { get; set; } = "";
     [Parameter] public int row { get; set; } = 5;

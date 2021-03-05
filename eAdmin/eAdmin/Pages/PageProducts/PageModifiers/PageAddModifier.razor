@@ -25,7 +25,7 @@
             <PageBody>
                 <UIGridCenter>
                     <UIContainerBox>
-                        <TextInput label="Name En" @bind-text="@modifier.modifier_name">
+                        <TextInput label="@lang["Name En"]" @bind-text="@modifier.modifier_name">
                             <ValidationMessage For="@(()=>modifier.modifier_name)" />
                         </TextInput>
                         <SelectStatus @bind-selected_value="@modifier.status" />
@@ -51,7 +51,7 @@ else
 }
 @if (is_error)
 {
-    <Error title="Product">@error_text</Error>
+    <Error title="@lang["Modifier"]">@error_text</Error>
 }
 
 @code{
@@ -73,28 +73,23 @@ else
         is_loading = true;
         if (clone_id > 0 || id > 0)
         {
+            var resp = await http.ApiGet($"{controller_api}({(id != 0 ? id : clone_id)})?$expand=modifier_ingredients($expand=ingredient,unit)");
+            if (resp.IsSuccess)
+            {
+                modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
+            }
             if (clone_id > 0)
             {
-                var resp = await http.ApiPost(controller_api + $"/clone/{clone_id}");
-                if (resp.IsSuccess)
-                {
-                    modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
-                    title = $"Clone : {modifier.modifier_name}";
-                }
+                title = $"Clone : {modifier.modifier_name}";
             }
             else
             {
-                var resp = await http.ApiGet($"{controller_api}({id})");
-                if (resp.IsSuccess)
-                {
-                    modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
-                    title = $"Edit : {modifier.modifier_name}";
-                }
+                title = $"Edit : {modifier.modifier_name}";
             }
         }
         else
         {
-            title = "Add New Modifier";
+            title = lang["Add New Modifier"];
             modifier = new ModifierModel();
         }
         is_loading = false;
@@ -105,9 +100,16 @@ else
         is_saving = true;
 
         ModifierModel save_model = JsonSerializer.Deserialize<ModifierModel>(JsonSerializer.Serialize(modifier));
+        if (clone_id > 0)
+        {
+            save_model.id = 0;
+            save_model.created_date = DateTime.Now;
+            save_model.created_by = gv.current_login_user.full_name;
+        }
         //save_model.product_modifiers = null;
         save_model.modifier_ingredients.ForEach(r => r.ingredient = null);
         save_model.modifier_ingredients.ForEach(r => r.modifier = null);
+        save_model.modifier_ingredients.ForEach(r => r.unit = null);
         var resp = await http.ApiPost("Modifier/Save", save_model);
         if (resp.IsSuccess)
         {
@@ -116,6 +118,7 @@ else
             if (is_save_and_new)
             {
                 modifier = new ModifierModel();
+                modifier.modifier_ingredients = new List<ModifierIngredientModel>();
                 nav.NavigateTo("modifier/new");
                 await LoadData();
             }
@@ -125,7 +128,7 @@ else
             }
         }
         else {
-            toast.Add("Save modifier fail.", MatToastType.Warning);
+            toast.Add(lang["Save modifier fail."], MatToastType.Warning);
         }
         is_saving = false;
     }

@@ -1,10 +1,9 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Text.Json;
-using System.Threading.Tasks;
-using eAPI.Migrations;
+using System.Security.Claims;    
+using System.Threading.Tasks;    
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
@@ -34,14 +33,16 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         public IQueryable<ProductModel> Get(string keyword = "")
         {
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrWhiteSpace(keyword))
             {
-                return db.Products.Where(r =>
-                (
-                (r.product_code ?? "") +
-                (r.product_name_en ?? "") +
-                (r.product_name_kh ?? "") 
-                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
+                var c = from r in db.Products
+                        where EF.Functions.Like((
+                            (r.product_code ?? "") +
+                            (r.product_name_en ?? "") +
+                            (r.product_name_kh ?? "")
+                    ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        select r;
+                return c.AsQueryable();
             }
             else
             {
@@ -60,77 +61,195 @@ namespace eAPI.Controllers
 
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] ProductModel u, bool is_update_stock = false)
-        { 
-            if (u.product_modifiers != null && u.product_modifiers.Any())
-            {
-                foreach(var pm in u.product_modifiers)
+        public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
+        {
+
+            bool is_add = false;
+
+            //check product if it is already has inv transaction then retail fail
+            if (u.id > 0) {
+                var db_product = db.Products.Where(r => r.id == u.id).AsNoTracking().Include(r=>r.stock_location_products).AsNoTracking();
+                var p = db_product.FirstOrDefault();
+                if (p.is_inventory_product)
                 {
-                    pm.children.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
-                } 
-            }
-            
-            u.product_menus.ForEach(r => r.menu = null);
-
-            u.stock_location_products.ForEach(r=>r.stock_location = null);
-
-            // update stock transfer
-            List<InventoryTransactionModel> inventory_transactions = new List<InventoryTransactionModel>();
-            if (is_update_stock)
-            {
-                if (u.stock_location_products != null && u.stock_location_products.Any())
-                {
-                    foreach (var s in u.stock_location_products)
-                    {
-                        InventoryTransactionModel inventory_transaction = new InventoryTransactionModel();
-
-                        inventory_transaction.inventory_transaction_type_id = 1;
-                        inventory_transaction.stock_location_id = s.stock_location_id;
-                        inventory_transaction.quantity = s.quantity;
-                        inventory_transaction.unit = u.unit.unit_name;
-                        inventory_transaction.multiplier = u.unit.multiplier;
-                        inventory_transaction.reference_number = u.product_code;
-                        inventory_transaction.created_date = DateTime.Now;
-                        inventory_transactions.Add(inventory_transaction);
+                    //if user untick is_inventor6y product but product in db already mark as has inv transaction
+                    if (u.is_inventory_product == false && p.is_product_has_inventory_transaction) {
+                        return StatusCode(500, "Is Inventory Status cannot Change. This product is already has inventory transaction.");
+                    }else  {
+                        //use change initialize quantity after product has inv transaction
+                        if (u.stock_location_products.Where(r => (r.initial_quantity - r.initial_adjustment_quantity) != 0).Any())
+                        {
+                            return StatusCode(500, "Quantity cannot change. This product is already has inventory transaction.");
+                        }
+                        
                     }
                 }
-                u.stock_location_products.ForEach(r=>r.stock_location = null);
+
+                //when update to prevent quantity change we load quantity from database
+                //and assign to quantitty that save to database again
+                if (u.stock_location_products.Any())
+                {
+                   if(u.stock_location_products.Where(r => r.id > 0).Any() && p.stock_location_products.Any())
+                    {
+                        foreach (var sp in u.stock_location_products) {
+                            var data = p.stock_location_products.Where(r => r.id == sp.id);
+                            if (data.Any()) {
+                                sp.quantity = data.FirstOrDefault().quantity;
+                            }
+                          
+                        }
+                    }
+
+                }
+                //end get quantity from db save to quantity that will submit to db
+
+
             }
-            else
+
+            if (u.product_modifiers != null && u.product_modifiers.Any())
             {
-                u.stock_location_products = null;
+                foreach (var pm in u.product_modifiers)
+                {
+                    pm.children.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+                }
             }
-            
+
+            u.product_menus.ForEach(r => r.menu = null);
+            u.stock_location_products.ForEach(r => r.stock_location = null);
             u.unit = null;
+             
+
+
+
+            //if product is inv product then save init qty to init adjusment qty
+            if (u.is_inventory_product)
+            {
+                if (u.stock_location_products.Any())
+                {
+                    u.stock_location_products.ForEach(r => r.initial_adjustment_quantity = r.initial_quantity);
+ 
+                    
+
+                }
+            }
 
             if (u.id == 0)
             {
+               
 
+
+                is_add = true;
                 db.Products.Add(u);
-
             }
             else
             {
-                
+
                 db.Products.Update(u);
             } 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            if (is_update_stock)
+            if (u.is_inventory_product)
             {
-                inventory_transactions.ForEach(r => { 
-                    r.url = (u.is_ingredient_product && !u.is_menu_product) ? "ingredient/" + u.id : "product/" + u.id; 
-                    r.product_id = u.id; 
-                    r.reference_number = u.product_code; 
-                    r.note = (u.is_ingredient_product && !u.is_menu_product) ? $"Created New Ingredient ({u.product_code})" : $"Created New Product ({u.product_code})"; 
-                }) ;
-                db.InventoryTransactions.AddRange(inventory_transactions);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                if (is_add )
+                {
+                    await AddProductToInventoryTransaction(u);
+                }
+                else
+                {
+
+                    if (!db.InventoryTransactions.Where(r => r.product_id == u.id).Take(1).Any() )
+                    {
+                        await AddProductToInventoryTransaction(u);
+                    }
+                    else
+                    {
+                         
+                            await AddProductAdjustmentToInventoryTransaction(u);
+                        
+
+                    }
+
+                }
             }
-            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record"); 
+            else
+            {
+                if (!is_add)
+                {
+                    ////>>????????? where deleted
+                }
+            }
+          
+           
+            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record " + u.id); 
             return Ok(u); 
         }
 
-      
+
+
+
+        async Task AddProductToInventoryTransaction(ProductModel p )
+        {
+            InventoryTransactionModel inv = new InventoryTransactionModel();
+
+            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            foreach (var s in p.stock_location_products)
+            {
+                inv = new InventoryTransactionModel();
+                inv.product_id = p.id;
+                inv.transaction_date = DateTime.Now;
+                inv.inventory_transaction_type_id = 1;
+                inv.stock_location_id = s.stock_location_id;
+                inv.quantity = s.initial_quantity;
+                inv.reference_number = p.product_code;
+                inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
+                inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Created New Ingredient ({p.product_code})" : $"Created New Product ({p.product_code})";
+                inv.created_by = user.full_name;
+
+                db.InventoryTransactions.Add(inv);
+                db.SaveChanges();
+            }
+
+        }
+
+
+        async Task AddProductAdjustmentToInventoryTransaction(ProductModel p)
+        {
+            InventoryTransactionModel inv = new InventoryTransactionModel();
+
+            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            foreach (var s in p.stock_location_products.Where(r=>(r.initial_adjustment_quantity- r.initial_quantity)!=0))
+            {
+
+                inv = new InventoryTransactionModel();
+                inv.product_id = p.id;
+                inv.transaction_date = DateTime.Now;
+                inv.inventory_transaction_type_id = 2;
+                inv.stock_location_id = s.stock_location_id;
+                inv.quantity = s.initial_quantity - s.quantity;
+
+                inv.reference_number = p.product_code;
+
+
+                inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
+                
+
+                    inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Ingredient Initial Quantity Adjustment ({p.product_code})" : $"Product Initial Quantity Adjustment ({p.product_code})";
+
+             
+
+                inv.created_by = user.full_name;
+
+                db.InventoryTransactions.Add(inv);
+                db.SaveChanges();
+
+
+
+
+            }
+
+        }
+
 
 
         [HttpPost]
@@ -179,7 +298,8 @@ namespace eAPI.Controllers
                 p.product_menus.ForEach(r => r.product_id = 0);
                 p.product_menus.ForEach(r => r.menu.menus = new List<MenuModel>());
                 p.product_modifiers.ForEach(r => { r.id = 0; r.product_id = 0; });
-                 
+                p.is_product_has_inventory_transaction = false;
+                
                 return Ok(p);
             }
             else

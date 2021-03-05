@@ -296,7 +296,7 @@
     font-size: 10px;
     display: inline-flex;
     padding: 3px 5px;
-}
+} 
 .uk-label .label_customer {
     background: #000;
 }
@@ -548,7 +548,7 @@ input[type="text"] {
     width: 100%;
     border: none !important;
     border-radius: 5px;
-    margin-top: 3px;
+    margin-top: 0px;
 }
 .sale_from_purchase_order .new_sale_sticky_top .toogle_bar_code {
     background: #32d296;
@@ -659,7 +659,6 @@ input[type="text"] {
 label {
     min-height: 12px;
     display: block;
-    margin-bottom: 4px;
 }
 
 .unit-divider:not(:first-child) {
@@ -1049,8 +1048,15 @@ h3.title, h1.title {
     font-size: 11px !important;
     text-transform: uppercase !important;
     font-family: inherit !important;
-    margin-bottom: 10px !important;
-    margin-top: 10px !important;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.iu-box-title {
+    font-weight: 800 !important;
+    color: #333 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    font-family: inherit !important;
 }
 h3.title-search, h1.title-search {
     font-weight: 800 !important;
@@ -1942,8 +1948,25 @@ h3.title.heading {
 .uk-overlay {
     background: rgba(189, 189, 189, 0.65);
     z-index: 9;
+    color:#000;
 }
-
+.uk-overlay-default {
+    background: rgb(255 255 255 / 61%);
+}
+.border_select {
+    border: 1px solid #5899dc;
+}
+.gb_button_select {
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    background: #5899dc;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 .custom-modal {
     transition: .2s ease-in-out;
 }
@@ -3279,7 +3302,7 @@ button.issue_invoice {
     view table style
 */
 
-.view_table {
+.view_table, .view_small_table {
     white-space: nowrap !important;
     border: 1px solid #e5e5e5;
 }
@@ -3542,8 +3565,15 @@ button.verified {
 
 .sidebar .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
+} 
+.order-list > li:nth-child(n+2), .order-list > li > ul {
+    margin-top: 10px;
 }
-
+.hover-list li:hover,
+.hover-list li:focus,
+.hover-list li:active {
+    color: #438fe6;
+}
 /*File Uploads Component*/
 .wrp_input_attach_file {
     position: relative;
@@ -4620,6 +4650,7 @@ ul.uk-nav-sub a i.material-icons {
     border-radius: 2px;
     margin-bottom: 15px;
     position: relative;
+    padding:10px;
 }
 .wrp-exp-vendor-filter .vendertypeheadnullitem {
     padding-top: 13px !important;
@@ -6989,6 +7020,7 @@ z-index:999999!important;
 }
 .bg_business_rootmenu {
     padding: 15px;
+    border-radius:4px;
     border: 1px solid #e1e4e8;
 }
 .button_color_button {
@@ -7004,4 +7036,57 @@ z-index:999999!important;
     background: #0366d6;
     color: #ffffff;
     border: none;
+}
+.search-add-typeahead {
+    border: 1px solid #cfd7df;
+    background: #fbfbfb;
+    border-radius: 4px;
+}
+.search-add-typeahead .search-add-icon {
+    width: 40px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-right: 1px solid #cfd7df;
+    background: #f5faff;
+}
+.ui-box-primary {
+    border-left: 1px solid #c8e1ff;
+    padding: 12px;
+    background: #f7fbff;
+    border-right: 1px solid #c8e1ff;
+    border-bottom: 1px solid #c8e1ff;
+    border-top: 2px solid #1e87f0;
+    border-radius: 6px;
+    margin-bottom: 18px;
+}
+.ui-box-primary table{
+    margin: 0px!important;
+    background-color: #fff!important;
+}
+.ui-box-primary:last-child {
+    margin-bottom: 0px!important;
+}
+.vertical-middle {
+    vertical-align: middle !important;
+}
+.view_small_table th {
+    padding: 4px 12px !important;
+    background: #ebeff3;
+    color: #041a15;
+    text-transform: capitalize;
+    font-weight: 400;
+    width: 1px;
+    font-size: 14px;
+}
+.view_small_table th, .view_small_table td {
+    border: 1px solid #d8d8d8;
+}
+.box-list-category {
+    border: 1px solid #ebeff3;
+    padding: 12px;
+    background: #fff;
+}
+.box-list-category:hover {
+    background: #f0f7ff;
 }

@@ -6,7 +6,6 @@
 @if (!is_loading)
 {
 <PageContainer>
-
     <PageHeader>
         <HeaderLeft>
             <PageTitle ShowFilter="false">
@@ -26,7 +25,7 @@
                 <ComBusinessBranhRootMenu menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword"/>
             </Column>
             <Column ClassName="uk-width-4-5">
-                <ComMainMenu menus="@menus" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" @bind-keyword="@keyword"/>
+                <ComMainMenu menus="@menus" root_menu_id="@current_menu_id" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" @bind-keyword="@keyword" />
             </Column>
         </Grid>
     </PageBody>
@@ -39,15 +38,14 @@
 }
 @if (show_add_menu)
 {
-    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" />
-
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)"  />
 }
 @code
 {
 
     List<MenuModel> menus = new List<MenuModel>();
     MenuModel menu = new  MenuModel ();
-
+   
     int current_menu_id;
 
     bool show_add_menu;
@@ -111,11 +109,12 @@
 
     void AddRootMenu()
     {
-
+        show_add_menu = !show_add_menu;
     }
     void OnSearch()
     {
 
     }
+   
 }
 

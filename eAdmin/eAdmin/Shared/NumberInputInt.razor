@@ -17,11 +17,11 @@
         <div class="uk-form-controls">
             @if (is_read_only)
             {
-                <input type="text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input @class_name" style="width:@width" />
+                <input type="text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
             }
             else
             {
-                <input type="text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input @class_name" style="width:@width" />
+                <input type="text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
             }
 
             @ChildContent
@@ -34,11 +34,11 @@ else
 {
     if (is_read_only)
     {
-        <input type="text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input @class_name" style="width:@width" />
+        <input type="text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
     }
     else
     {
-        <input type="text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input @class_name" style="width:@width" />
+        <input type="text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
     }
 
     @ChildContent
