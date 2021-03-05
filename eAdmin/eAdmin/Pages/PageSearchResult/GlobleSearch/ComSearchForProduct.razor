@@ -1,0 +1,162 @@
+﻿@inherits PageCore;
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (products.Count() > 0)
+{
+
+    <h3 class="title-search">
+        Product
+    </h3>
+    <hr />
+    <Table Items="@products"
+           PerPage="@state.pager.per_page"
+           TotalItem="@TotalRecord"
+           CurrentPage="@state.pager.current_page"
+           OnPagerChange="@SelectChange"
+           OnPageChange="@ChangePager"
+           isLoading="@is_loading_data"
+           ShowPager="true"
+           ShowCounter="true"
+           ClassName="uk-table-small uk-table-striped uk-table-hover"
+           ScrollClass="uk-overflow-auto">
+        <TableHeader>
+            <ThCenter>@lang["Image"]</ThCenter>
+            @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
+            @HeaderTemplate("product_name_en", lang["Name (En)"], "col-auto")
+            @HeaderTemplate("product_name_kh", lang["Name (Kh)"], "col-auto")
+            @HeaderTemplate("product_category/product_category_en", lang["Category"])
+            <ThCenter>@lang["Quality"]</ThCenter>
+            <ThRight>@lang["Price"]</ThRight>
+            <ThRight>
+                @lang["Status"]
+            </ThRight>
+            <th class="uk-width-auto"></th>
+        </TableHeader>
+        <RowTemplate Context="p">
+            <TdCenter>
+                <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+            </TdCenter>
+            <TdCenter>
+                <a href="@($"product/{p.id}")">@p.product_code</a>
+            </TdCenter>
+            <td>
+                <a href="@($"product/{p.id}")">@p.product_name_en</a>
+            </td>
+            <td>
+                <a href="@($"product/{p.id}")">@p.product_name_kh</a>
+            </td>
+            <td>@p.product_category?.product_category_en</td>
+            <TdCenter>
+                @p.quantity.ToString(gv.quantity_format)
+            </TdCenter>
+            <TdRight>
+                @if (p.min_price == p.max_price)
+                    {
+                    <span>@p.min_price.ToString(gv.currency_format)</span>
+                    }
+                    else
+                    {
+                    <span>@p.min_price.ToString(gv.currency_format) - @p.max_price.ToString(gv.currency_format)</span>
+                    }
+            </TdRight>
+            <TdRight>
+                <LabelDeleted is_visible="@p.is_deleted" />
+                <LabelActive is_visible="@(!p.is_deleted && p.status)"  roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
+                <LabelInActive is_visible="@(!p.is_deleted && !p.status)"  roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
+                <Label Background="#FF5733" Color="#fff" is_visible="@p.is_low_inventory">Low Stock</Label>
+                <Label Background="#FA2C00" Color="#fff" is_visible="@p.is_out_of_stock">Out Of Stock</Label>
+                <Label Background="#6495ED" Color="#fff" is_visible="@p.is_over_stock">Over Stock</Label>
+            </TdRight>
+            <TdActions is_loading="@p.is_loading">
+                <TableActionItem icon="visibility" is_visible="@(!p.is_deleted)" url="@($"product/{p.id}")">@lang["View"]</TableActionItem>
+                <TableActionItem roles="@gv.GetRole("product_edit")" icon="edit" is_visible="@(!p.is_deleted)" url="@($"product/edit/{p.id}")">@lang["Edit"]</TableActionItem>
+                <TableActionItem roles="@gv.GetRole("product_add")" icon="file_copy" url="@($"product/clone/{p.id}")">@lang["Clone"]</TableActionItem>
+            </TdActions>
+        </RowTemplate>
+    </Table>
+
+}
+@code {
+
+    string api_controller = "product";
+    [Parameter] public string keyword { get; set; }
+    List<ProductModel> products = new List<ProductModel>();
+
+
+
+    int TotalRecord = 0;
+
+    public string ControllerApi
+    {
+        get
+        {
+            if (state.pager.order_by == "")
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string query = "$select=id,is_out_of_stock,is_low_inventory,is_over_stock,quantity,product_code,product_name_en,product_name_kh,photo,cost,status";
+            query = query + "&$expand=product_category($select= id,product_category_en,product_category_kh),";
+            string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            return url + GetFilter(state.filters) + " and is_menu_product eq true";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        state.filters.Clear();
+        state.pager.per_page = 10;
+        state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+        await LoadData();
+
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+
+        string api_url = $"{ControllerApi}";
+
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            products = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+        }
+
+    }
+
+    async Task OrderBy(string col_name = "")
+    {
+        is_loading_data = true;
+        state.pager.current_page = 1;
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+        await LoadData();
+        is_loading_data = false;
+    }
+
+    public async Task SelectChange(int perpage)
+    {
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+    async Task ChangePager(int _page)
+    {
+        is_loading_data = true;
+        state.pager.current_page = _page;
+
+        await LoadData();
+        is_loading_data = false;
+    }
+
+
+}
