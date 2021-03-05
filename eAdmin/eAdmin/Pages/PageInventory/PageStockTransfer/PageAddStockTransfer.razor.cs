@@ -16,6 +16,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
     public class PageAddStockTransferBase : PageCore
     {
         [Parameter] public int id { get; set; }
+        [Parameter] public int clone_id { get; set; }
 
         public StockTransferModel model = new StockTransferModel(); 
         public bool is_show_back { get; set; } = false;
@@ -28,7 +29,15 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
             if (!is_error)
             {
-                await LoadData();
+                if (id > 0)
+                {
+
+                    await LoadData();
+                }
+                else if (clone_id > 0)
+                {
+                    await CloneRecord();
+                }
             }
 
             if (model.is_fulfilled)
@@ -84,7 +93,18 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
             model = _model;
         }
- 
+
+        public async Task CloneRecord()
+        {
+            is_loading = true;
+            var resp = await http.ApiPost($"StockTransfer/Clone/{clone_id}");
+            if (resp.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<StockTransferModel>(resp.Content.ToString());
+            }
+            is_loading = false;
+
+        }
         async Task LoadData()
         {
             is_loading_data = true;
