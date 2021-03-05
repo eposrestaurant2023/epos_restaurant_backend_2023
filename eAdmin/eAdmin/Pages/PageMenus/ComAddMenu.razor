@@ -1,7 +1,10 @@
 ﻿@inject IHttpService http;
 @inject IStringLocalizer<Resource> lang
 <EditFormContext is_cancel="true" is_save="true" model="@model" is_opened="@is_opened" title="@title" Cancel_Click="@OnCancel" Save_Click="@Save_Click" is_submitting="@is_saving" modal_width="700px">
-    <div style="word-break:break-word">@current_menu_id</div>
+    <div style="word-break:break-word">@menu.id</div>
+    <div style="word-break:break-word">@menu.business_branch_id</div>
+    <div style="word-break:break-word">@menu.root_menu_id</div>
+    <div style="word-break:break-word">@menu.parent_id</div>
     <UIGridCenter>
         @if (is_loading)
         {
@@ -115,7 +118,7 @@
         is_loading = true;
 
         await Task.Delay(100);
-        model = JsonSerializer.Deserialize<MenuModel>(JsonSerializer.Serialize(menu));
+        model = menu;
         is_loading = false;
     }
 
@@ -123,9 +126,20 @@
     async Task Save_Click()
     {
         is_saving = true;
-        model.business_branch_id = business_id;
-        model.root_menu_id = root_menu_id;
-        model.parent_id = current_menu_id;
+        if (model.id == 0)
+        {
+            model.business_branch_id = business_id;
+            model.root_menu_id = root_menu_id;
+            if (current_menu_id > 0)
+            {
+                model.parent_id = current_menu_id;
+            }
+            else
+            {
+                model.parent_id = root_menu_id;
+            }
+        }
+
         var res = await http.ApiPost("Menu/save", model);
         if (res.IsSuccess)
         {

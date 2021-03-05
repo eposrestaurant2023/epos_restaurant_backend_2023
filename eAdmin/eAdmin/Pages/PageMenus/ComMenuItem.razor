@@ -2,7 +2,7 @@
  
 <div style="position:relative;" class="uk-width-1-6">
     <div class="icon_edit_menu">
-        <Icon icon="edit" icon_color="@menu.text_color" OnClick="@EditMenu"/>
+        <Icon icon="edit" icon_color="@menu.text_color" OnClick="@(()=>EditMenu())"/>
         <Com is_visible="@(!IsMenuSelected())"> 
             <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" /> 
         </Com>
@@ -78,6 +78,7 @@
 
     void EditMenu()
     {
+
         show_add_menu = true;
     }
 
@@ -94,7 +95,6 @@
     void SaveMenu(MenuModel m)
     {
         menus.Add(m);
-        Console.WriteLine(JsonSerializer.Serialize(menu));
         show_add_menu = false;
     }
 

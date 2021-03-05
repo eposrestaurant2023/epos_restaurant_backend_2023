@@ -62,6 +62,7 @@ namespace eAPI.Controllers
         {
 
             u.parent = null;
+            u.product_menus.ForEach(r => r.product.unit = null);
             if (u.id == 0)
             {
 
@@ -88,11 +89,10 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<MenuModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<MenuModel>> DeleteRecord(int id) //Delete
         {
             var u = await db.Menus.FindAsync(id);
-            u.is_deleted = !u.is_deleted;
-            
+            u.is_deleted = !u.is_deleted;            
             db.Menus.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
