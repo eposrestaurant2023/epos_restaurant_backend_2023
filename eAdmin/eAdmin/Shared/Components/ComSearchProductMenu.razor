@@ -35,7 +35,6 @@
                             <TableHeader>
                                 <ThCenter>Image</ThCenter> 
                                 <ThAuto>Product</ThAuto>
-                                <ThRight>Cost</ThRight> 
                                 <ThCenter>Unit</ThCenter>
                                 <th></th>
                             </TableHeader>
@@ -53,8 +52,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                </td>
-                                <TdRight>@c.cost.ToString(gv.currency_format)</TdRight> 
+                                </td> 
                                 <TdCenter>@c.unit?.unit_name</TdCenter> 
                                 <TdCenter>
                                     <button uk-tooltip="Select product" class="uk-button uk-button-primary uk-button-small" @onclick="@(() => ChooseProduct_Click(c))" style="width:120px;">
@@ -79,8 +77,6 @@
                                 <TableHeader>
                                     <ThCenter>Image</ThCenter>
                                     <ThAuto>Product</ThAuto>
-                                    <ThRight>Cost</ThRight> 
-                                    <ThCenter>Quantity</ThCenter>
                                     <ThCenter>Unit</ThCenter>
                                     <th></th>
                                 </TableHeader>
@@ -95,12 +91,7 @@
                                             <div>@p.product?.product_display_name</div>
                                         </div>
                                     </td>
-                                    <TdRight>@p.cost.ToString(gv.main_currency_format)</TdRight>
-                                    <TdCenter><NumberInput @bind-text="@p.quantity" class_name="uk-text-center uk-form-small" /></TdCenter>
-                                    <TdCenter>
-                                        <SelectUnit label="" @bind-unit="@p.unit" unit_category_id="@p.product.unit.unit_category_id" />
-
-                                    </TdCenter>
+                                    <TdCenter>@p.unit?.unit_name</TdCenter>
                                     <td>
                                         <Icon icon="delete" OnClick="@(()=> { RemoveSeletedProduct(p); })" className="icon-remove-product" title="Remove Product" />
                                     </td>
@@ -198,7 +189,7 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string url = $"{controller_api}?$expand=unit&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";          
+            string url = $"{controller_api}?$expand=unit&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";
             return   url + GetFilter(state.filters) + " and (is_menu_product eq true)";
 
         }
@@ -279,21 +270,15 @@
     {
         // get selected product
         var sp = selected_products.Where(r => r.product.id == p.id && p.unit_id == r.unit.id);
-        if (sp.Count() > 0)
-        {
-            sp.FirstOrDefault().quantity = sp.FirstOrDefault().quantity + 1;
-        }
-        else
+        if (sp.Count() == 0)
         {
             selected_products.Add(new SelectedProductModel()
             {
                 product = p,
                 unit = p.unit,
                 cost = p.cost,
-                quantity = 1 
             });
         }
-
     }
 
     void OnConfirmSeletedProductVariant(List<SelectedProductModel> sp)

@@ -5,7 +5,7 @@
 
 @if (!is_loading)
 {
-<PageContainer>
+<PageContainer>    
     <PageHeader>
         <HeaderLeft>
             <PageTitle ShowFilter="false">
@@ -19,34 +19,38 @@
             <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
         </HeaderRight>
     </PageHeader>
-    <PageBody>
-        <Grid ClassName="uk-grid-small">
-            <Column ClassName="uk-width-1-5">
-                <ComBusinessBranhRootMenu menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword"/>
-            </Column>
-            <Column ClassName="uk-width-4-5">
-                <ComMainMenu menus="@menus" root_menu_id="@current_menu_id" parent_menu_id="@current_menu_id" current_menu_id="@current_menu_id" @bind-keyword="@keyword" />
-            </Column>
-        </Grid>
-    </PageBody>
-    <PageFooter>
-        <FooterCenter>
-            <Button>Save</Button>
-        </FooterCenter>
-    </PageFooter>
+    <EditForm Model="@menus" OnValidSubmit="@(()=>Save_Click())" @attributes="@formAttributes">
+        <DataAnnotationsValidator />
+        <PageBody>
+            <Grid ClassName="uk-grid-small">
+                <Column ClassName="uk-width-1-5">
+                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@root_menu_id" @bind-keyword="@keyword" />
+                </Column>
+                <Column ClassName="uk-width-4-5">
+                    <ComMainMenu business_branch_id="@business_id" menus="@menus" root_menu_id="@root_menu_id" parent_menu_id="@root_menu_id" current_menu_id="@root_menu_id" @bind-keyword="@keyword" />
+                </Column>
+            </Grid>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_show_cancel="false"/>
+            </FooterCenter>
+        </PageFooter>
+    </EditForm>
 </PageContainer>
 }
 @if (show_add_menu)
 {
-    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)"  />
+    <ComAddMenu business_id="@business_id" root_menu_id="@root_menu_id" is_opened="@show_add_menu" menu="@menu" menuChanged="@OnGetMenu" OnCancel="@(()=>show_add_menu=false)"  />
 }
 @code
 {
 
     List<MenuModel> menus = new List<MenuModel>();
     MenuModel menu = new  MenuModel ();
-   
-    int current_menu_id;
+
+    int root_menu_id;
+    Guid business_id = Guid.NewGuid();
 
     bool show_add_menu;
     string keyword;
@@ -89,6 +93,20 @@
         is_loading = false;
     }
 
+    public async Task Save_Click()
+    {
+        Console.WriteLine(JsonSerializer.Serialize(menu));
+        return;
+        is_saving = true;
+
+        var resp = await http.ApiPost("Menu/Save", menu);
+        if (resp.IsSuccess)
+        {
+            //model = JsonSerializer.Deserialize<MenuModel>(resp.Content.ToString());
+            //await OnSave.InvokeAsync(model);
+        }
+        is_saving = false;
+    }
     public async Task LoadData(string api_url = "")
     {
         is_loading = true;
@@ -115,6 +133,10 @@
     {
 
     }
-   
+    void OnGetMenu(MenuModel _menu)
+    { 
+        menu = _menu;
+        Console.WriteLine(menu);
+    }
 }
 

@@ -3,17 +3,15 @@
 <div style="position:relative;" class="uk-width-1-6">
     <div class="icon_edit_menu">
         <Icon icon="edit" icon_color="@menu.text_color" OnClick="@EditMenu"/>
-        <Com is_visible="@(!IsMenuSelected())">
-            <button>
-                <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" />
-            </button>
+        <Com is_visible="@(!IsMenuSelected())"> 
+            <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" /> 
         </Com>
         <div class="uk-inline button-action-table">
             <Icon icon="more_vert" />
             <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                 <ul class="uk-nav uk-dropdown-nav">
-                    <li> <Icon icon="delete" @onclick="@OnDeleteMenu" /> Delete </li>
-                    <li> <Icon icon="arrow_back" @onclick="@OnMoveMenu" /> Move to </li>
+                    <li @onclick="@OnDeleteMenu"> <Icon icon="delete" /> Delete </li>
+                    <li @onclick="@OnMoveMenu" > <Icon icon="arrow_back"/> Move to </li>
                 </ul>
             </div>
         </div>
@@ -50,7 +48,7 @@
 </div>
 @if (show_add_menu)
 {
-    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" OnSave="@SaveMenu" />
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" menuChanged="@SaveMenu" />
     
 }
 
@@ -96,6 +94,7 @@
     void SaveMenu(MenuModel m)
     {
         menus.Add(m);
+        Console.WriteLine(JsonSerializer.Serialize(menu));
         show_add_menu = false;
     }
 
