@@ -37,7 +37,13 @@ namespace eAPI.Controllers
                 return db.StockTransfers.Where(r =>
                 (
                 (r.document_number ?? "") +
-                (r.reference_number ?? "")
+                (r.reference_number ?? "")+
+                (r.to_business_branch.business_branch_name_en ?? "")+
+                (r.to_business_branch.business_branch_name_kh ?? "")+
+                (r.from_business_branch.business_branch_name_kh ?? "")+
+                (r.from_business_branch.business_branch_name_en ?? "")+
+                (r.from_stock_location.stock_location_name ?? "")+
+                (r.to_stock_location.stock_location_name ?? "")
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
             else

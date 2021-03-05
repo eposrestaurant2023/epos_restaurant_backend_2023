@@ -39,6 +39,10 @@ namespace eAPI.Controllers
                         where EF.Functions.Like((
                             (r.product_code ?? "") +
                             (r.product_name_en ?? "") +
+                            (r.product_category.product_category_en ?? "") +
+                            (r.product_category.product_category_kh ?? "") +
+                            (r.vendor.vendor_code ?? "") +
+                            (r.vendor.vendor_name ?? "") +
                             (r.product_name_kh ?? "")
                     ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                         select r;

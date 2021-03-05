@@ -26,24 +26,25 @@
             nav.NavigateTo($"search/{keyword}");
 
             //check if match with any single record
-            //var response = await http.ApiPost("GetData", new FilterModel()
-            //{
-            //    procedure_name = "sp_search_object_by_code",
-            //    procedure_parameter = $"'{keyword}'"
-            //});
-            //if (response.IsSuccess)
-            //{
-            //    if (response.Content.ToString() != "")
-            //    {
-            //        nav.NavigateTo(response.Content.ToString());
-            //    }
-            //    else
-            //    {
-            //        nav.NavigateTo($"search/{keyword}");
-            //    }
-            //}
+            var response = await http.ApiPost("GetData", new FilterModel()
+            {
+                procedure_name = "sp_search_object_by_code",
+                procedure_parameter = $"'{keyword}'"
+            });
+            if (response.IsSuccess)
+            {
+            if (response.Content.ToString() != "")
+            {
+                nav.NavigateTo(response.Content.ToString());
+            }
+            else
+            {
+                nav.NavigateTo($"search/{keyword}");
+            }
+            }
         }
         await js.InvokeVoidAsync("JsFunctions.focusElement", txt_search);
 
     }
 }
+

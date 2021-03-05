@@ -1,0 +1,60 @@
+﻿@page "/search"
+@page "/search/{keyword}"
+@inherits PageCore;
+
+<Loading is_loading="@is_loading" />
+
+@if (!is_loading)
+{
+  <Title Value="@title"></Title>
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>@title</HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <AuthorizeView Roles="@gv.GetRole("customer_management")">
+                <ComSearchForCustomer keyword="@keyword" />
+            </AuthorizeView>
+            <AuthorizeView Roles="@gv.GetRole("product_management")">
+                <ComSearchForProduct keyword="@keyword" />
+            </AuthorizeView>
+            <AuthorizeView Roles="@gv.GetRole("ingredient_management")">
+                <ComSearchForProductIngredient keyword="@keyword" />
+            </AuthorizeView>
+            <AuthorizeView Roles="@gv.GetRole("vendor_management")">
+                <ComSearchForVendor keyword="@keyword" />
+            </AuthorizeView>
+            <AuthorizeView Roles="@gv.GetRole("purchase_order_management")">
+                <ComSearchForPurchaseOrder keyword="@keyword"/>
+            </AuthorizeView>
+            <AuthorizeView Roles="@gv.GetRole("stock_take_management")">
+                <ComSearchForStockTake keyword="@keyword"/>
+            </AuthorizeView>
+            <AuthorizeView Roles="@gv.GetRole("stock_transfer_management")">
+                <ComSearchForStockTransfer keyword="@keyword"/>
+            </AuthorizeView>
+        </PageBody>
+    </PageContainer>
+
+}
+
+@code {
+    [Parameter]
+    public string keyword { get; set; }
+    string title;
+    protected override async Task OnParametersSetAsync()
+    {
+        is_loading = true;
+
+        await Task.Delay(1000);
+        title = $"Search For : {keyword}";
+        is_loading = false;
+    }
+}
+
