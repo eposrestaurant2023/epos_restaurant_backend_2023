@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
-
-<EditFormContext model="@product.stock_location_products" Save_Click="@Save_Click" Cancel_Click="@(()=>OnCancelClick())" modal_width="800px" is_opened="@is_opened" title="@lang["Stock Adjustment"]" is_submitting="is_saving">
+@inject IMatToaster toast
+<EditFormContext model="@product.stock_location_products" is_save="true" is_cancel="true" Save_Click="@OnSaveClick" Cancel_Click="@(()=>OnCancelClick())" modal_width="800px" is_opened="@is_opened" title="@lang["Stock Adjustment"]" is_submitting="is_saving">
     <Com is_visible="@product.stock_location_products.Any()">
         <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
             <thead>
@@ -12,34 +12,35 @@
             <tbody>
                 @foreach (var p in product.stock_location_products)
                 {
-                <tr>
-                    <td>@p.stock_location?.business_branch?.business_branch_name_en</td>
-                    <td>
-                        <div>
-                            @p.stock_location.stock_location_name
-                        </div>
-                    </td>
-                    <TdCenter>
-                        <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.quantity" text_format="@gv.quantity_format" width="100px" />
-                    </TdCenter>
-                </tr>
+                    <tr>
+                        <td>@p.stock_location?.business_branch?.business_branch_name_en</td>
+                        <td>
+                            <div>
+                                @p.stock_location.stock_location_name
+                            </div>
+                        </td>
+                        <TdCenter>
+                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.quantity" text_format="@gv.quantity_format" width="100px" />
+                        </TdCenter>
+                    </tr>
                 }
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2">@lang["Total Quantity"]</td>
-                    <TdCenter>@product.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter> 
+                    <TdCenter>@product.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
                 </tr>
             </tfoot>
-        </Table>
+        </table>
     </Com>
 </EditFormContext>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public bool is_opened { get; set; }
     [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
-    [Parameter] public ProductModel product {get; set;}
+    [Parameter] public ProductModel product { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Cancel_Click { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> SaveClicked { get; set; }
 
 
     public ProductModel save_product = new ProductModel();
@@ -48,14 +49,44 @@
 
     async Task OnCancelClick()
     {
-        await is_openedChanged.InvokeAsync(false);
+        product = new ProductModel();
+        is_opened = false;
+        await is_openedChanged.InvokeAsync(is_opened);
         await Cancel_Click.InvokeAsync(new MouseEventArgs());
     }
 
-    async Task Save_Click()
+
+    public async Task OnSaveClick()
     {
         is_saving = true;
-        //await ...;
+        ProductModel save_product = new ProductModel();
+        save_product = product;
+        save_product.vendor = null;
+        save_product.unit = null;
+        save_product.sale_products = null;
+        save_product.product_portions = null;
+        save_product.product_modifiers = null;
+        save_product.product_menus = null;
+        save_product.product_category = null;
+
+
+        Console.WriteLine(JsonSerializer.Serialize(save_product));
+
+
+        var resp = await http.ApiPost("product/stockadjustmentsave", save_product);
+        if (resp.IsSuccess)
+        {
+            product = new ProductModel();
+            is_opened = false;
+            await is_openedChanged.InvokeAsync(is_opened);
+            await SaveClicked.InvokeAsync();
+            toast.Add("Saved Successfully", MatToastType.Success);
+        }
+        else
+        {
+
+            toast.Add(resp.Content.ToString(), MatToastType.Warning);
+        }
         is_saving = false;
     }
 

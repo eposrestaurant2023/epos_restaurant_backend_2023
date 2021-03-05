@@ -1,31 +1,31 @@
 ﻿@inject IHttpService http;
-
-<TdCenter> 
+@inject IStringLocalizer<Resource> lang
+<TdCenter>
     <Image ImageUrl="@http.ImageUrl(purchase_order_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(purchase_order_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
 </TdCenter>
 <TdCenter>
     <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
         @purchase_order_product?.product?.product_code
-    </ComAuthorize> 
+    </ComAuthorize>
 </TdCenter>
 
 <td>
     <div>
         <div>
             <span>
-                <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
+                <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product?.product_id}")" target="true">
                     @purchase_order_product?.product?.product_display_name
-                </ComAuthorize> 
+                </ComAuthorize>
             </span>
-        </div> 
+        </div>
         <div>
             <Icon OnClick="@(()=> { purchase_order_product.is_add_note = !purchase_order_product.is_add_note; })" icon="chat" />
 
             @if (purchase_order_product.is_add_note)
             {
-            <div>
-                <TextInput @bind-text="@purchase_order_product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
-            </div>
+                <div>
+                    <TextInput @bind-text="@purchase_order_product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
+                </div>
             }
             else
             {
@@ -36,6 +36,7 @@
         </div>
     </div>
 </td>
+
 <TdCenter>
     @if (model.stock_location_id > 0)
     {
@@ -55,13 +56,14 @@
     else
     {
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@purchase_order_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
-    } 
+    }
 
 
 
 </TdCenter>
-<TdCenter> 
-    <SelectUnitName  @bind-unit_name="@purchase_order_product.unit" @bind-multiplier="@purchase_order_product.multiplier" unit_category_id="@purchase_order_product.product.unit.unit_category_id" show_empty="false"/>
+
+<TdCenter>
+    <SelectUnitName @bind-unit_name="@purchase_order_product.unit" @bind-multiplier="@purchase_order_product.multiplier" unit_category_id="@purchase_order_product.product.unit.unit_category_id" show_empty="false" />
 </TdCenter>
 <TdRight>
     <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@purchase_order_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
@@ -80,11 +82,11 @@
             </div>
         </Grid>
     </Com>
-</TdCenter>
+</TdCenter> 
 <TdRight>
     @purchase_order_product.total_amount.ToString(gv.currency_format)
 </TdRight>
-<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
+<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="@lang["Clone Product"]" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="@lang["Remove Product"]" /></td>
 
 
 @code{

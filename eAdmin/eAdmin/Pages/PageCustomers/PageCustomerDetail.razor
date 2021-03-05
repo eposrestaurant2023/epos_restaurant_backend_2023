@@ -48,9 +48,10 @@
                     <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)">
                         @lang["Sale History"]</TabHeaderItem>
                         <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)">
-                            @lang["Sale Product History"]</TabHeaderItem>
-                                                                <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">@lang["Comments"]</TabHeaderItem>
-</TabHeader>
+                            @lang["Sale Product History"]
+                        </TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">@lang["Comments"]</TabHeaderItem>
+                </TabHeader>
                 <TabBody>
                     <TabItem>
                         <ComCustomerDetail_CustomerInformation model="@model"/>
