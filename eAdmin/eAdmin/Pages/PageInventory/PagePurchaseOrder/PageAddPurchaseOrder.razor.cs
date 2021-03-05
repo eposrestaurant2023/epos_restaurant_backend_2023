@@ -17,6 +17,8 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
     {
         [Parameter] public int id { get; set; }
         [Parameter] public int vendor_id { get; set; } 
+        [Parameter] public int clone_id { get; set; }
+
         public PurchaseOrderModel model = new PurchaseOrderModel(); 
         public bool is_show_back { get; set; } = false; 
         public bool is_show_add_payment { get; set; } = false;
@@ -30,7 +32,15 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
             if (!is_error)
             {
-                await LoadData();
+                if (id > 0)
+                {
+
+                    await LoadData();
+                }
+                else if (clone_id > 0)
+                {
+                    await ClonePurchaseOrder();
+                } 
             }
 
             if (model.is_fulfilled)
@@ -38,6 +48,19 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 is_error = true;
                 error_text = "This purchase order is already fulfilled";
             }
+
+        }
+        public async Task ClonePurchaseOrder()
+        {
+            is_loading = true;
+
+
+            var resp = await http.ApiPost($"PurchaseOrder/Clone/{clone_id}");
+            if (resp.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
+            }
+            is_loading = false;
 
         }
         public void OnSearchProduct(SelectedProductModel sp)

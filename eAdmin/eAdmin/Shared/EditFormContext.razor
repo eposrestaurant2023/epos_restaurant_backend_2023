@@ -22,8 +22,8 @@
     //[CascadingParameter] public Lang.I18nText.Lang lang { get; set; }
     [Parameter] public bool is_submitting { get; set; } = false;
     [Parameter] public bool is_opened { get; set; }
-    [Parameter] public bool is_save { get; set; }
-    [Parameter] public bool is_cancel { get; set; }
+    [Parameter] public bool is_save { get; set; } = true;
+    [Parameter] public bool is_cancel { get; set; } = true;
     [Parameter] public bool is_open_button_save_and_new { get; set; }
     [Parameter] public bool is_footer_visible { get; set; } = true;
     [Parameter] public EventCallback<bool> is_openedChanged { get; set; }

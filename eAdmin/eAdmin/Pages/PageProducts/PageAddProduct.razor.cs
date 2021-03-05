@@ -166,7 +166,7 @@ namespace eAdmin.Pages.PageProducts
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
+
             var resp = await http.ApiPost($"Product/Save", save_model);
 
             if (resp.IsSuccess)
