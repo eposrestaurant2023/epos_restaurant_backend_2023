@@ -2,7 +2,7 @@
 <div class="bg_business_rootmenu">
     @foreach (var b in gv.business_branch_by_role)
     {
-        <h3 class="title uk-margin-remove-top uk-margin-remove-bottom">
+        <h3 class="title uk-margin-remove-top uk-margin-remove-bottom" style="margin-bottom:10px !important;">
             @b.business_branch_name_en
         </h3>
         @foreach (var n in menus.Where(r => r.business_branch_id == b.id))
