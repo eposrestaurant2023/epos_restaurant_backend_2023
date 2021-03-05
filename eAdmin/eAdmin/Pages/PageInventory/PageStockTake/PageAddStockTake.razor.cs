@@ -16,6 +16,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
     public class PageAddStockTakeBase : PageCore
     {
         [Parameter] public int id { get; set; }
+        [Parameter] public int clone_id { get; set; }
 
         public StockTakeModel model = new StockTakeModel(); 
         public bool is_show_back { get; set; } = false;
@@ -26,8 +27,16 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             title = (id > 0 ? "Edit Stock Take" : "New Stock Take");
 
             if (!is_error)
-            {
-                await LoadData();
+            { 
+                if (id > 0)
+                {
+
+                    await LoadData();
+                }
+                else if (clone_id > 0)
+                {
+                    await CloneRecord();
+                }
             }
 
             if (model.is_fulfilled)
@@ -35,6 +44,17 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 is_error = true;
                 error_text = "This Stock Take is already fulfilled";
             }
+
+        }
+        public async Task CloneRecord()
+        {
+            is_loading = true;
+            var resp = await http.ApiPost($"StockTake/Clone/{clone_id}");
+            if (resp.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<StockTakeModel>(resp.Content.ToString());
+            }
+            is_loading = false;
 
         }
         public void OnSearchProduct(SelectedProductModel sp)

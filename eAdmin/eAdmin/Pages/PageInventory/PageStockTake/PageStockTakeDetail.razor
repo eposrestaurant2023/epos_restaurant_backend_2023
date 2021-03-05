@@ -16,7 +16,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Stock Take Invoice #:  @model.document_number
+                        @lang["Stock Take Invoice #"] @model.document_number
                         <ComStockTakeStatus model="@model" />
                     </HeaderTemplate>
                 </PageTitle>
@@ -29,8 +29,8 @@
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem>Invoice</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowComment">Comment and History</TabHeaderItem>
+                    <TabHeaderItem>@lang["Invoice"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
 
                 <TabBody>
@@ -42,12 +42,12 @@
                             <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <ThCenter>Image</ThCenter>
-                                        <th class="col-auto">Item</th>
-                                        <th class="uk-text-center">QTY</th>
-                                        <th class="uk-text-right">Price</th>
-                                        <th class="uk-text-right">Amount</th>
+                                        <th>@lang["No"]</th>
+                                        <ThCenter>@lang["Image"]</ThCenter>
+                                        <th class="col-auto">@lang["Item"]</th>
+                                        <th class="uk-text-center">@lang["QTY"]</th>
+                                        <th class="uk-text-right">@lang["Price"]</th>
+                                        <th class="uk-text-right">@lang["Amount"]</th>
                                     </tr>
                                 </thead>
                                 <tbody>

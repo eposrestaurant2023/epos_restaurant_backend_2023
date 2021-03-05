@@ -45,7 +45,33 @@ namespace eAPI.Controllers
                 return db.StockTakes;
             }
         }
+        [HttpPost]
+        [Route("clone/{id}")]
+        public ActionResult<StockTakeModel> Clone(int id)
+        {
+            var data = db.StockTakes.Where(r => r.id == id)
+                .Include(r => r.stock_take_products.Where(r => r.is_deleted == false)).ThenInclude(r => r.product).ThenInclude(r => r.unit)
+                .ToList();
 
+            if (data.Any())
+            {
+                StockTakeModel u = data.FirstOrDefault();
+                u.id = 0;
+                u.document_number = "";
+                u.reference_number = "";
+                u.status = true;
+                u.is_deleted = false;
+                u.created_date = DateTime.Now;
+                u.is_fulfilled = false;
+                u.stock_take_products.ForEach(r => r.id = 0);
+
+                return Ok(u);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] StockTakeModel p)
         {
@@ -121,21 +147,7 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
-
-        [HttpPost]
-        [Route("clone/{id}")]
-        public async Task<ActionResult<StockTakeModel>> CloneRecord(int id) // copy data to create new
-        {
-            var u = await db.StockTakes.FindAsync(id);
-            u.id = 0;
-            u.document_number = "";
-            u.status = true;
-            u.is_deleted = false;
-            u.created_date = DateTime.Now;
-            return Ok(u);
-        }
-
-
+ 
         [HttpPost]
         [Route("MarkAsFulfilled/{id}")]
         public async Task<ActionResult> MarkAsFulfilled(int id) //mark as fullfileld 
