@@ -7,7 +7,11 @@
     }
     else
     {
-    <span>@quantity.ToString(gv.quantity_format)</span>
+        <div>@quantity.ToString(gv.quantity_format)</div>
+        <div>
+            <LabelOutOfStock is_visible="@(quantity <= 0)"/>
+            <LabelLowStock is_visible="@(quantity < min_quantity && quantity > 0)"/>
+        </div>
     }
 }else
 {
@@ -18,6 +22,7 @@
     [Parameter] public int product_id { get; set; }
     [Parameter] public int stock_location_id { get; set; }
     decimal quantity;
+    decimal min_quantity;
     bool is_loading;
        
         protected override async Task OnParametersSetAsync()
@@ -32,6 +37,7 @@
             if (data.Any())
             {
                 quantity = data.FirstOrDefault().quantity;
+                min_quantity = data.FirstOrDefault().min_quantity;
             }
         }
          

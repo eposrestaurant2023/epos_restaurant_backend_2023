@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
 
-<UIContainerBox Title="@lang["Inventory Information"]">
+<UIContainerBox Title="@lang["Inventory Information"]" is_show_edit_button="true" OnEditClick="@OnOpenModel">
 <Com is_visible="@(!is_loading)">
     <Table Items="@models" 
             TotalItem="@TotalRecord"
@@ -44,23 +44,43 @@
     </Table>
 </Com>
 </UIContainerBox>
+<ComProductDetail_StockAdjustmentModal product="@product" is_opened="@ShowModal"/>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public int product_id {get; set;}
-     List<StockLocationProductModel> models = new List<StockLocationProductModel>();
-    bool is_loading;
+    [Parameter] public ProductModel product {get; set;}
+    List<StockLocationProductModel> models = new List<StockLocationProductModel>(); 
+    bool is_loading, is_saving, ShowModal;
     int TotalRecord = 0;
 
     protected override async Task OnInitializedAsync()
     {
 
         is_loading = true;
-        var resp = await http.ApiGetOData($"StockLocationProduct?$expand=stock_location($select=stock_location_name;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))&$filter=product_id eq {product_id}");
-        if (resp.IsSuccess)
+        if (product.id > 0)
         {
-            models = JsonSerializer.Deserialize<List<StockLocationProductModel>>(resp.Content.ToString());
-            TotalRecord = resp.Count;
+            var resp = await http.ApiGetOData($"StockLocationProduct?$expand=stock_location($select=stock_location_name;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))&$filter=product_id eq {product.id}");
+            if (resp.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<StockLocationProductModel>>(resp.Content.ToString());
+                TotalRecord = resp.Count;
+            }
         }
+
         is_loading = false;
     }
+
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        //await ...;
+        is_saving = false;
+    }
+
+    public void OnOpenModel()
+    {
+        ShowModal = true;
+        product.stock_location_products = models;
+    }
+
 }

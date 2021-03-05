@@ -24,7 +24,7 @@
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem>General Setting</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>{ business_id = Guid.NewGuid(); })">General Setting</TabHeaderItem>
                     @foreach (var bs in business_branches.Where(r => r.is_deleted == false))
                     {
                         <TabHeaderItem OnClick="@(()=>OnBusinessBranch(bs.id))">@bs.business_branch_name_en</TabHeaderItem>
@@ -60,13 +60,63 @@
                                 <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
                             </Content>
                         </ComAccordion>
+                        <ComAccordion>
+                            <Header>Host</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="host" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
+                        <ComAccordion>
+                            <Header>Report</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="report" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
                     </TabItem>
 
 
                     <TabItem>
-                        ESOFTIX SR
+                        <ComAccordion>
+                            <Header>Show Comfirm Password</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
+                        <ComAccordion>
+                            <Header>Host</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="host" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
+                        <ComAccordion>
+                            <Header>Report</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="report" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
                     </TabItem>
-                    <TabItem>BBN EN</TabItem>
+
+
+                    <TabItem>
+                        <ComAccordion>
+                            <Header>Show Comfirm Password</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
+                        <ComAccordion>
+                            <Header>Host</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="host" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
+                        <ComAccordion>
+                            <Header>Report</Header>
+                            <Content>
+                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="report" OnEdit="@OnEdit" settings="@settings" />
+                            </Content>
+                        </ComAccordion>
+                    </TabItem>
                 </TabBody>
             </Tab>
         </PageBody>
@@ -120,15 +170,17 @@
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
         }
     }
+
     Guid business_id = new Guid();
     void OnBusinessBranch(Guid id)
     {
         business_id = id;
     }
+
     async Task Save_Click()
     {
         is_saving = true;
-        if (business_id != Guid.NewGuid())
+        if (business_id != Guid.Empty)
         {
             var re = await http.ApiPost("BusinessBranchSetting/save/multiple", setting_.business_branch_settings);
             if (re.IsSuccess)
@@ -140,7 +192,7 @@
                 toast.Add(lang["Save Setting fail"], MatToastType.Warning);
             }
         }
-        else
+        else if(business_id == Guid.Empty)
         {
             var re = await http.ApiPost("save/setting/multiple", settings);
             if (re.IsSuccess)

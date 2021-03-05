@@ -39,8 +39,10 @@
         @if (show_link_to_detail || show_select_customer)
         {
         <div class="uk-margin-small-top uk-text-right">
-            <LinkButton url="@($"customer/{model.id}")" is_visible="@show_link_to_detail" icon="visibility" Class_Name="btn-small" target="_blank">View</LinkButton>
-            <Button OnClick="@(async () => await OnSelectCustomer.InvokeAsync(model))" is_visible="show_select_customer" icon="check_circle_outline" custom_class="btn-small">Select</Button>
+                <LinkButton url="@($"customer/{model.id}")" is_visible="@show_link_to_detail" icon="visibility" Class_Name="btn-small uk-width-expand uk-margin-small uk-padding-margin-horizontal" target="_blank">View</LinkButton>
+            
+                <Button OnClick="@(async () => await OnSelectCustomer.InvokeAsync(model))" is_visible="show_select_customer" icon="check_circle_outline" custom_class="btn-small uk-width-expand uk-margin-small uk-margin-remove-horizontal">Select</Button>
+          
         </div>
         }
     </ContentRight>
