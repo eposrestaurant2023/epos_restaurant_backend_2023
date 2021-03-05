@@ -20,7 +20,7 @@ namespace eModels
         [ForeignKey("customer_group_id")]
         public CustomerGroupModel customer_group { get; set; }
 
-        public string customer_code { get; set; }
+        public string customer_code { get; set; } = "New";
 
         private string _customer_name_en;
         [Required(ErrorMessage ="Please enter customer name")]
