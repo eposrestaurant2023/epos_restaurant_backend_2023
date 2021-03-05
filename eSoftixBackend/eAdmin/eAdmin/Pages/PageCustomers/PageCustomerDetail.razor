@@ -5,7 +5,7 @@
 @if (!is_loading && !is_error)
 {
 
-    <Title Value="@($"Customer | {model.customer_code_name}")"></Title>
+    <Title Value="@($"Customer : {model.customer_code_name}")"></Title>
     <PageContainer roles="@gv.GetRole("customer_view")">
         <PageHeader>
             <HeaderLeft>
@@ -48,30 +48,12 @@
             <Tab ClassName="control-header-tab">
                 <TabHeader>
                     <TabHeaderItem roles="@gv.GetRole("customer_management")">Overview</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)">Sale History</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)">Sale Product History</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">Comments</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
                     <TabItem>
                         <ComCustomerDetail_CustomerInformation model="@model" />
                     </TabItem>
-                   
-                    <TabItem>
-                        @if (sale_history_tab_click)
-                        {
-                            <ComCustomerSaleHistory customer_id="@id" />
-                        }
-                    </TabItem>
-                    <TabItem>
-                        @if (sale_product_history_tab_click)
-                        {
-                            <ComCustomerSalePorductHistory customer_id="@id" />
-                        }
-                    </TabItem>
-                    
-                   
-
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
                             <h3 class="title">

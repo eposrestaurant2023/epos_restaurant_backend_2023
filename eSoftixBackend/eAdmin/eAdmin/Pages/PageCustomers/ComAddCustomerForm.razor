@@ -29,25 +29,11 @@
     <UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
         @foreach (var c in model.contacts)
         {
-            <div class="uk-text-right"><Icon icon="delete" title="Delete This Contact" OnClick="@(()=>DeleteContact_Click(c))" /></div>
-            <Spacing Number="10"/>
-                <TextInput label="Contact Name" @bind-text="@c.contact_name">
-                    <ValidationMessage For="(()=>c.contact_name)" />
-                </TextInput>
-                <TextInput label="Phone Number 1" @bind-text="@c.phone_1">
-                    <ValidationMessage For="(()=>c.phone_1)" />
-                </TextInput>
-                <TextInput label="Phone Number 2" @bind-text="@c.phone_2"></TextInput>
-                <TextInput label="Posotion" @bind-text="@c.postion"></TextInput>
-                <SelectGender @bind-selected_value="@c.gender" />
-                <TextInput label="Telegram" @bind-text="@c.telegram"></TextInput>
-                <TextInput label="Email" @bind-text="@c.email_address"></TextInput>
-                @if (model.contacts.IndexOf(c) != model.contacts.Count - 1)
-                {
-                    <hr class="uk-divider-icon">
-                }
-
-
+            <ComAddCustomerContactItem contact="c" OnDeleteContact="DeleteContact_Click"/>
+            @if (model.contacts.IndexOf(c) !=model.contacts.Count - 1)
+                                         {
+                <hr class="uk-divider-icon">
+            }
 
         }
     </UIContainerBox>

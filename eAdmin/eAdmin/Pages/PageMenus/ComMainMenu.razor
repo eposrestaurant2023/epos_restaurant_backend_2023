@@ -27,24 +27,17 @@
 
                     <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
                         @(GetMenuName(m))
-
                     </ComMenuItem>
-
-
-
-
-
-
                 }
 
                 @if (string.IsNullOrEmpty(keyword))
-                {
+                { 
                     <ComMenuSelectProductButton menu="@current_menu" />
                 }
 
                 @if (current_menu_id > 0)
                 {
-                    <ComAssignProductButton OnClick="@Click_Select_Produc"/>
+                    <ComAssignProductButton OnClick="@Click_Select_Produc" />
                 }
 
                 @if (current_menu_id > 0)
@@ -65,16 +58,18 @@
 
 @if (show_add_menu)
 {
-    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" />
+    <ComAddMenu business_id="@business_branch_id" root_menu_id="@root_menu_id" current_menu_id="@current_menu_id" is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" />
 }
 
 @if (is_select_product)
 {
-    <ComSearchProductMenu/>
+     <ComSearchProductMenu @bind-is_open="@is_select_product" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProductClick" />
+ 
 }
 
 
 @code {
+
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public Guid business_branch_id { get; set; }
 
@@ -133,6 +128,7 @@
 
     string GetMenuName(MenuModel m)
     {
+        
         int n = menus.Where(r => r.parent_id == m.id && r.is_deleted == false).Count();
         if (n > 0)
         {
@@ -243,8 +239,29 @@
 
 
     }
+    public void SelectProductClick(List<SelectedProductModel> selected_products)
+    {
 
+        foreach (var sp in selected_products)
+        {
+            AddItemToMenuProduct(sp);
+        }
+    }
+
+    void AddItemToMenuProduct(SelectedProductModel sp)
+    {
+        var old_product_menu = menu.product_menus.Where(r => r.menu_id == current_menu_id && r.product.id == sp.product.id);
+        if (old_product_menu != null && old_product_menu.Count() > 0)
+        {
+            return;
+        }
+
+        //add new record
+        ProductMenuModel d = new ProductMenuModel();
+
+        d.product_id = sp.product.id;
+        d.product = sp.product;
+        current_menu.product_menus.Add(d);
+        Console.WriteLine(JsonSerializer.Serialize(current_menu));
+    }
 }
-
-
-

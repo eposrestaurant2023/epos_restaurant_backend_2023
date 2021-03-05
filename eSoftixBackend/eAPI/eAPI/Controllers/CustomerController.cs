@@ -116,14 +116,15 @@ namespace eAPI.Controllers
             return Ok(c);
         }
 
-        [HttpGet]
+        [HttpPost]
         [EnableQuery(MaxExpansionDepth = 0)]
         [Route("clone/{id}")]
 
         public async Task<IActionResult> Clone(int id)
         {
-            var c = await db.Customers.FindAsync(id);
-            c.is_deleted = !c.is_deleted;
+            var c = db.Customers.Where(r=>r.id == id).Include(r=>r.contacts).FirstOrDefault();
+           
+            c.contacts.ForEach(r => { r.id = 0;r.customer_id = 0; });
             c.id = 0;
             return Ok(c);
         }
