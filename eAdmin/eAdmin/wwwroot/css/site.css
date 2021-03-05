@@ -6498,10 +6498,19 @@ button.reconciled {
     .uk-card-default .uk-card-title {
         font-size: 18px;
     }
-
-    .uk-card-header, .uk-card-body, .uk-card-footer {
-        padding: 8px 15px !important;
-    }
+.uk-card-credit {
+    background: #4693cd;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #0067b3;
+    border-radius: 8px;
+}
+.uk-card-credit h3 {
+    color: #fff; 
+}
+.uk-card-header, .uk-card-body, .uk-card-footer {
+    padding: 8px 15px !important;
+}
 
     .uk-card-footer {
         position: absolute;

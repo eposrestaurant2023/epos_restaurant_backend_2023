@@ -1,6 +1,6 @@
 ﻿@page "/purchaseorder/new"
 @page "/purchaseorder/edit/{id:int}"
-@page "/purchaseorder/clone/{id:int}"
+@page "/purchaseorder/clone/{clone_id:int}"
 @page "/purchaseorder/vendor/{vendor_id:int}"
 
 @inherits PageAddPurchaseOrderBase
@@ -44,7 +44,7 @@
                         <Icon icon="shopping_cart" />
                         <span class="title">@lang["PO Products"]</span>
                     </h3>
-                    <Spacing Number="10" />
+                    <Spacing Number="10" /> 
                     <ComPurchaseOrderProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
                     <hr />
                     <Spacing Number="10" />

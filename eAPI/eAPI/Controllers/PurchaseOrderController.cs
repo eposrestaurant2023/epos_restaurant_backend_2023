@@ -115,20 +115,34 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("clone/{id}")]
-        public async Task<ActionResult<PurchaseOrderModel>> CloneRecord(int id) // copy data to create new
+        public ActionResult<PurchaseOrderModel> Clone(int id)
         {
-            var u = await db.PurchaseOrders.FindAsync(id);
-            u.id = 0;
-            u.document_number = "";
-            u.status = true;
-            u.is_deleted = false;
-            u.created_date = DateTime.Now;
-            u.is_fulfilled = false;
-            u.is_paid = false;
-            u.is_over_due = false;
-            u.is_partially_paid = false;
-            u.active_purchase_order_products.ForEach(r => r.id = 0);
-            return Ok(u);
+            var data = db.PurchaseOrders.Where(r => r.id == id)
+                .Include(r => r.purchase_order_products.Where(r => r.is_deleted == false)).ThenInclude(r=>r.product).ThenInclude(r=>r.unit)
+                .Include(r=>r.vendor)
+                .ToList();
+
+            if (data.Any())
+            {
+                PurchaseOrderModel u = data.FirstOrDefault();
+                u.id = 0;
+                u.document_number = "";
+                u.reference_number = "";
+                u.status = true;
+                u.is_deleted = false;
+                u.created_date = DateTime.Now;
+                u.is_fulfilled = false;
+                u.is_paid = false;
+                u.is_over_due = false;
+                u.is_partially_paid = false;
+                u.purchase_order_products.ForEach(r => r.id = 0);
+
+                return Ok(u);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
 

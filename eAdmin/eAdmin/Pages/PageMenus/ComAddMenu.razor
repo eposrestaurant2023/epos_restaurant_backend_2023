@@ -1,6 +1,10 @@
 ﻿@inject IHttpService http;
 @inject IStringLocalizer<Resource> lang
-<EditFormContext model="@model" is_opened="@is_opened" title="@title" Cancel_Click="@OnCancel" Save_Click="@Save_Click" is_submitting="@is_saving" modal_width="700px">
+<EditFormContext is_cancel="true" is_save="true" model="@model" is_opened="@is_opened" title="@title" Cancel_Click="@OnCancel" Save_Click="@Save_Click" is_submitting="@is_saving" modal_width="700px">
+    <div style="word-break:break-word">@menu.id</div>
+    <div style="word-break:break-word">@menu.business_branch_id</div>
+    <div style="word-break:break-word">@menu.root_menu_id</div>
+    <div style="word-break:break-word">@menu.parent_id</div>
     <UIGridCenter>
         @if (is_loading)
         {
@@ -71,21 +75,22 @@
                     </div>
                 </Grid>
             </UIContainerBox>
-
-
         }
-
     </UIGridCenter>
 
 </EditFormContext>
 @code {
 
 
+    [Parameter] public int root_menu_id { get; set; }
+    [Parameter] public int current_menu_id { get; set; }
+    [Parameter] public Guid business_id { get; set; }
     [Parameter] public bool is_opened { get; set; }
-    [Parameter] public MenuModel menu { get; set; }
 
     [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
-    [Parameter] public EventCallback<MenuModel> OnSave { get; set; }
+
+    [Parameter] public MenuModel menu { get; set; }
+    [Parameter] public EventCallback<MenuModel> menuChanged { get; set; }
 
     MenuModel model = new MenuModel();
 
@@ -113,7 +118,7 @@
         is_loading = true;
 
         await Task.Delay(100);
-        model = JsonSerializer.Deserialize<MenuModel>(JsonSerializer.Serialize(menu));
+        model = menu;
         is_loading = false;
     }
 
@@ -121,12 +126,25 @@
     async Task Save_Click()
     {
         is_saving = true;
-        model.parent = null;
-        var resp = await http.ApiPost("Menu/Save", model);
-        if (resp.IsSuccess)
+        if (model.id == 0)
         {
-            model = JsonSerializer.Deserialize<MenuModel>(resp.Content.ToString());
-            await OnSave.InvokeAsync(model);
+            model.business_branch_id = business_id;
+            model.root_menu_id = root_menu_id;
+            if (current_menu_id > 0)
+            {
+                model.parent_id = current_menu_id;
+            }
+            else
+            {
+                model.parent_id = root_menu_id;
+            }
+        }
+
+        var res = await http.ApiPost("Menu/save", model);
+        if (res.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<MenuModel>(res.Content.ToString());
+            is_opened = false;
         }
         is_saving = false;
     }

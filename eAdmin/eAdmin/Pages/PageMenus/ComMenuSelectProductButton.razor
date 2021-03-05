@@ -53,6 +53,8 @@
 
 @code {
     [Parameter] public MenuModel menu { get; set; }
+    [Parameter] public MenuModel menu_ { get; set; }
+    [Parameter] public EventCallback<MenuModel> menu_Changed { get; set; }
 
     ProductMenuModel deleted_product_menu = new ProductMenuModel();
 
@@ -63,6 +65,7 @@
         deleted_item.is_deleted = true;
         deleted_product_menu = deleted_item;
         show_undo_delete = true;
+        menu_Changed.InvokeAsync(deleted_item.menu);
     }
 
     void UndoDelete()
