@@ -38,7 +38,7 @@
 
                 @if (string.IsNullOrEmpty(keyword))
                 {
-                    <ComMenuSelectProductButton menu="@current_menu" @bind-menu_="@menu_move" />
+                    <ComMenuSelectProductButton menu="@current_menu" menu_="@menu_move" menu_Changed="@Invoke"/>
                 }
 
                 @if (current_menu_id > 0)
@@ -95,7 +95,11 @@
     bool show_move_menu;
     MenuModel menu = new MenuModel();
 
-
+    void Invoke(MenuModel _menu)
+    {
+        menu_move = _menu;
+        menu_moveChanged.InvokeAsync(menu_move);
+    }
 
     private List<MenuModel> _GetMenus;
 

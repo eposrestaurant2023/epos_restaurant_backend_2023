@@ -63,9 +63,8 @@
     void RemoveProduct(ProductMenuModel deleted_item)
     {
         deleted_item.is_deleted = true;
-        deleted_product_menu = deleted_item;
-        show_undo_delete = true;
-        menu_Changed.InvokeAsync(deleted_item.menu);
+        menu_ = menu;
+        menu_Changed.InvokeAsync(menu_);
     }
 
     void UndoDelete()
