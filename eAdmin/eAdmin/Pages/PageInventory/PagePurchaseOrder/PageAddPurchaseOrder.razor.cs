@@ -39,7 +39,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 }
                 else if (clone_id > 0)
                 {
-                    await ClonePurchaseOrder();
+                    await CloneRecord();
                 } 
             }
 
@@ -50,7 +50,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             }
 
         }
-        public async Task ClonePurchaseOrder()
+        public async Task CloneRecord()
         {
             is_loading = true;
 

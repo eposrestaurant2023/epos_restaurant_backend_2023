@@ -10,7 +10,7 @@
 
 @if (!is_loading)
 {
-    <Title Value="Purchase Order"></Title>
+    <Title Value="@lang["Purchase Order"]"></Title>
     <PageContainer roles="@gv.GetRole("purchase_order_management")">
         <PageHeader>
             <HeaderLeft>
@@ -19,7 +19,7 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_purchase_order")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
@@ -60,9 +60,9 @@
                         @HeaderTemplate("vendor/vendor_name", lang["Vendor"], "col-auto")
                         @HeaderTemplate("stock_location/stock_location_name", lang["Stock Location (Business Branch)"])
                         <ThRight>@lang["Total Amount"]</ThRight>
-                        <ThRight>Paid Amount</ThRight>
-                        <ThRight>Balance</ThRight>
-                        <ThCenter>Status</ThCenter>
+                        <ThRight>@lang["Paid Amount"]</ThRight>
+                        <ThRight>@lang["Balance"]</ThRight>
+                        <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -81,7 +81,6 @@
                         <td>
                             @p.stock_location?.stock_location_name (@p.business_branch?.business_branch_name_en)
                         </td>
-
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>

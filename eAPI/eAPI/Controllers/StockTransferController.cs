@@ -37,7 +37,13 @@ namespace eAPI.Controllers
                 return db.StockTransfers.Where(r =>
                 (
                 (r.document_number ?? "") +
-                (r.reference_number ?? "")
+                (r.reference_number ?? "")+
+                (r.to_business_branch.business_branch_name_en ?? "")+
+                (r.to_business_branch.business_branch_name_kh ?? "")+
+                (r.from_business_branch.business_branch_name_kh ?? "")+
+                (r.from_business_branch.business_branch_name_en ?? "")+
+                (r.from_stock_location.stock_location_name ?? "")+
+                (r.to_stock_location.stock_location_name ?? "")
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
             else
@@ -111,19 +117,34 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
-
         [HttpPost]
         [Route("clone/{id}")]
-        public async Task<ActionResult<StockTransferModel>> CloneRecord(int id) // copy data to create new
+        public ActionResult<StockTransferModel> Clone(int id)
         {
-            var u = await db.StockTransfers.FindAsync(id);
-            u.id = 0;
-            u.document_number = "";
-            u.status = true;
-            u.is_deleted = false;
-            u.created_date = DateTime.Now;
-            return Ok(u);
+            var data = db.StockTransfers.Where(r => r.id == id)
+                .Include(r => r.stock_transfer_products.Where(r => r.is_deleted == false)).ThenInclude(r => r.product).ThenInclude(r => r.unit)
+                .ToList();
+
+            if (data.Any())
+            {
+                StockTransferModel u = data.FirstOrDefault();
+                u.id = 0;
+                u.document_number = "";
+                u.reference_number = "";
+                u.status = true;
+                u.is_deleted = false;
+                u.created_date = DateTime.Now;
+                u.is_fulfilled = false;
+                u.stock_transfer_products.ForEach(r => r.id = 0);
+
+                return Ok(u);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
+
 
         [HttpPost]
         [Route("MarkAsFulfilled/{id}")]
