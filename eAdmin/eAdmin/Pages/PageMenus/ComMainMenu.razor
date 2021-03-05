@@ -1,6 +1,12 @@
-﻿
-<UIContainerBox Title="Menus">
+﻿@inject IHttpService http
+@inject IJSRuntime js
+@inject IMatToaster toast
 
+<UIContainerBox Title="Menus">
+    <div>
+        @current_menu_id
+    </div>
+    
     @if (menu == null)
     {
         <div>
@@ -25,14 +31,14 @@
                 @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
                 {
 
-                    <ComMenuItem menu="m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
+                    <ComMenuItem menu="@m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword" OnDeleteMenu="@(()=>OnDeleteMenu(m))" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
                         @(GetMenuName(m))
                     </ComMenuItem>
                 }
 
                 @if (string.IsNullOrEmpty(keyword))
-                { 
-                    <ComMenuSelectProductButton menu="@current_menu" />
+                {
+                    <ComMenuSelectProductButton menu="@current_menu" @bind-menu_="@menu_move" />
                 }
 
                 @if (current_menu_id > 0)
@@ -52,7 +58,7 @@
 </UIContainerBox>
 @if (show_move_menu)
 {
-    <ComMenu_SelectMenu menus="@menus" root_menu_id="@root_menu_id" is_opened="@show_move_menu" @bind-model="@menu" OnCancel="@(()=>show_move_menu=false)" OnSelectMenu="@(()=> { show_move_menu = false;  })" />
+    <ComMenu_SelectMenu menus="@menus" root_menu_id="@root_menu_id" is_opened="@show_move_menu" @bind-model="@menu" OnCancel="@(()=>show_move_menu=false)" OnSelectMenu="@OnSelectMenu" />
 
 }
 
@@ -63,8 +69,8 @@
 
 @if (is_select_product)
 {
-     <ComSearchProductMenu @bind-is_open="@is_select_product" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProductClick" />
- 
+    <ComSearchProductMenu @bind-is_open="@is_select_product" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProductClick" />
+
 }
 
 
@@ -81,8 +87,10 @@
     [Parameter] public int root_menu_id { get; set; }
 
     [Parameter] public EventCallback<MenuModel> OnMenuSelected { get; set; }
-
     [Parameter] public List<ProductMenuModel> selected_menus { get; set; }
+
+    [Parameter] public MenuModel menu_move { get; set; }
+    [Parameter] public EventCallback<MenuModel> menu_moveChanged { get; set; }
 
     bool show_move_menu;
     MenuModel menu = new MenuModel();
@@ -116,7 +124,6 @@
     {
         get
         {
-
             return menus.Where(r => r.id == current_menu_id).FirstOrDefault();
         }
     }
@@ -128,7 +135,7 @@
 
     string GetMenuName(MenuModel m)
     {
-        
+
         int n = menus.Where(r => r.parent_id == m.id && r.is_deleted == false).Count();
         if (n > 0)
         {
@@ -169,10 +176,11 @@
 
 
 
-    async Task OnSelectMenu(MenuModel m)
+    async Task OnSelectMenu()
     {
-        m.is_selected = true;
-        await OnMenuSelected.InvokeAsync(m);
+        show_move_menu = false;
+        menu_move = menu;
+        await menu_moveChanged.InvokeAsync(menu_move);
 
     }
     async Task OnUnSelectMenu(MenuModel m)
@@ -236,19 +244,38 @@
     {
         menu = m;
         show_move_menu = true;
-
-
     }
-    public void SelectProductClick(List<SelectedProductModel> selected_products)
+
+
+    async Task OnDeleteMenu(MenuModel m)
+    {
+        m.is_loading = true;
+        if (m.id > 0)
+        {
+            if (await js.Confirm("Delete Menu", "Are you sure you want to delete this record?"))
+            {
+                m.is_deleted = true;
+            }
+        }
+        else
+        {
+            menus.Remove(m);
+        }
+        menu_move = m;
+        await menu_moveChanged.InvokeAsync(menu_move);
+        m.is_loading = false;
+    }
+
+    public async Task SelectProductClick(List<SelectedProductModel> selected_products)
     {
 
         foreach (var sp in selected_products)
         {
-            AddItemToMenuProduct(sp);
+            await AddItemToMenuProduct(sp);
         }
     }
 
-    void AddItemToMenuProduct(SelectedProductModel sp)
+    async Task AddItemToMenuProduct(SelectedProductModel sp)
     {
         var old_product_menu = menu.product_menus.Where(r => r.menu_id == current_menu_id && r.product.id == sp.product.id);
         if (old_product_menu != null && old_product_menu.Count() > 0)
@@ -262,6 +289,7 @@
         d.product_id = sp.product.id;
         d.product = sp.product;
         current_menu.product_menus.Add(d);
-        Console.WriteLine(JsonSerializer.Serialize(current_menu));
+        menu_move = current_menu;
+        await menu_moveChanged.InvokeAsync(menu_move);
     }
 }
