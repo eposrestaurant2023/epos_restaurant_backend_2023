@@ -69,7 +69,16 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
-
+        [HttpPost]
+        [Route("status/{id}")]
+        public async Task<ActionResult<ProductGroupModel>> ChangeStatusRecord(int id) // change status
+        {
+            var u = await db.ProductGroups.FindAsync(id);
+            u.status = !u.status; 
+            db.ProductGroups.Update(u);
+            await db.SaveChangesAsync();
+            return Ok(u);
+        }
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
         public SingleResult<ProductGroupModel> Get([FromODataUri] int key)

@@ -1,6 +1,6 @@
-﻿ 
+﻿ @inject IStringLocalizer<Resource> lang
 <MudItem>
-    <MudSelect T="string" Dense="true" Label="Business Branch" MultiSelection="true" SelectedValues="selected_business" SelectedValuesChanged="@OnSelectedValuesBusiness">
+    <MudSelect T="string" Dense="true" Label="@lang["Business Branch"]" MultiSelection="true" SelectedValues="selected_business" SelectedValuesChanged="@OnSelectedValuesBusiness">
     @foreach (var option in gv.current_login_user.role.business_branch_roles)
     {
         <MudSelectItem T="string" Value="@option.business_branch.business_branch_name_en.ToString()"  >@option.business_branch.business_branch_name_en</MudSelectItem>

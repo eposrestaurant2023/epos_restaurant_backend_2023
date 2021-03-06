@@ -40,17 +40,16 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto" >
                     <TableHeader> 
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("outlet/business_branch/business_branch_name_en", "Business Branch", "col-auto")
-                        @HeaderTemplate("outlet/outlet_name_en", "Outlet", "col-auto")
-                        <ThRight>Total Amount</ThRight>
-                        <ThRight>Paid Amount</ThRight>
-                        <ThRight>Balance</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <th>Created By</th>
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("outlet/business_branch/business_branch_name_en", lang["Business Branch"], "col-auto")
+                        @HeaderTemplate("outlet/outlet_name_en", lang["Outlet"], "col-auto")
+                        <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Paid Amount"]</ThRight>
+                        <ThRight>@lang["Balance"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <th>@lang["Created By"]</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
