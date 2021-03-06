@@ -36,6 +36,8 @@ namespace eModels
         [MaxLength(200)]
         public string product_category_kh { get; set; }
         public bool is_ingredient_category { get; set; }
+        public bool is_deleted_group { get; set; }
+        public bool status_group { get; set; } = true;
         public List<ProductModel> products { get; set; }
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
     }

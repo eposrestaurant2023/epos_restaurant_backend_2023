@@ -39,7 +39,6 @@
             <AuthorizeView Roles="@gv.GetRole("stock_transfer_management")">
                 <ComSearchForStockTransfer keyword="@keyword" />
             </AuthorizeView>
-
             <AuthorizeView Roles="@gv.GetRole("customer_management")">
                 <ComSearchForSale keyword="@keyword" />
             </AuthorizeView>

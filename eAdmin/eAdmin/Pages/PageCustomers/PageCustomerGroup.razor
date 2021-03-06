@@ -1,6 +1,6 @@
 ﻿@page "/customergroup"
 @inherits PageCustomerGroups
-
+@inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -10,7 +10,7 @@
 
 @if (!is_loading)
 {
-    <Title Value="Customer Group"></Title>
+    <Title Value="@lang["Customer Group"]"></Title>
     <PageContainer roles="@gv.GetRole("customer_group_management")">
         <PageHeader>
             <HeaderLeft>
@@ -26,9 +26,9 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@AddNew" custom_class="button-create">New Customer Group</AddButton>
+                <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@AddNew" custom_class="button-create">@lang["New Customer Group"]</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false"/>
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -46,8 +46,8 @@
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        <Th OnClick="@(async () => await OrderBy("customer_group_name_en"))" OrderBy="@(state.pager.order_by == "customer_group_name_en")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">Name En</Th>
-                        <Th OnClick="@(async () => await OrderBy("customer_group_name_kh"))" OrderBy="@(state.pager.order_by == "customer_group_name_kh")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">Name Kh</Th>
+                        <Th OnClick="@(async () => await OrderBy("customer_group_name_en"))" OrderBy="@(state.pager.order_by == "customer_group_name_en")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">@lang["Name En"]</Th>
+                        <Th OnClick="@(async () => await OrderBy("customer_group_name_kh"))" OrderBy="@(state.pager.order_by == "customer_group_name_kh")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">@lang["Name Kh"]</Th>
                         @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
                     </TableHeader>
