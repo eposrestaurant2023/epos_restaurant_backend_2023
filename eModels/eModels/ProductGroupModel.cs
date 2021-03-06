@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using eShareModel;
 
 namespace eModels
@@ -37,6 +38,10 @@ namespace eModels
 
         public int sort_order { get; set; }
         public bool is_built_in { get; set; }
+
+
+        [NotMapped, JsonIgnore]
+        public bool is_view_deleted_category { get; set; } = false;
 
 
         public List<ProductCategoryModel> product_categories { get; set; }
