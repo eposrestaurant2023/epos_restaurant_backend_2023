@@ -10,67 +10,43 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Product Category & Group
+                        @lang["Product Category & Group"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <LinkButton url="productcategory/new" icon="add" background="uk-button-primary" Class_Name="button-create button-large">New Category & Group</LinkButton>
+                <LinkButton url="productcategory/new" icon="add" background="uk-button-primary" Class_Name="button-create button-large">@lang["New Category & Group"]</LinkButton>
             </HeaderRight>
         </PageHeader>
             <PageBody>
                 <UIGridCenter>
                     @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
                     {
-                    <div class="container-layout">
-                        <div class="title-header">
-                            <div class="uk-panel">
-                                <div class="uk-float-left">
-                                    <span>
-                                        @d.product_group_en
-                                    </span>
-                                </div>
-                                <Column ClassName="uk-float-right">
-                                    <div>  
-                                        <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp"/>
-                                        <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp"/>
- 
-                                        <span style="margin-right:5px;">
-                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))"/>
-                                        </span>
-                                        <span>
-                                            <a href="@($"productcategory/edit/{d.id}")">
-                                                <Icon icon="edit" />
-                                            </a>
-                                        </span>
-                                    </div>
-                                </Column>
-                            </div>
-                        </div>
-                    
-                        <hr />
+                    <UIContainerBox Title="@d.product_group_en" is_show_edit_button="true" OnEditClick="@(()=> { nav.NavigateTo($"productcategory/edit/{d.id}"}))" is_show_delete_button="true" OnDeleteClick="@(()=>click_delete(d))">
                         <div>
-                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                <tr>
-                                    <Th>Product Category Name en</Th>
-                                    <Th>Product Category Name Kh</Th>
-                                    <ThCenter>Status</ThCenter>
-                                </tr>
-
-                                @foreach (var s in d.product_categories)
-                                {
-                                    <tr>
-                                        <td>@s.product_category_en</td>
-                                        <td>@s.product_category_kh </td>
-                                        <TdCenter>
-                                            <LabelActive  is_visible="@s.status" is_loading="@s.is_change_status" />
-                                            <LabelInActive  is_visible="@(!s.status)" is_loading="@s.is_change_status" />
-                                        </TdCenter>
-                                    </tr>
-                                }
-                            </table>
+                            <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" />
+                            <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" />
                         </div>
-                    </div>
+                        <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                            <tr>
+                                <Th>@lang["Product Category Name en"]</Th>
+                                <Th>@lang["Product Category Name Kh"]</Th>
+                                <ThCenter>@lang["Status"]</ThCenter>
+                            </tr>
+
+                            @foreach (var s in d.product_categories)
+                            {
+                                <tr>
+                                    <td>@s.product_category_en</td>
+                                    <td>@s.product_category_kh </td>
+                                    <TdCenter>
+                                        <LabelActive is_visible="@s.status" is_loading="@s.is_change_status" />
+                                        <LabelInActive is_visible="@(!s.status)" is_loading="@s.is_change_status" />
+                                    </TdCenter>
+                                </tr>
+                            }
+                        </table>
+                    </UIContainerBox> 
                     }
                 </UIGridCenter>
             </PageBody>
@@ -81,6 +57,8 @@
     List<ProductGroupModel> models = new List<ProductGroupModel>();
     List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
     string ControllerApi = "ProductGroup";
+
+
 
     protected override async Task OnInitializedAsync()
     {

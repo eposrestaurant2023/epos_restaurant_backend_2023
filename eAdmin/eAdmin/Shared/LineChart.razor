@@ -9,7 +9,11 @@
 @using Microsoft.JSInterop
 @using ChartJs.Blazor.ChartJS.Common.Wrappers
 @inject IJSRuntime JsRuntime
-<ChartJsLineChart @ref="_lineChartJs" Config="@_lineConfig" Width="@Width" Height="@Height" />
+@if (_lineConfig != null)
+{
+    <ChartJsLineChart @ref="_lineChartJs" Config="@_lineConfig" Width="@Width" Height="@Height" />
+}
+
 @code
 {
     LineConfig _lineConfig;
@@ -24,7 +28,6 @@
     {
         _lineConfig = new LineConfig
         {
-
             Options = new LineOptions
             {
 
@@ -33,7 +36,7 @@
                 {
 
                     yAxes = new List<CartesianAxis>
-        {
+                    {
                         new BarLinearCartesianAxis
                         {
                             Ticks = new LinearCartesianTicks

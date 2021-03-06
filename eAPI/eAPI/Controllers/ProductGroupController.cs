@@ -60,12 +60,11 @@ namespace eAPI.Controllers
 
 
         [HttpPost]
-        [Route("delete/{id}")]
-        public async Task<ActionResult<ProductGroupModel>> DeleteRecord(int id) //Delete
-        {
-            var u = await db.ProductGroups.FindAsync(id);
+        [Route("delete")]
+        public async Task<ActionResult<ProductGroupModel>> DeleteRecord(ProductGroupModel u) //Delete
+        { 
             u.is_deleted = !u.is_deleted;
-
+            u.product_categories.ForEach(r => r.is_deleted = u.is_deleted);
             db.ProductGroups.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);

@@ -5,8 +5,10 @@
             <div class="uk-panel">
                 <div class="uk-float-left">
                     <Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@Title</span>
-                  </div>
+                </div>
                 <div class="uk-float-right">
+                    <LabelActive OnClick="@(()=>OnChangeStatusClick(id_changing_status))" is_visible="@(is_show_active_status)" is_loading="@is_changing_status" ClassName="cp" />
+                    <LabelInActive OnClick="@(()=>OnChangeStatusClick(id_changing_status))" is_visible="@(is_show_inactive_status)" is_loading="@is_changing_status" ClassName="cp" />
                     @if (is_show_edit_button)
                     {
                         <Icon icon="edit" title="@lang["Edit Item"]" OnClick="@OnEditClick" />
@@ -43,6 +45,7 @@
 </Com>
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }
+
     [Parameter] public string ClassName { get; set; } = "";
     [Parameter] public string Title { get; set; } = "";
     [Parameter] public string Icon { get; set; } = "";
@@ -53,6 +56,9 @@
     [Parameter] public bool is_show_edit_button { get; set; } = false;
     [Parameter] public bool is_show_delete_button { get; set; } = false;
     [Parameter] public bool is_show_select_button { get; set; } = false;
+    [Parameter] public bool is_show_active_status { get; set; } = false;
+    [Parameter] public bool is_show_inactive_status { get; set; } = false;
+    [Parameter] public bool is_changing_status { get; set; } = false;
     [Parameter] public bool show_refresh_button { get; set; } = false;
     [Parameter] public bool is_margin_bottom { get; set; } = false;
     [Parameter] public bool show_print { get; set; } = false;
@@ -62,6 +68,8 @@
     [Parameter] public EventCallback<MouseEventArgs> OnDeleteClick { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnSelectClick { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnPrint { get; set; }
+    [Parameter] public int id_changing_status { get; set; } = 0;
+    [Parameter] public EventCallback<MouseEventArgs> OnChangeStatusClick { get; set; }
 
 
 }
