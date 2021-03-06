@@ -9,7 +9,7 @@
 {
 
     <h3 class="title-search">
-        Product Ingredient
+        @lang["Product Ingredient"]
     </h3>
     <hr />
     <Table Items="@products"
@@ -28,7 +28,7 @@
             @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
             @HeaderTemplate("product_name_en", lang["Name (En)"], "col-auto")
             @HeaderTemplate("product_name_kh", lang["Name (Kh)"], "col-auto")
-            @HeaderTemplate("product_category/product_category_en", "Category")
+            @HeaderTemplate("product_category/product_category_en", lang["Category"])
             <ThCenter>@lang["Quality"]</ThCenter>
             <ThRight>@lang["Cost"]</ThRight>
             <ThRight>

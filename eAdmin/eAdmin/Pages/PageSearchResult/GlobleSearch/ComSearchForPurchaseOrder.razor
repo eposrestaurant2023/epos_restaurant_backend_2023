@@ -9,7 +9,7 @@
 {
 
     <h3 class="title-search">
-        Purchase Order
+        @lang["Purchase Order"]
     </h3>
     <hr />
     <Table Items="@PurchaseOrder"
@@ -30,9 +30,9 @@
             @HeaderTemplate("vendor/vendor_name", lang["Vendor"], "col-auto")
             @HeaderTemplate("stock_location/stock_location_name", lang["Stock Location (Business Branch)"])
             <ThRight>@lang["Total Amount"]</ThRight>
-            <ThRight>Paid Amount</ThRight>
-            <ThRight>Balance</ThRight>
-            <ThCenter>Status</ThCenter>
+            <ThRight>@lang["Paid Amount"]</ThRight>
+            <ThRight>@lang["Balance"]</ThRight>
+            <ThCenter>@lang["Status"]</ThCenter>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">

@@ -8,7 +8,7 @@
 {
 
     <h3 class="title-search">
-        Receipt List
+       @lang[" Receipt List"]
     </h3>
     <hr />
     <Table Items="@sale"
@@ -24,13 +24,13 @@
            ScrollClass="uk-overflow-auto"
            EmptyText="There is no record.">
         <TableHeader>
-            @HeaderTemplate("document_number", "Document#", "uk-text-center")
-            @HeaderTemplate("customer/customer_name", "Customer", "col-auto")
-            @HeaderTemplate("business_branch/business_branch_name_en", "Business Branch")
-            @HeaderTemplate("outlet/outlet_name_en", "Outlet")
-            <ThRight>Total Amount</ThRight>
-            <ThRight>Paid Amount</ThRight>
-            <ThRight>Balance</ThRight>
+            @HeaderTemplate("document_number",lang["Document#"], "uk-text-center")
+            @HeaderTemplate("customer/customer_name", lang["Customer"], "col-auto")
+            @HeaderTemplate("business_branch/business_branch_name_en", lang["Business Branch"])
+            @HeaderTemplate("outlet/outlet_name_en", lang["Outlet"])
+            <ThRight>@lang["Total Amount"]</ThRight>
+            <ThRight>@lang["Paid Amount"]</ThRight>
+            <ThRight>@lang["Balance"]</ThRight>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
