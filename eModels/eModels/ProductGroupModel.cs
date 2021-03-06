@@ -39,7 +39,6 @@ namespace eModels
         public int sort_order { get; set; }
         public bool is_built_in { get; set; }
 
-
         [NotMapped, JsonIgnore]
         public bool is_view_deleted_category { get; set; } = false;
 

@@ -1,7 +1,26 @@
-﻿
-@if (!string.IsNullOrEmpty(roles))
+﻿@if (!is_loading)
 {
-    <AuthorizeView Roles="@roles">
+    @if (!string.IsNullOrEmpty(roles))
+    {
+        <AuthorizeView Roles="@roles">
+            @if (is_visible)
+            {
+                @if (string.IsNullOrEmpty(target))
+                {
+                    <i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i>
+                }
+                else
+                {
+                    <i class="@theme @className" uk-tooltip="@title" @onclick="OnClick" uk-toggle="target: @target" style="color: @icon_color; font-size: @size;">@icon</i>
+                }
+
+            }
+
+
+        </AuthorizeView>
+    }
+    else
+    {
         @if (is_visible)
         {
             @if (string.IsNullOrEmpty(target))
@@ -10,27 +29,15 @@
             }
             else
             {
-           <i class="@theme @className" uk-tooltip="@title" @onclick="OnClick" uk-toggle="target: @target" style="color: @icon_color; font-size: @size;">@icon</i>
+                <i class="@theme @className" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;" uk-toggle="target: @target">@icon</i>
             }
-            
         }
+    }
 
-
-    </AuthorizeView>
 }
 else
 {
-    @if (is_visible)
-    {
-        @if (string.IsNullOrEmpty(target))
-        {
-<i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i>
-        }
-        else
-        {
-<i class="@theme @className" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;" uk-toggle="target: @target">@icon</i>
-        }
-    }
+    <Spinner/>
 }
 
 @code{
@@ -45,6 +52,7 @@ else
     [Parameter] public string roles { get; set; } = "";
     [Parameter] public bool is_visible { get; set; } = true;
     [Parameter] public bool is_url { get; set; } = false;
+    [Parameter] public bool is_loading { get; set; } = false;
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 

@@ -64,17 +64,17 @@ namespace eAPI.Controllers
         public async Task<ActionResult<ProductGroupModel>> DeleteRecord(ProductGroupModel u) //Delete
         { 
             u.is_deleted = !u.is_deleted;
-            u.product_categories.ForEach(r => r.is_deleted = u.is_deleted);
+            u.product_categories.ForEach(r => r.is_deleted_group = u.is_deleted);
             db.ProductGroups.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
         }
         [HttpPost]
-        [Route("status/{id}")]
-        public async Task<ActionResult<ProductGroupModel>> ChangeStatusRecord(int id) // change status
+        [Route("status")]
+        public async Task<ActionResult<ProductGroupModel>> ChangeStatusRecord(ProductGroupModel u) // change status
         {
-            var u = await db.ProductGroups.FindAsync(id);
-            u.status = !u.status; 
+            u.status = !u.status;
+            u.product_categories.ForEach(r => r.status_group = u.status);
             db.ProductGroups.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
