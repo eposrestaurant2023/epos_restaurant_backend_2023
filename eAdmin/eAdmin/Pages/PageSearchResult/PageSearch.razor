@@ -31,13 +31,17 @@
                 <ComSearchForVendor keyword="@keyword" />
             </AuthorizeView>
             <AuthorizeView Roles="@gv.GetRole("purchase_order_management")">
-                <ComSearchForPurchaseOrder keyword="@keyword"/>
+                <ComSearchForPurchaseOrder keyword="@keyword" />
             </AuthorizeView>
             <AuthorizeView Roles="@gv.GetRole("stock_take_management")">
-                <ComSearchForStockTake keyword="@keyword"/>
+                <ComSearchForStockTake keyword="@keyword" />
             </AuthorizeView>
             <AuthorizeView Roles="@gv.GetRole("stock_transfer_management")">
-                <ComSearchForStockTransfer keyword="@keyword"/>
+                <ComSearchForStockTransfer keyword="@keyword" />
+            </AuthorizeView>
+
+            <AuthorizeView Roles="@gv.GetRole("customer_management")">
+                <ComSearchForSale keyword="@keyword" />
             </AuthorizeView>
         </PageBody>
     </PageContainer>
