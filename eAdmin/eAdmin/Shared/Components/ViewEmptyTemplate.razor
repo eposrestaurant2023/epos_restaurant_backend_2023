@@ -9,17 +9,28 @@ else
     {
         <tr>
             <td colspan="@colspan">
-                <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size"/>
+                <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
             </td>
         </tr>
     }
     else
     {
-        <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size"/>
+        if (is_box_empty)
+        {
+        <UIContainerBox Title="@lang["Empty Box"]">
+            <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
+        </UIContainerBox>   
+        }
+        else
+        {
+            <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
+        }
+
     }
 }
 @code{
     [Parameter] public bool is_view { get; set; }
+    [Parameter] public bool is_box_empty { get; set; } = false;
     [Parameter] public string colspan { get; set; }
     [Parameter] public string icon { get; set; } = "inbox";
     [Parameter] public string empty { get; set; } = "There's no record in the system";

@@ -39,7 +39,7 @@
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                     <div class="uk-form-controls" style="margin-bottom: 10px;margin-top: 20px;">
-                        <label sclass="uk-form-label">Customer</label>
+                        <label sclass="uk-form-label">@lang["Customer"]</label>
                         <CustomerTypeahead @bind-customer="@state.customer" />
                     </div>
                 </ComSearch>

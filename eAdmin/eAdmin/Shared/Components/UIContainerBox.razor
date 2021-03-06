@@ -5,8 +5,8 @@
             <div class="uk-panel">
                 <div class="uk-float-left">
                     <Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@Title</span>
-                  </div>
-                <div class="uk-float-right">
+                </div>
+                <div class="uk-float-right"> 
                     @if (is_show_edit_button)
                     {
                         <Icon icon="edit" title="@lang["Edit Item"]" OnClick="@OnEditClick" />
@@ -43,6 +43,7 @@
 </Com>
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }
+
     [Parameter] public string ClassName { get; set; } = "";
     [Parameter] public string Title { get; set; } = "";
     [Parameter] public string Icon { get; set; } = "";

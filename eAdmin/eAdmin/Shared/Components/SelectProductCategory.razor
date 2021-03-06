@@ -23,12 +23,12 @@
 
                 @if (is_ingredient_category)
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_deleted_group == false && r.status_group == true && r.is_ingredient_category == true))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
                 }else{
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == false))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_deleted_group == false && r.status_group == true && r.is_ingredient_category == false))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
