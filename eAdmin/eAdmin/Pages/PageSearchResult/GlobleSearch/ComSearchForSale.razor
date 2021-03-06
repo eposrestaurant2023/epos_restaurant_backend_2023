@@ -4,14 +4,14 @@
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
 }
-@if (Stock_Take.Count() > 0)
+@if (sale.Count() > 0)
 {
 
     <h3 class="title-search">
-        Stock Take
+        Receipt List
     </h3>
     <hr />
-    <Table Items="@Stock_Take"
+    <Table Items="@sale"
            PerPage="@state.pager.per_page"
            TotalItem="@TotalRecord"
            CurrentPage="@state.pager.current_page"
@@ -24,45 +24,49 @@
            ScrollClass="uk-overflow-auto"
            EmptyText="There is no record.">
         <TableHeader>
-            @HeaderTemplate("stock_take_date", "Stock Take Date", "uk-text-center")
             @HeaderTemplate("document_number", "Document#", "uk-text-center")
-            @HeaderTemplate("referance_number", "Referance#", "uk-text-center")
-            @HeaderTemplate("stock_location/stock_location_name", "Stock Location (Business Branch)", "col-auto")
+            @HeaderTemplate("customer/customer_name", "Customer", "col-auto")
+            @HeaderTemplate("business_branch/business_branch_name_en", "Business Branch")
+            @HeaderTemplate("outlet/outlet_name_en", "Outlet")
             <ThRight>Total Amount</ThRight>
-            <ThRight>Status</ThRight>
+            <ThRight>Paid Amount</ThRight>
+            <ThRight>Balance</ThRight>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
-            <TdCenter>@p.stock_take_date.ToString(gv.date_format)</TdCenter>
             <TdCenter>
-                <ComAuthorize roles="@gv.GetRole("stock_take_management")" url="@($"stocktake/{p.id}")">
-                    @p.document_number
-                </ComAuthorize>
+                <div><a href="@("receiptlist/{p.id}")">@p.document_number</a></div>
             </TdCenter>
-            <TdCenter>@p.reference_number</TdCenter>
             <td>
-                @p.stock_location?.stock_location_name (@p.business_branch?.business_branch_name_en)
+                <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo">@p.customer?.customer_code_name</ComProfileInfo>
             </td>
-
+            <td>
+                @p.business_branch?.business_branch_name_en
+            </td>
+            <td>
+                @p.outlet?.outlet_name_en
+            </td>
             <TdRight>
                 @p.total_amount.ToString(gv.main_currency_format)
             </TdRight>
             <TdRight>
-                <ComStockTakeStatus model="@p" />
+                @p.paid_amount.ToString(gv.main_currency_format)
             </TdRight>
-            <TdActions is_loading="@p.is_loading">
-                <TableActionItem roles="@gv.GetRole("stock_take_management")" icon="visibility" url="@($"stocktake/{p.id}")">View</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("stock_take_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"stocktake/edit/{p.id}")">Edit</TableActionItem>
-            </TdActions>
+            <TdRight>
+                @p.balance.ToString(gv.main_currency_format)
+            </TdRight>
+            <TdCenter>
+                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
+            </TdCenter>
         </RowTemplate>
     </Table>
 
 }
 @code {
 
-    string api_controller = "StockTake";
+    string api_controller = "sale";
     [Parameter] public string keyword { get; set; }
-    List<StockTakeModel> Stock_Take = new List<StockTakeModel>();
+    List<SaleModel> sale = new List<SaleModel>();
 
 
 
@@ -77,8 +81,8 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string query = "$select=id,document_number,stock_take_date,reference_number,total_amount,is_fulfilled";
-            query = query + "&$expand=business_branch($select=business_branch_name_en),stock_location($select=stock_location_name)";
+            string query = "$select=id,document_number,total_discount,balance,paid_amount";
+            query = query + "&$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
             string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters);
         }
@@ -87,7 +91,6 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        state.filters.Clear();
         state.pager.per_page = 10;
         state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
         await LoadData();
@@ -97,6 +100,7 @@
 
     async Task LoadData()
     {
+
         if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
         {
             //Business Branch Filter
@@ -113,11 +117,12 @@
                 is_show_on_infor = false
             });
         }
+
         string api_url = $"{ControllerApi}";
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {
-            Stock_Take = JsonSerializer.Deserialize<List<StockTakeModel>>(resp.Content.ToString());
+            sale = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());
             TotalRecord = resp.Count;
         }
 

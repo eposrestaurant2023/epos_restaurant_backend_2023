@@ -40,7 +40,11 @@ namespace eAPI.Controllers
                                      (
                                         (r.document_number ?? " ") + 
                                         (r.customer.customer_name_en ?? " ") +
+                                        (r.customer.customer_code ?? " ") +
+                                        (r.customer.phone_1 ?? " ") +
                                         (r.customer.customer_name_kh ?? " ") + 
+                                        (r.business_branch.business_branch_name_kh ?? " ") + 
+                                        (r.business_branch.business_branch_name_en ?? " ") + 
                                         (r.sale_note ?? " ") 
                                      ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                            select r);

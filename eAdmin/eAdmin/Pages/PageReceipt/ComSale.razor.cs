@@ -67,10 +67,6 @@ namespace eAdmin.Pages.PageReceipt
         public async Task LoadData(string api_url="")
         {
             is_loading = true;
-
-           
-
-
             if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
             {
                 //Business Branch Filter
