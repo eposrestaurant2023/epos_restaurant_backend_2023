@@ -4,7 +4,7 @@
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
 }
-
+@ControllerApi
 @if (Stock_Transfer.Count() > 0)
 {
 
@@ -12,6 +12,9 @@
         Stock Transfer
     </h3>
     <hr />
+
+
+
     <Table Items="@Stock_Transfer"
            PerPage="@state.pager.per_page"
            TotalItem="@TotalRecord"
@@ -100,10 +103,44 @@
 
     async Task LoadData()
     {
+        if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
+        {
+            if (state.filters.Where(r => r.key == "from_business_branch_id").Count() == 0)
+            {
+                //From  Business Branch Filter
+                state.filters.Add(new FilterModel()
+                {
+                    key = "from_business_branch_id",
+                    value1 = gv.business_branch_ids_filter_1,
+                    filter_title = "From Business Branch",
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.business_branch_ids_filter_1,
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+
+            if (state.filters.Where(r => r.key == "to_business_branch_id").Count() == 0)
+            {
+                //To  Business Branch Filter
+                state.filters.Add(new FilterModel()
+                {
+                    key = "to_business_branch_id",
+                    value1 = gv.business_branch_ids_filter_2,
+                    filter_title = lang["To Business Branch"],
+                    filter_operator = "multiple",
+                    state_property_name = "list_selected_values",
+                    filter_info_text = gv.business_branch_ids_filter_2,
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+        }
 
         string api_url = $"{ControllerApi}";
-
-
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {

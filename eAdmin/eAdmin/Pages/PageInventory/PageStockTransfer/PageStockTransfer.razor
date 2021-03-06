@@ -7,6 +7,8 @@
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
 }
 
+
+
 @if (!is_loading)
 {
     <Title Value="@lang["Stock Take"]"></Title>
@@ -44,6 +46,7 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            @ControllerApi
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
