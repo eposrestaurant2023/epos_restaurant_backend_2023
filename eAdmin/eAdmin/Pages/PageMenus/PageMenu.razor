@@ -19,7 +19,7 @@
             <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
         </HeaderRight>
     </PageHeader>
-    <EditForm Model="@menus" OnValidSubmit="@(()=>Save_Click())" @attributes="@formAttributes">
+    <EditForm Model="@menus" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
         <DataAnnotationsValidator />
         <PageBody>
             <Grid ClassName="uk-grid-small">
