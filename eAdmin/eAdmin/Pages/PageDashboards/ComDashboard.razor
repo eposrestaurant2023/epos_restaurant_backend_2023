@@ -1,7 +1,7 @@
-﻿ 
+﻿
 @inject IStringLocalizer<Resource> lang
 @inject IHttpService http;
- 
+
 
 <Loading is_loading="is_loading" />
 
@@ -11,65 +11,16 @@
     <Spacing Number="20" />
     <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .uk-card">
         <div class="uk-width-2-3">
-            <ComPanel Title="@(lang["Hourly Sale"])">
-                @if (is_loading)
-                {
-                    <Spinner />
-                }
-                else
-                {
-                    @if (data != null)
-                    { 
-                        @*<LineChart Data="@data_line" Height="250" Width="100" />*@
-                    }
-                }
-
-            </ComPanel>
+            <ComDashboardHourlySaleRevenue business_branch_id="@bussiness_branch_id" />
         </div>
         <div class="uk-width-1-3">
-            <ComPanel Title="@(lang["Summary Invoice"])">
-                <div>
-                    <label style="font-size:12px;">Close Orders(6/6)</label>
-                    <div class="progress_bar">
-                        <div style="width:30%" class="uk-background-primary text_persen">12</div>
-                    </div>
-                    <label style="font-size:12px;">Pending Orders (8/6)</label>
-                    <div class="progress_bar">
-                        <div style="width:40%" class="bg_viode_oeder text_persen">
-                            12
-                        </div>
-                    </div>
-
-                    <label style="font-size:12px;">Void Orders (9 /10)</label>
-                    <div class="progress_bar">
-                        <div style="width:50%" class=" bg_pendding_order text_persen">
-                            50
-                        </div>
-                    </div>
-
-                </div>
-            </ComPanel>
+            <ComDashboardSaleIndicator data="kpi" />
         </div>
     </div>
 
     <Spacing Number="20" />
+    <ComDashboardDailySaleRevenue business_branch_id="@bussiness_branch_id" />
 
-    <ComPanel Title="@(lang["Daily Sale Revenue"])">
-
-
-        @if (is_loading)
-        {
-            <Spinner />
-        }
-        else
-        {
-            @if (data != null)
-            {
-                @*<BarChart Data="@data" Height="325" Width="100" />*@
-            }
-        }
-
-    </ComPanel>
 
     <Spacing Number="20" />
     <ComPanel Title="">
@@ -106,61 +57,37 @@
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public string bussiness_branch_id { get; set; }
-    BarChartModel data = new BarChartModel();
-    LineChartModel data_line = new LineChartModel();
+
     int top = 10;
     string select_order = "10";
     bool is_loading;
 
-    DashboardKPIModel  kpi = new  DashboardKPIModel();
+    DashboardKPIModel kpi = new DashboardKPIModel();
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
 
         await LoadKPI();
-        await LoadData();
+
 
         is_loading = false;
     }
 
-    async Task LoadKPI() {
+    async Task LoadKPI()
+    {
         var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_kpi_json", procedure_parameter = $"'{bussiness_branch_id}'" });
-        if (resp.IsSuccess) {
+        if (resp.IsSuccess)
+        {
             var data = JsonSerializer.Deserialize<List<DashboardKPIModel>>(resp.Content.ToString());
-            if (data.Any()) {
+            if (data.Any())
+            {
                 kpi = data.FirstOrDefault();
             }
             else
             {
                 kpi = new DashboardKPIModel();
             }
-
         }
-    }
-
-    async Task LoadData()
-    {
-        is_loading = true;
-        await Task.Delay(500);
-        data.label = new string[] { "daily", "weekly", "monthly", "yearly" };
-        data.data.Add(new ChartDataModel
-        {
-            label = "ប្រាក់ចំណូលប្រចាំខែ ",
-            color = "green",
-            data = new double[] { 12, 45, 12, 12 }
-        });
-
-
-        data_line.label = new string[] { "120", "130", "140", "150", "160", "180" };
-        data_line.data.Add(new ChartDataModel
-        {
-            label = "ប្រាក់ចំណូលតាមម៉ោង",
-            color = "#0288d1",
-            data = new double[] { 1.0, 0.9, 0.8, 0.7, 0.6, 0.5 }
-
-        });
-
-        is_loading = false;
     }
 
 

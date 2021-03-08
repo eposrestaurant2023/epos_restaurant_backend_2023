@@ -27,10 +27,10 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New Customer</AddButton>
+                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">@lang["New Customer"]</AddButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="All Customer Group" />
+                    <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="@lang["All Customer Group"]" />
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
@@ -48,15 +48,15 @@
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       EmptyText="@lang["There is no record."]">
                     <TableHeader>
-                        <ThCenter>Image</ThCenter>
-                        @HeaderTemplate("customer_code", "Code", "uk-text-center")
-                        @HeaderTemplate("customer_name_en", "Name (Kh)", "col-auto")
-                        @HeaderTemplate("phone_1", "Phone", "uk-text-center")
-                        @HeaderTemplate("gender", "Gender", "uk-text-center")
-                        @HeaderTemplate("total_receivable", "Total Receivable", "uk-text-right")
-                        @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
+                        <ThCenter>@lang["Image"]</ThCenter>
+                        @HeaderTemplate("customer_code", lang["Code"], "uk-text-center")
+                        @HeaderTemplate("customer_name_en", lang["Name (Kh)"], "col-auto")
+                        @HeaderTemplate("phone_1", lang["Phone"], "uk-text-center")
+                        @HeaderTemplate("gender", lang["Gender"], "uk-text-center")
+                        @HeaderTemplate("total_receivable", lang["Total Receivable"], "uk-text-right")
+                        @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">

@@ -1,0 +1,78 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http;
+<ComPanel Title="@(lang["Daily Sale Revenue"])">
+
+
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+        @if (data != null && barchart_data!=null)
+        {
+            <BarChart Data="@barchart_data" Height="325" Width="100" />
+        }
+    }
+
+</ComPanel>
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public string business_branch_id { get; set; }
+    BarChartModel barchart_data;
+    bool is_loading;
+    List<DailySaleRevenueModel> data = new List<DailySaleRevenueModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_daily_sale_revenue_json", procedure_parameter = $"'{business_branch_id}'" });
+        if (resp.IsSuccess)
+        {
+            data = JsonSerializer.Deserialize<List<DailySaleRevenueModel>>(resp.Content.ToString());
+            SetBarchartData();
+        }
+        is_loading = false;
+    }
+
+
+    void SetBarchartData()
+    {
+        if (data != null)
+        {
+            barchart_data = new BarChartModel();
+            var chart_label = data.Select(r => r.day.ToString("00")).Distinct().ToArray(); //footer
+
+            var business_branch = (from a in data
+                                   select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct();
+            barchart_data.label = chart_label;
+            foreach (var b in business_branch)
+            {
+                barchart_data.data.Add(new ChartDataModel
+                {
+                    label = b.business_branch_name ,
+                    color = b.color,
+                    data = data.Where(r => r.business_branch_id == b.business_branch_id).Select(r => (double)r.total_amount).ToArray()
+                });
+
+
+            }
+
+
+        }
+    }
+
+
+
+
+
+    class DailySaleRevenueModel
+    {
+        public int day { get; set; }
+        public string business_branch_id { get; set; }
+        public string business_branch_name { get; set; }
+        public string color { get; set; }
+        public decimal total_amount { get; set; }
+
+    }
+
+}

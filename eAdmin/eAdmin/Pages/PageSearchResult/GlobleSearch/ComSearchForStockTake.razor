@@ -8,7 +8,7 @@
 {
 
     <h3 class="title-search">
-        Stock Take
+        @lang["Stock Take"]
     </h3>
     <hr />
     <Table Items="@Stock_Take"
@@ -24,12 +24,12 @@
            ScrollClass="uk-overflow-auto"
            EmptyText="There is no record.">
         <TableHeader>
-            @HeaderTemplate("stock_take_date", "Stock Take Date", "uk-text-center")
-            @HeaderTemplate("document_number", "Document#", "uk-text-center")
-            @HeaderTemplate("referance_number", "Referance#", "uk-text-center")
-            @HeaderTemplate("stock_location/stock_location_name", "Stock Location (Business Branch)", "col-auto")
-            <ThRight>Total Amount</ThRight>
-            <ThRight>Status</ThRight>
+            @HeaderTemplate("stock_take_date", lang["Stock Take Date"], "uk-text-center")
+            @HeaderTemplate("document_number", lang["Document#"], "uk-text-center")
+            @HeaderTemplate("referance_number", lang["Referance#"], "uk-text-center")
+            @HeaderTemplate("stock_location/stock_location_name", lang["Stock Location (Business Branch)"], "col-auto")
+            <ThRight>@lang["Total Amount"]</ThRight>
+            <ThRight>@lang["Status"]</ThRight>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">

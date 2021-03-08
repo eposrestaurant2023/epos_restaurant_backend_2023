@@ -19,8 +19,6 @@
             <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
         </HeaderRight>
     </PageHeader>
-    <EditForm Model="@menus" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
-        <DataAnnotationsValidator />
         <PageBody>
             <Grid ClassName="uk-grid-small">
                 <Column ClassName="uk-width-1-5">
@@ -33,10 +31,9 @@
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_show_cancel="false"/>
+                <ComSavingFormButton is_show_cancel="false" OnSave="@Save_Click" is_show_save_action="true" />
             </FooterCenter>
         </PageFooter>
-    </EditForm>
 </PageContainer>
 }
 @if (show_add_menu)

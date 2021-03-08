@@ -67,9 +67,7 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {
-
             bool is_add = false;
-
             //check product if it is already has inv transaction then retail fail
             if (u.id > 0) {
                 var db_product = db.Products.Where(r => r.id == u.id).AsNoTracking().Include(r=>r.stock_location_products).AsNoTracking();
@@ -121,10 +119,6 @@ namespace eAPI.Controllers
             u.product_menus.ForEach(r => r.menu = null);
             u.stock_location_products.ForEach(r => r.stock_location = null);
             u.unit = null;
-             
-
-
-
             //if product is inv product then save init qty to init adjusment qty
             if (u.is_inventory_product)
             {
@@ -182,7 +176,6 @@ namespace eAPI.Controllers
                 }
             }
           
-           
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record " + u.id); 
             return Ok(u); 
         }

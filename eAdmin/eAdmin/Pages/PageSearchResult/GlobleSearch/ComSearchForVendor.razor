@@ -9,7 +9,7 @@
 {
 
     <h3 class="title-search">
-        Vendor
+        @lang["Vendor"]
     </h3>
     <hr />
     <Table Items="@Vendor"
@@ -25,7 +25,7 @@
            ScrollClass="uk-overflow-auto"
            EmptyText="There is no record.">
         <TableHeader>
-            <ThCenter>Image</ThCenter>
+            <ThCenter>@lang["Image"]</ThCenter>
             @HeaderTemplate("vendor_code", lang["Code"], "uk-text-center")
             @HeaderTemplate("vendor_name", lang["Vendor Name"], "uk-text-left")
             @HeaderTemplate("company_name", lang["Company Name"], "uk-text-left")

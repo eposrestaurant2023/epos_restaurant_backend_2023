@@ -1,0 +1,80 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http;
+<ComPanel Title="@(lang["Hourly Sale"])">
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+        @if (data_line != null)
+        {
+      
+            <LineChart Data="@data_line" Height="250" Width="100" />
+        }
+    }
+   
+
+</ComPanel>
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public string business_branch_id { get; set; }
+
+    LineChartModel data_line;
+  
+    bool is_loading;
+    List<HourlySaleRevenueModel> data = new List<HourlySaleRevenueModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp =await  http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_hourly_sale_json", procedure_parameter = $"'{business_branch_id}'" });
+        if (resp.IsSuccess)
+        {
+            data = JsonSerializer.Deserialize<List<HourlySaleRevenueModel>>(resp.Content.ToString());
+            SetLineData();
+        }
+        is_loading = false;
+    }
+
+    void SetLineData() {
+        if (data != null)
+        {
+            var line_chart_label = data.Select(r => r.hour.ToString("00")).Distinct().ToArray();
+            List<ChartDataModel> line_data = new List<ChartDataModel>();
+
+
+            var business_branch = (from a in data
+                                   select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct();
+
+            foreach (var b in business_branch)
+            {
+                line_data.Add(
+                   new ChartDataModel()
+                   {
+                       label = b.business_branch_name,
+                       color = b.color,
+                       data = data.Where(r => r.business_branch_id == b.business_branch_id).Select(r => (double)r.total_amount).ToArray()
+                   });
+            }
+
+
+
+            data_line = new LineChartModel()
+            {
+                label = line_chart_label,
+                data = line_data
+            };
+        }
+    }
+
+    class HourlySaleRevenueModel
+    {
+        public int hour { get; set; }
+        public string business_branch_id { get; set; }
+        public string business_branch_name { get; set; }
+        public string color { get; set; }
+        public decimal total_amount { get; set; }
+
+    }
+
+}
