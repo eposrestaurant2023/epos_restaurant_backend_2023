@@ -347,9 +347,11 @@ input.input100 {
 .has-val.input100 + .focus-input100::before {
     width: 100%;
 }
-.field-validation-error,.text-danger {
+
+.field-validation-error, .text-danger {
     color: #f0506e;
 }
+
 .uk-checkbox {
     border: 1px solid #d2d2d2;
 }

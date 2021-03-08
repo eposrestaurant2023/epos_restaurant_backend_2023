@@ -4,6 +4,8 @@
 @inject AuthenticationStateProvider  authenticationStateProvider
 @inject IHttpService  http;
 @inject NavigationManager nav;
+@inject IConfiguration config
+
 
 <AuthorizeView>
     <Authorized>
@@ -11,52 +13,45 @@
     </Authorized>
     <NotAuthorized Context="x">
         <EditForm Model="model" OnValidSubmit="LoginUser">
+
             <div class="wrp-login-page">
                 <div class="wrp-login-form">
-                    <div class="uk-grid-collapse box-shadow-login" uk-grid uk-height-match="target: > div >.bg_heigth">
-                        <div class="uk-width-1-2@l uk-width-1-2@m">
-                            <div class=" uk-padding bg_heigth bg_image_login">
-                                <img src="/images/exspense.jpg" width="100%" />
+                    <div class="login-header">
+                        <img src="images/ePOS-Rest.svg" />
+                    </div>
+                    <div class="login-form">
+                        <div>
+                            <div class="uk-form-control">
+                                <input id="username" @bind="@model.Username" type="text" placeholder="Enter username" class="uk-input" />
+                                <ValidationMessage For="@(()=>model.Username)" />
                             </div>
-                           <div class="bg_logo_image">
-                               <img src="/images/logo.png" width="100px"/>
-                           </div>
-                          
-                        </div>
-                        <div class="uk-width-1-2@l uk-width-1-2@m login-form">
-                            <div class=" pg_login bg_heigth uk-flex uk-flex-middle uk-flex-center">
-
-                                <div>
-                                    <div class="uk-form-control">
-                                        <input id="username" @bind="@model.Username" type="text" placeholder="Enter username" class="uk-input" />
-                                        <ValidationMessage For="@(()=>model.Username)" />
-                                    </div>
-                                    <div class="uk-form-control">
-                                        <input id="password" @bind="@model.Password" type="password" placeholder="Enter password" class="uk-input" />
-                                        <ValidationMessage For="@(()=>model.Password)" />
-                                    </div>
-                                    @if (IsShowMessage)
-                                    {
-                                        <small style="color:red">@Message</small>
-                                    }
-                                    <Spacing Number="20" />
-                                    <div class="uk-text-center">
-                                        @if (IsSpinning)
-                                        {
-                                            <button class="btn-login" type="button">Login ... </button>
-                                        }
-                                        else
-                                        {
-                                            <button class="btn-login" type="submit">Login </button>
-                                        }
-                                    </div>
-
-                                </div>
-
+                            <div class="uk-form-control">
+                                <input id="password" @bind="@model.Password" type="password" placeholder="Enter password" class="uk-input" />
+                                <ValidationMessage For="@(()=>model.Password)" />
                             </div>
+                            @*<div class="uk-form-control">
+                                <eAdmin.Pages.PageTranslate.CultureSelector />
+                            </div>*@
+
+
+
+                            @if (IsShowMessage)
+                            {
+                                <small style="color:red">@Message</small>
+                            }
+                            <div class="uk-text-center">
+                                @if (IsSpinning)
+                                {
+                                <button class="btn-login" type="button"> <Spinner /> Login  </button>
+                                }
+                                else
+                                {
+                            <button class="btn-login" type="submit">Login </button>
+                                }
+                            </div>
+
                         </div>
                     </div>
-
                 </div>
             </div>
         </EditForm>
@@ -67,7 +62,7 @@
     string Message = "";
     bool IsShowMessage = false;
     bool IsSpinning = false;
-   
+
     public async Task LoginUser()
     {
         IsSpinning = true;
@@ -82,18 +77,18 @@
         var resp = await http.ApiPost("user/auth/login", model);
         if (resp.IsSuccess)
         {
-            UserModel user =  JsonSerializer.Deserialize<UserModel>(resp.Content.ToString());
+            UserModel user = JsonSerializer.Deserialize<UserModel>(resp.Content.ToString());
             if (user != null)
             {
                 try
                 {
-  
-                    var user_convert =EncryptProvider.Base64Encrypt(resp.Content.ToString());
+
+                    var user_convert = EncryptProvider.Base64Encrypt(resp.Content.ToString());
                     await storageService.SetItemAsync("_Authorization", user_convert);
                     await authenticationStateProvider.GetAuthenticationStateAsync();
                     nav.NavigateTo("/", true);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     string message = ex.Message;
                     IsShowMessage = true;
