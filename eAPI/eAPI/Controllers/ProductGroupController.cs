@@ -40,9 +40,6 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductGroupModel u)
         {
-
-
-
             if (u.id == 0)
             {
                 db.ProductGroups.Add(u);

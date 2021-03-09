@@ -7,13 +7,7 @@
 @inject IStringLocalizer<Resource> lang
 @inject IConfiguration config
 
-@if (string.IsNullOrEmpty(server_config.project_id))
-{
-    <Redirect url="config"/>
-}
-else
-{
-
+ 
 <AuthorizeView>
     <Authorized>
         <Redirect url="@(config.GetValue<string>("siteName"))" />
@@ -69,8 +63,6 @@ else
         <a href="http://esoftix.com/" class="cu_color">Power By eSoftix</a>
     </div>
 </div>
-}
-
 @code {
 
     AuthenticateModel model = new AuthenticateModel();
