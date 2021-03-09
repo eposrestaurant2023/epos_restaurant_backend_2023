@@ -76,18 +76,23 @@ else
         is_loading = true;
         if (clone_id > 0 || id > 0)
         {
-            var resp = await http.ApiGet($"{controller_api}({(id != 0 ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
-            if (resp.IsSuccess)
+            if (id > 0)
             {
-                modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
-            }
-            if (clone_id > 0)
-            {
-                title = $"Clone : {modifier_group.modifier_group_name_en}";
+                var resp = await http.ApiGet($"{controller_api}({(id != 0 ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
+                if (resp.IsSuccess)
+                {
+                    modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+                }
+                title = $"Edit : {modifier_group.modifier_group_name_en}";
             }
             else
             {
-                title = $"Edit : {modifier_group.modifier_group_name_en}";
+                var resp = await http.ApiPost($"{controller_api}/clone/{clone_id}");
+                if (resp.IsSuccess)
+                {
+                    modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
+                    title = $"Clone : {modifier_group.modifier_group_name_en}";
+                }
             }
         }
         else
@@ -99,7 +104,7 @@ else
     }
 
     async Task Save_Click()
-    { 
+    {
         is_saving = true;
 
         // where don't add group item
@@ -133,13 +138,6 @@ else
         }
 
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
-        if (clone_id > 0)
-        {
-            save_model.id = 0;
-            save_model.created_by = gv.current_login_user.full_name;
-            save_model.created_date = DateTime.Now;
-            save_model.modifier_group_items.ForEach(r=>r.id=0);
-        }
 
         var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)

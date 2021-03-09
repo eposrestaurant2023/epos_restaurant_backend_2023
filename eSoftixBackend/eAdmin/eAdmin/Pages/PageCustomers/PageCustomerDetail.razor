@@ -5,13 +5,13 @@
 @if (!is_loading && !is_error)
 {
 
-    <Title Value="@($"Customer : {model.customer_code_name}")"></Title>
+    <Title Value="@($"Customer : {model.customer_name_en}")"></Title>
     <PageContainer roles="@gv.GetRole("customer_view")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @model.customer_code_name 
+                      @model.customer_code - @model.customer_name_en 
                         <LabelDeleted is_visible="@model.is_deleted" />
                         <LabelActive is_visible="@(!model.is_deleted && model.status)" />
                         <LabelInActive is_visible="@(!model.is_deleted && !model.status)" />
@@ -27,19 +27,19 @@
                                      File="@(new AttachFilesModel() { customer_id = id })"
                                      IsVisible="@(!model.is_deleted)" />
 
+
                 <SplitButton roles="@gv.GetRole("customer_add")" alignment="left" url="customer/new" main_button_text="New">
                     <SplitButtonItem roles="@gv.GetRole("customer_add")" url="customer/new">New Customer</SplitButtonItem>
                     <SplitButtonItem roles="@gv.GetRole("customer_add")" url="@($"customer/{model.id}/visit/new")">New Customer Visit</SplitButtonItem>
                     <SplitButtonItem roles="@gv.GetRole("sale_add")" url="@($"sale/customer/{id}")">New Sale Invoice</SplitButtonItem>
                 </SplitButton>
-
                 <MoreButton is_loading="@model.is_loading">
                     <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">Clone</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => OnToogleStatus(model))">Inactive</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="@(() => OnToogleStatus(model))">Active</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@(() => OnDelete(model))">Delete</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_restore")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@(() => OnRestore(model))">Restore</MoreButtonItem>
-                     
+
                 </MoreButton>
                 <RefreshButton OnClick="@LoadData" />
             </HeaderRight>

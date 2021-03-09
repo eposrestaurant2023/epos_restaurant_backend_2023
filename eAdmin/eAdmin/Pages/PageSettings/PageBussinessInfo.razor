@@ -1,16 +1,17 @@
 ﻿@page "/businessinformation"
 @inject IJSRuntime js
-@inherits PageCore;
+@inherits PageCore
+
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Company Information"></Title>
+    <Title Value="@lang["Business Information"]"></Title>
     <PageContainer roles="@gv.GetRole("business_information")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Business Information
+                        @lang["Business Information"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -18,25 +19,25 @@
 
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="Business Information">
+                    <UIContainerBox Title="@lang["Business Information"]">
                       
-                            <UISummaryBox ImageUrl="@model.company_logo" ShowImage="true" Icon="edit" OnClick="@(()=>OnEdit_BusinessInfo(model.id))">
+                            <UISummaryBox ImageUrl="@model.company_logo" ShowImage="true">
                                 <ContentLeft>
                                     <table>
                                         <tr>
-                                            <th>Company Name</th>
+                                            <th>@lang["Company Name"]</th>
                                             <td>@model.company_name</td>
                                         </tr>
                                         <tr>
-                                            <th>Company Name KH</th>
+                                            <th>@lang["Company Name KH"]</th>
                                             <td>@model.company_name_kh</td>
                                         </tr>
                                         <tr>
-                                            <th>Mobile Phone</th>
+                                            <th>@lang["Mobile Phone"]</th>
                                             <td>@model.mobile_phone</td>
                                         </tr>
                                         <tr>
-                                            <th>Office Phone</th>
+                                            <th>@lang["Office Phone"]</th>
                                             <td>@model.office_phone</td>
                                         </tr>
                                     </table>
@@ -44,27 +45,27 @@
                                 <ContentRight>
                                     <table>
                                         <tr>
-                                            <th>Contact Name</th>
+                                            <th>@lang["Contact Name"]</th>
                                             <td>@model.contact_name</td>
                                         </tr>
                                         <tr>
-                                            <th>Phone Number</th>
+                                            <th>@lang["Contact Phone Number"]</th>
                                             <td>@model.contact_phone_number</td>
                                         </tr>
                                         <tr>
-                                            <th>Office Phone</th>
+                                            <th>@lang["Contact Office Phone"]</th>
                                             <td>@model.contact_office_number</td>
                                         </tr>
 
                                         <tr>
-                                            <th>Office Emai</th>
+                                            <th>@lang["Office Email"]</th>
                                             <td>
                                                 @model.email
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <th>Contact Email</th>
+                                            <th>@lang["Contact Email"]</th>
                                             <td>
                                                 @model.contact_email
                                             </td>
@@ -75,54 +76,52 @@
                     </UIContainerBox>
 
                     @*business branch*@
-                    <UIContainerBox Title="Brance Information" is_show_add_button="true" OnAddClick="@OnOpenModel">
+                    <UIContainerBox Title="@lang["Brance Information"]">
                         @foreach (var d in models)
                         {
-                            <UISummaryBox ImageUrl="@d.logo" ShowImage="true" Icon="edit" OnClick="@(()=>OnEdit(d.id))">
+                            <UISummaryBox ImageUrl="@d.logo" ShowImage="true">
 
                                 <ContentLeft>
                                     <table>
                                         <tr>
-                                            <th>Business Branch Name Kh</th>
+                                            <th>@lang["Business Branch Name Kh"]</th>
                                             <td>@d.business_branch_name_kh</td>
                                         </tr>
                                         <tr>
-                                            <th>Business Branch Name En</th>
+                                            <th>@lang["Business Branch Name En"]</th>
                                             <td>@d.business_branch_name_en</td>
                                         </tr>
                                         <tr>
-                                            <th>Mobile Phone</th>
+                                            <th>@lang["Mobile Phone"]</th>
                                             <td>@d.phone_1</td>
                                         </tr>
                                         <tr>
-                                            <th>Office Phone</th>
+                                            <th>@lang["Office Phone"]</th>
                                             <td>@d.phone_2</td>
                                         </tr>
-
                                     </table>
-                                    <div>
-                                        <LabelActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                        <LabelInActive roles="@gv.GetRole("business_edit")" OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-
-                                    </div>
+                                <div>
+                                    <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" />
+                                    <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                </div>
                                 </ContentLeft>
                                 <ContentRight>
                                     <table>
                                         <tr>
-                                            <th>Email</th>
+                                            <th>@lang["Email"]</th>
                                             <td>@d.email</td>
                                         </tr>
                                         <tr>
-                                            <th>WebSite</th>
+                                            <th>@lang["Website"]</th>
                                             <td>@d.website</td>
                                         </tr>
                                         <tr>
-                                            <th>Address</th>
+                                            <th>@lang["Address"]</th>
                                             <td>@d.address_en</td>
                                         </tr>
                                         <tr>
-                                            <th>Note</th>
-                                            <td>@d.note</td>
+                                            <th>@lang["Note"]</th>
+                                            <td><div class="text-area">@d.note</div></td>
                                         </tr>
                                     </table>
                                 </ContentRight>
@@ -132,42 +131,6 @@
                 </UIGridCenter>
             </PageBody>
     </PageContainer>
-
-        <EditFormContext is_submitting="@is_saving" model="@business_brnach" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle">
-        
-            <FileUpload @bind-ImageUrl="@business_brnach.logo" />
-            <TextInput label="Business Branch Name En" @bind-text="@business_brnach.business_branch_name_en">
-                <ValidationMessage For="@(() => business_brnach.business_branch_name_en )" />
-            </TextInput>
-            <TextInput label="Business Branch Name Kh" @bind-text="@business_brnach.business_branch_name_kh" />
-            <TextInput label="Mobile Phone" @bind-text="@business_brnach.phone_1" />
-            <TextInput label="Office Phone" @bind-text="@business_brnach.phone_2" />
-            <TextInput label="Email" @bind-text="@business_brnach.email" />
-            <TextInput label="WebSite" @bind-text="@business_brnach.website" />
-            <TextInput type="textarea" label="Address" @bind-text="@business_brnach.address_en" />
-            <TextInput type="textarea" label="Note" @bind-text="@business_brnach.note" />          
-        </EditFormContext>
- 
-        <EditFormContext is_submitting="@is_saving" model="@model" Save_Click="@Save_Click_Businessinfo" Cancel_Click="@Oncanel_Business_Info" is_opened="@ShowModel_Business_Infor" title="@title" modal_width="800px">
-            <FileUpload @bind-ImageUrl="@model.company_logo" />
-            <TextInput label="Company Name" @bind-text="@model.company_name">
-                <ValidationMessage For="@(() => model.company_name)" />
-            </TextInput>
-            <TextInput label="Company Name Kh" @bind-text="@model.company_name_kh">
-                <ValidationMessage For="@(() => model.company_name_kh )" />
-            </TextInput>
-            <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
-            <TextInput label="Office Phone" @bind-text="@model.office_phone" />
-            <TextInput label="Contact Name" @bind-text="@model.contact_name" />
-            <TextInput label="Phone Number" @bind-text="@model.contact_phone_number" />
-            <TextInput label="Office Phone" @bind-text="@model.contact_office_number" />
-            <TextInput label="Office Emai" @bind-text="@model.email" />
-            <TextInput label="Contact Email" @bind-text="@model.contact_email" />
-            <TextInput type="textarea" label="Address" @bind-text="@business_brnach.address_en" />
-            <TextInput type="textarea" label="Note" @bind-text="@business_brnach.note" />
-        
-        </EditFormContext>
-    
 }
 
 @code{
@@ -210,129 +173,6 @@
 
         }
         is_loading_data = false;
-
-    }
-
-
-
-    async Task Save_Click()
-    {
-        is_saving = true;
-        var res = await http.ApiPost("BusinessBranch/save", business_brnach);
-        if (res.IsSuccess)
-        {
-            toast.Add("Save sucessfully", MatToastType.Success);
-
-            await LoadData();
-        }
-        else
-        {
-            toast.Add(res.Content.ToString(), MatToastType.Warning);
-        }
-
-        ShowModal = false;
-        business_brnach = new BusinessBranchModel();
-        is_saving = false;
-
-    }
-
-    async Task Save_Click_Businessinfo()
-    {
-        is_saving = true;
-        var res = await http.ApiPost("BusinessInformation/save", model);
-        if (res.IsSuccess)
-        {
-            toast.Add("Save sucessfully", MatToastType.Success);
-
-            gv.business_info = JsonSerializer.Deserialize<BusinessInformationModel>(res.Content.ToString());
-        }
-        else
-        {
-            toast.Add(res.Content.ToString(), MatToastType.Warning);
-        }
-
-        ShowModel_Business_Infor = false;
-
-        is_saving = false;
-
-    }
-
-    void OnOpenModel()
-    {
-        title = "Add New Business Branch";
-        business_brnach = new BusinessBranchModel();
-        ShowModal = !ShowModal;
-    }
-
-    void Oncanel_Business_Info()
-    {
-        ShowModel_Business_Infor = false;
-    }
-
-    async Task OnEdit(Guid id)
-    {
-        is_loading_data = true;
-        var get_result = await http.ApiGet($"BusinessBranch({id})");
-        if (get_result.IsSuccess)
-        {
-            business_brnach = JsonSerializer.Deserialize<BusinessBranchModel>(get_result.Content.ToString());
-            title = "Edit" + ": " + business_brnach.business_branch_name_en;
-            ShowModal = true;
-        }
-        is_loading_data = false;
-    }
-
-
-
-    async Task OnEdit_BusinessInfo(int id)
-    {
-        is_loading_data = true;
-        var get_result = await http.ApiGet($"BusinessInformation({id})");
-        if (get_result.IsSuccess)
-        {
-            gv.business_info = JsonSerializer.Deserialize<BusinessInformationModel>(get_result.Content.ToString());
-            ModalTitle = "Edit" + ": " + model.company_name;
-            ShowModel_Business_Infor = true;
-        }
-        is_loading_data = false;
-    }
-
-    async Task OnDelete(BusinessBranchModel v)
-    {
-        is_loading_data = true;
-        v.is_loading = true;
-        if (await js.Confirm("Are You Sure To Delete"))
-        {
-            var postr = await http.ApiPost($"{ControllerApi}/delete/{v.id}");
-            if (postr.IsSuccess)
-            {
-                await js.Toast("Deleted Sucessfully", AlertType.success);
-            }
-        }
-        v.is_loading = false;
-        is_loading_data = false;
-    }
-
-    void AddNew()
-    {
-        business_brnach = new BusinessBranchModel();
-        ShowModal = true;
-    }
-
-    async Task Activebutton(BusinessBranchModel b)
-    {
-
-        b.is_change_status = true;
-        await Task.Delay(1000);
-        b.status = !b.status;
-
-        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
-        if (resp.IsSuccess)
-        {
-            toast.Add("Change status successfully", MatToastType.Success);
-        }
-
-        b.is_change_status = false;
 
     }
 }
