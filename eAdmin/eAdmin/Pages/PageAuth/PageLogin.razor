@@ -7,7 +7,12 @@
 @inject IStringLocalizer<Resource> lang
 @inject IConfiguration config
 
-
+@if (string.IsNullOrEmpty(server_config.project_id))
+{
+    <Redirect url="config"/>
+}
+else
+{
 
 <AuthorizeView>
     <Authorized>
@@ -24,11 +29,11 @@
                         <div>
                             <div class="uk-form-control">
                                 <input id="username" @bind="@model.Username" type="text" placeholder="Enter username" class="uk-input" />
-                                <ValidationMessage For="@(()=>model.Username)" />
+                                <ValidationMessage For="@(() => model.Username)" />
                             </div>
                             <div class="uk-form-control">
                                 <input id="password" @bind="@model.Password" type="password" placeholder="Enter password" class="uk-input" />
-                                <ValidationMessage For="@(()=>model.Password)" />
+                                <ValidationMessage For="@(() => model.Password)" />
                             </div>   
                             <div class="uk-form-control">
                                 <eAdmin.Pages.PageTranslate.CultureSelector />
@@ -64,12 +69,30 @@
         <a href="http://esoftix.com/" class="cu_color">Power By eSoftix</a>
     </div>
 </div>
+}
+
 @code {
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
     AuthenticateModel model = new AuthenticateModel();
     string Message = "";
     bool IsShowMessage = false;
     bool IsSpinning = false;
+
+    ServerConfigModel server_config = new ServerConfigModel();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiGet("ServerConfig");
+        if (resp.IsSuccess)
+        {
+            server_config = JsonSerializer.Deserialize<ServerConfigModel>(resp.Content.ToString());
+
+        }
+        is_loading = false;
+
+    }
+
 
     public async Task LoginUser()
     {
@@ -90,10 +113,10 @@
             if (user != null)
             {
                 try
-                { 
+                {
                     var user_convert = EncryptProvider.Base64Encrypt(resp.Content.ToString());
                     await storageService.SetItemAsync("_Authorization", user_convert);
-                    await authenticationStateProvider.GetAuthenticationStateAsync(); 
+                    await authenticationStateProvider.GetAuthenticationStateAsync();
                 }
                 catch (Exception ex)
                 {

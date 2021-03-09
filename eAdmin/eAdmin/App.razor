@@ -1,10 +1,14 @@
+ 
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                    <Redirect url="auth/login" />
+
+                    <Redirect url="startup" />
+
                 </NotAuthorized>
+                
             </AuthorizeRouteView>
         </Found>
         <NotFound>
@@ -15,3 +19,5 @@
     </Router>
     <MatToastContainer />
 </CascadingAuthenticationState>
+
+ 

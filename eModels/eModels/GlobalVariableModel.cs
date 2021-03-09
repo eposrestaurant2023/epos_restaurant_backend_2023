@@ -192,8 +192,23 @@ namespace eModels
             {
                 return get_setting_value(3);
             }
+        } 
+        
+        public string server_id
+        {
+            get
+            {
+                return get_setting_value(58);
+            }
         }
 
+        public string project_id
+        {
+            get
+            {
+                return get_setting_value(57);
+            }
+        }
 
         private CurrencyModel get_currency(bool is_main = true)
         {
