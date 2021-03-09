@@ -32,22 +32,10 @@
             </TabHeader>
             <TabBody>
                 <TabItem>
-                    @*<div class="uk-grid-collapse cus_selected_button" uk-grid>
-                            @foreach (var n in iconfig["top_number"].ToString().Split(","))
-                            {
-                                <div class="uk-width-1-3">
-                                    <Button custom_class="@(select_order == n ? "selected" : "")" width="100%" class_name="bg_top">@n</Button>
-                                </div>
-
-                            }
-                        </div>*@
-
-
-
-                    <Spacing Number="186" />
+                    <ComDashboardRecentReceipt business_branch_id="@bussiness_branch_id"/>
                 </TabItem>
                 <TabItem>
-                    <Spacing Number="186" />
+                    @*jj*@
                 </TabItem>
 
             </TabBody>
