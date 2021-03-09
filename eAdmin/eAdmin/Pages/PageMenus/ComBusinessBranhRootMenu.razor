@@ -28,7 +28,6 @@
 
     async Task MenuClick(MenuModel m)
     {
-
         if (menus.Where(r => r.is_selected == true && r.parent_id == null).Any()) {
             menus.Where(r => r.is_selected == true && r.parent_id == null).FirstOrDefault().is_selected = false;
         }

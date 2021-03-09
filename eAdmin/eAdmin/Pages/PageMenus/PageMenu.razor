@@ -60,16 +60,12 @@
             string url = $"{controller_api}?";
             url += $"$expand=product_menus($expand=product($select=id,product_category_id,photo,product_name_en,product_name_kh);$filter=is_deleted eq false)";
             url = url + GetFilter(state.filters);
-
-
             return url;
         }
     }
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-
-
         state.filters.RemoveAll(r=>r.key== "business_branch_id" || r.key=="is_deleted");
 
         state.filters.Add(new FilterModel()
@@ -84,7 +80,6 @@
             key = "is_deleted",
             value1 ="false"
         });
-
 
         await LoadData();
         is_loading = false;
@@ -128,15 +123,20 @@
 
     void AddRootMenu()
     {
+        menu = new MenuModel();
         show_add_menu = !show_add_menu;
     }
+
     void OnSearch()
     {
 
     }
+
     void OnGetMenu(MenuModel _menu)
     {
         menu = _menu;
+        menus = new List<MenuModel>();
+        LoadData();
     }
 }
 
