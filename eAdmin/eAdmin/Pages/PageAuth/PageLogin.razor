@@ -2,17 +2,10 @@
 @layout BlankLayout
 @inject ILocalStorageService storageService
 @inject AuthenticationStateProvider  authenticationStateProvider
-@inject IHttpService  http;
+@inject IHttpService http;
 @inject NavigationManager nav;
 @inject IStringLocalizer<Resource> lang
 @inject IConfiguration config
-
-@if (string.IsNullOrEmpty(server_config.project_id))
-{
-    <Redirect url="config"/>
-}
-else
-{
 
 <AuthorizeView>
     <Authorized>
@@ -69,7 +62,6 @@ else
         <a href="http://esoftix.com/" class="cu_color">Power By eSoftix</a>
     </div>
 </div>
-}
 
 @code {
 
