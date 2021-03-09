@@ -18,21 +18,21 @@
         </HeaderLeft>
         <HeaderRight ClassName="uk-flex-top">
             <div class="uk-text-right">
-                <h2 class="uk-text-uppercase uk-margin-small-bottom">Invoice</h2>
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["Invoice"]</h2>
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
                     <AuthorizeView Roles="@gv.GetRole("sale_view")">
-                        <span>INV# @sale.document_number</span>
+                        <span>@lang["INV #"] @sale.document_number</span>
                     </AuthorizeView>
                     }
                     else
                     {
-                        <span>INV# @sale.document_number</span>
+                <span>@lang["INV#"] @sale.document_number</span>
                     }
 
                 </div>
-                <div>Balance Due</div>
+                <div>@lang["Balance Due"]</div>
                 <div class="font-xxl"> @sale.balance.ToString(gv.currency_format)</div>
             </div>
         </HeaderRight>
@@ -43,23 +43,23 @@
         </div>
         <div class="uk-width-auto">
             <div class="box-invoice-header-info">
-                <div class="invoice-header-title">Invoice Information</div>
+                <div class="invoice-header-title">@lang["Invoice Information"]</div>
                 <table class="invoice_header_description">
                     <tr>
-                        <td>Invoice Date:</td>
+                        <td>@lang["Invoice Date"]:</td>
                         <td>@sale.working_date.ToString(gv.date_format)</td>
                     </tr> 
                     @if (sale.business_branch != null)
                     {
                         <tr>
-                            <td>Business Branch:</td>
+                            <td>@lang["Business Branch"]:</td>
                             <td>@sale.business_branch?.business_branch_name_en</td>
                         </tr>
                     }
                     @if (sale.outlet != null)
                     {
                         <tr>
-                            <td>Outlet Name:</td>
+                            <td>@lang["Outlet Name"]:</td>
                             <td>@sale.outlet?.outlet_name_en</td>
                         </tr>
                     }

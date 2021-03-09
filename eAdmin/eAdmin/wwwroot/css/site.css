@@ -338,6 +338,9 @@
 .cus_margin_right .bg_profile_image {
     margin-right: 10px;
 }
+.bg_profile_image {
+    display: inline-block;
+}
 .cus_overflow_scraoll .custom-modal.modal-normal .modal-body {
     max-height: 70vh;
     overflow: unset;
