@@ -19,7 +19,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         public string api_url { get {
                 string url = $"sale({id})?";
                 url = url + "$expand=customer,";
-                url = url + "sale_products($expand=product,unit),";
+                url = url + "sale_products($expand=product),";
                 url = url + "payments($expand=payment_type),";
                 url = url + "outlet,"; 
                 url = url + "business_branch";
