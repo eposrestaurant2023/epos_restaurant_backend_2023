@@ -338,6 +338,9 @@
 .cus_margin_right .bg_profile_image {
     margin-right: 10px;
 }
+.bg_profile_image {
+    display: inline-block;
+}
 .cus_overflow_scraoll .custom-modal.modal-normal .modal-body {
     max-height: 70vh;
     overflow: unset;
@@ -1319,6 +1322,7 @@ a, a:hover {
 .bg_viode_oeder {
     background: #FFBF00;
 }
+ 
 .title-kpi {
     font-size: 15px;
     text-transform: capitalize;
@@ -1335,13 +1339,15 @@ a, a:hover {
     display: block;
     width: 100%;
     border: 0;
-    background-color: #f8f8f8;
+    background-color: #ececec;
     margin-bottom: 10px;
     height: 15px;
     border-radius: 500px;
     overflow: hidden;
 }
-
+.progress_bar > div {
+    padding: 0px 8px;
+}
 
 
 #top-head > .uk-container {

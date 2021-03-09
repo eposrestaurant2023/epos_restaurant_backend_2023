@@ -11,7 +11,7 @@
     <Spacing Number="20" />
     <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .uk-card">
         <div class="uk-width-2-3">
-            <ComDashboardHourlySaleRevenue business_branch_id="@bussiness_branch_id" />
+            <ComDashboardHourlySaleRevenue business_branch_id="@business_branch_id" />
         </div>
         <div class="uk-width-1-3">
             <ComDashboardSaleIndicator data="kpi" />
@@ -19,7 +19,7 @@
     </div>
 
     <Spacing Number="20" />
-    <ComDashboardDailySaleRevenue business_branch_id="@bussiness_branch_id" />
+    <ComDashboardDailySaleRevenue business_branch_id="@business_branch_id" />
 
 
     <Spacing Number="20" />
@@ -32,22 +32,10 @@
             </TabHeader>
             <TabBody>
                 <TabItem>
-                    @*<div class="uk-grid-collapse cus_selected_button" uk-grid>
-                            @foreach (var n in iconfig["top_number"].ToString().Split(","))
-                            {
-                                <div class="uk-width-1-3">
-                                    <Button custom_class="@(select_order == n ? "selected" : "")" width="100%" class_name="bg_top">@n</Button>
-                                </div>
-
-                            }
-                        </div>*@
-
-
-
-                    <Spacing Number="186" />
+                    <ComDashboardRecentReceipt business_branch_id="@business_branch_id"/>
                 </TabItem>
                 <TabItem>
-                    <Spacing Number="186" />
+                    <ComDashboardTopSaleProduct business_branch_id="@business_branch_id"/>
                 </TabItem>
 
             </TabBody>
@@ -56,7 +44,7 @@
 }
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public string bussiness_branch_id { get; set; }
+    [Parameter] public string business_branch_id { get; set; }
 
     int top = 10;
     string select_order = "10";
@@ -75,7 +63,7 @@
 
     async Task LoadKPI()
     {
-        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_kpi_json", procedure_parameter = $"'{bussiness_branch_id}'" });
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_kpi_json", procedure_parameter = $"'{business_branch_id}'" });
         if (resp.IsSuccess)
         {
             var data = JsonSerializer.Deserialize<List<DashboardKPIModel>>(resp.Content.ToString());

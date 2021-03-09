@@ -1,4 +1,5 @@
-﻿using eModels;
+﻿using DeviceId;
+using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace eAPI.Controllers
 {
     [ApiController]
     [Route("api")]
+
     public class AppController : ControllerBase
     {
         public IConfiguration Configuration { get; }
@@ -200,6 +202,32 @@ namespace eAPI.Controllers
         public ActionResult<bool> IsAPIWorking()
         {
             return Ok();
+        } 
+       
+        
+        [HttpGet("ServerConfig")]
+         [AllowAnonymous]
+        public ActionResult<ServerConfigModel> ServerConfig()
+        {
+            var data = db.Settings.Where(r => r.id == 57 || r.id == 58);
+
+            ServerConfigModel s = new ServerConfigModel();
+            s.project_id = data.Where(r => r.id == 57).FirstOrDefault().setting_value;
+            s.server_id= data.Where(r => r.id == 58).FirstOrDefault().setting_value;
+            return Ok(s);
+        } 
+        
+        [HttpGet("ServerID")]
+         [AllowAnonymous]
+        public ActionResult<string> ServerID()
+        {
+            string deviceId = new DeviceIdBuilder()
+            .AddProcessorId()
+            .AddMotherboardSerialNumber()
+            .AddSystemDriveSerialNumber()
+            .ToString();
+            return Ok(deviceId);
         }
+         
     }
 }

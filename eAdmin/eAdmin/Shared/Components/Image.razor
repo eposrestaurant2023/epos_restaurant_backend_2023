@@ -2,7 +2,7 @@
 {
     @if (IsLightBox)
     {
-        <div uk-lightbox="toggle: div">
+        <div uk-lightbox="toggle: div" class="uk-display-inline-block">
             <div @attributes="@CustomAttributes" href="@PopupImageUrl" class="bg_profile_image @ClassName" style="width: @Width !important; height: @Height !important; background-size: cover;" data-src="@ImageUrl" uk-img uk-tooltip="@Tooltip"></div>
         </div>
     }

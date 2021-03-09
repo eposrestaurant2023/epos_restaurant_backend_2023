@@ -1,0 +1,33 @@
+﻿@layout BlankLayout
+@page "/startup";
+@inject IHttpService http;
+@if (!is_loading)
+{
+@if (string.IsNullOrEmpty(server_config.project_id))
+{
+    <Redirect url="config" />
+}
+else
+{
+    <Redirect url="login" />
+
+}
+}
+
+
+@code {
+    ServerConfigModel server_config = new ServerConfigModel();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiGet("ServerConfig");
+        if (resp.IsSuccess)
+        {
+            server_config = JsonSerializer.Deserialize<ServerConfigModel>(resp.Content.ToString());
+
+        }
+        is_loading = false;
+
+    }
+} 

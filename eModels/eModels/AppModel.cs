@@ -203,4 +203,10 @@ namespace eModels
         public decimal total_order { get; set; }
         public decimal total_deleted_order { get; set; }
     }
+
+    public class ServerConfigModel
+    {
+        public string project_id { get; set; }
+        public string server_id { get; set; }
+    }
 }

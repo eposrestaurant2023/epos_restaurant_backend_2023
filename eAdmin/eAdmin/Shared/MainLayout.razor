@@ -1,9 +1,16 @@
 ﻿@inherits LayoutBase
+
+
+
 <AuthorizeView>
     <Authorized>
         @if (!IsLoading)
         {
-            <CascadingValue Value="gv">
+        <CascadingValue Value="gv">
+            @if (!string.IsNullOrEmpty(gv.project_id))
+            {
+
+
                 <div class="@(is_menu_open ? "app-layout is_open" : "app-layout") ">
                     <div class="sidebar">
                         <NavMenu />
@@ -36,7 +43,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <RefreshButton OnClick="@(async()=>await LoadData())" />
+                                                    <RefreshButton OnClick="@(async () => await LoadData())" />
                                                 }
                                             </li>
                                         </ul>
@@ -55,7 +62,7 @@
 
                                                 <div class="uk-navbar-dropdown" style="width: 250px;" id="user_profile">
                                                     <div>
-                                                        <div style="background-image:url(@(image_base_url+ gv.current_login_user.photo))" class="profile_img_dropdown"></div>
+                                                        <div style="background-image:url(@(image_base_url + gv.current_login_user.photo))" class="profile_img_dropdown"></div>
                                                     </div>
                                                     <div class="uk-text-center">
                                                         <div class="text-title">@gv.current_login_user.full_name</div>
@@ -64,8 +71,8 @@
                                                     <div><a @onclick="ToggleUserModal" uk-toggle="target: #user_profile" class="link-button"><Icon icon="settings" /> Manage your account</a></div>
 
 
-                                                    
-                                                    <div class="help-support"><a href="@gv.settings.Where(r=>r.id == 7).Select(r=>r.setting_title).FirstOrDefault()" target="_blank"><Icon icon="help_outline" />Help and Support</a></div>
+
+                                                    <div class="help-support"><a href="@gv.settings.Where(r => r.id == 7).Select(r => r.setting_title).FirstOrDefault()" target="_blank"><Icon icon="help_outline" />Help and Support</a></div>
                                                     <div>
                                                         <LoginDisplay />
                                                     </div>
@@ -77,7 +84,7 @@
                                 </nav>
                             </div>
                         </header>
-                     
+
                         <div class="uk-position-relative min_heigth_cus">
                             @Body
                             @if (is_dialog_open)
@@ -87,7 +94,12 @@
                         </div>
                     </div>
                 </div>
-            </CascadingValue>
+            }
+            else
+            {
+                <Redirect url="login"/>
+            }
+        </CascadingValue>
         }
     </Authorized>
     <NotAuthorized>
@@ -95,3 +107,4 @@
     </NotAuthorized>
 </AuthorizeView>
 
+ 
