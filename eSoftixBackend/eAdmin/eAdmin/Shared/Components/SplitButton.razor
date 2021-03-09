@@ -4,31 +4,32 @@
     {
         @if (HaveChildContent)
         {
-    <div class="uk-button-group button_group" style="width:@width">
-        @if (!string.IsNullOrWhiteSpace(url))
-        {
-            <LinkButton url="@url" icon="add">@main_button_text</LinkButton> 
-        }
-        else
-        {
-            <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
-        }
-        <button class="btn-last uk-button uk-button-primary" type="button"><Icon icon="arrow_drop_down" /></button>
-        <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
-            <ul class="uk-nav uk-dropdown-nav">
-                @ChildContent
-            </ul>
-        </div>
-    </div>
+            <div class="split-button uk-button-group button_group uk-button-primary button-large" style="width:@width">
+                @if (!string.IsNullOrWhiteSpace(url))
+                {
+                    <LinkButton url="@url" icon="add">@main_button_text</LinkButton>
+                }
+                else
+                {
+                    <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
+                }
+                <button class="btn-last uk-button uk-button-primary split-button-drop-down btn-no-text" type="button"><Icon icon="arrow_drop_down" /></button>
+                <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+                    <ul class="uk-nav uk-dropdown-nav">
+                        @ChildContent
+                    </ul>
+                </div>
+            </div>
         }
         else
         {
             @if (!string.IsNullOrWhiteSpace(url))
             {
-                <LinkButton url="@url" icon="add">@main_button_text</LinkButton>
+                <LinkButton url="@url" icon="add" Class_Name="uk-button-primary button-large">@main_button_text</LinkButton>
             }
-            else { 
-                <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
+            else
+            {
+                <Button icon="add" OnClick="@OnClick" custom_class="button-large">@main_button_text</Button>
             }
         }
     }
@@ -38,51 +39,51 @@
             <Authorized>
                 @if (HaveChildContent)
                 {
-                <div class="uk-button-group button_group" style="width:@width">
-                    @if (!string.IsNullOrWhiteSpace(url))
-                    {
-                        <LinkButton url="@url" icon="add">@main_button_text</LinkButton>
-                    }
-                    else
-                    {
-                        <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
-                    }
-                    <button class="btn-last uk-button uk-button-primary" type="button"><Icon icon="arrow_drop_down" /></button>
-                    <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
-                        <ul class="uk-nav uk-dropdown-nav">
-                            @ChildContent
-                        </ul>
+                    <div class="split-button uk-button-group button_group" style="width:@width">
+                        @if (!string.IsNullOrWhiteSpace(url))
+                        {
+                            <LinkButton url="@url" icon="add" Class_Name="uk-button-primary button-large">@main_button_text</LinkButton>
+                        }
+                        else
+                        {
+                            <Button icon="add" OnClick="@OnClick" custom_class="button-large">@main_button_text</Button>
+                        }
+                        <button class="btn-last uk-button uk-button-primary split-button-drop-down btn-no-text" type="button" style="width:45px;"><Icon icon="arrow_drop_down" className="icon-" /></button>
+                        <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+                            <ul class="uk-nav uk-dropdown-nav">
+                                @ChildContent
+                            </ul>
+                        </div>
                     </div>
-                </div>
                 }
                 else
                 {
                     @if (!string.IsNullOrWhiteSpace(url))
                     {
-                        <LinkButton url="@url" icon="add">@main_button_text</LinkButton>
+                        <LinkButton url="@url" icon="add" Class_Name="uk-button-primary button-large">@main_button_text</LinkButton>
                     }
                     else
                     {
-                        <Button icon="add" OnClick="@OnClick">@main_button_text</Button>
+                        <Button icon="add" OnClick="@OnClick" custom_class="button-large">@main_button_text</Button>
                     }
                 }
             </Authorized>
             <NotAuthorized>
                 @if (HaveChildContent)
                 {
-                <div class="uk-button-group button_group" style="width:@width">
-                    <Button icon="add">@main_button_text</Button>
-                    <button class="btn-last uk-button uk-button-primary" type="button"><Icon icon="arrow_drop_down" /></button>
-                    <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
-                        <ul class="uk-nav uk-dropdown-nav">
-                            @ChildContent
-                        </ul>
+                    <div class="split-button uk-button-group button_group" style="width:@width">
+                        <Button icon="add" custom_class="button-large">@main_button_text</Button>
+                        <button class="btn-last uk-button uk-button-primary split-button-drop-down btn-no-text" type="button" style="width:45px;"><Icon icon="arrow_drop_down" /></button>
+                        <div style="text-align: @alignment" uk-drop="mode: click; boundary: ! .uk-button-group; boundary-align: true;">
+                            <ul class="uk-nav uk-dropdown-nav">
+                                @ChildContent
+                            </ul>
+                        </div>
                     </div>
-                </div>
                 }
                 else
                 {
-                    <Button icon="add" >@main_button_text</Button>
+                    <Button icon="add" custom_class="button-large">@main_button_text</Button>
                 }
             </NotAuthorized>
         </AuthorizeView>
