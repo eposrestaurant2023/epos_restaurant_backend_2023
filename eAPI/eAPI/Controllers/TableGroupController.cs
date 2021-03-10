@@ -57,6 +57,21 @@ namespace eAPI.Controllers
 
 
         }
+        [HttpPost("SaveAll")]
+        [AllowAnonymous]
+        public async Task<ActionResult<string>> SaveAll([FromBody] List<TableGroupModel> models)
+        {
+            try
+            {
+                db.TableGroups.UpdateRange(models);
+                await db.SaveChangesAsync();
+                return Ok(models);
+            }
+            catch
+            {
+                return BadRequest();
+            } 
+        }
 
 
         [HttpPost]

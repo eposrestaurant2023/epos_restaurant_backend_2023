@@ -1,0 +1,27 @@
+﻿
+    <div class="uk-form-controls">
+        <span>Top By </span>
+        <select value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: 100px;">
+            <option value="amount">Amount</option> 
+            <option value="quantity">Quantity</option>
+        </select>
+        @ChildContent
+    </div>
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string selected_value { get; set; } = "amount";
+    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
+    public string SelectedValue
+    {
+        get
+        {
+            return selected_value == "" ? "amount": selected_value;
+        }
+    }
+    async Task SelectedValueChange(string n)
+    {
+        selected_value = n;
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+
+}

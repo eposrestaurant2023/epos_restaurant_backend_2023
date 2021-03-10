@@ -1,13 +1,19 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
 @inject NavigationManager nav
-
+<div style="margin-bottom: 15px;" class="uk-flex uk-flex-right"> 
+    <SelectProductTopNumber selected_valueChanged="@OnChangeTopNumber"/>
+    <div class="uk-margin-left">
+        <SelectProductTopBy selected_valueChanged="@OnChangeTopBy" />
+    </div>
+</div>
 <Com is_visible="@(data != null)">
     <Table Items="@data"
            ShowPagination="false"
            ShowTotalCount="false"
            ShowPager="false"
-           ShowCounter="false"
+           ShowCounter="true"
+           isLoading="@is_loading"
            ClassName="uk-table-small uk-table-striped uk-table-hover"
            ScrollClass="uk-overflow-auto" >
         <TableHeader>
@@ -37,17 +43,40 @@
     [Parameter] public string business_branch_id { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     bool is_loading = false;
+    int top_number = 10;
+    string top_by = "amount";
     List<TopSaleProductModel> data = new List<TopSaleProductModel>();
     protected override async Task OnInitializedAsync()
     {
+        await LoadData();
+    }
+
+
+    async Task LoadData()
+    {
         is_loading = true;
-        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_top_sale_product_json", procedure_parameter = $"" });
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_top_sale_product_json", procedure_parameter = $"'{business_branch_id}',{top_number},'{top_by}'" });
         if (resp.IsSuccess)
         {
             data = JsonSerializer.Deserialize<List<TopSaleProductModel>>(resp.Content.ToString());
         }
         is_loading = false;
     }
+
+
+
+    async Task OnChangeTopNumber(int number)
+    {
+        top_number = number;
+        await LoadData();
+    }
+       async Task OnChangeTopBy(string column)
+    {
+        top_by = column;
+        await LoadData();
+    }
+
+
 
     public class TopSaleProductModel
     {
