@@ -209,4 +209,14 @@ namespace eModels
         public string project_id { get; set; }
         public string server_id { get; set; }
     }
+
+    public class QuantityAdjustmentModel
+    {
+        
+        public int product_id { get; set; }
+      
+        public int stock_location_id { get; set; }
+        public decimal quantity { get; set; }
+    }
+
 }

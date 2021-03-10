@@ -24,9 +24,9 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
         {
             get
             {
-                if (string.IsNullOrEmpty(state.pager.order_by))
+                if (state.pager.order_by == "id")
                 {
-                    state.pager.order_by = "id";
+                    state.pager.order_by = "working_date";
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
@@ -100,6 +100,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
             if (string.IsNullOrEmpty(api_url))
             {
+                
                 api_url = $"{ControllerApi}";
                 state.api_url = api_url;
                 await SetState(StateKey, state);
