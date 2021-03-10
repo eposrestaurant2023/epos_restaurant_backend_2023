@@ -1,24 +1,23 @@
 ﻿@page "/outletstation"
 @inject IJSRuntime js
-@inherits PageCore;
+@inherits PageCore
+
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Outlet & Station"></Title>
+    <Title Value="@lang["Outlet & Station"]"></Title>
     <PageContainer roles="@gv.GetRole("business_information")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Outlet & Station
+                        @lang["Outlet & Station"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <LinkButton url="outletstation/new" icon="add" background="uk-button-primary" Class_Name="button-large">New</LinkButton>
             </HeaderRight>
         </PageHeader>
-
             <PageBody>
                 <UIGridCenter>
 
@@ -35,18 +34,8 @@
                                 <div class="uk-float-right">
                                     <div>
                                         <span>
-                                            <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                            <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                        </span>
-                                        <span> 
-                                                <span style="margin-right:5px;">
-                                                    <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
-                                                </span>
-                                                <span>
-                                                    <a href="@($"outletstation/edit/{d.id}")">
-                                                        <Icon icon="edit"/>
-                                                    </a>
-                                                </span> 
+                                            <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" />
+                                            <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" />
                                         </span>
                                     </div>
                                 </div>
@@ -57,31 +46,26 @@
                         <div>
                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
-                                    <Th>Station Name en</Th>
-                                    <Th>Station Name Kh</Th>
+                                    <Th>@lang["Station Name En"]</Th>
+                                    <Th>@lang["Station Name Kh"]</Th>
 
                                 </tr>
 
-                                @foreach (var s in d.stations)
-                                {
-                                    <tr>
+                                <ViewEmptyTemplate is_view="@d.stations.Any()" colspan="2">
+                                    @foreach (var s in d.stations)
+                                    {
+                                        <tr>
 
-                                        <td>@s.station_name_en </td>
+                                            <td>@s.station_name_en </td>
 
-                                        <td>@s.station_name_kh</td>
-                                    </tr>
-                                }
-
-
+                                            <td>@s.station_name_kh</td>
+                                        </tr>
+                                    }
+                                </ViewEmptyTemplate>
                             </table>
                         </div>
                     </div>
-                      
-
                     }
-
-
-
                 </UIGridCenter>
             </PageBody>
     </PageContainer>
@@ -122,44 +106,6 @@
         is_loading_data = false;
 
     }
-
-
-    async Task Activebutton(OutletModel b)
-    {
-
-        b.is_change_status = true;
-        await Task.Delay(1000);
-        b.status = !b.status;
-
-        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
-        if (resp.IsSuccess)
-        {
-            toast.Add("Change status successfully", MatToastType.Success);
-        }
-
-        b.is_change_status = false;
-
-    }
-    async Task click_delete(OutletModel d)
-    {
-        d.is_loading = true;
-        if (await js.Confirm("Outlet", "Are you sure you want to delete this this record?", SweetAlertMessageType.question))
-        {
-            var resp = await http.ApiPost(ControllerApi + "/delete/" + d.id);
-
-            if (resp.IsSuccess)
-            {
-                await LoadData();
-                toast.Add("Delete Outlet successfully", MatToastType.Success);
-            }
-            else
-            {
-                toast.Add("Delete Outlet fail", MatBlazor.MatToastType.Warning);
-            }
-
-
-        }
-        d.is_loading = false;
-    }
+ 
 
 }

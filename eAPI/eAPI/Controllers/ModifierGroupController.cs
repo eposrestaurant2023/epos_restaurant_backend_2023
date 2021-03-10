@@ -108,7 +108,7 @@ namespace eAPI.Controllers
                 ModifierGroupModel m = u.FirstOrDefault();
                 m.id = 0;
                 m.created_date = DateTime.Now;
-                m.modifier_group_items.ForEach(r => r.modifier_group_id = 0);
+                m.modifier_group_items.ForEach(r => { r.modifier_group_id = 0; r.id = 0; r.children.ForEach(x => x.id = 0); });
                 m.modifier_group_product_categories.ForEach(r => r.modifer_group_id = 0);
                 return Ok(m);
             }

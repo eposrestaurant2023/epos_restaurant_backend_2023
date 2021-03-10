@@ -1,0 +1,62 @@
+﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
+@inject NavigationManager nav
+
+<Com is_visible="@(data != null)">
+    <Table Items="@data"
+           ShowPagination="false"
+           ShowTotalCount="false"
+           ShowPager="false"
+           ShowCounter="false"
+           ClassName="uk-table-small uk-table-striped uk-table-hover"
+           ScrollClass="uk-overflow-auto" >
+        <TableHeader>
+            <ThAuto>@lang["Product"]</ThAuto> 
+            <ThCenter>@lang["Quantity"]</ThCenter>
+            <ThRight>@lang["Amount"]</ThRight>
+            <th class="uk-width-auto"></th>
+        </TableHeader>
+        <RowTemplate Context="p">
+            <td>
+                <ComProfileInfo url="@($"product/{p.id}")" photo="@p.photo" role="product_management">@p.product_name_en (@p.product_code)</ComProfileInfo>
+            </td>
+            <td>
+                @p.quantity.ToString(gv.quantity_format)
+            </td> 
+            <TdRight>
+                @p.amount.ToString(gv.main_currency_format)
+            </TdRight>
+            <TdCenter>
+                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"product/{p.id}"))" />
+            </TdCenter>
+        </RowTemplate>
+    </Table>
+</Com>
+
+@code {
+    [Parameter] public string business_branch_id { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    bool is_loading = false;
+    List<TopSaleProductModel> data = new List<TopSaleProductModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_top_sale_product_json", procedure_parameter = $"" });
+        if (resp.IsSuccess)
+        {
+            data = JsonSerializer.Deserialize<List<TopSaleProductModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+    public class TopSaleProductModel
+    {
+        public int id { get; set; }
+        public string photo { get; set; }
+        public string product_code { get; set; }
+        public string product_name_en { get; set; }
+        public string product_name_kh { get; set; }
+        public decimal quantity { get; set; }
+        public decimal amount { get; set; }
+    }
+}
