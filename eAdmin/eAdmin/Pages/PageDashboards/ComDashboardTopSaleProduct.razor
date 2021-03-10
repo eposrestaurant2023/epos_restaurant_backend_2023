@@ -41,7 +41,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_top_sale_product_json", procedure_parameter = $"" });
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_top_sale_product_json", procedure_parameter = $"'{business_branch_id}',10,'amount'" });
         if (resp.IsSuccess)
         {
             data = JsonSerializer.Deserialize<List<TopSaleProductModel>>(resp.Content.ToString());
