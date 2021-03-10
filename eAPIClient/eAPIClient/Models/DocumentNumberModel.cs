@@ -10,7 +10,7 @@ namespace eAPIClient.Models
     public class DocumentNumberModel : KeyModel
     {
         public string document_name { get; set; }
-        public int outlet_id { get; set; }
+        public string outlet_id { get; set; }
         public string prefix { get; set; }
         public string format { get; set; }
         public int counter { get; set; }

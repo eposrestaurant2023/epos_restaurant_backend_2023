@@ -64,16 +64,29 @@ namespace eAPIClient.Controllers
         {
             try
             {
+                bool is_new = true;
                 model.customer = null;   
+
                 if(model.id == Guid.Empty)
                 {
                     db.Sales.Add(model);
                 }
                 else
                 {
+                    is_new = false;
                     db.Sales.Update(model);
                 }
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));    
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));   
+                
+                if(!is_new)
+                {
+                    if (model.is_closed==true && (model.document_number == "New" || model.document_number == ""))
+                    {
+                        model.document_number = await GenerateDocumentNumber(model.outlet_id.ToString());
+                        await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    }
+                }
+
                 return Ok(model);
             }
             catch 
@@ -81,6 +94,32 @@ namespace eAPIClient.Controllers
                 return BadRequest();
             }
             
+        }
+
+     
+
+       async Task<string> GenerateDocumentNumber(string outlet_id)
+        {
+
+            var _doc = (from r in db.DocumentNumbers
+                    where
+                          EF.Functions.Like(
+                              (
+                                 (r.outlet_id ?? " ") 
+                              ).ToLower().Trim(), $"%{outlet_id}%".ToLower().Trim())
+                    select r);
+
+            string _result = "";
+
+            if (_doc.Count() > 0)
+            {
+               var _d = _doc.FirstOrDefault();
+                _d.counter += 1;
+                db.DocumentNumbers.Update(_d);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                _result = string.Format(@"{0}{1:"+_d.format+"}{2:"+_d.counter_digit+"}",_d.prefix,DateTime.Now,_d.counter);  
+            }      
+            return _result;
         }
     }
 
