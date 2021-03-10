@@ -16,9 +16,9 @@
                 @foreach (var b in gv.bussiness_branches)
                 {
                 <TabItem>
-                    @if (model.product_menus.Any())
+                    @if (model.product_menus.Where(r=>r.menu.business_branch_id== b.id && r.is_deleted==false).Any())
                     {
-                        <h4>Selected Menu</h4>
+                        <h4>Selected Menus</h4>
                         <div class="box_select_menu">
 
                             @foreach (var m in model.product_menus.Where(r => r.is_deleted == false && r.menu.business_branch_id == b.id))
@@ -62,9 +62,21 @@
 
     async Task OnMenuSelected(MenuModel m)
     {
+
+
+
+
         if (m.is_selected)
         {
-            model.product_menus.Add(new ProductMenuModel() { menu = m, menu_id = m.id });
+            if(!model.product_menus.Where(r => r.menu_id == m.id).Any())
+            {
+                model.product_menus.Add(new ProductMenuModel() { menu = m, menu_id = m.id });
+            }else
+            {
+                model.product_menus.Where(r => r.menu_id == m.id).FirstOrDefault().is_deleted = false;
+            }
+
+
         }else
         {
             var d = model.product_menus.Where(r => r.menu_id == m.id);
@@ -92,5 +104,8 @@
             m.is_deleted = true;
         }
     }
+
+
+
 
 }

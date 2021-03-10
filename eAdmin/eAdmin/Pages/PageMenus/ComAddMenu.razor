@@ -2,10 +2,7 @@
 @inject IMatToaster toast
 @inject IStringLocalizer<Resource> lang
 <EditFormContext is_cancel="true" is_save="true" model="@model" is_opened="@is_opened" title="@title" Cancel_Click="@OnCancel" Save_Click="@Save_Click" is_submitting="@is_saving" modal_width="700px">
-    <div style="word-break:break-word">@menu.id</div>
-    <div style="word-break:break-word">@menu.business_branch_id</div>
-    <div style="word-break:break-word">@menu.root_menu_id</div>
-    <div style="word-break:break-word">@menu.parent_id</div>
+
     <UIGridCenter>
         @if (is_loading)
         {
@@ -53,27 +50,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="uk-width-1-5">
-                        <div class="uk-text-center" style="height: 130px;line-height: 130px;">
-                            <Icon icon="arrow_right_alt" size="45px" icon_color="#757575" />
-                        </div>
-                    </div>
-                    <div class="uk-width-2-5">
-                        <div class="box" style="background:@model.background_color;color:@model.text_color; margin: 0px auto;">
-                            <div class="icon_edit">
-                                <Icon icon="edit" icon_color="@model.text_color" />
-                                <button>
-                                    <Icon icon="check_box" icon_color="@model.text_color" />
-                                </button>
-                            </div>
-                            <div class="ribbon">
-                                <span class="">Select</span>
-                            </div>
-                            <div style="text-align: center; line-height: 130px;">
-                                <span>@(string.IsNullOrEmpty(model.menu_name_en)?"Empty" : model.menu_name_en)</span>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </Grid>
             </UIContainerBox>
         }
@@ -81,10 +58,8 @@
 </EditFormContext>
 @code {
 
-
-    [Parameter] public int root_menu_id { get; set; }
     [Parameter] public int current_menu_id { get; set; }
-    [Parameter] public Guid business_id { get; set; }
+ 
     [Parameter] public bool is_opened { get; set; }
 
     [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
@@ -126,26 +101,14 @@
     async Task Save_Click()
     {
         is_saving = true;
-        if (model.id == 0)
-        {
-            model.business_branch_id = business_id;
-            model.root_menu_id = root_menu_id;
-            if (current_menu_id > 0)
-            {
-                model.parent_id = current_menu_id;
-            }
-            else
-            {
-                model.parent_id = root_menu_id;
-            }
-        }
+        
 
         var res = await http.ApiPost("Menu/save", model);
         if (res.IsSuccess)
         {
             model = JsonSerializer.Deserialize<MenuModel>(res.Content.ToString());
             toast.Add("Save Menu Successfully",MatToastType.Success);
-            await menuChanged.InvokeAsync(menu);
+            await menuChanged.InvokeAsync(model);
             model = new MenuModel();
             is_opened = false;
         }

@@ -61,8 +61,9 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] MenuModel u)
         {
 
+           
             u.parent = null;
-            u.product_menus.ForEach(r => r.product.unit = null);
+           
             if (u.id == 0)
             {
 
@@ -78,8 +79,8 @@ namespace eAPI.Controllers
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             db.Database.ExecuteSqlRaw("exec sp_update_menu_path");
-            
-            return Ok(db.Menus.Find(u.id));
+        
+            return Ok(u);
 
 
         }
