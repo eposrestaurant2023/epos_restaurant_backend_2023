@@ -22,13 +22,13 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
         {
             get
             {
-                if (string.IsNullOrEmpty(state.pager.order_by))
+                if (state.pager.order_by == "id")
                 {
-                    state.pager.order_by = "id";
+                    state.pager.order_by = "created_date";
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=purchase_order($expand=business_branch,stock_location)";
+                url += $"$expand=purchase_order($expand=business_branch,stock_location,vendor)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -177,7 +177,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 {
                     key = "purchase_order/business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
-                    filter_title = "Business Branch",
+                    filter_title = lang["Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.business_branch_ids_filter_1,

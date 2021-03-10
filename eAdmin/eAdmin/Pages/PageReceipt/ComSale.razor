@@ -58,9 +58,9 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="@lang["There is no record."]">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
+                        @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
                         @HeaderTemplate("customer/customer_name", lang["Customer"], "col-auto")
                         @HeaderTemplate("business_branch/business_branch_name_en", lang["Business Branch"])
@@ -71,6 +71,9 @@
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
+                        <TdCenter>
+                            @p.working_date.ToString(gv.date_format)
+                        </TdCenter>
                         <TdCenter>
                             <div><a href="@(is_receipt_list?$"receiptlist/{p.id}":$"voidreceipt/{p.id}")">@p.document_number</a></div>
                         </TdCenter>

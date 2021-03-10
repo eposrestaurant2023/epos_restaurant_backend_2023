@@ -24,13 +24,13 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
         {
             get
             {
-                if (string.IsNullOrEmpty(state.pager.order_by))
+                if (state.pager.order_by == "id")
                 {
-                    state.pager.order_by = "id";
+                    state.pager.order_by = "created_date";
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=sale($select=id,document_number,sale_date;$expand=customer($select=id,customer_code,customer_name_en,customer_name_kh),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh,id)),unit($select=unit_name,id)";
+                url += $"$expand=sale($select=id,document_number,working_date;$expand=customer($select=id,customer_code,customer_name_en,customer_name_kh),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh,id))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -138,7 +138,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "sale/sale_date",
+                        key = "sale/working_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
                         filter_title = "Sale Date",
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
@@ -152,7 +152,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale/sale_date",
+                    key = "sale/working_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",
