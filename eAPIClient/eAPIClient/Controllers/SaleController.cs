@@ -108,9 +108,7 @@ namespace eAPIClient.Controllers
                                  (r.outlet_id ?? " ") 
                               ).ToLower().Trim(), $"%{outlet_id}%".ToLower().Trim())
                     select r);
-
             string _result = "";
-
             if (_doc.Count() > 0)
             {
                var _d = _doc.FirstOrDefault();

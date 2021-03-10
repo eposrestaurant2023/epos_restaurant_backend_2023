@@ -177,11 +177,8 @@
         return selected_menus.Where(r => r.menu_id == m.id && r.is_deleted == false).Any();
     }
 
-
-    protected override async Task OnInitializedAsync()
-    {
-
-    }
+ 
+    
 
     void SetMenuActive()
     {
