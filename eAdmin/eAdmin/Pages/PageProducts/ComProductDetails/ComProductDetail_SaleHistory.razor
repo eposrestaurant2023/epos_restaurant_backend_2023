@@ -13,7 +13,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        All Sale History
+                        @lang["All Sale History"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -40,49 +40,47 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
-                    <TableHeader> 
-                        @HeaderTemplate("sale/document_number", "Document", "uk-text-center")
-                        @HeaderTemplate("sale/customer/customer_name_en", "Customer", "col-auto")
-                        @HeaderTemplate("unit", "Unit", "uk-text-center")
-                        @HeaderTemplate("price", "Price", "uk-text-rigth")
-                        <ThCenter>Quantity</ThCenter>
-                        <ThRight>Total Amount</ThRight>
-                        <ThRight>Grand Total</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <th>Created By</th>
+                       ScrollClass="uk-overflow-auto">
+                    <TableHeader>
+                        @HeaderTemplate("sale/working_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("sale/document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("sale/customer/customer_name", lang["Customer"], "col-auto")
+                        @HeaderTemplate("sale/business_branch/business_branch_name_en", lang["Business Branch"])
+                        @HeaderTemplate("sale/outlet/outlet_name_en", lang["Outlet"])
+                        <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Paid Amount"]</ThRight>
+                        <ThRight>@lang["Balance"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <th>@lang["Created By"]</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
-                    <RowTemplate Context="p"> 
+                    <RowTemplate Context="p">
                         <TdCenter>
-                            <a href="@($"receiptlist/{p.sale_id}")">
-                                @p.sale?.document_number
-                            </a>
+                            @p.sale?.working_date.ToString(gv.date_format)
+                        </TdCenter>
+                        <TdCenter>
+                            <div><a href="@(!p.sale.is_deleted?$"receiptlist/{p.sale.id}":$"voidreceipt/{p.sale.id}")">@p.sale?.document_number</a></div>
                         </TdCenter>
                         <td>
-                            <a href="@($"customer/{p.sale?.customer?.id}")">
-                                @p.sale?.customer?.customer_code_name
-                             </a>
-
+                            <ComProfileInfo url="@($"customer/{p.sale.customer_id}")" photo="@p.sale.customer?.photo" role="customer_management">@p.sale?.customer?.customer_code_name</ComProfileInfo>
                         </td>
-                        <TdCenter>
-                            <div>@p.unit</div>
-                        </TdCenter>
+                        <td>
+                            @p.sale?.business_branch?.business_branch_name_en
+                        </td>
+                        <td>
+                            @p.sale?.outlet?.outlet_name_en
+                        </td>
                         <TdRight>
-                            @p.price.ToString(gv.currency_format)
-                        </TdRight>
-                        <TdCenter>
-                            @p.quantity.ToString(gv.quantity_format)
-                        </TdCenter>
-                        <TdRight>
-                            @p.total_amount.ToString(gv.main_currency_format)
+                            @p.sale?.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.total_amount.ToString(gv.main_currency_format)
+                            @p.sale?.paid_amount.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
-                        <td>@p.created_by</td>
+                        <TdRight>
+                            @p.sale?.balance.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdCenter>@p.sale?.created_date.ToString(gv.date_time_format)</TdCenter>
+                        <td>@p.sale?.created_by</td>
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
                         </TdCenter>

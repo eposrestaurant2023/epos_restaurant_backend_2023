@@ -38,35 +38,50 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("purchase_order/purchase_date", "Date", "uk-text-center")
-                        @HeaderTemplate("purchase_order/document_number", "Document#", "uk-text-center")
-                        <ThAuto>Purchase Note</ThAuto>
-                        <ThRight>Total Amount</ThRight>
-                        <ThRight> Grand Total</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <Th>Created By</Th>
+                        @HeaderTemplate("purchase_order/purchase_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("purchase_order/document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("purchase_order/reference_number", lang["Referance #"], "uk-text-center")
+                        @HeaderTemplate("purchase_order/vendor/vendor_name", lang["Vendor"], "uk-text-left")
+                        @HeaderTemplate("purchase_order/stock_location/stock_location_name", lang["Stock Location (Business Branch)"], "col-auto")
+                        <ThRight> @lang["Total Amount"]</ThRight>
+                        <ThRight> @lang["Paid Amount"]</ThRight>
+                        <ThRight> @lang["Balance"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <Th>@lang["Created By"]</Th>
+                        <ThRight> @lang["Status"]</ThRight>
                         <Th></Th>
                     </TableHeader>
                     <RowTemplate Context="p">
-
                         <TdCenter>@p.purchase_order?.purchase_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("purchase_order_view")" url="@($"purchaseorder/{p.purchase_order_id}")">@p.purchase_order?.document_number</ComAuthorize>
                         </TdCenter>
+                        <TdCenter>@p.purchase_order?.reference_number</TdCenter>
                         <td>
-                            @p.purchase_order?.purchase_order_note
+                            <ComAuthorize roles="@gv.GetRole("vendor_view")" url="@($"vendor/{p.purchase_order?.vendor_id}")">
+                                <ComVendorInfo vendor="p.purchase_order?.vendor" />
+                            </ComAuthorize>
+                        </td>
+                        <td>
+                            @p.purchase_order?.stock_location?.stock_location_name (@p.purchase_order?.business_branch?.business_branch_name_en)
                         </td>
                         <TdRight>
-                            @p.total_amount.ToString(gv.currency_format)
+                            @p.purchase_order?.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.grand_total.ToString(gv.main_currency_format)
+                            @p.purchase_order?.paid_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.purchase_order?.balance.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>
+                        <TdRight>
+                            <ComPurchaseOrderStatus po="@p.purchase_order" />
+                            <LabelDeleted is_visible="@(p.is_deleted)" />
+                        </TdRight>
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"purchaseorder/{p.purchase_order_id}"))" />
                         </TdCenter>
