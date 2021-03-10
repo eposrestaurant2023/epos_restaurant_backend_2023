@@ -4,32 +4,33 @@
     <div>
         <label style="font-size:12px;">@lang["Close Orders"] (@data.total_closed_order.ToString(gv.quantity_format)/@data.total_order.ToString(gv.quantity_format))</label>
         <div class="progress_bar">
-            @if (data.total_order == 0)
+            @if (data.total_order == 0 || data.total_closed_order == 0)
             {
-                <div style="width:0%" class="uk-background-primary text_persen">0</div>
+            <div style="width:0%; color:#a5a5a5;" class="text_persen">0.00%</div>
             }
             else
             {
-            <div style="width:@((data.total_closed_order/data.total_order).ToString("P"))" class="uk-background-primary text_persen">@((data.total_closed_order/data.total_order).ToString("P"))</div>
+                <div style="width:@((data.total_closed_order/data.total_order).ToString("P"))" class="uk-background-primary text_persen">@((data.total_closed_order/data.total_order).ToString("P"))</div>
             }
         </div>
+
         <label style="font-size:12px;">@lang["Pending Orders"] (@data.total_active_order.ToString(gv.quantity_format)/@data.total_order.ToString(gv.quantity_format))</label>
         <div class="progress_bar">
-            <label style="font-size:12px;">@lang["Void Orders"] (@data.total_deleted_order.ToString(gv.quantity_format)/@data.total_order.ToString(gv.quantity_format))</label>
-            @if (data.total_order == 0)
+            @if (data.total_order == 0 || data.total_active_order == 0)
             {
-                <div style="width:0%" class="bg_viode_oeder text_persen">0</div>
+            <div style="width:0%; color:#a5a5a5;" class="text_persen">0.00%</div>
             }
             else
             {
                 <div style="width:@((data.total_active_order/data.total_order).ToString("P"))" class="bg_viode_oeder text_persen">@((data.total_active_order/data.total_order).ToString("P"))</div>
             }
         </div>
-                
+
+        <label style="font-size:12px;">@lang["Void Orders"] (@data.total_deleted_order.ToString(gv.quantity_format)/@data.total_order.ToString(gv.quantity_format))</label>
         <div class="progress_bar">
-            @if (data.total_order == 0)
+            @if (data.total_order == 0 || data.total_deleted_order == 0)
             {
-                <div style="width:0%" class="bg_viode_oeder text_persen">0</div>
+                <div style="width:0%; color:#a5a5a5;" class="text_persen">0.00%</div>
             }
             else
             {

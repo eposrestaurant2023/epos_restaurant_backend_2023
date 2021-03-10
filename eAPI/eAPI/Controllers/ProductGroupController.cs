@@ -40,9 +40,6 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductGroupModel u)
         {
-
-
-
             if (u.id == 0)
             {
                 db.ProductGroups.Add(u);
@@ -69,6 +66,7 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
+
         [HttpPost]
         [Route("status")]
         public async Task<ActionResult<ProductGroupModel>> ChangeStatusRecord(ProductGroupModel u) // change status
@@ -79,6 +77,7 @@ namespace eAPI.Controllers
             await db.SaveChangesAsync();
             return Ok(u);
         }
+
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
         public SingleResult<ProductGroupModel> Get([FromODataUri] int key)
