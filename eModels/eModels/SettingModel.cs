@@ -26,11 +26,14 @@ namespace eModels
         public string group_name { get; set; }
         public bool status { get; set; }
         public bool is_public { get; set; }
-        
 
-        [NotMapped ]
+
+        [NotMapped]
         [JsonIgnore]
         public bool is_saving { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public bool is_select { get; set; }
         public List<BusinessBranchSettingModel> business_branch_settings { get; set; }
     }
 }

@@ -47,6 +47,40 @@ namespace eAPI.Controllers
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
         }
+        [HttpPost("Save/Multiple")]
+        public async Task<ActionResult<string>> SaveMultiple([FromBody] List<QuantityAdjustmentModel> data)
+        {
+            InventoryTransactionModel inv = new InventoryTransactionModel();
+            var product = db.Products.Where(r => r.id == data.FirstOrDefault().product_id).AsNoTracking();
+            ProductModel p = product.FirstOrDefault();
+            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            foreach (var s in data)
+            {
+
+                inv = new InventoryTransactionModel();
+                inv.product_id = s.product_id ;
+                inv.transaction_date = DateTime.Now;
+                inv.inventory_transaction_type_id = 2;
+                inv.stock_location_id = s.stock_location_id;
+                inv.quantity = s.quantity;
+                inv.reference_number = p.product_code;
+
+
+                inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
+                 
+                inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Ingredient Initial Quantity Adjustment ({p.product_code})" : $"Product Initial Quantity Adjustment ({p.product_code})";
+                 
+                inv.created_by = user.full_name;
+                db.InventoryTransactions.Add(inv);
+                db.SaveChanges();
+                 
+            }
+             
+            
+            return Ok();
+        }
+
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]

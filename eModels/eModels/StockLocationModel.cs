@@ -51,6 +51,9 @@ namespace eModels
 
         public decimal initial_quantity { get; set; } = 0;
         public decimal initial_adjustment_quantity { get; set; } = 0;
+        
+        [NotMapped, JsonIgnore]
+        public decimal adjust_quantity { get; set; } 
 
         [NotMapped, JsonIgnore]
         public bool is_out_of_stock
