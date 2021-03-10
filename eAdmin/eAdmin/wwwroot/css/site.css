@@ -198,6 +198,9 @@
     border-radius: 5px;
     padding-top: 15px;
 }
+.uk-flex {
+    display: flex!important;
+}
 .color_customer .color_text {
     color: #333 !important;
     font-size: 14px;
