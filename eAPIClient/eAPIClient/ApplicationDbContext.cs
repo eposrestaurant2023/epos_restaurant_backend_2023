@@ -1,15 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-
-using System.Linq;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;   
-using eAPIClient.Models;
-////using eAPIClient.Models;using eModels;
-
-
+﻿using Microsoft.EntityFrameworkCore;    
+using System.Linq;             
+using eAPIClient.Models;             
 namespace eAPIClient
 {
     public class ApplicationDbContext : DbContext
@@ -40,8 +31,7 @@ namespace eAPIClient
             }
         }
 
-        public DbSet<DocumentNumberModel> DocumentNumbers { get; set; }
-        public DbSet<UserModel> Users { get; set; }
+        public DbSet<DocumentNumberModel> DocumentNumbers { get; set; }        
         public DbSet<ConfigDataModel> ConfigDatas { get; set; }
         public DbSet<MenuModel> Menus { get; set; }
         public DbSet<ProductModel> Products { get; set; }
