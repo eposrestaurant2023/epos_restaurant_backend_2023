@@ -84,7 +84,23 @@ namespace eAPI.Controllers
 
         }
 
-      
+        [HttpPost("Save/Multiple")]
+        public async Task<ActionResult> SaveMultiple([FromBody] List<MenuModel> menus)
+        {
+
+            string xx = JsonSerializer.Serialize(menus);
+            menus.SelectMany(r => r.product_menus).ToList().ForEach(r => r.product = null);
+
+            db.Menus.UpdateRange(menus);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
+            db.Database.ExecuteSqlRaw("exec sp_update_menu_path");
+            return Ok();
+        }
+
+
+
 
 
         [HttpPost]

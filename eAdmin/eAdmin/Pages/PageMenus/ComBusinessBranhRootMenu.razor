@@ -18,7 +18,13 @@
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public int menu_id { get; set; }
-    [Parameter] public EventCallback<int> menu_idChanged { get; set; }
+    [Parameter] public EventCallback<int> menu_idChanged { get; set; }   
+    
+    [Parameter] public int current_menu_id { get; set; }
+    [Parameter] public EventCallback<int> current_menu_idChanged { get; set; }
+    
+    [Parameter] public int parent_menu_id { get; set; }
+    [Parameter] public EventCallback<int> parent_menu_idChanged { get; set; }
 
     [Parameter] public Guid business_id { get; set; }
     [Parameter] public EventCallback<Guid> business_idChanged { get; set; }
@@ -33,6 +39,8 @@
         }
         m.is_selected = true;
         await menu_idChanged.InvokeAsync(m.id);
+        await current_menu_idChanged.InvokeAsync(m.id);
+        await parent_menu_idChanged.InvokeAsync(m.id);
         await business_idChanged.InvokeAsync(m.business_branch_id);
         await keywordChanged.InvokeAsync("");
 

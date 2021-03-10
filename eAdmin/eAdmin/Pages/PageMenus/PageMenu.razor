@@ -1,6 +1,6 @@
 ﻿@page "/menu"
 @inherits PageCore
-<Loading is_loading="@(is_loading || is_loading_data)" />
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 <Title Value="Menus"></Title>
 
 @if (!is_loading)
@@ -22,16 +22,16 @@
         <PageBody>
             <Grid ClassName="uk-grid-small">
                 <Column ClassName="uk-width-1-5">
-                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@root_menu_id" @bind-keyword="@keyword" />
+                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id"  @bind-keyword="@keyword" />
                 </Column>
                 <Column ClassName="uk-width-4-5">
-                    <ComMainMenu @bind-menu_move="@menu" business_branch_id="@business_id" menus="@menus" root_menu_id="@root_menu_id" parent_menu_id="@root_menu_id" current_menu_id="@root_menu_id" @bind-keyword="@keyword" />
+                    <ComMainMenu @bind-menu_move="@menu" business_branch_id="@business_id" menus="@menus" root_menu_id="@root_menu_id"  @bind-current_menu_id="@current_menu_id"  @bind-keyword="@keyword" />
                 </Column>
             </Grid>
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_show_cancel="false" OnSave="@Save_Click" is_show_save_action="true" />
+                <ComSavingFormButton is_show_cancel="false" OnSave="@Save_Click" is_show_save_action="true" is_loading="@is_saving" />
             </FooterCenter>
         </PageFooter>
 </PageContainer>
@@ -47,6 +47,10 @@
     MenuModel menu = new  MenuModel ();
 
     int root_menu_id;
+    int parent_menu_id;
+    int current_menu_id;
+
+
     Guid business_id = Guid.NewGuid();
 
     bool show_add_menu;
@@ -66,6 +70,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
+
         state.filters.RemoveAll(r=>r.key== "business_branch_id" || r.key=="is_deleted");
 
         state.filters.Add(new FilterModel()
@@ -106,12 +111,23 @@
     public async Task Save_Click()
     {
         is_saving = true;
-        var resp = await http.ApiPost("Menu/Save", menu);
+        List<MenuModel> save_menu = new List<MenuModel>();
+        save_menu = JsonSerializer.Deserialize < List<MenuModel>>(JsonSerializer.Serialize(menus));
+        save_menu.SelectMany(r => r.product_menus).ToList().ForEach(r => r.product = null);
+        var resp = await http.ApiPost("Menu/Save/Multiple", save_menu);
+
+
         if (resp.IsSuccess)
         {
             toast.Add("Save Menu Successfully.",MatToastType.Success);
-            //model = JsonSerializer.Deserialize<MenuModel>(resp.Content.ToString());
-            //await OnSave.InvokeAsync(model);
+            await LoadData();
+            if (menus.Count() > 0)
+            {
+                if (menus.Where(r => r.id == root_menu_id).Any())
+                {
+                    menus.Where(r => r.id == root_menu_id).FirstOrDefault().is_selected = true;
+                }
+            }
         }
         else
         {
@@ -132,11 +148,11 @@
 
     }
 
-    void OnGetMenu(MenuModel _menu)
+    async Task OnGetMenu(MenuModel _menu)
     {
         menu = _menu;
         menus = new List<MenuModel>();
-        LoadData();
+        await LoadData();
     }
 }
 

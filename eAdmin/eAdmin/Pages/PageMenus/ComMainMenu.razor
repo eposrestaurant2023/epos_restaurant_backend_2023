@@ -3,10 +3,8 @@
 @inject IMatToaster toast
 
 <UIContainerBox Title="Menus">
-    <div>
-        @current_menu_id
-    </div>
-    
+    @current_menu_id | @root_menu_id
+
     @if (menu == null)
     {
         <div>
@@ -15,43 +13,47 @@
     }
     else
     {
-        @if (current_menu_id != parent_menu_id)
-        {
+         @if (current_menu != null)
+         {
             <h3 class="title">@current_menu.menu_path</h3>
-        }
+         }
 
         @if (menus.Any())
         {
-            <div class="ribbons-wrapper uk-grid-small" uk-grid>
-                @if (current_menu_id != parent_menu_id)
-                {
-                    <ComMenuBackButton OnClick="@OnBack" />
-                }
+<div class="ribbons-wrapper uk-grid-small" uk-grid>
+    @if (current_menu_id > 0)
+    {
+     if (current_menu.id!= root_menu_id)
+    {
+        <ComMenuBackButton OnClick="@OnBack" />
+        }
+    }
 
-                @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
-                {
 
-                    <ComMenuItem menu="@m" @bind-menu_id="@current_menu_id" @bind-keyword="@keyword" OnDeleteMenu="@(()=>OnDeleteMenu(m))" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
-                        @(GetMenuName(m))
-                    </ComMenuItem>
-                }
+    @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
+    {
 
-                @if (string.IsNullOrEmpty(keyword))
-                {
-                    <ComMenuSelectProductButton menu="@current_menu" menu_="@menu_move" menu_Changed="@Invoke"/>
-                }
+        <ComMenuItem menu="@m" menu_idChanged="OnCurrentMenuChanged" @bind-keyword="@keyword" OnDeleteMenu="@(()=>OnDeleteMenu(m))" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
+            @(GetMenuName(m))
+        </ComMenuItem>
+    }
 
-                @if (current_menu_id > 0)
-                {
-                    <ComAssignProductButton OnClick="@Click_Select_Produc" />
-                }
+    @if (string.IsNullOrEmpty(keyword))
+    {
+        <ComMenuSelectProductButton menu="@current_menu" menu_="@menu_move" menu_Changed="@Invoke" />
+    }
 
-                @if (current_menu_id > 0)
-                {
-                    <ComMenuAddButton OnClick="@OpenAddMenu" />
-                }
+    @if (current_menu_id > 0)
+    {
+        <ComAssignProductButton OnClick="@Click_Select_Produc" />
+    }
 
-            </div>
+    @if (current_menu_id > 0)
+    {
+        <ComMenuAddButton OnClick="@OpenAddMenu" />
+    }
+
+</div>
         }
     }
 
@@ -80,10 +82,12 @@
     [Parameter] public Guid business_branch_id { get; set; }
 
     [Parameter] public int current_menu_id { get; set; }
+    [Parameter] public EventCallback<int> current_menu_idChanged { get; set; }
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
     bool is_select_product = false;
     [Parameter] public int parent_menu_id { get; set; }
+
     [Parameter] public int root_menu_id { get; set; }
 
     [Parameter] public EventCallback<MenuModel> OnMenuSelected { get; set; }
@@ -100,6 +104,8 @@
         menu_move = _menu;
         menu_moveChanged.InvokeAsync(menu_move);
     }
+
+
 
     private List<MenuModel> _GetMenus;
 
@@ -130,6 +136,13 @@
         {
             return menus.Where(r => r.id == current_menu_id).FirstOrDefault();
         }
+    }
+
+
+    async Task OnCurrentMenuChanged(int _menu_id)
+    {
+        current_menu_id = _menu_id;
+        await current_menu_idChanged.InvokeAsync(_menu_id);
     }
 
     void OpenAddMenu()
