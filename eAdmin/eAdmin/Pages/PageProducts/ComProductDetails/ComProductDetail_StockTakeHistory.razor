@@ -1,5 +1,6 @@
 ﻿@inherits StockTakeProductDetailHistoryBase
 @inject IStringLocalizer<Resource> lang
+@inject NavigationManager nav
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -14,7 +15,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                      All Stock Take History
+                        @lang["All Stock Take History"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -40,35 +41,32 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         @HeaderTemplate("stock_take/stock_take_date", lang["Date"], "uk-text-center")
-                        @HeaderTemplate("stock_take/document_number", lang["Document#"], "uk-text-center")
+                        @HeaderTemplate("stock_take/document_number", lang["Document #"], "uk-text-center")
                         <ThCenter>@lang["Reference Number"]</ThCenter>
-                        <ThAuto>@lang["Business Branch"]</ThAuto>
-                        <ThAuto>@lang["Stock Location"]</ThAuto>
+                        <ThAuto>@lang["Business Branch (Stock Location)"]</ThAuto>
                         <ThCenter>@lang["Quantity"]</ThCenter>
                         <ThRight>@lang["Cost"]</ThRight>
                         <ThRight> @lang["Grand Total"]</ThRight>
                         <ThCenter>@lang["Created Date"]</ThCenter>
-                        <ThCenter>@lang["Created By"]</ThCenter>
+                        <ThRight>@lang["Created By"]</ThRight>
+                        <ThCenter>@lang["Status"]</ThCenter>
+                        <ThCenter></ThCenter>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.stock_take?.stock_take_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
                             <a href="@($"stocktake/{p.stock_take.id}")">
                                 @p.stock_take?.document_number
-                            </a> 
+                            </a>
                         </TdCenter>
                         <TdCenter>
                             @p.stock_take?.reference_number
                         </TdCenter>
                         <td>
-                            @p.stock_take?.business_branch?.business_branch_name_en 
-                        </td>
-                        <td>
-                            @p.stock_take?.stock_location?.stock_location_name
+                            @p.stock_take?.business_branch?.business_branch_name_en (@p.stock_take?.stock_location?.stock_location_name)
                         </td>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)
@@ -80,7 +78,13 @@
                             @p.grand_total.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
-                        <TdCenter>@p.created_by</TdCenter>
+                        <TdRight>@p.created_by</TdRight>
+                        <TdRight>
+                            <ComStockTakeStatus model="@p.stock_take" />
+                        </TdRight>
+                        <td>
+                            <Icon roles="@gv.GetRole("stock_take_management")" icon="visibility" OnClick="@(()=> { nav.NavigateTo($"stocktake/{p.stock_take_id}"); })"/>
+                        </td>
                     </RowTemplate>
                 </Table>
             </Com>

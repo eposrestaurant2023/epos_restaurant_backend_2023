@@ -23,7 +23,6 @@
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
-
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
@@ -82,7 +81,14 @@
                         <TdCenter>@p.sale?.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.sale?.created_by</td>
                         <TdCenter>
+                            @if (p.is_deleted)
+                            {
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"voidreceipt/{p.sale_id}"))" />
+                            }
+                            else
+                            {
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
+                            }
                         </TdCenter>
                     </RowTemplate>
                 </Table>

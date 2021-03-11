@@ -29,26 +29,17 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        public IQueryable<SaleModel> Get(string keyword = "")
-        {
-            if (!string.IsNullOrEmpty(keyword))
-            {
+         public IQueryable<SaleModel> Get(string keyword = "",string shift="")
+       {
+           
                 return (from r in db.Sales
-                        where
-                              EF.Functions.Like(
-                                  (
-                                     (r.document_number ?? " ") +
-                                     (r.customer.customer_name_en ?? " ") +
-                                     (r.customer.customer_name_kh ?? " ") +
-                                     (r.sale_note ?? " ")
-                                  ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        where EF.Functions.Like(
+                                  ((r.document_number ?? " ") + (r.customer.customer_name_en ?? " ") +
+                                   (r.customer.customer_name_kh ?? " ") + (r.sale_note ?? " ")
+                                  ).ToLower().Trim(), $"%{(keyword??"")}%".ToLower().Trim()) && r.cashier_shift.shift == ((shift ?? "") == "" ? r.cashier_shift.shift : shift)
                         select r);
 
-            }
-            else
-            {
-                return db.Sales.AsQueryable();
-            }
+           
         }
 
         [HttpGet]

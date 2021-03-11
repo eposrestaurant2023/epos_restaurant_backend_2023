@@ -24,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <ViewEmptyTemplate is_view="@(models.Select(r => r.modifier_group).Where(r => r.modifier_group_items.Any()).Any())" colspan="3" empty="This product's category has no modifier group.">
+                <ViewEmptyTemplate is_view="@(models.Select(r => r.modifier_group).Where(r => r.modifier_group_items.Any()).Any())" colspan="3" empty="@lang["This product's category has no modifier group."]">
                     <ComViewModifierGroupItemsByProductCategory models="@models" />
                 </ViewEmptyTemplate>
             </tbody>

@@ -5,11 +5,14 @@
             <Image ImageUrl="@http.ImageUrl(vendor.photo)" IsBackgroundImage="true" Width="35px" Height="35px" IsLightBox="true" />
         </FlexItem>
         <FlexItem class_name="uk-margin-small-left">
-            <div>@vendor.vendor_display_name</div>
-            
+            <div>
+                <ComAuthorize roles="@gv.GetRole("vendor_view")" url="@($"vendor/{vendor.id}")">@vendor.vendor_display_name</ComAuthorize>
+            </div>
         </FlexItem>
     </UkFlex>
 </Com>
 @code{ 
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public VendorModel vendor { get; set; } = new VendorModel();
 }

@@ -7,6 +7,7 @@
             <thead>
                 <ThAuto>@lang["Business Branch"]</ThAuto>
                 <ThAuto>@lang["Stock Location"]</ThAuto>
+                <ThCenter>@lang["Unit"]</ThCenter>
                 <ThCenter>@lang["Quantity On Hand"]</ThCenter>
                 <ThCenter>@lang["Quantity"]</ThCenter>
                 <ThCenter>@lang["Different"]</ThCenter>
@@ -21,6 +22,9 @@
                             @p.stock_location.stock_location_name
                         </div>
                     </td>
+                    <TdCenter>
+                        @p.unit
+                    </TdCenter>
                     <TdCenter>
                         @p.quantity.ToString(gv.quantity_format)
                     </TdCenter>
@@ -72,7 +76,7 @@
         is_saving = true;
 
         if (! stock_location_products.Where(r => r.quantity != r.adjust_quantity).Any()){
-            toast.Add("There's no quantity changed", MatToastType.Warning);
+            toast.Add(lang["There's no quantity changed"], MatToastType.Warning);
             return;
         }
         List<QuantityAdjustmentModel> quantity_adjustments = new List<QuantityAdjustmentModel>();
@@ -92,7 +96,7 @@
             stock_location_products.ForEach(r => r.quantity = r.adjust_quantity);
             await stock_location_productsChanged.InvokeAsync(stock_location_products);
 
-            toast.Add("Saved Successfully", MatToastType.Success);
+            toast.Add(lang["Saved Successfully"], MatToastType.Success);
         }
         else
         {

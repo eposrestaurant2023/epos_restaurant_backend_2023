@@ -78,9 +78,9 @@
                         
                     </TabItem>
                     <TabItem>
-                        @if (show_stock_stransfer) { 
-
-                        <ComProductDetail_StockTransferHistory product_id="@id" />
+                        @if (show_stock_stransfer) 
+                        {
+                            <ComProductDetail_StockTransferHistory product_id="@id" />
                         }
 
                     </TabItem>
@@ -128,7 +128,7 @@
 
     public string api_url { get {
             string url = $"Product({id})";
-            url = url + "?$expand=vendor($select=vendor_name,vendor_code),product_category($select=product_category_en),unit($select=unit_name)";
+            url = url + "?$expand=vendor($select=id,vendor_name,vendor_code),product_category($select=product_category_en),unit($select=unit_name)";
             return url;
         }
     }

@@ -12,7 +12,7 @@
     <TargetDatasetFolder>ePOSRestaurant2021Datasets</TargetDatasetFolder>
     <TargetDatasourceFolder>ePOSRestaurant2021DataSource</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://epcdbsvr0:3333/ReportServer_MSSQLSV2016ENTER</TargetServerURL>
+    <TargetServerURL>http://app.esoftix.com:3344/reportserver</TargetServerURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
     <FullPath>DebugLocal</FullPath>
