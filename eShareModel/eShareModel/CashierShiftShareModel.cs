@@ -6,6 +6,7 @@ namespace eShareModel
 {
     public class CashierShiftShareModel  : CoreGUIDModel
     {
+        public Guid working_day_id { get; set; }
         public bool is_closed { get; set; }          
         public string closed_by { get; set; }
         public DateTime? closed_date { get; set; }
@@ -18,6 +19,8 @@ namespace eShareModel
 
         [Column(TypeName ="decimal(19,8)")]
         public decimal exchange_rate { get; set; }
+        public string shift { get; set; }
+
 
     }
 }
