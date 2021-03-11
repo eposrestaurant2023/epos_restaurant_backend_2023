@@ -19,7 +19,7 @@
                     <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>OnBack())">
                         <div class="pos_icon_back">
                             <Icon icon="reply " icon_color="#333333" size="43px" />
-                            <div>Back</div>
+                            <div>@lang["Back"]</div>
                         </div>
                     </div>
                 </div>
@@ -50,13 +50,13 @@
                    
                         <div @onclick="@(() => MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color;">
                             <div>
-                                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00")) | @IsMenuSelected(m)</div>
+                                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
                             </div>
                         </div>
                   }else { 
                         <div @onclick="@(() => MenuClick(m))" class="box cp" style="background:@m.background_color;color:@m.text_color; border:1px solid #cf564d;">
                             <div>
-                                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00")) | @IsMenuSelected(m)</div>
+                                <div style="text-align: center; align-items: center; padding-top: 47px;">@m.menu_name_en (@menus.Where(r => r.parent_id == m.id).Count().ToString("00"))</div>
                             </div>
                         </div>
                  }
@@ -71,7 +71,7 @@
                     <div class="box cp" style="background: #ececec;text-align:center;" @onclick="@(()=>AddSubMenu())">
                         <div class="pos_icon_back">
                             <Icon icon="add" icon_color="#333333" size="43px" />
-                            <div>Add</div>
+                            <div>@lang["Add"]</div>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
     }
     <hr />
 
-    <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">Add New Root Menu</Button>
+    <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">@lang["Add New Root Menu"]</Button>
 
 </div>
 

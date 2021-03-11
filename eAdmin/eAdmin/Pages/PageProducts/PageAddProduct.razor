@@ -57,9 +57,6 @@
                                         <ValidationMessage For="@(()=>model.product_category_id)" />
                                     </SelectProductCategory>
 
-
-
-
                                     <SelectUnitCategory label="@lang["Unit Category"]" selected_value="@unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
                                     <SelectUnit label="@lang["Unit"]" @bind-selected_value="@model.unit_id" unit_category_id="@unit_category_id" is_select_unit_category="true" show_empty="true">
                                         <ValidationMessage For="@(()=>model.unit_id)" />

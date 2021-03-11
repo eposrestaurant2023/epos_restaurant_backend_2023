@@ -40,12 +40,13 @@ namespace eModels
         public int stock_location_id { get; set; }
         [ForeignKey("stock_location_id")]
         public StockLocationModel stock_location { get; set; }
-              public int product_id { get; set; }
+        public int product_id { get; set; }
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
 
  
         public decimal quantity { get; set; }
+        public string unit { get; set; } = "Unit";
         public decimal min_quantity { get; set; }
         public decimal max_quantity { get; set; }
 
