@@ -81,7 +81,14 @@
                         <TdCenter>@p.sale?.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.sale?.created_by</td>
                         <TdCenter>
+                            @if (p.is_deleted)
+                            {
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"voidreceipt/{p.sale_id}"))" />
+                            }
+                            else
+                            {
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
+                            }
                         </TdCenter>
                     </RowTemplate>
                 </Table>

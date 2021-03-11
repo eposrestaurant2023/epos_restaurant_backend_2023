@@ -1,5 +1,5 @@
 ﻿@inherits StockStransferProductDetailHistoryBase
-@inject IStringLocalizer<Resource> lang
+
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -14,7 +14,7 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                     All Stock Stransfer History
+                     @lang["All Stock Stransfer History"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -49,49 +49,48 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("stock_transfer/stock_transfer_date",lang["Date"], "uk-text-center")
-                        @HeaderTemplate("stock_transfer/document_number",lang["Document#"], "uk-text-center")
-                        <ThCenter>@lang["Reference Number"]</ThCenter>
-                        <ThAuto>@lang["From Stock"]</ThAuto>
-                        <ThAuto>@lang["To Stock"]</ThAuto>
-                        <ThCenter>@lang["Quantity"]</ThCenter>
-                        <ThRight>@lang["Cost"]</ThRight>
-                        <ThRight> @lang["Grand Total"]</ThRight>
+                        @HeaderTemplate("stock_transfer/stock_transfer_date", "Stock Transfer Date", "uk-text-center")
+                        @HeaderTemplate("stock_transfer/document_number", "Document#", "uk-text-center")
+                        @HeaderTemplate("stock_transfer/referance_number", "Referance#", "uk-text-center")
+                        @HeaderTemplate("stock_transfer/from_stock_location/stock_location_name", lang["From Stock Location (Business Branch)"], "col-auto")
+                        @HeaderTemplate("stock_transfer/to_stock_location/stock_location_name", lang["To Stock Location (Business Branch)"], "col-auto")
+                        <ThRight>@lang["Total Amount"]</ThRight>
                         <ThCenter>@lang["Created Date"]</ThCenter>
-                        <ThCenter>@lang["Created By"]</ThCenter>
+                        <ThRight>@lang["Created By"]</ThRight>
+                        <ThRight>@lang["Status"]</ThRight>
+                        <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
-                        
-                        <TdCenter>@p.stock_transfer?.stock_transfer_date.ToString(gv.date_format)</TdCenter>
+                        <TdCenter>@p.stock_transfer.stock_transfer_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <a href="@($"stocktransfer/{p.stock_transfer.id}")">
+                            <ComAuthorize roles="@gv.GetRole("stock_transfer_management")" url="@($"stocktransfer/{p.id}")">
                                 @p.stock_transfer?.document_number
-                                </a>
-                       </TdCenter>
-                        <TdCenter>
-                            @p.stock_transfer?.reference_number
+                            </ComAuthorize>
                         </TdCenter>
+                        <TdCenter>@p.stock_transfer?.reference_number</TdCenter>
                         <td>
-                            @p.stock_transfer?.from_business_branch?.business_branch_name_en (@p.stock_transfer?.from_stock_location?.stock_location_name)
+                            @p.stock_transfer?.from_stock_location?.stock_location_name (@p.stock_transfer?.from_business_branch?.business_branch_name_en)
                         </td>
                         <td>
-                            @p.stock_transfer?.to_business_branch?.business_branch_name_en (@p.stock_transfer?.to_stock_location?.stock_location_name)
+                            @p.stock_transfer?.to_stock_location?.stock_location_name (@p.stock_transfer?.to_business_branch?.business_branch_name_en)
                         </td>
-                      
+                        <TdRight>
+                            @p.stock_transfer?.total_amount.ToString(gv.main_currency_format)
+                        </TdRight>
                         <TdCenter>
-                            @p.quantity.ToString(gv.quantity_format)
+                            @p.stock_transfer?.created_date.ToString(gv.date_time_format)
                         </TdCenter>
                         <TdRight>
-                            @p.cost.ToString(gv.main_currency_format)
+                            @p.stock_transfer?.created_by
                         </TdRight>
                         <TdRight>
-                            @p.grand_total.ToString(gv.main_currency_format)
+                            <ComStockTransferStatus model="@p.stock_transfer" />
                         </TdRight>
-                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
-                        <TdCenter>@p.created_by</TdCenter>
+                        <td>
+                            <Icon roles="@gv.GetRole("stock_transfer_management")" icon="visibility" OnClick="@(()=> { nav.NavigateTo($"stocktransfer/{p.id}"); })" />
+                        </td>
                     </RowTemplate>
                 </Table>
             </Com>
