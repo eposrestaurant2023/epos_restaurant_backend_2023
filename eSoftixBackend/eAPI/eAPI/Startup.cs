@@ -121,6 +121,7 @@ namespace eAPI
             odataBuilder.EntitySet<AttachFilesModel>("AttachFiles");
             odataBuilder.EntitySet<SettingModel>("Setting");
             odataBuilder.EntitySet<AttachFileModel>("AttachFile");
+            odataBuilder.EntitySet<ProjectModel>("Project");
             
              return odataBuilder.GetEdmModel();
         }
