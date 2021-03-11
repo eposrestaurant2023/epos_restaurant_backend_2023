@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
-<UIContainerBox Title="Menus">
+<UIContainerBox Title="@lang["Menus"]">
     @if (is_loading)
     {
         <Spinner/>

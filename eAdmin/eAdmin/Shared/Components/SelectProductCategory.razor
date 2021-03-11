@@ -23,14 +23,14 @@
 
                 @if (is_ingredient_category)
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_deleted_group == false && r.status_group == true && r.is_ingredient_category == true))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
                 }
                 else
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_deleted_group == false && r.status_group == true && r.is_ingredient_category == false))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == false))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
@@ -39,17 +39,6 @@
         }
         else
         {
-            if (product_category != null)
-            {
-                <div>ddddf</div>
-                if (!gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true && r.is_deleted_group == false && r.status_group == true && r.id == product_category.id).Any())
-                {
-                    <div class="uk-alert-warning" uk-alert>
-                        <span class="uk-text-small uk-text-italic">It's category was deleted or close status. You can change category to choose category below.</span>
-                    </div>
-                }
-            }
-
             <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((String)ui.Value))" class="uk-select uk-form-small @width">
                 @if (show_empty)
                 {
@@ -57,14 +46,14 @@
                 }
                 @if (is_ingredient_category)
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true && r.is_deleted_group == false && r.status_group == true))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
                 }
                 else
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == false && r.is_deleted_group == false && r.status_group == true))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == false))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
@@ -74,7 +63,7 @@
 
         @ChildContent
     </div>
-            </div>
+</div>
 
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -95,10 +84,6 @@
     [Parameter] public EventCallback<ProductCategoryModel> product_categoryChanged { get; set; }
 
     Guid id = Guid.NewGuid();
-
-
-
-
 
     public int SelectedValue
     {

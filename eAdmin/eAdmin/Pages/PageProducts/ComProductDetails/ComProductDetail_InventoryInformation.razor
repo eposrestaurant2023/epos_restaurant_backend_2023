@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
 
-<UIContainerBox Title="@lang["Inventory Information"]" is_show_edit_button="true" OnEditClick="@OnOpenModel">
+<UIContainerBox Title="@lang["Inventory Information"]" is_show_edit_button="@(!product_deleted)" OnEditClick="@OnOpenModel">
     <Com is_visible="@(!is_loading)">
         <Table Items="@models"
                isLoading="@is_loading"
@@ -13,6 +13,7 @@
             <TableHeader>
                 <ThAuto>@lang["Business Branch"]</ThAuto>
                 <ThAuto>@lang["Stock Location"]</ThAuto>
+                <ThCenter>@lang["Unit"]</ThCenter>
                 <ThCenter>@lang["QTY"]</ThCenter>
                 <ThCenter>@lang["Min QTY"]</ThCenter>
                 <ThCenter>@lang["Max QTY"]</ThCenter>
@@ -29,13 +30,14 @@
                         <LabelOutOfStock is_visible="@p.is_out_of_stock" />
                     </Column>
                 </td>
+                <TdCenter>@p.unit</TdCenter>
                 <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
                 <TdCenter>@p.min_quantity.ToString(gv.quantity_format)</TdCenter>
                 <TdCenter>@p.max_quantity.ToString(gv.quantity_format)</TdCenter>
             </RowTemplate>
             <TableFooter>
                 <tr>
-                    <td colspan="3">@lang["Total Quantity"]</td>
+                    <td colspan="4">@lang["Total Quantity"]</td>
                     <TdCenter>@models.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
                     <td colspan="2"></td>
                 </tr>
@@ -51,6 +53,7 @@
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int product_id { get; set; }
+    [Parameter] public bool product_deleted { get; set; }
     List<StockLocationProductModel> models = new List<StockLocationProductModel>();
     bool is_loading, is_saving, ShowModal;
 

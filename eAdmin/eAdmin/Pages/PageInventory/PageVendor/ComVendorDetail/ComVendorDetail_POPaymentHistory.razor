@@ -13,7 +13,7 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>Purchase Payment History</HeaderTemplate>
+                    <HeaderTemplate>@lang["Purchase Payment History"]</HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
@@ -29,7 +29,6 @@
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
 
             <Com is_visible="@(models != null)">
-
                 <Table Items="@models"
                        PerPage="@state.pager.per_page"
                        TotalItem="@TotalRecord"
@@ -40,16 +39,15 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("payment_date", "Date", "uk-text-center")
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("payment_type/payment_type_name_en", "Payment Type", "col-auto")
-                        <ThRight>Payment Amount </ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <Th>Created By</Th>
-                        <ThCenter>Status</ThCenter>
+                        @HeaderTemplate("payment_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("payment_type/payment_type_name_en", lang["Payment Type"], "col-auto")
+                        <ThRight>@lang["Payment Amount"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <Th>@lang["Created By"]</Th>
+                        <ThCenter>@lang["Status"]</ThCenter>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.payment_date.ToString(gv.date_format)</TdCenter>
@@ -78,14 +76,10 @@
                         <TdCenter>
                             <LabelDeleted is_visible="@(p.is_deleted)" />
                             <LabelActive is_visible="@(p.status && !p.is_deleted)" />
-                         
                         </TdCenter>
                     </RowTemplate>
                 </Table>
-
-
             </Com>
-
         </PageBody>
     </PageContainer> 
 }

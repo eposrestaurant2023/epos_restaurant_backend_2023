@@ -38,22 +38,20 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("purchase_date", "Date", "uk-text-center")
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        <ThCenter>Quantity</ThCenter>
-                        <ThRight>Total Amount</ThRight>
-                        <ThRight>Paid Amount</ThRight>
-                        <ThRight>Balance</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <Th>Created By</Th>
-                        <ThCenter>Status</ThCenter>
+                        @HeaderTemplate("purchase_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        <ThCenter>@lang["Quantity"]</ThCenter>
+                        <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Paid Amount"]</ThRight>
+                        <ThRight>@lang["Balance"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <Th>@lang["Created By"]</Th>
+                        <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
-
                         <TdCenter>@p.purchase_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("purchase_order_view")" url="@($"purchaseorder/{p.id}")">@p.document_number</ComAuthorize>
@@ -77,10 +75,9 @@
                             <LabelDeleted is_visible="@(p.is_deleted)" />
                         </TdRight>
                         <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">@lang["View"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">@lang["Edit"]</TableActionItem>
                         </TdActions>
-
                     </RowTemplate>
                 </Table>
             </Com>

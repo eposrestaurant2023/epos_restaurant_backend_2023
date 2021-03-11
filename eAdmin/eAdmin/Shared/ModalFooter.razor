@@ -12,7 +12,7 @@
                         <Button roles="@RoleDelete" icon="delete" class_name="danger" OnClick="@OnDeleteClick" disabled="@is_submitting">@lang["Delete"]</Button>
                     </div>
                 }
-            <div class="uk-margin-auto-right"> 
+            <div class="uk-margin-auto-left"> 
                 <Button is_visible="@is_open_button_save_and_new" roles="@RoleAdd" type="submit" icon="save" OnClick="@OnNewSaveClick" disabled="@is_submitting">@lang["Save & New"]</Button>
                 <Button roles="@RoleAdd" type="submit" icon="save" OnClick="OnSaveClick" disabled="@is_submitting" is_visible="is_save_button">@lang["Save"]</Button>
                 <Button icon="reply" class_name="danger" OnClick="@OnCancelClick" is_visible="is_cancel_button" disabled="@is_submitting">@lang["Cancel"]</Button>
