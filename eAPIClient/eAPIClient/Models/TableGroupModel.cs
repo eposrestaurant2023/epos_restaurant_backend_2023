@@ -15,8 +15,6 @@ namespace eAPIClient.Models
             tables = new List<TableModel>();
         }
         public int outlet_id { get; set; }
-        [ForeignKey("outlet_id")]
-        public OutletModel outlet { get; set; }
 
         private string _table_group_name_en;
 
