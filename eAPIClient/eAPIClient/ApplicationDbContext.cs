@@ -46,9 +46,7 @@ namespace eAPIClient
         public DbSet<CustomerModel> Customers { get; set; }
         public DbSet<PaymentModel> Payments { get; set; }
         public DbSet<SaleModel> Sales { get; set; }
-        public DbSet<SaleProductModel> SaleProducts { get; set; }
-        public DbSet<StationModel> Stations { get; set; }
-        public DbSet<OutletModel> Outlets { get; set; }
+        public DbSet<SaleProductModel> SaleProducts { get; set; }  
         public DbSet<TableGroupModel> TableGroups { get; set; }
         public DbSet<TableModel> Tables { get; set; }
         public DbSet<SettingModel> Settings { get; set; }

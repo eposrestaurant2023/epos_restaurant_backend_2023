@@ -16,20 +16,24 @@ namespace eModels
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
         }
 
-        [NotMapped]
-        [JsonIgnore]
-        public string customer_code_name { get { return customer_code + "-" + customer_name_en; } }
-
-        [Required(ErrorMessage = "Please select a customer group.")]
-        [Range(1,int.MaxValue,ErrorMessage = "Please select a customer group.")]
-        public int customer_group_id { get; set; }
+       
+      
+      
         [ForeignKey("customer_group_id")]
-        public CustomerGroupModel customer_group { get; set; }
-
+        public CustomerGroupModel customer_group { get; set; }    
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
-        
-        [NotMapped, JsonIgnore] 
 
+
+        [NotMapped, JsonIgnore]
+        public string customer_code_name
+        {
+            get
+            {
+                return customer_code + "-" + customer_name_en;
+            }
+        }
+
+        [NotMapped, JsonIgnore]   
         public string customer_business_brach_list
         {
             get { 
