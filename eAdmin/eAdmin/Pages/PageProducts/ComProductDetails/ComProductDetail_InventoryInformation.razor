@@ -13,8 +13,8 @@
             <TableHeader>
                 <ThAuto>@lang["Business Branch"]</ThAuto>
                 <ThAuto>@lang["Stock Location"]</ThAuto>
-                <ThCenter>@lang["Unit"]</ThCenter>
                 <ThCenter>@lang["QTY"]</ThCenter>
+                <ThCenter>@lang["Unit"]</ThCenter>
                 <ThCenter>@lang["Min QTY"]</ThCenter>
                 <ThCenter>@lang["Max QTY"]</ThCenter>
             </TableHeader>
@@ -30,8 +30,8 @@
                         <LabelOutOfStock is_visible="@p.is_out_of_stock" />
                     </Column>
                 </td>
-                <TdCenter>@p.unit</TdCenter>
                 <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
+                <TdCenter>@p.unit</TdCenter>
                 <TdCenter>@p.min_quantity.ToString(gv.quantity_format)</TdCenter>
                 <TdCenter>@p.max_quantity.ToString(gv.quantity_format)</TdCenter>
             </RowTemplate>

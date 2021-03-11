@@ -7,9 +7,9 @@
             <thead>
                 <ThAuto>@lang["Business Branch"]</ThAuto>
                 <ThAuto>@lang["Stock Location"]</ThAuto>
-                <ThCenter>@lang["Unit"]</ThCenter>
                 <ThCenter>@lang["Quantity On Hand"]</ThCenter>
                 <ThCenter>@lang["Quantity"]</ThCenter>
+                <ThCenter>@lang["Unit"]</ThCenter>
                 <ThCenter>@lang["Different"]</ThCenter>
             </thead>
             <tbody>
@@ -22,11 +22,12 @@
                             @p.stock_location.stock_location_name
                         </div>
                     </td>
-                    <TdCenter>
-                        @p.unit
-                    </TdCenter>
+
                     <TdCenter>
                         @p.quantity.ToString(gv.quantity_format)
+                    </TdCenter>
+                    <TdCenter>
+                        @p.unit
                     </TdCenter>
                     <TdCenter>
                         <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.adjust_quantity" text_format="@gv.quantity_format" width="100px" />
@@ -39,7 +40,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">@lang["Total Quantity"]</td>
+                    <td colspan="4">@lang["Total Quantity"]</td>
                     <TdCenter>@stock_location_products.Sum(r => r.adjust_quantity).ToString(gv.quantity_format)</TdCenter>
                     <TdCenter>@stock_location_products.Sum(r => r.adjust_quantity - r.quantity).ToString(gv.quantity_format)</TdCenter>
                 </tr>
