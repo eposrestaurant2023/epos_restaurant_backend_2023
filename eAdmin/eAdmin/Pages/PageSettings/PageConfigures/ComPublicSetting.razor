@@ -1,0 +1,47 @@
+﻿
+@foreach (var s in settings.Where(r => r.status == true && r.is_public == true).Select(r => r.group_name).Distinct())
+{
+<UIContainerBox Title="@s.ToString()">
+    @foreach (var d in settings.Where(r => r.group_name == s.ToString() && r.is_public == true && r.status == true).OrderBy(r=>r.sort_order))
+    {
+        if (d.input_type == "checkbox")
+        {
+            <ComInputCheckBox label="@d.setting_title" value="@(d.setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d,val))" />
+        }
+        else if (d.input_type == "select")
+        {
+            <div class="uk-margin-small">
+                <label class="uk-form-label">@d.setting_title</label>
+                <div class="uk-form-controls">
+                    <select @bind="@d.setting_value" class="uk-select  uk-form-small">
+
+                        @foreach (string item in d.setting_option.Split(','))
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+        else
+        {
+            <TextInput type="@d.input_type" label="@d.setting_title" @bind-text="@d.setting_value" />
+        }
+    }
+</UIContainerBox>
+}
+@code {
+    [Parameter] public List<SettingModel> settings { get; set; }
+    void UpdateCheckBoxSetting(SettingModel s, bool is_selected)
+    {
+        if (is_selected)
+        {
+            s.setting_value = "1";
+        }
+        else
+        {
+            s.setting_value = "0";
+        }
+    }
+}
+

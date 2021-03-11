@@ -12,112 +12,42 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @state.page_title
+                      @lang["Settings"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <ComSearch place_holder="@keyword" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem OnClick="@(()=>{ business_id = Guid.NewGuid(); })">General Setting</TabHeaderItem>
-                    @foreach (var bs in business_branches.Where(r => r.is_deleted == false))
+                    <TabHeaderItem >General Setting</TabHeaderItem>
+                    @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
                     {
-                        <TabHeaderItem OnClick="@(()=>OnBusinessBranch(bs.id))">@bs.business_branch_name_en</TabHeaderItem>
+                        <TabHeaderItem>@bs.business_branch_name_en</TabHeaderItem>
                     }
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComAccordion>
-                            <Header>Show Comfirm Password</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword is_public="true" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                        <ComAccordion>
-                            <Header>Host</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword is_public="true" group_name="host" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                        <ComAccordion>
-                            <Header>Report</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword is_public="true" group_name="report" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
+                       
+                            <UIGridCenter>
+                                <ComSetting business_branch_id="@(Guid.Empty)" settings="@GetSettings"/>
+                            </UIGridCenter>
+                      
                     </TabItem>
-
-
-                    <TabItem>
-                        <ComAccordion>
-                            <Header>Show Comfirm Password</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                        <ComAccordion>
-                            <Header>Host</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="host" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                        <ComAccordion>
-                            <Header>Report</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="report" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                    </TabItem>
-
-
-                    <TabItem>
-                        <ComAccordion>
-                            <Header>Show Comfirm Password</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                        <ComAccordion>
-                            <Header>Host</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="host" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                        <ComAccordion>
-                            <Header>Report</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="report" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                    </TabItem>
-
-
-                    <TabItem>
-                        <ComAccordion>
-                            <Header>Show Comfirm Password</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="show confirm" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                        <ComAccordion>
-                            <Header>Host</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="host" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                        <ComAccordion>
-                            <Header>Report</Header>
-                            <Content>
-                                <ComSetting_GroupShowComfirmPassword business_id="@business_id" is_public="false" group_name="report" OnEdit="@OnEdit" settings="@settings" />
-                            </Content>
-                        </ComAccordion>
-                    </TabItem>
-                </TabBody>
+                    
+                        @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
+                        {
+                            <TabItem>
+                                <UIGridCenter>
+                                    <ComSetting business_branch_id="@bs.id" settings="@GetSettings" />
+                                </UIGridCenter>
+                            </TabItem>                        
+                        }
+</TabBody>
             </Tab>
         </PageBody>
         <PageFooter>
@@ -129,100 +59,35 @@
 }
 
 @code{
-    [Parameter] public string keyword { get; set; } = "";
-    List<SettingModel> settings = new List<SettingModel>();
-    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
-    bool is_public = false;
-    string StateKey = "278484567Gs47775KJHGytkjhTonB2547935";
-    string controller_api = "Setting";
 
-    public string ControllerApi
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(state.pager.order_by))
+    List<SettingModel> settings = new List<SettingModel>();
+    string keyword;
+
+    public List<SettingModel> GetSettings { get {
+            if (string.IsNullOrEmpty(keyword))
             {
-                state.pager.order_by = "id";
-                state.pager.order_by_type = "desc";
+                return settings;
             }
-            string url = $"{controller_api}?$expand=business_branch_settings&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}";
-            return url + GetFilter(state.filters);
-        }
-    }
+            else
+            {
+                return settings.Where(r=>r.setting_title.ToLower().Trim().Contains(keyword.ToLower().Trim())).ToList();
+            }
+        } }
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        state = await GetState(StateKey);
-        if (state.page_title == "")
-        {
-            state.page_title = "All Setting";
-        }
-        await LoadData(state.api_url);
-        await LoadDataBusinessBranch();
+        await LoadData();
+
         is_loading = false;
     }
-    async Task LoadDataBusinessBranch()
-    {
-        var res = await http.ApiGetOData("BusinessBranch");
-        if (res.IsSuccess)
-        {
-            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
-        }
-    }
 
-    Guid business_id = new Guid();
-    void OnBusinessBranch(Guid id)
-    {
-        business_id = id;
-    }
-
-    async Task Save_Click()
-    {
-        is_saving = true;
-        if (business_id != Guid.Empty)
-        {
-            var re = await http.ApiPost("BusinessBranchSetting/save/multiple", setting_.business_branch_settings);
-            if (re.IsSuccess)
-            {
-                toast.Add(lang["Save Setting successfully"], MatToastType.Success);
-            }
-            else
-            {
-                toast.Add(lang["Save Setting fail"], MatToastType.Warning);
-            }
-        }
-        else if(business_id == Guid.Empty)
-        {
-            var re = await http.ApiPost("save/setting/multiple", settings);
-            if (re.IsSuccess)
-            {
-                toast.Add(lang["Save Setting successfully"], MatToastType.Success);
-            }
-            else
-            {
-                toast.Add(lang["Save Setting fail"], MatToastType.Warning);
-            }
-        }
-
-        is_saving = false;
-    }
-    SettingModel setting_ = new SettingModel();
-    void OnEdit(SettingModel s)
-    {
-        title = "Edit :" + s.setting_title;
-        setting_ = s;
-    }
-
-    async Task LoadData(string api_url = "")
+    async Task LoadData()
     {
         is_loading = true;
-        if (string.IsNullOrEmpty(api_url))
-        {
-            api_url = $"{ControllerApi}";
-            state.api_url = api_url;
-            await SetState(StateKey, state);
-        }
+
+        string   api_url = $"Setting?$expand=business_branch_settings";
+
 
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
@@ -232,11 +97,26 @@
         is_loading = false;
     }
 
-    async Task OnSearch(string keyword)
+    async Task Save_Click()
     {
-        state.pager = new PagerModel();
-        SetFilterValue2(state.filters, "keyword", keyword);
-        await LoadData();
+        is_saving = true;
+
+        var re = await http.ApiPost("save/setting/multiple", settings);
+        if (re.IsSuccess)
+        {
+            toast.Add(lang["Save Setting successfully"], MatToastType.Success);
+        }
+        else
+        {
+            toast.Add(lang["Save Setting fail"], MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+
+    void OnSearch(string _keyword)
+    {
+        keyword = _keyword;
+       
     }
 }
 

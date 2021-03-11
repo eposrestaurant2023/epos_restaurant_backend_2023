@@ -1,35 +1,45 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
 @inject IMatToaster toast
-<EditFormContext model="@product.stock_location_products" is_save="true" is_cancel="true" Save_Click="@OnSaveClick" Cancel_Click="@(()=>OnCancelClick())" modal_width="800px" is_opened="@is_opened" title="@lang["Stock Adjustment"]" is_submitting="is_saving">
-    <Com is_visible="@product.stock_location_products.Any()">
+<EditFormContext model="@stock_location_products" is_save="true" is_cancel="true" Save_Click="@OnSaveClick" Cancel_Click="@(()=>OnCancelClick())" modal_width="800px" is_opened="@is_opened" title="@lang["Stock Adjustment"]" is_submitting="is_saving">
+    <Com is_visible="@stock_location_products.Any()">
         <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
             <thead>
                 <ThAuto>@lang["Business Branch"]</ThAuto>
                 <ThAuto>@lang["Stock Location"]</ThAuto>
+                <ThCenter>@lang["Quantity On Hand"]</ThCenter>
                 <ThCenter>@lang["Quantity"]</ThCenter>
+                <ThCenter>@lang["Different"]</ThCenter>
             </thead>
             <tbody>
-                @foreach (var p in product.stock_location_products)
+                @foreach (var p in stock_location_products)
                 {
-                    <tr>
-                        <td>@p.stock_location?.business_branch?.business_branch_name_en</td>
-                        <td>
-                            <div>
-                                @p.stock_location.stock_location_name
-                            </div>
-                        </td>
-                        <TdCenter>
-                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.quantity" text_format="@gv.quantity_format" width="100px" />
-                        </TdCenter>
-                    </tr>
+                <tr>
+                    <td>@p.stock_location?.business_branch?.business_branch_name_en</td>
+                    <td>
+                        <div>
+                            @p.stock_location.stock_location_name
+                        </div>
+                    </td>
+                    <TdCenter>
+                        @p.quantity.ToString(gv.quantity_format)
+                    </TdCenter>
+                    <TdCenter>
+                        <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.adjust_quantity" text_format="@gv.quantity_format" width="100px" />
+                    </TdCenter>
+                    <TdCenter>
+                        @((p.adjust_quantity - p.quantity).ToString(gv.quantity_format))
+                    </TdCenter>
+                </tr>
                 }
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="2">@lang["Total Quantity"]</td>
-                    <TdCenter>@product.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                    <td colspan="3">@lang["Total Quantity"]</td>
+                    <TdCenter>@stock_location_products.Sum(r => r.adjust_quantity).ToString(gv.quantity_format)</TdCenter>
+                    <TdCenter>@stock_location_products.Sum(r => r.adjust_quantity - r.quantity).ToString(gv.quantity_format)</TdCenter>
                 </tr>
+                
             </tfoot>
         </table>
     </Com>
@@ -38,18 +48,19 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public bool is_opened { get; set; }
     [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
-    [Parameter] public ProductModel product { get; set; }
+    [Parameter] public List<StockLocationProductModel> stock_location_products { get; set; }
+    [Parameter] public EventCallback<List<StockLocationProductModel>> stock_location_productsChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> Cancel_Click { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> SaveClicked { get; set; }
 
 
-    public ProductModel save_product = new ProductModel();
+
     bool is_loading, is_saving, ShowModal;
     int TotalRecord = 0;
 
     async Task OnCancelClick()
     {
-        product = new ProductModel();
+
         is_opened = false;
         await is_openedChanged.InvokeAsync(is_opened);
         await Cancel_Click.InvokeAsync(new MouseEventArgs());
@@ -59,27 +70,28 @@
     public async Task OnSaveClick()
     {
         is_saving = true;
-        ProductModel save_product = new ProductModel();
-        save_product = product;
-        save_product.vendor = null;
-        save_product.unit = null;
-        save_product.sale_products = null;
-        save_product.product_portions = null;
-        save_product.product_modifiers = null;
-        save_product.product_menus = null;
-        save_product.product_category = null;
 
+        if (! stock_location_products.Where(r => r.quantity != r.adjust_quantity).Any()){
+            toast.Add("There's no quantity changed", MatToastType.Warning);
+            return;
+        }
+        List<QuantityAdjustmentModel> quantity_adjustments = new List<QuantityAdjustmentModel>();
+        foreach(var d in stock_location_products.Where(r => r.quantity != r.adjust_quantity))
+        {
+            quantity_adjustments.Add(new QuantityAdjustmentModel() { quantity=d.adjust_quantity - d.quantity, stock_location_id=d.stock_location_id, product_id = d.product_id });
+        }
 
-        Console.WriteLine(JsonSerializer.Serialize(save_product));
-
-
-        var resp = await http.ApiPost("product/stockadjustmentsave", save_product);
+        var resp = await http.ApiPost("StockLocationProduct/Save/Multiple", quantity_adjustments);
         if (resp.IsSuccess)
         {
-            product = new ProductModel();
+
             is_opened = false;
             await is_openedChanged.InvokeAsync(is_opened);
             await SaveClicked.InvokeAsync();
+
+            stock_location_products.ForEach(r => r.quantity = r.adjust_quantity);
+            await stock_location_productsChanged.InvokeAsync(stock_location_products);
+
             toast.Add("Saved Successfully", MatToastType.Success);
         }
         else

@@ -3,8 +3,7 @@
 @inject IMatToaster toast
 
 <UIContainerBox Title="Menus">
-    @current_menu_id | @root_menu_id
-
+  
     @if (menu == null)
     {
         <div>
@@ -142,6 +141,8 @@
     async Task OnCurrentMenuChanged(int _menu_id)
     {
         current_menu_id = _menu_id;
+
+        await keywordChanged.InvokeAsync("");
         await current_menu_idChanged.InvokeAsync(_menu_id);
     }
 

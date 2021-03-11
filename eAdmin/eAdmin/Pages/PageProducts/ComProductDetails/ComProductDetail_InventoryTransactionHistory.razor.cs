@@ -21,11 +21,11 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
         {
             get
             {
-                state.pager.order_by = "transaction_date";
+                state.pager.order_by = "created_date";
                 string url = $"{controller_api}?";
                 url += $"$expand=inventory_transaction_type";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
-                Console.WriteLine(url);
+         
                 return url + GetFilter(state.filters);  
             }
         }
@@ -322,12 +322,6 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
         {
             state.pager = new PagerModel();
             SetFilterValue2(state.filters, "keyword", keyword);
-            await LoadData();
-        }
-        public async Task OrderBy(string col_name = "")
-        {
-            state.pager.order_by = col_name;
-            state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
             await LoadData();
         }
 

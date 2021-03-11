@@ -1,0 +1,13 @@
+﻿@if (business_branch_id == Guid.Empty)
+{
+    <ComPublicSetting settings="@settings"/>
+}
+else
+{
+    <ComBusinessBranchSetting settings="@settings" business_branch_id="@business_branch_id"/>
+}
+
+@code{
+    [Parameter] public List<SettingModel> settings { get; set; }
+    [Parameter] public Guid business_branch_id { get; set; }
+} 

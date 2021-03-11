@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace eModels
@@ -19,5 +20,8 @@ namespace eModels
         public SettingModel setting { get; set; }
 
         public string setting_value { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public bool is_select { get; set; }
     }
 }
