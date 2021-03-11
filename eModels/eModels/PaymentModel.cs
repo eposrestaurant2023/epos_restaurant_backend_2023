@@ -17,11 +17,11 @@ namespace eModels
         }
         public List<HistoryModel> histories { get; set; }
 
-        public int payment_type_id { get; set; }
+      
         [ForeignKey("payment_type_id")]
         public PaymentTypeModel payment_type { get; set; }
 
-        public Guid? sale_id { get; set; }
+       
         [ForeignKey("sale_id")]
         public SaleModel sale { get; set; }
 

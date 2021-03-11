@@ -9,6 +9,8 @@ namespace eShareModel
 {
     public class CustomerShareModel : CoreGUIDModel
     {
+        public int customer_group_id { get; set; }
+
         public string customer_code { get; set; }
 
         private string _customer_name_en;
