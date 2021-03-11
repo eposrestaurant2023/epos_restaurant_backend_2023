@@ -28,6 +28,7 @@ namespace eAPI.Controllers
             gv.outlets = db.outlets.ToList();
             gv.countries = db.Countries.ToList();
             gv.customer_groups = db.CustomerGroups.ToList();
+            gv.project_type = db.ProjectType.ToList();
 
             return Ok(gv);
         }
