@@ -21,5 +21,9 @@ namespace eModels
         public string gender { get; set; }
         public string email_address { get; set; }
         public string telegram { get; set; }
+        public int project_id { get; set; }
+        [ForeignKey("project_id")]
+        public ProjectModel project { get; set; }
+
     }
 }
