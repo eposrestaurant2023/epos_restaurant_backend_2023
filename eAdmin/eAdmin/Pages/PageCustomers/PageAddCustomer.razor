@@ -104,6 +104,8 @@
                         model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
                         model.customer_code = "New";
                         model.id = new Guid();
+                        model.is_deleted = false;
+                        model.status = true;
                         model.created_date = DateTime.Now;
                         title = $"Clone : {model.customer_name_en}";
                     }
