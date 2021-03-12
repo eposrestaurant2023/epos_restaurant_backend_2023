@@ -29,14 +29,15 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-         public IQueryable<SaleModel> Get(string keyword = "",string shift="")
+         public IQueryable<SaleModel> Get(string keyword = "",string shift="",string open_by="",string close_by="")
        {
            
                 return (from r in db.Sales
                         where EF.Functions.Like(
                                   ((r.document_number ?? " ") + (r.customer.customer_name_en ?? " ") +
                                    (r.customer.customer_name_kh ?? " ") + (r.sale_note ?? " ")
-                                  ).ToLower().Trim(), $"%{(keyword??"")}%".ToLower().Trim()) && r.cashier_shift.shift == ((shift ?? "") == "" ? r.cashier_shift.shift : shift)
+                                  ).ToLower().Trim(), $"%{(keyword??"")}%".ToLower().Trim()) && r.cashier_shift.shift == ((shift ?? "") == "" ? r.cashier_shift.shift : shift) &&
+                                  r.created_by == ((open_by??"") =="" ? r.created_by : open_by) && r.closed_by == ((close_by??"") == "" ? r.closed_by : close_by)
                         select r);
 
            
