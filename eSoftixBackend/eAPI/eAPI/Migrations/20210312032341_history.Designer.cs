@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210312032341_history")]
+    partial class history
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,7 +218,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("customer_id")
+                    b.Property<int>("customer_id")
                         .HasColumnType("int");
 
                     b.Property<string>("deleted_by")
@@ -251,7 +253,7 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int?>("project_id")
+                    b.Property<int>("project_id")
                         .HasColumnType("int");
 
                     b.Property<bool>("status")
@@ -1330,11 +1332,15 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany("contacts")
-                        .HasForeignKey("customer_id");
+                        .HasForeignKey("customer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eModels.ProjectModel", "project")
                         .WithMany("project_contacts")
-                        .HasForeignKey("project_id");
+                        .HasForeignKey("project_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("customer");
 
@@ -1464,7 +1470,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.ProjectModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customers")
-                        .WithMany("projects")
+                        .WithMany()
                         .HasForeignKey("customer_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1522,8 +1528,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.CustomerModel", b =>
                 {
                     b.Navigation("contacts");
-
-                    b.Navigation("projects");
                 });
 
             modelBuilder.Entity("eModels.PermissionOptionModel", b =>

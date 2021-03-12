@@ -41,8 +41,9 @@ namespace eModels
         public int? customer_id { get; set; }
         [ForeignKey("customer_id")]
         public virtual CustomerModel customer { get; set; }
-
-   
+        public int? project_id { get; set; }
+        [ForeignKey("project_id")]
+        public virtual ProjectModel Project { get; set; }
 
         public string document_number { get; set; } = "";
         public string module { get; set; } = "";

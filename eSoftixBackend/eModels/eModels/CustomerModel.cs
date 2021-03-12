@@ -12,6 +12,7 @@ namespace eModels
         public CustomerModel()
         {
             contacts = new List<ContactModel>();
+            projects = new List<ProjectModel>();
         }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select customer Group")]
@@ -68,7 +69,7 @@ namespace eModels
         public string telegram { get; set; }
         [ValidateComplexType]
         public List<ContactModel> contacts { get; set; }
-
+        public List<ProjectModel> projects { get; set; }
 
     }
 }

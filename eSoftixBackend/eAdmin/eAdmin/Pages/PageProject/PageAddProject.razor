@@ -2,7 +2,6 @@
 @page "/project/edit/{id:int}"
 @inherits PageCore
 
-
 <Loading is_loading="@is_loading" />
 
  @if (!is_loading)
@@ -31,7 +30,6 @@
             </HeaderRight>
         </PageHeader>
         <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
-            
             <PageBody>
                 <UIGridCenter>
                    <ComAddProjectForm @bind-model="@model"/>
@@ -40,7 +38,7 @@
             <PageFooter>
                 <FooterCenter>
                     <Button is_visible="@is_saving"><Spinner /></Button>
-                    <Button icon="save" class_name="uk-button uk-button-primary" roles="@gv.GetRole("project_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
+                    <Button icon="save" class_name="uk-button uk-button-primary" roles="@gv.GetRole("project_add")" type="submit">Save</Button>
                     <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger" icon="reply">Cancel</Button>
                 </FooterCenter>
             </PageFooter>
@@ -54,7 +52,7 @@
     {
         get
         {
-            return $"project({id})?$expand=project_contacts($filter=is_deleted eq false)";
+            return $"project({id})?$expand=project_type,project_contacts($filter=is_deleted eq false)";
         }
     }
 
@@ -63,39 +61,57 @@
         if (!is_loading)
         {
             is_loading = true;
-            title = "Add New Project";
-            if (model.project_contacts.Count == 0)
+
+            if (id > 0)
             {
-                model.project_contacts.Add(new ContactModel());
+                var res = await http.ApiGet(api_url);
+                if (res.IsSuccess)
+                {
+                    model = JsonSerializer.Deserialize<ProjectModel>(res.Content.ToString());
+                    title = $"Edit : {model.project_name}";
+                }
+                else
+                {
+                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                }
             }
+            else
+            {
+                title = "Add New Project";
+                if (model.project_contacts.Count == 0)
+                {
+                    model.project_contacts.Add(new ContactModel());
+                }
+            }
+
+
+
             is_loading = false;
         }
     }
 
     async Task Save_Click()
     {
-        if (!is_saving)
+
+        is_saving = true;
+        var res = await http.ApiPost($"project/save", model);
+        if (res.IsSuccess)
         {
-            is_saving = true;
 
-            var res = await http.ApiPost($"project/save", model);
-            if (res.IsSuccess)
-            {
+            model = JsonSerializer.Deserialize<ProjectModel>(res.Content.ToString());
+            toast.Add("Saving Project successfully", MatToastType.Success);
+            nav.NavigateTo($"project/{model.id}");
 
-                model = JsonSerializer.Deserialize<ProjectModel>(res.Content.ToString());
-                toast.Add("Saving Project successfully", MatToastType.Success);
-                nav.NavigateTo($"project/{model.id}");
-
-            }
-            else
-            {
-                is_saving = false;
-                toast.Add(res.Content.ToString(), MatToastType.Warning);
-
-            }
-            //testing
-            is_saving = false;
         }
+        else
+        {
+            is_saving = false;
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+
+        }
+        //testing
+        is_saving = false;
+
     }
     void OnCancel()
     {

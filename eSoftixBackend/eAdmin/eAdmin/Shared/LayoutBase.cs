@@ -99,6 +99,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "countries,";
                     api_url = api_url + "customer_groups,";
                     api_url = api_url + "project_type,";
+                    api_url = api_url + "customer,";
                  
                     api_url = api_url + "settings,";
                     api_url = api_url + "currencies,";
