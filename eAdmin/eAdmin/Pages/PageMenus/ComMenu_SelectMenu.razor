@@ -17,11 +17,11 @@
                     {
 
                         <div class="cp" @onclick="@(() => MenuClick(m))">
-                            <div style="position:relative;background-image: url(@http.ImageUrl(m.photo))">
-                                <div class="uk-position-bottom uk-dark uk-text-center">
-                                    @m.menu_name_en 
+                            <div class="box-menu-select box_menu" style="position:relative;background-image: url(@http.ImageUrl(m.photo))">
+                                <div class="box-selected"><Icon icon="check" size="18px" icon_color="#fff" /></div>
+                                <div class="uk-position-center uk-dark uk-text-center">
+                                    @m.menu_name_en
                                 </div>
-                                <div class="box-selected"><Icon icon="check"  size="12px"/> Select</div>
                             </div>
                         </div>
 
@@ -29,13 +29,13 @@
                     else
                     {
                         <div class="cp" @onclick="@(() => MenuClick(m))">
-                            <div class="box_menu" style="background:@m.background_color;color:@m.text_color;">
+                            <div class="box-menu-select box_menu" style="background:@m.background_color;color:@m.text_color;">
+                                <div class="box-selected"><Icon icon="check" size="18px" icon_color="#fff" /></div>
                                 <div class="uk-position-center uk-text-center">
-                                    <div>
+                                    <span>
                                         @m.menu_name_en
-                                    </div>
+                                    </span>
                                 </div>
-                                <div class="box-selected"><Icon icon="check"  size="12px"/> Select</div>
                             </div>
                         </div>
                     }
@@ -48,13 +48,13 @@
                     {
 
                         <div class="cp" @onclick="@(()=>SelectMenu(m))">
-                            <div style="position:relative; background-image:url(@http.ImageUrl(m.photo))">
-                                <div class="uk-position-bottom uk-dark uk-text-center" style="padding:5px;">
+                            <div class="box-menu-select box_menu" style="position:relative; background-image:url(@http.ImageUrl(m.photo))">
+                                <div class="box-selected"><Icon icon="check" size="18px" icon_color="#fff" /></div>
+                                <div class="uk-position-center uk-dark uk-text-center" style="padding:5px;">
                                     <span>
                                         @m.menu_name_en
                                     </span>
                                 </div>
-                                <div class="box-selected"><Icon icon="check" size="12px" /> Select</div>
                             </div>
                         </div>
 
@@ -62,13 +62,13 @@
                     else
                     {
                         <div class="cp" @onclick="@(()=>SelectMenu(m))">
-                            <div class="box_menu" style="background:@m.background_color;color:@m.text_color;">
+                            <div class="box-menu-select box_menu" style="background:@m.background_color;color:@m.text_color;">
+                                <div class="box-selected"><Icon icon="check" size="18px" icon_color="#fff"/></div>
                                 <div class="uk-position-center uk-text-center">
                                     <span>
                                         @m.menu_name_en
                                     </span>
                                 </div>
-                                <div class="box-selected"><Icon icon="check" size="12px" /> Select</div>
                             </div>
                         </div>
                     }

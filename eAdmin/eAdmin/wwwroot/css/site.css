@@ -7105,16 +7105,23 @@ z-index:999999!important;
     background: #f0f7ff;
 }
 
-.box_menu .box-selected {
+.box-menu-select .box-selected {
     display: none;
+    background: #4fce00;
+    top: 0;
+    position: absolute;
+    width: 30px;
+    height: 25px;
+    border-bottom-right-radius: 14px;
+    text-align: center;
 }
-.box_menu:hover
-.box_menu:active,
-.box_menu:focus {
-    border: 1px solid #5899dc;
+.box-menu-select:hover,
+.box-menu-select:active,
+.box-menu-select:focus {
+    border: 1px solid #4fce00 !important;
 }
-.box_menu:hover .box-selected,
-.box_menu:focus .box-selected, 
-.box_menu:active .box-selected {
-    display: block!important;
+.box-menu-select:hover .box-selected,
+.box-menu-select:focus .box-selected,
+.box-menu-select:active .box-selected {
+    display: block !important;
 }
