@@ -111,45 +111,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_config_data");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.CurrencyModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<decimal>("change_exchange_rate")
-                        .HasColumnType("decimal(19,10)");
-
-                    b.Property<string>("currency_format")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("currency_name_en")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("currency_name_kh")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("exchange_rate")
-                        .HasColumnType("decimal(19,10)");
-
-                    b.Property<bool>("is_main")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_currency");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.CustomerGroupModel", b =>
                 {
                     b.Property<int>("id")
@@ -351,24 +312,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_menu");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.OutletModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("outlet_name_en")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("outlet_name_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_outlet");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.PaymentModel", b =>
                 {
                     b.Property<Guid>("id")
@@ -425,45 +368,9 @@ namespace eAPIClient.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("payment_type_id");
-
                     b.HasIndex("sale_id");
 
                     b.ToTable("tbl_payment");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.PaymentTypeModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("currency_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("payment_type_name_en")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("payment_type_name_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("photo")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("currency_id");
-
-                    b.ToTable("tbl_payment_type");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.ProductMenuModel", b =>
@@ -637,26 +544,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_product_printer");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.ProductTypeModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("product_type_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_product_type");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.SaleModel", b =>
                 {
                     b.Property<Guid>("id")
@@ -806,7 +693,11 @@ namespace eAPIClient.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("cashier_shift_id");
+
                     b.HasIndex("customer_id");
+
+                    b.HasIndex("working_day_id");
 
                     b.ToTable("tbl_sale");
                 });
@@ -1157,54 +1048,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_shift");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.StationModel", b =>
-                {
-                    b.Property<int>("id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_already_config")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("station_name_en")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("station_name_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("outlet_id");
-
-                    b.ToTable("tbl_station");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.TableGroupModel", b =>
                 {
                     b.Property<int>("id")
@@ -1248,8 +1091,6 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
-
-                    b.HasIndex("outlet_id");
 
                     b.ToTable("tbl_table_group");
                 });
@@ -1391,30 +1232,11 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.PaymentModel", b =>
                 {
-                    b.HasOne("eAPIClient.Models.PaymentTypeModel", "payment_type")
-                        .WithMany()
-                        .HasForeignKey("payment_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eAPIClient.Models.SaleModel", "sale")
                         .WithMany("payments")
                         .HasForeignKey("sale_id");
 
-                    b.Navigation("payment_type");
-
                     b.Navigation("sale");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.PaymentTypeModel", b =>
-                {
-                    b.HasOne("eAPIClient.Models.CurrencyModel", "currency")
-                        .WithMany()
-                        .HasForeignKey("currency_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("currency");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.ProductMenuModel", b =>
@@ -1475,11 +1297,27 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.SaleModel", b =>
                 {
+                    b.HasOne("eAPIClient.Models.CashierShiftModel", "cashier_shift")
+                        .WithMany()
+                        .HasForeignKey("cashier_shift_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eAPIClient.Models.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
 
+                    b.HasOne("eAPIClient.Models.WorkingDayModel", "working_day")
+                        .WithMany()
+                        .HasForeignKey("working_day_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("cashier_shift");
+
                     b.Navigation("customer");
+
+                    b.Navigation("working_day");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.SaleProductModel", b =>
@@ -1510,28 +1348,6 @@ namespace eAPIClient.Migrations
                         .IsRequired();
 
                     b.Navigation("sale_product");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.StationModel", b =>
-                {
-                    b.HasOne("eAPIClient.Models.OutletModel", "outlet")
-                        .WithMany()
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("outlet");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.TableGroupModel", b =>
-                {
-                    b.HasOne("eAPIClient.Models.OutletModel", "outlet")
-                        .WithMany()
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.TableModel", b =>

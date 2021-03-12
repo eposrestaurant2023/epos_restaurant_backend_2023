@@ -1,4 +1,5 @@
-﻿<UIContainerBox Title="Menus">
+﻿@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="Menus">
     @if (gv.bussiness_branches.Count() == 1)
     {
         <ComAddProduct_RenderMenu business_branch_id="@gv.bussiness_branches.FirstOrDefault().id" OnMenuSelected="@OnMenuSelected"    selected_menus="@model.product_menus" />
@@ -18,7 +19,7 @@
                 <TabItem>
                     @if (model.product_menus.Where(r=>r.menu.business_branch_id== b.id && r.is_deleted==false).Any())
                     {
-                        <h4>Selected Menus</h4>
+                        <h4>@lang["Selected Menus"]</h4>
                         <div class="box_select_menu">
 
                             @foreach (var m in model.product_menus.Where(r => r.is_deleted == false && r.menu.business_branch_id == b.id))

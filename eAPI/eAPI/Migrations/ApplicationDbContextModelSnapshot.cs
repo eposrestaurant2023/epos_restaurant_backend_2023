@@ -3243,6 +3243,9 @@ namespace eAPI.Migrations
                     b.Property<decimal>("min_quantity")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<decimal>("multiplier")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<int>("product_id")
                         .HasColumnType("int");
 
@@ -3251,6 +3254,10 @@ namespace eAPI.Migrations
 
                     b.Property<int>("stock_location_id")
                         .HasColumnType("int");
+
+                    b.Property<string>("unit")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 

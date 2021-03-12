@@ -25,7 +25,7 @@
                                      ApiFilter="@($"vendor_id eq {id} ")"
                                      File="@(new AttachFilesModel() { vendor_id = id })"
                                      IsVisible="@(!model.is_deleted)" />
-                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"vendor/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+                <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"vendor/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
                 <RefreshButton OnClick="@LoadData" />
             </HeaderRight>
         </PageHeader>
@@ -33,10 +33,10 @@
             <Tab ClassName="control-header-tab">
                 <TabHeader>
                     <TabHeaderItem>Overview</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>purchase_history_tab_click=true)">Purchase History</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>purchase_product_history_tab_click = true)">Purchase Product History</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>purchase_payment_history_tab_click = true)">Purchase Payment History</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">Comments</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>purchase_history_tab_click=true)">@lang["Purchase History"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>purchase_product_history_tab_click = true)">@lang["Purchase Product History"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>purchase_payment_history_tab_click = true)">@lang["Purchase Payment History"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">@lang["Comments and history"]</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
                     <TabItem>
@@ -52,15 +52,15 @@
                                     <ContentLeft>
                                         <table>
                                             <tr>
-                                                <th>Vendor Name</th>
+                                                <th>@lang["Vendor Name"]</th>
                                                 <td>@model.vendor_name</td>
                                             </tr>
                                             <tr>
-                                                <th>Company</th>
+                                                <th>@lang["Company"]</th>
                                                 <td>@model.company_name</td>
                                             </tr>
                                             <tr>
-                                                <th>Vendor Group</th>
+                                                <th>@lang["Vendor Group"]</th>
                                                 <td>@model.vendor_group?.vendor_group_name_en</td>
                                             </tr>
 
@@ -69,36 +69,34 @@
                                     <ContentRight>
                                         <table>
                                             <tr>
-                                                <th>Mobile Phone</th>
+                                                <th>@lang["Mobile Phone"]</th>
                                                 <td>@model.mobile_phone</td>
                                             </tr>
                                             <tr>
-                                                <th>Office Phone</th>
+                                                <th>@lang["Office Phone"]</th>
                                                 <td>@model.office_phone</td>
                                             </tr>
-                                            <tr>
-                                                <th></th>
-                                                <td>
-                                                    <div class="uk-text-large">000</div>
-                                                    <div class="uk-text-small uk-text-italic">Credit Ballance</div>
-                                                </td>
-                                            </tr>
                                         </table>
+                                        <Spacing Number="15" />
+                                        <div class="uk-card uk-card-credit uk-card-body">
+                                            <h3 class="uk-margin-remove">125.00</h3>
+                                            <div class="uk-text-small uk-text-italic">@lang["Credit Ballance"]</div>
+                                        </div>
                                     </ContentRight>
                                 </UISummaryBox>
                             }
 
-                            <UIContainerBox Title="Social Media Information">
+                            <UIContainerBox Title="@lang["Social Media Information"]">
                                 <ListTable>
-                                    <ListTableItem ItemTitle="Email">@model.email_address</ListTableItem>
+                                    <ListTableItem ItemTitle="@lang["Email"]">@model.email_address</ListTableItem>
 
                                 </ListTable>
                             </UIContainerBox>
 
-                            <UIContainerBox Title="Note" is_visible="@(!string.IsNullOrEmpty(model.note))">
+                            <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
                                 @model.note
                             </UIContainerBox>
-                            <UIContainerBox Title="Address" is_visible="@(!string.IsNullOrEmpty(model.address))">
+                            <UIContainerBox Title="@lang["Address"]" is_visible="@(!string.IsNullOrEmpty(model.address))">
                                 @model.address
                             </UIContainerBox>
                         </UIGridCenter>
@@ -125,7 +123,7 @@
                     </TabItem>
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
-                            <UIContainerBox Title="Comment and History">
+                            <UIContainerBox Title="@lang["Comment and History"]">
                                 <ComHistory RoleAdd="@gv.GetRole("vendor_add")"
                                             RoleDelete="@gv.GetRole("vendor_delete")"
                                             RoleEdit="@gv.GetRole("vendor_edit")"

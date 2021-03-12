@@ -1,14 +1,13 @@
 ﻿@inject IHttpService http
 @inject IJSRuntime js
 @inject IMatToaster toast
+@inject IStringLocalizer<Resource> lang
 
 <UIContainerBox Title="Menus">
 
     @if (menu == null)
     {
-        <div>
-            Please Select Menu
-        </div>
+        <div>@lang["Please Select Menu"]</div>
     }
     else
     {

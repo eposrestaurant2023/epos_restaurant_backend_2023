@@ -30,7 +30,7 @@ namespace eAdmin.Pages.PageProducts
                 
                 string url = $"{controller_api}?";
                 url = url + "$select=id,is_out_of_stock,is_low_inventory,is_over_stock,product_name_en,product_name_kh,product_code,status,is_deleted,min_price,max_price,photo,quantity&";
-                    url = url + $"$expand=product_category($select=product_category_en)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                url = url + $"$expand=product_category($select=product_category_en)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters) + " and is_menu_product eq true";
             }
         }
@@ -134,7 +134,7 @@ namespace eAdmin.Pages.PageProducts
             var resp = await http.ApiPost(controller_api + "/ChangeStatus/"+product.id);
             if (resp.IsSuccess)
             {
-                toast.Add("Change status successfully", MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MatToastType.Success);
                 if (products.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
@@ -147,12 +147,12 @@ namespace eAdmin.Pages.PageProducts
         public async Task OnDelete(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Product", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Product"], "Are you sure you want to delete this record?"))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete product successfully", MatToastType.Success);
+                    toast.Add(lang["Delete product successfully"], MatToastType.Success);
                     if (products.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -166,7 +166,7 @@ namespace eAdmin.Pages.PageProducts
         public async Task OnRestore(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Restore product", "Are you sure you want to restore this record?"))
+            if (await js.Confirm(lang["Restore product"], lang["Are you sure you want to restore this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -178,7 +178,7 @@ namespace eAdmin.Pages.PageProducts
                     }
                     await LoadData();
                 }
-                toast.Add("Restore product successfully", MatBlazor.MatToastType.Success);
+                toast.Add(lang["Restore product successfully"], MatBlazor.MatToastType.Success);
                 
             }
             p.is_loading = false;
@@ -201,7 +201,7 @@ namespace eAdmin.Pages.PageProducts
                 {
                     key = "product_category/product_group_id",
                     value1 = state.product_group.id.ToString(),
-                    filter_title = "Product Group",
+                    filter_title = lang["Product Group"],
                     state_property_name = "product_group",
                     filter_info_text = state.product_group.product_group_en,
                     is_clear_all = true,
@@ -215,7 +215,7 @@ namespace eAdmin.Pages.PageProducts
                 {
                     key = "product_category_id",
                     value1 = state.product_category.id.ToString(),
-                    filter_title = "Product Category",
+                    filter_title = lang["Product Category"],
                     state_property_name = "product_category",
                     filter_info_text = state.product_category.product_category_en,
                     is_clear_all = true,

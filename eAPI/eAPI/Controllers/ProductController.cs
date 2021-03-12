@@ -118,30 +118,31 @@ namespace eAPI.Controllers
 
             u.product_menus.ForEach(r => r.menu = null);
             u.stock_location_products.ForEach(r => r.stock_location = null);
-            u.unit = null;
+            
             //if product is inv product then save init qty to init adjusment qty
             if (u.is_inventory_product)
             {
                 if (u.stock_location_products.Any())
                 {
-                    u.stock_location_products.ForEach(r => r.initial_adjustment_quantity = r.initial_quantity);
- 
-                    
-
+                    u.stock_location_products.ForEach(r => { r.initial_adjustment_quantity = r.initial_quantity; r.unit = u.unit.unit_name; r.multiplier = u.unit.multiplier; });
                 }
             }
 
             if (u.id == 0)
             {
-               
-
-
                 is_add = true;
+                u.unit = null;
                 db.Products.Add(u);
             }
             else
             {
-
+                //update unit & modifier when product was updated 
+                if (u.stock_location_products.Any())
+                {
+                    u.stock_location_products.ForEach(r => { r.unit = u.unit.unit_name; r.multiplier = u.unit.multiplier; });
+                    db.StockLocationProducts.UpdateRange(u.stock_location_products);
+                }
+                u.unit = null;
                 db.Products.Update(u);
             } 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));

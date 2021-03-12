@@ -1,5 +1,6 @@
-﻿@inject IHttpService http; 
-<UIContainerBox Title="Printers" Icon="print" >
+﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@lang["Printers"]" Icon="print" >
     @if (is_loading)
     {
         <Spinner/>
@@ -14,7 +15,7 @@
             }
         }else
         {
-            <p>There is no printer for this product</p>
+            <p>@lang["There is no printer for this product."]</p>
         }
     }
 </UIContainerBox>

@@ -1,5 +1,6 @@
-﻿@inject IHttpService http;
-<UIContainerBox Title="Menus">
+﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@lang["Menus"]">
     @if (is_loading)
     {
         <Spinner/>
@@ -8,7 +9,7 @@
     {
         if (product_menus.Count() == 0)
         {
-            <p>There is no menu assigment for this product</p>
+            <p>@lang["There is no menu assigment for this product."]</p>
         }
     <div class="box_select_menu"> 
     @foreach (var pm in product_menus.OrderBy(r => r.menu.business_branch.business_branch_name_en))

@@ -1,24 +1,42 @@
 ﻿<div class="uk-margin-small">
     <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
     <div class="uk-form-controls">
-        @if(!is_laoding){
-            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
-                @if (show_empty)
-                {
-                    <option value="0">@empty_text</option>
-                }
-                @foreach (var p in gv.unit_categories)
-                {
-                    <option value="@p.id">@p.category_name</option>
-                }
-            </select>
+        @if (!is_laoding)
+        {
+            if (is_ready_only)
+            {
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width" disabled>
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
+                    @foreach (var p in gv.unit_categories)
+                    {
+                        <option value="@p.id">@p.category_name</option>
+                    }
+                </select>
+            }
+            else
+            {
+                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width">
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
+                    @foreach (var p in gv.unit_categories)
+                    {
+                        <option value="@p.id">@p.category_name</option>
+                    }
+                </select>
+            }
+
             @ChildContent
         }
         else
         {
-            <Spinner/>
+            <Spinner />
         }
-        
+
     </div>
 </div>
 
@@ -28,6 +46,7 @@
     [Parameter] public string label { get; set; } = "Unit Category";
     [Parameter] public string icon { get; set; }
     [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_ready_only { get; set; } = false;
     [Parameter] public string empty_text { get; set; } = "Select Unit Category";
     [Parameter] public string width { get; set; } = "100%";
     [Parameter] public int selected_value { get; set; }

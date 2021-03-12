@@ -6508,14 +6508,10 @@ button.reconciled {
         font-size: 18px;
     }
 .uk-card-credit {
-    background: #4693cd;
-    color: #fff;
-    text-align: center;
-    border: 1px solid #0067b3;
-    border-radius: 8px;
+    text-align: center; 
 }
 .uk-card-credit h3 {
-    color: #fff; 
+    color: #0091ff;
 }
 .uk-card-header, .uk-card-body, .uk-card-footer {
     padding: 8px 15px !important;
@@ -7107,4 +7103,25 @@ z-index:999999!important;
 }
 .box-list-category:hover {
     background: #f0f7ff;
+}
+
+.box-menu-select .box-selected {
+    display: none;
+    background: #4fce00;
+    top: 0;
+    position: absolute;
+    width: 30px;
+    height: 25px;
+    border-bottom-right-radius: 14px;
+    text-align: center;
+}
+.box-menu-select:hover,
+.box-menu-select:active,
+.box-menu-select:focus {
+    border: 1px solid #4fce00 !important;
+}
+.box-menu-select:hover .box-selected,
+.box-menu-select:focus .box-selected,
+.box-menu-select:active .box-selected {
+    display: block !important;
 }

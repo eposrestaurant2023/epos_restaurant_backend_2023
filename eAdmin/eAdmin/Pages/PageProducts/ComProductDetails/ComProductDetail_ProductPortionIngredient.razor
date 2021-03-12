@@ -9,7 +9,7 @@
     {
         @foreach (var pp in product_potions)
         {
-            <ComProductDetail_Ingredients product_portion="@pp" />
+            <ComProductDetail_Ingredients product_portion="@pp" is_product_deleted="@is_product_deleted"/>
         }
     }
 
@@ -18,6 +18,7 @@
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int product_id { get; set; }
+    [Parameter] public bool is_product_deleted { get; set; }
     List<ProductPortionModel> product_potions = new List<ProductPortionModel>();
     
     

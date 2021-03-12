@@ -19,14 +19,14 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_modifier")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("modifier_add")" OnClick="@(()=> nav.NavigateTo("modifier/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("modifier_add")" OnClick="@(()=> nav.NavigateTo("modifier/new"))">@lang["New"]</AddButton>
                 <RefreshButton OnClick="@OnInitializedAsync" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
@@ -43,7 +43,7 @@
                        ShowCounter="true">
                     <TableHeader>
                         @HeaderTemplate("modifier_name", "Name", "col-auto")
-                        <ThCenter>Status</ThCenter>
+                        <ThCenter>@lang["Status"]</ThCenter>
                         <th></th>
                     </TableHeader>
                     <RowTemplate Context="m">
@@ -59,13 +59,13 @@
                         </TdCenter>
                         <TdCenter>
                             <ComTableActions is_loading="@(m.is_loading)">
-                                <TableActionItem roles="@gv.GetRole("modifier_view")" icon="visibility" is_visible="@(!m.is_deleted)" url="@($"modifier/{m.id}")">View</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("modifier_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">Edit</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("modifier_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">Clone</TableActionItem>
-                                <TableActionItem icon="check" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">Active</TableActionItem>
-                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">Inactive</TableActionItem>
-                                <TableActionItem icon="delete" roles="@gv.GetRole("modifier_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">Delete</TableActionItem>
-                                <TableActionItem icon="refresh" roles="@gv.GetRole("modifier_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">Restore</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_view")" icon="visibility" is_visible="@(!m.is_deleted)" url="@($"modifier/{m.id}")">@lang["View"]</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">@lang["Edit"]</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">@lang["Clone"]</TableActionItem>
+                                <TableActionItem icon="check" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">@lang["Active"]</TableActionItem>
+                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">@lang["Inactive"]</TableActionItem>
+                                <TableActionItem icon="delete" roles="@gv.GetRole("modifier_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">@lang["Deleted"]</TableActionItem>
+                                <TableActionItem icon="refresh" roles="@gv.GetRole("modifier_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">@lang["Restore"]</TableActionItem>
                             </ComTableActions>
                         </TdCenter>
                     </RowTemplate>

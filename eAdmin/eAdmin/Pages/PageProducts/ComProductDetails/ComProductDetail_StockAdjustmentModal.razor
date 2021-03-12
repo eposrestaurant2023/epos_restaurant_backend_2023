@@ -9,6 +9,7 @@
                 <ThAuto>@lang["Stock Location"]</ThAuto>
                 <ThCenter>@lang["Quantity On Hand"]</ThCenter>
                 <ThCenter>@lang["Quantity"]</ThCenter>
+                <ThCenter>@lang["Unit"]</ThCenter>
                 <ThCenter>@lang["Different"]</ThCenter>
             </thead>
             <tbody>
@@ -21,8 +22,12 @@
                             @p.stock_location.stock_location_name
                         </div>
                     </td>
+
                     <TdCenter>
                         @p.quantity.ToString(gv.quantity_format)
+                    </TdCenter>
+                    <TdCenter>
+                        @p.unit
                     </TdCenter>
                     <TdCenter>
                         <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.adjust_quantity" text_format="@gv.quantity_format" width="100px" />
@@ -35,7 +40,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">@lang["Total Quantity"]</td>
+                    <td colspan="4">@lang["Total Quantity"]</td>
                     <TdCenter>@stock_location_products.Sum(r => r.adjust_quantity).ToString(gv.quantity_format)</TdCenter>
                     <TdCenter>@stock_location_products.Sum(r => r.adjust_quantity - r.quantity).ToString(gv.quantity_format)</TdCenter>
                 </tr>
@@ -72,7 +77,7 @@
         is_saving = true;
 
         if (! stock_location_products.Where(r => r.quantity != r.adjust_quantity).Any()){
-            toast.Add("There's no quantity changed", MatToastType.Warning);
+            toast.Add(lang["There's no quantity changed"], MatToastType.Warning);
             return;
         }
         List<QuantityAdjustmentModel> quantity_adjustments = new List<QuantityAdjustmentModel>();
@@ -92,7 +97,7 @@
             stock_location_products.ForEach(r => r.quantity = r.adjust_quantity);
             await stock_location_productsChanged.InvokeAsync(stock_location_products);
 
-            toast.Add("Saved Successfully", MatToastType.Success);
+            toast.Add(lang["Saved Successfully"], MatToastType.Success);
         }
         else
         {

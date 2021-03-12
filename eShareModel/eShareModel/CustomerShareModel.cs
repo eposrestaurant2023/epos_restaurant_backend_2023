@@ -9,6 +9,8 @@ namespace eShareModel
 {
     public class CustomerShareModel : CoreGUIDModel
     {
+        public int customer_group_id { get; set; }
+
         public string customer_code { get; set; }
 
         private string _customer_name_en;
@@ -39,10 +41,7 @@ namespace eShareModel
 
         public string phone_2 { get; set; }
         public string photo { get; set; }
-      
-
-
-        public string   nationality { get; set; }
+        public string nationality { get; set; }
 
 
         [Column(TypeName = "date")]

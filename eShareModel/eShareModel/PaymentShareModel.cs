@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System;              
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eShareModel
 {
     public class PaymentShareModel : CoreGUIDModel
     {
+        public Guid? sale_id { get; set; }
+        public int payment_type_id { get; set; }
+
         public string reference_number { get; set; }
 
         [Column(TypeName = "date")]

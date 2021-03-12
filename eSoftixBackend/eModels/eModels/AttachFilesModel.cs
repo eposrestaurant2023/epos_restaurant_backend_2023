@@ -33,6 +33,10 @@ namespace eModels
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
 
+        public int? project_id { get; set; }
+        [ForeignKey("project_id")]
+        public ProjectModel project { get; set; }
+
     }
 
     public class InputFileData

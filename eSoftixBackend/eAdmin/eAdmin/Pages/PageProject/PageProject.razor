@@ -1,0 +1,95 @@
+﻿@page "/project"
+@inherits PageProjectBase
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (!is_loading)
+{
+
+    <Title Value="Customer"></Title>
+    <PageContainer roles="@gv.GetRole("project_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle>
+                    <HeaderTemplate>
+                        @state.page_title
+                    </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="Status">
+                            <ModuleView module_views="@gv.GetModuleView("page_project")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <AddButton roles="@gv.GetRole("project_add")" OnClick="@(()=>nav.NavigateTo("project/new"))">New</AddButton>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+
+                    <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="All Customer Group" />
+                </ComSearch>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            <Com is_visible="@(projects != null)">
+                <Table Items="@projects"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto"
+                       EmptyText="There is no record.">
+                    <TableHeader>
+                        @HeaderTemplate("project_name", "Name", "uk-text-right")
+                         <Th> Project Type</Th>
+                        <ThAuto>Customer</ThAuto>
+                        <ThCenter>Close Date</ThCenter>
+                        <ThCenter> Status</ThCenter>
+                        <th class="uk-width-auto"></th>
+                    </TableHeader>
+                    <RowTemplate Context="p">
+                        <td>
+                            <div>
+                                <ComAuthorize roles="@gv.GetRole("project_view")" url="@($"project/{p.id}")">@p.project_name</ComAuthorize>
+                            </div>
+                        </td>
+                        <td>
+                            @p.project_type?.project_type_name
+                        </td>
+                        <td>
+                            <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.customers?.id}")">@p.customers?.customer_name_en</ComAuthorize>
+                        </td>
+                        <TdCenter>
+                            @p.closed_date
+                        </TdCenter>
+                        <TdCenter>
+                            <LabelDeleted is_visible="@p.is_deleted" />
+                            <LabelActive is_visible="@(!p.is_deleted && p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("project_edit")" is_loading="@p.is_change_status" />
+                            <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("project_edit")" is_loading="@p.is_change_status" />
+                        </TdCenter>
+                        <TdActions is_loading="@p.is_loading">
+                            <TableActionItem roles="@gv.GetRole("project_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"project/{p.id}")">View</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("project_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("project_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("project_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("project_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("project_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                        </TdActions>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        </PageBody>
+    </PageContainer>
+}
+

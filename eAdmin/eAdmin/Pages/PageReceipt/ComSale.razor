@@ -15,22 +15,19 @@
                 @if (is_receipt_list)
                 {
                     <PageTitle ShowFilter="false">
-
                         <HeaderTemplate>
-                            @lang[" Receipt List"]
+                            @lang["Receipt List"]
                         </HeaderTemplate>
                     </PageTitle>
                 }
                 else
                 {
                     <PageTitle ShowFilter="false">
-
                         <HeaderTemplate>
-                            @lang[" Void Receipt List"]
+                            @lang["Void Receipt List"]
                         </HeaderTemplate>
                     </PageTitle>
                 }
-
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
