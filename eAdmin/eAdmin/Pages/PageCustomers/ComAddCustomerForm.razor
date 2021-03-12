@@ -6,23 +6,22 @@
 </UIContainerBox>
 
 <UIContainerBox>
-    <TextInput label="Code" text="@model.customer_code" is_read_only="true">
-         
+    <TextInput label="@lang["Code"]" text="@model.customer_code" is_read_only="true">
     </TextInput>
-    <TextInput label="Name(EN)" @bind-text="@model.customer_name_en">
+    <TextInput label="@lang["Name(EN)"]" @bind-text="@model.customer_name_en">
         <ValidationMessage For="@(() => model.customer_name_en)" />
     </TextInput>
-    <TextInput label="Name(KH)" @bind-text="@model.customer_name_kh" />
-    <TextInput label="Phone 1" @bind-text="@model.phone_1" />
-    <TextInput label="Phone 2" @bind-text="@model.phone_2" />
-    <SelectCustomerGroup @bind-selected_value="model.customer_group_id" show_empty="true" empty_text="Select customer group">
+    <TextInput label="@lang["Name(KH)"]" @bind-text="@model.customer_name_kh" />
+    <TextInput label="@lang["Phone 1"]" @bind-text="@model.phone_1" />
+    <TextInput label="@lang["Phone 2"]" @bind-text="@model.phone_2" />
+    <SelectCustomerGroup @bind-selected_value="model.customer_group_id" show_empty="true" empty_text="@lang["Select Customer Group"]">
         <ValidationMessage For="@(()=>model.customer_group_id)"/>
     </SelectCustomerGroup>
     <SelectGender @bind-selected_value="model.gender" />     
     <SelectStatus @bind-selected_value="@model.status" />
 </UIContainerBox>
 
-<UIContainerBox Title="Business Branch">
+<UIContainerBox Title="@lang["Business Branch"]">
     @foreach (var b in business_branches)
     {
         <div><ComInputCheckBox @bind-value="b.is_selected" label="@b.business_branch_name_en" label_inline="true"/></div>
@@ -30,26 +29,26 @@
     }
 </UIContainerBox>
  
-<UIContainerBox Title="Other information">
-   <TextInput label="Country" @bind-text="@model.nationality"/> 
+<UIContainerBox Title="@lang["Other information"]">
+   <TextInput label="@lang["Country"]" @bind-text="@model.nationality"/> 
 </UIContainerBox>
 
-<UIContainerBox Title="Social Media Information">
-    <TextInput label="Email" @bind-text="@model.email" /> 
+<UIContainerBox Title="@lang["Social Media Information"]">
+    <TextInput label="@lang["Email"]" @bind-text="@model.email" /> 
 </UIContainerBox> 
 
-<UIContainerBox Title="Address & Note">
+<UIContainerBox Title="@lang["Address & Note"]">
     <Tab>
         <TabHeader>
-            <TabHeaderItem>Address</TabHeaderItem>
-            <TabHeaderItem>Note</TabHeaderItem>
+            <TabHeaderItem>@lang["Address"]</TabHeaderItem>
+            <TabHeaderItem>@lang["Note"]</TabHeaderItem>
         </TabHeader>
         <TabBody>
             <TabItem>
-                <textarea class="uk-textarea  uk-text-left" placeholder="Address" @bind="model.address" rows="2">@model.address</textarea>
+                <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Address"]" @bind="model.address" rows="2">@model.address</textarea>
             </TabItem>
             <TabItem>
-                <textarea class="uk-textarea  uk-text-left" placeholder="Note" @bind="model.note" rows="2">@model.note</textarea>
+                <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
             </TabItem>
         </TabBody>
     </Tab>

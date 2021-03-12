@@ -1,42 +1,34 @@
 ﻿@using eModels;
 @inherits PageCore
- 
 
 <EditFormContext Cancel_Click="Cancel_click" model="@user" is_opened="is_dialog_open" title="@modal_title" Save_Click="@SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
     <FileUpload @bind-ImageUrl="@user.photo" />
     <Spacing Number="10" />
-    <TextInput label="Full Name" @bind-text="@user.full_name">
+    <TextInput label="@lang["Full Name"]" @bind-text="@user.full_name">
         <ValidationMessage For="@(() => user.full_name)" />
     </TextInput>
-
-    <TextInput label="User Name" @bind-text="@user.username">
+    <TextInput label="@lang["User Name"]" @bind-text="@user.username">
         <ValidationMessage For="@(() => user.username)" />
     </TextInput>
-
-    <SelectRole label="Role Name" show_empty="true" @bind-selected_value="@user.role_id">
+    <SelectRole label="@lang["Role Name"]" show_empty="true" @bind-selected_value="@user.role_id">
         <ValidationMessage For="@(()=>user.role_id)" />
     </SelectRole>
-
-    <TextInput label="Email" @bind-text="@user.email" />
-    <TextInput label=" Phone Number" @bind-text="@user.phone_1" />
-    <TextInput label="Password" type="password" @bind-text="@user.password">
+    <TextInput label="@lang["Email"]" @bind-text="@user.email" />
+    <TextInput label="@lang["Phone Number"]" @bind-text="@user.phone_1" />
+    <TextInput label="@lang["Password"]" type="password" @bind-text="@user.password">
         <ValidationMessage For="@(()=>user.password)" />
     </TextInput>
-    <TextInput label="User Code" @bind-text="@(user.user_code)">
+    <TextInput label="@lang["User Code"]" @bind-text="@(user.user_code)">
         <ValidationMessage For="@(()=>user.user_code)" />
     </TextInput>
-
     @if (user.is_allow_front_end_login)
     {
-        <TextInput label="Pin Code" @bind-text="@user.pin_code" />
+        <TextInput label="@lang["Pin Code"]" @bind-text="@user.pin_code" />
     }
-
-    <ComInputCheckBox label="Is Allow Front End Login" @bind-value="user.is_allow_front_end_login" />
-    <ComInputCheckBox label="Is Allow Back End Login" @bind-value="user.is_allow_backend_login" />
-
-    <SelectStatus label=" Status" @bind-selected_value="@user.status" />
-
-    <TextInput label="Note" type="textarea" @bind-text="@user.note" />
+    <ComInputCheckBox label="@lang["Is Allow Front End Login"]" @bind-value="user.is_allow_front_end_login" />
+    <ComInputCheckBox label="@lang["Is Allow Back End Login"]" @bind-value="user.is_allow_backend_login" />
+    <SelectStatus label="@lang["Status"]" @bind-selected_value="@user.status" />
+    <TextInput label="@lang["Note"]" type="textarea" @bind-text="@user.note" />
 </EditFormContext>
 @code{
     [Parameter] public string modal_title { get; set; } = "";
@@ -50,17 +42,17 @@
     {
         if (string.IsNullOrEmpty(user.username))
         {
-            toast.Add("Please enter username", MatToastType.Warning);
+            toast.Add(lang["Please enter username"], MatToastType.Warning);
             return;
         }
         if (string.IsNullOrEmpty(user.password))
         {
-            toast.Add("Please enter password", MatToastType.Warning);
+            toast.Add(lang["Please enter password"], MatToastType.Warning);
             return;
         }
         if (user.password.Length < 4)
         {
-            toast.Add("Password is too short", MatToastType.Warning);
+            toast.Add(lang["Password is too short"], MatToastType.Warning);
             return;
         }
         await Save_User_click.InvokeAsync(user);

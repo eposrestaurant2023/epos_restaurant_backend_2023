@@ -71,6 +71,7 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
     [Parameter] public ProductPortionModel product_portion { get; set; }
+    [Parameter] public bool is_product_deleted { get; set; }
 
     bool is_loading, show_modal;
 
@@ -78,6 +79,9 @@
     {
         get
         {
+            if (is_product_deleted)
+                return false;
+
             return !product_portion.product_ingredients.Where(r => r.is_deleted == false).ToList().Any();
         }
     }
@@ -86,6 +90,9 @@
     {
         get
         {
+            if (is_product_deleted)
+                return false;
+
             return product_portion.product_ingredients.Where(r => r.is_deleted == false).ToList().Any();
         }
     }

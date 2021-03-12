@@ -53,8 +53,6 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         public async Task CloneRecord()
         {
             is_loading = true;
-
-
             var resp = await http.ApiPost($"PurchaseOrder/Clone/{clone_id}");
             if (resp.IsSuccess)
             {
@@ -98,15 +96,8 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             d.quantity = sp.quantity;
             d.cost= sp.cost;
             d.regular_cost= sp.cost;
-
-            d.is_allow_discount = sp.product.is_allow_discount; 
-
-
-
-
+            d.is_allow_discount = sp.product.is_allow_discount;
             model.purchase_order_products.Add(d);
-            
-
         }
 
         public void OnPOInformationChange(PurchaseOrderModel _model)
@@ -126,12 +117,12 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                     if (c.is_deleted)
                     {
                         is_error = true;
-                        error_text = "Vendor has been deleted";
+                        error_text = lang["Vendor has been deleted"];
                     }
                     else if (c.status == false)
                     {
                         is_error = true;
-                        error_text = "Vendor is inactive";
+                        error_text = lang["Vendor is inactive"];
                     }
                     else
                     {
@@ -144,7 +135,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 else
                 {
                     is_error = true;
-                    error_text = "Vendor does not exists";
+                    error_text = lang["Vendor does not exists"];
                 }
             }
 
@@ -158,7 +149,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 string url = $"PurchaseOrder({id})?";
                 url += $"$expand=vendor,";
                 url += $"purchase_order_payments($expand=payment_type;$filter=is_deleted eq false),";
-                url += $"purchase_order_products($expand=product($expand=unit($select=unit_category_id));$filter =is_deleted eq false)";
+                url += $"purchase_order_products($expand=product($expand=unit($select=unit_category_id));$filter=is_deleted eq false)";
 
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)

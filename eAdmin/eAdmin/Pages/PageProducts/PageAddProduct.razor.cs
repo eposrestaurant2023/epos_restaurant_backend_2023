@@ -107,8 +107,22 @@ namespace eAdmin.Pages.PageProducts
                 if (resp.IsSuccess)
                 {
                     model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+
                     unit_category_id = model.unit.unit_category_id;
                     old_unit_category_id = model.unit.unit_category_id;
+
+                    if (model.is_deleted)
+                    {
+                        error_text = lang["This product was deleted so cannot edit it."];
+                        is_error = true;
+                        is_loading = false;
+                        
+                        return;
+                    }
+                    else{
+                        is_error = true;
+                    }
+
                 }
             }
             

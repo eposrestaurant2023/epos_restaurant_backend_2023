@@ -23,11 +23,12 @@ namespace eAdmin.Pages.PageCustomers
         {
             get
             {
-                if (state.pager.order_by == "")
+                if (string.IsNullOrEmpty(state.pager.order_by))
                 {
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
+
                 string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);
@@ -39,7 +40,7 @@ namespace eAdmin.Pages.PageCustomers
             state = await GetState(StateKey);
             if (state.page_title == "")
             {
-                state.page_title = "Customer Group";
+                state.page_title = lang["Customer Group"];
                 var default_view = gv.GetDefaultModuleView("page_customer_group");
                 if (default_view != null)
                 {
@@ -79,7 +80,7 @@ namespace eAdmin.Pages.PageCustomers
         public void AddNew()
         {
             ShowModal = true;
-            ModalTitle = "Customer Group";
+            ModalTitle = lang["Customer Group"];
         }
         public async Task Clone_Click(int id)
         {
@@ -89,7 +90,7 @@ namespace eAdmin.Pages.PageCustomers
             {
                 model = JsonSerializer.Deserialize<CustomerGroupModel>(resp.Content.ToString());
             }
-            ModalTitle = "Clone:" + model.customer_group_name_en;
+            ModalTitle = "Clone : " + model.customer_group_name_en;
             ShowModal = true;
             is_loading_data = false;
         }
@@ -155,7 +156,7 @@ namespace eAdmin.Pages.PageCustomers
             var resp = await http.ApiPost(controller_api + "/save", customerGroup);
             if (resp.IsSuccess)
             {
-                toast.Add("Change status successfully", MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MatToastType.Success);
                 if (customer_groups.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;

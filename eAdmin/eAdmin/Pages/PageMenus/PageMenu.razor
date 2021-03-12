@@ -10,12 +10,12 @@
         <HeaderLeft>
             <PageTitle ShowFilter="false">
                 <HeaderTemplate>
-                    Root Menu
+                    @lang["Root Menu"]
                 </HeaderTemplate>
             </PageTitle>
         </HeaderLeft>
         <HeaderRight>
-            <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">Add New Root Menu</Button>
+            <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">@lang["Add New Root Menu"]</Button>
             <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
         </HeaderRight>
     </PageHeader>

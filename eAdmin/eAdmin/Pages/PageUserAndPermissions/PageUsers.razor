@@ -42,44 +42,45 @@
                        Items="@users_list"
                        ShowCounter="true">
                     <TableHeader>
-                        <ThCenter>Image</ThCenter>
-                        @HeaderTemplate("full_name", "Full Name", "uk-width-auto uk-text-left")
+                        <ThCenter>@lang["Image"]</ThCenter> 
+                        @HeaderTemplate("user_code", lang["Code"], "uk-text-center")
+                        @HeaderTemplate("full_name", lang["Full Name"], "uk-width-auto uk-text-left")
                         <Th OnClick="@(async () => await OrderBy("username"))" OrderBy="@(state.pager.order_by == "username")" OrderByType="@state.pager.order_by_type">User Name</Th>
-                        @HeaderTemplate("role/role_name", "User Type", "uk-width-auto uk-text-left")
-                        @HeaderTemplate("phone_number", "Phone Number", "uk-width-auto uk-text-center")
-                        @HeaderTemplate("email", "Email", "uk-width-auto uk-text-left")
-                        <ThAuto>Note</ThAuto>
-                        <ThCenter>Status</ThCenter>
+                        @HeaderTemplate("role/role_name", lang["User Type"], "uk-width-auto uk-text-left")
+                        <ThCenter>@lang["Phone Number"]</ThCenter>
+                        <Th>@lang["Email"]</Th>
+                        <ThAuto>@lang["Note"]</ThAuto>
+                        <ThCenter>@lang["Status"]</ThCenter>
                         <th></th>
                     </TableHeader>
                     <RowTemplate Context="user">
                         <TdCenter>
                             <Image ImageUrl="@http.ImageUrl(user.photo)" PopupImageUrl="@http.ImageUrl(user.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
                         </TdCenter>
+                        <TdCenter>@user.user_code</TdCenter>
                         <td>@user.full_name</td>
                         <td>
                             @if (!user.is_deleted && !user.is_buildin)
-                                {
-                                <ComAuthorize roles="@gv.GetRole("user_edit")" OnClick="@(() => EditUser_Click(user))">
-                                    @user.username
-                                </ComAuthorize>
-                                }
-                                else
-                                {
+                            {
+                            <ComAuthorize roles="@gv.GetRole("user_edit")" OnClick="@(() => EditUser_Click(user))">
                                 @user.username
-                                }
+                            </ComAuthorize>
+                            }
+                            else
+                            {
+                                @user.username
+                            }
                         </td>
                         <td>
-                            <Com is_visible="@(!string.IsNullOrEmpty(user.role?.role_name))">@user.role?.role_name</Com>
+                            @user.role?.role_name
                         </td>
                         <TdCenter>
-                            <Com is_visible="@(!string.IsNullOrEmpty(user.phone_1))">@user.phone_1</Com>
+                            @user.phone_1
                         </TdCenter>
-
                         <td>
-                            <Com is_visible="@(!string.IsNullOrEmpty(user.email))">@user.email</Com>
+                            @user.email
                         </td>
-                        <td>@user.note</td>
+                        <td><div class="text-area">@user.note</div></td>
                         <TdCenter>
                             <LabelActive is_visible="@(user.status && !user.is_deleted)" OnClick="(()=>OnChangeStatus(user))" roles="@gv.GetRole("user_edit")" is_loading="@user.is_change_status" />
                             <LabelInActive is_visible="@(!user.status && !user.is_deleted)" OnClick="(()=>OnChangeStatus(user))" roles="@gv.GetRole("user_edit")" is_loading="@user.is_change_status" />
@@ -131,7 +132,7 @@
                 state.pager.order_by_type = "desc";
             }
 
-            string select = "$select=username,role_id,email,phone_1,password,full_name,photo,created_date,created_by,is_deleted,note,status,id,is_buildin&$expand=role($select=role_name,description,id)";
+            string select = "$select=user_code,username,role_id,email,phone_1,password,full_name,photo,created_date,created_by,is_deleted,note,status,id,is_buildin&$expand=role($select=role_name,description,id)";
 
 
             string url = $"{controller_api}?{select}&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";

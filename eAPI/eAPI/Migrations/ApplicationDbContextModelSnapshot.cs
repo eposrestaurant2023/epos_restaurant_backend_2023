@@ -3243,6 +3243,9 @@ namespace eAPI.Migrations
                     b.Property<decimal>("min_quantity")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<decimal>("multiplier")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<int>("product_id")
                         .HasColumnType("int");
 

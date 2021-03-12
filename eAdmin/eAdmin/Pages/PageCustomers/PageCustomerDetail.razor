@@ -25,10 +25,7 @@
                                      File="@(new AttachFilesModel() { customer_id = Guid.Parse(id) })"
                                      IsVisible="@(!model.is_deleted)"/>
 
-                <SplitButton roles="@gv.GetRole("customer_add")" alignment="left" url="customer/new" main_button_text="New ">
-                    <SplitButtonItem roles="@gv.GetRole("customer_add")" url="customer/new">@lang["New Customer"]</SplitButtonItem>
-                    <SplitButtonItem roles="@gv.GetRole("sale_add")" url="@($"sale/customer/{id}")">@lang["New Sale Invoice"]</SplitButtonItem>
-                </SplitButton>
+                <AddButton url="customer/new" roles="@gv.GetRole("customer_add")">@lang["New Customer"]</AddButton>
 
                 <MoreButton is_loading="@model.is_loading">
                     <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>

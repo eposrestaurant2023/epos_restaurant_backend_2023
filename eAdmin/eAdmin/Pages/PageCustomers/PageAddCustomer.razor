@@ -13,7 +13,17 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        
+                        @if (!string.IsNullOrEmpty(id))
+                        {
+                            <span>@model.customer_code - @model.customer_name_en</span>
+                            <LabelActive is_visible="@(!model.is_deleted && model.status)"/>
+                            <LabelDeleted is_visible="@(model.is_deleted)"/>
+                            <LabelInActive is_visible="@(!model.is_deleted && !model.status)"/>
+                        }
+                        else
+                        {
+                            <span>@title</span>
+                        }
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -151,9 +161,7 @@
                 }
             }
 
-            CustomerModel save_customer = new CustomerModel();
-            save_customer = JsonSerializer.Deserialize<CustomerModel>(JsonSerializer.Serialize(model));
-            var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", save_customer);
+            var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
             if (res.IsSuccess)
             {
                 if (res.Content.ToString() == "Customer Code already exist!")
