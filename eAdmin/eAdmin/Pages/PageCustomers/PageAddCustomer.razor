@@ -124,7 +124,7 @@
 
     async Task LoadBusinessBranch()
     {
-        var res = await http.ApiGetOData($"BusinessBranch?$expand=customer_business_branchs&$filter=is_deleted eq false and status eq true");
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=customer_business_branchs($expand=business_branch)&$filter=is_deleted eq false and status eq true");
         if (res.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
