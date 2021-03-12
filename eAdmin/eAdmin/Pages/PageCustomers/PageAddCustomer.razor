@@ -37,7 +37,6 @@
                     <UIGridCenter>
                         <ComAddCustomerForm business_branches="@business_branches" model="@model" />
                     </UIGridCenter>
-
                 </PageBody>
                 <PageFooter>
                     <FooterCenter>
@@ -164,7 +163,6 @@ else
         if (!is_saving)
         {
             is_saving = true;
-
             //save customer business branchs
             model.customer_business_branchs.Clear();
             foreach (var a in business_branches.ToList())
@@ -175,10 +173,11 @@ else
                     {
                         business_branch_id = a.id,
                         customer_id = model.id
+                        
                     });
                 }
             }
-
+            Console.WriteLine(JsonSerializer.Serialize(model));
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
             if (res.IsSuccess)
             {
