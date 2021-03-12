@@ -13,7 +13,6 @@ namespace eModels
         {
             project_contacts = new List<ContactModel>();
         }
-
         [Range(1, int.MaxValue, ErrorMessage = "Please select Project Type")]
         [Display(Name = "Project Type")]
         public int project_type_id { get; set; }

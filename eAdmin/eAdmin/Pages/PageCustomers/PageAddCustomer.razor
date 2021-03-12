@@ -4,62 +4,57 @@
 @inherits PageCore
 
 <Loading is_loading="@is_loading" />
-@if (!is_error)
-{
-    @if (!is_loading)
-    {
-        <Title Value="@title"></Title>
-        <PageContainer roles="@gv.GetRole($"{((!string.IsNullOrEmpty(clone_id)) || (!string.IsNullOrEmpty(clone_id) && !string.IsNullOrEmpty(id)) ? "customer_add" : "customer_edit") }")">
-            <PageHeader>
-                <HeaderLeft>
-                    <PageTitle ShowFilter="false">
-                        <HeaderTemplate>
-                            @if (!string.IsNullOrEmpty(id))
-                            {
-                                <span>@model.customer_code - @model.customer_name_en</span>
-                                <LabelActive is_visible="@(!model.is_deleted && model.status)" />
-                                <LabelDeleted is_visible="@(model.is_deleted)" />
-                                <LabelInActive is_visible="@(!model.is_deleted && !model.status)" />
-                            }
-                            else
-                            {
-                                <span>@title</span>
-                            }
-                        </HeaderTemplate>
-                    </PageTitle>
-                </HeaderLeft>
-                <HeaderRight ShowBackButton="true">
-                </HeaderRight>
-            </PageHeader>
-            <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click(false))" @attributes="@formAttributes">
-                <DataAnnotationsValidator />
-                <PageBody>
-                    <UIGridCenter>
-                        <ComAddCustomerForm business_branches="@business_branches" model="@model" />
-                    </UIGridCenter>
-                </PageBody>
-                <PageFooter>
-                    <FooterCenter>
-                        <ComSavingFormButton is_loading="@is_saving"
-                                             is_show_save_submit="true"
-                                             is_show_save_new="true"
-                                             OnSaveNew="@(()=>is_save_and_new = true)"
-                                             is_show_cancel_action="true"
-                                             OnCancel="@OnCancel" />
-                    </FooterCenter>
-                </PageFooter>
-            </EditForm>
-        </PageContainer>
 
-        @if (is_customer_exist)
-        {
-            <ComExistingCustomerInformation data="@existing_customer_info" is_opened="@is_customer_exist" OnClose="@(()=>is_customer_exist=false)" OnSaveNewRecord="@SaveNewRecord" />
-        }
-    }
-}
-else
+ @if (!is_loading)
 {
-    <Error title="@lang["Customer"]">@error_text</Error>
+    <Title Value="@title"></Title>
+    <PageContainer roles="@gv.GetRole($"{((!string.IsNullOrEmpty(clone_id)) || (!string.IsNullOrEmpty(clone_id) && !string.IsNullOrEmpty(id)) ? "customer_add" : "customer_edit") }")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @if (!string.IsNullOrEmpty(id))
+                        {
+                            <span>@model.customer_code - @model.customer_name_en</span>
+                            <LabelActive is_visible="@(!model.is_deleted && model.status)"/>
+                            <LabelDeleted is_visible="@(model.is_deleted)"/>
+                            <LabelInActive is_visible="@(!model.is_deleted && !model.status)"/>
+                        }
+                        else
+                        {
+                            <span>@title</span>
+                        }
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click(false))" @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter>
+                    <ComAddCustomerForm business_branches="@business_branches" model="@model" />
+                </UIGridCenter>
+
+            </PageBody>
+            <PageFooter>
+                <FooterCenter> 
+                    <ComSavingFormButton is_loading="@is_saving"
+                                         is_show_save_submit="true"
+                                         is_show_save_new="true" 
+                                         OnSaveNew="@(()=>is_save_and_new = true)"
+                                         is_show_cancel_action="true"
+                                         OnCancel="@OnCancel"/>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>        
+    </PageContainer>
+
+    @if (is_customer_exist)
+    {
+        <ComExistingCustomerInformation data="@existing_customer_info" is_opened="@is_customer_exist" OnClose="@(()=>is_customer_exist=false)" OnSaveNewRecord="@SaveNewRecord"/>
+    }
 }
 @code{
     [Parameter] public string id { get; set; }
@@ -68,8 +63,8 @@ else
     CustomerModel model = new CustomerModel();
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
 
-    ApiResponseModel existing_customer_info = new ApiResponseModel();
-    bool is_save_and_new, is_save_and_order;
+    ApiResponseModel existing_customer_info= new  ApiResponseModel();
+    bool is_save_and_new , is_save_and_order;
 
     public string api_url
     {
@@ -85,7 +80,7 @@ else
         {
             is_loading = true;
 
-            if ((id != "" && id != null) || (clone_id != "" && clone_id != null))
+            if ((id != ""  && id != null) || (clone_id != "" && clone_id != null))
             {
                 if (id != "" && id != null)
                 {
@@ -93,18 +88,6 @@ else
                     if (res.IsSuccess)
                     {
                         model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                        if (model.is_deleted)
-                        {
-                            error_text = lang["This customer was deleted so cannot edit it."];
-                            is_error = true;
-                            is_loading = false;
-
-                            return;
-                        }
-                        else
-                        {
-                            is_error = false;
-                        }
                         title = $"Edit : {model.customer_name_en}";
                     }
                     else
@@ -141,7 +124,7 @@ else
 
     async Task LoadBusinessBranch()
     {
-        var res = await http.ApiGetOData($"BusinessBranch?$expand=customer_business_branchs&$filter=is_deleted eq false and status eq true");
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=customer_business_branchs($expand=business_branch)&$filter=is_deleted eq false and status eq true");
         if (res.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
@@ -163,6 +146,7 @@ else
         if (!is_saving)
         {
             is_saving = true;
+
             //save customer business branchs
             model.customer_business_branchs.Clear();
             foreach (var a in business_branches.ToList())
@@ -173,15 +157,13 @@ else
                     {
                         business_branch_id = a.id,
                         customer_id = model.id
-                        
                     });
                 }
             }
-            Console.WriteLine(JsonSerializer.Serialize(model));
+
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
             if (res.IsSuccess)
             {
-
                 if (res.Content.ToString() == "Customer Code already exist!")
                 {
                     toast.Add(res.Content.ToString(), MatToastType.Warning);
@@ -196,8 +178,7 @@ else
                         id = "";
                         title = lang["Add New Customer"];
                     }
-                    else if (is_save_and_order)
-                    {
+                    else if (is_save_and_order) {
                         nav.NavigateTo($"sale/customer/{model.id}");
                     }
                     else
@@ -210,8 +191,8 @@ else
             {
 
                 is_saving = false;
-                //check response code status and
-                if (res.status_code >= 400 && res.status_code <= 499)
+                //check response code status and 
+                if(res.status_code >= 400 && res.status_code <= 499)
                 {
                     is_customer_exist = true;
                     existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());

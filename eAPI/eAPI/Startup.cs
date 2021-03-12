@@ -183,6 +183,7 @@ namespace eAPI
             odataBuilder.EntitySet<PurchaseOrderProductModel>("PurchaseOrderProduct");
             odataBuilder.EntitySet<StockLocationModel>("StockLocation");
             odataBuilder.EntitySet<SaleProductModel>("SaleProduct");
+            odataBuilder.EntitySet<SaleProductModifierModel>("SaleProductModifier");
             odataBuilder.EntitySet<VendorGroupModel>("VendorGroup");
             odataBuilder.EntitySet<StockTakeModel>("StockTake");
             odataBuilder.EntitySet<StockTakeProductModel>("StockTakeProduct");

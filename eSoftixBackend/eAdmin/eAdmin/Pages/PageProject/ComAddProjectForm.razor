@@ -7,17 +7,19 @@
         <SelectProjectType @bind-selected_value="@model.project_type_id" show_empty="true">
             <ValidationMessage For="@(()=>model.project_type_id)" />
         </SelectProjectType>
+        <SelectCustomer @bind-selected_value="@model.customer_id" show_empty="true">
+            <ValidationMessage For="@(()=>model.customer_id)" />
+        </SelectCustomer>
         <SelectStatus @bind-selected_value="@model.status" />
     </UIContainerBox>
-
     <UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
         @foreach (var c in model.project_contacts)
         {
-            <ComAddCustomerContactItem contact="c" OnDeleteContact="DeleteContact_Click"/>
-            @if (model.project_contacts.IndexOf(c) !=model.project_contacts.Count - 1)
-                                         {
+             <ComAddCustomerContactItem contact="c" OnDeleteContact="DeleteContact_Click"/>
+             @if (model.project_contacts.IndexOf(c) !=model.project_contacts.Count - 1)
+             {
                 <hr class="uk-divider-icon">
-            }
+             }
 
         }
     </UIContainerBox>

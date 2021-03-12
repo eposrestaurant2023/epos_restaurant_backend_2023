@@ -1,0 +1,58 @@
+﻿<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">@label</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+            @foreach (var p in gv.customer.Where(r => r.status  && !r.is_deleted))
+            {
+                <option value="@p.id">@p.customer_name_en</option>
+            }
+        </select>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Customer";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Customer";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
+
+    [Parameter] public CustomerModel customer { get; set; }
+    [Parameter] public EventCallback<CustomerModel> customerChanged { get; set; }
+
+
+    public int SelectedValue
+    {
+        get
+        {
+            return customer == null ? selected_value : customer.id;
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Int32.Parse(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+        if (selected_value == 0)
+        {
+            await customerChanged.InvokeAsync(new CustomerModel());
+        }
+        else
+        { 
+            await customerChanged.InvokeAsync(gv.customer.Where(r => r.id == selected_value).FirstOrDefault());
+        }
+
+    }
+
+}

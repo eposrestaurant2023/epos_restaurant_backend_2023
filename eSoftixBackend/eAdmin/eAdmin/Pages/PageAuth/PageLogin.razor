@@ -9,7 +9,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <Redirect url="/dashboard" />
+        <Redirect url="dashboard" />
     </Authorized>
     <NotAuthorized Context="x">
         <EditForm Model="model" OnValidSubmit="LoginUser">
@@ -82,11 +82,9 @@
             {
                 try
                 {
-
                     var user_convert = EncryptProvider.Base64Encrypt(resp.Content.ToString());
                     await storageService.SetItemAsync("_Authorization", user_convert);
                     await authenticationStateProvider.GetAuthenticationStateAsync();
-                    nav.NavigateTo("/", true);
                 }
                 catch (Exception ex)
                 {

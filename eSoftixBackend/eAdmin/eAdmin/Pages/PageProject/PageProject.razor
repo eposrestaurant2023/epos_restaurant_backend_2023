@@ -52,16 +52,13 @@
                        EmptyText="There is no record.">
                     <TableHeader>
                         @HeaderTemplate("project_name", "Name", "uk-text-right")
-                         <ThAuto>
-                             Project Type
-                         </ThAuto>
-                        <ThCenter>
-                            Status
-                        </ThCenter>
+                         <Th> Project Type</Th>
+                        <ThAuto>Customer</ThAuto>
+                        <ThCenter>Close Date</ThCenter>
+                        <ThCenter> Status</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
-                     
                         <td>
                             <div>
                                 <ComAuthorize roles="@gv.GetRole("project_view")" url="@($"project/{p.id}")">@p.project_name</ComAuthorize>
@@ -70,7 +67,12 @@
                         <td>
                             @p.project_type?.project_type_name
                         </td>
-                      
+                        <td>
+                            <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.customers?.id}")">@p.customers?.customer_name_en</ComAuthorize>
+                        </td>
+                        <TdCenter>
+                            @p.closed_date
+                        </TdCenter>
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />
                             <LabelActive is_visible="@(!p.is_deleted && p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("project_edit")" is_loading="@p.is_change_status" />

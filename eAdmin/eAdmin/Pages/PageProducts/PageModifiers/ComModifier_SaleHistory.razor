@@ -1,4 +1,4 @@
-﻿@inherits ComSaleBase
+﻿@inherits ComModifier_SaleHistoryBase
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
@@ -10,24 +10,16 @@
 @if (!is_loading)
 {
     <PageContainer>
+        @*<div style="word-break:break-word">
+            @ControllerApi
+        </div>*@
         <PageHeader>
             <HeaderLeft>
-                @if (is_receipt_list)
-                {
                     <PageTitle ShowFilter="false">
                         <HeaderTemplate>
-                            @lang["Receipt List"]
+                            @lang["Sale History"]
                         </HeaderTemplate>
                     </PageTitle>
-                }
-                else
-                {
-                    <PageTitle ShowFilter="false">
-                        <HeaderTemplate>
-                            @lang["Void Receipt List"]
-                        </HeaderTemplate>
-                    </PageTitle>
-                }
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
@@ -45,7 +37,7 @@
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(models != null)">
-                <Table Items="@models"
+                @*<Table Items="@models"
                        PerPage="@state.pager.per_page"
                        TotalItem="@TotalRecord"
                        CurrentPage="@state.pager.current_page"
@@ -58,10 +50,10 @@
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
-                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
-                        @HeaderTemplate("customer/customer_name", lang["Customer"], "col-auto")
+                        @HeaderTemplate("sale_product/sale/document_number", lang["Document #"], "uk-text-center")
+          
                         @HeaderTemplate("business_branch/business_branch_name_en", lang["Business Branch"])
-                        @HeaderTemplate("outlet/outlet_name_en", lang["Outlet"])
+                        @HeaderTemplate("sale_product/sale/outlet/outlet_name_en", lang["Outlet"])
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
@@ -69,36 +61,32 @@
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>
-                            @p.working_date.ToString(gv.date_format)
+                            @p.sale_product.sale.working_date.ToString(gv.date_format)
                         </TdCenter>
                         <TdCenter>
-                            <div><a href="@(is_receipt_list?$"receiptlist/{p.id}":$"voidreceipt/{p.id}")">@p.document_number</a></div>
+                            <div><a href="@(is_receipt_list?$"receiptlist/{p.id}":$"voidreceipt/{p.id}")">@p.sale_product.sale.document_number</a></div>
                         </TdCenter>
                         <td>
-                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
+                            @p.sale_product.sale.business_branch?.business_branch_name_en
                         </td>
                         <td>
-                            @p.business_branch?.business_branch_name_en
-                        </td>
-                        <td>
-                            @p.outlet?.outlet_name_en
+                            @p.sale_product.sale.outlet?.outlet_name_en
                         </td>
                         <TdRight>
-                            @p.total_amount.ToString(gv.main_currency_format)
+                            @p.sale_product.sale.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.paid_amount.ToString(gv.main_currency_format)
+                            @p.sale_product.sale.paid_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.balance.ToString(gv.main_currency_format)
+                            @p.sale_product.sale.balance.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
                         </TdCenter>
                     </RowTemplate>
-                </Table>
+                </Table>*@
             </Com>
         </PageBody>
     </PageContainer>
 }
- 
