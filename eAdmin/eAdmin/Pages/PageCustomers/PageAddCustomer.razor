@@ -178,7 +178,8 @@
                     {
                         model = new CustomerModel();
                         id = "";
-                        title = lang["Add New Customer"];
+                        nav.NavigateTo("customer/new");
+                        title = "Add New Customer";
                     }
                     else if (is_save_and_order) {
                         nav.NavigateTo($"sale/customer/{model.id}");
