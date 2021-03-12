@@ -41,7 +41,7 @@ namespace eShareModel
 
         public string phone_2 { get; set; }
         public string photo { get; set; }
-        public string   nationality { get; set; }
+        public string nationality { get; set; }
 
 
         [Column(TypeName = "date")]
