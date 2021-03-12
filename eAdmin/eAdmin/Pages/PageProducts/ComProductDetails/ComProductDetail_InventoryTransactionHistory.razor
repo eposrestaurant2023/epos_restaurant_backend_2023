@@ -46,6 +46,7 @@
                         <ThCenter>@lang["Old Quantity"]</ThCenter>
                         <ThCenter>@lang["Quantity"]</ThCenter>
                         <ThCenter>@lang["Quantity On Hand"]</ThCenter>
+                        <ThCenter>@lang["Unit"]</ThCenter>
                         <ThCenter>@lang["Created Date"]</ThCenter>
                         <ThRight>@lang["Created By"]</ThRight>
                     </TableHeader>
@@ -71,6 +72,7 @@
                         <TdCenter>
                             @p.quantity_on_hand.ToString(gv.quantity_format)
                         </TdCenter>
+                        <TdCenter>@p.unit</TdCenter>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <TdRight>@p.created_by</TdRight>
                     </RowTemplate>

@@ -1,39 +1,73 @@
 ﻿
-@if(!string.IsNullOrEmpty(label)){
+@if (!string.IsNullOrEmpty(label))
+{
     <div class="uk-margin-small">
         <label class="uk-form-label" for="@id">@label</label>
         <div class="uk-form-controls">
-            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width;">
+            if (is_ready_only)
+            {
+            <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: auto; min-width:80px;" disabled>
                 @if (show_empty)
                 {
                     <option value="0">@empty_text</option>
                 }
-               
+
                 @foreach (var p in units)
                 {
                     <option value="@p.id">@p.unit_name</option>
                 }
-               
             </select>
+            }
+            else
+            {
+            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: auto; min-width:80px;">
+                @if (show_empty)
+                {
+                    <option value="0">@empty_text</option>
+                }
+
+                @foreach (var p in units)
+                {
+                    <option value="@p.id">@p.unit_name</option>
+                }
+            </select>
+            }
             @ChildContent
         </div>
     </div>
 }
 else
 {
-<select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: auto; min-width:80px;">
-    @if (show_empty)
+    if (is_ready_only)
     {
-        <option value="0">@empty_text</option>
+        <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: auto; min-width:80px;" disabled>
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+
+            @foreach (var p in units)
+            {
+                <option value="@p.id">@p.unit_name</option>
+            }
+        </select>
     }
-    
-    @foreach (var p in units)
+    else
     {
-        <option value="@p.id">@p.unit_name</option>
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: auto; min-width:80px;">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+
+            @foreach (var p in units)
+            {
+                <option value="@p.id">@p.unit_name</option>
+            }
+        </select>
     }
-    
-</select>
-@ChildContent
+
+    @ChildContent
 }
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -41,6 +75,7 @@ else
     [Parameter] public string label { get; set; }
     [Parameter] public bool show_empty { get; set; } = false;
     [Parameter] public bool is_select_unit_category { get; set; } = false;
+    [Parameter] public bool is_ready_only { get; set; } = false;
 
     [Parameter] public string empty_text { get; set; } = "Select Unit";
 
@@ -53,22 +88,27 @@ else
     [Parameter] public UnitModel unit { get; set; }
     [Parameter] public EventCallback<UnitModel> unitChanged { get; set; }
 
-    [Parameter] public int unit_category_id { get; set; } 
+    [Parameter] public int unit_category_id { get; set; }
 
 
 
-    public List<UnitModel> units { get {
+    public List<UnitModel> units
+    {
+        get
+        {
 
             if (unit_category_id > 0)
             {
                 var _data = gv.units.Where(r => (r.status && !r.is_deleted) && r.unit_category_id == unit_category_id).ToList();
                 return _data;
             }
-            if(is_select_unit_category){
+            if (is_select_unit_category)
+            {
                 return new List<UnitModel>();
-            } 
+            }
             return gv.units.Where(r => (r.status && !r.is_deleted)).ToList();
-        } }
+        }
+    }
 
 
 

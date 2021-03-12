@@ -3,11 +3,6 @@
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
-@{
-    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
-    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
-}
-
 @if (!is_loading)
 {
     <Title Value="@lang["Customer Group"]"></Title>
@@ -19,7 +14,7 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_customer_group")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
@@ -43,12 +38,11 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         <Th OnClick="@(async () => await OrderBy("customer_group_name_en"))" OrderBy="@(state.pager.order_by == "customer_group_name_en")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">@lang["Name En"]</Th>
                         <Th OnClick="@(async () => await OrderBy("customer_group_name_kh"))" OrderBy="@(state.pager.order_by == "customer_group_name_kh")" OrderByType="@state.pager.order_by_type" ClassName="cp col-auto">@lang["Name Kh"]</Th>
-                        @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
+                        <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -64,12 +58,12 @@
                             <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("customer_group_edit")" is_loading="@p.is_change_status" />
                         </TdCenter>
                         <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("customer_group_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_group_add")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">Clone</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_group_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_group_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_group_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">Delete</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_group_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">Restore</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_group_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">@lang["Edit"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_group_add")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">@lang["Clone"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_group_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_group_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_group_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">@lang["Deleted"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_group_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">@lang["Restore"]</TableActionItem>
                         </TdActions>
                     </RowTemplate>
                 </Table>

@@ -15,11 +15,10 @@
             </div>
             <div style="position:relative;">
                 <Image ImageUrl="@http.ImageUrl(m.product?.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px"/>
-                <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-padding-remove" style="padding:5px !important;text-align:center;">
-                    <p>@m.product?.product_name_en</p>
+                <div class="uk-position-absolute uk-width-1-1" style="bottom: 0px; background-color: #c1c1c1; padding:4px; text-align: center;">
+                    <span>@m.product?.product_name_en</span>
                 </div>
             </div>
-
         </div>
     }
     else

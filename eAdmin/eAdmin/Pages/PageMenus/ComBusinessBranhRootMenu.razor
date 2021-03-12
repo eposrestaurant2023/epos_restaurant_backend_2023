@@ -18,11 +18,11 @@
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public int menu_id { get; set; }
-    [Parameter] public EventCallback<int> menu_idChanged { get; set; }   
-    
+    [Parameter] public EventCallback<int> menu_idChanged { get; set; }
+
     [Parameter] public int current_menu_id { get; set; }
     [Parameter] public EventCallback<int> current_menu_idChanged { get; set; }
-    
+
     [Parameter] public int parent_menu_id { get; set; }
     [Parameter] public EventCallback<int> parent_menu_idChanged { get; set; }
 
@@ -46,5 +46,12 @@
 
     }
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid role_id = gv.business_branch_by_role.FirstOrDefault().id;
+        var menu = menus.Where(r => r.business_branch_id == role_id).FirstOrDefault();
+        await MenuClick(menu);
+    }
 
 }

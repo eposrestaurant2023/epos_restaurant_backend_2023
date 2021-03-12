@@ -2,48 +2,40 @@
  
 <div style="position:relative;" class="uk-width-1-6">
     <div class="icon_edit_menu">
-        <Icon icon="edit" icon_color="@menu.text_color" OnClick="@(()=>EditMenu())"/>
-        <Com is_visible="@(!IsMenuSelected())"> 
-            <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" /> 
+        <Icon icon="edit" icon_color="@menu.text_color" OnClick="@(()=>EditMenu())" />
+        <Com is_visible="@(!IsMenuSelected())">
+            <Icon icon="check_box_outline_blank" icon_color="@menu.text_color" @onclick="@OnSelectMenu" />
         </Com>
         <div class="uk-inline button-action-table">
             <Icon icon="more_vert" />
             <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                 <ul class="uk-nav uk-dropdown-nav">
-                    <li @onclick="@OnDeleteMenu"> <Icon icon="delete" /> Delete </li>
-                    <li @onclick="@OnMoveMenu" > <Icon icon="arrow_back"/> Move to </li>
+                    <li @onclick="@OnDeleteMenu"> <Icon icon="delete" /> @lang["Delete"]</li>
+                    <li @onclick="@OnMoveMenu"> <Icon icon="arrow_back" /> @lang["Move to"]</li>
                 </ul>
             </div>
         </div>
     </div>
-
     @if (!string.IsNullOrEmpty(menu.photo))
     {
-        <div>
-            <div style="position:relative;" @onclick="@OnClick" class="cp">
-                <Image ImageUrl="@http.ImageUrl(menu.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px" />
-                <div class="uk-overlay-default uk-position-cover"></div>
-                <div class="uk-position-bottom uk-dark uk-padding-remove" style="padding:5px !important;text-align:center;">
-                    <p>
-                        @ChildContent
-                    </p>
-                </div>
-            </div>
-
-        </div>
-    }
-    else
-    {
-        <div @onclick="@OnClick" class="box_menu cp" style="background:@menu.background_color;color:@menu.text_color;">
-            <div class="uk-position-center">
-                <div style="text-align: center; align-items: center;">
+        <div @onclick="@OnClick" class="box_menu cp" style="background-image:url(@http.ImageUrl(menu.photo)); background-size:cover;">
+            <div class="uk-position-center uk-text-center">
+                <div style="background-color: #ffffffc7; color: #000; padding: 0px 3px; border-radius: 2px;">
                     @ChildContent
                 </div>
             </div>
         </div>
     }
-
-
+    else
+    {
+        <div @onclick="@OnClick" class="box_menu cp" style="background-color:@menu.background_color; color:@menu.text_color;">
+            <div class="uk-position-center uk-text-center">
+                <div>
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    }
 
 </div>
 @if (show_add_menu)

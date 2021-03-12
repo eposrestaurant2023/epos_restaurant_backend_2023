@@ -1,4 +1,4 @@
-﻿@inject IHttpService http;
+﻿@inject IHttpService http
 @inject IMatToaster toast
 @inject IStringLocalizer<Resource> lang
 <EditFormContext is_cancel="true" is_save="true" model="@model" is_opened="@is_opened" title="@title" Cancel_Click="@OnCancel" Save_Click="@Save_Click" is_submitting="@is_saving" modal_width="700px">
@@ -10,29 +10,29 @@
         }
         else
         {
-            <UIContainerBox Title="Photo" ClassName="uk-text-center">
+            <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
                 <UIFlexCenter>
                     <FileUpload @bind-ImageUrl="@model.photo" />
                 </UIFlexCenter>
             </UIContainerBox>
-            <UIContainerBox Title="Menu Information">
+            <UIContainerBox Title="@lang["Menu Information"]">
                 @if (model.parent != null)
                 {
-                    <TextInput label="Parent" text="@model.parent.menu_name_en" is_read_only="true" />
+                    <TextInput label="@lang["Parent"]" text="@model.parent.menu_name_en" is_read_only="true" />
                 }
                 else
                 {
-                    <TextInput label="Parent" text="Root Menu" is_read_only="true" />
+                    <TextInput label="@lang["Parent"]" text="@lang["Root Menu"]" is_read_only="true" />
                 }
 
-                <TextInput label="Menu Name(EN)" @bind-text="@model.menu_name_en">
+                <TextInput label="@lang["Menu Name(EN)"]" @bind-text="@model.menu_name_en">
                     <ValidationMessage For="@(() => model.menu_name_en)" />
                 </TextInput>
-                <TextInput label="Menu Name(KH)" @bind-text="@model.menu_name_en" />
-                <TextInput label="Text Color" type="color" @bind-text="@model.text_color" />
-                <TextInput label="Background Color" type="color" @bind-text="@model.background_color" />
-                <NumberInputInt label="Sort Order" @bind-text="@model.sort_order" />
-                <SelectStatus label="Status" @bind-selected_value="@model.status" />
+                <TextInput label="@lang["Menu Name(KH)"]" @bind-text="@model.menu_name_en" />
+                <TextInput label="@lang["Text Color"]" type="color" @bind-text="@model.text_color" />
+                <TextInput label="@lang["Background Color"]" type="color" @bind-text="@model.background_color" />
+                <NumberInputInt label="@lang["Sort Order"]" @bind-text="@model.sort_order" />
+                <SelectStatus label="@lang["Status"]" @bind-selected_value="@model.status" />
 
             </UIContainerBox>
             <UIContainerBox Title="Preview">
@@ -46,7 +46,7 @@
                                 </button>
                             </div>
                             <div style="text-align: center; line-height: 130px;">
-                                <span>@(string.IsNullOrEmpty(model.menu_name_en)?"Empty" : model.menu_name_en)</span>
+                                <span>@(string.IsNullOrEmpty(model.menu_name_en)?lang["Empty"] : model.menu_name_en)</span>
                             </div>
                         </div>
                     </div>
@@ -78,11 +78,11 @@
 
             if (model.id == 0)
             {
-                return "Add New Menu";
+                return lang["Add New Menu"];
             }
             else
             {
-                return "Edit Menu " + model.menu_name_en;
+                return lang["Edit Menu "] + model.menu_name_en;
             }
         }
     }
@@ -101,13 +101,11 @@
     async Task Save_Click()
     {
         is_saving = true;
-        
-
         var res = await http.ApiPost("Menu/save", model);
         if (res.IsSuccess)
         {
             model = JsonSerializer.Deserialize<MenuModel>(res.Content.ToString());
-            toast.Add("Save Menu Successfully",MatToastType.Success);
+            toast.Add(lang["Save Menu Successfully."],MatToastType.Success);
             await menuChanged.InvokeAsync(model);
             model = new MenuModel();
             is_opened = false;

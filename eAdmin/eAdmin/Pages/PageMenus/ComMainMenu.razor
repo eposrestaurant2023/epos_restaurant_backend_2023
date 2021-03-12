@@ -1,14 +1,13 @@
 ﻿@inject IHttpService http
 @inject IJSRuntime js
 @inject IMatToaster toast
+@inject IStringLocalizer<Resource> lang
 
-<UIContainerBox Title="Menus">
+<UIContainerBox Title="@lang["Menus"]">
   
     @if (menu == null)
     {
-        <div>
-            Please Select Menu
-        </div>
+        <div>@lang["Please Select Menu"]</div>
     }
     else
     {
@@ -19,40 +18,39 @@
 
         @if (menus.Any())
         {
-<div class="ribbons-wrapper uk-grid-small" uk-grid>
-    @if (current_menu_id > 0)
-    {
-     if (current_menu.id!= root_menu_id)
-    {
-        <ComMenuBackButton OnClick="@OnBack" />
-        }
-    }
+        <div class="ribbons-wrapper uk-grid-small" uk-grid>
+            @if (current_menu_id > 0)
+            {
+                if (current_menu.id!= root_menu_id)
+                {
+                <ComMenuBackButton OnClick="@OnBack" />
+                }
+            }
 
+            @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
+            {
 
-    @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
-    {
+                <ComMenuItem menu="@m" menu_idChanged="OnCurrentMenuChanged" @bind-keyword="@keyword" OnDeleteMenu="@(()=>OnDeleteMenu(m))" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
+                    @(GetMenuName(m))
+                </ComMenuItem>
+            }
 
-        <ComMenuItem menu="@m" menu_idChanged="OnCurrentMenuChanged" @bind-keyword="@keyword" OnDeleteMenu="@(()=>OnDeleteMenu(m))" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
-            @(GetMenuName(m))
-        </ComMenuItem>
-    }
+            @if (string.IsNullOrEmpty(keyword))
+            {
+                <ComMenuSelectProductButton menu="@current_menu" menu_="@menu_move" menu_Changed="@Invoke" />
+            }
 
-    @if (string.IsNullOrEmpty(keyword))
-    {
-        <ComMenuSelectProductButton menu="@current_menu" menu_="@menu_move" menu_Changed="@Invoke" />
-    }
+            @if (current_menu_id > 0)
+            {
+                <ComAssignProductButton OnClick="@Click_Select_Produc" />
+            }
 
-    @if (current_menu_id > 0)
-    {
-        <ComAssignProductButton OnClick="@Click_Select_Produc" />
-    }
+            @if (current_menu_id > 0)
+            {
+                <ComMenuAddButton OnClick="@OpenAddMenu" />
+            }
 
-    @if (current_menu_id > 0)
-    {
-        <ComMenuAddButton OnClick="@OpenAddMenu" />
-    }
-
-</div>
+        </div>
         }
     }
 

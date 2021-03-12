@@ -4,49 +4,41 @@
     <h3 class="title">
         Drink/Food
     </h3>
-
-   
     <div class="uk-grid-small" uk-grid>
 
         @foreach (var m in menu_items.Where(r => r.id != model.id))
         {
 
-            <div style="position:relative;" class="uk-width-1-4">
+            <div class="uk-width-1-4">
                 @if (menus.Where(r => r.parent_id == m.id && r.is_deleted == false).Any())
                 {
 
                     @if (string.IsNullOrEmpty(m.photo))
                     {
 
-                        <div class="border_select">
-                            <div style="position:relative;" @onclick="@(() => MenuClick(m))" class="cp">
-                                <Image ImageUrl="@http.ImageUrl(m.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px" />
-                                <div class="uk-overlay-default uk-position-cover"></div>
-                                <div class="uk-position-bottom uk-dark uk-padding-remove" style="padding:5px !important;text-align:center;">
-                                    <p>
-                                        @m.menu_name_en
-                                    </p>
+                        <div class="cp" @onclick="@(() => MenuClick(m))">
+                            <div style="position:relative;background-image: url(@http.ImageUrl(m.photo))">
+                                <div class="uk-position-bottom uk-dark uk-text-center">
+                                    @m.menu_name_en 
                                 </div>
+                                <div class="box-selected"><Icon icon="check"  size="12px"/> Select</div>
                             </div>
-
                         </div>
 
                     }
                     else
                     {
-                        <div class="border_select">
-                            <div @onclick="@(() => MenuClick(m))" class="box_menu cp" style="background:@m.background_color;color:@m.text_color;">
-
-                                <div class="uk-position-center">
-                                    <div style="text-align: center; align-items: center;">
+                        <div class="cp" @onclick="@(() => MenuClick(m))">
+                            <div class="box_menu" style="background:@m.background_color;color:@m.text_color;">
+                                <div class="uk-position-center uk-text-center">
+                                    <div>
                                         @m.menu_name_en
                                     </div>
                                 </div>
+                                <div class="box-selected"><Icon icon="check"  size="12px"/> Select</div>
                             </div>
                         </div>
                     }
-
-
 
                 }
                 else
@@ -55,37 +47,32 @@
                     @if (string.IsNullOrEmpty(m.photo))
                     {
 
-                        <div class="border_select">
-                            <div style="position:relative;" class="cp">
-                                <Image ImageUrl="@http.ImageUrl(m.photo)" IsLightBox="false" IsBackgroundImage="false" Height="130px" />
-                                <div class="uk-overlay-default uk-position-cover"></div>
-                                <div class="uk-position-bottom uk-dark uk-padding-remove" style="padding:5px !important;text-align:center;">
-                                    <p>
+                        <div class="cp" @onclick="@(()=>SelectMenu(m))">
+                            <div style="position:relative; background-image:url(@http.ImageUrl(m.photo))">
+                                <div class="uk-position-bottom uk-dark uk-text-center" style="padding:5px;">
+                                    <span>
                                         @m.menu_name_en
-                                    </p>
+                                    </span>
                                 </div>
+                                <div class="box-selected"><Icon icon="check" size="12px" /> Select</div>
                             </div>
-
                         </div>
 
                     }
                     else
                     {
-                        <div class="border_select">
-                            <div class="box_menu cp" style="background:@m.background_color;color:@m.text_color;">
-
-                                <div class="uk-position-center">
-                                    <div style="text-align: center; align-items: center;">
+                        <div class="cp" @onclick="@(()=>SelectMenu(m))">
+                            <div class="box_menu" style="background:@m.background_color;color:@m.text_color;">
+                                <div class="uk-position-center uk-text-center">
+                                    <span>
                                         @m.menu_name_en
-                                    </div>
+                                    </span>
                                 </div>
+                                <div class="box-selected"><Icon icon="check" size="12px" /> Select</div>
                             </div>
                         </div>
                     }
-                }
-                <div @onclick="@(()=>SelectMenu(m))" class="gb_button_select cp">
-                    Select
-                </div>
+                } 
             </div>
 
 

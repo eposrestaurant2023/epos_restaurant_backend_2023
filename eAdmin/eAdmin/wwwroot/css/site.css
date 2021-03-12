@@ -7104,3 +7104,17 @@ z-index:999999!important;
 .box-list-category:hover {
     background: #f0f7ff;
 }
+
+.box_menu .box-selected {
+    display: none;
+}
+.box_menu:hover
+.box_menu:active,
+.box_menu:focus {
+    border: 1px solid #5899dc;
+}
+.box_menu:hover .box-selected,
+.box_menu:focus .box-selected, 
+.box_menu:active .box-selected {
+    display: block!important;
+}

@@ -19,14 +19,14 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_modifier_group")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("modifier_group_add")" OnClick="@(()=> nav.NavigateTo("modifiergroup/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("modifier_group_add")" OnClick="@(()=> nav.NavigateTo("modifiergroup/new"))">@lang["New"]</AddButton>
                 <RefreshButton OnClick="@OnInitializedAsync" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>
