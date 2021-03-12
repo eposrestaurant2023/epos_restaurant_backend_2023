@@ -14,7 +14,7 @@ namespace eModels
 
 
         [MaxLength(50)]
-        public string project_name { get; set; }
+        public string project_type_name { get; set; }
 
 
 

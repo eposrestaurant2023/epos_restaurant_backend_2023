@@ -1,0 +1,111 @@
+﻿@page "/project/new"
+@page "/project/edit/{id:int}"
+@inherits PageCore
+
+
+<Loading is_loading="@is_loading" />
+
+ @if (!is_loading)
+{
+    <Title Value="@title"></Title>
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @if (id > 0)
+                        {
+                            <span> @model.project_name</span>
+                            <LabelActive is_visible="@(!model.is_deleted && model.status)"/>
+                            <LabelDeleted is_visible="@(model.is_deleted)"/>
+                            <LabelInActive is_visible="@(!model.is_deleted && !model.status)"/>
+                        }
+                        else
+                        {
+                            <span>@title</span>
+                        }
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
+            
+            <PageBody>
+                <UIGridCenter>
+                   <ComAddProjectForm @bind-model="@model"/>
+                </UIGridCenter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <Button is_visible="@is_saving"><Spinner /></Button>
+                    <Button icon="save" class_name="uk-button uk-button-primary" roles="@gv.GetRole("project_add")" is_visible="@(!is_saving)" type="submit">Save</Button>
+                    <Button OnClick="@OnCancel" is_visible="@(!is_saving)" class_name="uk-button uk-button-danger" icon="reply">Cancel</Button>
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>        
+    </PageContainer>
+}
+@code{
+    [Parameter] public int id { get; set; }
+    ProjectModel model = new ProjectModel();
+    public string api_url
+    {
+        get
+        {
+            return $"project({id})?$expand=project_contacts($filter=is_deleted eq false)";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!is_loading)
+        {
+            is_loading = true;
+            title = "Add New Project";
+            if (model.project_contacts.Count == 0)
+            {
+                model.project_contacts.Add(new ContactModel());
+            }
+            is_loading = false;
+        }
+    }
+
+    async Task Save_Click()
+    {
+        if (!is_saving)
+        {
+            is_saving = true;
+
+            var res = await http.ApiPost($"project/save", model);
+            if (res.IsSuccess)
+            {
+
+                model = JsonSerializer.Deserialize<ProjectModel>(res.Content.ToString());
+                toast.Add("Saving Project successfully", MatToastType.Success);
+                nav.NavigateTo($"project/{model.id}");
+
+            }
+            else
+            {
+                is_saving = false;
+                toast.Add(res.Content.ToString(), MatToastType.Warning);
+
+            }
+            //testing
+            is_saving = false;
+        }
+    }
+    void OnCancel()
+    {
+        if (id > 0)
+        {
+            nav.NavigateTo($"project/{id}");
+        }
+        else
+        {
+            nav.NavigateTo("project");
+        }
+    }
+}

@@ -26,14 +26,16 @@
             </table>
         </ContentLeft>
         <ContentRight>
+            @if (model.vendor_id > 0)
+            {
+            <div>
+                <ComVendorInfo vendor="@model.vendor" />
+            </div>
+            }
             <table>
                 <tr>
                     <th>@lang["Cost"]</th>
                     <td>@model.cost.ToString(gv.currency_format)</td>
-                </tr>
-                <tr>
-                    <th>@lang["Vendor"]</th>
-                    <td>@model.vendor?.vendor_display_name</td>
                 </tr>
                 <tr>
                     <th>@lang["Open Product"]</th>
@@ -48,12 +50,12 @@
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
                 </tr>
             </table>
-            </ContentRight>
+        </ContentRight>
 
     </UISummaryBox>
     <Spacing Number="10"/>
     <Com is_visible="@model.is_inventory_product">
-        <ComProductDetail_InventoryInformation product_id="@model.id"/>
+        <ComProductDetail_InventoryInformation product_id="@model.id" product_deleted="@model.is_deleted"/>
         <Spacing Number="10"/>
     </Com>
     <ComProductDetail_Portion product_id="@model.id"/>

@@ -10,7 +10,7 @@
             <tr>
                 <td>
                     <div>
-                        <div>@m.section_name <a href="modifiergroup/@mg.id" target="_blank"><span uk-tooltip="Modifier Group Name">(@mg.modifier_group_display_name)</span></a></div>
+                        <div>@m.section_name <a href="modifiergroup/@mg.id"><span uk-tooltip="Modifier Group Name">(@mg.modifier_group_display_name)</span></a></div>
                     </div>
                     <div class="uk-margin-small-top"> 
                         <LabelIsRequired is_visible="@m.is_required" />
@@ -21,7 +21,7 @@
                     @foreach (var c in m.children.OrderBy(r => r.sort_order))
                     {
                         <Grid ClassName="uk-grid-small">
-                            <div class="uk-width-expand" uk-leader><a href="@($"modifier/{c.modifier.id}")" target="_blank">@c.modifier?.modifier_name</a></div>
+                            <div class="uk-width-expand" uk-leader><a href="@($"modifier/{c.modifier.id}")">@c.modifier?.modifier_name</a></div>
                             <div class="uk-width-auto">@c.price.ToString(gv.main_currency_format)</div>
                         </Grid>
                     }

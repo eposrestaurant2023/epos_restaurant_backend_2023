@@ -13,7 +13,7 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>Purchase Order Product</HeaderTemplate>
+                    <HeaderTemplate>@lang["Purchase Order Product"]</HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
@@ -40,19 +40,18 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("sale_date", "Date", "uk-text-center")
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("product/product_name", "Product", "col-auto")
-                        <ThCenter>Quantity</ThCenter>
-                        <ThRight>Price</ThRight>
-                        <ThRight>Discount</ThRight>
-                        <ThRight>Amount</ThRight>
-                        <ThCenter>Created Date</ThCenter>
-                        <Th>Created By</Th>
-                        <ThCenter>Status</ThCenter>
+                        @HeaderTemplate("sale_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("product/product_name", lang["Product"], "col-auto")
+                        <ThCenter>@lang["Quantity"]</ThCenter>
+                        <ThRight>@lang["Price"]</ThRight>
+                        <ThRight>@lang["Discount"]</ThRight>
+                        <ThRight>@lang["Amount"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <Th>@lang["Created By"]</Th>
+                        <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -87,13 +86,13 @@
                             <LabelActive is_visible="@(p.status && !p.is_deleted)" />
                             @if (p.is_fulfilled && !p.is_deleted)
                             {
-                            <span class="uk-label fulfilled">Fulfilled</span>
+                            <span class="uk-label fulfilled">@lang["Fulfilled"]</span>
                             }
                         </TdRight>
                         <TdCenter>
                             <TdActions is_loading="@p.is_loading">
-                                <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">View</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" url="@($"purchaseorder/edit/{p.id}")">Edit</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">@lang["View"]</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" url="@($"purchaseorder/edit/{p.id}")">@lang["Edit"]</TableActionItem>
                             </TdActions>
                         </TdCenter>
                     </RowTemplate>

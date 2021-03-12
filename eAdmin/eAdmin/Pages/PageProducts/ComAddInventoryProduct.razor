@@ -60,13 +60,16 @@
             <tfoot>
                 <tr>
                     <td>@lang["Total Quantity"]</td>
-                    <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
+                    @if (model.id > 0)
+                    {
+                        <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
+                    }
                     <td class="uk-text-center">@model.stock_location_products.Sum(r => r.initial_quantity).ToString(gv.quantity_format)</td>
-                    
+
                     <td colspan="2"></td>
                 </tr>
             </tfoot>
-        </table> 
+        </table>
         }
     </Com>
 </UIContainerBox>

@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
-<UIContainerBox Title="Printers" Icon="print" >
+<UIContainerBox Title="@lang["Printers"]" Icon="print" >
     @if (is_loading)
     {
         <Spinner/>
