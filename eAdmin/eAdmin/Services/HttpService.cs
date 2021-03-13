@@ -115,6 +115,7 @@ namespace eAdmin.Services
                 var resp = await http.GetAsync($"{_configuration.GetValue<string>("apiBaseUrl")}{url}");
                 if (resp.IsSuccessStatusCode)
                 {
+
                     var jsonString = await resp.Content.ReadAsStringAsync();
                     var con = JsonSerializer.Deserialize<GetOdataResponse>(jsonString);
                     return new GetOdataResponse(true, con.Count, con.Content);
