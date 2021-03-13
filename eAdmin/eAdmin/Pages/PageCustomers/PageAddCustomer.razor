@@ -82,7 +82,7 @@
 
             if ((id != ""  && id != null) || (clone_id != "" && clone_id != null))
             {
-                if (id != "" && id != null)
+                if (!string.IsNullOrEmpty(id))
                 {
                     var res = await http.ApiGet(api_url);
                     if (res.IsSuccess)
@@ -173,13 +173,13 @@
                 else
                 {
                     model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                    toast.Add("Saving Customer successfully", MatToastType.Success);
+                    toast.Add(lang["Saving Customer successfully"], MatToastType.Success);
                     if (is_save_and_new)
                     {
                         model = new CustomerModel();
                         id = "";
                         nav.NavigateTo("customer/new");
-                        title = "Add New Customer";
+                        title = lang["Add New Customer"];
                     }
                     else if (is_save_and_order) {
                         nav.NavigateTo($"sale/customer/{model.id}");

@@ -9,11 +9,13 @@ namespace eShareModel
 {
     public class CustomerShareModel : CoreGUIDModel
     {
+        [Range(1,int.MaxValue,ErrorMessage ="Please select a customer group.")]
         public int customer_group_id { get; set; }
 
         public string customer_code { get; set; }
 
         private string _customer_name_en;
+        [Required(ErrorMessage ="Field can not be blank.")]
         public string customer_name_en
         {
             get { return _customer_name_en; }
