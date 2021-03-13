@@ -22,7 +22,7 @@
         <PageBody>
             <Grid ClassName="uk-grid-small">
                 <Column ClassName="uk-width-1-5">
-                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id" @bind-keyword="@keyword" />
+                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.is_deleted == false).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id" @bind-keyword="@keyword" />
                 </Column>
                 <Column ClassName="uk-width-4-5">
                     <ComMainMenu @bind-menu_move="@menu" business_branch_id="@business_id" menus="@menus" root_menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-keyword="@keyword" />

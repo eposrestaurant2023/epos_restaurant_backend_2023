@@ -23,14 +23,14 @@
 
                 @if (is_ingredient_category)
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.has_ingredient_product == true))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
                 }
                 else
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == false))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.has_menu_product == true))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
@@ -46,14 +46,14 @@
                 }
                 @if (is_ingredient_category)
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == true))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.has_ingredient_product == true))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
                 }
                 else
                 {
-                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == false))
+                    foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.has_menu_product == true))
                     {
                         <option value="@p.id">@p.product_category_en</option>
                     }
@@ -78,10 +78,12 @@
     [Parameter] public int empty_value { get; set; }
     [Parameter] public string label { get; set; } = "Product Category";
     [Parameter] public string width { get; set; } = "";
+
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
     [Parameter] public EventCallback<ProductCategoryModel> product_categoryChanged { get; set; }
+     
 
     Guid id = Guid.NewGuid();
 

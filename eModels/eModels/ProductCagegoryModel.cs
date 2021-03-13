@@ -46,7 +46,7 @@ namespace eModels
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
 
         public bool has_ingredient_product { get; set; }
-
+        public bool has_menu_product { get; set; }
 
     }
 }

@@ -5,13 +5,26 @@
         <h3 class="title uk-margin-remove-top uk-margin-remove-bottom" style="margin-bottom:10px !important;">
             @b.business_branch_name_en
         </h3>
-        @foreach (var n in menus.Where(r => r.business_branch_id == b.id))
+        @foreach (var n in menus.Where(r => r.business_branch_id == b.id && r.is_deleted == false && r.parent_id == null))
         {
-            <button @onclick="@(()=>MenuClick(n))" class="@(n.is_selected? "selected" : "") button_color_button">
-                <div style="text-align:left;width:100%">
-                    @n.menu_name_en
-                </div>
-            </button>
+<button @onclick="@(()=>MenuClick(n))" class="@(n.is_selected? "selected" : "") button_color_button">
+    <div style="text-align:left;width:100%">
+        @n.menu_name_en 
+    </div>
+    @if (!menus.Where(r => r.parent_id == n.id && r.is_deleted == false).Any())
+    {
+        <div class="uk-inline button-action-table">
+            <Icon icon="more_vert" />
+            <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
+                <ul class="uk-nav uk-dropdown-nav">
+
+                    <li @onclick="@(() => OnDeleteMenu(n))"> <Icon icon="delete" />Delete</li>
+
+                </ul>
+            </div>
+        </div>
+    }
+    </button>
         }
     }
 </div>
@@ -53,5 +66,24 @@
         var menu = menus.Where(r => r.business_branch_id == role_id).FirstOrDefault();
         await MenuClick(menu);
     }
+
+
+    async Task OnDeleteMenu(MenuModel m)
+    {
+ 
+        if (m.id > 0)
+        {
+            if (await js.Confirm("Delete Menu", "Are you sure you want to delete this record?"))
+            {
+                m.is_deleted = true;
+            }
+        }
+        else
+        {
+            menus.Remove(m);
+        }
+          
+    }
+
 
 }
