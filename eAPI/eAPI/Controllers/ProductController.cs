@@ -118,6 +118,8 @@ namespace eAPI.Controllers
 
             u.product_menus.ForEach(r => r.menu = null);
             u.stock_location_products.ForEach(r => r.stock_location = null);
+
+      
             
             //if product is inv product then save init qty to init adjusment qty
             if (u.is_inventory_product)
@@ -227,8 +229,7 @@ namespace eAPI.Controllers
                 inv.reference_number = p.product_code;
                 inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
                 inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Created New Ingredient ({p.product_code})" : $"Created New Product ({p.product_code})";
-                inv.created_by = user.full_name;
-
+                inv.created_by = user.full_name;  
                 db.InventoryTransactions.Add(inv);
                 db.SaveChanges();
                 
