@@ -178,6 +178,8 @@ namespace eAPI.Controllers
             }
           
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record " + u.id); 
+            db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id); 
+           
             return Ok(u); 
         }
 
@@ -284,6 +286,7 @@ namespace eAPI.Controllers
             
             db.Products.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id);
             return Ok();
         }
 

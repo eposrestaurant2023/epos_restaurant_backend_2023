@@ -10,8 +10,11 @@
             <Icon icon="more_vert" />
             <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                 <ul class="uk-nav uk-dropdown-nav">
-                    <li @onclick="@OnDeleteMenu"> <Icon icon="delete" />Delete</li>
-                    <li @onclick="@OnMoveMenu" > <Icon icon="arrow_back"/>Move To</li>
+                    @if (!menu.product_menus.Where(r => r.is_deleted == false).Any())
+                    {
+                        <li @onclick="@OnDeleteMenu"> <Icon icon="delete" />Delete</li>
+                    }
+                    <li @onclick="@OnMoveMenu"> <Icon icon="arrow_back" />Move To</li>
                 </ul>
             </div>
         </div>

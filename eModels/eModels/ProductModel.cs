@@ -23,8 +23,8 @@ namespace eModels
             stock_location_products = new List<StockLocationProductModel>();
             sale_products = new List<SaleProductModel>();
             modifier_ingredients = new List<ModifierIngredientModel>();
-
         }
+
 
         public bool is_out_of_stock { get; set; } = false;
         public bool is_low_inventory { get; set; } = false;

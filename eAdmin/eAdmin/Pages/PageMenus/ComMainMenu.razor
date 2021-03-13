@@ -3,8 +3,9 @@
 @inject IMatToaster toast
 @inject IStringLocalizer<Resource> lang
 
-<UIContainerBox Title="Menus">
 
+
+<UIContainerBox Title="Menus">
     @if (menu == null)
     {
         <div>@lang["Please Select Menu"]</div>
@@ -59,6 +60,8 @@
     }
 
 </UIContainerBox>
+
+
 @if (show_move_menu)
 {
     <ComMenu_SelectMenu menus="@menus" root_menu_id="@root_menu_id" is_opened="@show_move_menu" @bind-model="@menu" OnCancel="@(()=>show_move_menu=false)" OnSelectMenu="@OnSelectMenu" />
@@ -70,13 +73,10 @@
     <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" menuChanged="@SaveMenu" />
 }
 
-
 @if (is_select_product)
 {
     <ComSearchProductMenu @bind-is_open="@is_select_product" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProductClick" />
-
 }
-
 
 @code {
 
