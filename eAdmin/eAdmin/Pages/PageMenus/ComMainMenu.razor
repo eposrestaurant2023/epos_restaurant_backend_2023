@@ -3,43 +3,49 @@
 @inject IMatToaster toast
 @inject IStringLocalizer<Resource> lang
 
-<UIContainerBox Title="@lang["Menus"]">
-  
+<UIContainerBox Title="Menus">
+
     @if (menu == null)
     {
         <div>@lang["Please Select Menu"]</div>
     }
     else
     {
-         @if (current_menu != null)
-         {
-            <h3 class="title">@current_menu.menu_path</h3>
-         }
+        @if (current_menu != null)
+        {
+            <h3 class="title">@menu_path(current_menu.id)</h3>
+        }
 
         @if (menus.Any())
         {
-        <div class="ribbons-wrapper uk-grid-small" uk-grid>
-            @if (current_menu_id > 0)
-            {
-                if (current_menu.id!= root_menu_id)
+            <div class="ribbons-wrapper uk-grid-small" uk-grid>
+                @if (current_menu_id > 0)
                 {
-                <ComMenuBackButton OnClick="@OnBack" />
+                    if (current_menu.id != root_menu_id)
+                    {
+                        <ComMenuBackButton OnClick="@OnBack" />
+                    }
                 }
-            }
 
-            @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
-            {
 
-                <ComMenuItem menu="@m" menu_idChanged="OnCurrentMenuChanged" @bind-keyword="@keyword" OnDeleteMenu="@(()=>OnDeleteMenu(m))" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
-                    @(GetMenuName(m))
-                </ComMenuItem>
-            }
+                @foreach (var m in GetMenus.OrderBy(r => r.sort_order))
+                {
 
-            @if (string.IsNullOrEmpty(keyword))
-            {
-                <ComMenuSelectProductButton menu="@current_menu" menu_="@menu_move" menu_Changed="@Invoke" />
-            }
+                    <ComMenuItem menu="@m" menu_idChanged="OnCurrentMenuChanged" @bind-keyword="@keyword" OnDeleteMenu="@(()=>OnDeleteMenu(m))" menus="@menus" OnMoveMenu="@(()=>OnMoveMenu(m))">
+                        @(GetMenuName(m))
+                    </ComMenuItem>
+                }
 
+                @if (string.IsNullOrEmpty(keyword))
+                {
+                    <ComMenuSelectProductButton menu="@current_menu" menu_="@menu_move" menu_Changed="@Invoke" />
+                }
+
+
+
+            </div>
+
+            <hr />
             @if (current_menu_id > 0)
             {
                 <ComAssignProductButton OnClick="@Click_Select_Produc" />
@@ -49,8 +55,6 @@
             {
                 <ComMenuAddButton OnClick="@OpenAddMenu" />
             }
-
-        </div>
         }
     }
 
@@ -63,8 +67,9 @@
 
 @if (show_add_menu)
 {
-    <ComAddMenu business_id="@business_branch_id" root_menu_id="@root_menu_id" current_menu_id="@current_menu_id" is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" />
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" menuChanged="@SaveMenu" />
 }
+
 
 @if (is_select_product)
 {
@@ -100,6 +105,47 @@
     {
         menu_move = _menu;
         menu_moveChanged.InvokeAsync(menu_move);
+    }
+
+    public string menu_path(int menu_id)
+    {
+
+        if (menu_id > 0)
+        {
+            List<string> str_menu_names = new List<string>();
+            int id = menu_id;
+            while (id > 0)
+            {
+                var d = menus.Where(r => r.id == id).FirstOrDefault();
+                str_menu_names.Add(d.menu_name_en);
+
+                if (d.parent_id == null)
+                {
+                    id = 0;
+                }
+                else
+                {
+                    id = Convert.ToInt32(d.parent_id);
+                }
+
+            }
+
+            if (str_menu_names.Count() > 0)
+            {
+                string path = ""; ;
+                str_menu_names.Reverse();
+                foreach (var m in str_menu_names)
+                {
+                    path = path + m + " / ";
+                }
+                if (path.Length > 0)
+                {
+                    return path.Substring(0, path.Trim().Length - 1);
+                }
+
+            }
+        }
+        return "";
     }
 
 
@@ -146,7 +192,14 @@
 
     void OpenAddMenu()
     {
+
+        menu = new MenuModel();
+        menu.parent = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
+        menu.parent_id = menu.parent.id;
+        menu.business_branch_id = business_branch_id;
         show_add_menu = true;
+
+
     }
 
     string GetMenuName(MenuModel m)
@@ -176,8 +229,8 @@
         return selected_menus.Where(r => r.menu_id == m.id && r.is_deleted == false).Any();
     }
 
- 
-    
+
+
 
     void SetMenuActive()
     {
@@ -204,11 +257,12 @@
     }
 
 
-    void OnBack()
+    async Task OnBack()
     {
 
         var d = menus.Where(r => r.id == current_menu_id).FirstOrDefault();
         current_menu_id = Convert.ToInt32(d.parent_id);
+        await current_menu_idChanged.InvokeAsync(current_menu_id);
     }
 
     void AddRootMenu()
@@ -228,11 +282,23 @@
 
     }
 
+
     void SaveMenu(MenuModel m)
     {
-        menus.Add(m);
+        if (menu.id == 0)
+        {
+            menu = m;
+            menus.Add(m);
+
+        }
+        else
+        {
+            menu = m;
+        }
+        menu.menu_path = menu_path(m.id);
         show_add_menu = false;
     }
+
 
     void EditMenu(MenuModel m)
     {

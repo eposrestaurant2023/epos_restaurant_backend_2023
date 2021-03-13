@@ -5,27 +5,27 @@
 
 @if (!is_loading)
 {
-<PageContainer>    
-    <PageHeader>
-        <HeaderLeft>
-            <PageTitle ShowFilter="false">
-                <HeaderTemplate>
-                    @lang["Root Menu"]
-                </HeaderTemplate>
-            </PageTitle>
-        </HeaderLeft>
-        <HeaderRight>
-            <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">@lang["Add New Root Menu"]</Button>
-            <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
-        </HeaderRight>
-    </PageHeader>
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Root Menu
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">Add New Root Menu</Button>
+                <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
+            </HeaderRight>
+        </PageHeader>
         <PageBody>
             <Grid ClassName="uk-grid-small">
                 <Column ClassName="uk-width-1-5">
-                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id"  @bind-keyword="@keyword" />
+                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.parent_id == null).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id" @bind-keyword="@keyword" />
                 </Column>
                 <Column ClassName="uk-width-4-5">
-                    <ComMainMenu @bind-menu_move="@menu" business_branch_id="@business_id" menus="@menus" root_menu_id="@root_menu_id"  @bind-current_menu_id="@current_menu_id"  @bind-keyword="@keyword" />
+                    <ComMainMenu @bind-menu_move="@menu" business_branch_id="@business_id" menus="@menus" root_menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-keyword="@keyword" />
                 </Column>
             </Grid>
         </PageBody>
@@ -34,17 +34,17 @@
                 <ComSavingFormButton is_show_cancel="false" OnSave="@Save_Click" is_show_save_action="true" is_loading="@is_saving" />
             </FooterCenter>
         </PageFooter>
-</PageContainer>
+    </PageContainer>
 }
 @if (show_add_menu)
 {
-    <ComAddMenu business_id="@business_id" root_menu_id="@root_menu_id" is_opened="@show_add_menu" menu="@menu" menuChanged="@OnGetMenu" OnCancel="@(()=>show_add_menu=false)"  />
+    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" menuChanged="@SaveMenu" />
 }
 @code
 {
 
     List<MenuModel> menus = new List<MenuModel>();
-    MenuModel menu = new  MenuModel ();
+    MenuModel menu = new MenuModel();
 
     int root_menu_id;
     int parent_menu_id;
@@ -71,7 +71,7 @@
     {
         is_loading = true;
 
-        state.filters.RemoveAll(r=>r.key== "business_branch_id" || r.key=="is_deleted");
+        state.filters.RemoveAll(r => r.key == "business_branch_id" || r.key == "is_deleted");
 
         state.filters.Add(new FilterModel()
         {
@@ -83,7 +83,7 @@
         state.filters.Add(new FilterModel()
         {
             key = "is_deleted",
-            value1 ="false"
+            value1 = "false"
         });
 
         await LoadData();
@@ -112,14 +112,17 @@
     {
         is_saving = true;
         List<MenuModel> save_menu = new List<MenuModel>();
-        save_menu = JsonSerializer.Deserialize < List<MenuModel>>(JsonSerializer.Serialize(menus));
-        save_menu.SelectMany(r => r.product_menus).ToList().ForEach(r => r.product = null);
-        var resp = await http.ApiPost("Menu/Save/Multiple", save_menu);
+        save_menu = JsonSerializer.Deserialize<List<MenuModel>>(JsonSerializer.Serialize(menus));
 
+        save_menu.SelectMany(r => r.product_menus).ToList().ForEach(r => r.product = null);
+
+        save_menu.Where(r => r.parent != null).ToList().ForEach(r => r.parent = null);
+
+        var resp = await http.ApiPost("Menu/Save/Multiple", save_menu);
 
         if (resp.IsSuccess)
         {
-            toast.Add("Save Menu Successfully.",MatToastType.Success);
+            toast.Add("Save Menu Successfully.", MatToastType.Success);
             await LoadData();
             if (menus.Count() > 0)
             {
@@ -140,8 +143,26 @@
     void AddRootMenu()
     {
         menu = new MenuModel();
-        show_add_menu = !show_add_menu;
+        menu.parent = null;
+        menu.business_branch_id = business_id;
+        show_add_menu = true;
     }
+    void SaveMenu(MenuModel m)
+    {
+        if (menu.id == 0)
+        {
+            menu = m;
+            menus.Add(m);
+
+        }
+        else
+        {
+            menu = m;
+        }
+       
+        show_add_menu = false;
+    }
+
 
     void OnSearch()
     {
@@ -154,5 +175,6 @@
         menus = new List<MenuModel>();
         await LoadData();
     }
+
 }
 

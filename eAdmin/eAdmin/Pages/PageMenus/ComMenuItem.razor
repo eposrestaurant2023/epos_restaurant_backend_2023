@@ -1,5 +1,5 @@
-﻿@inherits PageCore
- 
+﻿@inject IHttpService http;
+
 <div style="position:relative;" class="uk-width-1-6">
     <div class="icon_edit_menu">
         <Icon icon="edit" icon_color="@menu.text_color" OnClick="@(()=>EditMenu())" />
@@ -10,8 +10,8 @@
             <Icon icon="more_vert" />
             <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                 <ul class="uk-nav uk-dropdown-nav">
-                    <li @onclick="@OnDeleteMenu"> <Icon icon="delete" /> @lang["Delete"]</li>
-                    <li @onclick="@OnMoveMenu"> <Icon icon="arrow_back" /> @lang["Move to"]</li>
+                    <li @onclick="@OnDeleteMenu"> <Icon icon="delete" />Delete</li>
+                    <li @onclick="@OnMoveMenu" > <Icon icon="arrow_back"/>Move To</li>
                 </ul>
             </div>
         </div>
@@ -38,11 +38,12 @@
     }
 
 </div>
+
 @if (show_add_menu)
 {
     <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" menuChanged="@SaveMenu" />
-    
 }
+
 
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
@@ -57,8 +58,6 @@
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
     [Parameter] public int parent_menu_id { get; set; }
 
-
-
     async Task OnClick()
     {
 
@@ -67,10 +66,9 @@
 
     }
 
-
     void EditMenu()
     {
-
+        menu.parent = menus.Where(r => r.id == menu.parent_id).FirstOrDefault();
         show_add_menu = true;
     }
 
@@ -86,7 +84,7 @@
 
     void SaveMenu(MenuModel m)
     {
-        menus.Add(m);
+
         show_add_menu = false;
     }
 
