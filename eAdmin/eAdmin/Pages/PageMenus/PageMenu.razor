@@ -10,22 +10,24 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Root Menu
+                        @lang["Menu"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">Add New Root Menu</Button>
+
                 <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <Grid ClassName="uk-grid-small">
                 <Column ClassName="uk-width-1-5">
-                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.is_deleted == false).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id" @bind-keyword="@keyword" />
+                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.is_deleted == false).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id" @bind-keyword="@keyword" OnEditMenu="@OnEditMenu" OnAddRootMenu="@AddRootMenu" />
                 </Column>
                 <Column ClassName="uk-width-4-5">
+
                     <ComMainMenu @bind-menu_move="@menu" business_branch_id="@business_id" menus="@menus" root_menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-keyword="@keyword" />
+
                 </Column>
             </Grid>
         </PageBody>
@@ -38,8 +40,7 @@
 }
 @if (show_add_menu)
 {
-    <ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" menuChanged="@SaveMenu" />
-}
+<ComAddMenu is_opened="@show_add_menu" menu="@menu" OnCancel="@(()=>show_add_menu=false)" menuChanged="@SaveMenu" />}
 @code
 {
 
@@ -49,11 +50,11 @@
     int root_menu_id;
     int parent_menu_id;
     int current_menu_id;
-
+    bool show_add_menu;
 
     Guid business_id = Guid.NewGuid();
 
-    bool show_add_menu;
+
     string keyword;
 
     string controller_api = "Menu";
@@ -140,13 +141,23 @@
     }
 
 
-    void AddRootMenu()
+    async Task OnGetMenu(MenuModel _menu)
+    {
+        menu = _menu;
+        menus = new List<MenuModel>();
+        await LoadData();
+    }
+
+
+
+    void AddRootMenu(Guid business_branch_id)
     {
         menu = new MenuModel();
         menu.parent = null;
-        menu.business_branch_id = business_id;
+        menu.business_branch_id = business_branch_id;
         show_add_menu = true;
     }
+
     void SaveMenu(MenuModel m)
     {
         if (menu.id == 0)
@@ -159,21 +170,14 @@
         {
             menu = m;
         }
-       
+
         show_add_menu = false;
     }
 
-
-    void OnSearch()
+    void OnEditMenu(MenuModel m)
     {
-
-    }
-
-    async Task OnGetMenu(MenuModel _menu)
-    {
-        menu = _menu;
-        menus = new List<MenuModel>();
-        await LoadData();
+        menu = m;
+        show_add_menu = true;
     }
 
 }
