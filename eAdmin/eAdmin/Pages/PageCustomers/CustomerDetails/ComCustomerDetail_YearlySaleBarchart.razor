@@ -1,0 +1,81 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http;
+<UIContainerBox Title="@lang["Yearly Sale"]">
+
+    @if (is_loading)
+    {
+    <Spinner />
+    }
+    else
+    {
+    @if (data != null && barchart_data!=null)
+        {
+    <BarChart Data="@barchart_data" Height="325" Width="100" />
+        }
+    }
+
+</UIContainerBox>
+ 
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+ 
+    [Parameter] public string customer_id { get; set; }
+    BarChartModel barchart_data;
+    bool is_loading;
+    List<YearlySaleRevenueModel> data = new List<YearlySaleRevenueModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_yearly_sale_by_customer_json", procedure_parameter = $"'{gv.business_branch_ids_filter_1}','{customer_id}'" });
+        if (resp.IsSuccess)
+        {
+            data = JsonSerializer.Deserialize<List<YearlySaleRevenueModel>>(resp.Content.ToString());
+            SetBarchartData();
+        }
+        is_loading = false;
+    }
+
+
+    void SetBarchartData()
+    {
+        if (data != null)
+        {
+            barchart_data = new BarChartModel();
+            var chart_label = data.Select(r => r.cal_date.ToString("MM-yyyy")).Distinct().ToArray(); //footer
+
+            var business_branch = (from a in data
+                                   select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct();
+            barchart_data.label = chart_label;
+            foreach (var b in business_branch)
+            {
+                barchart_data.data.Add(new ChartDataModel
+                {
+                    label = b.business_branch_name ,
+                    color = b.color,
+                    data = data.Where(r => r.business_branch_id == b.business_branch_id).Select(r => (double)r.total_amount).ToArray()
+                });
+
+
+            }
+
+
+        }
+    }
+
+
+
+
+
+    class YearlySaleRevenueModel
+    {
+
+              
+        public string business_branch_id { get; set; }
+        public string business_branch_name { get; set; }
+        public string color { get; set; }
+        public DateTime cal_date { get; set; }
+         public decimal total_amount { get; set; }
+
+    }
+
+}

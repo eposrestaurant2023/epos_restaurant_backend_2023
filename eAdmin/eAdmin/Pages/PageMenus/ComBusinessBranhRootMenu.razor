@@ -5,16 +5,36 @@
         <h3 class="title uk-margin-remove-top uk-margin-remove-bottom" style="margin-bottom:10px !important;">
             @b.business_branch_name_en
         </h3>
-        @foreach (var n in menus.Where(r => r.business_branch_id == b.id))
+        @foreach (var n in menus.Where(r => r.business_branch_id == b.id && r.is_deleted == false && r.parent_id == null))
         {
             <button @onclick="@(()=>MenuClick(n))" class="@(n.is_selected? "selected" : "") button_color_button">
                 <div style="text-align:left;width:100%">
                     @n.menu_name_en
                 </div>
+
+                <div class="uk-inline button-action-table">
+                    <Icon icon="more_vert" />
+                    <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
+                        <ul class="uk-nav uk-dropdown-nav">
+
+                            <li @onclick="@(() => EditMenu(n))"> <Icon icon="edit" />Edit</li>
+                            @if (!menus.Where(r => r.parent_id == n.id && r.is_deleted == false).Any())
+                            {
+                                <li @onclick="@(() => OnDeleteMenu(n))"> <Icon icon="delete" />Delete</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
             </button>
         }
+
+        <Button OnClick="@(()=>AddRootMenu(b.id))" class_name="uk-button uk-button-default button-large ">@lang["Add New Root Menu"]</Button>
     }
 </div>
+
+ 
+
 @code {
     [Parameter] public List<MenuModel> menus { get; set; } = new List<MenuModel>();
     [Parameter] public int menu_id { get; set; }
@@ -31,10 +51,15 @@
 
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
+    [Parameter] public EventCallback<MenuModel> OnEditMenu { get; set; }
+    [Parameter] public EventCallback<Guid> OnAddRootMenu{ get; set; }
+
+
 
     async Task MenuClick(MenuModel m)
     {
-        if (menus.Where(r => r.is_selected == true && r.parent_id == null).Any()) {
+        if (menus.Where(r => r.is_selected == true && r.parent_id == null).Any())
+        {
             menus.Where(r => r.is_selected == true && r.parent_id == null).FirstOrDefault().is_selected = false;
         }
         m.is_selected = true;
@@ -47,11 +72,38 @@
     }
 
 
-    protected override async Task OnInitializedAsync()
+
+
+    async Task OnDeleteMenu(MenuModel m)
     {
-        Guid role_id = gv.business_branch_by_role.FirstOrDefault().id;
-        var menu = menus.Where(r => r.business_branch_id == role_id).FirstOrDefault();
-        await MenuClick(menu);
+
+        if (m.id > 0)
+        {
+            if (await js.Confirm("Delete Menu", "Are you sure you want to delete this record?"))
+            {
+                m.is_deleted = true;
+            }
+        }
+        else
+        {
+            menus.Remove(m);
+        }
+
+        await current_menu_idChanged.InvokeAsync(0);
+
     }
+
+
+    async Task EditMenu(MenuModel m)
+    {
+        await OnEditMenu.InvokeAsync(m);
+    }
+    
+    async Task AddRootMenu(Guid id)
+    {
+        await OnAddRootMenu.InvokeAsync(id);
+    }
+
+
 
 }

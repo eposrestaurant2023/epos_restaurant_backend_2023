@@ -23,8 +23,8 @@ namespace eModels
             stock_location_products = new List<StockLocationProductModel>();
             sale_products = new List<SaleProductModel>();
             modifier_ingredients = new List<ModifierIngredientModel>();
-
         }
+
 
         public bool is_out_of_stock { get; set; } = false;
         public bool is_low_inventory { get; set; } = false;
@@ -134,6 +134,9 @@ namespace eModels
         public decimal max_price { get; set; }
 
         public bool is_product_has_inventory_transaction { get; set; } = false;
+
+        [NotMapped, JsonPropertyName("product_menus@odata.count")]
+        public int total_product_menu { get; set; }
 
     }
 

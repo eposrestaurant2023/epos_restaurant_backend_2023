@@ -82,7 +82,7 @@
 
             if ((id != ""  && id != null) || (clone_id != "" && clone_id != null))
             {
-                if (id != "" && id != null)
+                if (!string.IsNullOrEmpty(id))
                 {
                     var res = await http.ApiGet(api_url);
                     if (res.IsSuccess)
@@ -104,6 +104,8 @@
                         model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
                         model.customer_code = "New";
                         model.id = new Guid();
+                        model.is_deleted = false;
+                        model.status = true;
                         model.created_date = DateTime.Now;
                         title = $"Clone : {model.customer_name_en}";
                     }
@@ -115,7 +117,7 @@
             }
             else
             {
-                title = "Add New Customer";
+                title = lang["Add New Customer"];
             }
             await LoadBusinessBranch();
             is_loading = false;
@@ -124,7 +126,7 @@
 
     async Task LoadBusinessBranch()
     {
-        var res = await http.ApiGetOData($"BusinessBranch?$expand=customer_business_branchs&$filter=is_deleted eq false and status eq true");
+        var res = await http.ApiGetOData($"BusinessBranch?$expand=customer_business_branchs($expand=business_branch)&$filter=is_deleted eq false and status eq true");
         if (res.IsSuccess)
         {
             business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
@@ -171,12 +173,13 @@
                 else
                 {
                     model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                    toast.Add("Saving Customer successfully", MatToastType.Success);
+                    toast.Add(lang["Saving Customer successfully"], MatToastType.Success);
                     if (is_save_and_new)
                     {
                         model = new CustomerModel();
                         id = "";
-                        title = "Add New Customer";
+                        nav.NavigateTo("customer/new");
+                        title = lang["Add New Customer"];
                     }
                     else if (is_save_and_order) {
                         nav.NavigateTo($"sale/customer/{model.id}");

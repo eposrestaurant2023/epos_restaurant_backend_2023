@@ -5,6 +5,7 @@ namespace eShareModel
 {
     public class SaleShareModel : CoreGUIDModel
     {
+        public string sale_number { get; set; }
         public int outlet_id { get; set; }
         public Guid business_branch_id { get; set; }
         public Guid? customer_id { get; set; }
@@ -15,9 +16,14 @@ namespace eShareModel
         public Guid working_day_id { get; set; }
         public Guid cashier_shift_id { get; set; }
 
+        public string working_day_number { get; set; }
+        public string cashier_shift_number { get; set; }
+
         public string document_number { get; set; } = "New";
         [Column(TypeName = "date")]
         public DateTime working_date { get; set; } = DateTime.Now;
+
+
 
        
         public bool is_partially_paid { get; set; }

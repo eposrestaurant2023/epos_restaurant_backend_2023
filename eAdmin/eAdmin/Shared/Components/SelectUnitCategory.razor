@@ -5,7 +5,7 @@
         {
             if (is_ready_only)
             {
-                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width" disabled>
                     @if (show_empty)
                     {
                         <option value="0">@empty_text</option>
@@ -18,7 +18,7 @@
             }
             else
             {
-                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width" disabled>
+                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width" @onchange="@((ui) => SelectedValueChange((string)ui.Value))">
                     @if (show_empty)
                     {
                         <option value="0">@empty_text</option>

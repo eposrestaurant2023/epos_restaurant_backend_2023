@@ -118,6 +118,8 @@ namespace eAPI.Controllers
 
             u.product_menus.ForEach(r => r.menu = null);
             u.stock_location_products.ForEach(r => r.stock_location = null);
+
+      
             
             //if product is inv product then save init qty to init adjusment qty
             if (u.is_inventory_product)
@@ -178,6 +180,8 @@ namespace eAPI.Controllers
             }
           
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record " + u.id); 
+            db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id); 
+           
             return Ok(u); 
         }
 
@@ -225,11 +229,9 @@ namespace eAPI.Controllers
                 inv.reference_number = p.product_code;
                 inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
                 inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Created New Ingredient ({p.product_code})" : $"Created New Product ({p.product_code})";
-                inv.created_by = user.full_name;
-
+                inv.created_by = user.full_name;  
                 db.InventoryTransactions.Add(inv);
                 db.SaveChanges();
-                
             }
 
         }
@@ -243,32 +245,18 @@ namespace eAPI.Controllers
 
             foreach (var s in p.stock_location_products.Where(r=>(r.initial_adjustment_quantity- r.initial_quantity)!=0))
             {
-
                 inv = new InventoryTransactionModel();
                 inv.product_id = p.id;
                 inv.transaction_date = DateTime.Now;
                 inv.inventory_transaction_type_id = 2;
                 inv.stock_location_id = s.stock_location_id;
                 inv.quantity = s.initial_quantity - s.quantity;
-
                 inv.reference_number = p.product_code;
-
-
                 inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
-                
-
-                    inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Ingredient Initial Quantity Adjustment ({p.product_code})" : $"Product Initial Quantity Adjustment ({p.product_code})";
-
-             
-
+                inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Ingredient Initial Quantity Adjustment ({p.product_code})" : $"Product Initial Quantity Adjustment ({p.product_code})";
                 inv.created_by = user.full_name;
-
                 db.InventoryTransactions.Add(inv);
                 db.SaveChanges();
-
-
-
-
             }
 
         }
@@ -284,6 +272,7 @@ namespace eAPI.Controllers
             
             db.Products.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id);
             return Ok();
         }
 

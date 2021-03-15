@@ -15,9 +15,13 @@ namespace eModels
             modifier_group_product_categories = new List<ModifierGroupProductCategoryModel>();
         }
 
+
+
         public int product_group_id { get; set; }
         [ForeignKey("product_group_id")]
         public ProductGroupModel product_group { get; set; }
+
+
 
         private string _product_category_en;
         [MaxLength(200)]
@@ -40,5 +44,9 @@ namespace eModels
         public bool status_group { get; set; } = true;
         public List<ProductModel> products { get; set; }
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
+
+        public bool has_ingredient_product { get; set; }
+        public bool has_menu_product { get; set; }
+
     }
 }

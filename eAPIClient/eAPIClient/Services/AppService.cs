@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using eAPIClient.Models;    
+using eAPIClient.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace eAPIClient.Services
 {
@@ -50,7 +51,38 @@ namespace eAPIClient.Services
             dc.counter = dc.counter + 1;
             db.DocumentNumbers.Update(dc);
             await db.SaveChangesAsync();
-        } 
+        }
+
+       public async Task<string> GenerateDocumentNumber(string type, string outlet_id)
+        {
+
+            var _doc = (from r in db.DocumentNumbers
+                        where r.document_name == type &&
+                              EF.Functions.Like(
+                                  (
+                                     (r.outlet_id ?? " ")
+                                  ).ToLower().Trim(), $"%{outlet_id}%".ToLower().Trim())
+                        select r);
+            string _result = "";
+            if (_doc.Count() > 0)
+            {
+                var _d = _doc.FirstOrDefault();
+                _d.counter += 1;
+                db.DocumentNumbers.Update(_d);
+                await db.SaveChangesAsync();
+
+                if (string.IsNullOrEmpty(_d.format))
+                {
+                    _result = string.Format(@"{0}{1:" + _d.counter_digit + "}", _d.prefix, _d.counter);
+                }
+                else
+                {
+                    _result = string.Format(@"{0}{1:" + _d.format + "}{2:" + _d.counter_digit + "}", _d.prefix, DateTime.Now, _d.counter);
+                }
+
+            }
+            return _result;
+        }
         public async Task<List<UserModel>> AllUsers()
         {
 

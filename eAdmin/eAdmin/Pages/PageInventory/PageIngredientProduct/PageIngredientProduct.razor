@@ -11,7 +11,7 @@
 @if (!is_loading)
 {
 
-    <Title Value="Ingredients"></Title>
+    <Title Value="@lang["Ingredients"]"></Title>
     <PageContainer roles="@gv.GetRole("ingredient_management")">
         <PageHeader>
             <HeaderLeft>
@@ -51,8 +51,7 @@
                     <TableHeader>
                         <ThCenter>@lang["Image"]</ThCenter>
                         @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-                        @HeaderTemplate("product_name_en", lang["Name (En)"], "col-auto")
-                        @HeaderTemplate("product_name_kh", lang["Name (Kh)"], "col-auto")
+                        @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
                         @HeaderTemplate("product_category/product_category_en", "Category")
                         <ThCenter>@lang["Quality"]</ThCenter>
                         <ThRight>@lang["Cost"]</ThRight>
@@ -69,20 +68,15 @@
                             <div>
                                 <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_code</ComAuthorize>
                             </div>
-                            @foreach (var m in p.product_menus)
-                            {
-                                <Label Background="#46C7C7" Color="#fff">
-                                    @m.menu?.menu_name_en
-                                </Label>
-                            }
-
                         </TdCenter>
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_en</ComAuthorize>
-                        </td>
-                        <td>
-                            <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_kh</ComAuthorize>
-                        </td>
+                            <div>
+                                <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_en @(!string.IsNullOrEmpty(p.product_name_kh)?$"({p.product_name_kh})":"")</ComAuthorize>
+ 
+                                <div><LabelMenuProduct is_visible="@p.is_menu_product" /></div>
+                            </div>
+                            
+                        </td> 
                         <td>@p.product_category?.product_category_en</td>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)
@@ -94,9 +88,7 @@
                             <LabelDeleted is_visible="@p.is_deleted" />
                             <LabelActive is_visible="@(!p.is_deleted && p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
                             <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
-                            <Label Background="#FF5733" Color="#fff" is_visible="@p.is_low_inventory">Low Stock</Label>
-                            <Label Background="#FA2C00" Color="#fff" is_visible="@p.is_out_of_stock">Out Of Stock</Label>
-                            <Label Background="#6495ED" Color="#fff" is_visible="@p.is_over_stock">Over Stock</Label>
+                            <LabelProductInventoryStatus product="@p" is_product_model="true" />
                         </TdRight>
                         <TdActions is_loading="@p.is_loading">
                             <TableActionItem icon="visibility" is_visible="@(!p.is_deleted)" url="@($"ingredient/{p.id}")">View</TableActionItem>

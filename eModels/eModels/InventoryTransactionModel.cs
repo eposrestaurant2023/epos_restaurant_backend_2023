@@ -35,6 +35,9 @@ namespace eModels
 
         public string unit { get; set; }
         public decimal multiplier { get; set; } = 0;
+
+        public string base_unit { get; set; }
+
         public decimal old_quantity { get; set; }
         public decimal quantity { get; set; }
         public decimal quantity_on_hand { get; set; }

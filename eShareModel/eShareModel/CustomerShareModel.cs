@@ -9,22 +9,26 @@ namespace eShareModel
 {
     public class CustomerShareModel : CoreGUIDModel
     {
+        [Range(1,int.MaxValue,ErrorMessage ="Please select a customer group.")]
         public int customer_group_id { get; set; }
 
         public string customer_code { get; set; }
 
-        private string _customer_name_en;
-        public string customer_name_en
-        {
-            get { return _customer_name_en; }
-            set { _customer_name_en = value;
-                if (string.IsNullOrEmpty(customer_name_kh))
-                {
-                    customer_name_kh = value;
-                }
-            }
-        }
+        //private string _customer_name_en;
+        //[Required(ErrorMessage ="Field can not be blank.")]
+        //public string customer_name_en
+        //{
+        //    get { return _customer_name_en; }
+        //    set { _customer_name_en = value;
+        //        if (string.IsNullOrEmpty(customer_name_kh))
+        //        {
+        //            customer_name_kh = value;
+        //        }
+        //    }
+        //}
        
+        
+        public string customer_name_en { get; set; }
         public string customer_name_kh { get; set; }
 
 
@@ -41,7 +45,7 @@ namespace eShareModel
 
         public string phone_2 { get; set; }
         public string photo { get; set; }
-        public string   nationality { get; set; }
+        public string nationality { get; set; }
 
 
         [Column(TypeName = "date")]

@@ -6,7 +6,7 @@
     else
     {
      
-        @if (gv.bussiness_branches.Count() == 1)
+        @if (gv.business_branch_by_role.Count() == 1)
         {
             @foreach (var p in printers)
             {
@@ -18,13 +18,13 @@
         {
             <Tab>
                 <TabHeader>
-                    @foreach (var b in gv.bussiness_branches)
+                    @foreach (var b in gv.business_branch_by_role)
                     {
                         <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
                     }
                 </TabHeader>
                 <TabBody>
-                    @foreach (var b in gv.bussiness_branches)
+                    @foreach (var b in gv.business_branch_by_role)
                     {
                         <TabItem>
                             @foreach (var p in printers.Where(r => r.business_branch_id == b.id))
@@ -35,10 +35,7 @@
                     }
                 </TabBody>
             </Tab>
-
         }
-
-
     }
 </UIContainerBox>
 @code {
