@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210315030713_wd-cs")]
+    partial class wdcs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +76,6 @@ namespace eAPIClient.Migrations
                     b.Property<string>("open_note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
 
                     b.Property<string>("shift")
                         .HasColumnType("nvarchar(max)")
@@ -566,10 +565,6 @@ namespace eAPIClient.Migrations
                     b.Property<Guid>("cashier_shift_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("cashier_shift_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("closed_by")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -632,10 +627,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("sale_note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("sale_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -705,10 +696,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<Guid>("working_day_id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("working_day_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 

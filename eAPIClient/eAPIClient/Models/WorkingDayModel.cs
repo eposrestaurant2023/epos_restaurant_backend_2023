@@ -13,7 +13,7 @@ namespace eAPIClient.Models
             cashier_shifts = new List<CashierShiftModel>();
         }
 
-        public int outlet_id { get; set; }
+       
         public Guid business_branch_id { get; set; }   
         public List<CashierShiftModel> cashier_shifts { get; set; }
 
@@ -22,6 +22,7 @@ namespace eAPIClient.Models
     public class CashierShiftModel: CashierShiftShareModel
     { 
         [ForeignKey("working_day_id")]
-        public  WorkingDayModel working_day { get; set; }    
+        public  WorkingDayModel working_day { get; set; }
+      
     }
 }

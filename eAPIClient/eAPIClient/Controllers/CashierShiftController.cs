@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using eAPIClient;
 using eAPIClient.Models;
+using eAPIClient.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +22,19 @@ namespace eAPIClient.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public CashierShiftController(ApplicationDbContext _db)
+        private readonly AppService app;
+        public CashierShiftController(ApplicationDbContext _db, AppService _app)
         {
             db = _db;
+            app = _app;
         }
 
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)] 
         public IQueryable<CashierShiftModel> Get()
-        {
-           
-                return db.CashierShifts;
-           
+        {  
+                return db.CashierShifts;     
         }
 
         
@@ -48,6 +49,8 @@ namespace eAPIClient.Controllers
                 {
                     return Ok(data.FirstOrDefault());
                 }
+
+                u.cashier_shift_number = await app.GenerateDocumentNumber("CashierShiftNum", u.outlet_id.ToString());
                 db.CashierShifts.Add(u);
                 }
             else
@@ -56,9 +59,7 @@ namespace eAPIClient.Controllers
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(u);
-
-
+            return Ok(u);   
         }
 
 
