@@ -1,0 +1,32 @@
+﻿@inject IStringLocalizer<Resource> lang
+<Com is_visible="@(product.product_menus.Where(r=>r.is_deleted == false).Any())">
+    <button class="btn-view-ingredient-menu" type="button"><Icon title="@lang["Product Menu"]" icon="restaurant_menu" size="14px" icon_color="#000" /></button>
+    <div uk-dropdown="mode: click">
+        <div class="simple-dropdown-header">@lang["Product Menu"] (@product.total_product_menu)</div>
+        <div class="uk-padding-small">
+            <ol class="order-list uk-margin-remove">
+                @foreach (var m in product.product_menus)
+                {
+                    <li>
+                        <ComAuthorize roles="@gv.GetRole("product_management")" url="@($"product/{m.product_id}")">
+                            @m.menu?.menu_name_en @(!string.IsNullOrEmpty(m.menu?.menu_name_kh)?$"({m.menu?.menu_name_kh})":"")
+                        </ComAuthorize>
+                    </li>
+                }
+
+            </ol>
+            @if (product.total_product_menu > 10)
+            {
+                <div class="simple-dropdown-footer-list"> 
+                        More Products (+@(product.total_product_menu - 5))
+                </div>
+            }
+        </div>
+    </div>
+</Com>
+
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public ProductModel product { get; set; }
+}
