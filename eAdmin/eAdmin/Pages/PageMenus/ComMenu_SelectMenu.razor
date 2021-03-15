@@ -7,23 +7,24 @@
         
         @if ( current_menu_id>0)
         {
-        <Button OnClick="@Back_menu">Back</Button>
+            <Button OnClick="@Back_menu">Back</Button>
         }
+
         @foreach (var m in menu_items.Where(r => r.id != model.id))
         {
 
-    <div>
-        @if (@menus.Where(r => r.is_deleted == false && r.parent_id == m.id).Any())
-        {
-            <a @onclick="@(() => MenuClick(m))">@m.menu_name_en (@menus.Where(r => r.is_deleted == false && r.parent_id == m.id).Count())</a>
-        }
-        else { 
-            <span>@m.menu_name_en</span>
-        }
+            <div>
+                @if (@menus.Where(r => r.is_deleted == false && r.parent_id == m.id).Any())
+                {
+                    <a @onclick="@(() => MenuClick(m))">@m.menu_name_en (@menus.Where(r => r.is_deleted == false && r.parent_id == m.id).Count())</a>
+                }
+                else { 
+                    <span>@m.menu_name_en</span>
+                }
 
 
-        <Button OnClick="@(()=>SelectMenu(m))" disabled="@(m.id==model.parent_id)">Select</Button>
-    </div>
+                <Button OnClick="@(()=>SelectMenu(m))" disabled="@(m.id==model.parent_id)">Select</Button>
+            </div>
 
         }
 
@@ -39,7 +40,7 @@
     [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnSelectMenu { get; set; }
 
-    public int parent_menu_id { get; set; }
+ 
 
     int current_menu_id;
 
