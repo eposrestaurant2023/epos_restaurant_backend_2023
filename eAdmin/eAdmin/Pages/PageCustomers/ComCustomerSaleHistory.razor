@@ -45,24 +45,20 @@
                         @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
                         @HeaderTemplate("outlet/business_branch/business_branch_name_en", lang["Business Branch"], "col-auto")
-                        @HeaderTemplate("outlet/outlet_name_en", lang["Outlet"], "col-auto")
+
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
-                        <ThCenter>@lang["Created Date"]</ThCenter>
-                        <th>@lang["Created By"]</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.working_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
                             <div><a href="receiptlist/@p.id">@p.document_number</a></div>
+
                         </TdCenter>
                         <td>
-                            @p.outlet?.business_branch?.business_branch_name_en
-                        </td>
-                        <td>
-                            @p.outlet?.outlet_name_en
+                            @p.outlet?.business_branch?.business_branch_name_en (@p.outlet?.outlet_name_en)
                         </td>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
@@ -73,8 +69,6 @@
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
-                        <td>@p.created_by</td>
                         <TdCenter>
                             @if (p.is_deleted)
                             {
