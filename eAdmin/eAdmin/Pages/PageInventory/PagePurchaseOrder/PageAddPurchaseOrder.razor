@@ -6,6 +6,7 @@
 @inherits PageAddPurchaseOrderBase
 
 <Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+
 <Com is_visible="@(!is_loading && !is_error)">
     <Title Value="@title"></Title>
     <PageContainer>
