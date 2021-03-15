@@ -1,0 +1,177 @@
+﻿@page "/businessinformation"
+@inject IJSRuntime js
+@inherits PageCore
+
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Business Information"></Title>
+    <PageContainer roles="@gv.GetRole("business_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Business Information
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+        </PageHeader>
+
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox Title="Business Information">
+                            <UISummaryBox ImageUrl="@model.company_logo" ShowImage="true">
+                                <ContentLeft>
+                                    <table>
+                                        <tr>
+                                            <th>Company Name</th>
+                                            <td>@model.company_name</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company Name KH</th>
+                                            <td>@model.company_name_kh</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mobile Phone</th>
+                                            <td>@model.mobile_phone</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Office Phone</th>
+                                            <td>@model.office_phone</td>
+                                        </tr>
+                                    </table>
+                                </ContentLeft>
+                                <ContentRight>
+                                    <table>
+                                        <tr>
+                                            <th>Contact Name</th>
+                                            <td>@model.contact_name</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Contact Phone Number</th>
+                                            <td>@model.contact_phone_number</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Contact Office Phone</th>
+                                            <td>@model.contact_office_number</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Office Email</th>
+                                            <td>
+                                                @model.email
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Contact Email</th>
+                                            <td>
+                                                @model.contact_email
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </ContentRight>
+                            </UISummaryBox>
+                    </UIContainerBox>
+
+                    @*business branch*@
+                    <UIContainerBox Title="Brance Information">
+                        @foreach (var d in models)
+                        {
+                            <UISummaryBox ImageUrl="@d.logo" ShowImage="true">
+
+                                <ContentLeft>
+                                    <table>
+                                        <tr>
+                                            <th>Business Branch Name Kh</th>
+                                            <td>@d.business_branch_name_kh</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Business Branch Name En</th>
+                                            <td>@d.business_branch_name_en</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mobile Phone</th>
+                                            <td>@d.phone_1</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Office Phone</th>
+                                            <td>@d.phone_2</td>
+                                        </tr>
+                                    </table>
+                                <div>
+                                    <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" />
+                                    <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                </div>
+                                </ContentLeft>
+                                <ContentRight>
+                                    <table>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>@d.email</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Website</th>
+                                            <td>@d.website</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Address</th>
+                                            <td>@d.address_en</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Note</th>
+                                            @*<td><div class="text-area">@d.note</div></td>*@
+                                        </tr>
+                                    </table>
+                                </ContentRight>
+                            </UISummaryBox>
+                        }
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+    </PageContainer>
+}
+
+@code{
+    string guid = Guid.NewGuid().ToString();
+    bool ShowModal, ShowModel_Business_Infor = false;
+    List<BusinessBranchModel> models = new List<BusinessBranchModel>();
+    [Parameter] public bool IsSubmitting { get; set; } = false;
+    BusinessInformationModel model { get; set; } = new BusinessInformationModel();
+    BusinessBranchModel business_brnach { get; set; } = new BusinessBranchModel();
+    InputFileData file { get; set; } = new InputFileData();
+    string ControllerApi = "BusinessBranch";
+    string ModalTitle = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        model = gv.business_info;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = $"{ControllerApi}?$select=id,business_branch_name_en,business_branch_name_kh,address_en,is_deleted,email,phone_1,website,logo,phone_2,note";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            models = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+
+        }
+        is_loading_data = false;
+
+    }
+}

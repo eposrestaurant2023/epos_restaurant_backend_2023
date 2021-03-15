@@ -1,0 +1,91 @@
+﻿@page "/outletstation"
+@inject IJSRuntime js
+@inherits PageCore
+
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="Outlet & Station"></Title>
+    <PageContainer roles="@gv.GetRole("station_outlet_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Outlet & Station
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <AddButton  OnClick="@(()=>nav.NavigateTo("outletstation/new"))">New</AddButton>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+
+            </HeaderRight>
+        </PageHeader>
+            <PageBody>
+                <UIGridCenter>
+
+                    @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
+                    {
+                        <div class="container-layout">
+                            <div class="title-header">
+                                <div class="uk-panel">
+                                    <div class="uk-float-left">
+                                        <span>
+                                            @d.outlet_name_en
+                                        </span>
+                                    </div>
+                                    <div class="uk-float-right">
+                                        <div>
+                                            <span>
+                                                <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" />
+                                                <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                            </span>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <hr />
+                            <div>
+                                <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                    <tr>
+                                        <Th>Station Name En</Th>
+                                        <Th>Station Name Kh</Th>
+
+                                    </tr>
+                                 
+                                </table>
+                            </div>
+                        </div>
+                    }
+                </UIGridCenter>
+            </PageBody>
+    </PageContainer>
+}
+
+@code{
+    List<OutletModel> models = new List<OutletModel>();
+    List<StationModel> station = new List<StationModel>();
+    string ControllerApi = "Outlet";
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData(string api_url = "")
+    {
+
+        is_loading_data = true;
+
+        is_loading_data = false;
+
+    }
+ 
+
+}

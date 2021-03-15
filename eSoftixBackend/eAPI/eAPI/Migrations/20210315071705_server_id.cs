@@ -2,13 +2,13 @@
 
 namespace eAPI.Migrations
 {
-    public partial class is_deleted_3 : Migration
+    public partial class server_id : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "company_name",
-                table: "tbl_customer",
+                name: "server_id",
+                table: "tbl_project",
                 type: "nvarchar(max)",
                 nullable: true,
                 collation: "Khmer_100_BIN");
@@ -17,8 +17,8 @@ namespace eAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "company_name",
-                table: "tbl_customer");
+                name: "server_id",
+                table: "tbl_project");
         }
     }
 }

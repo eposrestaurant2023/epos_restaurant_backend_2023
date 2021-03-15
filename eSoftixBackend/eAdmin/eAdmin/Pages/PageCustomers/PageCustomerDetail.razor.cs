@@ -11,7 +11,7 @@ namespace eAdmin.Pages.PageCustomers
 {
     public class PageCustomerDetails : PageCore
     {
-        [Parameter] public int id { get; set; }
+        [Parameter] public string id { get; set; }
         public CustomerModel model { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShareModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -29,11 +30,11 @@ namespace eModels
         public bool is_document_file { get; set; } = false;
         
 
-        public int? customer_id { get; set; }
+        public Guid? customer_id { get; set; }
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
 
-        public int? project_id { get; set; }
+        public Guid? project_id { get; set; }
         [ForeignKey("project_id")]
         public ProjectModel project { get; set; }
 

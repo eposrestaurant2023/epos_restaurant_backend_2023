@@ -70,6 +70,9 @@
                         </TdCenter>
                         <td>
                             <a href="@($"product/{p.id}")">@p.product_name_en @(!string.IsNullOrEmpty(p.product_name_kh)? $"({p.product_name_kh})":"")</a>
+                            <div>
+                                <LabelIngredient is_visible="@p.is_ingredient_product" />
+                            </div>
                         </td> 
                         <td>@p.product_category?.product_category_en</td>
                         <TdCenter>

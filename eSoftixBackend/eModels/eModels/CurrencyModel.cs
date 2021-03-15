@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShareModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +11,7 @@ namespace eModels
     public class CurrencyModel    : KeyModel
     {
 
-        public int business_branch_id { get; set; }
+        public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
 

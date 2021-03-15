@@ -115,7 +115,7 @@
     string password_uri;
     string old_username = ""; 
 
-    string controller_api = "user";
+    string controller_api = "User";
     string StateKey = "gjRAWATLJl9jspMN456oiefawefawf3U9asdsa";
     public string ControllerApi
     {
@@ -127,7 +127,7 @@
                 state.pager.order_by_type = "desc";
             }
 
-            string select = "$select=username,role_id,email,phone_number,password,full_name,photo,created_date,created_by,is_deleted,note,status,id,is_buildin&$expand=role($select=role_name,description,id)";
+            string select = "$select=username,role_id,email,password,full_name,photo,created_date,created_by,is_deleted,note,status,id,is_buildin&$expand=role($select=role_name,description,id)";
 
 
             string url = $"{controller_api}?{select}&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";

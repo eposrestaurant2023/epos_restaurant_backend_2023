@@ -11,7 +11,7 @@ namespace eAdmin.Pages.PageProject
 {
     public class PageProjectDetailBase : PageCore
     {
-        [Parameter] public int id { get; set; }
+        [Parameter] public Guid id { get; set; }
         public ProjectModel model { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";
