@@ -1,4 +1,4 @@
-﻿@page "/customer/{id:int}"
+﻿@page "/customer/{id}"
 @inherits PageCustomerDetails
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
@@ -23,8 +23,8 @@
                 <ComAttachFileButton RoleAdd="@gv.GetRole("customer_add")"
                                      RoleEdit="@gv.GetRole("customer_edit")"
                                      RoleDelete="@gv.GetRole("customer_delete")"
-                                     ApiFilter="@($"customer_id eq {id} ")"
-                                     File="@(new AttachFilesModel() { customer_id = id })"
+                                     ApiFilter="@($"customer_id eq {Guid.Parse(id)} ")"
+                                     File="@(new AttachFilesModel() { customer_id = Guid.Parse(id) })"
                                      IsVisible="@(!model.is_deleted)" />
 
 
@@ -62,8 +62,8 @@
                             <ComHistory RoleAdd="@gv.GetRole("customer_add")"
                                         RoleDelete="@gv.GetRole("customer_delete")"
                                         RoleEdit="@gv.GetRole("customer_edit")"
-                                        ApiFilter="@($"customer_id eq {id}")"
-                                        history="@(new HistoryModel() { customer_id = id})"
+                                        ApiFilter="@($"customer_id eq {Guid.Parse(id)}")"
+                                        history="@(new HistoryModel() { customer_id = Guid.Parse(id)})"
                                         OnSave="@SaveComment" />
                         </Com>
                     </TabItem>

@@ -30,8 +30,8 @@
     [Parameter] public string placeholder { get; set; } = "Select Customer";
     [Parameter] public CustomerModel customer { get; set; }
     [Parameter] public EventCallback<CustomerModel> customerChanged { get; set; }
-    [Parameter] public int? customer_id { get; set; }
-    [Parameter] public EventCallback<int> customer_idChanged { get; set; }
+    [Parameter] public Guid? customer_id { get; set; }
+    [Parameter] public EventCallback<Guid> customer_idChanged { get; set; }
 
  
 
@@ -63,7 +63,7 @@
     {
         if (customer != null)
         {
-            if (customer.id == 0)
+            if (customer.id == Guid.Empty)
             {
                 selected_customer = null;
             }
@@ -95,7 +95,7 @@
             }
             else
             {
-                customer_idChanged.InvokeAsync(0);
+                customer_idChanged.InvokeAsync(Guid.Empty);
             }
 
             

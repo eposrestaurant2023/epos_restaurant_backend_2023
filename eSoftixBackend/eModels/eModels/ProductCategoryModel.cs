@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
- 
 
+using eShareModel;
 namespace eModels
 {
     [Table("tbl_product_category")]

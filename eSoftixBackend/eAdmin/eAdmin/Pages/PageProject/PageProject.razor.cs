@@ -62,14 +62,14 @@ namespace eAdmin.Pages.PageCustomers
             is_loading = false;
         }
 
-        public void OnEdit(int id)
+        public void OnEdit(Guid id)
         {
             is_loading_data = true;
             nav.NavigateTo($"project/edit/{id}");
             is_loading_data = false;
         }
 
-        public void Clone_Click(int id)
+        public void Clone_Click(Guid id)
         {
             is_loading_data = true;
             nav.NavigateTo($"project/clone/{id}");
