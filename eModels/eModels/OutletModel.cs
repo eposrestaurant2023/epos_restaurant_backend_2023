@@ -43,8 +43,6 @@ namespace eModels
 
         [MaxLength(100)]
         public string outlet_name_kh { get; set; }
-
-
         public List<StationModel> stations { get; set; }
 
         [NotMapped,JsonIgnore] 

@@ -16,11 +16,11 @@ namespace eAPI.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ProjectController : ODataController
+    public class OutletController : ODataController
     {
 
         private readonly ApplicationDbContext db;
-        public ProjectController(ApplicationDbContext _db)
+        public OutletController(ApplicationDbContext _db)
         {
             db = _db;
         }
@@ -29,27 +29,27 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [AllowAnonymous]
-        public IQueryable<ProjectModel> Get()
+        public IQueryable<OutletModel> Get()
         {
-
-            return db.Project;
-
+           
+                return db.outlets;
+           
         }
 
-
+        
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] ProjectModel u)
+        public async Task<ActionResult<string>> Save([FromBody] OutletModel u)
         {
-
-
-
+           
+            
+            
             if (u.id == Guid.Empty)
             {
-                db.Project.Add(u);
-            }
+                db.outlets.Add(u);
+                }
             else
             {
-                db.Project.Update(u);
+                db.outlets.Update(u);
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -61,21 +61,21 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ProjectModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<OutletModel>> DeleteRecord(int id) //Delete
         {
-            var u = await db.Project.FindAsync(id);
+            var u = await db.outlets.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-
-            db.Project.Update(u);
+            
+            db.outlets.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
         }
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<ProjectModel> Get([FromODataUri] Guid key)
+        public SingleResult<OutletModel> Get([FromODataUri] Guid key)
         {
-            var s = db.Project.Where(r => r.id == key).AsQueryable();
+            var s = db.outlets.Where(r => r.id == key).AsQueryable();
 
             return SingleResult.Create(s);
         }
