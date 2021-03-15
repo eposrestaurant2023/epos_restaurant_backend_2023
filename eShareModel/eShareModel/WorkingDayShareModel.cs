@@ -6,6 +6,8 @@ namespace eShareModel
 {       
     public class WorkingDayShareModel  : CoreGUIDModel
     {
+        public int outlet_id { get; set; }
+
         [Column(TypeName ="date")]
         public DateTime working_date { get; set; }     
         public bool is_closed { get; set; }
@@ -13,5 +15,7 @@ namespace eShareModel
         public DateTime? closed_date { get; set; }
         public string close_note { get; set; }
         public string open_note { get; set; }
+
+        public string working_day_number { get; set; } = "";
     }
 }

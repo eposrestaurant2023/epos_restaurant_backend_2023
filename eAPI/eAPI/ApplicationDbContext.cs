@@ -139,6 +139,8 @@ namespace eAPI
         public DbSet<SaleProductModifierModel> SaleProductModifiers { get; set; }
 
         public DbSet<ModifierIngredientModel> ModifierIngredients { get; set; }
+        public DbSet<WorkingDayModel> WorkingDays { get; set; }
+        public DbSet<CashierShiftModel> CashierShifts { get; set; }
         
 
     }

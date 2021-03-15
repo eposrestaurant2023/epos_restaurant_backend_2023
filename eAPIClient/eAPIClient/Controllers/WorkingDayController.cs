@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using eAPIClient;
 using eAPIClient.Models;
+using eAPIClient.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,11 @@ namespace eAPIClient.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public WorkingDayController(ApplicationDbContext _db)
+        private readonly AppService app;
+        public WorkingDayController(ApplicationDbContext _db,AppService _app)
         {
             db = _db;
+            app = _app;
         }
 
 
@@ -48,6 +51,8 @@ namespace eAPIClient.Controllers
                 {
                     return Ok(data.FirstOrDefault());
                 }
+
+                u.working_day_number = await  app.GenerateDocumentNumber("WorkingDayNum", u.outlet_id.ToString());      
                 db.WorkingDays.Add(u);
                 }
             else

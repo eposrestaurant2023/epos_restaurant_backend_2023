@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using eAPIClient.Models;
+using eAPIClient.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,12 @@ namespace eAPIClient.Controllers
     {
         public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
-        public SaleController(ApplicationDbContext _db, IConfiguration configuration)
+        private readonly AppService app;
+
+        public SaleController(ApplicationDbContext _db, AppService _app, IConfiguration configuration)
         {
             db = _db;
+            app = _app;
             config = configuration;
         }
 
@@ -61,6 +65,7 @@ namespace eAPIClient.Controllers
 
                 if(model.id == Guid.Empty)
                 {
+                    model.sale_number = await app.GenerateDocumentNumber("SaleNum", model.outlet_id.ToString());
                     db.Sales.Add(model);
                 }
                 else
@@ -74,7 +79,7 @@ namespace eAPIClient.Controllers
                 {
                     if (model.is_closed==true && (model.document_number == "New" || model.document_number == ""))
                     {
-                        model.document_number = await GenerateDocumentNumber(model.outlet_id.ToString());
+                        model.document_number = await app.GenerateDocumentNumber("SaleDoc", model.outlet_id.ToString());
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     }
                 }
@@ -86,31 +91,7 @@ namespace eAPIClient.Controllers
                 return BadRequest();
             }
             
-        }
-
-     
-
-       async Task<string> GenerateDocumentNumber(string outlet_id)
-        {
-
-            var _doc = (from r in db.DocumentNumbers
-                    where
-                          EF.Functions.Like(
-                              (
-                                 (r.outlet_id ?? " ") 
-                              ).ToLower().Trim(), $"%{outlet_id}%".ToLower().Trim())
-                    select r);
-            string _result = "";
-            if (_doc.Count() > 0)
-            {
-               var _d = _doc.FirstOrDefault();
-                _d.counter += 1;
-                db.DocumentNumbers.Update(_d);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                _result = string.Format(@"{0}{1:"+_d.format+"}{2:"+_d.counter_digit+"}",_d.prefix,DateTime.Now,_d.counter);  
-            }      
-            return _result;
-        }
+        }  
     }
 
 }
