@@ -1,0 +1,75 @@
+﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
+<div class="menu-movement-item">
+    @if (!string.IsNullOrEmpty(menu_item.photo))
+    {
+        if (menus.Where(r => r.is_deleted == false && r.parent_id == menu_item.id).Any())
+        {
+            <div @onclick="@MenuClick" class="box_menu cp" style="background-image:url(@http.ImageUrl(menu_item.photo)); background-size:cover;">
+                <div class="uk-position-center uk-text-center">
+                    <div style="background-color: #ffffffc7; color: #000; padding: 0px 3px; border-radius: 2px;">
+                        @menu_item.menu_name_en
+                    </div>
+                </div>
+                @if (menu_item.id != menu.parent_id)
+                {
+                    <div class="button-select" @onclick="@SelectMenu">@lang["Select"]</div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="box_menu" style="background-image:url(@http.ImageUrl(menu_item.photo)); background-size:cover;">
+                <div class="uk-position-center uk-text-center">
+                    <div style="background-color: #ffffffc7; color: #000; padding: 0px 3px; border-radius: 2px;">
+                        @menu_item.menu_name_en
+                    </div>
+                </div>
+                @if (menu_item.id != menu.parent_id)
+                {
+                    <div class="button-select" @onclick="@SelectMenu">@lang["Select"]</div>
+                }
+            </div>
+        }
+
+    }
+    else
+    {
+        if (menus.Where(r => r.is_deleted == false && r.parent_id == menu_item.id).Any())
+        {
+            <div @onclick="@MenuClick" class="box_menu cp" style="background-color:@menu_item.background_color; color:@menu_item.text_color;">
+                <div class="uk-position-center uk-text-center">
+                    <div>
+                        @menu_item.menu_name_en
+                    </div>
+                </div>
+                @if (menu_item.id != menu.parent_id)
+                {
+                    <div class="button-select" @onclick="@SelectMenu">@lang["Select"]</div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="box_menu" style="background-color:@menu_item.background_color; color:@menu_item.text_color;">
+                <div class="uk-position-center uk-text-center">
+                    <div>
+                        @menu_item.menu_name_en
+                    </div>
+                </div>
+                @if (menu_item.id != menu.parent_id)
+                {
+                    <div class="button-select" @onclick="@SelectMenu">@lang["Select"]</div>
+                }
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public MenuModel menu_item { get; set; }
+    [Parameter] public List<MenuModel> menus { get; set; }
+    [Parameter] public MenuModel menu { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> MenuClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> SelectMenu { get; set; }
+}

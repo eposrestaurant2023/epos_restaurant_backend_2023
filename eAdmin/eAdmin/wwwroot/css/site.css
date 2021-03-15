@@ -7150,3 +7150,20 @@ z-index:999999!important;
     font-size: 12px;
     font-style: italic;
 }
+.menu-movement-item .button-select {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    padding: 4px;
+    text-align: center;
+    background-color: #696969;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.menu-movement-item .button-select:hover,
+.menu-movement-item .button-select:active,
+.menu-movement-item .button-select:focus {
+    background-color:#4c4c4c;
+}

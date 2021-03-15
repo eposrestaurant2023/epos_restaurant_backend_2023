@@ -60,7 +60,7 @@
 
 
 @if (show_move_menu)
-{
+{   
     <ComMenu_SelectMenu menus="@menus" root_menu_id="@root_menu_id" is_opened="@show_move_menu" @bind-model="@menu" OnCancel="@(()=>show_move_menu=false)" OnSelectMenu="@OnSelectMenu" />
 
 }
