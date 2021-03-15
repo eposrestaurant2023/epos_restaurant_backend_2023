@@ -7,7 +7,7 @@
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @if (!is_loading)
 {
-    @if (is_error)
+    @if (!is_error)
     {
         <Title Value="@PageTitle"></Title>
         <PageContainer roles="@gv.GetRole(role_name)">
@@ -15,7 +15,7 @@
                 <HeaderLeft>
                     <PageTitle ShowFilter="false">
                         <HeaderTemplate>
-                            @PageTitle
+                            @PageTitle @role_name
                         </HeaderTemplate>
                     </PageTitle>
                 </HeaderLeft>
@@ -96,7 +96,7 @@
     }
     else
     {
-        <Error title="@lang["Product"]">@error_text</Error>
+        <Error title="@lang["Product"]">@error_text @is_error</Error>
     }
 
 }
