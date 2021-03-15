@@ -68,7 +68,6 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {
             bool is_add = false;
-            var xx = u.unit;
             //check product if it is already has inv transaction then retail fail
             if (u.id > 0) {
                 var db_product = db.Products.Where(r => r.id == u.id).AsNoTracking().Include(r=>r.stock_location_products).AsNoTracking();
@@ -233,7 +232,6 @@ namespace eAPI.Controllers
                 inv.created_by = user.full_name;  
                 db.InventoryTransactions.Add(inv);
                 db.SaveChanges();
-                
             }
 
         }
@@ -247,32 +245,18 @@ namespace eAPI.Controllers
 
             foreach (var s in p.stock_location_products.Where(r=>(r.initial_adjustment_quantity- r.initial_quantity)!=0))
             {
-
                 inv = new InventoryTransactionModel();
                 inv.product_id = p.id;
                 inv.transaction_date = DateTime.Now;
                 inv.inventory_transaction_type_id = 2;
                 inv.stock_location_id = s.stock_location_id;
                 inv.quantity = s.initial_quantity - s.quantity;
-
                 inv.reference_number = p.product_code;
-
-
                 inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
-                
-
-                    inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Ingredient Initial Quantity Adjustment ({p.product_code})" : $"Product Initial Quantity Adjustment ({p.product_code})";
-
-             
-
+                inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Ingredient Initial Quantity Adjustment ({p.product_code})" : $"Product Initial Quantity Adjustment ({p.product_code})";
                 inv.created_by = user.full_name;
-
                 db.InventoryTransactions.Add(inv);
                 db.SaveChanges();
-
-
-
-
             }
 
         }
