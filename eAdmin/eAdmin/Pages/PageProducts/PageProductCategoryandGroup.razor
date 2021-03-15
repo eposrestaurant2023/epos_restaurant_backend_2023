@@ -21,14 +21,9 @@
             <PageBody>
                 <UIGridCenter>
                     <Tab>
-                        <ul class="uk-tab">
-                            <TabHeaderItem OnClick="@(()=> { is_view_deleted = false; })" class_name="@(is_view_deleted?"":"uk-active")">@lang["All Product Groups"]</TabHeaderItem>
-                            <TabHeaderItem OnClick="@(()=> { is_view_deleted = true; })" class_name="@(is_view_deleted?"uk-active":"")">@lang["Deleted Product Groups"]</TabHeaderItem>
-                        </ul>
-
-                        <div class="uk-margin-top">
-                            <ViewEmptyTemplate is_view="@(models.Where(r => r.is_deleted == is_view_deleted).Any())" is_box_empty="true">
-                                @foreach (var d in models.Where(r => r.is_deleted == is_view_deleted).ToList())
+                        <div>
+                            <ViewEmptyTemplate is_view="@(models.Any())" is_box_empty="true">
+                                @foreach (var d in models.ToList())
                                 {
                                     <div class=" container-layout">
                                         <div class="title-header">
@@ -39,26 +34,14 @@
                                                     </span>
                                                 </div>
                                                 <Column ClassName="uk-float-right">
-                                                    <div>
-                                                        @if (!is_view_deleted)
-                                                        {
-                                                            <LabelActive OnClick="@(() => ChangeProductGroupStatus(d))" is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" />
-                                                            <LabelInActive OnClick="@(() => ChangeProductGroupStatus(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" />
-                                                            <span style="margin-right:5px;">
-                                                                <Icon icon="delete" OnClick="@(() => ChangeProductGroupDelete(d))" is_loading="@d.is_deleting"/>
-                                                            </span>
+                                                    <div> 
+                                                            <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" />
+                                                            <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" />
                                                             <span>
                                                                 <a href="@($"productcategory/edit/{d.id}")">
                                                                     <Icon icon="edit" />
                                                                 </a>
-                                                            </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <LabelDeleted />
-                                                            <Icon icon="refresh" OnClick="@(() => RestoreGroupClick(d))" is_loading="@d.is_restoring"/>
-                                                        }
-
+                                                            </span> 
                                                     </div>
                                                 </Column>
                                             </div>
@@ -67,36 +50,22 @@
                                         <hr />
                                         <div>
                                             <Tab>
-                                                <ul class="uk-tab">
-                                                    <TabHeaderItem OnClick="@(() => { d.is_view_deleted_category = false; })" class_name="@(d.is_view_deleted_category ? "" : "uk-active")">@lang["All Product Categories"]</TabHeaderItem>
-                                                    <TabHeaderItem OnClick="@(() => { d.is_view_deleted_category = true; })" class_name="@(d.is_view_deleted_category ? "uk-active" : "")">@lang["Deleted Product Categories"]</TabHeaderItem>
-                                                </ul>
-                                                <div class="uk-margin-top">
+                                                <div>
                                                     <table class="uk-table cus_hearder_table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                                         <tr>
                                                             <Th>@lang["Product Category Name En"]</Th>
                                                             <Th>@lang["Product Category Name Kh"]</Th>
                                                             <ThCenter>@lang["Status"]</ThCenter>
                                                         </tr>
-                                                        <ViewEmptyTemplate is_view="@d.product_categories.Where(r => r.is_deleted == d.is_view_deleted_category).Any()" colspan="3">
-                                                            @foreach (var s in d.product_categories.Where(r => r.is_deleted == d.is_view_deleted_category))
+                                                        <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="3">
+                                                            @foreach (var s in d.product_categories)
                                                             {
                                                                 <tr>
                                                                     <td>@s.product_category_en</td>
                                                                     <td>@s.product_category_kh </td>
                                                                     <TdCenter>
-                                                                        @if (!s.is_deleted)
-                                                                        {
                                                                             <LabelActive is_visible="@s.status" is_loading="@s.is_change_status" />
                                                                             <LabelInActive is_visible="@(!s.status)" is_loading="@s.is_change_status" />
-                                                                            <Icon icon="delete" OnClick="@(() => RestoreCategoryClick(s))" is_loading="@s.is_restoring"/>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <LabelDeleted />
-                                                                            <Icon icon="refresh" icon_color="" OnClick="@(() => RestoreCategoryClick(s))" is_loading="@s.is_restoring"/>
-                                                                        }
-
                                                                     </TdCenter>
                                                                 </tr>
                                                             }
@@ -119,7 +88,6 @@
     List<ProductGroupModel> models = new List<ProductGroupModel>();
     List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
     string ControllerApi = "ProductGroup";
-    bool is_view_deleted = false;
 
 
     protected override async Task OnInitializedAsync()
@@ -139,7 +107,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=product_categories&$filter=is_built_in eq false";
+            api_url = $"{ControllerApi}?$expand=product_categories($filter=is_deleted eq false)&$filter=is_built_in eq false and is_deleted eq false";
         }
 
         var resp = await http.ApiGetOData(api_url);
@@ -153,88 +121,5 @@
 
     }
 
-
-    async Task ChangeProductGroupStatus(ProductGroupModel p)
-    {
-
-        p.is_change_status = true;
-        await Task.Delay(1000);
-
-        var resp = await http.ApiPost($"{ControllerApi}/status", p);
-        if (resp.IsSuccess)
-        {
-            await LoadData();
-            toast.Add(lang["Change Status Successfully"], MatToastType.Success);
-        }
-
-        p.is_change_status = false;
-
-    }
-    async Task ChangeProductGroupDelete(ProductGroupModel d)
-    {
-        d.is_deleting = true;
-
-        if (await js.Confirm(lang["Product Group"], lang["Are you sure you want to delete this this record?"], SweetAlertMessageType.question))
-        {
-            var resp = await http.ApiPost(ControllerApi + "/delete", d);
-
-            if (resp.IsSuccess)
-            {
-                await LoadData();
-                toast.Add(lang["Delete Product Group Successfully"], MatToastType.Success);
-            }
-            else
-            {
-                toast.Add(lang["Delete Product Group Fail"], MatBlazor.MatToastType.Warning);
-            }
-
-
-        }
-        d.is_deleting = false;
-    }
-
-    async Task RestoreGroupClick(ProductGroupModel _g)
-    {
-        _g.is_restoring = true;
-        if (await js.Confirm(lang["Restore Product Group"], lang["Are you sure you want to restore this this record?"], SweetAlertMessageType.question))
-        {
-            var resp = await http.ApiPost(ControllerApi + "/delete", _g);
-
-            if (resp.IsSuccess)
-            {
-                await LoadData();
-                toast.Add(lang["Restore Product Group successfully"], MatToastType.Success);
-            }
-            else
-            {
-                toast.Add(lang["Restore Product Group fail"], MatBlazor.MatToastType.Warning);
-            }
-
-
-        }
-        _g.is_restoring = false;
-    }
-
-    async Task RestoreCategoryClick(ProductCategoryModel c)
-    {
-        c.is_restoring = true;
-        if (await js.Confirm(lang["Restore Product Category"], lang["Are you sure you want to restore this this record?"], SweetAlertMessageType.question))
-        {
-            var resp = await http.ApiPost("productcategory/delete/" + c.id);
-
-            if (resp.IsSuccess)
-            {
-                await LoadData();
-                toast.Add(lang["Restore Product Category successfully"], MatToastType.Success);
-            }
-            else
-            {
-                toast.Add(lang["Restore Product Category fail"], MatBlazor.MatToastType.Warning);
-            }
-
-
-        }
-        c.is_restoring = false;
-    }
 
 }
