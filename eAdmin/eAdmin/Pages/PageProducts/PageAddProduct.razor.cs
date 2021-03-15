@@ -121,7 +121,7 @@ namespace eAdmin.Pages.PageProducts
                         return;
                     }
                     else{
-                        is_error = true;
+                        is_error = false;
                     }
 
                 }
@@ -137,10 +137,11 @@ namespace eAdmin.Pages.PageProducts
                 var _data = gv.units.Where(r => r.unit_category_id == val && !r.is_deleted && r.status).ToList();
                
                 model.unit_id = _data.Count > 0? _data.FirstOrDefault().id :0;
-                 
+                model.unit = _data.Count > 0? _data.FirstOrDefault() : new UnitModel();
+                
             } 
             old_unit_category_id = val; 
-            unit_category_id = val; 
+            unit_category_id = val;
         }
         public async Task CloneProduct()
         {
