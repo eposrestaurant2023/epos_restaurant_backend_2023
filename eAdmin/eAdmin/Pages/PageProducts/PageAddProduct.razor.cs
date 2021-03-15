@@ -164,6 +164,8 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
+            Console.WriteLine(JsonSerializer.Serialize(save_model.unit));
+
             if (save_model.unit_id == 0)
             { 
                 toast.Add(lang["Please Select Unit."], MatToastType.Warning);
