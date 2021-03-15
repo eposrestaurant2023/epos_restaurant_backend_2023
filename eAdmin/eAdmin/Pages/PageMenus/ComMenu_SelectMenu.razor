@@ -1,80 +1,30 @@
 ﻿@inherits PageCore
-<EditFormContext model="@model" is_opened="@is_opened" Cancel_Click="@OnCancel" is_footer_visible="true" modal_width="800px" is_save="false" is_cancel="true">
-
+<EditFormContext model="@model" title="@lang["Move Menu"]" is_opened="@is_opened" Cancel_Click="@OnCancel" is_footer_visible="true" modal_width="800px" is_save="false" is_cancel="true">
     <h3 class="title">
-        Drink/Food
+        @menu_path(current_menu_id)
     </h3>
     <div class="uk-grid-small" uk-grid>
+        
+        @if ( current_menu_id>0)
+        {
+            <Button OnClick="@Back_menu">Back</Button>
+        }
 
         @foreach (var m in menu_items.Where(r => r.id != model.id))
         {
 
-            <div class="uk-width-1-4">
-                @if (menus.Where(r => r.parent_id == m.id && r.is_deleted == false).Any())
+            <div>
+                @if (@menus.Where(r => r.is_deleted == false && r.parent_id == m.id).Any())
                 {
-
-                    @if (string.IsNullOrEmpty(m.photo))
-                    {
-
-                        <div class="cp" @onclick="@(() => MenuClick(m))">
-                            <div class="box-menu-select box_menu" style="position:relative;background-image: url(@http.ImageUrl(m.photo))">
-                                <div class="box-selected"><Icon icon="check" size="18px" icon_color="#fff" /></div>
-                                <div class="uk-position-center uk-dark uk-text-center">
-                                    @m.menu_name_en
-                                </div>
-                            </div>
-                        </div>
-
-                    }
-                    else
-                    {
-                        <div class="cp" @onclick="@(() => MenuClick(m))">
-                            <div class="box-menu-select box_menu" style="background:@m.background_color;color:@m.text_color;">
-                                <div class="box-selected"><Icon icon="check" size="18px" icon_color="#fff" /></div>
-                                <div class="uk-position-center uk-text-center">
-                                    <span>
-                                        @m.menu_name_en
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
+                    <a @onclick="@(() => MenuClick(m))">@m.menu_name_en (@menus.Where(r => r.is_deleted == false && r.parent_id == m.id).Count())</a>
                 }
-                else
-                {
+                else { 
+                    <span>@m.menu_name_en</span>
+                }
 
-                    @if (string.IsNullOrEmpty(m.photo))
-                    {
 
-                        <div class="cp" @onclick="@(()=>SelectMenu(m))">
-                            <div class="box-menu-select box_menu" style="position:relative; background-image:url(@http.ImageUrl(m.photo))">
-                                <div class="box-selected"><Icon icon="check" size="18px" icon_color="#fff" /></div>
-                                <div class="uk-position-center uk-dark uk-text-center" style="padding:5px;">
-                                    <span>
-                                        @m.menu_name_en
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                    }
-                    else
-                    {
-                        <div class="cp" @onclick="@(()=>SelectMenu(m))">
-                            <div class="box-menu-select box_menu" style="background:@m.background_color;color:@m.text_color;">
-                                <div class="box-selected"><Icon icon="check" size="18px" icon_color="#fff"/></div>
-                                <div class="uk-position-center uk-text-center">
-                                    <span>
-                                        @m.menu_name_en
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                } 
+                <Button OnClick="@(()=>SelectMenu(m))" disabled="@(m.id==model.parent_id)">Select</Button>
             </div>
-
 
         }
 
@@ -82,8 +32,6 @@
 
 </EditFormContext>
 @code {
-
-
     [Parameter] public List<MenuModel> menus { get; set; }
     [Parameter] public MenuModel model { get; set; }
     [Parameter] public EventCallback<MenuModel> modelChanged { get; set; }
@@ -91,37 +39,77 @@
     [Parameter] public int root_menu_id { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnSelectMenu { get; set; }
-    public int current_menu_id { get; set; }
-    public int parent_menu_id { get; set; }
 
+ 
 
-    int parent_id;
+    int current_menu_id;
+
     public List<MenuModel> menu_items
     {
         get
         {
-            if (parent_id == 0)
+            if (current_menu_id == 0)
             {
-                return menus.Where(r => r.parent_id == root_menu_id && r.is_deleted == false).OrderBy(r => r.sort_order).ToList();
+                return menus.Where(r => r.id == root_menu_id && r.is_deleted == false).OrderBy(r => r.sort_order).ToList();
             }
             else
             {
-                return menus.Where(r => r.parent_id == parent_id && r.is_deleted == false).OrderBy(r => r.sort_order).ToList();
+                return menus.Where(r => r.parent_id == current_menu_id && r.is_deleted == false).OrderBy(r => r.sort_order).ToList();
             }
         }
     }
 
+
     void MenuClick(MenuModel m)
     {
-        parent_id = m.id;
+         
+        current_menu_id = m.id;
     }
-
 
     void Back_menu( )
     {
+        current_menu_id = Convert.ToInt32(menus.Where(r=>r.id==current_menu_id).FirstOrDefault().parent_id);
+    }
 
-        current_menu_id = Convert.ToInt32(parent_id);
+    public string menu_path(int menu_id)
+    {
 
+        if (menu_id > 0)
+        {
+            List<string> str_menu_names = new List<string>();
+            int id = menu_id;
+            while (id > 0)
+            {
+                var d = menus.Where(r => r.id == id).FirstOrDefault();
+                str_menu_names.Add(d.menu_name_en);
+
+                if (d.parent_id == null)
+                {
+                    id = 0;
+                }
+                else
+                {
+                    id = Convert.ToInt32(d.parent_id);
+                }
+
+            }
+
+            if (str_menu_names.Count() > 0)
+            {
+                string path = ""; ;
+                str_menu_names.Reverse();
+                foreach (var m in str_menu_names)
+                {
+                    path = path + m + " / ";
+                }
+                if (path.Length > 0)
+                {
+                    return path.Substring(0, path.Trim().Length - 1);
+                }
+
+            }
+        }
+        return "";
     }
 
 

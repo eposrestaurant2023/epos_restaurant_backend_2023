@@ -86,13 +86,14 @@ namespace eAdmin.Pages.PageProducts
             is_loading = true;
             if (id > 0)
             {
-                
+
                 await LoadData();
             }
             else if (clone_id > 0)
             {
                 await CloneProduct();
             }
+
             is_loading = false;
         }
 
