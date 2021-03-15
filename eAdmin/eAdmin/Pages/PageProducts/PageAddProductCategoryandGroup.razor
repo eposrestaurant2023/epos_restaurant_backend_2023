@@ -5,13 +5,13 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Outlet & Station"></Title>
+    <Title Value="@(id > 0? lang["Edit Product Category & Group"] : lang["New Product Category & Group"])"></Title>
     <PageContainer roles="@gv.GetRole("product_category_group")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @(id > 0? "Edit Product Category & Group" : "New Product Category & Group")
+                        @(id > 0? lang["Edit Product Category & Group"] : lang["New Product Category & Group"])
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -23,54 +23,41 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="Product Group">
-                        <TextInput @bind-text="@model.product_group_code" label="Product Group Code" is_read_only="@model.is_built_in"/>
-                        <TextInput @bind-text="@model.product_group_en" label="Product Group Name En" is_read_only="@model.is_built_in">
+                    <UIContainerBox Title="@lang["Product Group"]">
+                        <TextInput @bind-text="@model.product_group_code" label="@lang["Product Group Code"]" is_read_only="@model.is_built_in" />
+                        <TextInput @bind-text="@model.product_group_en" label="@lang["Product Group Name En"]" is_read_only="@model.is_built_in">
                             <ValidationMessage For="@(() => model.product_group_en )" />
                         </TextInput>
-                        <TextInput @bind-text="@model.product_group_en" label="Product Group Name Kh" is_read_only="@model.is_built_in"/>
-                        <ComInputCheckBox @bind-value="@model.status" label="Status" is_read_only="@model.is_built_in"/>
+                        <TextInput @bind-text="@model.product_group_en" label="@lang["Product Group Name Kh"]" is_read_only="@model.is_built_in" />
+                        <SelectStatus @bind-selected_value="@model.status" />
 
                     </UIContainerBox>
-                    <UIContainerBox Title="Product Category" is_show_add_button="true" OnAddClick="@(()=>Add_Product_Category())">
+                    <UIContainerBox Title="@lang["Product Category"]" is_show_add_button="true" OnAddClick="@(()=>AddProductCategory())">
                         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
                             <tr>
-                                <th>Category Name En</th>
-                                <th>Category Name Kh</th>
-                                <th>Status</th>
+                                <ThAuto>@lang["Category Name En"]</ThAuto>
+                                <ThAuto>@lang["Category Name Kh"]</ThAuto>
+                                <th>@lang["Status"]</th>
                                 <th></th>
                             </tr>
-                            @if (model.product_categories.Any())
-                            {
-                                foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
+                            <ViewEmptyTemplate is_view="model.product_categories.Any()" colspan="4">
+                                @foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
                                 {
                                     <tr>
-                                        <td>  <TextInput label="" placeholder="Product Category Name En " @bind-text="@s.product_category_en" /></td>
-                                        <td>  <TextInput label="" placeholder="Product Category Name Kh " @bind-text="@s.product_category_kh" /></td>
+                                        <td><TextInput label="" placeholder="@lang["Product Category Name En"]" @bind-text="@s.product_category_en" /></td>
+                                        <td><TextInput label="" placeholder="@lang["Product Category Name Kh"]" @bind-text="@s.product_category_kh" /></td>
                                         <td>
-                                            <LabelActive OnClick="@(()=>s.status=false)" is_visible="@s.status" />
-                                            <LabelInActive OnClick="@(()=>s.status=true)" is_visible="@(!s.status)" />
+                                            <LabelActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@s.status" />
+                                            <LabelInActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@(!s.status)" />
                                         </td>
                                         <td>
-                                            <Icon icon="delete" OnClick="@(()=>Delete_Product_Category(s))" />
+                                            <Icon icon="delete" OnClick="@(()=>DeleteProductCategory(s))" />
                                         </td>
                                     </tr>
                                 }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="4">
-                                        <ComEmptyTemplate />
-                                    </td>
-                                </tr>
-                            }
+                            </ViewEmptyTemplate> 
                         </table>
-                        
-                        
                     </UIContainerBox>
-
-
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
@@ -78,9 +65,7 @@
                     <ComSavingFormButton is_loading="@is_saving" cancel_url="productcategory"/>
                 </FooterCenter>
             </PageFooter>
-
         </EditForm>
-
     </PageContainer>
   
 }
@@ -91,14 +76,14 @@
 
     List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
     string ControllerApi = "ProductGroup";
-   
+
     public string api_url
     {
         get
         {
             string query = ControllerApi;
             query = query + $"({id})?";
-            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status)";
+            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status;$expand=products($select=id;$top=1))";
 
             return query;
 
@@ -110,73 +95,27 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        await LoadData("");
-        await LoadProductCategory("");
+        await LoadData();
         is_loading = false;
     }
 
 
 
-    async Task Activebutton(OutletModel b)
-    {
-
-        b.is_change_status = true;
-        await Task.Delay(1000);
-        b.status = !b.status;
-
-        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
-        if (resp.IsSuccess)
-        {
-            toast.Add("Change status successfully", MatToastType.Success);
-        }
-
-        b.is_change_status = false;
-
-    }
-
-    async Task LoadProductCategory(string api_url = "")
+    async Task LoadData()
     {
 
         is_loading_data = true;
-
-        if (string.IsNullOrEmpty(api_url))
+        if (id > 0)
         {
+            var resp = await http.ApiGet(api_url);
+            if (resp.IsSuccess)
+            {
 
-            api_url = "ProductCategory";
+                model = JsonSerializer.Deserialize<ProductGroupModel>(resp.Content.ToString());
+
+            }
         }
 
-        var resp = await http.ApiGetOData(api_url);
-        if (resp.IsSuccess)
-        {
-
-            product_category = JsonSerializer.Deserialize<List<ProductCategoryModel>>(resp.Content.ToString());
-
-        }
-        is_loading_data = false;
-
-    }
-
-    async Task LoadData(string api_url = "")
-    {
-
-        is_loading_data = true;
-
-        if (string.IsNullOrEmpty(api_url))
-        {
-            api_url = ControllerApi;
-            api_url = api_url + $"({id})?";
-            api_url = api_url + "$expand=product_categories($select=id,product_category_en,product_category_kh,status;$filter= is_deleted eq false),";
-
-
-        }
-
-        var resp = await http.ApiGet(api_url);
-        if (resp.IsSuccess)
-        {
-
-            model = JsonSerializer.Deserialize<ProductGroupModel>(resp.Content.ToString());
-
-        }
         is_loading_data = false;
 
     }
@@ -196,7 +135,18 @@
 
             Object obj = new Object();
             ProductGroupModel save_product_group = JsonSerializer.Deserialize<ProductGroupModel>(JsonSerializer.Serialize(d));
+            if (save_product_group.status == false)
+            {
+                if (save_product_group.product_categories.FirstOrDefault().products.Any())
+                {
+                    toast.Add(lang["Cannot change status to inactive."], MatBlazor.MatToastType.Warning);
+                    is_saving = false;
+                    return;
+                }
+            }
 
+
+            save_product_group.product_categories.ForEach(r => r.products = null);
             var res = await http.ApiPost($"{ControllerApi}/save", save_product_group);
             if (res.IsSuccess)
             {
@@ -210,11 +160,13 @@
                 is_saving = false;
                 toast.Add(res.Content.ToString(), MatToastType.Warning);
             }
+
+            is_saving = false;
         }
     }
 
 
-    void Add_Product_Category()
+    void AddProductCategory()
     {
         model.product_categories.Add(new ProductCategoryModel()
         {
@@ -223,11 +175,9 @@
 
         }) ;
 
-
-
     }
 
-    void Delete_Product_Category(ProductCategoryModel s)
+    void DeleteProductCategory(ProductCategoryModel s)
     {
         if(s.id == 0)
         {
@@ -235,9 +185,34 @@
         }
         else
         {
-            s.is_deleted = true;
+            if (s.products.Any())
+            {
+                toast.Add(lang["This category was assigned to product."], MatBlazor.MatToastType.Warning);
+            }
+            else
+            {
+                s.is_deleted = true;
+            }
+
         }
     }
 
-
+    void ChangeProductCategoryStatus(ProductCategoryModel s)
+    {
+        if (s.id == 0)
+        {
+            s.status = !s.status;
+        }
+        else
+        {
+            if (s.products.Any())
+            {
+                toast.Add(lang["This category was assigned to product."], MatBlazor.MatToastType.Warning);
+            }
+            else
+            {
+                s.status = !s.status;
+            }
+        }
+    }
 }
