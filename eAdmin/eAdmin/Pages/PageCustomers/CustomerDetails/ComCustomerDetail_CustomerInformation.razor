@@ -85,9 +85,9 @@
 
                 @if (model.is_deleted)
                 {
-                    <div>
-                        @lang["Deleted by"] @model.deleted_by @lang["on"] @string.Format(model.deleted_date.ToString(), gv.date_time_format)
-                    </div>
+            <div>
+                @lang["Deleted by"] @model.deleted_by @lang["on"] @model.deleted_date.Value.ToString(gv.date_time_format)
+            </div>
                 }
             </div>
         </UIGridCenter>
