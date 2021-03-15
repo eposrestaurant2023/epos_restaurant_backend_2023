@@ -46,10 +46,12 @@
 
                                     </td>
 
-                                    <SelectUnit label="@lang["Unit"]" @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" unit_category_id="@pp.unit.unit_category_id" is_select_unit_category="true" show_empty="true">
-                                        <ValidationMessage For="@(()=>pp.unit_id)" />
-                                    </SelectUnit>
-
+                                    <td>
+                                        <SelectUnit label="@lang["Unit"]" @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" unit_category_id="@pp.unit.unit_category_id" is_select_unit_category="true" show_empty="true">
+                                            <ValidationMessage For="@(()=>pp.unit_id)" />
+                                        </SelectUnit>
+                                    </td>
+                                    
                                     <TdCenter>
                                         <NumberInput placeholder="Cost" @bind-text="@pp.cost" />
                                     </TdCenter>
