@@ -7,7 +7,7 @@
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @if (!is_loading)
 {
-    @if (is_error)
+    @if (!is_error)
     {
         <Title Value="@PageTitle"></Title>
         <PageContainer roles="@gv.GetRole(role_name)">
@@ -15,7 +15,7 @@
                 <HeaderLeft>
                     <PageTitle ShowFilter="false">
                         <HeaderTemplate>
-                            @PageTitle
+                            @PageTitle @role_name
                         </HeaderTemplate>
                     </PageTitle>
                 </HeaderLeft>
@@ -53,10 +53,8 @@
 
                                         <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true">
                                             <ValidationMessage For="@(()=>model.product_category_id)" />
-                                        </SelectProductCategory>
-
+                                        </SelectProductCategory> 
                                         <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
-
                                         <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@unit_category_id" is_select_unit_category="true" show_empty="true">
                                             <ValidationMessage For="@(()=>model.unit_id)" />
                                         </SelectUnit>
