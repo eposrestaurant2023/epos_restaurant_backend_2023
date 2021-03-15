@@ -6,6 +6,8 @@ namespace eShareModel
 {
     public class CashierShiftShareModel  : CoreGUIDModel
     {
+        public int outlet_id { get; set; }
+        public string cashier_shift_number { get; set; } = "";
         public Guid working_day_id { get; set; }
         public bool is_closed { get; set; }          
         public string closed_by { get; set; }
