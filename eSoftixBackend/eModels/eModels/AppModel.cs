@@ -77,6 +77,8 @@ namespace eModels
             }
         }
 
+
+
     }
 
 
@@ -194,6 +196,12 @@ namespace eModels
         public List<CustomerModel> customers { get; set; }
     }
 
+    public class ServerConfigModel
+    {
+        public string project_id { get; set; }
+        public string server_id { get; set; }
+        public string hardware_server_id { get; set; }
 
+    }
 
 }

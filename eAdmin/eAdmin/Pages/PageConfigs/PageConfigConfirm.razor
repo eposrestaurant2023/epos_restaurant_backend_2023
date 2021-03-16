@@ -1,0 +1,131 @@
+﻿@page "/config/confirm/{project_id}/{server_id}"
+@layout BlankLayout
+  @inject IHttpService  http;
+@inject NavigationManager nav;
+@inject IStringLocalizer<Resource> lang
+
+@inject IMatToaster toast;
+
+ 
+    <div class="wrp-login-page">
+        <div class="wrp-login-form">
+            <div class="login-header">
+                <img src="images/ePOS-Rest.svg" />
+            </div>
+            <div class="login-form">
+                <div>
+                    @if (is_loading)
+                    {
+                        <Spinner />
+                    }
+                    else
+                    {
+                        <h1>@lang["This project is belong to"]</h1>
+                        <div>
+                            @lang["Company"]: @model.customer.company_name <br/>
+                            @lang["Contact Name"]: @model.customer.customer_code - @model.customer.customer_name_en<br/>
+                            @lang["Phone"]: @model.customer.phone_1
+                        </div>
+                        <h2>@lang["Detail"]</h2>
+                        <div>
+                            
+                        </div>
+
+
+
+
+                        <p style="color:orangered">Please verify these information with your system administrator</p>
+                        <div class="uk-text-center">
+                            @if (is_saving)
+                            {
+                                <button class="btn-login" type="button"> <Spinner /> @lang["Confirm"]  </button>
+                            }
+                            else
+                            {
+                                <button class="btn-login" type="submit" @onclick="@ConfirmBackendData">@lang["Confirm"] </button>
+                            }
+                        </div>
+                    }
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public string project_id { get; set; }
+    [Parameter] public string server_id { get; set; }
+    eSoftixBackend.ProjectModel model = new eSoftixBackend.ProjectModel();
+    string Message = "";
+    bool IsShowMessage = false;
+    bool is_loading,is_saving;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        var resp = await http.eSoftixApiGet($"project({project_id})?$expand=customer");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<eSoftixBackend.ProjectModel>(resp.Content.ToString());
+        }
+
+        is_loading = false;
+    }
+
+    async Task ConfirmBackendData()
+    {
+
+        is_saving = true;
+
+        //check validation
+        //check if project have business branch
+        if (1 == 2)
+        {
+
+            toast.Add(lang["This project does not have business branch."], MatToastType.Warning);
+            return;
+        }
+
+        //save server id to project db
+        ServerConfigModel project_config = new ServerConfigModel();
+        project_config.project_id = model.id.ToString();
+        project_config.hardware_server_id = server_id;
+
+        var resp_projct = await http.eSoftixApiPost("Project/SaveServerID", project_config);
+        if ( resp_projct.IsSuccess)
+        {
+            var resp = await http.ApiPost("ConfirmBackendData", model);
+            if (resp.IsSuccess)
+            {
+
+                toast.Add(lang["Update data successfully."], MatToastType.Success);
+                nav.NavigateTo("config/done");
+            }else
+            {
+                toast.Add(lang["Confirm data fail. Please try again"], MatToastType.Warning);
+            }
+
+        }else
+        {
+            if (resp_projct.status_code == 503)
+            {
+                toast.Add(lang["Cannot connect to eSoftix Server. Please contact your system administrator"], MatToastType.Warning);
+            }
+            else {
+
+                toast.Add(lang["Confirm data fail. Please try again"], MatToastType.Warning);
+            }
+
+        }
+
+
+        is_saving = false;
+    }
+
+}
