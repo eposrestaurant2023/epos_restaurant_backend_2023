@@ -44,8 +44,7 @@
                         @HeaderTemplate("sale/working_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("sale/document_number", lang["Document #"], "uk-text-center")
                         @HeaderTemplate("sale/customer/customer_name", lang["Customer"], "col-auto")
-                        @HeaderTemplate("sale/business_branch/business_branch_name_en", lang["Business Branch"])
-                        @HeaderTemplate("sale/outlet/outlet_name_en", lang["Outlet"])
+                        <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto> 
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
@@ -64,11 +63,10 @@
                             <ComProfileInfo url="@($"customer/{p.sale.customer_id}")" photo="@p.sale.customer?.photo" role="customer_management">@p.sale?.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
-                            @p.sale?.business_branch?.business_branch_name_en
-                        </td>
-                        <td>
-                            @p.sale?.outlet?.outlet_name_en
-                        </td>
+                            
+                            <div>@p.sale?.business_branch?.business_branch_name_en</div>
+                            <div class="sub-info-row-table">@p.sale?.outlet?.outlet_name_en</div>
+                        </td> 
                         <TdRight>
                             @p.sale?.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
