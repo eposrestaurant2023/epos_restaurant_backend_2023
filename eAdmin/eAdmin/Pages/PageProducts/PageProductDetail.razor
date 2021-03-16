@@ -46,7 +46,7 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@model.is_ingredient_product" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_sale_history = true)">@lang["Sale History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_stock_stransfer = true)">@lang["Stock Transfer"]</TabHeaderItem>
