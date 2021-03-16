@@ -147,6 +147,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
+
         model = gv.business_info;
         await LoadData();
         is_loading = false;

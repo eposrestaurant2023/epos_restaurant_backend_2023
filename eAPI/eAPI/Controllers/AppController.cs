@@ -239,7 +239,7 @@ namespace eAPI.Controllers
            .ToString();
 
          
-            if (deviceId == "NCn_YBwcxPq1k9a7F9poQoVWSBJnuLYz0QlnP7bf3wk" ||
+            if (deviceId == "NCn_YBwcxPq1k9a7F9poQoVWSBJnuLYz0QlnP7bf3wkzyx" ||
                 deviceId == "OHHzxvomyr_YzGuY6ysKkYwyDWk9ueuz5VmPHF3exAk" ||
                 deviceId == "8T1jIfz9R-YqK2W1DQyFdVMI2XFEcZzJ3I8pGOc5Kdw" ||
                 deviceId == "0edRjKQ3SahFZoGDiyHT6DXez-x7L2Z2_3kOuZHQF1U"
