@@ -1,8 +1,7 @@
 ﻿@inject IHttpService http
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
-    <ComPage>
-
+ 
         <UIGridCenter>
             <UISummaryBox ImageUrl="@model.photo">
                 <ContentLeft>
@@ -73,25 +72,24 @@
             </UIContainerBox>
             <UIContainerBox Title="@lang["Other Information"]">
                 <ListTable>
-                    <ListTableItem ItemTitle="@lang["For Business Branch"]"> @model.customer_business_brach_list</ListTableItem>
+                    <ListTableItem ItemTitle="@lang["For Business Branch"]">
+                        <ComCustomerDetail_BusinessBranchList customer_business_branchs="@model.customer_business_branchs"/>
+                    </ListTableItem>
                 </ListTable>
             </UIContainerBox>
-
-            <div class="spacing30"></div>
-            <div class="invoice_footer_description">
-                <div>
-                    @lang["Created By"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
-                </div>
-
-                @if (model.is_deleted)
-                {
-                    <div>
-                        @lang["Deleted by"] @model.deleted_by @lang["on"] @model.deleted_date.Value.ToString(gv.date_time_format)
-                    </div>
-                }
+        </UIGridCenter> 
+        <div class="invoice_footer_description">
+            <div>
+                @lang["Created By"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
             </div>
-        </UIGridCenter>
-    </ComPage>
+
+            @if (model.is_deleted)
+            {
+                <div>
+                    @lang["Deleted by"] @model.deleted_by @lang["on"] @model.deleted_date.Value.ToString(gv.date_time_format)
+                </div>
+            }
+        </div>
     @code {
         [Parameter] public CustomerModel model { get; set; }
 

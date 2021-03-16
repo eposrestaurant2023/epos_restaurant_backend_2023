@@ -26,7 +26,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("user_add")" OnClick="AddUser_click">New</AddButton>
+                <AddButton roles="@gv.GetRole("user_add")" OnClick="AddUser_click">@lang["New"]</AddButton>
                 <RefreshButton OnClick="@OnInitializedAsync" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
             </HeaderRight>

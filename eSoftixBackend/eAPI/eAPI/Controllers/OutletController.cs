@@ -32,7 +32,7 @@ namespace eAPI.Controllers
         public IQueryable<OutletModel> Get()
         {
            
-                return db.outlets;
+                return db.Outlets.AsQueryable();
            
         }
 
@@ -45,11 +45,11 @@ namespace eAPI.Controllers
             
             if (u.id == Guid.Empty)
             {
-                db.outlets.Add(u);
+                db.Outlets.Add(u);
                 }
             else
             {
-                db.outlets.Update(u);
+                db.Outlets.Update(u);
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -63,10 +63,10 @@ namespace eAPI.Controllers
         [Route("delete/{id}")]
         public async Task<ActionResult<OutletModel>> DeleteRecord(int id) //Delete
         {
-            var u = await db.outlets.FindAsync(id);
+            var u = await db.Outlets.FindAsync(id);
             u.is_deleted = !u.is_deleted;
             
-            db.outlets.Update(u);
+            db.Outlets.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
         }
@@ -75,7 +75,7 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 4)]
         public SingleResult<OutletModel> Get([FromODataUri] Guid key)
         {
-            var s = db.outlets.Where(r => r.id == key).AsQueryable();
+            var s = db.Outlets.Where(r => r.id == key).AsQueryable();
 
             return SingleResult.Create(s);
         }

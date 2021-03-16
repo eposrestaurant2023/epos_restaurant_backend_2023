@@ -1,0 +1,94 @@
+﻿@page "/project/{id}"
+@inherits PageProjectDetailBase
+@using eAdmin.Pages.PageProject.ComProjectDetail
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@if (!is_loading && !is_error)
+{
+
+    <Title Value="@($"Project : {model.project_name}")"></Title>
+    <PageContainer roles="@gv.GetRole("project_view")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @model.project_name
+                        <LabelDeleted is_visible="@model.is_deleted" />
+                        <LabelActive is_visible="@(!model.is_deleted && model.status)" />
+                        <LabelInActive is_visible="@(!model.is_deleted && !model.status)" />
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"project/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+                <ComAttachFileButton RoleAdd="@gv.GetRole("project_add")"
+                                     RoleEdit="@gv.GetRole("project_edit")"
+                                     RoleDelete="@gv.GetRole("project_delete")"
+                                     ApiFilter="@($"project_id eq {Guid.Parse(id)} ")"
+                                     File="@(new AttachFilesModel() { project_id = Guid.Parse(id) })"
+                                     IsVisible="@(!model.is_deleted)" />
+                <SplitButton roles="@gv.GetRole("project_add")" alignment="left" url="project/new" main_button_text="New">
+                    <SplitButtonItem roles="@gv.GetRole("project_add")" url="project/new">New Project</SplitButtonItem>
+                </SplitButton>
+                <RefreshButton OnClick="@LoadData" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab ClassName="control-header-tab">
+                <TabHeader>
+                    <TabHeaderItem roles="@gv.GetRole("project_management")">Overview</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> show_business_brand = true)">Business Brand</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> show_station = true)">Station</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">Comments</TabHeaderItem>
+                </TabHeader>
+                <TabBody>
+                    <TabItem>
+                        <UIGridCenter>
+                            <ContainerBox Title="@model.project_name">
+
+                            </ContainerBox>
+                        </UIGridCenter>
+                    </TabItem>
+                    <TabItem></TabItem>
+                    <TabItem>
+                        @if (show_station)
+                        {
+                            <ComAddOutletandStation/>
+                        }
+
+
+
+                        @*@if (show_station)
+                        {
+                            <ComOutletandStation />
+                        }*@
+
+                    </TabItem>
+                    <TabItem>
+                        <Com is_visible="@is_comment_loaded">
+                            <h3 class="title">
+                                Comment
+                            </h3>
+                            <ComHistory RoleAdd="@gv.GetRole("project_add")"
+                                        RoleDelete="@gv.GetRole("project_delete")"
+                                        RoleEdit="@gv.GetRole("project_edit")"
+                                        ApiFilter="@($"project_id eq {Guid.Parse(id)}")"
+                                        history="@(new HistoryModel() { project_id = Guid.Parse(id)})"
+                                        OnSave="@SaveComment" />
+                        </Com>
+                    </TabItem>
+                </TabBody>
+            </Tab>
+        </PageBody>
+    </PageContainer>
+
+
+
+
+}
+@if (is_error)
+{
+    <Error title="Customer Detail">
+        @error_text
+    </Error>
+}
+

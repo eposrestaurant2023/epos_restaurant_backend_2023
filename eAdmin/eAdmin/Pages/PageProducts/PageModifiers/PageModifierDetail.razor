@@ -58,17 +58,17 @@
                             </UIContainerBox>
                         </UIGridCenter>
                         <UIGridCenter>
-                            <ComModifierIngredient_Detail modifier="@modifier" />
+                            <ComModifierDetails_Ingredient modifier="@modifier" />
                         </UIGridCenter>
                         <UIGridCenter>
-                            <ComProductModifier_Detail modifier="@modifier"/>
+                            <ComModifierDetails_ProductModifier modifier="@modifier"/>
                         </UIGridCenter>
                     </TabItem>
                     @*============comment===========*@
                     <TabItem>
                         @if (show_sale_history)
                         {
-                            <ComModifier_SaleHistory is_receipt_list="true" />
+                            <ComModifierDetails_SaleHistory product_modifier_id="@id"/>
                         }
                     </TabItem>
                     <TabItem>

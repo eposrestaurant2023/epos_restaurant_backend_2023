@@ -9,7 +9,7 @@ namespace eModels
 {
     [Table("tbl_price_rule")]
    public class PriceRuleModel  : CoreModel
-    {
+   {
         public PriceRuleModel()
         {
             business_branch_prices = new List<BusinessBranchPriceRule>();
@@ -18,8 +18,7 @@ namespace eModels
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string price_name { get; set; }
 
-       
-
+        public bool is_build_in { get; set; }
         public List<BusinessBranchPriceRule> business_branch_prices { get; set; }
     }
 

@@ -24,9 +24,11 @@
                                      ApiFilter="@($"customer_id eq {id} ")"
                                      File="@(new AttachFilesModel() { customer_id = Guid.Parse(id) })"
                                      IsVisible="@(!model.is_deleted)"/>
-
-                <AddButton url="customer/new" roles="@gv.GetRole("customer_add")">@lang["New Customer"]</AddButton>
-
+                 
+                <SplitButton main_button_text="New">
+                    <SplitButtonItem roles="@gv.GetRole("customer_add")">@lang["New Customer"]</SplitButtonItem>
+                    <SplitButtonItem roles="@gv.GetRole("customer_add")" url="@($"payment/customer/{id}")">@lang["Add Payment"]</SplitButtonItem>
+                </SplitButton>
                 <MoreButton is_loading="@model.is_loading">
                     <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Inactive"]</MoreButtonItem>

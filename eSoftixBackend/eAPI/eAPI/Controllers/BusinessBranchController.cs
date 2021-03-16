@@ -33,7 +33,7 @@ namespace eAPI.Controllers
         public IQueryable<BusinessBranchModel> Get()
         {
            
-                return db.BusinessBranchs;
+                return db.BusinessBranches;
            
         }
 
@@ -44,11 +44,11 @@ namespace eAPI.Controllers
             
             if (u.id == Guid.Empty)
             {
-                db.BusinessBranchs.Add(u);
+                db.BusinessBranches.Add(u);
             }
             else
             {
-                db.BusinessBranchs.Update(u);
+                db.BusinessBranches.Update(u);
             }
             
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -62,7 +62,7 @@ namespace eAPI.Controllers
         {
 
         
-            db.BusinessBranchs.UpdateRange(branches);
+            db.BusinessBranches.UpdateRange(branches);
 
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -75,7 +75,7 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 4)]
         public SingleResult<BusinessBranchModel> Get([FromODataUri] Guid key)
         {
-            var s = db.BusinessBranchs.Where(r => r.id == key).AsQueryable();
+            var s = db.BusinessBranches.Where(r => r.id == key).AsQueryable();
 
             return SingleResult.Create(s);
         }
@@ -84,9 +84,9 @@ namespace eAPI.Controllers
         [Route("status/{id}")]
         public async Task<ActionResult<BusinessBranchModel>> UpdateStatus(int id)
         {
-            var d = await db.BusinessBranchs.FindAsync(id);
+            var d = await db.BusinessBranches.FindAsync(id);
             d.status = !d.status;
-            db.BusinessBranchs.Update(d);
+            db.BusinessBranches.Update(d);
             await db.SaveChangesAsync();
             return Ok(d);
         }
@@ -95,9 +95,9 @@ namespace eAPI.Controllers
         [Route("delete/{id}")]
         public async Task<ActionResult<BusinessBranchModel>> DeleteRecord(int id) //Delete
         {
-            var u = await db.BusinessBranchs.FindAsync(id);
+            var u = await db.BusinessBranches.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-            db.BusinessBranchs.Update(u);
+            db.BusinessBranches.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);
         }
