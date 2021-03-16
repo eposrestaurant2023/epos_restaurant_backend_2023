@@ -51,7 +51,7 @@
                     <TabHeaderItem OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_stock_stransfer = true)">@lang["Stock Transfer"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_stock_take = true)">@lang["Stock Take"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="(()=>show_inventory_strasation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@model.is_inventory_product" OnClick="(()=>show_inventory_strasation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
