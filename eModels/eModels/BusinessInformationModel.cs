@@ -27,6 +27,7 @@ namespace eModels
         public string contact_office_number { get; set; }
         public string contact_email { get; set; }
         public string color { get; set; }
+
     }
 
     [Table("tbl_business_branch")]
