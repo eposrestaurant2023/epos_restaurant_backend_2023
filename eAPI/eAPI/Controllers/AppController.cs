@@ -286,6 +286,9 @@ namespace eAPI.Controllers
             biz.id = p.customer.id;
             biz.company_name = (p.customer.company_name ?? "");
             biz.company_name_kh = (p.customer.company_name ?? "" );
+            biz.contact_name = (p.customer.customer_name_en ?? "");
+            biz.contact_phone_number = (p.customer.phone_1 ?? "");
+            biz.office_phone = (p.customer.phone_2 ?? "");
 
             //need more field to map
 
