@@ -1,4 +1,5 @@
-﻿using eShareModel;
+﻿using eModels.Attribute;
+using eShareModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,11 +21,12 @@ namespace eModels
         public ProjectTypeModel project_type { get; set; }
 
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select customer")]
+        [NotEmpty(ErrorMessage = "Please select customer")]
         [Display(Name = "Customer ")]
         public Guid customer_id { get; set; }
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
+
 
         [Required(ErrorMessage ="Please enter project name")]
         [Display(Name = "Project Name")]

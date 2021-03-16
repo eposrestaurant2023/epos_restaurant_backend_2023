@@ -52,7 +52,7 @@
     {
         get
         {
-            return $"project({id})?$expand=project_type,project_contacts($filter=is_deleted eq false)";
+            return $"project({id})?$expand=project_type,customer,project_contacts($filter=is_deleted eq false)";
         }
     }
 
