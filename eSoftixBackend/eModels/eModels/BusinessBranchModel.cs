@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using eShareModel;
@@ -29,6 +30,9 @@ namespace eModels
             }
         }
 
+        public  Guid project_id { get; set; }
+        [ForeignKey("project_id")]
+        public ProjectModel Project { get; set; }
 
         [MaxLength(100)]
         public string business_branch_name_kh { get; set; }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eModels
 {
-    [Table("tbl_outlets")]
+    [Table("tbl_outlet")]
     public  class OutletModel : CoreGUIDModel
     {
 
