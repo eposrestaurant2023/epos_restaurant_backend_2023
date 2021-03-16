@@ -44,6 +44,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 is_error = true;
                 error_text = "This Stock Take is already fulfilled";
             }
+            is_loading = false;
 
         }
         public async Task CloneRecord()

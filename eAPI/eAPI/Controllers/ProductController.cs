@@ -270,10 +270,6 @@ namespace eAPI.Controllers
         {
             var u = await db.Products.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-            
-            db.Products.Update(u);
-            await db.SaveChangesAsync();
-            db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id);
             if (u.is_deleted)
             {
                 AddHistory(u, "Product Deleted");
@@ -282,6 +278,10 @@ namespace eAPI.Controllers
             {
                 AddHistory(u, "Product Restored");
             }
+            db.Products.Update(u);
+            await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id);
+            
             
             return Ok();
         }
@@ -293,10 +293,13 @@ namespace eAPI.Controllers
             var u = await db.Products.FindAsync(id);
             u.status = !u.status;
 
-            db.Products.Update(u);
-            await db.SaveChangesAsync();
+            // Add into history
             string title = u.status == true ? "Changed to Active Product" : "Changed to Inactive Product";
             AddHistory(u, title);
+
+            db.Products.Update(u);
+            await db.SaveChangesAsync();
+            
             return Ok();
         }
 
@@ -304,11 +307,13 @@ namespace eAPI.Controllers
         [Route("Clone/{id}")]
         public ActionResult<ProductModel> Clone(int id)
         {
-            var data =   db.Products.Where(r => r.id == id)
+            var data = db.Products.Where(r => r.id == id)
                 .Include(r=>r.product_portions.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.product_prices.Where(r=>r.is_deleted==false))
+                
                 .Include(r=>r.product_printers.Where(r=>r.is_deleted==false)).
                 Include(r=>r.product_menus.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.menu)
                 .Include(r=>r.product_modifiers.Where(r=>r.is_deleted ==false)).ThenInclude(r=>r.modifier)
+                .Include(r=>r.unit)
                 .ToList();
              
             if (data.Any())

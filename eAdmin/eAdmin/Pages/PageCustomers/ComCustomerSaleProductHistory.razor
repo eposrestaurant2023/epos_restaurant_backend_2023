@@ -9,6 +9,9 @@
 @if (!is_loading)
 {
     <PageContainer is_container="false">
+        <div style="word-break:break-word">
+            @ControllerApi
+        </div>
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -49,13 +52,14 @@
                     <ThCenter>@lang["Quantity"]</ThCenter>
                     <ThRight>@lang["Price"]</ThRight>
                     <ThRight>@lang["Discount"]</ThRight>
+                    <ThRight>@lang["Total Tax Amount"]</ThRight>
                     <ThRight>@lang["Amount"]</ThRight>
                     <ThCenter>@lang["Created Date"]</ThCenter>
                     <th>@lang["Created By"]</th>
                     <th></th>
                     <th class="uk-width-auto"></th>
                 </TableHeader>
-                <RowTemplate Context="p"> 
+                <RowTemplate Context="p">
                     <TdCenter>
                         @p.sale.working_date.ToString(gv.date_format)
                     </TdCenter>
@@ -67,10 +71,10 @@
                         <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">@p.product?.product_display_name</ComProfileInfo>
                         <div>
                             @p.portion_name
-                            @*@foreach (var pp in p..Where(r=>r.is_deleted==false && r.status == true))
+                            @foreach (var pp in p.sale_product_modifiers.Where(r=>r.is_deleted == false && r.status == true))
                             {
-                                @pp.portion_name
-                            }*@                            
+                                @pp.modifier_name
+                            }
                         </div>
                     </td>
                     <td>
@@ -86,6 +90,9 @@
                         @p.total_discount.ToString(gv.main_currency_format)
                     </TdRight>
                     <TdRight>
+                        @p.total_tax_amount.ToString(gv.main_currency_format)
+                    </TdRight>
+                    <TdRight>
                         @p.total_amount.ToString(gv.main_currency_format)
                     </TdRight>
                     <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
@@ -93,7 +100,7 @@
                     <td>
                         <ComSaleStatus sale="@p.sale" />
                     </td>
-                    
+
                     <TdCenter>
                         <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
                     </TdCenter>

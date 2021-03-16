@@ -12,7 +12,6 @@
             <ComAuthorize roles="@gv.GetRole("product_view")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
                 <div>@sp.product?.product_display_name</div>
             </ComAuthorize>
-           
             @if (!string.IsNullOrEmpty(sp.note))
             {
                 <div class="font-xs text-pre-wrap">@sp.note</div>

@@ -69,6 +69,8 @@ namespace eShareModel
         public decimal tax_3_amount { get; set; }
         public decimal tax_3_taxable_amount { get; set; }
 
+        public decimal total_tax_amount { get; set; }
+
         //
 
 

@@ -9,7 +9,7 @@ namespace eModels
 {
 
     [Table("tbl_business_information")]
-    public class BusinessInformationModel :KeyGUIDModel 
+    public class BusinessInformationModel : KeyGUIDModel
     {
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string company_name { get; set; }
