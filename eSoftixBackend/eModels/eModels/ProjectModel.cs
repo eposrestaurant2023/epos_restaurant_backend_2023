@@ -24,7 +24,7 @@ namespace eModels
         [Display(Name = "Customer ")]
         public Guid customer_id { get; set; }
         [ForeignKey("customer_id")]
-        public CustomerModel customers { get; set; }
+        public CustomerModel customer { get; set; }
 
         [Required(ErrorMessage ="Please enter project name")]
         [Display(Name = "Project Name")]
