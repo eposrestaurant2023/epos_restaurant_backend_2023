@@ -68,8 +68,6 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             }
         }
 
-
-
         protected override async Task OnInitializedAsync()
         {
 
@@ -97,9 +95,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                     model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
                 }
             }
-
             is_loading = false;
-
         }
         public async Task CloneProduct()
         {
