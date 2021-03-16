@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210316124719_add_tbl_tationxx")]
+    partial class add_tbl_tationxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -425,8 +427,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("shift")
                         .HasColumnType("nvarchar(max)")
@@ -843,8 +845,8 @@ namespace eAPI.Migrations
                     b.Property<decimal>("old_amount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<Guid?>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("payment_id")
                         .HasColumnType("uniqueidentifier");
@@ -1425,9 +1427,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.OutletModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1477,8 +1480,8 @@ namespace eAPI.Migrations
                     b.Property<Guid>("station_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.HasKey("station_id", "outlet_id");
 
@@ -1513,8 +1516,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("payment_amount")
                         .HasColumnType("decimal(19,4)");
@@ -2775,8 +2778,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_partially_paid")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("paid_amount")
                         .HasColumnType("decimal(19,4)");
@@ -3266,8 +3269,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("station_name_en")
                         .IsRequired()
@@ -3716,8 +3719,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("photo")
                         .HasColumnType("nvarchar(max)")
@@ -4179,8 +4182,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
