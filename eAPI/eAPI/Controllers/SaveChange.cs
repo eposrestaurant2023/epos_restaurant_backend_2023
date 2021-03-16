@@ -29,19 +29,14 @@ namespace eAPI.Controllers
                     .Where(e => e.State == EntityState.Modified && e.Entity is CoreModel))
                 {
                     var entidad = item.Entity as CoreModel;
+
                     if (entidad.is_deleted == true)
                     {
                         entidad.deleted_date = DateTime.Now;
                         entidad.deleted_by = user.full_name;
                     }
                 }
- 
-
-               
-
-
-
-
+  
 
             }
 

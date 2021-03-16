@@ -3,14 +3,13 @@
 @inject IHttpService http;
 @if (!is_loading)
 {
-@if (string.IsNullOrEmpty(server_config.project_id))
+@if (string.IsNullOrEmpty(server_config.project_id) || server_config.server_id!=server_config.hardware_server_id)
 {
     <Redirect url="config" />
 }
 else
 {
     <Redirect url="login" />
-
 }
 }
 
@@ -25,7 +24,6 @@ else
         if (resp.IsSuccess)
         {
             server_config = JsonSerializer.Deserialize<ServerConfigModel>(resp.Content.ToString());
-
         }
         is_loading = false;
 

@@ -6,9 +6,7 @@
 @inject NavigationManager nav;
 @inject IStringLocalizer<Resource> lang
 @inject IConfiguration config
-
  
-<EditForm Model="model" OnValidSubmit="LoginUser">
     <div class="wrp-login-page">
         <div class="wrp-login-form">
             <div class="login-header">
@@ -16,88 +14,79 @@
             </div>
             <div class="login-form">
                 <div>
-                    <div class="uk-form-control">
-                        <input id="username" @bind="@model.Username" type="text" placeholder="Enter username" class="uk-input" />
-                        <ValidationMessage For="@(()=>model.Username)" />
-                    </div>
-
-
-                    @if (IsShowMessage)
+                    @if (is_loading)
                     {
-                        <small style="color:red">@Message</small>
+                        <Spinner />
                     }
-                    <div class="uk-text-center">
-                        @if (IsSpinning)
+                    else
+                    {
+                        if (need_reset_db)
                         {
-                            <button class="btn-login" type="button"> <Spinner /> @lang["Confirm"]  </button>
+
+                            <h1>@lang["Please reset your database before continue."]</h1>
+
+                            <div>
+                                @if (is_check_reset_db)
+                                {
+                                    <Button><Spinner/> @lang["Continue"]</Button>
+                                }
+                                else
+                                {
+                                    <Button OnClick="@CheckRequiredResetDatabase">@lang["Continue"]</Button>
+                                }
+                            </div>
                         }
                         else
                         {
-                            <button class="btn-login" type="submit">@lang["Confirm"] </button>
+                            <ComEnterProjectID />
                         }
-                    </div>
+
+                    }
+
 
                 </div>
             </div>
         </div>
     </div>
-</EditForm>
-<div class="uk-position-relative">
-    <div class="uk-position-bottom uk-text-center" style=" margin-bottom: 20px;">
-        <a href="http://esoftix.com/" class="cu_color">Power By eSoftix</a>
-    </div>
-</div>
+ 
+
 @code {
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    AuthenticateModel model = new AuthenticateModel();
-    string Message = "";
-    bool IsShowMessage = false;
-    bool IsSpinning = false;
 
-    public async Task LoginUser()
+
+    bool is_loading = false;
+    bool is_check_reset_db = false;
+    bool need_reset_db;
+
+
+
+    protected override async Task OnInitializedAsync()
     {
-        IsSpinning = true;
-        if (string.IsNullOrWhiteSpace(model.Username) || model.Password == "")
-        {
-            IsShowMessage = true;
-            Message = "Username or Password is required.";
-            IsSpinning = false;
-            return;
-        }
 
-        var resp = await http.ApiPost("user/auth/login", model);
-        if (resp.IsSuccess)
-        {
-            UserModel user = JsonSerializer.Deserialize<UserModel>
-    (resp.Content.ToString());
-            if (user != null)
-            {
-                try
-                {
-                    var user_convert = EncryptProvider.Base64Encrypt(resp.Content.ToString());
-                    await storageService.SetItemAsync("_Authorization", user_convert);
-                    await authenticationStateProvider.GetAuthenticationStateAsync();
-                }
-                catch (Exception ex)
-                {
-                    string message = ex.Message;
-                    IsShowMessage = true;
+        is_loading = true;
 
-                    Message = "Invalid username and password.";
-                }
-            }
-            else
-            {
-                IsShowMessage = true;
-                Message = "Invalid username and password.";
-            }
-        }
-        else
+        //check if need to resert db
+        var check_db = await http.ApiGet("CheckRequiredResetDatabase");
+        if (check_db.IsSuccess)
         {
-            IsShowMessage = true;
-            Message = "Invalid username and password.";
+            need_reset_db = Convert.ToBoolean(check_db.Content.ToString());
         }
-        IsSpinning = false;
+        is_loading = false;
+
     }
+
+    async  Task CheckRequiredResetDatabase()
+    {
+        is_check_reset_db = true;
+        var check_db = await http.ApiGet("CheckRequiredResetDatabase");
+        if (check_db.IsSuccess)
+        {
+            need_reset_db = Convert.ToBoolean(check_db.Content.ToString());
+        }
+        is_check_reset_db = false;
+    }
+
+
+
+
 
 }
