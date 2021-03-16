@@ -11,6 +11,8 @@
            ClassName="uk-table-small uk-table-striped uk-table-hover"
            ScrollClass="uk-overflow-auto" >
         <TableHeader> 
+            <ThCenter>@lang["Working Date"]</ThCenter>
+            <ThCenter>@lang["Closed Date"]</ThCenter>
             <ThCenter>@lang["Document #"]</ThCenter>
             <ThAuto>@lang["Customer"]</ThAuto>
             <ThAuto>@lang["Business Branch"]</ThAuto> 
@@ -21,7 +23,13 @@
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
-            <TdCenter> 
+            <TdCenter>
+                <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"receiptlist/{p.working_day_id}")">@p.working_date.ToString(gv.date_format)</ComAuthorize>
+            </TdCenter>
+            <TdCenter>
+                @p.closed_date.Value.ToString(gv.date_format)                
+            </TdCenter>
+            <TdCenter>
                 <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"receiptlist/{p.id}")">@p.document_number</ComAuthorize>
             </TdCenter>
             <td>
