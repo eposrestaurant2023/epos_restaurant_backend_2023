@@ -24,9 +24,9 @@ namespace eAdmin.Pages.PageReceipt
         {
             get
             {
-                if (string.IsNullOrEmpty(state.pager.order_by))
+                if (string.IsNullOrEmpty(state.pager.order_by) || state.pager.order_by == "id")
                 {
-                    state.pager.order_by = "id";
+                    state.pager.order_by = "closed_date";
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
