@@ -11,7 +11,9 @@ namespace eAdmin.Pages.PageProject
 {
     public class PageProjectDetailBase : PageCore
     {
-        [Parameter] public Guid id { get; set; }
+
+        [Parameter] public List<OutletModel> outlet { get; set; } = new List<OutletModel>();
+        [Parameter] public string id { get; set; }
         public ProjectModel model { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";

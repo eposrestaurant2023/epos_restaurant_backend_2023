@@ -1,29 +1,33 @@
 ﻿@if (label != "")
 {
-    <div class="@wrp_class">
-        <label class="uk-form-label" for="@id">
-            @if (line_icon != "")
-            {
-                <LineIcon IconName="@line_icon" />
-            }
-            else if (icon != "")
-            {
+    <div class="@(is_horizontal?"uk-form-horizontal":"")">
+        <div class="uk-margin-small">
+            <div class="@wrp_class">
+                <label class="uk-form-label" for="@id">
+                    @if (line_icon != "")
+                    {
+                        <LineIcon IconName="@line_icon" />
+                    }
+                    else if (icon != "")
+                    {
 
-                <Icon icon="@icon" />
-            }
-            @label
-        </label>
-        <div class="uk-form-controls">
-            @if (is_read_only)
-            {
-                <input type="text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input @class_name" style="width:@width" />
-            }
-            else
-            {
-                <input type="text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input @class_name" style="width:@width" />
-            }
+                        <Icon icon="@icon" />
+                    }
+                    @label
+                </label>
+                <div class="uk-form-controls">
+                    @if (is_read_only)
+                    {
+                        <input type="@text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
+                    }
+                    else
+                    {
+                        <input type="@text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
+                    }
 
-            @ChildContent
+                    @ChildContent
+                </div>
+            </div>
         </div>
     </div>
 }
@@ -31,11 +35,11 @@ else
 {
     if (is_read_only)
     {
-        <input type="text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input @class_name" style="width:@width" />
+        <input type="@text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
     }
     else
     {
-        <input type="text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input @class_name" style="width:@width" />
+        <input type="@text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
     }
 
     @ChildContent
@@ -49,6 +53,7 @@ else
     [Parameter] public string placeholder { get; set; } = "";
     [Parameter] public string label { get; set; } = "";
     [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
     [Parameter] public string text_format { get; set; } = "0.####";
     [Parameter] public string width { get; set; } = "";
     [Parameter] public string class_name { get; set; } = "uk-form-small";
