@@ -17,7 +17,8 @@ namespace eModels
         [MaxLength(50)]
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string price_name { get; set; }
-   
+
+       
 
         public List<BusinessBranchPriceRule> business_branch_prices { get; set; }
     }
