@@ -215,12 +215,7 @@ namespace eAPI.Controllers
             ServerConfigModel s = new ServerConfigModel();
             s.project_id = data.Where(r => r.id == 57).FirstOrDefault().setting_value;
             s.server_id= data.Where(r => r.id == 58).FirstOrDefault().setting_value;
-            s.hardware_server_id =  new DeviceIdBuilder()
-                                  .AddProcessorId()
-                                  .AddMotherboardSerialNumber()
-                                  .AddSystemDriveSerialNumber()
-                                  .AddMacAddress()
-                                  .ToString();
+            s.hardware_server_id = GetServerID();
 
             return Ok(s);
         } 
@@ -246,6 +241,7 @@ namespace eAPI.Controllers
          
             if (deviceId == "NCn_YBwcxPq1k9a7F9poQoVWSBJnuLYz0QlnP7bf3wk" ||
                 deviceId == "OHHzxvomyr_YzGuY6ysKkYwyDWk9ueuz5VmPHF3exAk" ||
+                deviceId == "8T1jIfz9R-YqK2W1DQyFdVMI2XFEcZzJ3I8pGOc5Kdw" ||
                 deviceId == "0edRjKQ3SahFZoGDiyHT6DXez-x7L2Z2_3kOuZHQF1U"
                 )
             {
