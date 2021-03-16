@@ -1,5 +1,5 @@
 ﻿@inherits PageCore
-<UIContainerBox Title="Customer Photo" ClassName="uk-text-center">
+<UIContainerBox Title="@lang["Customer Photo"]" ClassName="uk-text-center">
     <UIFlexCenter>
         <FileUpload @bind-ImageUrl="@model.photo" />
     </UIFlexCenter>
@@ -8,10 +8,10 @@
 <UIContainerBox>
     <TextInput label="@lang["Code"]" text="@model.customer_code" is_read_only="true">
     </TextInput>
-    <TextInput label="@lang["Name(EN)"]" @bind-text="@model.customer_name_en">
+    <TextInput label="@lang["Name (EN)"]" @bind-text="@model.customer_name_en">
         <ValidationMessage For="@(() => model.customer_name_en)" />
     </TextInput>
-    <TextInput label="@lang["Name(KH)"]" @bind-text="@model.customer_name_kh" />
+    <TextInput label="@lang["Name (KH)"]" @bind-text="@model.customer_name_kh" />
     <TextInput label="@lang["Phone 1"]" @bind-text="@model.phone_1" />
     <TextInput label="@lang["Phone 2"]" @bind-text="@model.phone_2" />
     <SelectCustomerGroup @bind-selected_value="model.customer_group_id" show_empty="true" empty_text="@lang["Select Customer Group"]">
