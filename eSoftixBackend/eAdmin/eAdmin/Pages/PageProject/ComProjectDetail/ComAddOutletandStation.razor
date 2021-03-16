@@ -1,51 +1,26 @@
-﻿@page "/outletstation/new"
-@page "/outletstation/edit/{id}"
-@inject IJSRuntime js
+﻿@inject IJSRuntime js
 @inherits PageCore;
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Outlet & Station"></Title>
-    <PageContainer roles="@gv.GetRole("station_outlet_management")">
-        <PageHeader>
-            <HeaderLeft>
-                <PageTitle ShowFilter="false">
-                    <HeaderTemplate>
-                       @*@if (!string.IsNullOrEmpty(id))
-                       {
-                        <span>Edit Outlet & Station</span>
-                       }
-                       else
-                       {
-                        <span>New Outlet & Station</span>
-                       }*@
-
-                    </HeaderTemplate>
-                </PageTitle>
-            </HeaderLeft>
-            <HeaderRight ShowBackButton="true"></HeaderRight>
-        </PageHeader>
-        <EditForm Model="@model" OnValidSubmit="@Save_Click">
-            <DataAnnotationsValidator />
-            <PageBody>
-                <UIGridCenter>
-                    <UIContainerBox Title="Outlet Infor">
-                        <TextInput @bind-text="@model.outlet_name_en" label="Outlet Name En">
-                            <ValidationMessage For="@(() => model.outlet_name_en )" />
-                        </TextInput>
-                        <TextInput @bind-text="@model.outlet_name_kh" label="Outlet Name kh" />
-
-                       <SelectInt Items="business_branh" @bind-SelectedValue="@model.business_branch_id" InputLabel="Business Branch" EmptyText="Select Business Branch" ShowEmptyText="true">
-                            <SelectOptions Context="b">
-                                <option value="@b.id">@b.business_branch_name_en</option>
-                            </SelectOptions>
-                            <ValidationTemplate>
-                                <ValidationMessage For="@(() => model.business_branch_id )" />
-                            </ValidationTemplate>
-                        </SelectInt>
-                        <ComInputCheckBox @bind-value="@model.status" label="Status" label_inline="true"/>
-
-                    </UIContainerBox>
+    <EditForm Model="@model" OnValidSubmit="@Save_Click">
+        <DataAnnotationsValidator />
+        <PageBody>
+            <UIGridCenter>
+                <UIContainerBox Title="Outlet Infor" OnAddClick="@(()=>Add_station())" is_show_add_button="true">
+                    <TextInput @bind-text="@model.outlet_name_en" label="Outlet Name En">
+                        <ValidationMessage For="@(() => model.outlet_name_en )" />
+                    </TextInput>
+                    <TextInput @bind-text="@model.outlet_name_kh" label="Outlet Name kh" />
+                    <SelectGUID Items="business_branh" @bind-SelectedValue="@model.business_branch_id" InputLabel="Business Branch" EmptyText="Select Business Branch" ShowEmptyText="true">
+                        <SelectOptions Context="b">
+                            <option value="@b.id">@b.business_branch_name_en</option>
+                        </SelectOptions>
+                        <ValidationTemplate>
+                            <ValidationMessage For="@(() => model.business_branch_id )" />
+                        </ValidationTemplate>
+                    </SelectGUID>
+                    <ComInputCheckBox @bind-value="@model.status" label="Status" label_inline="true" />
                     <UIContainerBox Title="Station Info" is_show_add_button="true" OnAddClick="@(()=>Add_station())">
                         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
@@ -71,26 +46,22 @@
                             }
                         </table>
                     </UIContainerBox>
+                </UIContainerBox>
+            </UIGridCenter>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" cancel_url="outletstation" />
+            </FooterCenter>
+        </PageFooter>
 
+    </EditForm>
 
-                </UIGridCenter>
-            </PageBody>
-            <PageFooter>
-                <FooterCenter>
-                    <ComSavingFormButton is_loading="@is_saving" cancel_url="outletstation" />
-                </FooterCenter>
-            </PageFooter>
-
-        </EditForm>
-
-    </PageContainer>
-  
 }
 
 @code{
-    [Parameter] public string id { get; set; }
+    public string id { get; set; }
     OutletModel model = new OutletModel();
-
     List<StationModel> stations = new List<StationModel>();
     List<BusinessBranchModel> business_branh = new List<BusinessBranchModel>();
     string ControllerApi = "Outlet";
@@ -190,7 +161,7 @@
     }
 
 
-    void OnclickStation(StationModel st)
+    void OnclickOutlet(Modal st)
     {
         model.stations.Add(st);
     }
@@ -221,15 +192,14 @@
         }
     }
 
-
     void Add_station()
     {
         model.stations.Add(new StationModel()
         {
-            station_name_en = "Station " + (model.stations.Count()+1),
+            station_name_en = "Station " + (model.stations.Count() + 1),
             station_name_kh = "Station " + (model.stations.Count() + 1),
 
-        }) ;
+        });
 
 
 
@@ -237,7 +207,7 @@
 
     void Delete_station(StationModel s)
     {
-        if(s.id == 0)
+        if (s.id == 0)
         {
             model.stations.Remove(s);
         }

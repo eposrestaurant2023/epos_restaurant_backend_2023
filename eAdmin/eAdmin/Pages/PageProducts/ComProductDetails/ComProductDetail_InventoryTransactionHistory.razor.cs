@@ -23,7 +23,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             {
                 state.pager.order_by = "created_date";
                 string url = $"{controller_api}?";
-                url += $"$expand=inventory_transaction_type";
+                url += $"$expand=inventory_transaction_type,stock_location($select=id,stock_location_name;$expand=business_branch($select=id,business_branch_name_en))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
          
                 return url + GetFilter(state.filters);  

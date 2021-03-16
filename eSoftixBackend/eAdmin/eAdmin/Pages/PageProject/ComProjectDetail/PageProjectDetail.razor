@@ -1,6 +1,6 @@
-﻿@page "/project/{id:int}"
+﻿@page "/project/{id}"
 @inherits PageProjectDetailBase
-
+@using eAdmin.Pages.PageProject.ComProjectDetail
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @if (!is_loading && !is_error)
 {
@@ -23,8 +23,8 @@
                 <ComAttachFileButton RoleAdd="@gv.GetRole("project_add")"
                                      RoleEdit="@gv.GetRole("project_edit")"
                                      RoleDelete="@gv.GetRole("project_delete")"
-                                     ApiFilter="@($"project_id eq {id} ")"
-                                     File="@(new AttachFilesModel() { project_id = id })"
+                                     ApiFilter="@($"project_id eq {Guid.Parse(id)} ")"
+                                     File="@(new AttachFilesModel() { project_id = Guid.Parse(id) })"
                                      IsVisible="@(!model.is_deleted)" />
                 <SplitButton roles="@gv.GetRole("project_add")" alignment="left" url="project/new" main_button_text="New">
                     <SplitButtonItem roles="@gv.GetRole("project_add")" url="project/new">New Project</SplitButtonItem>
@@ -49,7 +49,20 @@
                         </UIGridCenter>
                     </TabItem>
                     <TabItem></TabItem>
-                    <TabItem></TabItem>
+                    <TabItem>
+                        @if (show_station)
+                        {
+                            <ComAddOutletandStation/>
+                        }
+
+
+
+                        @*@if (show_station)
+                        {
+                            <ComOutletandStation />
+                        }*@
+
+                    </TabItem>
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
                             <h3 class="title">
@@ -58,8 +71,8 @@
                             <ComHistory RoleAdd="@gv.GetRole("project_add")"
                                         RoleDelete="@gv.GetRole("project_delete")"
                                         RoleEdit="@gv.GetRole("project_edit")"
-                                        ApiFilter="@($"project_id eq {id}")"
-                                        history="@(new HistoryModel() { project_id = id})"
+                                        ApiFilter="@($"project_id eq {Guid.Parse(id)}")"
+                                        history="@(new HistoryModel() { project_id = Guid.Parse(id)})"
                                         OnSave="@SaveComment" />
                         </Com>
                     </TabItem>
