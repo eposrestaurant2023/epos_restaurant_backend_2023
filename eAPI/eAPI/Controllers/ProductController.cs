@@ -309,6 +309,7 @@ namespace eAPI.Controllers
         {
             var data = db.Products.Where(r => r.id == id)
                 .Include(r=>r.product_portions.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.product_prices.Where(r=>r.is_deleted==false))
+                
                 .Include(r=>r.product_printers.Where(r=>r.is_deleted==false)).
                 Include(r=>r.product_menus.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.menu)
                 .Include(r=>r.product_modifiers.Where(r=>r.is_deleted ==false)).ThenInclude(r=>r.modifier)
