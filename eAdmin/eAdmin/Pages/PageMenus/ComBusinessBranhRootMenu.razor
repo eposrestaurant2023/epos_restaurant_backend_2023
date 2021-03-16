@@ -2,9 +2,17 @@
 <div class="bg_business_rootmenu">
     @foreach (var b in gv.business_branch_by_role)
     {
-        <h3 class="title uk-margin-remove-top uk-margin-remove-bottom" style="margin-bottom:10px !important;">
-            @b.business_branch_name_en
-        </h3>
+    <div class="uk-margin-bottom">
+        <div class="uk-flex uk-flex-between uk-margin-small-bottom" style="align-items: baseline;">
+            <div>
+                <h3 class="title uk-margin-remove">
+                    @b.business_branch_name_en
+                </h3>
+            </div>
+            <div>
+                <Icon icon="add_circle_outline" OnClick="@(()=>AddRootMenu(b.id))" title="@lang["Add New Root Menu"]" size="20px"/>
+            </div>
+        </div>
         @foreach (var n in menus.Where(r => r.business_branch_id == b.id && r.is_deleted == false && r.parent_id == null))
         {
             <button @onclick="@(()=>MenuClick(n))" class="@(n.is_selected? "selected" : "") button_color_button">
@@ -16,11 +24,10 @@
                     <Icon icon="more_vert" />
                     <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                         <ul class="uk-nav uk-dropdown-nav">
-
-                            <li @onclick="@(() => EditMenu(n))"> <Icon icon="edit" />Edit</li>
+                            <li @onclick="@(() => EditMenu(n))"> <Icon icon="edit" />@lang["Edit"]</li>
                             @if (!menus.Where(r => r.parent_id == n.id && r.is_deleted == false).Any())
                             {
-                                <li @onclick="@(() => OnDeleteMenu(n))"> <Icon icon="delete" />Delete</li>
+                                <li @onclick="@(() => OnDeleteMenu(n))"> <Icon icon="delete" />@lang["Delete"]</li>
                             }
                         </ul>
                     </div>
@@ -28,8 +35,8 @@
 
             </button>
         }
-
-        <Button OnClick="@(()=>AddRootMenu(b.id))" class_name="uk-button uk-button-default button-large ">@lang["Add New Root Menu"]</Button>
+    </div>
+        @*<Button OnClick="@(()=>AddRootMenu(b.id))" class_name="uk-button uk-button-default button-large ">@lang["Add New Root Menu"]</Button>*@
     }
 </div>
 
