@@ -1,5 +1,4 @@
-﻿@inherits ComModifier_SaleHistoryBase
-@inject IStringLocalizer<Resource> lang
+﻿@inherits ComModifierDetailSaleHistoryBase
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @{
@@ -9,35 +8,29 @@
 
 @if (!is_loading)
 {
-    <PageContainer>
-        @*<div style="word-break:break-word">
-            @ControllerApi
-        </div>*@
-        <PageHeader>
+    <PageContainer is_container="false">
+        <PageHeader is_subpage="true">
             <HeaderLeft>
-                    <PageTitle ShowFilter="false">
-                        <HeaderTemplate>
-                            @lang["Sale History"]
-                        </HeaderTemplate>
-                    </PageTitle>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["All Sale History"]
+                    </HeaderTemplate>
+                </PageTitle>
             </HeaderLeft>
-            <HeaderRight>
+            <HeaderRight> 
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
-                    <div class="uk-form-controls" style="margin-bottom: 10px;margin-top: 20px;">
-                        <label sclass="uk-form-label">@lang["Customer"]</label>
-                        <CustomerTypeahead @bind-customer="@state.customer" />
-                    </div>
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+
             <Com is_visible="@(models != null)">
-                @*<Table Items="@models"
+                <Table Items="@models"
                        PerPage="@state.pager.per_page"
                        TotalItem="@TotalRecord"
                        CurrentPage="@state.pager.current_page"
@@ -49,44 +42,54 @@
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("sale_product/sale/working_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("sale_product/sale/document_number", lang["Document #"], "uk-text-center")
-          
-                        @HeaderTemplate("business_branch/business_branch_name_en", lang["Business Branch"])
-                        @HeaderTemplate("sale_product/sale/outlet/outlet_name_en", lang["Outlet"])
+                        @HeaderTemplate("sale_product/sale/customer/customer_name", lang["Customer"], "col-auto")
+                        @HeaderTemplate("sale_product/sale/business_branch/business_branch_name_en", lang["Business Branch (Outlet)"])
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
+                        <ThCenter>@lang["Created Date"]</ThCenter>
+                        <th>@lang["Created By"]</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>
-                            @p.sale_product.sale.working_date.ToString(gv.date_format)
+                            @p.sale_product?.sale?.working_date.ToString(gv.date_format)
                         </TdCenter>
                         <TdCenter>
-                            <div><a href="@(is_receipt_list?$"receiptlist/{p.id}":$"voidreceipt/{p.id}")">@p.sale_product.sale.document_number</a></div>
+                            <div><a href="@(!p.sale_product.sale.is_deleted?$"receiptlist/{p.sale_product?.id}":$"voidreceipt/{p.sale_product?.id}")">@p.sale_product?.sale?.document_number</a></div>
                         </TdCenter>
                         <td>
-                            @p.sale_product.sale.business_branch?.business_branch_name_en
+                            <ComProfileInfo url="@($"customer/{p.sale_product?.sale?.customer_id}")" photo="@p.sale_product?.sale?.customer?.photo" role="customer_management">@p.sale_product?.sale?.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
-                            @p.sale_product.sale.outlet?.outlet_name_en
-                        </td>
+                            @p.sale_product?.sale?.business_branch?.business_branch_name_en (@p.sale_product?.sale?.outlet?.outlet_name_en)
+                        </td> 
                         <TdRight>
-                            @p.sale_product.sale.total_amount.ToString(gv.main_currency_format)
+                            @p.sale_product?.sale?.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.sale_product.sale.paid_amount.ToString(gv.main_currency_format)
+                            @p.sale_product?.sale?.paid_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.sale_product.sale.balance.ToString(gv.main_currency_format)
+                            @p.sale_product?.sale?.balance.ToString(gv.main_currency_format)
                         </TdRight>
+                        <TdCenter>@p.sale_product?.created_date.ToString(gv.date_time_format)</TdCenter>
+                        <td>@p.sale_product?.created_by</td>
                         <TdCenter>
-                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
+                            @if (p.sale_product.sale.is_deleted)
+                            {
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"voidreceipt/{p.sale_product?.sale_id}"))" />
+                            }
+                            else
+                            {
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_product?.sale_id}"))" />
+                            }
                         </TdCenter>
                     </RowTemplate>
-                </Table>*@
+                </Table>
             </Com>
         </PageBody>
-    </PageContainer>
+    </PageContainer> 
 }
