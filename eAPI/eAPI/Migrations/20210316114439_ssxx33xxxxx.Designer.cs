@@ -10,8 +10,8 @@ using eAPI;
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210311094807_tbl_update010133")]
-    partial class tbl_update010133
+    [Migration("20210316114439_ssxx33xxxxx")]
+    partial class ssxx33xxxxx
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -312,10 +312,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.BusinessInformationModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)")
@@ -370,6 +369,82 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_business_information");
+                });
+
+            modelBuilder.Entity("eModels.CashierShiftModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("cashier_shift_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal?>("close_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<string>("close_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("closed_by")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("closed_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("exchange_rate")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<bool>("is_closed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("open_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<string>("open_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("shift")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("working_day_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("working_day_id");
+
+                    b.ToTable("tbl_cashier_shift");
                 });
 
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
@@ -720,12 +795,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("ProductModelid")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PurchaseOrderModelid")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(19,4)");
 
@@ -788,9 +857,6 @@ namespace eAPI.Migrations
                     b.Property<int?>("purchase_order_id")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("purchase_order_payment_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("sale_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -822,10 +888,6 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("ProductModelid");
-
-                    b.HasIndex("PurchaseOrderModelid");
-
                     b.HasIndex("customer_id");
 
                     b.HasIndex("modifier_group_id");
@@ -834,7 +896,9 @@ namespace eAPI.Migrations
 
                     b.HasIndex("payment_id");
 
-                    b.HasIndex("purchase_order_payment_id");
+                    b.HasIndex("product_id");
+
+                    b.HasIndex("purchase_order_id");
 
                     b.HasIndex("sale_id");
 
@@ -855,6 +919,10 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<string>("base_unit")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("created_by")
                         .HasColumnType("nvarchar(max)")
@@ -1656,6 +1724,9 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("is_build_in")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -1751,6 +1822,12 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("has_ingredient_product")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("has_menu_product")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -2642,6 +2719,10 @@ namespace eAPI.Migrations
                     b.Property<Guid>("cashier_shift_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("cashier_shift_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("closed_by")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -2704,6 +2785,10 @@ namespace eAPI.Migrations
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("sale_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("sale_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -2773,6 +2858,10 @@ namespace eAPI.Migrations
 
                     b.Property<Guid>("working_day_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("working_day_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
@@ -2949,6 +3038,9 @@ namespace eAPI.Migrations
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_revenue")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("total_tax_amount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("unit")
@@ -4045,6 +4137,70 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_vendor");
                 });
 
+            modelBuilder.Entity("eModels.WorkingDayModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("close_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("closed_by")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("closed_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_closed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("open_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("working_date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("working_day_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_working_day");
+                });
+
             modelBuilder.Entity("eModels.AttachFilesModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
@@ -4172,6 +4328,17 @@ namespace eAPI.Migrations
                     b.Navigation("setting");
                 });
 
+            modelBuilder.Entity("eModels.CashierShiftModel", b =>
+                {
+                    b.HasOne("eModels.WorkingDayModel", "working_day")
+                        .WithMany("cashier_shifts")
+                        .HasForeignKey("working_day_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("working_day");
+                });
+
             modelBuilder.Entity("eModels.CustomerBusinessBranchModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -4215,14 +4382,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
-                    b.HasOne("eModels.ProductModel", null)
-                        .WithMany("histories")
-                        .HasForeignKey("ProductModelid");
-
-                    b.HasOne("eModels.PurchaseOrderModel", null)
-                        .WithMany("histories")
-                        .HasForeignKey("PurchaseOrderModelid");
-
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
@@ -4239,9 +4398,13 @@ namespace eAPI.Migrations
                         .WithMany("histories")
                         .HasForeignKey("payment_id");
 
-                    b.HasOne("eModels.PurchaseOrderPaymentModel", "purchase_order_payment")
+                    b.HasOne("eModels.ProductModel", "product")
                         .WithMany("histories")
-                        .HasForeignKey("purchase_order_payment_id");
+                        .HasForeignKey("product_id");
+
+                    b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
+                        .WithMany("histories")
+                        .HasForeignKey("purchase_order_id");
 
                     b.HasOne("eModels.SaleModel", "sale")
                         .WithMany("histories")
@@ -4271,7 +4434,9 @@ namespace eAPI.Migrations
 
                     b.Navigation("payment");
 
-                    b.Navigation("purchase_order_payment");
+                    b.Navigation("product");
+
+                    b.Navigation("purchase_order");
 
                     b.Navigation("sale");
 
@@ -4804,7 +4969,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.SaleProductModifierModel", b =>
                 {
                     b.HasOne("eModels.SaleProductModel", "sale_product")
-                        .WithMany()
+                        .WithMany("sale_product_modifiers")
                         .HasForeignKey("sale_product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -5167,11 +5332,6 @@ namespace eAPI.Migrations
                     b.Navigation("purchase_order_products");
                 });
 
-            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
-                {
-                    b.Navigation("histories");
-                });
-
             modelBuilder.Entity("eModels.RoleModel", b =>
                 {
                     b.Navigation("business_branch_roles");
@@ -5186,6 +5346,11 @@ namespace eAPI.Migrations
                     b.Navigation("payments");
 
                     b.Navigation("sale_products");
+                });
+
+            modelBuilder.Entity("eModels.SaleProductModel", b =>
+                {
+                    b.Navigation("sale_product_modifiers");
                 });
 
             modelBuilder.Entity("eModels.SettingModel", b =>
@@ -5230,6 +5395,11 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.VendorGroupModel", b =>
                 {
                     b.Navigation("vendors");
+                });
+
+            modelBuilder.Entity("eModels.WorkingDayModel", b =>
+                {
+                    b.Navigation("cashier_shifts");
                 });
 #pragma warning restore 612, 618
         }

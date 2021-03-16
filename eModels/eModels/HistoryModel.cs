@@ -47,9 +47,9 @@ namespace eModels
         [ForeignKey("product_id")]
         public virtual ProductModel product { get; set; }
 
-        public Guid? purchase_order_payment_id { get; set; }
-        [ForeignKey("purchase_order_payment_id")]
-        public virtual PurchaseOrderPaymentModel purchase_order_payment { get; set; }
+        //public Guid? purchase_order_payment_id { get; set; }
+        //[ForeignKey("purchase_order_payment_id")]
+        //public virtual PurchaseOrderPaymentModel purchase_order_payment { get; set; }
 
         public Guid? payment_id { get; set; }
         [ForeignKey("payment_id")]

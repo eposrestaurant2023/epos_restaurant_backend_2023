@@ -793,9 +793,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<Guid?>("PurchaseOrderPaymentModelid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(19,4)");
 
@@ -888,8 +885,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
-
-                    b.HasIndex("PurchaseOrderPaymentModelid");
 
                     b.HasIndex("customer_id");
 
@@ -1726,6 +1721,9 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_build_in")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -4382,10 +4380,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
-                    b.HasOne("eModels.PurchaseOrderPaymentModel", null)
-                        .WithMany("histories")
-                        .HasForeignKey("PurchaseOrderPaymentModelid");
-
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
@@ -5334,11 +5328,6 @@ namespace eAPI.Migrations
                     b.Navigation("purchase_order_payments");
 
                     b.Navigation("purchase_order_products");
-                });
-
-            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
-                {
-                    b.Navigation("histories");
                 });
 
             modelBuilder.Entity("eModels.RoleModel", b =>
