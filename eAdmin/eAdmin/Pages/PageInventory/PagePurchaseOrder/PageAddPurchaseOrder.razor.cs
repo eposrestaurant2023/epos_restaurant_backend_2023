@@ -48,7 +48,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 is_error = true;
                 error_text = "This purchase order is already fulfilled";
             }
-
+            is_loading = false;
         }
         public async Task CloneRecord()
         {

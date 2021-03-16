@@ -60,7 +60,7 @@
                                 Report
                             </div>
                             <div class="report-content">
-                                <ComPerMissionOptionTree parent_id="44" PermissionOptions="@permissionoption.Where(r=>r.is_report==true).ToList()"/>
+                                <ComPerMissionOptionTree parent_id="44" OnSelectChanged="@OnPermissionChanged" PermissionOptions="@permissionoption.Where(r=>r.is_report==true).ToList()"/>
                             </div>
                         </div>
                     </div>

@@ -43,7 +43,7 @@ namespace eAPI.Controllers
 
 
 
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
                 db.Project.Add(u);
             }
@@ -73,7 +73,7 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<ProjectModel> Get([FromODataUri] int key)
+        public SingleResult<ProjectModel> Get([FromODataUri] Guid key)
         {
             var s = db.Project.Where(r => r.id == key).AsQueryable();
 

@@ -1,4 +1,4 @@
-﻿
+﻿using eShareModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eModels
 {
     [Table("tbl_project")]
-    public class ProjectModel : CoreModel
+    public class ProjectModel : CoreGUIDModel
     {
         public ProjectModel()
         {
@@ -22,9 +22,9 @@ namespace eModels
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select customer")]
         [Display(Name = "Customer ")]
-        public int customer_id { get; set; }
+        public Guid customer_id { get; set; }
         [ForeignKey("customer_id")]
-        public CustomerModel customers { get; set; }
+        public CustomerModel customer { get; set; }
 
         [Required(ErrorMessage ="Please enter project name")]
         [Display(Name = "Project Name")]
@@ -43,6 +43,7 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime? paid_date { get; set; }
         public string note { get; set; }
+        public string server_id { get; set; }
 
         public List<ContactModel> project_contacts { get; set; }
 

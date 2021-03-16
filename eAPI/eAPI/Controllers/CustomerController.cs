@@ -190,7 +190,7 @@ namespace eAPI.Controllers
             var u = await db.Customers.FindAsync(id);
             u.is_deleted = !u.is_deleted;
             db.Customers.Update(u);
-            await db.SaveChangesAsync();
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
         }
     }

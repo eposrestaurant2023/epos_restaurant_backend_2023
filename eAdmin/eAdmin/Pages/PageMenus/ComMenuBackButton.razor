@@ -1,4 +1,4 @@
-﻿<div class="uk-width-1-6" style="position: relative;">
+﻿<div class="@class_width" style="position: relative;">
     <div class="box_menu cp" style="background: #ececec;text-align:center;" @onclick="@OnClick">
         <div class="uk-position-center">
             <Icon icon="reply " icon_color="#333333" size="43px" />
@@ -11,6 +11,7 @@
 
     [Parameter] public int current_menu_id { get; set; }
     [Parameter] public int parent_menu_id { get; set; }
+    [Parameter] public string class_width { get; set; } = "uk-width-1-6";
 
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 }

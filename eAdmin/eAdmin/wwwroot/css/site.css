@@ -7125,3 +7125,45 @@ z-index:999999!important;
 .box-menu-select:active .box-selected {
     display: block !important;
 }
+.btn-view-ingredient-menu {
+    padding: 2px;
+    border: 1px solid #b5b5b5;
+    background-color: #ececec;
+    border-radius: 4px;
+}
+
+.simple-dropdown-header {
+    font-size: 12px;
+    text-align: center;
+    padding: 12px 15px;
+    background: #ebeff3;
+    color: #4a4a4a;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.simple-dropdown-footer-list {
+    margin: 8px -15px -15px;
+    padding: 8px 15px;
+    background: #f9f9f9;
+    text-align: right;
+    border-top: 1px solid #eaeaea;
+    font-size: 12px;
+    font-style: italic;
+}
+.menu-movement-item .button-select {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    padding: 4px;
+    text-align: center;
+    background-color: #696969;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.menu-movement-item .button-select:hover,
+.menu-movement-item .button-select:active,
+.menu-movement-item .button-select:focus {
+    background-color:#4c4c4c;
+}

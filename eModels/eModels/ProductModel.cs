@@ -135,6 +135,9 @@ namespace eModels
 
         public bool is_product_has_inventory_transaction { get; set; } = false;
 
+        [NotMapped, JsonPropertyName("product_menus@odata.count")]
+        public int total_product_menu { get; set; }
+
     }
 
 

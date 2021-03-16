@@ -54,7 +54,7 @@ namespace eAdmin.Pages.PageProducts
 
                 string url = $"Product({id})?";
                 url = url + "$expand=product_printers,";
-                url = url + "product_portions($expand=product_prices;$filter=is_deleted eq false),";
+                url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
                 url = url + "stock_location_products,";
@@ -121,7 +121,7 @@ namespace eAdmin.Pages.PageProducts
                         return;
                     }
                     else{
-                        is_error = true;
+                        is_error = false;
                     }
 
                 }
@@ -137,10 +137,11 @@ namespace eAdmin.Pages.PageProducts
                 var _data = gv.units.Where(r => r.unit_category_id == val && !r.is_deleted && r.status).ToList();
                
                 model.unit_id = _data.Count > 0? _data.FirstOrDefault().id :0;
-                 
+                model.unit = _data.Count > 0? _data.FirstOrDefault() : new UnitModel();
+                
             } 
             old_unit_category_id = val; 
-            unit_category_id = val; 
+            unit_category_id = val;
         }
         public async Task CloneProduct()
         {
@@ -164,6 +165,16 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
+
+            foreach (var m in save_model.product_modifiers.Where(r => r.is_section == true))
+            {
+                if(!m.children.Where(r => r.is_deleted == false).Any())
+                {
+                    toast.Add($"{m.section_name} has no modifier.", MatBlazor.MatToastType.Warning);
+                    is_saving = false;
+                    return;
+                }
+            }
             if (save_model.unit_id == 0)
             { 
                 toast.Add(lang["Please Select Unit."], MatToastType.Warning);

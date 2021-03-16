@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using eShareModel;
 namespace eModels
 {
     [Table("tbl_business_branch")]
-    public class BusinessBranchModel   : CoreModel
+    public class BusinessBranchModel   : CoreGUIDModel
     {
         public BusinessBranchModel()
         {
             outlets = new List<OutletModel>();
             stations = new List<StationModel>();
-                                                                                               
-          
         }
 
         private string _business_branch_name_en;

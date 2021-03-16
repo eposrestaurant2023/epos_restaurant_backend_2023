@@ -30,6 +30,7 @@ namespace eAPI.Controllers
             gv.customer_groups = db.CustomerGroups.ToList();
             gv.project_type = db.ProjectType.ToList();
             gv.customer = db.Customers.ToList();
+            gv.roles = db.Roles.ToList();
 
             return Ok(gv);
         }
