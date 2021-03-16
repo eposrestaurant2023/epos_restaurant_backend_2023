@@ -49,7 +49,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
         public string api_url { get {
 
-                string url = $"Product({id})?$expand=stock_location_products,vendor";
+                string url = $"Product({id})?$expand=stock_location_products,vendor,unit";
                 return url;
             } }
 
@@ -153,8 +153,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             }
             else
             {
-
-                toast.Add(lang["Save data fail"], MatToastType.Warning);
+                toast.Add(lang[$"{resp.Content.ToString()}"], MatToastType.Warning);
             }
             is_saving = false;
 

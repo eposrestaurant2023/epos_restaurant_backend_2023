@@ -312,6 +312,7 @@ namespace eAPI.Controllers
                 .Include(r=>r.product_printers.Where(r=>r.is_deleted==false)).
                 Include(r=>r.product_menus.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.menu)
                 .Include(r=>r.product_modifiers.Where(r=>r.is_deleted ==false)).ThenInclude(r=>r.modifier)
+                .Include(r=>r.unit)
                 .ToList();
              
             if (data.Any())
