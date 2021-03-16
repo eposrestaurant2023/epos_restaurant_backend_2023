@@ -1,0 +1,107 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject NavigationManager nav;
+@inject IHttpService http;
+@inject IMatToaster toast;
+<EditForm Model="model" OnValidSubmit="CheckProject">
+    <DataAnnotationsValidator />
+    <h1>@lang["Enter Project ID"]</h1>
+    <div class="uk-form-control">
+        <input @bind="@model.project_id" type="text" placeholder="Enter Project ID" class="uk-input" />
+        <ValidationMessage For="@(()=>model.project_id)" />
+    </div>
+
+    @if (IsShowMessage)
+    {
+        <small style="color:red">@Message</small>
+    }
+    <div class="uk-text-center">
+        @if (IsSpinning)
+        {
+            <button class="btn-login" type="button"> <Spinner /> @lang["Confirm"]  </button>
+        }
+        else
+        {
+            <button class="btn-login" type="submit">@lang["Confirm"] </button>
+        }
+    </div>
+</EditForm>
+@code{
+    Model model = new Model();
+    string Message = "";
+    bool IsShowMessage = false;
+    bool IsSpinning = false;
+    bool is_loading = false;
+    string server_id = "";
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        var resp = await http.ApiGet("ServerID");
+        if (resp.IsSuccess)
+        {
+            server_id = resp.Content.ToString();
+        }
+
+        is_loading = false;
+
+    }
+
+
+    public async Task CheckProject()
+    {
+        IsSpinning = true;
+        IsShowMessage = false;
+        if (string.IsNullOrWhiteSpace(model.project_id))
+        {
+
+            IsSpinning = false;
+            return;
+        }
+
+        var resp = await http.eSoftixApiGet($"project({model.project_id})");
+        if (resp.IsSuccess)
+        {
+            var p = JsonSerializer.Deserialize<eSoftixBackend.ProjectModel>(resp.Content.ToString());
+            if (p != null)
+            {
+                if (string.IsNullOrEmpty(p.server_id))
+                {
+                    nav.NavigateTo($"config/confirm/{p.id}/{server_id}");
+                }
+                else
+                {
+                    Message = lang["This Project ID is already in used."];
+                    IsShowMessage = true;
+                }
+
+
+            }
+        }
+        else
+        {
+            if (resp.status_code == 503)
+            {
+                Message = lang["Cannot connect to eSoftix Server. Please contact your system administrator."];
+
+                toast.Add(Message, MatToastType.Warning);
+            }
+            else
+            {
+                Message = lang["Invalid Project ID."];
+            }
+            IsShowMessage = true;
+
+        }
+        IsSpinning = false;
+    }
+
+    public class Model
+    {
+        [Required(ErrorMessage = "Please Enter Project ID.")]
+
+        public string project_id { get; set; }
+
+
+    }
+}
+

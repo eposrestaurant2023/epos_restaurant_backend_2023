@@ -7,7 +7,6 @@
 @inject IStringLocalizer<Resource> lang
 @inject IConfiguration config
 
- 
 <AuthorizeView>
     <Authorized>
         <Redirect url="@(config.GetValue<string>("siteName"))" />
@@ -20,6 +19,12 @@
                         <img src="images/ePOS-Rest.svg" />
                     </div>
                     <div class="login-form">
+                        @if (is_loading)
+                        {
+                            <Spinner/>
+                        }
+                        else
+                        {
                         <div>
                             <div class="uk-form-control">
                                 <input id="username" @bind="@model.Username" type="text" placeholder="Enter username" class="uk-input" />
@@ -51,6 +56,8 @@
                             </div>
 
                         </div>
+
+                        }
                     </div>
                 </div>
             </div>
@@ -79,6 +86,11 @@
         if (resp.IsSuccess)
         {
             server_config = JsonSerializer.Deserialize<ServerConfigModel>(resp.Content.ToString());
+
+            if(string.IsNullOrEmpty(server_config.project_id) || server_config.server_id!=server_config.hardware_server_id)
+            {
+                nav.NavigateTo("config");
+            }
 
         }
         is_loading = false;
