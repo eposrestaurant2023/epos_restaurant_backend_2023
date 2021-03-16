@@ -13,11 +13,16 @@ namespace eModels
     [Table("tbl_sale_product")]
     public class SaleProductModel : SaleProductShareModel
     {                 
+        public SaleProductModel()
+        {
+            sale_product_modifiers = new List<SaleProductModifierModel>();
+        }
         [ForeignKey("sale_id")]
         public virtual SaleModel sale { get; set; }    
 
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }  
+        public List<SaleProductModifierModel> sale_product_modifiers { get; set; }
 
     }
 

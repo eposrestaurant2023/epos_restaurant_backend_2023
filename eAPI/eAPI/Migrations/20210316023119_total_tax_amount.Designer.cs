@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210316023119_total_tax_amount")]
+    partial class total_tax_amount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,9 +312,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.BusinessInformationModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)")
@@ -4977,7 +4980,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.SaleProductModifierModel", b =>
                 {
                     b.HasOne("eModels.SaleProductModel", "sale_product")
-                        .WithMany("sale_product_modifiers")
+                        .WithMany()
                         .HasForeignKey("sale_product_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -5359,11 +5362,6 @@ namespace eAPI.Migrations
                     b.Navigation("payments");
 
                     b.Navigation("sale_products");
-                });
-
-            modelBuilder.Entity("eModels.SaleProductModel", b =>
-                {
-                    b.Navigation("sale_product_modifiers");
                 });
 
             modelBuilder.Entity("eModels.SettingModel", b =>

@@ -55,8 +55,8 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     value1 = customer_id.ToString()
                 });
             }
-
             await LoadData();
+            //await LoadSaleProductModifier();
         }   
 
         public async Task LoadData(string api_url="")
@@ -111,6 +111,15 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 TotalRecord = resp.Count;
             }
             is_loading = false;
+        }
+
+        async Task LoadSaleProductModifier()
+        {
+            var res = await http.ApiGetOData("SaleProductModifier");
+            if (res.IsSuccess)
+            {
+
+            }
         }
         public async Task FilterClick()
         {
