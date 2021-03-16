@@ -1,5 +1,4 @@
 ﻿@inherits InventoryTransactionProductDetailHistoryBase
-@inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 
@@ -42,9 +41,11 @@
                         <ThCenter>@lang["Date"]</ThCenter>
                         <ThCenter>@lang["Reference Number"]</ThCenter>
                         <ThAuto>@lang["Inventory Transaction Type"]</ThAuto> 
+                        <ThAuto><div>@lang["Warehouse"]</div><div class="sub-header-table">@lang["Business Branch"]</div></ThAuto>
                         <ThCenter>@lang["Old Quantity"]</ThCenter>
                         <ThCenter>@lang["Quantity"]</ThCenter>
                         <ThCenter>@lang["Quantity On Hand"]</ThCenter> 
+                        <ThAuto>@lang["Note"]</ThAuto>
                         <ThCenter>@lang["Created Date"]</ThCenter>
                         <ThRight>@lang["Created By"]</ThRight>
                     </TableHeader>
@@ -57,17 +58,23 @@
                         </TdCenter>
                         <td>
                             @p.inventory_transaction_type?.inventory_transaction_type_name
+                        </td>
+                        <td>
+                            <div>@p.stock_location?.stock_location_name</div>
+                            <div class="sub-info-row-table">@p.stock_location?.business_branch?.business_branch_name_en</div>
                         </td> 
                         <TdCenter>
                             @p.old_quantity.ToString(gv.quantity_format) @p.base_unit
-
                         </TdCenter>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format) @p.unit
                         </TdCenter>
                         <TdCenter>
                             @p.quantity_on_hand.ToString(gv.quantity_format) @p.base_unit
-                        </TdCenter> 
+                        </TdCenter>
+                        <td>
+                            @p.note
+                        </td>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <TdRight>@p.created_by</TdRight>
                     </RowTemplate>
