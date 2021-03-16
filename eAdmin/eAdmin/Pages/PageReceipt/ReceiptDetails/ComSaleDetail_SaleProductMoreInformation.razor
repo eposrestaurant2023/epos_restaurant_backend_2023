@@ -1,6 +1,6 @@
 ﻿@if (sale_product != null)
 {
-    <Column ClassName="font-xs text-pre-wrap" is_visible="@(!string.IsNullOrEmpty(sale_product.portion_name))"><Icon icon="room_service" icon_color="#585858" size="12px" title="Product Portion" /> <span style="color:#1e87f0">@sale_product.portion_name</span></Column>
+    <Column ClassName="font-xs text-pre-wrap" is_visible="@(!string.IsNullOrEmpty(sale_product.portion_name))"><span style="color:#1e87f0" uk-tooltip="Product Portion">@sale_product.portion_name</span></Column>
     <ComSaleDetail_SaleProductModifierList sale_product_modifiers="@sale_product.sale_product_modifiers" />
     <Column ClassName="font-xs text-pre-wrap" is_visible="@(!string.IsNullOrEmpty(sale_product.note))"><Icon icon="note" icon_color="#585858" size="12px" title="Product Note" /> @sale_product.note</Column>
     <Column ClassName="font-xs text-pre-wrap" is_visible="@(!string.IsNullOrEmpty(sale_product.created_by))"><Icon icon="person" icon_color="#585858" size="12px" title="Order by" /> @sale_product.created_by on @sale_product.created_date.ToString(gv.date_time_format)</Column>

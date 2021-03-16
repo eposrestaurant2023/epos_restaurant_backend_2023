@@ -60,12 +60,15 @@
                     <TableHeader>
                         @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
-                        @HeaderTemplate("customer/customer_name", lang["Customer"], "col-auto")
-                        @HeaderTemplate("business_branch/business_branch_name_en", lang["Business Branch"])
-                        @HeaderTemplate("outlet/outlet_name_en", lang["Outlet"])
+                        @HeaderTemplate("customer/customer_name_en", lang["Customer"], "col-auto")
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Outlet"]</div>
+                        </ThAuto>
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
+                        <ThRight>@lang["Status"]</ThRight>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -79,10 +82,12 @@
                             <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
-                            @p.business_branch?.business_branch_name_en
-                        </td>
-                        <td>
-                            @p.outlet?.outlet_name_en
+                            <div>
+                                @p.business_branch?.business_branch_name_en
+                            </div>
+                            <div class="sub-info-row-table">
+                                @p.outlet?.outlet_name_en
+                            </div>
                         </td>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
@@ -92,6 +97,9 @@
                         </TdRight>
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            <ComSaleStatus sale="@p"/>
                         </TdRight>
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />

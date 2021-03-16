@@ -3,7 +3,7 @@
     <ol class="order-list uk-margin-remove">
         @foreach (var spm in sale_product_modifiers)
         {
-            <li>@spm.modifier_name (@spm.price.ToString(gv.main_currency_format))</li>
+            <li class="uk-margin-remove">@spm.modifier_name (@spm.price.ToString(gv.main_currency_format))</li>
         }
     </ol>
 }

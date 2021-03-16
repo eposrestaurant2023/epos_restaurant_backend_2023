@@ -22,8 +22,8 @@
                             <th>@lang["Group"]</th>
                             <td>@model.customer_group?.customer_group_name_en</td>
                         </tr>
-
                     </table>
+                    <LabelCustomerBusinessBranchs customer_business_branchs="@model.customer_business_branchs" />
                 </ContentLeft>
                 <ContentRight>
                     <table>
@@ -69,14 +69,7 @@
             </UIContainerBox>
             <UIContainerBox Title="@lang["Address"]" is_visible="@(!string.IsNullOrEmpty(model.address))">
                 @model.address
-            </UIContainerBox>
-            <UIContainerBox Title="@lang["Other Information"]">
-                <ListTable>
-                    <ListTableItem ItemTitle="@lang["For Business Branch"]">
-                        <ComCustomerDetail_BusinessBranchList customer_business_branchs="@model.customer_business_branchs"/>
-                    </ListTableItem>
-                </ListTable>
-            </UIContainerBox>
+            </UIContainerBox> 
         </UIGridCenter> 
         <div class="invoice_footer_description">
             <div>
@@ -86,7 +79,7 @@
             @if (model.is_deleted)
             {
                 <div>
-                    @lang["Deleted by"] @model.deleted_by @lang["on"] @model.deleted_date.Value.ToString(gv.date_time_format)
+                    @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
                 </div>
             }
         </div>

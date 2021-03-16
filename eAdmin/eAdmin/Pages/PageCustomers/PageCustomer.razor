@@ -65,6 +65,7 @@
                         </TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_code</ComAuthorize>
+                            <LabelCustomerBusinessBranchs customer_business_branchs="@model.customer_business_branchs" />
                         </TdCenter>
                         <td>
                             <div>

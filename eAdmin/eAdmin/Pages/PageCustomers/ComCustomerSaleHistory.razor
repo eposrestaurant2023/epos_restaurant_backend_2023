@@ -43,22 +43,27 @@
                        ScrollClass="uk-overflow-auto" >
                     <TableHeader> 
                         @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
-                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
-                        @HeaderTemplate("outlet/business_branch/business_branch_name_en", lang["Business Branch"], "col-auto")
-
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center") 
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Outlet"]</div>
+                        </ThAuto>
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
+                        <ThRight>@lang["Status"]</ThRight>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.working_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
                             <div><a href="receiptlist/@p.id">@p.document_number</a></div>
-
                         </TdCenter>
-                        <td>
-                            @p.outlet?.business_branch?.business_branch_name_en (@p.outlet?.outlet_name_en)
+                        <td> 
+                            <div>
+                                @p.outlet?.business_branch?.business_branch_name_en
+                            </div>
+                            <div class="sub-info-row-table">@p.outlet?.outlet_name_en</div>
                         </td>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
@@ -69,15 +74,18 @@
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
+                        <TdRight>
+                            <ComSaleStatus sale="@p" />
+                        </TdRight>
                         <TdCenter>
                             @if (p.is_deleted)
-                            {
-                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"void/{p.id}"))" />
-                            }
-                            else
-                            {
-                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
-                            }
+                                {
+                                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"void/{p.id}"))" />
+                                }
+                                else
+                                {
+                                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
+                                }
                         </TdCenter>
                     </RowTemplate>
                 </Table>
