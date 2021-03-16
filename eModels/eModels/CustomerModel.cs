@@ -33,22 +33,5 @@ namespace eModels
             }
         }
 
-        [NotMapped, JsonIgnore]   
-        public string customer_business_brach_list
-        {
-            get { 
-                if(customer_business_branchs != null && customer_business_branchs.Any())
-                {
-                    string business = "";
-                    foreach (var b in customer_business_branchs) {
-                        business += b.business_branch.business_branch_name_en + " / ";
-                    }
-                    
-                    return business.Remove(business.LastIndexOf(" / ")).TrimEnd();
-                }
-                return "";
-            }
-        }
-
     }
 }

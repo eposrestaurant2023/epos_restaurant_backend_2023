@@ -72,7 +72,9 @@
             </UIContainerBox>
             <UIContainerBox Title="@lang["Other Information"]">
                 <ListTable>
-                    <ListTableItem ItemTitle="@lang["For Business Branch"]"> @model.customer_business_brach_list</ListTableItem>
+                    <ListTableItem ItemTitle="@lang["For Business Branch"]">
+                        <ComCustomerDetail_BusinessBranchList customer_business_branchs="@model.customer_business_branchs"/>
+                    </ListTableItem>
                 </ListTable>
             </UIContainerBox>
         </UIGridCenter> 

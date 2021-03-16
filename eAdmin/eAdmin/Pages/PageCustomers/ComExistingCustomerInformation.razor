@@ -1,4 +1,5 @@
-﻿<Modal IsOpened="@is_opened" Title="Customer is already exist" OnClosed="OnClose" IsSimpleMode="false">
+﻿@inject IStringLocalizer<Resource> lang
+<Modal IsOpened="@is_opened" Title="@lang["Customer is already exist"]" OnClosed="OnClose" IsSimpleMode="false">
     <ModalBody>
         <ComAlert type="warning">@data.message</ComAlert>
 
@@ -8,8 +9,8 @@
         }
     </ModalBody>
     <ModalFooter is_action_form="false" ClassName="uk-text-right">
-        <Button OnClick="@OnSaveNewRecord">Save New Customer</Button>
-        <Button OnClick="@OnClose" class_name="uk-button uk-button-danger ">Cancel</Button>
+        <Button OnClick="@OnSaveNewRecord">@lang["Save New Customer"]</Button>
+        <Button OnClick="@OnClose" class_name="uk-button uk-button-danger ">@lang["Cancel"]</Button>
     </ModalFooter>
 </Modal>
 

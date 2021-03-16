@@ -1,0 +1,27 @@
+﻿@if (!string.IsNullOrEmpty(business_list))
+{
+    @business_list
+}
+
+@code {
+    [Parameter] public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
+
+    private string business;
+
+    public string business_list
+    {
+        get {
+            if (customer_business_branchs.Any())
+            {
+                foreach (var b in customer_business_branchs)
+                {
+                    business += b.business_branch.business_branch_name_en + " / ";
+                }
+
+                return business.Remove(business.LastIndexOf(" / ")).TrimEnd();
+            }
+            return "";
+        }
+    }
+
+}

@@ -36,7 +36,6 @@
                 <UIGridCenter>
                     <ComAddCustomerForm business_branches="@business_branches" model="@model" />
                 </UIGridCenter>
-
             </PageBody>
             <PageFooter>
                 <FooterCenter> 
@@ -162,6 +161,8 @@
                     });
                 }
             }
+
+            var xx = JsonSerializer.Serialize(model);
 
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
 
