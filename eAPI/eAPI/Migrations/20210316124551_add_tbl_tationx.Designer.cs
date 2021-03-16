@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210316124551_add_tbl_tationx")]
+    partial class add_tbl_tationx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -425,8 +427,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("shift")
                         .HasColumnType("nvarchar(max)")
@@ -843,8 +845,8 @@ namespace eAPI.Migrations
                     b.Property<decimal>("old_amount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<Guid?>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("payment_id")
                         .HasColumnType("uniqueidentifier");
@@ -1425,9 +1427,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.OutletModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1472,19 +1475,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_outlet");
                 });
 
-            modelBuilder.Entity("eModels.OutletStationModel", b =>
-                {
-                    b.Property<Guid>("station_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("station_id", "outlet_id");
-
-                    b.ToTable("tbl_outlet_station");
-                });
-
             modelBuilder.Entity("eModels.PaymentModel", b =>
                 {
                     b.Property<Guid>("id")
@@ -1513,8 +1503,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("payment_amount")
                         .HasColumnType("decimal(19,4)");
@@ -2775,8 +2765,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_partially_paid")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("paid_amount")
                         .HasColumnType("decimal(19,4)");
@@ -3238,58 +3228,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_shift");
                 });
 
-            modelBuilder.Entity("eModels.StationModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_already_config")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("station_name_en")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("station_name_kh")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("outlet_id");
-
-                    b.ToTable("tbl_station");
-                });
-
             modelBuilder.Entity("eModels.StockLocationModel", b =>
                 {
                     b.Property<int>("id")
@@ -3716,8 +3654,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("photo")
                         .HasColumnType("nvarchar(max)")
@@ -4179,8 +4117,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("outlet_id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -4973,17 +4911,6 @@ namespace eAPI.Migrations
                     b.Navigation("sale_product");
                 });
 
-            modelBuilder.Entity("eModels.StationModel", b =>
-                {
-                    b.HasOne("eModels.OutletModel", "outlet")
-                        .WithMany("stations")
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("outlet");
-                });
-
             modelBuilder.Entity("eModels.StockLocationModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -5247,11 +5174,6 @@ namespace eAPI.Migrations
                     b.Navigation("modifier_ingredients");
 
                     b.Navigation("product_modifiers");
-                });
-
-            modelBuilder.Entity("eModels.OutletModel", b =>
-                {
-                    b.Navigation("stations");
                 });
 
             modelBuilder.Entity("eModels.PaymentModel", b =>

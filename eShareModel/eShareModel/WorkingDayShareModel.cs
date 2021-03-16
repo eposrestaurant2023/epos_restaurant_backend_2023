@@ -6,7 +6,7 @@ namespace eShareModel
 {       
     public class WorkingDayShareModel  : CoreGUIDModel
     {
-        public int outlet_id { get; set; }
+        public Guid outlet_id { get; set; }
 
         [Column(TypeName ="date")]
         public DateTime working_date { get; set; }     

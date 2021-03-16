@@ -87,7 +87,7 @@ namespace eAPI
         public DbSet<NoteModel> Notes{ get; set; }
         public DbSet<OutletStationModel> OutletStations{ get; set; }
         public DbSet<PrinterModel> Printers{ get; set; }
-        public DbSet<StationModel> Stations{ get; set; }
+         public DbSet<StationModel> Stations{ get; set; }
         public DbSet<TableGroupModel> TableGroups{ get; set; }
         public DbSet<TableModel> Tables{ get; set; }                                 
         public DbSet<ProductGroupModel> ProductGroups { get; set; }

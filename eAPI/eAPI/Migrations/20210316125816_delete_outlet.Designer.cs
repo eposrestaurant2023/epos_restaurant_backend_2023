@@ -10,8 +10,8 @@ using eAPI;
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210316114439_ssxx33xxxxx")]
-    partial class ssxx33xxxxx
+    [Migration("20210316125816_delete_outlet")]
+    partial class delete_outlet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1425,60 +1425,10 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_number");
                 });
 
-            modelBuilder.Entity("eModels.OutletModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("outlet_name_en")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("outlet_name_kh")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_outlet");
-                });
-
             modelBuilder.Entity("eModels.OutletStationModel", b =>
                 {
-                    b.Property<int>("station_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("station_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("outlet_id")
                         .HasColumnType("int");
@@ -2869,8 +2819,6 @@ namespace eAPI.Migrations
 
                     b.HasIndex("customer_id");
 
-                    b.HasIndex("outlet_id");
-
                     b.ToTable("tbl_sale");
                 });
 
@@ -3243,10 +3191,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StationModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -3270,9 +3217,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("station_name_en")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -3288,8 +3232,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
-
-                    b.HasIndex("outlet_id");
 
                     b.ToTable("tbl_station");
                 });
@@ -3720,9 +3662,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("photo")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -3742,8 +3681,6 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
-
-                    b.HasIndex("outlet_id");
 
                     b.ToTable("tbl_table_group");
                 });
@@ -4588,17 +4525,6 @@ namespace eAPI.Migrations
                     b.Navigation("category_note");
                 });
 
-            modelBuilder.Entity("eModels.OutletModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("outlets")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-                });
-
             modelBuilder.Entity("eModels.PaymentModel", b =>
                 {
                     b.HasOne("eModels.PaymentTypeModel", "payment_type")
@@ -4934,17 +4860,9 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("customer_id");
 
-                    b.HasOne("eModels.OutletModel", "outlet")
-                        .WithMany()
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("business_branch");
 
                     b.Navigation("customer");
-
-                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eModels.SaleProductModel", b =>
@@ -4975,17 +4893,6 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("sale_product");
-                });
-
-            modelBuilder.Entity("eModels.StationModel", b =>
-                {
-                    b.HasOne("eModels.OutletModel", "outlet")
-                        .WithMany("stations")
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eModels.StockLocationModel", b =>
@@ -5110,17 +5017,6 @@ namespace eAPI.Migrations
                     b.Navigation("stock_transfer");
                 });
 
-            modelBuilder.Entity("eModels.TableGroupModel", b =>
-                {
-                    b.HasOne("eModels.OutletModel", "outlet")
-                        .WithMany()
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("outlet");
-                });
-
             modelBuilder.Entity("eModels.TableModel", b =>
                 {
                     b.HasOne("eModels.TableGroupModel", "table_group")
@@ -5189,8 +5085,6 @@ namespace eAPI.Migrations
 
                     b.Navigation("discount_codes");
 
-                    b.Navigation("outlets");
-
                     b.Navigation("printers");
 
                     b.Navigation("stock_locations");
@@ -5251,11 +5145,6 @@ namespace eAPI.Migrations
                     b.Navigation("modifier_ingredients");
 
                     b.Navigation("product_modifiers");
-                });
-
-            modelBuilder.Entity("eModels.OutletModel", b =>
-                {
-                    b.Navigation("stations");
                 });
 
             modelBuilder.Entity("eModels.PaymentModel", b =>

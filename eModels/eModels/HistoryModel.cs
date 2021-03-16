@@ -33,7 +33,7 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime? transaction_date { get; set; }
 
-        public int? outlet_id { get; set; }
+        public Guid? outlet_id { get; set; }
 
         public Guid? customer_id { get; set; }
         [ForeignKey("customer_id")]
