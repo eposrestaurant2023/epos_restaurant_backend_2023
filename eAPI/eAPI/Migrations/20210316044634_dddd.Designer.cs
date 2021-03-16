@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210316044634_dddd")]
+    partial class dddd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -793,9 +795,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<Guid?>("PurchaseOrderPaymentModelid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(19,4)");
 
@@ -858,6 +857,9 @@ namespace eAPI.Migrations
                     b.Property<int?>("purchase_order_id")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("purchase_order_payment_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("sale_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -889,8 +891,6 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("PurchaseOrderPaymentModelid");
-
                     b.HasIndex("customer_id");
 
                     b.HasIndex("modifier_group_id");
@@ -902,6 +902,8 @@ namespace eAPI.Migrations
                     b.HasIndex("product_id");
 
                     b.HasIndex("purchase_order_id");
+
+                    b.HasIndex("purchase_order_payment_id");
 
                     b.HasIndex("sale_id");
 
@@ -4379,10 +4381,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
-                    b.HasOne("eModels.PurchaseOrderPaymentModel", null)
-                        .WithMany("histories")
-                        .HasForeignKey("PurchaseOrderPaymentModelid");
-
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
@@ -4406,6 +4404,10 @@ namespace eAPI.Migrations
                     b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
                         .WithMany("histories")
                         .HasForeignKey("purchase_order_id");
+
+                    b.HasOne("eModels.PurchaseOrderPaymentModel", "purchase_order_payment")
+                        .WithMany("histories")
+                        .HasForeignKey("purchase_order_payment_id");
 
                     b.HasOne("eModels.SaleModel", "sale")
                         .WithMany("histories")
@@ -4438,6 +4440,8 @@ namespace eAPI.Migrations
                     b.Navigation("product");
 
                     b.Navigation("purchase_order");
+
+                    b.Navigation("purchase_order_payment");
 
                     b.Navigation("sale");
 

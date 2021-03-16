@@ -34,13 +34,19 @@ namespace eModels
         public DateTime? transaction_date { get; set; }
 
         public int? outlet_id { get; set; }
-        public int? product_id { get; set; }
-        public int? purchase_order_id { get; set; }
 
         public Guid? customer_id { get; set; }
         [ForeignKey("customer_id")]
-        public virtual CustomerModel customer { get; set; }       
-        
+        public virtual CustomerModel customer { get; set; }
+
+        public int? purchase_order_id { get; set; }
+        [ForeignKey("purchase_order_id")]
+        public virtual PurchaseOrderModel purchase_order { get; set; }
+
+        public int? product_id { get; set; }
+        [ForeignKey("product_id")]
+        public virtual ProductModel product { get; set; }
+
         public Guid? purchase_order_payment_id { get; set; }
         [ForeignKey("purchase_order_payment_id")]
         public virtual PurchaseOrderPaymentModel purchase_order_payment { get; set; }

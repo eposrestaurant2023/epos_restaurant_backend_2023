@@ -42,7 +42,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] BusinessInformationModel u)
         {
 
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
                 db.BusinessInformations.Add(u);
             }
@@ -59,7 +59,7 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<BusinessInformationModel> Get([FromODataUri] int key)
+        public SingleResult<BusinessInformationModel> Get([FromODataUri] Guid key)
         {
             var s = db.BusinessInformations.Where(r => r.id == key).AsQueryable();
 
