@@ -165,7 +165,7 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-
+            save_model.product_portions.ForEach(r=>r.unit = null);
             foreach (var m in save_model.product_modifiers.Where(r => r.is_section == true))
             {
                 if(!m.children.Where(r => r.is_deleted == false).Any())
