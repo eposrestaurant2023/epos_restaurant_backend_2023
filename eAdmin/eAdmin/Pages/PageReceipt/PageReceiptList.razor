@@ -1,2 +1,107 @@
 ﻿@page "/receiptlist"
-<ComSale is_receipt_list="true"/>
+@inherits ComSaleBase
+@inject IStringLocalizer<Resource> lang
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (!is_loading)
+{
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                    <PageTitle>
+                        <HeaderTemplate>
+                            @lang["Receipt List"]
+                        </HeaderTemplate>
+                        <FilterTemplate>
+                            <PageFilter title="@lang["Status"]">
+                                <ModuleView module_views="@gv.GetModuleView("page_sale")" OnClick="@ViewClick" />
+                            </PageFilter>
+                        </FilterTemplate>
+                    </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <FilterDateRange @bind-dates="@state.date_range" />
+                    <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
+                    <div class="uk-form-controls" style="margin-bottom: 10px;margin-top: 20px;">
+                        <label sclass="uk-form-label">@lang["Customer"]</label>
+                        <CustomerTypeahead @bind-customer="@state.customer" />
+                    </div>
+                </ComSearch>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+
+            <Com is_visible="@(models != null)">
+                <Table Items="@models"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto">
+                    <TableHeader>
+                        @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("customer/customer_name_en", lang["Customer"], "col-auto")
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Outlet"]</div>
+                        </ThAuto>
+                        <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Paid Amount"]</ThRight>
+                        <ThRight>@lang["Balance"]</ThRight>
+                        <ThRight>@lang["Status"]</ThRight>
+                        <th class="uk-width-auto"></th>
+                    </TableHeader>
+                    <RowTemplate Context="p">
+                        <TdCenter>
+                            @p.working_date.ToString(gv.date_format)
+                        </TdCenter>
+                        <TdCenter>
+                            <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"voidreceipt/{p.id}")">@p.document_number</ComAuthorize>
+                        </TdCenter>
+                        <td>
+                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
+                        </td>
+                        <td>
+                            <div>
+                                @p.business_branch?.business_branch_name_en
+                            </div>
+                            <div class="sub-info-row-table">
+                                @p.outlet?.outlet_name_en
+                            </div>
+                        </td>
+                        <TdRight>
+                            @p.total_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.paid_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.balance.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            <ComSaleStatus sale="@p" />
+                        </TdRight>
+                        <TdCenter>
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
+                        </TdCenter>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        </PageBody>
+    </PageContainer>
+}

@@ -13,8 +13,6 @@ namespace eAdmin.Pages.PageReceipt
 {
     public class ComSaleBase : PageCore
     {
-
-        [Parameter] public bool is_receipt_list { get; set; } 
         public List<SaleModel> models = new List<SaleModel>();
         public SaleModel model = new SaleModel();
         public string StateKey = "";   
@@ -40,27 +38,8 @@ namespace eAdmin.Pages.PageReceipt
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            if (is_receipt_list)
-                StateKey = "Elist9hUndmRGRECEIPTnBau9T3AEj";
-            else
-                StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj"; 
-            state = await GetState(StateKey); 
-            if (is_receipt_list && state.filters.Where(r => r.key == "is_deleted").Count() == 0)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "is_deleted",
-                    value1 = "false"
-                });
-            }
-            else if (!is_receipt_list && state.filters.Where(r => r.key == "is_deleted").Count() == 0)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "is_deleted",
-                    value1 = "true"
-                });
-            }
+            StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj"; 
+            state = await GetState(StateKey);
             await LoadData();
         }   
 
@@ -99,9 +78,7 @@ namespace eAdmin.Pages.PageReceipt
                     is_show_on_infor = false
                 });
             }
-
-            state.page_title = is_receipt_list ? "Receipt List" : "Void Receipt";
-
+            
             var default_view = gv.GetDefaultModuleView("page_sale");
             if (default_view != null)
             {
