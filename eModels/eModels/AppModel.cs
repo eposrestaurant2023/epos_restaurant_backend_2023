@@ -227,7 +227,7 @@ namespace eModels
     {
         [Key]
         public int id { get; set; }
-        public string discount_name { get; set; }
+        public string discount_code { get; set; }
         public decimal discount_value { get; set; }
 
         public int sort_order { get; set; } = 0;

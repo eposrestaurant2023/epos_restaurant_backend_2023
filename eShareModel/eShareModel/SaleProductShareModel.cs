@@ -23,8 +23,7 @@ namespace eShareModel
         }
         public string product_name_kh { get; set; } = "";
         public bool is_inventory_product { get; set; } = false;
-        public bool is_allow_discount { get; set; } = true;
-        public bool is_allow_free { get; set; } = true;
+        public bool is_allow_discount { get; set; } = true;    
         public int portion_id { get; set; }
         public string portion_name { get; set; }
 
@@ -36,8 +35,6 @@ namespace eShareModel
         public double multiplier { get; set; } = 1;
         public int status_id { get; set; } = 1;
         public string status_name { get; set; } = "New";
-
-        public bool is_free { get; set; } = false;
 
         public decimal cost { get; set; }
         public decimal reqular_price { get; set; }
@@ -77,12 +74,8 @@ namespace eShareModel
         //Other
         public string note { get; set; }
         public string deleted_note { get; set; }
-        public string free_note { get; set; }
         public string discount_note { get; set; }
-        public string discount_lable { get; set; }
-
-
-       
+        public string discount_code { get; set; }
 
     }
 
