@@ -131,27 +131,7 @@ namespace eAPI.Controllers
              
         }
 
-        //[HttpPost]
-        //[Route("purchaseorder/delete/{id}")]
-        //public async Task<ActionResult<HistoryModel>> DeletePORecord(int id) //Delete
-        //{
-
-        //    PaymentModel p = db.Payments.Find(id);
-        //    PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
-        //    HistoryModel h = new HistoryModel("Delete PO Payment");
-        //    h.description = $"Delete PO Payment. Invoice Number: {s.document_number}";
-        //    h.document_number = s.document_number;
-        //    h.vendor_id = s.vendor_id;
-        //    h.purchase_order_id = s.id;
-        //    p.histories.Add(h);
-        //    p.is_deleted = true;
-        //    db.Payments.Update(p);
-        //    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
-        //    db.Database.ExecuteSqlRaw("exec  sp_update_purchase_order_payment " + p.purchase_order_id);
-        //    return Ok(h);
-
-        //}
+         
 
     }
 }

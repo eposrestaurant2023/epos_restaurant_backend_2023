@@ -14,7 +14,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
     public class ComCustomerPaymentHistoryBase : PageCore
     { 
         [Parameter] public Guid customer_id { get; set; }
-        public List<SaleProductModel> models = new List<SaleProductModel>();
+        public List<SalePaymentModel> models = new List<SalePaymentModel>();
         public int TotalRecord = 0;
         public string  StateKey = "PAMENTsaledmRGrRwdzVOID20154coN";
         string controller_api = "SalePayment";
@@ -28,7 +28,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=sale($expand=outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)),customer($select=id)";
+                url += $"$expand=sale($expand=outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh),customer($select=id))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -107,7 +107,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {
-                models = JsonSerializer.Deserialize<List<SaleProductModel>>(resp.Content.ToString());
+                models = JsonSerializer.Deserialize<List<SalePaymentModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
             }
             is_loading = false;
