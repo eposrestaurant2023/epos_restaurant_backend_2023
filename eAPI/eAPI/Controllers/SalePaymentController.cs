@@ -19,11 +19,11 @@ namespace eAPI.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class PaymentController : ODataController
+    public class SalePaymentController : ODataController
     {
         private readonly ApplicationDbContext db;
         private readonly AppService app;
-        public PaymentController(ApplicationDbContext _db, AppService _app)
+        public SalePaymentController(ApplicationDbContext _db, AppService _app)
         {
             db = _db;
             app = _app;
@@ -31,11 +31,11 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]   
-        public IQueryable<PaymentModel> Get(string keyword = "")
+        public IQueryable<SalePaymentModel> Get(string keyword = "")
         {
             if (!string.IsNullOrEmpty(keyword))
             {
-              return (from r in db.Payments
+              return (from r in db.SalePayments
                            where 
                                  EF.Functions.Like((
                                  (r.reference_number ?? " ")).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
@@ -44,19 +44,19 @@ namespace eAPI.Controllers
             }
             else
             {
-                return db.Payments.AsQueryable();
+                return db.SalePayments.AsQueryable();
             }
         }
 
         [HttpGet("getsingle")]
         [EnableQuery(MaxExpansionDepth = 8)]     
-        public async Task<SingleResult<PaymentModel>> Get([FromODataUri] Guid key)
+        public async Task<SingleResult<SalePaymentModel>> Get([FromODataUri] Guid key)
         {
-            return await Task.Factory.StartNew(() => SingleResult.Create<PaymentModel>(db.Payments.Where(r => r.id == key).AsQueryable()));
+            return await Task.Factory.StartNew(() => SingleResult.Create<SalePaymentModel>(db.SalePayments.Where(r => r.id == key).AsQueryable()));
         }
 
         [HttpPost("sale/save")]
-        public async Task<ActionResult<string>> Save([FromBody] PaymentModel p)
+        public async Task<ActionResult<string>> Save([FromBody] SalePaymentModel p)
         {
             //validat check if payment is over sale amount
             SaleModel s = db.Sales.Find(p.sale_id);
@@ -70,7 +70,7 @@ namespace eAPI.Controllers
 
             }else
             {
-                var payments = db.Payments.Where(r => r.sale_id == p.sale_id && !r.is_deleted && r.id!=p.id);
+                var payments = db.SalePayments.Where(r => r.sale_id == p.sale_id && !r.is_deleted && r.id!=p.id);
                 if (payments.Any())
                 {
                     if (payments.Sum(r => r.payment_amount) + p.payment_amount > s.total_amount)
@@ -92,11 +92,11 @@ namespace eAPI.Controllers
 
             if (p.id == Guid.Empty)
             {
-                db.Payments.Add(p);
+                db.SalePayments.Add(p);
             }
             else
             {
-                db.Payments.Update(p);
+                db.SalePayments.Update(p);
             }
              
                 
@@ -114,7 +114,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
         {
 
-            PaymentModel p = db.Payments.Find(id);
+            SalePaymentModel p = db.SalePayments.Find(id);
             SaleModel s = db.Sales.Find(p.sale_id);
             HistoryModel h = new HistoryModel("Delete Sale Payment");
             h.description = $"Delete Sale Payment. Invoice Number: {s.document_number}";
@@ -123,7 +123,7 @@ namespace eAPI.Controllers
             h.sale_id = s.id;
             p.histories.Add(h);
             p.is_deleted = true;
-            db.Payments.Update(p);
+            db.SalePayments.Update(p);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             db.Database.ExecuteSqlRaw("exec  sp_update_sale_payment " + p.sale_id);
