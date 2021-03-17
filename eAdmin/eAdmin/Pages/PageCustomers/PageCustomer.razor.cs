@@ -33,7 +33,7 @@ namespace eAdmin.Pages.PageCustomers
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                string url = $"{controller_api}?$expand=customer_business_branchs($expand=business_branch($select=id,business_branch_name_en))&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters);
             }
         }
