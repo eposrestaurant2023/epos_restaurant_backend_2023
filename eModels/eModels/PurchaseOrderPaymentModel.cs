@@ -14,9 +14,9 @@ namespace eModels
     {
         public PurchaseOrderPaymentModel()
         {
-            //histories = new List<HistoryModel>();
+            histories = new List<HistoryModel>();
         }
-        //public List<HistoryModel> histories { get; set; }
+         public List<HistoryModel> histories { get; set; }
         public string reference_number { get; set; }
 
         public int payment_type_id { get; set; }
