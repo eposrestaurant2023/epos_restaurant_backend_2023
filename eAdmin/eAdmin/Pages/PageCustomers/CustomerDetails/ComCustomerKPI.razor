@@ -1,0 +1,35 @@
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
+    <div class="uk-width-1-2 uk-width-1-4@m">
+        <div class="bg_kpi bg_today_amount">
+            <div class="ttle_number">$125</div>
+            <span class="title-kpi">@lang["Credit Balance"]</span>
+        </div>
+    </div>
+
+    <div class="uk-width-1-2 uk-width-1-4@m">
+        <div class="bg_kpi bg_today_mtd">
+            <div class="ttle_number">50</div>
+            <span class="title-kpi">@lang["MTD Visit"]</span>
+        </div>
+    </div>
+    <div class="uk-width-1-2 uk-width-1-4@m">
+        <div class="bg_kpi bg_today_quantity">
+            <div class="ttle_number">$125</div>
+            <span class="title-kpi">@lang["MTD Sale Amount"]</span>
+
+        </div>
+    </div>
+    <div class="uk-width-1-2 uk-width-1-4@m">
+        <div class="bg_kpi bg_today_quantity_mtd">
+            <div class="ttle_number">125</div>
+            <span class="title-kpi">@lang["Total Sale"]</span>
+        </div>
+    </div>
+</div>
+
+
+@code{
+    [Parameter] public DashboardKPIModel data { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}

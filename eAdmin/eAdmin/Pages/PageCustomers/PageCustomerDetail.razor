@@ -44,11 +44,9 @@
             <Tab ClassName="control-header-tab">
                 <TabHeader>
                     <TabHeaderItem roles="@gv.GetRole("customer_management")">@lang["Overview"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)">
-                        @lang["Sale History"]</TabHeaderItem>
-                        <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)">
-                            @lang["Sale Product History"]
-                        </TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)"> @lang["Sale History"]</TabHeaderItem>
+                     <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)"> @lang["Sale Product History"]</TabHeaderItem>
+                     <TabHeaderItem OnClick="@(()=>show_payment = true)"> @lang["Sale Payment History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">@lang["Comments"]</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
@@ -67,6 +65,13 @@
                         { 
                             <ComCustomerSaleProductHistory customer_id="@Guid.Parse(id)" />
                         }
+                    </TabItem>
+                    <TabItem>
+                        @if(show_payment)
+                        {
+
+                        }
+
                     </TabItem>
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
