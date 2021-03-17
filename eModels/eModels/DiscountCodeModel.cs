@@ -19,7 +19,7 @@ namespace eModels
         public BusinessBranchModel business_branch{ get; set; }
 
         [MaxLength(50)]
-        public string discount_label { get; set; }
+        public string discount_code { get; set; }
 
         public decimal discount_value { get; set; }      
     }

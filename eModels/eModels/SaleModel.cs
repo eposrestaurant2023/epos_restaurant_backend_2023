@@ -12,7 +12,7 @@ namespace eModels
     {
         public SaleModel()
         {
-            payments = new List<PaymentModel>();
+            sale_payments = new List<SalePaymentModel>();
             histories = new List<HistoryModel>();
             sale_products = new List<SaleProductModel>();
         }
@@ -28,7 +28,7 @@ namespace eModels
 
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
-        public List<PaymentModel> payments { get; set; }
+        public List<SalePaymentModel> sale_payments { get; set; }
         public List<SaleProductModel> sale_products { get; set; }
 
         [NotMapped, JsonIgnore]
