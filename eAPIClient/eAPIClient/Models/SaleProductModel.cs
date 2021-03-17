@@ -10,6 +10,7 @@ namespace eAPIClient.Models
         public SaleProductModel()
         {
             sale_product_modifiers = new List<SaleProductModifierModel>();
+            sale_product_print_queues = new List<SaleProductPrintQueue>();
         }
       
         [ForeignKey("sale_id")]

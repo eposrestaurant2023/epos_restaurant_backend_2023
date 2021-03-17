@@ -38,7 +38,7 @@
     @if (can_enter_payment)
     {
     <ModalFooter is_action_form="false">
-        <ComSavingFormButton is_show_save_submit="false" is_show_save_action="true" OnSave="@Save_Click" OnCancel="@(()=>ToogleModal(false))" />
+        <ComSavingFormButton is_show_save_submit="false" is_show_save_action="true" OnSave="@Save_Click" is_show_cancel_action="true" OnCancel="@(()=>ToogleModal(false))" />
     </ModalFooter>
     }
     
@@ -107,16 +107,9 @@
         //load default payment
 
         if (sale != null) {
-            if (payment_id == Guid.Empty)
-            {
-                sale_balance = sale.balance;
-                model.payment_amount = sale.balance;
-                model.payment_type_id = gv.default_payment_type_id;
-            }
-            else
-            {
-                sale_balance = sale.balance + model.payment_amount;
-            }
+            sale_balance = sale.balance;
+            model.payment_amount = sale.balance;
+            model.payment_type_id = gv.default_payment_type_id;
         }
         is_loading = false;
     }
@@ -136,7 +129,7 @@
     }
     async Task LoadPayment()
     {
-        var resp = await http.ApiGet($"PurchaseOrderPayment({payment_id})");
+        var resp = await http.ApiGet($"SalePayment({payment_id})");
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<SalePaymentModel>(resp.Content.ToString());
@@ -152,6 +145,7 @@
     async Task Save_Click()
     {
         is_saving = true;
+
         if (model.payment_amount <= 0)
         {
             toast.Add(lang["Please enter payment amount."], MatToastType.Warning);
@@ -173,7 +167,10 @@
         }
 
 
-        var resp = await http.ApiPost("SalePayment/sale/save", model);
+        Console.WriteLine(JsonSerializer.Serialize(model));
+
+        var resp = await http.ApiPost("SalePayment/save", model);
+
         if (resp.IsSuccess)
         {
             await OnSave.InvokeAsync(true);

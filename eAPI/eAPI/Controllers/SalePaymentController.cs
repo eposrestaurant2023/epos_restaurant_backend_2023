@@ -55,7 +55,7 @@ namespace eAPI.Controllers
             return await Task.Factory.StartNew(() => SingleResult.Create<SalePaymentModel>(db.SalePayments.Where(r => r.id == key).AsQueryable()));
         }
 
-        [HttpPost("sale/save")]
+        [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] SalePaymentModel p)
         {
             //validat check if payment is over sale amount
@@ -101,7 +101,7 @@ namespace eAPI.Controllers
              
                 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            db.Database.ExecuteSqlRaw("exec  sp_update_sale_payment " + p.sale_id);
+            //db.Database.ExecuteSqlRaw("exec sp_update_sale_payment " + p.sale_id);
             return Ok(p);
              
         }
@@ -110,8 +110,8 @@ namespace eAPI.Controllers
 
 
         [HttpPost]
-        [Route("sale/delete/{id}")]
-        public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
+        [Route("delete/{id}")]
+        public async Task<ActionResult<HistoryModel>> DeleteRecord(Guid id) //Delete
         {
 
             SalePaymentModel p = db.SalePayments.Find(id);
@@ -126,7 +126,7 @@ namespace eAPI.Controllers
             db.SalePayments.Update(p);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            db.Database.ExecuteSqlRaw("exec  sp_update_sale_payment " + p.sale_id);
+            //db.Database.ExecuteSqlRaw("exec  sp_update_sale_payment " + p.sale_id);
             return Ok(h);
              
         }

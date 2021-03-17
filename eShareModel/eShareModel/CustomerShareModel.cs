@@ -40,6 +40,8 @@ namespace eShareModel
 
         public string address { get; set; }
 
+        public decimal total_receivable { get; set; }
+
 
         public string phone_1 { get; set; }
 
