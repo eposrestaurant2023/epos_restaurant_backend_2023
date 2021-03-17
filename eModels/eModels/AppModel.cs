@@ -222,4 +222,15 @@ namespace eModels
         public decimal quantity { get; set; }
     }
 
+    [Table("tbl_predefine_discount_code")]
+    public class PredefineDiscountCodeModel
+    {
+        [Key]
+        public int id { get; set; }
+        public string discount_name { get; set; }
+        public decimal discount_value { get; set; }
+
+        public int sort_order { get; set; } = 0;
+    }
+
 }
