@@ -59,7 +59,6 @@
                                             <ValidationMessage For="@(()=>model.unit_id)" />
                                         </SelectUnit>
                                         <ComInputCheckBox @bind-value="@model.is_allow_discount" label="@lang["Allow Discount"]" />
-                                        <ComInputCheckBox @bind-value="@model.is_allow_free" label="@lang["Allow Free"]" />
                                         <ComInputCheckBox @bind-value="@model.is_open_product" label="@lang["Is Opened Product"]" />
                                         <SelectStatus @bind-selected_value="@model.status" />
                                     </UIContainerBox>

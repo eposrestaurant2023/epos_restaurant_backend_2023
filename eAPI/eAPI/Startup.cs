@@ -191,6 +191,7 @@ namespace eAPI
             odataBuilder.EntitySet<StockTransferProductModel>("StockTransferProduct");
             odataBuilder.EntitySet<ProductIngredientModel>("ProductIngredient");
             odataBuilder.EntitySet<UnitModel>("Unit");
+            odataBuilder.EntitySet<SalePaymentModel>("SalePayment");
             odataBuilder.EntitySet<UnitCategoryModel>("UnitCategory");
             odataBuilder.EntitySet<ProductIngredientRelatedModel>("ProductIngredientRelated");
             odataBuilder.EntitySet<InventoryTransactionModel>("InventoryTransaction");
