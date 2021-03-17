@@ -25,14 +25,14 @@
     [Parameter] public string empty_text { get; set; } = "Select Stock Location";
 
     [Parameter] public string width { get; set; } = "100%";
-    [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public Guid selected_value { get; set; } 
     [Parameter] public Guid business_branch_id { get; set; }
-    [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
+    [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
 
     [Parameter] public StockLocationModel stock_location { get; set; }
     [Parameter] public EventCallback<StockLocationModel> stock_locationChanged { get; set; }
 
-    public int SelectedValue
+    public Guid SelectedValue
     {
         get
         {
@@ -44,9 +44,9 @@
 
     private async Task SelectedValueChange(string n)
     {
-        selected_value = Int32.Parse(n);
+        selected_value = Guid.Parse(n);
         await selected_valueChanged.InvokeAsync(selected_value);
-        if (selected_value == 0)
+        if (selected_value == Guid.Empty)
         {
             await stock_locationChanged.InvokeAsync(new StockLocationModel());
         }

@@ -8,10 +8,10 @@ using eShareModel;
 namespace eModels
 {
 
-    [Table("tbl_payment")]
-    public class PaymentModel : PaymentShareModel
+    [Table("tbl_sale_payment")]
+    public class SalePaymentModel : SalePaymentShareModel
     {
-        public PaymentModel()
+        public SalePaymentModel()
         {
             histories = new List<HistoryModel>();
         }

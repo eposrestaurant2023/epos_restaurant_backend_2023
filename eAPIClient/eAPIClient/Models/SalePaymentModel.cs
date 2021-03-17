@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations.Schema;        
 using System.Text.Json.Serialization;
 using eShareModel;
 
@@ -9,7 +6,7 @@ namespace eAPIClient.Models
 {
 
     [Table("tbl_sale_payment")]
-    public class PaymentModel : PaymentShareModel
+    public class SalePaymentModel : SalePaymentShareModel
     {
        
        
