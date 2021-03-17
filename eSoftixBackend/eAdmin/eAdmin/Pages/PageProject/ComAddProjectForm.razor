@@ -1,62 +1,29 @@
 ﻿@inherits PageCore
-    <ObjectGraphDataAnnotationsValidator />
-    <UIContainerBox>
-        <TextInput label="Name" @bind-text="@model.project_name">
-            <ValidationMessage For="@(() => model.project_name)" />
-        </TextInput>
-        <SelectProjectType @bind-selected_value="@model.project_type_id" show_empty="true">
-            <ValidationMessage For="@(()=>model.project_type_id)" />
-        </SelectProjectType>
-        <SelectCustomer @bind-selected_value="@model.customer_id" show_empty="true" empty_text="Select Customer">
-            <ValidationMessage For="@(()=>model.customer_id)" />
-        </SelectCustomer>
-        <SelectStatus @bind-selected_value="@model.status" />
-    </UIContainerBox>
-    <UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
-        @foreach (var c in model.project_contacts)
-        {
-             <ComAddCustomerContactItem contact="c" OnDeleteContact="DeleteContact_Click"/>
-             @if (model.project_contacts.IndexOf(c) !=model.project_contacts.Count - 1)
-             {
-                <hr class="uk-divider-icon">
-             }
-
-        }
-    </UIContainerBox>
+<ObjectGraphDataAnnotationsValidator />
+<UIContainerBox>
+    <TextInput label="Name" @bind-text="@model.project_name">
+        <ValidationMessage For="@(() => model.project_name)" />
+    </TextInput>
+    <SelectProjectType @bind-selected_value="@model.project_type_id" show_empty="true">
+        <ValidationMessage For="@(()=>model.project_type_id)" />
+    </SelectProjectType>
+    <SelectCustomer @bind-selected_value="@model.customer_id" show_empty="true" empty_text="Select Customer">
+        <ValidationMessage For="@(()=>model.customer_id)" />
+    </SelectCustomer>
+    <SelectStatus @bind-selected_value="@model.status" />
+</UIContainerBox>
+<ComAddCustomerContactItem model="@model" />
+<ComAddProject_BusinessBranches model="@model"/>
 
 
-    @code {
+@code {
 
 
-        [Parameter] public ProjectModel model { get; set; }
-        [Parameter] public EventCallback<ProjectModel> modelChanged { get; set; }
+    [Parameter] public ProjectModel model { get; set; }
+    [Parameter] public EventCallback<ProjectModel> modelChanged { get; set; }
 
-        void AddContact_Click()
-        {
-            model.project_contacts.Add(new ContactModel());
-        }
+  
 
-        async Task DeleteContact_Click(ContactModel c)
-        {
+    
 
-            if (c.id == 0)
-            {
-                model.project_contacts.Remove(c);
-            }
-            else
-            {
-                if (await js.Confirm("Deleted Contact", "Are you sure you want to delete this contact?", SweetAlertMessageType.question))
-                {
-                    var res = await http.ApiPost($"contact/delete/{c.id}");
-                    if (res.IsSuccess)
-                    {
-                        toast.Add("Contact deleted successfull", MatToastType.Success);
-                        model.project_contacts.Remove(c);
-                    }
-                }
-            }
-
-
-        }
-
-    }
+}

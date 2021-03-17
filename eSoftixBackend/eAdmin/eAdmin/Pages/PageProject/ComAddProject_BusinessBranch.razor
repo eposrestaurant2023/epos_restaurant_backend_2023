@@ -1,0 +1,16 @@
+﻿<UIContainerBox Title="Business Branch Information">
+    <TextInput @bind-text="@model.business_branch_name_en"/>
+</UIContainerBox>
+
+<UIContainerBox Title="Outlet">
+
+</UIContainerBox>
+
+<UIContainerBox Title="Warehouse">
+
+</UIContainerBox>
+
+
+@code {
+  [Parameter] public BusinessBranchModel model { get; set; }
+}

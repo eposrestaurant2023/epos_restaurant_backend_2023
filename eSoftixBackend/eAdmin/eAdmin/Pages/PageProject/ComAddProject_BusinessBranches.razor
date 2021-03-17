@@ -1,0 +1,42 @@
+﻿ 
+<Tab>
+    <TabHeader>
+        @foreach (var b in model.business_branches.Where(r => r.is_deleted == false))
+        {
+            <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+        }
+
+    </TabHeader>
+    <TabBody>
+        @foreach (var b in model.business_branches.Where(r => r.is_deleted == false))
+        {
+            <TabItem>
+                <ComAddProject_BusinessBranch model="@b"/>
+            </TabItem>
+        }
+    </TabBody>
+</Tab>
+<AddButton OnClick="@AddBranch">Add</AddButton>
+@code {
+    [Parameter] public ProjectModel model { get; set; }
+
+    void AddBranch()
+    {
+
+        BusinessBranchModel biz = new BusinessBranchModel();
+        biz.business_branch_name_en = "Branch " + (model.business_branches.Count() + 1);
+        biz.business_branch_name_kh = "Branch " + (model.business_branches.Count() + 1);
+        OutletModel outlet = new OutletModel();
+        outlet.outlet_name_en = "Outlet 1";
+        outlet.outlet_name_kh = "Outlet 1";
+        StationModel station = new StationModel();
+        station.station_name_en = "Station 1";
+        station.station_name_kh = "Station 1";
+        outlet.stations.Add(station);
+        biz.outlets.Add(outlet);
+
+
+        model.business_branches.Add(biz);
+    }
+
+}
