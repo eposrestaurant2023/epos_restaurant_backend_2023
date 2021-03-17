@@ -9,21 +9,16 @@
 @if (!is_loading)
 {
     <PageContainer is_container="false">
-        <div style="word-break:break-word">
-            @ControllerApi
-        </div>
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>@state.page_title</HeaderTemplate>
+                    <HeaderTemplate>Payment History</HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
-                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" />
-                    <SelectProductCategory show_empty="true" @bind-product_category="@state.product_category" />
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                 </ComSearch>
@@ -46,47 +41,30 @@
                 <TableHeader>
                     @HeaderTemplate("payment_date", "Payment Date", "uk-text-center")
                     @HeaderTemplate("reference_number", "Reference Number", "uk-text-center")
-                    @HeaderTemplate("product/product_name_en", "Product Name", "col-auto") 
                     <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto>
                     <ThCenter>@lang["Payment Amount"]</ThCenter>
                     <ThCenter>@lang["Created Date"]</ThCenter>
                     <th>@lang["Created By"]</th>
                     <th></th>
-                    <th class="uk-width-auto"></th>
                 </TableHeader>
                 <RowTemplate Context="p">
                     <TdCenter>
-                        @p.sale.working_date.ToString(gv.date_format)
+                        @p.payment_date.ToString(gv.date_format)
                     </TdCenter>
                     <TdCenter>
-                        <div><a href="receiptlist/@p.sale_id">@p.sale?.document_number</a></div>
-                        <div>@p.sale.working_day_number @p.sale.cashier_shift_number</div>
-                    </TdCenter>
-                    <td>
-                        <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">@p.product?.product_display_name</ComProfileInfo>
-                        <div>
-                            @p.portion_name
-                            @foreach (var pp in p.sale_product_modifiers.Where(r=>r.is_deleted == false && r.status == true))
-                            {
-                                @pp.modifier_name
-                            }
-                        </div>
-                    </td>
-                    <td>
+                       @p.sale?.document_number
+                    </TdCenter>                    <td>
                         <div>@p.sale?.business_branch?.business_branch_name_en</div>
                         <div class="sub-info-row-table">@p.sale?.outlet?.outlet_name_en</div>
                     </td>
                     <TdCenter>
-                        <span>@p.total_amount.ToString(gv.quantity_format)</span>
+                        <span>@p.payment_amount.ToString(gv.quantity_format)</span>
                     </TdCenter>
                     <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                     <td>@p.created_by</td>
                     <td>
                         <ComSaleStatus sale="@p.sale" />
                     </td>
-                    <TdCenter>
-                        <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
-                    </TdCenter>
                 </RowTemplate>
             </Table>
         </Com>

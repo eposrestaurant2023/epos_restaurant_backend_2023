@@ -43,11 +43,9 @@
                                 <tr>
                                     <td>
                                         <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name" width="150px" />
-
                                     </td>
-
                                     @*<td>
-                                        <SelectUnit @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" unit_category_id="@pp.unit.unit_category_id" is_select_unit_category="true" show_empty="true">
+                                        <SelectUnit @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" @bind-unit_category_id="@pp.unit.unit_category_id" is_select_unit_category="true" show_empty="true">
                                             <ValidationMessage For="@(()=>pp.unit_id)" />
                                         </SelectUnit>
                                     </td>*@
