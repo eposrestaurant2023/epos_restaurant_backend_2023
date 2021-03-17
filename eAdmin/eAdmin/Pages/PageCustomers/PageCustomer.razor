@@ -47,8 +47,7 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="@lang["There is no record."]">
+                       ScrollClass="uk-overflow-auto" >
                     <TableHeader>
                         <ThCenter>@lang["Image"]</ThCenter>
                         @HeaderTemplate("customer_code", lang["Code"], "uk-text-center")
@@ -65,6 +64,7 @@
                         </TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_code</ComAuthorize>
+                            @JsonSerializer.Serialize(model.customer_business_branchs)
                             <LabelCustomerBusinessBranchs customer_business_branchs="@model.customer_business_branchs" />
                         </TdCenter>
                         <td>
