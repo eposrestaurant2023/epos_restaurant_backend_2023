@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210317024538_station_dis")]
+    partial class station_dis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1641,28 +1643,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_permission_option_role");
                 });
 
-            modelBuilder.Entity("eModels.PredefineDiscountCodeModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("discount_code")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("discount_value")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_predefine_discount_code");
-                });
-
             modelBuilder.Entity("eModels.PriceRuleModel", b =>
                 {
                     b.Property<int>("id")
@@ -2015,6 +1995,9 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("is_allow_discount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_allow_free")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_auto_generate_code")
@@ -2931,7 +2914,7 @@ namespace eAPI.Migrations
                     b.Property<decimal>("discount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<string>("discount_code")
+                    b.Property<string>("discount_lable")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -2943,10 +2926,20 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("free_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<bool>("is_allow_discount")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_allow_free")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_free")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_inventory_product")

@@ -9,9 +9,6 @@
 @if (!is_loading)
 {
     <PageContainer is_container="false">
-        <div style="word-break:break-word">
-            @ControllerApi
-        </div>
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -51,7 +48,7 @@
                     <ThCenter>@lang["Quantity"]</ThCenter>
                     <ThRight>@lang["Price"]</ThRight>
                     <ThRight>@lang["Discount"]</ThRight>
-                    <ThRight>@lang["Total Tax Amount"]</ThRight>
+                    <ThRight>@lang["Tax"]</ThRight>
                     <ThRight>@lang["Amount"]</ThRight>
                     <ThCenter>@lang["Created Date"]</ThCenter>
                     <th>@lang["Created By"]</th>

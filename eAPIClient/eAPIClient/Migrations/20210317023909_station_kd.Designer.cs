@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210317023909_station_kd")]
+    partial class station_kd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +44,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<DateTime?>("closed_date")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("closed_station_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -78,15 +77,15 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("opened_station_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("shift")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("station_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -764,7 +763,7 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("discount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<string>("discount_code")
+                    b.Property<string>("discount_lable")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -776,10 +775,20 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("free_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<bool>("is_allow_discount")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_allow_free")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_free")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_inventory_product")
@@ -1066,9 +1075,6 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime?>("closed_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("closed_station_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1095,10 +1101,10 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("opened_station_id")
+                    b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("outlet_id")
+                    b.Property<Guid>("station_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
