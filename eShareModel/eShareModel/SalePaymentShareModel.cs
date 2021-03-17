@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eShareModel
 {
-    public class PaymentShareModel : CoreGUIDModel
+    public class SalePaymentShareModel : CoreGUIDModel
     {
         public Guid? sale_id { get; set; }
         public int payment_type_id { get; set; }
