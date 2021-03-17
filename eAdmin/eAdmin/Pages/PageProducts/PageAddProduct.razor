@@ -50,7 +50,6 @@
                                             <ValidationMessage For="@(() => model.product_name_en)" />
                                         </TextInput>
                                         <TextInput label="@lang["Product Name(KH)"]" @bind-text="@model.product_name_kh" />
-
                                         <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true">
                                             <ValidationMessage For="@(()=>model.product_category_id)" />
                                         </SelectProductCategory> 
