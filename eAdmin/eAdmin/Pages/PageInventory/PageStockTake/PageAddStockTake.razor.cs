@@ -135,7 +135,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 return;
             }
 
-            if (model.stock_location_id == 0)
+            if (model.stock_location_id == Guid.Empty)
             {
                 toast.Add("Please select stock location.", MatToastType.Warning);
                 return;
@@ -169,14 +169,14 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         }
 
 
-        public async Task OnStockLocationSeletedChange(int _id)
+        public async Task OnStockLocationSeletedChange(Guid _id)
         {
             model.stock_location_id = _id;
         }
         public async Task OnBusinessBranchSeletedChange(Guid _id)
         {
             is_selecting_business_branch = true;
-            model.stock_location_id = 0;
+            model.stock_location_id = Guid.Empty;
             await Task.Delay(500);
             model.business_branch_id = _id;
             is_selecting_business_branch = false;

@@ -36,7 +36,7 @@
     </div>
 </td>
 <TdCenter>
-    @if (model.from_stock_location_id > 0)
+    @if (model.from_stock_location_id != Guid.Empty)
     {
         <ComProductQuantityOnHand product_id="@stock_transfer_product.product_id" stock_location_id="@model.from_stock_location_id" />
 

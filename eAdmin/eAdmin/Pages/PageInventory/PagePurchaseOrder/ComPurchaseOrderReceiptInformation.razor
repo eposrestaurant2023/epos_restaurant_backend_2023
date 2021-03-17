@@ -35,7 +35,7 @@
         model.purchase_date = date;
         await modelChanged.InvokeAsync(model);
     }
-    async Task OnStockLocationSeletedChange(int _id)
+    async Task OnStockLocationSeletedChange(Guid _id)
     {
         
         model.stock_location_id = _id;
@@ -45,7 +45,7 @@
     async Task OnBusinessBranchSeletedChange(Guid _id)
     {
         is_selecting_bb = true;
-        model.stock_location_id = 0;
+        model.stock_location_id = Guid.Empty;
         await Task.Delay(500);
         model.business_branch_id = _id;
         await modelChanged.InvokeAsync(model);
