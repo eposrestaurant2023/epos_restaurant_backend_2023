@@ -53,6 +53,10 @@
                         <td>@lang["Invoice Status"]</td>
                         <td>@sale.sale_status?.status_name</td>
                     </tr>
+                    <tr>
+                        <td>@lang["Warehouse"]</td>
+                        <td>@sale.stock_location?.stock_location_name</td>
+                    </tr>
                     @if (sale.business_branch != null)
                     {
                         <tr>
