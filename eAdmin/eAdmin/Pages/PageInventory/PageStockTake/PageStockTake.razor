@@ -9,7 +9,7 @@
 
 @if (!is_loading)
 {
-    <Title Value="Stock Take"></Title>
+    <Title Value="@lang["Stock Take"]"></Title>
     <PageContainer roles="@gv.GetRole("stock_take_management")">
         <PageHeader>
             <HeaderLeft>
@@ -51,8 +51,11 @@
                     <TableHeader>
                         @HeaderTemplate("stock_take_date", lang["Stock Take Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
-                        @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center") 
-                        @HeaderTemplate("stock_location/stock_location_name", lang["Stock Location (Business Branch)"],"col-auto")
+                        @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")  
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Warehouse"]</div>
+                        </ThAuto>
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Status"]</ThRight>
                         <th class="uk-width-auto"></th>
@@ -66,7 +69,8 @@
                         </TdCenter>
                         <TdCenter>@p.reference_number</TdCenter>
                         <td>
-                            @p.stock_location?.stock_location_name (@p.business_branch?.business_branch_name_en)
+                            <div>@p.business_branch?.business_branch_name_en</div>
+                            <div class="sub-info-row-table">@p.stock_location?.stock_location_name</div>
                         </td>
 
                         <TdRight>

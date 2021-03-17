@@ -4,7 +4,7 @@
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="@Guid.Empty">@empty_text</option>
             }
             @foreach (var p in gv.stock_locations.Where(r => r.business_branch_id == business_branch_id))
             {
@@ -25,7 +25,7 @@
     [Parameter] public string empty_text { get; set; } = "Select Stock Location";
 
     [Parameter] public string width { get; set; } = "100%";
-    [Parameter] public Guid selected_value { get; set; } 
+    [Parameter] public Guid selected_value { get; set; }
     [Parameter] public Guid business_branch_id { get; set; }
     [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
 

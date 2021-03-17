@@ -23,9 +23,15 @@
     {
         <span class="uk-label fulfilled">Fulfilled</span>
     }
+    @if (is_show_deleted_status)
+    {
+        <LabelDeleted is_visible="@(po.is_deleted)" />
+    }
+
 </Com>
 
 @code{
     [Parameter] public PurchaseOrderModel po { get; set; }
     [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool is_show_deleted_status { get; set; } = true;
 }
