@@ -27,7 +27,7 @@ namespace eModels
         [ForeignKey("from_business_branch_id")]
         public BusinessBranchModel from_business_branch { get; set; }
 
-        public int from_stock_location_id { get; set; }
+        public Guid from_stock_location_id { get; set; }
         [ForeignKey("from_stock_location_id")]
         public StockLocationModel from_stock_location { get; set; }
 
@@ -38,7 +38,7 @@ namespace eModels
         [ForeignKey("to_business_branch_id")]
         public BusinessBranchModel to_business_branch { get; set; }
 
-        public int to_stock_location_id { get; set; }
+        public Guid to_stock_location_id { get; set; }
         [ForeignKey("to_stock_location_id")]
         public StockLocationModel to_stock_location { get; set; }
 

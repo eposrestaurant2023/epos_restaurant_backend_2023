@@ -17,8 +17,9 @@ namespace eModels
         {
             stock_location_products = new List<StockLocationProductModel>();
         }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int id { get; set; }
+        public Guid id { get; set; }
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
@@ -37,7 +38,7 @@ namespace eModels
     {
         [Key]
         public int id { get; set; }
-        public int stock_location_id { get; set; }
+        public Guid stock_location_id { get; set; }
         [ForeignKey("stock_location_id")]
         public StockLocationModel stock_location { get; set; }
         public int product_id { get; set; }

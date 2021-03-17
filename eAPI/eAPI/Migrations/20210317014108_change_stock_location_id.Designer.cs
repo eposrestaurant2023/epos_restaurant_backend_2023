@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210317014108_change_stock_location_id")]
+    partial class change_stock_location_id
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -964,8 +966,8 @@ namespace eAPI.Migrations
                     b.Property<int?>("sale_id")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("stock_location_id")
+                        .HasColumnType("int");
 
                     b.Property<int?>("stock_take_id")
                         .HasColumnType("int");
@@ -995,8 +997,6 @@ namespace eAPI.Migrations
                     b.HasIndex("inventory_transaction_type_id");
 
                     b.HasIndex("product_id");
-
-                    b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_inventory_transaction");
                 });
@@ -2460,8 +2460,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("stock_location_id")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
@@ -2491,8 +2491,6 @@ namespace eAPI.Migrations
                     b.HasIndex("business_branch_id");
 
                     b.HasIndex("discount_user_id");
-
-                    b.HasIndex("stock_location_id");
 
                     b.HasIndex("vendor_id");
 
@@ -3290,73 +3288,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_station");
                 });
 
-            modelBuilder.Entity("eModels.StockLocationModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("stock_location_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_stock_location");
-                });
-
-            modelBuilder.Entity("eModels.StockLocationProductModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("initial_adjustment_quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("initial_quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("max_quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("min_quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("unit")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("product_id");
-
-                    b.HasIndex("stock_location_id");
-
-                    b.ToTable("tbl_stock_location_product");
-                });
-
             modelBuilder.Entity("eModels.StockTakeModel", b =>
                 {
                     b.Property<int>("id")
@@ -3404,9 +3335,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("stock_take_date")
                         .HasColumnType("date");
 
@@ -3423,8 +3351,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("business_branch_id");
-
-                    b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_stock_take");
                 });
@@ -3538,9 +3464,6 @@ namespace eAPI.Migrations
                     b.Property<Guid>("from_business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("from_stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -3571,9 +3494,6 @@ namespace eAPI.Migrations
                     b.Property<Guid>("to_business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("to_stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,4)");
 
@@ -3584,11 +3504,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("from_business_branch_id");
 
-                    b.HasIndex("from_stock_location_id");
-
                     b.HasIndex("to_business_branch_id");
-
-                    b.HasIndex("to_stock_location_id");
 
                     b.ToTable("tbl_stock_transfer");
                 });
@@ -4458,17 +4374,9 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("inventory_transaction_type");
 
                     b.Navigation("product");
-
-                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.MenuModel", b =>
@@ -4858,12 +4766,6 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("discount_user_id");
 
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eModels.VendorModel", "vendor")
                         .WithMany()
                         .HasForeignKey("vendor_id")
@@ -4873,8 +4775,6 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
 
                     b.Navigation("discount_user");
-
-                    b.Navigation("stock_location");
 
                     b.Navigation("vendor");
                 });
@@ -4983,36 +4883,6 @@ namespace eAPI.Migrations
                     b.Navigation("outlet");
                 });
 
-            modelBuilder.Entity("eModels.StockLocationModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("stock_locations")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-                });
-
-            modelBuilder.Entity("eModels.StockLocationProductModel", b =>
-                {
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany("stock_location_products")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany("stock_location_products")
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
-
-                    b.Navigation("stock_location");
-                });
-
             modelBuilder.Entity("eModels.StockTakeModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -5021,15 +4891,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("business_branch");
-
-                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.StockTakeProductModel", b =>
@@ -5059,31 +4921,15 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StockLocationModel", "from_stock_location")
-                        .WithMany()
-                        .HasForeignKey("from_stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eModels.BusinessBranchModel", "to_business_branch")
                         .WithMany()
                         .HasForeignKey("to_business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StockLocationModel", "to_stock_location")
-                        .WithMany()
-                        .HasForeignKey("to_stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("from_business_branch");
 
-                    b.Navigation("from_stock_location");
-
                     b.Navigation("to_business_branch");
-
-                    b.Navigation("to_stock_location");
                 });
 
             modelBuilder.Entity("eModels.StockTransferProductModel", b =>
@@ -5187,8 +5033,6 @@ namespace eAPI.Migrations
                     b.Navigation("outlets");
 
                     b.Navigation("printers");
-
-                    b.Navigation("stock_locations");
                 });
 
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
@@ -5302,8 +5146,6 @@ namespace eAPI.Migrations
                     b.Navigation("product_printers");
 
                     b.Navigation("sale_products");
-
-                    b.Navigation("stock_location_products");
                 });
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
@@ -5351,11 +5193,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.SettingModel", b =>
                 {
                     b.Navigation("business_branch_settings");
-                });
-
-            modelBuilder.Entity("eModels.StockLocationModel", b =>
-                {
-                    b.Navigation("stock_location_products");
                 });
 
             modelBuilder.Entity("eModels.StockTakeModel", b =>

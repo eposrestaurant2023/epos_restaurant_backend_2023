@@ -43,7 +43,7 @@ namespace eAPI.Controllers
            
             
             
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
                 db.StockLocations.Add(u);
                 }
@@ -73,7 +73,7 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<StockLocationModel> Get([FromODataUri] int key)
+        public SingleResult<StockLocationModel> Get([FromODataUri] Guid key)
         {
             var s = db.StockLocations.Where(r => r.id == key).AsQueryable();
 

@@ -24,7 +24,7 @@ namespace eModels
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
 
-        public int stock_location_id { get; set; }
+        public Guid stock_location_id { get; set; }
         [ForeignKey("stock_location_id")]
         public StockLocationModel stock_location { get; set; }
 

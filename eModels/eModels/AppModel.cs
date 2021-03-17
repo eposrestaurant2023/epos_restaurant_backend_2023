@@ -218,7 +218,7 @@ namespace eModels
         
         public int product_id { get; set; }
       
-        public int stock_location_id { get; set; }
+        public Guid stock_location_id { get; set; }
         public decimal quantity { get; set; }
     }
 

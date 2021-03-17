@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210317015626_add_stock_location")]
+    partial class add_stock_location
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -964,9 +966,6 @@ namespace eAPI.Migrations
                     b.Property<int?>("sale_id")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("stock_take_id")
                         .HasColumnType("int");
 
@@ -995,8 +994,6 @@ namespace eAPI.Migrations
                     b.HasIndex("inventory_transaction_type_id");
 
                     b.HasIndex("product_id");
-
-                    b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_inventory_transaction");
                 });
@@ -2460,9 +2457,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
@@ -2491,8 +2485,6 @@ namespace eAPI.Migrations
                     b.HasIndex("business_branch_id");
 
                     b.HasIndex("discount_user_id");
-
-                    b.HasIndex("stock_location_id");
 
                     b.HasIndex("vendor_id");
 
@@ -4458,17 +4450,9 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("inventory_transaction_type");
 
                     b.Navigation("product");
-
-                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.MenuModel", b =>
@@ -4858,12 +4842,6 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("discount_user_id");
 
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eModels.VendorModel", "vendor")
                         .WithMany()
                         .HasForeignKey("vendor_id")
@@ -4873,8 +4851,6 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
 
                     b.Navigation("discount_user");
-
-                    b.Navigation("stock_location");
 
                     b.Navigation("vendor");
                 });
