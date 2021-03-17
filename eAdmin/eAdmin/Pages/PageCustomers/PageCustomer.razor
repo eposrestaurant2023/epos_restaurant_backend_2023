@@ -36,6 +36,7 @@
         </PageHeader>
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+  
             <Com is_visible="@(customers != null)">
                 <Table Items="@customers"
                        PerPage="@state.pager.per_page"
@@ -60,17 +61,17 @@
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>
-                            <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="false" IsBackgroundImage="false" Width="50px" Height="50px" />
+                            <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
                         </TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_code</ComAuthorize>
-                            @JsonSerializer.Serialize(model.customer_business_branchs)
-                            <LabelCustomerBusinessBranchs customer_business_branchs="@model.customer_business_branchs" />
+                            
                         </TdCenter>
                         <td>
                             <div>
                                 <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_name_en (@p.customer_name_kh)</ComAuthorize>
                             </div>
+                            <LabelCustomerBusinessBranchs customer_business_branchs="@p.customer_business_branchs" />
                         </td>
 
                         <TdCenter>

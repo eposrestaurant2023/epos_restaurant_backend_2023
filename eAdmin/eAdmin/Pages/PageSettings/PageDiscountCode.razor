@@ -36,7 +36,7 @@
                                 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
 
                                     <tr>
-                                        <Th>Discound Code Label</Th>
+                                        @*<Th>Discound Code Label</Th>*@
                                         <Th>Discound Code Value</Th>
                                         <ThCenter>Status</ThCenter>
                                         <Th></Th>
@@ -44,7 +44,7 @@
                                     @foreach (var d in b.discount_codes.Where(r => r.is_deleted == false))
                                     {
                                         <tr>
-                                            <td><TextInput @bind-text="@d.discount_label" label="" placeholder="Discount Label" /></td>
+                                            <td><TextInput @bind-text="@d.discount_code" label="" placeholder="Discount Label" /></td>
                                             <td><NumberInput @bind-text="@d.discount_value" label="" placeholder="Discount Value" /></td>
                                             <TdCenter>
                                                 <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
