@@ -13,12 +13,12 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
     {
  
         [Parameter] public Guid id { get; set; }
-        public bool is_open_print, is_show_comment;
+        public bool is_open_print, is_show_comment, is_show_payment_history;
         public HistoryModel history { get; set; } = new HistoryModel();
 
         public string api_url { get {
                 string url = $"sale({id})?";
-                url = url + "$expand=customer,sale_status,stock_location";
+                url = url + "$expand=customer,sale_status,stock_location,";
                 url = url + "sale_products($expand=product,sale_product_modifiers($select=modifier_name,price)),";
                 url = url + "sale_payments($expand=payment_type),";
                 url = url + "outlet,"; 
@@ -60,7 +60,13 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
 
         }
 
- 
+        public void ShowPaymentHistory()
+        {
+            if (!is_show_payment_history)
+            {
+                is_show_payment_history = true;
+            }
+        }
         public void ShowComment()
         {
             if (!is_show_comment)
