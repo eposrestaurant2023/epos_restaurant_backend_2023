@@ -87,7 +87,7 @@
 
     async Task LoadData()
     {
-        var res = await http.ApiGetOData("PriceRule");
+        var res = await http.ApiGetOData("PriceRule?$filter=is_deleted eq false and status eq true");
         if (res.IsSuccess)
         {
             price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(res.Content.ToString());
