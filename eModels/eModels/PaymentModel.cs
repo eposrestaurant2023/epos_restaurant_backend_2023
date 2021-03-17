@@ -9,7 +9,7 @@ namespace eModels
 {
 
     [Table("tbl_sale_payment")]
-    public class SalePaymentModel : PaymentShareModel
+    public class SalePaymentModel : SalePaymentShareModel
     {
         public SalePaymentModel()
         {
