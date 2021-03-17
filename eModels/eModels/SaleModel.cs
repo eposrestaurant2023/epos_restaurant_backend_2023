@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -11,20 +12,23 @@ namespace eModels
     {
         public SaleModel()
         {
-            payments = new List<PaymentModel>();
+            sale_payments = new List<SalePaymentModel>();
             histories = new List<HistoryModel>();
             sale_products = new List<SaleProductModel>();
         }
         public List<HistoryModel> histories { get; set; }
+
+    
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
+
 
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
 
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
-        public List<PaymentModel> payments { get; set; }
+        public List<SalePaymentModel> sale_payments { get; set; }
         public List<SaleProductModel> sale_products { get; set; }
 
         [NotMapped, JsonIgnore]

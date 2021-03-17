@@ -48,7 +48,7 @@
                 else
                 {
                     <span>
-                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Convert.ToInt32(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
                     </span>
                 }
             }
@@ -96,7 +96,7 @@
                 else
                 {
                     <span>
-                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Convert.ToInt32(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
                     </span>
                 }
             }
@@ -112,7 +112,7 @@
                 else
                 {
                     <span>
-                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Convert.ToInt32(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
                     </span>
                 }
             }

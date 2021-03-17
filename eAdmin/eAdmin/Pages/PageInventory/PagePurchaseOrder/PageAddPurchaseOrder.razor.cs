@@ -177,7 +177,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 return;
             }
 
-            if (model.stock_location_id == 0)
+            if (model.stock_location_id == Guid.Empty)
             {
                 toast.Add("Please select stock location.", MatToastType.Warning);
                 return;

@@ -12,12 +12,15 @@ namespace eAPIClient.Models
     {
         public SaleModel()
         {
-            payments = new List<PaymentModel>();
+            payments = new List<SalePaymentModel>();
             sale_products = new List<SaleProductModel>();
         }
 
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
+
+        [ForeignKey("status_id")]
+        public SaleStatusModel  sale_status { get; set; }
 
 
         [ForeignKey("working_day_id")]
@@ -27,7 +30,7 @@ namespace eAPIClient.Models
         [ForeignKey("cashier_shift_id")]
         public CashierShiftModel cashier_shift { get; set; }
 
-        public List<PaymentModel> payments { get; set; }
+        public List<SalePaymentModel> payments { get; set; }
         public List<SaleProductModel> sale_products { get; set; }
 
     }

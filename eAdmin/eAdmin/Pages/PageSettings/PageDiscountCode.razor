@@ -120,7 +120,7 @@
     async Task Save_Click()
     {
 
-        if (branches.SelectMany(r => r.discount_codes).Where(r => r.is_deleted == false && (r.discount_label.Trim() == "" || r.discount_value==0 )).Any())
+        if (branches.SelectMany(r => r.discount_codes).Where(r => r.is_deleted == false && (r.discount_value==0 )).Any())
         {
 
             toast.Add("Please enter printer name", MatToastType.Warning);

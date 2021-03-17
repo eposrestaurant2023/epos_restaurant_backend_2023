@@ -209,7 +209,7 @@ namespace eModels
         public int position_id { get; set; }
         public int outlet_id { get; set; }
         public int purchase_id { get; set; }
-        public int stock_location_id { get; set; }
+        public Guid stock_location_id { get; set; }
         public bool will_remove { get; set; } = false;
         public string state_property_name { get; set; }
         public string sql_statement { get; set; }

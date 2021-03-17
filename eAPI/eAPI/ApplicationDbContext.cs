@@ -87,7 +87,7 @@ namespace eAPI
         public DbSet<NoteModel> Notes{ get; set; }
         public DbSet<OutletStationModel> OutletStations{ get; set; }
         public DbSet<PrinterModel> Printers{ get; set; }
-        public DbSet<StationModel> Stations{ get; set; }
+         public DbSet<StationModel> Stations{ get; set; }
         public DbSet<TableGroupModel> TableGroups{ get; set; }
         public DbSet<TableModel> Tables{ get; set; }                                 
         public DbSet<ProductGroupModel> ProductGroups { get; set; }
@@ -108,7 +108,7 @@ namespace eAPI
         public DbSet<DiscountCodeModel> DiscountCodes { get; set; }
         public DbSet<SaleModel> Sales { get; set; }
         public DbSet<SaleProductModel> SaleProducts { get; set; }
-        public DbSet<PaymentModel> Payments { get; set; }
+        public DbSet<SalePaymentModel> SalePayments { get; set; }
         public DbSet<ProductPrinterModel> ProductPrinters { get; set; }
         public DbSet<ProductPortionModel> ProductPortions { get; set; }
         public DbSet<ProductMenuModel> ProductMenus{ get; set; }

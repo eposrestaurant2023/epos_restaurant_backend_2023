@@ -132,7 +132,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 return;
             }
              
-            if (model.to_stock_location_id == 0)
+            if (model.to_stock_location_id == Guid.Empty)
             {
                 toast.Add(lang["Please select to stock location."], MatToastType.Warning);
                 return;
@@ -143,7 +143,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 toast.Add("Please select from business branch.", MatToastType.Warning);
                 return;
             }
-            if (model.from_stock_location_id == 0)
+            if (model.from_stock_location_id == Guid.Empty)
             {
                 toast.Add(lang["Please select from stock location."], MatToastType.Warning);
                 return;
@@ -182,18 +182,18 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             }
         }
 
-        public void OnFormStockLocationSeletedChange(int _id)
+        public void OnFormStockLocationSeletedChange(Guid _id)
         {
             model.from_stock_location_id = _id;
         }
-        public void OnToStockLocationSeletedChange(int _id)
+        public void OnToStockLocationSeletedChange(Guid _id)
         { 
             model.to_stock_location_id = _id;
         }
         public async Task OnFormBusinessBranchSeletedChange(Guid _id)
         { 
             is_selecting_from_business_branch = true;
-            model.from_stock_location_id = 0;
+            model.from_stock_location_id = Guid.Empty;
             await Task.Delay(500);
             model.from_business_branch_id = _id;
             is_selecting_from_business_branch = false;
@@ -203,7 +203,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         public async Task OnToBusinessBranchSeletedChange(Guid _id)
         {
             is_selecting_to_business_branch = true;
-            model.to_stock_location_id = 0;
+            model.to_stock_location_id = Guid.Empty;
             await Task.Delay(500);
             model.to_business_branch_id = _id;
             is_selecting_to_business_branch = false;

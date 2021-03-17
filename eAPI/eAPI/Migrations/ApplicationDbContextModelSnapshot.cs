@@ -15,16 +15,16 @@ namespace eAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("eModels.AttachFilesModel", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -425,8 +425,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("shift")
                         .HasColumnType("nvarchar(max)")
@@ -505,7 +505,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("country_name")
                         .HasColumnType("nvarchar(max)")
@@ -525,7 +525,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("change_exchange_rate")
                         .HasColumnType("decimal(19,10)");
@@ -579,7 +579,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -713,7 +713,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -734,7 +734,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("discount_label")
+                    b.Property<string>("discount_code")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
@@ -760,7 +760,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("counter")
                         .HasColumnType("int");
@@ -791,10 +791,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<Guid?>("PurchaseOrderPaymentModelid")
-                        .HasColumnType("uniqueidentifier");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(19,4)");
@@ -846,10 +843,7 @@ namespace eAPI.Migrations
                     b.Property<decimal>("old_amount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<int?>("outlet_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("payment_id")
+                    b.Property<Guid?>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("product_id")
@@ -859,6 +853,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid?>("sale_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("sale_payment_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
@@ -889,21 +886,19 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("PurchaseOrderPaymentModelid");
-
                     b.HasIndex("customer_id");
 
                     b.HasIndex("modifier_group_id");
 
                     b.HasIndex("modifier_id");
 
-                    b.HasIndex("payment_id");
-
                     b.HasIndex("product_id");
 
                     b.HasIndex("purchase_order_id");
 
                     b.HasIndex("sale_id");
+
+                    b.HasIndex("sale_payment_id");
 
                     b.HasIndex("stock_take_id");
 
@@ -921,7 +916,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("base_unit")
                         .HasColumnType("nvarchar(max)")
@@ -969,8 +964,8 @@ namespace eAPI.Migrations
                     b.Property<int?>("sale_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("stock_location_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("stock_location_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("stock_take_id")
                         .HasColumnType("int");
@@ -1011,7 +1006,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("inventory_transaction_type_name")
                         .HasColumnType("nvarchar(max)")
@@ -1027,7 +1022,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("kitchen_group_name")
                         .HasColumnType("nvarchar(max)")
@@ -1046,7 +1041,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("background_color")
                         .HasColumnType("nvarchar(max)")
@@ -1122,7 +1117,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1190,7 +1185,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1233,7 +1228,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -1290,7 +1285,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1334,7 +1329,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("default_filters")
                         .HasColumnType("nvarchar(max)")
@@ -1376,7 +1371,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1430,10 +1425,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.OutletModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1480,78 +1474,15 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.OutletStationModel", b =>
                 {
-                    b.Property<int>("station_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("station_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("station_id", "outlet_id");
 
                     b.ToTable("tbl_outlet_station");
-                });
-
-            modelBuilder.Entity("eModels.PaymentModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_create_payment_in_sale_order")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("payment_amount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<DateTime>("payment_date")
-                        .HasColumnType("date");
-
-                    b.Property<string>("payment_note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("payment_type_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("reference_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<Guid?>("sale_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("payment_type_id");
-
-                    b.HasIndex("sale_id");
-
-                    b.ToTable("tbl_payment");
                 });
 
             modelBuilder.Entity("eModels.PaymentTypeModel", b =>
@@ -1559,7 +1490,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1623,7 +1554,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("icon")
                         .HasColumnType("nvarchar(max)")
@@ -1709,7 +1640,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1726,6 +1657,9 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_build_in")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -1749,7 +1683,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1805,7 +1739,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1870,7 +1804,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1926,7 +1860,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
                         .HasColumnType("decimal(19,4)");
@@ -1984,7 +1918,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ingredient_id")
                         .HasColumnType("int");
@@ -2006,7 +1940,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -2031,7 +1965,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
                         .HasColumnType("decimal(19,4)");
@@ -2154,7 +2088,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2229,7 +2163,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
                         .HasColumnType("decimal(19,4)");
@@ -2285,7 +2219,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2332,7 +2266,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ip_address_port")
                         .HasColumnType("nvarchar(max)")
@@ -2365,7 +2299,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("province_name")
                         .HasColumnType("nvarchar(max)")
@@ -2381,7 +2315,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("balance")
                         .HasColumnType("decimal(19,4)");
@@ -2463,8 +2397,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("stock_location_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("stock_location_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
@@ -2567,7 +2501,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
                         .HasColumnType("decimal(19,4)");
@@ -2662,7 +2596,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2778,8 +2712,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_partially_paid")
                         .HasColumnType("bit");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("paid_amount")
                         .HasColumnType("decimal(19,4)");
@@ -2872,6 +2806,69 @@ namespace eAPI.Migrations
                     b.HasIndex("outlet_id");
 
                     b.ToTable("tbl_sale");
+                });
+
+            modelBuilder.Entity("eModels.SalePaymentModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_create_payment_in_sale_order")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("payment_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<DateTime>("payment_date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("payment_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("payment_type_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("reference_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid?>("sale_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("payment_type_id");
+
+                    b.HasIndex("sale_id");
+
+                    b.ToTable("tbl_sale_payment");
                 });
 
             modelBuilder.Entity("eModels.SaleProductModel", b =>
@@ -3243,10 +3240,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StationModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -3270,8 +3266,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("station_name_en")
                         .IsRequired()
@@ -3296,10 +3292,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StockLocationModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -3323,7 +3318,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("initial_adjustment_quantity")
                         .HasColumnType("decimal(19,4)");
@@ -3346,8 +3341,8 @@ namespace eAPI.Migrations
                     b.Property<decimal>("quantity")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<int>("stock_location_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("stock_location_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("unit")
                         .HasColumnType("nvarchar(max)")
@@ -3367,7 +3362,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -3409,8 +3404,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("stock_location_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("stock_location_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("stock_take_date")
                         .HasColumnType("date");
@@ -3439,7 +3434,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
                         .HasColumnType("decimal(19,4)");
@@ -3518,7 +3513,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -3543,8 +3538,8 @@ namespace eAPI.Migrations
                     b.Property<Guid>("from_business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("from_stock_location_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("from_stock_location_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -3576,8 +3571,8 @@ namespace eAPI.Migrations
                     b.Property<Guid>("to_business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("to_stock_location_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("to_stock_location_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,4)");
@@ -3603,7 +3598,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
                         .HasColumnType("decimal(19,4)");
@@ -3699,7 +3694,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -3720,8 +3715,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("photo")
                         .HasColumnType("nvarchar(max)")
@@ -3753,7 +3748,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -3809,7 +3804,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("category_name")
                         .HasColumnType("nvarchar(max)")
@@ -3844,7 +3839,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -3903,7 +3898,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -4005,7 +4000,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -4054,7 +4049,7 @@ namespace eAPI.Migrations
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)")
@@ -4183,8 +4178,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -4382,10 +4377,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
-                    b.HasOne("eModels.PurchaseOrderPaymentModel", null)
-                        .WithMany("histories")
-                        .HasForeignKey("PurchaseOrderPaymentModelid");
-
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
@@ -4398,10 +4389,6 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("modifier_id");
 
-                    b.HasOne("eModels.PaymentModel", "payment")
-                        .WithMany("histories")
-                        .HasForeignKey("payment_id");
-
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany("histories")
                         .HasForeignKey("product_id");
@@ -4413,6 +4400,10 @@ namespace eAPI.Migrations
                     b.HasOne("eModels.SaleModel", "sale")
                         .WithMany("histories")
                         .HasForeignKey("sale_id");
+
+                    b.HasOne("eModels.SalePaymentModel", "sale_payment")
+                        .WithMany("histories")
+                        .HasForeignKey("sale_payment_id");
 
                     b.HasOne("eModels.StockTakeModel", "stock_take")
                         .WithMany("histories")
@@ -4436,13 +4427,13 @@ namespace eAPI.Migrations
 
                     b.Navigation("modifier_group");
 
-                    b.Navigation("payment");
-
                     b.Navigation("product");
 
                     b.Navigation("purchase_order");
 
                     b.Navigation("sale");
+
+                    b.Navigation("sale_payment");
 
                     b.Navigation("stock_take");
 
@@ -4601,23 +4592,6 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("business_branch");
-                });
-
-            modelBuilder.Entity("eModels.PaymentModel", b =>
-                {
-                    b.HasOne("eModels.PaymentTypeModel", "payment_type")
-                        .WithMany()
-                        .HasForeignKey("payment_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.SaleModel", "sale")
-                        .WithMany("payments")
-                        .HasForeignKey("sale_id");
-
-                    b.Navigation("payment_type");
-
-                    b.Navigation("sale");
                 });
 
             modelBuilder.Entity("eModels.PaymentTypeModel", b =>
@@ -4951,6 +4925,23 @@ namespace eAPI.Migrations
                     b.Navigation("outlet");
                 });
 
+            modelBuilder.Entity("eModels.SalePaymentModel", b =>
+                {
+                    b.HasOne("eModels.PaymentTypeModel", "payment_type")
+                        .WithMany()
+                        .HasForeignKey("payment_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.SaleModel", "sale")
+                        .WithMany("sale_payments")
+                        .HasForeignKey("sale_id");
+
+                    b.Navigation("payment_type");
+
+                    b.Navigation("sale");
+                });
+
             modelBuilder.Entity("eModels.SaleProductModel", b =>
                 {
                     b.HasOne("eModels.ProductModel", "product")
@@ -5262,11 +5253,6 @@ namespace eAPI.Migrations
                     b.Navigation("stations");
                 });
 
-            modelBuilder.Entity("eModels.PaymentModel", b =>
-                {
-                    b.Navigation("histories");
-                });
-
             modelBuilder.Entity("eModels.PaymentTypeModel", b =>
                 {
                     b.Navigation("business_branch_payment_types");
@@ -5336,11 +5322,6 @@ namespace eAPI.Migrations
                     b.Navigation("purchase_order_products");
                 });
 
-            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
-                {
-                    b.Navigation("histories");
-                });
-
             modelBuilder.Entity("eModels.RoleModel", b =>
                 {
                     b.Navigation("business_branch_roles");
@@ -5352,9 +5333,14 @@ namespace eAPI.Migrations
                 {
                     b.Navigation("histories");
 
-                    b.Navigation("payments");
+                    b.Navigation("sale_payments");
 
                     b.Navigation("sale_products");
+                });
+
+            modelBuilder.Entity("eModels.SalePaymentModel", b =>
+                {
+                    b.Navigation("histories");
                 });
 
             modelBuilder.Entity("eModels.SaleProductModel", b =>

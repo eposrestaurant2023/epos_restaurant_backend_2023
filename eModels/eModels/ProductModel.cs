@@ -249,7 +249,7 @@ namespace eModels
 
     public class CreatedProductInventoryModel
     {
-        public int stock_location_id { get; set; }
+        public Guid stock_location_id { get; set; }
         public int product_id { get; set; }
         public decimal quantity { get; set; }
         public decimal min_quantity { get; set; }

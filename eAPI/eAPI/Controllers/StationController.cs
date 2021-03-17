@@ -41,7 +41,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] StationModel u)
         {
             
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
 
                 db.Stations.Add(u);
@@ -60,7 +60,7 @@ namespace eAPI.Controllers
 
         [HttpPost("Update")]
         [AllowAnonymous]
-        public async Task<ActionResult<string>> Update(int id, bool is_already_config)
+        public async Task<ActionResult<string>> Update(Guid id, bool is_already_config)
         {
             try
             {

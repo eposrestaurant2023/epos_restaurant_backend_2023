@@ -46,9 +46,8 @@
                 <TableHeader>
                     @HeaderTemplate("sale/working_date", "Working Date", "uk-text-center")
                     @HeaderTemplate("sale/document_number", "Document#", "uk-text-center")
-                    @HeaderTemplate("product/product_name_en", "Product Name", "col-auto")
-                    @HeaderTemplate("sale/business_branch/business_branch_name_en", "Business Branch")
-
+                    @HeaderTemplate("product/product_name_en", "Product Name", "col-auto") 
+                    <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto>
                     <ThCenter>@lang["Quantity"]</ThCenter>
                     <ThRight>@lang["Price"]</ThRight>
                     <ThRight>@lang["Discount"]</ThRight>
@@ -78,7 +77,8 @@
                         </div>
                     </td>
                     <td>
-                        @p.sale?.business_branch?.business_branch_name_en (@p.sale?.outlet?.outlet_name_en)
+                        <div>@p.sale?.business_branch?.business_branch_name_en</div>
+                        <div class="sub-info-row-table">@p.sale?.outlet?.outlet_name_en</div>
                     </td>
                     <TdCenter>
                         <span>@p.quantity.ToString(gv.quantity_format)</span>
