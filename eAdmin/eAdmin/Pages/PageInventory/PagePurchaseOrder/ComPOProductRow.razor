@@ -38,7 +38,7 @@
 </td>
 
 <TdCenter>
-    @if (model.stock_location_id > 0)
+    @if (model.stock_location_id != Guid.Empty)
     {
         <ComProductQuantityOnHand product_id="@purchase_order_product.product_id" stock_location_id="@model.stock_location_id" />
 

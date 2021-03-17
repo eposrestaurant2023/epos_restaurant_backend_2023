@@ -1,5 +1,5 @@
 ﻿ @inject IHttpService http; 
-@if(product_id>0 && stock_location_id > 0)
+@if(product_id>0 && stock_location_id != Guid.Empty)
 {
     if (is_loading)
     {
@@ -20,7 +20,7 @@
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int product_id { get; set; }
-    [Parameter] public int stock_location_id { get; set; }
+    [Parameter] public Guid stock_location_id { get; set; }
     decimal quantity;
     decimal min_quantity;
     bool is_loading;
