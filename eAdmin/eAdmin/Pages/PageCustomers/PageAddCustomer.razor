@@ -36,7 +36,6 @@
                 <UIGridCenter>
                     <ComAddCustomerForm business_branches="@business_branches" model="@model" />
                 </UIGridCenter>
-
             </PageBody>
             <PageFooter>
                 <FooterCenter> 
@@ -163,7 +162,10 @@
                 }
             }
 
+            var xx = JsonSerializer.Serialize(model);
+
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
+
             if (res.IsSuccess)
             {
                 if (res.Content.ToString() == "Customer Code already exist!")
@@ -181,9 +183,7 @@
                         nav.NavigateTo("customer/new");
                         title = lang["Add New Customer"];
                     }
-                    else if (is_save_and_order) {
-                        nav.NavigateTo($"sale/customer/{model.id}");
-                    }
+                   
                     else
                     {
                         nav.NavigateTo($"customer/{model.id}");

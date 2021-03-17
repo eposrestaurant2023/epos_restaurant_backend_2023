@@ -13,7 +13,7 @@ namespace eShareModel
         [Column(TypeName = "date")]
         public DateTime payment_date { get; set; } = DateTime.Now;
 
-        public int outlet_id { get; set; }
+        public Guid outlet_id { get; set; }
 
         public decimal payment_amount { get; set; }
 

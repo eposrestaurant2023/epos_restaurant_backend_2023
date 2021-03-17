@@ -64,14 +64,14 @@ else
 @code {
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public int id { get; set; }
+    [Parameter] public Guid id { get; set; }
     [Parameter] public string customer_name { get; set; }
     [Parameter] public EventCallback<string> customer_nameChanged { get; set; }
 
 
 
     CustomerModel model = new CustomerModel();
-    [Parameter] public EventCallback<int> idChanged { get; set; }
+    [Parameter] public EventCallback<Guid> idChanged { get; set; }
     bool is_loading;
 
 

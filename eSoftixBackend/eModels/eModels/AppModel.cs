@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using eShareModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
+ 
 namespace eModels
 {
     class AppModel
@@ -75,6 +76,8 @@ namespace eModels
                 return JsonSerializer.Deserialize<List<FilterModel>>(default_filters.Replace("'", "\""));
             }
         }
+
+
 
     }
 
@@ -193,6 +196,12 @@ namespace eModels
         public List<CustomerModel> customers { get; set; }
     }
 
+    public class ServerConfigModel
+    {
+        public string project_id { get; set; }
+        public string server_id { get; set; }
+        public string hardware_server_id { get; set; }
 
+    }
 
 }

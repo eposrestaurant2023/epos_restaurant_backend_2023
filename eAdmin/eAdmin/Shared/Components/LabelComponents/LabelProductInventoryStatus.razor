@@ -1,19 +1,43 @@
-﻿<Com is_visible="@is_visible">
-    @if (quantity > max_quantity && max_quantity > 0)
+﻿@inject IStringLocalizer<Resource> lang
+<Com is_visible="@is_visible">
+    @if (is_product_model)
     {
-        <Label Background="#000000" Color="#fff">Over Stock</Label>
+        @if (product.is_over_stock)
+        {
+            <Label Background="#000000" Color="#fff">@lang["Over Stock"]</Label>
+        }
+        else if (product.is_low_inventory)
+        {
+            <Label Background="#fe9900" Color="#fff">@lang["Low Stock"]</Label>
+        }
+        else if (product.is_out_of_stock)
+        {
+            <Label Background="#ff0000" Color="#fff">@lang["Out Of Stock"]</Label>
+        }
+
     }
-    else if ((quantity < min_quantity && quantity > 0) && min_quantity > 0)
+    else
     {
-        <Label Background="#fe9900" Color="#fff">Low Stock</Label>
+        @if (quantity > max_quantity && max_quantity > 0)
+        {
+            <Label Background="#000000" Color="#fff">@lang["Over Stock"] </Label>
+        }
+        else if ((quantity < min_quantity && quantity > 0) && min_quantity > 0)
+        {
+            <Label Background="#fe9900" Color="#fff">@lang["Low Stock"]</Label>
+        }
+        else if (quantity <= 0)
+        {
+            <Label Background="#ff0000" Color="#fff">@lang["Out Of Stock"]</Label>
+        }
+
     }
-    else if (quantity <= 0)
-    {
-        <Label Background="#ff0000" Color="#fff">Out Of Stock</Label>
-    }
+
 </Com>
 
 @code {
+    [Parameter] public ProductModel product { get; set; }
+    [Parameter] public bool is_product_model { get; set; }
 
     [Parameter] public decimal quantity { get; set; }
     [Parameter] public decimal max_quantity { get; set; }

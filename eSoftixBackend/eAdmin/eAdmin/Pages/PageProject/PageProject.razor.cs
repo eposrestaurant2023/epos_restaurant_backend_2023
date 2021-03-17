@@ -31,7 +31,7 @@ namespace eAdmin.Pages.PageCustomers
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$expand=project_type($select=project_type_name,id),customers($select=customer_name_en,customer_name_kh,customer_name_en,id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                string url = $"{controller_api}?$expand=project_type($select=project_type_name,id),customer($select=customer_name_en,customer_name_kh,customer_name_en,id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters);
             }
         }
@@ -62,14 +62,14 @@ namespace eAdmin.Pages.PageCustomers
             is_loading = false;
         }
 
-        public void OnEdit(int id)
+        public void OnEdit(Guid id)
         {
             is_loading_data = true;
             nav.NavigateTo($"project/edit/{id}");
             is_loading_data = false;
         }
 
-        public void Clone_Click(int id)
+        public void Clone_Click(Guid id)
         {
             is_loading_data = true;
             nav.NavigateTo($"project/clone/{id}");

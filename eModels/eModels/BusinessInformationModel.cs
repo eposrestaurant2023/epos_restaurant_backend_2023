@@ -9,7 +9,7 @@ namespace eModels
 {
 
     [Table("tbl_business_information")]
-    public class BusinessInformationModel : KeyModel
+    public class BusinessInformationModel : KeyGUIDModel
     {
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string company_name { get; set; }
@@ -27,6 +27,7 @@ namespace eModels
         public string contact_office_number { get; set; }
         public string contact_email { get; set; }
         public string color { get; set; }
+
     }
 
     [Table("tbl_business_branch")]

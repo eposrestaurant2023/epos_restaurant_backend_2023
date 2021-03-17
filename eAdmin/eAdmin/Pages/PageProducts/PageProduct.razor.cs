@@ -29,8 +29,7 @@ namespace eAdmin.Pages.PageProducts
             {
                 
                 string url = $"{controller_api}?";
-                url = url + "$select=id,is_out_of_stock,is_low_inventory,is_over_stock,product_name_en,product_name_kh,product_code,status,is_deleted,min_price,max_price,photo,quantity&";
-                url = url + $"$expand=product_category($select=product_category_en)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                url = url + $"$expand=product_category($select=product_category_en),unit($select=unit_name,id,unit_category_id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters) + " and is_menu_product eq true";
             }
         }

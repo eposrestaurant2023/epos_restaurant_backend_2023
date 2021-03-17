@@ -18,7 +18,7 @@ namespace eModels
 
         [Required(ErrorMessage = "Please select a station.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a station.")]
-        public int outlet_id { get; set; }
+        public Guid outlet_id { get; set; }
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
 

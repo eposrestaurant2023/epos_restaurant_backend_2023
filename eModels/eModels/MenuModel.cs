@@ -80,7 +80,6 @@ namespace eModels
         public virtual MenuModel menu { get; set; }
 
         public bool is_deleted { get; set; }
-
     }
 
 }

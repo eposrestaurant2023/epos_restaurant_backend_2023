@@ -49,7 +49,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
         public string api_url { get {
 
-                string url = $"Product({id})?$expand=stock_location_products,vendor";
+                string url = $"Product({id})?$expand=stock_location_products,vendor,unit";
                 return url;
             } }
 
@@ -67,8 +67,6 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 nav.NavigateTo("ingredient/" + id);
             }
         }
-
-
 
         protected override async Task OnInitializedAsync()
         {
@@ -97,9 +95,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                     model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
                 }
             }
-
             is_loading = false;
-
         }
         public async Task CloneProduct()
         {
@@ -153,8 +149,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             }
             else
             {
-
-                toast.Add(lang["Save data fail"], MatToastType.Warning);
+                toast.Add(lang[$"{resp.Content.ToString()}"], MatToastType.Warning);
             }
             is_saving = false;
 

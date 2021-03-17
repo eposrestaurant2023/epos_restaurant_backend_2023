@@ -54,6 +54,7 @@ namespace eAPI
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});                          
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
+           
      
             builder.Entity<NumberModel>().HasNoKey();
         
@@ -86,7 +87,7 @@ namespace eAPI
         public DbSet<NoteModel> Notes{ get; set; }
         public DbSet<OutletStationModel> OutletStations{ get; set; }
         public DbSet<PrinterModel> Printers{ get; set; }
-        public DbSet<StationModel> Stations{ get; set; }
+         public DbSet<StationModel> Stations{ get; set; }
         public DbSet<TableGroupModel> TableGroups{ get; set; }
         public DbSet<TableModel> Tables{ get; set; }                                 
         public DbSet<ProductGroupModel> ProductGroups { get; set; }

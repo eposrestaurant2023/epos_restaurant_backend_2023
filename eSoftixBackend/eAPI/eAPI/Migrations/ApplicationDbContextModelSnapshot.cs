@@ -34,8 +34,8 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("customer_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("customer_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -74,8 +74,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int?>("project_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("project_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -91,10 +91,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("address_en")
                         .HasColumnType("nvarchar(max)")
@@ -157,6 +156,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<Guid>("project_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -166,6 +168,8 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
+
+                    b.HasIndex("project_id");
 
                     b.ToTable("tbl_business_branch");
                 });
@@ -216,8 +220,8 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("customer_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("customer_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -251,8 +255,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int?>("project_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("project_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -297,8 +301,8 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("business_branch_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("change_exchange_rate")
                         .HasColumnType("decimal(16,4)");
@@ -385,10 +389,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.CustomerModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)")
@@ -543,8 +546,8 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("customer_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("customer_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -576,11 +579,11 @@ namespace eAPI.Migrations
                     b.Property<decimal>("old_amount")
                         .HasColumnType("decimal(16,4)");
 
-                    b.Property<int?>("outlet_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("project_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("project_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -659,8 +662,8 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("business_branch_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("category_note_id")
                         .HasColumnType("int");
@@ -711,13 +714,12 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.OutletModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("business_branch_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -756,7 +758,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("business_branch_id");
 
-                    b.ToTable("outlets");
+                    b.ToTable("tbl_outlet");
                 });
 
             modelBuilder.Entity("eModels.PaymentTypeModel", b =>
@@ -766,8 +768,8 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("business_branch_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -913,10 +915,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProjectModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("closed_date")
                         .HasColumnType("date");
@@ -937,8 +938,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("customer_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("customer_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -971,6 +972,10 @@ namespace eAPI.Migrations
 
                     b.Property<int>("project_type_id")
                         .HasColumnType("int");
+
+                    b.Property<string>("server_id")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime?>("start_date")
                         .HasColumnType("date");
@@ -1162,8 +1167,8 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("business_branch_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1184,6 +1189,9 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("station_name_en")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1201,6 +1209,8 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("business_branch_id");
+
+                    b.HasIndex("outlet_id");
 
                     b.ToTable("tbl_station");
                 });
@@ -1271,8 +1281,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("password")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("phone_1")
@@ -1324,6 +1333,17 @@ namespace eAPI.Migrations
                     b.Navigation("customer");
 
                     b.Navigation("project");
+                });
+
+            modelBuilder.Entity("eModels.BusinessBranchModel", b =>
+                {
+                    b.HasOne("eModels.ProjectModel", "Project")
+                        .WithMany("business_braches")
+                        .HasForeignKey("project_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("eModels.ContactModel", b =>
@@ -1463,7 +1483,7 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProjectModel", b =>
                 {
-                    b.HasOne("eModels.CustomerModel", "customers")
+                    b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany("projects")
                         .HasForeignKey("customer_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1475,7 +1495,7 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("customers");
+                    b.Navigation("customer");
 
                     b.Navigation("project_type");
                 });
@@ -1488,7 +1508,15 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.OutletModel", "outlet")
+                        .WithMany("stations")
+                        .HasForeignKey("outlet_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("business_branch");
+
+                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eModels.UserModel", b =>
@@ -1526,6 +1554,11 @@ namespace eAPI.Migrations
                     b.Navigation("projects");
                 });
 
+            modelBuilder.Entity("eModels.OutletModel", b =>
+                {
+                    b.Navigation("stations");
+                });
+
             modelBuilder.Entity("eModels.PermissionOptionModel", b =>
                 {
                     b.Navigation("permission_option_roles");
@@ -1535,6 +1568,8 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProjectModel", b =>
                 {
+                    b.Navigation("business_braches");
+
                     b.Navigation("project_contacts");
                 });
 

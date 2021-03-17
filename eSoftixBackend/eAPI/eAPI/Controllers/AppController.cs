@@ -25,11 +25,12 @@ namespace eAPI.Controllers
             GlobalVariableModel gv = new GlobalVariableModel();
             gv.permission_options = db.PermissionOption.ToList();
             gv.module_views = db.ModuleViews.ToList();
-            gv.outlets = db.outlets.ToList();
+            gv.outlets = db.Outlets.ToList();
             gv.countries = db.Countries.ToList();
             gv.customer_groups = db.CustomerGroups.ToList();
             gv.project_type = db.ProjectType.ToList();
             gv.customer = db.Customers.ToList();
+            gv.roles = db.Roles.ToList();
 
             return Ok(gv);
         }
@@ -53,5 +54,8 @@ namespace eAPI.Controllers
             string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
             return r;
         }
+
+
+
     }
 }

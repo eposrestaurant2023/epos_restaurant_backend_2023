@@ -61,13 +61,13 @@ namespace eAPI
         public DbSet<NumberModel> Numbers { get; set; }
         public DbSet<ModuleViewModel> ModuleViews { get; set; }
         public DbSet<AttachFilesModel> AttachFiles { get; set; }
-        public DbSet<OutletModel> outlets { get; set; }
-        public DbSet<BusinessBranchModel> BusinessBranchs { get; set; }
+      public DbSet<OutletModel> Outlets { get; set; }
+        public DbSet<BusinessBranchModel> BusinessBranches { get; set; }
  
         public DbSet<NoteModel> Notes{ get; set; }
         public DbSet<ContactModel> Contacts { get; set; }
 
-        public DbSet<StationModel> Stations{ get; set; }
+   public DbSet<StationModel> Stations{ get; set; }
  
     
   

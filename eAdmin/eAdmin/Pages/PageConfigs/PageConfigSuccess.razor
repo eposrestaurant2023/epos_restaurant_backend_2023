@@ -1,0 +1,26 @@
+﻿@page "/config/done"
+@layout BlankLayout
+ 
+@inject NavigationManager nav;
+@inject IStringLocalizer<Resource> lang
+ 
+<div class="wrp-login-page">
+    <div class="wrp-login-form">
+        <div class="login-header">
+            <img src="images/ePOS-Rest.svg" />
+        </div>
+        <div class="login-form">
+            <div>
+                <h1>@lang["Setup Complete"]</h1>
+                <p>@lang["Please click button login to continue."]</p>
+                <div class="uk-text-center">
+                    <button class="btn-login"  @onclick="@(()=>nav.NavigateTo("login"))">@lang["Login"] </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
+ 

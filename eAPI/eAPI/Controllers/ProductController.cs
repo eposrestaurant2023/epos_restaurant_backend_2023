@@ -68,7 +68,6 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {
             bool is_add = false;
-            var xx = u.unit;
             //check product if it is already has inv transaction then retail fail
             if (u.id > 0) {
                 var db_product = db.Products.Where(r => r.id == u.id).AsNoTracking().Include(r=>r.stock_location_products).AsNoTracking();
@@ -136,6 +135,7 @@ namespace eAPI.Controllers
                 is_add = true;
                 u.unit = null;
                 db.Products.Add(u);
+                AddHistory(u,"New Product Created");
             }
             else
             {
@@ -186,33 +186,33 @@ namespace eAPI.Controllers
             return Ok(u); 
         }
 
-        [HttpPost("stockadjustmentsave")]
+        //[HttpPost("stockadjustmentsave")]
 
-        public async Task<ActionResult<string>> AdjustmentSave ([FromBody] ProductModel p) 
-        {
-            InventoryTransactionModel inv = new InventoryTransactionModel();
+        //public async Task<ActionResult<string>> AdjustmentSave ([FromBody] ProductModel p) 
+        //{
+        //    InventoryTransactionModel inv = new InventoryTransactionModel();
 
-            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+        //    UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            foreach (var s in p.stock_location_products)
-            {
-                inv = new InventoryTransactionModel();
-                inv.product_id = p.id;
-                inv.transaction_date = DateTime.Now;
-                inv.inventory_transaction_type_id = 2;
-                inv.stock_location_id = s.stock_location_id;
-                inv.quantity = s.quantity;
-                inv.reference_number = p.product_code;
-                inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
-                inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Stock Adjustment Ingredient ({p.product_code})" : $"Stock Adjustment Product ({p.product_code})";
-                inv.created_by = user.full_name;
+        //    foreach (var s in p.stock_location_products)
+        //    {
+        //        inv = new InventoryTransactionModel();
+        //        inv.product_id = p.id;
+        //        inv.transaction_date = DateTime.Now;
+        //        inv.inventory_transaction_type_id = 2;
+        //        inv.stock_location_id = s.stock_location_id;
+        //        inv.quantity = s.quantity;
+        //        inv.reference_number = p.product_code;
+        //        inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
+        //        inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Stock Adjustment Ingredient ({p.product_code})" : $"Stock Adjustment Product ({p.product_code})";
+        //        inv.created_by = user.full_name;
 
-                db.InventoryTransactions.Add(inv);
-                db.SaveChanges();
+        //        db.InventoryTransactions.Add(inv);
+        //        db.SaveChanges();
                 
-            }
-            return Ok(inv);
-        }
+        //    }
+        //    return Ok(inv);
+        //}
         async Task AddProductToInventoryTransaction(ProductModel p )
         {
             InventoryTransactionModel inv = new InventoryTransactionModel();
@@ -233,7 +233,6 @@ namespace eAPI.Controllers
                 inv.created_by = user.full_name;  
                 db.InventoryTransactions.Add(inv);
                 db.SaveChanges();
-                
             }
 
         }
@@ -247,32 +246,18 @@ namespace eAPI.Controllers
 
             foreach (var s in p.stock_location_products.Where(r=>(r.initial_adjustment_quantity- r.initial_quantity)!=0))
             {
-
                 inv = new InventoryTransactionModel();
                 inv.product_id = p.id;
                 inv.transaction_date = DateTime.Now;
                 inv.inventory_transaction_type_id = 2;
                 inv.stock_location_id = s.stock_location_id;
                 inv.quantity = s.initial_quantity - s.quantity;
-
                 inv.reference_number = p.product_code;
-
-
                 inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
-                
-
-                    inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Ingredient Initial Quantity Adjustment ({p.product_code})" : $"Product Initial Quantity Adjustment ({p.product_code})";
-
-             
-
+                inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Ingredient Initial Quantity Adjustment ({p.product_code})" : $"Product Initial Quantity Adjustment ({p.product_code})";
                 inv.created_by = user.full_name;
-
                 db.InventoryTransactions.Add(inv);
                 db.SaveChanges();
-
-
-
-
             }
 
         }
@@ -285,10 +270,19 @@ namespace eAPI.Controllers
         {
             var u = await db.Products.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-            
+            if (u.is_deleted)
+            {
+                AddHistory(u, "Product Deleted");
+            }
+            else
+            {
+                AddHistory(u, "Product Restored");
+            }
             db.Products.Update(u);
             await db.SaveChangesAsync();
             db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id);
+            
+            
             return Ok();
         }
 
@@ -297,10 +291,15 @@ namespace eAPI.Controllers
         public async Task<ActionResult> ChangeStatus(int id) //Delete
         {
             var u = await db.Products.FindAsync(id);
-            u.status= !u.status;
-            
+            u.status = !u.status;
+
+            // Add into history
+            string title = u.status == true ? "Changed to Active Product" : "Changed to Inactive Product";
+            AddHistory(u, title);
+
             db.Products.Update(u);
             await db.SaveChangesAsync();
+            
             return Ok();
         }
 
@@ -308,11 +307,13 @@ namespace eAPI.Controllers
         [Route("Clone/{id}")]
         public ActionResult<ProductModel> Clone(int id)
         {
-            var data =   db.Products.Where(r => r.id == id)
+            var data = db.Products.Where(r => r.id == id)
                 .Include(r=>r.product_portions.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.product_prices.Where(r=>r.is_deleted==false))
+                
                 .Include(r=>r.product_printers.Where(r=>r.is_deleted==false)).
                 Include(r=>r.product_menus.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.menu)
                 .Include(r=>r.product_modifiers.Where(r=>r.is_deleted ==false)).ThenInclude(r=>r.modifier)
+                .Include(r=>r.unit)
                 .ToList();
              
             if (data.Any())
@@ -337,6 +338,16 @@ namespace eAPI.Controllers
             
         }
 
+        void AddHistory(ProductModel s, string title)
+        {
+            HistoryModel h = new HistoryModel(title);
+            h.module = "product";
+            h.document_number = s.product_code;
+            h.product_id = s.id;
+            h.description = $"{title} Product Code #: {s.product_code}.";
+
+            s.histories.Add(h);
+        }
 
     }
 

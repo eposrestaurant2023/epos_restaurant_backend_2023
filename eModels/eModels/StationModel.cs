@@ -8,10 +8,9 @@ using eShareModel;
 namespace eModels
 {
     [Table("tbl_station")]
-    public  class StationModel   : CoreModel
+    public  class StationModel   : CoreGUIDModel
     {
-
-        public int outlet_id { get; set; }
+        public Guid outlet_id { get; set; }
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
 

@@ -1,9 +1,11 @@
 ﻿using eAPI.Services;
 using eModels;
+using eShareModel;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,7 +83,10 @@ namespace eAPI.Controllers
                 }
             }
             p.customer_group = null;
-            if (p.id == 0)
+
+            string xx = System.Text.Json.JsonSerializer.Serialize(p);
+
+            if (p.id == Guid.Empty)
             {
                 p.customer_code = await app.GetDocumentNumber(1);
                 await app.SaveDocumentNumber(1);
@@ -99,7 +104,7 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 0)]
         [Route("find")]
 
-        public SingleResult<CustomerModel> Get([FromODataUri] int key)
+        public SingleResult<CustomerModel> Get([FromODataUri] Guid key)
         {
             var c = db.Customers.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(c);
@@ -120,12 +125,12 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 0)]
         [Route("clone/{id}")]
 
-        public async Task<IActionResult> Clone(int id)
+        public  IActionResult  Clone(Guid id)
         {
             var c = db.Customers.Where(r=>r.id == id).Include(r=>r.contacts).FirstOrDefault();
            
-            c.contacts.ForEach(r => { r.id = 0;r.customer_id = 0; });
-            c.id = 0;
+            c.contacts.ForEach(r => { r.id = 0;r.customer_id = Guid.Empty; });
+            c.id = Guid.Empty ;
             return Ok(c);
         }
 

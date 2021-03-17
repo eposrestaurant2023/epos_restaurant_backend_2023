@@ -9,6 +9,9 @@
 @if (!is_loading)
 {
     <PageContainer is_container="false">
+        <div style="word-break:break-word">
+            @ControllerApi
+        </div>
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -40,31 +43,42 @@
                    ShowCounter="true"
                    ClassName="uk-table-small uk-table-striped uk-table-hover"
                    ScrollClass="uk-overflow-auto">
-                <TableHeader> 
+                <TableHeader>
+                    @HeaderTemplate("sale/working_date", "Working Date", "uk-text-center")
                     @HeaderTemplate("sale/document_number", "Document#", "uk-text-center")
-                    @HeaderTemplate("product/product_name_en", "Product Name", "col-auto")
-                    @HeaderTemplate("sale/business_branch/business_branch_name_en", "Business Branch")
-                    @HeaderTemplate("sale/outlet/outlet_name_en", "Outlet")
+                    @HeaderTemplate("product/product_name_en", "Product Name", "col-auto") 
+                    <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto>
                     <ThCenter>@lang["Quantity"]</ThCenter>
                     <ThRight>@lang["Price"]</ThRight>
                     <ThRight>@lang["Discount"]</ThRight>
+                    <ThRight>@lang["Total Tax Amount"]</ThRight>
                     <ThRight>@lang["Amount"]</ThRight>
                     <ThCenter>@lang["Created Date"]</ThCenter>
                     <th>@lang["Created By"]</th>
+                    <th></th>
                     <th class="uk-width-auto"></th>
                 </TableHeader>
-                <RowTemplate Context="p"> 
+                <RowTemplate Context="p">
+                    <TdCenter>
+                        @p.sale.working_date.ToString(gv.date_format)
+                    </TdCenter>
                     <TdCenter>
                         <div><a href="receiptlist/@p.sale_id">@p.sale?.document_number</a></div>
+                        <div>@p.sale.working_day_number @p.sale.cashier_shift_number</div>
                     </TdCenter>
                     <td>
                         <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">@p.product?.product_display_name</ComProfileInfo>
+                        <div>
+                            @p.portion_name
+                            @foreach (var pp in p.sale_product_modifiers.Where(r=>r.is_deleted == false && r.status == true))
+                            {
+                                @pp.modifier_name
+                            }
+                        </div>
                     </td>
                     <td>
-                        @p.sale?.business_branch?.business_branch_name_en
-                    </td>
-                    <td>
-                        @p.sale?.outlet?.outlet_name_en
+                        <div>@p.sale?.business_branch?.business_branch_name_en</div>
+                        <div class="sub-info-row-table">@p.sale?.outlet?.outlet_name_en</div>
                     </td>
                     <TdCenter>
                         <span>@p.quantity.ToString(gv.quantity_format)</span>
@@ -76,10 +90,17 @@
                         @p.total_discount.ToString(gv.main_currency_format)
                     </TdRight>
                     <TdRight>
+                        @p.total_tax_amount.ToString(gv.main_currency_format)
+                    </TdRight>
+                    <TdRight>
                         @p.total_amount.ToString(gv.main_currency_format)
                     </TdRight>
                     <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                     <td>@p.created_by</td>
+                    <td>
+                        <ComSaleStatus sale="@p.sale" />
+                    </td>
+
                     <TdCenter>
                         <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
                     </TdCenter>

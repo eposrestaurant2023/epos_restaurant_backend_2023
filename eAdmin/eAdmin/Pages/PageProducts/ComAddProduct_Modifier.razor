@@ -1,10 +1,10 @@
 ﻿@inject IStringLocalizer<Resource> lang
 
-@if (model.product_modifiers.Where(r => r.is_section).Any())
+@if (model.product_modifiers.Where(r => r.is_section && r.is_deleted == false).Any())
 {
-    foreach (var s in model.product_modifiers.Where(r => r.is_section == true))
+    foreach (var s in model.product_modifiers.Where(r => r.is_section == true && r.is_deleted == false))
     {
-        <UIContainerBox Title="@s.section_name">
+        <UIContainerBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(()=>DeleteSection(s))">
             <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
             <ComInputCheckBox @bind-value="@s.is_required" label="@lang["Is Required"]" />
             <ComInputCheckBox @bind-value="@s.is_multiple_select" label="@lang["Allow Multiple Select"]" />
@@ -107,5 +107,16 @@ else
         });
     }
 
+    void DeleteSection(ProductModifierModel pm)
+    {
+        if (pm.id > 0)
+        {
+            pm.is_deleted = true;
+        }
+        else
+        {
+            model.product_modifiers.Remove(pm);
+        }
+    }
 
 }

@@ -1,0 +1,10 @@
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_visible)
+{
+    <Label is_visible="@is_visible" Background="#cbb087" Text="@lang["Menu Product"]" />
+}
+
+@code{
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string ClassName { get; set; }
+}

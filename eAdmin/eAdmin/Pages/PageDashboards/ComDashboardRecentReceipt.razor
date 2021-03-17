@@ -11,28 +11,40 @@
            ClassName="uk-table-small uk-table-striped uk-table-hover"
            ScrollClass="uk-overflow-auto" >
         <TableHeader> 
+            <ThCenter>@lang["Working Date"]</ThCenter>
+            <ThCenter>@lang["Closed Date"]</ThCenter>
             <ThCenter>@lang["Document #"]</ThCenter>
             <ThAuto>@lang["Customer"]</ThAuto>
-            <ThAuto>@lang["Business Branch"]</ThAuto> 
-            <ThAuto>@lang["Outlet"]</ThAuto>
+            <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto>
             <ThRight>@lang["Total Amount"]</ThRight>
             <ThRight>@lang["Paid Amount"]</ThRight>
             <ThRight>@lang["Balance"]</ThRight>
+            <ThRight>@lang["Status"]</ThRight>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
-            <TdCenter> 
+            <TdCenter>
+                <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"receiptlist/{p.working_day_id}")">@p.working_date.ToString(gv.date_format)</ComAuthorize>
+            </TdCenter>
+            <TdCenter>
+                <Column is_visible="@(p.closed_date != null)">
+                    @p.closed_date.Value.ToString(gv.date_format)
+                </Column>
+            </TdCenter>
+            <TdCenter>
                 <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"receiptlist/{p.id}")">@p.document_number</ComAuthorize>
             </TdCenter>
             <td>
                 <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
             </td>
             <td>
-                @p.business_branch?.business_branch_name_en
-            </td>
-            <td>
-                @p.outlet?.outlet_name_en
-            </td>
+                <div>
+                    @p.business_branch?.business_branch_name_en
+                </div>
+                <div class="sub-info-row-table">
+                    @p.outlet?.outlet_name_en
+                </div>
+            </td> 
             <TdRight>
                 @p.total_amount.ToString(gv.main_currency_format)
             </TdRight>
@@ -41,6 +53,9 @@
             </TdRight>
             <TdRight>
                 @p.balance.ToString(gv.main_currency_format)
+            </TdRight>
+            <TdRight>
+                <ComSaleStatus sale="@p"/>
             </TdRight>
             <TdCenter>
                 <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />

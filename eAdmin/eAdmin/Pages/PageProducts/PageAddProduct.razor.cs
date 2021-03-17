@@ -165,7 +165,16 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-
+            save_model.product_portions.ForEach(r=>r.unit = null);
+            foreach (var m in save_model.product_modifiers.Where(r => r.is_section == true))
+            {
+                if(!m.children.Where(r => r.is_deleted == false).Any())
+                {
+                    toast.Add($"{m.section_name} has no modifier.", MatBlazor.MatToastType.Warning);
+                    is_saving = false;
+                    return;
+                }
+            }
             if (save_model.unit_id == 0)
             { 
                 toast.Add(lang["Please Select Unit."], MatToastType.Warning);

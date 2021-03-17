@@ -22,7 +22,10 @@
                 {
                     <tr>
                         <td>
-                            @pi.ingredient?.product_display_name
+                            <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{pi.ingredient_id}")">
+                                @pi.ingredient?.product_display_name
+                            </ComAuthorize>
+                            
                         </td>
                         <TdCenter>
                             @pi.quantity.ToString(gv.quantity_format)

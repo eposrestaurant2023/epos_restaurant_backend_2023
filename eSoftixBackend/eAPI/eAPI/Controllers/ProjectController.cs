@@ -40,10 +40,7 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProjectModel u)
         {
-
-
-
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
                 db.Project.Add(u);
             }
@@ -54,10 +51,20 @@ namespace eAPI.Controllers
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
-
-
         }
 
+
+        [HttpPost("SaveServerID")]
+        public async Task<ActionResult<string>> SaveServerID([FromBody] ServerConfigModel u)
+        {
+
+            var p = db.Project.Find(Guid.Parse(u.project_id));
+            p.server_id = u.server_id;
+            db.Project.Update(p);
+
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(u);
+        }
 
         [HttpPost]
         [Route("delete/{id}")]
@@ -73,7 +80,7 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<ProjectModel> Get([FromODataUri] int key)
+        public SingleResult<ProjectModel> Get([FromODataUri] Guid key)
         {
             var s = db.Project.Where(r => r.id == key).AsQueryable();
 

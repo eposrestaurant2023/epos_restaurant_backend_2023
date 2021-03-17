@@ -51,7 +51,7 @@
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        @HeaderTemplate("project_name", "Name", "uk-text-right")
+                        @HeaderTemplate("project_name", "Name")
                          <Th> Project Type</Th>
                         <ThAuto>Customer</ThAuto>
                         <ThCenter>Close Date</ThCenter>
@@ -68,7 +68,7 @@
                             @p.project_type?.project_type_name
                         </td>
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.customers?.id}")">@p.customers?.customer_name_en</ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.customer?.id}")">@p.customer?.customer_name_en</ComAuthorize>
                         </td>
                         <TdCenter>
                             @p.closed_date

@@ -82,13 +82,13 @@ namespace eAPI.Controllers
             }
             //end check validation
 
-            HistoryModel h = new HistoryModel($"{(p.id != Guid.Empty? "Update PO Payment":"Create New Payment" )}");
-            h.description = $"{(p.id != Guid.Empty ? "Update PO payment." : "Create new payment.")} Invoice Number: {s.document_number}";
-            h.document_number = s.document_number;
-            h.vendor_id = s.vendor_id;
-            h.purchase_order_id = s.id;
+            //HistoryModel h = new HistoryModel($"{(p.id != Guid.Empty? "Update PO Payment":"Create New Payment" )}");
+            //h.description = $"{(p.id != Guid.Empty ? "Update PO payment." : "Create new payment.")} Invoice Number: {s.document_number}";
+            //h.document_number = s.document_number;
+            //h.vendor_id = s.vendor_id;
+            //h.purchase_order_id = s.id;
 
-            p.histories.Add(h);
+            //p.histories.Add(h);
 
 
             if (p.id == Guid.Empty)
@@ -116,18 +116,18 @@ namespace eAPI.Controllers
 
             PurchaseOrderPaymentModel p = db.PurchaseOrderPayments.Find(id);
             PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
-            HistoryModel h = new HistoryModel("Deleted PO Payment");
-            h.description = $"Deleted PO Payment. Invoice Number: {s.document_number}";
-            h.document_number = s.document_number;
-            h.vendor_id = s.vendor_id;
-            h.purchase_order_id = s.id;
-            p.histories.Add(h);
+            //historymodel h = new historymodel("deleted po payment");
+            //h.description = $"Deleted PO Payment. Invoice Number: {s.document_number}";
+            //h.document_number = s.document_number;
+            //h.vendor_id = s.vendor_id;
+            //h.purchase_order_id = s.id;
+            //p.histories.Add(h);
             p.is_deleted = true;
             db.PurchaseOrderPayments.Update(p);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             db.Database.ExecuteSqlRaw("exec  sp_update_purchase_order_payment " + p.purchase_order_id);
-            return Ok(h);
+            return Ok();
 
         }
 

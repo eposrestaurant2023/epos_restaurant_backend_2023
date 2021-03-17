@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace eModels
 {
+
     class AppModel
     {
     }
@@ -208,6 +209,8 @@ namespace eModels
     {
         public string project_id { get; set; }
         public string server_id { get; set; }
+        public string hardware_server_id { get; set; }
+
     }
 
     public class QuantityAdjustmentModel

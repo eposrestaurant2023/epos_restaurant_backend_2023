@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;     
 namespace eAPI.Controllers
 {
@@ -214,6 +215,8 @@ namespace eAPI.Controllers
             ServerConfigModel s = new ServerConfigModel();
             s.project_id = data.Where(r => r.id == 57).FirstOrDefault().setting_value;
             s.server_id= data.Where(r => r.id == 58).FirstOrDefault().setting_value;
+            s.hardware_server_id = GetServerID();
+
             return Ok(s);
         } 
         
@@ -221,13 +224,92 @@ namespace eAPI.Controllers
          [AllowAnonymous]
         public ActionResult<string> ServerID()
         {
-            string deviceId = new DeviceIdBuilder()
-            .AddProcessorId()
-            .AddMotherboardSerialNumber()
-            .AddSystemDriveSerialNumber()
-            .ToString();
-            return Ok(deviceId);
+           
+
+            return Ok(GetServerID());
         }
+
+        string GetServerID()
+        {
+            string deviceId = new DeviceIdBuilder()
+           .AddProcessorId()
+           .AddMotherboardSerialNumber()
+           .AddSystemDriveSerialNumber()
+           .AddMacAddress()
+           .ToString();
+
          
+            if (deviceId == "NCn_YBwcxPq1k9a7F9poQoVWSBJnuLYz0QlnP7bf3wkzyx" ||
+                deviceId == "OHHzxvomyr_YzGuY6ysKkYwyDWk9ueuz5VmPHF3exAk" ||
+                deviceId == "8T1jIfz9R-YqK2W1DQyFdVMI2XFEcZzJ3I8pGOc5Kdw" ||
+                deviceId == "E4_eXtdxdL3OwNp0XTTy-emrisT5XI8_rg8dXHS8AJo" ||
+                deviceId == "0edRjKQ3SahFZoGDiyHT6DXez-x7L2Z2_3kOuZHQF1U"
+                )
+            {
+                deviceId = "Vilbvq65BAldEO27ZPGN-SzS-vIguKfSjjEt3E5v9qg";
+            }
+
+            return deviceId;
+        }
+
+
+        [HttpGet("CheckRequiredResetDatabase")]
+        [AllowAnonymous]
+        public ActionResult<bool> CheckRequiredResetDatabase()
+        {
+            var d = db.Set<StoreProcedureResultDecimalModel>().FromSqlRaw("exec [sp_check_required_reset_database]");
+            return d.AsEnumerable().FirstOrDefault().result==1;
+        }
+
+
+        [HttpPost]
+        [Route("ConfirmBackendData")]
+        public async Task< ActionResult<string>> ConfirmBackendData([FromBody] eSoftixBackend.ProjectModel p)
+        {
+            //udpate project id to setting 
+            SettingModel project_id = db.Settings.Find(57);
+            project_id.setting_value = p.id.ToString();
+            db.Settings.Update(project_id);
+
+            //update server id 
+            SettingModel server_id = db.Settings.Find(58);
+            server_id.setting_value = GetServerID();
+            db.Settings.Update(server_id);
+            //add record to tbl_business_information mappint this data from tbl_customer in eostix backend project
+            var business_informations = db.BusinessInformations.ToList();
+            BusinessInformationModel biz = new BusinessInformationModel();
+            if (business_informations.Any())
+            {
+                biz = business_informations.FirstOrDefault();
+            }
+
+            biz.id = p.customer.id;
+            biz.company_name = (p.customer.company_name ?? "");
+            biz.company_name_kh = (p.customer.company_name ?? "" );
+            biz.contact_name = (p.customer.customer_name_en ?? "");
+            biz.contact_phone_number = (p.customer.phone_1 ?? "");
+            biz.office_phone = (p.customer.phone_2 ?? "");
+
+            //need more field to map
+
+
+            if (business_informations.Any())
+            {
+
+                db.BusinessInformations.Update(biz);
+            }
+            else
+            {
+
+                db.BusinessInformations.Add(biz);
+            }
+            string xx = JsonSerializer.Serialize(p);
+            await     db.SaveChangesAsync();
+
+
+
+            return Ok();
+        }
+
     }
 }

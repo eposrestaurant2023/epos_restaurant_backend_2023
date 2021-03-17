@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShareModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ namespace eModels
     [Table("tbl_contact")]
     public class ContactModel:CoreModel
     {
-        public int? customer_id { get; set; }
+        public Guid? customer_id { get; set; }
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
         [Required(ErrorMessage ="Please enter contact name")]
@@ -21,7 +22,7 @@ namespace eModels
         public string gender { get; set; }
         public string email_address { get; set; }
         public string telegram { get; set; }
-        public int? project_id { get; set; }
+        public Guid? project_id { get; set; }
         [ForeignKey("project_id")]
         public ProjectModel project { get; set; }
 

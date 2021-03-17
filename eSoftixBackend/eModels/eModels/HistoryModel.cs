@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShareModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -32,16 +33,16 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime? transaction_date { get; set; }
 
-        public int? outlet_id { get; set; }
+        public Guid? outlet_id { get; set; }
 
       
        
 
 
-        public int? customer_id { get; set; }
+        public Guid? customer_id { get; set; }
         [ForeignKey("customer_id")]
         public virtual CustomerModel customer { get; set; }
-        public int? project_id { get; set; }
+        public Guid? project_id { get; set; }
         [ForeignKey("project_id")]
         public virtual ProjectModel Project { get; set; }
 

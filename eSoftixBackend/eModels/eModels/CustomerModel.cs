@@ -1,4 +1,5 @@
 ﻿
+using eShareModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eModels
 {
     [Table("tbl_customer")]
-    public class CustomerModel : CoreModel
+    public class CustomerModel : CoreGUIDModel
     {
         public CustomerModel()
         {

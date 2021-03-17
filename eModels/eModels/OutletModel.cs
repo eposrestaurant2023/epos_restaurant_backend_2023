@@ -11,11 +11,11 @@ using System.Text.Json.Serialization;
 namespace eModels
 {
     [Table("tbl_outlet")]
-    public  class OutletModel : CoreModel
+    public  class OutletModel : CoreGUIDModel
     {
         public OutletModel()
         {
-            stations = new List<StationModel>();
+          stations = new List<StationModel>();
         }
 
         [Required(ErrorMessage = "Please select a business branch.")]
@@ -43,9 +43,7 @@ namespace eModels
 
         [MaxLength(100)]
         public string outlet_name_kh { get; set; }
-
-
-        public List<StationModel> stations { get; set; }
+       public List<StationModel> stations { get; set; }
 
         [NotMapped,JsonIgnore] 
         public string bustiness_branch_name { get; set; }
