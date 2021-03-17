@@ -1,10 +1,11 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 @inject IJSRuntime js
+@inject IStringLocalizer<Resource> lang
 @if (!is_loading)
 {
     <UIGridCenter>
-        <UIContainerBox Title="Payment History" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = 0; })" show_print="@(po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())" OnPrint="@(()=>is_print = true)">
+        <UIContainerBox Title="@lang["Payment History"]" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = 0; })" show_print="@(po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())" OnPrint="@(()=>is_print = true)">
           @if (po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())
             {
                 @foreach (var p in po.purchase_order_payments.Where(r=>r.is_deleted == false).OrderByDescending(r => r.created_date))
@@ -45,7 +46,7 @@
             }
             else
             {
-                <ComEmptyTemplate empty="Payment Empty"/>
+                <ComEmptyTemplate empty="@lang["Payment Empty"]"/>
             }
         </UIContainerBox>
     </UIGridCenter>
