@@ -71,7 +71,7 @@
                             @p.working_date.ToString(gv.date_format)
                         </TdCenter>
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"voidreceipt/{p.id}")">@p.document_number</ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/{p.id}")">@p.document_number</ComAuthorize>
                         </TdCenter>
                         <td>
                             <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>

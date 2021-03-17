@@ -20,7 +20,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
                 string url = $"sale({id})?";
                 url = url + "$expand=customer,sale_status,";
                 url = url + "sale_products($expand=product,sale_product_modifiers($select=modifier_name,price)),";
-                url = url + "payments($expand=payment_type),";
+                url = url + "sale_payments($expand=payment_type),";
                 url = url + "outlet,"; 
                 url = url + "business_branch";
                 return url;
@@ -38,7 +38,9 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         }
         public async Task LoadData()
         {
-            
+
+            Console.WriteLine(api_url);
+
             var resp =await http.ApiGet(api_url);
             if (resp.IsSuccess)
             {
