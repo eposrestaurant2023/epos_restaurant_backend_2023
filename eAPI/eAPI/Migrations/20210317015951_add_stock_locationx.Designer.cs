@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210317015951_add_stock_locationx")]
+    partial class add_stock_locationx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -734,7 +736,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("discount_code")
+                    b.Property<string>("discount_label")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
@@ -846,6 +848,9 @@ namespace eAPI.Migrations
                     b.Property<Guid?>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("payment_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
@@ -853,9 +858,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid?>("sale_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("sale_payment_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
@@ -892,13 +894,13 @@ namespace eAPI.Migrations
 
                     b.HasIndex("modifier_id");
 
+                    b.HasIndex("payment_id");
+
                     b.HasIndex("product_id");
 
                     b.HasIndex("purchase_order_id");
 
                     b.HasIndex("sale_id");
-
-                    b.HasIndex("sale_payment_id");
 
                     b.HasIndex("stock_take_id");
 
@@ -1483,6 +1485,69 @@ namespace eAPI.Migrations
                     b.HasKey("station_id", "outlet_id");
 
                     b.ToTable("tbl_outlet_station");
+                });
+
+            modelBuilder.Entity("eModels.PaymentModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_create_payment_in_sale_order")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("payment_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<DateTime>("payment_date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("payment_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("payment_type_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("reference_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid?>("sale_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("payment_type_id");
+
+                    b.HasIndex("sale_id");
+
+                    b.ToTable("tbl_payment");
                 });
 
             modelBuilder.Entity("eModels.PaymentTypeModel", b =>
@@ -2806,69 +2871,6 @@ namespace eAPI.Migrations
                     b.HasIndex("outlet_id");
 
                     b.ToTable("tbl_sale");
-                });
-
-            modelBuilder.Entity("eModels.SalePaymentModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_create_payment_in_sale_order")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("outlet_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("payment_amount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<DateTime>("payment_date")
-                        .HasColumnType("date");
-
-                    b.Property<string>("payment_note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("payment_type_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("reference_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<Guid?>("sale_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("payment_type_id");
-
-                    b.HasIndex("sale_id");
-
-                    b.ToTable("tbl_sale_payment");
                 });
 
             modelBuilder.Entity("eModels.SaleProductModel", b =>
@@ -4389,6 +4391,10 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("modifier_id");
 
+                    b.HasOne("eModels.PaymentModel", "payment")
+                        .WithMany("histories")
+                        .HasForeignKey("payment_id");
+
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany("histories")
                         .HasForeignKey("product_id");
@@ -4400,10 +4406,6 @@ namespace eAPI.Migrations
                     b.HasOne("eModels.SaleModel", "sale")
                         .WithMany("histories")
                         .HasForeignKey("sale_id");
-
-                    b.HasOne("eModels.SalePaymentModel", "sale_payment")
-                        .WithMany("histories")
-                        .HasForeignKey("sale_payment_id");
 
                     b.HasOne("eModels.StockTakeModel", "stock_take")
                         .WithMany("histories")
@@ -4427,13 +4429,13 @@ namespace eAPI.Migrations
 
                     b.Navigation("modifier_group");
 
+                    b.Navigation("payment");
+
                     b.Navigation("product");
 
                     b.Navigation("purchase_order");
 
                     b.Navigation("sale");
-
-                    b.Navigation("sale_payment");
 
                     b.Navigation("stock_take");
 
@@ -4592,6 +4594,23 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("business_branch");
+                });
+
+            modelBuilder.Entity("eModels.PaymentModel", b =>
+                {
+                    b.HasOne("eModels.PaymentTypeModel", "payment_type")
+                        .WithMany()
+                        .HasForeignKey("payment_type_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.SaleModel", "sale")
+                        .WithMany("payments")
+                        .HasForeignKey("sale_id");
+
+                    b.Navigation("payment_type");
+
+                    b.Navigation("sale");
                 });
 
             modelBuilder.Entity("eModels.PaymentTypeModel", b =>
@@ -4925,23 +4944,6 @@ namespace eAPI.Migrations
                     b.Navigation("outlet");
                 });
 
-            modelBuilder.Entity("eModels.SalePaymentModel", b =>
-                {
-                    b.HasOne("eModels.PaymentTypeModel", "payment_type")
-                        .WithMany()
-                        .HasForeignKey("payment_type_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.SaleModel", "sale")
-                        .WithMany("sale_payments")
-                        .HasForeignKey("sale_id");
-
-                    b.Navigation("payment_type");
-
-                    b.Navigation("sale");
-                });
-
             modelBuilder.Entity("eModels.SaleProductModel", b =>
                 {
                     b.HasOne("eModels.ProductModel", "product")
@@ -5253,6 +5255,11 @@ namespace eAPI.Migrations
                     b.Navigation("stations");
                 });
 
+            modelBuilder.Entity("eModels.PaymentModel", b =>
+                {
+                    b.Navigation("histories");
+                });
+
             modelBuilder.Entity("eModels.PaymentTypeModel", b =>
                 {
                     b.Navigation("business_branch_payment_types");
@@ -5333,14 +5340,9 @@ namespace eAPI.Migrations
                 {
                     b.Navigation("histories");
 
-                    b.Navigation("sale_payments");
+                    b.Navigation("payments");
 
                     b.Navigation("sale_products");
-                });
-
-            modelBuilder.Entity("eModels.SalePaymentModel", b =>
-                {
-                    b.Navigation("histories");
                 });
 
             modelBuilder.Entity("eModels.SaleProductModel", b =>
