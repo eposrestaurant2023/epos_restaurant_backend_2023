@@ -13,7 +13,7 @@ namespace eModels
         public ProjectModel()
         {
             project_contacts = new List<ContactModel>();
-            business_braches = new List<BusinessBranchModel>();
+            business_branches = new List<BusinessBranchModel>();
         }
         [Range(1, int.MaxValue, ErrorMessage = "Please select Project Type")]
         [Display(Name = "Project Type")]
@@ -49,7 +49,7 @@ namespace eModels
         public string server_id { get; set; }
 
         public List<ContactModel> project_contacts { get; set; }
-        public List<BusinessBranchModel> business_braches { get; set; }
+        public List<BusinessBranchModel> business_branches { get; set; }
 
 
     }
