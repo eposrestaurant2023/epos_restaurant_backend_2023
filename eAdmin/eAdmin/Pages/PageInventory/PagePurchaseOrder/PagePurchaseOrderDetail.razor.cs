@@ -12,7 +12,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
     {
 
         [Parameter] public int id { get; set; }
-        public Guid payment_id { get; set; }
+        public int payment_id { get; set; }
         public bool is_open_print, is_add_payment, is_show_comment, is_show_payment_history;
         public HistoryModel history { get; set; } = new HistoryModel();
 

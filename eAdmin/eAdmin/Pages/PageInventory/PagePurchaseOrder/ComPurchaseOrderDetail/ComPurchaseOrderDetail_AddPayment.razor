@@ -58,7 +58,7 @@
 @code {
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public Guid id { get; set; }
+    [Parameter] public int id { get; set; }
     [Parameter] public int po_id { get; set; }
     [Parameter] public bool is_opened { get; set; }
     [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
@@ -86,13 +86,13 @@
             if (po_balance == 0) return false;
 
 
-            if (id != Guid.Empty)
+            if (id > 0)
             {
                 if (model == null)
                 {
                     return false;
                 }
-                if (model.id == Guid.Empty) return false;
+                if (model.id == 0) return false;
             }
 
             return true;
@@ -106,7 +106,7 @@
         is_loading = true;
 
         await LoadData();
-        if (id != Guid.Empty)
+        if (id > 0)
         {
             await LoadPayment();
         }
@@ -118,7 +118,7 @@
         //load default payment
         
         if (po != null) {
-            if (id == Guid.Empty)
+            if (id == 0)
             {
                 po_balance = po.balance;
                 model.payment_amount = po.balance;

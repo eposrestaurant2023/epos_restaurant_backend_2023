@@ -76,5 +76,7 @@ namespace eShareModel
         public bool? is_closed { get; set; }
         public string closed_by { get; set; }
         public DateTime? closed_date { get; set; }
+
+        
     }
 }
