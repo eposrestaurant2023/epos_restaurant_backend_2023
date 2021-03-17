@@ -205,6 +205,14 @@ namespace eModels
         public decimal total_deleted_order { get; set; }
     }
 
+    public class CustomerKPIModel
+    {
+        public decimal total_receivable { get; set; }
+        public int mtd_visited { get; set; }
+        public decimal mtd_sale_amount { get; set; }
+        public int total_sale { get; set; }
+    }
+
     public class ServerConfigModel
     {
         public string project_id { get; set; }
