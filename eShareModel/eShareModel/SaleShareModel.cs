@@ -8,6 +8,7 @@ namespace eShareModel
         public string sale_number { get; set; }
 
         public Guid outlet_id { get; set; }
+        public Guid station_id { get; set; }
 
         public Guid business_branch_id { get; set; }
         public Guid? customer_id { get; set; }
