@@ -1,7 +1,88 @@
 ﻿@page "/receiptlist/{id:guid}"
-<ComSaleDetail id="@id"/>
-@code {
+@inherits ComSaleDetailBase
 
-    [Parameter] public Guid id { get; set; }
+<Loading is_loading="@(is_loading || is_loading_data)" />
 
+@if (!is_loading && is_error == false)
+{
+    <Title Value="@($"Receipt Invoice: {sale.document_number}")"></Title>
+
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Receipt Invoice #"] @sale.document_number
+                        <ComSaleStatus sale="@sale" />
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <Button icon="print" OnClick="@PrintReceipt"></Button>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab>
+                <TabHeader>
+                    <TabHeaderItem>@lang["Invoice"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
+                </TabHeader>
+
+                <TabBody>
+                    <TabItem>
+                        <ComPage>
+                            <ComSaleDetailInvoiceHeader sale="@sale" />
+                            <Spacing Number="20" />
+                            <div class="invoice-sub-title">@lang["Products Sold"]</div>
+                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered table-invoice uk-margin-remove">
+                                <thead>
+                                    <tr>
+                                        <th>@lang["No"]</th>
+                                        <ThCenter>@lang["Image"]</ThCenter>
+                                        <th class="col-auto">@lang["Description"]</th>
+                                        <th class="uk-text-center">@lang["QTY"]</th>
+                                        <th class="uk-text-center">@lang["Unit"]</th>
+                                        <th class="uk-text-right">@lang["Price"]</th>
+                                        <th class="uk-text-right">@lang["Dis."]</th>
+                                        <th class="uk-text-right">@lang["Amount"]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ComSaleDetailInvoiceBody sale="@sale" />
+                                </tbody>
+                                <tfoot>
+                                    <ComSaleDetailInvoiceFooter sale="@sale" />
+                                </tfoot>
+                            </table>
+                            <Spacing Number="15" />
+                            <ComSaleDetailFooterInformation sale="@sale" />
+                        </ComPage>
+                    </TabItem>
+
+                    <TabItem>
+                        @if (is_show_comment)
+                        {
+                            <ComHistory ApiFilter="@($"sale_id  eq {id}")"
+                                        history="@history" />
+                        }
+
+                    </TabItem>
+
+                </TabBody>
+            </Tab>
+            <div class="spacing40"></div>
+        </PageBody>
+    </PageContainer>
+    @if (is_open_print)
+    {
+
+        <ComPreviewReport IsOpened="@is_open_print" report_id="191" Title="@lang["Sale Receipt"]" report_parameters="@($"id={id}&user_id={gv.current_login_user.id}")" />
+    }
+}
+
+@if (is_error)
+{
+    <Error title="@lang["Sale Detail"]">
+        @error_text
+    </Error>
 }

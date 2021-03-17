@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210317050308_sale_status")]
+    partial class sale_status
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -799,9 +801,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("PurchaseOrderPaymentModelid")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(19,4)");
 
@@ -894,8 +893,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("id");
-
-                    b.HasIndex("PurchaseOrderPaymentModelid");
 
                     b.HasIndex("customer_id");
 
@@ -2492,10 +2489,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -4433,10 +4429,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
-                    b.HasOne("eModels.PurchaseOrderPaymentModel", null)
-                        .WithMany("histories")
-                        .HasForeignKey("PurchaseOrderPaymentModelid");
-
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
@@ -5388,11 +5380,6 @@ namespace eAPI.Migrations
                     b.Navigation("purchase_order_payments");
 
                     b.Navigation("purchase_order_products");
-                });
-
-            modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
-                {
-                    b.Navigation("histories");
                 });
 
             modelBuilder.Entity("eModels.RoleModel", b =>
