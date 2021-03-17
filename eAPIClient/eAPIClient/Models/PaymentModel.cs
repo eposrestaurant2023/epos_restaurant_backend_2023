@@ -8,7 +8,7 @@ using eShareModel;
 namespace eAPIClient.Models
 {
 
-    [Table("tbl_payment")]
+    [Table("tbl_sale_payment")]
     public class PaymentModel : PaymentShareModel
     {
        
