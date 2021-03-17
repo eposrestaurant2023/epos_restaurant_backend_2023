@@ -10,7 +10,7 @@ using eShareModel;
 namespace eModels
 {
     [Table("tbl_purchase_order_payment")]
-    public class PurchaseOrderPaymentModel : CoreGUIDModel
+    public class PurchaseOrderPaymentModel : CoreModel
     {
         public PurchaseOrderPaymentModel()
         {
