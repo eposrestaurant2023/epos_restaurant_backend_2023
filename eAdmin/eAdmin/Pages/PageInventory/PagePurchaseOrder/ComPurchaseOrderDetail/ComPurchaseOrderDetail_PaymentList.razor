@@ -4,7 +4,7 @@
 @if (!is_loading)
 {
     <UIGridCenter>
-        <UIContainerBox Title="Payment History" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = Guid.Empty; })" show_print="@(po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())" OnPrint="@(()=>is_print = true)">
+        <UIContainerBox Title="Payment History" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = 0; })" show_print="@(po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())" OnPrint="@(()=>is_print = true)">
           @if (po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())
             {
                 @foreach (var p in po.purchase_order_payments.Where(r=>r.is_deleted == false).OrderByDescending(r => r.created_date))
@@ -60,15 +60,15 @@
     }
 }
 @code {
-    Guid payment_id = Guid.Empty;
-    bool is_loading, is_add_payment, is_print;
+
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public PurchaseOrderModel po { get; set; } = new PurchaseOrderModel();
 
     [Parameter] public int vendor_id { get; set; }
-    [Parameter] public int po_id { get; set; } 
+    [Parameter] public int po_id { get; set; }
     [Parameter] public EventCallback<bool> on_reload { get; set; }
-
+    int payment_id = 0;
+    bool is_loading, is_add_payment, is_print;
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;

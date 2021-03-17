@@ -50,7 +50,7 @@ namespace eAPI.Controllers
 
         [HttpGet("getsingle")]
         [EnableQuery(MaxExpansionDepth = 8)]     
-        public async Task<SingleResult<PurchaseOrderPaymentModel>> Get([FromODataUri] Guid key)
+        public async Task<SingleResult<PurchaseOrderPaymentModel>> Get([FromODataUri] int key)
         {
             return await Task.Factory.StartNew(() => SingleResult.Create<PurchaseOrderPaymentModel>(db.PurchaseOrderPayments.Where(r => r.id == key).AsQueryable()));
         }
@@ -60,7 +60,7 @@ namespace eAPI.Controllers
         {
             //validat check if payment is over PO amount
             PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
-            if (p.id == Guid.Empty)
+            if (p.id ==0)
             {
                
                 if (s.balance < p.payment_amount)
@@ -91,7 +91,7 @@ namespace eAPI.Controllers
             //p.histories.Add(h);
 
 
-            if (p.id == Guid.Empty)
+            if (p.id == 0)
             {
                 db.PurchaseOrderPayments.Add(p);
             }

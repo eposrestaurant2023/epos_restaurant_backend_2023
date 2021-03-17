@@ -30,15 +30,16 @@ namespace eModels
         public string menu_name_en
         {
             get { return _menu_name_en; }
-            set { _menu_name_en = value;
+            set { 
+                _menu_name_en = value;
                 if (string.IsNullOrEmpty(menu_name_kh))
                 {
                     menu_name_kh = value;
                 }
             }
         }
-
-        public string menu_name_kh { get; set; }
+        [MaxLength(100)]
+        public string menu_name_kh { get; set; } = "";
         public string photo { get; set; } = "";
         public List<MenuModel> menus { get; set; }
 

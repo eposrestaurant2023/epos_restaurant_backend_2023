@@ -53,6 +53,7 @@
                         <td>@lang["Invoice Status"]</td>
                         <td>@sale.sale_status?.status_name</td>
                     </tr>
+
                     @if (sale.business_branch != null)
                     {
                         <tr>
@@ -60,6 +61,14 @@
                             <td>@sale.business_branch?.business_branch_name_en</td>
                         </tr>
                     }
+                    @if (sale.stock_location != null)
+                    {
+                    <tr>
+                        <td>@lang["Warehouse"]</td>
+                        <td>@sale.stock_location?.stock_location_name</td>
+                    </tr>
+                    }
+                    
                     @if (sale.outlet != null)
                     {
                         <tr>

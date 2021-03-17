@@ -25,6 +25,7 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["Invoice"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
 
@@ -58,7 +59,12 @@
                             <ComSaleDetailFooterInformation sale="@sale" />
                         </ComPage>
                     </TabItem>
-
+                    <TabItem>
+                        @if (is_show_payment_history)
+                        {
+                            <ComSaleDetail_PaymentList sale_id="@sale.id" on_reload="LoadData" />
+                        }
+                    </TabItem>
                     <TabItem>
                         @if (is_show_comment)
                         {

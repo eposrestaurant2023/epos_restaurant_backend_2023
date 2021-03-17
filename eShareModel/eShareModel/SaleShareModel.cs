@@ -40,10 +40,13 @@ namespace eShareModel
         public decimal sale_product_discount_amount { get; set; }
         public string discount_type { get; set; } = "Percent"; //Percent and Amount;
         public decimal discount { get; set; } = 0;
+        public string discount_code { get; set; }
+        public string discount_note { get; set; }
         public decimal total_discount { get; set; }
 
         
         public decimal total_amount { get; set; }
+        public decimal total_credit { get; set; }
         public decimal balance { get; set; }
         public decimal paid_amount { get; set; }
         public bool is_paid { get; set; }
@@ -73,5 +76,7 @@ namespace eShareModel
         public bool? is_closed { get; set; }
         public string closed_by { get; set; }
         public DateTime? closed_date { get; set; }
+
+        
     }
 }

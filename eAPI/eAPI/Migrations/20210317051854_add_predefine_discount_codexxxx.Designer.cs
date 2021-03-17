@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210317051854_add_predefine_discount_codexxxx")]
+    partial class add_predefine_discount_codexxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -799,8 +801,8 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("PurchaseOrderPaymentModelid")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("PurchaseOrderPaymentModelid")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(19,4)");
@@ -1087,8 +1089,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("menu_name_kh")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("menu_path")
@@ -1760,7 +1761,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ip_address")
+                    b.Property<string>("ip_address_port")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -1771,8 +1772,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("port")
-                        .HasColumnType("int");
+                    b.Property<string>("port")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("printer_name")
                         .HasMaxLength(50)
@@ -2320,15 +2322,12 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ip_address")
+                    b.Property<string>("ip_address_port")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<int>("port")
-                        .HasColumnType("int");
 
                     b.Property<int>("printer_id")
                         .HasColumnType("int");
@@ -2493,10 +2492,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.PurchaseOrderPaymentModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2742,14 +2740,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("discount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<string>("discount_code")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("discount_note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("discount_type")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -2802,9 +2792,6 @@ namespace eAPI.Migrations
                     b.Property<int>("status_id")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
@@ -2851,9 +2838,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("total_cost")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<decimal>("total_credit")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<decimal>("total_discount")
                         .HasColumnType("decimal(19,4)");
 
@@ -2877,10 +2861,6 @@ namespace eAPI.Migrations
                     b.HasIndex("customer_id");
 
                     b.HasIndex("outlet_id");
-
-                    b.HasIndex("status_id");
-
-                    b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_sale");
                 });
@@ -4995,25 +4975,11 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.SaleStatusModel", "sale_status")
-                        .WithMany()
-                        .HasForeignKey("status_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id");
-
                     b.Navigation("business_branch");
 
                     b.Navigation("customer");
 
                     b.Navigation("outlet");
-
-                    b.Navigation("sale_status");
-
-                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.SalePaymentModel", b =>
