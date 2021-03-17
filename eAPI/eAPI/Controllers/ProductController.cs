@@ -185,34 +185,7 @@ namespace eAPI.Controllers
            
             return Ok(u); 
         }
-
-        //[HttpPost("stockadjustmentsave")]
-
-        //public async Task<ActionResult<string>> AdjustmentSave ([FromBody] ProductModel p) 
-        //{
-        //    InventoryTransactionModel inv = new InventoryTransactionModel();
-
-        //    UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
-        //    foreach (var s in p.stock_location_products)
-        //    {
-        //        inv = new InventoryTransactionModel();
-        //        inv.product_id = p.id;
-        //        inv.transaction_date = DateTime.Now;
-        //        inv.inventory_transaction_type_id = 2;
-        //        inv.stock_location_id = s.stock_location_id;
-        //        inv.quantity = s.quantity;
-        //        inv.reference_number = p.product_code;
-        //        inv.url = (p.is_ingredient_product && !p.is_menu_product) ? "ingredient/" + p.id : "product/" + p.id;
-        //        inv.note = (p.is_ingredient_product && !p.is_menu_product) ? $"Stock Adjustment Ingredient ({p.product_code})" : $"Stock Adjustment Product ({p.product_code})";
-        //        inv.created_by = user.full_name;
-
-        //        db.InventoryTransactions.Add(inv);
-        //        db.SaveChanges();
-                
-        //    }
-        //    return Ok(inv);
-        //}
+ 
         async Task AddProductToInventoryTransaction(ProductModel p )
         {
             InventoryTransactionModel inv = new InventoryTransactionModel();
