@@ -19,6 +19,9 @@ namespace eAPIClient.Models
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
 
+        [ForeignKey("status_id")]
+        public SaleStatusModel  sale_status { get; set; }
+
 
         [ForeignKey("working_day_id")]
         public WorkingDayModel working_day { get; set; }
