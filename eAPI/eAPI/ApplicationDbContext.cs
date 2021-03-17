@@ -143,6 +143,7 @@ namespace eAPI
         public DbSet<WorkingDayModel> WorkingDays { get; set; }
         public DbSet<CashierShiftModel> CashierShifts { get; set; }
         public DbSet<PredefineDiscountCodeModel> PredefineDiscountCodes { get; set; }
+        public DbSet<PredefineNoteModel> PredefineNotes { get; set; }
         
 
     }
