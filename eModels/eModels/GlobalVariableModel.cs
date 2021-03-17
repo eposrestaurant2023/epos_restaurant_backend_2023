@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eModels
 {
@@ -20,27 +18,27 @@ namespace eModels
         public List<VendorModel> vendors { get; set; }
         public List<VendorGroupModel> vendor_groups { get; set; }
         public List<UnitModel> units { get; set; }
-          
-  
+
+
         public List<CountryModel> countries { get; set; }
- 
+
 
         public List<SettingModel> settings { get; set; }
- 
+
         public List<RoleModel> roles { get; set; }
         public List<ModuleViewModel> module_views { get; set; }
         public List<StockLocationModel> stock_locations { get; set; }
         public List<InventoryTransactionTypeModel> inventory_transaction_type { get; set; }
-       public List<OutletModel> outlets { get; set; }
+        public List<OutletModel> outlets { get; set; }
         public List<StockTransferModel> stock_stransfer { get; set; }
- 
+
         public List<ProductGroupModel> product_groups { get; set; }
         public List<ProductCategoryModel> product_categories { get; set; }
         public List<CustomerGroupModel> customer_groups { get; set; }
         public List<BusinessBranchModel> bussiness_branches { get; set; }
         public List<UnitCategoryModel> unit_categories { get; set; }
         public List<PrinterModel> printers { get; set; }
-        public List<PriceRuleModel> price_rules{ get; set; }
+        public List<PriceRuleModel> price_rules { get; set; }
         public List<CategoryNoteModel> category_notes { get; set; }
         public List<ProvinceModel> provinces { get; set; }
 
@@ -51,7 +49,7 @@ namespace eModels
         {
             get
             {
-                
+
                 return current_login_user.role.business_branch_roles.Where(r => !r.is_delete).Select(r => r.business_branch).ToList();
             }
         }
@@ -73,8 +71,8 @@ namespace eModels
                 foreach (var b in current_login_user.role.business_branch_roles.Where(r => !r.is_delete).Select(r => r.business_branch).ToList())
                 {
                     _data += $"{b.id},";
-                } 
-               if(!string.IsNullOrEmpty(_data))
+                }
+                if (!string.IsNullOrEmpty(_data))
                     _data = _data.Substring(0, _data.Length - 1);
 
                 return _data;
@@ -85,7 +83,7 @@ namespace eModels
             get
             {
                 string _data = "";
-                foreach (var b in current_login_user.role.business_branch_roles.Where(r=>!r.is_delete).Select(r => r.business_branch).ToList())
+                foreach (var b in current_login_user.role.business_branch_roles.Where(r => !r.is_delete).Select(r => r.business_branch).ToList())
                 {
                     _data += $"{b.id},";
                 }
@@ -97,28 +95,28 @@ namespace eModels
         }
         public string outlet_ids_filter(string _business_branch_ids)
         {
-            
+
             string _data = "";
 
-            if (string.IsNullOrEmpty( _business_branch_ids ))
-            { 
+            if (string.IsNullOrEmpty(_business_branch_ids))
+            {
                 foreach (var id in _business_branch_ids.Split(',').ToList())
                 {
                     foreach (var o in outlets.Where(r => r.business_branch_id.ToString() == id && !r.is_deleted).ToList())
                     {
                         _data += $"{o.id},";
                     }
-                } 
+                }
             }
             else
-            { 
-                foreach (var o in current_login_user.role.business_branch_roles.Where(r => !r.is_delete).SelectMany(r=>r.business_branch.outlets.Where(x=>!x.is_deleted).ToList()).ToList())
+            {
+                foreach (var o in current_login_user.role.business_branch_roles.Where(r => !r.is_delete).SelectMany(r => r.business_branch.outlets.Where(x => !x.is_deleted).ToList()).ToList())
                 {
                     _data += $"{o.id},";
                 }
-            } 
-            if(!string.IsNullOrEmpty(_data))
-               _data = _data.Substring(0, _data.Length - 1); 
+            }
+            if (!string.IsNullOrEmpty(_data))
+                _data = _data.Substring(0, _data.Length - 1);
 
             return _data;
         }
@@ -192,8 +190,8 @@ namespace eModels
             {
                 return get_setting_value(3);
             }
-        } 
-        
+        }
+
         public string server_id
         {
             get

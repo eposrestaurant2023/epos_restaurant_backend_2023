@@ -18,7 +18,10 @@ namespace eModels
         }
         public List<HistoryModel> histories { get; set; }
 
-    
+        [ForeignKey("status_id")]
+        public SaleStatusModel sale_status { get; set; }
+
+
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
 
