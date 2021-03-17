@@ -17,13 +17,17 @@
                         @p.ingredient?.product_display_name
                     </td>
                     <TdCenter>
-                        <NumberInput is_read_only="true" @bind-text="@p.quantity" class_name="uk-text-center" />
+                        <div>
+                        @p.quantity.ToString(gv.quantity_format)
+                        </div>
                     </TdCenter>
                     <TdCenter>
                         <div>@p.unit?.unit_name</div>
                     </TdCenter>
                     <TdRight>
-                        <NumberInput is_read_only="true" @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
+                        <div>
+                            @p.cost.ToString(gv.currency_format)
+                        </div>
                     </TdRight>
                     <TdRight>
                         @p.total_cost.ToString(gv.currency_format)

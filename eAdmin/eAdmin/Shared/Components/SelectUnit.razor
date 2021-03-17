@@ -89,7 +89,7 @@ else
     [Parameter] public EventCallback<UnitModel> unitChanged { get; set; }
 
     [Parameter] public int unit_category_id { get; set; }
-
+    [Parameter] public EventCallback<int> unit_category_idChanged { get; set; }
 
 
     public List<UnitModel> units
@@ -131,11 +131,13 @@ else
         {
             await unitChanged.InvokeAsync(new UnitModel());
             await unit_nameChanged.InvokeAsync("");
+            await unit_category_idChanged.InvokeAsync(0);
         }
         else
         {
             await unitChanged.InvokeAsync(gv.units.Where(r => r.id == selected_value).FirstOrDefault());
             await unit_nameChanged.InvokeAsync(gv.units.Where(r => r.id == selected_value).FirstOrDefault().unit_name);
+            await unit_category_idChanged.InvokeAsync(unit_category_id);
         }
 
     }

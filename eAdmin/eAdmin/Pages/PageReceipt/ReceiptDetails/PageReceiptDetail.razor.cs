@@ -38,9 +38,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         }
         public async Task LoadData()
         {
-
-            Console.WriteLine(api_url);
-
+            is_loading_data = true;
             var resp =await http.ApiGet(api_url);
             if (resp.IsSuccess)
             {
@@ -57,7 +55,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
 
                 is_loading_data = false;
             }
-
+            is_loading_data = false;
         }
 
         public void ShowPaymentHistory()
@@ -80,10 +78,8 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         public async Task SavePayment_Click(bool is_success)
         {
             if (is_success)
-            {
-                is_loading_data = true;
-                await LoadData();
-                is_loading_data = false;
+            { 
+                await LoadData(); 
             } 
             sale.is_loading = false;
             is_loading_data = false;

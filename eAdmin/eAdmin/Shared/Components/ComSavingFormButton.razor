@@ -24,7 +24,8 @@ else
         {
             <LinkButton url="@cancel_url" icon="reply" Class_Name="uk-button-danger">@lang["Cancel"]</LinkButton>
         }
-        else if(is_show_cancel_back){
+        else if(is_show_cancel_back && !is_show_cancel_action)
+        {
           <button class="uk-button uk-button-danger" onclick="history.go(-1)" type="button"><Icon icon="reply"   />@lang["Cancel"]</button>
         }
         else if (is_show_cancel_action)

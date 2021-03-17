@@ -2,6 +2,7 @@
 @inject IMatToaster toast
 @inject IJSRuntime js
 @inject IStringLocalizer<Resource> lang
+<Loading is_loading="@is_loading"/>
 @if (!is_loading)
 {
     <UIGridCenter>
@@ -18,6 +19,7 @@
                             <div>
                                 <span>@p.payment_type?.payment_type_name_en</span>
                             </div>
+                            <Column is_visible="@(!string.IsNullOrEmpty(p.reference_number))">@p.reference_number</Column>
                             <div>
                                 <span>@p.payment_date.ToString(gv.date_format)</span>
                             </div>
@@ -36,9 +38,9 @@
                             </div>
                             <Spacing Number="10" />
                             <Column ClassName="uk-text-right">
-                                <Icon icon="print" OnClick="@(()=>is_print = true)" roles="@gv.GetRole("purchase_order_edit")" title="@lang["Print"]" />
-                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" roles="@gv.GetRole("purchase_order_edit")" title="@lang["Edit"]" />
-                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("purchase_order_delete_payment")" title="@lang["Delete"]" />
+                                <Icon icon="print" OnClick="@(()=>is_print = true)" title="@lang["Print"]" />
+                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" title="@lang["Edit"]" />
+                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" title="@lang["Delete"]" is_loading="@p.is_deleting"/>
                             </Column>
                         </ContentRight>
                     </UIListBox>
@@ -92,26 +94,27 @@
 
     async Task DeletePayment_Click(SalePaymentModel p)
     {
-        //if (await js.Confirm("Delete payment", "Are you sure you want to delete this payment?", SweetAlertMessageType.question))
-        //{
-        //    var resp = await http.ApiPost("PurchaseOrderPayment/delete/" + p.id);
-        //    if (resp.IsSuccess)
-        //    {
-        //        toast.Add("Delete payment successfully", MatToastType.Success);
-        //        await on_reload.InvokeAsync(true);
-        //    }
-        //    else
-        //    {
-        //        toast.Add(resp.Content.ToString(), MatToastType.Warning);
-        //    }
-        //}
+        p.is_deleting = true;
+        if (await js.Confirm("Delete payment", "Are you sure you want to delete this payment?", SweetAlertMessageType.question))
+        {
+            var resp = await http.ApiPost("SalePayment/delete/" + p.id);
+            if (resp.IsSuccess)
+            {
+                await OnReload();
+                toast.Add("Delete payment successfully", MatToastType.Success);
+                await on_reload.InvokeAsync(true);
+            }
+            else
+            {
+                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            }
+        }
+        p.is_deleting = false;
     }
 
     async Task LoadPaymentHistory()
     {
         var api_url = $"sale({sale_id})?$select=id,document_number,balance&$expand=sale_payments($expand=payment_type($select=photo,payment_type_name_en,payment_type_name_kh))";
-
-
         var resp = await http.ApiGet(api_url);
         sale = JsonSerializer.Deserialize<SaleModel>(resp.Content.ToString());
     }

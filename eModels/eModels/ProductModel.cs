@@ -118,7 +118,6 @@ namespace eModels
             }
         }
 
-
         public List<ProductPrinterModel> product_printers { get; set; }
         public List<ProductPortionModel> product_portions { get; set; }
         public List<ProductMenuModel> product_menus { get; set; }
