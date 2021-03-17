@@ -20,7 +20,7 @@ namespace eAPIClient.Models
 
         //List
         public List<SaleProductModifierModel> sale_product_modifiers { get; set; }
-
+        public List<SaleProductPrintQueue> sale_product_print_queues { get; set; }
 
     }
 
