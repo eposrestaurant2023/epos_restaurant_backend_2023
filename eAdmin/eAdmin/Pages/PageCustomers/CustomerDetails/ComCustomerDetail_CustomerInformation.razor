@@ -40,16 +40,11 @@
                             <td>@model.phone_1</td>
                         </tr>
                     </table>
-                    <Spacing Number="15" />
-                    <div class="uk-card uk-card-credit uk-card-body">
-                        <h3 class="uk-margin-remove">125.00</h3>
-                        <div class="uk-text-small uk-text-italic">@lang["Credit Ballance"]</div>
-                    </div>
                 </ContentRight>
             </UISummaryBox>
 
             <UIContainerBox>
-                <ComCustomerKPI />
+                <ComCustomerKPI data="@kpi" />
             </UIContainerBox>
 
             <ComCustomerDetail_YearlySaleBarchart customer_id="@(model.id.ToString())" />
@@ -84,12 +79,30 @@
             }
         </div>
     @code {
+
         [Parameter] public CustomerModel model { get; set; }
 
         [Parameter] public List<BusinessBranchModel> business_branches { get; set; } = new List<BusinessBranchModel>();
 
         [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
+        CustomerKPIModel kpi = new CustomerKPIModel();
 
+        protected override async Task OnInitializedAsync()
+        {
+            var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_customer_kpi_json", procedure_parameter = $"'{model.id}'" });
+            if (resp.IsSuccess)
+            {
+                var data = JsonSerializer.Deserialize<List<CustomerKPIModel>>(resp.Content.ToString());
+                if (data.Any())
+                {
+                    kpi = data.FirstOrDefault();
+                }
+                else
+                {
+                    kpi = new CustomerKPIModel();
+                }
+            }
+        }
     }
 
