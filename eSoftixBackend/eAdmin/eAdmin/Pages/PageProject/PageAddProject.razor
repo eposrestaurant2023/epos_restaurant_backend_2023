@@ -32,7 +32,14 @@
         <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
             <PageBody>
                 <UIGridCenter>
-                   <ComAddProjectForm @bind-model="@model"/>
+                    @if (is_loading)
+                    {
+                        <Spinner/>
+                    }
+                    else
+                    {
+                        <ComAddProjectForm @bind-model="@model"/>
+                    }
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
@@ -78,6 +85,22 @@
             else
             {
                 title = "Add New Project";
+
+                BusinessBranchModel biz = new BusinessBranchModel();
+                biz.business_branch_name_en = "Branch 1";
+                biz.business_branch_name_kh = "Branch 1";
+                OutletModel outlet = new OutletModel();
+                outlet.outlet_name_en = "Outlet 1";
+                outlet.outlet_name_kh = "Outlet 1";
+                StationModel station = new StationModel();
+                station.station_name_en = "Station 1";
+                station.station_name_kh = "Station 1";
+                outlet.stations.Add(station);
+                biz.outlets.Add(outlet);
+
+
+                model.business_branches.Add(biz);
+
                 if (model.project_contacts.Count == 0)
                 {
                     model.project_contacts.Add(new ContactModel());
