@@ -7173,3 +7173,10 @@ z-index:999999!important;
     color: #8e8e8e;
     font-style: italic; 
 }
+.uk-button-view-layout {
+    border: 1px solid #dadada;
+}
+.uk-button-view-layout-active {
+    border: 1px solid #dadada;
+    background-color: #ebeff3;
+}
