@@ -4376,6 +4376,9 @@ textarea.uk-input{
 table.set-verticle-middle tr td{
     vertical-align:middle ;
 }
+table.set-verticle-bottom tr td {
+    vertical-align: bottom;
+}
 table.set-verticle-top_custo tr td {
     vertical-align: top !important;
 }

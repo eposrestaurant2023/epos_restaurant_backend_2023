@@ -10,30 +10,23 @@
         @if (product_portions != null && product_portions.Any())
         {
 <div class="uk-overflow-auto">
-    <table class="uk-table  not-view-table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+    <table class="uk-table  not-view-table set-verticle-bottom uk-table-small uk-table-striped uk-table-hover  ">
         <thead>
             <tr>
                 <ThAuto>@lang["Portion"]</ThAuto>
-                <ThCenter>@lang["Unit"]</ThCenter>
-                <th>@lang["Cost"]</th>
+                <th>@lang["Unit (multiplier)"]</th>
+                <ThRight>@lang["Cost"]</ThRight>
                 @foreach (var p in gv.price_rules)
                 {
-                    <ThCenter>
-                        @p.price_name
-                    </ThCenter>
+                    <ThRight>
+                        <div>@p.price_name</div>
+                        <div>
+                            <LabelActive is_visible="@(IsPriceRuleActive(p))" />
+                            <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
+                        </div>
+                    </ThRight>
                 }
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                @foreach (var p in gv.price_rules)
-                {
-                    <ThCenter>
-                        <LabelActive is_visible="@(IsPriceRuleActive(p))" />
-                        <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
-                    </ThCenter>
-                }
-            </tr>
+            </tr> 
         </thead>
         <tbody>
             @foreach (var pp in product_portions.Where(r => r.is_deleted == false))
@@ -45,13 +38,13 @@
                     <td>
                         @pp.unit?.unit_name (@pp.multiplier.ToString(gv.currency_format))
                     </td>
-                    <TdCenter>
+                    <TdRight>
                         @pp.cost.ToString(gv.currency_format)
-                    </TdCenter>
+                    </TdRight>
                     @foreach (var p in gv.price_rules)
                     {
 
-                        <TdCenter>
+                        <TdRight>
                             @if (pp.product_prices.Where(r => r.price_rule_id == p.id).Any())
                             {
                                 if (pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)
@@ -63,7 +56,7 @@
                                     <span style="color:#ede7e7">@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price.ToString(gv.currency_format)</span>
                                 }
                             }
-                        </TdCenter>
+                        </TdRight>
                     }
 
                 </tr>

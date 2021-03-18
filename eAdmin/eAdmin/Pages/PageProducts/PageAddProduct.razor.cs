@@ -165,7 +165,7 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-            save_model.product_portions.ForEach(r=>r.unit = null);
+            
             foreach (var m in save_model.product_modifiers.Where(r => r.is_section == true))
             {
                 if(!m.children.Where(r => r.is_deleted == false).Any())
@@ -177,7 +177,19 @@ namespace eAdmin.Pages.PageProducts
             }
             if (save_model.unit_id == 0)
             { 
-                toast.Add(lang["Please Select Unit."], MatToastType.Warning);
+                toast.Add(lang["Please select unit."], MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            if (save_model.product_portions.Count() == 0)
+            {
+                toast.Add(lang["Please add product protion."], MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            if (save_model.product_portions.Where(r=>r.unit.unit_category_id != save_model.unit.unit_category_id).Any())
+            {
+                toast.Add(lang["Product portion's unit category not match product category."], MatToastType.Warning);
                 is_saving = false;
                 return;
             }
@@ -187,12 +199,14 @@ namespace eAdmin.Pages.PageProducts
                 save_model.min_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Min(r => r.price);
                 save_model.max_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Max(r => r.price);
             }
+
             //remove menu
+            save_model.product_portions.ForEach(r => r.unit = null);
             save_model.product_menus.ForEach(r => r.menu = null);
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
+
             var resp = await http.ApiPost($"Product/Save", save_model);
 
             if (resp.IsSuccess)
