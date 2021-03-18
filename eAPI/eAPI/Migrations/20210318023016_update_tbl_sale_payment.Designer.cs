@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210318023016_update_tbl_sale_payment")]
+    partial class update_tbl_sale_payment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -655,14 +657,11 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("customer_name_en")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("customer_name_kh")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("date_of_birth")
@@ -1530,9 +1529,6 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("is_build_in")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_credit")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
@@ -2917,9 +2913,6 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("is_create_payment_in_sale_order")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_credit")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")

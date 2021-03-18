@@ -179,11 +179,12 @@
                     if (is_save_and_new)
                     {
                         model = new CustomerModel();
+                        business_branches.ForEach(r => r.is_selected = false);
                         id = "";
                         nav.NavigateTo("customer/new");
                         title = lang["Add New Customer"];
                     }
-                   
+
                     else
                     {
                         nav.NavigateTo($"customer/{model.id}");

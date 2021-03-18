@@ -114,7 +114,7 @@
 
     async Task LoadPaymentHistory()
     {
-        var api_url = $"sale({sale_id})?$select=id,document_number,balance&$expand=sale_payments($expand=payment_type($select=photo,payment_type_name_en,payment_type_name_kh))";
+        var api_url = $"sale({sale_id})?$select=id,document_number,balance&$expand=sale_payments($expand=payment_type($select=photo,payment_type_name_en,payment_type_name_kh);$filter=is_credit eq false)";
         var resp = await http.ApiGet(api_url);
         sale = JsonSerializer.Deserialize<SaleModel>(resp.Content.ToString());
     }
