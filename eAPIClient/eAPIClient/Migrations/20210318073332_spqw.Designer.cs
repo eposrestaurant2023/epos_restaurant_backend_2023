@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210318073332_spqw")]
+    partial class spqw
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -695,24 +697,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_sale");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.SaleOrderModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_sale_order");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.SalePaymentModel", b =>
                 {
                     b.Property<Guid>("id")
@@ -878,9 +862,6 @@ namespace eAPIClient.Migrations
                     b.Property<Guid>("sale_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("sale_order_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -946,8 +927,6 @@ namespace eAPIClient.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("sale_id");
-
-                    b.HasIndex("sale_order_id");
 
                     b.HasIndex("status_id");
 
@@ -1385,12 +1364,6 @@ namespace eAPIClient.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eAPIClient.Models.SaleOrderModel", "sale_order")
-                        .WithMany()
-                        .HasForeignKey("sale_order_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eAPIClient.Models.SaleProductStatusModel", "sale_product_status")
                         .WithMany()
                         .HasForeignKey("status_id")
@@ -1398,8 +1371,6 @@ namespace eAPIClient.Migrations
                         .IsRequired();
 
                     b.Navigation("sale");
-
-                    b.Navigation("sale_order");
 
                     b.Navigation("sale_product_status");
                 });
