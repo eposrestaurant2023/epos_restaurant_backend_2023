@@ -11,6 +11,7 @@ namespace eModels
     [Table("tbl_inventory_transaction")]
     public class InventoryTransactionModel
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int id { get; set; }
         [Column(TypeName = "date")]
