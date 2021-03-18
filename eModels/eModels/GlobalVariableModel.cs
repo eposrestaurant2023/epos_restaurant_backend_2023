@@ -41,6 +41,7 @@ namespace eModels
         public List<PriceRuleModel> price_rules { get; set; }
         public List<CategoryNoteModel> category_notes { get; set; }
         public List<ProvinceModel> provinces { get; set; }
+        public List<KitchenGroupModel> kitchen_groups { get; set; }
 
         public int current_outlet_id { get; set; }
 

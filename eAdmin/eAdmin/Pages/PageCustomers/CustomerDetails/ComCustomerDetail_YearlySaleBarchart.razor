@@ -4,7 +4,7 @@
 
     @if (is_loading)
     {
-        <Spinner />
+        <Spinner is_template_spinning="true"/>
     }
     else
     {
@@ -22,9 +22,6 @@
             {
                 <ComCustomerDetail_SaleTableMatrix data="@data" />
             }
-
-
-
         }
     }
 

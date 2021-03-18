@@ -1,0 +1,97 @@
+﻿<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
+    <div class="uk-form-controls">
+        @if (!is_laoding)
+        {
+            if (is_ready_only)
+            {
+                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width" disabled>
+                    @if (show_empty)
+                    {
+                        <option value="">@empty_text</option>
+                    }
+                    @foreach (var p in gv.kitchen_groups)
+                    {
+                        <option value="@p.id">@p.kitchen_group_name</option>
+                    }
+                </select>
+            }
+            else
+            {
+                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width" @onchange="@((ui) => SelectedValueChange((string)ui.Value))">
+                    @if (show_empty)
+                    {
+                        <option value="">@empty_text</option>
+                    }
+                    @foreach (var p in gv.kitchen_groups)
+                    {
+                        <option value="@p.id">@p.kitchen_group_name</option>
+                    }
+                </select>
+            }
+
+            @ChildContent
+        }
+        else
+        {
+            <Spinner />
+        }
+
+    </div>
+</div>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Kitchen Group";
+    [Parameter] public string icon { get; set; }
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_ready_only { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Kitchen Group";
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public int? selected_value { get; set; }
+    [Parameter] public EventCallback<int?> selected_valueChanged { get; set; }
+    [Parameter] public KitchenGroupModel kitchen_group { get; set; }
+    [Parameter] public EventCallback<KitchenGroupModel> kitchen_groupChanged { get; set; }
+
+    public bool is_laoding = false;
+    Guid id = Guid.NewGuid();
+    public int? SelectedValue
+    {
+        get
+        {
+            if(selected_value > 0)
+                return kitchen_group == null ? gv.kitchen_groups.Find(r=>r.id == selected_value).id : selected_value;
+            else
+                return kitchen_group == null ? null : kitchen_group.id;
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_laoding = true;
+        await selected_valueChanged.InvokeAsync(SelectedValue);
+        is_laoding = false;
+    }
+
+
+    private async Task SelectedValueChange(string n)
+    {
+        if (n == "")
+            selected_value = null;
+        else
+            selected_value = int.Parse(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+        if (string.IsNullOrEmpty(selected_value.ToString()))
+        {
+            await kitchen_groupChanged.InvokeAsync(new KitchenGroupModel());
+        }
+        else
+        {
+            await kitchen_groupChanged.InvokeAsync(gv.kitchen_groups.Where(r => r.id == selected_value).FirstOrDefault());
+        }
+
+    }
+
+}
