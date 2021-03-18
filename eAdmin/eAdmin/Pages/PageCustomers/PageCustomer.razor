@@ -81,7 +81,7 @@
                             @p.gender
                         </td>
                         <TdRight>
-                            00
+                            @p.total_receivable.ToString(gv.currency_format)
                         </TdRight>
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />
