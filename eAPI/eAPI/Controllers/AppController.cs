@@ -61,6 +61,7 @@ namespace eAPI.Controllers
             gv.units= db.Units.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.unit_categories= db.UnitCategorys.ToList();
             gv.inventory_transaction_type= db.InventoryTransactionTypes.ToList();
+            gv.kitchen_groups= db.KitchenGroups.ToList();
 
             return Ok(gv);
         }
