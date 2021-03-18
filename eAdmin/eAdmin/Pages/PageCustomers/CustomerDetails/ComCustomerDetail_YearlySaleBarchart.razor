@@ -11,6 +11,54 @@
     @if (data != null && barchart_data!=null)
         {
     <BarChart Data="@barchart_data" Height="325" Width="100" />
+
+    <table>
+        <thead>
+            <tr>
+                <th>@lang["Branch"]</th>
+                @foreach (string m in data.Select(r => r.cal_date.ToString("MMM")).Distinct().ToList()) {
+                    <th>@m</th>
+                }
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var b in (from a in data
+                              select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct().ToList())
+            {
+            <tr>
+                <td>@b.business_branch_name</td>
+                @foreach (var m in data.Select(r => r.cal_date).Distinct().ToList())
+                {
+                   <td>
+                       @data.Where(r=>r.business_branch_id==b.business_branch_id && r.cal_date==m).FirstOrDefault().total_amount.ToString(gv.currency_format)
+                   </td>
+                }
+                <td>
+                    @data.Where(r=>r.business_branch_id==b.business_branch_id).Sum(r=>r.total_amount).ToString(gv.currency_format)
+                </td>
+            </tr>
+            }
+            </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    Total
+                </td>
+                @foreach (var m in data.Select(r => r.cal_date).Distinct().ToList())
+                {
+                    <td>
+                        @data.Where(r => r.cal_date ==  m).Sum(r=>r.total_amount).ToString(gv.currency_format)
+                    </td>
+                }
+                <td>@data.Sum(r => r.total_amount).ToString(gv.currency_format)</td>
+            </tr>
+        </tfoot>
+    </table>
+
+
         }
     }
 
@@ -18,7 +66,7 @@
  
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
- 
+
     [Parameter] public string customer_id { get; set; }
     BarChartModel barchart_data;
     bool is_loading;
@@ -35,6 +83,7 @@
         is_loading = false;
     }
 
+   
 
     void SetBarchartData()
     {
@@ -69,12 +118,12 @@
     class YearlySaleRevenueModel
     {
 
-              
+
         public string business_branch_id { get; set; }
         public string business_branch_name { get; set; }
         public string color { get; set; }
         public DateTime cal_date { get; set; }
-         public decimal total_amount { get; set; }
+        public decimal total_amount { get; set; }
 
     }
 
