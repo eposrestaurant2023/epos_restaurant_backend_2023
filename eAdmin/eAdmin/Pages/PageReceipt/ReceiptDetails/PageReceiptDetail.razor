@@ -82,7 +82,7 @@
     @if (is_open_print)
     {
 
-        <ComPreviewReport IsOpened="@is_open_print" report_id="191" Title="@lang["Sale Receipt"]" report_parameters="@($"id={id}&user_id={gv.current_login_user.id}")" />
+        <ComPreviewReport @bind-IsOpened="@is_open_print" report_id="191" Title="@lang["Sale Receipt"]" report_parameters="@($"id={id}&user_id={gv.current_login_user.id}")" />
     }
 }
 

@@ -1,0 +1,61 @@
+﻿@inject IStringLocalizer<Resource> lang
+@if (data != null)
+{
+    <div class="uk-overflow-auto">
+        <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-divider table-matrix">
+            <thead>
+                <tr>
+                    <th>@lang["Branch"]</th>
+                    @foreach (string m in data.Select(r => r.cal_date.ToString("MMM")).Distinct().ToList())
+                    {
+                        <th>@m</th>
+                    }
+                    <th>
+                        @lang["Total"]
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in (from a in data
+                                   select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct().ToList())
+                {
+                    <tr>
+                        <td class="uk-text-bold">@b.business_branch_name</td>
+                        @foreach (var m in data.Select(r => r.cal_date).Distinct().ToList())
+                        {
+                            <td>
+                                @data.Where(r => r.business_branch_id == b.business_branch_id && r.cal_date == m).FirstOrDefault().total_amount.ToString(gv.currency_format)
+                            </td>
+                        }
+                        <td>
+                            @data.Where(r => r.business_branch_id == b.business_branch_id).Sum(r => r.total_amount).ToString(gv.currency_format)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        @lang["Total"]
+                    </td>
+                    @foreach (var m in data.Select(r => r.cal_date).Distinct().ToList())
+                    {
+                        <td>
+                            @data.Where(r => r.cal_date == m).Sum(r => r.total_amount).ToString(gv.currency_format)
+                        </td>
+                    }
+                    <td>@data.Sum(r => r.total_amount).ToString(gv.currency_format)</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+}
+else
+{
+    <Spinner is_template_spinning="true" />
+}
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public List<YearlySaleRevenueModel> data { get; set; }
+}

@@ -2,14 +2,13 @@
 @inject IMatToaster toast
 @inject IJSRuntime js
 @inject IStringLocalizer<Resource> lang
-<Loading is_loading="@is_loading"/>
+<Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
     <UIGridCenter>
         <UIContainerBox Title="@lang["Payment History"]" is_show_add_button="@(sale.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = Guid.Empty; })" show_print="@(sale.sale_payments.Where(r=>r.is_deleted == false).Any())" OnPrint="@(()=>is_print = true)">
-          @if (sale.sale_payments.Where(r=>r.is_deleted == false).Any())
-            {
-                @foreach (var p in sale.sale_payments.Where(r=>r.is_deleted == false).OrderByDescending(r => r.created_date))
+            <ViewEmptyTemplate is_view="@(sale.sale_payments.Where(r => r.is_deleted == false).Any())">
+                @foreach (var p in sale.sale_payments.Where(r => r.is_deleted == false).OrderByDescending(r => r.created_date))
                 {
                     <UIListBox ImageUrl="@p.payment_type?.photo">
                         <ContentLeft>
@@ -40,26 +39,22 @@
                             <Column ClassName="uk-text-right">
                                 <Icon icon="print" OnClick="@(()=>is_print = true)" title="@lang["Print"]" />
                                 <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" title="@lang["Edit"]" />
-                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" title="@lang["Delete"]" is_loading="@p.is_deleting"/>
+                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" title="@lang["Delete"]" is_loading="@p.is_deleting" />
                             </Column>
                         </ContentRight>
                     </UIListBox>
                 }
-            }
-            else
-            {
-                <ComEmptyTemplate empty="Payment Empty"/>
-            }
+            </ViewEmptyTemplate>
         </UIContainerBox>
     </UIGridCenter>
 
     @if (is_add_payment)
-    { 
-        <ComSaleDetail_AddPayment sale_id="@sale_id" payment_id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload"/>
+    {
+        <ComSaleDetail_AddPayment sale_id="@sale_id" payment_id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload" />
     }
     @if (is_print)
     {
-        @*<ComPreviewReport parent_id="117" report_id="185" id="sale_id" @bind-IsOpened="is_print" />*@
+        <ComPreviewReport report_id="185" @bind-IsOpened="is_print" />
     }
 }
 @code {
