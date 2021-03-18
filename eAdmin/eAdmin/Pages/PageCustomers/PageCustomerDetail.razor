@@ -25,8 +25,8 @@
                                      File="@(new AttachFilesModel() { customer_id = Guid.Parse(id) })"
                                      IsVisible="@(!model.is_deleted)"/>
                  
-                <SplitButton main_button_text="New">
-                    <SplitButtonItem roles="@gv.GetRole("customer_add")">@lang["New Customer"]</SplitButtonItem>
+                <SplitButton OnClick="@(()=>nav.NavigateTo("customer/new"))" main_button_text="New">
+                    <SplitButtonItem roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">@lang["New Customer"]</SplitButtonItem>
                     <SplitButtonItem roles="@gv.GetRole("customer_add")" url="@($"payment/customer/{id}")">@lang["Add Payment"]</SplitButtonItem>
                 </SplitButton>
                 <MoreButton is_loading="@model.is_loading">
