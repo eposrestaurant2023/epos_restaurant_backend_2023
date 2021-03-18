@@ -39,69 +39,83 @@ namespace eAPIClient.Controllers
             //run script prepare config data 
             var prepare = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data ", procedure_parameter = $"'{business_branch_id}'" }); 
             List<MenuModel> menu_datas = await GetRemoteMenu(business_branch_id);
+            if (!is_get_remote_data_success)
+                return BadRequest();
             //product have printer and modifier
             List<ProductModel> product_datas = await GetRemoteProduct(business_branch_id);
+            if (!is_get_remote_data_success)
+                return BadRequest();
+
             List<ProductMenuModel> product_menu_datas = await GetRemoteProductMenu(business_branch_id);
+            if (!is_get_remote_data_success)
+                return BadRequest();
 
             //get product price 
             List<ProductPriceModel> product_price_datas = await GetRemoteProductPrice(business_branch_id);
+            if (!is_get_remote_data_success)
+                return BadRequest();
             // run this when all data read from server done success
             //run clear all old data
 
             //Get Config Data
             List<ConfigDataModel> config_datas = await GetConfigData(business_branch_id);
+            if (!is_get_remote_data_success)
+                return BadRequest();
             List<SaleStatusModel> sale_statuses = await GetSaleStatus();
+            if (!is_get_remote_data_success)
+                return BadRequest();
             List<SaleProductStatusModel> sale_product_statuses = await GetSaleProductStatus();
-            if (is_get_remote_data_success)
+            if (!is_get_remote_data_success)
+                return BadRequest();
+
+            
+            //Success of Data processing
+            db.Database.ExecuteSqlRaw("exec sp_delete_menu_and_product");
+            db.Menus.AddRange(menu_datas);   
+            db.Products.AddRange(product_datas);
+            await db.SaveChangesAsync();
+
+
+            db.ProductMenus.AddRange(product_menu_datas);
+            db.ProductPrices.AddRange(product_price_datas);
+            await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw("exec sp_update_product_portion_price");
+
+
+            //Config Data
+            foreach (var a in sale_statuses)
             {
-                db.Database.ExecuteSqlRaw("exec sp_delete_menu_and_product");
-                db.Menus.AddRange(menu_datas);   
-                db.Products.AddRange(product_datas);
-                await db.SaveChangesAsync();
-
-
-                db.ProductMenus.AddRange(product_menu_datas);
-                db.ProductPrices.AddRange(product_price_datas);
-                await db.SaveChangesAsync();
-                db.Database.ExecuteSqlRaw("exec sp_update_product_portion_price");
-
-
-                //Config Data
-                foreach (var a in sale_statuses)
+                var _sps = db.SaleStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
+                if (_sps.Count() <= 0)
                 {
-                    var _sps = db.SaleStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
-                    if (_sps.Count() <= 0)
-                    {
-                        db.SaleStatuses.Add(a);
-                    }
-                    else
-                    {
-                        db.SaleStatuses.Update(a);
-                    }
+                    db.SaleStatuses.Add(a);
                 }
-
-                foreach (var a in sale_product_statuses)
+                else
                 {
-                    var _sps = db.SaleProductStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
-                    if (_sps.Count() <= 0)
-                    {     
-                       db.SaleProductStatuses.Add(a); 
-                    }
-                    else
-                    {
-                        db.SaleProductStatuses.Update(a);
-                    }
+                    db.SaleStatuses.Update(a);
                 }
-
-
-                string _deleteQuery = string.Format("delete tbl_config_data;");
-                db.Database.ExecuteSqlRaw(_deleteQuery);
-                db.ConfigDatas.AddRange(config_datas);     
-                await db.SaveChangesAsync();
-                //
-                return Ok();
             }
-            return BadRequest();
+
+            foreach (var a in sale_product_statuses)
+            {
+                var _sps = db.SaleProductStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
+                if (_sps.Count() <= 0)
+                {     
+                    db.SaleProductStatuses.Add(a); 
+                }
+                else
+                {
+                    db.SaleProductStatuses.Update(a);
+                }
+            }
+
+
+            string _deleteQuery = string.Format("delete tbl_config_data;");
+            db.Database.ExecuteSqlRaw(_deleteQuery);
+            db.ConfigDatas.AddRange(config_datas);     
+            await db.SaveChangesAsync();
+            //
+            return Ok();       
 
         }
 
@@ -121,7 +135,7 @@ namespace eAPIClient.Controllers
             is_get_remote_data_success = false;
             string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section";
             //$expand=product_printers($select=id,printer_name,ip_address_port;$filter=is_deleted eq false)
-            string url = $"product?$select=id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_allow_free,is_open_product,is_inventory_product";
+            string url = $"product?$select=id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_open_product,is_inventory_product";
             url = url + $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
             url = url + $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
             url = url + $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";
@@ -137,7 +151,7 @@ namespace eAPIClient.Controllers
         async Task<List<ProductMenuModel>> GetRemoteProductMenu(string business_branch_id)
         {
             is_get_remote_data_success = false;
-            string url = "ProductMenu?";
+            string url = "ProductMenu?$select=id,product_id,menu_id";
             url = url + "&$filter=is_deleted eq false and  ";
             url = url + "menu/is_deleted eq false  and ";
             url = url + "menu/status eq true ";
