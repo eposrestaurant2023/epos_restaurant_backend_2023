@@ -20,5 +20,6 @@ namespace eShareModel
         public string payment_note { get; set; }
 
         public bool is_create_payment_in_sale_order { get; set; }
+        public bool is_credit { get; set; }
     }
 }

@@ -103,6 +103,9 @@ namespace eModels
             }
         }
 
+        public string kitchen_group_name { get; set; }
+        public int kitchen_group_sort_order { get; set; }
+
         public bool is_inventory_product { get; set; }
         public bool is_menu_product { get; set; }
         public bool is_ingredient_product { get; set; }

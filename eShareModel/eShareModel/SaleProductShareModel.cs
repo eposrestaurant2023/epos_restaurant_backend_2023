@@ -6,7 +6,10 @@ namespace eShareModel
     public class SaleProductShareModel :CoreGUIDModel
     {
        
-        public Guid sale_id { get; set; }   
+        public Guid sale_id { get; set; }
+
+        public Guid sale_order_id { get; set; }
+
         public int product_id { get; set; }
         public string product_code { get; set; } = "";
         private string _product_name_en="";
@@ -21,7 +24,8 @@ namespace eShareModel
                 }
             }
         }
-        public string product_name_kh { get; set; } = "";
+        public string product_name_kh { get; set; } = "";    
+
         public bool is_inventory_product { get; set; } = false;
         public bool is_allow_discount { get; set; } = true;    
         public int portion_id { get; set; }

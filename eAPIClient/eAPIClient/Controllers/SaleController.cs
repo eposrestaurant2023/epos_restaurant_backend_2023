@@ -62,10 +62,10 @@ namespace eAPIClient.Controllers
             {
                 bool is_new = true;
                 model.customer = null;   
-
                 if(model.id == Guid.Empty)
                 {
-                    model.sale_number = await app.GenerateDocumentNumber("SaleNum", model.outlet_id.ToString());
+                    model.sale_number = await app.GenerateDocumentNumber("SaleNum", model.outlet_id.ToString());    
+                    model.sale_products.ForEach(sp => sp.sale_product_print_queues.ForEach(_spq => _spq.sale_number = model.sale_number));
                     db.Sales.Add(model);
                 }
                 else
