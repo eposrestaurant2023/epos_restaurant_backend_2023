@@ -246,7 +246,7 @@ namespace eAPI.Controllers
                 deviceId == "0edRjKQ3SahFZoGDiyHT6DXez-x7L2Z2_3kOuZHQF1U"
                 )
             {
-                deviceId = "Vilbvq65BAldEO27ZPGN-SzS-vIguKfSjjEt3E5v9qg";
+                deviceId = "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM";
             }
 
             return deviceId;
