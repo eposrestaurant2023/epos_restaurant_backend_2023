@@ -10,7 +10,7 @@
                     {
                         <option value="">@empty_text</option>
                     }
-                    @foreach (var p in gv.kitchen_groups)
+                    @foreach (var p in gv.kitchen_groups.OrderBy(r=>r.sort_order))
                     {
                         <option value="@p.id">@p.kitchen_group_name</option>
                     }
