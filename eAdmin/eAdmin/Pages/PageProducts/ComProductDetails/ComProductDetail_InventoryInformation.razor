@@ -37,9 +37,9 @@
             </RowTemplate>
             <TableFooter>
                 <tr>
-                    <td colspan="4">@lang["Total Quantity"]</td>
+                    <td colspan="3">@lang["Total Quantity"]</td>
                     <TdCenter>@models.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                    <td colspan="2"></td>
+                    <td colspan="3"></td>
                 </tr>
             </TableFooter>
         </Table>

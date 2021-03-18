@@ -38,6 +38,7 @@ namespace eModels
         public string payment_type_name_kh { get; set; }
         public string photo { get; set; }
         public bool is_build_in { get; set; }
+        public bool is_credit { get; set; }
         public int sort_order { get; set; }
         public string note { get; set; }
         public List<BusinessBranchPaymentTypeModel> business_branch_payment_types { get; set; }
