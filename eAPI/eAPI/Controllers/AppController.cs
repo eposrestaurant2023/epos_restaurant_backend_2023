@@ -295,6 +295,12 @@ namespace eAPI.Controllers
 
             //need more field to map
 
+            List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
+
+            branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(JsonSerializer.Serialize( p.business_branches.ToList()));
+            db.BusinessBranches.AddRange(branches);
+            
+
 
             if (business_informations.Any())
             {
@@ -309,6 +315,7 @@ namespace eAPI.Controllers
             string xx = JsonSerializer.Serialize(p);
             await     db.SaveChangesAsync();
 
+            db.Database.ExecuteSqlRaw("exec sp_setup_config_data 1");
 
 
             return Ok();

@@ -4,7 +4,7 @@
 @inject IMatToaster toast;
 <EditForm Model="model" OnValidSubmit="CheckProject">
     <DataAnnotationsValidator />
-    <h1>@lang["Enter Project ID"]</h1>
+    <h2>@lang["Enter Project ID"]</h2>
     <div class="uk-form-control">
         <input @bind="@model.project_id" type="text" placeholder="Enter Project ID" class="uk-input" />
         <ValidationMessage For="@(()=>model.project_id)" />

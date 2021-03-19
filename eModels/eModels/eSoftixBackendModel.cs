@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using eShareModel;
+ 
 
 namespace eSoftixBackend
 {
@@ -13,7 +14,7 @@ namespace eSoftixBackend
     {
 
     }
-    public class ProjectModel:CoreGUIDModel
+    public class ProjectModel: eShareModel.CoreGUIDModel
     {
 
         public string project_name { get; set; }
@@ -23,10 +24,50 @@ namespace eSoftixBackend
         [ForeignKey("customer_id")]
         public CustomerModel customer { get; set; }
 
+        public List<BusinessBranchModel> business_branches { get; set; }
+
     }
      
-        public class CustomerModel : CoreGUIDModel
+
+    public class BusinessBranchModel : eShareModel.CoreGUIDModel
+    {
+
+        public BusinessBranchModel()
         {
+            outlets = new List<OutletModel>();
+            stock_locations = new List<StockLocationModel>();
+        }
+        public string business_branch_name_en { get; set; }
+        public string business_branch_name_kh { get; set; }
+
+        public string address_en { get; set; }
+        public string address_kh { get; set; }
+
+        [MaxLength(50)]
+        public string email { get; set; }
+
+        [MaxLength(50)]
+        public string phone_1 { get; set; }
+
+        [MaxLength(50)]
+        public string phone_2 { get; set; }
+
+        [MaxLength(50)]
+        public string website { get; set; }
+
+
+        public string logo { get; set; }
+        public string note { get; set; }
+        public string color { get; set; }
+
+        public List<OutletModel> outlets { get; set; }
+        public List<StockLocationModel> stock_locations { get; set; }
+
+
+    }
+
+        public class CustomerModel : eShareModel.CoreGUIDModel
+    {
           
 
             
@@ -65,7 +106,49 @@ namespace eSoftixBackend
       
 
         }
-   
+
+    public class OutletModel : eShareModel.CoreGUIDModel
+    {
+        public OutletModel()
+        {
+            stations = new List<StationModel>();
+        } 
+        public Guid business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
+         
+        public string outlet_name_en { get; set; }
+        public string outlet_name_kh { get; set; }
+       public List<StationModel> stations { get; set; }
+
+
+    }
+
+
+    public class StationModel : eShareModel.CoreGUIDModel
+    {
+        public Guid outlet_id { get; set; }
+        [ForeignKey("outlet_id")]
+        public OutletModel outlet { get; set; }
+
+
+         public string station_name_en { get; set; }
+         public string station_name_kh { get; set; }
+        public bool is_already_config { get; set; } = false;
+
+    }
+
+    public class StockLocationModel
+    {
+       
+        public Guid id { get; set; }
+        public Guid business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
+        public string stock_location_name { get; set; }
+        public bool is_default { get; set; }
+ 
+    }
 
 
 }
