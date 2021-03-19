@@ -7,7 +7,7 @@
     }
     else
     {
-        <ViewEmptyTemplate is_view="@(model.unit.id > 0)" empty="@lang["Please select unit category."]">
+        <ViewEmptyTemplate is_view="@(model.unit_id > 0)" empty="@lang["Please select unit category."]">
             <ViewEmptyTemplate is_view="model.product_portions.Any()">
                 <div class="uk-overflow-auto">
                     <table class="uk-table  view_table set-verticle-bottom uk-table-small uk-table-striped uk-table-hover  ">
@@ -39,7 +39,8 @@
                                         <TextInput placeholder="@lang["Portion Name"]" @bind-text="@pp.portion_name" width="100%" />
                                     </td>
                                     <TdCenter>
-                                        <SelectUnit @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" @bind-unit_category_id="@pp.unit.unit_category_id" is_select_unit_category="true" show_empty="true" width="100%">
+            
+                                        <SelectUnit @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" unit_category_id="@model.unit_category_id" is_select_unit_category="true" show_empty="true" width="100%">
                                             <ValidationMessage For="@(() => pp.unit_id)" />
                                         </SelectUnit>
                                     </TdCenter>
@@ -78,6 +79,7 @@
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel model { get; set; }
+    [Parameter] public EventCallback< ProductModel> modelChanged { get; set; }
 
     List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
 
@@ -89,22 +91,22 @@
         await Task.Delay(100);
         price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(JsonSerializer.Serialize(gv.price_rules));
 
-        //if (model.id == 0 && model.product_portions.Count() == 0)
-        //{
+        if (model.id == 0 && model.product_portions.Count() == 0)
+        {
 
-        //    model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Normal"], unit = model.unit });
+            model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Normal"], unit_id=model.unit_id, unit = model.unit });
 
-        //}
-        //else
-        //{
-        //    var data = model.product_portions.SelectMany(r => r.product_prices).Where(r => r.is_deleted == false);
-        //    if (data.Any())
-        //    {
-        //        int default_price_rule_id = data.FirstOrDefault().price_rule_id;
+        }
+        else
+        {
+            var data = model.product_portions.SelectMany(r => r.product_prices).Where(r => r.is_deleted == false);
+            if (data.Any())
+            {
+                int default_price_rule_id = data.FirstOrDefault().price_rule_id;
 
-        //    }
+            }
 
-        //}
+        }
 
         is_loading = false;
     }
@@ -118,7 +120,7 @@
 
     void AddProductPortion()
     {
-        model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Portion Name"], unit = model.unit });
+        model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Portion Name"], unit_id=model.unit_id, unit = model.unit });
     }
 
 

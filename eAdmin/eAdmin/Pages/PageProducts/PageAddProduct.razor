@@ -56,9 +56,9 @@
 
                                         <SelectKitchenGroupNullable @bind-selected_value="@model.kitchen_group_id" show_empty="true" />
 
-                                        <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
+                                        <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@model.unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
                                         
-                                        <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@unit_category_id" is_select_unit_category="true" show_empty="false">
+                                        <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@model.unit_category_id" is_select_unit_category="true" show_empty="false">
                                             <ValidationMessage For="@(()=>model.unit_id)" />
                                         </SelectUnit>
 
@@ -71,7 +71,7 @@
                                         <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
                                     </UIContainerBox>
                                     <ComAddInventoryProduct @bind-model="@model" />
-                                    <ComAddProduct_Portion model="@model" />
+                                    <ComAddProduct_Portion @bind-model="@model" />
                                     <ComAddProduct_Printer @bind-model="@model" />
                                     <ComAddProduct_Menu @bind-model="@model" />
                                     <UIContainerBox Title="@lang["Note"]">
