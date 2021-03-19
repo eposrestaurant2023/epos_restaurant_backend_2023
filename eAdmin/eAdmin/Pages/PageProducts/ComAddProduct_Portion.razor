@@ -1,38 +1,32 @@
 ﻿@inject IStringLocalizer<Resource> lang
 
-    <UIContainerBox Title="Product Prices" Icon="monetization_on" is_show_add_button="true" OnAddClick="@AddProductPortion">
-        @if (is_loading)
-        {
-            <Spinner />
-        }
-        else
-        {
-            @if (model.product_portions.Any())
-            {
+<UIContainerBox Title="Product Prices" Icon="monetization_on" is_show_add_button="true" OnAddClick="@AddProductPortion">
+    @if (is_loading)
+    {
+        <Spinner is_template_spinning="true"/>
+    }
+    else
+    {
+        <ViewEmptyTemplate is_view="@(model.unit.id > 0)" empty="@lang["Please select unit category."]">
+            <ViewEmptyTemplate is_view="model.product_portions.Any()">
                 <div class="uk-overflow-auto">
-                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                    <table class="uk-table  view_table set-verticle-bottom uk-table-small uk-table-striped uk-table-hover  ">
                         <thead>
                             <tr>
-                                <ThAuto>Portion</ThAuto>
-                                @*<Th>Unit</Th>*@
-                                <th>Cost</th>
+                                <ThAuto>@lang["Portion"]</ThAuto>
+                                <ThCenter width="130px">@lang["Unit"]</ThCenter>
+                                <ThRight width="90px">@lang["Cost"]</ThRight>
                                 @foreach (var p in gv.price_rules)
                                 {
-                                    <ThCenter>
-                                        @p.price_name
-                                    </ThCenter>
-                                }
-                                <th></th>
-                            </tr>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                @foreach (var p in gv.price_rules)
-                                {
-                                    <ThCenter>
-                                        <LabelActive is_visible="@(IsPriceRuleActive(p))" />
-                                        <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
-                                    </ThCenter>
+                                    <ThRight width="90px">
+                                        <div>
+                                            @p.price_name
+                                        </div>
+                                        <div>
+                                            <LabelActive is_visible="@(IsPriceRuleActive(p))" />
+                                            <LabelInActive is_visible="@(!IsPriceRuleActive(p))" />
+                                        </div>
+                                    </ThRight>
                                 }
                                 <th></th>
                             </tr>
@@ -42,33 +36,32 @@
                             {
                                 <tr>
                                     <td>
-                                        <TextInput placeholder="Portion Name" @bind-text="@pp.portion_name" width="150px" />
+                                        <TextInput placeholder="@lang["Portion Name"]" @bind-text="@pp.portion_name" width="100%" />
                                     </td>
-                                    @*<td>
-                                        <SelectUnit @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" @bind-unit_category_id="@pp.unit.unit_category_id" is_select_unit_category="true" show_empty="true">
-                                            <ValidationMessage For="@(()=>pp.unit_id)" />
-                                        </SelectUnit>
-                                    </td>*@
-                                    
                                     <TdCenter>
-                                        <NumberInput placeholder="Cost" @bind-text="@pp.cost" />
+                                        <SelectUnit @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" @bind-unit_category_id="@pp.unit.unit_category_id" is_select_unit_category="true" show_empty="true" width="100%">
+                                            <ValidationMessage For="@(() => pp.unit_id)" />
+                                        </SelectUnit>
                                     </TdCenter>
+                                    <TdRight>
+                                        <NumberInput placeholder="@lang["Cost"]" @bind-text="@pp.cost" width="100%" class_name="uk-text-right" />
+                                    </TdRight>
                                     @foreach (var p in price_rules)
                                     {
 
-                                        <TdCenter>
+                                        <TdRight>
                                             @if (pp.product_prices.Where(r => r.price_rule_id == p.id).Any())
                                             {
                                                 <NumberInput placeholder="@p.price_name"
                                                              @bind-text="@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price"
                                                              is_read_only="@(!@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)"
-                                                             class_name="uk-text-center" />
+                                                             class_name="uk-text-right" width="100%"/>
                                             }
-                                        </TdCenter>
+                                        </TdRight>
                                     }
-                                    <td>
+                                    <TdCenter>
                                         <Icon icon="delete" OnClick="@(() => DeletePortion(pp))" is_visible="@(model.product_portions.Where(r => r.is_deleted == false).Count() > 1)" />
-                                    </td>
+                                    </TdCenter>
                                 </tr>
 
                             }
@@ -76,89 +69,84 @@
                         </tbody>
                     </table>
                 </div>
+            </ViewEmptyTemplate>
+        </ViewEmptyTemplate>
+    }
+</UIContainerBox>
 
-            }
-            else
-            {
-                <p>There is no product portions</p>
-            }
-        }
+@code {
 
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public ProductModel model { get; set; }
 
-    </UIContainerBox>
-
-    @code {
-
-        [CascadingParameter] public GlobalVariableModel gv { get; set; }
-        [Parameter] public ProductModel model { get; set; }
-
-        List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
+    List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
 
 
-        bool is_loading;
-        protected override async Task OnInitializedAsync()
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await Task.Delay(100);
+        price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(JsonSerializer.Serialize(gv.price_rules));
+
+        //if (model.id == 0 && model.product_portions.Count() == 0)
+        //{
+
+        //    model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Normal"], unit = model.unit });
+
+        //}
+        //else
+        //{
+        //    var data = model.product_portions.SelectMany(r => r.product_prices).Where(r => r.is_deleted == false);
+        //    if (data.Any())
+        //    {
+        //        int default_price_rule_id = data.FirstOrDefault().price_rule_id;
+
+        //    }
+
+        //}
+
+        is_loading = false;
+    }
+
+
+
+    void OnChangeStatus(PriceRuleModel p)
+    {
+        model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price_rule_id == p.id).ToList().ForEach(r => r.status = !r.status);
+    }
+
+    void AddProductPortion()
+    {
+        model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Portion Name"], unit = model.unit });
+    }
+
+
+    void DeletePortion(ProductPortionModel pp)
+    {
+        if (pp.id == 0)
         {
-            is_loading = true;
-            await Task.Delay(100);
-            price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(JsonSerializer.Serialize(gv.price_rules));
+            model.product_portions.Remove(pp);
 
-            if (model.id == 0 && model.product_portions.Count() == 0)
-            {
-
-                model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = "Normal" });
-
-            }
-            else
-            {
-                var data = model.product_portions.SelectMany(r => r.product_prices).Where(r => r.is_deleted == false);
-                if (data.Any())
-                {
-                    int default_price_rule_id = data.FirstOrDefault().price_rule_id;
-
-                }
-
-            }
-            is_loading = false;
         }
-
-
-
-        void OnChangeStatus(PriceRuleModel p)
+        else
         {
-            model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price_rule_id == p.id).ToList().ForEach(r => r.status = !r.status);
+            pp.is_deleted = true;
         }
+    }
 
-        void AddProductPortion()
+    bool IsPriceRuleActive(PriceRuleModel p)
+    {
+
+        var data = model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.price_rule_id == p.id);
+
+        if (data.Any())
         {
-            model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = "Portion Name" });
+            return data.FirstOrDefault().status;
         }
-
-
-        void DeletePortion(ProductPortionModel pp)
-        {
-            if (pp.id == 0)
-            {
-                model.product_portions.Remove(pp);
-
-            }
-            else
-            {
-                pp.is_deleted = true;
-            }
-        }
-
-        bool IsPriceRuleActive(PriceRuleModel p)
-        {
-
-            var data = model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.price_rule_id == p.id);
-
-            if (data.Any())
-            {
-                return data.FirstOrDefault().status;
-            }
-            return false;
-
-        }
-
+        return false;
 
     }
+
+
+}

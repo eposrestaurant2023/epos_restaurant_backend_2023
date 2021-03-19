@@ -43,9 +43,9 @@
                 </ContentRight>
             </UISummaryBox>
 
-            <div class="uk-margin-small-bottom">
+            <UIContainerBox Title="KPI">
                 <ComCustomerKPI data="@kpi" />
-            </div>
+            </UIContainerBox>
 
             <ComCustomerDetail_YearlySaleBarchart customer_id="@(model.id.ToString())" />
 
@@ -54,7 +54,6 @@
             <UIContainerBox Title="@lang["Social Media Information"]">
                 <ListTable>
                     <ListTableItem ItemTitle="@lang["Email"]">@model.email</ListTableItem>
-
                 </ListTable>
             </UIContainerBox>
             <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">

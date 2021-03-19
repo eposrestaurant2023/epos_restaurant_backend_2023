@@ -83,6 +83,9 @@ namespace eAPIClient.Models
         public bool is_allow_discount { get; set; }
         public bool is_inventory_product { get; set; }
 
+        public string kitchen_group_name { get; set; }
+        public int kitchen_group_sort_order { get; set; }
+
         public List<ProductPrinterModel> product_printers { get; set; }
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<ProductPortionModel> product_portions { get; set; }

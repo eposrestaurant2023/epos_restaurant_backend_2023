@@ -196,6 +196,7 @@ namespace eAPI.Controllers
             {
                 inv = new InventoryTransactionModel();
                 inv.product_id = p.id;
+                inv.product = null;
                 inv.transaction_date = DateTime.Now;
                 inv.inventory_transaction_type_id = 1;
                 inv.stock_location_id = s.stock_location_id;

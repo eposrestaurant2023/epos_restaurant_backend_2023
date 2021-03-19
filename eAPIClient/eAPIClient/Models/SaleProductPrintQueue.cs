@@ -22,8 +22,6 @@ namespace eAPIClient.Models
         public string created_by { get; set; }
         public DateTime created_date { get; set; }
 
-        //
-        public Guid sale_id { get; set; }
         public string outlet_name { get; set; }
         public string station_name { get; set; }
         public string sale_number { get; set; }

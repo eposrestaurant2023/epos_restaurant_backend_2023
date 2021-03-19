@@ -58,6 +58,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 }); 
             } 
             await LoadData();
+            is_loading = false;
         }   
 
         public async Task LoadData(string api_url="")

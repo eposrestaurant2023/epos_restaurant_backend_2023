@@ -43,8 +43,11 @@
                         @HeaderTemplate("purchase_order/purchase_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("purchase_order/document_number", lang["Document #"], "uk-text-center")
                         @HeaderTemplate("purchase_order/reference_number", lang["Referance #"], "uk-text-center")
-                        @HeaderTemplate("purchase_order/vendor/vendor_name", lang["Vendor"], "uk-text-left")
-                        @HeaderTemplate("purchase_order/stock_location/stock_location_name", lang["Stock Location (Business Branch)"], "col-auto")
+                        @HeaderTemplate("purchase_order/vendor/vendor_name", lang["Vendor"], "uk-text-left") 
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Warehouse"]</div>
+                        </ThAuto>
                         <ThRight> @lang["Total Amount"]</ThRight>
                         <ThRight> @lang["Paid Amount"]</ThRight>
                         <ThRight> @lang["Balance"]</ThRight>
@@ -65,7 +68,9 @@
                             </ComAuthorize>
                         </td>
                         <td>
-                            @p.purchase_order?.stock_location?.stock_location_name (@p.purchase_order?.business_branch?.business_branch_name_en)
+                            <div>@p.purchase_order?.business_branch?.business_branch_name_en</div>
+                            <div class="sub-info-row-table">@p.purchase_order?.stock_location?.stock_location_name</div>
+                            
                         </td>
                         <TdRight>
                             @p.purchase_order?.total_amount.ToString(gv.main_currency_format)

@@ -42,8 +42,7 @@ namespace eModels
         public decimal old_quantity { get; set; }
         public decimal quantity { get; set; }
         public decimal quantity_on_hand { get; set; }
-
-        public int? sale_id { get; set; }
+        public Guid? sale_id { get; set; }
         public int? purchase_order_id { get; set; }
         public int? stock_transfer_id { get; set; }
         public int? stock_take_id { get; set; }

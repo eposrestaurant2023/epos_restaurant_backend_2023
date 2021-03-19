@@ -52,11 +52,16 @@
                                         <TextInput label="@lang["Product Name(KH)"]" @bind-text="@model.product_name_kh" />
                                         <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true">
                                             <ValidationMessage For="@(()=>model.product_category_id)" />
-                                        </SelectProductCategory> 
+                                        </SelectProductCategory>
+
+                                        <SelectKitchenGroupNullable @bind-selected_value="@model.kitchen_group_id" show_empty="true" />
+
                                         <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
-                                        <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@unit_category_id" is_select_unit_category="true" show_empty="true">
+                                        
+                                        <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@unit_category_id" is_select_unit_category="true" show_empty="false">
                                             <ValidationMessage For="@(()=>model.unit_id)" />
                                         </SelectUnit>
+
                                         <ComInputCheckBox @bind-value="@model.is_allow_discount" label="@lang["Allow Discount"]" />
                                         <ComInputCheckBox @bind-value="@model.is_open_product" label="@lang["Is Opened Product"]" />
                                         <SelectStatus @bind-selected_value="@model.status" />

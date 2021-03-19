@@ -12,7 +12,7 @@
                 else if (icon != "")
                 {
 
-                    <Icon icon="@icon" icon_color="@icon_color"/>
+                    <Icon icon="@icon" icon_color="@icon_color" size="@icon_size"/>
                 }
 
                 @ChildContent
@@ -29,7 +29,7 @@
                 else if (icon != "")
                 {
 
-                    <Icon icon="@icon" icon_color="@icon_color"/>
+                    <Icon icon="@icon" icon_color="@icon_color" size="@icon_size"/>
                 }
 
                 @ChildContent
@@ -50,7 +50,7 @@
                     else if (icon != "")
                     {
 
-                        <Icon icon="@icon" icon_color="@icon_color"/>
+                        <Icon icon="@icon" icon_color="@icon_color" size="@icon_size"/>
                     }
 
                     @ChildContent
@@ -67,7 +67,7 @@
                     else if (icon != "")
                     {
 
-                        <Icon icon="@icon" icon_color="@icon_color"/>
+                        <Icon icon="@icon" icon_color="@icon_color" size="@icon_size"/>
                     }
 
                     @ChildContent
@@ -95,6 +95,7 @@
     [Parameter] public string type { get; set; } = "button";
     [Parameter] public string class_name { get; set; } = "primary";
     [Parameter] public string custom_class { get; set; } = "";
+    [Parameter] public string icon_size { get; set; } = "";
     [Parameter] public bool disabled { get; set; } = false;
     [Parameter] public bool spinning { get; set; } = false;
 

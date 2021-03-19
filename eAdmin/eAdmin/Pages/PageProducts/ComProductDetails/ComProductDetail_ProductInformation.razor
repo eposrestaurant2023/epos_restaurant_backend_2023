@@ -4,25 +4,33 @@
         <ContentLeft>
             <table>
                 <tr>
-                     <th>@lang["Product Code"]</th>
+                    <th>@lang["Product Code"]</th>
                     <td>@model.product_code</td>
                 </tr>
                 <tr>
-                     <th>@lang["Product (En)"]</th>
+                    <th>@lang["Product (En)"]</th>
                     <td>@model.product_name_en</td>
                 </tr>
                 <tr>
                     <th>@lang["Product (Kh)"]</th>
                     <td>@model.product_name_kh</td>
                 </tr>
+
                 <tr>
                     <th>@lang["Categroy"]</th>
                     <td>@model.product_category?.product_category_en</td>
                 </tr>
-                <tr>
-                    <th>@lang["Unit"]</th>
-                    <td>@model.unit?.unit_name</td>
-                </tr>
+                
+                <Com is_visible="@(model.kitchen_group_id > 0)">
+                    <tr>
+                        <th>@lang["Kitchen Group"]</th>
+                        <td>@model.kitchen_group?.kitchen_group_name</td>
+                    </tr>
+                </Com>
+                    <tr>
+                        <th>@lang["Unit"]</th>
+                        <td>@model.unit?.unit_name</td>
+                    </tr>
             </table>
         </ContentLeft>
         <ContentRight>
