@@ -188,7 +188,7 @@
         await SendFileUpload(uploaded_file);
         if (IsUploaded) {
 
-            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + uploaded_file.Name;
+            string _new_image = Guid.NewGuid().ToString() + uploaded_file.Name;
             // get the status
             status_message = "The file " + uploaded_file.Name + " was uploaded";
             file.file_name = _new_image;

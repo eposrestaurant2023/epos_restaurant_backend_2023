@@ -193,6 +193,12 @@
     z-index: 9999;
 }
 
+
+.box_project {
+    padding: 12px;
+    box-shadow: rgb(203 218 234) 0px 0px 0px 1px;
+    border-radius: 4px;
+}
 .font_waith_cust {
     font-weight: 700;
 }
@@ -242,7 +248,7 @@
 }
 
 .page_body {
-    margin-bottom: 30px;
+    margin-bottom: 60px;
 }
 
 .bg_footer_add_product {

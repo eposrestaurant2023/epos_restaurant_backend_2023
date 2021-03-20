@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
-
+using Newtonsoft.Json;
 
 namespace eAPI.Controllers
 {
@@ -28,7 +28,7 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        [AllowAnonymous]
+        
         public IQueryable<ProjectModel> Get()
         {
 
@@ -49,6 +49,7 @@ namespace eAPI.Controllers
                 db.Project.Update(u);
             }
 
+          
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
         }
@@ -79,7 +80,7 @@ namespace eAPI.Controllers
         }
 
         [HttpGet("find")]
-        [EnableQuery(MaxExpansionDepth = 4)]
+        [EnableQuery(MaxExpansionDepth = 0)]
         public SingleResult<ProjectModel> Get([FromODataUri] Guid key)
         {
             var s = db.Project.Where(r => r.id == key).AsQueryable();

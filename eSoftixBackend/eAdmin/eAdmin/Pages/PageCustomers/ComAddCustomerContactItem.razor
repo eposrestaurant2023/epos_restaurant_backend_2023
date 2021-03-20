@@ -2,7 +2,7 @@
 @inject IHttpService http;
 @inject IJSRuntime js;
    
-<UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
+@*<UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
     <table>
         <thead>
             <tr>
@@ -37,36 +37,11 @@
         </tbody>
     </table>
    
-</UIContainerBox>
+</UIContainerBox>*@
 
 
 
 
 @code {
     [Parameter] public ProjectModel model { get; set; }
-
-   
-
-    void AddContact_Click()
-    {
-        model.project_contacts.Add(new ContactModel());
-    }
-
-    async Task DeleteContact_Click(ContactModel c)
-    {
-
-        if (c.id == 0)
-        {
-            model.project_contacts.Remove(c);
-        }
-        else
-        {
-            if (await js.Confirm("Deleted Contact", "Are you sure you want to delete this contact?", SweetAlertMessageType.question))
-            {
-                c.is_deleted = true;
-            }
-        }
-
-
-    }
 }

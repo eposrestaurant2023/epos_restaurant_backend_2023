@@ -25,20 +25,6 @@
 
         <SelectStatus @bind-selected_value="@model.status" />
     </UIContainerBox>
-
-    <UIContainerBox Title="Contact Information" OnAddClick="AddContact_Click" is_show_add_button="true">
-        @foreach (var c in model.contacts)
-        {
-            <ComAddCustomerContactItem contact="c" OnDeleteContact="DeleteContact_Click"/>
-            @if (model.contacts.IndexOf(c) !=model.contacts.Count - 1)
-                                         {
-                <hr class="uk-divider-icon">
-            }
-
-        }
-    </UIContainerBox>
-
-
     <UIContainerBox Title="Other information">
         <SelectProvince @bind-selected_value="@model.province"/>
     </UIContainerBox>
@@ -77,32 +63,6 @@
         [Parameter] public CustomerModel model { get; set; }
         [Parameter] public EventCallback<CustomerModel> modelChanged { get; set; }
 
-        void AddContact_Click()
-        {
-            model.contacts.Add(new ContactModel());
-        }
-
-        async Task DeleteContact_Click(ContactModel c)
-        {
-
-            if (c.id == 0)
-            {
-                model.contacts.Remove(c);
-            }
-            else
-            {
-                if (await js.Confirm("Deleted Contact", "Are you sure you want to delete this contact?", SweetAlertMessageType.question))
-                {
-                    var res = await http.ApiPost($"contact/delete/{c.id}");
-                    if (res.IsSuccess)
-                    {
-                        toast.Add("Contact deleted successfull", MatToastType.Success);
-                        model.contacts.Remove(c);
-                    }
-                }
-            }
-
-
-        }
+      
 
     }

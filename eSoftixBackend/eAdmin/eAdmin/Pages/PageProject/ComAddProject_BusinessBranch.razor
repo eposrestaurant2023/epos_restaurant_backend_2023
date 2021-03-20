@@ -1,14 +1,13 @@
 ﻿<UIContainerBox Title="Business Branch Information">
-    <TextInput @bind-text="@model.business_branch_name_en"/>
+    <TextInput @bind-text="@model.business_branch_name_en" label="Branch En"/>
+    <TextInput @bind-text="@model.business_branch_name_kh" label="Branch Kh"/>
+    <TextInput @bind-text="@model.phone_1" label="Phone"/>
 </UIContainerBox>
+ <ComAddProject_Outlets model="@model" />
+<ComAddProject_WareHouse model="@model"/>
 
-<UIContainerBox Title="Outlet">
 
-</UIContainerBox>
 
-<UIContainerBox Title="Warehouse">
-
-</UIContainerBox>
 
 
 @code {

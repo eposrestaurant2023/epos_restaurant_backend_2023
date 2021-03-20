@@ -62,6 +62,7 @@ namespace eAPI
         public DbSet<ModuleViewModel> ModuleViews { get; set; }
         public DbSet<AttachFilesModel> AttachFiles { get; set; }
       public DbSet<OutletModel> Outlets { get; set; }
+      public DbSet<StockLocationModel> StockLocations { get; set; }
         public DbSet<BusinessBranchModel> BusinessBranches { get; set; }
  
         public DbSet<NoteModel> Notes{ get; set; }

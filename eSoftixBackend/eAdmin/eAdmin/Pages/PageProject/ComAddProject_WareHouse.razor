@@ -1,0 +1,40 @@
+﻿
+<UIContainerBox Title="Warehouse" OnAddClick="@AddStockLacation" is_show_add_button="true">
+    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+        <tr>
+            <Th>Location Name</Th>
+            <ThCenter></ThCenter>
+        </tr>
+        @foreach (var b in model.stock_locations)
+        {
+            <tr>
+
+                <td>
+                    <TextInput @bind-text="@b.stock_location_name" />
+                </td>
+                <TdCenter>
+                    <Icon icon="delete" OnClick="@(()=>Delect_stock_location(b))" />
+                </TdCenter>
+            </tr>
+
+        }
+    </table>
+</UIContainerBox>
+
+    @code {
+
+        [Parameter] public BusinessBranchModel model { get; set; }
+        void AddStockLacation()
+        {
+            StockLocationModel st = new StockLocationModel();
+            st.stock_location_name = "Stock Location" + (model.stock_locations.Count() +1);
+            model.stock_locations.Add(st);
+
+        }
+
+        void Delect_stock_location( StockLocationModel s)
+        {
+            model.stock_locations.Remove(s);
+        }
+
+    }
