@@ -53,7 +53,6 @@ namespace eAPIClient
         public DbSet<SaleProductModifierModel> SaleProductModifiers { get; set; }
         public DbSet<SaleStatusModel> SaleStatuses { get; set; }
         public DbSet<SaleProductStatusModel> SaleProductStatuses { get; set; }
-
     }
 
 }

@@ -14,20 +14,20 @@ namespace eModels
         {
             business_branch_payment_types = new List<BusinessBranchPaymentTypeModel>();
         }
-
         [Required(ErrorMessage = "Please select a currency.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a currency.")]
         public int currency_id { get; set; }
         [ForeignKey("currency_id")]
         public CurrencyModel currency { get; set; }
-
         private string _payment_type_name_en;
         [MaxLength(50)]
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string payment_type_name_en
         {
             get { return _payment_type_name_en; }
-            set { _payment_type_name_en = value;   
+            set
+            {
+                _payment_type_name_en = value;
                 if (string.IsNullOrEmpty(payment_type_name_kh))
                 {
                     payment_type_name_kh = value;

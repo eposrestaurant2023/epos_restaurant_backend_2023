@@ -114,7 +114,8 @@ namespace eAPIClient
             odataBuilder.EntitySet<CustomerModel>("Customer");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
             odataBuilder.EntitySet<ConfigDataModel>("ConfigData");                 
-            odataBuilder.EntitySet<SaleModel>("Sale");   
+            odataBuilder.EntitySet<SaleModel>("Sale");
+       
             return odataBuilder.GetEdmModel();
         }
     }
