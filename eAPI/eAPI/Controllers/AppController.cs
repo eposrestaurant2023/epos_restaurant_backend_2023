@@ -61,6 +61,7 @@ namespace eAPI.Controllers
             gv.units= db.Units.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.unit_categories= db.UnitCategorys.ToList();
             gv.inventory_transaction_type= db.InventoryTransactionTypes.ToList();
+            gv.kitchen_groups= db.KitchenGroups.ToList();
 
             return Ok(gv);
         }
@@ -243,10 +244,13 @@ namespace eAPI.Controllers
                 deviceId == "OHHzxvomyr_YzGuY6ysKkYwyDWk9ueuz5VmPHF3exAk" ||
                 deviceId == "8T1jIfz9R-YqK2W1DQyFdVMI2XFEcZzJ3I8pGOc5Kdw" ||
                 deviceId == "E4_eXtdxdL3OwNp0XTTy-emrisT5XI8_rg8dXHS8AJo" ||
-                deviceId == "0edRjKQ3SahFZoGDiyHT6DXez-x7L2Z2_3kOuZHQF1U"
+                deviceId == "0edRjKQ3SahFZoGDiyHT6DXez-x7L2Z2_3kOuZHQF1U"   ||
+                deviceId == "Vilbvq65BAldEO27ZPGN-SzS-vIguKfSjjEt3E5v9qg" ||
+                deviceId == "ONRxV2e8zoYUdTtIY-zf0Nlt9GROAdYpPjmXT4W4nhY"||
+                deviceId == "84mCv3v_sF0X4CPXbUdxEQ9UvdMZuvCkaezApIG6K5Y"
                 )
             {
-                deviceId = "Vilbvq65BAldEO27ZPGN-SzS-vIguKfSjjEt3E5v9qg";
+                deviceId = "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM";
             }
 
             return deviceId;
@@ -292,6 +296,12 @@ namespace eAPI.Controllers
 
             //need more field to map
 
+            List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
+
+            branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(JsonSerializer.Serialize( p.business_branches.ToList()));
+            db.BusinessBranches.AddRange(branches);
+            
+
 
             if (business_informations.Any())
             {
@@ -306,6 +316,7 @@ namespace eAPI.Controllers
             string xx = JsonSerializer.Serialize(p);
             await     db.SaveChangesAsync();
 
+            db.Database.ExecuteSqlRaw("exec sp_setup_config_data 1");
 
 
             return Ok();

@@ -4376,6 +4376,9 @@ textarea.uk-input{
 table.set-verticle-middle tr td{
     vertical-align:middle ;
 }
+table.set-verticle-bottom tr td {
+    vertical-align: bottom;
+}
 table.set-verticle-top_custo tr td {
     vertical-align: top !important;
 }
@@ -7172,4 +7175,11 @@ z-index:999999!important;
     font-size: 12px;
     color: #8e8e8e;
     font-style: italic; 
+}
+.uk-button-view-layout {
+    border: 1px solid #dadada;
+}
+.uk-button-view-layout-active {
+    border: 1px solid #dadada;
+    background-color: #ebeff3;
 }

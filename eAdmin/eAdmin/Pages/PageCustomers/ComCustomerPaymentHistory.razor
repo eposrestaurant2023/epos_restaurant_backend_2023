@@ -12,7 +12,7 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate>Payment History</HeaderTemplate>
+                    <HeaderTemplate>@lang["Payment History"]</HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
@@ -45,15 +45,22 @@
                     <ThCenter>@lang["Payment Amount"]</ThCenter>
                     <ThCenter>@lang["Created Date"]</ThCenter>
                     <th>@lang["Created By"]</th>
+                    <ThRight>@lang["Status"]</ThRight>
                     <th></th>
                 </TableHeader>
                 <RowTemplate Context="p">
                     <TdCenter>
-                        @p.payment_date.ToString(gv.date_format)
+                        <ComAuthorize url="receiptlist" roles="@gv.GetRole("receipt_list_management")">
+                            @p.payment_date.ToString(gv.date_format)
+                        </ComAuthorize>
+                        
                     </TdCenter>
                     <TdCenter>
-                       @p.sale?.document_number
-                    </TdCenter>                    <td>
+                        <ComAuthorize url="receiptlist" roles="@gv.GetRole("receipt_list_management")">
+                            @p.sale?.document_number
+                        </ComAuthorize>
+                    </TdCenter>
+                    <td>
                         <div>@p.sale?.business_branch?.business_branch_name_en</div>
                         <div class="sub-info-row-table">@p.sale?.outlet?.outlet_name_en</div>
                     </td>
@@ -62,9 +69,12 @@
                     </TdCenter>
                     <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                     <td>@p.created_by</td>
-                    <td>
+                    <TdRight>
                         <ComSaleStatus sale="@p.sale" />
-                    </td>
+                    </TdRight>
+                    <TdCenter>
+                        <Icon icon="visibility" roles="@gv.GetRole("receipt_list_management")" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
+                    </TdCenter>
                 </RowTemplate>
             </Table>
         </Com>

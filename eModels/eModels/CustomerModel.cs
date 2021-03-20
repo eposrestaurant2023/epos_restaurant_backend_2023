@@ -34,4 +34,14 @@ namespace eModels
         }
 
     }
+
+    public class YearlySaleRevenueModel
+    {
+        public string business_branch_id { get; set; }
+        public string business_branch_name { get; set; }
+        public string color { get; set; }
+        public DateTime cal_date { get; set; }
+        public decimal total_amount { get; set; }
+
+    }
 }

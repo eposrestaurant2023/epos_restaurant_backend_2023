@@ -46,7 +46,10 @@
                         @HeaderTemplate("stock_take/stock_take_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("stock_take/document_number", lang["Document #"], "uk-text-center")
                         <ThCenter>@lang["Reference Number"]</ThCenter>
-                        <ThAuto>@lang["Business Branch (Stock Location)"]</ThAuto>
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Warehouse"]</div>
+                       </ThAuto>
                         <ThCenter>@lang["Quantity"]</ThCenter>
                         <ThRight>@lang["Cost"]</ThRight>
                         <ThRight> @lang["Grand Total"]</ThRight>
@@ -65,8 +68,11 @@
                         <TdCenter>
                             @p.stock_take?.reference_number
                         </TdCenter>
-                        <td>
-                            @p.stock_take?.business_branch?.business_branch_name_en (@p.stock_take?.stock_location?.stock_location_name)
+                        <td> 
+                            <div>@p.stock_take?.business_branch?.business_branch_name_en</div>
+                            <div class="sub-info-row-table">
+                                @p.stock_take?.stock_location?.stock_location_name
+                            </div>
                         </td>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)

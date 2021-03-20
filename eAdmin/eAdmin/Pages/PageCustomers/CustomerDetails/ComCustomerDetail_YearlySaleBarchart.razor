@@ -4,13 +4,24 @@
 
     @if (is_loading)
     {
-    <Spinner />
+        <Spinner is_template_spinning="true"/>
     }
     else
     {
-    @if (data != null && barchart_data!=null)
+        @if (data != null && barchart_data != null)
         {
-    <BarChart Data="@barchart_data" Height="325" Width="100" />
+            <div class="uk-text-right uk-margin-small-bottom">
+                <Button title="@lang["View In Bar Chart"]" icon="bar_chart" icon_size="30px" class_name="@(is_view_bar_chart?"view-layout-active":"view-layout")" OnClick="@(()=>is_view_bar_chart = true)"></Button>
+                <Button title="@lang["View In Table"]" icon="view_module" icon_size="30px" class_name="@(is_view_bar_chart?"view-layout":"view-layout-active")" OnClick="@(()=>is_view_bar_chart = false)"></Button>
+            </div>
+            @if (is_view_bar_chart)
+            {
+                <BarChart Data="@barchart_data" Height="325" Width="100" />
+            }
+            else
+            {
+                <ComCustomerDetail_SaleTableMatrix data="@data" />
+            }
         }
     }
 
@@ -18,10 +29,10 @@
  
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
- 
+
     [Parameter] public string customer_id { get; set; }
     BarChartModel barchart_data;
-    bool is_loading;
+    bool is_loading, is_view_bar_chart = true;
     List<YearlySaleRevenueModel> data = new List<YearlySaleRevenueModel>();
     protected override async Task OnInitializedAsync()
     {
@@ -35,13 +46,14 @@
         is_loading = false;
     }
 
+   
 
     void SetBarchartData()
     {
         if (data != null)
         {
             barchart_data = new BarChartModel();
-            var chart_label = data.Select(r => r.cal_date.ToString("MM-yyyy")).Distinct().ToArray(); //footer
+            var chart_label = data.Select(r => r.cal_date.ToString("MMM")).Distinct().ToArray(); //footer
 
             var business_branch = (from a in data
                                    select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct();
@@ -66,16 +78,6 @@
 
 
 
-    class YearlySaleRevenueModel
-    {
-
-              
-        public string business_branch_id { get; set; }
-        public string business_branch_name { get; set; }
-        public string color { get; set; }
-        public DateTime cal_date { get; set; }
-         public decimal total_amount { get; set; }
-
-    }
+    
 
 }

@@ -16,8 +16,7 @@ namespace eAdmin.Pages.PageProducts
         [Parameter] public int clone_id { get; set; }
         public ProductModel model { get; set; } = new ProductModel();
         ApiResponseModel error_saving_info = new ApiResponseModel();
-        public int unit_category_id { get; set; } = 0;
-        public int old_unit_category_id { get; set; } = 0;
+ 
         public string PageTitle
         {
             get
@@ -84,15 +83,19 @@ namespace eAdmin.Pages.PageProducts
         {
 
             is_loading = true;
-            if (id > 0)
+            if (id == 0) {
+                model.unit = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault();
+                model.unit_category_id = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault().unit_category_id;
+            }
+            else  if (id > 0)
             {
-
                 await LoadData();
             }
             else if (clone_id > 0)
             {
                 await CloneProduct();
             }
+
 
             is_loading = false;
         }
@@ -109,8 +112,8 @@ namespace eAdmin.Pages.PageProducts
                 {
                     model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
 
-                    unit_category_id = model.unit.unit_category_id;
-                    old_unit_category_id = model.unit.unit_category_id;
+                    model.unit_category_id = model.unit.unit_category_id;
+                 
 
                     if (model.is_deleted)
                     {
@@ -132,16 +135,16 @@ namespace eAdmin.Pages.PageProducts
         }
         public void onUnitCategoryChange(int val)
         {
-            if (old_unit_category_id != val) 
+            if (model.unit_category_id != val) 
             {
-                var _data = gv.units.Where(r => r.unit_category_id == val && !r.is_deleted && r.status).ToList();
+                var _data = gv.units.Where(r => r.unit_category_id == val && !r.is_deleted && r.status && r.type_name == "Reference").ToList();
                
                 model.unit_id = _data.Count > 0? _data.FirstOrDefault().id :0;
                 model.unit = _data.Count > 0? _data.FirstOrDefault() : new UnitModel();
-                
+                model.unit_category_id = val;
+                model.product_portions.ForEach(r => {   r.unit = gv.units.Where(x=>x.unit_category_id== val && x.id ==r.unit_id).Any()? gv.units.Where(x => x.unit_category_id == val && x.id == r.unit_id).FirstOrDefault(): new UnitModel(); } );
             } 
-            old_unit_category_id = val; 
-            unit_category_id = val;
+          
         }
         public async Task CloneProduct()
         {
@@ -165,7 +168,7 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-            save_model.product_portions.ForEach(r=>r.unit = null);
+            
             foreach (var m in save_model.product_modifiers.Where(r => r.is_section == true))
             {
                 if(!m.children.Where(r => r.is_deleted == false).Any())
@@ -177,17 +180,38 @@ namespace eAdmin.Pages.PageProducts
             }
             if (save_model.unit_id == 0)
             { 
-                toast.Add(lang["Please Select Unit."], MatToastType.Warning);
+                toast.Add(lang["Please select unit."], MatToastType.Warning);
                 is_saving = false;
                 return;
             }
+            if (save_model.product_portions.Count() == 0)
+            {
+                toast.Add(lang["Please add product protion."], MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            
+
+
+            foreach(var pp in model.product_portions.Where(r=>r.is_deleted == false))
+            {
+                if(!gv.units.Where(r=>r.unit_category_id == model.unit_category_id && r.id == pp.unit_id).Any())
+                {
+                    toast.Add("Please select unit in Product Portion Price", MatToastType.Warning);
+                    is_saving = false;
+                    return;
+                }
+            }
+
 
             if (save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Count() > 0)
             {
                 save_model.min_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Min(r => r.price);
                 save_model.max_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Max(r => r.price);
             }
+
             //remove menu
+            save_model.product_portions.ForEach(r => r.unit = null);
             save_model.product_menus.ForEach(r => r.menu = null);
             save_model.is_menu_product = true;
             save_model.vendor = null;

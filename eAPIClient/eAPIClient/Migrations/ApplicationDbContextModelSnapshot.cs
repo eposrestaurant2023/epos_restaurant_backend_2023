@@ -199,11 +199,14 @@ namespace eAPIClient.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("customer_name_en")
-                        .HasColumnType("nvarchar(max)")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("customer_name_kh")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<DateTime>("date_of_birth")
@@ -356,15 +359,19 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_allow_discount")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_allow_free")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_inventory_product")
                         .HasColumnType("bit");
 
                     b.Property<string>("keyword")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("kitchen_group_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("kitchen_group_sort_order")
+                        .HasColumnType("int");
 
                     b.Property<string>("photo")
                         .HasColumnType("nvarchar(max)")
@@ -688,6 +695,24 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_sale");
                 });
 
+            modelBuilder.Entity("eAPIClient.Models.SaleOrderModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("created_by")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_sale_order");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.SalePaymentModel", b =>
                 {
                     b.Property<Guid>("id")
@@ -711,6 +736,9 @@ namespace eAPIClient.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("is_create_payment_in_sale_order")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_credit")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
@@ -850,6 +878,9 @@ namespace eAPIClient.Migrations
                     b.Property<Guid>("sale_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("sale_order_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -915,6 +946,8 @@ namespace eAPIClient.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("sale_id");
+
+                    b.HasIndex("sale_order_id");
 
                     b.HasIndex("status_id");
 
@@ -1037,9 +1070,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal>("quantity")
                         .HasColumnType("decimal(19,4)");
-
-                    b.Property<Guid>("sale_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("sale_number")
                         .HasColumnType("nvarchar(max)")
@@ -1355,6 +1385,12 @@ namespace eAPIClient.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eAPIClient.Models.SaleOrderModel", "sale_order")
+                        .WithMany()
+                        .HasForeignKey("sale_order_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eAPIClient.Models.SaleProductStatusModel", "sale_product_status")
                         .WithMany()
                         .HasForeignKey("status_id")
@@ -1362,6 +1398,8 @@ namespace eAPIClient.Migrations
                         .IsRequired();
 
                     b.Navigation("sale");
+
+                    b.Navigation("sale_order");
 
                     b.Navigation("sale_product_status");
                 });

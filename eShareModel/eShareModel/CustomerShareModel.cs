@@ -14,21 +14,22 @@ namespace eShareModel
 
         public string customer_code { get; set; }
 
-        //private string _customer_name_en;
-        //[Required(ErrorMessage ="Field can not be blank.")]
-        //public string customer_name_en
-        //{
-        //    get { return _customer_name_en; }
-        //    set { _customer_name_en = value;
-        //        if (string.IsNullOrEmpty(customer_name_kh))
-        //        {
-        //            customer_name_kh = value;
-        //        }
-        //    }
-        //}
-       
-        
-        public string customer_name_en { get; set; }
+        private string _customer_name_en;
+        [MaxLength(150)]
+        [Required(ErrorMessage ="Field can not be blank.")]
+        public string customer_name_en 
+        {
+            get { return _customer_name_en; }
+            set
+            {
+                _customer_name_en = value;
+                if (string.IsNullOrEmpty(customer_name_kh))
+                {
+                    customer_name_kh = value;
+                }
+            }
+        }
+        [MaxLength(150)]
         public string customer_name_kh { get; set; }
 
 

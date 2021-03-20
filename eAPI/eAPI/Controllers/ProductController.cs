@@ -79,9 +79,12 @@ namespace eAPI.Controllers
                         return StatusCode(500, "Is Inventory Status cannot Change. This product is already has inventory transaction.");
                     }else  {
                         //use change initialize quantity after product has inv transaction
-                        if (u.stock_location_products.Where(r => (r.initial_quantity - r.initial_adjustment_quantity) != 0).Any())
+                        if (p.is_product_has_inventory_transaction)
                         {
-                            return StatusCode(500, "Quantity cannot change. This product is already has inventory transaction.");
+                            if (u.stock_location_products.Where(r => (r.initial_quantity - r.initial_adjustment_quantity) != 0).Any())
+                            {
+                                return StatusCode(500, "Quantity cannot change. This product is already has inventory transaction.");
+                            }
                         }
                         
                     }
@@ -119,16 +122,17 @@ namespace eAPI.Controllers
             u.product_menus.ForEach(r => r.menu = null);
             u.stock_location_products.ForEach(r => r.stock_location = null);
 
-      
-            
+
+
             //if product is inv product then save init qty to init adjusment qty
             if (u.is_inventory_product)
             {
                 if (u.stock_location_products.Any())
                 {
-                    u.stock_location_products.ForEach(r => { r.initial_adjustment_quantity = r.initial_quantity; r.unit = u.unit.unit_name; r.multiplier = u.unit.multiplier; });
+                    u.stock_location_products.ForEach(r => { r.adjust_quantity = r.initial_quantity - r.initial_adjustment_quantity; r.initial_adjustment_quantity = r.initial_quantity;  r.unit = u.unit.unit_name; r.multiplier = u.unit.multiplier; });
                 }
             }
+
 
             if (u.id == 0)
             {
@@ -196,6 +200,7 @@ namespace eAPI.Controllers
             {
                 inv = new InventoryTransactionModel();
                 inv.product_id = p.id;
+                inv.product = null;
                 inv.transaction_date = DateTime.Now;
                 inv.inventory_transaction_type_id = 1;
                 inv.stock_location_id = s.stock_location_id;
@@ -217,7 +222,7 @@ namespace eAPI.Controllers
 
             UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            foreach (var s in p.stock_location_products.Where(r=>(r.initial_adjustment_quantity- r.initial_quantity)!=0))
+            foreach (var s in p.stock_location_products.Where(r=> r.adjust_quantity !=0))
             {
                 inv = new InventoryTransactionModel();
                 inv.product_id = p.id;
