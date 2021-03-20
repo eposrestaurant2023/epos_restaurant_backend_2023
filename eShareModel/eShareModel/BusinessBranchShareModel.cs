@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace eShareModel
 {
-    public class BusinessBranchModel : CoreGUIDModel
+    public class BusinessBranchShareModel : CoreGUIDModel
     {
-        public BusinessBranchModel()
-        {
-           
-        }
+       
 
         private string _business_branch_name_en;
 

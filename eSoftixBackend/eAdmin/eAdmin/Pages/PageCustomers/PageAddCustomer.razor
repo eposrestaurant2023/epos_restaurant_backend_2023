@@ -103,11 +103,7 @@
             }
             else
             {
-                title = "Add New Customer";
-                if (model.contacts.Count == 0)
-                {
-                    model.contacts.Add(new ContactModel());
-                }
+             
             }
             is_loading = false;
         }
@@ -131,7 +127,6 @@
                     id = 0;
                     title = "Add New Customer";
                     nav.NavigateTo("customer/new");
-                    model.contacts.Add(new ContactModel());
                 }
                 else
                 {

@@ -31,6 +31,7 @@
         </PageHeader>
         <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
             <PageBody>
+                @xxx
                 <UIGridCenter>
                     @if (is_loading)
                     {
@@ -38,7 +39,7 @@
                     }
                     else
                     {
-                        <ComAddProjectForm @bind-model="@model"/>
+                      <ComAddProjectForm @bind-model="@model"/>
                     }
                 </UIGridCenter>
             </PageBody>
@@ -55,6 +56,7 @@
 @code{
     [Parameter] public int id { get; set; }
     ProjectModel model = new ProjectModel();
+    string xxx;
     public string api_url
     {
         get
@@ -101,10 +103,6 @@
 
                 model.business_branches.Add(biz);
 
-                if (model.project_contacts.Count == 0)
-                {
-                    model.project_contacts.Add(new ContactModel());
-                }
             }
 
 
@@ -117,6 +115,11 @@
     {
 
         is_saving = true;
+
+
+          xxx = JsonSerializer.Serialize(model);
+
+
         var res = await http.ApiPost($"project/save", model);
         if (res.IsSuccess)
         {

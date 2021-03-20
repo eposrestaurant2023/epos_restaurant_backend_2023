@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210318103535_companyxxxxx")]
+    partial class companyxxxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1281,29 +1283,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_station");
                 });
 
-            modelBuilder.Entity("eModels.StockLocationModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("is_default")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("stock_location_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.ToTable("tbl_stock_location");
-                });
-
             modelBuilder.Entity("eModels.StoreProcedureResultModel", b =>
                 {
                     b.Property<string>("result")
@@ -1623,17 +1602,6 @@ namespace eAPI.Migrations
                     b.Navigation("outlet");
                 });
 
-            modelBuilder.Entity("eModels.StockLocationModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("stock_locations")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-                });
-
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
                     b.HasOne("eModels.RoleModel", "role")
@@ -1650,8 +1618,6 @@ namespace eAPI.Migrations
                     b.Navigation("contacts");
 
                     b.Navigation("outlets");
-
-                    b.Navigation("stock_locations");
                 });
 
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>

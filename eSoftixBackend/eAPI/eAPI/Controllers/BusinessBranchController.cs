@@ -28,8 +28,8 @@ namespace eAPI.Controllers
 
 
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
-        [AllowAnonymous]      
+        [EnableQuery(MaxExpansionDepth = 0)]
+        
         public IQueryable<BusinessBranchModel> Get()
         {
            
@@ -72,7 +72,7 @@ namespace eAPI.Controllers
         }
 
         [HttpGet("find")]
-        [EnableQuery(MaxExpansionDepth = 4)]
+        [EnableQuery(MaxExpansionDepth = 0)]
         public SingleResult<BusinessBranchModel> Get([FromODataUri] Guid key)
         {
             var s = db.BusinessBranches.Where(r => r.id == key).AsQueryable();

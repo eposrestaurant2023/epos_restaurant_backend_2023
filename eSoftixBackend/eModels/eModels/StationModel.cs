@@ -7,19 +7,13 @@ using eShareModel;
 namespace eModels
 {
     [Table("tbl_station")]
-    public  class StationModel   : CoreModel
+    public  class StationModel   : CoreGUIDModel
     {
         public Guid outlet_id { get; set; }
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
 
 
-        [Required(ErrorMessage = "Please select an outlet.")]
-        public Guid business_branch_id { get; set; }
-        [ForeignKey("business_branch_id")]
-        public BusinessBranchModel business_branch { get; set; }
-
-      
 
         private string _station_name_en;
         

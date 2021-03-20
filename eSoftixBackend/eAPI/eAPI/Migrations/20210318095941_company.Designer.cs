@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210318095941_company")]
+    partial class company
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,6 +213,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<Guid?>("BusinessBranchModelid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("contact_name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -271,74 +276,13 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("BusinessBranchModelid");
+
                     b.HasIndex("customer_id");
 
                     b.HasIndex("project_id");
 
                     b.ToTable("tbl_contact");
-                });
-
-            modelBuilder.Entity("eModels.ContactRelatedModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<Guid?>("BusinessBranchModelid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CustomerModelid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProjectModelid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("contact_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("customer_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("project_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("BusinessBranchModelid");
-
-                    b.HasIndex("CustomerModelid");
-
-                    b.HasIndex("ProjectModelid");
-
-                    b.HasIndex("contact_id");
-
-                    b.ToTable("tbl_contact_related");
                 });
 
             modelBuilder.Entity("eModels.CountryModel", b =>
@@ -469,7 +413,6 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("company_name_kh")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -1283,9 +1226,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StockLocationModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1437,40 +1381,21 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ContactModel", b =>
                 {
+                    b.HasOne("eModels.BusinessBranchModel", null)
+                        .WithMany("contacts")
+                        .HasForeignKey("BusinessBranchModelid");
+
                     b.HasOne("eModels.CustomerModel", "customer")
-                        .WithMany()
+                        .WithMany("contacts")
                         .HasForeignKey("customer_id");
 
                     b.HasOne("eModels.ProjectModel", "project")
-                        .WithMany()
+                        .WithMany("project_contacts")
                         .HasForeignKey("project_id");
 
                     b.Navigation("customer");
 
                     b.Navigation("project");
-                });
-
-            modelBuilder.Entity("eModels.ContactRelatedModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", null)
-                        .WithMany("contacts")
-                        .HasForeignKey("BusinessBranchModelid");
-
-                    b.HasOne("eModels.CustomerModel", null)
-                        .WithMany("contacts")
-                        .HasForeignKey("CustomerModelid");
-
-                    b.HasOne("eModels.ProjectModel", null)
-                        .WithMany("contacts")
-                        .HasForeignKey("ProjectModelid");
-
-                    b.HasOne("eModels.ContactModel", "contact")
-                        .WithMany()
-                        .HasForeignKey("contact_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("contact");
                 });
 
             modelBuilder.Entity("eModels.CurrencyModel", b =>
@@ -1687,7 +1612,7 @@ namespace eAPI.Migrations
                 {
                     b.Navigation("business_branches");
 
-                    b.Navigation("contacts");
+                    b.Navigation("project_contacts");
                 });
 
             modelBuilder.Entity("eModels.ProjectTypeModel", b =>

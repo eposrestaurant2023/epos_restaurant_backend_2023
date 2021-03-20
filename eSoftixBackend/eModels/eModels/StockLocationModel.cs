@@ -10,7 +10,7 @@ namespace eModels
     public class StockLocationModel
     {
         [Key]
-        public int id { get; set; }
+        public Guid id { get; set; }
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }

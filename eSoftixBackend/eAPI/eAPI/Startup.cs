@@ -124,6 +124,10 @@ namespace eAPI
             odataBuilder.EntitySet<SettingModel>("Setting");
             odataBuilder.EntitySet<AttachFileModel>("AttachFile");
             odataBuilder.EntitySet<ProjectModel>("Project");
+           odataBuilder.EntitySet<BusinessBranchModel>("BusinessBranch");
+            odataBuilder.EntitySet<OutletModel>("Outlet");
+            odataBuilder.EntitySet<StationModel>("Station");
+          odataBuilder.EntitySet<StockLocationModel>("StockLocation");
             
              return odataBuilder.GetEdmModel();
         }

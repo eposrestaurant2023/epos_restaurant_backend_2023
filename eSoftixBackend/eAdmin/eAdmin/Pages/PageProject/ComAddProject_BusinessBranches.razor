@@ -1,5 +1,4 @@
-﻿ 
-<Tab>
+﻿ <Tab>
     <TabHeader>
         @foreach (var b in model.business_branches.Where(r => r.is_deleted == false))
         {
@@ -16,7 +15,7 @@
         }
     </TabBody>
 </Tab>
-<AddButton OnClick="@AddBranch">Add</AddButton>
+<AddButton OnClick="@AddBranch">Add Branch</AddButton>
 @code {
     [Parameter] public ProjectModel model { get; set; }
 

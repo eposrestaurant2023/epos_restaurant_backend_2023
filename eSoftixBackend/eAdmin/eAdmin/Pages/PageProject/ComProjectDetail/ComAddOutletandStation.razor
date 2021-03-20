@@ -202,7 +202,7 @@
 
     void Delete_station(StationModel s)
     {
-        if (s.id == 0)
+        if (s.id == Guid.Empty)
         {
             model.stations.Remove(s);
         }

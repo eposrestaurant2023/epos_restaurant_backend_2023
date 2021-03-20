@@ -6,13 +6,13 @@ using eShareModel;
 namespace eModels
 {
     [Table("tbl_business_branch")]
-    public class BusinessBranchModel   : eShareModel.BusinessBranchModel
+    public class BusinessBranchModel   : BusinessBranchShareModel
     {
         public BusinessBranchModel()
         {
             outlets = new List<OutletModel>();
-            stock_locations = new List<StockLocationModel>();
-            contacts = new List<ContactModel>();
+         stock_locations = new List<StockLocationModel>();
+            contacts = new List<ContactRelatedModel>();
         }
 
         
@@ -23,9 +23,9 @@ namespace eModels
         public List<OutletModel>  outlets { get; set; }
 
 
-        public List<StockLocationModel> stock_locations { get; set; }
+       public List<StockLocationModel> stock_locations { get; set; }
 
-        public List<ContactModel> contacts { get; set; }
+        public List<ContactRelatedModel> contacts { get; set; }
 
     }
 }

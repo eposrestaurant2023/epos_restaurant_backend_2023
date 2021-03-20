@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading;
 
 namespace eModels
 {
@@ -12,8 +13,8 @@ namespace eModels
     {
         public CustomerModel()
         {
-            contacts = new List<ContactModel>();
             projects = new List<ProjectModel>();
+            contacts = new List<ContactRelatedModel>();
         }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select customer Group")]
@@ -38,6 +39,9 @@ namespace eModels
                 }
             }
         }
+
+        [Required(ErrorMessage = "Please enter company name")]
+        public string company_name_kh { get; set; }
         public string province { get; set; }
         public string customer_name_kh { get; set; }
 
@@ -69,8 +73,9 @@ namespace eModels
         public string note { get; set; }
         public string telegram { get; set; }
         [ValidateComplexType]
-        public List<ContactModel> contacts { get; set; }
         public List<ProjectModel> projects { get; set; }
+        [ValidateComplexType]
+        public List<ContactRelatedModel> contacts { get; set; }
 
     }
 }

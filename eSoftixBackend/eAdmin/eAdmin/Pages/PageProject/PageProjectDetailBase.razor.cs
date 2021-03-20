@@ -27,7 +27,7 @@ namespace eAdmin.Pages.PageProject
             get
             {
                 string query = $"{controller_api}({id})";
-                query += $"?$expand=project_type,project_contacts";
+                query += $"?$expand=project_type";
                 return query;
             }
         }
