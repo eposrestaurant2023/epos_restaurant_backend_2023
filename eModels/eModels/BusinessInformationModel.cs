@@ -31,7 +31,7 @@ namespace eModels
     }
 
     [Table("tbl_business_branch")]
-    public class BusinessBranchModel   : eShareModel.BusinessBranchModel
+    public class BusinessBranchModel   : eShareModel.BusinessBranchShareModel
     {
         public BusinessBranchModel()
         {
