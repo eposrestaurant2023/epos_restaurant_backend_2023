@@ -14,7 +14,7 @@ namespace eAPIClient.Models
         public int id { get; set; }
         public string prefix_price_name { get; set; }
         public string prefix_price_value { get; set; }
-        public int currency_id { get; set; }
+        public int payment_type_id { get; set; }
         public string note { get; set; }
         public bool status { get; set; }
     }

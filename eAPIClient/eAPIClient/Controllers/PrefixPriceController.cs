@@ -24,14 +24,14 @@ namespace eAPIClient.Controllers
         [EnableQuery(MaxExpansionDepth = 8)] 
         public IQueryable<PrefixPriceModel> Get()
         {
-            return db.PrefixPrice;  
+            return db.PrefixPrices;  
         }
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
         public SingleResult<PrefixPriceModel> Get([FromODataUri] int key)
         {
-            var s = db.PrefixPrice.Where(r => r.id == key).AsQueryable();
+            var s = db.PrefixPrices.Where(r => r.id == key).AsQueryable();
 
             return SingleResult.Create(s);
         }

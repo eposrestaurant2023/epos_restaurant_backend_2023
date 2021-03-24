@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210324074220_change_name")]
+    partial class change_name
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,45 +124,6 @@ namespace eAPIClient.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_config_data");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.CurrencyModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<decimal>("change_exchange_rate")
-                        .HasColumnType("decimal(19,10)");
-
-                    b.Property<string>("currency_format")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("currency_name_en")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("currency_name_kh")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("exchange_rate")
-                        .HasColumnType("decimal(19,10)");
-
-                    b.Property<bool>("is_main")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_currency");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.CustomerGroupModel", b =>
@@ -1393,6 +1356,45 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_working_day");
                 });
 
+            modelBuilder.Entity("eShareModel.CurrencyShareModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<decimal>("change_exchange_rate")
+                        .HasColumnType("decimal(19,10)");
+
+                    b.Property<string>("currency_format")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("currency_name_en")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("currency_name_kh")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<decimal>("exchange_rate")
+                        .HasColumnType("decimal(19,10)");
+
+                    b.Property<bool>("is_main")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("CurrencyShareModel");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.CashierShiftModel", b =>
                 {
                     b.HasOne("eAPIClient.Models.WorkingDayModel", "working_day")
@@ -1417,7 +1419,7 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.PaymentTypeModel", b =>
                 {
-                    b.HasOne("eAPIClient.Models.CurrencyModel", "currency")
+                    b.HasOne("eShareModel.CurrencyShareModel", "currency")
                         .WithMany()
                         .HasForeignKey("currency_id");
 

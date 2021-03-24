@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210324070431_change")]
+    partial class change
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,45 +124,6 @@ namespace eAPIClient.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_config_data");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.CurrencyModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<decimal>("change_exchange_rate")
-                        .HasColumnType("decimal(19,10)");
-
-                    b.Property<string>("currency_format")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("currency_name_en")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("currency_name_kh")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("exchange_rate")
-                        .HasColumnType("decimal(19,10)");
-
-                    b.Property<bool>("is_main")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_currency");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.CustomerGroupModel", b =>
@@ -370,68 +333,6 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_menu");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.PaymentTypeModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("created_by")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("currency_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("deleted_by")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_build_in")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_credit")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("payment_type_name_en")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("payment_type_name_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("photo")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("currency_id");
-
-                    b.ToTable("tbl_payment_type");
-                });
-
             modelBuilder.Entity("eAPIClient.Models.PrefixPriceModel", b =>
                 {
                     b.Property<int>("id")
@@ -446,9 +347,6 @@ namespace eAPIClient.Migrations
                     b.Property<int>("payment_type_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("payment_typeid")
-                        .HasColumnType("int");
-
                     b.Property<string>("prefix_price_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -461,8 +359,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
-
-                    b.HasIndex("payment_typeid");
 
                     b.ToTable("tbl_prefix_price");
                 });
@@ -1413,24 +1309,6 @@ namespace eAPIClient.Migrations
                         .IsRequired();
 
                     b.Navigation("customer_group");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.PaymentTypeModel", b =>
-                {
-                    b.HasOne("eAPIClient.Models.CurrencyModel", "currency")
-                        .WithMany()
-                        .HasForeignKey("currency_id");
-
-                    b.Navigation("currency");
-                });
-
-            modelBuilder.Entity("eAPIClient.Models.PrefixPriceModel", b =>
-                {
-                    b.HasOne("eAPIClient.Models.PaymentTypeModel", "payment_type")
-                        .WithMany()
-                        .HasForeignKey("payment_typeid");
-
-                    b.Navigation("payment_type");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.ProductMenuModel", b =>
