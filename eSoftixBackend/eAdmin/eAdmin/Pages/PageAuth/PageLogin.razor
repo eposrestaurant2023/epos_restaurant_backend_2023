@@ -62,6 +62,11 @@
     bool IsShowMessage = false;
     bool IsSpinning = false;
 
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(EncryptProvider.Base64Decrypt("TlpOSEJBTXVkdiVFRmVRLWhHQ2NeOXJKcEY2OW0lJGhSRCVBKg=="));
+        }
+
     public async Task LoginUser()
     {
         IsSpinning = true;

@@ -1,4 +1,5 @@
-﻿<div class="uk-margin-small">
+﻿<div class="@(is_horizontal?"uk-form-horizontal":"")">
+<div class="uk-margin-small">
     <label class="uk-form-label" for="@id">@label</label>
     <div class="uk-form-controls">
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small">
@@ -10,14 +11,14 @@
         </select>
     </div>
 </div>
+</div>
 
 @code{ 
     [Parameter] public string selected_value { get; set; } = "dd-MM-yyyy";
     [Parameter] public string label { get; set; } = "Date Time Format";
+    [Parameter] public bool is_horizontal { get; set; } = true;
 
-
-    [Parameter]
-    public EventCallback<string> selected_valueChanged { get; set; }
+    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
 
     public string SelectedValue
     {

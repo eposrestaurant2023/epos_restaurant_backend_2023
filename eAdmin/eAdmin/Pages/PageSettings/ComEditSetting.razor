@@ -10,11 +10,11 @@
     {
         @if (setting.input_type == "date")
         {
-            <ComSelectDateFormat label="Date Format" @bind-selected_value="@bs.setting_value" />
+            <ComSelectDateFormat label="Date Format" @bind-selected_value="@bs.setting_value" is_horizontal="true"/>
         }
         else if (setting.input_type == "datetime")
         {
-            <ComSelectDateTimeFormat label="Date Time Format" @bind-selected_value="@bs.setting_value"/>
+            <ComSelectDateTimeFormat label="Date Time Format" @bind-selected_value="@bs.setting_value" is_horizontal="true"/>
         }
         else
         {

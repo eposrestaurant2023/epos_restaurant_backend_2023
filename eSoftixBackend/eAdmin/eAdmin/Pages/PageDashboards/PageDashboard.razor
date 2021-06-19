@@ -47,8 +47,9 @@
         <Grid ClassName="uk-text-center uk-grid-small">
             <div class="uk-width-3-5">
                 <ComPanel Title="New Register Customer" ClassName="uk-padding">
+                    @if(line_data != null) { 
                     <LineChart Height="450" Data="@line_data" />
-
+                    }
                 </ComPanel>
             </div>
             <div class="uk-width-2-5">

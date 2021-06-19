@@ -10,22 +10,24 @@
         }
         else if (d.input_type == "select")
         {
-            <div class="uk-margin-small">
-                <label class="uk-form-label">@d.setting_title</label>
-                <div class="uk-form-controls">
-                    <select @bind="@d.setting_value" class="uk-select  uk-form-small">
+            <div class="uk-form-horizontal">
+                <div class="uk-margin-small">
+                    <label class="uk-form-label">@d.setting_title</label>
+                    <div class="uk-form-controls">
+                        <select @bind="@d.setting_value" class="uk-select  uk-form-small">
 
-                        @foreach (string item in d.setting_option.Split(','))
-                        {
-                            <option value="@item">@item</option>
-                        }
-                    </select>
+                            @foreach (string item in d.setting_option.Split(','))
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                    </div>
                 </div>
             </div>
         }
         else
         {
-            <TextInput type="@d.input_type" label="@d.setting_title" @bind-text="@d.setting_value" />
+            <TextInput type="@d.input_type" label="@d.setting_title" @bind-text="@d.setting_value" is_horizontal="true"/>
         }
     }
 </UIContainerBox>

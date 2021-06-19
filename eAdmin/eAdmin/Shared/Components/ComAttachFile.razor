@@ -162,10 +162,11 @@
     InputFileData _data_form = new InputFileData();
     bool IsUploaded = false;
     string status_message = "";
-
+    string guid = Guid.NewGuid().ToString();
     string image_url(string image_base_url) {
-        return $"{config["BaseUrl"]}upload/{image_base_url}";
+        return $"{config["BaseUrl"]}Upload/{image_base_url}";
     }
+
 
     private async Task HandleSelection(IMatFileUploadEntry[] files)
     {
@@ -184,11 +185,12 @@
             is_loading = false;
             return;
         }
+        guid = Guid.NewGuid().ToString();
 
         await SendFileUpload(uploaded_file);
         if (IsUploaded) {
 
-            string _new_image = Guid.NewGuid().ToString() + uploaded_file.Name;
+            string _new_image = guid + uploaded_file.Name;
             // get the status
             status_message = "The file " + uploaded_file.Name + " was uploaded";
             file.file_name = _new_image;
@@ -268,7 +270,7 @@
             var ms = new MemoryStream();
             await file.WriteToStreamAsync(ms);
 
-            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name;
+            string _new_image = guid + file.Name;
 
             var bytecontent = new ByteArrayContent(ms.GetBuffer());
             bytecontent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");

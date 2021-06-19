@@ -36,6 +36,7 @@
                                 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
 
                                     <tr>
+                                        <Th>Discound Code</Th>
                                         <Th>Discound Code Value</Th>
                                         <ThCenter>Status</ThCenter>
                                         <Th></Th>
@@ -43,7 +44,9 @@
                                     @foreach (var d in b.discount_codes.Where(r => r.is_deleted == false))
                                     {
                                         <tr>
-                                       
+                                            <td>
+                                              <TextInput @bind-text="@d.discount_code" placeholder="Discount Code"/>
+                                            </td>
                                             <td><NumberInput @bind-text="@d.discount_value" label="" placeholder="Discount Value" /></td>
                                             <TdCenter>
                                                 <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
@@ -119,12 +122,6 @@
     async Task Save_Click()
     {
 
-        if (branches.SelectMany(r => r.discount_codes).Where(r => r.is_deleted == false && (r.discount_value==0 )).Any())
-        {
-
-            toast.Add("Please enter printer name", MatToastType.Warning);
-            return;
-        }
 
         is_saving = true;
 

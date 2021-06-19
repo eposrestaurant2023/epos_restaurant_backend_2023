@@ -4,15 +4,26 @@
     <PageHeader is_subpage="true">
         <HeaderLeft ClassName="uk-flex-top">
             <div>
+         
                 @if (state.pager.show_logo)
                 {
-                    <img src="@http.ImageUrl(gv.business_info.company_logo)" class="uk-image" width="130" />
+                    <img src="@http.ImageUrl(gv.business_info?.company_logo)" class="uk-image" width="130" />
                 }
+            
                 <div class="uk-text-top">
+                  @if(!string.IsNullOrEmpty(gv.business_info.company_name)){
                     <div class="font-xxl">@gv.business_info.company_name</div>
+                   }
+                   @if(!string.IsNullOrEmpty(gv.business_info.address)){
                     <div>@gv.business_info.address</div>
+                    }
+                     @if(!string.IsNullOrEmpty(gv.business_info.contact_office_number)){
                     <div>@gv.business_info.contact_office_number</div>
-                    <div>@gv.business_info.contact_phone_number</div>
+                    }
+                    @if (!string.IsNullOrEmpty(gv.business_info.contact_phone_number))
+                    {
+                        <div>@gv.business_info.contact_phone_number</div>
+                    }
                 </div>
             </div>
         </HeaderLeft>
