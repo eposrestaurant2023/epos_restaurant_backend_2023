@@ -1,22 +1,76 @@
 ﻿@page "/customer"
+@inherits PageCustomerBase;
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
 
 <PageContainer>
     <PageHeader title="Customers" >
         <Filter>
-            <ModuleView module_views="@state.GetModuleView("page_customer")" />
+            <ModuleView module_views="@gv.GetModuleView("page_customer")" />
         </Filter>
-        <Left>
-            
-        </Left>
         <Right>
             
         </Right>
-
     </PageHeader>
     <PageBody>
-        hjello
+       
+       <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+        
+        <Table Items="@customers"
+                PerPage="@state.pager.per_page"
+                TotalItem="@TotalRecord"
+                CurrentPage="@state.pager.current_page"
+                OnPagerChange="@SelectChange"
+                OnPageChange="@ChangePager"
+                isLoading="@is_loading_data"
+                ShowPager="true"
+                ShowCounter="true"
+                EmptyText="There is no customer record.">
+            <TableHeader>
+                <ThCenter>Image</ThCenter>
+                @HeaderTemplate("customer_code", "Code", "uk-text-center")
+                @HeaderTemplate("customer_name", "Name (Kh)", "col-auto")
+                @HeaderTemplate("customer/customer_group/customer_name_en", "Customer Group", "col-auto")
+                @HeaderTemplate("company_name", "Company", "col-auto")
+                @HeaderTemplate("phone_1", "Phone", "uk-text-left")
+                @HeaderTemplate("gender", "Gender", "uk-text-center")
+                        
+                <ThAuto ClassName="uk-text-center">
+                    Status
+                </ThAuto>
+                <th class="uk-width-auto"></th>
+            </TableHeader>
+            <RowTemplate Context="p">
+                <TdCenter>
+                    <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                </TdCenter>
+                <TdCenter>
+                    <AuthView roles="customer_view" url="@($"customer/{p.id}")">@p.customer_code</AuthView>
+                </TdCenter>
+                <td>
+                    <div>
+                        <AuthView roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_name_en (@p.customer_name_kh)</AuthView>
+                    </div>
+                </td>
+
+                <td>
+                    @p.customer_group?.customer_group_name_en
+                </td>
+                <td>
+                    @p.company_name
+                </td>
+                <td>
+                    @p.phone_1 @(!string.IsNullOrEmpty(p.phone_2)?$"/ {p.phone_2}":"")
+                </td>
+                <td>
+                    @p.gender
+                </td>
+                <TdCenter>
+                   
+                </TdCenter>
+            </RowTemplate>
+        </Table>
     </PageBody>
 </PageContainer>
-@code{
-      [CascadingParameter] public AppState state { get; set; }
-}

@@ -228,6 +228,17 @@ namespace eAdmin
 
         }
 
+        public ModuleViewModel GetDefaultModuleView(string view_name)
+        {
+
+            var d = gv.module_views.Where(r => r.module_name == view_name && r.is_default == true);
+            if (d.Count() > 0)
+            {
+                return d.FirstOrDefault();
+            }
+            return null;
+
+        }
 
 
 
