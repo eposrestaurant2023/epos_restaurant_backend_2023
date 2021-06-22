@@ -4967,6 +4967,14 @@ h1.wrp-expense-total span.total-expense-amount{
 @media screen and (min-width: 1600px) {
 }
 
+.wrp-login-page_projct {
+    background: url(../images/banner.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    /* padding-top: 20px; */
+    padding: 20px;
+}
 
 .wrp-login-page {
     display: flex;
@@ -5034,14 +5042,85 @@ h1.wrp-expense-total span.total-expense-amount{
     margin-top: 20px;
     border-radius: 5px;
 }
+.mg_b_5{
+    margin-bottom:5px;
+}
+.table_inf table{
+    margin-top:0px !important;
+    margin-bottom:10px !important;
+}
+.table_inf .uk-table-small td, .table_inf .uk-table-small th {
+    padding: 3px 10px !important;
+}
+.text-table {
+    color: #000;
+    font-style: italic;
+}
+.box_verify {
+    box-shadow: var(--mud-elevation-25);
+    display: flex;
+    padding: 12px 16px;
+    border-radius: var(--mud-default-borderradius);
+    background-color: transparent;
+    transition: box-shadow 300ms cubic-bezier(.4,0,.2,1) 0ms;
+    color: #ff002e;
+    background-color: rgb(255 0 47 / 6%);
+}
 
-.wrp_project_theme{
+.title_branches_box {
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #000000;
+    font-weight: 500;
+}
+
+.box_branch {
+    box-shadow: var(--mud-elevation-25);
+    padding: 15px 16px;
+    border-radius: var(--mud-default-borderradius);
+    background-color: transparent;
+    transition: box-shadow 300ms cubic-bezier(.4,0,.2,1) 0ms;
+    color: rgb(62 62 62);
+    background-color: rgb(249 249 249 / 6%);
+}
+.box_station_out {
+    padding: 15px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+}
+.verefy_title {
+    font-size: 14px;
+    color: #0886ff;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-style:italic;
+}
+
+.text_verfy {
+    font-size: 13px;
+    text-transform: capitalize;
+}
+
+.wrp_pos_copany {
+    color: var(--mud-palette-text-primary);
+    background-color: var(--mud-palette-surface);
+    border-radius: var(--mud-default-borderradius);
+    transition: box-shadow 300ms cubic-bezier(.4,0,.2,1) 0ms;
+    box-shadow: var(--mud-elevation-1);
+    padding: 16px;
+    height: 500px;
+    overflow-x: auto;
+}
+
+.wrp_project_theme {
     background: #ffffff;
     padding: 30px;
-    width: 500px;
-    border-radius: 3px;
-    margin-top: 20px;
+    margin: 0 auto;
+    max-width: 700px;
+    width: 100%;
     border-radius: 5px;
+  padding 
 }
 .edit_hover {
     visibility: hidden;

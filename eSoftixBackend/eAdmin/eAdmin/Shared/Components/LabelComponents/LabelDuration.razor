@@ -1,9 +1,0 @@
-﻿@if (is_visible)
-{
-    <span class="uk-label duration">Duration (@count)</span>
-}
-
-@code {
-    [Parameter] public bool is_visible { get; set; } = true;
-    [Parameter] public int count { get; set; } = 0;
-}

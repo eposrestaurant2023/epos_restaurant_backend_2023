@@ -7,7 +7,7 @@
 @inject IMatToaster toast;
 
  
-    <div class="wrp-login-page">
+    <div class="wrp-login-page_projct">
         <div class="wrp_project_theme">
             <div class="login-header">
                 <img src="images/ePOS-Rest.svg" />
@@ -26,73 +26,113 @@
                         }
                         else
                         {
-                            <h2 class="uk-text-center">@lang["This project is belong to"]</h2>
-                            <div>
-                                @lang["Company"]: @model.customer.company_name <br/>
-                                @lang["Contact Name"]: @model.customer.customer_code - @model.customer.customer_name_en<br/>
-                                @lang["Phone"]: @model.customer.phone_1
-                            </div>
-                            <h2>@lang["Detail"]</h2>
-                            <div>
-                                <h3>@lang["Branches"] (@model.business_branches.Count())</h3>
-                                <ul>
+                            <h2 class="uk-text-center" style=" text-transform: capitalize; font-size: 24px; ">@lang["This project is belong to"]</h2>
+                            <div class="wrp_pos_copany">
+                                <div>
+                                    <h3 class="mg_b_5 verefy_title">Customer Information</h3>
+                                </div>
+                                <div class="table_inf">
+                                    <table class="uk-table uk-table uk-table-small">
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-table">@lang["Company"]</td>
+                                                <td>: @model.customer.company_name</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-table">@lang["Contact Name"]</td>
+                                                <td>: @model.customer.customer_code - @model.customer.customer_name_en</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-table">@lang["Phone"]</td>
+                                                <td>: @model.customer.phone_1</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <h3 class="mg_b_5 verefy_title">@lang["Detail"]</h3>
+                                    <Spacing Number="5"/>
+                                </div>
+                                <div>
+                                    @*<h3>@lang["Branches"] (@model.business_branches.Count())</h3>*@
+
                                     @foreach (var b in model.business_branches)
                                     {
-                                    <li>
-                                        <p>
+                                    <div class="box_station_out">
+                                        <div class="title_branches_box">
                                             @b.business_branch_name_en
-                                        </p>
-                                        <strong>@lang["Outlets"] (@b.outlets.Count())</strong>
-                                        <ul>
-                                            @foreach (var o in b.outlets)
-                                            {
-                                                <li>
-                                                    <p>
-                                                        @o.outlet_name_en
-                                                    </p>
-                                                    <strong>@lang["Stations"] (@o.stations.Count())</strong>
-                                                    <ul>
-                                                        @foreach (var s in o.stations)
-                                                        {
-                                                            <li>@s.station_name_en</li>
-                                                        }
-                                                    </ul>
-                                                </li>
-                                            }
-                                        </ul>
+                                        </div>
+
+
+                                        @*<strong>@lang["Outlets"] (@b.outlets.Count())</strong>*@
+
+                                        @foreach (var o in b.outlets)
+                                        {
+                                            <div class="box_branch">
+                                                <div class="title_oulet">
+                                                    @o.outlet_name_en
+                                                </div>
+                                                @*<strong>@lang["Stations"] (@o.stations.Count())</strong>*@
+                                                <div style="margin-left:10px;">
+                                                    @foreach (var s in o.stations)
+                                                    {
+                                                        <div>@s.station_name_en</div>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <Spacing Number="10" />
+
+                                        }
+
+
+
 
                                         @if (b.stock_locations.Count() > 0)
                                         {
-                                           <hr />
-                                            <strong>@lang["Warehouses"] (@b.stock_locations.Count())</strong>
-                                            <ul>
+
+                                           
+                                        <div class="box_branch">
+                                            <div class="title_oulet">@lang["Warehouses"]</div>
+                                            <div style="margin-left:10px;">
                                                 @foreach (var s in b.stock_locations)
                                                 {
-                                                    <li>@s.stock_location_name</li>
+                                                    <div>@s.stock_location_name</div>
                                                 }
-                                            </ul>
+                                            </div>
+                                        </div>
                                         }
 
-                                    </li>
+                                    </div>
+                                    <Spacing Number="10"/>
+                                        }
 
+
+                                    </div>
+                            </div>
+                            <Spacing Number="20"/>
+                            <div>
+                                <div class="box_verify">
+                                    <div class="uk-flex uk-flex-middle">
+                                        <div style="margin-right:5px;">
+                                            <Icon icon="error_outline" icon_color="#ff002e" />
+                                        </div>
+                                        <div class="text_verfy">
+                                            Please verify these information with your system administrator
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-text-center">
+                                    @if (is_saving)
+                                    {
+                                        <button class="btn-login" type="button"> <Spinner /> @lang["Confirm"]  </button>
                                     }
-
-                                </ul>
-                            
+                                    else
+                                    {
+                                        <button class="btn-login" type="submit" @onclick="@ConfirmBackendData">@lang["Confirm"] </button>
+                                    }
+                                </div>
                             </div>
-
-                            <p style="color:orangered">Please verify these information with your system administrator</p>
-                            <div class="uk-text-center">
-                                @if (is_saving)
-                                {
-                                    <button class="btn-login" type="button"> <Spinner /> @lang["Confirm"]  </button>
-                                }
-                                else
-                                {
-                                    <button class="btn-login" type="submit" @onclick="@ConfirmBackendData">@lang["Confirm"] </button>
-                                }
-                            </div>
-
                             }
                         }
 

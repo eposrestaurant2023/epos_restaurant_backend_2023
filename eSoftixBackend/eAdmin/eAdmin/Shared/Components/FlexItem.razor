@@ -1,9 +1,0 @@
-﻿<div class="@class_name" @onclick="OnClick">
-    @ChildContent
-</div>
-@code{
-    [Parameter] public string class_name { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public EventCallback OnClick { get; set; }
-
-}
