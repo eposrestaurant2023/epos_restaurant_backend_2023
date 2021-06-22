@@ -52,14 +52,14 @@ namespace eAdmin.Pages.PageProducts
         public string api_url { get {
 
                 string url = $"Product({id})?";
-                url = url + "$expand=product_printers,";
+                url = url + "$expand=product_printers,product_category,";
                 url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
                 url = url + "stock_location_products,";
                 url = url + "unit";
                 return url;
-            } }
+        } }
 
         
         public bool is_save_and_new { get; set; }
@@ -86,6 +86,7 @@ namespace eAdmin.Pages.PageProducts
             if (id == 0) {
                 model.unit = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault();
                 model.unit_category_id = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault().unit_category_id;
+                await LoadData();
             }
             else  if (id > 0)
             {
@@ -104,9 +105,8 @@ namespace eAdmin.Pages.PageProducts
         public async Task LoadData()
         {
             is_loading = true;
-            
-            if (id > 0)
-            {
+
+            if (id > 0) { 
                 var resp = await http.ApiGet(api_url);
                 if (resp.IsSuccess)
                 {
@@ -128,8 +128,8 @@ namespace eAdmin.Pages.PageProducts
                     }
 
                 }
+
             }
-            
             is_loading = false;
 
         }

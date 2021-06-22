@@ -1,7 +1,7 @@
 ﻿@inherits PageCore;
 
 <Loading is_loading="@(is_loading || is_loading_data)"/>
-<Modal IsSimpleMode="false" IsOpened="@is_open" IsOpenedChanged="@(()=>CancelClick())"   Title="Please select a product"   custom_class_body="model-overflow-hidden">
+<Modal IsSimpleMode="false" IsOpened="@is_open" IsOpenedChanged="@(()=>CancelClick())"   Title="Please select a product"   custom_class_body="model-overflow-hidden" ModalWidth="800px">
     <ModalBody ClassName="model-overflow-with-footer">
             <Grid ClassName="uk-grid-divider uk-grid-small">
                 <Column>
