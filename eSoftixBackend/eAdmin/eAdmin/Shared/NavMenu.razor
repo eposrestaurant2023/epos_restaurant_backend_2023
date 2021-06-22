@@ -1,47 +1,53 @@
 ﻿
-<div class="top-row pl-4 navbar navbar-dark uk-visible@l">
-    <a class="navbar-brand" href="">ePOSRestauran</a>
-</div>
-<div class="main_nav @NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="uk-nav-default uk-nav-parent-icon flex-column" uk-nav>
-        @foreach (var d in gv.MainMenu().ToList())
-        {
-            if (gv.SubMenu(d.id).Count() > 0)
+<ComUserDisplay Style="background-color: var(--mud-palette-drawer-background);color: var(--mud-palette-drawer-text);"/>
+<MudDivider Class="mb-4" />
+<MudNavMenu>
+@if(state.gv.permission_options!=null){ 
+    foreach(var s in state.gv.permission_options.Where(r=>r.is_section_header==true && r.show_in_menu == true && r.parent_id ==null).OrderBy(r => r.sort_order))
+    {
+        <AuthorizeView Roles="@s.roles">
+            <MudText Typo="Typo.subtitle2" Color="Color.Inherit" Class="ml-4 my-3">@s.note</MudText> 
+            
+        </AuthorizeView>
+        @foreach(var m1 in state.GetPermissionOption(s))
+         {
+                
+            if (m1.is_match_all)
             {
-                <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@d.note">
-                    @foreach (var sub in gv.SubMenu(d.id))
-                    {
-                        <SubMenuItem roles="@sub.roles" url="@sub.url">@sub.note</SubMenuItem>
-                    }
-                </ParentMenuItem>
-            }
-            else
-            {
-                if (d.url == "/")
+                <AuthorizeView Roles="@m1.roles">
+                <MudNavLink Href="@m1.url" Match="NavLinkMatch.All" Icon="@m1.icon">@m1.note</MudNavLink>    
+                </AuthorizeView>
+            }else {
+                if(state.gv.permission_options.Where(r=>r.parent_id==m1.id && r.show_in_menu == true).Any())
                 {
-                    <MenuItemDynamic IconName="@d.icon" Match="NavLinkMatch.All">@d.note</MenuItemDynamic>
-                }
-                else
-                {
-                    <MenuItemDynamic IconName="@d.icon" MenuUrl="@d.url">@d.note</MenuItemDynamic>
-                }
+                          <MudNavGroup Title="@m1.note" Icon="@m1.icon" HideExpandIcon="false">
+                            @foreach(var m2 in state.GetPermissionOption(m1))
+                            {
+                                <AuthorizeView Roles="@m2.roles">
+                                    <MudNavLink Href="@m2.url" Icon="@m2.icon">@m2.note</MudNavLink>
+                                </AuthorizeView>
+                            }
+                          </MudNavGroup>    
 
+                }else {
+                    <AuthorizeView Roles="@m1.roles">
+                        <MudNavLink Href="@m1.url" Icon="@m1.icon">@m1.note</MudNavLink> 
+                    </AuthorizeView>
+
+                }
+                        
             }
+                    
+              
 
         }
-    </ul>
-</div>
-
-
+        
+    }
+  } 
+</MudNavMenu>
 
 @code {
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    bool collapseNavMenu = true;
+    [CascadingParameter] public AppState state { get; set; }
+    
 
-    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+} 

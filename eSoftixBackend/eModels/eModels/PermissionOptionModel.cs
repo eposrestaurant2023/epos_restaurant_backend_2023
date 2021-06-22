@@ -50,5 +50,8 @@ namespace eModels
 
         public bool is_checked { get; set; }
 
+        public bool is_section_header { get; set; }
+        public bool show_in_sub_menu { get; set; }
+
     }  
 }

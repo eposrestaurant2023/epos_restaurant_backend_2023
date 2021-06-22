@@ -1,0 +1,13 @@
+﻿@if (roles == "")
+{
+    @ChildContent
+}else {
+    <AuthorizeView Roles="@state.GetRole(roles)">
+        @ChildContent
+    </AuthorizeView>
+}
+@code{
+        [Parameter] public string roles { get; set; } = "";
+            [CascadingParameter] public AppState state { get; set; }
+             [Parameter] public RenderFragment ChildContent { get; set; }
+}

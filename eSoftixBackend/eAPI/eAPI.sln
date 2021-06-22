@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+VisualStudioVersion = 16.0.31410.223
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eAPI", "eAPI\eAPI.csproj", "{78B12276-7771-4D24-9EDF-B369B2D8057E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eModels", "..\eModels\eModels\eModels.csproj", "{CC6BAC50-DA50-4B17-B9A0-86E221E34D43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eModels", "..\eModels\eModels\eModels.csproj", "{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShareModel", "..\..\eShareModel\eShareModel\eShareModel.csproj", "{F362427A-50B3-46EB-ADA2-F2E3FA5AFCEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShareModel", "..\..\ePOS2021\ePOSRetaurant2021\eShareModel\eShareModel\eShareModel.csproj", "{F9E310A0-0009-46F1-9F48-FC959BC93FA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{78B12276-7771-4D24-9EDF-B369B2D8057E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78B12276-7771-4D24-9EDF-B369B2D8057E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78B12276-7771-4D24-9EDF-B369B2D8057E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC6BAC50-DA50-4B17-B9A0-86E221E34D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC6BAC50-DA50-4B17-B9A0-86E221E34D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC6BAC50-DA50-4B17-B9A0-86E221E34D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC6BAC50-DA50-4B17-B9A0-86E221E34D43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F362427A-50B3-46EB-ADA2-F2E3FA5AFCEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F362427A-50B3-46EB-ADA2-F2E3FA5AFCEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F362427A-50B3-46EB-ADA2-F2E3FA5AFCEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F362427A-50B3-46EB-ADA2-F2E3FA5AFCEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E310A0-0009-46F1-9F48-FC959BC93FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E310A0-0009-46F1-9F48-FC959BC93FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E310A0-0009-46F1-9F48-FC959BC93FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E310A0-0009-46F1-9F48-FC959BC93FA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

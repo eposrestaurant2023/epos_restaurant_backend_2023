@@ -1,0 +1,41 @@
+﻿
+ <MudToolBar DisableGutters="true" Class="mx-4">
+    <MudText Typo="Typo.h5" Color="Color.Primary">@title</MudText>
+    @if(Filter!=null){
+        <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Color="Color.Inherit" >
+           @Filter 
+        </MudMenu>
+       
+    }
+    @Left
+    @ChildContent
+    <MudSpacer />
+    @Right
+    @if (show_refresh_button)
+    {
+    <MudIconButton Icon="@Icons.Material.Filled.Refresh"></MudIconButton>    
+    }
+    @if (show_back_button)
+    {
+    <MudIconButton Icon="@Icons.Material.Filled.Reply"></MudIconButton>    
+    }
+    
+</MudToolBar>
+<MudDivider Class="mb-4"/>
+@code {
+
+    [Parameter] public RenderFragment Left { get; set; }
+    [Parameter] public RenderFragment Filter { get; set; }
+   [Parameter] public RenderFragment ChildContent { get; set; }
+   [Parameter] public RenderFragment Right { get; set; }
+   [Parameter] public string title { get; set; }
+    
+    [Parameter] public bool show_back_button { get; set; } = false;
+    [Parameter] public bool show_refresh_button { get; set; } = true;
+
+
+
+
+    
+
+}

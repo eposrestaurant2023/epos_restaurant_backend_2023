@@ -1,31 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+    
   </PropertyGroup>
+
  
-	<ItemGroup>
-		<PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
-		<PackageReference Include="Blazored.SessionStorage" Version="1.0.13" />
-		<PackageReference Include="Blazored.Typeahead" Version="4.5.1" />
-		<PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
-		<PackageReference Include="MatBlazor" Version="2.8.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.2" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-preview.5.21301.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-preview.5.21301.17" PrivateAssets="all" />
+	  		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.0-preview.5.21301.17" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web.Extensions" Version="5.0.0-preview9.20513.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.2" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.2" />
-		<PackageReference Include="NETCore.Encrypt" Version="2.0.9" />
-		<PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
-	</ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web.Extensions" Version="5.0.0-preview9.20513.1" />	  <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.0-preview.5.21301.17" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
+	  
+	  
+	  
+    <PackageReference Include="MudBlazor" Version="5.0.14" />
+	<PackageReference Include="Blazored.LocalStorage" Version="4.1.2" />
+	<PackageReference Include="Blazored.SessionStorage" Version="2.1.0" />
+	  <PackageReference Include="NETCore.Encrypt" Version="2.0.9" />
+	 
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\eModels\eModels\eModels.csproj" />
+  </ItemGroup>
  
-	<ItemGroup>
-	  <Folder Include="Services\" />
-	</ItemGroup>
+
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
  
-	<ItemGroup>
-	  <ProjectReference Include="..\..\eModels\eModels\eModels.csproj" />
-	</ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
 
 </Project>

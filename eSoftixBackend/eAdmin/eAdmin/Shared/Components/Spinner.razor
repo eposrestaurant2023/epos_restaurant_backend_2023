@@ -1,9 +1,0 @@
-﻿@if (is_spinning)
-{
-    <span uk-spinner="ratio: @ratio"></span>
-}
-
-@code{
-    [Parameter] public string ratio { get; set; } = "0.6";
-    [Parameter] public bool is_spinning { get; set; } = true;
-}

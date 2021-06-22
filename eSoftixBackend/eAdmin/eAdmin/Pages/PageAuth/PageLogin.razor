@@ -1,11 +1,8 @@
 ﻿@page "/login"
-@layout BlankLayout
-@inject ILocalStorageService storageService
-@inject AuthenticationStateProvider  authenticationStateProvider
-@inject IHttpService  http;
-@inject NavigationManager nav;
-@inject IConfiguration config
+@page "/auth/login"
+ 
 
+<Loading is_loading="@IsSpinning"/>
 
 <AuthorizeView>
     <Authorized>
@@ -13,103 +10,40 @@
     </Authorized>
     <NotAuthorized Context="x">
         <EditForm Model="model" OnValidSubmit="LoginUser">
-            <div class="wrp-login-page">
-                <div class="wrp-login-form">
-                    <div class="login-header">
-                        <img src="images/ePOS-Rest.svg" />
-                    </div>
-                    <div class="login-form">
-                        <div>
-                            <div class="uk-form-control">
-                                <input id="username" @bind="@model.Username" type="text" placeholder="Enter username" class="uk-input" />
-                                <ValidationMessage For="@(()=>model.Username)" />
-                            </div>
-                            <div class="uk-form-control">
-                                <input id="password" @bind="@model.Password" type="password" placeholder="Enter password" class="uk-input" />
-                                <ValidationMessage For="@(()=>model.Password)" />
-                            </div>
-                            @*<div class="uk-form-control">
-                                <eAdmin.Pages.PageTranslate.CultureSelector />
-                            </div>*@
+            <MudContainer MaxWidth="MaxWidth.Small" Class="d-flex align-center" Style="height: 100vh;">
+                <div class="d-flex flex-column mud-width-full">
+                    <MudPaper Elevation="25" Class="pa-8" Width="100%" MaxWidth="500px">
+                        <img src="images/esoftix-logo.svg" style="height:50px"/>
+            
 
+                        <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">Sign Ins</MudText>
+                         
 
+                        <MudTextField T="string" @bind-Value="@model.Username" Label="Username" Variant="Variant.Outlined" Class="my-6"  For="@(() => model.Username)" Required="true"></MudTextField>
+                       
+                        <MudTextField @bind-Value="@model.Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility"  Required="true"  For="@(() => model.Password)" />
 
-                            @if (IsShowMessage)
-                            {
-                                <small style="color:red">@Message</small>
-                            }
-                            <div class="uk-text-center">
-                                @if (IsSpinning)
-                                {
-                                <button class="btn-login" type="button"> <Spinner /> Login  </button>
-                                }
-                                else
-                                {
-                                  <button class="btn-login" type="submit">Login </button>
-                                }
-                            </div>
+                        @if (IsShowMessage)
+                        {
+                           <MudAlert Severity="Severity.Error" Class="my-4">@Message</MudAlert>
+                        }
+            
+                        @if (IsSpinning)
+                        {
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"  ButtonType="ButtonType.Button"  Size="Size.Large" FullWidth="true" Class="my-4">Sign In...</MudButton>
+                        }else {
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"  ButtonType="ButtonType.Submit"  Size="Size.Large" FullWidth="true" Class="my-4">Sign In </MudButton>
+                        }
+                        
 
-                        </div>
-                    </div>
+                    </MudPaper>
+       
                 </div>
-            </div>
+            </MudContainer>
         </EditForm>
     </NotAuthorized>
 </AuthorizeView>
-@code {
-    AuthenticateModel model = new AuthenticateModel();
-    string Message = "";
-    bool IsShowMessage = false;
-    bool IsSpinning = false;
 
-    protected override void OnInitialized()
-    {
-        Console.WriteLine(EncryptProvider.Base64Decrypt("TlpOSEJBTXVkdiVFRmVRLWhHQ2NeOXJKcEY2OW0lJGhSRCVBKg=="));
-        }
 
-    public async Task LoginUser()
-    {
-        IsSpinning = true;
-        if (string.IsNullOrWhiteSpace(model.Username) || model.Password == "")
-        {
-            IsShowMessage = true;
-            Message = "Username or Password is required.";
-            IsSpinning = false;
-            return;
-        }
 
-        var resp = await http.ApiPost("user/auth/login", model);
-        if (resp.IsSuccess)
-        {
-            UserModel user = JsonSerializer.Deserialize<UserModel>(resp.Content.ToString());
-            if (user != null)
-            {
-                try
-                {
-                    var user_convert = EncryptProvider.Base64Encrypt(resp.Content.ToString());
-                    await storageService.SetItemAsync("_Authorization", user_convert);
-                    await authenticationStateProvider.GetAuthenticationStateAsync();
-                }
-                catch (Exception ex)
-                {
-                    string message = ex.Message;
-                    IsShowMessage = true;
 
-                    Message = "Invalid username and password.";
-                }
-            }
-            else
-            {
-                IsShowMessage = true;
-                Message = "Invalid username and password.";
-            }
-        }
-        else
-        {
-            IsShowMessage = true;
-            Message = "Invalid username and password.";
-        }
-        IsSpinning = false;
-    }
-
-}

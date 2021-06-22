@@ -11,6 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\eShareModel\eShareModel\eShareModel.csproj" />
+	  <ProjectReference Include="..\..\..\ePOS2021\ePOSRetaurant2021\eShareModel\eShareModel\eShareModel.csproj" />
 	</ItemGroup>
+ 
 </Project>

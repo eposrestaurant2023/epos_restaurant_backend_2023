@@ -28,10 +28,10 @@ namespace eAPI.Controllers
      
         [HttpGet]
         [Route("request")]
-        public ActionResult<LicenseCodeResponseModel > RequestLicenseCode(Guid business_branch_id , int outlet_id, int station_id )
+        public ActionResult<LicenseCodeResponseModel > RequestLicenseCode(Guid business_branch_id , Guid outlet_id, Guid station_id )
         {
 
-            if( business_branch_id == Guid.Empty || outlet_id == 0 || station_id ==0)
+            if( business_branch_id == Guid.Empty || outlet_id == Guid.Empty || station_id == Guid.Empty)
             {
                 return NotFound();
             }
@@ -84,7 +84,7 @@ namespace eAPI.Controllers
 
  public   class LicenseCodeResponseModel
     {
-        public int station_id { get; set; }
+        public Guid station_id { get; set; }
         public string expired_date { get; set; }
         public bool is_full_license { get; set; }
     }

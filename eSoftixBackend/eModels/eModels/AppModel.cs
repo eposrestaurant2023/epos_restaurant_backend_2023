@@ -12,10 +12,11 @@ namespace eModels
     }
     public class AuthenticateModel
     {
-        [Required]
+         [Required(ErrorMessage = "Username is Required")]
         public string Username { get; set; }
 
-        [Required]
+        
+        [Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; }
     }
 

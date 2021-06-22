@@ -1,35 +1,67 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>ePOSRestaurant</title>
+    <title>
+        eSoftix System
+    </title>
     <base href="/" />
-    <link href="css/uikit.min.css" rel="stylesheet" />
-
-    <link href="css/main.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+ 
     <link href="manifest.json" rel="manifest" />
-
-    <link href='fullcalendar/css/main.min.css' rel='stylesheet' />
-    <link href='fullcalendar/css/daygrid-main.min.css' rel='stylesheet' />
-    <link href='fullcalendar/css/timegrid-main.min.css' rel='stylesheet' />
-
-    <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-    <link href="_content/Blazored.Typeahead/blazored-typeahead.css" rel="stylesheet" />
-    <link href="eAdmin.styles.css" rel="stylesheet">
-
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
 </head>
 
 <body>
-    <app id="app">
-        <div class="main_page_loading">
-            <div>
-                <div class="donut"></div>
-                <div>Loading...</div>
+    <div id="app">
+
+        <style>
+            @keyframes slide {
+                0% {
+                    transform: translateX(-25%);
+                }
+
+                100% {
+                    transform: translateX(25%);
+                }
+            }
+
+            .mud-wasm {
+                animation: slide 3s ease-in-out infinite alternate;
+                background-image: linear-gradient(-60deg,#aa2e25 50%,#f44336 50%);
+                bottom: 0;
+                left: -50%;
+                opacity: .5;
+                position: fixed;
+                right: -50%;
+                top: 0;
+                z-index: -1
+            }
+
+            .mud-wasm-cont {
+                left: 50%;
+                padding: 10vmin;
+                position: fixed;
+                text-align: center;
+                top: 50%;
+                transform: translate(-50%,-50%)
+            }
+
+        </style>
+        <div style="height:100%;width:100%;margin:0;position:fixed;">
+            <div class="mud-wasm"></div>
+            <div class="mud-wasm" style="animation-direction:alternate-reverse;animation-duration:4s;"></div>
+            <div class="mud-wasm" style="animation-duration:5s;"></div>
+            <div class="mud-wasm-cont ">
+                <img src="images/esoftix-logo.svg" height="100"/>
             </div>
         </div>
-    </app>
+    
+    </div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
@@ -37,33 +69,8 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/uikit.min.js"></script>
-    <script src="js/uikit-icons.min.js"></script>
-    <script src="js/sweetalert2@9.js"></script>
-    <script src="js/a076d05399.js"></script>
-    <script src="js/CustomJs.js"></script>
-    <script src="_content/MatBlazor/dist/matBlazor.js"></script>
-
-
-    <script src="_content/Blazored.Typeahead/blazored-typeahead.js"></script>
-
-
-    <script src='fullcalendar/js/main.min.js'></script>
-    <script src='fullcalendar/js/interaction.min.js'></script>
-    <script src='fullcalendar/js/daygrid.min.js'></script>
-    <script src='fullcalendar/js/timegrid.min.js'></script>
-
-    <!-- Reference the included moment.js javascript file. -->
-    <script type='text/javascript' language='javascript' src='js/moment-with-locales.min.js'></script>
-
-    <!-- Reference the included ChartJs javascript file. -->
-    <script type='text/javascript' language='javascript' src='js/chart.min.js'></script>
-
-    <!-- This is the glue between the C# code and the ChartJs charts -->
-    <script type='text/javascript' language='javascript' src='js/chartjsblazorinterop.js'></script>
-    <script type="text/javascript" src="js/webcam.min.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 
 </body>
 

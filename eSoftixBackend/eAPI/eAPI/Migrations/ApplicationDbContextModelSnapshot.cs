@@ -922,6 +922,9 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_match_all")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_section_header")
+                        .HasColumnType("bit");
+
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -950,6 +953,9 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("show_in_menu")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("show_in_sub_menu")
                         .HasColumnType("bit");
 
                     b.Property<int>("sort_order")
@@ -1142,11 +1148,11 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_full_license")
                         .HasColumnType("bit");
 
-                    b.Property<int>("outlet_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("station_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("station_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");

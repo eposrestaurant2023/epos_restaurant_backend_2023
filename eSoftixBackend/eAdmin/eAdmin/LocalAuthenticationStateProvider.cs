@@ -10,7 +10,7 @@ namespace eAdmin
     public class LocalAuthenticationStateProvider : AuthenticationStateProvider
     {
 
- 
+
         private readonly ILocalStorageService _storageService;
         public LocalAuthenticationStateProvider(ILocalStorageService storageService)
         {

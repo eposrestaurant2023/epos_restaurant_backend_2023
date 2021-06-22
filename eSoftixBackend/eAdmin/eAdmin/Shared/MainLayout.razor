@@ -1,95 +1,57 @@
-﻿@inherits LayoutBase
-<AuthorizeView>
-    <Authorized>
-        @if (!IsLoading)
-        {
-            <CascadingValue Value="gv">
-                <div class="@(is_menu_open ? "app-layout is_open" : "app-layout") ">
-                    <div class="sidebar">
-                        <NavMenu />
-                    </div>
-                    <div class="main">
-                        <div class="header_main_sm uk-hidden@l" uk-sticky="show-on-up: true">
-                            <a class="navbar-brand" href="">ePOSRestaurant </a>
-                        </div>
-                        <header id="top-head">
-                            <div class="uk-container uk-container-expand@l uk-container-expand">
-                                <nav class="uk-navbar" data-uk-navbar="mode:click; duration: 250">
-                                    <div class="uk-navbar-left">
-                                        <div class="uk-navbar-item">
-                                            <UkFlex>
-                                                <FlexItem class_name="uk-margin-right">
-                                                    <Icon icon="menu" target=".app-layout; cls: is_open" className="menu_humberger" OnClick="@ShowHideMenu" />
-                                                </FlexItem>
-                                                <FlexItem>
-                                                    <GlobalSearch />
-                                                </FlexItem>
-                                            </UkFlex>
-                                        </div>
-                                    </div>
-                                    <div class="uk-navbar-right wrp-top-right-action">
-                                        <ul class="uk-navbar-nav topactt">
-                                            <li>
-                                                @if (is_spinner)
-                                                {
-                                                    <Spinner />
-                                                }
-                                                else
-                                                {
-                                                    <RefreshButton OnClick="@(async()=>await LoadData())" />
-                                                }
-                                            </li>
-                                        </ul>
-                                        <ul class="uk-navbar-nav topactt">
-                                            <li>
-                                                <ComQuickAddMenu />
-                                            </li>
-                                        </ul>
-                                        <ul class="uk-navbar-nav topactt">
+﻿@inherits LayoutComponentBase
+@inject NavigationManager nav;
+<Loading is_loading="@state.is_loading" />
+@if(!state.is_loading){ 
+if(state.is_logined ){ 
+    <MudLayout>
+    <MudAppBar Elevation="4">
+        
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+       
+        <MudHidden Breakpoint="Breakpoint.Xs">
+            <MudText Typo="Typo.h6" Class="ml-4">eSoftix System</MudText>
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
+        <MudText Typo="Typo.subtitle2">eSoftix System</MudText>
+        </MudHidden>
+        <MudAppBarSpacer />
+        <ComGlobalSearch/>
 
-                                            <li>
-                                                @if (gv.current_login_user != null)
-                                                {
-                                                    <div style="background-image:url(@(image_base_url + gv.current_login_user.photo))" class="main_profile_image"></div>
-                                                }
+        <MudAppBarSpacer />
+        <MudIconButton Icon="@Icons.Material.Outlined.Brightness4" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
+        <MudMenu Icon="@Icons.Material.Filled.Add" Color="Color.Inherit" >
+            <MudMenuItem>New Customer</MudMenuItem>
+            <MudMenuItem>Project</MudMenuItem>
+        </MudMenu>
+        <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
+            <ActivatorContent>
+                <MudAvatar Image="@(http.ImageUrl(state.current_login_user?.photo))" />
+            </ActivatorContent>
+            <ChildContent>
+                <ComUserDisplay Class="mt-n2" />
+                <MudDivider Class="mb-2" />
+                <MudListItem Text="Account" Icon="@Icons.Material.Outlined.Person" Href="user/profile" />
+                <MudListItem Text="Logout" Icon="@Icons.Material.Outlined.Login" Href="auth/logout" />
+            </ChildContent>
+        </MudMenu>
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+       
+            @Body
+        
+    </MudMainContent>
+</MudLayout>
 
-                                                <div class="uk-navbar-dropdown" style="width: 250px;" id="user_profile">
-                                                    <div>
-                                                        <div style="background-image:url(@(image_base_url+ gv.current_login_user.photo))" class="profile_img_dropdown"></div>
-                                                    </div>
-                                                    <div class="uk-text-center">
-                                                        <div class="text-title">@gv.current_login_user.full_name</div>
-                                                        <div class="text-subtitle">@gv.current_login_user.username (@gv.current_login_user.role.role_name)</div>
-                                                    </div>
-                                                    <div><a @onclick="ToggleUserModal" uk-toggle="target: #user_profile" class="link-button"><Icon icon="settings" /> Manage your account</a></div>
-
-                                                    <div class="help-support"><a href="@gv.settings.Where(r=>r.id == 7).Select(r=>r.setting_value).FirstOrDefault()" target="_blank"><Icon icon="help_outline" />Help and Support</a></div>
-                                                    <div>
-                                                        <LoginDisplay />
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </nav>
-                            </div>
-                        </header>
-                     
-                        <div class="uk-position-relative min_heigth_cus">
-                            @Body
-                            @if (is_dialog_open)
-                            {
-                                <ComManageUser is_dialog_open="is_dialog_open" Cancel_click="ToggleUserModal" Save_User_click="ToggleUserModal" />
-                            }
-                        </div>
-                    </div>
-                </div>
-            </CascadingValue>
-        }
-    </Authorized>
-    <NotAuthorized>
-        <Redirect url="login" />
-    </NotAuthorized>
-</AuthorizeView>
+}else
+{
+    @Body
+}
+}
+<MudScrollToTop>
+    <MudFab Color="Color.Primary" Icon="@Icons.Filled.ArrowCircleUp" />
+</MudScrollToTop>
+ <MudThemeProvider Theme="state.current_theme" />
 
