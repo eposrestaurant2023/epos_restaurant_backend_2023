@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eAPI", "eAPI\eAPI.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eModels", "..\eModels\eModels\eModels.csproj", "{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShareModel", "..\..\ePOS2021\ePOSRetaurant2021\eShareModel\eShareModel\eShareModel.csproj", "{F9E310A0-0009-46F1-9F48-FC959BC93FA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShareModel", "..\..\eShareModel\eShareModel\eShareModel.csproj", "{A1358F86-3AC2-454E-BDBF-9B3E24A615AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FABBE433-F3CD-4180-A2E9-6096D7ECF59D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9E310A0-0009-46F1-9F48-FC959BC93FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9E310A0-0009-46F1-9F48-FC959BC93FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9E310A0-0009-46F1-9F48-FC959BC93FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9E310A0-0009-46F1-9F48-FC959BC93FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1358F86-3AC2-454E-BDBF-9B3E24A615AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1358F86-3AC2-454E-BDBF-9B3E24A615AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1358F86-3AC2-454E-BDBF-9B3E24A615AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1358F86-3AC2-454E-BDBF-9B3E24A615AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
