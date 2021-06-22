@@ -1,0 +1,21 @@
+﻿  
+<MudDivider Class="my-4"/> 
+<MudToolBar DisableGutters="true" Class="mx-4" Style="top: auto; bottom: 0">
+     @Left
+     <MudToolBarSpacer/>
+     @Center
+     @ChildContent
+     <MudToolBarSpacer/>
+     @Right
+</MudToolBar>
+ 
+@code {
+
+   [Parameter] public RenderFragment Left { get; set; }
+   [Parameter] public RenderFragment Center { get; set; }
+   [Parameter] public RenderFragment ChildContent { get; set; }
+   [Parameter] public RenderFragment Right { get; set; }
+
+}
+
+ 
