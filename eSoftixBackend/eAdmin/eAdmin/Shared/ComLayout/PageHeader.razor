@@ -1,5 +1,5 @@
-﻿
- <MudToolBar DisableGutters="true" Class="mx-4">
+﻿<MudPaper Elevation="25">
+ <MudToolBar DisableGutters="true" Class="mx-4" >
     <MudText Typo="Typo.h5" Color="Color.Primary">@title</MudText>
     @if(Filter!=null){
         <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Color="Color.Inherit" >
@@ -21,7 +21,7 @@
     }
     
 </MudToolBar>
-<MudDivider Class="mb-4"/>
+</MudPaper>
 @code {
 
     [Parameter] public RenderFragment Left { get; set; }
