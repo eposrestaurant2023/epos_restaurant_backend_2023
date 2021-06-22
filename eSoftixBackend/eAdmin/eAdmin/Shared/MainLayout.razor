@@ -1,0 +1,57 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager nav;
+<Loading is_loading="@state.is_loading" />
+@if(!state.is_loading){ 
+if(state.is_logined ){ 
+    <MudLayout>
+    <MudAppBar Elevation="4">
+        
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+       
+        <MudHidden Breakpoint="Breakpoint.Xs">
+            <MudText Typo="Typo.h6" Class="ml-4">eSoftix System</MudText>
+        </MudHidden>
+        <MudHidden Breakpoint="Breakpoint.Xs" Invert="true">
+        <MudText Typo="Typo.subtitle2">eSoftix System</MudText>
+        </MudHidden>
+        <MudAppBarSpacer />
+        <ComGlobalSearch/>
+
+        <MudAppBarSpacer />
+        <MudIconButton Icon="@Icons.Material.Outlined.Brightness4" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
+        <MudMenu Icon="@Icons.Material.Filled.Add" Color="Color.Inherit" >
+            <MudMenuItem>New Customer</MudMenuItem>
+            <MudMenuItem>Project</MudMenuItem>
+        </MudMenu>
+        <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
+            <ActivatorContent>
+                <MudAvatar Image="@(http.ImageUrl(state.current_login_user?.photo))" />
+            </ActivatorContent>
+            <ChildContent>
+                <ComUserDisplay Class="mt-n2" />
+                <MudDivider Class="mb-2" />
+                <MudListItem Text="Account" Icon="@Icons.Material.Outlined.Person" Href="user/profile" />
+                <MudListItem Text="Logout" Icon="@Icons.Material.Outlined.Login" Href="auth/logout" />
+            </ChildContent>
+        </MudMenu>
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+       
+            @Body
+        
+    </MudMainContent>
+</MudLayout>
+
+}else
+{
+    @Body
+}
+}
+<MudScrollToTop>
+    <MudFab Color="Color.Primary" Icon="@Icons.Filled.ArrowCircleUp" />
+</MudScrollToTop>
+ <MudThemeProvider Theme="state.current_theme" />
+

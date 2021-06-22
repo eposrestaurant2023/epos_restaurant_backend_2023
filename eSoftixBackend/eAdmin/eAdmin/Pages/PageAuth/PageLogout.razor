@@ -1,0 +1,18 @@
+﻿@page "/auth/logout"
+
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager  nav
+
+
+@code {
+    [CascadingParameter] public AppState state{ get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        var localStateProvider = (LocalAuthenticationStateProvider)authenticationStateProvider;
+        await localStateProvider.LogoutAsync();
+        state.is_logined = false;
+        state.current_login_user = null;
+        nav.NavigateTo("auth/login");
+
+    }
+}

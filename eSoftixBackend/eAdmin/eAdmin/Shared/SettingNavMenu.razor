@@ -1,0 +1,11 @@
+﻿<MudNavMenu>
+@foreach(var m in state.gv.permission_options.Where(r=>r.parent_id==5 && r.show_in_sub_menu ==true).OrderBy(r=>r.sort_order)){
+      <AuthorizeView Roles="@m.roles">
+        <MudNavLink Href="@m.url" Icon="@m.icon">@m.note</MudNavLink>
+    </AuthorizeView>
+}
+</MudNavMenu>
+@code {
+     [CascadingParameter] public AppState state { get; set; }
+
+}
