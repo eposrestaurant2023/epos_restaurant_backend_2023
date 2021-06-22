@@ -100,7 +100,7 @@ namespace eAdmin.Services
 
 
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:NZNHBAMudv%EFeQ-hGCc^9rJpF69m%$hRD%A*");
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"admin:123456");
             string val = System.Convert.ToBase64String(plainTextBytes);
             http.DefaultRequestHeaders.Remove("Authorization");
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);

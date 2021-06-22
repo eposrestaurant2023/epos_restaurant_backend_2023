@@ -5034,6 +5034,15 @@ h1.wrp-expense-total span.total-expense-amount{
     margin-top: 20px;
     border-radius: 5px;
 }
+
+.wrp_project_theme{
+    background: #ffffff;
+    padding: 30px;
+    width: 500px;
+    border-radius: 3px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
 .edit_hover {
     visibility: hidden;
     opacity: 0;

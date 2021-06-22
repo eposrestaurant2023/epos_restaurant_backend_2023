@@ -24,10 +24,10 @@
                     <Icon icon="more_vert" />
                     <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                         <ul class="uk-nav uk-dropdown-nav">
-                            <li @onclick="@(() => EditMenu(n))"> <Icon icon="edit" />@lang["Edit"]</li>
+                            <li @onclick="@(() => EditMenu(n))"> <Icon icon="edit" /></li>
                             @if (!menus.Where(r => r.parent_id == n.id && r.is_deleted == false).Any())
                             {
-                                <li @onclick="@(() => OnDeleteMenu(n))"> <Icon icon="delete" />@lang["Delete"]</li>
+                                <li @onclick="@(() => OnDeleteMenu(n))"> <Icon icon="delete" /></li>
                             }
                         </ul>
                     </div>

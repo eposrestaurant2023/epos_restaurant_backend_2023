@@ -29,7 +29,7 @@
                     <Tab>
                         <TabHeader>
                             <TabHeaderItem>
-                                @lang["Product Information"]
+                                @lang["Product Information"] 
                             </TabHeaderItem>
                             <TabHeaderItem>
                                 @lang["Modifired"]
@@ -50,7 +50,7 @@
                                             <ValidationMessage For="@(() => model.product_name_en)" />
                                         </TextInput>
                                         <TextInput label="@lang["Product Name(KH)"]" @bind-text="@model.product_name_kh" />
-                                        <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true">
+                                        <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true" is_ingredient_category="false">
                                             <ValidationMessage For="@(()=>model.product_category_id)" />
                                         </SelectProductCategory>
 
@@ -61,7 +61,6 @@
                                         <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@model.unit_category_id" is_select_unit_category="true" show_empty="false">
                                             <ValidationMessage For="@(()=>model.unit_id)" />
                                         </SelectUnit>
-
                                         <ComInputCheckBox @bind-value="@model.is_allow_discount" label="@lang["Allow Discount"]" />
                                         <ComInputCheckBox @bind-value="@model.is_open_product" label="@lang["Is Opened Product"]" />
                                         <SelectStatus @bind-selected_value="@model.status" />

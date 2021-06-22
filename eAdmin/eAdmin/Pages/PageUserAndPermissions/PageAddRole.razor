@@ -28,6 +28,8 @@
                             <ValidationMessage For="@(()=>model.role_name)" />
                         </TextInput>
                         <TextInput type="textarea" label="Description" @bind-text="@model.description" />
+                    </UIContainerBox>
+                    <UIContainerBox Title="Businesses Branches">
                         @foreach (var b in businesses)
                         {
                             <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
