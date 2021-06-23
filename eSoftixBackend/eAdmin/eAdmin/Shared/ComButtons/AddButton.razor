@@ -1,0 +1,57 @@
+﻿@if (is_visible)
+{
+    if (roles == "")
+    {
+
+          if (url != "")
+            {
+               
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" >@ChildContent</MudButton>
+
+            }
+            else
+            {
+                
+                 
+                 <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" >@ChildContent</MudButton>
+            }
+        
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+             @if (url != "")
+            {
+               
+                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" >@ChildContent</MudButton>
+
+            }
+            else
+            {
+                
+                 
+                 <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" >@ChildContent</MudButton>
+            }
+        
+        </AuthorizeView>
+    }
+}
+
+
+
+
+
+
+@code{
+    
+   
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string url { get; set; } = "";
+    [Parameter] public bool disabled { get; set; } = false;
+    [Parameter] public bool spinning { get; set; } = false;
+        [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+
+}
