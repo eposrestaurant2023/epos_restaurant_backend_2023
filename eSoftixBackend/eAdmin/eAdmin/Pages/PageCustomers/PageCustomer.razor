@@ -1,17 +1,26 @@
 ﻿@page "/customer"
 @inherits PageCustomerBase;
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+
 @{
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
 }
-
+@if (!is_loading)
+{
 <PageContainer>
-    <PageHeader title="Customers" >
+    <PageHeader title="@state.page_title" >
         <Filter>
-            <ModuleView module_views="@gv.GetModuleView("page_customer")" />
+            <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
         </Filter>
         <Right>
-            
+            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
+            </MudHidden>
+            <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
+            </ComSearch>
         </Right>
     </PageHeader>
     <PageBody>
@@ -31,8 +40,8 @@
             <TableHeader>
                 <ThCenter>Image</ThCenter>
                 @HeaderTemplate("customer_code", "Code", "uk-text-center")
-                @HeaderTemplate("customer_name", "Name (Kh)", "col-auto")
-                @HeaderTemplate("customer/customer_group/customer_name_en", "Customer Group", "col-auto")
+                @HeaderTemplate("customer_name_en", "Name (Kh)", "col-auto")
+                @HeaderTemplate("customer_group/customer_group_name_en", "Customer Group", "col-auto")
                 @HeaderTemplate("company_name", "Company", "col-auto")
                 @HeaderTemplate("phone_1", "Phone", "uk-text-left")
                 @HeaderTemplate("gender", "Gender", "uk-text-center")
@@ -74,3 +83,8 @@
         </Table>
     </PageBody>
 </PageContainer>
+<MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" />    
+</MudHidden>
+
+}
