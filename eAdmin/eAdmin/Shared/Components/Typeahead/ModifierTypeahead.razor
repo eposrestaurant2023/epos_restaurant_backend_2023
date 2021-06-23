@@ -12,7 +12,7 @@
                         @context.modifier_name
                     </SelectedTemplate>
                     <ResultTemplate>
-                        @if (result_count > 0)
+                        @if (!context.is_new)
                         {
                             <span>@context.modifier_name</span>
                         }
@@ -36,40 +36,38 @@
         [Parameter] public int? modifer_id { get; set; }
         [Parameter] public EventCallback<int> modifier_idChanged { get; set; }
 
-        int result_count = 0;
-
+        List<ModifierModel> result = new List<ModifierModel>();
         public async Task<IEnumerable<ModifierModel>> SearchModifier(string searchText)
         {
+            if (!string.IsNullOrWhiteSpace(searchText) && searchText != "") {
 
-            string api_url = $"Modifier?keyword={searchText}&$orderby=modifier_name asc&$top=20";
+                string api_url = $"Modifier?keyword={searchText}&$orderby=modifier_name asc&$top=20";
 
-            state.filters.Clear();
+                state.filters.Clear();
 
-            state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+                state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
 
-            if (status == "Active")
-            {
-                state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
-            }
-            else if (status == "Inactive")
-            {
-                state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
-            }
-
-            api_url = api_url + GetFilter(state.filters);
-            var res = await http.ApiGetOData(api_url);
-            if (res.IsSuccess)
-            {
-                var result = JsonSerializer.Deserialize<List<ModifierModel>>(res.Content.ToString());
-                result_count = result.Count();
-
-                if (result_count == 0 && searchText != "")
+                if (status == "Active")
                 {
-                    result.Add(new ModifierModel() { modifier_name = searchText });
+                    state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
+                }
+                else if (status == "Inactive")
+                {
+                    state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
                 }
 
-                return result;
+                api_url = api_url + GetFilter(state.filters);
+                var res = await http.ApiGetOData(api_url);
+                if (res.IsSuccess)
+                {
+                    result = JsonSerializer.Deserialize<List<ModifierModel>>(res.Content.ToString());
+                    if (!result.Any() || result.Where(r=>r.modifier_name.ToLower() != searchText.ToLower()).Any())
+                    {
+                        result.Add(new ModifierModel() { modifier_name = searchText, is_new = true });
+                    }
+                    return result;
 
+                }
             }
             return new List<ModifierModel>();
         }
@@ -101,6 +99,7 @@
             set
             {
                 _selected_modifier = value;
+
                 modifierChanged.InvokeAsync(value);
                 if (value != null)
                 {

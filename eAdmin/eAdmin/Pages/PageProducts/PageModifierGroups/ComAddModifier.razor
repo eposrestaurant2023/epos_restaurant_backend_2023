@@ -88,9 +88,9 @@
 
         void DeleteModifier(ModifierGroupItemModel m)
         {
-            if (m.modifier_group_id == 0)
+            if (m.id == 0)
             {
-                modifer_group.modifier_group_items.Remove(m);
+                modifer_group.modifier_group_items.ForEach(r=>r.children.Remove(m));
             }
             else
             {

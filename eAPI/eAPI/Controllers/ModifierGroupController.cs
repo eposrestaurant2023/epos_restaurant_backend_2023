@@ -56,7 +56,7 @@ namespace eAPI.Controllers
         {
             foreach (var pm in u.modifier_group_items)
             {
-                pm.children.ForEach(r => r.modifier = null);
+                pm.children.Where(r => r.id > 0).ToList().ForEach(r => r.modifier = null);
             }
 
             if (u.id == 0)
