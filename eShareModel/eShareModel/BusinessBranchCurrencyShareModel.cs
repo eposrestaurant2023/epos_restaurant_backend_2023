@@ -7,9 +7,9 @@ namespace eShareModel
     {
         public Guid business_branch_id { get; set; }
         public int currency_id { get; set; }
-        public decimal exchange_rate { get; set; }
-        public decimal exchange_rate_input { get; set; }
-        public decimal change_exchange_rate { get; set; }
-        public decimal change_exchange_rate_input { get; set; }
+        public double exchange_rate { get; set; }
+        public double exchange_rate_input { get; set; }
+        public double change_exchange_rate { get; set; }
+        public double change_exchange_rate_input { get; set; }
     }
 }

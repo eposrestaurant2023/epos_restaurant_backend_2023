@@ -22,36 +22,92 @@
         </PageHeader>
         <PageBody>
             <UIGridCenter>
-                @foreach (var d in models.Select(r=>r.business_branch_id).Distinct()) {
-                    <UIBox Title="@()">
-
-                    </UIBox>
+                @foreach (var r in gv.business_branch_by_role)
+                {
+                    <UISummaryBox Title="@(r.business_branch_name_en)" ShowImage="false" IsFullContent="true">
+                        <ContentFull>
+                            <div class="uk-grid-margin-small-bottom">@lang["Base Currency"] : <span class="uk-text-bold">@base_currency.currency_name_en</span></div>
+                            @if (models.Any())
+                            {
+                                foreach (var b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_currency.id).ToList())
+                                { 
+                                    <ExchangeRateInput base_exchange_rate="@base_exchange_rate" base_exchange_currency_id="@base_exchange_rate_currency.id" label="@b.currency?.currency_name_en" @bind-text="@b.exchange_rate_input" @bind-calc_value="@b.exchange_rate"/>
+                                }
+                            }
+                            <Spacing Number="16" />
+                            <div class="uk-margin-small-bottom">@lang["Base Exchange Rate Currency"] : <span class="uk-text-bold">@base_exchange_rate_currency.currency_name_en</span></div>
+                            @foreach (var b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_exchange_rate_currency.id).ToList())
+                            {
+                                @*<NumberInput label="@b.currency?.currency_name_en" @bind-text="@b.change_exchange_rate_input" />*@
+                            }
+                        </ContentFull>
+                    </UISummaryBox>
                 }
             </UIGridCenter>
         </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" OnSave="@SaveClick" is_show_cancel="false" />
+            </FooterCenter>
+        </PageFooter>
     </PageContainer>
 }
 
 @code{
-
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
-
     List<BusinessBranchCurrencyModel> models = new List<BusinessBranchCurrencyModel>();
+    CurrencyModel base_exchange_rate_currency = new CurrencyModel();
+
+    public CurrencyModel base_currency
+    {
+        get
+        {
+            return gv.currencies.Where(r => r.is_main == true).FirstOrDefault();
+        }
+    }
+
+    public double base_exchange_rate
+    {
+        get
+        {
+            if(models!=null)
+                return models.Where(r => r.currency_id == base_currency.id).FirstOrDefault().exchange_rate;
+            return 0;
+        }
+    }
+
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
+        base_exchange_rate_currency = gv.currencies.Where(r => r.is_base_exchange_currency == true).FirstOrDefault();
         await LoadData();
         is_loading = false;
     }
 
     async Task LoadData()
     {
-        var res = await http.ApiGetOData("BusinessBranchCurrency?expand=currency,business_branch($select=id,business_branch_name_en,business_branch_name_kh)");
+        var res = await http.ApiGetOData("BusinessBranchCurrency?$expand=currency,business_branch($select=id,business_branch_name_en,business_branch_name_kh)");
         if (res.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(res.Content.ToString());
         }
+    }
+    async Task SaveClick()
+    {
+        is_loading_data = is_saving = true;
+        List<BusinessBranchCurrencyModel> data_save = new List<BusinessBranchCurrencyModel>();
+        data_save = models;
+        data_save.ForEach(r => r.currency = null);
+        data_save.ForEach(r => r.business_branch = null);
+
+        var res = await http.ApiPost($"save/multiple", data_save);
+
+        if (res.IsSuccess)
+        {
+            toast.Add(lang["Saving Customer successfully"], MatToastType.Success);
+        }
+        is_loading_data = is_saving = false;
+
     }
 }
 
