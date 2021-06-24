@@ -22,6 +22,7 @@ using eModels;
 using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNet.OData.Routing.Conventions;
 using System.Web.Http;
+using System.Net.Http;
 
 namespace eAPI
 {
@@ -49,7 +50,7 @@ namespace eAPI
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
-
+           
             services.AddDbContext<ApplicationDbContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             services.AddControllersWithViews().AddNewtonsoftJson(options => {
@@ -69,6 +70,12 @@ namespace eAPI
             services.AddScoped<AppService>();
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped(x => {
+
+                return new HttpClient();
+            });
+            services.AddScoped<IHttpService, HttpService>();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
