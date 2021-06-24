@@ -208,7 +208,7 @@ namespace eAPI.Controllers
        
         
         [HttpGet("ServerConfig")]
-         [AllowAnonymous]
+        [AllowAnonymous]
         public ActionResult<ServerConfigModel> ServerConfig()
         {
             var data = db.Settings.Where(r => r.id == 57 || r.id == 58);
@@ -219,7 +219,7 @@ namespace eAPI.Controllers
             s.hardware_server_id = GetServerID();
 
             return Ok(s);
-        } 
+        }
         
         [HttpGet("ServerID")]
          [AllowAnonymous]

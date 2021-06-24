@@ -34,7 +34,12 @@
                                             </UkFlex>
                                         </div>
                                     </div>
-                                    <div class="uk-navbar-right wrp-top-right-action">
+                                    <div class="uk-navbar-right wrp-top-right-action"> 
+                                        <ul class="uk-navbar-nav topactt">
+                                            <li>
+                                                <Icon icon="attach_money" title="Exchange Rate" className="navbar-exchange-rate" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))"/>
+                                            </li>
+                                        </ul>
                                         <ul class="uk-navbar-nav topactt">
                                             <li>
                                                 @if (is_spinner)

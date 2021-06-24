@@ -1,0 +1,57 @@
+﻿@page "/currencyexchangerate"
+@inherits PageCore
+@inject IStringLocalizer<Resource> lang
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@if (!is_loading)
+{
+    <Title Value="@(lang["Currency Exchange Rate"])"></Title>
+    <PageContainer roles="@gv.GetRole("currency_exchange_rate_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Currency Exchange Rate"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <UIGridCenter>
+                @foreach (var d in models.Select(r=>r.business_branch_id).Distinct()) {
+                    <UIBox Title="@()">
+
+                    </UIBox>
+                }
+            </UIGridCenter>
+        </PageBody>
+    </PageContainer>
+}
+
+@code{
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    List<BusinessBranchCurrencyModel> models = new List<BusinessBranchCurrencyModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        var res = await http.ApiGetOData("BusinessBranchCurrency?expand=currency,business_branch($select=id,business_branch_name_en,business_branch_name_kh)");
+        if (res.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(res.Content.ToString());
+        }
+    }
+}
+
