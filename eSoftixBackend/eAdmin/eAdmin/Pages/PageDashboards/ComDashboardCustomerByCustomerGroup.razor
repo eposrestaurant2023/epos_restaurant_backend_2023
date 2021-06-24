@@ -1,0 +1,15 @@
+﻿                <ApexChart TItem="CustomerByCustomerGroup" Height="@("100%")" Width="@("100%")" Title="Testing"  ChartType="ApexCharts.ChartType.Pie">
+                    <ApexSeries TItem="CustomerByCustomerGroup"
+                        Items="models"
+                        Name="Order Value"
+                        XValue="@(e => e.label)"
+                        YAggregate="@(e => e.Sum(e => e.value))"
+                        ShowDataLabels="true" />
+
+                      
+                </ApexChart>
+
+@code {
+    [Parameter] public List<CustomerByCustomerGroup> models { get; set; }
+    
+}

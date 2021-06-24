@@ -6,7 +6,7 @@ if(state.is_logined ){
     <MudLayout>
     <MudAppBar Elevation="4">
         
-        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
        
         <MudHidden Breakpoint="Breakpoint.Xs">
             <MudText Typo="Typo.h6" Class="ml-4">eSoftix System</MudText>
@@ -18,8 +18,8 @@ if(state.is_logined ){
         <ComGlobalSearch/>
 
         <MudAppBarSpacer />
-        <MudIconButton Icon="@Icons.Material.Outlined.Brightness4" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
-        <MudMenu Icon="@Icons.Material.Filled.Add" Color="Color.Inherit" >
+        <MudIconButton Icon="@Icons.Material.Outlined.Brightness4" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
+        <MudMenu Icon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Inherit" >
             <MudMenuItem>New Customer</MudMenuItem>
             <MudMenuItem>Project</MudMenuItem>
         </MudMenu>
@@ -52,7 +52,7 @@ if(state.is_logined ){
 }
 <MudHidden Breakpoint="Breakpoint.SmAndDown">
     <MudScrollToTop>
-        <MudFab Color="Color.Primary" Icon="@Icons.Filled.ArrowCircleUp" />
+        <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Filled.ArrowCircleUp" />
     </MudScrollToTop>
 </MudHidden>
  <MudThemeProvider Theme="state.current_theme" />
