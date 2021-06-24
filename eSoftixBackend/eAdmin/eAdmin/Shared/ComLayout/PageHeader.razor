@@ -9,8 +9,9 @@
     }
     @Left
     @ChildContent
-    <MudSpacer />
-    @Right
+     <MudAppBarSpacer />
+   
+         @Right
     @if (show_refresh_button)
     {
     <MudIconButton Icon="@Icons.Material.Filled.Refresh"></MudIconButton>    
@@ -19,6 +20,8 @@
     {
     <MudIconButton Icon="@Icons.Material.Filled.Reply"></MudIconButton>    
     }
+ 
+   
     
 </MudToolBar>
 </MudPaper>
