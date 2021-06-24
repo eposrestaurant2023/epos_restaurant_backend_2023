@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210624073211_update_currency_add_tbl_bbc2")]
+    partial class update_currency_add_tbl_bbc2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2138,9 +2140,6 @@ namespace eAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("product_group_id")
-                        .HasColumnType("int");
 
                     b.Property<string>("product_name_en")
                         .IsRequired()
