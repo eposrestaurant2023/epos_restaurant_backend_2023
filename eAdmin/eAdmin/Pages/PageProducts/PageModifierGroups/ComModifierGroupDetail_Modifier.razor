@@ -14,28 +14,40 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var m in modifier_group.modifier_group_items.OrderBy(r=>r.sort_order).ToList())
+
+            @if (modifier_group != null)
             {
-            <tr>
-                <td>
-                    <div>
-                        <span>@m.section_name</span>
-                    </div>
-                    <div class="uk-margin-small-top">
-                        <LabelIsRequired is_visible="@m.is_required" />
-                        <LabelIsMultipleSelect is_visible="@m.is_multiple_select" />
-                    </div>
-                </td>
-                <td colspan="2">
-                    @foreach (var c in m.children.OrderBy(r => r.sort_order))
+                if (modifier_group.modifier_group_items.Any())
+                {
+                    foreach (var m in modifier_group.modifier_group_items.OrderBy(r => r.sort_order).ToList())
                     {
-                        <Grid ClassName="uk-grid-small">
-                            <div class="uk-width-expand" uk-leader><a href="@($"modifier/{c.modifier.id}")">@c.modifier?.modifier_name</a></div>
-                            <div class="uk-width-auto">@c.price.ToString(gv.main_currency_format)</div>
-                        </Grid>
+                    <tr>
+                        <td>
+                            <div>
+                                <span>@m.section_name</span>
+                            </div>
+                            <div class="uk-margin-small-top">
+                                <LabelIsRequired is_visible="@m.is_required" />
+                                <LabelIsMultipleSelect is_visible="@m.is_multiple_select" />
+                            </div>
+                        </td> 
+                        <td colspan="2">
+                            @if (m.children.Any())
+                            {
+                                foreach (var c in m.children.OrderBy(r => r.sort_order))
+                                {
+                                    @if (c.modifier != null) { 
+                                        <Grid ClassName="uk-grid-small">
+                                            <div class="uk-width-expand" uk-leader><a href="@($"modifier/{c.modifier.id}")">@c.modifier?.modifier_name</a></div>
+                                            <div class="uk-width-auto">@c.price.ToString(gv.main_currency_format)</div>
+                                        </Grid>
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
                     }
-                </td>
-            </tr>
+                }
             }
         </tbody>
     </table>

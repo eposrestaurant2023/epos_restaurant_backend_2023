@@ -30,6 +30,9 @@ namespace eModels
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
         public List<ModifierIngredientModel> modifier_ingredients { get; set; }
 
+        [NotMapped, JsonIgnore]
+        public bool is_new { get; set; } = false;
+
     }
 
     [Table("tbl_modifier_group_item")]

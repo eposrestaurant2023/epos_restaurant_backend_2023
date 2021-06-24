@@ -1,0 +1,130 @@
+﻿@if (label != "")
+{
+    <div class="@(is_horizontal?"uk-form-horizontal":"")">
+        <div class="uk-margin-small">
+            <div class="@wrp_class">
+                <label class="uk-form-label" for="@id">
+                    @label
+                </label>
+                <div class="uk-form-controls">
+                    @if (is_read_only)
+                    {
+                        <input type="@text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
+                    }
+                    else
+                    {
+                        <input type="@text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
+                    }
+
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code{
+
+    [Parameter] public string placeholder { get; set; } = "";
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
+    [Parameter] public string text_format { get; set; } = "0.####";
+    [Parameter] public string width { get; set; } = "";
+    [Parameter] public string class_name { get; set; } = "uk-form-small";
+    [Parameter] public string wrp_class { get; set; } = "uk-margin-small";
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+
+    [Parameter] public double text { get; set; } = 0;
+    [Parameter] public EventCallback<double> textChanged { get; set; }
+
+    [Parameter] public double calc_value { get; set; } = 0;
+    [Parameter] public EventCallback<double> calc_valueChanged { get; set; }
+
+    [Parameter] public int base_exchange_currency_id  {  get;set; }
+    [Parameter] public double base_exchange_rate {  get;set; }
+
+
+
+    string strText = "0.00";
+
+    Guid id = Guid.NewGuid();
+
+
+    protected override void OnInitialized()
+    {
+
+        if (placeholder == "")
+        {
+            placeholder = label;
+        }
+
+        strText = text.ToString(text_format);
+    }
+
+
+    protected override void OnParametersSet()
+    {
+        strText = text.ToString(text_format);
+    }
+
+
+    private async Task TextChange(string n)
+    {
+        strText = "10000000";
+        if (String.IsNullOrEmpty(n))
+        {
+            n = "0";
+        }
+        else
+        {
+            n = n.Replace("$", "").Replace(",", "");
+
+            double result = 0;
+            if (double.TryParse(n, out result))
+            {
+                text = result;
+            }
+            else
+            {
+                text = 0;
+            }
+        }
+
+        // calc 
+        await textChanged.InvokeAsync(text);
+        await calc_valueChanged.InvokeAsync(calc_value);
+    }
+
+    void updateExchange(BusinessBranchCurrencyModel curr, double val)
+    {
+        curr.exchange_rate_input = val;
+
+        if (curr.currency_id == base_exchange_currency_id)
+        {
+            curr.exchange_rate = curr.exchange_rate_input;
+
+        }
+        else
+        {
+            if (curr.currency_id != base_exchange_currency_id)
+            {
+                curr.exchange_rate = curr.exchange_rate_input * base_exchange_rate;
+            }
+            else
+            {
+                curr.exchange_rate = 1 / curr.exchange_rate_input;
+            }
+        }
+    }
+
+    void TextLeave()
+    {
+        strText = text.ToString(text_format);
+    }
+
+}
+
+

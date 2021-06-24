@@ -74,7 +74,8 @@
         int index_section_name = 0;
         void OnSelectModifier(ModifierGroupItemModel parent, ModifierModel child)
         {
-            int sort_number = parent.children.Where(r => r.is_deleted == false).LastOrDefault().sort_order;
+            int sort_number = parent.children.Any() ? parent.children.Where(r => r.is_deleted == false).LastOrDefault().sort_order : 0;
+
             sort_number++;
             if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower().Contains(child.modifier_name.ToLower().Trim())).Any())
             {
@@ -87,9 +88,9 @@
 
         void DeleteModifier(ModifierGroupItemModel m)
         {
-            if (m.modifier_group_id == 0)
+            if (m.id == 0)
             {
-                modifer_group.modifier_group_items.Remove(m);
+                modifer_group.modifier_group_items.ForEach(r=>r.children.Remove(m));
             }
             else
             {

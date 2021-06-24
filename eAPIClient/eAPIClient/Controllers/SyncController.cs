@@ -134,8 +134,8 @@ namespace eAPIClient.Controllers
         {
             is_get_remote_data_success = false;
             string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section";
-            //$expand=product_printers($select=id,printer_name,ip_address_port;$filter=is_deleted eq false)
-            string url = $"product?$select=id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
+
+            string url = $"product?$select=product_group_id,product_category_id,id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
             url = url + $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
             url = url + $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
             url = url + $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";

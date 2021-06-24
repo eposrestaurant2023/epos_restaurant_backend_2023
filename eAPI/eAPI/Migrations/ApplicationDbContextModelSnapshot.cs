@@ -119,6 +119,33 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_attach_files");
                 });
 
+            modelBuilder.Entity("eModels.BusinessBranchCurrencyModel", b =>
+                {
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("currency_id")
+                        .HasColumnType("int");
+
+                    b.Property<double>("change_exchange_rate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("change_exchange_rate_input")
+                        .HasColumnType("float");
+
+                    b.Property<double>("exchange_rate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("exchange_rate_input")
+                        .HasColumnType("float");
+
+                    b.HasKey("business_branch_id", "currency_id");
+
+                    b.HasIndex("currency_id");
+
+                    b.ToTable("tbl_business_branch_currency");
+                });
+
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
                 {
                     b.Property<Guid>("id")
@@ -533,9 +560,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("change_exchange_rate")
-                        .HasColumnType("decimal(19,10)");
-
                     b.Property<string>("currency_format")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
@@ -551,8 +575,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<decimal>("exchange_rate")
-                        .HasColumnType("decimal(19,10)");
+                    b.Property<bool>("is_base_exchange_currency")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("is_main")
                         .HasColumnType("bit");
@@ -2115,6 +2139,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<int>("product_group_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("product_name_en")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -3069,6 +3096,9 @@ namespace eAPI.Migrations
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid>("sale_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("sale_order_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
@@ -4340,6 +4370,25 @@ namespace eAPI.Migrations
                     b.Navigation("stock_transfer");
 
                     b.Navigation("vendor");
+                });
+
+            modelBuilder.Entity("eModels.BusinessBranchCurrencyModel", b =>
+                {
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                        .WithMany()
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.CurrencyModel", "currency")
+                        .WithMany()
+                        .HasForeignKey("currency_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("business_branch");
+
+                    b.Navigation("currency");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchPaymentTypeModel", b =>

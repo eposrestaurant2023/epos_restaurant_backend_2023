@@ -76,9 +76,11 @@ if(state.is_logined ){
     @Body
 }
 }
-<MudScrollToTop>
-    <MudFab Color="Color.Primary" Icon="@Icons.Filled.ArrowCircleUp" />
-</MudScrollToTop>
+<MudHidden Breakpoint="Breakpoint.SmAndDown">
+    <MudScrollToTop>
+        <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Filled.ArrowCircleUp" />
+    </MudScrollToTop>
+</MudHidden>
  <MudThemeProvider Theme="state.current_theme" />
 
  @code{
