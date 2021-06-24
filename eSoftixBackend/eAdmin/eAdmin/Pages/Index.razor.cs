@@ -47,18 +47,7 @@ namespace eAdmin.Pages
             is_loading_data = false;
         }
     }
-    public class DashboardModel
-    {
-        public int all_customer { get; set; }
-        public int all_project { get; set; }
-        public int new_customer_mtd { get; set; }
-        public int new_project_mtd { get; set; }
-        public int active_project { get; set; }
-        public int today_expired { get; set; }
-        public int this_week_expired { get; set; }
-        public int this_month_expired { get; set; }
-    }
-
+  
     public class DashboardChart
     {
         public string label { get; set; }
