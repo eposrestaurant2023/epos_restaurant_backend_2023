@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210624050950_update_currency_add_tbl_bbc")]
+    partial class update_currency_add_tbl_bbc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,8 +142,6 @@ namespace eAPI.Migrations
                         .HasColumnType("decimal(19,4)");
 
                     b.HasKey("business_branch_id", "currency_id");
-
-                    b.HasIndex("currency_id");
 
                     b.ToTable("tbl_business_branch_currency");
                 });
@@ -4367,25 +4367,6 @@ namespace eAPI.Migrations
                     b.Navigation("stock_transfer");
 
                     b.Navigation("vendor");
-                });
-
-            modelBuilder.Entity("eModels.BusinessBranchCurrencyModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany()
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.CurrencyModel", "currency")
-                        .WithMany()
-                        .HasForeignKey("currency_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("currency");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchPaymentTypeModel", b =>

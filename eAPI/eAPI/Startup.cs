@@ -144,6 +144,9 @@ namespace eAPI
             var mi = odataBuilder.EntitySet<ModifierIngredientModel>("ModifierIngredient");
             mi.EntityType.HasKey(r => new { r.modifier_id, r.ingredient_id });
 
+            var bc = odataBuilder.EntitySet<BusinessBranchCurrencyModel>("BusinessBranchCurrency");
+            bc.EntityType.HasKey(r => new { r.business_branch_id, r.currency_id });
+
             odataBuilder.EntitySet<UserModel>("User");     
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
