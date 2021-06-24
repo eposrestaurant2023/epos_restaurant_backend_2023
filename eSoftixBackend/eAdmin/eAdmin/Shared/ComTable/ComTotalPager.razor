@@ -2,7 +2,7 @@
 @if (IsVisible)
     {
             <div class="wrp-pagging-info">
-                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                <MudButtonGroup Color="MudBlazor.Color.Primary" Variant="Variant.Filled">
                     @foreach (var link in links)
                     {
                         <MudButton  @onclick="@(() => SelectedPageInternal(link))"

@@ -5,7 +5,7 @@
 if(state.is_logined ){ 
     <MudLayout>
     <MudAppBar Elevation="4">
-        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudHidden Breakpoint="Breakpoint.SmAndDown">
             <MudText Typo="Typo.h6" Class="ml-4">eSoftix System</MudText>
         </MudHidden>
@@ -13,8 +13,8 @@ if(state.is_logined ){
         <ComGlobalSearch/>
         <MudAppBarSpacer />
         <MudHidden Breakpoint="Breakpoint.SmAndDown">
-            <MudIconButton Icon="@Icons.Material.Outlined.Brightness4" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
-            <MudMenu Icon="@Icons.Material.Filled.Add" Color="Color.Inherit" >
+            <MudIconButton Icon="@Icons.Material.Outlined.Brightness4" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
+            <MudMenu Icon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Inherit" >
                 <MudMenuItem>New Customer</MudMenuItem>
                 <MudMenuItem>New Project</MudMenuItem>
             </MudMenu>
@@ -31,7 +31,7 @@ if(state.is_logined ){
             </MudMenu>
         </MudHidden>
         <MudHidden Breakpoint="Breakpoint.MdAndUp">
-             <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="Color.Inherit" Edge="Edge.End" OnClick="@ToggleDrawer_modile" />
+             <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="MudBlazor.Color.Inherit" Edge="Edge.End" OnClick="@ToggleDrawer_modile" />
         </MudHidden>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
@@ -43,15 +43,15 @@ if(state.is_logined ){
             </MudDrawerHeader>
              <MudDivider Style="margin-top:0px!important;"/>
                    <MudList>
-                    <MudListItem Icon="@Icons.Material.Filled.Brightness4"  OnClick="@ChangeTheme" IconColor="Color.Inherit">
+                    <MudListItem Icon="@Icons.Material.Filled.Brightness4"  OnClick="@ChangeTheme" IconColor="MudBlazor.Color.Inherit">
                        Dark Mode
                     </MudListItem>
                
                 </MudList>
             <MudNavMenu>
                <MudNavGroup Title="Quick Add" Icon="@Icons.Material.Outlined.Add" Expanded="true">
-                <MudNavLink Href="/users" Icon="@Icons.Material.Filled.Person" IconColor="Color.Default">New Customer</MudNavLink>
-                <MudNavLink Href="/security" Icon="@Icons.Material.Filled.WorkspacesFilled" IconColor="Color.Default">New Project</MudNavLink>
+                <MudNavLink Href="/users" Icon="@Icons.Material.Filled.Person" IconColor="MudBlazor.Color.Default">New Customer</MudNavLink>
+                <MudNavLink Href="/security" Icon="@Icons.Material.Filled.WorkspacesFilled" IconColor="MudBlazor.Color.Default">New Project</MudNavLink>
             </MudNavGroup>
             </MudNavMenu>
             <div style="height:20px;"></div>
@@ -59,7 +59,7 @@ if(state.is_logined ){
             <MudButton Link="auth/logout"
                        Variant="Variant.Filled"
                        EndIcon="@Icons.Material.Outlined.Login"
-                       Color="Color.Primary" FullWidth="false" Style="width:200px;">
+                       Color="MudBlazor.Color.Primary" FullWidth="false" Style="width:200px;">
                Logout
             </MudButton>
           </div>

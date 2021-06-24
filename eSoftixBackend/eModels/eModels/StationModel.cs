@@ -31,9 +31,12 @@ namespace eModels
         }
         [MaxLength(50)]
         public string station_name_kh { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime expired_date { get; set; }
+
+        public bool is_full_license { get; set; }
 
 
- 
 
     }
 }
