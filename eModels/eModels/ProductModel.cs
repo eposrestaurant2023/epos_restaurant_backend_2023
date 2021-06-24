@@ -113,15 +113,7 @@ namespace eModels
         public bool is_ingredient_product { get; set; }
         public decimal cost { get; set; }
 
-        public int product_group_id { get; set; }
-        [MaxLength(250)]
-        public string product_group_name_en { get; set; }
-        [MaxLength(250)]
-        public string product_group_name_kh { get; set; }
-        [MaxLength(250)]
-        public string product_category_name_en { get; set; }
-        [MaxLength(250)]
-        public string product_category_name_kh { get; set; }
+        public int product_group_id { get; set; } = 0;
 
 
         public List<HistoryModel> histories { get; set; }
