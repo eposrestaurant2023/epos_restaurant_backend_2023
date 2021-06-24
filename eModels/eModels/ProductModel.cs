@@ -38,6 +38,8 @@ namespace eModels
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
 
+        
+
         public int? kitchen_group_id { get; set; }
         [ForeignKey("kitchen_group_id")]
         public KitchenGroupModel kitchen_group { get; set; }
@@ -110,6 +112,18 @@ namespace eModels
         public bool is_menu_product { get; set; }
         public bool is_ingredient_product { get; set; }
         public decimal cost { get; set; }
+
+        public int product_group_id { get; set; }
+        [MaxLength(250)]
+        public string product_group_name_en { get; set; }
+        [MaxLength(250)]
+        public string product_group_name_kh { get; set; }
+        [MaxLength(250)]
+        public string product_category_name_en { get; set; }
+        [MaxLength(250)]
+        public string product_category_name_kh { get; set; }
+
+
         public List<HistoryModel> histories { get; set; }
 
         [NotMapped, JsonIgnore]
