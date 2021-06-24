@@ -2,9 +2,15 @@
 @if (is_visible)
 {
 
-    <th class="table-header uk-text-center @ClassName" @onclick="OnClick" style="width:@width" colspan="@colspan">
-        @ChildContent
-        <span> <Icon icon="@(OrderByType == "asc"?"arrow_downward":"arrow_upward")" is_visible="@OrderBy" /></span>
+    <th class="@ClassName" @onclick="OnClick" style="width:@width">
+        <div class="d-flex align-center">
+            <div>@ChildContent</div>
+            <div style="margin-top: 6px;margin-left: 3px;">
+                 @if(OrderBy){
+               <MudIcon Icon="@(OrderByType == "asc"?@Icons.Material.Filled.ArrowUpward:@Icons.Material.Filled.ArrowDownward)" Size="Size.Small"/>
+               }
+            </div>
+        </div>
     </th>
 
 }
