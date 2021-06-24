@@ -21,8 +21,8 @@ namespace eAPI
         protected override void OnModelCreating(ModelBuilder builder)
         {
             foreach (var property in builder.Model.GetEntityTypes().SelectMany(t => t.GetProperties()).Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
-            {   
-                if (property.GetColumnType()=="decimal(19,10)")
+            {
+                if (property.GetColumnType() == "decimal(19,10)")
                 {
                     property.SetColumnType("decimal(19,10)");
                 }
@@ -39,22 +39,22 @@ namespace eAPI
 
             builder.Entity<ModifierIngredientModel>().HasKey(t => new { t.modifier_id, t.ingredient_id });
             builder.Entity<BusinessBranchRoleModel>().HasKey(t => new { t.role_id, t.business_branch_id });
-            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });           
-            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });              
+            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });
+            builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });
             builder.Entity<PermissionOptionRoleModel>()
                 .HasOne(pt => pt.permission_option)
                 .WithMany(p => p.permission_option_roles)
-                .HasForeignKey(pt => pt.permission_option_id);                   
+                .HasForeignKey(pt => pt.permission_option_id);
 
-            builder.Entity<CustomerBusinessBranchModel>().HasKey(t => new { t.customer_id, t.business_branch_id});
+            builder.Entity<CustomerBusinessBranchModel>().HasKey(t => new { t.customer_id, t.business_branch_id });
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
             builder.Entity<BusinessBranchPaymentTypeModel>().HasKey(t => new { t.payment_type_id, t.business_branch_id });
             builder.Entity<BusinessBranchSettingModel>().HasKey(t => new { t.setting_id, t.business_branch_id });
             builder.Entity<BusinessBranchPriceRule>().HasKey(t => new { t.business_branch_id, t.price_rule_id });
-            builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id});                          
+            builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id });
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
-           
+            builder.Entity<BusinessBranchCurrencyModel>().HasKey(t => new { t.business_branch_id, t.currency_id });
      
             builder.Entity<NumberModel>().HasNoKey();
         
@@ -145,6 +145,7 @@ namespace eAPI
         public DbSet<PredefineDiscountCodeModel> PredefineDiscountCodes { get; set; }
         public DbSet<PredefineNoteModel> PredefineNotes { get; set; }
         public DbSet<KitchenGroupModel> KitchenGroups { get; set; }
+        public DbSet<BusinessBranchCurrencyModel> BusinessBranchCurrencies { get; set; }
         
 
     }
