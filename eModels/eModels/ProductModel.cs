@@ -38,6 +38,8 @@ namespace eModels
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
 
+        
+
         public int? kitchen_group_id { get; set; }
         [ForeignKey("kitchen_group_id")]
         public KitchenGroupModel kitchen_group { get; set; }
@@ -110,6 +112,10 @@ namespace eModels
         public bool is_menu_product { get; set; }
         public bool is_ingredient_product { get; set; }
         public decimal cost { get; set; }
+
+        public int product_group_id { get; set; } = 0;
+
+
         public List<HistoryModel> histories { get; set; }
 
         [NotMapped, JsonIgnore]

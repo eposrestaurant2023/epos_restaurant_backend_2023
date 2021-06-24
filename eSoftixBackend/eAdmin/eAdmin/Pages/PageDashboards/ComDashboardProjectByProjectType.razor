@@ -1,0 +1,16 @@
+﻿                <ApexChart TItem="ProjectByProjectType" Height="@("100%")" Width="@("100%")" Title="Project By Type"  ChartType="ApexCharts.ChartType.Pie">
+                    <ApexSeries TItem="ProjectByProjectType"
+                        Items="models"
+                        Name="Order Value"
+                        
+                        XValue="@(e => e.label)"
+                        YAggregate="@(e => e.Sum(e => e.value))"
+                        ShowDataLabels="true" />
+
+                      
+                </ApexChart>
+
+@code {
+    [Parameter] public List<ProjectByProjectType> models { get; set; }
+   
+}

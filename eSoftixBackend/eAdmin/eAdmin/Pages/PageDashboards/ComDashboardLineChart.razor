@@ -1,0 +1,26 @@
+﻿                <ApexChart TItem="DashboardChart" Height="@("100%")" Width="@("100%")" ChartType="ApexCharts.ChartType.Line">
+                    <ApexSeries TItem="DashboardChart"
+                        Items="@models.AsEnumerable()"
+                        Name="Opened"
+                        XValue="@(e => e.month)"
+                        YAggregate="@(e => e.Sum(e => e.open_value))"
+                        ShowDataLabels="true" />
+
+                        <ApexSeries TItem="DashboardChart"
+                        Items="@models.AsEnumerable()"
+                        Name="Close"
+                        XValue="@(e => e.month)"
+                        YAggregate="@(e => e.Sum(e => e.close_value))"
+                        ShowDataLabels="true" />
+
+                        <ApexSeries TItem="DashboardChart"
+                        Items="@models.AsEnumerable()"
+                        Name="New Customer"
+                        XValue="@(e => e.month)"
+                        YAggregate="@(e => e.Sum(e => e.close_value))"
+                        ShowDataLabels="true" />
+                </ApexChart>
+
+@code {
+    [Parameter] public List<DashboardChart> models { get; set; }
+}
