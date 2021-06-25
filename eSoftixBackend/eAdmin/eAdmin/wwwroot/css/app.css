@@ -48,3 +48,7 @@
     vertical-align: top;
     margin-top:0px !important;
 }
+.wrp-pagging-info .mud-button {
+    min-width: 45px !important;
+    padding: 5px 10px !important;
+}

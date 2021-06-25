@@ -3,18 +3,13 @@
     <div class="@(is_horizontal?"uk-form-horizontal":"")">
         <div class="uk-margin-small">
             <div class="@wrp_class">
-                <label class="uk-form-label" for="@id">
+                <label class="uk-form-label">
                     @label
                 </label>
                 <div class="uk-form-controls">
-                    @if (is_read_only)
-                    {
-                        <input type="@text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
-                    }
-                    else
-                    {
-                        <input type="@text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
-                    }
+
+                    <input type="text" value="@value" placeholder="@placeholder" @onchange="@((ui) =>  onValueChanged((string)ui.Value))" step="any"  class="uk-input uk-form-small @class_name" style="width:@width" />
+
 
                     @ChildContent
                 </div>
@@ -25,6 +20,8 @@
 
 @code{
 
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
     [Parameter] public string placeholder { get; set; } = "";
     [Parameter] public string label { get; set; } = "";
     [Parameter] public bool is_read_only { get; set; } = false;
@@ -33,103 +30,19 @@
     [Parameter] public string width { get; set; } = "";
     [Parameter] public string class_name { get; set; } = "uk-form-small";
     [Parameter] public string wrp_class { get; set; } = "uk-margin-small";
-
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    [Parameter] public BusinessBranchCurrencyModel currency { get; set; }
-
-
-    [Parameter] public double text { get; set; } = 0;
-    [Parameter] public EventCallback<double> textChanged { get; set; }
-
-    [Parameter] public double calc_value { get; set; } = 0;
-    [Parameter] public EventCallback<double> calc_valueChanged { get; set; }
-
-    [Parameter] public int base_exchange_currency_id { get; set; }
-    [Parameter] public CurrencyModel base_currency { get; set; }
-    [Parameter] public double base_exchange_rate { get; set; }
-
-
-
-    string strText = "0.00";
-
-    Guid id = Guid.NewGuid();
-
-
-    protected override void OnInitialized()
+    [Parameter] public double value { get; set; }
+    [Parameter] public EventCallback<double> valueChanged { get; set; }
+    async Task onValueChanged(string _value)
     {
-
-        if (placeholder == "")
+        double _result = 0;
+        if(!string.IsNullOrEmpty(_value))
         {
-            placeholder = label;
+            _result = Convert.ToDouble(_value);
         }
-
-        strText = text.ToString(text_format);
+        await valueChanged.InvokeAsync(_result);
     }
-
-
-    protected override void OnParametersSet()
-    {
-        strText = text.ToString(text_format);
-    }
-
-
-    private async Task TextChange(string n)
-    {
-        strText = "10000000";
-        if (String.IsNullOrEmpty(n))
-        {
-            n = "0";
-        }
-        else
-        {
-            n = n.Replace("$", "").Replace(",", "");
-
-            double result = 0;
-            if (double.TryParse(n, out result))
-            {
-                text = result;
-            }
-            else
-            {
-                text = 0;
-            }
-        }
-        calc_value = updateExchange(currency, text);
-
-        // calc
-        await textChanged.InvokeAsync(text);
-        await calc_valueChanged.InvokeAsync(calc_value);
-    }
-
-    double updateExchange(BusinessBranchCurrencyModel curr, double val)
-    {
-        curr.exchange_rate_input = val;
-
-        if (base_currency.id == base_exchange_currency_id)
-        {
-            curr.exchange_rate = curr.exchange_rate_input;
-
-        }
-        else
-        {
-            if (curr.currency_id != base_exchange_currency_id)
-            {
-                curr.exchange_rate = curr.exchange_rate_input * base_exchange_rate;
-            }
-            else
-            {
-                curr.exchange_rate = 1 / curr.exchange_rate_input;
-            }
-        }
-        return curr.exchange_rate;
-    }
-
-    void TextLeave()
-    {
-        strText = text.ToString(text_format);
-    }
-
 }
 
 
