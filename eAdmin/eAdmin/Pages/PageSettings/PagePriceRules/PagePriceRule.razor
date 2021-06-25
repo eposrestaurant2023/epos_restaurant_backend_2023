@@ -18,12 +18,12 @@
             </HeaderLeft>
             <HeaderRight>
                 <LinkButton url="pricerule/new" icon="add" background="uk-button-primary" Class_Name="button-large">@lang["New"]</LinkButton>
-                <RefreshButton OnClick="@(async()=>await LoadBusinessBranch())" />
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <UIGridCenter>
-                @foreach (var d in business_branches.Where(r => r.is_deleted == false).ToList())
+                @foreach (var d in gv.business_branch_by_role)
                 {
                     <div class="container-layout">
                         <div class="title-header">
@@ -47,22 +47,19 @@
 
                                     </th>
                                 </tr>
-                                @foreach (var bp in d.business_branch_prices.Where(r => r.is_deleted == false && r.business_branch_id == d.id))
-                                {
-                                    @foreach (var s in price_rules.Where(r => r.id == bp.price_rule_id))
-                                    {
+                                @foreach (var bp in models.Where(r =>r.business_branch_id == d.id))
+                                { 
                                         <tr>
-                                            <td>@s.price_name</td>
+                                            <td>@bp.price_rule?.price_name</td>
                                             <td>
                                                 <ComInputCheckBox is_read_only="@bp.is_default" value="@bp.is_default" valueChanged="@(()=>CheckIsDefault(bp))" />
                                             </td>
-                                            <TdActions is_loading="@s.is_loading">
+                                            <TdActions is_loading="@bp.is_loading">
                                                 <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="edit" is_visible="@(!bp.is_deleted)" OnClick="@(()=>OnEdit(bp))">Edit</TableActionItem>
                                                 <TableActionItem roles="@gv.GetRole("payment_type_add")" icon="file_copy" OnClick="@(()=>Clone_Click(bp))">Clone</TableActionItem>
                                                 <TableActionItem roles="@gv.GetRole("payment_type_delete")" icon="delete" is_visible="@(!bp.is_deleted && !bp.is_default)" OnClick="@(() => OnDelete(bp))">Delete</TableActionItem>
                                             </TdActions>
-                                        </tr>
-                                    }
+                                        </tr> 
                                 }
                             </table>
                         </div>
@@ -74,35 +71,22 @@
 }
 
 @code{
-    List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
-    List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
+    List<BusinessBranchPriceRule> models = new List<BusinessBranchPriceRule>();
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         await LoadData();
-        await LoadBusinessBranch();
         is_loading = false;
     }
 
     async Task LoadData()
     {
-        var res = await http.ApiGetOData("PriceRule?$filter=is_deleted eq false and status eq true");
+        var res = await http.ApiGetOData("BusinessBranchPriceRule?$expand=price_rule($filter=is_deleted eq false and status eq true)");
         if (res.IsSuccess)
         {
-            price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(res.Content.ToString());
+            models = JsonSerializer.Deserialize<List<BusinessBranchPriceRule>>(res.Content.ToString());
         }
-    }
-
-    async Task LoadBusinessBranch()
-    {
-        is_loading = true;
-        var resp = await http.ApiGetOData($"BusinessBranch?$expand=business_branch_prices&$filter=is_deleted eq false");
-        if (resp.IsSuccess)
-        {
-            business_branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
-        }
-        is_loading = false;
     }
 
     async Task OnToogleStatus(BusinessBranchPriceRule p)
@@ -128,7 +112,6 @@
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", MatToastType.Success);
-            await LoadBusinessBranch();
         }
     }
 
@@ -153,7 +136,7 @@
             var resp = await http.ApiPost($"BusinessBranchPriceRule/delete/{p.business_branch_id}/{p.price_rule_id}");
             if (resp.IsSuccess)
             {
-                await LoadBusinessBranch();
+                await LoadData();
                 toast.Add("Delete Price Rule successfully", MatToastType.Success);
             }
         }
@@ -171,7 +154,7 @@
             var resp = await http.ApiPost($"BusinessBranchPriceRule/is_default/{p.business_branch_id}/{p.price_rule_id}");
             if (resp.IsSuccess)
             {
-                await LoadBusinessBranch();
+                await LoadData();
                 toast.Add("Change Is Default successfully", MatToastType.Success);
             }
         }

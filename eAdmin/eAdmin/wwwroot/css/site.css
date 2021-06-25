@@ -7271,3 +7271,6 @@ z-index:999999!important;
     border: 1px solid #dadada;
     background-color: #ebeff3;
 }
+.mud-list-item-icon {
+    min-width: 25px!important;
+}
