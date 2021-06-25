@@ -28,14 +28,22 @@
             </TableHeader>
             <RowTemplate Context="s">
                 <TdCenter>
-                <MudAvatar Color="(MudBlazor.Color)s.outlet?.business_branch?.Project?.project_type.color" Variant="Variant.Filled">
-                    <MudIcon Icon="@s.outlet.business_branch.Project.project_type.icon" />
-                </MudAvatar>
-                <br />
-                <MudText Typo="Typo.caption">@s.outlet?.business_branch?.Project?.project_code</MudText>
-                 
-                <br />
-                    <AuthView roles="project_view" url="@($"customer/{s.outlet?.business_branch?.project_id}")">@s.outlet?.business_branch?.Project?.project_name</AuthView>
+                <div style="display:flex;">
+                    <MudAvatar Size="Size.Medium" Color="(MudBlazor.Color)s.outlet?.business_branch?.Project?.project_type.color" Variant="Variant.Filled">
+                        <MudIcon Icon="@s.outlet.business_branch.Project.project_type.icon" />
+                    </MudAvatar>
+                <div style="padding-left:6px">
+                        <AuthView roles="project_view" url="@($"customer/{s.outlet?.business_branch?.project_id}")">
+                            @s.outlet?.business_branch?.Project?.project_name <br />
+                            <MudText Typo="Typo.caption">@s.outlet?.business_branch?.Project?.project_code</MudText>
+                        </AuthView>
+                </div>
+                
+                </div>
+
+                
+                    
+                    
                 </TdCenter>
                 <td>
                     <div>
@@ -58,7 +66,9 @@
                 </td>
                 <TdCenter>
                    @s.expired_date.ToString("dd-MM-yyyy")
-                   <MudChip Color="MudBlazor.Color.Warning">@((s.expired_date - DateTime.Now).Days)</MudChip>
+                   <MudChip Color="MudBlazor.Color.Warning">
+                        @(Math.Ceiling((s.expired_date - DateTime.Now).TotalDays))
+                   </MudChip>
                 </TdCenter>
             </RowTemplate>
         </Table>
