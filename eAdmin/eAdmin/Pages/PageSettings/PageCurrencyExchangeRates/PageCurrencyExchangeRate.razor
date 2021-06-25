@@ -31,7 +31,8 @@
                             {
                                 foreach (var b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_currency.id).ToList())
                                 { 
-                                    <ExchangeRateInput base_exchange_rate="@base_exchange_rate" base_exchange_currency_id="@base_exchange_rate_currency.id" label="@b.currency?.currency_name_en" @bind-text="@b.exchange_rate_input" @bind-calc_value="@b.exchange_rate"/>
+                                    <div>@b.exchange_rate</div> <div>@b.exchange_rate_input</div>
+                                    <ExchangeRateInput currency="@b" base_currency="@base_currency" base_exchange_rate="@base_exchange_rate" base_exchange_currency_id="@base_exchange_rate_currency.id" label="@b.currency?.currency_name_en" @bind-text="@b.exchange_rate_input" @bind-calc_value="@b.exchange_rate"/>
                                 }
                             }
                             <Spacing Number="16" />
