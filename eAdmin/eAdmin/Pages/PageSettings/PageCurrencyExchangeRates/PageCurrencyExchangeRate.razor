@@ -17,7 +17,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                @*<RefreshButton OnClick="@(async()=>await LoadData())" />*@
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -27,20 +27,23 @@
                     <UISummaryBox Title="@(r.business_branch_name_en)" ShowImage="false" IsFullContent="true">
                         <ContentFull>
                             <div class="uk-grid-margin-small-bottom">@lang["Base Currency"] : <span class="uk-text-bold">@base_currency.currency_name_en</span></div>
+
                             @if (models.Any())
                             {
-                                foreach (var b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_currency.id).ToList())
-                                { 
-                                    <div>@b.exchange_rate</div> <div>@b.exchange_rate_input</div>
-                                    <ExchangeRateInput currency="@b" base_currency="@base_currency" base_exchange_rate="@base_exchange_rate" base_exchange_currency_id="@base_exchange_rate_currency.id" label="@b.currency?.currency_name_en" @bind-text="@b.exchange_rate_input" @bind-calc_value="@b.exchange_rate"/>
+                                foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_currency.id).OrderByDescending(r => r.currency.is_main).ToList())
+                                {
+                                    <div>1  @base_exchange_currency.currency_name_en </div>
+                                    <span> @b.currency.currency_name_en | @b.exchange_rate | @b.exchange_rate_input</span> 
+
+                                    <ExchangeRateInput value="@b.exchange_rate_input" valueChanged="@((value)=>RateChange( r.id, b,value))" label="@b.currency?.currency_name_en" />
                                 }
                             }
                             <Spacing Number="16" />
-                            <div class="uk-margin-small-bottom">@lang["Base Exchange Rate Currency"] : <span class="uk-text-bold">@base_exchange_rate_currency.currency_name_en</span></div>
-                            @foreach (var b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_exchange_rate_currency.id).ToList())
-                            {
-                                @*<NumberInput label="@b.currency?.currency_name_en" @bind-text="@b.change_exchange_rate_input" />*@
-                            }
+                            @*<div class="uk-margin-small-bottom">@lang["Base Exchange Rate Currency"] : <span class="uk-text-bold">@base_exchange_rate_currency.currency_name_en</span></div>
+        @foreach (var b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_exchange_rate_currency.id).ToList())
+         {
+             <NumberInput label="@b.currency?.currency_name_en" @bind-text="@b.change_exchange_rate_input" />
+         }*@
                         </ContentFull>
                     </UISummaryBox>
                 }
@@ -48,39 +51,34 @@
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_loading="@is_saving" OnSave="@SaveClick" is_show_cancel="false" />
+                @*<ComSavingFormButton is_loading="@is_saving" OnSave="@SaveClick" is_show_cancel="false" />*@
             </FooterCenter>
         </PageFooter>
     </PageContainer>
 }
 
 @code{
-    List<BusinessBranchCurrencyModel> models = new List<BusinessBranchCurrencyModel>();
-    CurrencyModel base_exchange_rate_currency = new CurrencyModel();
+    public List<BusinessBranchCurrencyModel> models { get; set; } = new List<BusinessBranchCurrencyModel>();
 
-    public CurrencyModel base_currency
+    public CurrencyModel base_currency { get { return gv.currencies.Where(r => r.is_main).FirstOrDefault(); } }
+    public CurrencyModel base_exchange_currency
     {
         get
         {
-            return gv.currencies.Where(r => r.is_main == true).FirstOrDefault();
+            return gv.currencies.Where(r => r.is_base_exchange_currency).FirstOrDefault();
         }
     }
-
-    public double base_exchange_rate
+    public double base_exchange_rate(Guid _bid)
     {
-        get
-        {
-            if(models!=null)
-                return models.Where(r => r.currency_id == base_currency.id).FirstOrDefault().exchange_rate;
-            return 0;
-        }
+
+        return models.Where(r => r.currency_id == base_currency.id && r.business_branch_id==_bid).FirstOrDefault().exchange_rate;
+
     }
 
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        base_exchange_rate_currency = gv.currencies.Where(r => r.is_base_exchange_currency == true).FirstOrDefault();
         await LoadData();
         is_loading = false;
     }
@@ -93,22 +91,38 @@
             models = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(res.Content.ToString());
         }
     }
-    async Task SaveClick()
+
+
+    void RateChange(Guid business_branch_id, BusinessBranchCurrencyModel curr, double val)
     {
-        is_loading_data = is_saving = true;
-        List<BusinessBranchCurrencyModel> data_save = new List<BusinessBranchCurrencyModel>();
-        data_save = models;
-        data_save.ForEach(r => r.currency = null);
-        data_save.ForEach(r => r.business_branch = null);
 
-        var res = await http.ApiPost($"save/multiple", data_save);
-
-        if (res.IsSuccess)
+        foreach (var c in models.Where(r => r.business_branch_id == business_branch_id && r.currency.is_base_exchange_currency == false).ToList())
         {
-            toast.Add(lang["Saving Customer successfully"], MatToastType.Success);
+            updateExchange(business_branch_id,c, ((c.business_branch_id == business_branch_id && c.currency_id==curr.currency_id) ?val:  c.exchange_rate_input));
         }
-        is_loading_data = is_saving = false;
-
     }
+
+    void updateExchange(Guid business_branch_id,  BusinessBranchCurrencyModel a, double val)
+    {
+        a.exchange_rate_input = val;
+        if (base_currency == base_exchange_currency)
+        {
+            a.exchange_rate = a.exchange_rate_input;
+
+        }
+        else
+        {
+            if (a.business_branch_id == business_branch_id && a.currency_id != base_currency.id)
+            {
+                a.exchange_rate = a.exchange_rate_input * base_exchange_rate(business_branch_id);
+            }
+            else
+            {
+                a.exchange_rate = 1 / a.exchange_rate_input;
+            }
+        }
+    }
+
+
 }
 
