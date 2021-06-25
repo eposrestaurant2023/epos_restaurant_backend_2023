@@ -22,6 +22,9 @@ namespace eModels
 
         public string note { get; set; }
 
+        public string icon { get; set; }
+        public int color { get; set; }
+
 
     }
 }

@@ -4,6 +4,7 @@
         <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
     }
     else{
+         <MudText>Customer By Group</MudText>
         <ApexChart TItem="CustomerByCustomerGroup" Height="@("100%")" Width="@("100%")" Title="Customer By Group"  ChartType="ApexCharts.ChartType.Pie">
             <ApexSeries TItem="CustomerByCustomerGroup"
                 Items="models"

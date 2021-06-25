@@ -1,0 +1,21 @@
+﻿@page "/upload"
+<Loading is_loading="false"/>
+ 
+<PageContainer roles="dashboard_management">
+    <PageHeader title="Dashboard"/>
+    <PageBody>
+        <UICenter>
+        @upload_url
+            <FileUpload @bind-ImageUrl="upload_url"/>
+        </UICenter>
+            
+    </PageBody>
+ 
+
+</PageContainer>
+
+ 
+
+@code {
+    string upload_url { get; set; }
+}
