@@ -41,9 +41,17 @@ namespace eAPI.Controllers
         [HttpPost("save/multiple")]
         public async Task<ActionResult<string>> SaveMultiple([FromBody] List<BusinessBranchCurrencyModel> bbc)
         {
-            db.BusinessBranchCurrencies.UpdateRange(bbc);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(bbc);
+            try
+            {
+                db.BusinessBranchCurrencies.UpdateRange(bbc);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(bbc);
+            }
+            catch (Exception ex){
+                string error = ex.Message;
+            }
+            return Ok();
+        
         }
     }
 
