@@ -1,0 +1,104 @@
+﻿@using System.IO
+@using System.Net.Http
+@using System.Net.Http.Headers
+@using Microsoft.JSInterop
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration config
+@inject IJSRuntime js
+@inject ISnackbar toast
+<InputImage image_url="@($"{config["BaseUrl"]}upload/{ImageUrl}")" class_name="@class_name">
+    <label style="position: absolute; top: 0px; right: 0px;">
+        <MudItem Class="mud-theme-primary darken-4">
+            <MudIcon Icon="@Icons.Outlined.Edit" Size="Size.Large" Class="edit_profile_image black-text" Title="Upload Image"></MudIcon>
+        </MudItem>
+        <MudHidden>
+              <InputFile OnChange="UploadFiles" style="display: none;" />
+        </MudHidden>
+    </label>
+    
+</InputImage>
+
+@code {
+    public bool showCamera { get; set; } = false;
+    
+    [Parameter] public string ImageUrl { get; set; } = "";
+    [Parameter] public bool ShowUploadCamara { get; set; } = true;
+    [Parameter] public EventCallback<string> ImageUrlChanged { get; set; }
+    [Parameter] public Dictionary<string, object> CustomAttributes { get; set; }
+    [Parameter] public string SaveFolderName { get; set; } = "";
+    [Parameter] public string class_name { get; set; } = "";
+    [Parameter] public string guid { get; set; } = "";
+    InputFileData form_data = new InputFileData();
+    IBrowserFile file { get; set; }
+
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrEmpty(ImageUrl))
+        {
+            ImageUrl = "placeholder.png";
+        }
+    }
+
+    async Task UploadFiles(InputFileChangeEventArgs e)
+    {
+        var file = e.GetMultipleFiles().FirstOrDefault();
+        form_data = new InputFileData();
+        long maxFileSize = 1024 * 1024 * 2;
+        if (file != null)
+        {
+            if(file.Size > maxFileSize)
+            {
+                toast.Add("Maximum file size 2MB",Severity.Error);
+                return;
+            }
+
+            var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name;
+
+
+            form_data.ImageUrl = _new_image;
+            form_data.multipartForm.Add(
+                        content: fileContent,
+                        name: "\"upload\"",
+                        fileName: _new_image);
+
+            await Save_Click();
+        }
+    }
+
+    
+    public async Task SaveCapturedImage(string CapturedImageUrl)
+    {
+        string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + "_capture.jpeg";
+        var bytes = Convert.FromBase64String(CapturedImageUrl.Substring(CapturedImageUrl.LastIndexOf(',') + 1));
+
+        var bytecontent = new ByteArrayContent(bytes);
+        bytecontent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+        var content = new MultipartFormDataContent { { bytecontent, "\"upload\"", _new_image } };
+
+
+        form_data.multipartForm = content;
+        form_data.ImageUrl = _new_image;
+
+        await Save_Click();
+    }
+
+    async Task Save_Click()
+    {
+        var client = new HttpClient();
+
+        var url = $"{config["apiBaseUrl"]}upload?folder={SaveFolderName}";
+        var resp = await client.PostAsync(url, form_data.multipartForm);
+
+        if (resp.IsSuccessStatusCode)
+        {
+            ImageUrl = $"{form_data.ImageUrl}";
+            await ImageUrlChanged.InvokeAsync(ImageUrl);
+        }
+
+    }
+
+
+
+}

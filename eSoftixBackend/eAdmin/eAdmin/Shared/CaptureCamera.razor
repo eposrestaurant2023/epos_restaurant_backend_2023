@@ -1,0 +1,63 @@
+﻿@inject IJSRuntime js
+
+<MudDialog @bind-IsVisible="ShowCamara">
+    <DialogContent>
+        <div style="text-transform: uppercase; font-weight: 600;"><Icon icon="photo_camera" /><span>Capture Image</span></div>
+        <hr />
+        <div id="video" style="width: 100% !important; display: @(showImageCapture ?"none":"normal")"></div>
+        @if (showImageCapture) {
+        <div >
+            <img src="@CapturedImageUrl" />
+        </div>
+         }
+    </DialogContent>
+    <DialogActions>
+        <div class="d-flex">
+            @if (!showImageCapture) { 
+                <MudButton StartIcon="@Icons.Outlined.PhotoCamera" OnClick="OnCapturedImage">Take Photo</MudButton>
+            }else{
+                <MudButton StartIcon="@Icons.Outlined.PhotoCamera" OnClick="@(() => showImageCapture = false)">Take Photo</MudButton>
+            }
+            <MudButton StartIcon="@Icons.Outlined.Done" OnClick="OnSave">Accpet</MudButton>
+            <MudButton StartIcon="@Icons.Outlined.Reply" OnClick="OnCloseCamara" Color="Color.Error">Cancel</MudButton>
+        </div>
+    </DialogActions>
+</MudDialog>
+@code{
+    string CapturedImageUrl = "";
+    bool showImageCapture;
+    [Parameter] public string guid { get; set; } = "id_capturing_image";
+    [Parameter] public bool ShowCamara { get; set; } = true;
+    [Parameter] public EventCallback<bool> ShowCamaraChanged { get; set; }
+    [Parameter] public EventCallback<string> SaveCapturedImage { get; set; }
+    [Parameter] public EventCallback OpenCamera { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await PhotoCamara();
+    }
+    async Task PhotoCamara()
+    {
+        await js.InvokeVoidAsync("PhotoCamara", "video");
+
+    }
+
+    async Task OnCloseCamara()
+    {
+        await js.InvokeVoidAsync("ClosePhotoCamara", "video");
+        await ShowCamaraChanged.InvokeAsync(false);
+        ShowCamara = false;
+    }
+    async Task OnCapturedImage()
+    {
+        CapturedImageUrl = await js.InvokeAsync<string>("CapturePhoto");
+        showImageCapture = true;
+    }
+
+    async Task OnSave() {
+        await SaveCapturedImage.InvokeAsync(CapturedImageUrl);
+        await OnCloseCamara();
+    }
+
+
+}
