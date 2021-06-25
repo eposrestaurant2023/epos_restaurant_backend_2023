@@ -22,6 +22,7 @@ using eModels;
 using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNet.OData.Routing.Conventions;
 using System.Web.Http;
+using System.Net.Http;
 
 namespace eAPI
 {
@@ -49,7 +50,7 @@ namespace eAPI
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
-
+           
             services.AddDbContext<ApplicationDbContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             services.AddControllersWithViews().AddNewtonsoftJson(options => {
@@ -69,6 +70,12 @@ namespace eAPI
             services.AddScoped<AppService>();
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped(x => {
+
+                return new HttpClient();
+            });
+            services.AddScoped<IHttpService, HttpService>();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -143,6 +150,9 @@ namespace eAPI
 
             var mi = odataBuilder.EntitySet<ModifierIngredientModel>("ModifierIngredient");
             mi.EntityType.HasKey(r => new { r.modifier_id, r.ingredient_id });
+
+            var bc = odataBuilder.EntitySet<BusinessBranchCurrencyModel>("BusinessBranchCurrency");
+            bc.EntityType.HasKey(r => new { r.business_branch_id, r.currency_id });
 
             odataBuilder.EntitySet<UserModel>("User");     
             odataBuilder.EntitySet<GlobalVariableModel>("GlobalVariable");

@@ -86,6 +86,10 @@ namespace eAPIClient.Models
         public string kitchen_group_name { get; set; }
         public int kitchen_group_sort_order { get; set; }
 
+        public int product_category_id { get; set; } = 0;
+
+        public int product_group_id { get; set; } = 0;
+          
         public List<ProductPrinterModel> product_printers { get; set; }
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<ProductPortionModel> product_portions { get; set; }

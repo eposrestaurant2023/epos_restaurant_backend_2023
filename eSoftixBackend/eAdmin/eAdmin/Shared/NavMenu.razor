@@ -6,7 +6,7 @@
     foreach(var s in state.gv.permission_options.Where(r=>r.is_section_header==true && r.show_in_menu == true && r.parent_id ==null).OrderBy(r => r.sort_order))
     {
         <AuthorizeView Roles="@s.roles">
-            <MudText Typo="Typo.subtitle2" Color="Color.Inherit" Class="ml-4 my-3">@s.note</MudText> 
+            <MudText Typo="Typo.subtitle2" Color="MudBlazor.Color.Inherit" Class="ml-4 my-3">@s.note</MudText> 
             
         </AuthorizeView>
         @foreach(var m1 in state.GetPermissionOption(s))

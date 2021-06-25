@@ -1,10 +1,11 @@
-﻿<select class="uk-select page-size" value="@PerPage" @onchange="@SelectChange">
-    <option value="5">5</option>
-    <option value="10">10</option>
-    <option value="25">25</option>
-    <option value="50">50</option>
-    <option value="100">100</option>
-</select>
+﻿
+<MudSelect T="int" Value="@PerPage" ValueChanged="@SelectChange" DisableUnderLine="true" Variant="Variant.Filled" Direction="Direction.Top">
+    <MudSelectItem Value="5">5</MudSelectItem>
+    <MudSelectItem Value="10">10</MudSelectItem>
+    <MudSelectItem Value="25">25</MudSelectItem>
+    <MudSelectItem Value="50">50</MudSelectItem>
+    <MudSelectItem Value="100">100</MudSelectItem>
+</MudSelect>
 
 @code{
     [Parameter]
@@ -13,8 +14,8 @@
     [Parameter]
     public EventCallback<int> OnChange { get; set; }
 
-    async Task SelectChange(ChangeEventArgs e)
+    async Task SelectChange(int n)
     {
-        await OnChange.InvokeAsync(Convert.ToInt32(e.Value));
+        await OnChange.InvokeAsync(n);
     }
 }

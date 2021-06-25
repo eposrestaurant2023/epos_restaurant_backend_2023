@@ -6,14 +6,14 @@
           if (url != "")
             {
                
-                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" >@ChildContent</MudButton>
+                <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" Size="Size.Medium" Class="ma-2" Style="padding: 7px 15px;">@ChildContent</MudButton>
 
             }
             else
             {
                 
                  
-                 <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" >@ChildContent</MudButton>
+                 <MudButton Variant="Variant.Outlined"  StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" Size="Size.Medium" Class="ma-2" Style="padding: 7px 15px;">@ChildContent</MudButton>
             }
         
     }
@@ -23,14 +23,14 @@
              @if (url != "")
             {
                
-                <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" >@ChildContent</MudButton>
+                <MudButton Variant="Variant.Outlined"  StartIcon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" Size="Size.Medium" Class="ma-2" Style="padding: 7px 15px;">@ChildContent</MudButton>
 
             }
             else
             {
                 
                  
-                 <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" >@ChildContent</MudButton>
+                 <MudButton Variant="Variant.Outlined"  StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" Size="Size.Medium" Class="ma-2" Style="padding: 7px 15px;">@ChildContent</MudButton>
             }
         
         </AuthorizeView>

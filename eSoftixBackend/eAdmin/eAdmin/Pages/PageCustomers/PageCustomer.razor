@@ -17,13 +17,18 @@
         <Right>
             <MudHidden Breakpoint="Breakpoint.SmAndDown">
                 <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
-            </MudHidden>
+             </MudHidden>
             <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
+               <FilterDateRange @bind-dates="@state.date_range"  />
+               <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
             </ComSearch>
+          
         </Right>
     </PageHeader>
     <PageBody>
+        
+                
+          
        
        <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
         
@@ -53,7 +58,7 @@
             </TableHeader>
             <RowTemplate Context="p">
                 <TdCenter>
-                    <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                    <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true"/>
                 </TdCenter>
                 <TdCenter>
                     <AuthView roles="customer_view" url="@($"customer/{p.id}")">@p.customer_code</AuthView>
@@ -84,7 +89,7 @@
     </PageBody>
 </PageContainer>
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
-    <MudFab Color="Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" />    
+    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" />    
 </MudHidden>
 
 }
