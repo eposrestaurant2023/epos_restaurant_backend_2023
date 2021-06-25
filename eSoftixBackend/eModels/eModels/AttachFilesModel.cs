@@ -42,7 +42,7 @@ namespace eModels
 
     public class InputFileData
     {
-        public MultipartFormDataContent multipartForm { get; set; }
+        public MultipartFormDataContent multipartForm { get; set; } = new MultipartFormDataContent();
         public string ImageUrl { get; set; } = "";
         public string SaveFolderPath { get; set; } = "";
     }

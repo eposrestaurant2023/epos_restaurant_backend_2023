@@ -1,12 +1,133 @@
-﻿        <MudItem xs="12" sm="12" md="6">
-            <MudCard Elevation="25" Style="height:100%;">
-                <MudCardContent Class="px-0">
-                    <MudSimpleTable Elevation="0" Hover="true">
-                          <MudText Typo="Typo.h4">UpComming</MudText>
-                    </MudSimpleTable>
-                </MudCardContent>
-            </MudCard>
-        </MudItem>
-@code{
+﻿@inherits PageCore
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(pg.order_by == field_name)" OrderByType="@pg.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+@if(!is_loading){
+    <MudItem xs="12" sm="12" md="12">
+    <MudCard Elevation="25" Style="height:100%;">
+        <MudCardContent Class="px-0">
+            <MudSimpleTable Elevation="0" Hover="true">
+                  <Table Items="@models"
+                PerPage="@pg.per_page"
+                TotalItem="@TotalRecord"
+                CurrentPage="@pg.current_page"
+                OnPagerChange="@SelectChange"
+                OnPageChange="@ChangePager"
+                isLoading="@is_loading_data"
+                ShowPager="true"
+                ShowCounter="true"
+                EmptyText="There is no customer record.">
+            <TableHeader>
+                @HeaderTemplate("outlet/business_branch/project/project_name", "Project","cp")
+                @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Customer", "col-auto cp")
+                <Th>Phone</Th>
+                @HeaderTemplate("outlet/business_branch/business_branch_name_en", "Branch", "col-auto cp")
+                @HeaderTemplate("station_name_en", "Station", "uk-text-left cp")
+                @HeaderTemplate("expired_date", "Expired Date", "uk-text-center cp")
+            </TableHeader>
+            <RowTemplate Context="s">
+                <TdCenter>
+                <div style="display:flex;">
+                    <MudAvatar Size="Size.Large" Color="(MudBlazor.Color)s.outlet?.business_branch?.Project?.project_type.color" Variant="Variant.Filled">
+                        <MudIcon Icon="@s.outlet.business_branch.Project.project_type.icon" />
+                    </MudAvatar>
+                <div style="padding-left:6px">
+                        <AuthView roles="project_view" url="@($"customer/{s.outlet?.business_branch?.project_id}")">
+                        <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.project_name</MudText>    
+                         <br />
+                            <MudText Typo="Typo.caption">@s.outlet?.business_branch?.Project?.project_code</MudText>
+                        </AuthView>
+                </div>
+                
+                </div>
 
+                    
+                </TdCenter>
+                <td>
+                    <div>
+                        <MudText Typo="Typo.body1">
+                            <AuthView roles="@gv.GetRole("customer_view")" url="@($"customer/{s.outlet?.business_branch?.Project?.customer_id}")">@s.outlet?.business_branch?.Project?.customer.customer_name_en <br /> @s.outlet?.business_branch?.Project?.customer.customer_code
+                            </AuthView>
+                        </MudText>
+                        
+                    </div>
+                </td>
+
+                <td>
+                    <MudText Typo="Typo.body1">@s.outlet.business_branch.Project.customer.phone_1 </MudText>
+                    <br/>
+                    <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.customer?.phone_2</MudText>
+                </td>
+                <td>
+                    <MudText Typo="Typo.body1">@s.outlet?.business_branch?.business_branch_name_en</MudText>
+                     <br />
+                    <MudText Typo="Typo.caption">@s.outlet?.outlet_name_en</MudText>
+                </td>
+                <td>
+                <MudText Typo="Typo.body1">@s.station_name_en</MudText>
+                    
+                </td>
+                <TdCenter>
+                    <MudText Typo="Typo.body1">@s.expired_date.ToString("dd-MM-yyyy") 
+                        <MudChip Color="MudBlazor.Color.Warning" Label="true" Size="Size.Small">
+                            @(Math.Ceiling((s.expired_date - DateTime.Now).TotalDays))
+                       </MudChip>
+                   </MudText>
+                   
+                </TdCenter>
+            </RowTemplate>
+        </Table>
+            </MudSimpleTable>
+        </MudCardContent>
+    </MudCard>
+</MudItem>
+}else{
+    <MudSkeleton Animation="Animation.Wave" />
+}
+
+@code{
+    PagerModel pg = new PagerModel();
+    List<StationModel> models = new List<StationModel>();
+    string api_url;
+    int TotalRecord;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading=true;
+        await LoadData();
+        is_loading=false;
+    }
+
+    async Task LoadData()
+    {
+        is_loading=true;
+        api_url = $"station?$filter=expired_date gt {DateTime.Now.ToString("yyyy-MM-dd")} and expired_date lt {DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")} and is_deleted eq false and outlet/is_deleted eq false and outlet/business_branch/is_deleted eq false and outlet/business_branch/project/is_deleted eq false and outlet/business_branch/project/customer/is_deleted eq false&$expand=outlet($select=outlet_name_en,outlet_name_kh;$expand=business_branch($select=business_branch_name_kh,business_branch_name_en;$expand=project($select=project_name,project_code;$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,phone_1,phone_2),project_type($select=icon,color,project_type_name))))&$select=station_name_en,station_name_kh,expired_date,status,&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";
+        var res = await http.ApiGetOData(api_url);
+        if(res.IsSuccess){
+            models=JsonSerializer.Deserialize<List<StationModel>>(res.Content.ToString());
+            TotalRecord = res.Count;
+        }
+        is_loading=false;
+    }
+
+    public async Task SelectChange(int perpage)
+    {
+        pg.per_page = perpage;
+        pg.current_page = 1;
+        await LoadData();
+    }
+
+    public async Task ChangePager(int _page)
+    {
+        pg.current_page = _page;
+        await LoadData();
+    }
+    public async Task OrderBy(string col_name = "")
+    {
+
+        pg.order_by = col_name;
+        pg.order_by_type = (pg.order_by_type == "asc" ? "desc" : "asc");
+
+        await LoadData();
+    }
 }

@@ -1,18 +1,84 @@
-﻿@inherits PageCore
-<MudItem xs="12" sm="12" md="6">
+﻿@*@using Microsoft.Extensions.Configuration
+@inherits PageCore
+@if(!is_loading){
+    <MudItem xs="12" sm="12" md="12">
     <MudCard Elevation="25" Style="height:100%;">
         <MudCardContent Class="px-0">
             <MudSimpleTable Elevation="0" Hover="true">
-                    <MudText Typo="Typo.h4">Recent Customer</MudText>
+                  <Table Items="@models"
+                PerPage="25"
+                isLoading="@is_loading_data"
+                ShowPager="true"
+                ShowCounter="true"
+                EmptyText="There is no customer record.">
+            <TableHeader>
+               <ThAuto></ThAuto>
+               <ThAuto></ThAuto>
+            </TableHeader>
+            <RowTemplate Context="s">
+                <TdCenter>
+                <div style="display:flex;">
+                    <MudAvatar Image="_content/MudBlazor.Docs/images/mony.png" />
+                    <MudAvatar Image="@(config.GetValue<string>("apiBaseUrl") + $"/upload/{s.photo}")" Size="Size.Large">
+                        
+                    </MudAvatar>
+                <div style="padding-left:6px">
+                    <AuthView roles="project_view" url="@($"customer/{s.id}")">
+                        <MudText Typo="Typo.body1">@s.customer_code - @s.customer_name_en</MudText>
+                    </AuthView>
+                </div>
+                
+                </div>
+
+                    
+                </TdCenter>
+                <td>
+                    <div>
+                        <MudText Typo="Typo.body1">
+                            <AuthView roles="@gv.GetRole("customer_view")" url="@($"customer/{s.outlet?.business_branch?.Project?.customer_id}")">@s.outlet?.business_branch?.Project?.customer.customer_name_en <br /> @s.outlet?.business_branch?.Project?.customer.customer_code
+                            </AuthView>
+                        </MudText>
+                        
+                    </div>
+                </td>
+
+                <td>
+                    <MudText Typo="Typo.body1">@s.outlet.business_branch.Project.customer.phone_1 </MudText>
+                    <br/>
+                    <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.customer?.phone_2</MudText>
+                </td>
+                <td>
+                    <MudText Typo="Typo.body1">@s.outlet?.business_branch?.business_branch_name_en</MudText>
+                     <br />
+                    <MudText Typo="Typo.caption">@s.outlet?.outlet_name_en</MudText>
+                </td>
+                <td>
+                <MudText Typo="Typo.body1">@s.station_name_en</MudText>
+                    
+                </td>
+                <TdCenter>
+                    <MudText Typo="Typo.body1">@s.expired_date.ToString("dd-MM-yyyy") 
+                        <MudChip Color="MudBlazor.Color.Warning" Label="true" Size="Size.Small">
+                            @(Math.Ceiling((s.expired_date - DateTime.Now).TotalDays))
+                       </MudChip>
+                   </MudText>
+                   
+                </TdCenter>
+            </RowTemplate>
+        </Table>
             </MudSimpleTable>
         </MudCardContent>
     </MudCard>
 </MudItem>
+}else{
+    <MudSkeleton Animation="Animation.Wave" />
+}
 @code{
-    public List<CustomerModel> customers = new List<CustomerModel>();
+    bool is_loading;
+    public List<CustomerModel> models = new List<CustomerModel>();
     protected override async Task OnInitializedAsync()
     {
-        var res = await http.ApiGetOData("customer");
-        customers=JsonSerializer.Deserialize<List<CustomerModel>>(res.Content.ToString());
+        var res = await http.ApiGetOData("customer?$select=id,customer_name_en,customer_name_kh,customer_code,phone_1,phone_2,company_name_kh,photo,total_project&$expand=customer_group($select=customer_group_name_en,customer_group_name_kh)&$top=25&orderby=created_date desc");
+        models =J sonSerializer.Deserialize<List<CustomerModel>>(res.Content.ToString());
     }
-}
+}*@
