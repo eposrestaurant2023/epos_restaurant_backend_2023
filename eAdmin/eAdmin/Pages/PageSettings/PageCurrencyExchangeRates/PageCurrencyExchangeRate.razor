@@ -2,7 +2,7 @@
 @inherits PageCore
 @inject IStringLocalizer<Resource> lang
 
-<Loading is_loading="@(is_loading || is_loading_data)" />
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 
 @if (!is_loading)
 {
@@ -30,12 +30,18 @@
 
                             @if (models.Any())
                             {
-                                foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_currency.id).OrderByDescending(r => r.currency.is_main).ToList())
+                                 <h5>Exchange Rate</h5>
+                                   <hr/>
+                                foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id &&  m.currency.is_base_exchange_currency == false).OrderByDescending(r => r.currency.is_main).ToList())
                                 {
-                                    <div>1  @base_exchange_currency.currency_name_en </div>
-                                    <span> @b.currency.currency_name_en | @b.exchange_rate | @b.exchange_rate_input</span> 
-
-                                    <ExchangeRateInput value="@b.exchange_rate_input" valueChanged="@((value)=>RateChange( r.id, b,value))" label="@b.currency?.currency_name_en" />
+                                    <ExchangeRateInput value="@b.exchange_rate_input" valueChanged="@((value)=>RateChange( r.id, b,value))" label="@($"{base_exchange_currency.currency_name_en} => {b.currency?.currency_name_en}")" />
+                                }
+                              
+                                <h5>Change Exchange Rate</h5>
+                                  <hr/>
+                                @foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id &&  m.currency.is_base_exchange_currency == false).OrderByDescending(r => r.currency.is_main).ToList())
+                                { 
+                                    <ExchangeRateInput value="@b.change_exchange_rate_input" valueChanged="@((value)=>Change_RateChange( r.id, b,value))" label="@($"{base_exchange_currency.currency_name_en} => {b.currency?.currency_name_en}")"  />
                                 }
                             }
                             <Spacing Number="16" />
@@ -43,10 +49,14 @@
                     </UISummaryBox>
                 }
             </UIGridCenter>
+
+            <UIGridCenter>
+             
+            </UIGridCenter>
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                @*<ComSavingFormButton is_loading="@is_saving" OnSave="@SaveClick" is_show_cancel="false" />*@
+                <ComSavingFormButton is_loading="@is_saving" OnSave="@Save_Click" is_show_cancel="false" is_show_save_action="true" is_show_save_submit="false"/>
             </FooterCenter>
         </PageFooter>
     </PageContainer>
@@ -66,10 +76,16 @@
     public double base_exchange_rate(Guid _bid)
     {
 
-        return models.Where(r => r.currency_id == base_currency.id && r.business_branch_id==_bid).FirstOrDefault().exchange_rate;
+        return models.Where(r => r.currency_id == base_exchange_currency.id && r.business_branch_id==_bid).FirstOrDefault().exchange_rate;
 
     }
 
+      public double base_change_exchange_rate(Guid _bid)
+    {
+
+        return models.Where(r => r.currency_id == base_exchange_currency.id && r.business_branch_id==_bid).FirstOrDefault().change_exchange_rate;
+
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -87,19 +103,60 @@
         }
     }
 
+    
+    async Task Save_Click()
+    {
+        //remove exchange record that dont have in current role 
+        List<BusinessBranchCurrencyModel> currency_exchange_list = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(JsonSerializer.Serialize(models));
+        List<BusinessBranchCurrencyModel> save_models = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(JsonSerializer.Serialize(models));
+        foreach(var m in currency_exchange_list.Select(r => r.business_branch_id).Distinct())
+        {
+            if(!gv.business_branch_by_role.Where(r=>r.id == m).Any())
+            {
+                save_models.RemoveAll(r => r.business_branch_id == m);
+            }
+        }
+
+        if(save_models.Where(r=>r.exchange_rate ==0 || r.change_exchange_rate == 0  ).Any())
+        {
+            toast.Add(lang["Please enter exchange rate"], MatToastType.Warning);
+            return;
+        }
+
+        is_saving = true;
+        save_models.ForEach(r => r.business_branch = null);
+        save_models.ForEach(r => r.currency = null);
+
+        var resp = await http.ApiPost("BusinessBranchCurrency/save/multiple", save_models);
+        if (resp.IsSuccess)
+        { 
+            toast.Add(lang["Save exchange rate successfully"], MatToastType.Success);
+           
+        }
+        else
+        { 
+            toast.Add(lang["Save exchange rate Fail"], MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+
+
+
 
     void RateChange(Guid business_branch_id, BusinessBranchCurrencyModel curr, double val)
     {
-
+        curr.exchange_rate_input = val;
         foreach (var c in models.Where(r => r.business_branch_id == business_branch_id && r.currency.is_base_exchange_currency == false).ToList())
         {
-            updateExchange(business_branch_id,c, ((c.business_branch_id == business_branch_id && c.currency_id==curr.currency_id) ?val:  c.exchange_rate_input));
+           
+
+            updateExchange(business_branch_id,c, (( c.currency_id==curr.currency_id) ?val:  c.exchange_rate_input));
         }
     }
 
-    void updateExchange(Guid business_branch_id,  BusinessBranchCurrencyModel a, double val)
+    void updateExchange(Guid business_branch_id,  BusinessBranchCurrencyModel a, double rate_input)
     {
-        a.exchange_rate_input = val;
+        
         if (base_currency == base_exchange_currency)
         {
             a.exchange_rate = a.exchange_rate_input;
@@ -107,17 +164,56 @@
         }
         else
         {
-            if (a.business_branch_id == business_branch_id && a.currency_id != base_currency.id)
+           
+
+            if (a.business_branch_id == business_branch_id && a.currency.is_main)
             {
-                a.exchange_rate = a.exchange_rate_input * base_exchange_rate(business_branch_id);
+                models.Where(r=>r.business_branch_id==business_branch_id && r.currency.is_base_exchange_currency).FirstOrDefault().exchange_rate = 1 / a.exchange_rate_input;
+                
             }
             else
             {
-                a.exchange_rate = 1 / a.exchange_rate_input;
+                a.exchange_rate = a.exchange_rate_input * base_exchange_rate(business_branch_id);
             }
         }
     }
+     
+    
 
+    void Change_RateChange(Guid business_branch_id, BusinessBranchCurrencyModel curr, double val)
+    {
+        curr.change_exchange_rate_input = val;
+        foreach (var c in models.Where(r => r.business_branch_id == business_branch_id && r.currency.is_base_exchange_currency == false).ToList())
+        {
+           
 
+            Change_updateExchange(business_branch_id,c, (( c.currency_id==curr.currency_id) ?val:  c.change_exchange_rate_input));
+        }
+    }
+
+    void Change_updateExchange(Guid business_branch_id,  BusinessBranchCurrencyModel a, double rate_input)
+    {
+        
+        if (base_currency == base_exchange_currency)
+        {
+            a.change_exchange_rate = a.change_exchange_rate_input;
+
+        }
+        else
+        {
+           
+
+            if (a.business_branch_id == business_branch_id && a.currency.is_main)
+            {
+                models.Where(r=>r.business_branch_id==business_branch_id && r.currency.is_base_exchange_currency).FirstOrDefault().change_exchange_rate = 1 / a.change_exchange_rate_input;
+                
+            }
+            else
+            {
+                a.change_exchange_rate = a.change_exchange_rate_input * base_change_exchange_rate(business_branch_id);
+            }
+        }
+    }
+     
 }
 
