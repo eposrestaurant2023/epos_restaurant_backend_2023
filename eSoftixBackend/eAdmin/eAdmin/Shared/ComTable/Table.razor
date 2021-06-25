@@ -57,7 +57,7 @@
     <MudHidden Breakpoint="Breakpoint.SmAndDown">
       <MudGrid>
           <MudItem xs="12" md="12">
-              <div class="d-flex">
+              <div class="d-flex justify-space-between">
               <div class="pt-2 mx-2 cus_class_select">
                    @if (ShowPager)
                     {
@@ -88,7 +88,7 @@
         <MudHidden Breakpoint="Breakpoint.MdAndUp">
       <MudGrid>
           <MudItem xs="12" md="12">
-              <div class="d-flex">
+              <div>
               <div class="pt-2 mx-2 cus_class_select">
                    @if (ShowPager)
                     {
@@ -102,7 +102,7 @@
                         </Column>*@
                     }
               </div>
-               <div class="pt-2">
+               <div class="pt-2"  style="text-align: center;">
                          @if (ShowPagination)
                             {
                             <ComTotalPager TotalRecord="@TotalItem" PerPage="@PerPage" CurrentPage="@CurrentPage" SelectedPage="@PageChange" IsVisible="@(totalPage > 1 && (PagerLocation == "Both" || PagerLocation == "Bottom"))" />

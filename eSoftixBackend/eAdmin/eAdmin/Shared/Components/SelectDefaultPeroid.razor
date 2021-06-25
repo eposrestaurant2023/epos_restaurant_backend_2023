@@ -1,11 +1,11 @@
 ﻿ 
-     <MudSelect Label="@InputLabel" Value="@SelectedValue.id"  T="int" ValueChanged="@((id) => SelectedValueChange(id))"   AdornmentColor="MudBlazor.Color.Primary">
+     <MudSelect Label="@InputLabel" Value="@SelectedValue.id" Variant="Variant.Outlined"  T="int" ValueChanged="@((id) => SelectedValueChange(id))"   AdornmentColor="MudBlazor.Color.Default" Margin="Margin.Dense">
            
             @foreach (var f in filter_option_model)
             {
                 <MudSelectItem Value="@f.id">@f.name_en</MudSelectItem>
             }
-        </MudSelect>
+     </MudSelect>
  
    
 
