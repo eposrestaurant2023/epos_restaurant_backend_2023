@@ -1,0 +1,28 @@
+﻿<div class="avatar-upload @class_name">
+    <div class="avatar-preview @ClassIsBuyerCustomer">
+        <div id="imagePreview" style="background-image: url(@image_url)"></div>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string image_url { get; set; } = "placeholder.png";
+    [Parameter] public string class_name { get; set; } = "";
+    [Parameter] public string ClassIsBuyerCustomer { get; set; } = "is_normal";
+    
+    [Parameter] public EventCallback<string> textChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(image_url)) {
+            image_url = "placeholder.png";
+        }
+    }
+
+    private async Task TextChange(string txt)
+    {
+        image_url = txt;
+        await textChanged.InvokeAsync(image_url);
+    }
+}
