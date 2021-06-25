@@ -1,0 +1,125 @@
+﻿@inject IHttpService http;
+<MudGrid>
+        <MudItem xs="12" sm="6" md="3">
+            @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+                <ComDashboardKPI Title="All Customers" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.People" Value="@model.all_customer.ToString()"/>
+            }
+            
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+               <ComDashboardKPI Title="All Project" color="@MudBlazor.Color.Secondary" Icon="@Icons.Material.Filled.Layers" Value="@model.all_project.ToString()"/>
+            }
+            
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+              @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+               <ComDashboardKPI Title="New Customer (MTD)" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.Public" Value="@model.new_customer_mtd.ToString()"/>
+            }
+           
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+               @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+                <ComDashboardKPI Title="New Project MTD" color="@MudBlazor.Color.Warning" Icon="@Icons.Custom.Uncategorized.Radioactive" Value="@model.new_project_mtd.ToString()"/>
+            }
+           
+           
+       
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+                <ComDashboardKPI Title="Active Project" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Euro" Value="@model.active_project.ToString()"/>
+            }
+            
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+                <ComDashboardKPI Title="Today Expired" color="@MudBlazor.Color.Secondary" Icon="@Icons.Material.Filled.Layers" Value="@model.today_expired.ToString()"/>
+            }
+            
+            
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+              <ComDashboardKPI Title="This week Expired" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.Public" Value="@model.this_week_expired.ToString()"/>
+            }
+           
+       
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+             @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+                <ComDashboardKPI Title="This month Expired" color="@MudBlazor.Color.Warning" Icon="@Icons.Custom.Uncategorized.Radioactive" Value="@model.this_month_expired.ToString()"/>
+            }
+           
+            
+       
+        </MudItem>
+    </MudGrid>
+    @code{
+        public DashboardModel model { get; set; }
+        bool is_loading;
+        protected override async Task OnInitializedAsync()
+        {
+            
+            is_loading = true;
+           
+        
+            var res = await http.ApiPost("GetData",new FilterModel() { 
+                procedure_name= "sp_get_dashboard_data"
+            });
+            if (res.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<DashboardModel>(res.Content.ToString());
+            }
+            
+
+            is_loading = false;
+        }
+
+
+       public class DashboardModel
+        {
+            public int all_customer { get; set; }
+            public int all_project { get; set; }
+            public int new_customer_mtd { get; set; }
+            public int new_project_mtd { get; set; }
+            public int active_project { get; set; }
+            public int today_expired { get; set; }
+            public int this_week_expired { get; set; }
+            public int this_month_expired { get; set; }
+        }
+
+    }

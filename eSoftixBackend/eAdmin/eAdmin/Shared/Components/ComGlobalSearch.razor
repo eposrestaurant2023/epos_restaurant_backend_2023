@@ -1,5 +1,51 @@
-﻿<MudTextField @bind-Value="@keyword" Placeholder="Search" Variant="Variant.Outlined" Margin="Margin.Dense" 
-    AdornmentIcon="@Icons.Material.Outlined.Search"></MudTextField>
+﻿ <MudContainer MaxWidth="MaxWidth.Small">
+<MudAutocomplete Placeholder="Search" @bind-Value="choice1.State"
+             SearchFunc="@SearchAsync" Immediate="false" ResetValueOnEmptyText="true"
+             AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="MudBlazor.Color.Default"
+             For="@(() => choice1.State)" InputType="InputType.Text" Class="docs-search-bar" DisableUnderLine="true" FullWidth="false"/>
+</MudContainer>
+
 @code {
     public string keyword { get; set; }
+
+    private Choice choice1 = new();
+
+     private static string[] states =
+    {
+        "Alabama", "Alaska", "American Samoa", "Arizona",
+        "Arkansas", "California", "Colorado", "Connecticut",
+        "Delaware", "District of Columbia", "Federated States of Micronesia",
+        "Florida", "Georgia", "Guam", "Hawaii", "Idaho",
+        "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
+        "Louisiana", "Maine", "Marshall Islands", "Maryland",
+        "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+        "Missouri", "Montana", "Nebraska", "Nevada",
+        "New Hampshire", "New Jersey", "New Mexico", "New York",
+        "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio",
+        "Oklahoma", "Oregon", "Palau", "Pennsylvania", "Puerto Rico",
+        "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
+        "Texas", "Utah", "Vermont", "Virgin Island", "Virginia",
+        "Washington", "West Virginia", "Wisconsin", "Wyoming",
+    };
+
+     public class Choice
+    {
+        
+        public string State { get; set;}
+
+    }
+
+    private async Task<IEnumerable<string>> SearchAsync(string value)
+    {
+        // In real life use an asynchronous function for fetching data from an api.
+        await Task.Delay(5);
+
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+        {
+            return states;
+        }
+
+        return states.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
 }

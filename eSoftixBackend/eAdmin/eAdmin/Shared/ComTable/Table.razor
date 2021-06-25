@@ -6,7 +6,7 @@
     }
     
    
-        <MudSimpleTable Style="overflow-x: auto;">
+        <MudSimpleTable Style="overflow-x: auto;" Hover="true">
             <thead>
                 <tr>
                     @if (ShowCounter)
@@ -54,25 +54,39 @@
  
     @if (ShowPaging && Items.Count > 0)
     {
-      
-                    @if (ShowPager)
+      <MudGrid>
+          <MudItem xs="12" md="12">
+              <div class="d-flex py-2 px-1">
+              <div class="pa-2 mx-2 cus_class_select">
+                   @if (ShowPager)
                     {
                          <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
                     }
                     
                     @if (ShowTotalCount)
                     {
-                        <Column ClassName="uk-width-auto wrp-page-size-info">
+                        @*<Column ClassName="uk-width-auto wrp-page-size-info">
                             <PagerInfo TotalItem="TotalItem" CurrentPage="CurrentPage" PerPage="PerPage" />
-                        </Column>
+                        </Column>*@
                     }
+              </div>
+               <div class="pa-2" style="margin:0 auto;">
+                         @if (ShowPagination)
+                            {
+                            <ComTotalPager TotalRecord="@TotalItem" PerPage="@PerPage" CurrentPage="@CurrentPage" SelectedPage="@PageChange" IsVisible="@(totalPage > 1 && (PagerLocation == "Both" || PagerLocation == "Bottom"))" />
+                          }
+              </div>
+              </div>
                 
+          </MudItem>
+       
+
+      </MudGrid>
+                   
            
           
-            @if (ShowPagination)
-            {
-                <ComTotalPager TotalRecord="@TotalItem" PerPage="@PerPage" CurrentPage="@CurrentPage" SelectedPage="@PageChange" IsVisible="@(totalPage > 1 && (PagerLocation == "Both" || PagerLocation == "Bottom"))" />
-        }
+          
+       
              
        
     }

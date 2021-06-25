@@ -9,7 +9,7 @@ namespace eAdmin.Pages
 {
     public class Dashboard:PageCore
     {
-        public DashboardModel model { get; set; }
+    
         public List<DashboardChart> models { get; set; } = new List<DashboardChart>();
         public List<ProjectByProjectType> projects { get; set; } = new List<ProjectByProjectType>();
         public List<CustomerByCustomerGroup> customers { get; set; } = new List<CustomerByCustomerGroup>();
@@ -35,30 +35,12 @@ namespace eAdmin.Pages
             projects.Add(new ProjectByProjectType() { value = 25, label = "Type 2" });
             customers.Add(new CustomerByCustomerGroup() { value = 55, label = "Group 1" });
             customers.Add(new CustomerByCustomerGroup() { value = 15, label = "Group 2" });
-            var res = await http.ApiPost("GetData",new FilterModel() { 
-                procedure_name= "sp_get_dashboard_data"
-            });
-            if (res.IsSuccess)
-            {
-                model = JsonSerializer.Deserialize<DashboardModel>(res.Content.ToString());
-            }
-            
+             
 
             is_loading_data = false;
         }
     }
-    public class DashboardModel
-    {
-        public int all_customer { get; set; }
-        public int all_project { get; set; }
-        public int new_customer_mtd { get; set; }
-        public int new_project_mtd { get; set; }
-        public int active_project { get; set; }
-        public int today_expired { get; set; }
-        public int this_week_expired { get; set; }
-        public int this_month_expired { get; set; }
-    }
-
+  
     public class DashboardChart
     {
         public string label { get; set; }
