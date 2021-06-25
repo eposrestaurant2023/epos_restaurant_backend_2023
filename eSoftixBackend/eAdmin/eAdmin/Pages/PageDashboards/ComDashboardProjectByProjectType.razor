@@ -4,7 +4,8 @@
             <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
         }else
         {
-            <ApexChart TItem="ProjectByProjectType" Height="@("100%")" Width="@("100%")" Title="Project By Type"  ChartType="ApexCharts.ChartType.Pie">
+            <MudText>Project By Type</MudText>
+            <ApexChart TItem="ProjectByProjectType" Height="@("100%")" Width="@("100%")"  ChartType="ApexCharts.ChartType.Pie">
                 <ApexSeries TItem="ProjectByProjectType"
                     Items="models"
                     XValue="@(e => e.label)"

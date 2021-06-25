@@ -41,7 +41,7 @@ namespace eModels
 
         public bool is_closed { get; set; }
         public string closed_note { get; set; }
-
+        public string project_code { get; set; }
         public bool is_paid { get; set; }
         [Column(TypeName = "date")]
         public DateTime? paid_date { get; set; }

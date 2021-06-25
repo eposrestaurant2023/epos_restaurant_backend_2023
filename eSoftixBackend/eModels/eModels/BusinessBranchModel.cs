@@ -11,7 +11,7 @@ namespace eModels
         public BusinessBranchModel()
         {
             outlets = new List<OutletModel>();
-         stock_locations = new List<StockLocationModel>();
+            stock_locations = new List<StockLocationModel>();
             contacts = new List<ContactRelatedModel>();
         }
 
