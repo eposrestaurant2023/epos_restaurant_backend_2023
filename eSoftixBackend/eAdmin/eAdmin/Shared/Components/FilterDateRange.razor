@@ -1,0 +1,52 @@
+﻿@if (selected_date != null)
+{
+   
+    <MudCheckBox @bind-Checked="@selected_date.is_visible"></MudCheckBox>
+
+    @if (selected_date.is_visible)
+    {
+
+        @if (show_select_period)
+        {
+            <SelectDefaultPeroid @bind-SelectedValue="@selected_date"  InputLabel="Peroid Date" />
+
+        } 
+        if (dates.id == 8)
+        {
+             <MudDatePicker   Label="@label" @bind-Date="@selected_date.start_date" />
+           
+                <MudDatePicker Label="@label" @bind-Date="@selected_date.end_date" />
+
+        }
+
+    }
+
+}
+
+@code {
+    [Parameter] public DateRangeModel dates { get; set; } = new DateRangeModel(3);
+    [Parameter] public string label { get; set; } = "Date";
+    [Parameter] public EventCallback<DateRangeModel> datesChanged { get; set; }
+    [Parameter] public bool show_select_period { get; set; } = true;
+
+
+
+    private DateRangeModel _seleted_date;
+    public DateRangeModel selected_date
+    {
+        get
+        {
+            if (_seleted_date == null)
+            {
+                _seleted_date = dates;
+            }
+            return _seleted_date; ;
+        }
+        set
+        {
+            _seleted_date = value;
+
+            datesChanged.InvokeAsync(value);
+        }
+    }
+}

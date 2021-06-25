@@ -1,16 +1,41 @@
-﻿                <ApexChart TItem="ProjectByProjectType" Height="@("100%")" Width="@("100%")" Title="Project By Type"  ChartType="ApexCharts.ChartType.Pie">
-                    <ApexSeries TItem="ProjectByProjectType"
-                        Items="models"
-                        Name="Order Value"
-                        
-                        XValue="@(e => e.label)"
-                        YAggregate="@(e => e.Sum(e => e.value))"
-                        ShowDataLabels="true" />
+﻿@inject IHttpService http
+        @if (is_loading)
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+        }else
+        {
+            <ApexChart TItem="ProjectByProjectType" Height="@("100%")" Width="@("100%")" Title="Project By Type"  ChartType="ApexCharts.ChartType.Pie">
+                <ApexSeries TItem="ProjectByProjectType"
+                    Items="models"
+                    XValue="@(e => e.label)"
+                    YAggregate="@(e => e.Sum(e => e.value))"
+                    ShowDataLabels="true" />
+            </ApexChart>
+        }
+            
 
-                      
-                </ApexChart>
 
 @code {
-    [Parameter] public List<ProjectByProjectType> models { get; set; }
-   
+    bool is_loading = false;
+    List<ProjectByProjectType> models = new List<ProjectByProjectType>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var res = await http.ApiPost("GetData",new FilterModel(){
+            procedure_name = "sp_get_project_by_project_type"
+        });
+        if (res.IsSuccess)
+        {
+            models= JsonSerializer.Deserialize<List<ProjectByProjectType>>(res.Content.ToString());
+        }
+        is_loading= false;
+    }
+
+
+    class ProjectByProjectType
+    {
+        public string label { get; set; }
+        public decimal value { get; set; }
+    }
 }

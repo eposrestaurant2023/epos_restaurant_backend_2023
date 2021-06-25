@@ -205,4 +205,12 @@ namespace eModels
 
     }
 
+    [Table("tbl_month_text")]
+    public class MonthTextModel
+    {
+        [Key]
+        public int month_number { get; set; }
+        public string month_text { get; set; }
+    }
+
 }

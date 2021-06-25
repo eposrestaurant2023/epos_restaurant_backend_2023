@@ -75,6 +75,7 @@ namespace eAPI
         public DbSet<RequestLicenseModel> RequestLicenses{ get; set; }
         public DbSet<ProjectModel> Project { get; set; }
         public DbSet<ProjectTypeModel> ProjectType { get; set; }
+        public DbSet<MonthTextModel> MonthTexts{ get; set; }
 
          
 

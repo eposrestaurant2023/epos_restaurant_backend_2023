@@ -79,17 +79,17 @@ namespace eModels
                 DayOfWeek day = DateTime.Now.DayOfWeek;
                 int days = day - DayOfWeek.Monday;
                 start_date = DateTime.Now.AddDays(-days);
-                end_date = start_date.AddDays(6);
+                end_date = Convert.ToDateTime( start_date).AddDays(6);
             }
             else if (SelectedValue == 2) // 3 = last week
             {
                 start_date = DateTime.Now.AddDays(-(int)(DateTime.Now).DayOfWeek - 6);
-                end_date = start_date.AddDays(6);
+                end_date = Convert.ToDateTime(start_date).AddDays(6);
             }
             else if (SelectedValue == 3) //3 this month
             {
                 start_date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-                end_date = start_date.AddMonths(1).AddDays(-1);
+                end_date = Convert.ToDateTime(start_date).AddMonths(1).AddDays(-1);
             }
             else if (SelectedValue == 4) //4 Month To Date
             {
@@ -99,27 +99,27 @@ namespace eModels
             else if (SelectedValue == 5) // 5 last month
             {
                 start_date = (new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)).AddMonths(-1);
-                end_date = start_date.AddMonths(1).AddDays(-1);
+                end_date = Convert.ToDateTime(start_date).AddMonths(1).AddDays(-1);
             }
             else if (SelectedValue == 6) // 6 this year
             {
                 start_date = new DateTime(DateTime.Now.Year, 1, 1);
-                end_date = start_date.AddYears(1).AddDays(-1);
+                end_date = Convert.ToDateTime(start_date).AddYears(1).AddDays(-1);
             }
             else if (SelectedValue == 7) // Year To Date
             {
                 start_date = new DateTime(DateTime.Now.Year, 1, 1).AddYears(-1);
-                end_date = start_date.AddYears(1).AddDays(-1);
+                end_date = Convert.ToDateTime(start_date).AddYears(1).AddDays(-1);
             }
             else if (SelectedValue == 8)
             {
                 start_date = DateTime.Now;
                 end_date = DateTime.Now;
             }
-            is_visible = true;
+           
         }
-        public DateTime start_date { get; set; }
-        public DateTime end_date { get; set; }
+        public DateTime? start_date { get; set; }
+        public DateTime? end_date { get; set; }
 
         public bool is_visible { get; set; }
 

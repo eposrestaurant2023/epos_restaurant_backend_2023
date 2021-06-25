@@ -1,5 +1,5 @@
 ﻿
-<MudSelect Value="@PerPage" @onchange="@SelectChange" DisableUnderLine="true" Variant="Variant.Filled" Direction="Direction.Top">
+<MudSelect T="int" Value="@PerPage" ValueChanged="@SelectChange" DisableUnderLine="true" Variant="Variant.Filled" Direction="Direction.Top">
     <MudSelectItem Value="5">5</MudSelectItem>
     <MudSelectItem Value="10">10</MudSelectItem>
     <MudSelectItem Value="25">25</MudSelectItem>
@@ -14,8 +14,8 @@
     [Parameter]
     public EventCallback<int> OnChange { get; set; }
 
-    async Task SelectChange(ChangeEventArgs e)
+    async Task SelectChange(int n)
     {
-        await OnChange.InvokeAsync(Convert.ToInt32(e.Value));
+        await OnChange.InvokeAsync(n);
     }
 }
