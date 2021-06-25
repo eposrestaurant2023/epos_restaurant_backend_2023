@@ -39,11 +39,6 @@
                                 }
                             }
                             <Spacing Number="16" />
-                            @*<div class="uk-margin-small-bottom">@lang["Base Exchange Rate Currency"] : <span class="uk-text-bold">@base_exchange_rate_currency.currency_name_en</span></div>
-        @foreach (var b in models.Where(m => m.business_branch_id == r.id && m.currency_id != base_exchange_rate_currency.id).ToList())
-         {
-             <NumberInput label="@b.currency?.currency_name_en" @bind-text="@b.change_exchange_rate_input" />
-         }*@
                         </ContentFull>
                     </UISummaryBox>
                 }
