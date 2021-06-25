@@ -2,7 +2,7 @@
 
 <MudDialog @bind-IsVisible="ShowCamara">
     <DialogContent>
-        <div style="text-transform: uppercase; font-weight: 600;"><Icon icon="photo_camera" /><span>Capture Image</span></div>
+        <div style="text-transform: uppercase; font-weight: 600;"><MudIcon Icon="@Icons.Outlined.Camera" /><span>Capture Image</span></div>
         <hr />
         <div id="video" style="width: 100% !important; display: @(showImageCapture ?"none":"normal")"></div>
         @if (showImageCapture) {
@@ -19,7 +19,7 @@
                 <MudButton StartIcon="@Icons.Outlined.PhotoCamera" OnClick="@(() => showImageCapture = false)">Take Photo</MudButton>
             }
             <MudButton StartIcon="@Icons.Outlined.Done" OnClick="OnSave">Accpet</MudButton>
-            <MudButton StartIcon="@Icons.Outlined.Reply" OnClick="OnCloseCamara" Color="Color.Error">Cancel</MudButton>
+            <MudButton StartIcon="@Icons.Outlined.Reply" OnClick="OnCloseCamara" Color="MudBlazor.Color.Error">Cancel</MudButton>
         </div>
     </DialogActions>
 </MudDialog>
