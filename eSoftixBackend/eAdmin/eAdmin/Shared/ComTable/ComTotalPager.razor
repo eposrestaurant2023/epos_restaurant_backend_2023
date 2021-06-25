@@ -2,20 +2,19 @@
 @if (IsVisible)
     {
             <div class="wrp-pagging-info">
-                <MudButtonGroup Color="MudBlazor.Color.Primary" Variant="Variant.Filled">
                     @foreach (var link in links)
                     {
                         <MudButton  @onclick="@(() => SelectedPageInternal(link))"
                         Style="cursor: pointer;"
-                        Class="page-item">
+                        Class="page-item" Variant="Variant.Filled" >
                         <a class="page-link @link.Text">@link.Text</a>
                     </MudButton>
                 }
-            </MudButtonGroup>
+          
  </div>
     }
  
-@code { 
+@code {
     [Parameter] public int CurrentPage { get; set; } = 1;
     [Parameter] public decimal PerPage { get; set; } = 10;
     [Parameter] public decimal TotalRecord { get; set; }
@@ -24,7 +23,6 @@
 
     [Parameter] public EventCallback<int> SelectedPage { get; set; }
     List<LinkModel> links;
-
     int total_page = 0;
     protected override void OnParametersSet()
     {
@@ -52,12 +50,14 @@
         await SelectedPage.InvokeAsync(link.Page);
     }
 
+     
+
     private void LoadPages()
     {
         links = new List<LinkModel>();
         var isPreviousPageLinkEnabled = CurrentPage != 1;
         var previousPage = CurrentPage - 1;
-        links.Add(new LinkModel(previousPage, isPreviousPageLinkEnabled, "Prev"));
+        links.Add(new LinkModel(previousPage, isPreviousPageLinkEnabled,"Prve"));
 
         for (int i = 1; i <= total_page; i++)
         {

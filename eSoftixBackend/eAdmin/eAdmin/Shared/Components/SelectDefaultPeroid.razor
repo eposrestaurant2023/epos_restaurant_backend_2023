@@ -1,0 +1,60 @@
+﻿ 
+     <MudSelect Label="@InputLabel" Value="@SelectedValue.id"  T="int" ValueChanged="@((id) => SelectedValueChange(id))"   AdornmentColor="MudBlazor.Color.Primary">
+           
+            @foreach (var f in filter_option_model)
+            {
+                <MudSelectItem Value="@f.id">@f.name_en</MudSelectItem>
+            }
+        </MudSelect>
+ 
+   
+
+     
+@code{
+    [Parameter] public string InputLabel { get; set; } = "";
+    Guid id = Guid.NewGuid();
+     
+    List<FilterOptionModel> filter_option_model = new List<FilterOptionModel>()
+    {
+        new FilterOptionModel{ id = 0, name_en = "Today",},
+        new FilterOptionModel{ id = 1,name_en = "This Week",},
+        new FilterOptionModel{ id = 2,name_en = "Last Week",},
+        new FilterOptionModel{ id = 3,name_en = "This Month",},
+        new FilterOptionModel{ id = 4,name_en = "Month To Date",},
+        new FilterOptionModel{ id = 5, name_en = "Last Month",},
+        new FilterOptionModel{ id = 6, name_en = "This Year",},
+        new FilterOptionModel{ id = 7, name_en = "Last Year",},
+        new FilterOptionModel{ id = 8, name_en = "Custom",},
+    };
+
+    [Parameter] public EventCallback<int> SelectedIdChanged { get; set; }
+    [Parameter] public DateRangeModel SelectedValue { get; set; }
+
+    [Parameter] public EventCallback<DateRangeModel> SelectedValueChanged { get; set; }
+
+
+    private async Task SelectedValueChange(int n)
+    {
+      
+        if (SelectedValue != null)
+        {
+            DateRangeModel d =  new DateRangeModel(n);
+            SelectedValue.start_date = d.start_date;
+            SelectedValue.end_date = d.end_date;
+        }
+        else {
+            SelectedValue = new DateRangeModel(n);
+
+        }
+        SelectedValue.id = Convert.ToInt32(n);
+
+        await SelectedValueChanged.InvokeAsync(SelectedValue);
+    }
+
+    public class FilterOptionModel
+    {
+        public int id { get; set; }
+        public string name_kh { get; set; }
+        public string name_en { get; set; }
+    }
+}

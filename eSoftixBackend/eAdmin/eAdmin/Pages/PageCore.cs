@@ -37,8 +37,6 @@ namespace eAdmin.Pages
 
         public StateModel state = new StateModel();
 
- 
-     
 
         public string GetFilterValue1(List<FilterModel> filters, string _key, string default_value = "")
         {
@@ -198,9 +196,14 @@ namespace eAdmin.Pages
 
         public void RemoveFilter(StateModel state, string key)
         {
+           
+
             switch (key)
             {
 
+                case "date_range":
+                    state.date_range = new DateRangeModel(3);
+                    break;
 
                 case "customer_group":
                     state.customer_group = new CustomerGroupModel();

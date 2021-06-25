@@ -89,6 +89,35 @@ namespace eAdmin
         }
 
 
+        private string get_setting_value(int id)
+        {
+            return gv.settings.Where(r => r.id == id).FirstOrDefault()?.setting_value;
+        }
+        public string date_format
+        {
+            get
+            {
+                return get_setting_value(53);
+            }
+        }
+        public string date_time_format
+        {
+            get
+            {
+                return get_setting_value(54);
+            }
+        }
+
+        public string quantity_format
+        {
+            get
+            {
+                return get_setting_value(52);
+            }
+
+        }
+
+
         public MudTheme defaultTheme = new MudTheme()
         {Palette = new Palette()
         {Primary = Colors.Blue.Default, Secondary = Colors.Green.Accent4, AppbarBackground = Colors.Red.Default, }, };
