@@ -69,13 +69,22 @@ namespace eModels
 
         [Column(TypeName = "date")]
         public DateTime date_of_birth { get; set; } = DateTime.Now.AddYears(-18);
+         [Column(TypeName = "date")]
+        public DateTime expired_date { get; set; }
+
+        public decimal current_balance { get; set; }
+        public int total_project { get; set; } = 0;
+        public int pending_project { get; set; } = 0;
 
         public string note { get; set; }
         public string telegram { get; set; }
+
+
         [ValidateComplexType]
         public List<ProjectModel> projects { get; set; }
         [ValidateComplexType]
         public List<ContactRelatedModel> contacts { get; set; }
+
 
     }
 }

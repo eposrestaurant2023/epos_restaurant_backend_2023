@@ -215,6 +215,36 @@ namespace eAdmin.Pages.PageCustomers
         public async Task FilterClick()
         {
             state.filters.RemoveAll(r => r.filter_info_text != "");
+
+            if (state.date_range.is_visible)
+            {
+                state.filters.Add(
+                    new FilterModel()
+                    {
+                        key = "created_date",
+                        value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
+                        filter_title = "Register Date",
+                        filter_info_text = Convert.ToDateTime( state.date_range.start_date).ToString(gv.date_format) + " - " + Convert.ToDateTime(state.date_range.end_date).ToString(gv.date_format),
+                        filter_operator = "Ge",
+                        is_clear_all = true,
+                        will_remove = true,
+                        state_property_name = "date_range"
+                    }
+                );
+
+                //end date
+                state.filters.Add(new FilterModel()
+                {
+                    key = "created_date",
+                    value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
+                    is_clear_all = true,
+                    filter_operator = "Le",
+                    will_remove = true,
+                    state_property_name = "date_range"
+                });
+            }
+
+
             if (state.customer_group != null && state.customer_group.id > 0)
             {
                 state.filters.Add(new FilterModel()
