@@ -8,8 +8,8 @@
     <PageBody>
         @if (!is_loading) { 
         <UICenter>
-            <UIPanel Title="Customer Photo" IconName="@Icons.Outlined.Photo">
-                
+            <UIPanel  IconName="@Icons.Outlined.Photo">
+                <ProfileImage ImageUrl="@http.ImageUrl(customer.photo)"/>
             </UIPanel>
             <UIPanel Title="Customer Contact" IconName="@Icons.Outlined.Person">
                 <UIPanelHeaderRight>
