@@ -7,11 +7,9 @@
     <PageHeader title="Dashboard"/>
     <PageBody>
         @if (!is_loading) { 
-        <ComAttachFileButton 
-            ApiFilter="@($"customer_id eq {customer.id} ")"
-            File="@file"
-            IsVisible="@(!customer.is_deleted)"
-            />
+            <UICenter>
+                
+            </UICenter>
         }
     </PageBody>
 </PageContainer>
