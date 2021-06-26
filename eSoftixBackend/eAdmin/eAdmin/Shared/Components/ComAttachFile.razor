@@ -52,40 +52,18 @@
         @foreach (var f in AttachFiles.Where(r => r.is_deleted == false).OrderByDescending(r => r.created_date))
 
         {
-            <div>
-                <div style="background-image : url(@image_url(f.file_name))" class=""></div>
-            </div>
-            <div>
-                <div>
-                    @if (f.file_extension == ".jpg" || f.file_extension == ".png" || f.file_extension == ".jpeg")
-                    {
-                        <div uk-lightbox="toggle: img">
-
-                            <img src="@image_url(f.file_name)" alt="@f.file_name" class="uk-image" href="@image_url(f.file_name)" />
-
-                        </div>
-
-                    }
-                    else if (f.file_extension == ".docx")
-                    {
+            <div class="list_attachment_item d-flex">
+                <div class="attachment_header">
+                    @if (f.file_extension == ".jpg" || f.file_extension == ".png" || f.file_extension == ".jpeg"){
+                        <div style="background-image : url(@image_url(f.file_name))" class="bg_attachfile"></div>
+                    }else if(f.file_extension == ".docx" || f.file_extension == ".xlsx" || f.file_extension == ".pdf"){
                         <a target="_blank" href="Upload/@f.file_name">
-                            <img src="@image_url("doc.png")" class="uk-image" width="70" />
-                        </a>
-                    }
-                    else if (f.file_extension == ".xlsx" || f.file_extension == ".xls")
-                    {
-                        <a target="_blank" href="Upload/@f.file_name">
-                            <img src="@image_url("xls.png")" class="uk-image" width="70" />
-                        </a>
-                    }
-                    else if (f.file_extension == ".pdf")
-                    {
-                        <a target="_blank" href="Upload/@f.file_name">
-                            <img src="@image_url("pdf.png")" class="uk-image" width="70" />
+                            <img src="@image_url($"{f.file_extension.Replace(".","")}.png")" class="uk-image" width="70" />
                         </a>
                     }
                 </div>
-                <div>
+                <div class="attachement_footer">
+                    <div>
                     @if (!IsReadOnly)
                     {
                         @if (!f.is_editing)
@@ -137,6 +115,7 @@
                     }
                 </div>
             </div>
+         </div>
 
         }
     }
