@@ -1,0 +1,59 @@
+﻿@*<UISummaryBox ImageUrl="@model.photo" >
+    <ContentLeft>
+        <table>
+            <tr>
+                <th>Customer</th>
+                <td>@model.customer_code_name</td>
+            </tr>
+            <tr>
+                <th>Customer (Kh)</th>
+                <td>@model.customer_name_kh</td>
+            </tr>
+            <tr>
+                <th>Customer Group</th>
+                <td>@model.customer_group?.customer_group_name_en</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>@model.gender</td>
+            </tr>
+
+        </table>
+    </ContentLeft>
+    <ContentRight>
+        <table>
+
+            <tr>
+                <th>Phone Number</th>
+                <td>@model.phone_1</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+                <td>
+                    <LabelActive is_visible="@model.status" />
+                    <LabelInActive is_visible="@(!model.status)" />
+                </td>
+            </tr>
+        </table>
+        @if (show_link_to_detail || show_select_customer)
+        {
+        <div class="uk-margin-small-top uk-text-right">
+                <LinkButton url="@($"customer/{model.id}")" is_visible="@show_link_to_detail" icon="visibility" Class_Name="btn-small uk-width-expand uk-margin-small uk-padding-margin-horizontal" target="_blank">View</LinkButton>
+            
+                <Button OnClick="@(async () => await OnSelectCustomer.InvokeAsync(model))" is_visible="show_select_customer" icon="check_circle_outline" custom_class="btn-small uk-width-expand uk-margin-small uk-margin-remove-horizontal">Select</Button>
+          
+        </div>
+        }
+    </ContentRight>
+</UISummaryBox>
+
+@code{
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter]   public CustomerModel model { get; set; }
+    [Parameter] public bool show_link_to_detail { get; set; } = true;
+    [Parameter] public bool show_select_customer { get; set; } = true;
+    [Parameter] public EventCallback<CustomerModel>  OnSelectCustomer{ get; set; }
+
+}*@

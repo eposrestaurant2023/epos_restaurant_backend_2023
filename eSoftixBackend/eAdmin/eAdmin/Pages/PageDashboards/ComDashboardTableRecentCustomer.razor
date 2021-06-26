@@ -1,5 +1,12 @@
-﻿@*@using Microsoft.Extensions.Configuration
+﻿@using Microsoft.Extensions.Configuration
 @inherits PageCore
+
+@{
+    RenderFragment HeaderTemplate(string display_name, string ClassName = "") =>
+    @<Th ClassName="@($"{ClassName}")"> @display_name</Th>;
+}
+
+
 @if(!is_loading){
     <MudItem xs="12" sm="12" md="12">
     <MudCard Elevation="25" Style="height:100%;">
@@ -7,62 +14,50 @@
             <MudSimpleTable Elevation="0" Hover="true">
                   <Table Items="@models"
                 PerPage="25"
+                CurrentPage="1"
                 isLoading="@is_loading_data"
                 ShowPager="true"
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-               <ThAuto></ThAuto>
-               <ThAuto></ThAuto>
+                @HeaderTemplate("Customer")
+                @HeaderTemplate("Customer Group")
+                <Th>Phone</Th>
+                @HeaderTemplate("Company")
+                @HeaderTemplate("Current Balance","col-center")
             </TableHeader>
             <RowTemplate Context="s">
-                <TdCenter>
-                <div style="display:flex;">
-                    <MudAvatar Image="_content/MudBlazor.Docs/images/mony.png" />
-                    <MudAvatar Image="@(config.GetValue<string>("apiBaseUrl") + $"/upload/{s.photo}")" Size="Size.Large">
-                        
-                    </MudAvatar>
-                <div style="padding-left:6px">
-                    <AuthView roles="project_view" url="@($"customer/{s.id}")">
-                        <MudText Typo="Typo.body1">@s.customer_code - @s.customer_name_en</MudText>
-                    </AuthView>
-                </div>
-                
-                </div>
-
-                    
-                </TdCenter>
+                <td>
+                    <div style="display:flex;">
+                        <MudAvatar Image="@(config.GetValue<string>("BaseUrl") + $"upload/{s.photo}")" Size="Size.Large">
+                        </MudAvatar>
+                        <div style="padding-left:6px">
+                            <AuthView roles="customer_view" url="@($"customer/{s.id}")">
+                                <MudText Typo="Typo.body1">@s.customer_code - @s.customer_name_en</MudText>
+                            </AuthView>
+                                <MudText Typo="Typo.caption">@s.company_name</MudText>
+                        </div>
+                    </div>
+                </td>
                 <td>
                     <div>
                         <MudText Typo="Typo.body1">
-                            <AuthView roles="@gv.GetRole("customer_view")" url="@($"customer/{s.outlet?.business_branch?.Project?.customer_id}")">@s.outlet?.business_branch?.Project?.customer.customer_name_en <br /> @s.outlet?.business_branch?.Project?.customer.customer_code
-                            </AuthView>
+                           @s.customer_group.customer_group_name_en
                         </MudText>
-                        
                     </div>
                 </td>
-
                 <td>
-                    <MudText Typo="Typo.body1">@s.outlet.business_branch.Project.customer.phone_1 </MudText>
-                    <br/>
-                    <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.customer?.phone_2</MudText>
-                </td>
-                <td>
-                    <MudText Typo="Typo.body1">@s.outlet?.business_branch?.business_branch_name_en</MudText>
-                     <br />
-                    <MudText Typo="Typo.caption">@s.outlet?.outlet_name_en</MudText>
-                </td>
-                <td>
-                <MudText Typo="Typo.body1">@s.station_name_en</MudText>
-                    
+                    <MudText Typo="Typo.body1">
+                        @s.phone_1 <br/>
+                        @s.phone_2
+                    </MudText>
                 </td>
                 <TdCenter>
-                    <MudText Typo="Typo.body1">@s.expired_date.ToString("dd-MM-yyyy") 
-                        <MudChip Color="MudBlazor.Color.Warning" Label="true" Size="Size.Small">
-                            @(Math.Ceiling((s.expired_date - DateTime.Now).TotalDays))
-                       </MudChip>
-                   </MudText>
-                   
+                    <MudText Typo="Typo.body1">@s.company_name</MudText>
+                    
+                </TdCenter>
+                <TdCenter>
+                    <MudText Typo="Typo.body1">@s.current_balance.ToString("C2")</MudText>
                 </TdCenter>
             </RowTemplate>
         </Table>
@@ -71,14 +66,24 @@
     </MudCard>
 </MudItem>
 }else{
-    <MudSkeleton Animation="Animation.Wave" />
+    <MudSkeleton Animation="Animation.Wave" /> 
+   <MudSkeleton Animation="Animation.Wave" /> 
+   <MudSkeleton Animation="Animation.Wave" /> 
+   <MudSkeleton Animation="Animation.Wave" /> 
+   <MudSkeleton Animation="Animation.Wave" /> 
 }
 @code{
-    bool is_loading;
     public List<CustomerModel> models = new List<CustomerModel>();
     protected override async Task OnInitializedAsync()
     {
-        var res = await http.ApiGetOData("customer?$select=id,customer_name_en,customer_name_kh,customer_code,phone_1,phone_2,company_name_kh,photo,total_project&$expand=customer_group($select=customer_group_name_en,customer_group_name_kh)&$top=25&orderby=created_date desc");
-        models =J sonSerializer.Deserialize<List<CustomerModel>>(res.Content.ToString());
+        is_loading=true;
+
+       await LoadData();
+        is_loading=false;
     }
-}*@
+    async Task LoadData(){
+         var res = await http.ApiGetOData("customer?$select=id,customer_name_en,company_name,customer_name_kh,customer_code,phone_1,phone_2,company_name_kh,photo,total_project&$expand=customer_group($select=customer_group_name_en,customer_group_name_kh)&$top=25&orderby=created_date desc");
+        models = JsonSerializer.Deserialize<List<CustomerModel>>(res.Content.ToString());
+        
+    }
+}
