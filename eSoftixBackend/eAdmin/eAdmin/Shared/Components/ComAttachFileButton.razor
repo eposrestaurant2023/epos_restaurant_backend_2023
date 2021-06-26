@@ -3,13 +3,25 @@
 
 @if(IsVisible){
     @if (is_loading)
-    {
-        <MudButton StartIcon="@Icons.Outlined.AttachFile" title="Attach File" ><Spinner /></MudButton>
+    { 
+        <MudButton 
+            StartIcon="@Icons.Outlined.AttachFile"
+            Variant="Variant.Outlined"
+            Color="MudBlazor.Color.Primary"
+            >
+            <Spinner />
+        </MudButton>
     }
     else
     {
-        <MudButton StartIcon="@Icons.Outlined.AttachFile" title="Attach File" OnClick="OpenDrawer">(@files.Where(r => r.is_deleted == false).Count())</MudButton>
-    
+         <MudButton 
+            StartIcon="@Icons.Outlined.AttachFile"
+            Variant="Variant.Filled"
+            Color="MudBlazor.Color.Primary"
+            OnClick="OpenDrawer"
+            >
+            (@files.Where(r => r.is_deleted == false).Count())
+        </MudButton>
         <MudDrawer @bind-Open="@IsOpenDrawer" Anchor="Anchor.End" Width="300px" Elevation="1" Variant="@DrawerVariant.Temporary">
             <ComAttachFile RoleAdd="@RoleAdd"
                                RoleEdit="@RoleEdit"
