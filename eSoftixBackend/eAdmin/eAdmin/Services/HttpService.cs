@@ -42,7 +42,7 @@ namespace eAdmin.Services
         public string ImageUrl(string image_path)
         {
             image_path = $"{(string.IsNullOrEmpty(image_path) ? "placeholder.png" : image_path)}";
-            return $"{_configuration.GetValue<string>("BaseUrl")}upload/{image_path}";
+            return $"{_configuration.GetValue<string>("BaseUrl")}Upload/{image_path}";
         }
 
         public async Task<GetResponse> ApiGet(string url)
