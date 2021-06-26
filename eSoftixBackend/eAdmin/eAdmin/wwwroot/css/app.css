@@ -1,4 +1,4 @@
-* {
+        * {
     word-wrap: break-word;
 }
 .edit_profile_image {
@@ -148,3 +148,49 @@ a.disabled, a.disabled:hover {
 .uk-image {
     max-width: 100%;
 }
+
+.Cust_padding .mud-drawer-content {
+    padding: 25px;
+}
+    .Cust_padding .mud-drawer-content .mud-drawer-header {
+        display: flex;
+        min-height: var(--mud-appbar-min-height);
+        padding: 0px !important;
+    }
+
+    .mud-drawer-content .mud-select {
+        display: flex;
+        flex-grow: 0 !important;
+        position: relative;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+.mud-drawer-content .mud-select .mud-input-control  {
+    width: 100% !important;
+}
+
+.mud-drawer-content .mud-picker .mud-input-control {
+    width: 100% !important;
+}
+
+.mud-drawer-content .mud-picker-inline {
+    display: flex;
+    flex: 0 !important;
+    position: relative;
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+    .mud-drawer-content .mud-input-control {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex: unset !important;
+        max-width: 100%;
+        position: relative;
+        flex-direction: column;
+        vertical-align: top;
+        margin-top: 6px;
+    }
+

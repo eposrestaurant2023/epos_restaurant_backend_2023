@@ -15,13 +15,14 @@
             <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
         </Filter>
         <Right>
-            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+           
+            <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                 <FilterDateRange @bind-dates="@state.date_range"  />
+                <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
+            </ComSearch>
+             <MudHidden Breakpoint="Breakpoint.SmAndDown">
                 <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
              </MudHidden>
-            <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-               <FilterDateRange @bind-dates="@state.date_range"  />
-               <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
-            </ComSearch>
           
         </Right>
     </PageHeader>

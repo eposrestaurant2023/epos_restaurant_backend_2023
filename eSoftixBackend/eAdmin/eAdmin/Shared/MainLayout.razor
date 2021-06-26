@@ -34,6 +34,12 @@ if(state.is_logined ){
              <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="MudBlazor.Color.Inherit" Edge="Edge.End" OnClick="@ToggleDrawer_modile" />
         </MudHidden>
     </MudAppBar>
+
+  
+
+
+
+
     <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
         <NavMenu />
     </MudDrawer>
@@ -48,6 +54,7 @@ if(state.is_logined ){
                     </MudListItem>
                
                 </MudList>
+              
             <MudNavMenu>
                <MudNavGroup Title="Quick Add" Icon="@Icons.Material.Outlined.Add" Expanded="true">
                 <MudNavLink Href="/users" Icon="@Icons.Material.Filled.Person" IconColor="MudBlazor.Color.Default">New Customer</MudNavLink>
@@ -64,7 +71,7 @@ if(state.is_logined ){
             </MudButton>
           </div>
         </MudDrawer>
-    <MudMainContent>
+    <MudMainContent Class="mb-8 pb-8">
        
             @Body
         

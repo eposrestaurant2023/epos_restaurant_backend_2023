@@ -43,6 +43,30 @@ namespace eAPI.Controllers
                 return new List<eSoftixBackend.BusinessBranchModel>();
 
             }
+        } 
+        public List<eSoftixBackend.OutletModel> esoftix_outlets
+        {
+            get
+            {
+                if (project != null)
+                {
+                    return project.business_branches.SelectMany(r=>r.outlets).ToList();
+                }
+                return new List<eSoftixBackend.OutletModel>();
+
+            }
+        }
+              public List<eSoftixBackend.StationModel> esoftix_stations
+        {
+            get
+            {
+                if (project != null)
+                {
+                    return project.business_branches.SelectMany(r=>r.outlets).ToList().SelectMany(r => r.stations).ToList();
+                }
+                return new List<eSoftixBackend.StationModel>();
+
+            }
         }
 
 
@@ -61,9 +85,14 @@ namespace eAPI.Controllers
             {
                 project = JsonSerializer.Deserialize<eSoftixBackend.ProjectModel>(resp.Content.ToString());
 
-                //check station
+                //check branch
                 CheckBranch();
 
+                //Check Outlet 
+                CheckOutlet();
+
+                //check sttion
+                CheckStation();
                 return true;
             } 
              
@@ -121,8 +150,100 @@ namespace eAPI.Controllers
 
             //end mapping field
         }
+        /// <summary>
+        /// Check for Outlet Update 
+        /// </summary>
+        void CheckOutlet()
+        {
+            //get branch from local db
+            var outlets= db.Outlets;
+            foreach (var remote_outlet in esoftix_outlets)
+            {
+                OutletModel local_outlet = new  OutletModel();
+                if (outlets.Where(r => r.id == remote_outlet.id).Any())
+                {
+
+                    local_outlet = outlets.Where(r => r.id == remote_outlet.id).FirstOrDefault();
+                    MapOutletField(remote_outlet, local_outlet);
+                    
+                }
+                else
+                {
+                    MapOutletField(remote_outlet, local_outlet);
+                    outlets.Add(local_outlet);
+                }
+            }
+
+            db.UpdateRange(outlets);
+
+            db.SaveChanges();
+
+        }
+
+        void MapOutletField(eSoftixBackend.OutletModel remote_outlet, OutletModel local_outlet)
+        {
+            //mapping field
+            local_outlet.id = remote_outlet.id;
+            local_outlet.business_branch_id = remote_outlet.business_branch_id;
+            local_outlet.outlet_name_en = remote_outlet.outlet_name_en;
+            local_outlet.outlet_name_kh = remote_outlet.outlet_name_kh;
+            local_outlet.created_by = remote_outlet.created_by;
+            local_outlet.created_date = remote_outlet.created_date;
+            local_outlet.is_deleted = remote_outlet.is_deleted;
+            local_outlet.deleted_by = remote_outlet.deleted_by;
+            local_outlet.deleted_date = remote_outlet.deleted_date;
+            local_outlet.status = remote_outlet.status;
+
+            //end mapping field
+        }
 
 
+        /// <summary>
+        /// Check for station  Update 
+        /// </summary>
+        void CheckStation()
+        {
+            //get branch from local db
+            var stations = db.Stations;
+            foreach (var remote_station in esoftix_stations)
+            {
+                StationModel local_station = new StationModel();
+                if (stations.Where(r => r.id == remote_station.id).Any())
+                {
+
+                    local_station = stations.Where(r => r.id == remote_station.id).FirstOrDefault();
+                    MapStationField(remote_station, local_station);
+
+                }
+                else
+                {
+                    MapStationField(remote_station, local_station);
+                    stations.Add(local_station);
+                }
+            }
+
+            db.Stations.UpdateRange(stations);
+
+            db.SaveChanges();
+
+        }
+
+        void MapStationField(eSoftixBackend.StationModel remote, StationModel local)
+        {
+            local.id = remote.id;
+            local.station_name_en = remote.station_name_en;
+            local.station_name_kh = remote.station_name_kh;
+            //local.is_already_config = remote.is_already_config;
+            local.created_by = remote.created_by;
+            local.created_date = remote.created_date;
+            local.is_deleted = remote.is_deleted;
+            local.deleted_by = remote.deleted_by;
+            local.deleted_date = remote.deleted_date;
+            local.status = remote.status;
+            local.outlet_id = remote.outlet_id;
+            local.is_full_license = remote.is_full_license;
+            local.expired_date = remote.expired_date;
+        }
 
     }
 }

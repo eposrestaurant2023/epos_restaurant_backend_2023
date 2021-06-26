@@ -45,7 +45,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 is_error = true;
                 error_text = lang["This Stock Transfer is already fulfilled"];
             }
-
+            is_loading = false;
         }
         public void OnSearchProduct(SelectedProductModel sp)
         {
