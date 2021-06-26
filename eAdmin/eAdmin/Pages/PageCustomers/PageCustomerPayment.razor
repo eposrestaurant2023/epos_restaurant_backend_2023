@@ -17,6 +17,53 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <div>
+                <h3 class="title uk-display-inline-block">
+                    <span class="title">@lang["Apply All"]</span>
+                </h3>
+                <Grid ClassName="uk-grid-small uk-grid-divider uk-child-width-1-2">
+                    <div>
+                        <div class="uk-form-horizontal">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Select"]</label>
+                                <div class="uk-form-controls">
+                                    <ComInputCheckBox @bind-value="@select_all" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="uk-form-horizontal">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
+                                <div class="uk-form-controls">
+                                    <TextInput @bind-text="@reference_number" placeholder="@lang["Referance Number"]" />
+                                </div>
+                            </div>
+                        </div>
+                        <DateInput label="@lang["Payment Date"]" @bind-value="@payment_date" icon="layers" />
+                    </div>
+                    <div>
+                        <div class="section-content">
+                            <div class="uk-form-horizontal">
+                                <div class="uk-margin-small">
+                                    <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Payment Type"]</label>
+                                    <div class="uk-form-controls">
+                                        <SelectPaymentType @bind-selected_value="@payment_type_id" is_inline="true" />
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="uk-form-horizontal">
+                                <div class="uk-margin-small">
+                                    <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Payment Note"]</label>
+                                    <div class="uk-form-controls">
+                                        <TextInput @bind-text="@payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" is_height_auto="false"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Grid>
+            </div>
             <hr />
             <section class="wrp-sale-invoice-body">
                 <h3 class="title uk-display-inline-block">
@@ -36,6 +83,9 @@
                                EmptyText="There's no record in the system">
                             <TableHeader>
                                 <ThCenter>
+                                    @lang["Select"]
+                                </ThCenter>
+                                <ThCenter>
                                     <div>@lang["Document #"]</div>
                                     <div class="sub-header-table">@lang["Date"]</div>
                                 </ThCenter>
@@ -54,6 +104,9 @@
                                 <th class="uk-width-auto"></th>
                             </TableHeader>
                             <RowTemplate Context="p">
+                                <TdCenter ClassName="uk-flex-center">
+                                    <ComInputCheckBox @bind-value="@p.is_selected" />
+                                </TdCenter>
                                 <TdCenter>
                                     <div>
                                         <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/{p.sale.id}")">@p.sale.document_number</ComAuthorize>
@@ -80,22 +133,21 @@
                                     @p.sale.balance.ToString(gv.main_currency_format)
                                 </TdRight>
                                 <td>
-                                    <TextInput @bind-text="@p.sale_payment.reference_number" width="120px"/>
+                                    <TextInput @bind-text="@p.sale_payment.reference_number" width="120px" is_read_only="@(!p.is_selected)" />
                                 </td>
                                 <td>
-                                    <DateInput @bind-Value="@p.sale_payment.payment_date" is_inline="true" />
+                                    <DateInput @bind-Value="@p.sale_payment.payment_date" is_inline="true" is_read_only="@(!p.is_selected)" />
                                 </td>
                                 <td>
-                                    <SelectPaymentType @bind-selected_value="@p.sale_payment.payment_type_id" payment_type="@p.sale_payment.payment_type" is_inline="true" width="w-150" />
+                                    <SelectPaymentType @bind-selected_value="@p.sale_payment.payment_type_id" payment_type="@p.sale_payment.payment_type" is_inline="true" width="w-150" is_read_only="@(!p.is_selected)" />
                                 </td>
                                 <td>
-                                    <NumberInput @bind-text="@p.sale_payment.payment_amount" />
+                                    <NumberInput @bind-text="@p.sale_payment.payment_amount" is_read_only="@(!p.is_selected)" />
                                 </td>
                                 <td>
-                                    <TextInput @bind-text="@p.sale_payment.payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" />
+                                    <TextInput @bind-text="@p.sale_payment.payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" row="2" is_read_only="@(!p.is_selected)" is_height_auto="false"/>
                                 </td>
                                 <TdCenter>
-                                    @*<ComInputCheckBox valueChanged=""/>*@
                                     <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale.id}"))" />
                                 </TdCenter>
                             </RowTemplate>
@@ -114,6 +166,71 @@
     public List<SaleModel> sales = new List<SaleModel>();
     public CustomerModel customer = new CustomerModel();
     string controller_api = "sale";
+
+    private bool _select_all;
+    public bool select_all
+    {
+        get
+        {
+            return _select_all;
+        }
+        set
+        {
+            _select_all = value;
+            customer_payments.ForEach(r => r.is_selected = _select_all);
+        }
+    }
+
+    private string _reference_number;
+
+    public string reference_number
+    {
+        get { return _reference_number; }
+        set {
+            _reference_number = value;
+            customer_payments.ForEach(r=>r.sale_payment.reference_number = _reference_number);
+        }
+    }
+
+    private DateTime _payment_date = DateTime.Now;
+
+    public DateTime payment_date
+    {
+        get { return _payment_date; }
+        set {
+            _payment_date = value;
+            customer_payments.ForEach(r => r.sale_payment.payment_date = _payment_date);
+        }
+    }
+    private int _payment_type_id = 0;
+
+    public int payment_type_id
+    {
+        get {
+            if (_payment_type_id == 0) 
+                return gv.default_payment_type_id;
+            else
+                return _payment_type_id;
+        }
+        set {
+            _payment_type_id = value;
+            customer_payments.ForEach(r => r.sale_payment.payment_type_id = _payment_type_id);
+        }
+    }
+
+    private string _payment_note;
+
+    public string payment_note
+    {
+        get { return _payment_note; }
+        set {
+            _payment_note = value;
+            customer_payments.ForEach(r => r.sale_payment.payment_note = _payment_note);
+        }
+    }
+
+
+
     public string ControllerApi
     {
         get
@@ -171,10 +288,11 @@
 
         }
     }
+
     public class CustomerPaymentModel
     {
         public SaleModel sale { get; set; }
         public SalePaymentModel sale_payment { get; set; }
+        public bool is_selected { get; set; }
     }
-
 }
