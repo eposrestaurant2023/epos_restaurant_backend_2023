@@ -194,3 +194,24 @@ a.disabled, a.disabled:hover {
         margin-top: 6px;
     }
 
+.attachment_header .bg_attachfile {
+    width: 75px;
+    height: 75px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.wrp-upload-edit-inputs .mud-input-control,
+.wrp-upload-edit-inputs .mud-input-control > .mud-input-control-input-container > div.mud-input.mud-input-text {
+    margin-top: 0px !important;
+}
+.attachement_footer {
+    overflow: hidden;
+}
+.list_attachment_item:not(:last-child) {
+    border-bottom: 1px solid;
+    margin-bottom: 15px;
+    border-color: var(--mud-palette-divider);
+    padding-bottom: 5px;
+}
