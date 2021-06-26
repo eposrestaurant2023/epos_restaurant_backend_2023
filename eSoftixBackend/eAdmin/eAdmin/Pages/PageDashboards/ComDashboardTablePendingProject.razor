@@ -3,8 +3,17 @@
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(pg.order_by == field_name)" OrderByType="@pg.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
 }
-
-<MudItem xs="12" sm="12" md="12">
+@if (is_loading)
+{
+   <MudSkeleton Animation="Animation.Wave" /> 
+   <MudSkeleton Animation="Animation.Wave" /> 
+   <MudSkeleton Animation="Animation.Wave" /> 
+   <MudSkeleton Animation="Animation.Wave" /> 
+   <MudSkeleton Animation="Animation.Wave" /> 
+}
+else
+{
+    <MudItem xs="12" sm="12" md="12">
     <MudCard Elevation="25" Style="height:100%;">
         <MudCardContent Class="px-0">
             <MudSimpleTable Elevation="0" Hover="true">
@@ -21,6 +30,9 @@
                 <TableHeader>
                     @HeaderTemplate("outlet/business_branch/project/project_name", "Project","cp col-auto")
                     @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Customer", "col-auto cp")
+                    @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Start Date", "col-auto cp")
+                    @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Close Date", "col-auto cp")
+                    @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Status", "col-auto cp")
                   
                 </TableHeader>
                 <RowTemplate Context="s">
@@ -29,31 +41,53 @@
                         <MudAvatar Size="Size.Large" Color="(MudBlazor.Color)s.project_type.color" Variant="Variant.Filled">
                             <MudIcon Icon="@s.project_type.icon" />
                         </MudAvatar>
-                    <div style="padding-left:6px">
-                        <AuthView roles="project_view" url="@($"customer/{s.id}")">
-                            <MudText Typo="Typo.body1">@s.project_name</MudText>    
-                            <br />
-                            <MudText Typo="Typo.caption">@s.project_code</MudText>
-                        </AuthView>
-                    </div>
+                        <div style="padding-left:6px">
+                            <AuthView roles="project_view" url="@($"project/{s.id}")">
+                                <MudText Typo="Typo.body1">@s.project_name</MudText>    
+                                <br />
+                                <MudText Typo="Typo.caption">@s.project_code</MudText>
+                            </AuthView>
+                        </div>
                     </div>
                     
                 </td>
                 <td>
-                    <AuthView roles="project_view" url="@($"customer/{s.id}")">
+                    <AuthView  roles="customer_view" url="@($"customer/{s.id}")">
                         <MudText Typo="Typo.body1">@s.customer.customer_code - @s.customer.customer_name_en</MudText>    
-                        <br />
-                        <MudText Typo="Typo.caption">@s.customer.phone_1</MudText>
-                        <br />
-                        <MudText Typo="Typo.caption">@s.customer.phone_2</MudText>
+                        
                     </AuthView>
+                    <br />
+                        <MudText Typo="Typo.caption">@s.customer.phone_1 <br />
+                            @s.customer.phone_2
+                        </MudText>
                 </td>
+                <TdCenter>
+                            @s.start_date.Value.ToString(gv.date_format)
+                        </TdCenter>
+                        <TdCenter>
+                            @if(s.closed_date != null){
+                                @s.closed_date.Value.ToString(gv.date_format)
+                            }else{
+                                @("-")
+                            }
+                        </TdCenter>
+                        <TdCenter>
+                            @if(s.closed_date == null){
+                                <MudChip Color="MudBlazor.Color.Secondary">Opened</MudChip>
+                            }
+                            else
+                            {
+                                <MudChip Color="MudBlazor.Color.Warning">Close</MudChip>
+                            }
+                        </TdCenter>
             </RowTemplate>
             </Table>
         </MudSimpleTable>
         </MudCardContent>
     </MudCard>
 </MudItem>
+}
+
 @code{
     PagerModel pg = new PagerModel();
     List<ProjectModel> models = new List<ProjectModel>();
@@ -69,7 +103,7 @@
     async Task LoadData()
     {
         is_loading=true;
-        api_url = $"project?$filter=is_closed eq false and is_paid eq false&$select=id,customer_id,project_code,project_name,is_closed,is_paid&$expand=customer($select=customer_name_en,customer_name_kh,customer_code,phone_1,phone_2,customer_code_name),project_type($select=project_type_name,icon,color)&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";
+        api_url = $"project?$filter=is_closed eq false and is_paid eq false&$select=id,customer_id,project_code,project_name,start_date,closed_date,is_closed,is_paid&$expand=customer($select=customer_name_en,customer_name_kh,customer_code,phone_1,phone_2,customer_code_name),project_type($select=project_type_name,icon,color)&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";
         var res = await http.ApiGetOData(api_url);
         if(res.IsSuccess){
             models=JsonSerializer.Deserialize<List<ProjectModel>>(res.Content.ToString());
