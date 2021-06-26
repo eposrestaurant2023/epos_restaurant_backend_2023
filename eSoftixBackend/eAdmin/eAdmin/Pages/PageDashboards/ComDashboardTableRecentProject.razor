@@ -1,12 +1,114 @@
-﻿        <MudItem xs="12" sm="12" md="6">
-            <MudCard Elevation="25" Style="height:100%;">
-                <MudCardContent Class="px-0">
-                    <MudSimpleTable Elevation="0" Hover="true">
-                          <MudText Typo="Typo.h4">Recent Project</MudText>
-                    </MudSimpleTable>
-                </MudCardContent>
-            </MudCard>
-        </MudItem>
-@code{
+﻿@using Microsoft.Extensions.Configuration
+@inherits PageCore
 
+@{
+    RenderFragment HeaderTemplate(string display_name, string ClassName = "") =>
+    @<Th ClassName="@($"{ClassName}")"> @display_name</Th>;
+}
+
+
+@if(!is_loading){
+    <MudItem xs="12" sm="12" md="12">
+    <MudCard Elevation="25" Style="height:100%;">
+        <MudCardContent Class="px-0">
+            <MudSimpleTable Elevation="0" Hover="true">
+                <Table Items="@models"
+                        PerPage="25"
+                        CurrentPage="1"
+                        isLoading="@is_loading_data"
+
+                        ShowPager="true"
+                        ShowCounter="true"
+                        EmptyText="There is no customer record.">
+                    <TableHeader>
+                        @HeaderTemplate("Project")
+                        @HeaderTemplate("Customer")
+                        @HeaderTemplate("Start Date")
+                        @HeaderTemplate("Close Date")
+                        @HeaderTemplate("Status")
+                    </TableHeader>
+                    <RowTemplate Context="s">
+                        <td>
+                            <div style="display:flex;">
+                                <MudAvatar Size="Size.Large" Color="(MudBlazor.Color)s.project_type.color" Variant="Variant.Filled">
+                                    <MudIcon Icon="@s.project_type.icon" />
+                                </MudAvatar>
+                                
+                            <div style="padding-left:6px">
+                                <AuthView roles="project_view" url="@($"project/{s.id}")">
+                                    <MudText Typo="Typo.body1">@s.project_name</MudText>    
+                                    <br />
+                                    <MudText Typo="Typo.caption">@s.project_code</MudText>
+                                </AuthView>
+                            </div>
+                        </div>
+                    
+                        </td>
+                        <td>
+                            <div style="display:flex;">
+                                <MudAvatar Image="@(config.GetValue<string>("BaseUrl") + $"upload/{s.customer?.photo}")" Size="Size.Large">
+                                </MudAvatar>
+                            <div style="padding-left:6px">
+                                <AuthView roles="customer_view" url="@($"project/{s.id}")">
+                                    <MudText Typo="Typo.body1">@s.customer?.customer_code - @s.customer.customer_name_en</MudText>    
+                                </AuthView>
+                                <br />
+                                <MudText Typo="Typo.caption">@s.customer.phone_1 <br />
+                                    @s.customer.phone_2
+                                </MudText>
+                            </div>
+                        </div>
+                    
+                        </td>
+                        <TdCenter>
+                            <MudText Typo="Typo.body1">
+                                @s.start_date.Value.ToString(gv.date_format)
+                            </MudText>
+                        </TdCenter>
+                        <TdCenter>
+                            <MudText Typo="Typo.body1">
+                            @if(s.closed_date != null){
+                                @s.closed_date.Value.ToString(gv.date_format)
+                            }else{
+                                @("-")
+                            }
+                        </MudText>    
+                            
+                        </TdCenter>
+                        <TdCenter>
+                            @if(s.closed_date == null){
+                                <MudChip Color="MudBlazor.Color.Success">Opened</MudChip>
+                            }
+                            else
+                            {
+                                <MudChip Color="MudBlazor.Color.Error">Close</MudChip>
+                            }
+                        </TdCenter>
+                    </RowTemplate>
+                </Table>
+            </MudSimpleTable>
+        </MudCardContent>
+    </MudCard>
+</MudItem>
+}else{
+    <MudSkeleton Animation="Animation.Wave" />
+    <MudSkeleton Animation="Animation.Wave" />
+    <MudSkeleton Animation="Animation.Wave" />
+    <MudSkeleton Animation="Animation.Wave" />
+    <MudSkeleton Animation="Animation.Wave" />
+}
+@code{
+    public List<ProjectModel> models = new List<ProjectModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading=true;
+
+       await LoadData();
+        is_loading=false;
+    }
+    async Task LoadData(){
+         var res = await http.ApiGetOData("project?$select=id,customer_id,start_date,closed_date,project_code,project_name,customer_code_name&$expand=customer($select=id,photo,customer_code,phone_1,phone_2,customer_name_en,customer_name_kh),project_type($select=project_type_name,icon,color)&$top=25&orderby=created_date desc");
+        models = JsonSerializer.Deserialize<List<ProjectModel>>(res.Content.ToString());
+        
+    }
 }
