@@ -14,69 +14,69 @@
                 }
             </div>
         </div>
-        </div>
-        }
-        else
-        {
-        @if (is_read_only)
-        {
-            <input style="width:@width" type="date" id="@id" value="@str_value" placeholder="@placeholder" @onchange="@((ui) => ValueChange((string)ui.Value))" readonly="readonly" pattern="yyyy-MM-dd" class="uk-input uk-form-small @ClassName" />
-        }
-        else
-        {
-            <input style="width:@width" type="date" id="@id" value="@str_value" placeholder="@placeholder" @onchange="@((ui) => ValueChange((string)ui.Value))" pattern="yyyy-MM-dd" class="uk-input uk-form-small  @ClassName" />
-        }
-        }
+    </div>
+}
+else
+{
+    @if (is_read_only)
+    {
+        <input style="width:@width" type="date" id="@id" value="@str_value" placeholder="@placeholder" @onchange="@((ui) => ValueChange((string)ui.Value))" readonly="readonly" pattern="yyyy-MM-dd" class="uk-input uk-form-small @ClassName" />
+    }
+    else
+    {
+        <input style="width:@width" type="date" id="@id" value="@str_value" placeholder="@placeholder" @onchange="@((ui) => ValueChange((string)ui.Value))" pattern="yyyy-MM-dd" class="uk-input uk-form-small  @ClassName" />
+    }
+}
 
-        @code{
+@code{
 
-            [Parameter] public DateTime value { get; set; }
-            [Parameter] public string placeholder { get; set; } = "";
-            [Parameter] public string label { get; set; } = "";
-            [Parameter] public string icon { get; set; } = "";
-            [Parameter] public bool is_read_only { get; set; } = false;
-            [Parameter] public bool is_inline { get; set; } = false;
-            [Parameter] public bool is_horizontal { get; set; } = true;
-            [Parameter] public string width { get; set; } = "100%";
-            [Parameter] public string ClassName { get; set; } = "";
-            [Parameter]
-            public EventCallback<DateTime> valueChanged { get; set; }
+    [Parameter] public DateTime value { get; set; }
+    [Parameter] public string placeholder { get; set; } = "";
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "";
+    [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_inline { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter]
+    public EventCallback<DateTime> valueChanged { get; set; }
 
-            Guid id = Guid.NewGuid();
+    Guid id = Guid.NewGuid();
 
     public string str_value
+    {
+        get
         {
-            get
-            {
-                return string.Format("{0:yyyy-MM-dd}", value);
-            }
+            return string.Format("{0:yyyy-MM-dd}", value);
         }
+    }
 
 
-        protected override void OnInitialized()
+    protected override void OnInitialized()
+    {
+
+        if (placeholder == "")
         {
-
-            if (placeholder == "")
-            {
-                placeholder = label;
-            }
+            placeholder = label;
         }
+    }
 
 
-        private async Task ValueChange(string _value)
+    private async Task ValueChange(string _value)
+    {
+        if (string.IsNullOrEmpty(_value))
         {
-            if (string.IsNullOrEmpty(_value))
-            {
-                value = DateTime.Now;
-            }
-            else
-            {
-                value = DateTime.Parse(_value);
-            }
+            value = DateTime.Now;
+        }
+        else
+        {
+            value = DateTime.Parse(_value);
+        }
 
 
-            await valueChanged.InvokeAsync(value);
-        }
-        }
+        await valueChanged.InvokeAsync(value);
+    }
+}
 
 

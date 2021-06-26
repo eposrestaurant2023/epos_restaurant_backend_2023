@@ -45,6 +45,7 @@ namespace eModels
         public MultipartFormDataContent multipartForm { get; set; } = new MultipartFormDataContent();
         public string ImageUrl { get; set; } = "";
         public string SaveFolderPath { get; set; } = "";
+        public string FileName { get; set; }
     }
 
 }

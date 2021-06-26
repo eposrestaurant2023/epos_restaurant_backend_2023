@@ -33,7 +33,7 @@
                         <MudIcon Icon="@s.outlet.business_branch.Project.project_type.icon" />
                     </MudAvatar>
                 <div style="padding-left:6px">
-                        <AuthView roles="project_view" url="@($"customer/{s.outlet?.business_branch?.project_id}")">
+                        <AuthView roles="project_view" url="@($"project/{s.outlet?.business_branch?.project_id}")">
                         <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.project_name</MudText>    
                          <br />
                             <MudText Typo="Typo.caption">@s.outlet?.business_branch?.Project?.project_code</MudText>
@@ -47,7 +47,7 @@
                 <td>
                     <div>
                         <MudText Typo="Typo.body1">
-                            <AuthView roles="@gv.GetRole("customer_view")" url="@($"customer/{s.outlet?.business_branch?.Project?.customer_id}")">@s.outlet?.business_branch?.Project?.customer.customer_name_en <br /> @s.outlet?.business_branch?.Project?.customer.customer_code
+                            <AuthView roles="customer_view" url="@($"customer/{s.outlet?.business_branch?.Project?.customer_id}")">@s.outlet?.business_branch?.Project?.customer.customer_name_en <br /> @s.outlet?.business_branch?.Project?.customer.customer_code
                             </AuthView>
                         </MudText>
                         
@@ -83,6 +83,10 @@
     </MudCard>
 </MudItem>
 }else{
+    <MudSkeleton Animation="Animation.Wave" />
+    <MudSkeleton Animation="Animation.Wave" />
+    <MudSkeleton Animation="Animation.Wave" />
+    <MudSkeleton Animation="Animation.Wave" />
     <MudSkeleton Animation="Animation.Wave" />
 }
 

@@ -1,4 +1,19 @@
-﻿@if (roles == "")
+﻿
+@if(!string.IsNullOrEmpty(url)){
+    @if (roles == "")
+{
+    @ChildContent
+}else {
+    <AuthorizeView Roles="@state.GetRole(roles)">
+        <a href="@url">
+            @ChildContent
+        </a>
+    </AuthorizeView>
+}
+}
+else
+{
+    @if (roles == "")
 {
     @ChildContent
 }else {
@@ -6,9 +21,10 @@
         @ChildContent
     </AuthorizeView>
 }
+}
 @code{
-        [Parameter] public string roles { get; set; } = "";
-        [Parameter] public string url { get; set; } = "";
-            [CascadingParameter] public AppState state { get; set; }
-             [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public string url { get; set; } = "";
+    [CascadingParameter] public AppState state { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 }

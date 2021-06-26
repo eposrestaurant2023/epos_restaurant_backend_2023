@@ -3379,10 +3379,16 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("expired_date")
+                        .HasColumnType("date");
+
                     b.Property<bool>("is_already_config")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_full_license")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("outlet_id")

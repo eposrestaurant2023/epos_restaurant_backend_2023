@@ -47,11 +47,10 @@ namespace eAPI.Controllers
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return Ok(bbc);
             }
-            catch (Exception ex){
-                string error = ex.Message;
+            catch {
+                return StatusCode(503);
             }
-            return Ok();
-        
+            
         }
     }
 

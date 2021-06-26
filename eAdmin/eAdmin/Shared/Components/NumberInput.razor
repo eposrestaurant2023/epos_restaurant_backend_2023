@@ -29,94 +29,94 @@
                 </div>
             </div>
         </div>
-        </div>
-        }
-        else
-        {
-        if (is_read_only)
-        {
+    </div>
+}
+else
+{
+    if (is_read_only)
+    {
         <input type="@text" disabled value="@strText" placeholder="@placeholder" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
-        }
-        else
-        {
+    }
+    else
+    {
         <input type="@text" value="@strText" placeholder="@placeholder" @onchange="@((ui) => TextChange((string)ui.Value))" step="any" @onblur="@TextLeave" class="uk-input uk-form-small @class_name" style="width:@width" />
-        }
+    }
 
-        @ChildContent
-        }
+    @ChildContent
+}
 
-        @code{
-            [Parameter] public string line_icon { get; set; } = "";
-            [Parameter] public string icon { get; set; } = "";
-            [Parameter] public decimal text { get; set; } = 0;
+@code{
+    [Parameter] public string line_icon { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "";
+    [Parameter] public decimal text { get; set; } = 0;
 
-            [Parameter] public string placeholder { get; set; } = "";
-            [Parameter] public string label { get; set; } = "";
-            [Parameter] public bool is_read_only { get; set; } = false;
-            [Parameter] public bool is_horizontal { get; set; } = true;
-            [Parameter] public string text_format { get; set; } = "0.####";
-            [Parameter] public string width { get; set; } = "";
-            [Parameter] public string class_name { get; set; } = "uk-form-small";
-            [Parameter] public string wrp_class { get; set; } = "uk-margin-small";
+    [Parameter] public string placeholder { get; set; } = "";
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
+    [Parameter] public string text_format { get; set; } = "0.####";
+    [Parameter] public string width { get; set; } = "";
+    [Parameter] public string class_name { get; set; } = "uk-form-small";
+    [Parameter] public string wrp_class { get; set; } = "uk-margin-small";
 
-            [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-            [Parameter]
-            public EventCallback<decimal> textChanged { get; set; }
-            string strText = "0.00";
+    [Parameter]
+    public EventCallback<decimal> textChanged { get; set; }
+    string strText = "0.00";
 
-            Guid id = Guid.NewGuid();
+    Guid id = Guid.NewGuid();
 
 
     protected override void OnInitialized()
+    {
+
+        if (placeholder == "")
         {
-
-            if (placeholder == "")
-            {
-                placeholder = label;
-            }
-
-            strText = text.ToString(text_format);
+            placeholder = label;
         }
 
+        strText = text.ToString(text_format);
+    }
 
-        protected override void OnParametersSet()
+
+    protected override void OnParametersSet()
+    {
+        strText = text.ToString(text_format);
+    }
+
+
+    private async Task TextChange(string n)
+    {
+        strText = "10000000";
+        if (String.IsNullOrEmpty(n))
         {
-            strText = text.ToString(text_format);
+            n = "0";
         }
-
-
-        private async Task TextChange(string n)
+        else
         {
-            strText = "10000000";
-            if (String.IsNullOrEmpty(n))
+            n = n.Replace("$", "").Replace(",", "");
+
+            decimal result = 0;
+            if (decimal.TryParse(n, out result))
             {
-                n = "0";
+                text = result;
             }
             else
             {
-                n = n.Replace("$", "").Replace(",", "");
-
-                decimal result = 0;
-                if (decimal.TryParse(n, out result))
-                {
-                    text = result;
-                }
-                else
-                {
-                    text = 0;
-                }
+                text = 0;
             }
-
-
-            await textChanged.InvokeAsync(text);
         }
 
-        void TextLeave()
-        {
-            strText = text.ToString(text_format);
-        }
 
-        }
+        await textChanged.InvokeAsync(text);
+    }
+
+    void TextLeave()
+    {
+        strText = text.ToString(text_format);
+    }
+
+}
 
 
