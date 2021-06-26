@@ -208,6 +208,7 @@ namespace eAPI
             odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
             odataBuilder.EntitySet<StockLocationProductModel>("StockLocationProduct");
             odataBuilder.EntitySet<KitchenGroupModel>("KitchenGroup");
+            odataBuilder.EntitySet<CurrencyModel>("Currency");
             return odataBuilder.GetEdmModel();
         }
     }

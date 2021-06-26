@@ -1,163 +1,169 @@
 ﻿@page "/payment/customer/{customer_id}"
 @inherits PageCore
-<Loading is_loading="@(is_loading || is_loading_data)" />
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 @if (!is_loading)
 {
-    <PageContainer>
-        <PageHeader>
-            <HeaderLeft>
-                <PageTitle ShowFilter="false">
-                    <HeaderTemplate>
-                        <span>@lang["Customer Payments"] # @customer.customer_code_name</span>
-                    </HeaderTemplate>
-                </PageTitle>
-            </HeaderLeft>
-            <HeaderRight>
-                <RefreshButton OnClick="@(async()=>await LoadData())" />
-            </HeaderRight>
-        </PageHeader>
-        <PageBody>
-            <div>
-                <h3 class="title uk-display-inline-block">
-                    <span class="title">@lang["Apply All"]</span>
-                </h3>
-                <Grid ClassName="uk-grid-small uk-grid-divider uk-child-width-1-2">
-                    <div>
-                        <div class="uk-form-horizontal">
-                            <div class="uk-margin-small">
-                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Select"]</label>
-                                <div class="uk-form-controls">
-                                    <ComInputCheckBox @bind-value="@select_all" />
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="uk-form-horizontal">
-                            <div class="uk-margin-small">
-                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
-                                <div class="uk-form-controls">
-                                    <TextInput @bind-text="@reference_number" placeholder="@lang["Referance Number"]" />
-                                </div>
-                            </div>
-                        </div>
-                        <DateInput label="@lang["Payment Date"]" @bind-value="@payment_date" icon="layers" />
-                    </div>
-                    <div>
-                        <div class="section-content">
-                            <div class="uk-form-horizontal">
-                                <div class="uk-margin-small">
-                                    <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Payment Type"]</label>
-                                    <div class="uk-form-controls">
-                                        <SelectPaymentType @bind-selected_value="@payment_type_id" is_inline="true" />
-                                    </div>
-                                </div>
-                            </div> 
-                            <div class="uk-form-horizontal">
-                                <div class="uk-margin-small">
-                                    <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Payment Note"]</label>
-                                    <div class="uk-form-controls">
-                                        <TextInput @bind-text="@payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" is_height_auto="false"/>
-                                    </div>
-                                </div>
+<PageContainer>
+    <PageHeader>
+        <HeaderLeft>
+            <PageTitle ShowFilter="false">
+                <HeaderTemplate>
+                    <span>@lang["Customer Payments"] # @customer.customer_code_name</span>
+                </HeaderTemplate>
+            </PageTitle>
+        </HeaderLeft>
+        <HeaderRight>
+            <RefreshButton OnClick="@(async()=>await LoadData())" />
+        </HeaderRight>
+    </PageHeader>
+    <PageBody>
+        <div>
+            <h3 class="title uk-display-inline-block">
+                <Icon icon="done_all" />
+                <span class="title">@lang["Apply All"]</span>
+            </h3>
+            <Grid ClassName="uk-grid-small uk-grid-divider uk-child-width-1-2">
+                <div>
+                    <div class="uk-form-horizontal">
+                        <div class="uk-margin-small">
+                            <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Select"]</label>
+                            <div class="uk-form-controls">
+                                <ComInputCheckBox @bind-value="@select_all" />
                             </div>
                         </div>
                     </div>
-                </Grid>
-            </div>
-            <hr />
-            <section class="wrp-sale-invoice-body">
-                <h3 class="title uk-display-inline-block">
-                    <Icon icon="upload" />
-                    <span class="title">@lang["Customer Payments"]</span>
-                </h3>
-                <Spacing Number="10" />
-                <div class="wrp-selected-items">
-                    @if (customer_payments != null)
-                    {
-                        <Table ShowTotalCount="false"
-                               Items="@customer_payments"
-                               ShowPager="false"
-                               ShowPagination="false"
-                               ShowPaging="false"
-                               CustomClass="set-verticle-top_custo"
-                               EmptyText="There's no record in the system">
-                            <TableHeader>
-                                <ThCenter>
-                                    @lang["Select"]
-                                </ThCenter>
-                                <ThCenter>
-                                    <div>@lang["Document #"]</div>
-                                    <div class="sub-header-table">@lang["Date"]</div>
-                                </ThCenter>
-                                <Th>
-                                    <div>@lang["Business Branch"]</div>
-                                    <div class="sub-header-table">@lang["Outlet"]</div>
-                                </Th>
-                                <ThRight>@lang["Total Amount"]</ThRight>
-                                <ThRight>@lang["Paid Amount"]</ThRight>
-                                <ThRight>@lang["Balance"]</ThRight>
-                                <Th>@lang["Reference #"]</Th>
-                                <Th>@lang["Payment Date"]</Th>
-                                <Th>@lang["Payment Type"]</Th>
-                                <ThRight>@lang["Payment Amount"]</ThRight>
-                                <ThAuto>@lang["Note"]</ThAuto>
-                                <th class="uk-width-auto"></th>
-                            </TableHeader>
-                            <RowTemplate Context="p">
-                                <TdCenter ClassName="uk-flex-center">
-                                    <ComInputCheckBox @bind-value="@p.is_selected" />
-                                </TdCenter>
-                                <TdCenter>
-                                    <div>
-                                        <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/{p.sale.id}")">@p.sale.document_number</ComAuthorize>
-                                    </div>
-                                    <div class="sub-info-row-table">
-                                        @p.sale.working_date.ToString(gv.date_format)
-                                    </div>
-                                </TdCenter>
-                                <td>
-                                    <div>
-                                        @p.sale.business_branch?.business_branch_name_en
-                                    </div>
-                                    <div class="sub-info-row-table">
-                                        @p.sale.outlet?.outlet_name_en
-                                    </div>
-                                </td>
-                                <TdRight>
-                                    @p.sale.total_amount.ToString(gv.main_currency_format)
-                                </TdRight>
-                                <TdRight>
-                                    @p.sale.paid_amount.ToString(gv.main_currency_format)
-                                </TdRight>
-                                <TdRight>
-                                    @p.sale.balance.ToString(gv.main_currency_format)
-                                </TdRight>
-                                <td>
-                                    <TextInput @bind-text="@p.sale_payment.reference_number" width="120px" is_read_only="@(!p.is_selected)" />
-                                </td>
-                                <td>
-                                    <DateInput @bind-Value="@p.sale_payment.payment_date" is_inline="true" is_read_only="@(!p.is_selected)" />
-                                </td>
-                                <td>
-                                    <SelectPaymentType @bind-selected_value="@p.sale_payment.payment_type_id" payment_type="@p.sale_payment.payment_type" is_inline="true" width="w-150" is_read_only="@(!p.is_selected)" />
-                                </td>
-                                <td>
-                                    <NumberInput @bind-text="@p.sale_payment.payment_amount" is_read_only="@(!p.is_selected)" />
-                                </td>
-                                <td>
-                                    <TextInput @bind-text="@p.sale_payment.payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" row="2" is_read_only="@(!p.is_selected)" is_height_auto="false"/>
-                                </td>
-                                <TdCenter>
-                                    <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale.id}"))" />
-                                </TdCenter>
-                            </RowTemplate>
-                        </Table>
-                    }
-                </div>
-            </section>
 
-        </PageBody>
-    </PageContainer>
+                    <div class="uk-form-horizontal">
+                        <div class="uk-margin-small">
+                            <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
+                            <div class="uk-form-controls">
+                                <TextInput @bind-text="@reference_number" placeholder="@lang["Referance Number"]" />
+                            </div>
+                        </div>
+                    </div>
+                    <DateInput label="@lang["Payment Date"]" @bind-value="@payment_date" icon="layers" />
+                </div>
+                <div>
+                    <div class="section-content">
+                        <div class="uk-form-horizontal">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Payment Type"]</label>
+                                <div class="uk-form-controls">
+                                    <SelectPaymentType @bind-selected_value="@payment_type_id" is_inline="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-form-horizontal">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Payment Note"]</label>
+                                <div class="uk-form-controls">
+                                    <TextInput @bind-text="@payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" row="3" is_height_auto="true" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Grid>
+        </div>
+        <hr />
+        <section class="wrp-sale-invoice-body">
+            <h3 class="title uk-display-inline-block">
+                <Icon icon="content_paste" />
+                <span class="title">@lang["Customer Payments"]</span>
+            </h3>
+            <Spacing Number="10" />
+            <div class="wrp-selected-items">
+                @if (customer_payments != null)
+                {
+                    <Table ShowTotalCount="false"
+                           Items="@customer_payments"
+                           ShowPager="false"
+                           ShowPagination="false"
+                           ShowPaging="false"
+                           CustomClass="set-verticle-top_custo"
+                           EmptyText="There's no record in the system">
+                        <TableHeader>
+                            <ThCenter>
+                                @lang["Select"]
+                            </ThCenter>
+                            <ThCenter>
+                                <div>@lang["Document #"]</div>
+                                <div class="sub-header-table">@lang["Date"]</div>
+                            </ThCenter>
+                            <Th>
+                                <div>@lang["Business Branch"]</div>
+                                <div class="sub-header-table">@lang["Outlet"]</div>
+                            </Th>
+                            <ThRight>@lang["Total Amount"]</ThRight>
+                            <ThRight>@lang["Paid Amount"]</ThRight>
+                            <ThRight>@lang["Balance"]</ThRight>
+                            <Th>@lang["Reference #"]</Th>
+                            <Th>@lang["Payment Date"]</Th>
+                            <Th>@lang["Payment Type"]</Th>
+                            <ThRight>@lang["Payment Amount"]</ThRight>
+                            <ThAuto>@lang["Note"]</ThAuto>
+                            <th class="uk-width-auto"></th>
+                        </TableHeader>
+                        <RowTemplate Context="p">
+                            <TdCenter ClassName="uk-flex-center">
+                                <ComInputCheckBox @bind-value="@p.is_selected" />
+                            </TdCenter>
+                            <TdCenter>
+                                <div>
+                                    <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/{p.sale.id}")">@p.sale.document_number</ComAuthorize>
+                                </div>
+                                <div class="sub-info-row-table">
+                                    @p.sale.working_date.ToString(gv.date_format)
+                                </div>
+                            </TdCenter>
+                            <td>
+                                <div>
+                                    @p.sale.business_branch?.business_branch_name_en
+                                </div>
+                                <div class="sub-info-row-table">
+                                    @p.sale.outlet?.outlet_name_en
+                                </div>
+                            </td>
+                            <TdRight>
+                                @p.sale.total_amount.ToString(gv.main_currency_format)
+                            </TdRight>
+                            <TdRight>
+                                @p.sale.paid_amount.ToString(gv.main_currency_format)
+                            </TdRight>
+                            <TdRight>
+                                @p.sale.balance.ToString(gv.main_currency_format)
+                            </TdRight>
+                            <td>
+                                <TextInput @bind-text="@p.sale_payment.reference_number" width="120px" is_read_only="@(!p.is_selected)" />
+                            </td>
+                            <td>
+                                <DateInput @bind-Value="@p.sale_payment.payment_date" is_inline="true" is_read_only="@(!p.is_selected)" />
+                            </td>
+                            <td>
+                                <SelectPaymentType @bind-selected_value="@p.sale_payment.payment_type_id" payment_type="@p.sale_payment.payment_type" is_inline="true" width="w-150" is_read_only="@(!p.is_selected)" />
+                            </td>
+                            <td>
+                                <NumberInput @bind-text="@p.sale_payment.payment_amount" is_read_only="@(!p.is_selected)"/>
+                            </td>
+                            <td>
+                                <TextInput @bind-text="@p.sale_payment.payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" row="2" is_read_only="@(!p.is_selected)" is_height_auto="true" />
+                            </td>
+                            <TdCenter>
+                                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale.id}"))" />
+                            </TdCenter>
+                        </RowTemplate>
+                    </Table>
+                }
+            </div>
+        </section>
+
+    </PageBody>
+    <PageFooter>
+        <FooterCenter>
+            <ComSavingFormButton is_loading="@is_saving" OnSave="OnSaveClick" is_show_save_action="true" is_show_save_submit="false"/>
+        </FooterCenter>
+    </PageFooter>
+</PageContainer>
 }
 
 @code {
@@ -207,7 +213,7 @@
     public int payment_type_id
     {
         get {
-            if (_payment_type_id == 0) 
+            if (_payment_type_id == 0)
                 return gv.default_payment_type_id;
             else
                 return _payment_type_id;
@@ -287,6 +293,42 @@
             customer = JsonSerializer.Deserialize<CustomerModel>(resp.Content.ToString());
 
         }
+    }
+
+    public async Task OnSaveClick()
+    {
+        is_saving = true;
+
+        List<SalePaymentModel> data_save = new List<SalePaymentModel>();
+        foreach (var p in customer_payments.Where(r=>r.is_selected == true))
+        {
+            if (p.sale.balance < p.sale_payment.payment_amount)
+            {
+                toast.Add("Payment amount cannot greater than Balance Amount", MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            else
+            {
+                p.sale_payment.sale_id = p.sale.id;
+
+                data_save.Add(p.sale_payment);
+            }
+
+        }
+
+        var post = await http.ApiPost("SalePayment/save/multiple", data_save);
+        if (post.IsSuccess)
+        {
+            toast.Add("Save Successfully", MatToastType.Success);
+            nav.NavigateTo($"customer/{customer_id}");
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+
+        is_saving = false;
     }
 
     public class CustomerPaymentModel

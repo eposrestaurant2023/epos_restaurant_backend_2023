@@ -1,0 +1,135 @@
+﻿@page "/configcurrency"
+@inherits PageCore
+@inject IStringLocalizer<Resource> lang
+
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+
+@if (!is_loading)
+{
+    <Title Value="@(lang["Config Currency"])"></Title>
+    <PageContainer roles="@gv.GetRole("config_currency_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Config Currency"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <RefreshButton OnClick="@(async ()=> await LoadData())" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <UIGridCenter>
+                    <UISummaryBox Title="@lang["Currency"]" ShowImage="false" IsFullContent="true">
+                        <ContentFull>
+                            <Table Items="@models"
+                                   isLoading="@is_loading_data"
+                                   ShowPager="false"
+                                   ShowCounter="false"
+                                   ShowPaging="false"
+                                   ClassName="uk-table-small uk-table-striped uk-table-hover"
+                                   ScrollClass="uk-overflow-auto">
+                                <TableHeader>
+                                    <ThCenter>@lang["Name"]</ThCenter>
+                                    <ThCenter>@lang["Format"]</ThCenter>
+                                </TableHeader>
+                                <RowTemplate Context="p">
+                                    <TdCenter>
+                                        @p.currency_name_en
+                                        @if (p.id == old_base_currency)
+                                        {
+                                            <div class="sub-info-row-table">Base Currency</div>
+                                        }
+                                        @if(p.id == old_change_base_currency)
+                                        {
+                                            <div class="sub-info-row-table">Change Base Currency</div>
+                                        }
+                                    </TdCenter>
+                                    <TdCenter>
+                                        <TextInput @bind-text="p.currency_format"/>
+                                    </TdCenter>
+                                </RowTemplate>
+                            </Table>
+                            <hr />
+                            <div class="uk-padding">
+                                <SelectCurrency @bind-selected_value="@base_currency" currencyChanged="@OnBaseCurrency" label="@lang["Base Currency"]" />
+                            </div>
+                            <div class="uk-padding uk-margin-small-top">
+                                <SelectCurrency @bind-selected_value="@change_base_currency" currencyChanged="@OnChangeBaseCurrency" label="@lang["Change Base Currency"]" />
+                            </div>
+                        </ContentFull>
+                    </UISummaryBox>
+            </UIGridCenter>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" OnSave="@Save_Click" is_show_cancel="false" is_show_save_action="true" is_show_save_submit="false" />
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+}
+@code {
+    List<CurrencyModel> models = new List<CurrencyModel>();
+    int base_currency = 0;
+    int change_base_currency = 0;
+
+    int old_base_currency = 0;
+    int old_change_base_currency = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+    async Task LoadData()
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGetOData("Currency");
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<CurrencyModel>>(resp.Content.ToString());
+            if(models.Any())
+            {
+                old_base_currency = base_currency = models.Where(r => r.is_main == true).FirstOrDefault().id;
+                old_change_base_currency = change_base_currency = models.Where(r => r.is_base_exchange_currency == true).FirstOrDefault().id;
+            }
+        }
+        is_loading_data = false;
+
+    }
+    void OnBaseCurrency(CurrencyModel c)
+    {
+        if (models.Any()) {
+            models.ForEach(r => r.is_main = false);
+            models.Where(r => r.id == c.id).ToList().ForEach(r => r.is_main = true);
+        }
+    }
+
+    void OnChangeBaseCurrency(CurrencyModel c)
+    {
+        if (models.Any())
+        {
+            models.ForEach(r => r.is_base_exchange_currency = false);
+            models.Where(r => r.id == c.id).ToList().ForEach(r => r.is_base_exchange_currency = true);
+        }
+    }
+
+    async Task Save_Click()
+    {
+        is_saving = true;
+        var post = await http.ApiPost("Currency/save/multiple", models);
+        if (post.IsSuccess)
+        {
+            toast.Add("Save Successfully", MatToastType.Success);
+            await LoadData();
+        }
+        else
+        {
+            toast.Add(post.Content.ToString(), MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+}
