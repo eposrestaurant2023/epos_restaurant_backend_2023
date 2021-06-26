@@ -293,7 +293,8 @@ namespace eAPI.Controllers
             biz.contact_name = (p.customer.customer_name_en ?? "");
             biz.contact_phone_number = (p.customer.phone_1 ?? "");
             biz.office_phone = (p.customer.phone_2 ?? "");
-
+            biz.address = (p.customer.address ?? "");
+            biz.email = (p.customer.email??"");
             //need more field to map
 
             List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
