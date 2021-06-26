@@ -11,7 +11,7 @@
 @if(!IsReadOnly){
 <div class="pa-4">
     <MudText Typo="Typo.h6">
-        Upload Files <MudIcon Icon="@Icons.Outlined.ChevronLeft"/> 4Mb
+        Upload Files @("<") 4Mb
     </MudText>
     <br/>
     <div class="uk-text-left">
@@ -52,7 +52,10 @@
         @foreach (var f in AttachFiles.Where(r => r.is_deleted == false).OrderByDescending(r => r.created_date))
 
         {
-            <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+            <div>
+                <div style="background-image : url(@image_url(f.file_name))" class=""></div>
+            </div>
+            <div>
                 <div>
                     @if (f.file_extension == ".jpg" || f.file_extension == ".png" || f.file_extension == ".jpeg")
                     {
