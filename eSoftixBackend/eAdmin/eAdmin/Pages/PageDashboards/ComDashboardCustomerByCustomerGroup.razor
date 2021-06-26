@@ -5,9 +5,10 @@
     }
     else{
          <MudText>Customer By Group</MudText>
-        <ApexChart TItem="CustomerByCustomerGroup" Height="@("100%")" Width="@("100%")" Title="Customer By Group"  ChartType="ApexCharts.ChartType.Pie">
+        <ApexChart TItem="CustomerByCustomerGroup" Height="@("100%")" Width="@("100%")" ChartType="ApexCharts.ChartType.Pie">
             <ApexSeries TItem="CustomerByCustomerGroup"
                 Items="models"
+                
                 XValue="@(e => e.label_en)"
                 YAggregate="@(e => e.Sum(e => e.value))"
                 ShowDataLabels="true" />    

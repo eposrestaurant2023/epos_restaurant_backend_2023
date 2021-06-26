@@ -10,46 +10,47 @@
             }
             
         </MudItem>
-
-        <MudItem xs="12" sm="6" md="3">
-            @if (is_loading)
-            {
-                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
-            }else
-            {
-               <ComDashboardKPI Title="All Project" color="@MudBlazor.Color.Secondary" Icon="@Icons.Material.Filled.Layers" Value="@model.all_project.ToString()"/>
-            }
-            
-        </MudItem>
-        <MudItem xs="12" sm="6" md="3">
+           <MudItem xs="12" sm="6" md="3">
               @if (is_loading)
             {
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
             }else
             {
-               <ComDashboardKPI Title="New Customer (MTD)" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.Public" Value="@model.new_customer_mtd.ToString()"/>
+               <ComDashboardKPI Title="New Customer (MTD)" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.PersonAdd" Value="@model.new_customer_mtd.ToString()"/>
             }
            
         </MudItem>
         <MudItem xs="12" sm="6" md="3">
+            @if (is_loading)
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+            }else
+            {
+               <ComDashboardKPI Title="All Project" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Layers" Value="@model.all_project.ToString()"/>
+            }
+            
+        </MudItem>
+         <MudItem xs="12" sm="6" md="3">
                @if (is_loading)
             {
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
             }else
             {
-                <ComDashboardKPI Title="New Project MTD" color="@MudBlazor.Color.Warning" Icon="@Icons.Custom.Uncategorized.Radioactive" Value="@model.new_project_mtd.ToString()"/>
+                <ComDashboardKPI Title="New Project (MTD)" color="@MudBlazor.Color.Tertiary" Icon="@Icons.Material.Filled.Layers" Value="@model.new_project_mtd.ToString()"/>
             }
            
            
        
         </MudItem>
+
+       
         <MudItem xs="12" sm="6" md="3">
             @if (is_loading)
             {
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
             }else
             {
-                <ComDashboardKPI Title="Active Project" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Euro" Value="@model.active_project.ToString()"/>
+                <ComDashboardKPI Title="Active Project" color="@MudBlazor.Color.Secondary" Icon="@Icons.Material.Filled.Layers" Value="@model.active_project.ToString()"/>
             }
             
         </MudItem>
@@ -59,7 +60,7 @@
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
             }else
             {
-                <ComDashboardKPI Title="Today Expired" color="@MudBlazor.Color.Secondary" Icon="@Icons.Material.Filled.Layers" Value="@model.today_expired.ToString()"/>
+                <ComDashboardKPI Title="Today Expired" color="@MudBlazor.Color.Error" Icon="@Icons.Material.Filled.DesktopMac" Value="@model.today_expired.ToString()"/>
             }
             
             
@@ -70,7 +71,7 @@
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
             }else
             {
-              <ComDashboardKPI Title="This week Expired" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.Public" Value="@model.this_week_expired.ToString()"/>
+              <ComDashboardKPI Title="This week Expired" color="@MudBlazor.Color.Warning" Icon="@Icons.Material.Filled.DesktopMac" Value="@model.this_week_expired.ToString()"/>
             }
            
        
@@ -81,7 +82,7 @@
                 <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
             }else
             {
-                <ComDashboardKPI Title="This month Expired" color="@MudBlazor.Color.Warning" Icon="@Icons.Custom.Uncategorized.Radioactive" Value="@model.this_month_expired.ToString()"/>
+                <ComDashboardKPI Title="This month Expired" color="@MudBlazor.Color.Default" Icon="@Icons.Material.Filled.DesktopMac" Value="@model.this_month_expired.ToString()"/>
             }
            
             
