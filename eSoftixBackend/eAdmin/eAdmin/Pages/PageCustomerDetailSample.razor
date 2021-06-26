@@ -7,9 +7,36 @@
     <PageHeader title="Dashboard"/>
     <PageBody>
         @if (!is_loading) { 
-            <UICenter>
-                
-            </UICenter>
+        <UICenter>
+            <UIPanel Title="Customer Contact" IconName="@Icons.Outlined.Person">
+                <UIPanelHeaderRight>
+                    <MudButton>New</MudButton>
+                    <MudButton>Edit</MudButton>
+                </UIPanelHeaderRight>
+                <UIPanelBody>
+                    <MudList>
+                        <ListItem Title="Phone Number">06777777</ListItem>
+                        <ListItem Title="Email">hello@gmail.com</ListItem>
+                        <ListItem Title="Full Address" IsIdentTitle="true">
+                            Rd6, Siem Reap, Cambodia
+                            Rd6, Siem Reap, Cambodia
+                            Rd6, Siem Reap, Cambodia
+                            Rd6, Siem Reap, Cambodia
+                            Rd6, Siem Reap, Cambodia
+                        </ListItem>
+                    </MudList>
+                </UIPanelBody>
+            </UIPanel>
+             <UIPanel Title="Customer Contact" IconName="@Icons.Outlined.Person">
+                <UIPanelHeaderRight>
+                    <MudButton>New</MudButton>
+                    <MudButton>Edit</MudButton>
+                </UIPanelHeaderRight>
+                <UIPanelBody>
+                    Hello world
+                </UIPanelBody>
+            </UIPanel>
+        </UICenter>
         }
     </PageBody>
 </PageContainer>

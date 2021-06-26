@@ -1,0 +1,19 @@
+﻿<MudListItem Class="list-item">
+    <MudItem Class="@(IsIdentTitle?null:"d-flex")">
+        <MudItem Class="list-item-title">
+            @Title :
+        </MudItem>
+        <MudSpacer/>
+        <MudItem>
+            @ChildContent
+        </MudItem>
+    </MudItem>
+</MudListItem>
+
+@code{
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public bool IsIdentTitle { get; set; }
+
+
+}

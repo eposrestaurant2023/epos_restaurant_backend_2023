@@ -1,5 +1,38 @@
-﻿<h3>UIPanel</h3>
+﻿@using System.ComponentModel.DataAnnotations
+<MudPaper Class="ui-panel-item">
+    <MudItem Class="d-flex pa-4">
+        @if(UIPanelHeaderLeft is null)
+        {
+            <MudText Typo="Typo.h6" Class="d-flex align-center">
+                @if (!string.IsNullOrEmpty(IconName)) { 
+                <MudIcon Icon="@IconName" Class="mr-2"/>
+                }@Title
+            </MudText>
+        }else{
+            <MudItem>
+                @UIPanelHeaderLeft
+            </MudItem>
+        }
+        <MudSpacer/>
+        @UIPanelHeaderRight
+    </MudItem>
+    <MudDivider/>
+    @if(UIPanelBody is not null){
+        <MudItem Class="pa-4">
+            @UIPanelBody
+        </MudItem>
+    }else{
+        <MudItem Class="pa-4">
+            @UIPanelBodyNoPadding
+        </MudItem>
+    }
+</MudPaper>
 
 @code {
-
+    [Parameter][Required] public string Title { get; set; } = "";
+    [Parameter] public string IconName { get; set; } = "";
+    [Parameter] public RenderFragment UIPanelHeaderLeft { get; set; }
+    [Parameter] public RenderFragment UIPanelHeaderRight { get; set; }
+    [Parameter] public RenderFragment UIPanelBody { get; set; }
+    [Parameter] public RenderFragment UIPanelBodyNoPadding { get; set; }
 }

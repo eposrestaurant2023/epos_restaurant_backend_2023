@@ -221,3 +221,15 @@ a.disabled, a.disabled:hover {
     border-color: var(--mud-palette-divider);
     padding-bottom: 5px;
 }
+.ui-center .ui-panel-item:not(:first-child) {
+    margin-top: 15px;
+}
+.mud-list .list-item:not(:last-child) {
+    border-bottom: 1px solid;
+    border-color: var(--mud-palette-divider);
+}
+.mud-list .list-item-title {
+    font-size: 16px;
+    font-style: italic;
+    color: var(--mud-palette-grey-default);
+}
