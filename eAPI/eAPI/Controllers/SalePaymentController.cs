@@ -106,7 +106,36 @@ namespace eAPI.Controllers
              
         }
 
-        
+        [HttpPost("save/multiple")]
+        public async Task<ActionResult<string>> SaveMultiple([FromBody] List<SalePaymentModel> p)
+        {
+            try
+            { 
+                // histroy record
+                foreach (var r in p)
+                {
+                    var sale = await db.Sales.FindAsync(r.sale_id);
+                    HistoryModel h = new HistoryModel("Create New Payment");
+                    h.description = $"Create new payment. Invoice Number: {sale.document_number}";
+                    h.document_number = sale.document_number;
+                    h.customer_id = sale.customer_id;
+                    h.sale_id = sale.id;
+                    p.Where(r => r.sale_id == h.sale_id).ToList().ForEach(r => r.histories.Add(h));
+                }
+
+                db.SalePayments.UpdateRange(p);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(p);
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+            }
+
+            return Ok();
+
+        }
+
 
 
         [HttpPost]

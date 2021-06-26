@@ -1,6 +1,65 @@
 ﻿@page "/customer/{id}"
 @inherits PageCustomerDetails
+
 @using eAdmin.Pages.PageCustomers.CustomerDetails
+<Loading is_loading="@is_loading"/>
+@if(model != null && !is_loading){
+    <PageContainer>
+    <PageHeader>
+        <Left>
+              <MudText Typo="Typo.h6">
+            @model.customer_code - @model.customer_name_en (@model.customer_name_kh) 
+        </MudText>
+        @if(model.status == true)
+            {
+                <MudChip Size="Size.Small" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" Label="true">Active</MudChip>
+            }
+            else
+            {
+                <MudChip Size="Size.Small" Color="MudBlazor.Color.Warning" Variant="Variant.Filled" Label="true">InActive</MudChip>
+            }
+            @if(model.is_deleted==true){
+                <MudChip Size="Size.Small" Color="MudBlazor.Color.Error" Variant="Variant.Filled" Label="true">Deleted</MudChip>
+            }
+            
+        </Left>
+        <Right>
+           <MudButtonGroup Color="MudBlazor.Color.Default" Variant="Variant.Filled">
+            <MudButton OnClick="@(()=>Navigation_Click("customer/new"))">New</MudButton>
+            <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+                <MudMenuItem OnClick="@(()=>Navigation_Click("customer/new"))">New Customer</MudMenuItem>
+                <MudMenuItem OnClick="@(()=>Navigation_Click("project/new"))">New Project</MudMenuItem>
+            </MudMenu>
+            <MudTooltip Text="More">
+                <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+                    <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
+                    <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.status))">Status</MudMenuItem>
+                </MudMenu>
+            </MudTooltip>
+            
+        </MudButtonGroup>
+        </Right>
+
+    </PageHeader>
+    <PageBody>
 
 
-@model.customer_code,@model.customer_name_en
+<MudTabs Position="@Position.Top"
+    ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
+    <MudTabPanel Text="General Info">
+        <ComCustomerDetailGeneralInfo model="@model"/>
+    </MudTabPanel>
+    <MudTabPanel Text="Project">
+        <ComCustomerProject/>
+    </MudTabPanel>
+    <MudTabPanel Text="Comment">
+
+    </MudTabPanel>
+</MudTabs>
+
+                
+          
+      
+    </PageBody>
+</PageContainer>
+}

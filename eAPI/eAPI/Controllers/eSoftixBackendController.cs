@@ -67,6 +67,31 @@ namespace eAPI.Controllers
                 return new List<eSoftixBackend.StationModel>();
 
             }
+        } 
+        
+        public List<eSoftixBackend.StockLocationModel> esoftix_stock_locations
+        {
+            get
+            {
+                if (project != null)
+                {
+                    return project.business_branches.SelectMany(r => r.stock_locations).ToList();
+                }
+                return new List<eSoftixBackend.StockLocationModel>();
+
+            }
+        }
+        public  eSoftixBackend.CustomerModel esoftix_customer
+        {
+            get
+            {
+                if (project != null)
+                {
+                    return project.customer;
+                }
+                return new  eSoftixBackend.CustomerModel();
+
+            }
         }
 
 
@@ -93,6 +118,12 @@ namespace eAPI.Controllers
 
                 //check sttion
                 CheckStation();
+
+                CheckStockLocation();
+
+                //check customer
+                CheckCustomer();
+
                 return true;
             } 
              
@@ -243,6 +274,64 @@ namespace eAPI.Controllers
             local.outlet_id = remote.outlet_id;
             local.is_full_license = remote.is_full_license;
             local.expired_date = remote.expired_date;
+        }
+
+
+
+        /// <summary>
+        /// Stock Locatin
+        /// </summary>
+        void CheckStockLocation()
+        {
+            //get branch from local db
+            var stock_locations = db.StockLocations;
+            foreach (var remote_stock_location in esoftix_stock_locations)
+            {
+                StockLocationModel local_stock_location = new StockLocationModel();
+                if (stock_locations.Where(r => r.id == remote_stock_location.id).Any())
+                {
+
+                    local_stock_location = stock_locations.Where(r => r.id == remote_stock_location.id).FirstOrDefault();
+                    MapStockLocationField(remote_stock_location, local_stock_location);
+
+                }
+                else
+                {
+                    MapStockLocationField(remote_stock_location, local_stock_location);
+                    stock_locations.Add(local_stock_location);
+                }
+            }
+
+            db.StockLocations.UpdateRange(stock_locations);
+
+            db.SaveChanges();
+
+        }
+
+        void MapStockLocationField(eSoftixBackend.StockLocationModel remote, StockLocationModel local)
+        {
+            local.id = remote.id;
+            local.business_branch_id = remote.business_branch_id;
+            local.stock_location_name = remote.stock_location_name;
+            local.is_default = remote.is_default;
+        }
+
+
+        //check customer update 
+        void CheckCustomer()
+        {
+            BusinessInformationModel biz = db.BusinessInformations.FirstOrDefault();
+            biz.id = esoftix_customer.id;
+            biz.company_name = (esoftix_customer.company_name ?? "");
+            biz.company_name_kh = (esoftix_customer.company_name ?? "" );
+            biz.contact_name = (esoftix_customer.customer_name_en ?? "");
+            biz.contact_phone_number = (esoftix_customer.phone_1 ?? "");
+            biz.office_phone = (esoftix_customer.phone_2 ?? "");
+            biz.address = (esoftix_customer.address ?? "");
+            biz.email = (esoftix_customer.email??"");
+
+            db.BusinessInformations.Update(biz);
+            db.SaveChanges();
         }
 
     }

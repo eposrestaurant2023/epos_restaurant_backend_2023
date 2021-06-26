@@ -15,11 +15,11 @@ else
 {
     @if (IsLightBox)
     {
-        <img @attributes="@CustomAttributes" data-src="@ImageUrl" alt="@Alt" class="uk-image @ClassName" href="@PopupImageUrl" style="width: @Width !important; max-height: @Height !important;" onError="this.onerror=null;this.src='images/placeholder.svg';" uk-img uk-tooltip="@Tooltip" />
+        <img @attributes="@CustomAttributes" src="@ImageUrl" alt="@Alt" class="uk-image @ClassName" href="@PopupImageUrl" style="width: @Width !important; max-height: @Height !important;" onError="this.onerror=null;this.src='images/placeholder.svg';" uk-img uk-tooltip="@Tooltip" />
     }
     else
     {
-        <img @attributes="@CustomAttributes" data-src="@ImageUrl" alt="@Alt" class="uk-image @ClassName" style="width: @Width !important; max-height: @Height !important;" onError="this.onerror=null;this.src='images/placeholder.svg';" uk-img uk-tooltip="@Tooltip" />
+        <img @attributes="@CustomAttributes" src="@ImageUrl" alt="@Alt" class="uk-image @ClassName" style="width: @Width !important; max-height: @Height !important;" onError="this.onerror=null;this.src='images/placeholder.svg';" uk-img uk-tooltip="@Tooltip" />
     }
 }
 

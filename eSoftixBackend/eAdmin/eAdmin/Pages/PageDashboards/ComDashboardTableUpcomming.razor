@@ -47,7 +47,10 @@
                 <td>
                     <div>
                         <MudText Typo="Typo.body1">
-                            <AuthView roles="customer_view" url="@($"customer/{s.outlet?.business_branch?.Project?.customer_id}")">@s.outlet?.business_branch?.Project?.customer.customer_name_en <br /> @s.outlet?.business_branch?.Project?.customer.customer_code
+                            <AuthView roles="customer_view" url="@($"customer/{s.outlet?.business_branch?.Project?.customer_id}")">
+                            
+                            @s.outlet?.business_branch?.Project?.customer.customer_name_en <br /> 
+                            @s.outlet?.business_branch?.Project?.customer.customer_code
                             </AuthView>
                         </MudText>
                         

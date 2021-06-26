@@ -16,7 +16,9 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-             
+            <HeaderRight>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+            </HeaderRight>
         </PageHeader>
         <PageBody>
             <UIGridCenter>
@@ -78,7 +80,7 @@
 
     }
 
-      public double base_change_exchange_rate(Guid _bid)
+    public double base_change_exchange_rate(Guid _bid)
     {
 
         
@@ -95,14 +97,16 @@
 
     async Task LoadData()
     {
+        is_loading_data = true;
         var res = await http.ApiGetOData("BusinessBranchCurrency?$expand=currency,business_branch($select=id,business_branch_name_en,business_branch_name_kh)");
         if (res.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(res.Content.ToString());
         }
+        is_loading_data = false;
     }
 
-    
+
     async Task Save_Click()
     {
         //remove exchange record that dont have in current role 
@@ -128,12 +132,12 @@
 
         var resp = await http.ApiPost("BusinessBranchCurrency/save/multiple", save_models);
         if (resp.IsSuccess)
-        { 
+        {
             toast.Add(lang["Save exchange rate successfully"], MatToastType.Success);
-           
+
         }
         else
-        { 
+        {
             toast.Add(lang["Save exchange rate Fail"], MatToastType.Warning);
         }
         is_saving = false;
@@ -147,7 +151,7 @@
         curr.exchange_rate_input = val;
         foreach (var c in models.Where(r => r.business_branch_id == business_branch_id && r.currency.is_base_exchange_currency == false).ToList())
         {
-           
+
 
             updateExchange(business_branch_id,c, (( c.currency_id==curr.currency_id) ?val:  c.exchange_rate_input));
         }
@@ -155,7 +159,7 @@
 
     void updateExchange(Guid business_branch_id,  BusinessBranchCurrencyModel a, double rate_input)
     {
-        
+
         if (base_currency == base_exchange_currency)
         {
             a.exchange_rate = a.exchange_rate_input;
@@ -163,12 +167,12 @@
         }
         else
         {
-           
+
 
             if (a.business_branch_id == business_branch_id && a.currency.is_main)
             {
                 models.Where(r=>r.business_branch_id==business_branch_id && r.currency.is_base_exchange_currency).FirstOrDefault().exchange_rate = 1 / a.exchange_rate_input;
-                
+
             }
             else
             {
@@ -176,15 +180,15 @@
             }
         }
     }
-     
-    
+
+
 
     void Change_RateChange(Guid business_branch_id, BusinessBranchCurrencyModel curr, double val)
     {
         curr.change_exchange_rate_input = val;
         foreach (var c in models.Where(r => r.business_branch_id == business_branch_id && r.currency.is_base_exchange_currency == false).ToList())
         {
-           
+
 
             Change_updateExchange(business_branch_id,c, (( c.currency_id==curr.currency_id) ?val:  c.change_exchange_rate_input));
         }
@@ -192,7 +196,7 @@
 
     void Change_updateExchange(Guid business_branch_id,  BusinessBranchCurrencyModel a, double rate_input)
     {
-        
+
         if (base_currency == base_exchange_currency)
         {
             a.change_exchange_rate = a.change_exchange_rate_input;
@@ -200,12 +204,12 @@
         }
         else
         {
-           
+
 
             if (a.business_branch_id == business_branch_id && a.currency.is_main)
             {
                 models.Where(r=>r.business_branch_id==business_branch_id && r.currency.is_base_exchange_currency).FirstOrDefault().change_exchange_rate = 1 / a.change_exchange_rate_input;
-                
+
             }
             else
             {
@@ -213,6 +217,6 @@
             }
         }
     }
-     
+
 }
 
