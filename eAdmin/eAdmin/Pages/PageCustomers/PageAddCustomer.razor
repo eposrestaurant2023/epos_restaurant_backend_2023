@@ -161,8 +161,7 @@
                     });
                 }
             }
-
-            var xx = JsonSerializer.Serialize(model);
+             
 
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
 

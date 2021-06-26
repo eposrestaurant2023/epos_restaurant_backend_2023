@@ -1,6 +1,14 @@
 ﻿<th class="table-header @TextAlign @ClassName" @onclick="@OnClick" style="width:@Width">
-    @ChildContent
-   sort_icon
+    <div class="d-flex align-center">
+            <div>
+             @ChildContent</div>
+            <div style="margin-top: 6px;margin-left: 3px;">
+                 @if(OrderBy){
+               <MudIcon Icon="@(OrderByType == "asc"?@Icons.Material.Filled.ArrowUpward:@Icons.Material.Filled.ArrowDownward)" Size="Size.Small"/>
+            }
+            </div>
+        </div>
+
 </th>
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }

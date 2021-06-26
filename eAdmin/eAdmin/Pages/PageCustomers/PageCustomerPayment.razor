@@ -1,0 +1,180 @@
+﻿@page "/payment/customer/{customer_id}"
+@inherits PageCore
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@if (!is_loading)
+{
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        <span>@lang["Customer Payments"] # @customer.customer_code_name</span>
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <hr />
+            <section class="wrp-sale-invoice-body">
+                <h3 class="title uk-display-inline-block">
+                    <Icon icon="upload" />
+                    <span class="title">@lang["Customer Payments"]</span>
+                </h3>
+                <Spacing Number="10" />
+                <div class="wrp-selected-items">
+                    @if (customer_payments != null)
+                    {
+                        <Table ShowTotalCount="false"
+                               Items="@customer_payments"
+                               ShowPager="false"
+                               ShowPagination="false"
+                               ShowPaging="false"
+                               CustomClass="set-verticle-top_custo"
+                               EmptyText="There's no record in the system">
+                            <TableHeader>
+                                <ThCenter>
+                                    <div>@lang["Document #"]</div>
+                                    <div class="sub-header-table">@lang["Date"]</div>
+                                </ThCenter>
+                                <Th>
+                                    <div>@lang["Business Branch"]</div>
+                                    <div class="sub-header-table">@lang["Outlet"]</div>
+                                </Th>
+                                <ThRight>@lang["Total Amount"]</ThRight>
+                                <ThRight>@lang["Paid Amount"]</ThRight>
+                                <ThRight>@lang["Balance"]</ThRight>
+                                <Th>@lang["Reference #"]</Th>
+                                <Th>@lang["Payment Date"]</Th>
+                                <Th>@lang["Payment Type"]</Th>
+                                <ThRight>@lang["Payment Amount"]</ThRight>
+                                <ThAuto>@lang["Note"]</ThAuto>
+                                <th class="uk-width-auto"></th>
+                            </TableHeader>
+                            <RowTemplate Context="p">
+                                <TdCenter>
+                                    <div>
+                                        <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/{p.sale.id}")">@p.sale.document_number</ComAuthorize>
+                                    </div>
+                                    <div class="sub-info-row-table">
+                                        @p.sale.working_date.ToString(gv.date_format)
+                                    </div>
+                                </TdCenter>
+                                <td>
+                                    <div>
+                                        @p.sale.business_branch?.business_branch_name_en
+                                    </div>
+                                    <div class="sub-info-row-table">
+                                        @p.sale.outlet?.outlet_name_en
+                                    </div>
+                                </td>
+                                <TdRight>
+                                    @p.sale.total_amount.ToString(gv.main_currency_format)
+                                </TdRight>
+                                <TdRight>
+                                    @p.sale.paid_amount.ToString(gv.main_currency_format)
+                                </TdRight>
+                                <TdRight>
+                                    @p.sale.balance.ToString(gv.main_currency_format)
+                                </TdRight>
+                                <td>
+                                    <TextInput @bind-text="@p.sale_payment.reference_number" width="120px"/>
+                                </td>
+                                <td>
+                                    <DateInput @bind-Value="@p.sale_payment.payment_date" is_inline="true" />
+                                </td>
+                                <td>
+                                    <SelectPaymentType @bind-selected_value="@p.sale_payment.payment_type_id" payment_type="@p.sale_payment.payment_type" is_inline="true" width="w-150" />
+                                </td>
+                                <td>
+                                    <NumberInput @bind-text="@p.sale_payment.payment_amount" />
+                                </td>
+                                <td>
+                                    <TextInput @bind-text="@p.sale_payment.payment_note" type="textarea" placeholder="@($"{lang["Enter note"]}...")" />
+                                </td>
+                                <TdCenter>
+                                    @*<ComInputCheckBox valueChanged=""/>*@
+                                    <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale.id}"))" />
+                                </TdCenter>
+                            </RowTemplate>
+                        </Table>
+                    }
+                </div>
+            </section>
+
+        </PageBody>
+    </PageContainer>
+}
+
+@code {
+    [Parameter] public string customer_id { get; set; }
+    public List<CustomerPaymentModel> customer_payments = new List<CustomerPaymentModel>();
+    public List<SaleModel> sales = new List<SaleModel>();
+    public CustomerModel customer = new CustomerModel();
+    string controller_api = "sale";
+    public string ControllerApi
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(state.pager.order_by) || state.pager.order_by == "id")
+            {
+                state.pager.order_by = "closed_date";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?";
+            url += $"$expand=outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
+            url += $"&$filter=customer_id eq {customer_id} and (is_partially_paid eq true or is_paid eq false)";
+            url += $"&$count=true";
+            return url;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await GetCustomerInfo();
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task LoadData(string api_url = "")
+    {
+        is_loading_data = true;
+        var default_view = gv.GetDefaultModuleView("page_sale");
+        if (default_view != null)
+        {
+            state.page_title = default_view.title;
+        }
+
+        var resp = await http.ApiGetOData(ControllerApi);
+        if (resp.IsSuccess)
+        {
+            sales = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());
+            if (sales.Any())
+            {
+                foreach (var sale in sales)
+                {
+                    customer_payments.Add(new CustomerPaymentModel { sale = sale, sale_payment = new SalePaymentModel { sale_id = sale.id, payment_type_id = gv.default_payment_type_id } });
+                }
+            }
+        }
+        is_loading_data = false;
+    }
+    public async Task GetCustomerInfo()
+    {
+        var resp = await http.ApiGet($"customer({customer_id})?$select=customer_name_en,customer_name_kh,customer_code");
+        if (resp.IsSuccess)
+        {
+            customer = JsonSerializer.Deserialize<CustomerModel>(resp.Content.ToString());
+
+        }
+    }
+    public class CustomerPaymentModel
+    {
+        public SaleModel sale { get; set; }
+        public SalePaymentModel sale_payment { get; set; }
+    }
+
+}

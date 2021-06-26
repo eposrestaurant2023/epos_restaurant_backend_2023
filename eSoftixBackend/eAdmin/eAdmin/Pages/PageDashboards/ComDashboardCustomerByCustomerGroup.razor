@@ -1,0 +1,41 @@
+﻿@inject IHttpService http
+ 
+    @if(is_loading){
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+    }
+    else{
+         <MudText>Customer By Group</MudText>
+        <ApexChart TItem="CustomerByCustomerGroup" Height="@("100%")" Width="@("100%")" ChartType="ApexCharts.ChartType.Pie">
+            <ApexSeries TItem="CustomerByCustomerGroup"
+                Items="models"
+                
+                XValue="@(e => e.label_en)"
+                YAggregate="@(e => e.Sum(e => e.value))"
+                ShowDataLabels="true" />    
+        </ApexChart>
+    }
+
+
+@code {
+    bool is_loading = false;
+    List<CustomerByCustomerGroup> models = new List<CustomerByCustomerGroup>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading=true;
+        var res= await http.ApiPost("GetData",new FilterModel(){
+            procedure_name="sp_get_customer_by_customer_group"
+        });
+        if (res.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<CustomerByCustomerGroup>>(res.Content.ToString());
+        }
+        is_loading=false;
+    }
+    public class CustomerByCustomerGroup
+    {
+        public string label_en { get; set; }
+        public string label_kh { get; set; }
+        public decimal value { get; set; }
+    }
+}

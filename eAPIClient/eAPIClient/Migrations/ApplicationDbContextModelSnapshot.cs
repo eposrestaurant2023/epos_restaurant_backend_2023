@@ -407,9 +407,15 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<int>("product_category_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("product_code")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_group_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("product_name_en")
                         .HasColumnType("nvarchar(max)")

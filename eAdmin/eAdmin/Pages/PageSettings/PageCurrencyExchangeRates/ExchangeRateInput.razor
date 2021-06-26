@@ -1,0 +1,47 @@
+﻿@if (label != "")
+{
+    <div class="@(is_horizontal?"uk-form-horizontal":"")">
+        <div class="uk-margin-small">
+            <div class="@wrp_class">
+                <label class="uk-form-label">
+                    @label
+                </label>
+                <div class="uk-form-controls">
+
+                    <input type="text" value="@value" placeholder="@placeholder" @onchange="@((ui) =>  onValueChanged((string)ui.Value))" step="any"  class="uk-input uk-form-small @class_name" style="width:@width" />
+
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code{
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    [Parameter] public string placeholder { get; set; } = "";
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
+    [Parameter] public string text_format { get; set; } = "0.####";
+    [Parameter] public string width { get; set; } = "";
+    [Parameter] public string class_name { get; set; } = "uk-form-small";
+    [Parameter] public string wrp_class { get; set; } = "uk-margin-small";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public double value { get; set; }
+    [Parameter] public EventCallback<double> valueChanged { get; set; }
+    async Task onValueChanged(string _value)
+    {
+        double _result = 0;
+        if(!string.IsNullOrEmpty(_value))
+        {
+            _result = Convert.ToDouble(_value);
+        }
+        await valueChanged.InvokeAsync(_result);
+    }
+}
+
+

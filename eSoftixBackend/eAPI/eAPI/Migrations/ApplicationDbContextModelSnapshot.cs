@@ -481,6 +481,9 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("current_balance")
+                        .HasColumnType("decimal(16,4)");
+
                     b.Property<string>("customer_code")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -516,6 +519,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<DateTime>("expired_date")
+                        .HasColumnType("date");
+
                     b.Property<string>("gender")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -530,6 +536,9 @@ namespace eAPI.Migrations
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("pending_project")
+                        .HasColumnType("int");
 
                     b.Property<string>("phone_1")
                         .IsRequired()
@@ -558,6 +567,9 @@ namespace eAPI.Migrations
                     b.Property<string>("telegram")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("total_project")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -725,6 +737,22 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_module_view");
+                });
+
+            modelBuilder.Entity("eModels.MonthTextModel", b =>
+                {
+                    b.Property<int>("month_number")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("month_text")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("month_number");
+
+                    b.ToTable("tbl_month_text");
                 });
 
             modelBuilder.Entity("eModels.NoteModel", b =>
@@ -1043,6 +1071,10 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("paid_date")
                         .HasColumnType("date");
 
+                    b.Property<string>("project_code")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("project_name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -1077,6 +1109,9 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("color")
+                        .HasColumnType("int");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1092,6 +1127,10 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("icon")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -1260,7 +1299,13 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("expired_date")
+                        .HasColumnType("date");
+
                     b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_full_license")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("outlet_id")

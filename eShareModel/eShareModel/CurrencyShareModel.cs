@@ -8,22 +8,11 @@ namespace eShareModel
 
         [MaxLength(50)]
         public string currency_name_en { get; set; }
-
         [MaxLength(50)]
         public string currency_name_kh { get; set; }
-
-
         [MaxLength(50)]
         public string currency_format { get; set; }
-
-
-        [Column(TypeName = "decimal(19,10)")]
-        public decimal exchange_rate { get; set; }
-
-
-        [Column(TypeName = "decimal(19,10)")]
-        public decimal change_exchange_rate { get; set; }
-
+        public bool is_base_exchange_currency { get; set; }
         public bool is_main { get; set; }
 
         public bool status { get; set; } = true;

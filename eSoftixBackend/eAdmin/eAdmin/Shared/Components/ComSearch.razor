@@ -2,21 +2,31 @@
  
  
 <EditForm Model="@dummy" OnSubmit="Search" >
-   <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@place_holder"></MudTextField>
-      
-        @if (show_advance_filter)
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+     <div class="d-flex">
+         <div> <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@place_holder" Margin="Margin.Dense" Class="cus_inputselect_search"></MudTextField></div>
+         <div class="align-self-center cus_buuton_fillter">
+               @if (show_advance_filter)
         {
-            <MudIconButton Icon="@Icons.Material.Filled.Search" OnClick="ShowAdvanceFilter"></MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Tune" OnClick="ShowAdvanceFilter" Size="Size.Medium" Variant="Variant.Filled" Class="ml-2"></MudIconButton>
         }
-      
-    
+         </div>
+     </div>
+
+    </MudHidden>
+ <MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <MudIconButton Icon="@Icons.Material.Filled.Tune" OnClick="ShowAdvanceFilter" Size="Size.Medium" Variant="Variant.Filled" Class="mr-2"></MudIconButton>
+ </MudHidden>
+
 </EditForm>
-@if (show_advance_filter)
-{
-    <FilterFly  OnSearch="@OnFillterClick" IsOpen="@open_advance_filter">
-        @ChildContent
-    </FilterFly>
-}
+ 
+<FilterFly  OnSearch="@OnFillterClick" IsOpen="@open_advance_filter">
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@place_holder" Margin="Margin.Dense"></MudTextField>
+        </MudHidden>
+    @ChildContent
+</FilterFly>
+ 
 
 @code{
     [Parameter] public string place_holder { get; set; } = "Search...";

@@ -7,24 +7,28 @@
             </div>
         </Com>
         <div class="uk-width-expand">
-            @if(IsFullContent == true)
+            @if (IsFullContent == true)
             {
-                <div>
+                <div class="fullcontent-summary-box">
                     @ContentFull
                 </div>
             }
-            <div class="uk-grid-divider uk-child-width-expand@s profile-overview" uk-grid>
-                <div>
-                    @ContentLeft
-                    <div class="uk-flex uk-flex-inline">
-                        <div> <Icon icon="@Icon" OnClick="@OnClick" /></div>
+            else
+            {
+                <div class="uk-grid-divider uk-child-width-expand@s profile-overview" uk-grid>
+                    <div>
+                        @ContentLeft
+                        <div class="uk-flex uk-flex-inline">
+                            <div> <Icon icon="@Icon" OnClick="@OnClick" /></div>
+                        </div>
+
                     </div>
-                   
+                    <div>
+                        @ContentRight
+                    </div>
                 </div>
-                <div>
-                    @ContentRight
-                </div>
-            </div>
+            }
+
         </div>
     </Grid>
 </UIContainerBox>

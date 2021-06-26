@@ -6,7 +6,7 @@
     }
     
    
-        <MudSimpleTable Style="overflow-x: auto;">
+        <MudSimpleTable Style="overflow-x: auto;" Hover="true">
             <thead>
                 <tr>
                     @if (ShowCounter)
@@ -54,27 +54,68 @@
  
     @if (ShowPaging && Items.Count > 0)
     {
-      
-                    @if (ShowPager)
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+      <MudGrid>
+          <MudItem xs="12" md="12">
+              <div class="d-flex justify-space-between">
+              <div class="pt-2 mx-2 cus_class_select">
+                   @if (ShowPager)
                     {
                          <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
                     }
                     
                     @if (ShowTotalCount)
                     {
-                        <Column ClassName="uk-width-auto wrp-page-size-info">
+                        @*<Column ClassName="uk-width-auto wrp-page-size-info">
                             <PagerInfo TotalItem="TotalItem" CurrentPage="CurrentPage" PerPage="PerPage" />
-                        </Column>
+                        </Column>*@
                     }
+              </div>
+               <div class="pt-2">
+                         @if (ShowPagination)
+                            {
+                            <ComTotalPager TotalRecord="@TotalItem" PerPage="@PerPage" CurrentPage="@CurrentPage" SelectedPage="@PageChange" IsVisible="@(totalPage > 1 && (PagerLocation == "Both" || PagerLocation == "Bottom"))" />
+                          }
+              </div>
+              </div>
                 
-           
-          
-            @if (ShowPagination)
-            {
-                <ComTotalPager TotalRecord="@TotalItem" PerPage="@PerPage" CurrentPage="@CurrentPage" SelectedPage="@PageChange" IsVisible="@(totalPage > 1 && (PagerLocation == "Both" || PagerLocation == "Bottom"))" />
-        }
-             
+          </MudItem>
        
+
+      </MudGrid>
+    </MudHidden>   
+
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+      <MudGrid>
+          <MudItem xs="12" md="12">
+              <div>
+              <div class="pt-2 mx-2 cus_class_select">
+                   @if (ShowPager)
+                    {
+                         <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
+                    }
+                    
+                    @if (ShowTotalCount)
+                    {
+                        @*<Column ClassName="uk-width-auto wrp-page-size-info">
+                            <PagerInfo TotalItem="TotalItem" CurrentPage="CurrentPage" PerPage="PerPage" />
+                        </Column>*@
+                    }
+              </div>
+               <div class="pt-2"  style="text-align: center;">
+                         @if (ShowPagination)
+                            {
+                            <ComTotalPager TotalRecord="@TotalItem" PerPage="@PerPage" CurrentPage="@CurrentPage" SelectedPage="@PageChange" IsVisible="@(totalPage > 1 && (PagerLocation == "Both" || PagerLocation == "Bottom"))" />
+                          }
+              </div>
+              </div>
+                
+          </MudItem>
+       
+
+      </MudGrid>
+    </MudHidden>   
+    
     }
     @if (isLoading)
     {

@@ -1,24 +1,27 @@
 ﻿<MudPaper Elevation="25">
  <MudToolBar DisableGutters="true" Class="mx-4" >
-    <MudText Typo="Typo.h5" Color="Color.Primary">@title</MudText>
+    <MudText Typo="Typo.h5" Color="MudBlazor.Color.Primary">@title</MudText>
     @if(Filter!=null){
-        <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Color="Color.Inherit" >
+        <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Color="MudBlazor.Color.Inherit" >
            @Filter 
         </MudMenu>
        
     }
     @Left
     @ChildContent
-    <MudSpacer />
-    @Right
+     <MudAppBarSpacer />
+   
+         @Right
     @if (show_refresh_button)
     {
-    <MudIconButton Icon="@Icons.Material.Filled.Refresh"></MudIconButton>    
+    <MudIconButton Icon="@Icons.Material.Filled.Refresh" Variant="Variant.Filled"></MudIconButton>    
     }
     @if (show_back_button)
     {
-    <MudIconButton Icon="@Icons.Material.Filled.Reply"></MudIconButton>    
+    <MudIconButton Icon="@Icons.Material.Filled.Reply" Variant="Variant.Filled"></MudIconButton>    
     }
+ 
+   
     
 </MudToolBar>
 </MudPaper>

@@ -1,0 +1,58 @@
+﻿@inject IHttpService http             
+<MudItem sm="12" xs="12" md="12" lg="12" xl="8">
+    <MudPaper Elevation="25" Class="pa-4" Style="height:600px;">
+        <ApexChart TItem="DashboardChart" Height="@("100%")" Width="@("100%")" ChartType="ApexCharts.ChartType.Area">
+            <ApexSeries TItem="DashboardChart"
+                Items="@models.AsEnumerable()"
+                Name="Opened"
+                XValue="@(e => e.month_text)"
+                YAggregate="@(e => e.Sum(e => e.new_customer))"
+                ShowDataLabels="true" />
+
+                <ApexSeries TItem="DashboardChart"
+                Items="@models.AsEnumerable()"
+                Name="Close"
+                XValue="@(e => e.month_text)"
+                YAggregate="@(e => e.Sum(e => e.opened_project))"
+                ShowDataLabels="true" />
+
+                <ApexSeries TItem="DashboardChart"
+                Items="@models.AsEnumerable()"
+                Name="New Customer"
+                XValue="@(e => e.month_text)"
+                YAggregate="@(e => e.Sum(e => e.closed_project))"
+                ShowDataLabels="true" />
+        </ApexChart>
+    </MudPaper>
+</MudItem>
+
+                
+
+@code {
+    bool is_loading;
+    List<DashboardChart> models = new List<DashboardChart>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading=true;
+        var res = await http.ApiPost("GetData",new FilterModel(){
+            procedure_name="sp_get_dashboard_yearly_customer_and_project_statistic"
+        });
+        if(res.IsSuccess){
+            models = JsonSerializer.Deserialize<List<DashboardChart>>(res.Content.ToString());
+        }
+        is_loading=false;
+    }
+
+
+
+        public class DashboardChart
+    {
+        public string month_text { get; set; }
+        public decimal year { get; set; }
+        public decimal closed_project { get; set; }
+        public decimal opened_project { get; set; }
+        public decimal new_customer { get; set; }
+        public int month { get; set; }
+    }
+}
