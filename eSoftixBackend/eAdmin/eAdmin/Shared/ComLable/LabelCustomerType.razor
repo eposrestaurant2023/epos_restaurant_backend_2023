@@ -1,0 +1,18 @@
+﻿@if (is_visible)
+{
+    if (is_member)
+    {
+       <MudChip  Label="true" Color="MudBlazor.Color.Secondary" Size="Size.Small">Member</MudChip>
+    
+    }
+    else
+    {
+         <MudChip  Label="true" Style="background-color: #3a89ad;" Size="Size.Small">Customer</MudChip>
+    }
+
+}
+
+@code{
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool is_member { get; set; } = false;
+}

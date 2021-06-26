@@ -30,7 +30,7 @@
 
                             @if (models.Any())
                             {
-                                 <h5>Exchange Rate</h5>
+                                 <h5 style="margin:10px,0px;">Exchange Rate</h5>
                                    <hr/>
                                 foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id &&  m.currency.is_base_exchange_currency == false).OrderByDescending(r => r.currency.is_main).ToList())
                                 {
@@ -75,16 +75,17 @@
     }
     public double base_exchange_rate(Guid _bid)
     {
-
-        return models.Where(r => r.currency_id == base_exchange_currency.id && r.business_branch_id==_bid).FirstOrDefault().exchange_rate;
+        double rate = models.Where(r => r.currency_id == base_exchange_currency.id && r.business_branch_id==_bid).FirstOrDefault().exchange_rate;
+        return rate == 0 ? 1 : rate;
 
     }
 
     public double base_change_exchange_rate(Guid _bid)
     {
 
-        return models.Where(r => r.currency_id == base_exchange_currency.id && r.business_branch_id==_bid).FirstOrDefault().change_exchange_rate;
-
+        
+        double rate = models.Where(r => r.currency_id == base_exchange_currency.id && r.business_branch_id==_bid).FirstOrDefault().change_exchange_rate;
+        return rate == 0 ? 1 : rate;
     }
 
     protected override async Task OnInitializedAsync()

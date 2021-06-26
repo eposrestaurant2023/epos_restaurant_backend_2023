@@ -9,6 +9,9 @@
 }
 @if (!is_loading)
 {
+
+
+
 <PageContainer>
     <PageHeader title="@state.page_title" >
         <Filter>
@@ -27,10 +30,7 @@
         </Right>
     </PageHeader>
     <PageBody>
-        
-                
-          
-       
+
        <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
         
         <Table Items="@customers"
@@ -44,10 +44,8 @@
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-                <ThCenter>Image</ThCenter>
-                @HeaderTemplate("customer_code", "Code", "uk-text-center")
-                @HeaderTemplate("customer_name_en", "Name (Kh)", "col-auto")
-                @HeaderTemplate("customer_group/customer_group_name_en", "Customer Group", "col-auto")
+                <ThCenter>Customer</ThCenter>
+                @HeaderTemplate("customer_group/customer_group_name_en", "Group", "col-auto")
                 @HeaderTemplate("company_name", "Company", "col-auto")
                 @HeaderTemplate("phone_1", "Phone", "uk-text-left")
                 @HeaderTemplate("gender", "Gender", "uk-text-center")
@@ -59,16 +57,8 @@
             </TableHeader>
             <RowTemplate Context="p">
                 <TdCenter>
-                    <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true"/>
+                  <ComCustomerCodeName customer="@p"/>
                 </TdCenter>
-                <TdCenter>
-                    <AuthView roles="customer_view" url="@($"customer/{p.id}")">@p.customer_code</AuthView>
-                </TdCenter>
-                <td>
-                    <div>
-                        <AuthView roles="@gv.GetRole("customer_view")" url="@($"customer/{p.id}")">@p.customer_name_en (@p.customer_name_kh)</AuthView>
-                    </div>
-                </td>
 
                 <td>
                     @p.customer_group?.customer_group_name_en
@@ -77,13 +67,14 @@
                     @p.company_name
                 </td>
                 <td>
-                    @p.phone_1 @(!string.IsNullOrEmpty(p.phone_2)?$"/ {p.phone_2}":"")
+                    <MudText Typo="Typo.body2">@p.phone_1</MudText>
+                    <MudText Typo="Typo.body2">@p.phone_2</MudText>
                 </td>
                 <td>
                     @p.gender
                 </td>
                 <TdCenter>
-                   
+                   <LabelActive />
                 </TdCenter>
             </RowTemplate>
         </Table>

@@ -1,0 +1,35 @@
+﻿@page "/customerdetail"
+@inject IHttpService http
+
+<Loading is_loading="is_loading"/>
+ 
+<PageContainer roles="dashboard_management">
+    <PageHeader title="Dashboard"/>
+    <PageBody>
+        @if (!is_loading) { 
+            <UICenter>
+                
+            </UICenter>
+        }
+    </PageBody>
+</PageContainer>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    CustomerModel customer {get; set;} = new();
+    AttachFilesModel file = new();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var api = "customer?$top=1";
+
+        var resp = await http.ApiGetOData(api);
+        if(resp.IsSuccess){
+            var customer_list = JsonSerializer.Deserialize<List<CustomerModel>>(resp.Content.ToString());
+            customer = customer_list.FirstOrDefault();
+        }
+        file.customer_id = customer.id;
+        is_loading = false;
+    }
+}
