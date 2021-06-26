@@ -213,4 +213,5 @@ a.disabled, a.disabled:hover {
     border-bottom: 1px solid;
     margin-bottom: 15px;
     border-color: var(--mud-palette-divider);
+    padding-bottom: 5px;
 }
