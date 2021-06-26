@@ -1,21 +1,21 @@
 ﻿@if (selected_date != null)
 {
    
-    <MudCheckBox @bind-Checked="@selected_date.is_visible"></MudCheckBox>
+    <MudSwitch @bind-Checked="@selected_date.is_visible" Color="MudBlazor.Color.Tertiary">Filter Date</MudSwitch>
 
     @if (selected_date.is_visible)
     {
 
         @if (show_select_period)
         {
-            <SelectDefaultPeroid @bind-SelectedValue="@selected_date"  InputLabel="Peroid Date" />
+            <SelectDefaultPeroid @bind-SelectedValue="@selected_date"  InputLabel="Peroid Date"/>
 
         } 
         if (dates.id == 8)
         {
-             <MudDatePicker   Label="@label" @bind-Date="@selected_date.start_date" />
+             <MudDatePicker   Label="@label" @bind-Date="@selected_date.start_date" DisableToolbar="true" Margin="Margin.None"/>
            
-                <MudDatePicker Label="@label" @bind-Date="@selected_date.end_date" />
+             <MudDatePicker Label="@label" @bind-Date="@selected_date.end_date" DisableToolbar="true" Margin="Margin.None"/>
 
         }
 

@@ -4,11 +4,29 @@
             <div class="wrp-pagging-info">
                     @foreach (var link in links)
                     {
-                        <MudButton  @onclick="@(() => SelectedPageInternal(link))"
-                        Style="cursor: pointer;"
-                        Class="page-item" Variant="Variant.Filled" >
-                        <a class="page-link @link.Text">@link.Text</a>
+            if (link.Text == "Next")
+            {
+                <MudButton  OnClick="@(() => SelectedPageInternal(link))" EndIcon="@Icons.Material.Filled.ArrowForwardIos"
+                        Variant="Variant.Text" Size="Size.Medium" Class="page-item" Style="cursor: pointer;">
                     </MudButton>
+          }
+          else if(link.Text == "Prve")
+          {
+                
+          <MudButton  OnClick="@(() => SelectedPageInternal(link))"  StartIcon="@Icons.Material.Filled.ArrowBackIos"
+                        Variant="Variant.Text" Size="Size.Medium" Class="page-item" Style="cursor: pointer;">
+                    </MudButton>
+            }else
+            {
+                
+                      <MudButton  OnClick="@(() => SelectedPageInternal(link))"
+                        Style="cursor: pointer;"
+                        Class="page-item" Variant="Variant.Text">
+                       @link.Text
+                    </MudButton>
+
+            }
+           
                 }
           
  </div>
@@ -22,6 +40,7 @@
     [Parameter] public bool IsVisible { get; set; } = true;
 
     [Parameter] public EventCallback<int> SelectedPage { get; set; }
+    
     List<LinkModel> links;
     int total_page = 0;
     protected override void OnParametersSet()

@@ -1,0 +1,102 @@
+﻿@inject IHttpService http;  
+@inject ISnackbar toast;  
+
+@if(IsVisible){
+    @if (is_loading)
+    {
+        <MudButton StartIcon="@Icons.Outlined.AttachFile" title="Attach File" ><Spinner /></MudButton>
+    }
+    else
+    {
+        <MudButton StartIcon="@Icons.Outlined.AttachFile" title="Attach File" OnClick="OpenDrawer">(@files.Where(r => r.is_deleted == false).Count())</MudButton>
+    
+        <MudDrawer @bind-Open="@IsOpenDrawer" Anchor="Anchor.End" Width="300px" Elevation="1" Variant="@DrawerVariant.Temporary">
+            <ComAttachFile RoleAdd="@RoleAdd"
+                               RoleEdit="@RoleEdit"
+                               RoleDelete="@RoleDelete"
+                               AttachFiles="@files"
+                               file="@File"
+                               OnUploadAttachFile="@UploadAttachFile_Click"
+                               OnDeleteAttachFile="@DeleteAttachFile_Click"
+                               IsVisible="@IsVisible"
+                               IsReadOnly="@IsReadOnly" />
+        </MudDrawer>
+    }
+}
+
+
+@code{
+
+    [Parameter] public string RoleAdd { get; set; }
+    [Parameter] public string RoleEdit { get; set; }
+    [Parameter] public string RoleDelete { get; set; }
+    [Parameter] public bool IsVisible { get; set; } = true;
+    [Parameter] public bool IsReadOnly { get; set; } = false;
+    [Parameter] public AttachFilesModel File { get; set; } = new AttachFilesModel();
+    [Parameter] public EventCallback<AttachFilesModel> OnUplopadFile { get; set; }
+    [Parameter] public EventCallback<AttachFilesModel> OnDeleteFile { get; set; }
+    [Parameter] public string ApiFilter { get; set; } = "";
+    List<AttachFilesModel> files = new List<AttachFilesModel>();
+
+    bool IsOpenDrawer;
+
+    public string api_url {
+        get {
+            var url = $"AttachFiles?$filter=is_deleted eq false";
+            if (!string.IsNullOrEmpty(ApiFilter)) {
+                url = $"{url} and {ApiFilter}";
+            }
+            return url;
+        }
+    }
+
+    bool is_loading;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        await Task.Delay(1000);
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            files =JsonSerializer.Deserialize<List<AttachFilesModel>>(resp.Content.ToString());
+        }
+        else
+        {
+            toast.Add("There's something went wrong. Please try again.", Severity.Warning);
+
+        }
+
+        is_loading = false;
+
+    }
+
+
+
+    public void DeleteAttachFile_Click(AttachFilesModel file)
+    {
+        if (file != null)
+        {
+            OnDeleteFile.InvokeAsync(file);
+        }
+        StateHasChanged();
+    }
+
+
+    public void UploadAttachFile_Click(AttachFilesModel file)
+    {
+
+        if (file != null)
+        {
+            files.Add(file);
+            OnUplopadFile.InvokeAsync(file);
+        }
+    }
+
+    void OpenDrawer()
+    {
+        IsOpenDrawer = true;
+    }
+
+}
