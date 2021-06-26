@@ -1,0 +1,27 @@
+﻿@inject IHttpService http
+@inherits PageCore
+<MudPaper>
+    <MudList>
+    @foreach (var p in projects)
+        {
+            <MudListItem>
+                <MudAvatar>
+                </MudAvatar>
+            </MudListItem> 
+        }
+        
+    </MudList>
+</MudPaper>
+
+@code{
+    [Parameter] public string id { get; set; }
+    List<ProjectModel> projects { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await http.ApiGetOData($"project?$filter=is_closed eq false and is_paid eq false and customer eq {id}&$expand=project_type($select=id,icon,color)");
+        if (res.IsSuccess)
+        {
+            projects = JsonSerializer.Deserialize<List<ProjectModel>>(res.Content.ToString());
+        }    
+    }
+}

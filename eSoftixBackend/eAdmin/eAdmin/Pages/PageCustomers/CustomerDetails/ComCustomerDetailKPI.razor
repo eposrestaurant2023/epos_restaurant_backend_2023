@@ -1,0 +1,31 @@
+﻿<MudItem xs="12" lg="4">
+    <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+    
+        <div>
+            <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total Project</MudText>
+            <MudText Typo="Typo.h5">@customer.total_project</MudText>
+        </div>
+    </MudPaper>
+</MudItem>
+<MudItem xs="12" lg="4">
+    <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+  
+    <div>
+        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Pending Project </MudText>
+        <MudText Typo="Typo.h5">@customer.total_project</MudText>
+    </div>
+</MudPaper>
+</MudItem>
+<MudItem xs="12" lg="4">
+    <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+    
+    <div>
+        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Current Balance </MudText>
+        <MudText Typo="Typo.h5">@customer.current_balance</MudText>
+    </div>
+</MudPaper>
+</MudItem>
+
+@code{
+    [Parameter] public CustomerModel customer { get; set; }
+}
