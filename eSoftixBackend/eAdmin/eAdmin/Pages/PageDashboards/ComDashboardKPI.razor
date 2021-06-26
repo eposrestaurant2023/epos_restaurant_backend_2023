@@ -1,8 +1,13 @@
 ﻿<MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
-    <MudIcon Icon="@Icon" Color="@color" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+<MudIcon Icon="@Icon" Color="@color" Class="mx-4" Size="Size.Large"></MudIcon>
     <div>
-        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">@Title</MudText>
-        <MudText Typo="Typo.h5">@Value</MudText>
+           <MudHidden Breakpoint="Breakpoint.SmAndDown">
+              <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">@Title</MudText>
+          </MudHidden>
+         <MudHidden Breakpoint="Breakpoint.MdAndUp">
+           <MudText Typo="Typo.subtitle2" Class="mud-text-secondary mb-n1">@Title</MudText>
+         </MudHidden>
+         <MudText Typo="Typo.h5">@Value</MudText>
     </div>
 </MudPaper>
 

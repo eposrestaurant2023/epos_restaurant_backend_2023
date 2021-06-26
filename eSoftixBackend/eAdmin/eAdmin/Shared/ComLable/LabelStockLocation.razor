@@ -1,0 +1,9 @@
+﻿@if (is_visible && !string.IsNullOrEmpty(label))
+{
+    <span class="uk-label" style="background-color: #01a9a7" uk-tooltip="Stock Location">@label</span>
+}
+
+@code{
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string label { get; set; }
+}

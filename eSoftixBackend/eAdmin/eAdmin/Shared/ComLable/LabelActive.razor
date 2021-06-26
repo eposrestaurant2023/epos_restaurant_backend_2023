@@ -1,0 +1,42 @@
+﻿
+@if (is_visible)
+{
+    if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+
+
+        if (roles == "")
+        {
+            <MudChip  Label="true" Color="MudBlazor.Color.Info" Icon="@IconName" Size="Size.Small">Active</MudChip>
+        }
+        else
+        {
+            <AuthorizeView Roles="@roles">
+                <Authorized>
+                    <MudChip  Label="true" Color="MudBlazor.Color.Info" Icon="@IconName" Size="Size.Small">Active</MudChip>
+                </Authorized>
+                <NotAuthorized>
+                     <MudChip  Label="true" Color="MudBlazor.Color.Info" Icon="@IconName" Size="Size.Small">Active</MudChip>
+                </NotAuthorized>
+            </AuthorizeView>
+
+        }
+    }
+}
+
+
+@code
+{
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public bool is_loading { get; set; } = false;
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter] public string IconName { get; set; } = "";
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+}
