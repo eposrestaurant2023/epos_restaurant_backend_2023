@@ -82,12 +82,20 @@ if(state.is_logined ){
     </MudScrollToTop>
 </MudHidden>
  <MudThemeProvider Theme="state.current_theme" />
-
+ <MudDialogProvider
+    CloseButton="true"
+    FullWidth="true"
+    DisableBackdropClick="true"
+ />
+ <MudSnackbarProvider/>
  @code{
      bool is_open;
     
     void ToggleDrawer_modile()
     {
         is_open = !is_open;
+         
     }
+
+
  }
