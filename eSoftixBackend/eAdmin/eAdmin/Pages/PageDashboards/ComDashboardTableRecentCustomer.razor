@@ -31,13 +31,12 @@
                     <div style="display:flex;">
                         <MudAvatar Image="@(config.GetValue<string>("BaseUrl") + $"upload/{s.photo}")" Size="Size.Large">
                         </MudAvatar>
-                    <div style="padding-left:6px">
-                        <AuthView roles="customer_view" url="@($"customer/{s.id}")">
-                            <MudText Typo="Typo.body1">@s.customer_code - @s.customer_name_en</MudText>
-                        </AuthView>
-                        
-                    </div>
-                
+                        <div style="padding-left:6px">
+                            <AuthView roles="customer_view" url="@($"customer/{s.id}")">
+                                <MudText Typo="Typo.body1">@s.customer_code - @s.customer_name_en</MudText>
+                            </AuthView>
+                                <MudText Typo="Typo.caption">@s.company_name</MudText>
+                        </div>
                     </div>
                 </td>
                 <td>
@@ -45,7 +44,6 @@
                         <MudText Typo="Typo.body1">
                            @s.customer_group.customer_group_name_en
                         </MudText>
-                        
                     </div>
                 </td>
                 <td>
@@ -84,7 +82,7 @@
         is_loading=false;
     }
     async Task LoadData(){
-         var res = await http.ApiGetOData("customer?$select=id,customer_name_en,customer_name_kh,customer_code,phone_1,phone_2,company_name_kh,photo,total_project&$expand=customer_group($select=customer_group_name_en,customer_group_name_kh)&$top=25&orderby=created_date desc");
+         var res = await http.ApiGetOData("customer?$select=id,customer_name_en,company_name,customer_name_kh,customer_code,phone_1,phone_2,company_name_kh,photo,total_project&$expand=customer_group($select=customer_group_name_en,customer_group_name_kh)&$top=25&orderby=created_date desc");
         models = JsonSerializer.Deserialize<List<CustomerModel>>(res.Content.ToString());
         
     }

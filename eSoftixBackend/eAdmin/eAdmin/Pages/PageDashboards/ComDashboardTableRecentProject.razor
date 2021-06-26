@@ -37,7 +37,6 @@
                             <div style="padding-left:6px">
                                 <AuthView roles="project_view" url="@($"project/{s.id}")">
                                     <MudText Typo="Typo.body1">@s.project_name</MudText>    
-                                    <br />
                                     <MudText Typo="Typo.caption">@s.project_code</MudText>
                                 </AuthView>
                             </div>
@@ -52,7 +51,6 @@
                                 <AuthView roles="customer_view" url="@($"project/{s.id}")">
                                     <MudText Typo="Typo.body1">@s.customer?.customer_code - @s.customer.customer_name_en</MudText>    
                                 </AuthView>
-                                <br />
                                 <MudText Typo="Typo.caption">@s.customer.phone_1 <br />
                                     @s.customer.phone_2
                                 </MudText>

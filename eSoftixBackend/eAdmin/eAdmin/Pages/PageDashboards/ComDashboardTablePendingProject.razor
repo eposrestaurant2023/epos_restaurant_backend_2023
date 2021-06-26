@@ -44,7 +44,6 @@ else
                         <div style="padding-left:6px">
                             <AuthView roles="project_view" url="@($"project/{s.id}")">
                                 <MudText Typo="Typo.body1">@s.project_name</MudText>    
-                                <br />
                                 <MudText Typo="Typo.caption">@s.project_code</MudText>
                             </AuthView>
                         </div>
@@ -56,17 +55,22 @@ else
                         <MudText Typo="Typo.body1">@s.customer.customer_code - @s.customer.customer_name_en</MudText>    
                         
                     </AuthView>
-                    <br />
                         <MudText Typo="Typo.caption">@s.customer.phone_1 <br />
                             @s.customer.phone_2
                         </MudText>
                 </td>
                 <TdCenter>
+                    <MudText Typo="Typo.body1">
                             @s.start_date.Value.ToString(gv.date_format)
-                        </TdCenter>
+                    </MudText>
+                    
+                </TdCenter>
                         <TdCenter>
                             @if(s.closed_date != null){
-                                @s.closed_date.Value.ToString(gv.date_format)
+                                <MudText Typo="Typo.body1">@s.customer.phone_1 <br />
+                                     @s.closed_date.Value.ToString(gv.date_format)
+                                </MudText>
+                                
                             }else{
                                 @("-")
                             }
