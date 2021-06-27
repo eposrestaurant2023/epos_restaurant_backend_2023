@@ -1,6 +1,8 @@
 ﻿@using System.ComponentModel.DataAnnotations
 <MudPaper Class="ui-panel-item">
-    <MudItem Class="d-flex pa-4">
+@if (!string.IsNullOrEmpty(Title))
+    {
+        <MudItem Class="d-flex pa-4">
         @if(UIPanelHeaderLeft is null)
         {
             <MudText Typo="Typo.h6" Class="d-flex align-center">
@@ -17,6 +19,8 @@
         @UIPanelHeaderRight
     </MudItem>
     <MudDivider/>
+    }
+    
     @if(UIPanelBody is not null){
         <MudItem Class="pa-4">
             @UIPanelBody
@@ -29,7 +33,7 @@
 </MudPaper>
 
 @code {
-    [Parameter][Required] public string Title { get; set; } = "";
+    [Parameter] public string Title { get; set; } = "";
     [Parameter] public string IconName { get; set; } = "";
     [Parameter] public RenderFragment UIPanelHeaderLeft { get; set; }
     [Parameter] public RenderFragment UIPanelHeaderRight { get; set; }

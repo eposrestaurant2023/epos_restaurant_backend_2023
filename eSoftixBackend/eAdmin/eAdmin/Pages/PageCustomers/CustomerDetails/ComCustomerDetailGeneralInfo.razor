@@ -1,8 +1,14 @@
 ﻿@inject IConfiguration config
 <UICenter>
-    <MudPaper Style="padding:12px">
+<UIPanel>
+<UIPanelBody>
+    <ComCustomerDetailKPI customer="@model"/>
+</UIPanelBody>
+</UIPanel>
+<UIPanel Title="General Infomation">
+<UIPanelBody>
     <MudGrid>
-        <ComCustomerDetailKPI customer="@model"/>
+      
                 
         <MudItem xs="12" md="12" lg="4" Style="text-align:center">
             <MudAvatar Style="width:120px;height:120px" Image="@(config.GetValue<string>("BaseUrl") + $"upload/{model.photo}")">
@@ -40,10 +46,12 @@
             </MudText>
         </MudItem>
         <MudItem>
-            <ComCustomerDetailCurrentProject id="@model.customer_id"/>
+            <!--<ComCustomerDetailCurrentProject id="@model.id"/>-->
         </MudItem>
     </MudGrid>
-    </MudPaper>
+</UIPanelBody>
+</UIPanel>
+   
 </UICenter>
 @code{
     [Parameter] public CustomerModel model { get; set; }
