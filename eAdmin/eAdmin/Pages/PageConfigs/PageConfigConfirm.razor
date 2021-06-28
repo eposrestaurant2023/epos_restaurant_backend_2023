@@ -6,6 +6,7 @@
 
 @inject IMatToaster toast;
 
+<Loading is_loading="@is_loading"/>
  
     <div class="wrp-login-page_projct">
         <div class="wrp_project_theme">
@@ -14,6 +15,10 @@
             </div>
             <div class="login-form">
                 <div>
+                    @if (!is_loading) {
+                     <Button OnClick="@OnInitializedAsync">Refresh</Button>
+                }
+                   
                     @if (is_loading)
                     {
                         <Spinner />
@@ -61,17 +66,20 @@
                                     {
                                     <div class="box_station_out">
                                         <div class="title_branches_box">
-                                            @b.business_branch_name_en
+                                            Branch: @b.business_branch_name_en
                                         </div>
 
 
                                         @*<strong>@lang["Outlets"] (@b.outlets.Count())</strong>*@
+                                   
+                                        <ComConfigBusinessBranchSystemFeature business_branch_system_features="@b.business_branch_system_features" />
+                                        <hr />
 
                                         @foreach (var o in b.outlets)
                                         {
                                             <div class="box_branch">
                                                 <div class="title_oulet">
-                                                    @o.outlet_name_en
+                                                   Outlet: @o.outlet_name_en
                                                 </div>
                                                 @*<strong>@lang["Stations"] (@o.stations.Count())</strong>*@
                                                 <div style="margin-left:10px;">
@@ -86,29 +94,31 @@
                                         }
 
 
-
-
                                         @if (b.stock_locations.Count() > 0)
                                         {
-
-                                           
-                                        <div class="box_branch">
-                                            <div class="title_oulet">@lang["Warehouses"]</div>
-                                            <div style="margin-left:10px;">
-                                                @foreach (var s in b.stock_locations)
-                                                {
-                                                    <div>@s.stock_location_name</div>
-                                                }
+                                            <div class="box_branch">
+                                                <div class="title_oulet">@lang["Warehouses"]</div>
+                                                <div style="margin-left:10px;">
+                                                    @foreach (var s in b.stock_locations)
+                                                    {
+                                                        <div>@s.stock_location_name</div>
+                                                    }
+                                                </div>
                                             </div>
-                                        </div>
                                         }
+                                         
 
+                                     
                                     </div>
                                     <Spacing Number="10"/>
                                         }
 
 
+
+
+
                                     </div>
+                                    <ComConfigProjectFeature project_features="@model.project_system_features"/>
                             </div>
                             <Spacing Number="20"/>
                             <div>
@@ -158,7 +168,7 @@
         is_loading = true;
         try
         {
-            var resp = await http.eSoftixApiGet($"project({project_id})?$expand=customer,business_branches($expand=stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)");
+            var resp = await http.eSoftixApiGet($"project({project_id})?$expand=customer,project_system_features($expand=system_feature),business_branches($expand=business_branch_system_features($expand=system_feature),stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)");
             if (resp.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<eSoftixBackend.ProjectModel>(resp.Content.ToString());
@@ -170,6 +180,8 @@
 
         is_loading = false;
     }
+
+
 
     async Task ConfirmBackendData()
     {
@@ -202,8 +214,17 @@
                         return;
                     }
                 }
+                //validate stock location
+                if(b.business_branch_system_features.Where(x=>(x.system_feature.feature_code =="INV_SIMPLE" && x.status==true) || (x.system_feature.feature_code == "INV_ADVANCE" && x.status == true)).Any())
+                {
+                    if (b.stock_locations.Count() == 0)
+                    {
+                         toast.Add($"{b.business_branch_name_en} {lang["does not have stock location."]}", MatToastType.Warning);
+                        is_saving = false;
+                        return;
+                    }
+                }
             }
-
         }
 
 
