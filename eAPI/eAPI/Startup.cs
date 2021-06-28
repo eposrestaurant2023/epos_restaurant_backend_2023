@@ -210,7 +210,7 @@ namespace eAPI
             odataBuilder.EntitySet<KitchenGroupModel>("KitchenGroup");
 
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
-            var business_branch_system_features = odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchCurrency");
+            var business_branch_system_features = odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             business_branch_system_features.EntityType.HasKey(r => new { r.business_branch_id, r.system_feature_id });
 
 
