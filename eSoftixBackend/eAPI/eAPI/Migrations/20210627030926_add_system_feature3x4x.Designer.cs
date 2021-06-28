@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210627030926_add_system_feature3x4x")]
+    partial class add_system_feature3x4x
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1400,36 +1402,6 @@ namespace eAPI.Migrations
                     b.ToTable("StoreProcedureResultModel");
                 });
 
-            modelBuilder.Entity("eModels.SystemFeatureModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("feature_code")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("feature_description")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("feature_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("permission_options")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_system_feature");
-                });
-
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
                     b.Property<int>("id")
@@ -1526,6 +1498,36 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_user");
                 });
 
+            modelBuilder.Entity("eShareModel.SystemFeatureModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("feature_code")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("feature_description")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("feature_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("permission_options")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_system_feature");
+                });
+
             modelBuilder.Entity("eModels.AttachFilesModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
@@ -1560,8 +1562,8 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.SystemFeatureModel", "system_feature")
-                        .WithMany("business_branch_system_features")
+                    b.HasOne("eShareModel.SystemFeatureModel", "system_feature")
+                        .WithMany()
                         .HasForeignKey("system_feature_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1756,8 +1758,8 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.SystemFeatureModel", "system_feature")
-                        .WithMany("project_system_features")
+                    b.HasOne("eShareModel.SystemFeatureModel", "system_feature")
+                        .WithMany()
                         .HasForeignKey("system_feature_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1857,13 +1859,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.RoleModel", b =>
                 {
                     b.Navigation("permission_option_roles");
-                });
-
-            modelBuilder.Entity("eModels.SystemFeatureModel", b =>
-                {
-                    b.Navigation("business_branch_system_features");
-
-                    b.Navigation("project_system_features");
                 });
 #pragma warning restore 612, 618
         }

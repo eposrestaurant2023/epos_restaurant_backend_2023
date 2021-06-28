@@ -51,5 +51,6 @@ namespace eModels
         public List<BusinessBranchModel> business_branches { get; set; }
 
         public List<ContactRelatedModel> contacts { get; set; }
+        public List<ProjectSystemFeatureModel> project_system_features { get; set; }
     }
 }
