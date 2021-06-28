@@ -18,7 +18,7 @@
     </MudItem>
     <MudDivider/>
     @if(UIPanelBody is not null || ChildContent is not null){
-        <MudItem Class="@(ChildContent is not null?"pa-4 m":"pa-4")">
+        <MudItem Class="@(ChildContent is not null?"pa-4 mx-auto":"pa-4")">
             @UIPanelBody
             @ChildContent
         </MudItem>
@@ -30,7 +30,7 @@
 </MudPaper>
 
 @code {
-    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Title { get; set; }
     [Parameter] public string IconName { get; set; } = "";
     [Parameter] public RenderFragment UIPanelHeaderLeft { get; set; }
     [Parameter] public RenderFragment UIPanelHeaderRight { get; set; }
