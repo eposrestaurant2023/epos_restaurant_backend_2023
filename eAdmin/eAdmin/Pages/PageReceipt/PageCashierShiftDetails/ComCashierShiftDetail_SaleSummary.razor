@@ -1,0 +1,13 @@
+﻿@inject IStringLocalizer<Resource> lang
+<UIGridCenter>
+    <UIContainerBox Title="@lang["Sale Summary"]">
+        <ListTable ClassWidth="uk-width-1-1">
+            <ListTableItem ItemTitle="@lang["Sale Amount"]" IsBetweenValue="true">1</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Discount"]" IsBetweenValue="true">0</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Net Sale"]" IsBetweenValue="true">0</ListTableItem> 
+        </ListTable>
+    </UIContainerBox>
+</UIGridCenter>
+@code {
+
+}

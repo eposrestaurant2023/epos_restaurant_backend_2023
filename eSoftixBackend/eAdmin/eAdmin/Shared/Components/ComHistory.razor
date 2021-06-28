@@ -40,7 +40,7 @@
                         <MudItem Class="d-flex flex-bottom">
                             <div class="uk-width-auto">
                                 <div class="mr-2">
-                                    <Image ImageUrl="@http.ImageUrl(h.user?.photo)" PopupImageUrl="@http.ImageUrl(h.user?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                                    <ProfileImage ImageUrl="@http.ImageUrl(h.user?.photo)" Width="50px" Height="50px"/>
                                 </div>
                             </div>
                             <div class="width-1-1">
@@ -67,7 +67,7 @@
                                     </div>
 
                                 </div>
-                                <MudText Align="MudBlazor.Align.Right"><strong class="uk-text-baseline text-muted">Date:</strong>  @h.created_date.ToString(gv.date_time_format)</MudText>
+                                <MudText Align="MudBlazor.Align.Right" Class="comment_date"><strong class="uk-text-baseline text-muted">Date:</strong>  @h.created_date.ToString(gv.date_time_format)</MudText>
 
                             </div>
                         </MudItem>

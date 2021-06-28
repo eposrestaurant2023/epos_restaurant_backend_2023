@@ -161,6 +161,7 @@ namespace eSoftixBackend
     {
         public Guid business_branch_id { get; set; }
         public Guid system_feature_id { get; set; }
+        public SystemFeatureModel system_feature { get; set; }
         public bool status { get; set; }
     }   
     
