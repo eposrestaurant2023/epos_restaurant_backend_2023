@@ -28,15 +28,22 @@
             <MudButton OnClick="@(()=>Navigation_Click("customer/new"))">New</MudButton>
             <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
                 <MudMenuItem OnClick="@(()=>Navigation_Click("customer/new"))">New Customer</MudMenuItem>
+                <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit/{model.id}"))">Edit Customer</MudMenuItem>
                 <MudMenuItem OnClick="@(()=>Navigation_Click("project/new"))">New Project</MudMenuItem>
-            </MudMenu>
-            <MudTooltip Text="More">
-                <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
-                    <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
-                    <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.status))">Status</MudMenuItem>
-                </MudMenu>
-            </MudTooltip>
+           @if(!model.is_deleted){
+               @if(model.status){
+                 <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Inactive</MudMenuItem>    
+               }
+               else{
+                     <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Active</MudMenuItem>    
+               }
+           }
+            @if(!model.is_deleted){
+                <MudMenuItem OnClick="@DeleteCustomer_Click">Delete Customer</MudMenuItem>
+            } 
             
+                
+            </MudMenu>
         </MudButtonGroup>
         </Right>
 
@@ -47,7 +54,7 @@
 <MudTabs Position="@Position.Top"
     ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
     <MudTabPanel Text="General Info">
-        <ComCustomerDetailGeneralInfo model="@model"/>
+        <ComCustomerDetailGeneralInfo model="@model" is_loading="is_loading"/>
     </MudTabPanel>
     <MudTabPanel Text="Project">
         <ComCustomerProject/>
@@ -58,8 +65,6 @@
 </MudTabs>
 
                 
-          
-      
     </PageBody>
 </PageContainer>
 }
