@@ -148,6 +148,19 @@ namespace eAdmin
             }
         };
 
+        public bool CheckPaging(PagerModel pager, int total_record)
+        {
+            if (total_record > 0)
+            {
+                int totalPage = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(total_record) / Convert.ToDecimal(pager.per_page)));
+                if (totalPage < pager.current_page)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;

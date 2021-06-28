@@ -1,5 +1,15 @@
-﻿<h3>ComCustomerProject</h3>
+﻿@using System.ComponentModel.DataAnnotations
+@inject IHttpService http
+<UICenter>
+    
+</UICenter>
 
-@code {
 
+@code{
+    [Parameter,Required] public Guid id {get;set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await http.ApiGetOData($"project?$filter=customer_id eq {id} and is_deleted eq false&$expand=project_type");
+    }
 }

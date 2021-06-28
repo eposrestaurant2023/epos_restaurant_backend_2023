@@ -1,53 +1,65 @@
 ﻿@page "/customerdetail"
 @inject IHttpService http
 
-<Loading is_loading="is_loading"/>
- 
+<Loading is_loading="is_loading" />
+
 <PageContainer roles="dashboard_management">
-    <PageHeader title="Dashboard"/>
+    <PageHeader title="Dashboard" />
     <PageBody>
-        @if (!is_loading) { 
-        <UICenter>
-            <UIPanel Title="Customer Photo" IconName="@Icons.Outlined.Photo">
-                <ProfileImage ImageUrl="@http.ImageUrl(customer.photo)"/>
-            </UIPanel>
-            <UIPanel Title="Customer Contact" IconName="@Icons.Outlined.Person">
-                <UIPanelHeaderRight>
-                    <MudButton>New</MudButton>
-                    <MudButton>Edit</MudButton>
-                </UIPanelHeaderRight>
-                <UIPanelBody>
-                    <MudList>
-                        <ListItem Title="Phone Number">06777777</ListItem>
-                        <ListItem Title="Email">hello@gmail.com</ListItem>
-                        <ListItem Title="Full Address" IsIdentTitle="true">
-                            Rd6, Siem Reap, Cambodia
-                            Rd6, Siem Reap, Cambodia
-                            Rd6, Siem Reap, Cambodia
-                            Rd6, Siem Reap, Cambodia
-                            Rd6, Siem Reap, Cambodia
-                        </ListItem>
-                    </MudList>
-                </UIPanelBody>
-            </UIPanel>
-             <UIPanel Title="Customer Contact" IconName="@Icons.Outlined.Person">
-                <UIPanelHeaderRight>
-                    <MudButton>New</MudButton>
-                    <MudButton>Edit</MudButton>
-                </UIPanelHeaderRight>
-                <UIPanelBody>
-                    Hello world
-                </UIPanelBody>
-            </UIPanel>
-        </UICenter>
+        @if (!is_loading)
+        {
+            <MudTabs PanelClass="pt-6" Class="" Outlined="true" Border="false">
+                <MudTabPanel Text="Customer Information" ToolTip="Customer Information">
+                    <UICenter>
+                        <UIPanel Title="Customer Photo" IconName="@Icons.Outlined.Photo">
+                            <ProfileImage ImageUrl="@http.ImageUrl(customer.photo)" />
+                        </UIPanel>
+                        <UIPanel Title="Customer Contact" IconName="@Icons.Outlined.Person">
+                            <UIPanelHeaderRight>
+                                <MudButton>New</MudButton>
+                                <MudButton>Edit</MudButton>
+                            </UIPanelHeaderRight>
+                            <UIPanelBody>
+                                <MudList>
+                                    <ListItem Title="Phone Number">06777777</ListItem>
+                                    <ListItem Title="Email">hello@gmail.com</ListItem>
+                                    <ListItem Title="Full Address" IsIdentTitle="true">
+                                        Rd6, Siem Reap, Cambodia
+                                        Rd6, Siem Reap, Cambodia
+                                        Rd6, Siem Reap, Cambodia
+                                        Rd6, Siem Reap, Cambodia
+                                        Rd6, Siem Reap, Cambodia
+                                    </ListItem>
+                                </MudList>
+                            </UIPanelBody>
+                        </UIPanel>
+                        <UIPanel Title="Customer Contact" IconName="@Icons.Outlined.Person">
+                            <UIPanelHeaderRight>
+                                <MudButton>New</MudButton>
+                                <MudButton>Edit</MudButton>
+                            </UIPanelHeaderRight>
+                            <UIPanelBody>
+                                Hello world
+                            </UIPanelBody>
+                        </UIPanel>
+                    </UICenter>
+                </MudTabPanel>
+                <MudTabPanel Text="Comment" ToolTip="Comment">
+                    <ComHistory 
+                        history="@(new HistoryModel() { customer_id = customer.id})"
+                        ApiFilter="@($"customer_id eq {customer.id}")"
+                        OnSave="@SaveComment" />
+                </MudTabPanel>
+            </MudTabs>
         }
     </PageBody>
 </PageContainer>
 
-@code{
+@code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    CustomerModel customer {get; set;} = new();
+    CustomerModel customer { get; set; } = new();
     AttachFilesModel file = new();
+    List<HistoryModel> histories = new List<HistoryModel>();
     bool is_loading;
     protected override async Task OnInitializedAsync()
     {
@@ -55,11 +67,17 @@
         var api = "customer?$top=1";
 
         var resp = await http.ApiGetOData(api);
-        if(resp.IsSuccess){
+        if (resp.IsSuccess)
+        {
             var customer_list = JsonSerializer.Deserialize<List<CustomerModel>>(resp.Content.ToString());
             customer = customer_list.FirstOrDefault();
         }
         file.customer_id = customer.id;
         is_loading = false;
     }
+    public void SaveComment(HistoryModel h)
+    {
+        histories.Add(h);
+    }
+
 }
