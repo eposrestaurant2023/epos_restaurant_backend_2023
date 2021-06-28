@@ -9,11 +9,11 @@ namespace eModels
     [Table("tbl_working_day")]
     public class WorkingDayModel : WorkingDayShareModel
     {
-        WorkingDayModel()
+        public WorkingDayModel()
         {
             cashier_shifts = new List<CashierShiftModel>();
         }
-                                               
+
         public Guid business_branch_id { get; set; }
         public List<CashierShiftModel> cashier_shifts { get; set; }
 

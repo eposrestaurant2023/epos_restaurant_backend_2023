@@ -208,6 +208,8 @@ namespace eAPI
             odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
             odataBuilder.EntitySet<StockLocationProductModel>("StockLocationProduct");
             odataBuilder.EntitySet<KitchenGroupModel>("KitchenGroup");
+            odataBuilder.EntitySet<CurrencyModel>("Currency");
+            odataBuilder.EntitySet<WorkingDayModel>("WorkingDay");
 
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             var business_branch_system_features = odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
