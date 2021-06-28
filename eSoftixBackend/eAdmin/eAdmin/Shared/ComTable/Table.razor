@@ -49,31 +49,37 @@
 
 
             }
-                <PagerContent>
-                   <MudTablePager />
-                </PagerContent>
-             
+
         </MudSimpleTable>
     
- 
+
     @if (ShowPaging && Items.Count > 0)
     {
+         
     <MudHidden Breakpoint="Breakpoint.SmAndDown">
       <MudGrid>
           <MudItem xs="12" md="12">
-              <div class="d-flex justify-space-between">
+              <div class="d-flex justify-end">
               <div class="pt-2 mx-2 cus_class_select">
-                   @if (ShowPager)
-                    {
-                         <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
-                    }
+                  <div class="d-flex align-center">
+                      <div>
+                           @if (ShowPager)
+                                {
+                                 <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
+                                }
+                      </div>
+                      <div>
+                            @if (ShowTotalCount)
+                            {
+                               <Column ClassName="uk-width-auto wrp-page-size-info">
+                                    <PagerInfo TotalItem="TotalItem" CurrentPage="CurrentPage" PerPage="PerPage" />
+                                </Column>
+                            }
+                      </div>
+                  </div>
+                  
                     
-                    @if (ShowTotalCount)
-                    {
-                        @*<Column ClassName="uk-width-auto wrp-page-size-info">
-                            <PagerInfo TotalItem="TotalItem" CurrentPage="CurrentPage" PerPage="PerPage" />
-                        </Column>*@
-                    }
+                  
               </div>
                <div class="pt-2">
                          @if (ShowPagination)
@@ -92,21 +98,27 @@
         <MudHidden Breakpoint="Breakpoint.MdAndUp">
       <MudGrid>
           <MudItem xs="12" md="12">
-              <div>
-              <div class="pt-2 mx-2 cus_class_select">
-                   @if (ShowPager)
-                    {
-                         <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
-                    }
-                    
-                    @if (ShowTotalCount)
-                    {
-                        @*<Column ClassName="uk-width-auto wrp-page-size-info">
-                            <PagerInfo TotalItem="TotalItem" CurrentPage="CurrentPage" PerPage="PerPage" />
-                        </Column>*@
-                    }
-              </div>
-               <div class="pt-2"  style="text-align: center;">
+              <div class="d-flex justify-space-between">
+                  <div class="cus_class_select">
+                <div class="d-flex align-center">
+                    <div>Rows per page</div>
+                    <div>
+                           @if (ShowPager)
+                                {
+                                 <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
+                                }
+                      </div>
+                      <div>
+                            @if (ShowTotalCount)
+                            {
+                               <Column ClassName="uk-width-auto wrp-page-size-info">
+                                    <PagerInfo TotalItem="TotalItem" CurrentPage="CurrentPage" PerPage="PerPage" />
+                                </Column>
+                            }
+                      </div>
+                  </div>
+                  </div>
+               <div>
                          @if (ShowPagination)
                             {
                             <ComTotalPager TotalRecord="@TotalItem" PerPage="@PerPage" CurrentPage="@CurrentPage" SelectedPage="@PageChange" IsVisible="@(totalPage > 1 && (PagerLocation == "Both" || PagerLocation == "Bottom"))" />
@@ -119,6 +131,7 @@
 
       </MudGrid>
     </MudHidden>   
+
     
     }
     @if (isLoading)

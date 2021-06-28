@@ -265,3 +265,14 @@ a.disabled, a.disabled:hover {
     border-color: var(--mud-palette-grey-lighter);
     margin: 0 auto;
 }
+
+.mud-table-pagination-toolbar {
+    border-top: 1px solid var(--mud-palette-table-lines);
+    height: 52px;
+    padding-right: 2px;
+    padding-inline-end: 2px;
+    padding-inline-start: unset;
+}
+.cus_class_select .mud-input-control > .mud-input-control-input-container > div.mud-input.mud-input-text{
+    margin-top:0px !important;
+}

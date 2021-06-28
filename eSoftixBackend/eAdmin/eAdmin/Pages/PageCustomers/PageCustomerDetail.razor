@@ -31,7 +31,7 @@
                 <MudMenuItem OnClick="@(()=>Navigation_Click("project/new"))">New Project</MudMenuItem>
             </MudMenu>
             <MudTooltip Text="More">
-                <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+                <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
                     <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
                     <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.status))">Status</MudMenuItem>
                 </MudMenu>

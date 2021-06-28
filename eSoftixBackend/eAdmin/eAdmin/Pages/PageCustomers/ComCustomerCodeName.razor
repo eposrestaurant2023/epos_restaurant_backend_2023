@@ -1,29 +1,57 @@
 ﻿@inject IHttpService  http
 
 <div style="display:flex;">
-@if (!string.IsNullOrEmpty(customer.photo))
+@if (!String.IsNullOrEmpty(Url))
     {
-      <MudAvatar Image="@http.ImageUrl(customer.photo)" />
+   
+
+          @if (!string.IsNullOrEmpty(customer.photo))
+        {
+          <MudAvatar Image="@http.ImageUrl(customer.photo)" />
+        }
+        else
+        {
+            <MudAvatar Size="Size.Medium" Color="@MudBlazor.Color.Secondary" Variant="Variant.Filled">
+                <MudIcon Icon="@Icons.Material.Filled.Person" />
+            </MudAvatar>  
+         }
+
+        <div style="padding-left:6px">
+             <MudLink Href="@Url">
+              <MudText Typo="Typo.body1" Style="text-align:left;">@customer.customer_code</MudText>    
+              <MudText Typo="Typo.caption">@customer.customer_name_en (@customer.customer_name_kh)</MudText>
+           </MudLink>
+        </div>
+        
+           
+    }else{
+            @if (!string.IsNullOrEmpty(customer.photo))
+        {
+          <MudAvatar Image="@http.ImageUrl(customer.photo)" />
+        }
+        else
+        {
+            <MudAvatar Size="Size.Medium" Color="@MudBlazor.Color.Secondary" Variant="Variant.Filled">
+                <MudIcon Icon="@Icons.Material.Filled.Person" />
+            </MudAvatar>  
+         }
+
+        <div style="padding-left:6px">
+            <MudText Typo="Typo.body1" Style="text-align:left;">@customer.customer_code</MudText>    
+           <MudText Typo="Typo.caption">@customer.customer_name_en (@customer.customer_name_kh)</MudText>
+
+        </div>
     }
-    else
-    {
-        <MudAvatar Size="Size.Medium" Color="@MudBlazor.Color.Secondary" Variant="Variant.Filled">
-            <MudIcon Icon="@Icons.Material.Filled.Person" />
-        </MudAvatar>  
-     }
 
-    <div style="padding-left:6px">
-      
-        <MudText Typo="Typo.body1" Style="text-align:left;">@customer.customer_code</MudText>    
-       <MudText Typo="Typo.caption">@customer.customer_name_en (@customer.customer_name_kh)</MudText>
 
-    </div>
+   
                 
 </div>
 
 
 @code{
 
-  [Parameter] public CustomerModel customer { get; set; }
+    [Parameter] public CustomerModel customer { get; set; }
+    [Parameter] public string Url { get; set; } = "";
 
 }
