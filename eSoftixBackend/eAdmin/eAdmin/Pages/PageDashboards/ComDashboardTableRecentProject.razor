@@ -45,7 +45,7 @@
                                 <MudAvatar Image="@(config.GetValue<string>("BaseUrl") + $"upload/{s.customer?.photo}")" Size="Size.Large">
                                 </MudAvatar>
                             <div style="padding-left:6px">
-                                <AuthView roles="customer_view" url="@($"project/{s.id}")">
+                                <AuthView roles="customer_view" url="@($"customer/{s.id}")">
                                     <MudText Typo="Typo.body1">@s.customer?.customer_code - @s.customer.customer_name_en</MudText>    
                                 </AuthView>
                                 <MudText Typo="Typo.caption">@s.customer.phone_1 <br />
@@ -71,7 +71,7 @@
                             
                         </TdCenter>
                         <TdCenter>
-                            @if(s.closed_date == null){
+                            @if(!s.is_closed){
                                 <MudChip Color="MudBlazor.Color.Success">Opened</MudChip>
                             }
                             else

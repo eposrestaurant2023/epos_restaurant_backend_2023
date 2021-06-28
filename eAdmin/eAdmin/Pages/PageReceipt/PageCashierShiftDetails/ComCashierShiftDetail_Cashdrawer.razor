@@ -1,0 +1,19 @@
+﻿@inject IStringLocalizer<Resource> lang
+<UIGridCenter>
+    <UIContainerBox Title="@lang["Cashdrawer"]">
+        <ListTable ClassWidth="uk-width-1-1">
+            <ListTableItem ItemTitle="@lang["Open Amount (Dollars)"]" IsBetweenValue="true">$0.00</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Open Amount (Riels)"]" IsBetweenValue="true">R0</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Cash Sale"]" IsBetweenValue="true">R10,000</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Cash In"]" IsBetweenValue="true">R5,000</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Cash Out"]" IsBetweenValue="true">R5,000</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Close Amount (Dollars)"]" IsBetweenValue="true">$0.00</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Close Amount (Riels)"]" IsBetweenValue="true">R0.00</ListTableItem>
+            <ListTableItem ItemTitle="@lang["System Amount"]" IsBetweenValue="true">R100,000.00</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Different Amount"]" IsBetweenValue="true">R100,000.00</ListTableItem>
+        </ListTable>
+    </UIContainerBox>
+</UIGridCenter>
+@code {
+
+}

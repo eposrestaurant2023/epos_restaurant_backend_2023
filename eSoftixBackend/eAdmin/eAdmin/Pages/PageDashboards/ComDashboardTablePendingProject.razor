@@ -76,7 +76,7 @@ else
                             }
                         </TdCenter>
                         <TdCenter>
-                            @if(s.closed_date == null){
+                            @if(!s.is_closed){
                                 <MudChip Color="MudBlazor.Color.Secondary">Opened</MudChip>
                             }
                             else
