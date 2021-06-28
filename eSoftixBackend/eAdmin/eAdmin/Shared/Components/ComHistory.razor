@@ -3,86 +3,77 @@
 <Loading is_loading="@(is_saving || is_loading  )" />
 
     @if (!is_loading)
+{
+    @if (IsComment && !IsReadonly)
     {
-        @if (IsComment && !IsReadonly)
-        {
-            <AuthorizeView Roles="@RoleAdd">
-                <EditForm Context="no" Model="@history" OnValidSubmit="@OnSaveClick">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <MudTextField @bind-Value="@description" Placeholder="Comment" />
-                    <hr />
-                    <MudButton Disabled="@is_saving" OnClick="@OnSaveClick" Class="btn-small">Add Comment<Spinner IsLoading="is_saving" /></MudButton>
-                </EditForm>
-            </AuthorizeView>
-        }
+        <AuthorizeView Roles="@RoleAdd">
+            <EditForm Context="no" Model="@history" OnValidSubmit="@OnSaveClick">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <MudTextField @bind-Value="@description" Placeholder="Comment" />
+                <hr />
+                <Spacing Number="10"/>
+                <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" Disabled="@is_saving" OnClick="@OnSaveClick" Class="btn-small">Add Comment<Spinner IsLoading="is_saving" /></MudButton>
+            </EditForm>
+        </AuthorizeView>
+    }
+    <UICenter>
         @if (histories.Count() > 0)
         {
-            <div class="wrp-comment">
-                @foreach (var h in histories)
-                {
-                    <div class="comment-box-n-control @(h.module=="comment"?"comment-bg":"comment-system")">
-                        @if (h.is_editing)
-                        {
-                            <EditForm Model="@h" Context="x">
-                                <DataAnnotationsValidator />
-                                <ValidationSummary />
-                                <textarea @bind="@h.description" class="uk-textarea uk-width-1-1 uk-resize-vertical" />
-                                <div class="uk-margin-small-bottom"></div> 
-                                <MudButton Disabled="@h.is_saving" OnClick="@(() => OnUpdateClick(h))" Class="btn-small"><Spinner IsLoading="@h.is_saving" />Save</MudButton>
-                                <MudButton Disabled="@h.is_saving" OnClick="@(() => OnCancelClick(h))" Class="btn-small">Cancel</MudButton>
-             
-                            </EditForm>
-                        }
-                        else
-                        {
-                            <MudGrid Class="uk-flex uk-flex-bottom">
-                                <MudItem>
-                                    <div class="wrp-commnet-content uk-grid-collapse uk-grid-small" uk-grid>
-                                        <div class="uk-width-auto">
-                                            <div class="uk-padding-small">
-                                                <Image ImageUrl="@http.ImageUrl(h.user?.photo)" PopupImageUrl="@http.ImageUrl(h.user?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
-                                            </div>
-                                        </div>
-                                        <div class="uk-width-expand">
-                                            <div class="uk-padding-small pdl-00">
-                                                <div class="uk-flex uk-flex-between">
-                                                    <div>
-                                                        <span class="wrp-comment-tt"><strong class="uk-text-baseline text-muted">By @h.created_by</strong> </span>
-                                                        <div class="description">@h.description</div>
-                                                    </div>
-                                                    <div>
-                                                        <div style="text-align: right; margin-right: 10px;">
-                                                            <div class="uk-flex">
-                                                                <div>
-                                                                    @if(h.module=="comment" && !IsReadonly){
-                                                                        <MudIconButton Class="act-comment" OnClick="@(() => EditComment(h))" Icon ="@Icons.Outlined.Edit"> </MudIconButton>
-                                                                     }
-                                                                    </div>
-                                                                <div>
-                                                                    @if(h.module=="comment" &&  !IsReadonly){
-                                                                        <MudIconButton Class="act-comment delete-comment" OnClick="@(() => OnDeleteClick(h))" Icon ="@Icons.Outlined.Delete"> </MudIconButton>
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+            @foreach (var h in histories)
+            {
+                <MudPaper Class="comment-box-n-control mb-6 pa-6">
+                    @if (h.is_editing)
+                    {
+                        <EditForm Model="@h" Context="x">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <MudTextField Lines="3" @bind-Value="@h.description" />
+                            <Spacing Number="10"/>
+                            <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnUpdateClick(h))" Class="btn-small"><Spinner IsLoading="@h.is_saving" />Save</MudButton>
+                            <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnCancelClick(h))" Class="btn-small">Cancel</MudButton>
 
+                        </EditForm>
+                    }
+                    else
+                    {
+                        <MudItem Class="d-flex flex-bottom">
+                            <div class="uk-width-auto">
+                                <div class="mr-2">
+                                    <Image ImageUrl="@http.ImageUrl(h.user?.photo)" PopupImageUrl="@http.ImageUrl(h.user?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                                </div>
+                            </div>
+                            <div class="width-1-1">
+                                <div class="pdl-00">
+                                    <div class="d-flex justify-space-between">
+                                        <div>
+                                            <span class="wrp-comment-tt"><strong class="uk-text-baseline text-muted">By @h.created_by</strong> </span>
+                                            <div class="description">@h.description</div>
+                                        </div>
+                                        <div>
+                                            <div style="text-align: right; margin-right: 10px;">
+                                                <MudButtonGroup  Variant="Variant.Filled">
+                                                    @if (h.module == "comment" && !IsReadonly)
+                                                    {
+                                                        <MudIconButton Variant="Variant.Filled" Class="act-comment" OnClick="@(() => EditComment(h))" Icon="@Icons.Outlined.Edit"> </MudIconButton>
+                                                    }
+                                                    @if (h.module == "comment" && !IsReadonly)
+                                                    {
+                                                        <MudIconButton Variant="Variant.Filled" Class="act-comment delete-comment" OnClick="@(() => OnDeleteClick(h))" Icon="@Icons.Outlined.Delete"> </MudIconButton>
+                                                    }
+                                                </MudButtonGroup>
                                             </div>
-                                            <MudItem Class="margin-remove-top aling-right">
-                                                <div style="margin-right:10px;">
-                                                    <span class="wrp-comment-tt"><strong class="uk-text-baseline text-muted">Date:</strong>    </span>  @h.created_date.ToString(gv.date_time_format)
-                                                </div>
-                                            </MudItem>
                                         </div>
                                     </div>
-                                </MudItem>
-                            </MudGrid>
-                        }
-                    </div>
-                }
-            </div>
+
+                                </div>
+                                <MudText Align="MudBlazor.Align.Right"><strong class="uk-text-baseline text-muted">Date:</strong>  @h.created_date.ToString(gv.date_time_format)</MudText>
+
+                            </div>
+                        </MudItem>
+                    }
+                </MudPaper>
+            }
             <ComTotalPager TotalRecord="@TotalRecord" PerPage="@(FilterState.pager.per_page)" CurrentPage="@FilterState.pager.current_page" SelectedPage="@PageChange" IsVisible="@(totalPage > 1)" />
         }
         else
@@ -90,9 +81,10 @@
             <div class="spacing20"></div>
             <div>No comment yet.</div>
         }
+    </UICenter>
 
-    }
-@code{
+}
+@code {
     [Parameter] public EventCallback<HistoryModel> OnSave { get; set; }
     [Parameter] public EventCallback<HistoryModel> OnUpdate { get; set; }
     [Parameter] public EventCallback<HistoryModel> OnDelete { get; set; }
@@ -126,13 +118,13 @@
         is_loading = false;
 
     }
- 
+
     public async Task LoadData()
     {
         is_loading = true;
 
         int skip = FilterState.pager.per_page * (FilterState.pager.current_page - 1);
-        var resp = await http.ApiGetOData($"History?$expand=user&$count=true&$top={FilterState.pager.per_page}&$skip={(skip < 0?0:skip)}&$orderby={FilterState.pager.order_by} desc&$filter=is_deleted eq false and {ApiFilter}");
+        var resp = await http.ApiGetOData($"History?$expand=user&$count=true&$top={FilterState.pager.per_page}&$skip={(skip < 0 ? 0 : skip)}&$orderby={FilterState.pager.order_by} desc&$filter=is_deleted eq false and {ApiFilter}");
         if (resp.IsSuccess)
         {
             histories = JsonSerializer.Deserialize<List<HistoryModel>>(resp.Content.ToString());
@@ -158,7 +150,7 @@
             h.title = "New Comment";
             h.module = "comment";
             h.description = description;
-           
+
 
             var resp = await http.ApiPost("History/Save", h);
             if (resp.IsSuccess)
