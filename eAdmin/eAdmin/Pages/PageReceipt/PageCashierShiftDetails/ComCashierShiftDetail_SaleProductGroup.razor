@@ -1,0 +1,14 @@
+﻿@inject IStringLocalizer<Resource> lang
+<UIGridCenter>
+    <UIContainerBox Title="@lang["Sale Product Group"]">
+        <ListTable ClassWidth="uk-width-1-1">
+            @foreach (var pg in gv.product_groups)
+            {
+                <ListTableItem ItemTitle="@pg.product_group_en" IsBetweenValue="true">@pg.id.ToString(),000.00</ListTableItem>
+            }
+        </ListTable>
+    </UIContainerBox>
+</UIGridCenter>
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}

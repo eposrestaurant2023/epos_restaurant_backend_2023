@@ -6994,7 +6994,15 @@ button.reconciled {
     .box-result-search-right .list-table tr td {
         padding: 0px 6px !important;
     }
-
+    table.list-table tr td {
+        padding-bottom : 6px;
+        padding-top : 6px;
+    }
+    table.list-table tr:hover td,
+    table.list-table tr:active td {
+        color: #151515;
+        font-weight: 600;
+    }
     .box-result-search-right .list-table tr:hover,
     .box-result-search-right .list-table tr {
         background: transparent !important
