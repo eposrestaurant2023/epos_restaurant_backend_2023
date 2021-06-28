@@ -304,3 +304,8 @@ a.disabled, a.disabled:hover {
 .width-1-1 {
     width: 100%;
 }
+.comment_date {
+    font-size: 14px;
+    color: var(--mud-palette-grey-default);
+    font-style: italic;
+}
