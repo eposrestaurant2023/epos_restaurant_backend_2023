@@ -1,31 +1,36 @@
 ﻿<MudItem xs="12" lg="4">
-    <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+   
     
-        <div>
-            <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total Project</MudText>
-            <MudText Typo="Typo.h5">@customer.total_project</MudText>
-        </div>
-    </MudPaper>
+        @if (is_loading)
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+        }else
+        {
+            <ComDashboardKPI Title="All Project" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Layers" Value="@customer.total_project.ToString()"/>
+        }
 </MudItem>
 <MudItem xs="12" lg="4">
-    <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
   
-    <div>
-        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Pending Project </MudText>
-        <MudText Typo="Typo.h5">@customer.total_project</MudText>
-    </div>
-</MudPaper>
+    @if (is_loading)
+    {
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+    }else
+    {
+        <ComDashboardKPI Title="Pending Project" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.Layers" Value="@customer.pending_project.ToString()"/>
+    }
 </MudItem>
 <MudItem xs="12" lg="4">
-    <MudPaper Elevation="25" Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
     
-    <div>
-        <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Current Balance </MudText>
-        <MudText Typo="Typo.h5">@customer.current_balance</MudText>
-    </div>
-</MudPaper>
+    @if (is_loading)
+    {
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle"  Height="100px" />
+    }else
+    {
+        <ComDashboardKPI Title="Current Balance" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Euro" Value="@customer.current_balance.ToString("C2")"/>
+    }
 </MudItem>
 
 @code{
     [Parameter] public CustomerModel customer { get; set; }
+    [Parameter] public bool is_loading { get; set; }
 }

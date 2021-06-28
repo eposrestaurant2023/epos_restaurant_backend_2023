@@ -110,9 +110,8 @@ namespace eAPI.Controllers
             return SingleResult.Create(c);
         }
         [HttpPost]
-        [EnableQuery(MaxExpansionDepth = 0)]
         [Route("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var c = await db.Customers.FindAsync(id);
             c.is_deleted = !c.is_deleted;
@@ -134,5 +133,17 @@ namespace eAPI.Controllers
             return Ok(c);
         }
 
+        [HttpPost]
+        [EnableQuery(MaxExpansionDepth = 0)]
+        [Route("status/{id}")]
+
+        public IActionResult Status(Guid id)
+        {
+            var c = db.Customers.Find(id);
+            c.status = !c.status;
+            db.Customers.Update(c);
+            SaveChange.Save(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(c);
+        }
     }
 }

@@ -12,10 +12,10 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace eAdmin.Pages
+namespace eAdmin
 {
 
-    public   class PageCore : ComponentBase
+    public class PageCore : ComponentBase
     {
         [CascadingParameter] public AppState gv { get; set; }
 

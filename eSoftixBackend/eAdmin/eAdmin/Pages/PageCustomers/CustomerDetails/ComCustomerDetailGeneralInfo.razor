@@ -1,20 +1,19 @@
 ﻿@inject IConfiguration config
 <UICenter>
-<UIPanel>
-<UIPanelBody>
+<MudGrid>
     <ComCustomerDetailKPI customer="@model"/>
-</UIPanelBody>
-</UIPanel>
+</MudGrid>
+
 <UIPanel Title="General Infomation">
 <UIPanelBody>
+    
     <MudGrid>
       
-                
-        <MudItem xs="12" md="12" lg="4" Style="text-align:center">
+        <MudItem xs="12" md="12" lg="2" Style="text-align:center">
             <MudAvatar Style="width:120px;height:120px" Image="@(config.GetValue<string>("BaseUrl") + $"upload/{model.photo}")">
             </MudAvatar>
         </MudItem>
-        <MudItem xs="12" md="12" lg="4">
+        <MudItem xs="12" md="12" lg="5">
             <MudText Typo="Typo.body1">
                 Name En : @model.customer_name_en
             </MudText>
@@ -30,30 +29,52 @@
                 Nationality : @model.nationality
             </MudText>
         </MudItem>
-        <MudItem xs="12" md="12" lg="4">
+        <MudItem xs="12" md="12" lg="5">
             <MudText Typo="Typo.body1">
-                Company : @model.customer_name_en
+                Company : @model.company_name
             </MudText>
             <MudText Typo="Typo.body1">
                 Position : @model.position
             </MudText>
             <MudText Typo="Typo.body1">
-                Phone : @model.phone_1 @model.phone_2
+                Phone : @model.phone_1 : @model.phone_2
             </MudText><MudText Typo="Typo.body1">
                 Email : @model.email
             </MudText><MudText Typo="Typo.body1">
                 Telegram : @model.telegram
             </MudText>
         </MudItem>
-        <MudItem>
-            <!--<ComCustomerDetailCurrentProject id="@model.id"/>-->
-        </MudItem>
     </MudGrid>
-</UIPanelBody>
+    
+    </UIPanelBody>
 </UIPanel>
+    <ComCustomerDetailCurrentProject id="@model.id.ToString()"/>
+    <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" Class="my-4" PanelClass="pa-4">
+        <MudTabPanel Text="Address">
+            <MudText Typo="Typo.body1">
+                @model.address
+            </MudText>
+        </MudTabPanel>
+        <MudTabPanel Text="Note">
+            <MudText Typo="Typo.body1">
+                @model.note
+            </MudText>
+        </MudTabPanel>
    
+    </MudTabs>
+        <MudText Typo="Typo.caption" Align="MudBlazor.Align.Right">
+            Created by : @model.created_by at @model.created_date.ToString(gv.date_time_format)  <br/>
+        </MudText>
+       
+        @if(model.is_deleted==true){
+        <MudText Typo="Typo.caption" Align="MudBlazor.Align.Right">
+            Deleted by : @model.deleted_by at  @model.deleted_date.Value.ToString(gv.date_format)
+        </MudText>
+        }
+
 </UICenter>
 @code{
     [Parameter] public CustomerModel model { get; set; }
+    [Parameter] public bool is_loading { get; set; }
     [CascadingParameter] public AppState gv { get; set; }
 }
