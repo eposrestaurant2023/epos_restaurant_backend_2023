@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using eModels;
+using eShareModel;
 
 namespace eAPI
 {
@@ -31,15 +32,25 @@ namespace eAPI
 
 
             builder.Entity<PermissionOptionRoleModel>().HasKey(t => new { t.role_id, t.permission_option_id });
-            
+        
+
             builder.Entity<PermissionOptionRoleModel>()
                 .HasOne(pt => pt.permission_option)
                 .WithMany(p => p.permission_option_roles)
                 .HasForeignKey(pt => pt.permission_option_id);
-              
+
+            builder.Entity<BusinessBranchSystemFeatureModel>().HasKey(t => new { t.business_branch_id, t.system_feature_id });
+          
+
+
+
+
+            builder.Entity<ProjectSystemFeatureModel>().HasKey(t => new { t.project_id, t.system_feature_id });
+   
+
 
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
-           
+
             builder.Entity<NumberModel>().HasNoKey();
         }
 
@@ -49,7 +60,7 @@ namespace eAPI
         public DbSet<PermissionOptionModel> PermissionOption { get; set; }
         public DbSet<PermissionOptionRoleModel> PermissionOptionRole { get; set; }
         public DbSet<StoreProcedureResultModel> StoreProcedureResults { get; set; }
-        
+
         public DbSet<DocumentNumberModel> DocumentNumbers { get; set; }
         public DbSet<CurrencyModel> Currencies { get; set; }
         public DbSet<PaymentTypeModel> PaymentTypes { get; set; }
@@ -61,28 +72,24 @@ namespace eAPI
         public DbSet<NumberModel> Numbers { get; set; }
         public DbSet<ModuleViewModel> ModuleViews { get; set; }
         public DbSet<AttachFilesModel> AttachFiles { get; set; }
-      public DbSet<OutletModel> Outlets { get; set; }
-      public DbSet<StockLocationModel> StockLocations { get; set; }
+        public DbSet<OutletModel> Outlets { get; set; }
+        public DbSet<StockLocationModel> StockLocations { get; set; }
         public DbSet<BusinessBranchModel> BusinessBranches { get; set; }
- 
-        public DbSet<NoteModel> Notes{ get; set; }
+
+        public DbSet<NoteModel> Notes { get; set; }
         public DbSet<ContactModel> Contacts { get; set; }
 
-   public DbSet<StationModel> Stations{ get; set; }
- 
-    
-  
-        public DbSet<RequestLicenseModel> RequestLicenses{ get; set; }
+        public DbSet<StationModel> Stations { get; set; }
+
+
+
+        public DbSet<RequestLicenseModel> RequestLicenses { get; set; }
         public DbSet<ProjectModel> Project { get; set; }
         public DbSet<ProjectTypeModel> ProjectType { get; set; }
-        public DbSet<MonthTextModel> MonthTexts{ get; set; }
-
-         
-
-
-
-
-
+        public DbSet<MonthTextModel> MonthTexts { get; set; }
+        public DbSet<BusinessBranchSystemFeatureModel> BusinessBranchSystemFeatures { get; set; }
+        public DbSet<SystemFeatureModel> SystemFeatures { get; set; }
+        public DbSet<ProjectSystemFeatureModel> ProjectSystemFeatures { get; set; }
 
 
     }
