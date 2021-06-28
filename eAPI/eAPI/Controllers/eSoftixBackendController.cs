@@ -80,6 +80,31 @@ namespace eAPI.Controllers
                 return new List<eSoftixBackend.StockLocationModel>();
 
             }
+        }   
+        public List<eSoftixBackend.BusinessBranchSystemFeatureModel> esoftix_business_branch_sysrtem_features
+        {
+            get
+            {
+                if (project != null)
+                {
+                    return project.business_branches.SelectMany(r => r.business_branch_system_features).ToList();
+                }
+                return new List<eSoftixBackend.BusinessBranchSystemFeatureModel>();
+
+            }
+        }
+
+        public List<eSoftixBackend.ProjectSystemFeatureModel> esoftix_project_system_features
+        {
+            get
+            {
+                if (project != null)
+                {
+                    return project.project_system_features;
+                }
+                return new List<eSoftixBackend.ProjectSystemFeatureModel>();
+
+            }
         }
         public  eSoftixBackend.CustomerModel esoftix_customer
         {
@@ -101,11 +126,15 @@ namespace eAPI.Controllers
         {
             //get project 
             string project_id = db.Settings.Where(r => r.id == 57).AsNoTracking() .FirstOrDefault().setting_value;
-            
-            string api_url = $"project({project_id})?$expand=customer,business_branches($expand=stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)";
+
+            string api_url = $"project({project_id})?";
+            api_url = api_url + $"$expand=customer,";
+            api_url = api_url + $"project_system_features($expand=system_feature),";
+            api_url = api_url + $"business_branches($expand=business_branch_system_features,stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)";
           
 
-            var resp = await http.eSoftixApiGet($"project({project_id})?$expand=customer,business_branches($expand=stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)");
+            
+            var resp = await http.eSoftixApiGet(api_url);
             if (resp.IsSuccess)
             {
                 project = JsonSerializer.Deserialize<eSoftixBackend.ProjectModel>(resp.Content.ToString());
@@ -123,6 +152,13 @@ namespace eAPI.Controllers
 
                 //check customer
                 CheckCustomer();
+
+                //check system feature
+                CheckProjectFeature();
+
+
+                //chekc business branch featture 
+                CheckBusinessBranchSystemFeature();
 
                 return true;
             } 
@@ -314,6 +350,87 @@ namespace eAPI.Controllers
             local.business_branch_id = remote.business_branch_id;
             local.stock_location_name = remote.stock_location_name;
             local.is_default = remote.is_default;
+        }
+
+        /// <summary>
+        /// check and mapping project feature
+        /// </summary>
+        void CheckProjectFeature()
+        {
+            //get branch from local db
+            var system_features= db.system_features;
+            foreach (var remote_project_system_feature in esoftix_project_system_features)
+            {
+                SystemFeatureModel local_system_feature = new SystemFeatureModel();
+                if (system_features.Where(r => r.id == remote_project_system_feature.system_feature_id).Any())
+                {
+
+                    local_system_feature= system_features.Where(r => r.id == remote_project_system_feature.system_feature_id).FirstOrDefault();
+                    remote_project_system_feature.system_feature.status = remote_project_system_feature.status;
+                    MapSystemFeature(remote_project_system_feature.system_feature, local_system_feature);
+
+                }
+                else
+                {
+                    remote_project_system_feature.system_feature.status = remote_project_system_feature.status;
+                    MapSystemFeature(remote_project_system_feature.system_feature, local_system_feature);
+                    system_features.Add(local_system_feature);
+                }
+            }
+
+            db.system_features.UpdateRange(system_features);
+
+            db.SaveChanges();
+
+        }
+
+        void MapSystemFeature(eSoftixBackend.SystemFeatureModel remote, SystemFeatureModel local)
+        {
+            local.id = remote.id;
+            local.feature_code = remote.feature_code;
+            local.feature_name = remote.feature_name;
+            local.feature_description = remote.feature_description;
+            local.permission_options = remote.permission_options;
+            local.status = remote.status;
+        }
+
+
+        /// <summary>
+        /// check and mapping business branch sysrtem feature
+        /// </summary>
+        void CheckBusinessBranchSystemFeature()
+        {
+            
+            var business_branch_system_features = db.BusinessBranchSystemFeatures;
+            foreach (var remote_business_branch_system_feature in esoftix_business_branch_sysrtem_features)
+            {
+                BusinessBranchSystemFeatureModel local_business_branch_feature = new BusinessBranchSystemFeatureModel();
+                if (business_branch_system_features.Where(r => r.business_branch_id== remote_business_branch_system_feature.business_branch_id && r.system_feature_id == remote_business_branch_system_feature.system_feature_id).Any())
+                {
+
+                    local_business_branch_feature = business_branch_system_features.Where(r => r.business_branch_id == remote_business_branch_system_feature.business_branch_id && r.system_feature_id == remote_business_branch_system_feature.system_feature_id).FirstOrDefault();
+                     
+                    MapBusinessBranchSystemFeature(remote_business_branch_system_feature, local_business_branch_feature);
+
+                }
+                else
+                {
+
+                    MapBusinessBranchSystemFeature(remote_business_branch_system_feature, local_business_branch_feature);
+                    business_branch_system_features.Add(local_business_branch_feature);
+                }
+            }
+
+            db.BusinessBranchSystemFeatures.UpdateRange(business_branch_system_features);
+            db.SaveChanges();
+
+        }
+
+        void MapBusinessBranchSystemFeature(eSoftixBackend.BusinessBranchSystemFeatureModel remote, BusinessBranchSystemFeatureModel local)
+        {
+            local.system_feature_id = remote.system_feature_id;
+            local.business_branch_id = remote.business_branch_id;
+            local.status = remote.status;
         }
 
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210627023513_add_system_feature")]
+    partial class add_system_feature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -347,8 +349,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("business_branch_id", "system_feature_id");
-
-                    b.HasIndex("system_feature_id");
 
                     b.ToTable("tbl_business_branch_system_feature");
                 });
@@ -3832,36 +3832,6 @@ namespace eAPI.Migrations
                     b.ToTable("StoreProcedureResults");
                 });
 
-            modelBuilder.Entity("eModels.SystemFeatureModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("feature_code")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("feature_description")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("feature_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("permission_options")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_system_feature");
-                });
-
             modelBuilder.Entity("eModels.TableGroupModel", b =>
                 {
                     b.Property<int>("id")
@@ -4375,6 +4345,36 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_working_day");
                 });
 
+            modelBuilder.Entity("eShareModel.SystemFeatureModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("feature_code")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("feature_description")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("feature_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("permission_options")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_system_feature");
+                });
+
             modelBuilder.Entity("eModels.AttachFilesModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
@@ -4519,25 +4519,6 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
 
                     b.Navigation("setting");
-                });
-
-            modelBuilder.Entity("eModels.BusinessBranchSystemFeatureModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany()
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.SystemFeatureModel", "system_feature")
-                        .WithMany("business_branch_system_features")
-                        .HasForeignKey("system_feature_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("system_feature");
                 });
 
             modelBuilder.Entity("eModels.CashierShiftModel", b =>
@@ -5610,11 +5591,6 @@ namespace eAPI.Migrations
                     b.Navigation("histories");
 
                     b.Navigation("stock_transfer_products");
-                });
-
-            modelBuilder.Entity("eModels.SystemFeatureModel", b =>
-                {
-                    b.Navigation("business_branch_system_features");
                 });
 
             modelBuilder.Entity("eModels.TableGroupModel", b =>

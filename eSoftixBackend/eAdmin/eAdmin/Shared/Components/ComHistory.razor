@@ -1,0 +1,237 @@
+﻿@using System.ComponentModel.DataAnnotations
+@inherits PageCore;
+<Loading is_loading="@(is_saving || is_loading  )" />
+
+    @if (!is_loading)
+{
+    @if (IsComment && !IsReadonly)
+    {
+        <AuthorizeView Roles="@RoleAdd">
+            <EditForm Context="no" Model="@history" OnValidSubmit="@OnSaveClick">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <MudTextField @bind-Value="@description" Placeholder="Comment" />
+                <hr />
+                <Spacing Number="10"/>
+                <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" Disabled="@is_saving" OnClick="@OnSaveClick" Class="btn-small">Add Comment<Spinner IsLoading="is_saving" /></MudButton>
+            </EditForm>
+        </AuthorizeView>
+    }
+    <UICenter>
+        @if (histories.Count() > 0)
+        {
+            @foreach (var h in histories)
+            {
+                <MudPaper Class="comment-box-n-control mb-6 pa-6">
+                    @if (h.is_editing)
+                    {
+                        <EditForm Model="@h" Context="x">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <MudTextField Lines="3" @bind-Value="@h.description" />
+                            <Spacing Number="10"/>
+                            <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnUpdateClick(h))" Class="btn-small"><Spinner IsLoading="@h.is_saving" />Save</MudButton>
+                            <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnCancelClick(h))" Class="btn-small">Cancel</MudButton>
+
+                        </EditForm>
+                    }
+                    else
+                    {
+                        <MudItem Class="d-flex flex-bottom">
+                            <div class="uk-width-auto">
+                                <div class="mr-2">
+                                    <Image ImageUrl="@http.ImageUrl(h.user?.photo)" PopupImageUrl="@http.ImageUrl(h.user?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                                </div>
+                            </div>
+                            <div class="width-1-1">
+                                <div class="pdl-00">
+                                    <div class="d-flex justify-space-between">
+                                        <div>
+                                            <span class="wrp-comment-tt"><strong class="uk-text-baseline text-muted">By @h.created_by</strong> </span>
+                                            <div class="description">@h.description</div>
+                                        </div>
+                                        <div>
+                                            <div style="text-align: right; margin-right: 10px;">
+                                                <MudButtonGroup  Variant="Variant.Filled">
+                                                    @if (h.module == "comment" && !IsReadonly)
+                                                    {
+                                                        <MudIconButton Variant="Variant.Filled" Class="act-comment" OnClick="@(() => EditComment(h))" Icon="@Icons.Outlined.Edit"> </MudIconButton>
+                                                    }
+                                                    @if (h.module == "comment" && !IsReadonly)
+                                                    {
+                                                        <MudIconButton Variant="Variant.Filled" Class="act-comment delete-comment" OnClick="@(() => OnDeleteClick(h))" Icon="@Icons.Outlined.Delete"> </MudIconButton>
+                                                    }
+                                                </MudButtonGroup>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <MudText Align="MudBlazor.Align.Right"><strong class="uk-text-baseline text-muted">Date:</strong>  @h.created_date.ToString(gv.date_time_format)</MudText>
+
+                            </div>
+                        </MudItem>
+                    }
+                </MudPaper>
+            }
+            <ComTotalPager TotalRecord="@TotalRecord" PerPage="@(FilterState.pager.per_page)" CurrentPage="@FilterState.pager.current_page" SelectedPage="@PageChange" IsVisible="@(totalPage > 1)" />
+        }
+        else
+        {
+            <div class="spacing20"></div>
+            <div>No comment yet.</div>
+        }
+    </UICenter>
+
+}
+@code {
+    [Parameter] public EventCallback<HistoryModel> OnSave { get; set; }
+    [Parameter] public EventCallback<HistoryModel> OnUpdate { get; set; }
+    [Parameter] public EventCallback<HistoryModel> OnDelete { get; set; }
+    [Parameter] public string RoleAdd { get; set; }
+    [Parameter] public string RoleEdit { get; set; }
+    [Parameter] public string RoleDelete { get; set; }
+    [Parameter] public bool IsReadonly { get; set; } = false;
+    [Parameter] public HistoryModel history { get; set; }
+
+    [Parameter] public string ApiFilter { get; set; }
+
+    public StateModel FilterState { get; set; } = new StateModel();
+
+    int TotalRecord, totalPage;
+
+    [Parameter] public bool IsComment { get; set; } = true;
+
+    List<HistoryModel> histories = new List<HistoryModel>();
+
+    [Required]
+    string description = "";
+    string old_description = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+
+        FilterState.pager.per_page = 10;
+
+        await LoadData();
+        is_loading = false;
+
+    }
+
+    public async Task LoadData()
+    {
+        is_loading = true;
+
+        int skip = FilterState.pager.per_page * (FilterState.pager.current_page - 1);
+        var resp = await http.ApiGetOData($"History?$expand=user&$count=true&$top={FilterState.pager.per_page}&$skip={(skip < 0 ? 0 : skip)}&$orderby={FilterState.pager.order_by} desc&$filter=is_deleted eq false and {ApiFilter}");
+        if (resp.IsSuccess)
+        {
+            histories = JsonSerializer.Deserialize<List<HistoryModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+            if (gv.CheckPaging(FilterState.pager, TotalRecord) && TotalRecord > 0)
+            {
+                FilterState.pager.current_page = 1;
+                await LoadData();
+            }
+            totalPage = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(TotalRecord) / Convert.ToDecimal(FilterState.pager.per_page)));
+        }
+
+        is_loading = false;
+
+    }
+
+    async Task OnSaveClick()
+    {
+        if (!string.IsNullOrWhiteSpace(description))
+        {
+            HistoryModel h = JsonSerializer.Deserialize<HistoryModel>(JsonSerializer.Serialize(history));
+            is_saving = true;
+            h.title = "New Comment";
+            h.module = "comment";
+            h.description = description;
+
+
+            var resp = await http.ApiPost("History/Save", h);
+            if (resp.IsSuccess)
+            {
+                h = JsonSerializer.Deserialize<HistoryModel>(resp.Content);
+                await OnSave.InvokeAsync(h);
+                await LoadData();
+                toast.Add("Add comment successfully.", Severity.Success);
+            }
+
+            description = "";
+            is_saving = false;
+
+        }
+    }
+    async Task OnUpdateClick(HistoryModel h)
+    {
+        if (!string.IsNullOrWhiteSpace(h.description))
+        {
+            h.is_saving = true;
+            if (!string.IsNullOrWhiteSpace(h.description))
+            {
+                var resp = await http.ApiPost("History/Save", h);
+                if (resp.IsSuccess)
+                {
+                    await OnUpdate.InvokeAsync(h);
+                    toast.Add("Update comment successfully.", Severity.Success);
+                }
+                else
+                {
+                    toast.Add($"Fail save comment. {resp.Content}", Severity.Warning);
+                }
+            }
+            h.is_editing = false;
+            h.is_saving = false;
+        }
+    }
+
+    async Task OnDeleteClick(HistoryModel h)
+    {
+        h.is_loading = true;
+        h.is_deleting = true;
+        is_saving = true;
+        var confirm = await alert.ShowMessageBox("Delete Comment", "Are you Sure want to delete this comment?");
+        if (Convert.ToBoolean(confirm))
+        {
+            h.is_deleted = true;
+            var resp = await http.ApiPost($"History/delete/{h.id}");
+            if (resp.IsSuccess)
+            {
+                if (histories.Count() == 1 && FilterState.pager.current_page > 0)
+                {
+                    FilterState.pager.current_page = FilterState.pager.current_page - 1;
+                }
+                await LoadData();
+                await OnDelete.InvokeAsync(h);
+                toast.Add("Delete comment successfully.", Severity.Success);
+            }
+
+        }
+        h.is_loading = false;
+        h.is_deleting = false;
+        is_saving = false;
+    }
+    void OnCancelClick(HistoryModel h)
+    {
+        h.description = old_description;
+        h.is_editing = false;
+    }
+
+    void EditComment(HistoryModel h)
+    {
+        old_description = h.description;
+        h.is_editing = true;
+    }
+
+
+    async Task PageChange(int current_page)
+    {
+        FilterState.pager.current_page = current_page;
+        await LoadData();
+    }
+
+}
