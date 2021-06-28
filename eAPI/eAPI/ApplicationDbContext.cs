@@ -150,7 +150,7 @@ namespace eAPI
         public DbSet<CashierShiftModel> CashierShifts { get; set; }
         public DbSet<PredefineDiscountCodeModel> PredefineDiscountCodes { get; set; }
         public DbSet<PredefineNoteModel> PredefineNotes { get; set; }
-        public DbSet<KitchenGroupModel> KitchenGroups { get; set; }
+        public DbSet<KitchenGroupModel> KitchenGroups { get; set; }  
         public DbSet<BusinessBranchCurrencyModel> BusinessBranchCurrencies { get; set; }
         public DbSet<SystemFeatureModel> system_features { get; set; }
 

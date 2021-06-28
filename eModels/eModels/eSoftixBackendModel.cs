@@ -65,6 +65,7 @@ namespace eSoftixBackend
 
         public List<OutletModel> outlets { get; set; }
         public List<StockLocationModel> stock_locations { get; set; }
+        public List<BusinessBranchSystemFeatureModel> business_branch_system_features { get; set; }
 
 
     }
@@ -156,6 +157,13 @@ namespace eSoftixBackend
         public bool is_default { get; set; }
  
     }
+    public class BusinessBranchSystemFeatureModel
+    {
+        public Guid business_branch_id { get; set; }
+        public Guid system_feature_id { get; set; }
+        public bool status { get; set; }
+    }   
+    
     public class ProjectSystemFeatureModel
     {
         public Guid project_id { get; set; }
