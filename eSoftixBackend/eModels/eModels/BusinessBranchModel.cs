@@ -14,8 +14,7 @@ namespace eModels
             stock_locations = new List<StockLocationModel>();
             contacts = new List<ContactRelatedModel>();
         }
-
-        
+         
         public  Guid project_id { get; set; }
         [ForeignKey("project_id")]
         public ProjectModel Project { get; set; }
@@ -26,6 +25,8 @@ namespace eModels
        public List<StockLocationModel> stock_locations { get; set; }
 
         public List<ContactRelatedModel> contacts { get; set; }
+
+        public List<BusinessBranchSystemFeatureModel> business_branch_system_features{ get; set; }
 
     }
 }

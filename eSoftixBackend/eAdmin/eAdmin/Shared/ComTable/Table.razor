@@ -6,7 +6,7 @@
     }
     
    
-        <MudSimpleTable Style="overflow-x: auto;" Hover="true">
+        <MudSimpleTable Style="overflow-x: auto;" Hover="true" Class="view_table">
             <thead>
                 <tr>
                     @if (ShowCounter)
@@ -132,7 +132,7 @@
     [Parameter]    public EventCallback<int> OnPageChange { get; set; }
     [Parameter]    public EventCallback<int> OnPagerChange { get; set; }
     [Parameter]    public bool ShowWhenEmptyItem { get; set; } = false;
-    [Parameter]    public int CurrentPage { get; set; }
+    [Parameter]    public int CurrentPage { get; set; }=1;
     [Parameter]    public bool ShowCounter { get; set; }
     [Parameter]    public string EmptyText { get; set; } = "There's no record in the system";
     [Parameter]    public string EmptyIcon { get; set; } = "search";

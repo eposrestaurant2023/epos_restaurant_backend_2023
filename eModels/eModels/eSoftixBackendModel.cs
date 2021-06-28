@@ -25,6 +25,9 @@ namespace eSoftixBackend
         public CustomerModel customer { get; set; }
 
         public List<BusinessBranchModel> business_branches { get; set; }
+        public List<ProjectSystemFeatureModel> project_system_features { get; set; }
+         
+        
 
     }
      
@@ -153,6 +156,30 @@ namespace eSoftixBackend
         public bool is_default { get; set; }
  
     }
+    public class ProjectSystemFeatureModel
+    {
+        public Guid project_id { get; set; }
+        [ForeignKey("project_id")]
+        public ProjectModel project { get; set; }
+        public Guid system_feature_id { get; set; }
+        [ForeignKey("system_feature_id")]
+        public SystemFeatureModel system_feature { get; set; }
+
+        public bool status { get; set; }
+    }
+
+        public class SystemFeatureModel
+    {
+        
+        public Guid id { get; set; }
+        public string feature_code { get; set; }
+        public string feature_name { get; set; }
+        public string feature_description { get; set; }
+        public string permission_options { get; set; }
+        public bool status { get; set; }
+    }
+
+
 
 
 }

@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using eModels;
+using eShareModel;
 
 namespace eAPI
 {
@@ -54,8 +55,13 @@ namespace eAPI
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id });
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
+
             builder.Entity<BusinessBranchCurrencyModel>().HasKey(t => new { t.business_branch_id, t.currency_id });
-     
+           
+
+
+            builder.Entity<BusinessBranchSystemFeatureModel>().HasKey(t => new { t.business_branch_id, t.system_feature_id });
+
             builder.Entity<NumberModel>().HasNoKey();
         
         
@@ -144,9 +150,11 @@ namespace eAPI
         public DbSet<CashierShiftModel> CashierShifts { get; set; }
         public DbSet<PredefineDiscountCodeModel> PredefineDiscountCodes { get; set; }
         public DbSet<PredefineNoteModel> PredefineNotes { get; set; }
-        public DbSet<KitchenGroupModel> KitchenGroups { get; set; }
-        public DbSet<BusinessBranchCurrencyModel> BusinessBranchCurrencies { get; set; }      
+        public DbSet<KitchenGroupModel> KitchenGroups { get; set; }  
+        public DbSet<BusinessBranchCurrencyModel> BusinessBranchCurrencies { get; set; }
+        public DbSet<SystemFeatureModel> system_features { get; set; }
 
+        public DbSet<BusinessBranchSystemFeatureModel> BusinessBranchSystemFeatures { get; set; }
     }
 
 }

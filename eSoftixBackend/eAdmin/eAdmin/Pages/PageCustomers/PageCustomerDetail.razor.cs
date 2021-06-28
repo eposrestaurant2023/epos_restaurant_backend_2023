@@ -35,6 +35,7 @@ namespace eAdmin.Pages.PageCustomers
         {
             is_loading = true;
             await LoadData();
+            is_loading = false;
         }
 
         public async Task LoadData()
@@ -100,7 +101,18 @@ namespace eAdmin.Pages.PageCustomers
             await SaveStatus(p);
             p.is_loading = false;
         }
-
+        public void Navigation_Click(string url)
+        {
+            nav.NavigateTo(url);
+        }
+        public void ChangeStatus_Click(bool status)
+        {
+            model.status = !status;
+        }
+        public void DeleteCustomer_Click()
+        {
+            
+        }
         public async Task SaveStatus(CustomerModel p)
         {
             var customer = new CustomerModel();

@@ -1,0 +1,45 @@
+﻿@if (is_visible)
+{
+    @if (roles == "")
+    {
+
+      
+            @if (url != "")
+            {
+                 <MudMenuItem Link="@url"> <MudIcon Icon="@icon"/> @ChildContent</MudMenuItem>
+            }
+            else
+            {
+                <MudMenuItem OnClick="@OnClick"> <MudIcon Icon="@icon"/> @ChildContent</MudMenuItem>
+            }
+      
+
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+          
+                @if (url != "")
+                {
+                    <MudMenuItem Link="@url"> <MudIcon Icon="@icon"/> @ChildContent</MudMenuItem>
+                }
+                else
+                {
+                    <MudMenuItem OnClick="@OnClick"> <MudIcon Icon="@icon"/> @ChildContent</MudMenuItem>
+                }
+            
+        </AuthorizeView>
+    }
+
+}
+
+
+@code{
+    [Parameter] public string icon { get; set; } = "";
+    [Parameter] public string url { get; set; } = "";
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+}
