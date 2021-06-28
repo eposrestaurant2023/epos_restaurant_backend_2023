@@ -2,14 +2,14 @@
 @if (is_visible)
 {
 
-    <th class="@ClassName text-center" @onclick="OnClick" style="width:@width">
+    <th class="@ClassName text-rigth" @onclick="OnClick" style="width:@width">
         <div class="d-flex align-center">
             <div>@ChildContent</div>
-       @*     <div style="margin-top: 6px;margin-left: 3px;">
+            <div style="margin-top: 6px;margin-left: 3px;">
                  @if(OrderBy){
                <MudIcon Icon="@(OrderByType == "asc"?@Icons.Material.Filled.ArrowUpward:@Icons.Material.Filled.ArrowDownward)" Size="Size.Small"/>
                }
-            </div>*@
+            </div>
         </div>
     </th>
     

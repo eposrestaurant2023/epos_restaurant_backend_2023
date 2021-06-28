@@ -11,7 +11,7 @@
 {
 
 
-
+  
 <PageContainer>
     <PageHeader title="@state.page_title" >
         <Filter>
@@ -32,7 +32,8 @@
     <PageBody>
 
        <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
-        
+
+
         <Table Items="@customers"
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"
@@ -44,38 +45,79 @@
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-                <ThCenter>Customer</ThCenter>
-                @HeaderTemplate("customer_group/customer_group_name_en", "Group", "col-auto")
-                @HeaderTemplate("company_name", "Company", "col-auto")
-                @HeaderTemplate("phone_1", "Phone", "uk-text-left")
-                @HeaderTemplate("gender", "Gender", "uk-text-center")
-                        
-                <ThAuto ClassName="uk-text-center">
+                <ThAuto>Customer</ThAuto>
+                @HeaderTemplate("gender", "Gender" , "text-center") 
+                @HeaderTemplate("customer_group/customer_group_name_en", "Group","text-center")
+                @HeaderTemplate("company_name", "Company")
+                <ThCenter>
+                     <span>Phone1</span>
+                    <br />
+                    <span>Phone2</span>
+                </ThCenter>
+                 @HeaderTemplate("current_balance", "Balance" ,"text-center")
+                <ThCenter Width="188px">
+                    <span>Pendding Project</span>
+                    <br />
+                    <span>Project</span>
+                </ThCenter>
+                <ThCenter width="150px">
+                    Expired Date
+                </ThCenter>
+                 <ThCenter width="150px">
+                   Register Date
+                </ThCenter>
+                <Th>
                     Status
-                </ThAuto>
-                <th class="uk-width-auto"></th>
+                </Th>
+                <ThCenter></ThCenter>
             </TableHeader>
             <RowTemplate Context="p">
                 <TdCenter>
                   <ComCustomerCodeName customer="@p"/>
                 </TdCenter>
-
+                 <TdCenter>
+                    @p.gender
+                </TdCenter>
                 <td>
                     @p.customer_group?.customer_group_name_en
                 </td>
                 <td>
                     @p.company_name
                 </td>
-                <td>
+                <TdCenter>
                     <MudText Typo="Typo.body2">@p.phone_1</MudText>
                     <MudText Typo="Typo.body2">@p.phone_2</MudText>
-                </td>
-                <td>
-                    @p.gender
-                </td>
-                <TdCenter>
-                   <LabelActive />
                 </TdCenter>
+               <TdCenter>
+                   @p.current_balance
+               </TdCenter>
+               <TdCenter>
+                    <MudText Typo="Typo.body2">@p.pending_project</MudText>
+                    <MudText Typo="Typo.body2">@p.total_project</MudText>
+                   
+               </TdCenter>
+               <TdCenter>
+                   @p.expired_date.ToString(gv.date_format)
+                   
+               </TdCenter>
+                <TdCenter>
+                   @p.created_date.ToString(gv.date_format)
+               </TdCenter>
+                <TdCenter>
+                    <LabelDeleted is_visible="@p.is_deleted"/>
+                   <LabelActive is_visible="@(p.status == true && p.is_deleting == false )"/>
+                   <LabelInActive is_visible ="@(p.status == false && p.is_deleting == true )"/>
+                </TdCenter>
+                <TdActions>
+                            <TableActionItem roles="@gv.GetRole("customer_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"customer/{p.id}")">View</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_add")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">Clone</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                  </TdActions>
+
             </RowTemplate>
         </Table>
     </PageBody>

@@ -2,19 +2,19 @@
 {
     @if (RowSpan > 0 && ColSpan > 0)
     {
-        <td @onclick="@OnClick" rowspan="@RowSpan" colspan="@ColSpan" class="text-center @ClassName" style="width:@Width;">@ChildContent</td>
+        <td @onclick="@OnClick" rowspan="@RowSpan" colspan="@ColSpan" class="text-rigth @ClassName" style="width:@Width;">@ChildContent</td>
     }
     else if (RowSpan > 0)
     {
-        <td @onclick="@OnClick" rowspan="@RowSpan" class="text-center @ClassName" style="width:@Width;">@ChildContent</td>
+        <td @onclick="@OnClick" rowspan="@RowSpan" class="text-rigth @ClassName" style="width:@Width;">@ChildContent</td>
     }
     else if (ColSpan > 0)
     {
-        <td @onclick="@OnClick" colspan="@ColSpan" class="text-center @ClassName" style="width:@Width;">@ChildContent</td>
+        <td @onclick="@OnClick" colspan="@ColSpan" class="text-rigth @ClassName" style="width:@Width;">@ChildContent</td>
     }
     else
     {
-        <td @onclick="@OnClick" class="text-center @ClassName" style="width:@Width;">@ChildContent</td>
+        <td @onclick="@OnClick" class="text-rigth @ClassName" style="width:@Width;">@ChildContent</td>
     }
 }
 @code{
