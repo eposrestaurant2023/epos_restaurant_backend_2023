@@ -1,0 +1,59 @@
+﻿@inject IConfiguration config
+<UICenter>
+<UIPanel>
+<UIPanelBody>
+    <ComCustomerDetailKPI customer="@model"/>
+</UIPanelBody>
+</UIPanel>
+<UIPanel Title="General Infomation">
+<UIPanelBody>
+    <MudGrid>
+      
+                
+        <MudItem xs="12" md="12" lg="4" Style="text-align:center">
+            <MudAvatar Style="width:120px;height:120px" Image="@(config.GetValue<string>("BaseUrl") + $"upload/{model.photo}")">
+            </MudAvatar>
+        </MudItem>
+        <MudItem xs="12" md="12" lg="4">
+            <MudText Typo="Typo.body1">
+                Name En : @model.customer_name_en
+            </MudText>
+            <MudText Typo="Typo.body1">
+                Name Kh : @model.customer_name_kh
+            </MudText><MudText Typo="Typo.body1">
+                Gender : @model.gender
+            </MudText>
+            <MudText Typo="Typo.body1">
+                Date of birth : @model.date_of_birth.ToString(gv.date_format)
+            </MudText>
+            <MudText Typo="Typo.body1">
+                Nationality : @model.nationality
+            </MudText>
+        </MudItem>
+        <MudItem xs="12" md="12" lg="4">
+            <MudText Typo="Typo.body1">
+                Company : @model.customer_name_en
+            </MudText>
+            <MudText Typo="Typo.body1">
+                Position : @model.position
+            </MudText>
+            <MudText Typo="Typo.body1">
+                Phone : @model.phone_1 @model.phone_2
+            </MudText><MudText Typo="Typo.body1">
+                Email : @model.email
+            </MudText><MudText Typo="Typo.body1">
+                Telegram : @model.telegram
+            </MudText>
+        </MudItem>
+        <MudItem>
+            <!--<ComCustomerDetailCurrentProject id="@model.id"/>-->
+        </MudItem>
+    </MudGrid>
+</UIPanelBody>
+</UIPanel>
+   
+</UICenter>
+@code{
+    [Parameter] public CustomerModel model { get; set; }
+    [CascadingParameter] public AppState gv { get; set; }
+}

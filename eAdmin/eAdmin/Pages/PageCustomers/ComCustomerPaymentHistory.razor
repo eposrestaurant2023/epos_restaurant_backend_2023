@@ -50,13 +50,13 @@
                 </TableHeader>
                 <RowTemplate Context="p">
                     <TdCenter>
-                        <ComAuthorize url="receiptlist" roles="@gv.GetRole("receipt_list_management")">
+                        <ComAuthorize url="@($"receiptlist/{p.sale_id}")" roles="@gv.GetRole("receipt_list_management")">
                             @p.payment_date.ToString(gv.date_format)
                         </ComAuthorize>
                         
                     </TdCenter>
                     <TdCenter>
-                        <ComAuthorize url="receiptlist" roles="@gv.GetRole("receipt_list_management")">
+                        <ComAuthorize url="@($"receiptlist/{p.sale_id}")" roles="@gv.GetRole("receipt_list_management")">
                             @p.sale?.document_number
                         </ComAuthorize>
                     </TdCenter>

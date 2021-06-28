@@ -2155,9 +2155,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("product_group_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("product_name_en")
                         .IsRequired()
                         .HasMaxLength(250)

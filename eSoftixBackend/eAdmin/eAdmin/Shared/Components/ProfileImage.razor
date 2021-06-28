@@ -1,0 +1,17 @@
+﻿
+<div>
+    <div class="bg_profile_image" style="width: @Width!important; height: @Height !important; background-image: url(@ImageUrl)"></div>
+</div>
+@code{
+    [Parameter] public string ImageUrl { get; set; } = "";
+    [Parameter] public string Width { get; set; } = "140px";
+    [Parameter] public string Height { get; set; } = "140px";
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(ImageUrl))
+        {
+            ImageUrl = "images/placeholder.svg";
+        }
+    }
+}
