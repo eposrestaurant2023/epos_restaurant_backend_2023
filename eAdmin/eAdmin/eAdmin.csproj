@@ -67,9 +67,5 @@
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="Pages\PageSettings\PageCurrencyExchangeRates\ComStatusCurrency.razor" />
 	</ItemGroup>
- 
-	<ItemGroup>
-	  <None Include="Pages\PageSettings\PageCurrencyExchangeRates\ComStatusCurrency.razor" />
-	</ItemGroup>
 
 </Project>
