@@ -145,8 +145,7 @@ namespace eAPI
         public DbSet<PredefineDiscountCodeModel> PredefineDiscountCodes { get; set; }
         public DbSet<PredefineNoteModel> PredefineNotes { get; set; }
         public DbSet<KitchenGroupModel> KitchenGroups { get; set; }
-        public DbSet<BusinessBranchCurrencyModel> BusinessBranchCurrencies { get; set; }
-        
+        public DbSet<BusinessBranchCurrencyModel> BusinessBranchCurrencies { get; set; }      
 
     }
 
