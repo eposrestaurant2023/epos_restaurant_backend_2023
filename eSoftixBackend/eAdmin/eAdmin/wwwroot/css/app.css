@@ -265,3 +265,63 @@ a.disabled, a.disabled:hover {
     border-color: var(--mud-palette-grey-lighter);
     margin: 0 auto;
 }
+.mud-tabs-toolbar.mud-paper-outlined {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}
+
+.comment-item {
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 15px;
+    background: whitesmoke;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    margin-left: -15px;
+    position: relative;
+    width: 95%;
+    top: 50%;
+    transform: translateY(-39%);
+}
+
+    .comment-item * {
+        word-break: break-word;
+    }
+
+    .comment-item .description {
+        white-space: pre-wrap;
+    }
+ 
+.comment-item::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0px;
+    left: 5px;
+    top: 50%;
+    border: 10px solid transparent;
+    border-left: 0;
+    border-right: 10px solid #dcdcdc;
+    -webkit-transform: translate(calc(-100% - 5px), -50%);
+    transform: translate(calc(-100% - 5px), -50%);
+}
+ 
+.wrp-comment {
+    margin: 25px 250px auto;
+}
+
+    .wrp-comment .event:before {
+        left: -271.5px;
+    }
+
+.comment-item textarea {
+    height: 100px;
+}
+
+.comment-item .comment-title {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 500;
+    color: #2878b1;
+}
