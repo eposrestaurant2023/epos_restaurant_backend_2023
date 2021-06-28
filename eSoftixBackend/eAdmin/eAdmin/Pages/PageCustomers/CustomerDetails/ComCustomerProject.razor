@@ -1,15 +1,70 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@inject IHttpService http
-<UICenter>
-    
-</UICenter>
+@inherits PageCore
+
+@if(projects != null && !is_loading){
+        <MudCard Elevation="25" Style="height:100%;">
+        <MudCardContent Class="px-0">
+            <MudList Clickable="true">
+                @foreach(var p in projects){
+                    <MudListItem>
+                        <MudGrid>
+                            <MudItem xs="2" lg="1">
+                                <MudAvatar Color="(MudBlazor.Color)p.project_type.color">
+                                    <MudIcon Icon="@p.project_type.icon"/>
+                                </MudAvatar>
+                            </MudItem>
+                            <MudItem xs="5" lg="6">
+                                <MudText Typo="Typo.body1">
+                                    <MudLink Href="@($"project/{p.id}")" Underline="Underline.None">
+                                        @p.project_code - @p.project_name
+                                        @if(!p.is_closed){
+                                            <MudChip Color="@MudBlazor.Color.Success">
+                                                Open
+                                            </MudChip>
+                                        }else{
+                                            <MudChip Color="@MudBlazor.Color.Warning">
+                                                Close
+                                            </MudChip>
+                                        }
+                                    </MudLink>
+                                </MudText>
+                                
+                                <MudText Typo="@Typo.caption">
+                                    @p.note
+                                </MudText>
+                            </MudItem>
+                            <MudItem xs="5" lg="5">
+                                <MudText Typo="Typo.caption">
+                                    Start : @p.start_date.Value.ToString(gv.date_format)
+                                </MudText>
+                                @if(p.closed_date != null){
+                                    <MudText Typo="@Typo.caption">
+                                        Close : @p.closed_date.Value.ToString(gv.date_format)
+                                    </MudText>
+                                }
+                            </MudItem>
+                        </MudGrid>
+                    </MudListItem> 
+                }
+            </MudList>
+        </MudCardContent>
+    </MudCard>
+}
+
 
 
 @code{
     [Parameter,Required] public Guid id {get;set;}
-
+    List<ProjectModel> projects { get; set; }
+    
     protected override async Task OnInitializedAsync()
     {
+        is_loading=true;
         var res = await http.ApiGetOData($"project?$filter=customer_id eq {id} and is_deleted eq false&$expand=project_type");
+        if (res.IsSuccess)
+        {
+            projects = JsonSerializer.Deserialize<List<ProjectModel>>(res.Content.ToString());
+        }
+        is_loading=false;
     }
 }
