@@ -19,6 +19,7 @@
         @UIPanelHeaderRight
     </MudItem>
     <MudDivider/>
+ }
     @if(UIPanelBody is not null || ChildContent is not null){
         <MudItem Class="@(ChildContent is not null?"pa-4 m":"pa-4")">
             @UIPanelBody
@@ -29,7 +30,8 @@
             @UIPanelBodyNoPadding
         </MudItem>
     }
-    }
+   
+    
 </MudPaper>
 
 @code {

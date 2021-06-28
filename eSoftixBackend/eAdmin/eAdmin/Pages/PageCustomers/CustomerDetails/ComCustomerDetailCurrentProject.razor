@@ -1,27 +1,48 @@
 ﻿@inject IHttpService http
 @inherits PageCore
-<MudPaper>
-    <MudList>
-    @foreach (var p in projects)
-        {
-            <MudListItem>
-                <MudAvatar>
-                </MudAvatar>
-            </MudListItem> 
-        }
-        
-    </MudList>
-</MudPaper>
+@if(projects.Any()){
+    <UIPanel Title="Current Project">
+    <UIPanelBody>
+        <MudList>
+            @foreach (var p in projects)
+            {
+                <MudListItem OnClick="@(()=>{nav.NavigateTo($"project/{p.id}");})">
+                    <MudGrid>
+                        <MudItem xs="2" md="1" lg="1">
+                            <MudAvatar Color="(MudBlazor.Color)p.project_type.color">
+                                <MudIcon Icon="@p.project_type.icon"/>
+                            </MudAvatar>
+                        </MudItem>
+                        <MudItem xs="10" lg="11">
+                            <MudText Typo="@Typo.body1">
+                                @p.project_code - @p.project_name
+                            </MudText>
+                            <MudText Typo="@Typo.caption">
+                                @p.note
+                            </MudText>
+                        </MudItem>
+                    </MudGrid>
+                </MudListItem>  
+            }
+        </MudList>  
+    </UIPanelBody>
+</UIPanel>
+}
+
+
+
 
 @code{
     [Parameter] public string id { get; set; }
-    List<ProjectModel> projects { get; set; }
+    List<ProjectModel> projects { get; set; } = new List<ProjectModel>();
     protected override async Task OnInitializedAsync()
     {
-        var res = await http.ApiGetOData($"project?$filter=is_closed eq false and is_paid eq false and customer eq {id}&$expand=project_type($select=id,icon,color)");
+        is_loading=true;
+        var res = await http.ApiGetOData($"project?$filter=is_closed eq false and is_paid eq false and customer_id eq {id}&$expand=project_type($select=id,icon,color)");
         if (res.IsSuccess)
         {
             projects = JsonSerializer.Deserialize<List<ProjectModel>>(res.Content.ToString());
-        }    
+        } 
+        is_loading=false;
     }
 }
