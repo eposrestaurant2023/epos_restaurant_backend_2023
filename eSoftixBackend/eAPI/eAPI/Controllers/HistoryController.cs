@@ -43,6 +43,8 @@ namespace eOpticalAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<HistoryModel>> Save([FromBody] HistoryModel h)
         {
+            var user_id = Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            h.user_id = user_id;
             if (h.id == 0)
             {
                 db.Histories.Add(h);
@@ -51,10 +53,7 @@ namespace eOpticalAPI.Controllers
             {
                 db.Histories.Update(h);
             }
-
-
-
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, user_id);
            
             return h;
         }

@@ -288,6 +288,7 @@ a.disabled, a.disabled:hover {
     border-radius: 50%;
     border-color: var(--mud-palette-grey-lighter);
     margin: 0 auto;
+    background-position: center;
 }
 
 .mud-tabs-toolbar.mud-paper-outlined {
