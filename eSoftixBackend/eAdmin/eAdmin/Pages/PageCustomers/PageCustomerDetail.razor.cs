@@ -82,7 +82,7 @@ namespace eAdmin.Pages.PageCustomers
         }
         public async Task ChangeStatus_Click(Guid id)
         {
-            is_loading = true;
+            model.is_loading = true;
             var res = await http.ApiPost($"customer/status/{id}");
             if (res.IsSuccess)
             {
@@ -92,16 +92,20 @@ namespace eAdmin.Pages.PageCustomers
                 }
                 else
                 {
-                    toast.Add("Customer is inactived.", Severity.Success);
+                    toast.Add("Customer is actived.", Severity.Success);
                 }
                 await LoadData();
             }
-            is_loading = false;
+            model.is_loading = false;
         }
         public async Task DeleteCustomer_Click()
         {
             
             string state = "Are You sure your want to delete?";
+            if (model.is_deleted)
+            {
+                state = "Are You sure your want to restore?";
+            }
             bool? result = await DialogService.ShowMessageBox(
             "Delete",
             state,
@@ -109,7 +113,7 @@ namespace eAdmin.Pages.PageCustomers
             StateHasChanged();
             if ((bool)result)
             {
-                is_loading = true;
+                model.is_loading = true;
                 var res = await http.ApiPost($"customer/delete/{id}");
                 if (res.IsSuccess)
                 {
@@ -119,7 +123,7 @@ namespace eAdmin.Pages.PageCustomers
                 
             }
             
-            is_loading = false;
+            model.is_loading = false;
             
            
         }

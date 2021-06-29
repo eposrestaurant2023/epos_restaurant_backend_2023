@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210629092413_newx")]
+    partial class newx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4447,12 +4449,6 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("closed_station_id");
-
-                    b.HasIndex("opened_station_id");
-
-                    b.HasIndex("outlet_id");
-
                     b.ToTable("tbl_working_day");
                 });
 
@@ -5517,33 +5513,6 @@ namespace eAPI.Migrations
                     b.Navigation("province");
 
                     b.Navigation("vendor_group");
-                });
-
-            modelBuilder.Entity("eModels.WorkingDayModel", b =>
-                {
-                    b.HasOne("eModels.StationModel", "closed_station")
-                        .WithMany()
-                        .HasForeignKey("closed_station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StationModel", "opened_station")
-                        .WithMany()
-                        .HasForeignKey("opened_station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.OutletModel", "outlet")
-                        .WithMany()
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("closed_station");
-
-                    b.Navigation("opened_station");
-
-                    b.Navigation("outlet");
                 });
 
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>

@@ -25,6 +25,8 @@ namespace eModels
 
         public string sale_type_name { get; set; }
 
+        public bool is_order_use_table { get; set; } = true;
+
 
     }
 }

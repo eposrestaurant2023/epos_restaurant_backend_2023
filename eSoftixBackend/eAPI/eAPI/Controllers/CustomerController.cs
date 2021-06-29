@@ -5,6 +5,7 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.Edm;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -126,9 +127,9 @@ namespace eAPI.Controllers
         public  IActionResult  Clone(Guid id)
         {
             var c = db.Customers.Where(r=>r.id == id).Include(r=>r.contacts).FirstOrDefault();
-           
+            c.status = true;
             c.contacts.ForEach(r => { r.id = 0;r.customer_id = Guid.Empty; });
-            c.id = Guid.Empty ;
+            c.id = Guid.Empty;
             return Ok(c);
         }
 
