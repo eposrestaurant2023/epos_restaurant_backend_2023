@@ -1,9 +1,10 @@
 ﻿@page "/customer/new"
 @page "/customer/edit/{id}"
+@page "/customer/clone/{clone_id}"
 @inherits PageAddCustomers
 <PageContainer>
 @if(model != null){
-    <PageHeader title="New Customer" show_back_button="true" show_refresh_button="false">
+    <PageHeader title="@page_title" show_back_button="true" show_refresh_button="false">
         
     </PageHeader>
     <PageBody>
@@ -38,6 +39,7 @@
                     <MudTextField @bind-Value="@model.company_name" Label="Company Name" Variant="Variant.Text"></MudTextField>
                     <MudTextField @bind-Value="@model.position" Label="Position" Variant="Variant.Text"></MudTextField>
                     <MudTextField @bind-Value="@model.province" Label="Province" Variant="Variant.Text"></MudTextField>
+                    <MudTextField T="string" Label="Note" Variant="Variant.Text" Text="@model.note" Lines="5" />
                 </UIPanel>
                 <UIPanel Title="Contact Infomation">
                      <MudTextField @bind-Value="@model.phone_1" Label="Phone 1" Variant="Variant.Text"></MudTextField>
@@ -48,16 +50,7 @@
                     <MudTextField @bind-Value="@model.phone_2" Label="Phone 2" Variant="Variant.Text"></MudTextField>
                     <MudTextField @bind-Value="@model.email" Label="Email" Variant="Variant.Text"></MudTextField>
                     <MudTextField @bind-Value="@model.telegram" Label="Telegram" Variant="Variant.Text"></MudTextField>
-                </UIPanel>
-                <UIPanel>
-                    <MudTabs Rounded="true" PanelClass="pa-1">
-                        <MudTabPanel Text="Address">
-                            <MudTextField T="string" Label="Address" Variant="Variant.Text" Text="@model.address" Lines="5" />
-                        </MudTabPanel>
-                        <MudTabPanel Text="Note">
-                            <MudTextField T="string" Label="Note" Variant="Variant.Text" Text="@model.note" Lines="5" />
-                        </MudTabPanel>
-                    </MudTabs>
+                     <MudTextField T="string" Label="Address" Variant="Variant.Text" Text="@model.address" Lines="5" />
                 </UIPanel>
        </UICenter>
        <PageFooter>
