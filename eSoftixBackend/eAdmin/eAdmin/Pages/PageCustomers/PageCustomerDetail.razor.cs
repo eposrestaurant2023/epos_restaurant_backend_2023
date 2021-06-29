@@ -16,10 +16,12 @@ namespace eAdmin.Pages.PageCustomers
         public CustomerModel model { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";
+        public bool is_open_customer_mobile = false;
         string controller_api = "customer";
         public bool is_comment_loaded, is_show_check_in, show_member_ship_tab;
         public bool sale_history_tab_click, sale_product_history_tab_click, payment_history_tab_click;
         List<HistoryModel> histories = new List<HistoryModel>();
+
 
         public string api_query
         {
@@ -39,6 +41,12 @@ namespace eAdmin.Pages.PageCustomers
             is_loading = false;
         }
 
+     public   async Task OnRefresh()
+        {
+            is_loading = true;
+            await LoadData();
+            is_loading = false;
+        }
         public async Task LoadData()
         {
             is_loading = true;
@@ -115,10 +123,17 @@ namespace eAdmin.Pages.PageCustomers
             
            
         }
-        
-        
-        
+
+
+
+       public void ToggleDrawer_modile_custoemr_detail()
+        {
+            is_open_customer_mobile = !is_open_customer_mobile;
+
+        }
+
+
     }
-        
+
 }
 

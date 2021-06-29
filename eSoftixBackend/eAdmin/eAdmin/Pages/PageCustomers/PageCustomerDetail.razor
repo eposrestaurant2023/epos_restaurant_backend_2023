@@ -6,7 +6,7 @@
     <PageContainer>
         @if(!is_error){
             @if(model != null && !is_loading){
-    <PageHeader>
+    <PageHeader OnRefresh="@OnRefresh">
         <Left>
               <MudText Typo="Typo.h6">
             @model.customer_code - @model.customer_name_en (@model.customer_name_kh)
@@ -24,8 +24,9 @@
             }
         </Left>
         <Right>
-            <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" />
-           <MudButtonGroup Color="MudBlazor.Color.Default" Variant="Variant.Filled">
+            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                   <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" Class="mr-2"/>
+           <MudButtonGroup Color="MudBlazor.Color.Default" Variant="Variant.Filled" Class="mr-2" >
             <MudButton OnClick="@(()=>Navigation_Click("customer/new"))">New</MudButton>
             <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
                 <MudMenuItem OnClick="@(()=>Navigation_Click("customer/new"))">New Customer</MudMenuItem>
@@ -46,11 +47,49 @@
             <MudTooltip Text="More">
                 <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
                     <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
-                    <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.status))">Status</MudMenuItem>
+                    <MudMenuItem OnClick="@(()=>ChangeStatus_Click(Guid.Parse(id)))">Status</MudMenuItem>
                 </MudMenu>
             </MudTooltip>
             
         </MudButtonGroup>
+            </MudHidden>
+           <MudHidden Breakpoint="Breakpoint.MdAndUp">
+               <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="MudBlazor.Color.Inherit" Edge="Edge.End" OnClick="@ToggleDrawer_modile_custoemr_detail" />
+                     <MudDrawer @bind-Open="@is_open_customer_mobile" Elevation="1" ClipMode="DrawerClipMode.Always" Variant="@DrawerVariant.Temporary" Anchor="Anchor.Right" Class="pa-4">
+                           <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" Class="mb-2"/>
+                             
+                            <MudButtonGroup Color="MudBlazor.Color.Default" Variant="Variant.Filled">
+
+                                    <MudButton OnClick="@(()=>Navigation_Click("customer/new"))" FullWidth="true">New</MudButton>
+
+                                    <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+                                        <MudMenuItem OnClick="@(()=>Navigation_Click("customer/new"))">New Customer</MudMenuItem>
+                                        <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit/{model.id}"))">Edit Customer</MudMenuItem>
+                                        <MudMenuItem OnClick="@(()=>Navigation_Click("project/new"))">New Project</MudMenuItem>
+                                    @if(!model.is_deleted){
+                                        @if(model.status){
+                                            <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Inactive</MudMenuItem>    
+                                        }
+                                        else{
+                                                <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Active</MudMenuItem>    
+                                        }
+                                    }
+                                    @if(!model.is_deleted){
+                                        <MudMenuItem OnClick="@DeleteCustomer_Click">Delete Customer</MudMenuItem>
+                                    }
+                                    </MudMenu>
+
+                                    <MudTooltip Text="More">
+                                        <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+                                            <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
+                                            <MudMenuItem OnClick="@(()=>ChangeStatus_Click(Guid.Parse(id)))">Status</MudMenuItem>
+                                        </MudMenu>
+                                    </MudTooltip>
+            
+                        </MudButtonGroup>
+                        </MudDrawer>
+           </MudHidden>
+        
         
         </Right>
 
@@ -83,5 +122,10 @@
     {
         <MudText Color="MudBlazor.Color.Warning" Typo="Typo.h5">@error_text</MudText>
     }
+
+
+
+
+
 </PageContainer>
 

@@ -81,13 +81,12 @@ namespace eAdmin.Pages.PageCustomers
             is_loading = false;
         }
 
-        public void OnEdit(Guid id)
+        public async Task OnRefresh()
         {
-            is_loading_data = true;
-            nav.NavigateTo($"customer/edit/{id}");
-            is_loading_data = false;
-        }
-
+            is_loading = true;
+            await LoadData();
+            is_loading = false;
+        } 
         public void Clone_Click(Guid id)
         {
             is_loading_data = true;
