@@ -1,21 +1,30 @@
-﻿@if (filters.Count() > 0)
+﻿<div Class="mb-2 ">
+@if(keyword != ""){
+      <MudChip Color="MudBlazor.Color.Default" OnClose="@OnRemoveKeywordClick">@keyword</MudChip>
+}
+@if (filters.Count() > 0)
 {
         @foreach (var d in filters.Where(r => r.filter_info_text != "").OrderBy(r => r.sort_order).ToList())
         {
-            <span>
-                @d.filter_title : @d.filter_info_text <MudButton  OnClick="@(()=>RemoveFilterClick(d))">Delete</MudButton>
-            </span>
+            <MudTooltip Text="@d.filter_title">
+                <MudChip Color="MudBlazor.Color.Default" OnClose="@(()=>RemoveFilterClick(d))">@d.filter_info_text</MudChip>
+            </MudTooltip>
+            
+
         }
-        @if (filters.Where(r => r.filter_info_text != "" && r.will_remove == true).Count() > 1)
+        @if ((filters.Where(r => r.filter_info_text != "" && r.will_remove == true).Count() > 1) || (filters.Where(r => r.filter_info_text != "" && r.will_remove == true).Count() > 0 && keyword != ""))
         {
-            <a @onclick="@OnRemoveAllFilterClick" class="clear_all_filters">Clear All</a>
+            <MudChip Color="MudBlazor.Color.Error" OnClose="@OnRemoveAllFilterClick">Clear All</MudChip>
         }
 }
+</div>
+
 @code{
     [Parameter] public List<FilterModel> filters { get; set; }
-
+    [Parameter] public string keyword {get;set;} ="";
     [Parameter] public EventCallback<FilterModel> OnRemoveFilterClick { get; set; }
     [Parameter] public EventCallback OnRemoveAllFilterClick { get; set; }
+    [Parameter] public EventCallback OnRemoveKeywordClick { get; set; }
 
     async Task RemoveFilterClick(FilterModel m)
     {

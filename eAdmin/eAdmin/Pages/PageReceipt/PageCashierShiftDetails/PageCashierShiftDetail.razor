@@ -32,17 +32,20 @@
                         <ComCashierShiftDetail_Cashdrawer/>
                         <ComCashierShiftDetail_SaleSummary/>
                         <ComCashierShiftDetail_SaleProductGroup/>
+                        <ComCashierShiftDetail_TotalPayment/>
+                        <ComCashierShiftDetail_PaymentBreakdown/>
                     </TabItem>
                     <TabItem>
                         @if (receipt_tab_click)
                         {
-                        <div>receipt</div>
+                            <ComCashierShiftDetail_ReceiptList CashierShiftId="@id" StateKey="YuuXCAshierSHIFTiptDEl97FALse" Title="@lang["Sale Receipt"]" IsDeletedReceipt="false"/>
+                            <ComCashierShiftDetail_ReceiptList CashierShiftId="@id" StateKey="REceCAshierSHIFTiptDEl978TRUE" Title="@lang["Deleted Sale Receipt"]" IsDeletedReceipt="true"/>
                         }
                     </TabItem>
                     <TabItem>
                         @if (sale_product_history_tab_click)
                         { 
-                            <div>sale_product_history_tab_click</div>
+                            <ComCashierShiftDetail_SaleProduct/>
                         }
                     </TabItem>
                 </TabBody>

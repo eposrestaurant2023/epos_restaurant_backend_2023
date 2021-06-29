@@ -19,7 +19,7 @@
         </Filter>
         <Right>
            
-            <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                  <FilterDateRange @bind-dates="@state.date_range"  />
                 <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
             </ComSearch>
@@ -31,7 +31,7 @@
     </PageHeader>
     <PageBody>
 
-       <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+       <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" Keyword="@GetFilterValue2(state.filters, "keyword","")" OnRemoveKeywordClick="@OnRemoveKeyword" OnRemoveAllFilterClick="@RemoveAllFilter" />
 
 
         <Table Items="@customers"
@@ -47,6 +47,7 @@
             <TableHeader>
                 <ThAuto>Customer</ThAuto>
                 @HeaderTemplate("gender", "Gender" , "text-center") 
+
                 @HeaderTemplate("customer_group/customer_group_name_en", "Group","text-center")
                 @HeaderTemplate("company_name", "Company")
                 <ThCenter>
@@ -56,15 +57,14 @@
                 </ThCenter>
                  @HeaderTemplate("current_balance", "Balance" ,"text-center")
                 <ThCenter Width="188px">
-                    <span>Pendding Project</span>
-                    <br />
-                    <span>Project</span>
+                    <span>Project/Pendding</span>
                 </ThCenter>
-                <ThCenter width="150px">
-                    Expired Date
-                </ThCenter>
+
                  <ThCenter width="150px">
                    Register Date
+                </ThCenter>
+                  <ThCenter width="150px">
+                    Expired Date
                 </ThCenter>
                 <Th>
                     Status
@@ -73,7 +73,7 @@
             </TableHeader>
             <RowTemplate Context="p">
                 <TdCenter>
-                  <ComCustomerCodeName customer="@p"/>
+                  <ComCustomerCodeName customer="@p" Url="@($"customer/{p.id}")"/>
                 </TdCenter>
                  <TdCenter>
                     @p.gender
@@ -92,30 +92,26 @@
                    @p.current_balance
                </TdCenter>
                <TdCenter>
-                    <MudText Typo="Typo.body2">@p.pending_project</MudText>
-                    <MudText Typo="Typo.body2">@p.total_project</MudText>
-                   
+                    <MudText Typo="Typo.body2">@p.total_project / @p.pending_project </MudText>
+
                </TdCenter>
-               <TdCenter>
+             
+                <TdCenter>
+                   @p.created_date.ToString(gv.date_format)
+               </TdCenter>
+                 <TdCenter>
                    @p.expired_date.ToString(gv.date_format)
                    
                </TdCenter>
                 <TdCenter>
-                   @p.created_date.ToString(gv.date_format)
-               </TdCenter>
-                <TdCenter>
                     <LabelDeleted is_visible="@p.is_deleted"/>
-                   <LabelActive is_visible="@(p.status == true && p.is_deleting == false )"/>
-                   <LabelInActive is_visible ="@(p.status == false && p.is_deleting == true )"/>
+                   <LabelActive is_visible="@(p.status == true && p.is_deleted == false )"/>
+                   <LabelInActive  is_visible ="@(p.status == false && p.is_deleted == false )"/>
                 </TdCenter>
                 <TdActions>
-                            <TableActionItem roles="@gv.GetRole("customer_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"customer/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_add")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">Clone</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                        <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("customer_view")" is_visible="@(!p.is_deleted)" url="@($"customer/{p.id}")">View</TableActionItem>
+                        <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("customer_add")" url="@($"customer/clone/{p.id}")">Clone</TableActionItem>
+                           
                   </TdActions>
 
             </RowTemplate>
