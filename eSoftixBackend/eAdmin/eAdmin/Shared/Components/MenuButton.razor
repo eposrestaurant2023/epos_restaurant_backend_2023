@@ -1,0 +1,28 @@
+﻿
+@if (isVisible)
+{
+
+    @if (!is_loading)
+    {
+         
+               <MudMenu Style="@Style" Icon="@icon" Color="@color"   Direction="@direction" Variant="@variant">
+                   @ChildContent
+                </MudMenu>
+
+             
+    }else{
+        <Spinner/>
+    }
+}
+@code{
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string icon { get; set; } = Icons.Material.Filled.MoreVert;
+    [Parameter] public string ClassName { get; set; } = "correct-location-dropdown";
+    [Parameter] public MudBlazor.Direction direction { get; set; } = Direction.Right;
+    [Parameter] public string Style { get; set; }
+    [Parameter] public MudBlazor.Color color { get; set; } = MudBlazor.Color.Default;
+    [Parameter] public bool is_loading { get; set; }
+    [Parameter] public MudBlazor.Variant variant { get; set; } = Variant.Text;
+    [Parameter] public bool isVisible { get; set; } = true;
+}

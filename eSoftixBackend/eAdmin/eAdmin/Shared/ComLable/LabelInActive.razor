@@ -11,16 +11,16 @@
         if (roles == "")
         {
 
-             <MudChip  Label="true" Color="MudBlazor.Color.Warning" Icon="@IconName" Size="Size.Small">InAtive</MudChip>
+             <MudChip  Label="true" Color="MudBlazor.Color.Warning" Icon="@IconName" Size="Size.Small">Inactive</MudChip>
         }
         else
         {
             <AuthorizeView Roles="@roles">
                 <Authorized>
-                       <MudChip  Label="true" Color="MudBlazor.Color.Warning" Icon="@IconName" Size="Size.Small" OnClick="@OnClick">InAtive</MudChip>
+                       <MudChip  Label="true" Color="MudBlazor.Color.Warning" Icon="@IconName" Size="Size.Small" OnClick="@OnClick">Inactive</MudChip>
                 </Authorized>
                 <NotAuthorized>
-                     <MudChip  Label="true" Color="MudBlazor.Color.Error" Icon="@IconName" Size="Size.Small" OnClick="@OnClick">InAtive</MudChip>
+                     <MudChip  Label="true" Color="MudBlazor.Color.Error" Icon="@IconName" Size="Size.Small" OnClick="@OnClick">Inactive</MudChip>
                 </NotAuthorized>
             </AuthorizeView>
         }

@@ -82,7 +82,7 @@ namespace eAdmin.Pages.PageCustomers
         }
         public async Task ChangeStatus_Click(Guid id)
         {
-            is_loading = true;
+            model.is_loading = true;
             var res = await http.ApiPost($"customer/status/{id}");
             if (res.IsSuccess)
             {
@@ -96,7 +96,7 @@ namespace eAdmin.Pages.PageCustomers
                 }
                 await LoadData();
             }
-            is_loading = false;
+            model.is_loading = false;
         }
         public async Task DeleteCustomer_Click()
         {
@@ -109,7 +109,7 @@ namespace eAdmin.Pages.PageCustomers
             StateHasChanged();
             if ((bool)result)
             {
-                is_loading = true;
+                model.is_loading = true;
                 var res = await http.ApiPost($"customer/delete/{id}");
                 if (res.IsSuccess)
                 {
@@ -119,7 +119,7 @@ namespace eAdmin.Pages.PageCustomers
                 
             }
             
-            is_loading = false;
+            model.is_loading = false;
             
            
         }
