@@ -92,7 +92,7 @@ namespace eAdmin.Pages.PageCustomers
                 }
                 else
                 {
-                    toast.Add("Customer is inactived.", Severity.Success);
+                    toast.Add("Customer is actived.", Severity.Success);
                 }
                 await LoadData();
             }
@@ -102,6 +102,10 @@ namespace eAdmin.Pages.PageCustomers
         {
             
             string state = "Are You sure your want to delete?";
+            if (model.is_deleted)
+            {
+                state = "Are You sure your want to restore?";
+            }
             bool? result = await DialogService.ShowMessageBox(
             "Delete",
             state,

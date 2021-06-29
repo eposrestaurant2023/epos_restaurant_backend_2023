@@ -6,7 +6,7 @@
     <PageContainer>
         @if(!is_error){
             @if(model != null && !is_loading){
-    <PageHeader OnRefresh="@OnRefresh">
+    <PageHeader>
         <Left>
               <MudText Typo="Typo.h6">
             @model.customer_code - @model.customer_name_en (@model.customer_name_kh)
