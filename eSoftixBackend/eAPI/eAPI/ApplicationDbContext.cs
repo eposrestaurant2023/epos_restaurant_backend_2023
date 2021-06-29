@@ -90,6 +90,7 @@ namespace eAPI
         public DbSet<BusinessBranchSystemFeatureModel> BusinessBranchSystemFeatures { get; set; }
         public DbSet<SystemFeatureModel> SystemFeatures { get; set; }
         public DbSet<ProjectSystemFeatureModel> ProjectSystemFeatures { get; set; }
+        public DbSet<eKnowledgeBaseModel> eKnowledgeBases { get; set; }
 
 
     }
