@@ -84,7 +84,6 @@ namespace eAPI.Controllers
             }
             p.customer_group = null;
 
-            string xx = System.Text.Json.JsonSerializer.Serialize(p);
 
             if (p.id == Guid.Empty)
             {
