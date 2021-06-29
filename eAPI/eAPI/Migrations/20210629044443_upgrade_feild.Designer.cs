@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210629044443_upgrade_feild")]
+    partial class upgrade_feild
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -490,12 +492,6 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("id");
-
-                    b.HasIndex("closed_station_id");
-
-                    b.HasIndex("opened_station_id");
-
-                    b.HasIndex("outlet_id");
 
                     b.HasIndex("working_day_id");
 
@@ -4579,35 +4575,11 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.CashierShiftModel", b =>
                 {
-                    b.HasOne("eModels.StationModel", "closed_station")
-                        .WithMany()
-                        .HasForeignKey("closed_station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StationModel", "opened_station")
-                        .WithMany()
-                        .HasForeignKey("opened_station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.OutletModel", "outlet")
-                        .WithMany()
-                        .HasForeignKey("outlet_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eModels.WorkingDayModel", "working_day")
                         .WithMany("cashier_shifts")
                         .HasForeignKey("working_day_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("closed_station");
-
-                    b.Navigation("opened_station");
-
-                    b.Navigation("outlet");
 
                     b.Navigation("working_day");
                 });

@@ -2,16 +2,18 @@
 <UIGridCenter>
     <UIContainerBox Title="@lang["Shift Information"]">
         <ListTable ClassWidth="uk-width-1-1">
-            <ListTableItem ItemTitle="@lang["Register"]" IsBetweenValue="true">004</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Outlet"]" IsBetweenValue="true">Genderal</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Station"]" IsBetweenValue="true">Main Station</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Shift"]" IsBetweenValue="true">Morning</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Opened"]" IsBetweenValue="true">Jun 25 2021 2:54PM</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Opened By"]" IsBetweenValue="true">Admin</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Exchange Rate"]" IsBetweenValue="true">R1 = $0.00</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Register"]" IsBetweenValue="true">@model.cashier_shift_number</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Outlet"]" IsBetweenValue="true">@model.outlet?.outlet_name_en</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Station"]" IsBetweenValue="true">@model.opened_station?.station_name_en</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Shift"]" IsBetweenValue="true">@model.shift</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Opened"]" IsBetweenValue="true">@model.created_date.ToString(gv.date_time_format)</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Opened By"]" IsBetweenValue="true">@model.created_by</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Exchange Rate"]" IsBetweenValue="true">@model.exchange_rate.ToString(gv.currency_format)</ListTableItem>
         </ListTable>
     </UIContainerBox>
 </UIGridCenter>
 @code {
 
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public CashierShiftModel model { get; set; }
 }

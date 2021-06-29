@@ -24,7 +24,7 @@ namespace eAdmin.Pages.PageCustomers
         {
             get
             {
-                string query = $"{controller_api}({id})";  
+                string query = $"{controller_api}({id})?$expand=opened_station($select=id,station_name_en,station_name_kh),closed_station($select=id,station_name_en,station_name_kh),outlet($select=outlet_name_en,outlet_name_kh)";  
                 return query;
             }
         }

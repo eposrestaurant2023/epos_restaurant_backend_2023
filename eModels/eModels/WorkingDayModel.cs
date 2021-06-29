@@ -25,5 +25,14 @@ namespace eModels
     {
         [ForeignKey("working_day_id")]
         public WorkingDayModel working_day { get; set; }
+
+        [ForeignKey("outlet_id")]
+        public OutletModel outlet { get; set; }
+        
+        [ForeignKey("opened_station_id")]
+        public StationModel opened_station { get; set; }
+        
+        [ForeignKey("closed_station_id")]
+        public StationModel closed_station { get; set; }
     }
 }
