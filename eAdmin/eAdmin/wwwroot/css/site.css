@@ -1613,6 +1613,9 @@ button.shipping {
     text-transform: uppercase;
     letter-spacing: 0.4px;
 }
+.uk-accordion-title.project-box-info-branch {
+    padding: 16px!important;
+}
 .min_widtheigth {
     min-width: 253px;
     min-height: 64px;
@@ -5045,12 +5048,11 @@ h1.wrp-expense-total span.total-expense-amount{
 .mg_b_5{
     margin-bottom:5px;
 }
-.table_inf table{
-    margin-top:0px !important;
-    margin-bottom:10px !important;
-}
-.table_inf .uk-table-small td, .table_inf .uk-table-small th {
-    padding: 3px 10px !important;
+
+.table_inf .uk-table-small td, 
+.table_inf .uk-table-small th {
+    padding-top: 3px!important;
+    padding-bottom: 3px!important;
 }
 .text-table {
     color: #000;
@@ -5089,14 +5091,24 @@ h1.wrp-expense-total span.total-expense-amount{
     border: 1px solid #e1e4e8;
     border-radius: 4px;
 }
-.verefy_title {
+.project-info-title {
     font-size: 14px;
     color: #0886ff;
     text-transform: uppercase;
     font-weight: 500;
-    font-style:italic;
+    font-style: italic;
+    margin-bottom: 6px;
 }
-
+.project-info-sub-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-style: italic;
+    text-decoration: underline;
+}
+.uk-padding-remove-left {
+    padding-left: 0px !important;
+}
 .text_verfy {
     font-size: 13px;
     text-transform: capitalize;
@@ -5120,7 +5132,8 @@ h1.wrp-expense-total span.total-expense-amount{
     max-width: 700px;
     width: 100%;
     border-radius: 5px;
-  padding 
+    height: calc(100vh - 40px);
+    overflow: auto;
 }
 .edit_hover {
     visibility: hidden;

@@ -1,0 +1,24 @@
+﻿<Grid ClassName="uk-grid-small uk-flex-small">
+    <div class="uk-width-expand">
+        <div class="uk-text-bold">@title</div>
+        <div class="uk-text-small">@description</div>
+    </div>
+    <div class="uk-width-auto">
+        @if (status)
+        {
+            <Icon icon="toggle_on" icon_color="#83d21b" size="32px" />
+        }
+        else
+        {
+            <Icon icon="toggle_off" icon_color="#cecece" size="32px" />
+        }
+    </div>
+    <div class="uk-width-1-1 uk-margin-remove">
+        <hr />
+    </div>
+</Grid>
+@code {
+    [Parameter] public string title { get; set; }
+    [Parameter] public string description { get; set; }
+    [Parameter] public bool status { get; set; }
+}
