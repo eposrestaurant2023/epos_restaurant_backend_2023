@@ -3356,6 +3356,25 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_sale_status");
                 });
 
+            modelBuilder.Entity("eModels.SaleTypeModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("business_branch_id");
+
+                    b.ToTable("tbl_sale_type");
+                });
+
             modelBuilder.Entity("eModels.SettingModel", b =>
                 {
                     b.Property<int>("id")
@@ -5270,6 +5289,15 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("sale_product");
+                });
+
+            modelBuilder.Entity("eModels.SaleTypeModel", b =>
+                {
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                        .WithMany()
+                        .HasForeignKey("business_branch_id");
+
+                    b.Navigation("business_branch");
                 });
 
             modelBuilder.Entity("eModels.StationModel", b =>
