@@ -2,32 +2,52 @@
 @if (IsVisible)
     {
             <div class="wrp-pagging-info">
-                    @foreach (var link in links)
-                    {
-            if (link.Text == "Next")
-            {
-                <MudButton  OnClick="@(() => SelectedPageInternal(link))" EndIcon="@Icons.Material.Filled.ArrowForwardIos"
-                        Variant="Variant.Text" Size="Size.Medium" Class="page-item" Style="cursor: pointer;">
-                    </MudButton>
-          }
-          else if(link.Text == "Prve")
-          {
-                
-          <MudButton  OnClick="@(() => SelectedPageInternal(link))"  StartIcon="@Icons.Material.Filled.ArrowBackIos"
-                        Variant="Variant.Text" Size="Size.Medium" Class="page-item" Style="cursor: pointer;">
-                    </MudButton>
-            }else
-            {
-                
-                      <MudButton  OnClick="@(() => SelectedPageInternal(link))"
-                        Style="cursor: pointer;"
-                        Class="page-item" Variant="Variant.Text">
-                       @link.Text
-                    </MudButton>
+              
+                <MudButton OnClick="@GoToFirstPage"
+                    Style="cursor: pointer;"
+                    Class="page-item" Disabled="@(CurrentPage == 1)">
+                   <MudIcon Icon="@Icons.Material.Filled.FirstPage" />
+                </MudButton>
+          
 
-            }
-           
+            @foreach (var link in links)
+             {
+                if (link.Text == "Next")
+                {
+                    <MudButton  OnClick="@(() => SelectedPageInternal(link))"
+                            Variant="Variant.Text" Size="Size.Medium" Class="page-item" Style="cursor: pointer;" Disabled="@(!link.Enabled)">
+                            <MudIcon Icon="@Icons.Material.Filled.KeyboardArrowRight"/>
+                    </MudButton>
                 }
+                  else if(link.Text == "Prve")
+                  {
+                
+                    <MudButton  OnClick="@(() => SelectedPageInternal(link))"
+                                Variant="Variant.Text" Size="Size.Medium" Class="page-item" Style="cursor: pointer;" Disabled="@(!link.Enabled)">
+                                <MudIcon Icon="@Icons.Material.Filled.KeyboardArrowLeft"/>
+                      </MudButton>
+                    }else
+                    {
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                         <MudButton  OnClick="@(() => SelectedPageInternal(link))"
+                            Style="cursor: pointer;"
+                            Class="page-item" Variant="Variant.Text"  Color="@(link.Active ?MudBlazor.Color.Primary : MudBlazor.Color.Default)" >
+                           @link.Text
+                        </MudButton>
+                    </MudHidden>
+                }
+
+           
+             }
+
+           
+                <MudButton OnClick="@GoToLastPage"
+                    Style="cursor: pointer;"
+                    Class="page-item last_page_mobil" Disabled="@(CurrentPage == total_page)">
+                    <MudIcon Icon="@Icons.Material.Filled.LastPage"/>
+                   
+                </MudButton>
+            
           
  </div>
     }
@@ -69,7 +89,6 @@
         await SelectedPage.InvokeAsync(link.Page);
     }
 
-     
 
     private void LoadPages()
     {
@@ -90,6 +109,22 @@
         var nextPage = CurrentPage + 1;
         links.Add(new LinkModel(nextPage, isNextPageLinkEnabled, "Next"));
     }
+
+
+   async Task GoToFirstPage()
+    {
+        CurrentPage = 1;
+        await SelectedPage.InvokeAsync(CurrentPage);
+    }
+
+    async Task GoToLastPage()
+    {
+        CurrentPage = total_page;
+        await SelectedPage.InvokeAsync(CurrentPage);
+    }
+
+
+
 
     class LinkModel
     {

@@ -10,7 +10,7 @@
             <EditForm Context="no" Model="@history" OnValidSubmit="@OnSaveClick">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
-                <MudTextField @bind-Value="@description" Placeholder="Comment" />
+                <MudTextField  Lines="3" @bind-Value="@description" Placeholder="Comment" />
                 <hr />
                 <Spacing Number="10"/>
                 <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" Disabled="@is_saving" OnClick="@OnSaveClick" Class="btn-small">Add Comment<Spinner IsLoading="is_saving" /></MudButton>
@@ -28,7 +28,7 @@
                         <EditForm Model="@h" Context="x">
                             <DataAnnotationsValidator />
                             <ValidationSummary />
-                            <MudTextField Lines="3" @bind-Value="@h.description" />
+                            <MudTextField Lines="5" @bind-Value="@h.description" />
                             <Spacing Number="10"/>
                             <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnUpdateClick(h))" Class="btn-small"><Spinner IsLoading="@h.is_saving" />Save</MudButton>
                             <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnCancelClick(h))" Class="btn-small">Cancel</MudButton>

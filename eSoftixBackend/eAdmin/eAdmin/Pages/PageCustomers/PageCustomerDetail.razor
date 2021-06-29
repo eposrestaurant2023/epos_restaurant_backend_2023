@@ -3,12 +3,13 @@
 
 @using eAdmin.Pages.PageCustomers.CustomerDetails
 <Loading is_loading="@is_loading"/>
-@if(model != null && !is_loading){
     <PageContainer>
+        @if(!is_error){
+            @if(model != null && !is_loading){
     <PageHeader>
         <Left>
               <MudText Typo="Typo.h6">
-            @model.customer_code - @model.customer_name_en (@model.customer_name_kh) 
+            @model.customer_code - @model.customer_name_en (@model.customer_name_kh)
         </MudText>
         @if(model.status == true)
             {
@@ -21,9 +22,9 @@
             @if(model.is_deleted==true){
                 <MudChip Size="Size.Small" Color="MudBlazor.Color.Error" Variant="Variant.Filled" Label="true">Deleted</MudChip>
             }
-            
         </Left>
         <Right>
+            <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" />
            <MudButtonGroup Color="MudBlazor.Color.Default" Variant="Variant.Filled">
             <MudButton OnClick="@(()=>Navigation_Click("customer/new"))">New</MudButton>
             <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
@@ -40,31 +41,47 @@
            }
             @if(!model.is_deleted){
                 <MudMenuItem OnClick="@DeleteCustomer_Click">Delete Customer</MudMenuItem>
-            } 
-            
-                
+            }
             </MudMenu>
+            <MudTooltip Text="More">
+                <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+                    <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
+                    <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.status))">Status</MudMenuItem>
+                </MudMenu>
+            </MudTooltip>
+            
         </MudButtonGroup>
+        
         </Right>
 
     </PageHeader>
     <PageBody>
 
 
-<MudTabs Position="@Position.Top"
-    ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
-    <MudTabPanel Text="General Info">
-        <ComCustomerDetailGeneralInfo model="@model" is_loading="is_loading"/>
-    </MudTabPanel>
-    <MudTabPanel Text="Project">
-        <ComCustomerProject/>
-    </MudTabPanel>
-    <MudTabPanel Text="Comment">
-
-    </MudTabPanel>
-</MudTabs>
-
-                
+        <MudTabs Position="@Position.Top"
+            ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
+            <MudTabPanel Text="General Info">
+                <ComCustomerDetailGeneralInfo model="@model" is_loading="is_loading"/>
+            </MudTabPanel>
+            <MudTabPanel Text="Project">
+                <ComCustomerProject id="@(new Guid(id))"/>
+            </MudTabPanel>
+            <MudTabPanel Text="Comment">
+                <ComHistory 
+                        
+                        history="@(new HistoryModel() { customer_id = new Guid(id),user_id = gv.current_login_user.id })"
+                        ApiFilter="@($"customer_id eq {id}")"
+                        OnSave="@SaveComment" />
+            </MudTabPanel>
+        </MudTabs>
+  
     </PageBody>
-</PageContainer>
+
 }
+    }
+    else
+    {
+        <MudText Color="MudBlazor.Color.Warning" Typo="Typo.h5">@error_text</MudText>
+    }
+</PageContainer>
+

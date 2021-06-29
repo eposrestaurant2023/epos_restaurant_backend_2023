@@ -50,6 +50,7 @@ namespace eAdmin.Pages.PageCustomers
             else
             {
                 is_error = true;
+                error_text = "Customer not found!";
             }
 
             is_loading = false;

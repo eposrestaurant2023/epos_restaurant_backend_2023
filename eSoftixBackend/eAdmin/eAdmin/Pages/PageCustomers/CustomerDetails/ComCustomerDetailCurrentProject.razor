@@ -3,22 +3,29 @@
 @if(projects.Any()){
     <UIPanel Title="Current Project">
     <UIPanelBody>
-        <MudList>
+        <MudList  Clickable="true">
             @foreach (var p in projects)
             {
-                <MudListItem OnClick="@(()=>{nav.NavigateTo($"project/{p.id}");})">
+                <MudListItem>
                     <MudGrid>
                         <MudItem xs="2" md="1" lg="1">
                             <MudAvatar Color="(MudBlazor.Color)p.project_type.color">
                                 <MudIcon Icon="@p.project_type.icon"/>
                             </MudAvatar>
                         </MudItem>
-                        <MudItem xs="10" lg="11">
-                            <MudText Typo="@Typo.body1">
-                                @p.project_code - @p.project_name
+                        <MudItem xs="5" lg="5">
+                            <MudText Typo="Typo.body1">
+                                <MudLink Href="@($"project/{p.id}")" Underline="Underline.None">
+                                    @p.project_code - @p.project_name
+                                </MudLink>
                             </MudText>
                             <MudText Typo="@Typo.caption">
                                 @p.note
+                            </MudText>
+                        </MudItem>
+                        <MudItem xs="5" lg="6">
+                            <MudText Typo="Typo.caption">
+                                Start : @p.start_date.Value.ToString(gv.date_format)
                             </MudText>
                         </MudItem>
                     </MudGrid>
