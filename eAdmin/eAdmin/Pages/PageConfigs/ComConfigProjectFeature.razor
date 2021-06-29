@@ -1,0 +1,10 @@
+﻿@inject IStringLocalizer<Resource> lang
+<div class="sys-feature-list">
+    @foreach (var d in project_features)
+    {
+        <ComFeatureList title="@d.system_feature.feature_name" description="@d.system_feature.feature_description" status="d.status"/>        
+    }
+</div>
+@code {
+    [Parameter] public List<eSoftixBackend.ProjectSystemFeatureModel> project_features {get;set;}
+}

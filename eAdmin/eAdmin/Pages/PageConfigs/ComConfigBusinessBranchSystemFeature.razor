@@ -1,0 +1,8 @@
+﻿<h3 class="project-info-sub-title">System Feature</h3>
+@foreach(var d in business_branch_system_features)
+{
+    <ComFeatureList title="@d.system_feature?.feature_name" description="@d.system_feature.feature_description" status="@d.status"/>
+}
+@code {
+    [Parameter] public List<eSoftixBackend.BusinessBranchSystemFeatureModel> business_branch_system_features {get;set;}
+}

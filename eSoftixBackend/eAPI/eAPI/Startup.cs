@@ -122,14 +122,26 @@ namespace eAPI
 
             odataBuilder.EntitySet<AttachFilesModel>("AttachFiles");
             odataBuilder.EntitySet<SettingModel>("Setting");
+            odataBuilder.EntitySet<HistoryModel>("History");
             odataBuilder.EntitySet<AttachFileModel>("AttachFile");
             odataBuilder.EntitySet<ProjectModel>("Project");
-           odataBuilder.EntitySet<BusinessBranchModel>("BusinessBranch");
+            odataBuilder.EntitySet<BusinessBranchModel>("BusinessBranch");
             odataBuilder.EntitySet<OutletModel>("Outlet");
             odataBuilder.EntitySet<StationModel>("Station");
-          odataBuilder.EntitySet<StockLocationModel>("StockLocation");
+            odataBuilder.EntitySet<StockLocationModel>("StockLocation");
+
+            odataBuilder.EntitySet<ProjectSystemFeatureModel>("ProjectSystemFeature");
+            var project_feature = odataBuilder.EntitySet<ProjectSystemFeatureModel>("ProjectSystemFeature");
+            project_feature.EntityType.HasKey(r => new { r.project_id, r.system_feature_id});
+
+            odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
+            var business_branch_feature= odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
+            business_branch_feature.EntityType.HasKey(r => new { r.business_branch_id, r.system_feature_id });
             
-             return odataBuilder.GetEdmModel();
+            
+            odataBuilder.EntitySet<eKnowledgeBaseModel>("eKnowledgeBase");
+
+            return odataBuilder.GetEdmModel();
         }
     }
 }

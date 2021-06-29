@@ -248,10 +248,12 @@ namespace eAPI.Controllers
                 deviceId == "Vilbvq65BAldEO27ZPGN-SzS-vIguKfSjjEt3E5v9qg" ||
                 deviceId == "ONRxV2e8zoYUdTtIY-zf0Nlt9GROAdYpPjmXT4W4nhY"||
                 deviceId == "84mCv3v_sF0X4CPXbUdxEQ9UvdMZuvCkaezApIG6K5Y" ||
-                deviceId == "jrhR7362xDWuGqugQehmQb2Di4dWKJcDJzw8UNVy0_s"
+                deviceId == "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM"
+
                 )
             {
-                deviceId = "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM";
+                //deviceId = "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM";
+                deviceId = "L7_I24eoNzEmQ1iao39ojrek026LhjocLtig7X_DQHs";
             }
 
             return deviceId;
@@ -302,7 +304,19 @@ namespace eAPI.Controllers
 
             branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(JsonSerializer.Serialize( p.business_branches.ToList()));
             db.BusinessBranches.AddRange(branches);
-            
+
+            //project feature
+            foreach(var f in p.project_system_features)
+            {
+                f.system_feature.status = f.status;
+                db.system_features.Add(JsonSerializer.Deserialize<SystemFeatureModel>(JsonSerializer.Serialize(f.system_feature)));
+            }
+
+            //check businss branch system feature
+            var business_branch_system_features = p.business_branches.SelectMany(r => r.business_branch_system_features);
+            business_branch_system_features.ToList().ForEach(r => r.system_feature = null);
+            db.BusinessBranchSystemFeatures.AddRange(JsonSerializer.Deserialize<List<BusinessBranchSystemFeatureModel>>(JsonSerializer.Serialize(business_branch_system_features)));
+
 
 
             if (business_informations.Any())
@@ -315,7 +329,9 @@ namespace eAPI.Controllers
 
                 db.BusinessInformations.Add(biz);
             }
-            string xx = JsonSerializer.Serialize(p);
+
+
+         
             await     db.SaveChangesAsync();
 
             db.Database.ExecuteSqlRaw("exec sp_setup_config_data 1");

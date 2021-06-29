@@ -5,10 +5,9 @@
 }
 @if(!is_loading){
     <MudItem xs="12" sm="12" md="12">
-    <MudCard Elevation="25" Style="height:100%;">
+    <MudCard Elevation="0" Style="height:100%;">
         <MudCardContent Class="px-0">
-            <MudSimpleTable Elevation="0" Hover="true">
-                  <Table Items="@models"
+                 <Table Items="@models"
                 PerPage="@pg.per_page"
                 TotalItem="@TotalRecord"
                 CurrentPage="@pg.current_page"
@@ -35,7 +34,6 @@
                 <div style="padding-left:6px">
                         <AuthView roles="project_view" url="@($"project/{s.outlet?.business_branch?.project_id}")">
                         <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.project_name</MudText>    
-                         <br />
                             <MudText Typo="Typo.caption">@s.outlet?.business_branch?.Project?.project_code</MudText>
                         </AuthView>
                 </div>
@@ -81,7 +79,6 @@
                 </TdCenter>
             </RowTemplate>
         </Table>
-            </MudSimpleTable>
         </MudCardContent>
     </MudCard>
 </MudItem>

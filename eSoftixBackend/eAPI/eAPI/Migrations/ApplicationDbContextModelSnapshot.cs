@@ -178,6 +178,24 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_business_branch");
                 });
 
+            modelBuilder.Entity("eModels.BusinessBranchSystemFeatureModel", b =>
+                {
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("system_feature_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("business_branch_id", "system_feature_id");
+
+                    b.HasIndex("system_feature_id");
+
+                    b.ToTable("tbl_business_branch_system_feature");
+                });
+
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
                 {
                     b.Property<int>("id")
@@ -1102,6 +1120,24 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_project");
                 });
 
+            modelBuilder.Entity("eModels.ProjectSystemFeatureModel", b =>
+                {
+                    b.Property<Guid>("project_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("system_feature_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("project_id", "system_feature_id");
+
+                    b.HasIndex("system_feature_id");
+
+                    b.ToTable("tbl_project_system_feature");
+                });
+
             modelBuilder.Entity("eModels.ProjectTypeModel", b =>
                 {
                     b.Property<int>("id")
@@ -1364,6 +1400,36 @@ namespace eAPI.Migrations
                     b.ToTable("StoreProcedureResultModel");
                 });
 
+            modelBuilder.Entity("eModels.SystemFeatureModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("feature_code")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("feature_description")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("feature_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("permission_options")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_system_feature");
+                });
+
             modelBuilder.Entity("eModels.UserModel", b =>
                 {
                     b.Property<int>("id")
@@ -1460,6 +1526,45 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_user");
                 });
 
+            modelBuilder.Entity("eModels.eKnowledgeBaseModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("description_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("description_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("icon")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid?>("parent_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("sort_order")
+                        .HasColumnType("int");
+
+                    b.Property<string>("title_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("title_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("parent_id");
+
+                    b.ToTable("tbl_eknowledge_base");
+                });
+
             modelBuilder.Entity("eModels.AttachFilesModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
@@ -1484,6 +1589,25 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("eModels.BusinessBranchSystemFeatureModel", b =>
+                {
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                        .WithMany("business_branch_system_features")
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.SystemFeatureModel", "system_feature")
+                        .WithMany("business_branch_system_features")
+                        .HasForeignKey("system_feature_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("business_branch");
+
+                    b.Navigation("system_feature");
                 });
 
             modelBuilder.Entity("eModels.ContactModel", b =>
@@ -1663,6 +1787,25 @@ namespace eAPI.Migrations
                     b.Navigation("project_type");
                 });
 
+            modelBuilder.Entity("eModels.ProjectSystemFeatureModel", b =>
+                {
+                    b.HasOne("eModels.ProjectModel", "project")
+                        .WithMany("project_system_features")
+                        .HasForeignKey("project_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.SystemFeatureModel", "system_feature")
+                        .WithMany("project_system_features")
+                        .HasForeignKey("system_feature_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("project");
+
+                    b.Navigation("system_feature");
+                });
+
             modelBuilder.Entity("eModels.StationModel", b =>
                 {
                     b.HasOne("eModels.OutletModel", "outlet")
@@ -1696,8 +1839,19 @@ namespace eAPI.Migrations
                     b.Navigation("role");
                 });
 
+            modelBuilder.Entity("eModels.eKnowledgeBaseModel", b =>
+                {
+                    b.HasOne("eModels.eKnowledgeBaseModel", "parent")
+                        .WithMany()
+                        .HasForeignKey("parent_id");
+
+                    b.Navigation("parent");
+                });
+
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
                 {
+                    b.Navigation("business_branch_system_features");
+
                     b.Navigation("contacts");
 
                     b.Navigation("outlets");
@@ -1739,6 +1893,8 @@ namespace eAPI.Migrations
                     b.Navigation("business_branches");
 
                     b.Navigation("contacts");
+
+                    b.Navigation("project_system_features");
                 });
 
             modelBuilder.Entity("eModels.ProjectTypeModel", b =>
@@ -1749,6 +1905,13 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.RoleModel", b =>
                 {
                     b.Navigation("permission_option_roles");
+                });
+
+            modelBuilder.Entity("eModels.SystemFeatureModel", b =>
+                {
+                    b.Navigation("business_branch_system_features");
+
+                    b.Navigation("project_system_features");
                 });
 #pragma warning restore 612, 618
         }

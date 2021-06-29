@@ -6,11 +6,23 @@
       
             @if (url != "")
             {
-                 <MudMenuItem Link="@url"> <MudIcon Icon="@icon"/> @ChildContent</MudMenuItem>
+                 <MudMenuItem Link="@url">
+
+                      <MudIcon Class="mud-float-left mr-4" Icon="@icon" />
+                      <MudText Class="mud-float-right" Inline="true">@ChildContent</MudText>
+                      
+               </MudMenuItem>
             }
             else
             {
-                <MudMenuItem OnClick="@OnClick"> <MudIcon Icon="@icon"/> @ChildContent</MudMenuItem>
+                <MudMenuItem OnClick="@OnClick">
+           
+
+                      <MudIcon Class="mud-float-left mr-4" Icon="@icon" />
+                      <MudText Class="mud-float-right" Inline="true">@ChildContent</MudText>
+                      
+            
+               </MudMenuItem>
             }
       
 
@@ -21,11 +33,17 @@
           
                 @if (url != "")
                 {
-                    <MudMenuItem Link="@url"> <MudIcon Icon="@icon"/> @ChildContent</MudMenuItem>
+                    <MudMenuItem Link="@url">
+                  <MudIcon Class="mud-float-left mr-4" Icon="@icon" />
+                      <MudText Class="mud-float-right" Inline="true">@ChildContent</MudText>
+                </MudMenuItem>
                 }
                 else
                 {
-                    <MudMenuItem OnClick="@OnClick"> <MudIcon Icon="@icon"/> @ChildContent</MudMenuItem>
+                    <MudMenuItem OnClick="@OnClick" >
+                    <MudIcon Class="mud-float-left mr-4" Icon="@icon" />
+                      <MudText Class="mud-float-right" Inline="true">@ChildContent</MudText>
+                </MudMenuItem>
                 }
             
         </AuthorizeView>

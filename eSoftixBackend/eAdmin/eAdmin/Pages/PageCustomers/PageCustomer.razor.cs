@@ -81,13 +81,12 @@ namespace eAdmin.Pages.PageCustomers
             is_loading = false;
         }
 
-        public void OnEdit(Guid id)
+        public async Task OnRefresh()
         {
-            is_loading_data = true;
-            nav.NavigateTo($"customer/edit/{id}");
-            is_loading_data = false;
-        }
-
+            is_loading = true;
+            await LoadData();
+            is_loading = false;
+        } 
         public void Clone_Click(Guid id)
         {
             is_loading_data = true;
@@ -212,10 +211,10 @@ namespace eAdmin.Pages.PageCustomers
             await LoadData();
         }
 
-        public async Task FilterClick()
+        public async Task FilterClick(string keyword)
         {
             state.filters.RemoveAll(r => r.filter_info_text != "");
-
+            SetFilterValue2(state.filters, "keyword", keyword);
             if (state.date_range.is_visible)
             {
                 state.filters.Add(
@@ -280,7 +279,9 @@ namespace eAdmin.Pages.PageCustomers
 
         public async Task RemoveAllFilter()
         {
+
             is_loading = true;
+            SetFilterValue2(state.filters, "keyword", "");
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
                 RemoveFilter(state, f.state_property_name);
@@ -302,6 +303,12 @@ namespace eAdmin.Pages.PageCustomers
         {
             state.pager = new PagerModel();
             SetFilterValue2(state.filters, "keyword", keyword);
+            await LoadData();
+        }
+        public async Task OnRemoveKeyword()
+        {
+            state.pager = new PagerModel();
+            SetFilterValue2(state.filters, "keyword", "");
             await LoadData();
         }
 

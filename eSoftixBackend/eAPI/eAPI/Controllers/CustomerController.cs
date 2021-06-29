@@ -5,6 +5,7 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.Edm;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -84,7 +85,6 @@ namespace eAPI.Controllers
             }
             p.customer_group = null;
 
-            string xx = System.Text.Json.JsonSerializer.Serialize(p);
 
             if (p.id == Guid.Empty)
             {
@@ -110,9 +110,8 @@ namespace eAPI.Controllers
             return SingleResult.Create(c);
         }
         [HttpPost]
-        [EnableQuery(MaxExpansionDepth = 0)]
         [Route("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var c = await db.Customers.FindAsync(id);
             c.is_deleted = !c.is_deleted;
@@ -128,11 +127,23 @@ namespace eAPI.Controllers
         public  IActionResult  Clone(Guid id)
         {
             var c = db.Customers.Where(r=>r.id == id).Include(r=>r.contacts).FirstOrDefault();
-           
+            c.status = true;
             c.contacts.ForEach(r => { r.id = 0;r.customer_id = Guid.Empty; });
-            c.id = Guid.Empty ;
+            c.id = Guid.Empty;
             return Ok(c);
         }
 
+        [HttpPost]
+        [EnableQuery(MaxExpansionDepth = 0)]
+        [Route("status/{id}")]
+
+        public IActionResult Status(Guid id)
+        {
+            var c = db.Customers.Find(id);
+            c.status = !c.status;
+            db.Customers.Update(c);
+            SaveChange.Save(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(c);
+        }
     }
 }

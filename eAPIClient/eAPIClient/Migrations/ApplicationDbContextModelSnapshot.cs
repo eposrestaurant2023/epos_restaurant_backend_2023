@@ -407,8 +407,16 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("product_category_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<int>("product_category_id")
                         .HasColumnType("int");
+
+                    b.Property<string>("product_category_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("product_code")
                         .HasColumnType("nvarchar(max)")
@@ -644,6 +652,10 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("sale_product_discount_amount")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<string>("sale_type")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid>("station_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -863,6 +875,9 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_free")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_inventory_product")
                         .HasColumnType("bit");
 
@@ -890,7 +905,29 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<string>("product_category_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_category_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("product_category_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("product_code")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("product_group_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_group_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("product_group_kh")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 

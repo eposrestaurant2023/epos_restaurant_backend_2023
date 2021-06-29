@@ -5,9 +5,10 @@
     @if (is_loading)
     { 
         <MudButton 
+            Class ="@Class"
             StartIcon="@Icons.Outlined.AttachFile"
-            Variant="Variant.Outlined"
-            Color="MudBlazor.Color.Primary"
+            Variant="Variant.Text"
+         
             >
             <Spinner />
         </MudButton>
@@ -15,9 +16,10 @@
     else
     {
          <MudButton 
+          Class ="@Class"
             StartIcon="@Icons.Outlined.AttachFile"
-            Variant="Variant.Filled"
-            Color="MudBlazor.Color.Primary"
+            Variant="Variant.Text"
+     
             OnClick="OpenDrawer"
             >
             (@files.Where(r => r.is_deleted == false).Count())
@@ -40,6 +42,7 @@
 @code{
 
     [Parameter] public string RoleAdd { get; set; }
+    [Parameter] public string Class { get; set; }
     [Parameter] public string RoleEdit { get; set; }
     [Parameter] public string RoleDelete { get; set; }
     [Parameter] public bool IsVisible { get; set; } = true;

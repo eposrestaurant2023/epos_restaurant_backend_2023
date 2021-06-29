@@ -1,0 +1,169 @@
+﻿@inherits PageCore
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+ 
+    <UIContainerBox Title="@Title">
+        @if (!is_loading)
+        {
+            <Com is_visible="@(models != null)">
+                <Table Items="@models"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto">
+                    <TableHeader>
+                        @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("customer/customer_name_en", lang["Customer"], "col-auto")
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Outlet"]</div>
+                        </ThAuto>
+                        <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Paid Amount"]</ThRight>
+                        <ThRight>@lang["Balance"]</ThRight>
+                        <ThRight>@lang["Status"]</ThRight>
+                        <th class="uk-width-auto"></th>
+                    </TableHeader>
+                    <RowTemplate Context="p">
+                        <TdCenter>
+                            @p.working_date.ToString(gv.date_format)
+                        </TdCenter>
+                        <TdCenter>
+                            <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/{p.id}")">@p.document_number</ComAuthorize>
+                        </TdCenter>
+                        <td>
+                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
+                        </td>
+                        <td>
+                            <div>
+                                @p.business_branch?.business_branch_name_en
+                            </div>
+                            <div class="sub-info-row-table">
+                                @p.outlet?.outlet_name_en
+                            </div>
+                        </td>
+                        <TdRight>
+                            @p.total_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.paid_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.balance.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            <ComSaleStatus sale="@p" />
+                        </TdRight>
+                        <TdCenter>
+                            <Icon icon="visibility" OnClick="@(() => nav.NavigateTo($"receiptlist/{p.id}"))" />
+                        </TdCenter>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        }
+        else
+        {
+
+        }
+    </UIContainerBox>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string StateKey { get; set; }
+    [Parameter] public bool IsDeletedReceipt { get; set; }
+    [Parameter] public string CashierShiftId { get; set; }
+
+    public List<SaleModel> models = new List<SaleModel>();
+    public SaleModel model = new SaleModel();
+    public int TotalRecord = 0;
+    string controller_api = "sale";
+    public string ControllerApi
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(state.pager.order_by) || state.pager.order_by == "id")
+            {
+                state.pager.order_by = "closed_date";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?";
+            url += $"$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
+            url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            if (state.filters.Where(r=>r.key == "cashier_shift_id").Any())
+            {
+                state.filters.Remove(state.filters.Where(r => r.key == "cashier_shift_id").FirstOrDefault());
+            }
+            state.filters.Add(new FilterModel() { key = "cashier_shift_id", value1 = $"{CashierShiftId}" });
+
+            if (state.filters.Where(r => r.key == "is_deleted").Any())
+            {
+                state.filters.Remove(state.filters.Where(r => r.key == "is_deleted").FirstOrDefault());
+            }
+            if (IsDeletedReceipt)
+            {
+                state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "true" });
+            }
+            else
+            {
+                state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+            }
+
+            return url + GetFilter(state.filters);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        state = await GetState(StateKey);
+        await LoadData();
+    }
+
+    public async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+            await SetState(StateKey, state);
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+        }
+        is_loading = false;
+    }
+    public async Task SelectChange(int perpage)
+    {
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+    public async Task ChangePager(int _page)
+    {
+        state.pager.current_page = _page;
+        await LoadData();
+    }
+    public async Task OrderBy(string col_name = "")
+    {
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+        await LoadData();
+    }
+
+}

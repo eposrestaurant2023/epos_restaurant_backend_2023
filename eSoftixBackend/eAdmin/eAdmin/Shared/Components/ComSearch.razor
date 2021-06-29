@@ -4,7 +4,7 @@
 <EditForm Model="@dummy" OnSubmit="Search" >
     <MudHidden Breakpoint="Breakpoint.SmAndDown">
      <div class="d-flex">
-         <div> <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@place_holder" Margin="Margin.Dense" Class="cus_inputselect_search"></MudTextField></div>
+         <div> <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@placeholder" Margin="Margin.Dense" Class="cus_inputselect_search"></MudTextField></div>
          <div class="align-self-center cus_buuton_fillter">
                @if (show_advance_filter)
         {
@@ -19,13 +19,16 @@
  </MudHidden>
 
 </EditForm>
- 
-<FilterFly  OnSearch="@OnFillterClick" IsOpen="@open_advance_filter">
-        <MudHidden Breakpoint="Breakpoint.MdAndUp">
-            <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@place_holder" Margin="Margin.Dense"></MudTextField>
-        </MudHidden>
-    @ChildContent
-</FilterFly>
+ <EditForm Model="@dummy" OnSubmit="FilterClick" >
+    <FilterFly IsOpen="@open_advance_filter">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            
+            <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@placeholder" Label="Search"></MudTextField>
+
+            </MudHidden>
+        @ChildContent
+    </FilterFly>
+ </EditForm>
  
 
 @code{
@@ -36,7 +39,7 @@
     [Parameter] public string FrmClass { get; set; } = "";
     
     [Parameter] public bool show_advance_filter { get; set; } = true;
-    [Parameter] public EventCallback OnFillterClick { get; set; }
+    [Parameter] public EventCallback<string> OnFillterClick { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
  
     bool open_advance_filter;
@@ -56,6 +59,11 @@
     {
 
         await KeywordChanged.InvokeAsync(search_text);
+    }
+        async Task FilterClick()
+    {
+
+        await OnFillterClick.InvokeAsync(search_text);
     }
     void ShowAdvanceFilter()
     {

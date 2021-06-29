@@ -39,7 +39,7 @@ namespace eModels
                 }
             }
         }
-
+        public string company_name { get; set; }
         [Required(ErrorMessage = "Please enter company name")]
         public string company_name_kh { get; set; }
         public string province { get; set; }
@@ -62,7 +62,7 @@ namespace eModels
         public string photo { get; set; }
 
         public string position { get; set; }
-        public string company_name { get; set; }
+        
         
         public string nationality { get; set; }
 
