@@ -20,5 +20,7 @@ namespace eModels
         [ForeignKey("business_branch_id")]
 
         public BusinessBranchModel business_branch { get; set; }
+
+        public bool is_build_in { get; set; }
     }
 }

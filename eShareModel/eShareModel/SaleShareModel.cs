@@ -1,4 +1,5 @@
-﻿using System;                          
+﻿using Microsoft.JSInterop;
+using System;                          
 using System.ComponentModel.DataAnnotations.Schema;     
 
 namespace eShareModel
@@ -77,6 +78,9 @@ namespace eShareModel
         public string closed_by { get; set; }
         public DateTime? closed_date { get; set; }
 
-        
+        public string sale_type { get; set; } = "Dine in";
+
+
+
     }
 }
