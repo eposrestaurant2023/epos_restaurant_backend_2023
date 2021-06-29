@@ -42,4 +42,17 @@ namespace eModels
         public string title { get; set; }
         public string value { get; set; }
     }
+
+    public class CashierShiftSaleProductSummaryModel
+    {
+        public int product_id { get; set; }
+        public int sort_order { get; set; }
+        public string product_group_en { get; set; }
+        public string product_category_en { get; set; }
+        public string product_name_en { get; set; }
+        public int is_free { get; set; }
+        public string portion_name { get; set; }
+        public decimal quantity { get; set; }
+        public decimal total_amount { get; set; }
+    }
 }
