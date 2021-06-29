@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210629020147_update_relative_tbl_cashier_shift")]
+    partial class update_relative_tbl_cashier_shift
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -473,6 +475,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<Guid?>("open_station_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("opened_station_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -493,7 +498,7 @@ namespace eAPI.Migrations
 
                     b.HasIndex("closed_station_id");
 
-                    b.HasIndex("opened_station_id");
+                    b.HasIndex("open_station_id");
 
                     b.HasIndex("outlet_id");
 
@@ -4560,11 +4565,9 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StationModel", "opened_station")
+                    b.HasOne("eModels.StationModel", "open_station")
                         .WithMany()
-                        .HasForeignKey("opened_station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("open_station_id");
 
                     b.HasOne("eModels.OutletModel", "outlet")
                         .WithMany()
@@ -4580,7 +4583,7 @@ namespace eAPI.Migrations
 
                     b.Navigation("closed_station");
 
-                    b.Navigation("opened_station");
+                    b.Navigation("open_station");
 
                     b.Navigation("outlet");
 
