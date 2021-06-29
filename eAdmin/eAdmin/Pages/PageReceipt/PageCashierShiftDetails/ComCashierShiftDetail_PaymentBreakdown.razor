@@ -2,11 +2,13 @@
 <UIGridCenter>
     <UIContainerBox Title="@lang["Payment Breakdown"]">
         <ListTable ClassWidth="uk-width-1-1">
-            <ListTableItem ItemTitle="Cash Dollar" IsBetweenValue="true">$1,000.00</ListTableItem>
-            <ListTableItem ItemTitle="Cash Riel" IsBetweenValue="true">R1,000.00</ListTableItem>
+            @foreach (var t in models.Where(r => r.group_name == "Payment Breakdown").ToList())
+            {
+                <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
+            }
         </ListTable>
     </UIContainerBox>
 </UIGridCenter>
 @code {
-
+    [Parameter] public List<CloseCashierShiftSummaryModel> models { get; set; }
 }
