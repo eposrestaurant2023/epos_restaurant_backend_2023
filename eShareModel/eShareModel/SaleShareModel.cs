@@ -33,7 +33,7 @@ namespace eShareModel
 
         public decimal total_quantity { get; set; }
         public decimal sub_total { get; set; }
-
+         
 
         //Discount
         public decimal discountable_amount { get; set; } 
