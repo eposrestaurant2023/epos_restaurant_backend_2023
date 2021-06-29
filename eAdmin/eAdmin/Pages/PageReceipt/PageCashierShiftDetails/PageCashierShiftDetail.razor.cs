@@ -11,14 +11,15 @@ namespace eAdmin.Pages.PageCustomers
 {
     public class PageCahsierShiftDetails : PageCore
     {
-        [Parameter] public string id { get; set; } 
-        public CashierShiftModel model { get; set; }
+        [Parameter] public string id { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";
         string controller_api = "CashierShift";
         public bool is_show_check_in,show_member_ship_tab;
         public bool receipt_tab_click, sale_product_history_tab_click, payment_history_tab_click;
         List<HistoryModel> histories = new List<HistoryModel>();
+        public CashierShiftModel model = new CashierShiftModel();
+        public List<CloseCashierShiftSummaryModel> close_cashier_shift_summaries = new List<CloseCashierShiftSummaryModel>();
 
         public string api_query
         {
@@ -34,6 +35,7 @@ namespace eAdmin.Pages.PageCustomers
         {
             is_loading = true;
             await LoadData();
+            await GetCloseCashierShiftSummary();
         }
 
         public async Task LoadData()
@@ -51,10 +53,19 @@ namespace eAdmin.Pages.PageCustomers
 
             is_loading = false;
         }
-
+        public async Task GetCloseCashierShiftSummary()
+        {
+            var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = "sp_get_close_cashier_shift_summary", procedure_parameter = $"'{id}'"});
+            if (resp.IsSuccess)
+            {
+                close_cashier_shift_summaries = JsonSerializer.Deserialize<List<CloseCashierShiftSummaryModel>>(resp.Content.ToString());
+            }
+        }
         public void OnPrint()
         {
             //
         }
+
+        
     }
 }
