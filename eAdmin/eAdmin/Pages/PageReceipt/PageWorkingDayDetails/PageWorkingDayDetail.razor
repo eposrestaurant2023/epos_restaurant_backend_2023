@@ -1,0 +1,71 @@
+﻿@page "/workingday/{id}"
+@inherits PageWorkingDayDetails
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@if (!is_loading && !is_error)
+{
+    <Title Value="@($"Working Day# {model.working_day_number}")"></Title>
+    <PageContainer roles="@gv.GetRole("cashier_shift_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        Working Day# @model.working_day_number
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <Button icon="print" title="@lang["Print"]" OnClick="@OnPrint"/>
+                <RefreshButton OnClick="@LoadData" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab ClassName="control-header-tab">
+                <TabHeader>
+                    <TabHeaderItem>@lang["Working Day Information"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>receipt_tab_click = true)"> @lang["Sale Receipt"]</TabHeaderItem>
+                     <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)"> @lang["Sale Product"]</TabHeaderItem>
+                </TabHeader>
+                <TabBody>
+                    <TabItem>
+                        <ComWorkingDayDetail_Information model="@model" />
+                        @foreach (var d in list_summaries.Select(r=>r.group_name).Distinct()) {
+                        <UIGridCenter>
+                            <UIContainerBox Title="@d.ToString()">
+                                <ListTable ClassWidth="uk-width-1-1">
+                                    @foreach (var t in list_summaries.Where(r=>r.group_name == d.ToString()))
+                                    {
+                                        <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
+                                    }
+                                </ListTable>
+                            </UIContainerBox>
+                        </UIGridCenter>
+                        }
+                    </TabItem>
+                    <TabItem>
+                        @if (receipt_tab_click)
+                        {
+                            @*<ComCashierShiftDetail_ReceiptList CashierShiftId="@id" StateKey="YuuXCAshierSHIFTiptDEl97FALse" Title="@lang["Sale Receipt"]" IsDeletedReceipt="false"/>
+                            <ComCashierShiftDetail_ReceiptList CashierShiftId="@id" StateKey="REceCAshierSHIFTiptDEl978TRUE" Title="@lang["Deleted Sale Receipt"]" IsDeletedReceipt="true"/>*@
+                        }
+                    </TabItem>
+                    <TabItem>
+                        @if (sale_product_history_tab_click)
+                        { 
+                            <UIGridCenter>
+                                @*<ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="0" Id="@id"/>
+                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="1" Id="@id"/>*@
+                            </UIGridCenter>
+                        }
+                    </TabItem>
+                </TabBody>
+            </Tab>
+        </PageBody>
+    </PageContainer>
+}
+@if (is_error)
+{
+    <Error title="@lang["Working Day Detail"]">
+        @error_text
+    </Error>
+}
+

@@ -98,7 +98,7 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public string Title { get; set; } = "Sale Product";
     [Parameter] public string Id { get; set; } = "";
-    [Parameter] public int IsFree { get; set; } = 0;
+    [Parameter] public bool IsFree { get; set; }
     List<CashierShiftSaleProductSummaryModel> models = new List<CashierShiftSaleProductSummaryModel>();
     bool is_loading = false;
     bool is_error = false;

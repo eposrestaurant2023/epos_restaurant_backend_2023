@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 
-namespace eAdmin.Pages.PageReceipt.PageCashierShiftDetails
+namespace eAdmin.Pages.PageReceipt.PageWorkingDayDetails
 {
-    public class PageCahsierShiftDetails : PageCore
+    public class PageWorkingDayDetails : PageCore
     {
         [Parameter] public string id { get; set; }
-        string controller_api = "CashierShift";
+        string controller_api = "WorkingDay";
         public bool receipt_tab_click, sale_product_history_tab_click, payment_history_tab_click;
-        public CashierShiftModel model = new CashierShiftModel();
+        public WorkingDayModel model = new WorkingDayModel();
         public List<ListSummaryModel> list_summaries = new List<ListSummaryModel>();
 
         public string api_query
@@ -31,7 +31,7 @@ namespace eAdmin.Pages.PageReceipt.PageCashierShiftDetails
         {
             is_loading = true;
             await LoadData();
-            await GetCloseCashierShiftSummary();
+            await GetTistSummary();
         }
 
         public async Task LoadData()
@@ -40,7 +40,7 @@ namespace eAdmin.Pages.PageReceipt.PageCashierShiftDetails
             var resp = await http.ApiGet(api_query);
             if (resp.IsSuccess)
             {
-                model = JsonSerializer.Deserialize<CashierShiftModel>(resp.Content.ToString());
+                model = JsonSerializer.Deserialize<WorkingDayModel>(resp.Content.ToString());
             }
             else
             {
@@ -49,9 +49,9 @@ namespace eAdmin.Pages.PageReceipt.PageCashierShiftDetails
 
             is_loading = false;
         }
-        public async Task GetCloseCashierShiftSummary()
+        public async Task GetTistSummary()
         {
-            var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = "sp_get_close_cashier_shift_summary", procedure_parameter = $"'{id}'"});
+            var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = "sp_get_end_of_day_summary", procedure_parameter = $"'{id}'"});
             if (resp.IsSuccess)
             {
                 list_summaries = JsonSerializer.Deserialize<List<ListSummaryModel>>(resp.Content.ToString());
