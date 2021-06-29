@@ -63,12 +63,12 @@
                     }
                     @if (sale.stock_location != null)
                     {
-                    <tr>
-                        <td>@lang["Warehouse"]</td>
-                        <td>@sale.stock_location?.stock_location_name</td>
-                    </tr>
+                        <tr>
+                            <td>@lang["Warehouse"]</td>
+                            <td>@sale.stock_location?.stock_location_name</td>
+                        </tr>
                     }
-                    
+
                     @if (sale.outlet != null)
                     {
                         <tr>
@@ -76,7 +76,20 @@
                             <td>@sale.outlet?.outlet_name_en</td>
                         </tr>
                     }
-
+                    @if (sale.working_day_number != null)
+                    {
+                        <tr>
+                            <td>@lang["Working Day No"]:</td>
+                            <td>@sale.working_day_number</td>
+                        </tr>
+                    }
+                    @if (sale.cashier_shift_number != null)
+                    {
+                        <tr>
+                            <td>@lang["Cashier Shift No"]:</td>
+                            <td>@sale.cashier_shift_number</td>
+                        </tr>
+                    }
                 </table>
             </div>
         </div>

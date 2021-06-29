@@ -15,10 +15,16 @@ namespace eModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid id { get; set; }
-        public Guid outlet_id { get; set; }
+        public Guid business_branch_id { get; set; }
 
         [ForeignKey("business_branch_id")]
 
         public BusinessBranchModel business_branch { get; set; }
+
+        public bool is_build_in { get; set; }
+
+        public string sale_type_name { get; set; }
+
+
     }
 }
