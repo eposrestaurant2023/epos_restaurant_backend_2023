@@ -27,7 +27,7 @@
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComCashierShiftDetail_Information/>
+                        <ComCashierShiftDetail_Information model="model"/>
                         <ComCashierShiftDetail_Transaction/>
                         <ComCashierShiftDetail_Cashdrawer/>
                         <ComCashierShiftDetail_SaleSummary/>
@@ -45,17 +45,16 @@
                     <TabItem>
                         @if (sale_product_history_tab_click)
                         { 
-                            <ComCashierShiftDetail_SaleProduct/>
+                            <UIGridCenter>
+                                <ComCashierShiftDetail_SaleProduct Title="Sale Product"/>
+                                <ComCashierShiftDetail_SaleProduct Title="Free Product"/>
+                            </UIGridCenter>
                         }
                     </TabItem>
                 </TabBody>
             </Tab>
         </PageBody>
     </PageContainer>
-
-   
-
-    
 }
 @if (is_error)
 {
