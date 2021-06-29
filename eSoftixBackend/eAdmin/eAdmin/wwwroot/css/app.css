@@ -320,3 +320,11 @@ a.disabled, a.disabled:hover {
     color: var(--mud-palette-grey-default);
     font-style: italic;
 }
+.cus_class_select .mud-list-item-gutters {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    text-align: center !important;
+}
+.view_table .mud-list-item-text{
+    text-transform:lowercase !important;
+}

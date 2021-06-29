@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210629065201_add_sale_typ[e")]
+    partial class add_sale_type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2161,16 +2163,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("product_category_en")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<int>("product_category_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("product_category_kh")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("product_code")
                         .HasMaxLength(50)
@@ -3370,15 +3364,14 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("business_branch_id")
+                    b.Property<Guid?>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("is_build_in")
                         .HasColumnType("bit");
 
-                    b.Property<string>("sale_type_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
+                    b.Property<Guid>("outlet_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("id");
 
@@ -5307,9 +5300,7 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
                         .WithMany()
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("business_branch_id");
 
                     b.Navigation("business_branch");
                 });

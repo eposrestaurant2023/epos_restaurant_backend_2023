@@ -14,7 +14,7 @@
          @Right
     @if (show_refresh_button)
     {
-    <MudIconButton Icon="@Icons.Material.Filled.Refresh" Variant="Variant.Filled"></MudIconButton>    
+    <MudIconButton Icon="@Icons.Material.Filled.Refresh" Variant="Variant.Filled" OnClick="@OnRefresh"></MudIconButton>    
     }
     @if (show_back_button)
     {
@@ -35,6 +35,7 @@
     
     [Parameter] public bool show_back_button { get; set; } = false;
     [Parameter] public bool show_refresh_button { get; set; } = true;
+    [Parameter] public EventCallback OnRefresh { get; set; } 
 
 
 

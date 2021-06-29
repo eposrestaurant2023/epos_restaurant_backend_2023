@@ -1,4 +1,5 @@
-﻿using System;                          
+﻿using Microsoft.JSInterop;
+using System;                          
 using System.ComponentModel.DataAnnotations.Schema;     
 
 namespace eShareModel
@@ -27,8 +28,6 @@ namespace eShareModel
         public DateTime working_date { get; set; } = DateTime.Now;
 
 
-
-       
         public bool is_partially_paid { get; set; }
 
         public decimal total_quantity { get; set; }
@@ -77,6 +76,9 @@ namespace eShareModel
         public string closed_by { get; set; }
         public DateTime? closed_date { get; set; }
 
-        
+        public string sale_type { get; set; } = "Dine in";
+
+
+
     }
 }

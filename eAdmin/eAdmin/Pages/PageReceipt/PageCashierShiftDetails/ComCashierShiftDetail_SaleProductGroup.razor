@@ -2,13 +2,13 @@
 <UIGridCenter>
     <UIContainerBox Title="@lang["Sale Product Group"]">
         <ListTable ClassWidth="uk-width-1-1">
-            @foreach (var pg in gv.product_groups)
+            @foreach (var t in models.Where(r => r.group_name == "Sale Product Group").ToList())
             {
-                <ListTableItem ItemTitle="@pg.product_group_en" IsBetweenValue="true">@pg.id.ToString(),000.00</ListTableItem>
+                <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
             }
         </ListTable>
     </UIContainerBox>
 </UIGridCenter>
 @code {
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public List<CloseCashierShiftSummaryModel> models { get; set; }
 }
