@@ -1,12 +1,81 @@
 ﻿@page "/customer/new"
+@page "/customer/edit/{id}"
 @inherits PageAddCustomers
 <PageContainer>
+@if(model != null){
     <PageHeader title="New Customer" show_back_button="true" show_refresh_button="false">
         
     </PageHeader>
     <PageBody>
+        <EditForm Model="@model" OnValidSubmit="@Save_Click">
        <UICenter>
            
+               <DataAnnotationsValidator />
+                <UIPanel Title="Photo">
+                    <FileUpload @bind-ImageUrl="model.photo"></FileUpload>
+                </UIPanel>
+                <UIPanel Title="General Information">
+                    <MudTextField Disabled="true" @bind-Value="@model.customer_code" Label="Code" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@model.customer_name_en" Label="Name En" Variant="Variant.Text"></MudTextField>
+                    <MudText Color="MudBlazor.Color.Error" Typo="Typo.caption">
+                        <ValidationMessage For="(()=>model.customer_name_en)"/>
+                    </MudText>
+                    <MudTextField @bind-Value="@model.customer_name_kh" Label="Name Kh" Variant="Variant.Text"></MudTextField>
+                    <SelectCustomerGroup variant="Variant.Text" @bind-selected_value="@model.customer_group_id" @bind-customer_group="@model.customer_group" empty_text="Select Customer Group" />
+                    <MudText Color="MudBlazor.Color.Error" Typo="Typo.caption">
+                        <ValidationMessage For="(()=>model.customer_group_id)"/>   
+                    </MudText>
+                    <MudSelect T="string" Label="Gender" @bind-Value="@model.gender">
+                        <MudSelectItem T="string" Value="@("Male")"/>
+                        <MudSelectItem T="string" Value="@("Female")"/>
+                    </MudSelect>
+                    <MudDatePicker Label="Date of Birth" @bind-Date="@BOD"/>
+                    <MudTextField @bind-Value="@model.nationality" Label="Nationality" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@model.company_name_kh" Label="Company Name Kh" Variant="Variant.Text"></MudTextField>    
+                    <MudText Color="MudBlazor.Color.Error" Typo="Typo.caption">
+                        <ValidationMessage For="(()=>model.company_name_kh)"/>
+                    </MudText>
+                    <MudTextField @bind-Value="@model.company_name" Label="Company Name" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@model.position" Label="Position" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@model.province" Label="Province" Variant="Variant.Text"></MudTextField>
+                </UIPanel>
+                <UIPanel Title="Contact Infomation">
+                     <MudTextField @bind-Value="@model.phone_1" Label="Phone 1" Variant="Variant.Text"></MudTextField>
+                    <MudText Color="MudBlazor.Color.Error" Typo="Typo.caption">
+                        <ValidationMessage For="(()=>model.phone_1)"/>  
+                    </MudText>
+                    
+                    <MudTextField @bind-Value="@model.phone_2" Label="Phone 2" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@model.email" Label="Email" Variant="Variant.Text"></MudTextField>
+                    <MudTextField @bind-Value="@model.telegram" Label="Telegram" Variant="Variant.Text"></MudTextField>
+                </UIPanel>
+                <UIPanel>
+                    <MudTabs Rounded="true" PanelClass="pa-1">
+                        <MudTabPanel Text="Address">
+                            <MudTextField T="string" Label="Address" Variant="Variant.Text" Text="@model.address" Lines="5" />
+                        </MudTabPanel>
+                        <MudTabPanel Text="Note">
+                            <MudTextField T="string" Label="Note" Variant="Variant.Text" Text="@model.note" Lines="5" />
+                        </MudTabPanel>
+                    </MudTabs>
+                </UIPanel>
        </UICenter>
+       <PageFooter>
+           <Center>
+               <MudButton Disabled="@model.is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save
+                @if(model.is_saving){
+                    <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
+                }
+                </MudButton>
+                <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button">Cancel</MudButton>
+           </Center>
+       </PageFooter>
+        </EditForm>
     </PageBody>
+}
+
 </PageContainer>
+
+@code{
+    AttachFilesModel file=new AttachFilesModel();
+}

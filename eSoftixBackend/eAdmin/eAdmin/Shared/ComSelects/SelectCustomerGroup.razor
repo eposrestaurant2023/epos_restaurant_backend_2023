@@ -1,5 +1,5 @@
 ﻿
-         <MudSelect T="int" Label="Customer Group" Value="@SelectedValue" Strict="true" Variant="Variant.Outlined" ValueChanged="@((id) => SelectedValueChange(id))">
+         <MudSelect T="int" Label="Customer Group" Value="@SelectedValue" Strict="true" Variant="@variant" ValueChanged="@((id) => SelectedValueChange(id))">
             
             @if (show_empty)
             {
@@ -21,6 +21,7 @@
     [Parameter] public string empty_text { get; set; } = "Select Customer Group";
 
     [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public Variant variant { get; set; } = Variant.Outlined;
     [Parameter] public int selected_value { get; set; } = 0;
     [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
 

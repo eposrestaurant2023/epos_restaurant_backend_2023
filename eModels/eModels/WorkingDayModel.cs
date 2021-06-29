@@ -35,4 +35,11 @@ namespace eModels
         [ForeignKey("closed_station_id")]
         public StationModel closed_station { get; set; }
     }
+
+    public class CloseCashierShiftSummaryModel
+    {
+        public string group_name { get; set; }
+        public string title { get; set; }
+        public string value { get; set; }
+    }
 }

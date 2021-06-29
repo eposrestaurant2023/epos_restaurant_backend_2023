@@ -27,13 +27,13 @@
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComCashierShiftDetail_Information model="model"/>
-                        <ComCashierShiftDetail_Transaction/>
-                        <ComCashierShiftDetail_Cashdrawer/>
-                        <ComCashierShiftDetail_SaleSummary/>
-                        <ComCashierShiftDetail_SaleProductGroup/>
-                        <ComCashierShiftDetail_TotalPayment/>
-                        <ComCashierShiftDetail_PaymentBreakdown/>
+                        <ComCashierShiftDetail_Information model="@model"/>
+                        <ComCashierShiftDetail_Transaction models="@close_cashier_shift_summaries"/>
+                        <ComCashierShiftDetail_Cashdrawer models="@close_cashier_shift_summaries"/>
+                        <ComCashierShiftDetail_SaleSummary models="@close_cashier_shift_summaries"/>
+                        <ComCashierShiftDetail_SaleProductGroup models="@close_cashier_shift_summaries"/>
+                        <ComCashierShiftDetail_TotalPayment models="@close_cashier_shift_summaries"/>
+                        <ComCashierShiftDetail_PaymentBreakdown models="@close_cashier_shift_summaries"/>
                     </TabItem>
                     <TabItem>
                         @if (receipt_tab_click)

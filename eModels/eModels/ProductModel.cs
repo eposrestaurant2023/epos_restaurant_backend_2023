@@ -38,7 +38,8 @@ namespace eModels
         [ForeignKey("product_category_id")]
         public ProductCategoryModel product_category { get; set; }
 
-        
+        public string product_category_en { get; set; }
+        public string product_category_kh { get; set; }
 
         public int? kitchen_group_id { get; set; }
         [ForeignKey("kitchen_group_id")]

@@ -10,6 +10,16 @@ namespace eShareModel
 
         public Guid sale_order_id { get; set; }
 
+
+        public int product_group_id { get; set; }
+        public int product_category_id { get; set; }
+        public string product_group_en { get; set; }
+        public string product_group_kh { get; set; }
+        public string product_category_en { get; set; }
+        public string product_category_kh { get; set; }
+
+        public bool is_free { get; set; } = false;
+
         public int product_id { get; set; }
         public string product_code { get; set; } = "";
         private string _product_name_en="";
