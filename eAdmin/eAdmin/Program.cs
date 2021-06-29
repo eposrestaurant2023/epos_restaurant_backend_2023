@@ -12,6 +12,7 @@ using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using MatBlazor;
+using MudBlazor.Services;
 using eAdmin.Shared.Extensions;
 
 namespace eAdmin
@@ -40,6 +41,7 @@ namespace eAdmin
                 config.ShowCloseButton = false;
             });
             builder.Services.AddMatBlazor();
+            builder.Services.AddMudServices();
 
 
             builder.Services.AddBlazoredLocalStorage();

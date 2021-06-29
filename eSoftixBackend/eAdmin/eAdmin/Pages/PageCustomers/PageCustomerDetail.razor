@@ -28,10 +28,11 @@
                    <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" Class="mr-2"/>
            <MudButtonGroup Color="MudBlazor.Color.Default" Variant="Variant.Filled" Class="mr-2" >
             <MudButton OnClick="@(()=>Navigation_Click("customer/new"))">New</MudButton>
-            <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+            <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
                 <MudMenuItem OnClick="@(()=>Navigation_Click("customer/new"))">New Customer</MudMenuItem>
-                <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit/{model.id}"))">Edit Customer</MudMenuItem>
-                <MudMenuItem OnClick="@(()=>Navigation_Click("project/new"))">New Project</MudMenuItem>
+                <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit/{model.id}"))">Edit</MudMenuItem>
+                <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/clone/{model.id}"))">Clone</MudMenuItem>
+                <MudMenuItem OnClick="@(()=>Navigation_Click($"project/new/customer/{model.id}"))">New Project</MudMenuItem>
            @if(!model.is_deleted){
                @if(model.status){
                  <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Inactive</MudMenuItem>    
@@ -44,12 +45,6 @@
                 <MudMenuItem OnClick="@DeleteCustomer_Click">Delete Customer</MudMenuItem>
             }
             </MudMenu>
-            <MudTooltip Text="More">
-                <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
-                    <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
-                    <MudMenuItem OnClick="@(()=>ChangeStatus_Click(Guid.Parse(id)))">Status</MudMenuItem>
-                </MudMenu>
-            </MudTooltip>
             
         </MudButtonGroup>
             </MudHidden>
