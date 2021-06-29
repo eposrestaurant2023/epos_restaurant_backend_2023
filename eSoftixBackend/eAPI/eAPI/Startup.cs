@@ -137,6 +137,9 @@ namespace eAPI
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             var business_branch_feature= odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             business_branch_feature.EntityType.HasKey(r => new { r.business_branch_id, r.system_feature_id });
+            
+            
+            odataBuilder.EntitySet<eKnowledgeBaseModel>("eKnowledgeBase");
 
             return odataBuilder.GetEdmModel();
         }
