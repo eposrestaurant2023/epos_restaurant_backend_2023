@@ -1,8 +1,11 @@
 ﻿@inject IStringLocalizer<Resource> lang
-
+@inject IHttpService http
+@if (!is_error)
+{
     <UIContainerBox Title="@Title">
+        @if (!is_loading) {
         <div class="csh-sale-pro-list">
-            <table class="uk-table view_table set-verticle-middle">
+            <table class="uk-table view_table set-verticle-middle uk-table-small">
                 <thead>
                     <tr>
                         <ThAuto>@lang["Name"]</ThAuto>
@@ -10,59 +13,116 @@
                         <ThRight>@lang["Amount"]</ThRight>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="3">
-                            <div class="uk-text-bold">
-                                <div class="uk-text-uppercase">Category Name</div>
-                                <div class="uk-margin-small-top uk-margin-small-left">Breakfast</div>
-                            </div>
-                        </td>
-                    </tr> 
-                    <tr>
-                        <td>
-                            <div class="uk-margin-left">product name</div>
-                        </td>
-                        <TdCenter>12</TdCenter>
-                        <TdRight>$12,000</TdRight>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="uk-margin-left">product name</div>
-                        </td>
-                        <TdCenter>12</TdCenter>
-                        <TdRight>$12,000</TdRight>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="uk-margin-left">product name</div>
-                        </td>
-                        <TdCenter>12</TdCenter>
-                        <TdRight>$12,000</TdRight>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <TdRight ClassName="uk-text-bold">Total - Breakfast</TdRight>
-                        <TdCenter ClassName="uk-text-bold">3.00</TdCenter>
-                        <TdRight ClassName="uk-text-bold">R10,000</TdRight>
-                    </tr>
-                    <tr>
-                        <TdRight ClassName="uk-text-bold">Total - Foods</TdRight>
-                        <TdCenter ClassName="uk-text-bold">3.00</TdCenter>
-                        <TdRight ClassName="uk-text-bold">R10,000</TdRight>
-                    </tr>
-                    <tr>
-                        <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
-                        <TdCenter ClassName="uk-text-bold">3.00</TdCenter>
-                        <TdRight ClassName="uk-text-bold">R10,000</TdRight>
-                    </tr>
-                </tfoot>
-            </table>
+                @if (models.Any())
+                {
+                    <tbody>
+                        @foreach (var c in (from a in models.OrderBy(r => r.sort_order) select new { a.product_category_en }).Distinct().ToList())
+                        {
+                            <tr>
+                                <td colspan="3" class="uk-padding-remove-bottom">
+                                    <div class="uk-text-uppercase uk-text-bold">@c.product_category_en</div>
+                                </td>
+                            </tr>
+                            @foreach (var g in (from a in models.Where(r => r.product_category_en == c.product_category_en) select new { a.product_group_en }).Distinct().ToList())
+                            {
+                                <tr>
+                                    <td colspan="3" class="uk-padding-remove-bottom uk-padding-remove-top">
+                                        <div class="uk-margin-small-left uk-text-bold">@g.product_group_en</div>
+                                    </td>
+                                </tr>
+                                @foreach (var p in models.Where(r => r.product_category_en == c.product_category_en && r.product_group_en == g.product_group_en).ToList())
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="uk-margin-small-left">@p.product_name_en</div>
+                                        </td>
+                                        <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
+                                        <TdRight>@p.total_amount.ToString(gv.main_currency_format)</TdRight>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        @foreach (var c in (from a in models.OrderBy(r => r.sort_order) select new { a.product_category_en }).Distinct().ToList())
+                        {
+                            <tr>
+                                <TdRight ClassName="uk-text-bold">Total - @c.product_category_en</TdRight>
+                                <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == c.product_category_en).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                                <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == c.product_category_en).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
+                            </tr>
+
+                            foreach (var g in (from a in models.Where(r => r.product_category_en == c.product_category_en) select new { a.product_group_en }).Distinct().ToList())
+                            {
+                                <tr>
+                                    <TdRight ClassName="uk-text-bold">Total - @g.product_group_en</TdRight>
+                                    <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == g.product_group_en).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                                    <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_group_en == g.product_group_en).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
+                                </tr>
+                            }
+                        }
+
+                        <tr>
+                            <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
+                            <TdCenter ClassName="uk-text-bold">@models.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                            <TdRight ClassName="uk-text-bold">@models.Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
+                        </tr>
+                    </tfoot>
+                }
+                else
+                {
+                    <tbody>
+                        <tr>
+                            <td colspan="3">
+                                <div class="uk-text-center">
+                                    <Icon icon="search" />
+                                    <br />
+                                    <p>@lang["There's no record in the system"]</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+                </table>
 
         </div>
+        }
+        else
+        {
+            <MudSkeleton/>
+        }
     </UIContainerBox>
-
+}
 @code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public string Title { get; set; } = "Sale Product";
+    [Parameter] public string Id { get; set; } = "";
+    [Parameter] public int IsFree { get; set; } = 0;
+    List<CashierShiftSaleProductSummaryModel> models = new List<CashierShiftSaleProductSummaryModel>();
+    bool is_loading = false;
+    bool is_error = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    public async Task LoadData()
+    {
+        is_loading = true;
+        if (Id != "") {
+            var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = "sp_get_cashier_shift_sale_product_summary", procedure_parameter = $"'{Id}'" });
+            if (resp.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<CashierShiftSaleProductSummaryModel>>(resp.Content.ToString());
+                models = models.Where(r=>r.is_free == IsFree).ToList();
+            }
+            else
+            {
+                is_error = true;
+            }
+        }
+        is_loading = false;
+    }
 }

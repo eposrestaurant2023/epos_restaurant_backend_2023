@@ -14,7 +14,13 @@ namespace eAdmin.Pages.PageCustomers
         [Parameter] public string clone_id { get; set; }
         public CustomerModel model { get; set; }
         public string page_title { get; set; }
-
+        public string api_url
+        {
+            get
+            {
+                return $"customer({id})?$expand=contacts($filter=is_deleted eq false)";
+            }
+        }
         private DateTime? _date = DateTime.Now.AddYears(-18);
 
         public DateTime? BOD
@@ -30,61 +36,45 @@ namespace eAdmin.Pages.PageCustomers
         {
             
                 await LoadCustomer();
-
-            
-            
-                
-            
             
         }
         async Task LoadCustomer()
         {
-            is_loading = true;
-            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(clone_id))
+            if (!is_loading)
             {
-                if (!string.IsNullOrEmpty(id))
+                is_loading = true;
+
+                if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(clone_id))
                 {
-                    var res = await http.ApiGet($"customer({id})");
-                    if (res.IsSuccess)
+                    if (!string.IsNullOrEmpty(id))
                     {
-                        model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                        if (model != null)
+                        var res = await http.ApiGet(api_url);
+                        if (res.IsSuccess)
                         {
-                            page_title = $"Edit : {model.customer_code} - {model.customer_name_en}";
+                            model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                            title = $"Edit : {model.customer_name_en}";
                         }
                         else
                         {
-                            model = new CustomerModel();
+                            toast.Add(res.Content.ToString(),Severity.Warning);
                         }
-
                     }
-                }
-                else
-                {
-                    var res = await http.ApiGet($"customer({clone_id})");
-                    if (res.IsSuccess)
+                    else
                     {
-                        model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                        if (model != null)
+                        var res = await http.ApiPost($"customer/clone/{clone_id}");
+                        if (res.IsSuccess)
                         {
-                            page_title = $"Clone : {model.customer_code} - {model.customer_name_en}";
+                            model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                            title = $"Clone : {model.customer_name_en}";
                         }
                         else
                         {
-                            model = new CustomerModel();
+                            toast.Add(res.Content.ToString(), Severity.Warning);
                         }
-
                     }
                 }
-
+                is_loading = false;
             }
-            else
-            {
-                model = new CustomerModel();
-                page_title = "New Customer";
-            }
-            
-            is_loading = false;
         }
         public async Task Save_Click()
         {

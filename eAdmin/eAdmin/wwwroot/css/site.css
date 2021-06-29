@@ -5109,6 +5109,12 @@ h1.wrp-expense-total span.total-expense-amount{
 .uk-padding-remove-left {
     padding-left: 0px !important;
 }
+.uk-padding-remove-top {
+    padding-top: 0px !important;
+}
+.uk-padding-remove-bottom {
+    padding-bottom: 0px !important;
+}
 .text_verfy {
     font-size: 13px;
     text-transform: capitalize;

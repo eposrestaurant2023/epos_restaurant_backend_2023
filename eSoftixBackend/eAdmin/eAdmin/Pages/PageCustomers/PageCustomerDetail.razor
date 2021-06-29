@@ -27,7 +27,7 @@
         <Right>
               <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" Class="mr-2"/>
             <MudHidden Breakpoint="Breakpoint.SmAndDown"> 
-                    <MenuButton Style="position:fixed; bottom:0;right:0;" variant="Variant.Filled" color="MudBlazor.Color.Primary" direction="Direction.Top" icon="@Icons.Material.Filled.Add" is_loading="model.is_loading">
+                    <MenuButton Style="position:fixed; bottom:0;right:0;" variant="Variant.Filled"  color="MudBlazor.Color.Primary" direction="Direction.Top" icon="@Icons.Material.Filled.Add" is_loading="model.is_loading">
                     <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.Person" url="@($"customer/new")">New Customer</MenuButtonItem>
                 <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
                   
