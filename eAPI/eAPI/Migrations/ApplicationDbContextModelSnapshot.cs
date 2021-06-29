@@ -491,6 +491,12 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("closed_station_id");
+
+                    b.HasIndex("opened_station_id");
+
+                    b.HasIndex("outlet_id");
+
                     b.HasIndex("working_day_id");
 
                     b.ToTable("tbl_cashier_shift");
@@ -2860,6 +2866,10 @@ namespace eAPI.Migrations
                     b.Property<decimal>("sale_product_discount_amount")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<string>("sale_type_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid>("station_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -3071,6 +3081,9 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_free")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_inventory_product")
                         .HasColumnType("bit");
 
@@ -3098,7 +3111,29 @@ namespace eAPI.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<string>("product_category_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_category_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("product_category_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("product_code")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("product_group_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("product_group_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("product_group_kh")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -4548,11 +4583,35 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.CashierShiftModel", b =>
                 {
+                    b.HasOne("eModels.StationModel", "closed_station")
+                        .WithMany()
+                        .HasForeignKey("closed_station_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.StationModel", "opened_station")
+                        .WithMany()
+                        .HasForeignKey("opened_station_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.OutletModel", "outlet")
+                        .WithMany()
+                        .HasForeignKey("outlet_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("eModels.WorkingDayModel", "working_day")
                         .WithMany("cashier_shifts")
                         .HasForeignKey("working_day_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("closed_station");
+
+                    b.Navigation("opened_station");
+
+                    b.Navigation("outlet");
 
                     b.Navigation("working_day");
                 });

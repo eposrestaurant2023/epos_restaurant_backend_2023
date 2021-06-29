@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210628073638_add_eknowledge_base")]
+    partial class add_eknowledge_base
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1544,11 +1546,8 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid?>("parent_id")
+                    b.Property<Guid>("parent_id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("sort_order")
-                        .HasColumnType("int");
 
                     b.Property<string>("title_en")
                         .HasColumnType("nvarchar(max)")
@@ -1843,7 +1842,9 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.eKnowledgeBaseModel", "parent")
                         .WithMany()
-                        .HasForeignKey("parent_id");
+                        .HasForeignKey("parent_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("parent");
                 });

@@ -155,6 +155,7 @@ namespace eAPI
         public DbSet<SystemFeatureModel> system_features { get; set; }
 
         public DbSet<BusinessBranchSystemFeatureModel> BusinessBranchSystemFeatures { get; set; }
+        public DbSet<SaleTypeModel> SaleTypes { get; set; }
     }
 
 }

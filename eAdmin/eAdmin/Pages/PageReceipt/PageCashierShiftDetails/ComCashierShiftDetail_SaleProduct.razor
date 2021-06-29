@@ -1,0 +1,68 @@
+﻿@inject IStringLocalizer<Resource> lang
+
+    <UIContainerBox Title="@Title">
+        <div class="csh-sale-pro-list">
+            <table class="uk-table view_table set-verticle-middle">
+                <thead>
+                    <tr>
+                        <ThAuto>@lang["Name"]</ThAuto>
+                        <ThCenter>@lang["QTY"]</ThCenter>
+                        <ThRight>@lang["Amount"]</ThRight>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            <div class="uk-text-bold">
+                                <div class="uk-text-uppercase">Category Name</div>
+                                <div class="uk-margin-small-top uk-margin-small-left">Breakfast</div>
+                            </div>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td>
+                            <div class="uk-margin-left">product name</div>
+                        </td>
+                        <TdCenter>12</TdCenter>
+                        <TdRight>$12,000</TdRight>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="uk-margin-left">product name</div>
+                        </td>
+                        <TdCenter>12</TdCenter>
+                        <TdRight>$12,000</TdRight>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="uk-margin-left">product name</div>
+                        </td>
+                        <TdCenter>12</TdCenter>
+                        <TdRight>$12,000</TdRight>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <TdRight ClassName="uk-text-bold">Total - Breakfast</TdRight>
+                        <TdCenter ClassName="uk-text-bold">3.00</TdCenter>
+                        <TdRight ClassName="uk-text-bold">R10,000</TdRight>
+                    </tr>
+                    <tr>
+                        <TdRight ClassName="uk-text-bold">Total - Foods</TdRight>
+                        <TdCenter ClassName="uk-text-bold">3.00</TdCenter>
+                        <TdRight ClassName="uk-text-bold">R10,000</TdRight>
+                    </tr>
+                    <tr>
+                        <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
+                        <TdCenter ClassName="uk-text-bold">3.00</TdCenter>
+                        <TdRight ClassName="uk-text-bold">R10,000</TdRight>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </UIContainerBox>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Sale Product";
+}
