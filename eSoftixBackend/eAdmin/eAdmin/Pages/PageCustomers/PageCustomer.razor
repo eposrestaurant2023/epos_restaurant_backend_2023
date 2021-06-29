@@ -13,7 +13,7 @@
 
   
 <PageContainer>
-    <PageHeader title="@state.page_title" >
+    <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
         <Filter>
             <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
         </Filter>
@@ -45,7 +45,15 @@
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-                <ThAuto>Customer</ThAuto>
+                <ThAuto>
+                    <div class="d-flex align-center">
+                        <div>Customer  </div>
+                        <div><MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                    <MudMenuItem>Customer Code</MudMenuItem>
+                    <MudMenuItem>Customer Name</MudMenuItem>
+                </MudMenu></div>
+                    </div>
+               </ThAuto>
                 @HeaderTemplate("gender", "Gender" , "text-center") 
 
                 @HeaderTemplate("customer_group/customer_group_name_en", "Group","text-center")
@@ -72,9 +80,9 @@
                 <ThCenter></ThCenter>
             </TableHeader>
             <RowTemplate Context="p">
-                <TdCenter>
+                <td>
                   <ComCustomerCodeName customer="@p" Url="@($"customer/{p.id}")"/>
-                </TdCenter>
+                </td>
                  <TdCenter>
                     @p.gender
                 </TdCenter>

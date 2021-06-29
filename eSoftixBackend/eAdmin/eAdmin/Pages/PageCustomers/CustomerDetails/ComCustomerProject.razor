@@ -1,10 +1,11 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @inherits PageCore
-
+<MudCard Elevation="25" Style="height:100%;">
+        <MudCardContent Class="px-4">
 @if(projects != null && !is_loading){
-        <MudCard Elevation="25" Style="height:100%;">
-        <MudCardContent Class="px-0">
-            <MudList Clickable="true">
+        
+            @if(projects.Any()){
+                <MudList Clickable="true">
                 @foreach(var p in projects){
                     <MudListItem>
                         <MudGrid>
@@ -47,9 +48,25 @@
                     </MudListItem> 
                 }
             </MudList>
-        </MudCardContent>
+            }
+            else
+            {
+                <MudText Typo="Typo.h5">
+                    No Project Fount
+                </MudText>
+            }
+
+        }
+        else
+        {
+            <MudSkeleton/>
+            <MudSkeleton/>
+            <MudSkeleton/>
+            <MudSkeleton/>
+            <MudSkeleton/>
+        }
+    </MudCardContent>
     </MudCard>
-}
 
 
 

@@ -88,6 +88,10 @@ namespace eAPIClient.Models
 
         public int product_category_id { get; set; } = 0;
 
+        public string product_category_en { get; set; }
+        public string product_category_kh { get; set; }
+
+
         public int product_group_id { get; set; } = 0;
           
         public List<ProductPrinterModel> product_printers { get; set; }
