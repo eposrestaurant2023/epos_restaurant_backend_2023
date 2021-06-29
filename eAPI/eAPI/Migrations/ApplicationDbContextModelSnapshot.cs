@@ -2866,7 +2866,11 @@ namespace eAPI.Migrations
                     b.Property<decimal>("sale_product_discount_amount")
                         .HasColumnType("decimal(19,4)");
 
+<<<<<<< HEAD
                     b.Property<string>("sale_type")
+=======
+                    b.Property<string>("sale_type_name")
+>>>>>>> 8341ec27cb9c9b76e7104eda465efd4e09adef87
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
