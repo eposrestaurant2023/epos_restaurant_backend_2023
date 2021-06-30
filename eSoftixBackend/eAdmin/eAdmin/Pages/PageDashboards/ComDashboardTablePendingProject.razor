@@ -64,25 +64,25 @@ else
                     </MudText>
                     
                 </TdCenter>
-                        <TdCenter>
-                            @if(s.closed_date != null){
-                                <MudText Typo="Typo.body1">@s.customer.phone_1 <br />
-                                     @s.closed_date.Value.ToString(gv.date_format)
-                                </MudText>
+                <TdCenter>
+                    @if(s.closed_date != null){
+                        <MudText Typo="Typo.body1">@s.customer.phone_1 <br />
+                                @s.closed_date.Value.ToString(gv.date_format)
+                        </MudText>
                                 
-                            }else{
-                                @("-")
-                            }
-                        </TdCenter>
-                        <TdCenter>
-                            @if(!s.is_closed){
-                                <MudChip Color="MudBlazor.Color.Secondary">Opened</MudChip>
-                            }
-                            else
-                            {
-                                <MudChip Color="MudBlazor.Color.Warning">Close</MudChip>
-                            }
-                        </TdCenter>
+                    }else{
+                        @("-")
+                    }
+                </TdCenter>
+                <TdCenter>
+                    @if(!s.is_closed){
+                        <MudChip Color="MudBlazor.Color.Secondary">Opened</MudChip>
+                    }
+                    else
+                    {
+                        <MudChip Color="MudBlazor.Color.Warning">Close</MudChip>
+                    }
+                </TdCenter>
             </RowTemplate>
             </Table>
         </MudSimpleTable>

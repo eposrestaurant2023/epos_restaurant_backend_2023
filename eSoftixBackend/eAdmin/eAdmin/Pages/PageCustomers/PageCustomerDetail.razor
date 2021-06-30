@@ -60,20 +60,19 @@
 
     </PageHeader>
     <PageBody>
-      
+
+
         <MudTabs Position="@Position.Top"
             ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
             <MudTabPanel Text="General Info">
                 <ComCustomerDetailGeneralInfo model="@model" is_loading="is_loading"/>
-            </MudTabPanel>
-            <MudTabPanel Text="Contact">
-                <ComCustomerProject id="@(new Guid(id))"/>
             </MudTabPanel>
             <MudTabPanel Text="Project">
                 <ComCustomerProject id="@(new Guid(id))"/>
             </MudTabPanel>
             <MudTabPanel Text="Comment">
                 <ComHistory 
+                        
                         history="@(new HistoryModel() { customer_id = new Guid(id),user_id = gv.current_login_user.id })"
                         ApiFilter="@($"customer_id eq {id}")"
                         OnSave="@SaveComment" />
@@ -94,8 +93,4 @@
 
 
 </PageContainer>
-
-<MudHidden Breakpoint="Breakpoint.MdAndUp">
-    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"customer/new")"/>    
-</MudHidden>
 
