@@ -8,14 +8,14 @@
          <div class="align-self-center cus_buuton_fillter">
                @if (show_advance_filter)
         {
-            <MudIconButton Icon="@Icons.Material.Filled.Tune" OnClick="ShowAdvanceFilter" Size="Size.Medium" Variant="Variant.Filled" Class="ml-2"></MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Tune" OnClick="ShowAdvanceFilter" Size="Size.Medium" Variant="Variant.Text" Class="ml-2"></MudIconButton>
         }
          </div>
      </div>
 
     </MudHidden>
  <MudHidden Breakpoint="Breakpoint.MdAndUp">
-    <MudIconButton Icon="@Icons.Material.Filled.Tune" OnClick="ShowAdvanceFilter" Size="Size.Medium" Variant="Variant.Filled" Class="mr-2"></MudIconButton>
+    <MudIconButton Icon="@Icons.Material.Filled.Tune" OnClick="ShowAdvanceFilter" Size="Size.Medium" Variant="Variant.Text" Class="mr-2"></MudIconButton>
  </MudHidden>
 
 </EditForm>
@@ -23,7 +23,7 @@
     <FilterFly IsOpen="@open_advance_filter">
             <MudHidden Breakpoint="Breakpoint.MdAndUp">
             
-            <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@placeholder" Label="Search"></MudTextField>
+              <MudTextField @bind-Value="@search_text"  Variant="Variant.Outlined" Placeholder="@placeholder" Label="Search"></MudTextField>
 
             </MudHidden>
         @ChildContent
