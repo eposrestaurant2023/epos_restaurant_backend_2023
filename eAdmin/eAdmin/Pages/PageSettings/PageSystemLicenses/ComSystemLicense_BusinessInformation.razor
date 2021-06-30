@@ -1,0 +1,61 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http
+
+<UIContainerBox Title="@lang["This license is belong to"]">
+    <UISummaryBox ImageUrl="@gv.business_info?.company_logo" ShowImage="true">
+        <ContentLeft>
+            <table>
+                <tr>
+                    <th>@lang["Company Name"]</th>
+                    <td>@gv.business_info?.company_name</td>
+                </tr>
+                <tr>
+                    <th>@lang["Company Name KH"]</th>
+                    <td>@gv.business_info?.company_name_kh</td>
+                </tr>
+                <tr>
+                    <th>@lang["Mobile Phone"]</th>
+                    <td>@gv.business_info?.mobile_phone</td>
+                </tr>
+                <tr>
+                    <th>@lang["Office Phone"]</th>
+                    <td>@gv.business_info?.office_phone</td>
+                </tr>
+            </table>
+        </ContentLeft>
+        <ContentRight>
+            <table>
+                <tr>
+                    <th>@lang["Contact Name"]</th>
+                    <td>@gv.business_info?.contact_name</td>
+                </tr>
+                <tr>
+                    <th>@lang["Contact Phone Number"]</th>
+                    <td>@gv.business_info?.contact_phone_number</td>
+                </tr>
+                <tr>
+                    <th>@lang["Contact Office Phone"]</th>
+                    <td>@gv.business_info?.contact_office_number</td>
+                </tr>
+
+                <tr>
+                    <th>@lang["Office Email"]</th>
+                    <td>
+                        @gv.business_info?.email
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>@lang["Contact Email"]</th>
+                    <td>
+                        @gv.business_info?.contact_email
+                    </td>
+                </tr>
+            </table>
+        </ContentRight>
+    </UISummaryBox>
+</UIContainerBox>
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}

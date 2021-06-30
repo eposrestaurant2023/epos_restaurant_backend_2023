@@ -1,0 +1,11 @@
+﻿<div class="bg_kpi" style="background-color:@background_color; color:@text_color">
+    <div class="ttle_number">@value</div>
+    <span class="title-kpi">@title</span>
+</div>
+@code {
+    [Parameter] public string title { get; set; }
+    [Parameter] public string value { get; set; }
+    [Parameter] public string class_name { get; set; }
+    [Parameter] public string background_color { get; set; } = "#4693cd"; 
+    [Parameter] public string text_color { get; set; } = "#fff"; 
+}

@@ -23,6 +23,18 @@ namespace eModels
 
         public DateRangeModel date_range { get; set; } = new DateRangeModel(3);
 
+        private ProjectTypeModel _project_type = new ProjectTypeModel();
+
+        public ProjectTypeModel project_type
+        {
+            get { return _project_type; }
+            set
+            {
+                _project_type = value;
+                if (value == null)
+                    project_type = new ProjectTypeModel();
+            }
+        }
 
         private CustomerGroupModel _customer_group = new CustomerGroupModel();
 

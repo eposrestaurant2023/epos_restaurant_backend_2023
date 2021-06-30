@@ -14,10 +14,10 @@ if(state.is_logined ){
         <MudAppBarSpacer />
         <MudHidden Breakpoint="Breakpoint.SmAndDown">
             <MudIconButton Icon="@Icons.Material.Outlined.Brightness4" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@ChangeTheme" />
-            <MudMenu Icon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Inherit" >
-                <MudMenuItem>New Customer</MudMenuItem>
-                <MudMenuItem>New Project</MudMenuItem>
-            </MudMenu>
+                <MenuButton variant="Variant.Text" direction="Direction.Right" icon="@Icons.Material.Filled.Add" color="MudBlazor.Color.Inherit">
+                        <MenuButtonItem icon="@Icons.Material.Filled.Person" url="@($"customer/new")">New Customer</MenuButtonItem>
+                        <MenuButtonItem icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
+                   </MenuButton>
             <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
                 <ActivatorContent>
                     <MudAvatar Image="@(http.ImageUrl(state.current_login_user?.photo))" />

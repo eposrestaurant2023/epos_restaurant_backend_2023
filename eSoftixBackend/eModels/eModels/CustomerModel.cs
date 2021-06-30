@@ -81,7 +81,7 @@ namespace eModels
         public string telegram { get; set; }
 
         private DateTime? _date = DateTime.Now.AddYears(-18);
-        [NotMapped,JsonIgnore]
+        [NotMapped]
         public DateTime? temp_date_of_birth
         {
             get {
