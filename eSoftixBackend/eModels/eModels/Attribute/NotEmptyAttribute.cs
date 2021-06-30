@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace eModels.Attribute
 {
@@ -36,7 +36,7 @@ namespace eModels.Attribute
         }
     }
 
-    //public class ShortDateConverter : System.Text.Json.Serialization.JsonConverter
+    //public class ShortDateConverter : JsonConverter
     //{
     //    public override bool CanConvert(Type objectType)
     //    {

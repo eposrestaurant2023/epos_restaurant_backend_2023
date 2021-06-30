@@ -27,13 +27,20 @@
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComCashierShiftDetail_Information model="@model"/>
-                        <ComCashierShiftDetail_Transaction models="@close_cashier_shift_summaries"/>
-                        <ComCashierShiftDetail_Cashdrawer models="@close_cashier_shift_summaries"/>
-                        <ComCashierShiftDetail_SaleSummary models="@close_cashier_shift_summaries"/>
-                        <ComCashierShiftDetail_SaleProductGroup models="@close_cashier_shift_summaries"/>
-                        <ComCashierShiftDetail_TotalPayment models="@close_cashier_shift_summaries"/>
-                        <ComCashierShiftDetail_PaymentBreakdown models="@close_cashier_shift_summaries"/>
+                        <ComCashierShiftDetail_Information model="@model" />
+                        @foreach (var d in list_summaries.Select(r => r.group_name).Distinct())
+                        {
+                            <UIGridCenter>
+                                <UIContainerBox Title="@d.ToString()">
+                                    <ListTable ClassWidth="uk-width-1-1">
+                                        @foreach (var t in list_summaries.Where(r => r.group_name == d.ToString()))
+                                        {
+                                            <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
+                                        }
+                                    </ListTable>
+                                </UIContainerBox>
+                            </UIGridCenter>
+                        }
                     </TabItem>
                     <TabItem>
                         @if (receipt_tab_click)
@@ -46,8 +53,8 @@
                         @if (sale_product_history_tab_click)
                         { 
                             <UIGridCenter>
-                                <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="0" Id="@id"/>
-                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="1" Id="@id"/>
+                                <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" Id="@id"/>
+                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" Id="@id"/>
                             </UIGridCenter>
                         }
                     </TabItem>
@@ -58,7 +65,7 @@
 }
 @if (is_error)
 {
-    <Error title="@lang["Customer Detail"]">
+    <Error title="@lang["Cashier Shift Detail"]">
         @error_text
     </Error>
 }

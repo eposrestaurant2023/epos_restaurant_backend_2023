@@ -17,6 +17,13 @@ namespace eModels
         public Guid business_branch_id { get; set; }
         public List<CashierShiftModel> cashier_shifts { get; set; }
 
+        [ForeignKey("outlet_id")]
+        public OutletModel outlet { get; set; }
+        [ForeignKey("opened_station_id")]
+        public StationModel opened_station { get; set; }
+
+        [ForeignKey("closed_station_id")]
+        public StationModel closed_station { get; set; }
     }
 
 
@@ -36,7 +43,7 @@ namespace eModels
         public StationModel closed_station { get; set; }
     }
 
-    public class CloseCashierShiftSummaryModel
+    public class ListSummaryModel
     {
         public string group_name { get; set; }
         public string title { get; set; }
@@ -50,7 +57,7 @@ namespace eModels
         public string product_group_en { get; set; }
         public string product_category_en { get; set; }
         public string product_name_en { get; set; }
-        public int is_free { get; set; }
+        public bool is_free { get; set; }
         public string portion_name { get; set; }
         public decimal quantity { get; set; }
         public decimal total_amount { get; set; }

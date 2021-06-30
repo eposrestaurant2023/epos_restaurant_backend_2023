@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210629102857_update_relative_tbl_working_day")]
+    partial class update_relative_tbl_working_day
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2823,9 +2825,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("discount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<decimal>("discount_amount")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<string>("discount_code")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -2943,12 +2942,6 @@ namespace eAPI.Migrations
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_discount")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("total_net_sale")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("total_profit")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_quantity")
@@ -3080,9 +3073,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("discount")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<decimal>("discount_amount")
-                        .HasColumnType("decimal(19,4)");
-
                     b.Property<string>("discount_code")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -3116,9 +3106,6 @@ namespace eAPI.Migrations
 
                     b.Property<double>("multiplier")
                         .HasColumnType("float");
-
-                    b.Property<decimal>("net_sale")
-                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -3170,9 +3157,6 @@ namespace eAPI.Migrations
                     b.Property<string>("product_name_kh")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("profit")
-                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("quantity")
                         .HasColumnType("decimal(19,4)");
@@ -3226,10 +3210,19 @@ namespace eAPI.Migrations
                     b.Property<decimal>("tax_3_taxable_amount")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<decimal>("taxable_amount")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<decimal>("total_amount")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<decimal>("total_discount")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<decimal>("total_modifier_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("total_revenue")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_tax_amount")
@@ -3383,9 +3376,6 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("is_build_in")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_order_use_table")
                         .HasColumnType("bit");
 
                     b.Property<string>("sale_type_name")
