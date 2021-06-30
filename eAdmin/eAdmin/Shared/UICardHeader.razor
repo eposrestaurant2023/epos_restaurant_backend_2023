@@ -7,8 +7,16 @@
             <Com is_visible="@(!string.IsNullOrEmpty(CustomStatusTitle) || !string.IsNullOrEmpty(CustomStatusValue))">
                 <span class="uk-badge" uk-tooltip="@CustomStatusTitle">@CustomStatusValue</span>
             </Com>
+            @if (Url == "")
+            {
+                <h5 class="uk-card-title uk-margin-remove">@Title</h5>
+            }
+            else
+            {
                 <h5 class="uk-card-title uk-margin-remove"><a href="@Url">@Title</a></h5>
-            <Spacing Number="5"/>
+            }
+
+            <Spacing Number="5" />
             <div class="uk-text-meta">@ChildContent</div>
         </div>
     </div>
