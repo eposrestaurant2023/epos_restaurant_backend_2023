@@ -130,6 +130,8 @@ namespace eAPI.Controllers
             c.status = true;
             c.contacts.ForEach(r => { r.id = 0;r.customer_id = Guid.Empty; });
             c.id = Guid.Empty;
+            c.customer_code = "New";
+            c.expired_date = null;
             return Ok(c);
         }
 
