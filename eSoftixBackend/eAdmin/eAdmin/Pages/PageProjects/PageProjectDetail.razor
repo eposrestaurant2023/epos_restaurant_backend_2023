@@ -1,0 +1,12 @@
+﻿@page "/project/{id}";
+@inherits PageProjectDetails
+<Loading is_loading="@is_loading"/>
+
+<PageContainer>
+@if(!is_loading){
+    <UICenter>
+        @model?.id
+    </UICenter>
+}
+
+</PageContainer>

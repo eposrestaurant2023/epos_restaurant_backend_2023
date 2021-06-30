@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210630070825_add_taxt_to_tbl_sation")]
+    partial class add_taxt_to_tbl_sation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3952,9 +3954,6 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BusinessBranchModelid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("feature_code")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -3975,8 +3974,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("id");
-
-                    b.HasIndex("BusinessBranchModelid");
 
                     b.ToTable("tbl_system_feature");
                 });
@@ -5500,13 +5497,6 @@ namespace eAPI.Migrations
                     b.Navigation("stock_transfer");
                 });
 
-            modelBuilder.Entity("eModels.SystemFeatureModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", null)
-                        .WithMany("system_features")
-                        .HasForeignKey("BusinessBranchModelid");
-                });
-
             modelBuilder.Entity("eModels.TableGroupModel", b =>
                 {
                     b.HasOne("eModels.OutletModel", "outlet")
@@ -5618,8 +5608,6 @@ namespace eAPI.Migrations
                     b.Navigation("printers");
 
                     b.Navigation("stock_locations");
-
-                    b.Navigation("system_features");
                 });
 
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
