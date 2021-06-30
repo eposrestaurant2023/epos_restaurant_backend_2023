@@ -50,7 +50,7 @@ namespace eAdmin.Pages.PageProjects
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$expand=customer($select=id,customer_code,customer_name_en,company_name_kh,)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                string url = $"{controller_api}?$expand=project_type($select=project_type_name,icon,color),customer($select=customer_name_en,customer_name_kh,customer_code,company_name_kh,photo)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters);
             }
         }
@@ -133,6 +133,35 @@ namespace eAdmin.Pages.PageProjects
             await LoadData();
         }
 
+        public async Task OnToogleStatus(ProjectModel p)
+        {
+            p.is_loading = true;
+            await SaveStatus(p);
+            p.is_loading = false;
+        }
+        public async Task OnToogleStatusLabel(ProjectModel p)
+        {
+            p.is_change_status = true;
+            await SaveStatus(p);
+            p.is_change_status = false;
+        }
+        public async Task SaveStatus(ProjectModel p)
+        {
+            var project = new ProjectModel();
+            project = p;
+            project.status = !project.status;
+            var resp = await http.ApiPost(controller_api + "/save", project);
+            if (resp.IsSuccess)
+            {
+                toast.Add("Change status successfully", Severity.Success);
+                if (projects.Count() == 1 && state.pager.current_page > 1)
+                {
+                    state.pager.current_page = state.pager.current_page - 1;
+                }
+
+                await LoadData();
+            }
+        }
 
         public async Task OnDelete(ProjectModel p)
         {
@@ -215,7 +244,19 @@ namespace eAdmin.Pages.PageProjects
             }
 
 
-         
+            if (state.project_type != null && state.project_type.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "project_type_id",
+                    value1 = state.project_type.id.ToString(),
+                    filter_title = "Project Type",
+                    state_property_name = "project_type",
+                    filter_info_text = state.project_type.project_type_name,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
             state.pager.current_page = 1;
             await LoadData();
         }

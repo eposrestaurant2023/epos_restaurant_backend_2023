@@ -5,9 +5,9 @@
     @ChildContent
 }else {
     <AuthorizeView Roles="@state.GetRole(roles)">
-        <a href="@url">
+        <MudLink Href="@url">
             @ChildContent
-        </a>
+        </MudLink>
     </AuthorizeView>
 }
 }
