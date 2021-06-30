@@ -7,8 +7,8 @@
         <MudButton 
             Class ="@Class"
             StartIcon="@Icons.Outlined.AttachFile"
-            Variant="Variant.Outlined"
-            Color="MudBlazor.Color.Primary"
+            Variant="Variant.Text"
+         
             >
             <Spinner />
         </MudButton>
@@ -18,8 +18,8 @@
          <MudButton 
           Class ="@Class"
             StartIcon="@Icons.Outlined.AttachFile"
-            Variant="Variant.Filled"
-            Color="MudBlazor.Color.Primary"
+            Variant="Variant.Text"
+     
             OnClick="OpenDrawer"
             >
             (@files.Where(r => r.is_deleted == false).Count())

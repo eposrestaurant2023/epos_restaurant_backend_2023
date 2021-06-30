@@ -1,0 +1,15 @@
+﻿<MudGrid>
+    <MudItem xs="12" sm="6">
+        @Left
+    </MudItem>
+    <MudItem xs="12" sm="6">
+        @Right
+    </MudItem>
+
+</MudGrid>
+@code{
+       [Parameter] public RenderFragment Left { get; set; }
+ 
+   [Parameter] public RenderFragment Right { get; set; }
+ 
+}

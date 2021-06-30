@@ -1,0 +1,72 @@
+﻿@if (is_visible)
+{
+    @if (roles == "")
+    {
+
+            @if (!string.IsNullOrWhiteSpace(url))
+            {
+                 <MudMenuItem Link="@url">
+
+                      <MudIcon Class="mud-float-left mr-4" Icon="@icon" />
+                      <MudText Class="mud-float-left" Inline="true">@ChildContent</MudText>
+                      
+               </MudMenuItem>
+
+
+            }
+            else
+            {
+
+                
+                 <MudMenuItem OnClick="@OnClick">
+
+                      <MudIcon Class="mud-float-left mr-4" Icon="@icon" />
+                      <MudText Class="mud-float-left" Inline="true">@ChildContent</MudText>
+                      
+               </MudMenuItem>
+             
+            }
+     
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+        
+                @if (!string.IsNullOrWhiteSpace(url))
+                {
+                  
+                 <MudMenuItem Link="@url">
+
+                      <MudIcon Class="mud-float-left mr-4" Icon="@icon" />
+                      <MudText Class="mud-float-left" Inline="true">@ChildContent</MudText>
+                      
+               </MudMenuItem>
+                }
+                else
+                {
+                     <MudMenuItem OnClick="@OnClick">
+
+                      <MudIcon Class="mud-float-left mr-4" Icon="@icon" />
+                      <MudText Class="mud-float-left" Inline="true">@ChildContent</MudText>
+                      
+                    </MudMenuItem>
+                }
+        
+        </AuthorizeView>
+    }
+
+}
+
+
+@code{
+
+    [Parameter] public bool is_visible { get; set; } = true;
+    [Parameter] public string url { get; set; } = "";
+    [Parameter] public string icon { get; set; } = "add";
+    [Parameter] public string roles { get; set; } = "";
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+
+
+}
