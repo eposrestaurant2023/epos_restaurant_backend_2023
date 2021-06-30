@@ -1,2 +1,72 @@
 ﻿@page "/project"
+@inherits PageProjectBase;
+<Loading is_loading="@(is_loading || is_loading_data)" />
 
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+@if (!is_loading)
+{
+
+
+  
+<PageContainer>
+    <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
+        <Filter>
+            <ModuleView module_views="@gv.GetModuleView("page_project")" OnClick="@ViewClick" />
+        </Filter>
+        <Right>
+           
+            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true">
+                 <FilterDateRange @bind-dates="@state.date_range"  />
+            </ComSearch>
+             <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <AddButton roles="@gv.GetRole("project_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
+             </MudHidden>
+          
+        </Right>
+    </PageHeader>
+    <PageBody>
+
+       <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" Keyword="@GetFilterValue2(state.filters, "keyword","")" OnRemoveKeywordClick="@OnRemoveKeyword" OnRemoveAllFilterClick="@RemoveAllFilter" />
+
+
+        <Table Items="@projects"
+                PerPage="@state.pager.per_page"
+                TotalItem="@TotalRecord"
+                CurrentPage="@state.pager.current_page"
+                OnPagerChange="@SelectChange"
+                OnPageChange="@ChangePager"
+                isLoading="@is_loading_data"
+                ShowPager="true"
+                ShowCounter="true"
+                EmptyText="There is no customer record.">
+            <TableHeader>
+                <ThAuto>Name</ThAuto>
+                <Th> Project Type</Th> 
+                <ThAuto>Customer</ThAuto>
+                <ThCenter>Close Date</ThCenter>
+                <Th> Status</Th>
+                <ThCenter></ThCenter>
+            </TableHeader>
+            <RowTemplate Context="p">
+             <td>
+                 <MudText> @p.project_code</MudText>
+                 <MudText>@p.project_name</MudText>
+                
+             </td>
+             <td>@p.project_type?.project_type_name </td>
+             <td>
+                @p.customer.customer_name_en
+             </td>
+            </RowTemplate>
+        </Table>
+    </PageBody>
+</PageContainer>
+<MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"customer/new")"/>    
+</MudHidden>
+
+}
