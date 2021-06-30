@@ -108,7 +108,7 @@
                    @p.created_date.ToString(gv.date_format)
                </TdCenter>
                  <TdCenter>
-                   @p.expired_date.ToString(gv.date_format)
+                   @p.expired_date.Value.ToString(gv.date_format)
                    
                </TdCenter>
                 <TdCenter>
@@ -127,7 +127,7 @@
     </PageBody>
 </PageContainer>
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
-    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" />    
+    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"customer/new")"/>    
 </MudHidden>
 
 }

@@ -21,23 +21,11 @@ namespace eAdmin.Pages.PageCustomers
                 return $"customer({id})?$expand=contacts($filter=is_deleted eq false)";
             }
         }
-        private DateTime? _date = DateTime.Now.AddYears(-18);
-
-        public DateTime? BOD
-        {
-            get { return _date; }
-            set { 
-                _date = value;
-                model.date_of_birth = Convert.ToDateTime(value);
-            }
-        }
+        
 
         protected override async Task OnInitializedAsync()
         {
-
-            model = new CustomerModel();
-               // await LoadCustomer();
-            
+            await LoadCustomer();
         }
         async Task LoadCustomer()
         {
@@ -62,10 +50,12 @@ namespace eAdmin.Pages.PageCustomers
                     }
                     else
                     {
+                        
                         var res = await http.ApiPost($"customer/clone/{clone_id}");
                         if (res.IsSuccess)
                         {
                             model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                            Console.WriteLine(res.Content.ToString());
                             title = $"Clone : {model.customer_name_en}";
                         }
                         else
@@ -74,18 +64,35 @@ namespace eAdmin.Pages.PageCustomers
                         }
                     }
                 }
+                else
+                {
+                    model = new CustomerModel();
+                }
                 is_loading = false;
             }
         }
-        public async Task Save_Click()
+        public async Task Save_Click(bool allow_duplicate_name = false)
         {
             model.is_saving = true;
-            var res = await http.ApiPost("customer/save", model);
-            Console.WriteLine(JsonSerializer.Serialize(model));
+            var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
             if (res.IsSuccess)
             {
                 toast.Add("Save Successfull.", Severity.Success);
-                nav.NavigateTo("customer");
+                var c = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                nav.NavigateTo($"customer/{c.id}");
+            }
+            else
+            {
+                if (res.status_code >= 400 && res.status_code <= 499)
+                {
+                    ApiResponseModel r = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
+                    toast.Add(r.message, Severity.Warning);
+                }
+                //else
+                //{
+                //    toast.Add(res.Content.ToString(), Severity.Warning);
+                //}
+
             }
             model.is_saving = false;
         }
