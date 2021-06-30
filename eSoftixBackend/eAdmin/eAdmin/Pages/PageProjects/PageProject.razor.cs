@@ -1,25 +1,43 @@
-﻿using eModels;
-using MudBlazor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using System.Net.Http;
+using System.Net.Http.Json;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
+using Microsoft.JSInterop;
+using eAdmin;
+using eAdmin.Shared;
+using MudBlazor;
+using eModels;
+using eAdmin.Shared.Users;
+using eAdmin.Shared.Components;
+using eAdmin.Shared.ComLayout;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using System.Text.Json;
 
 namespace eAdmin.Pages.PageProjects
 {
-    public class PageProjects:PageCore
+    public class PageProjectBase : PageCore
     {
+
+
         public List<ProjectModel> projects = new List<ProjectModel>();
         public ProjectModel model = new ProjectModel();
 
-        public string StateKey = "278484567Gs2966USHGytkjhTonB3PCz2Ts"; //Storage and Session Key
+        public string StateKey = "PROJ84567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
 
         public int TotalRecord = 0;
         public bool ShowModal = false;
         public string ModalTitle = "";
 
-        string controller_api = "project";
+        string controller_api = "Project";
 
         DateTime date = DateTime.Now;
 
@@ -43,7 +61,7 @@ namespace eAdmin.Pages.PageProjects
             state = await GetState(StateKey);
             if (state.page_title == "")
             {
-                state.page_title = "project";
+                state.page_title = "Project";
                 var default_view = gv.GetDefaultModuleView("page_project");
                 if (default_view != null)
                 {
@@ -149,12 +167,12 @@ namespace eAdmin.Pages.PageProjects
         {
             p.is_loading = true;
 
-            if (await alert.ShowMessageBox("Delete project", "Are you sure you want to delete this record?") == true)
+            if (await alert.ShowMessageBox("Delete Project", "Are you sure you want to delete this record?") == true)
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete project successfully", Severity.Success);
+                    toast.Add("Delete Project successfully", Severity.Success);
                     if (projects.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -181,7 +199,7 @@ namespace eAdmin.Pages.PageProjects
                     }
                     await LoadData();
                 }
-                toast.Add("Restore project successfully", Severity.Success);
+                toast.Add("Restore projct successfully", Severity.Success);
             }
             p.is_loading = false;
         }
@@ -293,5 +311,6 @@ namespace eAdmin.Pages.PageProjects
             SetFilterValue2(state.filters, "keyword", "");
             await LoadData();
         }
+
     }
 }

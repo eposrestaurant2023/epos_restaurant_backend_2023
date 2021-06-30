@@ -24,55 +24,26 @@
             }
         </Left>
         <Right>
-            <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                   <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" Class="mr-2"/>
-           <MudButtonGroup Color="MudBlazor.Color.Default" Variant="Variant.Filled" Class="mr-2" >
-            <MudButton OnClick="@(()=>Navigation_Click("customer/new"))">New</MudButton>
-            <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
-                <MudMenuItem OnClick="@(()=>Navigation_Click("customer/new"))">New Customer</MudMenuItem>
-                <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit/{model.id}"))">Edit</MudMenuItem>
-                <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/clone/{model.id}"))">Clone</MudMenuItem>
-                <MudMenuItem OnClick="@(()=>Navigation_Click($"project/new/customer/{model.id}"))">New Project</MudMenuItem>
-           @if(!model.is_deleted){
-               @if(model.status){
-                 <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Inactive</MudMenuItem>    
-               }
-               else{
-                     <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Active</MudMenuItem>    
-               }
-           }
-            @if(!model.is_deleted){
-                <MudMenuItem OnClick="@DeleteCustomer_Click">Delete Customer</MudMenuItem>
-            }
-            </MudMenu>
-            
-        </MudButtonGroup>
-            </MudHidden>
-           <MudHidden Breakpoint="Breakpoint.MdAndUp">
-               <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="MudBlazor.Color.Inherit" Edge="Edge.End" OnClick="@ToggleDrawer_modile_custoemr_detail" />
-                     <MudDrawer @bind-Open="@is_open_customer_mobile" Elevation="1" ClipMode="DrawerClipMode.Always" Variant="@DrawerVariant.Temporary" Anchor="Anchor.Right" Class="pa-4">
-                           <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" Class="mb-2"/>
-                             
-                            <MudButtonGroup Color="MudBlazor.Color.Default" Variant="Variant.Filled">
-
-                                    <MudButton OnClick="@(()=>Navigation_Click("customer/new"))" FullWidth="true">New</MudButton>
-
-                                    <MudMenu Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
-                                        <MudMenuItem OnClick="@(()=>Navigation_Click("customer/new"))">New Customer</MudMenuItem>
-                                        <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit/{model.id}"))">Edit Customer</MudMenuItem>
-                                        <MudMenuItem OnClick="@(()=>Navigation_Click("project/new"))">New Project</MudMenuItem>
-                                    @if(!model.is_deleted){
-                                        @if(model.status){
-                                            <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Inactive</MudMenuItem>    
-                                        }
-                                        else{
-                                                <MudMenuItem OnClick="@(()=>ChangeStatus_Click(model.id))">Active</MudMenuItem>    
-                                        }
-                                    }
-                                    @if(!model.is_deleted){
-                                        <MudMenuItem OnClick="@DeleteCustomer_Click">Delete Customer</MudMenuItem>
-                                    }
-                                    </MudMenu>
+              <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" Class="mr-2"/>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                  <MenuButton variant="Variant.Text" direction="Direction.Right" icon="@Icons.Material.Filled.Add" is_loading="model.is_loading">
+                        <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.Person" url="@($"customer/new")">New Customer</MenuButtonItem>
+                        <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
+                   </MenuButton>
+                </MudHidden>
+                <RefreshButton OnClick="@OnRefresh"/>
+              <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
+                     <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                           <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.Person" url="@($"customer/new")">New Customer</MenuButtonItem>
+                        <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
+                        <MudDivider />
+                     </MudHidden>
+                         <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.ContentCopy" url="@($"customer/clone/{model.id}")">Clone</MenuButtonItem>
+                        <MenuButtonItem roles="@gv.GetRole("customer_edit")" icon="@Icons.Material.Filled.HighlightOff" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => ChangeStatus_Click(model.id))">Inactive</MenuButtonItem>
+                        <MenuButtonItem roles="@gv.GetRole("customer_edit")" icon="@Icons.Material.Filled.Check" is_visible="@(!model.is_deleted && !model.status)" OnClick="@(() => ChangeStatus_Click(model.id))">Active</MenuButtonItem>
+                        <MenuButtonItem roles="@gv.GetRole("customer_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteCustomer_Click">Delete</MenuButtonItem>
+                        <MenuButtonItem roles="@gv.GetRole("customer_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteCustomer_Click">Restore</MenuButtonItem>
+              </MenuButton>
 
                                     <MudTooltip Text="More">
                                         <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
@@ -90,8 +61,7 @@
 
     </PageHeader>
     <PageBody>
-
-
+      
         <MudTabs Position="@Position.Top"
             ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
             <MudTabPanel Text="General Info">
@@ -102,7 +72,6 @@
             </MudTabPanel>
             <MudTabPanel Text="Comment">
                 <ComHistory 
-                        
                         history="@(new HistoryModel() { customer_id = new Guid(id),user_id = gv.current_login_user.id })"
                         ApiFilter="@($"customer_id eq {id}")"
                         OnSave="@SaveComment" />
@@ -123,4 +92,8 @@
 
 
 </PageContainer>
+
+<MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"customer/new")"/>    
+</MudHidden>
 

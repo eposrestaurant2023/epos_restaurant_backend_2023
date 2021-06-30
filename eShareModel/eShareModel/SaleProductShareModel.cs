@@ -51,6 +51,7 @@ namespace eShareModel
         public string status_name { get; set; } = "New";
 
         public decimal cost { get; set; }
+        public decimal profit { get; set; }
         public decimal reqular_price { get; set; }
         public decimal price { get; set; }
 
@@ -60,14 +61,14 @@ namespace eShareModel
         public decimal sub_total { get; set; }
 
         public decimal discount { get; set; }
-        public string   discount_type { get; set; }
-        public decimal total_discount { get; set; }
+        public string  discount_type { get; set; }
+        public decimal discount_amount { get; set; }
         public decimal total_amount { get; set; }
-        public decimal total_revenue { get; set; }
+        public decimal net_sale { get; set; } //net sale is sub toal - discount
 
 
         //Tax
-        public decimal taxable_amount { get; set; }
+ 
         public decimal tax_1_rate { get; set; }
         public decimal tax_1_amount { get; set; }
         public decimal tax_1_taxable_amount { get; set; }

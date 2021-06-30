@@ -37,19 +37,28 @@ namespace eShareModel
         //Discount
         public decimal discountable_amount { get; set; } 
         public decimal sale_product_discount_amount { get; set; }
-        public string discount_type { get; set; } = "Percent"; //Percent and Amount;
         public decimal discount { get; set; } = 0;
+        public decimal discount_amount { get; set; }
+        public decimal total_discount { get; set; }
+        public string discount_type { get; set; } = "Percent"; //Percent and Amount;
+
         public string discount_code { get; set; }
         public string discount_note { get; set; }
-        public decimal total_discount { get; set; }
+        
+        public decimal total_net_sale { get; set; }
 
         
+
+
+
+
         public decimal total_amount { get; set; }
         public decimal total_credit { get; set; }
         public decimal balance { get; set; }
         public decimal paid_amount { get; set; }
         public bool is_paid { get; set; }
         public decimal total_cost { get; set; }
+        public decimal total_profit { get; set; }
 
 
 
