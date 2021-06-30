@@ -16,21 +16,21 @@
                 @if (models.Any())
                 {
                     <tbody>
-                        @foreach (var c in (from a in models.OrderBy(r => r.sort_order) select new { a.product_category_en }).Distinct().ToList())
+                        @foreach (var c in models.Select(r=>r.product_group_en).Distinct().ToList())
                         {
                             <tr>
                                 <td colspan="3" class="uk-padding-remove-bottom">
-                                    <div class="uk-text-uppercase uk-text-bold">@c.product_category_en</div>
+                                    <div class="uk-text-uppercase uk-text-bold">@c.ToString()</div>
                                 </td>
                             </tr>
-                            @foreach (var g in (from a in models.Where(r => r.product_category_en == c.product_category_en) select new { a.product_group_en }).Distinct().ToList())
+                            @foreach (var g in models.Where(r => r.product_group_en == c.ToString()).Select(r=>r.product_category_en).Distinct().ToList())
                             {
                                 <tr>
                                     <td colspan="3" class="uk-padding-remove-bottom uk-padding-remove-top">
-                                        <div class="uk-margin-small-left uk-text-bold">@g.product_group_en</div>
+                                        <div class="uk-margin-small-left uk-text-bold">@g.ToString()</div>
                                     </td>
                                 </tr>
-                                @foreach (var p in models.Where(r => r.product_category_en == c.product_category_en && r.product_group_en == g.product_group_en).ToList())
+                                @foreach (var p in models.Where(r => r.product_category_en == g.ToString()).ToList())
                                 {
                                     <tr>
                                         <td>
@@ -44,20 +44,20 @@
                         }
                     </tbody>
                     <tfoot>
-                        @foreach (var c in (from a in models.OrderBy(r => r.sort_order) select new { a.product_category_en }).Distinct().ToList())
+                        @foreach (var c in models.Select(r=>r.product_group_en).Distinct().ToList())
                         {
-                            <tr>
-                                <TdRight ClassName="uk-text-bold">Total - @c.product_category_en</TdRight>
-                                <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == c.product_category_en).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                                <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == c.product_category_en).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
-                            </tr>
+                        <tr>
+                            <TdRight ClassName="uk-text-bold">Total - @c.ToString()</TdRight>
+                            <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == c.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                            <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == c.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdCenter>
+                        </tr>
 
-                            foreach (var g in (from a in models.Where(r => r.product_category_en == c.product_category_en) select new { a.product_group_en }).Distinct().ToList())
+                            foreach (var g in models.Where(r=>r.product_group_en == c.ToString()).Select(r=>r.product_category_en).Distinct().ToList())
                             {
                                 <tr>
-                                    <TdRight ClassName="uk-text-bold">Total - @g.product_group_en</TdRight>
-                                    <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == g.product_group_en).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                                    <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_group_en == g.product_group_en).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
+                                    <TdRight ClassName="uk-text-bold">Total - @g.ToString()</TdRight>
+                                    <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                                    <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
                                 </tr>
                             }
                         }
@@ -97,8 +97,9 @@
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public string Title { get; set; } = "Sale Product";
-    [Parameter] public string Id { get; set; } = "";
-    [Parameter] public int IsFree { get; set; } = 0;
+    [Parameter] public string WorkingDayId { get; set; }
+    [Parameter] public string CashierShiftId { get; set; }
+    [Parameter] public bool IsFree { get; set; }
     List<CashierShiftSaleProductSummaryModel> models = new List<CashierShiftSaleProductSummaryModel>();
     bool is_loading = false;
     bool is_error = false;
@@ -111,8 +112,8 @@
     public async Task LoadData()
     {
         is_loading = true;
-        if (Id != "") {
-            var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = "sp_get_cashier_shift_sale_product_summary", procedure_parameter = $"'{Id}'" });
+        if (!string.IsNullOrEmpty(WorkingDayId) || !string.IsNullOrEmpty(CashierShiftId)) {
+            var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = !string.IsNullOrEmpty(WorkingDayId) ? "sp_get_working_day_sale_product_summary" : "sp_get_cashier_shift_sale_product_summary", procedure_parameter = !string.IsNullOrEmpty(WorkingDayId) ? $"'{WorkingDayId}'" : $"'{CashierShiftId}'" });
             if (resp.IsSuccess)
             {
                 models = JsonSerializer.Deserialize<List<CashierShiftSaleProductSummaryModel>>(resp.Content.ToString());

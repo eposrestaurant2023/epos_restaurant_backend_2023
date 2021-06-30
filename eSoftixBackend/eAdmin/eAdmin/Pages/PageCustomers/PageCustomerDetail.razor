@@ -2,11 +2,11 @@
 @inherits PageCustomerDetails
 
 @using eAdmin.Pages.PageCustomers.CustomerDetails
-<Loading is_loading="@(is_loading || model.is_loading)"/>
+<Loading is_loading="@is_loading"/>
     <PageContainer>
         @if(!is_error){
             @if(model != null && !is_loading){
-    <PageHeader show_refresh_button="false">
+    <PageHeader>
         <Left>
               <MudText Typo="Typo.h6">
             @model.customer_code - @model.customer_name_en (@model.customer_name_kh)
@@ -23,7 +23,6 @@
                 <MudChip Size="Size.Small" Color="MudBlazor.Color.Error" Variant="Variant.Filled" Label="true">Deleted</MudChip>
             }
         </Left>
-
         <Right>
               <ComAttachFileButton File="@(new AttachFilesModel(){ customer_id = new Guid(id)})" ApiFilter="@($"customer_id eq {id}")" Class="mr-2"/>
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
@@ -46,6 +45,18 @@
                         <MenuButtonItem roles="@gv.GetRole("customer_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteCustomer_Click">Restore</MenuButtonItem>
               </MenuButton>
 
+                                    <MudTooltip Text="More">
+                                        <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+                                            <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
+                                            <MudMenuItem OnClick="@(()=>ChangeStatus_Click(Guid.Parse(id)))">Status</MudMenuItem>
+                                        </MudMenu>
+                                    </MudTooltip>
+            
+                        </MudButtonGroup>
+                        </MudDrawer>
+           </MudHidden>
+        
+        
         </Right>
 
     </PageHeader>
@@ -55,6 +66,9 @@
             ApplyEffectsToContainer="true" Class="mt-8" PanelClass="pa-6">
             <MudTabPanel Text="General Info">
                 <ComCustomerDetailGeneralInfo model="@model" is_loading="is_loading"/>
+            </MudTabPanel>
+            <MudTabPanel Text="Contact">
+                <ComCustomerProject id="@(new Guid(id))"/>
             </MudTabPanel>
             <MudTabPanel Text="Project">
                 <ComCustomerProject id="@(new Guid(id))"/>
