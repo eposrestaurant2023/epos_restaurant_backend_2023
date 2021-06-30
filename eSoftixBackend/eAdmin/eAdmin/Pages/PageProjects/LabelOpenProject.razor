@@ -1,0 +1,23 @@
+﻿@if(visible)
+{
+    @if (roles == "")
+    {
+        <MudChip  Label="true" Color="MudBlazor.Color.Success"  Size="Size.Small">Opened</MudChip>
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+            <Authorized>
+                <MudChip  Label="true" Color="MudBlazor.Color.Success" Size="Size.Small">Opened</MudChip>
+            </Authorized>
+            <NotAuthorized>
+                    <MudChip  Label="true" Color="MudBlazor.Color.Success" Size="Size.Small">Opened</MudChip>
+            </NotAuthorized>
+        </AuthorizeView>
+    }
+}
+@code{
+    [Parameter] public string roles { get; set; }
+    [Parameter] public bool visible { get; set; }
+    
+}

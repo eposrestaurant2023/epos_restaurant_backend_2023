@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using System.Threading;
 
 namespace eModels
@@ -70,7 +71,7 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime date_of_birth { get; set; } = DateTime.Now.AddYears(-18);
          [Column(TypeName = "date")]
-        public DateTime expired_date { get; set; }
+        public DateTime? expired_date { get; set; }
 
         public decimal current_balance { get; set; }
         public int total_project { get; set; } = 0;
@@ -79,6 +80,20 @@ namespace eModels
         public string note { get; set; }
         public string telegram { get; set; }
 
+        private DateTime? _date = DateTime.Now.AddYears(-18);
+        [NotMapped]
+        public DateTime? temp_date_of_birth
+        {
+            get {
+                _date = date_of_birth;
+                return date_of_birth; 
+            }
+            set
+            {
+                _date = value;
+                date_of_birth = Convert.ToDateTime(value);
+            }
+        }
 
         [ValidateComplexType]
         public List<ProjectModel> projects { get; set; }

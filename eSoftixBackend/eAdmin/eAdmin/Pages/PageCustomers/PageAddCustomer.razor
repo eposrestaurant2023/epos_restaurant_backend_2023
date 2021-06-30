@@ -2,13 +2,16 @@
 @page "/customer/edit/{id}"
 @page "/customer/clone/{clone_id}"
 @inherits PageAddCustomers
+<Loading is_loading="is_loading"/>
+@if(!is_loading){
 <PageContainer>
-@if(model != null){
-    <PageHeader title="@page_title" show_back_button="true" show_refresh_button="false">
+
+        <PageHeader title="@page_title" show_back_button="true" show_refresh_button="false">
         
     </PageHeader>
     <PageBody>
-        <EditForm Model="@model" OnValidSubmit="@Save_Click">
+        
+        <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click(true))">
        <UICenter>
            
                <DataAnnotationsValidator />
@@ -53,13 +56,7 @@
                              <MudTextField @bind-Value="@model.province" Label="Province" Variant="Variant.Text"></MudTextField>
                        </Right>
                     </UI2Columns>
-                   
-                   
-                   
-                    
-                   
-                    
-                    <MudDatePicker Label="Date of Birth" @bind-Date="@BOD"/>
+                    <MudDatePicker Label="Date of Birth" @bind-Date="@model.temp_date_of_birth"/>
                     
                     <MudTextField @bind-Value="@model.company_name_kh" Label="Company Name Kh" Variant="Variant.Text"></MudTextField>    
                     <MudText Color="MudBlazor.Color.Error" Typo="Typo.caption">
@@ -97,10 +94,8 @@
        </PageFooter>
         </EditForm>
     </PageBody>
-}
-
 </PageContainer>
-
+}
 @code{
     AttachFilesModel file=new AttachFilesModel();
 }
