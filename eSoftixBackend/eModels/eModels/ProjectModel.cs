@@ -34,7 +34,7 @@ namespace eModels
 
         public string project_name { get; set; }
         [Column(TypeName = "date")]
-        public DateTime? start_date { get; set; }
+        public DateTime? start_date { get; set; } = DateTime.Now;
         public string customer_code_name { get; set; }
         [Column(TypeName = "date")]
         public DateTime? closed_date { get; set; }

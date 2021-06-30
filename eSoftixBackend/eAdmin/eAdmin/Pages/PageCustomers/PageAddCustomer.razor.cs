@@ -67,6 +67,7 @@ namespace eAdmin.Pages.PageCustomers
                 else
                 {
                     model = new CustomerModel();
+                    page_title = "New Customer";
                 }
                 is_loading = false;
             }
