@@ -34,8 +34,9 @@ namespace eAdmin.Pages.PageCustomers
 
         protected override async Task OnInitializedAsync()
         {
-            
-                await LoadCustomer();
+
+            model = new CustomerModel();
+               // await LoadCustomer();
             
         }
         async Task LoadCustomer()

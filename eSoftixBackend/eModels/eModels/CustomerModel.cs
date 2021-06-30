@@ -47,7 +47,7 @@ namespace eModels
 
         public string customer_code_name { get; set; }
 
-        public string gender { get; set; }
+        public string gender { get; set; } = "Not Set";
 
 
         public string email { get; set; }
