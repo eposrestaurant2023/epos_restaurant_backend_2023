@@ -53,11 +53,10 @@ else
                 <td>
                     <AuthView  roles="customer_view" url="@($"customer/{s.id}")">
                         <MudText Typo="Typo.body1">@s.customer.customer_code - @s.customer.customer_name_en</MudText>    
-                        
                     </AuthView>
-                        <MudText Typo="Typo.caption">@s.customer.phone_1 <br />
-                            @s.customer.phone_2
-                        </MudText>
+                    <MudText Typo="Typo.caption">@s.customer.phone_1 <br />
+                        @s.customer.phone_2
+                    </MudText>
                 </td>
                 <TdCenter>
                     <MudText Typo="Typo.body1">

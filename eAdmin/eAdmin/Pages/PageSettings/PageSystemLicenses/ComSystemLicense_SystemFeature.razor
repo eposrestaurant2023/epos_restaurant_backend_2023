@@ -1,0 +1,25 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http
+<UIContainerBox Title="@lang["System Feature"]">
+    @foreach (var d in models)
+    {
+        <ComFeatureList title="@d.feature_name" description="@d.feature_description" status="@d.status" />
+    }
+</UIContainerBox>
+
+@code {
+    List<SystemFeatureModel> models = new List<SystemFeatureModel>();
+    bool is_loading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiGetOData("SystemFeature");
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<SystemFeatureModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+}

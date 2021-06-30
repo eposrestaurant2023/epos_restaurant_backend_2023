@@ -1,0 +1,53 @@
+﻿@page "/systemlicense"
+@inject IStringLocalizer<Resource> lang
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="@lang["System License"]"></Title>
+    <PageContainer roles="@gv.GetRole("system_license_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["System License"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+        </PageHeader>
+
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox Title="@lang["Business ID"]"> 
+                        <ComAlert type="primary">
+                            <div class="uk-padding">
+                                <h4 class="uk-margin-remove uk-text-center">@gv.project_id</h4>
+                            </div>
+                        </ComAlert>
+                        <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
+                            <div class="uk-width-1-2 uk-width-1-4@m">
+                                <UIBoxKpi value="3" title="Warehouse"/>
+                            </div>
+
+                            <div class="uk-width-1-2 uk-width-1-4@m">
+                                <UIBoxKpi value="3" title="Warehouse" />
+                            </div>
+                            <div class="uk-width-1-2 uk-width-1-4@m">
+                                <UIBoxKpi value="3" title="Warehouse" />
+                            </div>
+                            <div class="uk-width-1-2 uk-width-1-4@m">
+                                <UIBoxKpi value="3" title="Warehouse" />
+                            </div>
+                        </div>
+                    </UIContainerBox>
+                    <ComSystemLicense_BusinessInformation />
+                    <ComSystemLicense_SystemFeature />
+                    <ComSystemLicense_BusinessBranch/>
+                </UIGridCenter>
+            </PageBody>
+    </PageContainer>
+}
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    bool is_loading = false;
+}
