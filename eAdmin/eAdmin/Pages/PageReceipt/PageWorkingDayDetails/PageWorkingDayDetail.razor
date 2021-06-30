@@ -44,16 +44,16 @@
                     <TabItem>
                         @if (receipt_tab_click)
                         {
-                            @*<ComCashierShiftDetail_ReceiptList CashierShiftId="@id" StateKey="YuuXCAshierSHIFTiptDEl97FALse" Title="@lang["Sale Receipt"]" IsDeletedReceipt="false"/>
-                            <ComCashierShiftDetail_ReceiptList CashierShiftId="@id" StateKey="REceCAshierSHIFTiptDEl978TRUE" Title="@lang["Deleted Sale Receipt"]" IsDeletedReceipt="true"/>*@
+                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="YuuXCAshierWokignDAYDEl97FALse" Title="@lang["Sale Receipt"]" IsDeletedReceipt="false"/>
+                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="REceCAshWokignxxDAYiptDEl978TRUE" Title="@lang["Deleted Sale Receipt"]" IsDeletedReceipt="true"/>
                         }
                     </TabItem>
                     <TabItem>
                         @if (sale_product_history_tab_click)
                         { 
                             <UIGridCenter>
-                                @*<ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="0" Id="@id"/>
-                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="1" Id="@id"/>*@
+                                <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" WorkingDayId="@id"/>
+                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" WorkingDayId="@id"/>
                             </UIGridCenter>
                         }
                     </TabItem>
