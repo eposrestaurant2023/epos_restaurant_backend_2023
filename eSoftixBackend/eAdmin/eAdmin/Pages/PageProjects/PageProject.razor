@@ -1,5 +1,5 @@
 ﻿@page "/project"
-@inherits PageProjects
+@inherits PageProjectBase
 
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
@@ -78,7 +78,6 @@
                 <td>
                     @p.customer.company_name_kh
                 </td>
-             
                 <TdCenter>
                    @p.created_date.ToString(gv.date_format)
                </TdCenter>
@@ -109,13 +108,7 @@
 }
 
 
-
-
-@{
-    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
-    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
-}
-@if (!is_loading)
+@*@if (!is_loading)
 {
 
 
@@ -178,3 +171,4 @@
 </MudHidden>
 
 }
+*@
