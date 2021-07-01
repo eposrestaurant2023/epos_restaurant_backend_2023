@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210630091253_update_business_branchj")]
+    partial class update_business_branchj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3509,36 +3511,6 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<string>("tax_1_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("tax_1_rate")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("tax_1_taxable_rate")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("tax_2_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("tax_2_rate")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("tax_2_taxable_rate")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<string>("tax_3_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("tax_3_rate")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("tax_3_taxable_rate")
-                        .HasColumnType("decimal(19,4)");
 
                     b.HasKey("id");
 

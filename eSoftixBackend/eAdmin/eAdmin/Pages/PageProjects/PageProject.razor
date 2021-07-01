@@ -11,9 +11,6 @@
 }
 @if (!is_loading)
 {
-
-
-  
 <PageContainer>
     <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
         <Filter>
@@ -21,11 +18,11 @@
         </Filter>
         <Right>
            
-          <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                 <FilterDateRange @bind-dates="@state.date_range"  />
+            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" OnFillterClick="@FilterClick">
+
             </ComSearch>
              <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <AddButton roles="@gv.GetRole("project_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("project_add")" OnClick="@(()=>nav.NavigateTo("project/new"))">New</AddButton>
              </MudHidden>
           
         </Right>

@@ -79,6 +79,20 @@ namespace eAPI.Controllers
             return Ok(u);
         }
 
+        [HttpPost]
+        [Route("clone/{id}")]
+
+        public IActionResult Clone(Guid id)
+        {
+            var c = db.Project.Where(r => r.id == id).FirstOrDefault();
+            c.status = true;
+            c.id = Guid.Empty;
+            c.project_code = "";
+            c.start_date = null;
+            c.customer_id = Guid.Empty;
+            return Ok(c);
+        }
+
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 0)]
         public SingleResult<ProjectModel> Get([FromODataUri] Guid key)

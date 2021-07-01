@@ -60,7 +60,8 @@ else
                 </td>
                 <TdCenter>
                     <MudText Typo="Typo.body1">
-                            @s.start_date.Value.ToString(gv.date_format)
+                        @Convert.ToDateTime(s.start_date).ToString(gv.date_format)
+                            
                     </MudText>
                     
                 </TdCenter>
