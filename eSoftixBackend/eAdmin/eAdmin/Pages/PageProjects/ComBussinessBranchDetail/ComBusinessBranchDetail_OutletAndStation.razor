@@ -1,0 +1,86 @@
+﻿
+<UIPanel Title="Outlet and Station">
+    <UIPanelHeaderRight>
+        <MudIconButton Icon="@Icons.Material.Filled.Add"/>
+    </UIPanelHeaderRight> 
+    <UIPanelBody> 
+        @if (outlets != null && outlets.Count() > 0)
+        {
+            <MudExpansionPanels>
+                @foreach (var d in outlets)
+                {
+                    <MudExpansionPanel HideIcon="true" Class="mb-4">
+                        <TitleContent>
+                            <div class="d-flex">
+                                <MudText Class="mt-1">@d.outlet_name_en</MudText>
+                                <LabelDeleted  is_visible="true"/>
+                                 
+                                <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading" ClassName="d-flex ml-auto pa-0" >
+                                    <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditOutlet_Click(d))">Edit</MudMenuItem>
+                                    <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteOutlet_Click(d))">Delete</MenuButtonItem>
+                                    <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteOutlet_Click(d))">Restore</MenuButtonItem>
+                                 </MenuButton>
+                         
+                            </div>
+                        </TitleContent>
+                        <ChildContent>
+                            @foreach(var s in d.stations)
+                            {
+                                <MudCard>
+                                    <MudCardHeader>
+                                        <CardHeaderAvatar>
+                                            <MudIcon Icon="@Icons.Material.Filled.DesktopWindows" Size="MudBlazor.Size.Large" />
+                                        </CardHeaderAvatar>
+                                        <CardHeaderContent>
+                                            <MudText Typo="Typo.body1">@s.station_name_en</MudText>
+                                            <MudText Typo="Typo.body1">@s.expired_date</MudText>
+                                            <LabelDeleted is_visible="true"/>
+                                            <LabelExpiredProject visible="true"/>
+                                            <LabelFullLicense visible="true"/>
+                                        </CardHeaderContent>
+                                        <CardHeaderActions>
+                                            <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading">
+                                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStation_Click(s))">Edit</MudMenuItem>
+                                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Extend Expired Date</MudMenuItem>
+                                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.LockClock" OnClick="@(()=>EditStation_Click(s))">Mark as Full License</MudMenuItem>
+                                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Cancel Full License</MudMenuItem>
+                                                <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Delete</MenuButtonItem>
+                                                <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Restore</MenuButtonItem>
+                                            </MenuButton>
+                                        </CardHeaderActions>
+                                    </MudCardHeader>
+                    
+                                </MudCard>
+
+                   
+                                }
+                        </ChildContent>
+                    </MudExpansionPanel>
+                    
+                }
+            
+              </MudExpansionPanels>
+     }
+    </UIPanelBody>
+</UIPanel>
+
+@code {
+    
+    [Parameter] public List<OutletModel> outlets { get; set; }
+    [CascadingParameter] public AppState gv { get; set; }
+
+    async Task EditOutlet_Click(OutletModel outlet){
+        await Task.Delay(100);
+    }
+    async Task DeleteOutlet_Click(OutletModel outlet){
+        await Task.Delay(100);
+    }
+
+    async Task EditStation_Click(StationModel _station){
+        await Task.Delay(100);
+    }
+    async Task DeleteStation_Click(StationModel _station){
+        await Task.Delay(100);
+    }
+}
+

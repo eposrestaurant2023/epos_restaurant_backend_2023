@@ -1,69 +1,74 @@
-﻿@inject IHttpService http
+﻿@inject IHttpService http;
+<Loading is_loading="@is_loading"/>
+ 
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer Style="max-height: 650px; overflow-y: scroll">
+            
+                <MudTextField T="string" Placeholder="Search..."    Adornment="Adornment.End"
+                      AdornmentIcon="@Icons.Filled.Search"
+                      DebounceInterval="500"
+                      OnDebounceIntervalElapsed="@OnSearch" />
+          
+           
+                <MudList Clickable="true">
 
-<Modal @bind-visible="@Is_visible">
-    <ModalContent>
-          <MudTextField @bind-Value="keyword" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"/>
-    </ModalContent>
-    <ModalAction>
-        <MudButton Variant="Variant.Filled" OnClick="@Onclose" Class="px-10">Close</MudButton>
-    </ModalAction>
-</Modal>
+                    @foreach (var d in customers)
+                    {
+                        <MudListItem OnClick="@(()=>SelectCustomer_Click(d))">
+                            <MudText Typo="Typo.body1">@d.customer_code - @d.customer_name_en  </MudText>
+                        </MudListItem>
+                    }
+
+                </MudList>
+             
+ 
+        </MudContainer>
+    </DialogContent>
+    
+</MudDialog>
+
 
 @code{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    string keyword = "";
+    
+    bool is_loading;
 
-    [CascadingParameter] public AppState app_state { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string label { get; set; } = "Customer";
-    [Parameter] public bool show_empty { get; set; } = false;
-    [Parameter] public bool Is_visible { get; set; } = false;
-    [Parameter] public EventCallback<bool> Is_visibleChanged { get; set; }
-    [Parameter] public string empty_text { get; set; } = "Select Customer";
+    List<CustomerModel> customers = new List<CustomerModel>();
 
-    [Parameter] public string width { get; set; } = "100%";
-    [Parameter] public Variant variant { get; set; } = Variant.Outlined;
-    [Parameter] public Guid selected_value { get; set; } = Guid.Empty;
-    [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
-
-    [Parameter] public CustomerModel customer { get; set; }
-    [Parameter] public EventCallback<CustomerModel> customerChanged { get; set; }
-    List<CustomerModel> customers { get; set; } = new List<CustomerModel>();
-    string keyword= "";
-      public Guid SelectedValue
-    {
-        get
+        protected override async Task OnInitializedAsync()
         {
-            return customer == null ? selected_value : customer.id;
+            is_loading = true;
+             
+            await LoadData();
+            is_loading = false;
         }
-    }
 
-    Guid id = Guid.NewGuid();
-
-    protected override async Task OnInitializedAsync()
-    {
-        var res = await http.ApiGetOData("customer?$filter=status eq true and is_deleted eq false&$top=25");
-        if(res.IsSuccess){
-            customers = JsonSerializer.Deserialize<List<CustomerModel>>(res.Content.ToString());
-        }
-    }
-
-    private async Task SelectedValueChange(Guid n)
-    {
-        selected_value = n;
-        await selected_valueChanged.InvokeAsync(selected_value);
-        if (selected_value == Guid.Empty)
+         
+        public async Task LoadData()
         {
-            await customerChanged.InvokeAsync(new CustomerModel());
-        }
-        else
-        { 
-            await customerChanged.InvokeAsync(customers.Where(r => r.id == selected_value).FirstOrDefault());
+            is_loading = true;
+            string api_url=$"customer?$expand=customer_group($select=customer_group_name_en,customer_group_name_kh)&keyword={keyword}&$top={50}&$orderby=customer_name_en&$filter=is_deleted eq false";
+            var resp = await http.ApiGetOData(api_url);
+            if (resp.IsSuccess)
+            {
+                customers = JsonSerializer.Deserialize<List<CustomerModel>>(resp.Content.ToString());
+              
+            }
+            is_loading = false;
         }
 
-    }
-
-    async Task Onclose()
+        
+    async Task OnSearch(string debouncedText)
     {
-        Is_visible = false;
-        await Is_visibleChanged.InvokeAsync(Is_visible);
+       is_loading = true;
+       keyword = debouncedText;
+       await LoadData();
+        is_loading = false;
+    }
+    void SelectCustomer_Click(CustomerModel c)
+    {
+          MudDialog.Close(DialogResult.Ok(c));
     }
 }

@@ -17,10 +17,9 @@
 
         
          <MudHidden Breakpoint="Breakpoint.SmAndDown">
-              <AddButton roles="@gv.GetRole("project_add")" url="project/new"/>
-              <RefreshButton OnClick="OnRefresh" />
-        </MudHidden>
-      
+                <AddButton roles="@gv.GetRole("project_add")" url="project/new"/>
+         </MudHidden>
+        <RefreshButton OnClick="OnRefresh" />
          <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
             <MudHidden Breakpoint="Breakpoint.MdAndUp">
             <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
@@ -39,14 +38,12 @@
     </Right>
 </PageHeader>
     <PageBody>
-        <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="py-6">
+        <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="py-6" KeepPanelsAlive="true">
              <MudTabPanel Text="Project Information">
                 <ComProjectDetail_ProjectInformation model="@model"/>
-                 
-
             </MudTabPanel>
-            <MudTabPanel Text="Branches">
-                 <ComProjectDetail_BusinessBranch/>
+            <MudTabPanel Text="Branches" >
+                 <ComProjectDetail_BusinessBranch project="@model"/>
             </MudTabPanel>
             <MudTabPanel Text="Comment & History">
                  <ComHistory 
@@ -58,7 +55,7 @@
 
         </MudTabs>
 
-      
+       
     </PageBody>
     }
 

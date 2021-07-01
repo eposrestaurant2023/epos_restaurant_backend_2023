@@ -1,11 +1,12 @@
 ﻿@inject IHttpService http;
 @inject IConfiguration config;
-@inject NavigationManager nav;
- 
+
+@inject IDialogService Dialog
+@inject ISnackbar toast;
 <UIPanel Title="Customer Information">
 <UIPanelHeaderRight>
     <MenuButton>
-        <MenuButtonItem icon="@Icons.Material.Filled.People">Change Customer</MenuButtonItem>
+        <MenuButtonItem icon="@Icons.Material.Filled.People" OnClick="@ChangeCustomer_Click">Change Customer</MenuButtonItem>
     </MenuButton>
 </UIPanelHeaderRight>
 <UIPanelBody>
@@ -62,7 +63,9 @@
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            await LoadCustomer();
+            if(model==null) {
+                await LoadCustomer();
+            }
             is_loading = false;
         }
 
@@ -74,9 +77,22 @@
                 model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
             }
         }
-    void Navigate(Guid id)
+   
+     
+    async Task ChangeCustomer_Click()
     {
-        nav.NavigateTo($"customer/{id}");
+         
+        var dialog = Dialog.Show<SelectCustomerList>("Search Customer", new DialogOptions() {  CloseButton = true });
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+             
+            model = (CustomerModel)result.Data;
+            
+            toast.Add("Customer has been changed.", Severity.Success);
+        }
     }
+
 
 }

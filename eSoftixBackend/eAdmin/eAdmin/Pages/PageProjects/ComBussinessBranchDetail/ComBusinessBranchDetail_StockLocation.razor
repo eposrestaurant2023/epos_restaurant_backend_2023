@@ -1,0 +1,55 @@
+﻿ 
+
+@if(stock_locations!=null && stock_locations.Count()>0){ 
+
+<UIPanel Title="Warehouse">
+    <UIPanelHeaderRight>
+        <MudIconButton Icon="@Icons.Material.Filled.Add"/>
+    </UIPanelHeaderRight> 
+    <UIPanelBody>
+       
+            
+            @foreach(var d in stock_locations)
+            {
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderAvatar>
+                            <MudIcon Icon="@Icons.Material.Filled.Home" />
+                        </CardHeaderAvatar>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.body1">@d.stock_location_name</MudText>
+                            <LabelDeleted is_visible="true"/>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading">
+                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStockLocation_Click(d))">Edit</MudMenuItem>
+                                <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteStockLocation_Click(d))">Delete</MenuButtonItem>
+                                <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteStockLocation_Click(d))">Restore</MenuButtonItem>
+                            </MenuButton>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    
+                </MudCard>
+
+                   
+                }
+              
+       
+    </UIPanelBody>
+</UIPanel>
+}
+@code {
+    
+    [Parameter] public List<StockLocationModel> stock_locations { get; set; }
+    [CascadingParameter] public AppState gv { get; set; }
+
+    async Task EditStockLocation_Click(StockLocationModel stock_location){
+        await Task.Delay(100);
+    }
+    async Task DeleteStockLocation_Click(StockLocationModel stock_location){
+        await Task.Delay(100);
+    }
+
+     
+}
+

@@ -16,8 +16,8 @@
        <UICenter>
            
                <DataAnnotationsValidator />
-               <UIPanel Title="Customer">
-                     <SelectCustomer/>
+               <UIPanel Title="Customer Information">
+                     <SelectCustomer @bind-customer_id="@model.customer_id" @bind-model="@model.customer"/>
                </UIPanel>
                <UIPanel Title="General Information">
                    <UI2Columns>

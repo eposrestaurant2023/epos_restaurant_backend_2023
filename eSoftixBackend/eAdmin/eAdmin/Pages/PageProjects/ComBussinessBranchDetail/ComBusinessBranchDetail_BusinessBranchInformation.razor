@@ -1,0 +1,32 @@
+﻿ 
+
+@if(model!=null){ 
+
+<UIPanel Title="Branch Information">
+    <UIPanelHeaderRight>
+          <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
+            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@EditBusinessBranch_Click" >Edit</MudMenuItem>
+            <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteProject_Click">Delete</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteProject_Click">Restore</MenuButtonItem>
+    </MenuButton>
+    </UIPanelHeaderRight> 
+    <UIPanelBody>
+        @JsonSerializer.Serialize(model)
+    </UIPanelBody>
+</UIPanel>
+}
+@code {
+    
+    [Parameter] public BusinessBranchModel model { get; set; }
+    [CascadingParameter] public AppState gv { get; set; }
+
+    async Task EditBusinessBranch_Click(){
+        await Task.Delay(100);
+    }
+    async Task DeleteProject_Click(){
+        await Task.Delay(100);
+    }
+
+     
+}
+
