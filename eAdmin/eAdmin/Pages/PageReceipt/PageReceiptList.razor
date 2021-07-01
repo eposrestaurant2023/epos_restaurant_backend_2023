@@ -28,6 +28,7 @@
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
+                    <SelectSaleType @bind-selected_value="@state.sale_type_name" show_empty="true" is_horizontal="false"/>
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                     <div class="uk-form-controls" style="margin-bottom: 10px;margin-top: 20px;">
@@ -39,7 +40,6 @@
         </PageHeader>
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
-
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
                        PerPage="@state.pager.per_page"

@@ -35,7 +35,8 @@ namespace eModels
     {
         public BusinessBranchModel()
         {
-            outlets = new List<OutletModel>();                                                                                               
+            outlets = new List<OutletModel>();
+            sale_types = new List<SaleTypeModel>();                                                                                           
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
             printers = new List<PrinterModel>();
             business_branch_payment_types = new List<BusinessBranchPaymentTypeModel>();
@@ -48,14 +49,10 @@ namespace eModels
 
         }
 
+        public List<SaleTypeModel> sale_types { get; set; }
         public List<DiscountCodeModel> discount_codes { get; set; }
-        public List<StockLocationModel> stock_locations { get; set; }
-         
-        
-   
-        public List<OutletModel>  outlets { get; set; }
-
-                                                                                       
+        public List<StockLocationModel> stock_locations { get; set; }   
+        public List<OutletModel>  outlets { get; set; }                         
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
 
         public List<PrinterModel> printers { get; set; }

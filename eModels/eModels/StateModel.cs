@@ -20,7 +20,7 @@ namespace eModels
         public List<FilterModel> filters { get; set; }
         public FilterModel filter { get; set; }
         public string page_title { get; set; } = "";
-
+        public string sale_type_name { get; set; } = "";
         public DateRangeModel date_range { get; set; } = new DateRangeModel(3);
 
 

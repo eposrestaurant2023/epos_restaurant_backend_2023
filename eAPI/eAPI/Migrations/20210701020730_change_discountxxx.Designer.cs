@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210701020730_change_discountxxx")]
+    partial class change_discountxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2909,16 +2911,28 @@ namespace eAPI.Migrations
                     b.Property<decimal>("tax_1_rate")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<decimal>("tax_1_taxable_amount")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<decimal>("tax_2_amount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_rate")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<decimal>("tax_2_taxable_amount")
+                        .HasColumnType("decimal(19,4)");
+
                     b.Property<decimal>("tax_3_amount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_rate")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("tax_3_taxable_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("taxable_amount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_amount")
@@ -2940,9 +2954,6 @@ namespace eAPI.Migrations
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_quantity")
-                        .HasColumnType("decimal(19,4)");
-
-                    b.Property<decimal>("total_tax_amount")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("working_date")
@@ -3383,9 +3394,6 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("is_build_in")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_order_use_table")
@@ -5345,7 +5353,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.SaleTypeModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("sale_types")
+                        .WithMany()
                         .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -5595,8 +5603,6 @@ namespace eAPI.Migrations
                     b.Navigation("outlets");
 
                     b.Navigation("printers");
-
-                    b.Navigation("sale_types");
 
                     b.Navigation("stock_locations");
                 });
