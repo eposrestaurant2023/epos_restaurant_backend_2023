@@ -34,7 +34,7 @@ namespace eAdmin.Pages.PageProjects
         public int TotalRecord = 0;
         public bool ShowModal = false;
         public string ModalTitle = "";
-
+        public string value_test;
         string controller_api = "Project";
 
         DateTime date = DateTime.Now;
@@ -363,6 +363,6 @@ namespace eAdmin.Pages.PageProjects
             SetFilterValue2(state.filters, "keyword", "");
             await LoadData();
         }
-
+        
     }
 }

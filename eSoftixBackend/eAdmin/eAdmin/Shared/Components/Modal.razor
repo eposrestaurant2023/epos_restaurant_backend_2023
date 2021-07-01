@@ -1,0 +1,25 @@
+﻿<MudDialog  @bind-IsVisible="visible" >
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icon" Class="mr-3"/> @ModalTitle
+        </MudText>
+    </TitleContent>
+
+
+    <DialogContent>
+    @ModalContent
+    </DialogContent>
+    <DialogActions>
+        @ModalAction
+    </DialogActions>
+</MudDialog>
+
+@code{
+    [Parameter] public bool visible {get;set;}
+    [Parameter] public EventCallback<bool> visibleChanged {get;set;}
+    [Parameter] public RenderFragment ModalContent {get;set;}
+    [Parameter] public RenderFragment ModalAction {get;set;}
+    [Parameter] public RenderFragment ModalTitle {get;set;}
+    [Parameter] public string Icon {get;set;}
+
+}  

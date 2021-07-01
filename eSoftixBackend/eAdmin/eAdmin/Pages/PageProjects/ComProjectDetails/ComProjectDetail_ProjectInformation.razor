@@ -27,7 +27,25 @@
                     <ComProjectDetail_CustomerInformation customer_id="@(model.customer_id.ToString())"/>
 
                     <UIPanel Title="Project Information">
-                        @JsonSerializer.Serialize(model)
+                        <MudGrid>
+                        <MudItem xs="12" md="12" lg="12">
+                        <MudList>
+                            <ListItem Title="Name Kh">
+                                @model.project_code -
+                                @model.project_name
+                            </ListItem>
+                                <ListItem Title="Project Type">@model.project_type.project_type_name</ListItem>
+                                <ListItem Title="Start Date">@Convert.ToDateTime(model.start_date).ToString(gv.date_format)</ListItem>
+                                <ListItem Title="Close Date">@Convert.ToDateTime(model.closed_date).ToString(gv.date_format)</ListItem>
+                                <ListItem Title="Expired Date">@Convert.ToDateTime(model.expired_date).ToString(gv.date_format)</ListItem>
+                        </MudList>
+                        </MudItem>
+                        <MudItem xs="12" md="12" lg="6">
+                        <MudList>
+                               
+                            </MudList>
+                        </MudItem>
+                    </MudGrid>
                     </UIPanel>
                    <ComProjectDetail_ProjectFeature project_id="@(model.id.ToString())"/>
 
@@ -41,6 +59,7 @@
 
 
 @code {
+    [CascadingParameter] public AppState gv { get; set; }
     [Parameter] public ProjectModel model { get; set; }
     [CascadingParameter] public AppState gv { get; set; }
 }
