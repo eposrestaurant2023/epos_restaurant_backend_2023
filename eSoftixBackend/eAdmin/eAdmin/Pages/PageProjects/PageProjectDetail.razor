@@ -2,7 +2,7 @@
 @inherits PageProjectDetails
 <Loading is_loading="@is_loading"/>
 
-<PageContainer>
+<PageContainer is_loading="@is_loading">
 @if (model != null)
     {
         <PageHeader title="@page_title" show_refresh_button="false">
@@ -16,10 +16,7 @@
 
         
          <MudHidden Breakpoint="Breakpoint.SmAndDown">
-             <AuthorizeView Roles="@gv.GetRole("project_add")">
-                <MudIconButton Icon="@Icons.Material.Filled.Add" />      
-             </AuthorizeView>
-           
+                <AddButton roles="@gv.GetRole("project_add")" url="project/new"/>
          </MudHidden>
         <RefreshButton OnClick="OnRefresh" />
          <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
@@ -42,44 +39,7 @@
     <PageBody>
         <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
              <MudTabPanel Text="Project Information">
-                 <UICenter>
-
-                    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined"  Class="ma-2">This project will be expire on 7/07/2021 (7 Day(s)) </MudAlert>    
-                    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="ma-2">This project was expired on 6/7/2021 (150 Day(s) ago)</MudAlert>    
-
-                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined"  Class="ma-2"> 
-                        <MudText Typo="Typo.h5" Align="MudBlazor.Align.Center">@model.id</MudText>
-                    </MudAlert>    
-                    
-                    <MudGrid> 
-
-                        <MudItem xs="6" lg="3">
-                            <ComDashboardKPI Title="Branche" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Layers"/>
-                        </MudItem>
-                        <MudItem xs="6" lg="3">
-                            <ComDashboardKPI Title="Warehouse" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.Layers" Value="2"/>
-                        </MudItem>
-                        <MudItem xs="6" lg="3">
-                            <ComDashboardKPI Title="Outlet" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.AttachMoney" Value="4"/>
-                        </MudItem>
-                        <MudItem xs="6" lg="3">
-                            <ComDashboardKPI Title="Station" color="@MudBlazor.Color.Info" Icon="@Icons.Material.Filled.AttachMoney" Value="6"/>
-                        </MudItem>
-                    </MudGrid>
-
-                    <UIPanel Title="Customer Information">
-
-                    </UIPanel>
-                    <UIPanel Title="Project Information">
-
-                    </UIPanel>
-                    <UIPanel Title="Project Features">
-
-                    </UIPanel>
-
- 
-
-                </UICenter>
+                <ComProjectDetail_ProjectInformation model="@model"/>
                  
 
             </MudTabPanel>
@@ -87,13 +47,31 @@
                  
             </MudTabPanel>
             <MudTabPanel Text="Comment & History">
-                 
+                 <ComHistory 
+                        
+                        history="@(new HistoryModel() { project_id = new Guid(id),user_id = gv.current_login_user.id })"
+                        ApiFilter="@($"project_id eq {id}")"
+                       />
             </MudTabPanel>
 
         </MudTabs>
+
+        <div>
+            <MudText Typo="@Typo.body1">Opened by: @model.created_by on @model.created_date.ToString(gv.date_time_format)</MudText>
+            @if(model.is_closed){
+                <MudText Typo="@Typo.body1">Closed by: @model.closed_by on @(((DateTime)model.created_date).ToString(gv.date_format))</MudText>
+            }
+            
+        </div>
     </PageBody>
     }
 
  
 
 </PageContainer>
+<AuthorizeView Roles="@gv.GetRole("project_add")">
+
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"project/new")"/>    
+    </MudHidden>
+</AuthorizeView>

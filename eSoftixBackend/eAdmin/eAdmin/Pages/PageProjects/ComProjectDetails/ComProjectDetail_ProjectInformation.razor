@@ -1,0 +1,38 @@
+﻿ <UICenter>
+
+                    <ComProjectDetail_AlertNextExpire model="@model"/>    
+                    <ComProjectDetail_AlertExpired model="@model"/>    
+                   
+                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined"  Class="my-4"> 
+                        <MudText Typo="Typo.subtitle2" Align="MudBlazor.Align.Center">Project ID</MudText>
+                        <MudText Typo="Typo.h5" Align="MudBlazor.Align.Center">@model.id</MudText>
+                    </MudAlert>    
+                    
+                    <MudGrid> 
+
+                        <MudItem xs="6" lg="3">
+                            <ComDashboardKPI Title="Branch" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Home" Value="@model.total_business_branches.ToString()"/>
+                        </MudItem>
+                        <MudItem xs="6" lg="3">
+                            <ComDashboardKPI Title="Warehouse" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.CropSquare" Value="@model.total_stock_location.ToString()"/>
+                        </MudItem>
+                        <MudItem xs="6" lg="3">
+                            <ComDashboardKPI Title="Outlet" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.BusinessCenter" Value="@model.total_outlets.ToString()"/>
+                        </MudItem>
+                        <MudItem xs="6" lg="3">
+                            <ComDashboardKPI Title="Station" color="@MudBlazor.Color.Info" Icon="@Icons.Material.Filled.DesktopWindows" Value="@model.total_stations.ToString()"/>
+                        </MudItem>
+                    </MudGrid>
+
+                    <ComProjectDetail_CustomerInformation customer_id="@(model.customer_id.ToString())"/>
+
+                    <UIPanel Title="Project Information">
+                        @JsonSerializer.Serialize(model)
+                    </UIPanel>
+                   <ComProjectDetail_ProjectFeature project_id="@(model.id.ToString())"/>
+                </UICenter>
+
+
+@code {
+    [Parameter] public ProjectModel model { get; set; }
+}
