@@ -17,12 +17,12 @@
         </Filter>
         <Right>
            
-            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true">
                  <FilterDateRange @bind-dates="@state.date_range"  />
                 <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
             </ComSearch>
              <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))"/>
              </MudHidden>
           
         </Right>

@@ -1,9 +1,10 @@
 ﻿@inject IHttpService http;
-
+@inject ISnackbar toast;
+<Loading is_loading="is_saving"/>
 <UIPanel Title="System Features">
     <UIPanelHeaderRight>
         <MenuButton>
-            <MenuButtonItem icon="@Icons.Material.Filled.Edit">Edit System Feature</MenuButtonItem>
+            <MenuButtonItem icon="@Icons.Material.Filled.Edit" OnClick="@OnEdit">Edit System Feature</MenuButtonItem>
         </MenuButton>
     </UIPanelHeaderRight>
     <UIPanelBody>
@@ -15,12 +16,32 @@
             @foreach(var d in models.OrderBy(r=>r.system_feature.sort_order))
             {
                 <MudListItem>
-                    <MudText Typo="@Typo.subtitle1">@d.system_feature.feature_name</MudText>
-                    <MudText Typo="@Typo.subtitle2">@d.system_feature.feature_description</MudText>
-                    <MudSwitch Checked="@d.status"  Color="MudBlazor.Color.Success" Disabled="true" />
+                    <MudText Typo="@Typo.subtitle2">@d.system_feature.feature_name</MudText>
+                    <MudText Typo="@Typo.body1">@d.system_feature.feature_description</MudText>
+                    @if (is_edited)
+                    {
+                        <MudSwitch @bind-Checked="@d.status"  Color="MudBlazor.Color.Success"  />
+                    }else {
+                        <MudSwitch Checked="@d.status"  Color="MudBlazor.Color.Success" Disabled="true" />
+                    }
+                    
                   </MudListItem>
+                  <MudDivider/>
             }
-        </MudList>
+            </MudList>
+            @if (is_edited)
+            {
+            if (!is_saving)
+            {
+                <MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="@OnSave" Class="mr-2" Variant="Variant.Filled">Save</MudButton>
+                <MudButton StartIcon="@Icons.Material.Filled.Cancel" OnClick="@OnEdit" Class="mx-2" Color="@MudBlazor.Color.Error" Variant="Variant.Filled">Cancel</MudButton>
+            }else
+            {
+                <MudButton StartIcon="@Icons.Material.Filled.Save" Variant="Variant.Filled" Class="mr-2" >Save <Spinner/></MudButton>    
+            }
+                
+            }
+        
         }
     </UIPanelBody>
 </UIPanel>
@@ -29,21 +50,57 @@
 @code {
     [Parameter] public string project_id { get; set; }
     bool is_loading;
-        List<ProjectSystemFeatureModel> models;
-        protected override async Task OnInitializedAsync()
+    bool is_edited,is_saving;
+
+
+    List<ProjectSystemFeatureModel> models;
+    List<ProjectSystemFeatureModel> save_models;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadSystemFeature();
+        is_loading = false;
+    }
+
+    public async Task LoadSystemFeature()
+    {
+        var res = await http.ApiGetOData($"ProjectSystemFeature?$expand=system_feature&$filter=project_id eq {project_id}");
+        if (res.IsSuccess)
         {
-            is_loading = true;
-            await LoadSystemFeature();
-            is_loading = false;
+            models = JsonSerializer.Deserialize<List<ProjectSystemFeatureModel>>(res.Content.ToString());
+        }
+    }
+
+    async Task OnSave()
+    {
+        is_saving = true;
+      save_models = JsonSerializer.Deserialize<List<ProjectSystemFeatureModel>>(JsonSerializer.Serialize(models));
+        save_models.ForEach(r => r.system_feature = null);
+        var res = await http.ApiPost($"ProjectSystemFeature/save/multiple",save_models);
+        if (res.IsSuccess)
+        {
+           toast.Add("Save Project Feature Successfull.", Severity.Success);
+        }else
+        {
+            toast.Add("Save Project Feature Fail.", Severity.Warning);
         }
 
-        public async Task LoadSystemFeature()
+        is_edited = false;
+        is_saving = false;
+    }
+
+    void OnEdit()
+    {
+        if (is_edited)
         {
-            var res = await http.ApiGetOData($"ProjectSystemFeature?$expand=system_feature&$filter=project_id eq {project_id}");
-            if (res.IsSuccess)
-            {
-                models = JsonSerializer.Deserialize<List<ProjectSystemFeatureModel>>(res.Content.ToString());
-            }
+            models = JsonSerializer.Deserialize<List<ProjectSystemFeatureModel>>(JsonSerializer.Serialize(save_models));
+        }else
+        {
+            save_models = JsonSerializer.Deserialize<List<ProjectSystemFeatureModel>>(JsonSerializer.Serialize(models));
         }
+        
+        is_edited = !is_edited;
+        
+    }
 
 }

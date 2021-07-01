@@ -50,9 +50,6 @@ namespace eShareModel
 
         
 
-
-
-
         public decimal total_amount { get; set; }
         public decimal total_credit { get; set; }
         public decimal balance { get; set; }
