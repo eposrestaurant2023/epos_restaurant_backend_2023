@@ -1,95 +1,62 @@
 ﻿@inject IHttpService http
-
+@inject IDialogService Dialog
        <MudPaper Outlined="true" Class="pa-8 mb-2">
           <MudText Typo="Typo.subtitle1" Align="MudBlazor.Align.Center"> No Customer Select</MudText>
            <div class="text-center">
                <MudButton
                    Target="_blank"
-                   Variant="Variant.Outlined"
-                   EndIcon="@Icons.Filled.Search"
+                   Variant="Variant.Filled"
+                   OnClick="OpenDialog"
                    Color="MudBlazor.Color.Tertiary">
-                 Select Customer
+                 Select Customer @Is_Visible
             </MudButton>
            </div>
        </MudPaper>
          @foreach (var p in customers){ 
               <MudCard>
-                <MudCardContent Class="text-center">
-       
-                    <MudAvatar Rounded="true" Color="MudBlazor.Color.Secondary" Class="ma-2" Style="height:70px; width:70px; font-size:2rem;">
-                        <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large"/>
-                    </MudAvatar>
-                    <MudText>
-                        @p.customer_code - @p.customer_name_en (@p.company_name_kh)
-                    </MudText>
-                    <MudText Typo="Typo.body2"> @p.company_name</MudText>
-        
-                </MudCardContent>
+                    <MudCardContent Class="text-center">
+                        <MudAvatar Rounded="true" Color="MudBlazor.Color.Secondary" Class="ma-2" Style="height:70px; width:70px; font-size:2rem;">
+                            <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large"/>
+                        </MudAvatar>
+                        <MudText>
+                            C202133 - Chanthou (Mahob Group)
+                        </MudText>
+                        <MudText Typo="Typo.body2">Mahob Group</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.LocalPhone"/>
+                            <MudIcon Icon="@Icons.Material.Filled.Facebook"/>
+                            <MudIcon Icon="@Icons.Material.Filled.Send"/>
+                            <div>
+                                 <MudButton
+                                   Target="_blank"
+                                   Variant="Variant.Filled"
+                                   Color="MudBlazor.Color.Tertiary">
+                                 Select Customer
+                            </MudButton>
+                            </div>
+                          
+                  </MudCardContent>
+           
+
             </MudCard>
-      }
+            <SelectCustomerList Is_visible="Is_Visible" Is_visibleChanged="@OnClose"/>
 
-
-         <MudSelect T="Guid" Label="Customer" Value="@SelectedValue" Strict="true" Variant="@variant" ValueChanged="@((id) => SelectedValueChange(id))">
-            
-            @if (show_empty)
-            {
-                <MudSelectItem T="Guid" Value="@(Guid.Empty)">@empty_text</MudSelectItem>
-            }
-            @foreach (var p in customers)
-            {
-             
-                <MudSelectItem T="Guid" Value="@p.id">@p.customer_name_en</MudSelectItem>
-            }
-        </MudSelect>
 
         @ChildContent
 @code{
-    [CascadingParameter] public AppState app_state { get; set; }
+
     [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string label { get; set; } = "Customer";
-    [Parameter] public bool show_empty { get; set; } = false;
-    [Parameter] public string empty_text { get; set; } = "Select Customer";
-
-    [Parameter] public string width { get; set; } = "100%";
-    [Parameter] public Variant variant { get; set; } = Variant.Outlined;
-    [Parameter] public Guid selected_value { get; set; } = Guid.Empty;
-    [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
-
-    [Parameter] public CustomerModel customer { get; set; }
-    [Parameter] public EventCallback<CustomerModel> customerChanged { get; set; }
     List<CustomerModel> customers { get; set; } = new List<CustomerModel>();
-
-    public Guid SelectedValue
+    DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true };
+   [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+   bool Is_Visible;
+     private void OpenDialog()
     {
-        get
-        {
-            return customer == null ? selected_value : customer.id;
-        }
+        Is_Visible = true;
     }
 
-    Guid id = Guid.NewGuid();
-
-    protected override async Task OnInitializedAsync()
-    {
-        var res = await http.ApiGetOData("customer?$filter=status eq true and is_deleted eq false&$top=25");
-        if(res.IsSuccess){
-            customers = JsonSerializer.Deserialize<List<CustomerModel>>(res.Content.ToString());
-        }
-    }
-
-    private async Task SelectedValueChange(Guid n)
-    {
-        selected_value = n;
-        await selected_valueChanged.InvokeAsync(selected_value);
-        if (selected_value == Guid.Empty)
-        {
-            await customerChanged.InvokeAsync(new CustomerModel());
-        }
-        else
-        { 
-            await customerChanged.InvokeAsync(customers.Where(r => r.id == selected_value).FirstOrDefault());
-        }
-
-    }
+   void OnClose(){
+       Is_Visible = false;
+   }
+  
 
 }
