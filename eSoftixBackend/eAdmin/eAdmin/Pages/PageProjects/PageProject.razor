@@ -80,10 +80,12 @@
              </td>
              <td>@p.project_type?.project_type_name </td>
              <TdCenter>
-                 @p.closed_date
+                 @if(p.closed_date != null){
+                     @Convert.ToDateTime(p.closed_date).ToString()
+                 }
              </TdCenter>
              <TdCenter>
-                 @p.start_date
+                 @Convert.ToDateTime(p.start_date).ToString(gv.date_format)
              </TdCenter>
               <TdCenter>
                     <LabelDeleted is_visible="@p.is_deleted"/>
