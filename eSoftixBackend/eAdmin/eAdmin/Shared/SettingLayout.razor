@@ -1,16 +1,14 @@
 ﻿@inherits LayoutComponentBase
 @layout MainLayout
-
  <MudToolBar DisableGutters="true" Class="mx-4">
-    <MudText Typo="Typo.h5" Color="MudBlazor.Color.Primary">Settings</MudText>
-     
+    <MudText Typo="Typo.h5" Color="MudBlazor.Color.Primary">Business Branch</MudText>
 </MudToolBar>
 <MudDivider Class="mb-4"/>
- 
+
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
     <MudPaper Elevation="25" Class="d-flex align-center py-1 mb-4">
-        <MudIconButton OnClick="@(() => OpenDrawer())" Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Class="ml-3 mr-2" />
-        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Settings</MudText>
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Class="ml-3 mr-2" />
+        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Business Branch</MudText>
     </MudPaper>
 </MudHidden>
 <div class="d-flex flex-grow-1 flex-row ma-4">
@@ -22,7 +20,6 @@
     </MudHidden>
     <MudPaper Elevation="25" Class="py-4 flex-grow-1">
         
-
         @Body
         
     </MudPaper>
@@ -31,3 +28,4 @@
    
    <SettingNavMenu/>
 </MudDrawer>
+
