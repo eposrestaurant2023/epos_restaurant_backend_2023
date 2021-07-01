@@ -43,7 +43,7 @@
                             <ValidationMessage For="@(() => model.table_group_name_en )" />
                         </TextInput>
                         <TextInput @bind-text="@model.table_group_name_kh" label="Table Group Name Kh" />
-                        <SelectOutlet @bind-selected_value="@model.outlet_id">
+                        <SelectOutlet @bind-selected_value="@model.outlet_id" @bind-outlet="@model.outlet">
                             <ValidationMessage For="@(() => model.outlet_id)" />
                         </SelectOutlet>
                         <ComInputCheckBox @bind-value="@model.status" label="Status" />
@@ -76,6 +76,13 @@
                                 <th>Price Rule</th>
                                 <Th></Th>
                             </tr>
+                            <tr>
+                                <ThAuto>Apply All</ThAuto>
+                                <th>
+                                    <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px"/>
+                                </th>
+                                <th></th>
+                            </tr>
                             @foreach (var s in model.tables.Where(r => r.is_deleted == false).ToList())
                             {
 
@@ -84,7 +91,7 @@
                                         <TextInput label="" @bind-text="@s.table_name" />
                                     </td>
                                     <td>
-                                        @*<SelectPriceRule/>*@
+                                        <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px"/>
                                     </td>
                                     <td>
                                         <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
@@ -121,6 +128,17 @@
     string ControllerApi = "TableGroup";
     bool ShowModel = false;
 
+    private int? _price_rule;
+
+    public int? price_rule
+    {
+        get { return _price_rule; }
+        set {
+            _price_rule = value;
+            model.tables.ForEach(r => r.price_rule_id = _price_rule);
+        }
+    }
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -143,8 +161,8 @@
 
         string api_url = ControllerApi;
         api_url = api_url + $"({id})?";
-        api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false),";
-        api_url = api_url + "tables($select = id,table_name,height,width,position_x_percent,position_y_percent;$filter= is_deleted  eq false)";
+        api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$filter= is_deleted  eq false),";
+        api_url = api_url + "tables($select = id,table_name,height,width,position_x_percent,position_y_percent,price_rule_id;$filter= is_deleted  eq false)";
 
 
         var resp = await http.ApiGet(api_url);
