@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210701075346_fix_db")]
+    partial class fix_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1442,9 +1444,6 @@ namespace eAPI.Migrations
                     b.Property<string>("permission_options")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("sort_order")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");

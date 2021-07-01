@@ -40,6 +40,7 @@ namespace eModels
         public DateTime? closed_date { get; set; }
 
         public bool is_closed { get; set; }
+        public bool is_expired { get; set; }
         public string closed_note { get; set; }
         public string project_code { get; set; }
         public bool is_paid { get; set; }

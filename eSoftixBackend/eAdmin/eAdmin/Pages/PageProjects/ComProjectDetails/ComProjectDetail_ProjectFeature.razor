@@ -1,0 +1,49 @@
+﻿@inject IHttpService http;
+
+<UIPanel Title="System Features">
+    <UIPanelHeaderRight>
+        <MenuButton>
+            <MenuButtonItem icon="@Icons.Material.Filled.Edit">Edit System Feature</MenuButtonItem>
+        </MenuButton>
+    </UIPanelHeaderRight>
+    <UIPanelBody>
+        @if(is_loading){
+            <Spinner/>
+        }else
+        {
+            <MudList Clickable="true">
+            @foreach(var d in models.OrderBy(r=>r.system_feature.sort_order))
+            {
+                <MudListItem>
+                    <MudText Typo="@Typo.subtitle1">@d.system_feature.feature_name</MudText>
+                    <MudText Typo="@Typo.subtitle2">@d.system_feature.feature_description</MudText>
+                    <MudSwitch Checked="@d.status"  Color="MudBlazor.Color.Success" Disabled="true" />
+                  </MudListItem>
+            }
+        </MudList>
+        }
+    </UIPanelBody>
+</UIPanel>
+
+
+@code {
+    [Parameter] public string project_id { get; set; }
+    bool is_loading;
+        List<ProjectSystemFeatureModel> models;
+        protected override async Task OnInitializedAsync()
+        {
+            is_loading = true;
+            await LoadSystemFeature();
+            is_loading = false;
+        }
+
+        public async Task LoadSystemFeature()
+        {
+            var res = await http.ApiGetOData($"ProjectSystemFeature?$expand=system_feature&$filter=project_id eq {project_id}");
+            if (res.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<ProjectSystemFeatureModel>>(res.Content.ToString());
+            }
+        }
+
+}

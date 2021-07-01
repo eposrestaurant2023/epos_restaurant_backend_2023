@@ -1,0 +1,62 @@
+﻿@if(is_visble){ 
+    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined"  Class="my-4">This project will be expire on @expired_date (@duration Day(s)) </MudAlert>    
+}
+
+@code {
+    [Parameter] public ProjectModel model { get; set; }
+    [CascadingParameter] public AppState gv { get; set; }
+
+    
+   
+        public bool is_visble
+        {
+            get
+            {
+ 
+                if (model.expired_date != null )
+                {
+                    int n =duration ;
+                     return n <= 7 && n > 0;
+                    
+                }
+                return false;
+            }
+
+        } 
+    
+   
+        public string expired_date
+        {
+            get
+            {
+
+                string text = "";
+                if (model.expired_date != null)
+                {
+                    DateTime my_date = Convert.ToDateTime(model.expired_date);
+                    text = my_date.ToString(gv.date_format);
+                }
+                return text;
+
+            }
+
+        } 
+        
+        public int duration
+        {
+            get
+            { 
+                if (model.expired_date != null)
+                {
+                    DateTime my_date = Convert.ToDateTime(model.expired_date);
+                    return (int)(my_date - DateTime.Now).TotalDays ;
+                }
+            return 0;
+
+            }
+
+        }
+
+
+
+}
