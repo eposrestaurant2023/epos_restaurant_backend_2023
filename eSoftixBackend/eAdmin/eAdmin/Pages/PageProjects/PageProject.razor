@@ -89,20 +89,23 @@
              </TdCenter>
              <TdCenter>
                  @if(p.closed_date != null){
-                     @Convert.ToDateTime(p.closed_date).ToString()
+                     @Convert.ToDateTime(p.closed_date).ToString(gv.date_format)
                  }
                  
              </TdCenter>
              <TdCenter>
-                     @*@Convert.ToDateTime(p.expired_date).ToString()*@
+                 @if(p.expired_date != null){
+                     @Convert.ToDateTime(p.expired_date).ToString(gv.date_format)
+                 }
+                     
                  
              </TdCenter>
              <TdCenter>
-                    @*<LabelExpiredProject visible="@(p.is == false)"/>*@
+                    @* <LabelExpiredProject visible="@(p.is_expired == false)"/> *@
+                     <LabelFullLicense visible="@(p.is_full_license && !p.is_deleted)"/> 
                     <LabelCloseProject visible="@(p.is_closed && !p.is_deleted)"/>
                     <LabelOpenProject visible="@(!p.is_closed && !p.is_deleted)"/>
-                    
-                  <LabelDeleted is_visible="@p.is_deleted"/>
+                    <LabelDeleted is_visible="@p.is_deleted"/>
              </TdCenter>
              <TdActions>
                 <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("project_view")" is_visible="@(!p.is_deleted)" url="@($"project/{p.id}")">View</TableActionItem>
