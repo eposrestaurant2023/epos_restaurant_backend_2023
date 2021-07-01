@@ -1,0 +1,132 @@
+﻿@inject IHttpService http
+@if (!is_inline)
+{
+    @if (is_horizontal)
+    {
+        <div class="@(is_horizontal ? "uk-form-horizontal" : "")">
+            <div class="uk-margin-small">
+                <label class="uk-form-label" for="@id">@label</label>
+                <div class="uk-form-controls">
+                    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                        @if (show_empty)
+                        {
+                            <option value="0">@empty_text</option>
+                        }
+                        @foreach (var p in sale_type_names)
+                        {
+                            <option value="@p.ToString()">@p.ToString()</option>
+                        }
+                    </select>
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="uk-margin-small">
+            <label class="uk-form-label" for="@id">@label</label>
+            <div class="uk-form-controls">
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
+                    @foreach (var p in sale_type_names)
+                    {
+                        <option value="@p.ToString()">@p.ToString()</option>
+                    }
+                </select>
+                @ChildContent
+            </div>
+        </div>
+    }
+}
+else
+{
+    @if (!is_read_only)
+    {
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+            @foreach (var p in sale_type_names)
+            {
+                <option value="@p.ToString()">@p.ToString()</option>
+            }
+        </select>
+    }
+    else
+    {
+        <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+            @foreach (var p in sale_type_names)
+            {
+                <option value="@p.ToString()">@p.ToString()</option>
+            }
+        </select>
+    }
+    @ChildContent
+
+}
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Sale Type";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
+    [Parameter] public bool is_inline { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Sale Type";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public string selected_value { get; set; } = "";
+    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
+    List<SaleTypeModel> sale_types = new List<SaleTypeModel>();
+    List<string> sale_type_names = new List<string>();
+    bool is_loading = false;
+
+    public string SelectedValue
+    {
+        get
+        {
+
+            return selected_value;
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiGetOData("SaleType");
+        if (resp.IsSuccess)
+        {
+            sale_types = JsonSerializer.Deserialize<List<SaleTypeModel>>(resp.Content.ToString());
+            sale_type_names = sale_types.Select(r => r.sale_type_name).Distinct().ToList();
+        }
+        is_loading = false;
+    }
+
+
+    private async Task SelectedValueChange(string n)
+    {
+        if (n == "0")
+        {
+            await selected_valueChanged.InvokeAsync("");
+        }
+        else
+        {
+            selected_value = n;
+            await selected_valueChanged.InvokeAsync(selected_value);
+        }
+
+    }
+
+}
