@@ -11,9 +11,6 @@
 }
 @if (!is_loading)
 {
-
-
-  
 <PageContainer>
     <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
         <Filter>
@@ -21,12 +18,11 @@
         </Filter>
         <Right>
            
-            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                 <FilterDateRange @bind-dates="@state.date_range"  />
-                <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
+            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" OnFillterClick="@FilterClick">
+
             </ComSearch>
              <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <AddButton roles="@gv.GetRole("project_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("project_add")" OnClick="@(()=>nav.NavigateTo("project/new"))">New</AddButton>
              </MudHidden>
           
         </Right>
@@ -35,106 +31,7 @@
 
        <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" Keyword="@GetFilterValue2(state.filters, "keyword","")" OnRemoveKeywordClick="@OnRemoveKeyword" OnRemoveAllFilterClick="@RemoveAllFilter" />
 
-
-        <Table Items="@projects"
-                PerPage="@state.pager.per_page"
-                TotalItem="@TotalRecord"
-                CurrentPage="@state.pager.current_page"
-                OnPagerChange="@SelectChange"
-                OnPageChange="@ChangePager"
-                isLoading="@is_loading_data"
-                ShowPager="true"
-                ShowCounter="true"
-                EmptyText="There is no customer record.">
-            <TableHeader>
-                @HeaderTemplate("project_name", "Project", "col-auto")
-                @HeaderTemplate("customer_name_en", "Customer", "col-auto")
-                @HeaderTemplate("customer/company_name", "Company", "col-auto")
-                <ThCenter width="130px" OnClick="@(async () => await OrderBy("start_date"))" OrderBy="@(state.pager.order_by == "start_date")" OrderByType="@state.pager.order_by_type" ClassName="@($"cp")">Start Date</ThCenter>
-                <ThCenter width="130px" OnClick="@(async () => await OrderBy("closed_date"))" OrderBy="@(state.pager.order_by == "closed_date")" OrderByType="@state.pager.order_by_type" ClassName="@($"cp")">Closed Date</ThCenter>
-                <Th>
-                    Status
-                </Th>
-                <ThCenter></ThCenter>
-            </TableHeader>
-            <RowTemplate Context="p">
-                <td>
-                  <div style="display:flex;">
-                        <MudAvatar Size="Size.Large" Color="(MudBlazor.Color)p.project_type.color" Variant="Variant.Filled">
-                            <MudIcon Icon="@p.project_type.icon" />
-                        </MudAvatar>
-                        <div style="padding-left:6px">
-                            <AuthView roles="project_view" url="@($"project/{p.id}")">
-                                <MudText Typo="Typo.body1">@p.project_name</MudText>    
-                                <MudText Typo="Typo.caption">@p.project_code</MudText>
-                            </AuthView>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                  <eAdmin.Pages.PageCustomers.ComCustomerCodeName customer="@p.customer" Url="@($"customer/{p.customer_id}")"/>
-                </td>
-                 
-                <td>
-                    @p.customer.company_name_kh
-                </td>
-                <TdCenter>
-                   @p.created_date.ToString(gv.date_format)
-               </TdCenter>
-                 <TdCenter>
-                   @if(p.is_closed){
-                       @Convert.ToDateTime(p.closed_date).ToString(gv.date_format)
-                   }
-               </TdCenter>
-                <TdCenter>
-                    <LabelOpenProject visible="@(!p.is_closed)"/>
-                    <LabelCloseProject visible="@(p.is_closed)"/>
-                    <LabelDeleted is_visible="@p.is_deleted"/>
-                   
-                </TdCenter>
-                <TdActions>
-                        <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("project_view")" is_visible="@(!p.is_deleted)" url="@($"project/{p.id}")">View</TableActionItem>
-                        <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("project_add")" url="@($"project/clone/{p.id}")">Clone</TableActionItem>
-                  </TdActions>
-
-            </RowTemplate>
-        </Table>
-    </PageBody>
-</PageContainer>
-<MudHidden Breakpoint="Breakpoint.MdAndUp">
-    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" />    
-</MudHidden>
-
-}
-
-
-@*@if (!is_loading)
-{
-
-
-  
-<PageContainer>
-    <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
-        <Filter>
-            <ModuleView module_views="@gv.GetModuleView("page_project")" OnClick="@ViewClick" />
-        </Filter>
-        <Right>
-           
-            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true">
-                 <FilterDateRange @bind-dates="@state.date_range"  />
-            </ComSearch>
-             <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <AddButton roles="@gv.GetRole("project_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
-             </MudHidden>
-          
-        </Right>
-    </PageHeader>
-    <PageBody>
-
-       <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" Keyword="@GetFilterValue2(state.filters, "keyword","")" OnRemoveKeywordClick="@OnRemoveKeyword" OnRemoveAllFilterClick="@RemoveAllFilter" />
-
-
-        <Table Items="@projects"
+         <Table Items="@projects"
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"
                 CurrentPage="@state.pager.current_page"
@@ -146,22 +43,58 @@
                 EmptyText="There is no customer record.">
             <TableHeader>
                 <ThAuto>Name</ThAuto>
-                <Th> Project Type</Th> 
                 <ThAuto>Customer</ThAuto>
-                <ThCenter>Close Date</ThCenter>
+                 <Th Width="188px"> Project Type</Th>
+                <ThCenter width="188px">Close Date</ThCenter>
+                <ThCenter width="188px">Start Date</ThCenter>
                 <Th> Status</Th>
                 <ThCenter></ThCenter>
             </TableHeader>
             <RowTemplate Context="p">
              <td>
-                 <MudText> @p.project_code</MudText>
-                 <MudText>@p.project_name</MudText>
+                <div style="display:flex;">
+                        <MudAvatar Size="Size.Medium" Color="(MudBlazor.Color)p.project_type.color" Variant="Variant.Filled">
+                            <MudIcon Icon="@p.project_type.icon" />
+                        </MudAvatar>
+                        <div style="padding-left:6px">
+                            <AuthView roles="project_view" url="@($"project/{p.id}")">
+                                <MudText Typo="Typo.body1">@p.project_code</MudText>    
+                                <MudText Typo="Typo.caption">@p.project_name</MudText>
+                            </AuthView>
+                        </div>
+                </div>
                 
              </td>
-             <td>@p.project_type?.project_type_name </td>
-             <td>
-                @p.customer.customer_name_en
+            <td> 
+                 <div style="display:flex;">
+                        <MudAvatar Image="@(config.GetValue<string>("BaseUrl") + $"upload/{p.customer.photo}")" Size="Size.Medium">
+                        </MudAvatar>
+                        <div style="padding-left:6px">
+                            <AuthView roles="customer_view" url="@($"customer/{p.customer.id}")">
+                                <MudText Typo="Typo.body1">@p.customer.customer_code - @p.customer.customer_name_en</MudText>
+                                  <MudText Typo="Typo.caption">@p.customer.company_name</MudText>
+                            </AuthView>
+                              
+                        </div>
+                    </div>
              </td>
+             <td>@p.project_type?.project_type_name </td>
+             <TdCenter>
+                 @p.closed_date
+             </TdCenter>
+             <TdCenter>
+                 @p.start_date
+             </TdCenter>
+              <TdCenter>
+                    <LabelDeleted is_visible="@p.is_deleted"/>
+                   <LabelActive is_visible="@(p.status == true && p.is_deleted == false )"/>
+                   <LabelInActive  is_visible ="@(p.status == false && p.is_deleted == false )"/>
+                </TdCenter>
+                  <TdActions>
+                        <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("project_view")" is_visible="@(!p.is_deleted)" url="@($"project/{p.id}")">View</TableActionItem>
+                        <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("project_add")" url="@($"project/clone/{p.id}")">Clone</TableActionItem>
+                           
+                  </TdActions>
             </RowTemplate>
         </Table>
     </PageBody>
@@ -171,4 +104,3 @@
 </MudHidden>
 
 }
-*@

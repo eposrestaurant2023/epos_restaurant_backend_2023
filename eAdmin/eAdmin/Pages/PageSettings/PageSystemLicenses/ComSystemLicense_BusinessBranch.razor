@@ -1,76 +1,86 @@
 ﻿@inject IStringLocalizer<Resource> lang
-@inject IHttpService http
 <UIContainerBox Title="@lang["Branch Information"]">
- 
-    @if (!is_loading) {
-        if (models.Any()) {
-            foreach (var b in models.Select(r => r.business_branch?.business_branch_name_en).Distinct().ToList()) {
+
+    @if (models.Any())
+    {
+        foreach (var b in models)
+        {
             <ComAccordion>
                 <Header>
-                    <h5 class="uk-margin-remove-bottom uk-text-bold">@b.ToString()</h5>
+                    <h5 class="uk-margin-remove-bottom uk-text-bold">@b.business_branch_name_en</h5>
                 </Header>
                 <Content>
-                    @foreach (var f in models.Where(r => r.business_branch.business_branch_name_en == b.ToString()).ToList())
-                    {
-                        <ComFeatureList title="@f.system_feature?.feature_name" description="@f.system_feature?.feature_description" status="@f.status" />
-                    }
-                    @foreach (var x in models.Where(r => r.business_branch.business_branch_name_en == b.ToString()).FirstOrDefault().business_branch.outlets.ToList())
-                    {
-                        <div class="text-title uk-margin-small-top">
-                            @x.outlet_name_en
-                        </div>
-                    }
-
-                    @*<Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
-
-            @foreach (var business_id in models.Where(r => r.business_branch.business_branch_name_en == b.ToString()).Select(r => r.business_branch_id).Distinct().ToList())
-            {
-                <p>@JsonSerializer.Serialize(models.Where(r => r.business_branch_id.ToString() == business_id.ToString()).Distinct().Select(r=>r.business_branch))</p>
-            }
-        </Grid>*@
-
-                    @*<div class="text-title uk-margin-small-top">Warehouse</div>
-        <Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
-            @foreach (var bb in models.Where(r => r.business_branch.business_branch_name_en == b.ToString()).Select(r => r.business_branch).ToList())
-            {
-                <Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
-                    @foreach (var s in bb.stock_locations)
-                    {
-                        <div>
-                            <div class="uk-box-shadow-medium uk-padding">
-                                <div class="uk-text-center">@s.stock_location_name</div>
+                   
+                        <ComSystemLicense_BusinessBranchSystemFeature business_branch_id="@(b.id.ToString())"/>
+                   
+                    <h5 class="uk-text-bold uk-margin-small-bottom">Outlet</h5>
+                    <Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
+                        @foreach (var o in b.outlets)
+                        {
+                            <div>
+                                <div class="ui-box-outline uk-padding">
+                                    <h4 class="uk-margin-small-bottom">@o.outlet_name_en</h4>
+                                    <div class="uk-padding-small-left">
+                                        <table class="uk-table uk-table-small uk-margin-remove">
+                                            <thead>
+                                                <tr>
+                                                    <th>Station Name</th>
+                                                    <ThRight>Status</ThRight>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (o.stations.Any())
+                                                {
+                                                    foreach (var s in o.stations)
+                                                    {
+                                                        <tr>
+                                                            <td>@s.station_name_en</td>
+                                                            <TdRight>
+                                                                <ComSystemFeatureStatus is_deleted="@s.is_deleted" is_full_license="@s.is_full_license" expired_date="@s.expired_date" />
+                                                            </TdRight>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                { 
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <div class="uk-text-center">
+                                                                <Icon icon="search" />
+                                                                <br />
+                                                                <p>There is no station</p>
+                                                            </div>
+                                                        </td> 
+                                                    </tr>
+                                                }
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    }
-                </Grid>
-            }
-        </Grid>*@
+                        }
+                    </Grid>
+
+                    <h5 class="uk-text-bold uk-margin-small-bottom">Warehouse</h5>
+                    <Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
+                        @foreach (var s in b.stock_locations)
+                        {
+                            <div>
+                                <div class="ui-box-outline uk-padding-small">
+                                    <h4 class="uk-margin-remove">@s.stock_location_name</h4>
+                                </div>
+                            </div>
+                        }
+                    </Grid>
                 </Content>
             </ComAccordion>
-            }
         }
     }
-    else
-    {
-        <MudSkeleton/>
-    }
+
 </UIContainerBox>
 
 @code {
-    List<BusinessBranchSystemFeatureModel> models = new List<BusinessBranchSystemFeatureModel>();
-    bool is_loading = false;
+    [Parameter] public List<BusinessBranchModel> models { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        is_loading = true;
-        string expand = "system_feature,business_branch($select=id,business_branch_name_en,business_branch_name_kh;" +
-                "$expand=stock_locations,outlets($select=outlet_name_en,outlet_name_kh;" +
-                "$expand=stations($select=station_name_en,station_name_kh,expired_date)))";
-        var resp = await http.ApiGetOData($"BusinessBranchSystemFeature?$expand={expand}");
-        if (resp.IsSuccess)
-        {
-            models = JsonSerializer.Deserialize<List<BusinessBranchSystemFeatureModel>>(resp.Content.ToString());
-        }
-        is_loading = false;
-    }
+
 }

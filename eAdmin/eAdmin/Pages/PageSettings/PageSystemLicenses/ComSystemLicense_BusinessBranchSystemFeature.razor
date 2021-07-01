@@ -1,0 +1,51 @@
+﻿@inject IHttpService http; 
+@if (is_loading)
+{
+    <Spinner/>
+}
+
+@if (models != null)
+{
+    foreach (var f in models)
+    {
+
+<Grid ClassName="uk-grid-small uk-flex-small">
+    <div class="uk-width-expand">
+        <div class="uk-text-bold">@f.system_feature.feature_name</div>
+        <div class="uk-text-small">@f.system_feature.feature_description</div>
+    </div>
+    <div class="uk-width-auto">
+        @if (f.system_feature.status)
+        {
+            <Icon icon="toggle_on" icon_color="#83d21b" size="32px" />
+        }
+        else
+        {
+            <Icon icon="toggle_off" icon_color="#cecece" size="32px" />
+        }
+    </div>
+    <div class="uk-width-1-1 uk-margin-remove">
+        <hr />
+    </div>
+</Grid>
+    }
+}
+@code {
+    [Parameter] public string business_branch_id { get; set; }
+
+
+    List<BusinessBranchSystemFeatureModel> models = new List<BusinessBranchSystemFeatureModel>();
+    bool is_loading = false;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiGetOData($"BusinessBranchSystemFeature?$expand=system_feature&$filter=business_branch_id eq  {business_branch_id.ToString()}");
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<BusinessBranchSystemFeatureModel>>(resp.Content.ToString());
+        }
+
+        is_loading = false;
+    }
+
+}
