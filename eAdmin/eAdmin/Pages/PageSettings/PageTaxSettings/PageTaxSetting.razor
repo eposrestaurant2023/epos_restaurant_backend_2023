@@ -1,0 +1,44 @@
+﻿@page "/setting/taxsetting"
+@inherits PageTaxSettingCore
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@if (!is_loading && !is_error)
+{
+    <Title Value="@($"Tax Setting")"></Title>
+    <PageContainer roles="@gv.GetRole("tax_setting_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Tax Setting"] 
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true"> 
+                @*<RefreshButton OnClick="@LoadData" />*@
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab ClassName="control-header-tab">
+                <TabHeader>
+                    <TabHeaderItem>@lang["Tax Rule Setting"]</TabHeaderItem>
+                </TabHeader>
+                <TabBody>
+                    <TabItem>
+                        <ComTaxRuleSetting />
+                    </TabItem>
+                </TabBody>
+            </Tab>
+        </PageBody>
+    </PageContainer>
+
+   
+
+    
+}
+@if (is_error)
+{
+    <Error title="@lang["Tax Rule"]">
+        @error_text
+    </Error>
+}
+

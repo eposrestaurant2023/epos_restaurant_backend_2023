@@ -1,0 +1,33 @@
+﻿<UIGridCenter>
+    <UIContainerBox Title="@($"Tax 1 :{model.tax_1_name}")">
+        
+    </UIContainerBox>
+</UIGridCenter>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    TaxRuleModel model = new TaxRuleModel();
+    bool is_loading = false;
+
+    protected override void OnInitialized()
+    {
+        model = JsonSerializer.Deserialize<TaxRuleModel>(gv.tax_rule);
+    }
+
+
+    class TaxRuleModel
+    {
+        public string tax_1_name { get; set; }
+        public string tax_2_name { get; set; }
+        public string tax_3_name { get; set; }
+        public bool calc_tax_2_taxable_rate_after_adding_tax_1 { get; set; }
+        public bool calc_tax_3_taxable_rate_after_adding_tax_1 { get; set; }
+        public bool calc_tax_3_taxable_rate_after_adding_tax_2 { get; set; }
+        public bool calc_tax_1_after_adding_discount { get; set; }
+        public bool calc_tax_2_after_adding_discount { get; set; }
+        public bool calc_tax_2_after_adding_tax_1 { get; set; }
+        public bool calc_tax_3_after_adding_discount { get; set; }
+        public bool calc_tax_3_after_adding_tax_1 { get; set; }
+        public bool calc_tax_3_after_adding_tax_2 { get; set; }
+    }
+}
