@@ -3,10 +3,97 @@
 <Loading is_loading="@is_loading"/>
 
 <PageContainer>
-@if(!is_loading){
-    <UICenter>
-        @model?.id
-    </UICenter>
-}
+@if (model != null)
+    {
+        <PageHeader title="@page_title" show_refresh_button="false">
+    <Left>
+        <LabelCloseProject visible="@model.is_closed"/>
+        <LabelCloseProject visible="@(!model.is_closed)"/>
+    </Left>
+    <Right>
+
+        <ComAttachFileButton File="@(new AttachFilesModel(){ project_id = new Guid(id)})" ApiFilter="@($"project_id eq {id}")" Class="mr-2"/>
+
+        
+         <MudHidden Breakpoint="Breakpoint.SmAndDown">
+             <AuthorizeView Roles="@gv.GetRole("project_add")">
+                <MudIconButton Icon="@Icons.Material.Filled.Add" />      
+             </AuthorizeView>
+           
+         </MudHidden>
+        <RefreshButton OnClick="OnRefresh" />
+         <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
+            <MudDivider />
+            </MudHidden>
+            <MenuButtonItem roles="@gv.GetRole("project_edit")" icon="@Icons.Material.Filled.ContentCopy">Close Project</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_edit")" icon="@Icons.Material.Filled.ContentCopy">Reopen Project</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.ContentCopy" url="@($"project/clone/{model.id}")">Clone</MenuButtonItem>
+            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" Link="@($"project/edit/{id}")">Edit</MudMenuItem>
+            <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteProject_Click">Delete</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteProject_Click">Restore</MenuButtonItem>
+    </MenuButton>
+
+
+        
+    </Right>
+</PageHeader>
+    <PageBody>
+        <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+             <MudTabPanel Text="Project Information">
+                 <UICenter>
+
+                    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined"  Class="ma-2">This project will be expire on 7/07/2021 (7 Day(s)) </MudAlert>    
+                    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="ma-2">This project was expired on 6/7/2021 (150 Day(s) ago)</MudAlert>    
+
+                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined"  Class="ma-2"> 
+                        <MudText Typo="Typo.h5" Align="MudBlazor.Align.Center">@model.id</MudText>
+                    </MudAlert>    
+                    
+                    <MudGrid> 
+
+                        <MudItem xs="6" lg="3">
+                            <ComDashboardKPI Title="Branche" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Layers"/>
+                        </MudItem>
+                        <MudItem xs="6" lg="3">
+                            <ComDashboardKPI Title="Warehouse" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.Layers" Value="2"/>
+                        </MudItem>
+                        <MudItem xs="6" lg="3">
+                            <ComDashboardKPI Title="Outlet" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.AttachMoney" Value="4"/>
+                        </MudItem>
+                        <MudItem xs="6" lg="3">
+                            <ComDashboardKPI Title="Station" color="@MudBlazor.Color.Info" Icon="@Icons.Material.Filled.AttachMoney" Value="6"/>
+                        </MudItem>
+                    </MudGrid>
+
+                    <UIPanel Title="Customer Information">
+
+                    </UIPanel>
+                    <UIPanel Title="Project Information">
+
+                    </UIPanel>
+                    <UIPanel Title="Project Features">
+
+                    </UIPanel>
+
+ 
+
+                </UICenter>
+                 
+
+            </MudTabPanel>
+            <MudTabPanel Text="Branches">
+                 
+            </MudTabPanel>
+            <MudTabPanel Text="Comment & History">
+                 
+            </MudTabPanel>
+
+        </MudTabs>
+    </PageBody>
+    }
+
+ 
 
 </PageContainer>
