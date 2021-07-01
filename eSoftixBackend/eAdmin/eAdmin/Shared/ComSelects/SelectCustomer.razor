@@ -8,11 +8,11 @@
                    Variant="Variant.Filled"
                    OnClick="OpenDialog"
                    Color="MudBlazor.Color.Tertiary">
-                 Select Customer @Is_Visible
+                   Select Customer
             </MudButton>
            </div>
        </MudPaper>
-         @foreach (var p in customers){ 
+
               <MudCard>
                     <MudCardContent Class="text-center">
                         <MudAvatar Rounded="true" Color="MudBlazor.Color.Secondary" Class="ma-2" Style="height:70px; width:70px; font-size:2rem;">
@@ -48,7 +48,7 @@
     List<CustomerModel> customers { get; set; } = new List<CustomerModel>();
     DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true };
    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-   bool Is_Visible;
+      bool Is_Visible;
      private void OpenDialog()
     {
         Is_Visible = true;
