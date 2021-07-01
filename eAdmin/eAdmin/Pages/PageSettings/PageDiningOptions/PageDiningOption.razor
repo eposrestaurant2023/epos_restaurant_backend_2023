@@ -98,6 +98,11 @@
 
     async Task Save_Click()
     {
+        if (branches.SelectMany(r => r.sale_types).Where(r => r.is_deleted == false && r.sale_type_name == null).Any())
+        {
+            toast.Add(lang["Please enter sale type name"], MatToastType.Warning);
+            return;
+        }
 
         if (branches.SelectMany(r => r.sale_types).Where(r => r.is_deleted == false && r.sale_type_name.Trim() == "").Any())
         {
