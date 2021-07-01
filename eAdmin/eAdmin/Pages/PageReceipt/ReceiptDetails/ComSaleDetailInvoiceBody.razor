@@ -18,17 +18,17 @@
         <TdCenter>@sp.unit</TdCenter>
         <td class="uk-text-right">@sp.price.ToString(gv.currency_format)</td>
         <td class="uk-text-right">
-            @if (sp.discount <= 0)
+            @if (sp.sale_product_discount_value <= 0)
             {
                 <span>-</span>
             }
             else if (sp.discount_type == "Percent")
             {
-                <span>@((sp.discount / 100).ToString("00.## %"))</span>
+                <span>@((sp.sale_product_discount_value / 100).ToString("00.## %"))</span>
             }
             else
             {
-                <span>@sp.discount.ToString(gv.currency_format)</span>
+                <span>@sp.sale_product_discount_amount.ToString(gv.currency_format)</span>
             }
         </td>
         <td class="uk-text-right">@sp.total_amount.ToString(gv.currency_format)</td>
