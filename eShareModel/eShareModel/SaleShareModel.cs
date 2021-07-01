@@ -41,8 +41,6 @@ namespace eShareModel
         public string sale_discount_type { get; set; } = "Percent"; //Percent and Amount;
         public decimal sale_discount_amount { get; set; }
         public decimal total_discount_amount { get; set; } //sale_product_discount_amount + sale_discount_amount// report must use this column
-      
- 
 
 
         public string discount_code { get; set; }
