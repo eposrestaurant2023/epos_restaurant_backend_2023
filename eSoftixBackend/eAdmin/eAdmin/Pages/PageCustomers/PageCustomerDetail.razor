@@ -6,7 +6,7 @@
     <PageContainer>
         @if(!is_error){
             @if(model != null && !is_loading){
-    <PageHeader>
+    <PageHeader show_refresh_button="false">
         <Left>
               <MudText Typo="Typo.h6">
             @model.customer_code - @model.customer_name_en (@model.customer_name_kh)
@@ -31,6 +31,12 @@
                         <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
                    </MenuButton>
                 </MudHidden>
+                   <MudTooltip Text="More">
+                        <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
+                            <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
+                            <MudMenuItem OnClick="@(()=>ChangeStatus_Click(Guid.Parse(id)))">Status</MudMenuItem>
+                        </MudMenu>
+                    </MudTooltip>
                 <RefreshButton OnClick="@OnRefresh"/>
                       <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
                              <MudHidden Breakpoint="Breakpoint.MdAndUp">
@@ -45,12 +51,7 @@
                                 <MenuButtonItem roles="@gv.GetRole("customer_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteCustomer_Click">Restore</MenuButtonItem>
                       </MenuButton>
 
-                    <MudTooltip Text="More">
-                        <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
-                            <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
-                            <MudMenuItem OnClick="@(()=>ChangeStatus_Click(Guid.Parse(id)))">Status</MudMenuItem>
-                        </MudMenu>
-                    </MudTooltip>
+          
             
                 
 
