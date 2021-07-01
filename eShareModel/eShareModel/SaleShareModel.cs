@@ -59,7 +59,7 @@ namespace eShareModel
         public decimal paid_amount { get; set; }
         public bool is_paid { get; set; }
         public decimal total_cost { get; set; }
-        public decimal total_profit { get; set; }
+        public decimal total_profit { get; set; } //net_sale - total_cost
 
 
 

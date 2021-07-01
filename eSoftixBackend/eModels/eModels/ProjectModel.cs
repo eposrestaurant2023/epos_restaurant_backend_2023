@@ -45,8 +45,23 @@ namespace eModels
         public bool is_paid { get; set; }
         [Column(TypeName = "date")]
         public DateTime? paid_date { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? expired_date { get; set; }
+
+        public bool is_full_license { get; set; }
+
+        public int total_business_branches { get; set; }
+        public int total_outlets { get; set; }
+        public int total_stations { get; set; }
+        public int total_stock_location { get; set; }
+
         public string note { get; set; }
         public string server_id { get; set; }
+
+
+        
+
 
         public List<BusinessBranchModel> business_branches { get; set; }
 
