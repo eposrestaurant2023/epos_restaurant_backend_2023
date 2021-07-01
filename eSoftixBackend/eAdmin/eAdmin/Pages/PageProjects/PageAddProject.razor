@@ -23,7 +23,7 @@
                    <SelectProjectType @bind-selected_value="model.project_type_id"/> 
                   
                    <SelectCustomer @bind-selected_value="model.customer_id"/>
-                    
+                   <CustomerAutoComplete @bind-customer="model.customer"/>
                     <MudTextField Lines="5" @bind-Value="@model.note" Label="Note" Variant="Variant.Text"></MudTextField>
                </UIPanel>
        </UICenter>
