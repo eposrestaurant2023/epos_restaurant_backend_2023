@@ -31,7 +31,7 @@ namespace eAdmin.Pages.PageProjects
 
         public async Task LoadProject()
         {
-            var res = await http.ApiGet($"project({id})");
+            var res = await http.ApiGet($"project({id})?$expand=project_type");
             if (res.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<ProjectModel>(res.Content.ToString());

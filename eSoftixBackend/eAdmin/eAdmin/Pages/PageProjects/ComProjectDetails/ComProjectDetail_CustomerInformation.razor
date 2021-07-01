@@ -1,4 +1,6 @@
 ﻿@inject IHttpService http;
+@inject IConfiguration config;
+@inject NavigationManager nav;
  
 <UIPanel Title="Customer Information">
 <UIPanelHeaderRight>
@@ -11,15 +13,49 @@
         <Spinner/>
     }else
     {
-        @JsonSerializer.Serialize(model)
+        <MudGrid>
+            <MudItem xs="12" md="12" lg="12" Style="text-align:center">
+                <ProfileImage ImageUrl="@(config.GetValue<string>("BaseUrl") + $"upload/{model.photo}")" />
+            </MudItem>
+            <MudItem xs="12" md="12" lg="6">
+            <MudList>
+                    <ListItem Title="Name En">
+                        <MudLink  Href="@($"customer/{model.id}")">
+                            @model.customer_name_en
+                        </MudLink>
+                    
+                </ListItem>
+                <ListItem Title="Name Kh">
+                    <MudLink  Href="@($"customer/{model.id}")">
+                        @model.customer_name_kh
+                    </MudLink>
+                    
+                </ListItem>
+                    <ListItem Title="Gender">@model.gender</ListItem>
+                    <ListItem Title="DOB">@model.date_of_birth.ToString(gv.date_format)</ListItem>
+                    <ListItem Title="Nationality">@model.nationality</ListItem>
+            </MudList>
+            </MudItem>
+            <MudItem xs="12" md="12" lg="6">
+            <MudList>
+                    <ListItem Title="Company">@model.company_name</ListItem>
+                    <ListItem Title="Position">@model.position</ListItem>
+                    <ListItem Title="Phone">@model.phone_1 @((!string.IsNullOrEmpty(model.phone_2)?"/" + model.phone_2:""))  </ListItem>
+                    <ListItem Title="Email">@model.email</ListItem>
+                    <ListItem Title="Telegram">@model.telegram</ListItem>
+                </MudList>
+            </MudItem>
+        </MudGrid>
+       
     }
 </UIPanelBody>
 
 
-                    </UIPanel>
+</UIPanel>
 
 
 @code {
+    [CascadingParameter] public AppState gv {get;set;}
     [Parameter] public string customer_id { get; set; }
     bool is_loading;
         CustomerModel model;
@@ -38,5 +74,9 @@
                 model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
             }
         }
+    void Navigate(Guid id)
+    {
+        nav.NavigateTo($"customer/{id}");
+    }
 
 }
