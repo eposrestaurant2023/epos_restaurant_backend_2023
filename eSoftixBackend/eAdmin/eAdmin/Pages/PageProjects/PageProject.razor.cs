@@ -30,9 +30,7 @@ namespace eAdmin.Pages.PageProjects
 
         public List<ProjectModel> projects = new List<ProjectModel>();
         public ProjectModel model = new ProjectModel();
-
         public string StateKey = "PROJ84567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
-
         public int TotalRecord = 0;
         public bool ShowModal = false;
         public string ModalTitle = "";

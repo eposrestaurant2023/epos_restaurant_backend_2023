@@ -1,4 +1,34 @@
 ﻿@inject IHttpService http
+
+       <MudPaper Outlined="true" Class="pa-8 mb-2">
+          <MudText Typo="Typo.subtitle1" Align="MudBlazor.Align.Center"> No Customer Select</MudText>
+           <div class="text-center">
+               <MudButton
+                   Target="_blank"
+                   Variant="Variant.Outlined"
+                   EndIcon="@Icons.Filled.Search"
+                   Color="MudBlazor.Color.Tertiary">
+                 Select Customer
+            </MudButton>
+           </div>
+       </MudPaper>
+         @foreach (var p in customers)
+              <MudCard>
+                <MudCardContent Class="text-center">
+       
+                    <MudAvatar Rounded="true" Color="MudBlazor.Color.Secondary" Class="ma-2" Style="height:70px; width:70px; font-size:2rem;">
+                        <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large"/>
+                    </MudAvatar>
+                    <MudText>
+                        @p.customer_code - @p.customer_name_en (@p.company_name_kh)
+                    </MudText>
+                    <MudText Typo="Typo.body2"> @p.company_name</MudText>
+        
+                </MudCardContent>
+            </MudCard>
+      }
+
+
          <MudSelect T="Guid" Label="Customer" Value="@SelectedValue" Strict="true" Variant="@variant" ValueChanged="@((id) => SelectedValueChange(id))">
             
             @if (show_empty)

@@ -80,16 +80,18 @@
              </td>
              <td>@p.project_type?.project_type_name </td>
              <TdCenter>
-                 @p.closed_date
+                 @if(p.closed_date != null) {
+                     @Convert.ToDateTime(p.closed_date).ToString(gv.date_format)
+                 }
+                 
              </TdCenter>
              <TdCenter>
-                 @p.start_date
+                  @Convert.ToDateTime(p.start_date).ToString(gv.date_format)
              </TdCenter>
               <TdCenter>
-                    <LabelDeleted is_visible="@p.is_deleted"/>
-                   <LabelActive is_visible="@(p.status == true && p.is_deleted == false )"/>
-                   <LabelInActive  is_visible ="@(p.status == false && p.is_deleted == false )"/>
-                </TdCenter>
+                <LabelCloseProject visible="@(p.is_closed == true)"/>
+                <LabelOpenProject visible="@(p.is_closed == false)"/>
+              </TdCenter>
                   <TdActions>
                         <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("project_view")" is_visible="@(!p.is_deleted)" url="@($"project/{p.id}")">View</TableActionItem>
                         <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("project_add")" url="@($"project/clone/{p.id}")">Clone</TableActionItem>
