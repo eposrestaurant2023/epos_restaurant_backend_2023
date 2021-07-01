@@ -113,10 +113,7 @@ namespace eAdmin.Pages.PageReceipt
             await LoadData();
         }
 
-        public async Task AddNew()
-        {
-            await Task.Delay(100);
-        }
+ 
         public async Task FilterClick()
         {
             state.filters.RemoveAll(r => r.filter_info_text != "");
@@ -246,6 +243,21 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
+            // sale type 
+            if (!string.IsNullOrEmpty(state.sale_type_name))
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "sale_type",
+                    value1 = $"'{state.sale_type_name}'",
+                    filter_title = "Sale Type",
+                    state_property_name = "sale_type",
+                    filter_info_text = state.sale_type_name,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+
             state.pager.current_page = 1;
             await LoadData();
         }
@@ -314,7 +326,11 @@ namespace eAdmin.Pages.PageReceipt
                         state.multi_select_id_2.Clear();
                         state.multi_select_value_2.Clear(); 
                 }
-                    
+                // clear filter sale type
+                if (f.key == "sale_type")
+                {
+                    state.sale_type_name = "";
+                }
 
                 state.filters.RemoveAll(r => r.key == k);
             }
@@ -344,6 +360,12 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
+                }
+
+                // clear filter sale type
+                if (f.key == "sale_type")
+                {
+                    state.sale_type_name = "";
                 }
 
                 RemoveFilter(state, f.state_property_name);

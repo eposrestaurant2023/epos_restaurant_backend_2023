@@ -22,6 +22,9 @@ namespace eModels
         public string page_title { get; set; } = "";
 
         public DateRangeModel date_range { get; set; } = new DateRangeModel(3);
+        public DateRangeModel start_date_range { get; set; } = new DateRangeModel(3);
+        public DateRangeModel close_date_range { get; set; } = new DateRangeModel(3);
+        public DateRangeModel expired_date_range { get; set; } = new DateRangeModel(3);
 
         private ProjectTypeModel _project_type = new ProjectTypeModel();
 

@@ -16,14 +16,22 @@
        <UICenter>
            
                <DataAnnotationsValidator />
+               <UIPanel Title="Customer">
+                     <SelectCustomer @bind-selected_value="model.customer_id"/>
+               </UIPanel>
                <UIPanel Title="General Information">
-                   <MudTextField @bind-Value="@model.project_code" Label="Code" Variant="Variant.Text"></MudTextField>
-                   <MudTextField @bind-Value="@model.project_name" Label="Project Name" Variant="Variant.Text"></MudTextField>
-                   <MudDatePicker Label="Start Date" @bind-Date="@model.start_date"/>
-                   <SelectProjectType @bind-selected_value="model.project_type_id"/> 
-                  
-                   <SelectCustomer @bind-selected_value="model.customer_id"/>
-                    
+                   <UI2Columns>
+                         <Left>  <MudTextField @bind-Value="@model.project_code" Label="Code" Variant="Variant.Text"></MudTextField></Left>
+                         <Right> <MudTextField @bind-Value="@model.project_name" Label="Project Name" Variant="Variant.Text"></MudTextField></Right>
+                   </UI2Columns>
+                   <UI2Columns>
+                       <Left>
+                              <MudDatePicker Label="Start Date" @bind-Date="@model.start_date" />
+                       </Left>
+                       <Right>
+                            <SelectProjectType @bind-selected_value="model.project_type_id" variant="Variant.Text"/> 
+                       </Right>
+                   </UI2Columns>
                     <MudTextField Lines="5" @bind-Value="@model.note" Label="Note" Variant="Variant.Text"></MudTextField>
                </UIPanel>
        </UICenter>

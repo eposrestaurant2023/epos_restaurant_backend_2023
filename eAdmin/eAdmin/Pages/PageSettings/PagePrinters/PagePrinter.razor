@@ -58,9 +58,9 @@
 
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-
-
     List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
+    
+
     bool is_loading,is_saving;
 
     protected override async Task OnInitializedAsync()
@@ -70,7 +70,7 @@
         is_loading = false;
     }
 
-     
+
 
     async Task LoadData()
     {

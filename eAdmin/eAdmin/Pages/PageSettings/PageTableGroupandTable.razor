@@ -38,11 +38,11 @@
                                         </div>
                                         <div class="uk-float-right">
                                             <div>
-                                                <td>
+                                                <div>
                                                     <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
                                                     <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                                </td>
-                                                <td>
+                                                </div>
+                                                <div>
                                                     <div class="uk-flex uk-flex-inline">
                                                         <div style="margin-right:5px;">
                                                             <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
@@ -54,7 +54,7 @@
 
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -62,17 +62,30 @@
 
                                 <hr />
                                 <div>
+                                    <UISummaryBox ImageUrl="@d.photo">
+                                        <ContentLeft>
+                                            <table>
+                                                <tr>
+                                                    <th>@lang["Table Group Name"]</th>
+                                                    <td>@d.table_group_name_en</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@lang["Outlet Name"]</th>
+                                                    <td>@d.outlet?.outlet_name_en</td>
+                                                </tr>
+                                            </table>
+                                        </ContentLeft>
+                                    </UISummaryBox>
+                                    <hr/>
                                     <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                         <tr>
                                             <Th>Table Name</Th>
 
                                         </tr>
-
                                         @foreach (var s in d.tables)
                                         {
                                             <tr>
-
-                                                <td>@s.table_name </td>
+                                                <td>@s.table_name</td>
                                             </tr>
                                         }
 

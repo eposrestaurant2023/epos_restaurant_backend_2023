@@ -19,7 +19,7 @@ namespace eAdmin.Pages.PageProjects
         {
             get
             {
-                return $"project({id})?$expand=project_type($select=icon,color,project_type_name)";
+                return $"project({id})?$expand=project_type($select=icon,color,project_type_name),customer";
             }
         }
 

@@ -1,10 +1,6 @@
 ﻿@page "/tablegroupandtable/new"
 @page "/tablegroupandtable/edit/{id:int}"
- @inject IHttpService http;
-@inject NavigationManager nav;
-@inject IMatToaster toast;
- 
-
+@inherits PageCore
 
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
@@ -37,6 +33,11 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
+                    <UIContainerBox Title="@lang["Table Group Photo"]" ClassName="uk-text-center">
+                        <UIFlexCenter>
+                            <FileUpload @bind-ImageUrl="@model.photo" />
+                        </UIFlexCenter>
+                    </UIContainerBox>
                     <UIContainerBox Title="Table Group Infor">
                         <TextInput @bind-text="@model.table_group_name_en" label="Table Group Name En">
                             <ValidationMessage For="@(() => model.table_group_name_en )" />
@@ -65,18 +66,14 @@
                                 <TextInput label="Format" @bind-text="@number_format" placeholder="Format" />
                             </div>
                         </div>
-                        <Spacing Number="10"/>
+                        <Spacing Number="10" />
                         <div class="uk-width-1">
                             <Button type="button" OnClick="@Add_Table">Add Table</Button>
                         </div>
-                      
-                       
-                      
-                     
-                     
                         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
-                                <Th>Table No</Th>
+                                <ThAuto>Table No</ThAuto>
+                                <th>Price Rule</th>
                                 <Th></Th>
                             </tr>
                             @foreach (var s in model.tables.Where(r => r.is_deleted == false).ToList())
@@ -87,9 +84,11 @@
                                         <TextInput label="" @bind-text="@s.table_name" />
                                     </td>
                                     <td>
+                                        @*<SelectPriceRule/>*@
+                                    </td>
+                                    <td>
                                         <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
                                     </td>
-
                                 </tr>
                             }
                         </table>
@@ -102,7 +101,7 @@
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ComSavingFormButton is_loading="@is_saving" cancel_url="tablegroupandtable"/>
+                    <ComSavingFormButton is_loading="@is_saving" cancel_url="tablegroupandtable" />
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -111,26 +110,17 @@
 }
 
 @code{
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int id { get; set; }
     TableGroupModel model = new TableGroupModel();
- 
- 
 
     string prefix = "T";
     string number_format = "00";
     int min = 1;
     int max = 10;
-    bool is_loading,is_loading_data,is_saving;
-
-    public Dictionary<string, object> formAttributes { get; set; } = new Dictionary<string, object>()
-        {
-                { "class", "uk-form-horizontal" }
-        };
 
     string ControllerApi = "TableGroup";
     bool ShowModel = false;
- 
+
 
     protected override async Task OnInitializedAsync()
     {

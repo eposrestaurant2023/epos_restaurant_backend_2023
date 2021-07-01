@@ -1,5 +1,5 @@
-﻿<th class="table-header @TextAlign @ClassName" @onclick="@OnClick" style="width:@Width">
-    <div class="d-flex align-center">
+﻿<th class="table-header @TextAlign @ClassName" @onclick="@OnClick" style="min-width:@Width">
+    <div class="d-flex align-center"
             <div>
              @ChildContent</div>
             <div style="margin-top: 6px;margin-left: 3px;">
@@ -13,7 +13,7 @@
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string TextAlign { get; set; } = "";
-    [Parameter] public string Width { get; set; } = "";
+    [Parameter] public string Width { get; set; } = "170px";
     [Parameter] public string OrderByType { get; set; } = "";
     [Parameter] public string ClassName { get; set; } = "";
     [Parameter] public bool OrderBy { get; set; } = false;

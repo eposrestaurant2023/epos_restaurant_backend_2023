@@ -18,8 +18,12 @@
         </Filter>
         <Right>
            
-            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" OnFillterClick="@FilterClick">
-
+            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                <FilterDateRange SwitchLabel="Filter Start Date" @bind-dates="@state.start_date_range" label="Start Date"/>
+                <FilterDateRange  SwitchLabel="Filter Close Date" @bind-dates="@state.close_date_range"  label="Close Date" />
+                <FilterDateRange  SwitchLabel="Filter Expired Date" @bind-dates="@state.expired_date_range"  label="Expired Date" />
+                <SelectProjectType  @bind-project_type="@state.project_type"  show_empty="true" empty_text="Select Project Type" />
+                
             </ComSearch>
              <MudHidden Breakpoint="Breakpoint.SmAndDown">
                 <AddButton roles="@gv.GetRole("project_add")" OnClick="@(()=>nav.NavigateTo("project/new"))">New</AddButton>
@@ -42,11 +46,12 @@
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-                <ThAuto>Name</ThAuto>
-                <ThAuto>Customer</ThAuto>
-                 <Th Width="188px"> Project Type</Th>
-                <ThCenter width="188px">Close Date</ThCenter>
-                <ThCenter width="188px">Start Date</ThCenter>
+                @HeaderTemplate("project_name","Project","col-auto")
+                @HeaderTemplate("customer/customer_name_en","Customer","col-auto")
+                @HeaderTemplate("project_type/project_type_name","Project Type")
+                @HeaderTemplate("start_date", "Start Date","text-center")
+                @HeaderTemplate("closed_date", "Close Date","text-center")
+                @HeaderTemplate("expired_date", "Expired Date","text-center")
                 <Th> Status</Th>
                 <ThCenter></ThCenter>
             </TableHeader>
@@ -80,27 +85,36 @@
              </td>
              <td>@p.project_type?.project_type_name </td>
              <TdCenter>
-                 @p.closed_date
+                 @Convert.ToDateTime(p.start_date).ToString(gv.date_format)
              </TdCenter>
              <TdCenter>
-                 @p.start_date
+                 @if(p.closed_date != null){
+                     @Convert.ToDateTime(p.closed_date).ToString()
+                 }
+                 
              </TdCenter>
-              <TdCenter>
-                    <LabelDeleted is_visible="@p.is_deleted"/>
-                   <LabelActive is_visible="@(p.status == true && p.is_deleted == false )"/>
-                   <LabelInActive  is_visible ="@(p.status == false && p.is_deleted == false )"/>
-                </TdCenter>
-                  <TdActions>
-                        <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("project_view")" is_visible="@(!p.is_deleted)" url="@($"project/{p.id}")">View</TableActionItem>
-                        <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("project_add")" url="@($"project/clone/{p.id}")">Clone</TableActionItem>
+             <TdCenter>
+                     @*@Convert.ToDateTime(p.expired_date).ToString()*@
+                 
+             </TdCenter>
+             <TdCenter>
+                    @*<LabelExpiredProject visible="@(p.is == false)"/>*@
+                    <LabelCloseProject visible="@(p.is_closed && !p.is_deleted)"/>
+                    <LabelOpenProject visible="@(!p.is_closed && !p.is_deleted)"/>
+                    
+                  <LabelDeleted is_visible="@p.is_deleted"/>
+             </TdCenter>
+             <TdActions>
+                <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("project_view")" is_visible="@(!p.is_deleted)" url="@($"project/{p.id}")">View</TableActionItem>
+                <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("project_add")" url="@($"project/clone/{p.id}")">Clone</TableActionItem>
                            
-                  </TdActions>
+             </TdActions>
             </RowTemplate>
         </Table>
     </PageBody>
 </PageContainer>
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
-    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"customer/new")"/>    
+    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"project/new")"/>    
 </MudHidden>
 
 }

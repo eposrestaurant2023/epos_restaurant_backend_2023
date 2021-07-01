@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210701041328_sale_update_tax")]
+    partial class sale_update_tax
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3385,9 +3387,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_build_in")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("is_order_use_table")
                         .HasColumnType("bit");
 
@@ -4056,9 +4055,6 @@ namespace eAPI.Migrations
                     b.Property<double>("position_y_percent")
                         .HasColumnType("float");
 
-                    b.Property<int?>("price_rule_id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -4074,8 +4070,6 @@ namespace eAPI.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("id");
-
-                    b.HasIndex("price_rule_id");
 
                     b.HasIndex("table_group_id");
 
@@ -5350,7 +5344,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.SaleTypeModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("sale_types")
+                        .WithMany()
                         .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -5504,17 +5498,11 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.TableModel", b =>
                 {
-                    b.HasOne("eModels.PriceRuleModel", "price_rule")
-                        .WithMany()
-                        .HasForeignKey("price_rule_id");
-
                     b.HasOne("eModels.TableGroupModel", "table_group")
                         .WithMany("tables")
                         .HasForeignKey("table_group_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("price_rule");
 
                     b.Navigation("table_group");
                 });
@@ -5606,8 +5594,6 @@ namespace eAPI.Migrations
                     b.Navigation("outlets");
 
                     b.Navigation("printers");
-
-                    b.Navigation("sale_types");
 
                     b.Navigation("stock_locations");
                 });

@@ -63,19 +63,16 @@ namespace eShareModel
 
 
 
-        //Tax
-        public decimal taxable_amount { get; set; }
+        //Tax 
         public decimal tax_1_rate { get; set; }
-        public decimal tax_1_amount { get; set; }
-        public decimal tax_1_taxable_amount { get; set; }
+        public decimal tax_1_amount { get; set; } 
 
         public decimal tax_2_rate { get; set; }
-        public decimal tax_2_amount { get; set; }
-        public decimal tax_2_taxable_amount { get; set; }
+        public decimal tax_2_amount { get; set; } 
 
         public decimal tax_3_rate { get; set; }
-        public decimal tax_3_amount { get; set; }
-        public decimal tax_3_taxable_amount { get; set; }
+        public decimal tax_3_amount { get; set; }  
+        public decimal total_tax_amount { get; set; }
 
 
         //Other 
