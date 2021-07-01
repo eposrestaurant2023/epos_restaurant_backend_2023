@@ -16,10 +16,7 @@
 
         
          <MudHidden Breakpoint="Breakpoint.SmAndDown">
-             <AuthorizeView Roles="@gv.GetRole("project_add")">
-                <MudIconButton Icon="@Icons.Material.Filled.Add" />      
-             </AuthorizeView>
-           
+                <AddButton roles="@gv.GetRole("project_add")" url="project/new"/>
          </MudHidden>
         <RefreshButton OnClick="OnRefresh" />
          <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
@@ -50,13 +47,31 @@
                  
             </MudTabPanel>
             <MudTabPanel Text="Comment & History">
-                 
+                 <ComHistory 
+                        
+                        history="@(new HistoryModel() { project_id = new Guid(id),user_id = gv.current_login_user.id })"
+                        ApiFilter="@($"project_id eq {id}")"
+                       />
             </MudTabPanel>
 
         </MudTabs>
+
+        <div>
+            <MudText Typo="@Typo.body1">Opened by: @model.created_by on @model.created_date.ToString(gv.date_time_format)</MudText>
+            @if(model.is_closed){
+                <MudText Typo="@Typo.body1">Closed by: @model.closed_by on @(((DateTime)model.created_date).ToString(gv.date_format))</MudText>
+            }
+            
+        </div>
     </PageBody>
     }
 
  
 
 </PageContainer>
+<AuthorizeView Roles="@gv.GetRole("project_add")">
+
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"project/new")"/>    
+    </MudHidden>
+</AuthorizeView>

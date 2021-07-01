@@ -59,6 +59,7 @@ namespace eModels
 
         public string note { get; set; }
         public string server_id { get; set; }
+        public string closed_by { get; set; }
 
 
         

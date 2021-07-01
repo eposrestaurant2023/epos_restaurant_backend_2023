@@ -22,7 +22,7 @@
                 <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
             </ComSearch>
              <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))"/>
              </MudHidden>
           
         </Right>
