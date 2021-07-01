@@ -50,7 +50,7 @@ namespace eAdmin.Pages.PageProjects
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?$expand=customer($select=id,customer_code,customer_name_en,photo,company_name,company_name_kh,),project_type($select=id,project_type_name,icon,color)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                string url = $"{controller_api}?$expand=customer($select=id,customer_code,customer_name_en,photo,company_name,company_name_kh),project_type($select=id,project_type_name,icon,color)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters);
             }
         }
@@ -163,6 +163,110 @@ namespace eAdmin.Pages.PageProjects
             }
         }
 
+        public async Task FilterClick(string keyword)
+        {
+            state.filters.RemoveAll(r => r.filter_info_text != "");
+            SetFilterValue2(state.filters, "keyword", keyword);
+            if (state.start_date_range.is_visible)
+            {
+                state.filters.Add(
+                    new FilterModel()
+                    {
+                        key = "start_date",
+                        value1 = string.Format("{0:yyyy-MM-dd}", state.start_date_range.start_date),
+                        filter_title = "Start Date",
+                        filter_info_text = Convert.ToDateTime(state.start_date_range.start_date).ToString(gv.date_format) + " - " + Convert.ToDateTime(state.start_date_range.end_date).ToString(gv.date_format),
+                        filter_operator = "Ge",
+                        is_clear_all = true,
+                        will_remove = true,
+                        state_property_name = "date_range"
+                    }
+                );
+
+                //end date
+                state.filters.Add(new FilterModel()
+                {
+                    key = "start_date",
+                    value1 = string.Format("{0:yyyy-MM-dd}", state.start_date_range.end_date),
+                    is_clear_all = true,
+                    filter_operator = "Le",
+                    will_remove = true,
+                    state_property_name = "date_range"
+                });
+            }
+            if (state.close_date_range.is_visible)
+            {
+                state.filters.Add(
+                    new FilterModel()
+                    {
+                        key = "close_date",
+                        value1 = string.Format("{0:yyyy-MM-dd}", state.close_date_range.start_date),
+                        filter_title = "Close Date",
+                        filter_info_text = Convert.ToDateTime(state.close_date_range.start_date).ToString(gv.date_format) + " - " + Convert.ToDateTime(state.close_date_range.end_date).ToString(gv.date_format),
+                        filter_operator = "Ge",
+                        is_clear_all = true,
+                        will_remove = true,
+                        state_property_name = "date_range"
+                    }
+                );
+
+                //end date
+                state.filters.Add(new FilterModel()
+                {
+                    key = "close_date",
+                    value1 = string.Format("{0:yyyy-MM-dd}", state.close_date_range.end_date),
+                    is_clear_all = true,
+                    filter_operator = "Le",
+                    will_remove = true,
+                    state_property_name = "date_range"
+                });
+            }
+            if (state.expired_date_range.is_visible)
+            {
+                state.filters.Add(
+                    new FilterModel()
+                    {
+                        key = "expired_date",
+                        value1 = string.Format("{0:yyyy-MM-dd}", state.expired_date_range.start_date),
+                        filter_title = "Expired Date",
+                        filter_info_text = Convert.ToDateTime(state.expired_date_range.start_date).ToString(gv.date_format) + " - " + Convert.ToDateTime(state.expired_date_range.end_date).ToString(gv.date_format),
+                        filter_operator = "Ge",
+                        is_clear_all = true,
+                        will_remove = true,
+                        state_property_name = "date_range"
+                    }
+                );
+
+                //end date
+                state.filters.Add(new FilterModel()
+                {
+                    key = "expired_date",
+                    value1 = string.Format("{0:yyyy-MM-dd}", state.expired_date_range.end_date),
+                    is_clear_all = true,
+                    filter_operator = "Le",
+                    will_remove = true,
+                    state_property_name = "date_range"
+                });
+            }
+
+
+            if (state.customer_group != null && state.customer_group.id > 0)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "customer_group_id",
+                    value1 = state.customer_group.id.ToString(),
+                    filter_title = "Customer Group",
+                    state_property_name = "customer_group",
+                    filter_info_text = state.customer_group.customer_group_name_en,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
+            state.pager.current_page = 1;
+            await LoadData();
+        }
+
         public async Task OnDelete(ProjectModel p)
         {
             p.is_loading = true;
@@ -207,56 +311,6 @@ namespace eAdmin.Pages.PageProjects
         public async Task SelectChange(int perpage)
         {
             state.pager.per_page = perpage;
-            state.pager.current_page = 1;
-            await LoadData();
-        }
-
-        public async Task FilterClick(string keyword)
-        {
-            state.filters.RemoveAll(r => r.filter_info_text != "");
-            SetFilterValue2(state.filters, "keyword", keyword);
-            if (state.date_range.is_visible)
-            {
-                state.filters.Add(
-                    new FilterModel()
-                    {
-                        key = "created_date",
-                        value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "Register Date",
-                        filter_info_text = Convert.ToDateTime(state.date_range.start_date).ToString(gv.date_format) + " - " + Convert.ToDateTime(state.date_range.end_date).ToString(gv.date_format),
-                        filter_operator = "Ge",
-                        is_clear_all = true,
-                        will_remove = true,
-                        state_property_name = "date_range"
-                    }
-                );
-
-                //end date
-                state.filters.Add(new FilterModel()
-                {
-                    key = "created_date",
-                    value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
-                    is_clear_all = true,
-                    filter_operator = "Le",
-                    will_remove = true,
-                    state_property_name = "date_range"
-                });
-            }
-
-
-            if (state.project_type != null && state.project_type.id > 0)
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "project_type_id",
-                    value1 = state.project_type.id.ToString(),
-                    filter_title = "Project Type",
-                    state_property_name = "project_type",
-                    filter_info_text = state.project_type.project_type_name,
-                    is_clear_all = true,
-                    will_remove = true
-                });
-            }
             state.pager.current_page = 1;
             await LoadData();
         }
