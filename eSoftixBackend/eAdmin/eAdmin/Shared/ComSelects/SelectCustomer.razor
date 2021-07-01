@@ -1,0 +1,62 @@
+﻿@inject IHttpService http
+@inject IDialogService Dialog
+       <MudPaper Outlined="true" Class="pa-8 mb-2">
+          <MudText Typo="Typo.subtitle1" Align="MudBlazor.Align.Center"> No Customer Select</MudText>
+           <div class="text-center">
+               <MudButton
+                   Target="_blank"
+                   Variant="Variant.Filled"
+                   OnClick="OpenDialog"
+                   Color="MudBlazor.Color.Tertiary">
+                   Select Customer
+            </MudButton>
+           </div>
+       </MudPaper>
+
+              <MudCard>
+                    <MudCardContent Class="text-center">
+                        <MudAvatar Rounded="true" Color="MudBlazor.Color.Secondary" Class="ma-2" Style="height:70px; width:70px; font-size:2rem;">
+                            <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large"/>
+                        </MudAvatar>
+                        <MudText>
+                            C202133 - Chanthou (Mahob Group)
+                        </MudText>
+                        <MudText Typo="Typo.body2">Mahob Group</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.LocalPhone"/>
+                            <MudIcon Icon="@Icons.Material.Filled.Facebook"/>
+                            <MudIcon Icon="@Icons.Material.Filled.Send"/>
+                            <div>
+                                 <MudButton
+                                   Target="_blank"
+                                   Variant="Variant.Filled"
+                                   Color="MudBlazor.Color.Tertiary">
+                                 Select Customer
+                            </MudButton>
+                            </div>
+                          
+                  </MudCardContent>
+           
+
+            </MudCard>
+            <SelectCustomerList Is_visible="Is_Visible" Is_visibleChanged="@OnClose"/>
+
+
+        @ChildContent
+@code{
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    List<CustomerModel> customers { get; set; } = new List<CustomerModel>();
+    DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true };
+   [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+      bool Is_Visible;
+     private void OpenDialog()
+    {
+        Is_Visible = true;
+    }
+
+   void OnClose(){
+       Is_Visible = false;
+   }
+  
+
+}

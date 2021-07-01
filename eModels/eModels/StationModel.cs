@@ -37,5 +37,15 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime expired_date { get; set; }
 
+    
+        public decimal tax_1_taxable_rate { get; set; } = 1;
+        public decimal tax_2_taxable_rate { get; set; } = 1;
+        public decimal tax_3_taxable_rate { get; set; } = 1;
+
+        public decimal tax_1_rate { get; set; } = 1; 
+        public decimal tax_2_rate { get; set; } = 1;
+        public decimal tax_3_rate { get; set; } = 1;
+
+
     }
 }

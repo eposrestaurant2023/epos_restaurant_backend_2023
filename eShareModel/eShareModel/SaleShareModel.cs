@@ -37,10 +37,11 @@ namespace eShareModel
         //Discount
         public decimal discountable_amount { get; set; } 
         public decimal sale_product_discount_amount { get; set; }
-        public decimal discount { get; set; } = 0;
-        public decimal discount_amount { get; set; }
-        public decimal total_discount { get; set; }
-        public string discount_type { get; set; } = "Percent"; //Percent and Amount;
+        public decimal sale_discount_value { get; set; } = 0;
+        public string sale_discount_type { get; set; } = "Percent"; //Percent and Amount;
+        public decimal sale_discount_amount { get; set; }
+        public decimal total_discount_amount { get; set; } //sale_product_discount_amount + sale_discount_amount// report must use this column
+
 
         public string discount_code { get; set; }
         public string discount_note { get; set; }
@@ -49,32 +50,26 @@ namespace eShareModel
 
         
 
-
-
-
         public decimal total_amount { get; set; }
         public decimal total_credit { get; set; }
         public decimal balance { get; set; }
         public decimal paid_amount { get; set; }
         public bool is_paid { get; set; }
         public decimal total_cost { get; set; }
-        public decimal total_profit { get; set; }
+        public decimal total_profit { get; set; } //net_sale - total_cost
 
 
 
-        //Tax
-        public decimal taxable_amount { get; set; }
+        //Tax 
         public decimal tax_1_rate { get; set; }
-        public decimal tax_1_amount { get; set; }
-        public decimal tax_1_taxable_amount { get; set; }
+        public decimal tax_1_amount { get; set; } 
 
         public decimal tax_2_rate { get; set; }
-        public decimal tax_2_amount { get; set; }
-        public decimal tax_2_taxable_amount { get; set; }
+        public decimal tax_2_amount { get; set; } 
 
         public decimal tax_3_rate { get; set; }
-        public decimal tax_3_amount { get; set; }
-        public decimal tax_3_taxable_amount { get; set; }
+        public decimal tax_3_amount { get; set; }  
+        public decimal total_tax_amount { get; set; }
 
 
         //Other 

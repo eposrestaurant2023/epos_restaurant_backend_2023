@@ -1,0 +1,35 @@
+﻿<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+    <tr>
+        <ThAuto>Sale Type Name</ThAuto>
+        <th></th>
+    </tr>
+    @foreach(var p in sale_types.Where(r=>r.is_deleted == false).ToList())
+    {
+        <tr>
+            <td>
+            <TextInput @bind-text="@p.sale_type_name" placeholder="Sale Type Name" is_read_only="@p.is_build_in"/>
+            </td>
+            <TdCenter>
+                <Icon icon="delete" OnClick="@(()=>Delete(p))" is_visible="@(!p.is_build_in)"/>
+            </TdCenter>
+        </tr>
+    }
+</table>
+
+@code {
+    [Parameter] public List<SaleTypeModel> sale_types { get; set; }
+    [Parameter] public SaleTypeModel sale_type { get; set; }
+    [Parameter] public EventCallback<SaleTypeModel> sale_typeChanged { get; set; }
+
+    void Delete(SaleTypeModel p)
+    {
+        if (p.id == Guid.Empty)
+        {
+            sale_types.Remove(p);
+        }
+        else
+        {
+            p.is_deleted = true;
+        }
+    }
+}

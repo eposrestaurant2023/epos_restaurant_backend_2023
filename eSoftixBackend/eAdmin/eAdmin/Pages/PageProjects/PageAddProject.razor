@@ -1,0 +1,52 @@
+﻿@page "/project/new"
+@page "/project/edit/{id}"
+@page "/project/clone/{clone_id}"
+@inherits PageAddProjects
+
+<Loading is_loading="is_loading"/>
+@if(!is_loading){
+<PageContainer>
+
+        <PageHeader title="@page_title" show_back_button="true" show_refresh_button="false">
+        
+    </PageHeader>
+    <PageBody>
+        
+        <EditForm Model="@model" OnValidSubmit="@Save_Click">
+       <UICenter>
+           
+               <DataAnnotationsValidator />
+               <UIPanel Title="Customer">
+                     <SelectCustomer/>
+               </UIPanel>
+               <UIPanel Title="General Information">
+                   <UI2Columns>
+                         <Left>  <MudTextField @bind-Value="@model.project_code" Label="Code" Variant="Variant.Text"></MudTextField></Left>
+                         <Right> <MudTextField @bind-Value="@model.project_name" Label="Project Name" Variant="Variant.Text"></MudTextField></Right>
+                   </UI2Columns>
+                   <UI2Columns>
+                       <Left>
+                              <MudDatePicker Label="Start Date" @bind-Date="@model.start_date" />
+                       </Left>
+                       <Right>
+                            <SelectProjectType @bind-selected_value="model.project_type_id" variant="Variant.Text"/> 
+                       </Right>
+                   </UI2Columns>
+                    <MudTextField Lines="5" @bind-Value="@model.note" Label="Note" Variant="Variant.Text"></MudTextField>
+               </UIPanel>
+       </UICenter>
+       <PageFooter>
+           <Center>
+               <MudButton Disabled="@model.is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save
+                @if(model.is_saving){
+                    <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
+                }
+                </MudButton>
+                <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button">Cancel</MudButton>
+           </Center>
+       </PageFooter>
+        </EditForm>
+    </PageBody>
+</PageContainer>
+}
+

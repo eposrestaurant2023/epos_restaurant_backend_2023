@@ -1,5 +1,6 @@
 ﻿@page "/systemlicense"
 @inject IStringLocalizer<Resource> lang
+@inject IHttpService http
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
@@ -15,39 +16,50 @@
             </HeaderLeft>
         </PageHeader>
 
-            <PageBody>
-                <UIGridCenter>
-                    <UIContainerBox Title="@lang["Business ID"]"> 
-                        <ComAlert type="primary">
-                            <div class="uk-padding">
-                                <h4 class="uk-margin-remove uk-text-center">@gv.project_id</h4>
-                            </div>
-                        </ComAlert>
-                        <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
-                            <div class="uk-width-1-2 uk-width-1-4@m">
-                                <UIBoxKpi value="3" title="Warehouse"/>
-                            </div>
-
-                            <div class="uk-width-1-2 uk-width-1-4@m">
-                                <UIBoxKpi value="3" title="Warehouse" />
-                            </div>
-                            <div class="uk-width-1-2 uk-width-1-4@m">
-                                <UIBoxKpi value="3" title="Warehouse" />
-                            </div>
-                            <div class="uk-width-1-2 uk-width-1-4@m">
-                                <UIBoxKpi value="3" title="Warehouse" />
-                            </div>
+        <PageBody>
+            <UIGridCenter>
+                <UIContainerBox Title="@lang["Business ID"]">
+                    <ComAlert type="primary">
+                        <div class="uk-padding">
+                            <h4 class="uk-margin-remove uk-text-center">@gv.project_id</h4>
                         </div>
-                    </UIContainerBox>
-                    <ComSystemLicense_BusinessInformation />
-                    <ComSystemLicense_SystemFeature />
-                    <ComSystemLicense_BusinessBranch/>
-                </UIGridCenter>
-            </PageBody>
+                    </ComAlert>
+                    <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
+                        <div class="uk-width-1-2 uk-width-1-4@m">
+                            <UIBoxKpi value="@models.Count().ToString()" title="Branches" />
+                        </div>
+
+                        <div class="uk-width-1-2 uk-width-1-4@m">
+                            <UIBoxKpi value="@models.SelectMany(r=>r.stock_locations).Count().ToString()" title="Warehouses" />
+                        </div>
+                        <div class="uk-width-1-2 uk-width-1-4@m">
+                            <UIBoxKpi value="@models.SelectMany(r=>r.outlets).Count().ToString()" title="Outlets" />
+                        </div>
+                        <div class="uk-width-1-2 uk-width-1-4@m">
+                            <UIBoxKpi value="@models.SelectMany(r=>r.outlets).SelectMany(x=>x.stations).Count().ToString()" title="Stations" />
+                        </div>
+                    </div>
+                </UIContainerBox>
+                <ComSystemLicense_BusinessInformation />
+                <ComSystemLicense_SystemFeature />
+                <ComSystemLicense_BusinessBranch models="@models"/>
+            </UIGridCenter>
+        </PageBody>
     </PageContainer>
 }
 
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    List<BusinessBranchModel> models = new List<BusinessBranchModel>();
     bool is_loading = false;
+    protected override async Task OnInitializedAsync()
+    {
+       
+        var resp = await http.ApiGetOData($"BusinessBranch?$expand=outlets($filter=is_deleted eq false;$expand=stations($filter=is_deleted eq false)),stock_locations&$filter=is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
 }

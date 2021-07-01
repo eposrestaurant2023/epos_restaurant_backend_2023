@@ -60,15 +60,24 @@ namespace eShareModel
         public decimal quantity { get; set; } 
         public decimal sub_total { get; set; }
 
-        public decimal discount { get; set; }
-        public string  discount_type { get; set; }
-        public decimal discount_amount { get; set; }
+
+        //Discount
+        public decimal sale_product_discount_value { get; set; }
+        public string  sale_product_discount_type { get; set; }
+        public decimal sale_product_discount_amount { get; set; } //show in receipt only
+        public decimal sale_discount_value { get; set; } //percent only
+        public decimal sale_discount_amount { get; set; }  
+        public decimal total_discount_amount { get; set; }  //sale product discount amount + sale_discount_amount //report must use this column
+
         public decimal total_amount { get; set; }
+
         public decimal net_sale { get; set; } //net sale is sub toal - discount
+
+ 
 
 
         //Tax
- 
+
         public decimal tax_1_rate { get; set; }
         public decimal tax_1_amount { get; set; }
         public decimal tax_1_taxable_amount { get; set; }

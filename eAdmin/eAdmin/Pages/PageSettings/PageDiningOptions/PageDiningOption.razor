@@ -1,0 +1,131 @@
+﻿@page "/setting/diningoption"
+@inject IHttpService http;
+@inject IMatToaster toast;
+@inject IStringLocalizer<Resource> lang
+<Loading is_loading="@(is_loading || is_saving)" />
+@if (!is_loading)
+{
+   
+    <Title Value="@lang["Dining Option"]"></Title>
+    <PageContainer roles="@gv.GetRole("dining_option_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Dining Option"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <RefreshButton OnClick="@OnInitializedAsync" />
+            </HeaderRight>
+        </PageHeader>
+
+        <PageBody>
+            <UIGridCenter>
+                @if (branches.Any())
+                {
+                    @foreach (var b in branches)
+                    {
+                        <ComAccordion>
+                            <Header>
+                                @b.business_branch_name_en
+                            </Header>
+                            <Content>
+                                <ComDiningOption sale_types="@b.sale_types" sale_typeChanged="@OnDeleted" />
+                                <hr />
+                                <Button OnClick="@(()=>Add(b))">@lang["Add Sale Types"]</Button>
+                            </Content>
+                        </ComAccordion>
+
+                    }
+                }
+                else
+                {
+                    <ComAlert type="warning">@lang["There is no business branch"]</ComAlert>
+                }
+            </UIGridCenter>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@Save_Click" />
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+}
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
+    List<SaleTypeModel> deleted_sale_types = new List<SaleTypeModel>();
+    bool is_loading,is_saving;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData()
+    {
+
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=sale_types&$filter=is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+        }
+        else
+        {
+
+            toast.Add(lang["Loading sale type fail."], MatToastType.Warning);
+        }
+
+
+    }
+
+    void OnDeleted(SaleTypeModel s)
+    {
+        deleted_sale_types.Add(s);
+    }
+
+    void Add(BusinessBranchModel b)
+    {
+        b.sale_types.Add(new SaleTypeModel());
+    }
+
+    async Task Save_Click()
+    {
+        if (branches.SelectMany(r => r.sale_types).Where(r => r.is_deleted == false && r.sale_type_name == null).Any())
+        {
+            toast.Add(lang["Please enter sale type name"], MatToastType.Warning);
+            return;
+        }
+
+        if (branches.SelectMany(r => r.sale_types).Where(r => r.is_deleted == false && r.sale_type_name.Trim() == "").Any())
+        {
+
+            toast.Add(lang["Please enter sale type name"], MatToastType.Warning);
+            return;
+        }
+
+        is_saving = true;
+
+        var resp = await http.ApiPost("BusinessBranch/save/multiple", branches);
+        if (resp.IsSuccess)
+        {
+
+            toast.Add(lang["Save Sale Type successfully"], MatToastType.Success);
+
+            await LoadData();
+        }
+        else
+        {
+
+            toast.Add(lang["Save Sale Type Fail"], MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+}

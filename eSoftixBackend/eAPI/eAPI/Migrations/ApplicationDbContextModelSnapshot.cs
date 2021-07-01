@@ -1043,6 +1043,10 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("closed_by")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<DateTime?>("closed_date")
                         .HasColumnType("date");
 
@@ -1073,10 +1077,19 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("expired_date")
+                        .HasColumnType("date");
+
                     b.Property<bool>("is_closed")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_expired")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_full_license")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_paid")
@@ -1110,6 +1123,18 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
+
+                    b.Property<int>("total_business_branches")
+                        .HasColumnType("int");
+
+                    b.Property<int>("total_outlets")
+                        .HasColumnType("int");
+
+                    b.Property<int>("total_stations")
+                        .HasColumnType("int");
+
+                    b.Property<int>("total_stock_location")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -1421,6 +1446,9 @@ namespace eAPI.Migrations
                     b.Property<string>("permission_options")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("sort_order")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");

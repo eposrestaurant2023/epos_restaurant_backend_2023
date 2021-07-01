@@ -7305,7 +7305,14 @@ z-index:999999!important;
     width: 150px!important;
 }
 .ui-box-outline {
-    border: 1px solid #ffb8bb;
+    border: 1px solid #000;
     border-radius: 4px;
-    background: #ffe9ea;
+}
+.accordion-header {
+    background-color: #f3f3f3;
+}
+.uk-label-date {
+    background: transparent!important;
+    color: #404040!important;
+    border: 1px solid #404040!important;
 }

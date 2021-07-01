@@ -1,4 +1,5 @@
-﻿ @if (roles == "")
+﻿@if(!is_loading){ 
+ @if (roles == "")
 {
     @ChildContent
 }else
@@ -13,11 +14,13 @@
  
  </AuthorizeView>
 }
+}
  
 
 @code {
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string roles { get; set; } = "";
     [CascadingParameter] public AppState state { get; set; }
+    [Parameter] public bool is_loading { get; set; }
 
 }

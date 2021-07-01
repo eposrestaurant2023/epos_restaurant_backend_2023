@@ -1,0 +1,28 @@
+﻿@inject IHttpService http
+<MudAutocomplete T="CustomerModel" Label="Customer" ToStringFunc="@(e=> e==null?null : $"{e.customer_code} - ({e.customer_name_en})")" 
+AdornmentText="@($"{customer?.customer_code} - ({customer?.customer_name_en})")"  Value="customer" ValueChanged="OnItemSelected" Text="@(customer?.customer_name_en)" SearchFunc="@Search1" />
+
+
+@code{
+    IEnumerable<CustomerModel> customers;
+    [Parameter] public CustomerModel customer {get;set;}
+    [Parameter] public EventCallback<CustomerModel> customerChanged {get;set;}
+    private async Task<IEnumerable<CustomerModel>> Search1(string value)
+    {
+        var res = await http.ApiGetOData($"customer?keyword={value}&$top=25");
+        if (res.IsSuccess)
+        {
+            customers =JsonSerializer.Deserialize<IEnumerable<CustomerModel>>(res.Content.ToString());
+        }
+        // if text is null or empty, show complete list
+        if (string.IsNullOrEmpty(value))
+            return customers;
+        return customers;
+    }
+
+    async Task OnItemSelected(CustomerModel a)
+    {
+        customer = a;
+        await customerChanged.InvokeAsync(customer);
+    }
+}

@@ -9,8 +9,6 @@
 }
 @if (!is_loading)
 {
-
-
   
 <PageContainer>
     <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
@@ -19,12 +17,12 @@
         </Filter>
         <Right>
            
-            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true">
                  <FilterDateRange @bind-dates="@state.date_range"  />
                 <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
             </ComSearch>
              <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">New</AddButton>
+                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))"/>
              </MudHidden>
           
         </Right>
@@ -107,10 +105,15 @@
                 <TdCenter>
                    @p.created_date.ToString(gv.date_format)
                </TdCenter>
+
                  <TdCenter>
-                   @p.expired_date.Value.ToString(gv.date_format)
-                   
-               </TdCenter>
+                     @if(p.expired_date != null){
+                         <span>
+                             @Convert.ToDateTime(p.expired_date).ToString(gv.date_format)
+                         </span>
+                            
+                     }
+                </TdCenter>
                 <TdCenter>
                     <LabelDeleted is_visible="@p.is_deleted"/>
                    <LabelActive is_visible="@(p.status == true && p.is_deleted == false )"/>

@@ -1,0 +1,73 @@
+﻿@page "/project/{id}";
+@inherits PageProjectDetails
+<Loading is_loading="@is_loading"/>
+
+<PageContainer is_loading="@is_loading">
+@if (model != null)
+    {
+        <PageHeader title="@page_title" show_refresh_button="false">
+    <Left>
+        <LabelCloseProject visible="@model.is_closed"/>
+        <LabelCloseProject visible="@(!model.is_closed)"/>
+        <LabelFullLicense visible="@model.is_full_license"/>
+    </Left>
+    <Right>
+
+        <ComAttachFileButton File="@(new AttachFilesModel(){ project_id = new Guid(id)})" ApiFilter="@($"project_id eq {id}")" Class="mr-2"/>
+
+        
+         <MudHidden Breakpoint="Breakpoint.SmAndDown">
+              <AddButton roles="@gv.GetRole("project_add")" url="project/new"/>
+              <RefreshButton OnClick="OnRefresh" />
+        </MudHidden>
+      
+         <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
+            <MudDivider />
+            </MudHidden>
+            <MenuButtonItem roles="@gv.GetRole("project_edit")" icon="@Icons.Material.Filled.ContentCopy">Close Project</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_edit")" icon="@Icons.Material.Filled.ContentCopy">Reopen Project</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.ContentCopy" url="@($"project/clone/{model.id}")">Clone</MenuButtonItem>
+            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" Link="@($"project/edit/{id}")">Edit</MudMenuItem>
+            <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteProject_Click">Delete</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteProject_Click">Restore</MenuButtonItem>
+    </MenuButton>
+
+
+        
+    </Right>
+</PageHeader>
+    <PageBody>
+        <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="py-6">
+             <MudTabPanel Text="Project Information">
+                <ComProjectDetail_ProjectInformation model="@model"/>
+                 
+
+            </MudTabPanel>
+            <MudTabPanel Text="Branches">
+                 <ComProjectDetail_BusinessBranch/>
+            </MudTabPanel>
+            <MudTabPanel Text="Comment & History">
+                 <ComHistory 
+                        
+                        history="@(new HistoryModel() { project_id = new Guid(id),user_id = gv.current_login_user.id })"
+                        ApiFilter="@($"project_id eq {id}")"
+                       />
+            </MudTabPanel>
+
+        </MudTabs>
+
+      
+    </PageBody>
+    }
+
+ 
+
+</PageContainer>
+<AuthorizeView Roles="@gv.GetRole("project_add")">
+
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"project/new")"/>    
+    </MudHidden>
+</AuthorizeView>

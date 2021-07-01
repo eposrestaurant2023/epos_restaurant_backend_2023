@@ -19,12 +19,19 @@
             </HeaderRight>
         </PageHeader>
 
-            <PageBody>
-                <UIGridCenter>
-
-                        @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
-                        {
-
+        <PageBody>
+            <Tab>
+                <TabHeader>
+                    @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
+                    {
+                        <TabHeaderItem>@d.table_group_name_en</TabHeaderItem>
+                    }
+                </TabHeader>
+                <TabBody> 
+                    @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
+                    {
+                    <TabItem>
+                        <UIGridCenter>
                             <div class="container-layout">
                                 <div class="title-header">
                                     <div class="uk-panel">
@@ -38,11 +45,11 @@
                                         </div>
                                         <div class="uk-float-right">
                                             <div>
-                                                <td>
+                                                <div>
                                                     <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
                                                     <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                                </td>
-                                                <td>
+                                                </div>
+                                                <div>
                                                     <div class="uk-flex uk-flex-inline">
                                                         <div style="margin-right:5px;">
                                                             <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
@@ -54,36 +61,56 @@
 
                                                         </div>
                                                     </div>
-                                                </td>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <hr />
                                 <div>
-                                    <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                        <tr>
-                                            <Th>Table Name</Th>
-
-                                        </tr>
-
-                                        @foreach (var s in d.tables)
-                                        {
-                                            <tr>
-
-                                                <td>@s.table_name </td>
-                                            </tr>
-                                        }
-
-
-                                    </table>
+                                    <UISummaryBox ImageUrl="@d.photo">
+                                        <ContentLeft>
+                                            <table>
+                                                <tr>
+                                                    <th>@lang["Table Group Name"]</th>
+                                                    <td>@d.table_group_name_en</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@lang["Outlet Name"]</th>
+                                                    <td>@d.outlet?.outlet_name_en</td>
+                                                </tr>
+                                            </table>
+                                        </ContentLeft>
+                                    </UISummaryBox>
+                                    <hr />
+                                    <ComAccordion>
+                                        <Header>
+                                            Table
+                                        </Header>
+                                        <Content>
+                                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                                <tr>
+                                                    <ThAuto>Table Name</ThAuto>
+                                                    <th>Price Rule</th>
+                                                </tr>
+                                                @foreach (var s in d.tables)
+                                                {
+                                                    <tr>
+                                                        <td>@s.table_name</td>
+                                                        <td>@s.price_rule?.price_name</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </Content>
+                                    </ComAccordion>
                                 </div>
                             </div>
-                        }
-
-                </UIGridCenter>
-            </PageBody>
+                        </UIGridCenter>
+                    </TabItem>
+                    }
+                </TabBody>
+            </Tab>
+        </PageBody>
     </PageContainer>
 }
 
@@ -109,7 +136,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=tables($select=table_name,height,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
+            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,height,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
         }
 
         var resp = await http.ApiGetOData(api_url);
