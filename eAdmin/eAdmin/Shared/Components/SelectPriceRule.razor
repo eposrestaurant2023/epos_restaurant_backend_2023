@@ -1,0 +1,79 @@
+﻿@inject IHttpService http
+@if (!is_loading) {
+@if (is_inline)
+{
+    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+        @if (show_empty)
+        {
+            <option value="0">@empty_text</option>
+        }
+        @foreach (var p in gv.price_rules)
+        {
+            <option value="@p.id">@p.price_name</option>
+        }
+    </select>
+}
+else
+{
+
+    <div class="uk-form-horizontal">
+        <div class="uk-margin-small">
+            <label class="uk-form-label" for="@id">@label</label>
+            <div class="uk-form-controls">
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
+                    @foreach (var p in gv.price_rules)
+                    {
+                        <option value="@p.id">@p.price_name</option>
+                    }
+                </select>
+                @ChildContent
+            </div>
+        </div>
+    </div>
+}
+}
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Price Rule";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Price Rule";
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public bool is_inline { get; set; } = false;
+    [Parameter] public OutletModel outlet { get; set; }
+    [Parameter] public int? selected_value { get; set; } = 0;
+    [Parameter] public EventCallback<int?> selected_valueChanged { get; set; }
+    [Parameter] public PriceRuleModel price_rule { get; set; }
+    [Parameter] public EventCallback<PriceRuleModel> price_ruleChanged { get; set; }
+    Guid id = Guid.NewGuid();
+    List<BusinessBranchPriceRule> models = new List<BusinessBranchPriceRule>();
+
+    bool is_loading = false;
+    public int? SelectedValue
+    {
+        get
+        {
+            return price_rule == null ? selected_value : price_rule.id;
+        }
+    }
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Int32.Parse(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+        if (selected_value == 0)
+        {
+            await price_ruleChanged.InvokeAsync(new PriceRuleModel());
+        }
+        else
+        {
+            await price_ruleChanged.InvokeAsync(gv.price_rules.Where(r => r.id == selected_value).FirstOrDefault());
+        }
+
+    }
+
+}

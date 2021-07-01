@@ -5,16 +5,25 @@
 
           if (url != "")
             {
-               
+            @if(ChildContent == null)
+            {
+                <MudIconButton Variant="Variant.Text" Icon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" Size="Size.Medium" Class="ma-2"/>
+            }else{
                 <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" Size="Size.Medium" Class="ma-2">@ChildContent</MudButton>
-
             }
+
+}
             else
             {
-                
-                 
-                 <MudButton Variant="Variant.Text"  StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" Size="Size.Medium" Class="ma-2">@ChildContent</MudButton>
+
+            @if (ChildContent == null)
+            {
+                <MudIconButton Variant="Variant.Text"  Icon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" Size="Size.Medium" Class="ma-2"/>
+            }else
+            {
+                <MudButton Variant="Variant.Text"  StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" Size="Size.Medium" Class="ma-2">@ChildContent</MudButton>
             }
+}
         
     }
     else
@@ -22,15 +31,23 @@
         <AuthorizeView Roles="@roles">
              @if (url != "")
             {
-               
+                @if (ChildContent == null)
+            {
+                <MudIconButton Variant="Variant.Text"  Icon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" Size="Size.Medium" Class="ma-2"/>
+                }else
+                {
                 <MudButton Variant="Variant.Text"  StartIcon="@Icons.Material.Filled.Add" Link="@url" Disabled="@disabled" Size="Size.Medium" Class="ma-2">@ChildContent</MudButton>
-
-            }
+                }
+    }
             else
             {
                 
-                 
-                 <MudButton Variant="Variant.Text"  StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" Size="Size.Medium" Class="ma-2">@ChildContent</MudButton>
+                  @if (ChildContent == null)
+            {
+                 <MudIconButton Variant="Variant.Text"  Icon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" Size="Size.Medium" Class="ma-2"/>
+                 }else {
+                     <MudButton Variant="Variant.Text"  StartIcon="@Icons.Material.Filled.Add" OnClick="OnClick"  Disabled="@disabled" Size="Size.Medium" Class="ma-2">@ChildContent</MudButton>
+                 }
             }
         
         </AuthorizeView>

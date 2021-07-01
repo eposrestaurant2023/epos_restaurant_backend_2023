@@ -1,0 +1,42 @@
+﻿@inject IHttpService http;
+ 
+<UIPanel Title="Customer Information">
+<UIPanelHeaderRight>
+    <MenuButton>
+        <MenuButtonItem icon="@Icons.Material.Filled.People">Change Customer</MenuButtonItem>
+    </MenuButton>
+</UIPanelHeaderRight>
+<UIPanelBody>
+    @if(is_loading){
+        <Spinner/>
+    }else
+    {
+        @JsonSerializer.Serialize(model)
+    }
+</UIPanelBody>
+
+
+                    </UIPanel>
+
+
+@code {
+    [Parameter] public string customer_id { get; set; }
+    bool is_loading;
+        CustomerModel model;
+        protected override async Task OnInitializedAsync()
+        {
+            is_loading = true;
+            await LoadCustomer();
+            is_loading = false;
+        }
+
+        public async Task LoadCustomer()
+        {
+            var res = await http.ApiGet($"customer({customer_id})");
+            if (res.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+            }
+        }
+
+}

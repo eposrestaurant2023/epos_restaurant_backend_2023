@@ -20,6 +20,7 @@ namespace eShareModel
         public string feature_description { get; set; }
         public string permission_options { get; set; }
         public bool status { get; set; }
+        public bool sort_order { get; set; }
 
 
         

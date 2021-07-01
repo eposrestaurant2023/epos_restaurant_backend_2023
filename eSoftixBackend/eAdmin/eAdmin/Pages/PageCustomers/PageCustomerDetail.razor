@@ -44,7 +44,7 @@
                                 <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
                                 <MudDivider />
                              </MudHidden>
-                                 <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.ContentCopy" url="@($"customer/clone/{model.id}")">Clone</MenuButtonItem>
+                                <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.ContentCopy" url="@($"customer/clone/{model.id}")">Clone</MenuButtonItem>
                                 <MenuButtonItem roles="@gv.GetRole("customer_edit")" icon="@Icons.Material.Filled.HighlightOff" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => ChangeStatus_Click(model.id))">Inactive</MenuButtonItem>
                                 <MenuButtonItem roles="@gv.GetRole("customer_edit")" icon="@Icons.Material.Filled.Check" is_visible="@(!model.is_deleted && !model.status)" OnClick="@(() => ChangeStatus_Click(model.id))">Active</MenuButtonItem>
                                 <MenuButtonItem roles="@gv.GetRole("customer_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteCustomer_Click">Delete</MenuButtonItem>

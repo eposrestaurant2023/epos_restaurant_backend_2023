@@ -40,13 +40,30 @@ namespace eModels
         public DateTime? closed_date { get; set; }
 
         public bool is_closed { get; set; }
+        public bool is_expired { get; set; }
         public string closed_note { get; set; }
         public string project_code { get; set; }
         public bool is_paid { get; set; }
         [Column(TypeName = "date")]
         public DateTime? paid_date { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? expired_date { get; set; }
+
+        public bool is_full_license { get; set; }
+
+        public int total_business_branches { get; set; }
+        public int total_outlets { get; set; }
+        public int total_stations { get; set; }
+        public int total_stock_location { get; set; }
+
         public string note { get; set; }
         public string server_id { get; set; }
+        public string closed_by { get; set; }
+
+
+        
+
 
         public List<BusinessBranchModel> business_branches { get; set; }
 
