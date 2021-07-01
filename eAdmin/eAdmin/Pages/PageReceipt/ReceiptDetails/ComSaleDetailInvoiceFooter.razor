@@ -22,11 +22,11 @@
     @if (sale.sale_discount_value > 0 )
     {
         <tr>
-            <td colspan="7" class="uk-text-right">@lang["Invoice Discount"] @(sale.sale_discount_type == "Percent" ? ("(" + (sale.sale_discount_value / 100).ToString("P")) + ")" : "")</td>
+            <td colspan="7" class="uk-text-right">@lang["Sale Discount"] @(sale.sale_discount_type == "Percent" ? ("(" + (sale.sale_discount_value / 100).ToString("P")) + ")" : "")</td>
             <td class="uk-text-right bg_hightlight">
 
                 <span>
-                    @sale.total_discount_amount.ToString(gv.currency_format)
+                    @sale.sale_discount_amount.ToString(gv.currency_format)
                 </span>
 
             </td>
