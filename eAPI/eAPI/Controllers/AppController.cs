@@ -38,7 +38,7 @@ namespace eAPI.Controllers
             gv.bussiness_branches = db.BusinessBranches.Where(r=>r.is_deleted==false && r.status).ToList();
             gv.payment_types = db.PaymentTypes.ToList();
             gv.settings = db.Settings.ToList();
-            gv.permission_options = db.PermissionOption.ToList();
+            gv.permission_options = db.PermissionOption.Where(r=>r.status==true).ToList();
             gv.module_views = db.ModuleViews.ToList();
             
             gv.customer_groups = db.CustomerGroups.ToList();
@@ -104,6 +104,8 @@ namespace eAPI.Controllers
         {
             db.Settings.UpdateRange(Settings);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw("exec sp_update_setting");
             return Ok(Settings);
         }
 
