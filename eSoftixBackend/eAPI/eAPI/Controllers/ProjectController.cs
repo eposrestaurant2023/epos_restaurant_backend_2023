@@ -92,7 +92,17 @@ namespace eAPI.Controllers
             c.customer_id = Guid.Empty;
             return Ok(c);
         }
-
+        [HttpPost]
+        [Route("ChangedCustomer")]
+        public async Task<ActionResult<CustomerModel>> ChangeCustomer(Guid project_id, Guid customer_id)
+        {
+            var project = await db.Project.FindAsync(project_id);
+            var customer = await db.Customers.FindAsync(customer_id);
+            project.customer_id = customer_id;
+            db.Project.Update(project);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(customer);
+        }
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 0)]
         public SingleResult<ProjectModel> Get([FromODataUri] Guid key)

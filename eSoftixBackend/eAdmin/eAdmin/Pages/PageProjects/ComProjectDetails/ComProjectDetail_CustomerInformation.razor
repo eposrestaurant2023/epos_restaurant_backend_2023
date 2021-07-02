@@ -58,6 +58,7 @@
 @code {
     [CascadingParameter] public AppState gv {get;set;}
     [Parameter] public string customer_id { get; set; }
+    [Parameter] public string project_id { get; set; }
     bool is_loading;
         CustomerModel model;
         protected override async Task OnInitializedAsync()
@@ -84,13 +85,18 @@
          
         var dialog = Dialog.Show<SelectCustomerList>("Search Customer", new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
-
         if (!result.Cancelled)
         {
-             
-            model = (CustomerModel)result.Data;
+            string selected_customer_id = ((CustomerModel)result.Data).id.ToString();
+            var res = await http.ApiPost($"Project/ChangedCustomer?project_id={project_id}&customer_id={selected_customer_id}");
+            if (res.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
+                toast.Add("Customer has been changed.", Severity.Success);
+            }else{
+                toast.Add(res.Content.ToString(), Severity.Warning);
+            }
             
-            toast.Add("Customer has been changed.", Severity.Success);
         }
     }
 
