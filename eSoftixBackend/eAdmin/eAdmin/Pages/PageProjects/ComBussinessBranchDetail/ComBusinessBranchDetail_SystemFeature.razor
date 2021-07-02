@@ -16,15 +16,20 @@
             @foreach(var d in models.OrderBy(r=>r.system_feature.sort_order))
             {
                 <MudListItem>
-                    <MudText Typo="@Typo.subtitle2">@d.system_feature.feature_name</MudText>
-                    <MudText Typo="@Typo.body1">@d.system_feature.feature_description</MudText>
-                    @if (is_edited)
-                    {
-                        <MudSwitch @bind-Checked="@d.status"  Color="MudBlazor.Color.Success"  />
-                    }else {
-                        <MudSwitch Checked="@d.status"  Color="MudBlazor.Color.Success" Disabled="true" />
-                    }
-                    
+                    <div class="d-flex justify-space-between">
+                        <div>
+                              <MudText Typo="@Typo.subtitle2">@d.system_feature.feature_name</MudText>
+                              <MudText Typo="@Typo.body1">@d.system_feature.feature_description</MudText>
+                        </div>
+                        <div>
+                            @if (is_edited)
+                            {
+                                <MudSwitch @bind-Checked="@d.status"  Color="MudBlazor.Color.Success"  />
+                            }else {
+                                <MudSwitch Checked="@d.status"  Color="MudBlazor.Color.Success" Disabled="true" />
+                            } 
+                        </div>
+                    </div>
                   </MudListItem>
                   <MudDivider/>
             }

@@ -7,34 +7,41 @@
         <MudIconButton Icon="@Icons.Material.Filled.Add"/>
     </UIPanelHeaderRight> 
     <UIPanelBody>
-       
+       <MudGrid>
             
             @foreach(var d in stock_locations)
             {
-                <MudCard>
-                    <MudCardHeader>
-                        <CardHeaderAvatar>
-                            <MudIcon Icon="@Icons.Material.Filled.Home" />
-                        </CardHeaderAvatar>
-                        <CardHeaderContent>
-                            <MudText Typo="Typo.body1">@d.stock_location_name</MudText>
-                            <LabelDeleted is_visible="true"/>
-                        </CardHeaderContent>
-                        <CardHeaderActions>
-                            <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading">
-                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStockLocation_Click(d))">Edit</MudMenuItem>
-                                <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteStockLocation_Click(d))">Delete</MenuButtonItem>
-                                <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteStockLocation_Click(d))">Restore</MenuButtonItem>
-                            </MenuButton>
-                        </CardHeaderActions>
-                    </MudCardHeader>
+                <MudItem xs="12" sm="12" md="6">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudIcon Icon="@Icons.Material.Filled.Home" />
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <div class="d-flex align-center">
+                                    <div>
+                                         <MudText Typo="Typo.body1">@d.stock_location_name</MudText>
+                                    </div>
+                                    <div>
+                                         <LabelDeleted is_visible="true"/>
+                                    </div>
+                                </div>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading">
+                                    <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStockLocation_Click(d))">Edit</MudMenuItem>
+                                    <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteStockLocation_Click(d))">Delete</MenuButtonItem>
+                                    <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteStockLocation_Click(d))">Restore</MenuButtonItem>
+                                </MenuButton>
+                            </CardHeaderActions>
+                        </MudCardHeader>
                     
-                </MudCard>
-
+                    </MudCard>
+                </MudItem>
                    
                 }
               
-       
+       </MudGrid>
     </UIPanelBody>
 </UIPanel>
 }
