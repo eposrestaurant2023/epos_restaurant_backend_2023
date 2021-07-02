@@ -109,5 +109,7 @@ namespace eShareModel
         public string   modifier_name { get; set; }
         public int product_modifier_id { get; set; }
         public decimal  price { get; set; }
+        public decimal  reqular_price { get; set; }
+
     }
 }
