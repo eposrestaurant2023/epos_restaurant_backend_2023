@@ -85,7 +85,6 @@
          
         var dialog = Dialog.Show<SelectCustomerList>("Search Customer", new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
-
         if (!result.Cancelled)
         {
              

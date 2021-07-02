@@ -1,7 +1,8 @@
 ﻿<TdCenter ClassName="@ClassName">
 
-
-<MudMenu Icon="@Icons.Material.Filled.MoreVert" Direction="Direction.Right">
+@if (!is_loading)
+    {
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Direction="Direction.Right">
 
             @if (position=="top-left")
             {
@@ -17,6 +18,12 @@
             }
 
 </MudMenu>
+    }
+    else
+    {
+        <Spinner IsLoading="is_loading"/>
+    }
+
 
 
 
