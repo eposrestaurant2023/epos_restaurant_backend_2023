@@ -11,11 +11,7 @@
                 <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@d.note">
                     @foreach (var sub in gv.SubMenu(d.id))
                     {
-                        if (gv.is_shift_management ? true : (sub.id != 208 && sub.id != 209))
-                        {
-                            <SubMenuItem roles="@sub.roles" url="@sub.url">@sub.note</SubMenuItem>
-                        }
-                        
+                        <SubMenuItem roles="@sub.roles" url="@sub.url">@sub.note</SubMenuItem>
                     }
                 </ParentMenuItem>
             }
