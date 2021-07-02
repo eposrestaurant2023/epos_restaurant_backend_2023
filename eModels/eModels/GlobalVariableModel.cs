@@ -247,11 +247,20 @@ namespace eModels
                 return "#,###,##0.00##";
             }
         }
+
         public string second_currency_format
         {
             get
             {
                 return "R";
+            }
+        } 
+        
+        public string percentage_format
+        {
+            get
+            {
+                return "P0";
             }
         }
 
