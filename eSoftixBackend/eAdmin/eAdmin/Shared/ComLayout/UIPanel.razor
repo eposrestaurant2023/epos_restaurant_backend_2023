@@ -1,5 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
-<MudPaper Class="ui-panel-item">
+<MudPaper Class="@($"ui-panel-item {@Class}")" MinWidth="@MinWidth">
 @if (!string.IsNullOrEmpty(Title))
     {
         <MudItem Class="d-flex pa-4">
@@ -37,6 +37,8 @@
 @code {
     [Parameter] public string Title { get; set; }
     [Parameter] public string IconName { get; set; } = "";
+    [Parameter] public string Class { get; set; } = "";
+    [Parameter] public string MinWidth { get; set; } = null;
     [Parameter] public RenderFragment UIPanelHeaderLeft { get; set; }
     [Parameter] public RenderFragment UIPanelHeaderRight { get; set; }
     [Parameter] public RenderFragment UIPanelBody { get; set; }

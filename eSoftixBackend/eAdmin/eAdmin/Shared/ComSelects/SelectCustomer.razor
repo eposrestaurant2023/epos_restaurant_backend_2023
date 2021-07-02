@@ -1,27 +1,31 @@
 ﻿@inject IHttpService http
 @inject IDialogService Dialog
+@inject ISnackbar toast;
+
+@if(model==null){ 
        <MudPaper Outlined="true" Class="pa-8 mb-2">
           <MudText Typo="Typo.subtitle1" Align="MudBlazor.Align.Center"> No Customer Select</MudText>
            <div class="text-center">
                <MudButton
                    Target="_blank"
                    Variant="Variant.Filled"
-                   OnClick="OpenDialog"
+                   OnClick="SelectCustomer_Click"
                    Color="MudBlazor.Color.Tertiary">
                    Select Customer
             </MudButton>
            </div>
        </MudPaper>
+  }else {
 
-              <MudCard>
+       <MudCard>
                     <MudCardContent Class="text-center">
                         <MudAvatar Rounded="true" Color="MudBlazor.Color.Secondary" Class="ma-2" Style="height:70px; width:70px; font-size:2rem;">
                             <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large"/>
                         </MudAvatar>
                         <MudText>
-                            C202133 - Chanthou (Mahob Group)
+                            @model.customer_code - @model.customer_name_en
                         </MudText>
-                        <MudText Typo="Typo.body2">Mahob Group</MudText>
+                        <MudText Typo="Typo.body2">@model.company_name</MudText>
                             <MudIcon Icon="@Icons.Material.Filled.LocalPhone"/>
                             <MudIcon Icon="@Icons.Material.Filled.Facebook"/>
                             <MudIcon Icon="@Icons.Material.Filled.Send"/>
@@ -29,7 +33,9 @@
                                  <MudButton
                                    Target="_blank"
                                    Variant="Variant.Filled"
-                                   Color="MudBlazor.Color.Tertiary">
+                                   Color="MudBlazor.Color.Tertiary"
+                                   OnClick="@SelectCustomer_Click"
+                                   >
                                  Select Customer
                             </MudButton>
                             </div>
@@ -38,25 +44,35 @@
            
 
             </MudCard>
-            <SelectCustomerList Is_visible="Is_Visible" Is_visibleChanged="@OnClose"/>
+  }
 
-
+             
+       
         @ChildContent
 @code{
 
+    [Parameter] public CustomerModel model { get; set; }
+    [Parameter] public EventCallback<CustomerModel> modelChanged { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-    List<CustomerModel> customers { get; set; } = new List<CustomerModel>();
-    DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true };
-   [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-      bool Is_Visible;
-     private void OpenDialog()
-    {
-        Is_Visible = true;
-    }
+    [Parameter] public Guid customer_id { get; set; }
+    [Parameter] public EventCallback<Guid> customer_idChanged { get; set; }
 
-   void OnClose(){
-       Is_Visible = false;
-   }
-  
+     
+    DialogOptions dialog_option = new DialogOptions() {  CloseButton = true };
+    async Task SelectCustomer_Click()
+    {
+         
+        var dialog = Dialog.Show<SelectCustomerList>("Search Customer", dialog_option);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+             
+            model = (CustomerModel)result.Data;
+            await customer_idChanged.InvokeAsync(model.id);
+            await modelChanged.InvokeAsync(model);
+            toast.Add("Customer has been selected.", Severity.Success);
+        }
+    }
 
 }

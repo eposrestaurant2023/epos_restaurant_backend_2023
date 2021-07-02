@@ -1,0 +1,96 @@
+﻿
+<MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <MudPaper Elevation="25" Class="d-flex align-center py-1 mb-4">
+       
+         <MenuButton icon="@Icons.Material.Filled.Menu"  ClassName="ml-3 mr-2" direction="Direction.Left">
+            @foreach(var d in project.business_branches)
+            {
+                <MudMenuItem icon="@Icons.Material.Filled.Layers" OnClick="@(()=>BusinessBranch_Click(d))">@d.business_branch_name_en</MudMenuItem>              
+            }
+        </MenuButton>
+
+        @if(model!=null){
+            <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >@model.business_branch_name_en</MudText>
+        }else{
+            <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Business Branch</MudText>
+        }
+        
+         <MudIconButton Icon="@Icons.Material.Filled.Add" Class="d-flex ml-auto" />
+    </MudPaper>
+</MudHidden>
+<div class="d-flex flex-grow-1 flex-row">
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+  
+            <UIPanel Title="Branch"  MinWidth="350px" Class="mr-4">
+                 <UIPanelHeaderRight>
+                    <MudIconButton Icon="@Icons.Material.Filled.Add" />
+                </UIPanelHeaderRight>
+                 <UIPanelBody>
+                     @if(project.business_branches!=null && project.business_branches.Count()>0){ 
+                         <MudList Clickable="true">
+
+                        @foreach(var d in project.business_branches)
+                        {
+                            if (d.is_selected)
+                            {
+                                  <MudListItem Icon="@Icons.Material.Filled.Layers" IconColor="@MudBlazor.Color.Success">
+                                        <MudText  Typo="@Typo.subtitle2">@d.business_branch_name_en</MudText>
+                                    </MudListItem>
+                                    <MudDivider/>
+                            }else{
+                                  <MudListItem Icon="@Icons.Material.Filled.Layers" OnClick="@(()=>BusinessBranch_Click(d))">
+                                        <MudText  Typo="@Typo.subtitle2">@d.business_branch_name_en</MudText>
+                                    </MudListItem>
+                                    <MudDivider/>
+                            }
+                      
+                        }
+                        </MudList>
+                        }
+                        else {
+                              <MudText  Typo="@Typo.subtitle2">There's no Business Branch Information in this Project.</MudText>
+                              <MudButton StartIcon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Success" Variant="Variant.Filled" >
+                                  Add New Business Branch
+                              </MudButton>
+                        }
+
+                 </UIPanelBody>
+            </UIPanel>
+           
+      
+    </MudHidden>
+    <MudContainer   Class="flex-grow-1 px-0" >
+        
+    @if (model != null)
+    {
+        <ComBusinessBranchInformation model="@model" />
+    }else{
+        <div>There is no business branch selected. (Pls design empty component)</div>
+    }
+        
+    </MudContainer>
+</div>
+
+@code{
+
+    [Parameter] public ProjectModel project { get; set; }
+    public BusinessBranchModel model { get; set; }
+    
+    void BusinessBranch_Click(BusinessBranchModel branch)
+    {
+        project.business_branches.Where(r=>r.is_selected == true).ToList().ForEach(r => r.is_selected = false);
+        branch.is_selected = true;
+        model = branch;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        if(project.business_branches!=null){
+            if (project.business_branches.Count() > 0)
+            {
+                model = project.business_branches.FirstOrDefault();
+                model.is_selected = true;
+            }
+        }
+    }
+
+}

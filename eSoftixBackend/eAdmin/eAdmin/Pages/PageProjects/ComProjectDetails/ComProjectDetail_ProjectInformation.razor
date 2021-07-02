@@ -48,11 +48,18 @@
                     </MudGrid>
                     </UIPanel>
                    <ComProjectDetail_ProjectFeature project_id="@(model.id.ToString())"/>
+
+                   <Spacing/>
+                    <MudText Typo="@Typo.body1">Opened by: @model.created_by on @model.created_date.ToString(gv.date_time_format)</MudText>
+                    @if(model.is_closed){
+                        <MudText Typo="@Typo.body1">Closed by: @model.closed_by on @(((DateTime)model.created_date).ToString(gv.date_format))</MudText>
+                    }
+
                 </UICenter>
 
 
 @code {
     [CascadingParameter] public AppState gv { get; set; }
     [Parameter] public ProjectModel model { get; set; }
-    
+   
 }

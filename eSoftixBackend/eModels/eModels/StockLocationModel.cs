@@ -16,6 +16,13 @@ namespace eModels
         public BusinessBranchModel business_branch { get; set; }
         public string stock_location_name { get; set; }
         public bool is_default { get; set; }
+        [NotMapped]
+        public bool is_loading { get; set; }
+        
+        [NotMapped]
+        public bool is_deleting { get; set; }
+        public bool is_deleted { get; set; }
+
 
     }
 }

@@ -1,0 +1,35 @@
+﻿ 
+
+@if(model!=null){ 
+    
+      
+    <MudGrid> 
+
+        
+        <MudItem xs="12" lg="4">
+            <ComDashboardKPI Title="Warehouse" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.CropSquare" Value="@model.stock_locations.Count().ToString()"/>
+        </MudItem>
+        <MudItem xs="12" lg="4">
+            <ComDashboardKPI Title="Outlet" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.BusinessCenter" Value="@model.outlets.Count().ToString()"/>
+        </MudItem>
+        <MudItem xs="12" lg="4">
+            <ComDashboardKPI Title="Station" color="@MudBlazor.Color.Info" Icon="@Icons.Material.Filled.DesktopWindows" Value="@model.outlets.SelectMany(r=>r.stations).Count().ToString()"/>
+        </MudItem>
+    </MudGrid>
+    <Spacing/>
+
+    <ComBusinessBranchDetail_BusinessBranchInformation model="@model"/>
+    <Spacing/>
+    <ComBusinessBranchDetail_SystemFeature business_branch_id="@(model.id.ToString())"/>
+    <Spacing/>
+    <ComBusinessBranchDetail_StockLocation stock_locations="@model.stock_locations"/>
+    <Spacing/>
+    <ComBusinessBranchDetail_OutletAndStation outlets="@model.outlets"/>
+}
+@code {
+    
+    [Parameter] public BusinessBranchModel model { get; set; }
+    [CascadingParameter] public AppState gv { get; set; }
+ 
+}
+

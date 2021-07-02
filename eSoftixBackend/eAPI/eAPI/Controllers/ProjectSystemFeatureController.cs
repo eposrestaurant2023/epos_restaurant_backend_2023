@@ -62,5 +62,22 @@ namespace eAPI.Controllers
             return Ok(per);
         }
 
+
+        [HttpPost("save/multiple")]
+        public async Task<ActionResult<bool>> SaveMultiple([FromBody] List<BusinessBranchSystemFeatureModel> models)
+        {
+
+            if (models.Count() > 0)
+            {
+                db.BusinessBranchSystemFeatures.UpdateRange(models);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+               
+            }
+
+            return Ok(true);
+        }
+
     }
+
+
 }
