@@ -56,5 +56,7 @@ namespace eModels
         public bool is_open_child { get; set; }
 
         public bool is_public_report { get; set; } = true;
+
+        public bool status { get; set; }
     }  
 }

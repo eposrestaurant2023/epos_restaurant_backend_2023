@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210702030530_taxrulemodel")]
+    partial class taxrulemodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1680,9 +1682,6 @@ namespace eAPI.Migrations
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
                     b.Property<string>("url")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -2199,10 +2198,6 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<string>("stock_locations")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("unit_id")
                         .HasColumnType("int");
@@ -2897,6 +2892,9 @@ namespace eAPI.Migrations
                     b.Property<int>("status_id")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("stock_location_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
@@ -2968,6 +2966,8 @@ namespace eAPI.Migrations
                     b.HasIndex("outlet_id");
 
                     b.HasIndex("status_id");
+
+                    b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_sale");
                 });
@@ -3195,9 +3195,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
@@ -3249,8 +3246,6 @@ namespace eAPI.Migrations
                     b.HasIndex("product_id");
 
                     b.HasIndex("sale_id");
-
-                    b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_sale_product");
                 });
@@ -3427,10 +3422,6 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("is_public")
                         .HasColumnType("bit");
-
-                    b.Property<string>("permission_options")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("setting_description")
                         .HasColumnType("nvarchar(max)")
@@ -5302,6 +5293,10 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.StockLocationModel", "stock_location")
+                        .WithMany()
+                        .HasForeignKey("stock_location_id");
+
                     b.Navigation("business_branch");
 
                     b.Navigation("customer");
@@ -5309,6 +5304,8 @@ namespace eAPI.Migrations
                     b.Navigation("outlet");
 
                     b.Navigation("sale_status");
+
+                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.SalePaymentModel", b =>
@@ -5342,17 +5339,9 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("product");
 
                     b.Navigation("sale");
-
-                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.SaleProductModifierModel", b =>

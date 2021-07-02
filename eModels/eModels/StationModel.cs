@@ -37,15 +37,88 @@ namespace eModels
         [Column(TypeName = "date")]
         public DateTime expired_date { get; set; }
 
-    
-        public decimal tax_1_taxable_rate { get; set; } = 1;
-        public decimal tax_2_taxable_rate { get; set; } = 1;
-        public decimal tax_3_taxable_rate { get; set; } = 1;
+     
+        private decimal _tax_1_taxable_rate = 1;
+        public decimal tax_1_taxable_rate
+        {
+            get { 
+                return _tax_1_taxable_rate * 100; 
+            }
+            set {
 
-        public decimal tax_1_rate { get; set; } = 1; 
-        public decimal tax_2_rate { get; set; } = 1;
-        public decimal tax_3_rate { get; set; } = 1;
+                if (value > 100) value = 100;
+                _tax_1_taxable_rate = value / 100; 
+            }
+        }
 
+        private decimal _tax_2_taxable_rate = 1;
+        public decimal tax_2_taxable_rate
+        {
+            get
+            { 
+                return _tax_2_taxable_rate * 100;
+            }
+            set
+            {
+                if (value > 100) value = 100;
+                _tax_2_taxable_rate = value / 100;
+            }
+        }
 
+        private decimal _tax_3_taxable_rate = 1;
+        public decimal tax_3_taxable_rate
+        {
+            get
+            { 
+                return _tax_3_taxable_rate * 100;
+            }
+            set
+            {
+                if (value > 100) value = 100;
+                _tax_3_taxable_rate = value / 100;
+            }
+        }
+          
+        private decimal _tax_1_rate = 1;
+        public decimal tax_1_rate
+        {
+            get
+            { 
+                return _tax_1_rate * 100;
+            }
+            set
+            {
+                if (value > 100) value = 100;
+                _tax_1_rate = value / 100;
+            }
+        }
+
+        private decimal _tax_2_rate = 1;
+        public decimal tax_2_rate
+        {
+            get
+            { 
+                return _tax_2_rate * 100;
+            }
+            set
+            {
+                if (value > 100) value = 100;
+                _tax_2_rate = value / 100;
+            }
+        }
+
+        private decimal _tax_3_rate = 1;
+        public decimal tax_3_rate
+        {
+            get
+            { 
+                return _tax_3_rate * 100;
+            }
+            set
+            {
+                if (value > 100) value = 100;
+                _tax_3_rate = value / 100;
+            }
+        }
     }
 }

@@ -27,7 +27,6 @@ namespace eAdmin
         [Inject] protected NavigationManager nav { get; set; }
         [Inject] protected ISnackbar toast { get; set; }
         [Inject] protected IDialogService alert { get; set; }
-
         public bool is_loading { get; set; } = false;
         public bool is_loading_data { get; set; } = false;
         public bool is_error { get; set; } = false;
@@ -111,7 +110,10 @@ namespace eAdmin
         {
             filters.Where(r => r.key == _key).FirstOrDefault().date2 = _value;
         }
-
+        public void AddToast(string text, Severity severity = Severity.Success)
+        {
+            toast.Add(text, severity);
+        }
         public string GetFilter(List<FilterModel> filters)
         {
 

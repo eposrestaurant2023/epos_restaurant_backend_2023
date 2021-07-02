@@ -99,10 +99,10 @@
                  }
              </TdCenter>
              <TdCenter>
-                    @* <LabelExpiredProject visible="@(p.is_expired == false)"/> *@
-                     <LabelFullLicense visible="@(p.is_full_license && !p.is_deleted)"/> 
-                    <LabelCloseProject visible="@(p.is_closed && !p.is_deleted)"/>
-                    <LabelOpenProject visible="@(!p.is_closed && !p.is_deleted)"/>
+                     <LabelExpiredProject visible="@(p.is_expired)"/> 
+                     <LabelFullLicense visible="@(p.is_full_license)"/> 
+                    <LabelCloseProject visible="@(p.is_closed)"/>
+                    <LabelOpenProject visible="@(!p.is_closed)"/>
                     <LabelDeleted is_visible="@p.is_deleted"/>
              </TdCenter>
              <TdActions>

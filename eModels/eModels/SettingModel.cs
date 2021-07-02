@@ -27,6 +27,7 @@ namespace eModels
         public bool status { get; set; }
         public bool is_public { get; set; }
         public string setting_option { get; set; }
+        public string permission_options { get; set; }
 
         [NotMapped]
         [JsonIgnore]

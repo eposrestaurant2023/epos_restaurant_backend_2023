@@ -75,9 +75,6 @@ namespace eAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
-           
-
             app.UseCors(x => x
               .AllowAnyOrigin()
               .AllowAnyMethod()

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210702050804_stocklocaltiond")]
+    partial class stocklocaltiond
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1680,9 +1682,6 @@ namespace eAPI.Migrations
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
                     b.Property<string>("url")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -2199,10 +2198,6 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<string>("stock_locations")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("unit_id")
                         .HasColumnType("int");
@@ -3427,10 +3422,6 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("is_public")
                         .HasColumnType("bit");
-
-                    b.Property<string>("permission_options")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("setting_description")
                         .HasColumnType("nvarchar(max)")

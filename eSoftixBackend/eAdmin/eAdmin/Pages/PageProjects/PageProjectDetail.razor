@@ -7,6 +7,7 @@
     {
      <PageHeader title="@page_title" show_refresh_button="false">
     <Left>
+        <LabelExpiredProject visible="model.is_expired"/>
         <LabelCloseProject visible="@model.is_closed"/>
         <LabelCloseProject visible="@(!model.is_closed)"/>
         <LabelFullLicense visible="@model.is_full_license"/>

@@ -81,6 +81,18 @@ namespace eAPI.Controllers
         }
 
 
+        [HttpPost]
+        [EnableQuery(MaxExpansionDepth = 0)]
+        [Route("clone/{id}")]
+
+        public IActionResult Clone(int id)
+        {
+            var c = db.CustomerGroups.Where(r => r.id == id).FirstOrDefault();
+            c.status = true;
+            c.id = 0;
+            return Ok(c);
+        }
+
         [HttpPost("status/{id}")]
         public async Task<ActionResult<CustomerGroupModel>> ChangeStatus(int id)
         {
