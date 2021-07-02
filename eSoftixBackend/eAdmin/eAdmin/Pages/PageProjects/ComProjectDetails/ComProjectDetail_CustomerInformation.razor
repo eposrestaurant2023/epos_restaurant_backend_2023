@@ -58,6 +58,7 @@
 @code {
     [CascadingParameter] public AppState gv {get;set;}
     [Parameter] public string customer_id { get; set; }
+    [Parameter] public ProjectModel project { get; set; }
     bool is_loading;
         CustomerModel model;
         protected override async Task OnInitializedAsync()
@@ -88,9 +89,23 @@
         if (!result.Cancelled)
         {
              
-            model = (CustomerModel)result.Data;
+            CustomerModel c = (CustomerModel)result.Data;
+
+             ProjectModel  save_model = JsonSerializer.Deserialize<ProjectModel>(JsonSerializer.Serialize(project));
+             save_model.project_type = null;
+             save_model.business_branches = null;
+             save_model.customer_id = c.id;
+
+             var resp =await http.ApiPost("Project/Save",save_model);
+            if (resp.IsSuccess)
+            {
+                toast.Add("Customer has been changed.", Severity.Success);
+                model = c;
+            }else {
+                toast.Add("Change customer fail.", Severity.Warning);
+            }
             
-            toast.Add("Customer has been changed.", Severity.Success);
+            
         }
     }
 
