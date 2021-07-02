@@ -58,7 +58,7 @@
 @code {
     [CascadingParameter] public AppState gv {get;set;}
     [Parameter] public string customer_id { get; set; }
-    [Parameter] public string project_id { get; set; }
+    [Parameter] public ProjectModel project { get; set; }
     bool is_loading;
         CustomerModel model;
         protected override async Task OnInitializedAsync()
@@ -87,15 +87,23 @@
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
-            string selected_customer_id = ((CustomerModel)result.Data).id.ToString();
-            var res = await http.ApiPost($"Project/ChangedCustomer?project_id={project_id}&customer_id={selected_customer_id}");
-            if (res.IsSuccess)
+             
+            CustomerModel c = (CustomerModel)result.Data;
+
+             ProjectModel  save_model = JsonSerializer.Deserialize<ProjectModel>(JsonSerializer.Serialize(project));
+             save_model.project_type = null;
+             save_model.business_branches = null;
+             save_model.customer_id = c.id;
+
+             var resp =await http.ApiPost("Project/Save",save_model);
+            if (resp.IsSuccess)
             {
-                model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
                 toast.Add("Customer has been changed.", Severity.Success);
-            }else{
-                toast.Add(res.Content.ToString(), Severity.Warning);
+                model = c;
+            }else {
+                toast.Add("Change customer fail.", Severity.Warning);
             }
+            
             
         }
     }

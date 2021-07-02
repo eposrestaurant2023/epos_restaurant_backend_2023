@@ -68,7 +68,7 @@
         <hr />
         <section class="wrp-sale-invoice-body">
             <h3 class="title uk-display-inline-block">
-                <Icon icon="content_paste" />
+                <Icon icon="receipt" />
                 <span class="title">@lang["Customer Payments"]</span>
             </h3>
             <Spacing Number="10" />
@@ -298,7 +298,12 @@
     public async Task OnSaveClick()
     {
         is_saving = true;
-
+        if (!customer_payments.Any())
+        {
+            toast.Add("There is no payment record.", MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
         List<SalePaymentModel> data_save = new List<SalePaymentModel>();
         foreach (var p in customer_payments.Where(r=>r.is_selected == true))
         {

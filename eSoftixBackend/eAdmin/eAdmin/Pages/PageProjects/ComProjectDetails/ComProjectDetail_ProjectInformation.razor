@@ -24,7 +24,7 @@
                         </MudItem>
                     </MudGrid>
 
-                    <ComProjectDetail_CustomerInformation project_id="@(model.id.ToString())" customer_id="@(model.customer_id.ToString())"/>
+                    <ComProjectDetail_CustomerInformation customer_id="@(model.customer_id.ToString())" project="model"/>
 
                     <UIPanel Title="Project Information">
                         <MudGrid>
