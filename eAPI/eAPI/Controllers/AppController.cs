@@ -107,6 +107,18 @@ namespace eAPI.Controllers
             return Ok(Settings);
         }
 
+        [HttpPost("setting/taxrule/save")]
+        public async Task<ActionResult<string>> SaveTaxRule([FromBody] eShareModel.TaxRuleModel value)
+        {
+            SettingModel record = await db.Settings.FindAsync(59);
+
+            string data = JsonSerializer.Serialize(value);
+            record.setting_value = data;
+            db.Settings.Update(record);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(record);
+        }
+
         [HttpPost("Company/save")]
         public async Task<ActionResult<BusinessInformationModel>> Savecompany([FromBody] BusinessInformationModel company)
         {

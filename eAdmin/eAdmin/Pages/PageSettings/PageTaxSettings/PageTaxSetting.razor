@@ -20,24 +20,68 @@
         <PageBody>
             <Tab ClassName="control-header-tab">
                 <TabHeader>
-                    <TabHeaderItem>@lang["Tax Rule Setting"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> { show_tax_rule = true; })">@lang["Tax Rule Setting"]</TabHeaderItem>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+                        <TabHeaderItem OnClick="@(()=> { show_tax_rule = false; })">@b.business_branch_name_en</TabHeaderItem>
+                    }
                 </TabHeader>
                 <TabBody>
                     <TabItem>
                         @if (tax_rule != null)
                         {
-                            <ComTaxRuleSetting @bind-model="@tax_rule" />
+                        <UIGridCenter>
+                            <UIContainerBox Title="@($"Tax 1 :{tax_rule.tax_1_name}")">
+                                <TextInput @bind-text="@tax_rule.tax_1_name" label="Tax Name 1 : " is_horizontal="true">
+                                    <ComInputCheckBox label="Calculate tax 1 after discount" @bind-value="@tax_rule.calc_tax_1_after_discount" label_inline="true"/>
+                                </TextInput>
+                            </UIContainerBox>
+                            <UIContainerBox Title="@($"Tax 2 :{tax_rule.tax_2_name}")">
+                                <TextInput @bind-text="@tax_rule.tax_2_name" label="Tax Name 2 : " is_horizontal="true">
+                                    <ComInputCheckBox label="Calculate tax 2 after discount" @bind-value="@tax_rule.calc_tax_2_after_discount" label_inline="true"/>
+                                    <ComInputCheckBox label="Calculate tax 2 after adding tax 1" @bind-value="@tax_rule.calc_tax_2_after_adding_tax_1" label_inline="true"/>
+                                </TextInput>
+                            </UIContainerBox>
+                            <UIContainerBox Title="@($"Tax 3 :{tax_rule.tax_3_name}")">
+                                <TextInput @bind-text="@tax_rule.tax_3_name" label="Tax Name 3 : " is_horizontal="true">
+                                    <ComInputCheckBox label="Calculate tax 3 after discount" @bind-value="@tax_rule.calc_tax_3_after_discount" label_inline="true"/>
+                                    <ComInputCheckBox label="Calculate tax 3 after adding tax 1" @bind-value="@tax_rule.calc_tax_3_after_adding_tax_1" label_inline="true"/>
+                                    <ComInputCheckBox label="Calculate tax 3 after adding tax 2" @bind-value="@tax_rule.calc_tax_3_after_adding_tax_2" label_inline="true"/>
+                                </TextInput>
+                            </UIContainerBox>
+                        </UIGridCenter>
                         }
-                        <div style="word-break:break-word">
-                            @JsonSerializer.Serialize(tax_rule)
-                        </div>
                     </TabItem>
+                    @*@if (stations.Any())
+                    {
+                        @foreach (var b in gv.business_branch_by_role)
+                        {
+                            <TabItem>
+                                @if (b.outlets.Any()) {
+                                    @foreach (var o in b.outlets)
+                                    {
+                                        <UIGridCenter>
+                                            <UIContainerBox Title="@(stations.Where(r => r.outlet_id == o.id).FirstOrDefault().station_name_en)">
+
+                                            </UIContainerBox>
+                                        </UIGridCenter>
+                                    }
+                                }
+                            </TabItem>
+                        }
+                    }
+                    else
+                    {
+                        <ComEmptyTemplate empty="There is no station."/>
+                    }*@
                 </TabBody>
             </Tab>
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@SaveTaxRule" />
+                @if (show_tax_rule) {
+                <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@SaveTaxRule"/>
+                }
             </FooterCenter>
         </PageFooter>
     </PageContainer>
