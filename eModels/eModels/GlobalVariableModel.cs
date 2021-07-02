@@ -208,6 +208,13 @@ namespace eModels
                 return get_setting_value(57);
             }
         }
+        public string tax_rule
+        {
+            get
+            {
+                return get_setting_value(59);
+            }
+        }
 
         private CurrencyModel get_currency(bool is_main = true)
         {
