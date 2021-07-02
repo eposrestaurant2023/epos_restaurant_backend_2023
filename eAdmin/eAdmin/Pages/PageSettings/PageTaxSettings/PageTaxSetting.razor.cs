@@ -59,7 +59,18 @@ namespace eAdmin.Pages.PageSettings.PageTaxSettings
 
         public async Task SaveStationTax()
         {
-            //await ...;
+            is_saving = true;
+            var resp = await http.ApiPost("station/save/multiple", stations);
+            if (resp.IsSuccess)
+            {
+                toast.Add(lang["Save tax rule station successfully"], MatToastType.Success);
+            }
+            else
+            {
+
+                toast.Add(lang["Save tax rule station fail"], MatToastType.Warning);
+            }
+            is_saving = false;
         }
 
     }
