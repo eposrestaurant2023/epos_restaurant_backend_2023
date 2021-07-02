@@ -25,14 +25,14 @@
 
                     </div>
                 </div>*@
-            <div>
+            <div class="uk-width-1-1 uk-margin-small-top">
                 @if (!is_read_only)
                 {
-                    <label class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
+                    <label class="cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
                 }
                 else
                 {
-                    <label disabled class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
+                    <label disabled class="cp uk-margin-remove-top"><input class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
                 }
             </div>
 

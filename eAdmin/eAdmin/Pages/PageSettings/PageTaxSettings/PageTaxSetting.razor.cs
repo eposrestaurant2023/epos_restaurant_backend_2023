@@ -17,7 +17,7 @@ namespace eAdmin.Pages.PageSettings.PageTaxSettings
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            tax_rule = JsonSerializer.Deserialize<eShareModel.TaxRuleModel>(gv.tax_rule);
+            tax_rule = JsonSerializer.Deserialize<eShareModel.TaxRuleModel>(gv.tax_rule); 
             await GetSations();
             is_loading = false;
         }
@@ -40,6 +40,7 @@ namespace eAdmin.Pages.PageSettings.PageTaxSettings
             {
 
                 toast.Add(lang["Please enter tax rule name"], MatToastType.Warning);
+                is_saving = false;
                 return;
             }
             var resp = await http.ApiPost("setting/taxrule/save", tax_rule);
@@ -53,6 +54,12 @@ namespace eAdmin.Pages.PageSettings.PageTaxSettings
                 toast.Add(lang["Save tax rule Fail"], MatToastType.Warning);
             }
             is_saving = false;
+        }
+
+
+        public async Task SaveStationTax()
+        {
+            //await ...;
         }
 
     }
