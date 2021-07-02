@@ -45,6 +45,8 @@ namespace eModels
                 return _tax_1_taxable_rate * 100; 
             }
             set {
+
+                if (value > 100) value = 100;
                 _tax_1_taxable_rate = value / 100; 
             }
         }
@@ -58,6 +60,7 @@ namespace eModels
             }
             set
             {
+                if (value > 100) value = 100;
                 _tax_2_taxable_rate = value / 100;
             }
         }
@@ -71,6 +74,7 @@ namespace eModels
             }
             set
             {
+                if (value > 100) value = 100;
                 _tax_3_taxable_rate = value / 100;
             }
         }
@@ -84,6 +88,7 @@ namespace eModels
             }
             set
             {
+                if (value > 100) value = 100;
                 _tax_1_rate = value / 100;
             }
         }
@@ -97,6 +102,7 @@ namespace eModels
             }
             set
             {
+                if (value > 100) value = 100;
                 _tax_2_rate = value / 100;
             }
         }
@@ -110,6 +116,7 @@ namespace eModels
             }
             set
             {
+                if (value > 100) value = 100;
                 _tax_3_rate = value / 100;
             }
         }

@@ -215,6 +215,19 @@ namespace eModels
                 return get_setting_value(59);
             }
         }
+        public bool is_shift_management
+        {
+            get
+            {
+
+                string value = get_setting_value(60);
+                if (value == "1")
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
 
         private CurrencyModel get_currency(bool is_main = true)
         {

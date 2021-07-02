@@ -190,11 +190,9 @@ namespace eAdmin.Shared
         {
             is_spinner = true;
             string api_url = "GlobalVariable?$expand=";
-            api_url = api_url + "product_categorys,";
+            api_url = api_url + "product_categories,";
             api_url = api_url + "customer_groups,";
-            api_url = api_url + "business_branches,";
-            api_url = api_url + "employees($filter=is_deleted eq false),";
-            api_url = api_url + "positions,";
+            api_url = api_url + "bussiness_branches";
             GetResponse res = await http.ApiGet(api_url);
             if (res.IsSuccess)
             {
