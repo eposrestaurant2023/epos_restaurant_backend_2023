@@ -52,7 +52,11 @@ namespace eAPI.Controllers
             }
             
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(u);
+
+     
+
+            db.Database.ExecuteSqlRaw($"exec sp_update_project_information '{u.project_id}'");
+            return Ok(db.BusinessBranches.Where(r=>r.id==u.id).Include(r=>r.business_branch_system_features).FirstOrDefault());
 
 
         }

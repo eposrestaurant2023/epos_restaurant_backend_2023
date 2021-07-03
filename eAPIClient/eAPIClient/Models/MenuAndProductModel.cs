@@ -92,6 +92,7 @@ namespace eAPIClient.Models
         public string product_category_kh { get; set; }
 
         public string stock_locations { get; set; }
+        public string product_tax_value { get; set; }
 
 
         
