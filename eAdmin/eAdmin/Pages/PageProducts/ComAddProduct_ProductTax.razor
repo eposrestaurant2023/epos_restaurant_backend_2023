@@ -1,0 +1,88 @@
+﻿<UIContainerBox Title="Printers">
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+     
+        @if (gv.business_branch_by_role.Count() == 1)
+        {
+            @foreach (var p in printers)
+            {
+                <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
+
+            }
+        }
+        else
+        {
+            <Tab>
+                <TabHeader>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+                        <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                    }
+                </TabHeader>
+                <TabBody>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+                        <TabItem>
+                            @foreach (var p in printers.Where(r => r.business_branch_id == b.id))
+                            {
+                                <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
+                            }
+                        </TabItem>
+                    }
+                </TabBody>
+            </Tab>
+        }
+    }
+</UIContainerBox>
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    [Parameter] public ProductModel model { get; set; }
+    [Parameter] public EventCallback< ProductModel> modelChanged { get; set; }
+    List<PrinterModel> printers = new List<PrinterModel>();
+    bool is_loading;
+    protected override void OnInitialized()
+    {
+        is_loading = true;
+        printers = JsonSerializer.Deserialize<List<PrinterModel>>(JsonSerializer.Serialize(gv.printers));
+        foreach(var p  in model.product_printers)
+        {
+            if (printers.Where(r => r.id == p.printer_id).Any())
+            {
+                printers.Where(r => r.id == p.printer_id).FirstOrDefault().is_selected = true;
+            }
+        }
+        is_loading = false;
+    }
+
+
+    async Task PrinterChanged(PrinterModel p)
+    {
+        p.is_selected = !p.is_selected;
+        if (p.is_selected)
+        {
+            if(model.product_printers.Where(r => r.printer_id == p.id).Any())
+            {
+                model.product_printers.Where(r => r.printer_id == p.id).FirstOrDefault().is_deleted = false;
+            }else
+            {
+                model.product_printers.Add(new ProductPrinterModel() { printer_id = p.id });
+            }
+
+        }else
+        {
+
+            model.product_printers.Where(r => r.printer_id == p.id && r.id > 0).ToList().ForEach(r => r.is_deleted = true);
+            model.product_printers.RemoveAll(r => r.printer_id == p.id && r.id == 0);
+
+        }
+        await modelChanged.InvokeAsync(model);
+    }
+
+
+}

@@ -15,9 +15,9 @@ namespace eModels
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
-        public decimal tax_1_rate { get; set; }
-        public decimal tax_2_rate { get; set; }
-        public decimal tax_3_rate { get; set; }
+        public decimal tax_1_rate { get; set; } = -1;
+        public decimal tax_2_rate { get; set; } = -1;
+        public decimal tax_3_rate { get; set; } = -1;
 
     }
 }
