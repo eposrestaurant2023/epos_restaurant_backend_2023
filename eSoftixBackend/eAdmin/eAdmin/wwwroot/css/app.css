@@ -348,11 +348,17 @@ a.disabled, a.disabled:hover {
         overflow-y: scroll
     }
 
+
+
 }
 
 @media only screen and (max-width: 960px) {
     .width_medui {
         max-height: 300px;
         overflow-y: scroll
+    }
+
+    .wrp-action-form {
+        width: 100% !important;
     }
 }

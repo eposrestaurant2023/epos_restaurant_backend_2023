@@ -9,10 +9,8 @@
     <PageHeader title="@page_title" show_back_button="true" show_refresh_button="false">
     </PageHeader>
     <PageBody>
-        
         <EditForm Model="@model" OnValidSubmit="@Save_Click">
        <UICenter>
-           
                <DataAnnotationsValidator />
                <UIPanel Title="Customer Information">
                      <SelectCustomer @bind-customer_id="@model.customer_id" @bind-model="@model.customer"/>
