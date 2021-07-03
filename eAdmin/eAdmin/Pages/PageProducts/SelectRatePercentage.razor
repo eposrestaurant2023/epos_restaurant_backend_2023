@@ -9,15 +9,10 @@
                 <label class="uk-form-label" for="@id">@label</label>
                 <div class="uk-form-controls">
                     <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
-                        <option value="-1.0000">Sale Tax</option>
-                        <option value="0.0000">Not Tax</option>
-                        <option value="0.0300">3%</option>
-                        <option value="0.0500">5%</option>
-                        <option value="0.0700">7%</option>
-                        <option value="0.1000">10%</option>
-                        <option value="0.1500">15%</option>
-                        <option value="0.2000">20%</option>
-                        <option value="0.2500">25%</option>
+                        @foreach (var p in data)
+                        {
+                            <option value="@p.tax_value">@p.tax_name</option>
+                        }
                     </select>
                     @ChildContent
                 </div>
@@ -30,15 +25,10 @@
             <label class="uk-form-label" for="@id">@label</label>
             <div class="uk-form-controls">
                 <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
-                    <option value="-1.0000">Sale Tax</option>
-                    <option value="0.0000">Not Tax</option>
-                    <option value="0.0300">3%</option>
-                    <option value="0.0500">5%</option>
-                    <option value="0.0700">7%</option>
-                    <option value="0.1000">10%</option>
-                    <option value="0.1500">15%</option>
-                    <option value="0.2000">20%</option>
-                    <option value="0.2500">25%</option>
+                    @foreach (var p in data)
+                    {
+                        <option value="@p.tax_value">@p.tax_name</option>
+                    }
                 </select>
                 @ChildContent
             </div>
@@ -49,31 +39,21 @@ else
 {
     @if (!is_read_only)
     {
-<select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
-    <option value="-1.0000">Sale Tax</option>
-    <option value="0.0000">Not Tax</option>
-    <option value="0.0300">3%</option>
-    <option value="0.0500">5%</option>
-    <option value="0.0700">7%</option>
-    <option value="0.1000">10%</option>
-    <option value="0.1500">15%</option>
-    <option value="0.2000">20%</option>
-    <option value="0.2500">25%</option>
-</select>
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+            @foreach (var p in data)
+            {
+                <option value="@p.tax_value">@p.tax_name</option>
+            } 
+        </select>
     }
     else
     {
-<select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width:@width">
-    <option value="-1.0000">Sale Tax</option>
-    <option value="0.0000">Not Tax</option>
-    <option value="0.0300">3%</option>
-    <option value="0.0500">5%</option>
-    <option value="0.0700">7%</option>
-    <option value="0.1000">10%</option>
-    <option value="0.1500">15%</option>
-    <option value="0.2000">20%</option>
-    <option value="0.2500">25%</option>
-</select>
+        <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width:@width">
+            @foreach (var p in data)
+            {
+                <option value="@p.tax_value">@p.tax_name</option>
+            }
+        </select>
     }
     @ChildContent
 
@@ -91,7 +71,7 @@ else
     [Parameter] public decimal selected_value { get; set; }
     [Parameter] public EventCallback<decimal> selected_valueChanged { get; set; }
     bool is_loading = false;
-
+    public List<ProductTaxPercentageModel> data = new List<ProductTaxPercentageModel>();
     public decimal SelectedValue
     {
         get
@@ -102,6 +82,15 @@ else
     }
 
     Guid id = Guid.NewGuid();
+
+
+    protected override void OnInitialized()
+    {
+        is_loading = true;
+        data = JsonSerializer.Deserialize<List<ProductTaxPercentageModel>>(gv.product_tax_percentages);
+        is_loading = false;
+    }
+
 
     private async Task SelectedValueChange(string n)
     {

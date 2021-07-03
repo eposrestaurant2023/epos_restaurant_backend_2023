@@ -273,4 +273,10 @@ namespace eModels
         public string unit { get; set; }
 
     }
+
+    public class ProductTaxPercentageModel
+    {
+        public string tax_name { get; set; }
+        public decimal tax_value { get; set; }
+    }
 }
