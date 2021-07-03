@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIGridCenter>
-    <UISummaryBox Title="@lang["Product Information"]"  ShowImage="true" ImageUrl="@model.photo">
+    <UISummaryBox Title="@lang["Product Information"]" ShowImage="true" ImageUrl="@model.photo">
         <ContentLeft>
             <table>
                 <tr>
@@ -20,25 +20,25 @@
                     <th>@lang["Categroy"]</th>
                     <td>@model.product_category?.product_category_en</td>
                 </tr>
-                
+
                 <Com is_visible="@(model.kitchen_group_id > 0)">
                     <tr>
                         <th>@lang["Kitchen Group"]</th>
                         <td>@model.kitchen_group?.kitchen_group_name</td>
                     </tr>
                 </Com>
-                    <tr>
-                        <th>@lang["Unit"]</th>
-                        <td>@model.unit?.unit_name</td>
-                    </tr>
+                <tr>
+                    <th>@lang["Unit"]</th>
+                    <td>@model.unit?.unit_name</td>
+                </tr>
             </table>
         </ContentLeft>
         <ContentRight>
             @if (model.vendor_id > 0)
             {
-            <div>
-                <ComVendorInfo vendor="@model.vendor" />
-            </div>
+                <div>
+                    <ComVendorInfo vendor="@model.vendor" />
+                </div>
             }
             <table>
                 <tr>
@@ -53,25 +53,25 @@
                     <th>@lang["Allow Discount"]</th>
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
                 </tr>
-              
+
             </table>
         </ContentRight>
 
     </UISummaryBox>
-    <Spacing Number="10"/>
+    <Spacing Number="10" />
     <Com is_visible="@model.is_inventory_product">
-        <ComProductDetail_InventoryInformation product_id="@model.id" product_deleted="@model.is_deleted"/>
-        <Spacing Number="10"/>
+        <ComProductDetail_InventoryInformation product_id="@model.id" product_deleted="@model.is_deleted" />
+        <Spacing Number="10" />
     </Com>
-    <ComProductDetail_Portion product_id="@model.id"/>
-    <Spacing Number="10"/>
-
-    <ComProductDetail_Modifired product="@model"/>
-    <Spacing Number="10"/>
-
-    <ComProductDetail_Menu product_id="@model.id"/>
-    <Spacing Number="10"/>
-    <ComProductDetail_ProductPrinter product_id="@model.id"/>
+    <ComProductDetail_Portion product_id="@model.id" />
+    <Spacing Number="10" />
+    <ComProductDetail_Modifired product="@model" />
+    <Spacing Number="10" />
+    <ComProductDetail_ProductTax product_id="@model.id" />
+    <Spacing Number="10" />
+    <ComProductDetail_Menu product_id="@model.id" />
+    <Spacing Number="10" />
+    <ComProductDetail_ProductPrinter product_id="@model.id" />
     <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
         @model.note
     </UIContainerBox>
