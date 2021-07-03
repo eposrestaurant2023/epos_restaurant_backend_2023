@@ -1,32 +1,45 @@
 ﻿@inject IHttpService http;
 <Loading is_loading="@is_loading"/>
  
-<MudDialog DisableSidePadding="true">
-    <DialogContent>
-        <MudContainer Style="max-height: 650px; overflow-y: scroll">
-            
-                <MudTextField T="string" Placeholder="Search..."    Adornment="Adornment.End"
+<Modal>
+<ModalContent>
+ <MudTextField T="string" Placeholder="Search..."    Adornment="Adornment.End"
                       AdornmentIcon="@Icons.Filled.Search"
                       DebounceInterval="500"
                       OnDebounceIntervalElapsed="@OnSearch" />
           
            
                 <MudList Clickable="true">
-
+              
                     @foreach (var d in customers)
                     {
                         <MudListItem OnClick="@(()=>SelectCustomer_Click(d))">
-                            <MudText Typo="Typo.body1">@d.customer_code - @d.customer_name_en  </MudText>
+                              <div class="d-flex align-center">
+                                  <div>
+                                        @if (!string.IsNullOrEmpty(d.photo))
+                                {
+                                  <MudAvatar Image="@http.ImageUrl(d.photo)" />
+                                }
+                                else
+                                {
+                                    <MudAvatar Size="Size.Medium" Color="@MudBlazor.Color.Secondary" Variant="Variant.Filled">
+                                        <MudIcon Icon="@Icons.Material.Filled.Person" />
+                                    </MudAvatar>  
+                                 }
+                                  </div>
+                                  <div style="margin-left:5px;">
+                                       <MudText Typo="Typo.body1">@d.customer_code - @d.customer_name_en  </MudText>
+                                  </div>
+                          </div>
                         </MudListItem>
+                         <MudDivider />
                     }
 
-                </MudList>
-             
+                </MudList>    
+
+</ModalContent>
  
-        </MudContainer>
-    </DialogContent>
-    
-</MudDialog>
+</Modal>  
 
 
 @code{

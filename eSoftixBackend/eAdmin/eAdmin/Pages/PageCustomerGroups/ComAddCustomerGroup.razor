@@ -1,35 +1,70 @@
 ﻿@inject ISnackbar toast
-<MudDialog DisableSidePadding="true">
-    <DialogContent>
-        <MudContainer Style="max-height: 650px; overflow-y: scroll">
-            
-                <MudTextField RequiredError="@("Please enter group name en")" @bind-Value="@model.customer_group_name_en" Label="Group Name En">
-        <ValidationMessage For="(()=>model.customer_group_name_en)"/>    
+@inject IHttpService http
+<Modal>
+       <ModalContent>     
+            <MudTextField RequiredError="@("Please enter group name en")" @bind-Value="@model.customer_group_name_en" Label="Group Name En">
+            <ValidationMessage For="(()=>model.customer_group_name_en)"/>    
 
-        </MudTextField>
-        <MudTextField @bind-Value="@model.customer_group_name_kh" Label="Group Name Kh"></MudTextField>
-        <MudTextField @bind-Value="@model.note" Lines="3" Label="Note"></MudTextField>
+            </MudTextField>
+            <MudTextField @bind-Value="@model.customer_group_name_kh" Label="Group Name Kh"></MudTextField>
+            <MudTextField @bind-Value="@model.note" Lines="3" Label="Note"></MudTextField>
  
-        </MudContainer>
-    </DialogContent>
-    <DialogActions>
+        </ModalContent>
+  
+    <ActionButton>
         <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click">Ok</MudButton>
-    </DialogActions>
-</MudDialog>
+    </ActionButton>
+</Modal>
 
 
 @code{
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public CustomerGroupModel model { get; set; } = new CustomerGroupModel();
+    [Parameter] public int group_id {get;set;}
+    [Parameter] public int clone_id {get;set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+    await Task.Delay(100);
+        if(group_id > 0){
+            var res = await http.ApiGet($"customergroup({group_id})");
+            if(res.IsSuccess){
+                model = JsonSerializer.Deserialize<CustomerGroupModel>(res.Content.ToString());
+            }
+        }else if(clone_id > 0)
+        {
+            var res = await http.ApiPost($"customergroup/clone/{clone_id}");
+            if(res.IsSuccess){
+                model = JsonSerializer.Deserialize<CustomerGroupModel>(res.Content.ToString());
+            }
+        }else{
+            await Task.Delay(100);
+            model = new CustomerGroupModel();
+        }
+    }
+    
 
     async Task OnSave_Click()
     {
-        if(string.IsNullOrWhiteSpace(model.customer_group_name_en) ){
-        toast.Add("Please enter customer group name en.",Severity.Warning);
+        if(string.IsNullOrWhiteSpace(model.customer_group_name_en) || string.IsNullOrWhiteSpace(model.customer_group_name_kh)){
+            if(string.IsNullOrWhiteSpace(model.customer_group_name_en)){
+            toast.Add("Please enter customer group name en.",Severity.Warning);
+            }else{
+                toast.Add("Please enter customer group name kh.",Severity.Warning);
+            }
+            return;
         }else{
-            MudDialog.Close(DialogResult.Ok(model));
+
+            var res = await http.ApiPost("customergroup/save",model);
+                if(res.IsSuccess)
+                {
+                    toast.Add("Save Successfull",Severity.Success);
+                    MudDialog.Close(DialogResult.Ok(model));
+                }else{
+                    toast.Add(res.Content.ToString(),Severity.Warning);
+                }
+            
         }
-        
     }
 
 }

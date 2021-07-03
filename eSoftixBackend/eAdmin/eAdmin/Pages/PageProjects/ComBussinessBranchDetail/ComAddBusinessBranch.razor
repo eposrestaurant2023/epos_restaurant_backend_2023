@@ -1,0 +1,44 @@
+﻿ <Loading is_loading="@(is_saving)"/>
+ <EditForm Model="@model" OnValidSubmit="@Save_Click">
+    
+<Modal>
+    <ModalContent>
+          <DataAnnotationsValidator />
+        <UI2Columns>
+            <Left>
+                <MudTextField T="string" @bind-Value="@model.business_branch_name_en" Label="Business Branch Name (En)" For="@(() => model.business_branch_name_en)" Required="true"/>
+                
+            </Left>
+            <Right>
+                <MudTextField T="string" @bind-Value="@model.business_branch_name_kh" Label="Business Branch Name (Kh)" />
+            </Right>
+        </UI2Columns>
+        <MudTextField T="string" @bind-Value="@model.contact_name" Label="Contact Name" />
+        <UI2Columns>
+            <Left>
+                <MudTextField T="string" @bind-Value="@model.phone_1" Label="Phone Number " />
+                
+            </Left>
+            <Right>
+                <MudTextField T="string" @bind-Value="@model.phone_2" Label="Phone Number" />
+            </Right>
+        </UI2Columns>
+         <UI2Columns>
+            <Left>
+                <MudTextField T="string" @bind-Value="@model.email" Label="Email" />
+                
+            </Left>
+            <Right>
+                <MudTextField T="string" @bind-Value="@model.website" Label="Website" />
+            </Right>
+        </UI2Columns>
+        <MudTextField T="string" @bind-Value="@model.address_en" Label="Address" Lines="3" />
+        <MudTextField T="string" @bind-Value="@model.note" Label="Note" Lines="3" />
+         
+    </ModalContent>
+    <ActionButton>
+        <SaveButton  is_loading="@is_saving" />
+    </ActionButton>
+</Modal>
+</EditForm>
+

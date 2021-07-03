@@ -34,6 +34,9 @@
                             <TabHeaderItem>
                                 @lang["Modifired"]
                             </TabHeaderItem>
+                            <TabHeaderItem>
+                                @lang["Product Tax"]
+                            </TabHeaderItem>
                         </TabHeader>
                         <TabBody>
                             <TabItem>
@@ -81,6 +84,11 @@
                             <TabItem>
                                 <UIGridCenter>
                                     <ComAddProduct_Modifier model="@model" />
+                                </UIGridCenter>
+                            </TabItem>
+                            <TabItem>
+                                <UIGridCenter>
+                                    <ComAddProduct_ProductTax model="@model"/>
                                 </UIGridCenter>
                             </TabItem>
                         </TabBody>

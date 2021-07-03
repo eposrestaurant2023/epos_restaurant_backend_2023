@@ -56,8 +56,7 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
-                url = url + "stock_location_products,product_taxes";
-                url = url + "unit";
+                url = url + "stock_location_products,product_taxes,unit";
                 return url;
         } }
 
@@ -128,9 +127,25 @@ namespace eAdmin.Pages.PageProducts
                         is_error = false;
                     }
 
+
+                    // check product tax available
+                    if (model.product_taxes == null)
+                    {
+                        foreach (var c in gv.bussiness_branches)
+                        {
+                            model.product_taxes.Add(new ProductTaxModel { business_branch_id = c.id });
+                        }
+                    }
                 }
 
-            } 
+            }
+            else
+            {
+                foreach (var c in gv.bussiness_branches)
+                {
+                    model.product_taxes.Add(new ProductTaxModel { business_branch_id = c.id });
+                }
+            }
             is_loading = false;
 
         }
