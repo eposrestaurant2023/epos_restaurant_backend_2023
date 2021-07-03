@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210703022554_add_tbl_product_tax")]
+    partial class add_tbl_product_tax
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3252,7 +3254,7 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid?>("stock_location_id")
+                    b.Property<Guid>("stock_location_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("sub_total")
@@ -5420,7 +5422,9 @@ namespace eAPI.Migrations
 
                     b.HasOne("eModels.StockLocationModel", "stock_location")
                         .WithMany()
-                        .HasForeignKey("stock_location_id");
+                        .HasForeignKey("stock_location_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("product");
 
