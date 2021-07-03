@@ -13,7 +13,7 @@ namespace eAPIClient.Models
             sale_product_print_queues = new List<SaleProductPrintQueue>();
         }
       
-        [ForeignKey("sale_id")]
+        [ForeignKey("sale_id"), System.Text.Json.Serialization.JsonIgnore]
         public SaleModel sale { get; set; }
 
         [ForeignKey("sale_order_id")]

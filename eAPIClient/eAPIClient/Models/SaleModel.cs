@@ -12,7 +12,7 @@ namespace eAPIClient.Models
     {
         public SaleModel()
         {
-            payments = new List<SalePaymentModel>();
+            sale_payments = new List<SalePaymentModel>();
             sale_products = new List<SaleProductModel>();
         }
 
@@ -30,7 +30,7 @@ namespace eAPIClient.Models
         [ForeignKey("cashier_shift_id")]
         public CashierShiftModel cashier_shift { get; set; }
 
-        public List<SalePaymentModel> payments { get; set; }
+        public List<SalePaymentModel> sale_payments { get; set; }
         public List<SaleProductModel> sale_products { get; set; }
 
     }
