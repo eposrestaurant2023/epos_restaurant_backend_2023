@@ -1,4 +1,5 @@
 ﻿@inject ISnackbar toast
+@inject IHttpService http
 <Modal>
        <ModalContent>     
                 <MudTextField RequiredError="@("Please enter group name en")" @bind-Value="@model.customer_group_name_en" Label="Group Name En">
@@ -42,9 +43,9 @@
  
         </ModalContent>
   
-    <ModalAction>
+    <ActionButton>
         <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click">Ok</MudButton>
-    </ModalAction>
+    </ActionButton>
 </Modal>
 
 
