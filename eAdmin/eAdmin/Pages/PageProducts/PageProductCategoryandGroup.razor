@@ -55,10 +55,7 @@
                                                         <tr>
                                                             <Th>@lang["Product Category Name En"]</Th>
                                                             <Th>@lang["Product Category Name Kh"]</Th>
-                                                            <ThCenter>@lang["Tax 1 Rate"]</ThCenter>
-                                                            <ThCenter>@lang["Tax 2 Rate"]</ThCenter>
-                                                            <ThCenter>@lang["Tax 3 Rate"]</ThCenter>
-                                                            <ThCenter>@lang["Status"]</ThCenter>
+                                                            <ThCenter>@lang["Status"]</ThCenter> 
                                                         </tr>
                                                         <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="6">
                                                             @foreach (var s in d.product_categories)
@@ -66,9 +63,6 @@
                                                                 <tr>
                                                                     <td>@s.product_category_en</td>
                                                                     <td>@s.product_category_kh </td>
-                                                                    <TdCenter>@s.tax_1_rate.ToString(gv.percentage_format)</TdCenter>
-                                                                    <TdCenter>@s.tax_2_rate.ToString(gv.percentage_format)</TdCenter>
-                                                                    <TdCenter>@s.tax_3_rate.ToString(gv.percentage_format)</TdCenter>
                                                                     <TdCenter>
                                                                             <LabelActive is_visible="@s.status" is_loading="@s.is_change_status" />
                                                                             <LabelInActive is_visible="@(!s.status)" is_loading="@s.is_change_status" />

@@ -38,10 +38,8 @@
                                 <tr>
                                     <ThAuto>@lang["Category Name En"]</ThAuto>
                                     <ThAuto>@lang["Category Name Kh"]</ThAuto>
-                                    <th>@lang["Tax 1 Rate"]</th>
-                                    <th>@lang["Tax 2 Rate"]</th>
-                                    <th>@lang["Tax 3 Rate"]</th>
                                     <ThCenter>@lang["Status"]</ThCenter>
+                                    <th></th>
                                 </tr>
                                 <ViewEmptyTemplate is_view="model.product_categories.Any()" colspan="4">
                                     @foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
@@ -49,15 +47,12 @@
                                         <tr>
                                             <td><TextInput label="" placeholder="@lang["Product Category Name En"]" @bind-text="@s.product_category_en" /></td>
                                             <td><TextInput label="" placeholder="@lang["Product Category Name Kh"]" @bind-text="@s.product_category_kh" /></td>
-                                            <td><SelectRatePercentage @bind-selected_value="@s.tax_1_rate" is_inline="true" width="90px"/></td>
-                                            <td><SelectRatePercentage @bind-selected_value="@s.tax_2_rate" is_inline="true" width="90px"/></td>
-                                            <td><SelectRatePercentage @bind-selected_value="@s.tax_3_rate" is_inline="true" width="90px"/></td>
-                                            <td class="uk-text-center">
-                                                <div>
-                                                    <LabelActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@s.status" />
-                                                    <LabelInActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@(!s.status)" />
-                                                    <Icon icon="delete" OnClick="@(()=>DeleteProductCategory(s))" />
-                                                </div>
+                                            <TdCenter>
+                                                <LabelActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@s.status" />
+                                                <LabelInActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@(!s.status)" />
+                                            </TdCenter>
+                                            <td>
+                                                <Icon icon="delete" OnClick="@(()=>DeleteProductCategory(s))" />
                                             </td>
                                         </tr>
                                     }
@@ -90,7 +85,7 @@
         {
             string query = ControllerApi;
             query = query + $"({id})?";
-            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status,tax_1_rate,tax_2_rate,tax_3_rate;$expand=products($select=id;$top=1);$filter=is_deleted eq false)";
+            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status;$expand=products($select=id;$top=1);$filter=is_deleted eq false)";
 
             return query;
 
@@ -179,6 +174,7 @@
         {
             product_category_en = "Category " + (model.product_categories.Count()+1),
             product_category_kh = "Category " + (model.product_categories.Count() + 1),
+            status = true
 
         }) ;
 

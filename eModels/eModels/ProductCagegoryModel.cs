@@ -48,9 +48,5 @@ namespace eModels
         public bool has_ingredient_product { get; set; }
         public bool has_menu_product { get; set; }
 
-        public decimal tax_1_rate { get; set; } = -1;
-        public decimal tax_2_rate { get; set; } = -1;
-        public decimal tax_3_rate { get; set; } = -1;
-
     }
 }
