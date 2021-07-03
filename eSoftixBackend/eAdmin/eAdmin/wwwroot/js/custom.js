@@ -18,3 +18,14 @@ function CapturePhoto() {
         });
     });
 }
+
+
+
+
+    $('.helpicon').on('click', function () {
+        $('.truncate').addClass('truncated');
+    });
+
+    $('span').on('click', function () {
+        $('.truncated').removeClass('truncated');
+    });

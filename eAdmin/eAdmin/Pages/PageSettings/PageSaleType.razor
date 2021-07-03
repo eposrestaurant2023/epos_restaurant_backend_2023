@@ -1,0 +1,117 @@
+﻿@page "/setting/saletype"
+@inherits PageCore
+<Loading is_loading="@(is_loading || is_saving)" />
+@if (!is_loading)
+{
+   
+    <Title Value="@lang["Sale Type"]"></Title>
+    <PageContainer roles="@gv.GetRole("sale_type_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Sale Type"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+               <RefreshButton OnClick="@OnInitializedAsync"/>
+            </HeaderRight>
+        </PageHeader>
+
+        <PageBody>
+            <UIGridCenter>
+                @if (branches.Any())
+                {
+                    @foreach (var b in branches)
+                    {
+                         <ComAccordion>
+                             <Header>
+                                 @b.business_branch_name_en
+                             </Header>
+                             <Content> 
+                                 <ComAddSaleTypes sale_types="@b.sale_types"/>
+                                 <hr />
+                                 <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
+                             </Content>
+                         </ComAccordion>
+                    
+                    }
+                }
+                else
+                {
+                    <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
+                }
+            </UIGridCenter>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@Save_Click"/>
+            </FooterCenter>
+        </PageFooter>
+        </PageContainer>
+}
+
+@code{
+    List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
+     
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData()
+    {
+
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=sale_types($filter=is_deleted eq false)&$filter=is_deleted eq false");
+        if (resp.IsSuccess)
+        {
+            branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+        }
+        else
+        {
+
+            toast.Add(lang["Loading sale type fail."], MatToastType.Warning);
+        }
+
+
+    }
+
+    void Add(BusinessBranchModel b)
+    {
+        b.sale_types.Add(new SaleTypeModel());
+    }
+
+    async Task Save_Click()
+    {
+
+        if(branches.SelectMany(r=>r.sale_types).Where(r=>r.is_deleted==false && string.IsNullOrEmpty(r.sale_type_name)).Any())
+        {
+
+            toast.Add(lang["Please enter sale type name"], MatToastType.Warning);
+            return;
+        }
+
+        is_saving = true;
+
+        var resp = await http.ApiPost("BusinessBranch/save/multiple", branches);
+        if (resp.IsSuccess)
+        {
+
+            toast.Add(lang["Save sale type successfully"], MatToastType.Success);
+
+            await LoadData();
+        }
+        else
+        {
+
+            toast.Add(lang["Save sale type fail"], MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+
+}

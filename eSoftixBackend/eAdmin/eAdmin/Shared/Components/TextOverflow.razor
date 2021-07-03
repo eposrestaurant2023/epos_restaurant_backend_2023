@@ -1,0 +1,31 @@
+﻿@if (!string.IsNullOrEmpty(Text)) {
+<div>
+    <div class="text-overflow wrap-text @ClassName @(IsReadMore?"is-read-more":null)">
+        @if (Text.Length <= substring_length)
+        {
+            @Text
+        }
+        else
+        {
+            @(!IsReadMore ? Text : Text.Substring(substring_start_index , substring_length))
+        }
+    </div>
+    @if (Text.Length >= 20)
+    {
+       <MudText Typo="Typo.caption" Color="MudBlazor.Color.Primary " @onclick="ToogleText" Style="cursor: pointer;">@(IsReadMore? "--read more" : "--less")</MudText>
+    }
+</div> 
+}
+
+@code{
+    [Parameter] public string Text { get; set; }
+    [Parameter] public string ClassName { get; set; }
+    [Parameter] public int substring_start_index { get; set; } = 0;
+    [Parameter] public int substring_length { get; set; } = 20;
+    [Parameter] public bool IsReadMore { get; set; } = true;
+
+    void ToogleText() {
+        IsReadMore = !IsReadMore;
+        StateHasChanged();
+    }
+}
