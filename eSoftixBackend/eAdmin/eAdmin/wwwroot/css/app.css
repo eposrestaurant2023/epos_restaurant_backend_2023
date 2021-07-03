@@ -341,6 +341,11 @@ a.disabled, a.disabled:hover {
     justify-content: normal;
     text-align: center;
 }
+.wrap-text {
+    white-space: pre-line;
+}
+ 
+
 
 @media only screen and (min-width: 960px) {
     .width_medui {

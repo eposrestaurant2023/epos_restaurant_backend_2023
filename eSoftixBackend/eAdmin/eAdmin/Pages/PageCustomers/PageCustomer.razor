@@ -16,7 +16,6 @@
             <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
         </Filter>
         <Right>
-           
             <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true">
                  <FilterDateRange @bind-dates="@state.date_range"  />
                 <SelectCustomerGroup @bind-customer_group="@state.customer_group"  show_empty="true" empty_text="All Customer Group" />
