@@ -328,3 +328,19 @@ a.disabled, a.disabled:hover {
 .view_table .mud-list-item-text{
     text-transform:lowercase !important;
 }
+
+
+@media only screen and (min-width: 960px) {
+    .width_medui {
+        max-height: 600px;
+        overflow-y: scroll
+    }
+
+}
+
+@media only screen and (max-width: 960px) {
+    .width_medui {
+        max-height: 300px;
+        overflow-y: scroll
+    }
+}

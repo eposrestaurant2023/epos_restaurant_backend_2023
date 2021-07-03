@@ -219,7 +219,7 @@
     }
     async Task OnAddNew_Click()
     {
-        var dialog = alert.Show<ComAddCustomerGroup>("New Customer", new DialogOptions() {  CloseButton = true });
+        var dialog = alert.Show<ComAddCustomerGroup>("New Customer");
         var result = await dialog.Result;
         var group = (CustomerGroupModel)result.Data;
         if (!result.Cancelled)
