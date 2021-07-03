@@ -34,7 +34,7 @@ namespace eShareModel
         public string deleted_by { get; set; }
         public DateTime? deleted_date { get; set; }
 
-        public bool status { get; set; }
+        public bool status { get; set; } = true;
 
         [NotMapped]
         [JsonIgnore]
