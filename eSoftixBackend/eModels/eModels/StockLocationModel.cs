@@ -14,8 +14,10 @@ namespace eModels
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
+
+        [Required]
         public string stock_location_name { get; set; }
-        public bool is_default { get; set; }
+        public bool is_default { get; set; } 
         [NotMapped]
         public bool is_loading { get; set; }
         
