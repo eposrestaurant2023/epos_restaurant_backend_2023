@@ -58,11 +58,11 @@
     [Parameter] public EventCallback<Guid> customer_idChanged { get; set; }
 
      
-    DialogOptions dialog_option = new DialogOptions() {  CloseButton = true };
+    
     async Task SelectCustomer_Click()
     {
          
-        var dialog = Dialog.Show<SelectCustomerList>("Search Customer", dialog_option);
+        var dialog = Dialog.Show<SelectCustomerList>("Search Customer");
         var result = await dialog.Result;
 
         if (!result.Cancelled)
