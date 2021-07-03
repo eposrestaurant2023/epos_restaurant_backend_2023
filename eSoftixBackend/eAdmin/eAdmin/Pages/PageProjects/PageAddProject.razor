@@ -33,7 +33,10 @@
                     <MudTextField Lines="5" @bind-Value="@model.note" Label="Note" Variant="Variant.Text"></MudTextField>
                </UIPanel>
        </UICenter>
-       <PageFooter>
+
+        </EditForm>
+    </PageBody>
+           <PageFooter>
            <Center>
                <MudButton Disabled="@model.is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save
                 @if(model.is_saving){
@@ -43,8 +46,6 @@
                 <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button">Cancel</MudButton>
            </Center>
        </PageFooter>
-        </EditForm>
-    </PageBody>
 </PageContainer>
 }
 
