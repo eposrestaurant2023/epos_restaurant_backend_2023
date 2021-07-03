@@ -1,0 +1,67 @@
+﻿@if (PermissionOptions.Count() > 0)
+{
+    <ComRenderTree is_parent="@is_parent" toogle=".content_title" css_class="uk-list" Items="@PermissionOptions.Where(r=>r.parent_id == parent_id).ToList()">
+        <ItemTemplate Context="p">
+            <li class="@(is_parent && p.permission_options.Count() > 0 ? "uk-parent" : "child_list")">
+                
+                <div class="content_title @(PermissionOptions.Where(r=>(r.parent_id == p.id && p.parent_id == null) || (p.parent_id == null && p.id != r.parent_id)).Any()?"check-role-title":"")">
+                    <Spinner IsLoading="@(p.permission_options?.Count() == 0 && p.is_loading && show_delete)" />
+                    @if (p.is_selected)
+                    {
+                        <MudCheckBox T="bool" Checked="@p.is_selected" CheckedChanged="@(async(e)=> { await SelectPermission_Click(p); })" Color="MudBlazor.Color.Tertiary"></MudCheckBox>
+                    }
+                    else
+                    {
+                        <MudCheckBox T="bool" CheckedChanged="@(async(e)=> { await SelectPermission_Click(p); })" Color="MudBlazor.Color.Tertiary"></MudCheckBox>
+                    }
+
+                    <span @onclick="(()=> { p.is_open_child = !p.is_open_child; })">
+                        @if(!p.is_open_child)
+                        {
+                            @if(!p.is_open_child && p.permission_options.Any()){
+                                <MudIcon Icon="@Icons.Material.Filled.AddBox"/>
+                            }
+                        }
+                        else if(p.is_open_child)
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.IndeterminateCheckBox"/>
+                        }
+                    </span>
+                    <span>@p.note</span>
+                    @if (ChildPermissionOption(p.id).Count() > 0)
+                    {
+                        <div style="display: @(p.is_open_child?"block":"none");">
+                            <CascadingValue Value="PermissionOptions">
+                                <ComPermissionOptionTree role_id="@role_id" parent_id="@p.id" OnSelect="@SelectPermission_Click" />
+                            </CascadingValue>
+
+                        </div>
+
+                    }
+                </div>
+
+            </li>
+        </ItemTemplate>
+    </ComRenderTree>
+}
+@code{
+
+    [CascadingParameter] public List<PermissionOptionModel> PermissionOptions { get; set; }
+
+    public List<PermissionOptionModel> ChildPermissionOption(int? id)
+    {
+        return PermissionOptions.Where(r => r.id == id).ToList();
+    }
+
+    [Parameter] public bool show_delete { get; set; } = false;
+
+    [Parameter] public bool is_parent { get; set; } = false;
+
+    [Parameter] public int role_id { get; set; }
+    [Parameter] public EventCallback<PermissionOptionModel> OnSelect { get; set; }
+    [Parameter] public int? parent_id { get; set; }
+    async Task SelectPermission_Click(PermissionOptionModel permission)
+    {
+        await OnSelect.InvokeAsync(permission);
+    }
+}
