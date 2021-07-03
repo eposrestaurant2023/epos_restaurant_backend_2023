@@ -1,8 +1,6 @@
 ﻿@inject ISnackbar toast
-<MudDialog DisableSidePadding="true">
-    <DialogContent>
-        <MudContainer Style="max-height: 650px; overflow-y: scroll">
-            
+<Modal>
+       <ModalContent>     
                 <MudTextField RequiredError="@("Please enter group name en")" @bind-Value="@model.customer_group_name_en" Label="Group Name En">
         <ValidationMessage For="(()=>model.customer_group_name_en)"/>    
 
@@ -10,12 +8,12 @@
         <MudTextField @bind-Value="@model.customer_group_name_kh" Label="Group Name Kh"></MudTextField>
         <MudTextField @bind-Value="@model.note" Lines="3" Label="Note"></MudTextField>
  
-        </MudContainer>
-    </DialogContent>
-    <DialogActions>
+        </ModalContent>
+  
+    <ActionButton>
         <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click">Ok</MudButton>
-    </DialogActions>
-</MudDialog>
+    </ActionButton>
+</Modal>
 
 
 @code{
