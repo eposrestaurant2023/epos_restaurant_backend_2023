@@ -1,7 +1,7 @@
 ﻿@page "/customergroup"
 @inherits PageCore
 @inject IDialogService Dialog
-<Loading is_loading="@is_loading"/>
+<Loading is_loading="@(is_loading || is_loading_data)"/>
 @{
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
@@ -9,7 +9,7 @@
 @if (!is_loading)
 {
 <PageContainer>
-    <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
+      <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
         <Filter>
             <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
         </Filter>
@@ -24,8 +24,7 @@
         </Right>
     </PageHeader>
     <PageBody>
-
-        <Table Items="@customer_groups"
+          <Table Items="@customer_groups"
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"
                 isLoading="@is_loading_data"
@@ -71,6 +70,7 @@
             </RowTemplate>
         </Table>
     </PageBody>
+        
 </PageContainer>
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
     <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"customer/new")"/>    
@@ -82,17 +82,10 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     public List<CustomerGroupModel> customer_groups = new List<CustomerGroupModel>();
     public List<CustomerGroupModel> temp_customer_groups = new List<CustomerGroupModel>();
-
-    public CustomerGroupModel model = new CustomerGroupModel();
-    bool is_show_modal = false;
-    public string StateKey = "278484567Gs2512K8sIASGytkjhTonB3PCz2Ts"; //Storage and Session Key
-
     public int TotalRecord = 0;
-    public string ModalTitle = "";
-
+    public string StateKey = "278484567Gs2512K8sIASGytkjhTonB3PCz2Ts"; //Storage and Session Key
     string controller_api = "CustomerGroup";
 
-    DateTime date = DateTime.Now;
 
     public string ControllerApi
     {
@@ -134,29 +127,6 @@
         is_loading = false;
     }
 
-    async Task OnRefresh()
-    {
-        is_loading = true;
-        await LoadData();
-        is_loading = false;
-    } 
-    void Clone_Click(Guid id)
-    {
-        is_loading_data = true;
-        nav.NavigateTo($"customergroup/clone/{id}");
-        is_loading_data = false;
-    }
-
-    async Task ViewClick(ModuleViewModel m)
-    {
-        state.filters.Clear();
-        state.filters = m.filters;
-        state.pager.order_by = m.default_order_by;
-        state.pager.order_by_type = m.default_order_by_type;
-        state.page_title = m.title;
-        state.pager.current_page = 1;
-        await LoadData();
-    }
 
     async Task LoadData(string api_url = "")
     {
@@ -168,18 +138,53 @@
             
             TotalRecord = resp.Count;
         }
-        
-        is_loading = false;
         StateHasChanged();
+        is_loading = false;
+        
     }
 
-    async Task OrderBy(string col_name = "")
+    async Task OnAddNew_Click()
     {
+        var dialog = alert.Show<ComAddCustomerGroup>("New Customer Group", new DialogOptions() {  CloseButton = true });
+        var result = await dialog.Result;
+        var group = (CustomerGroupModel)result.Data;
+        if (!result.Cancelled)
+        {
+            is_loading_data=true;
+            StateHasChanged();
+            var res = await http.ApiPost("customergroup/save",group);
+            if(res.IsSuccess)
+            {
+                AddToast("Save Successfull");
+                await LoadData();
+                
+            }else{
+                AddToast(res.Content.ToString(),Severity.Warning);
+            }
+            is_loading_data=false;
+        }
 
-        state.pager.order_by = col_name;
-        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+    }
 
-        await LoadData();
+     async Task OnClone(CustomerGroupModel g)
+    {
+        g.is_loading = true;
+       
+        var parameters = new DialogParameters();
+        parameters.Add("clone_id", g.id);
+        var dialog = alert.Show<ComAddCustomerGroup>($"Clone {g.customer_group_name_en}", parameters, new DialogOptions() {  CloseButton = true });
+        var result = await dialog.Result;
+        var group = (CustomerGroupModel)result.Data;
+            if (!result.Cancelled)
+            {
+                is_loading_data=true;
+                StateHasChanged();
+                await LoadData();
+                is_loading_data=false;
+            }
+        
+        g.is_loading=false;
+        
     }
 
     async Task OnToogleStatusLabel(CustomerGroupModel p)
@@ -193,127 +198,31 @@
         if (resp.IsSuccess)
         {
             toast.Add("Change status successfully", Severity.Success);
+            is_loading_data = true;
+            StateHasChanged();
             await LoadData();
+            is_loading_data=false;
         }
         p.is_change_status=false;
     }
 
-    async Task OnDelete(CustomerGroupModel p)
-    {
-        p.is_loading = true;
-            
-        if (await alert.ShowMessageBox("Delete Customer", "Are you sure you want to delete this record?")==true)
-        {
-            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
-            if (resp.IsSuccess)
-            {
-                toast.Add("Delete customer successfully", Severity.Success);
-                if (customer_groups.Count() == 1 && state.pager.current_page > 0)
-                {
-                    state.pager.current_page = state.pager.current_page - 1;
-                }
-                await LoadData();
-            }
-        }
-        p.is_loading = false;
-    }
-    async Task OnAddNew_Click()
-    {
-        var dialog = alert.Show<ComAddCustomerGroup>("New Customer");
-        var result = await dialog.Result;
-        var group = (CustomerGroupModel)result.Data;
-        if (!result.Cancelled)
-        {
-            
-            var res = await http.ApiPost("customergroup/save",group);
-            if(res.IsSuccess)
-            {
-                AddToast("Save Successfull");
-                is_show_modal = false;
-                await LoadData();
-            }else{
-                AddToast(res.Content.ToString(),Severity.Warning);
-            }
-        }
-
-    }
-
     async Task OnEdit(CustomerGroupModel g)
     {
-    g.is_loading=true;
-        var group_res = await http.ApiGet($"CustomerGroup({g.id})");
-        if(group_res.IsSuccess){
+        g.is_loading=true;
         var parameters = new DialogParameters();
-            model = JsonSerializer.Deserialize<CustomerGroupModel>(group_res.Content.ToString());
-            parameters.Add("model", model);
-            var dialog = alert.Show<ComAddCustomerGroup>($"Edit {model.customer_group_name_en}", parameters, new DialogOptions() {  CloseButton = true });
-            var result = await dialog.Result;
-            var group = (CustomerGroupModel)result.Data;
-            if (!result.Cancelled)
-            {
-                var res = await http.ApiPost("customergroup/save",group);
-                if(res.IsSuccess)
-                {
-                    AddToast("Save Successfull");
-                    is_show_modal = false;
-                    await LoadData();
-                }else{
-                    AddToast(res.Content.ToString(),Severity.Warning);
-                }
-            }
-        }
-    g.is_loading=false;
-        
-    }
-
-    async Task OnClone(CustomerGroupModel g)
-    {
-        g.is_loading = true;
-        var group_res = await http.ApiPost($"CustomerGroup/clone/{g.id}");
-        if(group_res.IsSuccess){
-        var parameters = new DialogParameters();
-            
-            
-            model = JsonSerializer.Deserialize<CustomerGroupModel>(group_res.Content.ToString());
-            parameters.Add("model", model);
-            var dialog = alert.Show<ComAddCustomerGroup>($"Clone {model.customer_group_name_en}", parameters, new DialogOptions() {  CloseButton = true });
-            var result = await dialog.Result;
-            var group = (CustomerGroupModel)result.Data;
-            if (!result.Cancelled)
-            {
-                var res = await http.ApiPost("customergroup/save",group);
-                if(res.IsSuccess)
-                {
-                    AddToast("Save Successfull");
-                    is_show_modal = false;
-                    await LoadData();
-                }else{
-                    AddToast(res.Content.ToString(),Severity.Warning);
-                }
-            }
-        }
-    g.is_loading=false;
-        
-    }
-
-    async Task OnRestore(CustomerGroupModel p)
-    {
-        p.is_loading = true;
-        if (await alert.ShowMessageBox("Restore Customer", "Are you sure you want to restore this record?") == true)
-              
+        parameters.Add("group_id", g.id);
+        var dialog = alert.Show<ComAddCustomerGroup>($"Edit {g.customer_group_name_en}", parameters, new DialogOptions() {  CloseButton = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
         {
-            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
-
-            if (resp.IsSuccess)
-            {
-                await LoadData();
-            }
-            toast.Add("Restore customer successfully", Severity.Success);
+            is_loading_data=true;
+            StateHasChanged();
+            await LoadData();
+            is_loading_data=false;
         }
-        p.is_loading = false;
+        g.is_loading=false;
+        
     }
-
-
 
     void OnSearch(string keyword)
     {
@@ -324,6 +233,71 @@
     {
         state.pager = new PagerModel();
         SetFilterValue2(state.filters, "keyword", "");
+        await LoadData();
+    }
+     async Task OrderBy(string col_name = "")
+    {
+
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+
+        await LoadData();
+    }
+
+        async Task OnDelete(CustomerGroupModel p)
+    {
+        p.is_loading = true;
+            
+        if (await alert.ShowMessageBox("Delete Customer", "Are you sure you want to delete this record?")==true)
+        {
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+            if (resp.IsSuccess)
+            {
+            is_loading_data=true;
+                StateHasChanged();
+                toast.Add("Delete customer successfully", Severity.Success);
+                await LoadData();
+                is_loading_data=false;
+            }
+        }
+        p.is_loading = false;
+    }
+
+
+    async Task OnRestore(CustomerGroupModel p)
+    {
+        p.is_loading = true;
+        if (await alert.ShowMessageBox("Restore Customer", "Are you sure you want to restore this record?") == true)
+        {
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+
+            if (resp.IsSuccess)
+            {
+                is_loading_data=true;
+                StateHasChanged();
+                toast.Add("Restore customer successfully", Severity.Success);
+                await LoadData();
+                 is_loading_data=false;
+            }
+            
+        }
+        p.is_loading = false;
+    }
+
+    async Task OnRefresh()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    } 
+    async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.pager.order_by = m.default_order_by;
+        state.pager.order_by_type = m.default_order_by_type;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
         await LoadData();
     }
 }

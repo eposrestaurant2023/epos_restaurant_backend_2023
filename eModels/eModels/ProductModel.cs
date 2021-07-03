@@ -23,6 +23,7 @@ namespace eModels
             stock_location_products = new List<StockLocationProductModel>();
             sale_products = new List<SaleProductModel>();
             modifier_ingredients = new List<ModifierIngredientModel>();
+            product_taxes = new List<ProductTaxModel>();
         }
 
 
@@ -31,6 +32,8 @@ namespace eModels
         public bool is_over_stock { get; set; } = false;
         public decimal quantity { get; set; }
         public List<StockLocationProductModel> stock_location_products { get; set; }
+        public List<ProductTaxModel> product_taxes { get; set; }
+        public string product_tax_value { get; set; }
 
         [Required(ErrorMessage = "Please select a category.")]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category.")]
@@ -269,5 +272,11 @@ namespace eModels
  
         public string unit { get; set; }
 
+    }
+
+    public class ProductTaxPercentageModel
+    {
+        public string tax_name { get; set; }
+        public decimal tax_value { get; set; }
     }
 }
