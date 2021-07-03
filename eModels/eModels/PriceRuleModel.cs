@@ -77,9 +77,4 @@ namespace eModels
         public string prices { get; set; }
      
     }
-
-
-
-
-
 }

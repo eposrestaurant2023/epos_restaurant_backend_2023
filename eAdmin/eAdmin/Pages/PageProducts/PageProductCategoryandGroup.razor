@@ -55,9 +55,9 @@
                                                         <tr>
                                                             <Th>@lang["Product Category Name En"]</Th>
                                                             <Th>@lang["Product Category Name Kh"]</Th>
-                                                            <ThCenter>@lang["Status"]</ThCenter>
+                                                            <ThCenter>@lang["Status"]</ThCenter> 
                                                         </tr>
-                                                        <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="3">
+                                                        <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="6">
                                                             @foreach (var s in d.product_categories)
                                                             {
                                                                 <tr>

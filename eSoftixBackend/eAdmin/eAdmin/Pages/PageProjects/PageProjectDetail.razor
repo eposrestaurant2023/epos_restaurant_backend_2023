@@ -5,7 +5,7 @@
 <PageContainer is_loading="@is_loading">
 @if (model != null)
     {
-        <PageHeader title="@page_title" show_refresh_button="false">
+     <PageHeader title="@page_title" show_refresh_button="false">
     <Left>
         <LabelExpiredProject visible="model.is_expired"/>
         <LabelCloseProject visible="@model.is_closed"/>
@@ -13,7 +13,6 @@
         <LabelFullLicense visible="@model.is_full_license"/>
     </Left>
     <Right>
-
         <ComAttachFileButton File="@(new AttachFilesModel(){ project_id = new Guid(id)})" ApiFilter="@($"project_id eq {id}")" Class="mr-2"/>
 
         
@@ -33,13 +32,10 @@
             <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteProject_Click">Delete</MenuButtonItem>
             <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteProject_Click">Restore</MenuButtonItem>
     </MenuButton>
-
-
-        
     </Right>
 </PageHeader>
     <PageBody>
-        <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="py-6" KeepPanelsAlive="true">
+          <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="py-6" KeepPanelsAlive="true">
              <MudTabPanel Text="Project Information">
                 <ComProjectDetail_ProjectInformation model="@model"/>
             </MudTabPanel>

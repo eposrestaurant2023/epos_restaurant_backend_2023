@@ -1,4 +1,4 @@
-﻿ 
+﻿ @inject IHttpService  http
 
 @if(model!=null){ 
 
@@ -11,7 +11,26 @@
     </MenuButton>
     </UIPanelHeaderRight> 
     <UIPanelBody>
-        @JsonSerializer.Serialize(model)
+            <MudGrid>
+        <MudItem xs="12" md="12" lg="6">
+            <MudList>
+                <ListItem Title="Name En">@model.business_branch_name_en</ListItem>
+                <ListItem Title="Name Kh">@model.business_branch_name_kh</ListItem>
+                <ListItem Title="Address En">@model.address_en</ListItem>
+                <ListItem Title="Address Kh">@model.address_kh</ListItem>
+            </MudList>
+        </MudItem>
+        <MudItem xs="12" md="12" lg="6">
+        <MudList>
+                <ListItem Title="Email">@model.email</ListItem>
+                <ListItem Title="Website">@model.website</ListItem>
+                <ListItem Title="Phone">@model.phone_1 @((!string.IsNullOrEmpty(model.phone_2)?"/" + model.phone_2:""))  </ListItem>
+                <ListItem Title="Telegram">@model.note</ListItem>
+            </MudList>
+        </MudItem>
+    </MudGrid>
+
+
     </UIPanelBody>
 </UIPanel>
 }

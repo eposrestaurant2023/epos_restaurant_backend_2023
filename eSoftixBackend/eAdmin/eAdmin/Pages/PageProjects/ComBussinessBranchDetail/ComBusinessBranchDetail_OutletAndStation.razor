@@ -7,13 +7,15 @@
         @if (outlets != null && outlets.Count() > 0)
         {
             <MudExpansionPanels>
+              <MudGrid>
                 @foreach (var d in outlets)
                 {
+                   <MudItem xs="12" sm="12" md="6">
                     <MudExpansionPanel HideIcon="true" Class="mb-4">
                         <TitleContent>
                             <div class="d-flex">
                                 <MudText Class="mt-1">@d.outlet_name_en</MudText>
-                                <LabelDeleted  is_visible="true"/>
+                                <LabelDeleted  is_visible="@d.is_deleted"/>
                                  
                                 <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading" ClassName="d-flex ml-auto pa-0" >
                                     <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditOutlet_Click(d))">Edit</MudMenuItem>
@@ -24,41 +26,44 @@
                             </div>
                         </TitleContent>
                         <ChildContent>
-                            @foreach(var s in d.stations)
-                            {
-                                <MudCard>
-                                    <MudCardHeader>
-                                        <CardHeaderAvatar>
-                                            <MudIcon Icon="@Icons.Material.Filled.DesktopWindows" Size="MudBlazor.Size.Large" />
-                                        </CardHeaderAvatar>
-                                        <CardHeaderContent>
-                                            <MudText Typo="Typo.body1">@s.station_name_en</MudText>
-                                            <MudText Typo="Typo.body1">@s.expired_date</MudText>
-                                            <LabelDeleted is_visible="true"/>
-                                            <LabelExpiredProject visible="true"/>
-                                            <LabelFullLicense visible="true"/>
-                                        </CardHeaderContent>
-                                        <CardHeaderActions>
-                                            <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading">
-                                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStation_Click(s))">Edit</MudMenuItem>
-                                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Extend Expired Date</MudMenuItem>
-                                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.LockClock" OnClick="@(()=>EditStation_Click(s))">Mark as Full License</MudMenuItem>
-                                                <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Cancel Full License</MudMenuItem>
-                                                <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Delete</MenuButtonItem>
-                                                <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Restore</MenuButtonItem>
-                                            </MenuButton>
-                                        </CardHeaderActions>
-                                    </MudCardHeader>
-                    
-                                </MudCard>
-
-                   
+                         
+                               @foreach(var s in d.stations)
+                                 {
+                                    
+                                             <MudCard>
+                                            <MudCardHeader>
+                                                <CardHeaderAvatar>
+                                                    <MudIcon Icon="@Icons.Material.Filled.DesktopWindows" Size="MudBlazor.Size.Large" />
+                                                </CardHeaderAvatar>
+                                                <CardHeaderContent>
+                                                    <MudText Typo="Typo.body1">@s.station_name_en</MudText>
+                                                    <MudText Typo="Typo.body1">@s.expired_date</MudText>
+                                                    <LabelDeleted is_visible="@d.is_deleted"/>
+                                                    <LabelExpiredProject visible="true"/>
+                                                    <LabelFullLicense visible="true"/>
+                                                </CardHeaderContent>
+                                                <CardHeaderActions>
+                                                    <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading">
+                                                        <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStation_Click(s))">Edit</MudMenuItem>
+                                                        <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Extend Expired Date</MudMenuItem>
+                                                        <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.LockClock" OnClick="@(()=>EditStation_Click(s))">Mark as Full License</MudMenuItem>
+                                                        <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Cancel Full License</MudMenuItem>
+                                                        <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Delete</MenuButtonItem>
+                                                        <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Restore</MenuButtonItem>
+                                                    </MenuButton>
+                                                </CardHeaderActions>
+                                            </MudCardHeader>
+                                        </MudCard>
+                                   
+                                
                                 }
+                          
+                    
                         </ChildContent>
                     </MudExpansionPanel>
-                    
+                      </MudItem>
                 }
-            
+              </MudGrid>
               </MudExpansionPanels>
      }
     </UIPanelBody>
