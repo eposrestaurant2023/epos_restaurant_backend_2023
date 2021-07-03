@@ -40,7 +40,11 @@ namespace eShareModel
         public string email { get; set; }
 
         [MaxLength(50)]
+        public string contact_name { get; set; }
+        
+        [MaxLength(50)]
         public string phone_1 { get; set; }
+
 
         [MaxLength(50)]
         public string phone_2 { get; set; }

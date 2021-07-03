@@ -9,10 +9,8 @@
     <PageHeader title="@page_title" show_back_button="true" show_refresh_button="false">
     </PageHeader>
     <PageBody>
-        
         <EditForm Model="@model" OnValidSubmit="@Save_Click">
        <UICenter>
-           
                <DataAnnotationsValidator />
                <UIPanel Title="Customer Information">
                      <SelectCustomer @bind-customer_id="@model.customer_id" @bind-model="@model.customer"/>
@@ -33,7 +31,10 @@
                     <MudTextField Lines="5" @bind-Value="@model.note" Label="Note" Variant="Variant.Text"></MudTextField>
                </UIPanel>
        </UICenter>
-       <PageFooter>
+
+        </EditForm>
+    </PageBody>
+           <PageFooter>
            <Center>
                <MudButton Disabled="@model.is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save
                 @if(model.is_saving){
@@ -43,8 +44,6 @@
                 <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button">Cancel</MudButton>
            </Center>
        </PageFooter>
-        </EditForm>
-    </PageBody>
 </PageContainer>
 }
 
