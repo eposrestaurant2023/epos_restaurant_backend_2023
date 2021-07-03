@@ -57,8 +57,8 @@ if(state.is_logined ){
               
             <MudNavMenu>
                <MudNavGroup Title="Quick Add" Icon="@Icons.Material.Outlined.Add" Expanded="true">
-                <MudNavLink Href="/users" Icon="@Icons.Material.Filled.Person" IconColor="MudBlazor.Color.Default">New Customer</MudNavLink>
-                <MudNavLink Href="/security" Icon="@Icons.Material.Filled.WorkspacesFilled" IconColor="MudBlazor.Color.Default">New Project</MudNavLink>
+                <MudNavLink Href="@($"customer/new")" Icon="@Icons.Material.Filled.Person" IconColor="MudBlazor.Color.Default">New Customer</MudNavLink>
+                <MudNavLink Href="@($"project/new")" Icon="@Icons.Material.Filled.Layers" IconColor="MudBlazor.Color.Default">New Project</MudNavLink>
             </MudNavGroup>
             </MudNavMenu>
             <div style="height:20px;"></div>

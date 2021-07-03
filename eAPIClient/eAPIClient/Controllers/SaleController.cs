@@ -21,13 +21,13 @@ namespace eAPIClient.Controllers
     {
         public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
-        private readonly AppService app;
+        private readonly AppService app; 
 
-        public SaleController(ApplicationDbContext _db, AppService _app, IConfiguration configuration)
+        public SaleController(ApplicationDbContext _db, AppService _app,  IConfiguration configuration)
         {
             db = _db;
             app = _app;
-            config = configuration;
+            config = configuration; 
         }
 
 
@@ -99,10 +99,11 @@ namespace eAPIClient.Controllers
                     }
                 }
 
+
                 return Ok(model);
             }
             catch
-            {
+            { 
                 return BadRequest();
             }
 
