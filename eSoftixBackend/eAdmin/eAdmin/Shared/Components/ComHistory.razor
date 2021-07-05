@@ -30,7 +30,7 @@
                             <ValidationSummary />
                             <MudTextField Lines="5" @bind-Value="@h.description" />
                             <Spacing Number="10"/>
-                            <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnUpdateClick(h))" Class="btn-small"><Spinner IsLoading="@h.is_saving" />Save</MudButton>
+                            <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnUpdateClick(h))" Class="btn-small" Color="MudBlazor.Color.Primary"><Spinner IsLoading="@h.is_saving" />Save</MudButton>
                             <MudButton Variant="Variant.Filled" Disabled="@h.is_saving" OnClick="@(() => OnCancelClick(h))" Class="btn-small">Cancel</MudButton>
 
                         </EditForm>
