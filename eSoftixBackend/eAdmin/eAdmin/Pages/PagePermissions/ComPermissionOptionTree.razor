@@ -43,6 +43,27 @@
             </li>
         </ItemTemplate>
     </ComRenderTree>
+    @if(SelectedValues != null){
+        @foreach(var s in SelectedValues){
+            @s
+        }
+    }
+    
+    <MudTreeView CanSelect="true" @bind-SelectedValues="SelectedValues">
+        @foreach(var p in PermissionOptions.Where(r=>r.parent_id == parent_id)){
+            <MudTreeViewItem Value="@(p.note)">
+                @foreach(var s1 in PermissionOptions.Where(r=>r.parent_id == p.id)){
+                    <MudTreeViewItem Value="@(s1.note)">
+                        @foreach(var s2 in PermissionOptions.Where(r=>r.parent_id == s1.id)){
+                            <MudTreeViewItem Value="s2.note"/>
+                        }
+                    </MudTreeViewItem>
+                }
+                
+            </MudTreeViewItem>
+        }
+   
+     </MudTreeView>
 }
 @code{
 
@@ -52,7 +73,7 @@
     {
         return PermissionOptions.Where(r => r.id == id).ToList();
     }
-
+    HashSet<string> SelectedValues { get; set; }
     [Parameter] public bool show_delete { get; set; } = false;
 
     [Parameter] public bool is_parent { get; set; } = false;
