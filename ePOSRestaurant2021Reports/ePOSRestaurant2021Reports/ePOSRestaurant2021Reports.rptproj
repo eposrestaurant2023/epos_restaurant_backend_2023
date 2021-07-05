@@ -49,7 +49,12 @@
     <Reports>@(Report)</Reports>
   </PropertyGroup>
   <ItemGroup>
+    <DataSet Include="BusinessBranch.rsd" />
+    <DataSet Include="Outlet.rsd" />
+    <DataSet Include="SaleType.rsd" />
     <DataSet Include="Setting.rsd" />
+    <DataSet Include="StationName.rsd" />
+    <DataSet Include="TableName.rsd" />
   </ItemGroup>
   <ItemGroup>
     <DataSource Include="DataSource.rds" />

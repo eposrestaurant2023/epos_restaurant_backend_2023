@@ -1,0 +1,13 @@
+﻿ <Loading is_loading="@(is_saving)"/>
+ <EditForm Model="@model" OnValidSubmit="@Save_Click">
+<Modal>
+    <ModalContent>
+          <DataAnnotationsValidator />
+                <MudTextField T="string" @bind-Value="@model.outlet_name_en" Label="Outlet Name" For="@(() => model.outlet_name_en)" Required="true"/>
+    </ModalContent>
+    <ActionButton>
+        <SaveButton  is_loading="@is_saving" />
+    </ActionButton>
+</Modal>
+</EditForm>
+ 
