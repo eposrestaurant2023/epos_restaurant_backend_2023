@@ -6,7 +6,7 @@
     {
         if (d.input_type == "checkbox")
         {
-            <ComInputCheckBox label="@d.setting_title" value="@(d.setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d,val))" />
+            <ComInputCheckBox label="@d.setting_title" value="@(d.setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d,val))" label_inline="true"/>
         }
         else if (d.input_type == "select")
         {

@@ -6,7 +6,7 @@
         {
             if (d.input_type == "checkbox")
             {
-               <ComInputCheckBox label="@d.setting_title" value="@(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault(),val))"/>
+               <ComInputCheckBox label="@d.setting_title" value="@(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault(),val))" label_inline="true"/>
             }
             else if (d.input_type == "select")
             {
