@@ -24,7 +24,7 @@
         </Right>
     </PageHeader>
     <PageBody>
-          <Table Items="@customer_groups"
+          <Table Items="@roles"
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"
                 isLoading="@is_loading_data"
@@ -52,12 +52,12 @@
                     <LabelDeleted is_visible="@p.is_deleted"/>
                 </TdCenter>
                 <TdActions is_loading="@(p.is_loading || p.is_change_status)">
-                    <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p))">Edit</TableActionItem>
-                    <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("customer_group_add")" is_visible="@(!p.is_deleted )" OnClick="@(()=>OnClone(p))">Clone</TableActionItem>
-                    <TableActionItem icon="@Icons.Material.Filled.Check" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted  && !p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">Active</TableActionItem>
-                    <TableActionItem icon="@Icons.Material.Filled.HighlightOff" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted && p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">InActive</TableActionItem>
-                    <TableActionItem icon="@Icons.Material.Filled.Delete" roles="@gv.GetRole("customer_group_delete")"  is_visible=@(!p.is_deleted) OnClick="@(()=>OnDelete(p))">Delete</TableActionItem>
-                    <TableActionItem icon="@Icons.Material.Filled.Refresh" roles="@gv.GetRole("customer_group_restore")" is_visible=@(p.is_deleted) OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p))">Edit</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("role_add")" is_visible="@(!p.is_deleted )" OnClick="@(()=>OnClone(p))">Clone</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Check" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted  && !p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">Active</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.HighlightOff" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted && p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">InActive</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Delete" roles="@gv.GetRole("role_delete")"  is_visible=@(!p.is_deleted) OnClick="@(()=>OnDelete(p))">Delete</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Refresh" roles="@gv.GetRole("role_restore")" is_visible=@(p.is_deleted) OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
                   </TdActions>
             </RowTemplate>
         </Table>
@@ -72,7 +72,7 @@
 
 @code{
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    public List<RoleModel> customer_groups = new List<RoleModel>();
+    public List<RoleModel> roles = new List<RoleModel>();
     public List<RoleModel> temp_roles = new List<RoleModel>();
     public int TotalRecord = 0;
     public string StateKey = "278484567A*%S512K8SGytkjhTonB3PCz2Ts"; //Storage and Session Key
@@ -126,7 +126,7 @@
         var resp = await http.ApiGetOData(ControllerApi);
         if (resp.IsSuccess)
         {
-            customer_groups = temp_roles = JsonSerializer.Deserialize<List<RoleModel>>(resp.Content.ToString());
+            roles = temp_roles = JsonSerializer.Deserialize<List<RoleModel>>(resp.Content.ToString());
             
             TotalRecord = resp.Count;
         }
@@ -138,23 +138,23 @@
     async Task OnAddNew_Click()
     {
         var dialog = alert.Show<ComAddRole>("New Role", new DialogOptions() {  CloseButton = true });
-        var result = await dialog.Result;
-        var role = (RoleModel)result.Data;
-        if (!result.Cancelled)
-        {
-            is_loading_data=true;
-            StateHasChanged();
-            var res = await http.ApiPost("customergroup/save",role);
-            if(res.IsSuccess)
-            {
-                AddToast("Save Successfull");
-                await LoadData();
+        //var result = await dialog.Result;
+        //var role = (RoleModel)result.Data;
+        //if (!result.Cancelled)
+        //{
+        //    is_loading_data=true;
+        //    StateHasChanged();
+        //    var res = await http.ApiPost("role/save",role);
+        //    if(res.IsSuccess)
+        //    {
+        //        AddToast("Save Successfull");
+        //        await LoadData();
                 
-            }else{
-                AddToast(res.Content.ToString(),Severity.Warning);
-            }
-            is_loading_data=false;
-        }
+        //    }else{
+        //        AddToast(res.Content.ToString(),Severity.Warning);
+        //    }
+        //    is_loading_data=false;
+        //}
 
     }
 
@@ -166,7 +166,6 @@
         parameters.Add("clone_id", g.id);
         var dialog = alert.Show<ComAddRole>($"Clone {g.role_name}", parameters, new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
-        var group = (RoleModel)result.Data;
             if (!result.Cancelled)
             {
                 is_loading_data=true;
@@ -202,7 +201,7 @@
     {
         g.is_loading=true;
         var parameters = new DialogParameters();
-        parameters.Add("group_id", g.id);
+        parameters.Add("role_id", g.id);
         var dialog = alert.Show<ComAddRole>($"Edit {g.role_name}", parameters, new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
@@ -218,7 +217,7 @@
 
     void OnSearch(string keyword)
     {
-        customer_groups = temp_roles.Where(r=> (r.role_name).ToLower().Contains(keyword.ToLower())).ToList();
+        roles = temp_roles.Where(r=> (r.role_name).ToLower().Contains(keyword.ToLower())).ToList();
         SetFilterValue2(state.filters, "keyword", keyword);
     }
     async Task OnRemoveKeyword()
