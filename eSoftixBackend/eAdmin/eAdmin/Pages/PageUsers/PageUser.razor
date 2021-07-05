@@ -1,4 +1,4 @@
-﻿@page "/role"
+﻿@page "/user"
 @inherits PageCore
 @inject IDialogService Dialog
 <Loading is_loading="@(is_loading || is_loading_data)"/>
@@ -40,14 +40,12 @@
                 <Th></Th>
             </TableHeader>
             <RowTemplate Context="p">
-                 <td>
-                     <MudLink Href="@($"permission/edit/{p.id}")">
-                         @p.role_name
-                     </MudLink>
-                </Td>
                 <td>
-                    @p.description
+                    @p.full_name
                 </td>
+                 <td>
+                    @p.username
+                </Td>
                 <TdCenter>
                     <LabelActive is_visible="@(p.status && !p.is_deleted)"/>
                     <LabelInActive is_visible="@(!p.status && !p.is_deleted)"/>
@@ -74,10 +72,10 @@
 
 @code{
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    public List<RoleModel> roles = new List<RoleModel>();
-    public List<RoleModel> temp_roles = new List<RoleModel>();
+    public List<UserModel> roles = new List<UserModel>();
+    public List<UserModel> temp_roles = new List<UserModel>();
     public int TotalRecord = 0;
-    public string StateKey = "278484567A*%S512K8SGytkjhTonB3PCz2Ts"; //Storage and Session Key
+    public string StateKey = "278484567A*%S51^*S(DAkjhTonB3PCz2Ts"; //Storage and Session Key
     string controller_api = "Role";
 
 
@@ -128,7 +126,8 @@
         var resp = await http.ApiGetOData(ControllerApi);
         if (resp.IsSuccess)
         {
-            roles = temp_roles = JsonSerializer.Deserialize<List<RoleModel>>(resp.Content.ToString());
+            roles = temp_roles = JsonSerializer.Deserialize<List<UserModel>>(resp.Content.ToString());
+            
             TotalRecord = resp.Count;
         }
         StateHasChanged();
@@ -138,9 +137,8 @@
 
     async Task OnAddNew_Click()
     {
-        var dialog = alert.Show<ComAddRole>("New Role", new DialogOptions() {  CloseButton = true });
+        var dialog = alert.Show<ComAddUser>("New Role", new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
-        var role = (RoleModel)result.Data;
         if (!result.Cancelled)
         {
             is_loading_data=true;
@@ -152,13 +150,13 @@
 
     }
 
-     async Task OnClone(RoleModel g)
+     async Task OnClone(UserModel g)
     {
         g.is_loading = true;
        
         var parameters = new DialogParameters();
         parameters.Add("clone_id", g.id);
-        var dialog = alert.Show<ComAddRole>($"Clone {g.role_name}", parameters, new DialogOptions() {  CloseButton = true });
+        var dialog = alert.Show<ComAddUser>($"Clone {g.username}", parameters, new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
             if (!result.Cancelled)
             {
@@ -172,11 +170,11 @@
         
     }
 
-    async Task OnToogleStatusLabel(RoleModel p)
+    async Task OnToogleStatusLabel(UserModel p)
     {
         await SaveStatus(p);
     }
-    async Task SaveStatus(RoleModel p)
+    async Task SaveStatus(UserModel p)
     {
         p.is_change_status = true;
         var resp = await http.ApiPost(controller_api + $"/status/{p.id}");
@@ -191,12 +189,12 @@
         p.is_change_status=false;
     }
 
-    async Task OnEdit(RoleModel g)
+    async Task OnEdit(UserModel g)
     {
         g.is_loading=true;
         var parameters = new DialogParameters();
         parameters.Add("role_id", g.id);
-        var dialog = alert.Show<ComAddRole>($"Edit {g.role_name}", parameters, new DialogOptions() {  CloseButton = true });
+        var dialog = alert.Show<ComAddUser>($"Edit {g.username}", parameters, new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
@@ -211,7 +209,7 @@
 
     void OnSearch(string keyword)
     {
-        roles = temp_roles.Where(r=> (r.role_name).ToLower().Contains(keyword.ToLower())).ToList();
+        roles = temp_roles.Where(r=> (r.username).ToLower().Contains(keyword.ToLower())).ToList();
         SetFilterValue2(state.filters, "keyword", keyword);
     }
     async Task OnRemoveKeyword()
@@ -229,7 +227,7 @@
         await LoadData();
     }
 
-        async Task OnDelete(RoleModel p)
+        async Task OnDelete(UserModel p)
     {
         p.is_loading = true;
             
@@ -249,7 +247,7 @@
     }
 
 
-    async Task OnRestore(RoleModel p)
+    async Task OnRestore(UserModel p)
     {
         p.is_loading = true;
         if (await alert.ShowMessageBox("Restore Customer", "Are you sure you want to restore this record?") == true)
