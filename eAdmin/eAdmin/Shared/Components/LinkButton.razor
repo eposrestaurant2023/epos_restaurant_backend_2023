@@ -1,8 +1,11 @@
 ﻿@if (is_visible)
 {
-    if (!string.IsNullOrEmpty(url))
+    if (!string.IsNullOrEmpty(roles))
     {
-       
+        <AuthorizeView Roles="@roles">
+        @if (!string.IsNullOrEmpty(url))
+        {
+
             if (!disabled)
             {
                 <a href="@url" class="uk-button @background @Class_Name" uk-tooltip="@title" target="@target">
@@ -17,12 +20,12 @@
                     @ChildContent
                 </a>
             }
-         
-        
-    }
-    else
-    {
-        
+
+
+        }
+        else
+        {
+
             if (!disabled)
             {
                 <a @onclick="OnClick" class="uk-button @background @Class_Name" uk-tooltip="@title" target="@target">
@@ -37,10 +40,53 @@
                     @ChildContent
                 </a>
             }
-        
+
+        }
+
+        </AuthorizeView>
     }
+    else
+    {
+        if (!string.IsNullOrEmpty(url))
+        {
+
+            if (!disabled)
+            {
+                <a href="@url" class="uk-button @background @Class_Name" uk-tooltip="@title" target="@target">
+                    <Icon icon="@icon" />
+                    @ChildContent
+                </a>
+            }
+            else
+            {
+                <a class="uk-button @background disabled @Class_Name" uk-tooltip="@title">
+                    <Icon icon="@icon" />
+                    @ChildContent
+                </a>
+            }
 
 
+        }
+        else
+        {
+
+            if (!disabled)
+            {
+                <a @onclick="OnClick" class="uk-button @background @Class_Name" uk-tooltip="@title" target="@target">
+                    <Icon icon="@icon" />
+                    @ChildContent
+                </a>
+            }
+            else
+            {
+                <a class="uk-button @background disabled @Class_Name" uk-tooltip="@title">
+                    <Icon icon="@icon" />
+                    @ChildContent
+                </a>
+            }
+
+        }
+    }
 }
 
 @code{

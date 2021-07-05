@@ -13,7 +13,7 @@ else
                     <tr>
                         <th>Customer</th>
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{model.id}")">
+                            <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"customer/{model.id}")">
                                 @model.customer_code_name
                             </ComAuthorize>
                         </td>

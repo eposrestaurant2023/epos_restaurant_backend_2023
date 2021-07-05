@@ -7,7 +7,12 @@
         </ModalContent>
   
     <ActionButton>
-        <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click">Ok</MudButton>
+        <MudButton Disabled="model.is_saving" Color="MudBlazor.Color.Primary" OnClick="OnSave_Click">
+            Ok
+            @if(model.is_saving){
+               <MudProgressCircular Color="MudBlazor.Color.Default" Indeterminate="true" />
+            }
+        </MudButton>
     </ActionButton>
 </Modal>
 
@@ -20,7 +25,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-    await Task.Delay(100);
+        await Task.Delay(100);
         if(role_id > 0){
             var res = await http.ApiGet($"role({role_id})");
             if(res.IsSuccess){
@@ -33,7 +38,6 @@
                 model = JsonSerializer.Deserialize<RoleModel>(res.Content.ToString());
             }
         }else{
-            await Task.Delay(100);
             model = new RoleModel();
         }
     }
@@ -41,6 +45,7 @@
 
     async Task OnSave_Click()
     {
+        model.is_saving = true;
         if(string.IsNullOrWhiteSpace(model.role_name)){
             toast.Add("Please enter role name.",Severity.Warning);
         }else{
@@ -53,8 +58,8 @@
                 }else{
                     toast.Add(res.Content.ToString(),Severity.Warning);
                 }
-            
         }
+        model.is_saving = false;
     }
 
 }

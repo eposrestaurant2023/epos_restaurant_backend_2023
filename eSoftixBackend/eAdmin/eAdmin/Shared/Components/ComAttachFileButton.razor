@@ -7,9 +7,7 @@
         <MudButton 
             Class ="@Class"
             StartIcon="@Icons.Outlined.AttachFile"
-            Variant="Variant.Text"
-            FullWidth="true"
-            >
+            Variant="Variant.Text">
             <Spinner />
         </MudButton>
     }
@@ -19,7 +17,6 @@
           Class ="@Class"
             StartIcon="@Icons.Outlined.AttachFile"
             Variant="Variant.Text"
-     
             OnClick="OpenDrawer"
             >
             (@files.Where(r => r.is_deleted == false).Count())

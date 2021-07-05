@@ -28,7 +28,7 @@
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"
                 isLoading="@is_loading_data"
-                ShowPager="true"
+                ShowPager="false"
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
@@ -41,7 +41,9 @@
             </TableHeader>
             <RowTemplate Context="p">
                  <td>
-                    @p.role_name
+                     <MudLink Href="@($"permission/edit/{p.id}")">
+                         @p.role_name
+                     </MudLink>
                 </Td>
                 <td>
                     @p.description
@@ -127,7 +129,6 @@
         if (resp.IsSuccess)
         {
             roles = temp_roles = JsonSerializer.Deserialize<List<RoleModel>>(resp.Content.ToString());
-            
             TotalRecord = resp.Count;
         }
         StateHasChanged();
@@ -138,23 +139,16 @@
     async Task OnAddNew_Click()
     {
         var dialog = alert.Show<ComAddRole>("New Role", new DialogOptions() {  CloseButton = true });
-        //var result = await dialog.Result;
-        //var role = (RoleModel)result.Data;
-        //if (!result.Cancelled)
-        //{
-        //    is_loading_data=true;
-        //    StateHasChanged();
-        //    var res = await http.ApiPost("role/save",role);
-        //    if(res.IsSuccess)
-        //    {
-        //        AddToast("Save Successfull");
-        //        await LoadData();
-                
-        //    }else{
-        //        AddToast(res.Content.ToString(),Severity.Warning);
-        //    }
-        //    is_loading_data=false;
-        //}
+        var result = await dialog.Result;
+        var role = (RoleModel)result.Data;
+        if (!result.Cancelled)
+        {
+            is_loading_data=true;
+            StateHasChanged();
+             AddToast("Save Successfull");
+            await LoadData();
+            is_loading_data=false;
+        }
 
     }
 

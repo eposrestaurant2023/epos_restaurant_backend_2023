@@ -50,13 +50,22 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] RoleModel u)
         {
-            db.Database.ExecuteSqlRaw($"delete tbl_business_branch_role where role_id = {u.id}");
+            var r = db.Roles.Where(r=>r.role_name.ToLower() == u.role_name.ToLower());
             if (u.id == 0)
             {
+                if (r.Any())
+                {
+                    return StatusCode(409,"Role already exist.");
+                }
                 db.Roles.Add(u);
             }
             else
             {
+                var role = db.Roles.Where(r => r.role_name.ToLower() == u.role_name.ToLower() && r.id != u.id);
+                if (role.Any())
+                {
+                    return StatusCode(409, "Role already exist.");
+                }
                 db.Roles.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -69,6 +78,14 @@ namespace eAPI.Controllers
         {
             var s = db.Roles.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(s);
+        }
+        [HttpPost("clone/{id}")]
+        public async Task<ActionResult> Clone(int id)
+        {
+            var r = await db.Roles.FindAsync(id);
+            r.id = 0;
+            r.status = true;
+            return Ok(r);
         }
 
         [HttpPost]

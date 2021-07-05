@@ -35,17 +35,19 @@ namespace eAdmin.Pages.PagePermissions
         protected async Task SaveRole_Click()
         {
             is_saving = true;
-            role.permission_option_roles = PermissionOptions.SelectMany(r => r.permission_option_roles).ToList();
-            var post = await http.ApiPost("Role/SavePermission", role);
-            if (post.IsSuccess)
-            {
-                AddToast("Saved successfully");
-                nav.NavigateTo("permission/role");
-            }
-            else
-            {
-                AddToast(post.Content.ToString(),Severity.Warning);
-            }
+           
+                role.permission_option_roles = PermissionOptions.SelectMany(r => r.permission_option_roles).ToList();
+                var post = await http.ApiPost("Role/SavePermission", role);
+                if (post.IsSuccess)
+                {
+                    AddToast("Saved successfully");
+                    nav.NavigateTo("role");
+                }
+                else
+                {
+                    AddToast(post.Content.ToString(), Severity.Warning);
+                }
+           
             is_saving = false;
         }
 
