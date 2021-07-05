@@ -38,20 +38,30 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] StationModel u)
         {
-            
-            if (u.id ==Guid.Empty)
+            try
             {
+                if (u.id == Guid.Empty)
+                {
 
-                db.Stations.Add(u);
+                    db.Stations.Add(u);
+                }
+                else
+                {
+
+                    db.Stations.Update(u);
+
+                }
+
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(u);
+
             }
-            else
+            catch (Exception ex)
             {
-                
-                db.Stations.Update(u);
+                string error = ex.Message;
             }
-            
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(u);
+
+            return StatusCode(503);
 
 
         }
