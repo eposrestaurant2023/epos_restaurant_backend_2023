@@ -34,7 +34,9 @@
                              <Content>
                                  <ComPrinters printers="@b.printers" />
                                  <hr />
-                                 <Button OnClick="@(()=>AddPrinter(b))">@lang["Add Printer"]</Button>
+                                 <div class="uk-text-right">
+                                     <Button OnClick="@(()=>AddPrinter(b))">@lang["Add Printer"]</Button>
+                                 </div>
                              </Content>
                          </ComAccordion>
                     

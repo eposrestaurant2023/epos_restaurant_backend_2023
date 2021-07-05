@@ -38,7 +38,7 @@ namespace eShareModel
 
         [NotMapped]
         [JsonIgnore]
-        public bool is_change_status { get; set; } = false;
+        public bool is_change_status { get; set; }
 
         [NotMapped]
         [JsonIgnore]

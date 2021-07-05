@@ -76,6 +76,13 @@ namespace eAPI.Controllers
             }
         }
 
+        [HttpPost("save/multiple")]
+        public async Task<ActionResult<string>> SaveMultiple([FromBody] List<StationModel> stations)
+        {
+            db.Stations.UpdateRange(stations);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok();
+        }
 
         [HttpPost]
         [Route("delete/{id}")]

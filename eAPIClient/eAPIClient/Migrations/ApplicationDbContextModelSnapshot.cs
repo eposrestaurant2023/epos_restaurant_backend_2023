@@ -433,6 +433,14 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("product_tax_value")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("stock_locations")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.HasKey("id");
 
                     b.ToTable("tbl_product");
@@ -979,6 +987,9 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<Guid?>("stock_location_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
@@ -1070,6 +1081,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<int>("product_modifier_id")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("reqular_price")
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid>("sale_product_id")
                         .HasColumnType("uniqueidentifier");

@@ -1,0 +1,69 @@
+﻿@page "/permission/edit/{role_id:int}"
+@inherits PageAddPermissions
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+
+    <PageContainer roles="role_edit">
+        <PageHeader>
+            <Left>
+                <MudText Typo="@Typo.h5">
+                    Permission
+                </MudText>
+                
+            </Left>
+            <Right>
+                
+            </Right>
+        </PageHeader>
+
+        <PageBody>
+                <PageBody>
+                    <UICenter>
+                        <UIPanel Title="Role Information">
+                            <MudTextField Disabled="true" @bind-Value="@role.role_name" Label="Role">
+                                <ValidationMessage For="@(() => role.role_name)" />
+                            </MudTextField>
+                        </UIPanel>
+                        <UIPanel>
+                            @if (PermissionOptions.Where(r => r.permission_option_roles.Count == 0).ToList().Count > 0)
+                                {
+                                    <MudCheckBox T="bool" CheckedChanged="@(()=>SelectAllRoleClick(true))" Color="MudBlazor.Color.Tertiary">
+                                        <MudText Typo="Typo.body1">
+                                            Select All
+                                        </MudText>
+                                    </MudCheckBox>
+                                    
+                                }
+                                else
+                                {
+                                    <MudCheckBox T="bool" Checked="true" CheckedChanged="@(()=>SelectAllRoleClick(false))" Color="MudBlazor.Color.Tertiary">
+                                        <MudText Typo="Typo.body1">
+                                            Unselect All
+                                        </MudText>
+                                    </MudCheckBox>
+                                    
+                                }
+                                <CascadingValue Value="@PermissionOptions">
+                                    <ComPermissionOptionTree role_id="@role_id" parent_id="null" OnSelect="@SelectedPermission_Click" />
+                                </CascadingValue>
+                        </UIPanel>
+                    </UICenter>
+                    <PageFooter>
+                    <Center>
+                         <MudButton Disabled="@is_saving" OnClick="SaveRole_Click" Color="MudBlazor.Color.Primary"  Variant="Variant.Filled" ButtonType="ButtonType.Button">Save
+                        @if(is_saving){
+                            <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
+                        }
+                        </MudButton>
+                         <MudButton OnClick="@(()=>{nav.NavigateTo("role");})" Color="MudBlazor.Color.Default"  Variant="Variant.Filled" ButtonType="ButtonType.Button">Cancel
+
+                        </MudButton>
+                    </Center>
+                    </PageFooter>
+                </PageBody>
+
+        </PageBody>
+
+    </PageContainer>
+}

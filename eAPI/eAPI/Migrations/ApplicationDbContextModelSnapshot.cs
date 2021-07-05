@@ -175,6 +175,10 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("contact_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1680,6 +1684,9 @@ namespace eAPI.Migrations
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
 
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
                     b.Property<string>("url")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -2191,11 +2198,19 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("product_tax_value")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<decimal>("quantity")
                         .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
+
+                    b.Property<string>("stock_locations")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("unit_id")
                         .HasColumnType("int");
@@ -2428,6 +2443,59 @@ namespace eAPI.Migrations
                     b.HasIndex("product_id");
 
                     b.ToTable("tbl_product_printer");
+                });
+
+            modelBuilder.Entity("eModels.ProductTaxModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("tax_1_rate")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("tax_2_rate")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<decimal>("tax_3_rate")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("business_branch_id");
+
+                    b.HasIndex("product_id");
+
+                    b.ToTable("tbl_product_tax");
                 });
 
             modelBuilder.Entity("eModels.ProvinceModel", b =>
@@ -2890,9 +2958,6 @@ namespace eAPI.Migrations
                     b.Property<int>("status_id")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
@@ -2964,8 +3029,6 @@ namespace eAPI.Migrations
                     b.HasIndex("outlet_id");
 
                     b.HasIndex("status_id");
-
-                    b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_sale");
                 });
@@ -3193,6 +3256,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<Guid?>("stock_location_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
@@ -3245,6 +3311,8 @@ namespace eAPI.Migrations
 
                     b.HasIndex("sale_id");
 
+                    b.HasIndex("stock_location_id");
+
                     b.ToTable("tbl_sale_product");
                 });
 
@@ -3282,6 +3350,9 @@ namespace eAPI.Migrations
 
                     b.Property<int>("product_modifier_id")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("reqular_price")
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid>("sale_product_id")
                         .HasColumnType("uniqueidentifier");
@@ -3417,6 +3488,10 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("is_public")
                         .HasColumnType("bit");
+
+                    b.Property<string>("permission_options")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("setting_description")
                         .HasColumnType("nvarchar(max)")
@@ -3958,6 +4033,9 @@ namespace eAPI.Migrations
                     b.Property<string>("permission_options")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("sort_order")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -5190,6 +5268,25 @@ namespace eAPI.Migrations
                     b.Navigation("product");
                 });
 
+            modelBuilder.Entity("eModels.ProductTaxModel", b =>
+                {
+                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
+                        .WithMany()
+                        .HasForeignKey("business_branch_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eModels.ProductModel", "product")
+                        .WithMany("product_taxes")
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("business_branch");
+
+                    b.Navigation("product");
+                });
+
             modelBuilder.Entity("eModels.PurchaseOrderModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -5285,10 +5382,6 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id");
-
                     b.Navigation("business_branch");
 
                     b.Navigation("customer");
@@ -5296,8 +5389,6 @@ namespace eAPI.Migrations
                     b.Navigation("outlet");
 
                     b.Navigation("sale_status");
-
-                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.SalePaymentModel", b =>
@@ -5331,9 +5422,15 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eModels.StockLocationModel", "stock_location")
+                        .WithMany()
+                        .HasForeignKey("stock_location_id");
+
                     b.Navigation("product");
 
                     b.Navigation("sale");
+
+                    b.Navigation("stock_location");
                 });
 
             modelBuilder.Entity("eModels.SaleProductModifierModel", b =>
@@ -5716,6 +5813,8 @@ namespace eAPI.Migrations
                     b.Navigation("product_portions");
 
                     b.Navigation("product_printers");
+
+                    b.Navigation("product_taxes");
 
                     b.Navigation("sale_products");
 

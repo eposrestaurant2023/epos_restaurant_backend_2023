@@ -10,6 +10,7 @@ namespace eShareModel
 
         public Guid sale_order_id { get; set; }
 
+        public Guid? stock_location_id { get; set; }
 
         public int product_group_id { get; set; }
         public int product_category_id { get; set; }
@@ -109,5 +110,7 @@ namespace eShareModel
         public string   modifier_name { get; set; }
         public int product_modifier_id { get; set; }
         public decimal  price { get; set; }
+        public decimal  reqular_price { get; set; }
+
     }
 }

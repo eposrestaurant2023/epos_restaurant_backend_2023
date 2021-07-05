@@ -75,9 +75,6 @@ namespace eAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
-           
-
             app.UseCors(x => x
               .AllowAnyOrigin()
               .AllowAnyMethod()
@@ -140,6 +137,7 @@ namespace eAPI
             
             
             odataBuilder.EntitySet<eKnowledgeBaseModel>("eKnowledgeBase");
+            odataBuilder.EntitySet<StockLocationModel>("StockLocation");
 
             return odataBuilder.GetEdmModel();
         }

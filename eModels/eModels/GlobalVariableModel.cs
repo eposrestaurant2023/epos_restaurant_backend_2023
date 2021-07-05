@@ -216,6 +216,26 @@ namespace eModels
             }
         }
 
+        public bool is_shift_management
+        {
+            get
+            {
+
+                string value = get_setting_value(60);
+                if (value == "1")
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        public string product_tax_percentages
+        {
+            get
+            {
+                return get_setting_value(61);
+            }
+        }
         private CurrencyModel get_currency(bool is_main = true)
         {
             return currencies.Where(r => r.is_main == is_main).FirstOrDefault();
@@ -234,11 +254,20 @@ namespace eModels
                 return "#,###,##0.00##";
             }
         }
+
         public string second_currency_format
         {
             get
             {
                 return "R";
+            }
+        } 
+        
+        public string percentage_format
+        {
+            get
+            {
+                return "P0";
             }
         }
 

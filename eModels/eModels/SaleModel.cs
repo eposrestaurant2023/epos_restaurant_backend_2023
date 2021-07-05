@@ -25,9 +25,6 @@ namespace eModels
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
 
-        // stock location
-        [ForeignKey("stock_location_id")]
-        public StockLocationModel stock_location { get; set; }
 
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }

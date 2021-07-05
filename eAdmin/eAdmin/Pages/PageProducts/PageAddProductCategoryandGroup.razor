@@ -6,7 +6,7 @@
 @if (!is_loading)
 {
     <Title Value="@(id > 0? lang["Edit Product Category & Group"] : lang["New Product Category & Group"])"></Title>
-    <PageContainer roles="@gv.GetRole("product_category_group")">
+    <PageContainer roles="@gv.GetRole(id > 0? "product_group_category_edit" : "product_group_category_add")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -33,30 +33,32 @@
 
                     </UIContainerBox>
                     <UIContainerBox Title="@lang["Product Category"]" is_show_add_button="true" OnAddClick="@(()=>AddProductCategory())">
-                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
-                            <tr>
-                                <ThAuto>@lang["Category Name En"]</ThAuto>
-                                <ThAuto>@lang["Category Name Kh"]</ThAuto>
-                                <th>@lang["Status"]</th>
-                                <th></th>
-                            </tr>
-                            <ViewEmptyTemplate is_view="model.product_categories.Any()" colspan="4">
-                                @foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
-                                {
-                                    <tr>
-                                        <td><TextInput label="" placeholder="@lang["Product Category Name En"]" @bind-text="@s.product_category_en" /></td>
-                                        <td><TextInput label="" placeholder="@lang["Product Category Name Kh"]" @bind-text="@s.product_category_kh" /></td>
-                                        <td>
-                                            <LabelActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@s.status" />
-                                            <LabelInActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@(!s.status)" />
-                                        </td>
-                                        <td>
-                                            <Icon icon="delete" OnClick="@(()=>DeleteProductCategory(s))" />
-                                        </td>
-                                    </tr>
-                                }
-                            </ViewEmptyTemplate> 
-                        </table>
+                        <div class="uk-overflow-auto">
+                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                                <tr>
+                                    <ThAuto>@lang["Category Name En"]</ThAuto>
+                                    <ThAuto>@lang["Category Name Kh"]</ThAuto>
+                                    <ThCenter>@lang["Status"]</ThCenter>
+                                    <th></th>
+                                </tr>
+                                <ViewEmptyTemplate is_view="model.product_categories.Any()" colspan="4">
+                                    @foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
+                                    {
+                                        <tr>
+                                            <td><TextInput label="" placeholder="@lang["Product Category Name En"]" @bind-text="@s.product_category_en" /></td>
+                                            <td><TextInput label="" placeholder="@lang["Product Category Name Kh"]" @bind-text="@s.product_category_kh" /></td>
+                                            <TdCenter>
+                                                <LabelActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@s.status" />
+                                                <LabelInActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@(!s.status)" />
+                                            </TdCenter>
+                                            <td>
+                                                <Icon icon="delete" OnClick="@(()=>DeleteProductCategory(s))" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </ViewEmptyTemplate>
+                            </table>
+                        </div>
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
@@ -83,7 +85,7 @@
         {
             string query = ControllerApi;
             query = query + $"({id})?";
-            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status;$expand=products($select=id;$top=1))";
+            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status;$expand=products($select=id;$top=1);$filter=is_deleted eq false)";
 
             return query;
 
@@ -135,16 +137,25 @@
 
             Object obj = new Object();
             ProductGroupModel save_product_group = JsonSerializer.Deserialize<ProductGroupModel>(JsonSerializer.Serialize(d));
-            if (save_product_group.status == false)
+
+            if (save_product_group.product_categories.Where(r=>r.is_deleted == false).Any() == false)
             {
-                if (save_product_group.product_categories.FirstOrDefault().products.Any())
+                toast.Add(lang["Category cannot empty"], MatBlazor.MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            else
+            {
+                if (save_product_group.status == false)
                 {
-                    toast.Add(lang["Cannot change status to inactive."], MatBlazor.MatToastType.Warning);
-                    is_saving = false;
-                    return;
+                    if (save_product_group.product_categories.Where(r=>r.is_deleted == false && r.status == true).Any())
+                    {
+                        toast.Add(lang["Cannot change status to inactive"], MatBlazor.MatToastType.Warning);
+                        is_saving = false;
+                        return;
+                    }
                 }
             }
-
 
             save_product_group.product_categories.ForEach(r => r.products = null);
             var res = await http.ApiPost($"{ControllerApi}/save", save_product_group);
@@ -172,6 +183,7 @@
         {
             product_category_en = "Category " + (model.product_categories.Count()+1),
             product_category_kh = "Category " + (model.product_categories.Count() + 1),
+            status = true
 
         }) ;
 

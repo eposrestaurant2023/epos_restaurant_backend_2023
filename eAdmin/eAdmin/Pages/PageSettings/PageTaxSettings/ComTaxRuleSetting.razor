@@ -1,33 +1,27 @@
 ﻿<UIGridCenter>
     <UIContainerBox Title="@($"Tax 1 :{model.tax_1_name}")">
-        
+        <TextInput @bind-text="@model.tax_1_name" label="Tax Name 1 : " is_horizontal="true">
+            <ComInputCheckBox label="Calculate tax 1 after discount" @bind-value="@model.calc_tax_1_after_discount" />
+        </TextInput>
+    </UIContainerBox>
+    <UIContainerBox Title="@($"Tax 2 :{model.tax_2_name}")">
+        <TextInput @bind-text="@model.tax_2_name" label="Tax Name 2 : " is_horizontal="true">
+            <ComInputCheckBox label="Calculate tax 2 after discount" @bind-value="@model.calc_tax_2_after_discount" />
+            <ComInputCheckBox label="Calculate tax 2 after adding tax 1" @bind-value="@model.calc_tax_2_after_adding_tax_1" />
+        </TextInput>
+    </UIContainerBox>
+    <UIContainerBox Title="@($"Tax 3 :{model.tax_3_name}")">
+        <TextInput @bind-text="@model.tax_3_name" label="Tax Name 3 : " is_horizontal="true">
+            <ComInputCheckBox label="Calculate tax 3 after discount" @bind-value="@model.calc_tax_2_after_discount" />
+            <ComInputCheckBox label="Calculate tax 3 after adding tax 1" @bind-value="@model.calc_tax_3_after_adding_tax_1" />
+            <ComInputCheckBox label="Calculate tax 3 after adding tax 2" @bind-value="@model.calc_tax_3_after_adding_tax_2" />
+        </TextInput>
     </UIContainerBox>
 </UIGridCenter>
 
 @code {
+    
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    TaxRuleModel model = new TaxRuleModel();
-    bool is_loading = false;
-
-    protected override void OnInitialized()
-    {
-        model = JsonSerializer.Deserialize<TaxRuleModel>(gv.tax_rule);
-    }
-
-
-    class TaxRuleModel
-    {
-        public string tax_1_name { get; set; }
-        public string tax_2_name { get; set; }
-        public string tax_3_name { get; set; }
-        public bool calc_tax_2_taxable_rate_after_adding_tax_1 { get; set; }
-        public bool calc_tax_3_taxable_rate_after_adding_tax_1 { get; set; }
-        public bool calc_tax_3_taxable_rate_after_adding_tax_2 { get; set; }
-        public bool calc_tax_1_after_adding_discount { get; set; }
-        public bool calc_tax_2_after_adding_discount { get; set; }
-        public bool calc_tax_2_after_adding_tax_1 { get; set; }
-        public bool calc_tax_3_after_adding_discount { get; set; }
-        public bool calc_tax_3_after_adding_tax_1 { get; set; }
-        public bool calc_tax_3_after_adding_tax_2 { get; set; }
-    }
+    [Parameter] public eShareModel.TaxRuleModel model { get; set; }
+    [Parameter] public EventCallback<eShareModel.TaxRuleModel> modelChanged { get; set; }
 }

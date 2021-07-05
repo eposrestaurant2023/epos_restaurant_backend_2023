@@ -59,8 +59,8 @@
                         </TdCenter>
                         <TdCenter>
                             <ComTableActions is_loading="@(m.is_loading)">
-                                <TableActionItem roles="@gv.GetRole("modifier_view")" icon="visibility" is_visible="@(!m.is_deleted)" url="@($"modifier/{m.id}")">@lang["View"]</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("modifier_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">@lang["Edit"]</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_view")" icon="visibility" url="@($"modifier/{m.id}")">@lang["View"]</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(!m.is_deleted)">@lang["Edit"]</TableActionItem>
                                 <TableActionItem roles="@gv.GetRole("modifier_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">@lang["Clone"]</TableActionItem>
                                 <TableActionItem icon="check" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">@lang["Active"]</TableActionItem>
                                 <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">@lang["Inactive"]</TableActionItem>

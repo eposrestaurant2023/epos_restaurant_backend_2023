@@ -1,0 +1,304 @@
+﻿@page "/user"
+@inherits PageCore
+@inject IDialogService Dialog
+<Loading is_loading="@(is_loading || is_loading_data)"/>
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+@if (!is_loading)
+{
+<PageContainer roles="user_type_manager">
+      <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
+        <Filter>
+            <ModuleView module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
+        </Filter>
+        <Right>
+            <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
+                
+            </ComSearch>
+             <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <AddButton roles="@gv.GetRole("role_add")" OnClick="@OnAddNew_Click"/>
+             </MudHidden>
+          
+        </Right>
+    </PageHeader>
+    <PageBody>
+          <Table Items="@users"
+                PerPage="@state.pager.per_page"
+                TotalItem="@TotalRecord"
+                isLoading="@is_loading_data"
+                ShowPager="false"
+                ShowCounter="true"
+                EmptyText="There is no customer record.">
+            <TableHeader>
+                <ThCenter>
+                     Image
+                </ThCenter>
+                @HeaderTemplate("fullname_name", "Full Name" , "col-auto")
+                @HeaderTemplate("username", "User Name" , "col-auto")
+                @HeaderTemplate("email", "Email" , "col-auto")
+                @HeaderTemplate("role/role_name", "Role" , "col-auto")
+                <ThAuto>
+                     Note
+                </ThAuto>
+                <ThCenter>Status</ThCenter>
+                <Th></Th>
+            </TableHeader>
+            <RowTemplate Context="p">
+                <TdCenter>
+                    <MudAvatar Image="@http.ImageUrl(p.photo)" />
+                </TdCenter>
+                <td>
+                    @p.full_name
+                </td>
+                 <td>
+                    @p.username
+                </Td>
+                <td>
+                    @p.email
+                </Td>
+                <td>
+                    @p.role.role_name
+                </Td>
+                <td>
+                    @p.note
+                </Td>
+                <TdCenter>
+                    <LabelActive is_visible="@(p.status && !p.is_deleted)"/>
+                    <LabelInActive is_visible="@(!p.status && !p.is_deleted)"/>
+                    <LabelDeleted is_visible="@p.is_deleted"/>
+                </TdCenter>
+                <TdActions is_loading="@(p.is_loading || p.is_change_status)">
+                    <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p))">Edit</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("role_add")" is_visible="@(!p.is_deleted )" OnClick="@(()=>OnClone(p))">Clone</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Check" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted  && !p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">Active</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.HighlightOff" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted && p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">InActive</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Delete" roles="@gv.GetRole("role_delete")"  is_visible=@(!p.is_deleted) OnClick="@(()=>OnDelete(p))">Delete</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Refresh" roles="@gv.GetRole("role_restore")" is_visible=@(p.is_deleted) OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                  </TdActions>
+            </RowTemplate>
+        </Table>
+    </PageBody>
+        
+</PageContainer>
+<MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"customer/new")"/>    
+</MudHidden>
+
+}
+
+@code{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    public List<UserModel> users = new List<UserModel>();
+    public List<UserModel> temp_roles = new List<UserModel>();
+    public int TotalRecord = 0;
+    public string StateKey = "278484567A*%S51^*S(DAkjhTo%B3PCz2Ts"; //Storage and Session Key
+    string controller_api = "User";
+
+
+    public string ControllerApi
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(state.pager.order_by))
+            {
+                state.pager.order_by = "id";
+                state.pager.order_by_type = "desc";
+            }
+            string url = $"{controller_api}?$expand=role($select=role_name,id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            return url + GetFilter(state.filters);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        state = await GetState(StateKey);
+        if (state.page_title == "")
+        {
+            state.page_title = "User";
+            var default_view = gv.GetDefaultModuleView("page_user");
+            if (default_view != null)
+            {
+                state.page_title = default_view.title;
+                state.filters = default_view.filters;
+            }
+        }
+        if (state.filters.Count == 0)
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "is_deleted",
+                value1 = "false"
+            });
+        }
+        await LoadData();
+        is_loading = false;
+    }
+
+
+    async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+        var resp = await http.ApiGetOData(ControllerApi);
+        if (resp.IsSuccess)
+        {
+            users = temp_roles = JsonSerializer.Deserialize<List<UserModel>>(resp.Content.ToString());
+            
+            TotalRecord = resp.Count;
+        }
+        StateHasChanged();
+        is_loading = false;
+        
+    }
+
+    async Task OnAddNew_Click()
+    {
+        var dialog = alert.Show<ComAddUser>("New Role", new DialogOptions() {  CloseButton = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            is_loading_data=true;
+            StateHasChanged();
+             AddToast("Save Successfull");
+            await LoadData();
+            is_loading_data=false;
+        }
+
+    }
+
+     async Task OnClone(UserModel g)
+    {
+        g.is_loading = true;
+       
+        var parameters = new DialogParameters();
+        parameters.Add("clone_id", g.id);
+        var dialog = alert.Show<ComAddUser>($"Clone {g.username}", parameters, new DialogOptions() {  CloseButton = true });
+        var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                is_loading_data=true;
+                StateHasChanged();
+                await LoadData();
+                is_loading_data=false;
+            }
+        
+        g.is_loading=false;
+        
+    }
+
+    async Task OnToogleStatusLabel(UserModel p)
+    {
+        await SaveStatus(p);
+    }
+    async Task SaveStatus(UserModel p)
+    {
+        p.is_change_status = true;
+        var resp = await http.ApiPost(controller_api + $"/status/{p.id}");
+        if (resp.IsSuccess)
+        {
+            toast.Add("Change status successfully", Severity.Success);
+            is_loading_data = true;
+            StateHasChanged();
+            await LoadData();
+            is_loading_data=false;
+        }
+        p.is_change_status=false;
+    }
+
+    async Task OnEdit(UserModel g)
+    {
+        g.is_loading=true;
+        var parameters = new DialogParameters();
+        parameters.Add("user_id", g.id);
+        var dialog = alert.Show<ComAddUser>($"Edit {g.username}", parameters, new DialogOptions() {  CloseButton = true });
+        var result = await dialog.Result;
+        if (!result.Cancelled)
+        {
+            is_loading_data=true;
+            StateHasChanged();
+            await LoadData();
+            is_loading_data=false;
+        }
+        g.is_loading=false;
+        
+    }
+
+    void OnSearch(string keyword)
+    {
+        users = temp_roles.Where(r=> (r.username).ToLower().Contains(keyword.ToLower())).ToList();
+        SetFilterValue2(state.filters, "keyword", keyword);
+    }
+    async Task OnRemoveKeyword()
+    {
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", "");
+        await LoadData();
+    }
+     async Task OrderBy(string col_name = "")
+    {
+
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+
+        await LoadData();
+    }
+
+        async Task OnDelete(UserModel p)
+    {
+        p.is_loading = true;
+            
+        if (await alert.ShowMessageBox("Delete Customer", "Are you sure you want to delete this record?")==true)
+        {
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+            if (resp.IsSuccess)
+            {
+            is_loading_data=true;
+                StateHasChanged();
+                toast.Add("Delete customer successfully", Severity.Success);
+                await LoadData();
+                is_loading_data=false;
+            }
+        }
+        p.is_loading = false;
+    }
+
+
+    async Task OnRestore(UserModel p)
+    {
+        p.is_loading = true;
+        if (await alert.ShowMessageBox("Restore Customer", "Are you sure you want to restore this record?") == true)
+        {
+            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+
+            if (resp.IsSuccess)
+            {
+                is_loading_data=true;
+                StateHasChanged();
+                toast.Add("Restore customer successfully", Severity.Success);
+                await LoadData();
+                 is_loading_data=false;
+            }
+            
+        }
+        p.is_loading = false;
+    }
+
+    async Task OnRefresh()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    } 
+    async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.pager.order_by = m.default_order_by;
+        state.pager.order_by_type = m.default_order_by_type;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+}

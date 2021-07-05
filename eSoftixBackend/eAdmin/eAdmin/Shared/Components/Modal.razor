@@ -1,25 +1,126 @@
-﻿<MudDialog  @bind-IsVisible="visible" >
-    <TitleContent>
-        <MudText Typo="Typo.h6">
-            <MudIcon Icon="@Icon" Class="mr-3"/> @ModalTitle
-        </MudText>
-    </TitleContent>
+﻿@using MudBlazor.Services
+@implements IDisposable
 
-
+<MudDialog DisableSidePadding="true">
     <DialogContent>
-    @ModalContent
+       
+        @if (is_mobile)
+                {
+                   <MudContainer Style= "@($"height:{height}px;overflow-y: scroll")">
+                         
+                            @ModalContent
+                         
+                    </MudContainer>
+                }else {
+                    <MudContainer Style="max-height: 75vh; overflow-y: scroll">
+                     
+                        @ModalContent
+                    </MudContainer>
+                }
+     
     </DialogContent>
-    <DialogActions>
-        @ModalAction
+ 
+        <DialogActions>
+             <MudDivider/>
+            
+                 @if (is_mobile)
+                {
+                     @ActionButton
+                }else {
+                      @ActionButton
+                }
+             
+             
     </DialogActions>
+ 
+   
 </MudDialog>
 
-@code{
-    [Parameter] public bool visible {get;set;}
-    [Parameter] public EventCallback<bool> visibleChanged {get;set;}
-    [Parameter] public RenderFragment ModalContent {get;set;}
-    [Parameter] public RenderFragment ModalAction {get;set;}
-    [Parameter] public RenderFragment ModalTitle {get;set;}
-    [Parameter] public string Icon {get;set;}
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public RenderFragment ModalContent{ get; set; }
+    [Parameter] public RenderFragment ActionButton{ get; set; }
 
-}  
+    [Inject] IResizeListenerService ResizeListener { get; set; }
+     
+    int width = 0;
+    int h = 0;
+    public bool is_mobile
+    {
+        get
+        {
+            return width<960;        
+        }
+    }
+    
+    public int height
+    {
+        get
+        {
+            if(ActionButton == null){
+            return h - 100 ;            
+            }
+            return h - (64 + 52  + 35);        
+        }
+    }
+    void OnFull()
+    {
+         MudDialog.Options.FullScreen = true;
+          MudDialog.SetOptions(MudDialog.Options);
+    }
+    
+  
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ResizeListener.OnResized += OnResized;
+
+            var size = await ResizeListener.GetBrowserWindowSize();
+           
+            width = size.Width;
+            h = size.Height;
+
+            MudDialog.Options.CloseButton= true;
+            if(is_mobile){
+                MudDialog.Options.FullScreen = true;
+            }else {
+                   MudDialog.Options.FullScreen = false;
+                MudDialog.Options.FullWidth= true;
+                MudDialog.Options.MaxWidth=MaxWidth.Small;
+                
+            }
+            
+
+            
+            MudDialog.SetOptions(MudDialog.Options);
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void OnResized(object sender, BrowserWindowSize size)
+    {
+        width = size.Width;
+        h = size.Height;
+        MudDialog.Options.CloseButton= true;
+       
+            if(is_mobile){
+                MudDialog.Options.FullScreen = true;
+            }else {
+                MudDialog.Options.FullWidth= true;
+                MudDialog.Options.MaxWidth=MaxWidth.Small;
+                  MudDialog.Options.FullScreen = false;
+            }
+            
+              MudDialog.SetOptions(MudDialog.Options);
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        ResizeListener.OnResized -= OnResized;
+    }
+}

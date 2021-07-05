@@ -35,7 +35,9 @@
                                 <Content>
                                     <ComNoteCategory notes="@b.cashier_notes.Where(r=>r.category_note_id==c.id).ToList()" />
                                     <hr />
-                                    <Button OnClick="@(()=>AddNote(b,c))">Add Note</Button>
+                                    <div class="uk-text-right">
+                                        <Button OnClick="@(()=>AddNote(b,c))">Add Note</Button>
+                                    </div>
                                 </Content>
                             </ComAccordion>
                         }

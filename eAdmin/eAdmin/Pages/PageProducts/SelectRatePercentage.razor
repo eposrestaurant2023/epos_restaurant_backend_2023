@@ -1,0 +1,119 @@
+﻿@inject IHttpService http
+@if (!is_loading)
+{
+    @if (!is_inline)
+    {
+        @if (is_horizontal)
+        {
+
+            <div class="@(is_horizontal ? "uk-form-horizontal" : "")">
+                <div class="uk-margin-small">
+                    <label class="uk-form-label" for="@id">@label</label>
+                    <div class="uk-form-controls">
+                        <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+                            @foreach (var p in data)
+                            {
+                                <option value="@p.tax_value">@p.tax_name</option>
+                            }
+                        </select>
+                        @ChildContent
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="uk-margin-small">
+                <label class="uk-form-label" for="@id">@label</label>
+                <div class="uk-form-controls">
+                    <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+                        @foreach (var p in data)
+                        {
+                            <option value="@p.tax_value">@p.tax_name</option>
+                        }
+                    </select>
+                    @ChildContent
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        @if (!is_read_only)
+        {
+            <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+                @foreach (var p in data)
+                {
+                    <option value="@p.tax_value">@p.tax_name</option>
+                } 
+            </select>
+        }
+        else
+        {
+            <select id="@id" value="@selected_value" class="uk-select uk-form-small" style="width:@width">
+                @foreach (var p in data)
+                {
+                    <option value="@p.tax_value">@p.tax_name</option>
+                }
+            </select>
+        }
+        @ChildContent
+
+    }
+}
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Select Tax Rate Percentage";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_read_only { get; set; } = false;
+    [Parameter] public bool is_horizontal { get; set; } = true;
+    [Parameter] public bool is_inline { get; set; } = false;
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public int tax_number { get; set; }
+    [Parameter] public ProductTaxModel product_tax { get; set; }
+    [Parameter] public EventCallback<ProductTaxModel> product_taxChanged { get; set; }
+    [Parameter] public decimal selected_value { get; set; }
+    [Parameter] public EventCallback<decimal> selected_valueChanged { get; set; }
+    bool is_loading = false;
+    public List<ProductTaxPercentageModel> data = new List<ProductTaxPercentageModel>();
+
+
+    Guid id = Guid.NewGuid();
+
+
+    protected override void OnInitialized()
+    {
+        is_loading = true;
+        data = JsonSerializer.Deserialize<List<ProductTaxPercentageModel>>(gv.product_tax_percentages);
+
+        if (tax_number == 1) selected_value = product_tax.tax_1_rate;
+        else if (tax_number == 2) selected_value = product_tax.tax_2_rate;
+        else if (tax_number == 3) selected_value = product_tax.tax_3_rate;
+        if (selected_value < 0)
+        {
+            selected_value = -1;
+        }
+        is_loading = false;
+    }
+
+
+    private async Task SelectedValueChange(string n)
+    {
+        if (n == "")
+        {
+            selected_value = 0;
+        }
+        else
+        {
+            selected_value = Decimal.Parse(n);
+        }
+
+        if (tax_number == 1) product_tax.tax_1_rate = selected_value;
+        else if (tax_number == 2) product_tax.tax_2_rate = selected_value;
+        else if (tax_number == 3) product_tax.tax_3_rate = selected_value;
+        await product_taxChanged.InvokeAsync(product_tax);
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+}

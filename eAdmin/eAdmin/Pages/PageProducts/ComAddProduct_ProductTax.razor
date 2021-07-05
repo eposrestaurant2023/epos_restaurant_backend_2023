@@ -1,0 +1,52 @@
+﻿<UIContainerBox Title="Product Tax">
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+     
+        <Tab>
+            <TabHeader>
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                    <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                }
+            </TabHeader>
+            <TabBody>
+                
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                <TabItem>
+                    @foreach (var p in model.product_taxes.Where(r => r.business_branch_id == b.id))
+                    {
+                        <SelectRatePercentage label="@(tax_rule.tax_1_name)" product_tax="p" tax_number="1" product_taxChanged="@(()=>ValueChanged(p))" />
+                        <SelectRatePercentage label="@(tax_rule.tax_2_name)" product_tax="p" tax_number="2" product_taxChanged="@(()=>ValueChanged(p))" />
+                        <SelectRatePercentage label="@(tax_rule.tax_3_name)" product_tax="p" tax_number="3" product_taxChanged="@(()=>ValueChanged(p))" />
+                    }
+                </TabItem>
+                }
+            </TabBody>
+        </Tab>
+    }
+</UIContainerBox>
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    [Parameter] public ProductModel model { get; set; }
+    [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
+    public eShareModel.TaxRuleModel tax_rule = new eShareModel.TaxRuleModel();
+    bool is_loading;
+    protected override void OnInitialized()
+    {
+        is_loading = true;
+        tax_rule = JsonSerializer.Deserialize<eShareModel.TaxRuleModel>(gv.tax_rule);
+        is_loading = false;
+    }
+
+    async Task ValueChanged(ProductTaxModel p)
+    { 
+        await modelChanged.InvokeAsync(model);
+    }
+}

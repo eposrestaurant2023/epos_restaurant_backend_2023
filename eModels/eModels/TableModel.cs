@@ -22,8 +22,8 @@ namespace eModels
 
         public double position_x_percent { get; set; }
         public double position_y_percent { get; set; }
-        public double height { get; set; } = 5.0;
-        public double width { get; set; } = 5.0;
+        public double height { get; set; } = 60;
+        public double width { get; set; } = 60;
 
     }
 }

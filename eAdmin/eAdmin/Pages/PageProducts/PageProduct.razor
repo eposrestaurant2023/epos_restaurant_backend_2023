@@ -110,7 +110,7 @@
                             <TableActionItem roles="@gv.GetRole("product_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("product_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("product_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("product_edit")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">@lang["Restore"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("product_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">@lang["Restore"]</TableActionItem>
                         </TdActions>
                     </RowTemplate>
                 </Table>

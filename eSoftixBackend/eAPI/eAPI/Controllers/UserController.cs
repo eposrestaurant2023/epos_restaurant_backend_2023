@@ -156,6 +156,16 @@ namespace eAPI.Controllers
             return Ok(d);
         }
 
+        [HttpPost]
+        [Route("clone/{id}")]
+        public async Task<ActionResult<UserModel>> Clone(int id)
+        {
+            var d = await db.Users.FindAsync(id);
+            d.status = true;
+            d.id = 0;
+            return Ok(d);
+        }
+
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("find")]

@@ -1,6 +1,6 @@
 ﻿@page "/setting/taxsetting"
 @inherits PageTaxSettingCore
-<Loading is_loading="@(is_loading || is_loading_data)" />
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 @if (!is_loading && !is_error)
 {
     <Title Value="@($"Tax Setting")"></Title>
@@ -9,26 +9,107 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Tax Setting"] 
+                        @lang["Tax Setting"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true"> 
-                @*<RefreshButton OnClick="@LoadData" />*@
+            <HeaderRight ShowBackButton="true">
+                <RefreshButton OnClick="@OnInitializedAsync" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <Tab ClassName="control-header-tab">
                 <TabHeader>
-                    <TabHeaderItem>@lang["Tax Rule Setting"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> { show_tax_rule = true; })">@lang["Tax Rule Setting"]</TabHeaderItem>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+                        <TabHeaderItem OnClick="@(()=> { show_tax_rule = false; })">@b.business_branch_name_en</TabHeaderItem>
+                    }
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComTaxRuleSetting />
+                        @if (tax_rule != null)
+                        {
+                        <UIGridCenter>
+                            <UIContainerBox Title="@($"Tax 1 :{tax_rule.tax_1_name}")">
+                                <TextInput @bind-text="@tax_rule.tax_1_name" label="Tax 1 Name" is_horizontal="true">
+                                    <ComInputCheckBox label="Calculate tax 1 after discount" @bind-value="@tax_rule.calc_tax_1_after_discount" label_inline="true" />
+                                </TextInput>
+                            </UIContainerBox>
+                            <UIContainerBox Title="@($"Tax 2 :{tax_rule.tax_2_name}")">
+                                <TextInput @bind-text="@tax_rule.tax_2_name" label="Tax 2 Name" is_horizontal="true">
+                                    <ComInputCheckBox label="Calculate tax 2 after discount" @bind-value="@tax_rule.calc_tax_2_after_discount" label_inline="true" />
+                                    <ComInputCheckBox label="Calculate tax 2 after adding tax 1" @bind-value="@tax_rule.calc_tax_2_after_adding_tax_1" label_inline="true" />
+                                </TextInput>
+                            </UIContainerBox>
+                            <UIContainerBox Title="@($"Tax 3 :{tax_rule.tax_3_name}")">
+                                <TextInput @bind-text="@tax_rule.tax_3_name" label="Tax 3 Name" is_horizontal="true">
+                                    <ComInputCheckBox label="Calculate tax 3 after discount" @bind-value="@tax_rule.calc_tax_3_after_discount" label_inline="true" />
+                                    <ComInputCheckBox label="Calculate tax 3 after adding tax 1" @bind-value="@tax_rule.calc_tax_3_after_adding_tax_1" label_inline="true" />
+                                    <ComInputCheckBox label="Calculate tax 3 after adding tax 2" @bind-value="@tax_rule.calc_tax_3_after_adding_tax_2" label_inline="true" />
+                                </TextInput>
+                            </UIContainerBox>
+                        </UIGridCenter>
+                        }
                     </TabItem>
+                    
+                    @if (stations.Any())
+                    {
+                        @foreach (var b in gv.business_branch_by_role)
+                        {
+                        <TabItem>
+                            @if (b.outlets.Any())
+                            {
+                                @foreach (var o in b.outlets)
+                                {
+                                    if (stations.Where(r => r.outlet_id == o.id).Any())
+                                    {
+                                        foreach (var s in stations.Where(r => r.outlet_id == o.id).ToList()) { 
+                                        <UIGridCenter>
+                                            <UIContainerBox Title="@s.station_name_en">
+                                                <NumberInput @bind-text="@s.tax_1_rate" label="@($"{tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
+                                                <NumberInput @bind-text="@s.tax_1_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
+                                                <Spacing Number="8" />
+                                                <hr />
+                                                <Spacing Number="8" />
+                                                <NumberInput @bind-text="@s.tax_2_rate" label="@($"{tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
+                                                <NumberInput @bind-text="@s.tax_2_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
+                                                <Spacing Number="8" />
+                                                <hr />
+                                                <Spacing Number="8" />
+                                                <NumberInput @bind-text="@s.tax_3_rate" label="@($"{tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
+                                                <NumberInput @bind-text="@s.tax_3_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
+
+                                            </UIContainerBox>
+                                        </UIGridCenter>
+                                        }
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                <ComEmptyTemplate empty="There is no outlet." />
+                            }
+                        </TabItem>
+                        }
+                    }
+                    
                 </TabBody>
             </Tab>
         </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                @if (show_tax_rule)
+                {
+                    <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@SaveTaxRule" />
+                }
+                else
+                {
+                    <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@SaveStationTax" />
+                }
+            </FooterCenter>
+        </PageFooter>
     </PageContainer>
 
    

@@ -31,11 +31,9 @@
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                       
-                            <UIGridCenter>
-                                <ComSetting business_branch_id="@(Guid.Empty)" settings="@GetSettings"/>
-                            </UIGridCenter>
-                      
+                        <UIGridCenter>
+                            <ComSetting business_branch_id="@(Guid.Empty)" settings="@GetSettings"/>
+                        </UIGridCenter>
                     </TabItem>
                     
                         @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
@@ -46,7 +44,7 @@
                                 </UIGridCenter>
                             </TabItem>                        
                         }
-</TabBody>
+                </TabBody>
             </Tab>
         </PageBody>
         <PageFooter>

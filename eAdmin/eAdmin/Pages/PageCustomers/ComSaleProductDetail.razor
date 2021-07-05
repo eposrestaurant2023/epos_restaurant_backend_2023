@@ -63,7 +63,7 @@
                         <ComAuthorize roles="@gv.GetRole("sale_view")" url="@($"sale/{p.sale_id}")">@p.sale?.document_number</ComAuthorize>
                     </TdCenter>
                     <td>
-                        <ComAuthorize roles="@gv.GetRole("customer_view")" url="@($"customer/{p.sale?.customer_id}")">
+                        <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"customer/{p.sale?.customer_id}")">
                             <ComCustomerInfo customer="p.sale?.customer" />
                         </ComAuthorize>
                     </td>

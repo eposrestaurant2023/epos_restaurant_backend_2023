@@ -5,7 +5,7 @@
 @if (!is_loading)
 {
     <Title Value="@lang["Product Category & Group"]"></Title>
-    <PageContainer roles="@gv.GetRole("product_category_group")">
+    <PageContainer roles="@gv.GetRole("product_category_group_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -15,7 +15,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <LinkButton url="productcategory/new" icon="add" background="uk-button-primary" Class_Name="button-create button-large">@lang["New Category & Group"]</LinkButton>
+                <LinkButton roles="@gv.GetRole("product_group_category_add")" url="productcategory/new" icon="add" background="uk-button-primary" Class_Name="button-create button-large">@lang["New Category & Group"]</LinkButton>
             </HeaderRight>
         </PageHeader>
             <PageBody>
@@ -35,12 +35,13 @@
                                                 </div>
                                                 <Column ClassName="uk-float-right">
                                                     <div> 
-                                                            <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" />
-                                                            <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" />
+                                                            <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("product_group_category_edit")"/>
+                                                            <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("product_group_category_edit")"/>
                                                             <span>
-                                                                <a href="@($"productcategory/edit/{d.id}")">
-                                                                    <Icon icon="edit" />
-                                                                </a>
+                                                                <Icon icon="edit" url="@($"productcategory/edit/{d.id}")" roles="@gv.GetRole("product_group_category_edit")"/> 
+                                                            </span>
+                                                            <span>
+                                                                <Icon icon="delete" OnClick="@(()=>Deleted(d))" roles="@gv.GetRole("product_group_category_delete")"/> 
                                                             </span> 
                                                     </div>
                                                 </Column>
@@ -55,9 +56,9 @@
                                                         <tr>
                                                             <Th>@lang["Product Category Name En"]</Th>
                                                             <Th>@lang["Product Category Name Kh"]</Th>
-                                                            <ThCenter>@lang["Status"]</ThCenter>
+                                                            <ThCenter>@lang["Status"]</ThCenter> 
                                                         </tr>
-                                                        <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="3">
+                                                        <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="6">
                                                             @foreach (var s in d.product_categories)
                                                             {
                                                                 <tr>
@@ -85,9 +86,9 @@
 }
 
 @code{
-    List<ProductGroupModel> models = new List<ProductGroupModel>();
-    List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
-    string ControllerApi = "ProductGroup";
+        List<ProductGroupModel> models = new List<ProductGroupModel>();
+        List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
+        string ControllerApi = "ProductGroup";
 
 
     protected override async Task OnInitializedAsync()
@@ -121,5 +122,32 @@
 
     }
 
-
+    async Task Deleted(ProductGroupModel p)
+    {
+        if (!is_saving)
+        {
+            is_saving = true;
+            if (p.product_categories.Where(r=>r.is_deleted == false).Any())
+            {
+                toast.Add(lang["This group not availiable"], MatBlazor.MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            if (await js.Confirm(lang["Delete Product Group"], "Are you sure you want to delete this record?"))
+            {
+                var res = await http.ApiPost($"ProductGroup/delete", p);
+                if (res.IsSuccess)
+                {
+                    toast.Add("Deleted successfully", MatToastType.Success);
+                    await LoadData();
+                }
+                else
+                {
+                    is_saving = false;
+                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                }
+            }
+            is_saving = false;
+        }
+    }
 }
