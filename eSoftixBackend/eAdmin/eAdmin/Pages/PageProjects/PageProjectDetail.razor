@@ -14,8 +14,6 @@
     </Left>
     <Right>
         <ComAttachFileButton File="@(new AttachFilesModel(){ project_id = new Guid(id)})" ApiFilter="@($"project_id eq {id}")" Class="mr-2"/>
-
-        
          <MudHidden Breakpoint="Breakpoint.SmAndDown">
                 <AddButton roles="@gv.GetRole("project_add")" url="project/new"/>
          </MudHidden>
