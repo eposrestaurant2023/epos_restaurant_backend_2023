@@ -24,27 +24,45 @@
         </Right>
     </PageHeader>
     <PageBody>
-          <Table Items="@roles"
+          <Table Items="@users"
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"
                 isLoading="@is_loading_data"
-                ShowPager="true"
+                ShowPager="false"
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-                @HeaderTemplate("role_name", "Name" , "col-auto")
+                <ThCenter>
+                     Image
+                </ThCenter>
+                @HeaderTemplate("fullname_name", "Full Name" , "col-auto")
+                @HeaderTemplate("username", "User Name" , "col-auto")
+                @HeaderTemplate("email", "Email" , "col-auto")
+                @HeaderTemplate("role/role_name", "Role" , "col-auto")
                 <ThAuto>
-                     Description
+                     Note
                 </ThAuto>
                 <ThCenter>Status</ThCenter>
                 <Th></Th>
             </TableHeader>
             <RowTemplate Context="p">
+                <TdCenter>
+                    <MudAvatar Image="@http.ImageUrl(p.photo)" />
+                </TdCenter>
                 <td>
                     @p.full_name
                 </td>
                  <td>
                     @p.username
+                </Td>
+                <td>
+                    @p.email
+                </Td>
+                <td>
+                    @p.role.role_name
+                </Td>
+                <td>
+                    @p.note
                 </Td>
                 <TdCenter>
                     <LabelActive is_visible="@(p.status && !p.is_deleted)"/>
@@ -72,11 +90,11 @@
 
 @code{
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    public List<UserModel> roles = new List<UserModel>();
+    public List<UserModel> users = new List<UserModel>();
     public List<UserModel> temp_roles = new List<UserModel>();
     public int TotalRecord = 0;
-    public string StateKey = "278484567A*%S51^*S(DAkjhTonB3PCz2Ts"; //Storage and Session Key
-    string controller_api = "Role";
+    public string StateKey = "278484567A*%S51^*S(DAkjhTo%B3PCz2Ts"; //Storage and Session Key
+    string controller_api = "User";
 
 
     public string ControllerApi
@@ -88,7 +106,7 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string url = $"{controller_api}?&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            string url = $"{controller_api}?$expand=role($select=role_name,id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters);
         }
     }
@@ -99,8 +117,8 @@
         state = await GetState(StateKey);
         if (state.page_title == "")
         {
-            state.page_title = "Role";
-            var default_view = gv.GetDefaultModuleView("page_role");
+            state.page_title = "User";
+            var default_view = gv.GetDefaultModuleView("page_user");
             if (default_view != null)
             {
                 state.page_title = default_view.title;
@@ -126,7 +144,7 @@
         var resp = await http.ApiGetOData(ControllerApi);
         if (resp.IsSuccess)
         {
-            roles = temp_roles = JsonSerializer.Deserialize<List<UserModel>>(resp.Content.ToString());
+            users = temp_roles = JsonSerializer.Deserialize<List<UserModel>>(resp.Content.ToString());
             
             TotalRecord = resp.Count;
         }
@@ -193,7 +211,7 @@
     {
         g.is_loading=true;
         var parameters = new DialogParameters();
-        parameters.Add("role_id", g.id);
+        parameters.Add("user_id", g.id);
         var dialog = alert.Show<ComAddUser>($"Edit {g.username}", parameters, new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
@@ -209,7 +227,7 @@
 
     void OnSearch(string keyword)
     {
-        roles = temp_roles.Where(r=> (r.username).ToLower().Contains(keyword.ToLower())).ToList();
+        users = temp_roles.Where(r=> (r.username).ToLower().Contains(keyword.ToLower())).ToList();
         SetFilterValue2(state.filters, "keyword", keyword);
     }
     async Task OnRemoveKeyword()

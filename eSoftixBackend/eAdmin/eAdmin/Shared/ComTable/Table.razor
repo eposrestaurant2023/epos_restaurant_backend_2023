@@ -65,13 +65,13 @@
                   
               <div class="pt-2 mx-2 cus_class_select">
                   <div class="d-flex align-center">
-                      <div style="margin-right: 10px;">Rows per page</div>
-                      <div>
-                           @if (ShowPager)
-                                {
-                                 <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
-                                }
-                      </div>
+                      @if (ShowPager){
+                          <div style="margin-right: 10px;">Rows per page</div>
+                        <div>
+                            <ComPagerPerPage OnChange="@PagerChange" PerPage="@PerPage" />
+                        </div>
+                      }
+                      
                       <div>
                             @if (ShowTotalCount)
                             {

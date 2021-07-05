@@ -34,7 +34,7 @@
                 <RefreshButton OnClick="@OnRefresh"/>
                       <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
                              <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                                   <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.Person" url="@($"customer/new")">New Customer</MenuButtonItem>
+                                <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.Person" url="@($"customer/new")">New Customer</MenuButtonItem>
                                 <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
                                 <MudDivider />
                              </MudHidden>

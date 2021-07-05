@@ -1,9 +1,20 @@
 ﻿@inject ISnackbar toast
 @inject IHttpService http
 <Modal>
-       <ModalContent>     
-            <MudTextField @bind-Value="@model.role_name" Label="Name"></MudTextField>
-            <MudTextField @bind-Value="@model.description" Lines="3" Label="Description"></MudTextField>
+       <ModalContent>
+            <FileUpload @bind-ImageUrl="model.photo"></FileUpload>
+            <MudTextField @bind-Value="@model.full_name" Label="Full Name"></MudTextField>
+            <MudTextField @bind-Value="@model.username" Label="User Name"></MudTextField>
+            <MudTextField @bind-Value="@model.email" Label="Email"></MudTextField>
+            <MudSelect T="int" Label="Role" @bind-Value="@model.role_id">
+                <MudSelectItem Value="0">Please select role</MudSelectItem>
+                @if(roles.Any()){
+                    @foreach(var r in roles){
+                        <MudSelectItem Value="@r.id">@r.role_name</MudSelectItem>
+                    }
+                }
+            </MudSelect>
+            <MudTextField @bind-Value="@model.note" Lines="3" Label="Note"></MudTextField>
         </ModalContent>
   
     <ActionButton>
@@ -14,38 +25,49 @@
 
 @code{
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public RoleModel model { get; set; } = new RoleModel();
-    [Parameter] public int role_id {get;set;}
+    [Parameter] public UserModel model { get; set; } = new UserModel();
+    [Parameter] public int user_id {get;set;}
     [Parameter] public int clone_id {get;set;}
+    List<RoleModel> roles { get; set; } = new List<RoleModel>();
 
     protected override async Task OnInitializedAsync()
     {
-    await Task.Delay(100);
-        if(role_id > 0){
-            var res = await http.ApiGet($"role({role_id})");
+        await Task.Delay(100);
+        await LoadUserType();
+        if(user_id > 0){
+            var res = await http.ApiGet($"user({user_id})");
             if(res.IsSuccess){
-                model = JsonSerializer.Deserialize<RoleModel>(res.Content.ToString());
+                model = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
             }
         }else if(clone_id > 0)
         {
-            var res = await http.ApiPost($"role/clone/{clone_id}");
+            var res = await http.ApiPost($"user/clone/{clone_id}");
             if(res.IsSuccess){
-                model = JsonSerializer.Deserialize<RoleModel>(res.Content.ToString());
+                model = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
             }
         }else{
             await Task.Delay(100);
-            model = new RoleModel();
+            model = new UserModel();
         }
     }
     
+    async Task LoadUserType()
+    {
+        var res = await http.ApiGetOData("Role?$select=id,role_name&$filter=status eq true and is_deleted eq false");
+        if(res.IsSuccess)
+        {
+            roles = JsonSerializer.Deserialize<List<RoleModel>>(res.Content.ToString());
+        }
+    }
 
     async Task OnSave_Click()
     {
-        if(string.IsNullOrWhiteSpace(model.role_name)){
+        if(string.IsNullOrWhiteSpace(model.full_name)){
             toast.Add("Please enter role name.",Severity.Warning);
-        }else{
-
-            var res = await http.ApiPost("role/save",model);
+        }
+        else
+        {
+            var res = await http.ApiPost("user/save",model);
                 if(res.IsSuccess)
                 {
                     toast.Add("Save Successfull",Severity.Success);

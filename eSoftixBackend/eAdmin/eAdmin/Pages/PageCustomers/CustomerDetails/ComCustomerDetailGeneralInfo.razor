@@ -48,16 +48,17 @@
         </MudTabPanel>
    
     </MudTabs>
-        <MudText Typo="Typo.caption" Align="MudBlazor.Align.Right">
+    <div class="text-center">
+        <MudText Typo="Typo.caption" Align="MudBlazor.Align.Center">
             Created by : @model.created_by at @model.created_date.ToString(gv.date_time_format)  <br/>
         </MudText>
        
         @if(model.is_deleted==true){
-        <MudText Typo="Typo.caption" Align="MudBlazor.Align.Right">
+        <MudText Typo="Typo.caption" Align="MudBlazor.Align.Center">
             Deleted by : @model.deleted_by at  @model.deleted_date.Value.ToString(gv.date_format)
         </MudText>
         }
-
+</div>
 </UICenter>
 @code{
     [Parameter] public CustomerModel model { get; set; }
