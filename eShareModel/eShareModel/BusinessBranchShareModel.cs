@@ -53,6 +53,7 @@ namespace eShareModel
         public string logo { get; set; }
         public string note { get; set; }
         public string color { get; set; }
+        public string contact_name { get; set; }
 
 
       
