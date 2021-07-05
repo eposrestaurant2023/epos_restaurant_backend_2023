@@ -1,4 +1,4 @@
-﻿@page "/customergroup"
+﻿@page "/role"
 @inherits PageCore
 @inject IDialogService Dialog
 <Loading is_loading="@(is_loading || is_loading_data)"/>
@@ -8,23 +8,23 @@
 }
 @if (!is_loading)
 {
-<PageContainer roles="custo">
+<PageContainer roles="user_type_manager">
       <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
         <Filter>
-            <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
+            <ModuleView module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
         </Filter>
         <Right>
             <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
                 
             </ComSearch>
              <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@OnAddNew_Click"/>
+                <AddButton roles="@gv.GetRole("role_add")" OnClick="@OnAddNew_Click"/>
              </MudHidden>
           
         </Right>
     </PageHeader>
     <PageBody>
-          <Table Items="@customer_groups"
+          <Table Items="@roles"
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"
                 isLoading="@is_loading_data"
@@ -32,25 +32,19 @@
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-                @HeaderTemplate("customer_group_name_en", "Customer Group Name En" , "col-auto")
-                @HeaderTemplate("customer_group_name_kh", "Customer Group Name Kh" , "col-auto")
-                <Th>
-                     Note
-                </Th>
-                <ThCenter width="188px">
-                    Status
-                </ThCenter>
-                <ThCenter></ThCenter>
+                @HeaderTemplate("role_name", "Name" , "col-auto")
+                <ThAuto>
+                     Description
+                </ThAuto>
+                <ThCenter>Status</ThCenter>
+                <Th></Th>
             </TableHeader>
             <RowTemplate Context="p">
                  <td>
-                    @p.customer_group_name_en
+                    @p.role_name
                 </Td>
                 <td>
-                    @p.customer_group_name_kh
-                </td>
-                <td>
-                    <TextOverflow Text="@p.note"/>
+                    @p.description
                 </td>
                 <TdCenter>
                     <LabelActive is_visible="@(p.status && !p.is_deleted)"/>
@@ -58,15 +52,13 @@
                     <LabelDeleted is_visible="@p.is_deleted"/>
                 </TdCenter>
                 <TdActions is_loading="@(p.is_loading || p.is_change_status)">
-                        <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p))">Edit</TableActionItem>
-                        <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("customer_group_add")" is_visible="@(!p.is_deleted )" OnClick="@(()=>OnClone(p))">Clone</TableActionItem>
-                        <TableActionItem icon="@Icons.Material.Filled.Check" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted  && !p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">Active</TableActionItem>
-                        <TableActionItem icon="@Icons.Material.Filled.HighlightOff" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted && p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">InActive</TableActionItem>
-                        <TableActionItem icon="@Icons.Material.Filled.Delete" roles="@gv.GetRole("customer_group_delete")"  is_visible=@(!p.is_deleted) OnClick="@(()=>OnDelete(p))">Delete</TableActionItem>
-                        <TableActionItem icon="@Icons.Material.Filled.Refresh" roles="@gv.GetRole("customer_group_restore")" is_visible=@(p.is_deleted) OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
-                        
+                    <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p))">Edit</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("role_add")" is_visible="@(!p.is_deleted )" OnClick="@(()=>OnClone(p))">Clone</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Check" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted  && !p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">Active</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.HighlightOff" roles="@gv.GetRole("role_edit")" is_visible="@(!p.is_deleted && p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">InActive</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Delete" roles="@gv.GetRole("role_delete")"  is_visible=@(!p.is_deleted) OnClick="@(()=>OnDelete(p))">Delete</TableActionItem>
+                    <TableActionItem icon="@Icons.Material.Filled.Refresh" roles="@gv.GetRole("role_restore")" is_visible=@(p.is_deleted) OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
                   </TdActions>
-
             </RowTemplate>
         </Table>
     </PageBody>
@@ -80,11 +72,11 @@
 
 @code{
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    public List<CustomerGroupModel> customer_groups = new List<CustomerGroupModel>();
-    public List<CustomerGroupModel> temp_customer_groups = new List<CustomerGroupModel>();
+    public List<RoleModel> roles = new List<RoleModel>();
+    public List<RoleModel> temp_roles = new List<RoleModel>();
     public int TotalRecord = 0;
-    public string StateKey = "278484567Gs2512K8sIASGytkjhTonB3PCz2Ts"; //Storage and Session Key
-    string controller_api = "CustomerGroup";
+    public string StateKey = "278484567A*%S512K8SGytkjhTonB3PCz2Ts"; //Storage and Session Key
+    string controller_api = "Role";
 
 
     public string ControllerApi
@@ -107,8 +99,8 @@
         state = await GetState(StateKey);
         if (state.page_title == "")
         {
-            state.page_title = "Customer Group";
-            var default_view = gv.GetDefaultModuleView("page_customer_group");
+            state.page_title = "Role";
+            var default_view = gv.GetDefaultModuleView("page_role");
             if (default_view != null)
             {
                 state.page_title = default_view.title;
@@ -134,7 +126,7 @@
         var resp = await http.ApiGetOData(ControllerApi);
         if (resp.IsSuccess)
         {
-            customer_groups = temp_customer_groups = JsonSerializer.Deserialize<List<CustomerGroupModel>>(resp.Content.ToString());
+            roles = temp_roles = JsonSerializer.Deserialize<List<RoleModel>>(resp.Content.ToString());
             
             TotalRecord = resp.Count;
         }
@@ -145,36 +137,35 @@
 
     async Task OnAddNew_Click()
     {
-        var dialog = alert.Show<ComAddCustomerGroup>("New Customer Group", new DialogOptions() {  CloseButton = true });
-        var result = await dialog.Result;
-        var group = (CustomerGroupModel)result.Data;
-        if (!result.Cancelled)
-        {
-            is_loading_data=true;
-            StateHasChanged();
-            var res = await http.ApiPost("customergroup/save",group);
-            if(res.IsSuccess)
-            {
-                AddToast("Save Successfull");
-                await LoadData();
+        var dialog = alert.Show<ComAddRole>("New Role", new DialogOptions() {  CloseButton = true });
+        //var result = await dialog.Result;
+        //var role = (RoleModel)result.Data;
+        //if (!result.Cancelled)
+        //{
+        //    is_loading_data=true;
+        //    StateHasChanged();
+        //    var res = await http.ApiPost("role/save",role);
+        //    if(res.IsSuccess)
+        //    {
+        //        AddToast("Save Successfull");
+        //        await LoadData();
                 
-            }else{
-                AddToast(res.Content.ToString(),Severity.Warning);
-            }
-            is_loading_data=false;
-        }
+        //    }else{
+        //        AddToast(res.Content.ToString(),Severity.Warning);
+        //    }
+        //    is_loading_data=false;
+        //}
 
     }
 
-     async Task OnClone(CustomerGroupModel g)
+     async Task OnClone(RoleModel g)
     {
         g.is_loading = true;
        
         var parameters = new DialogParameters();
         parameters.Add("clone_id", g.id);
-        var dialog = alert.Show<ComAddCustomerGroup>($"Clone {g.customer_group_name_en}", parameters, new DialogOptions() {  CloseButton = true });
+        var dialog = alert.Show<ComAddRole>($"Clone {g.role_name}", parameters, new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
-        var group = (CustomerGroupModel)result.Data;
             if (!result.Cancelled)
             {
                 is_loading_data=true;
@@ -187,11 +178,11 @@
         
     }
 
-    async Task OnToogleStatusLabel(CustomerGroupModel p)
+    async Task OnToogleStatusLabel(RoleModel p)
     {
         await SaveStatus(p);
     }
-    async Task SaveStatus(CustomerGroupModel p)
+    async Task SaveStatus(RoleModel p)
     {
         p.is_change_status = true;
         var resp = await http.ApiPost(controller_api + $"/status/{p.id}");
@@ -206,12 +197,12 @@
         p.is_change_status=false;
     }
 
-    async Task OnEdit(CustomerGroupModel g)
+    async Task OnEdit(RoleModel g)
     {
         g.is_loading=true;
         var parameters = new DialogParameters();
-        parameters.Add("group_id", g.id);
-        var dialog = alert.Show<ComAddCustomerGroup>($"Edit {g.customer_group_name_en}", parameters, new DialogOptions() {  CloseButton = true });
+        parameters.Add("role_id", g.id);
+        var dialog = alert.Show<ComAddRole>($"Edit {g.role_name}", parameters, new DialogOptions() {  CloseButton = true });
         var result = await dialog.Result;
         if (!result.Cancelled)
         {
@@ -226,7 +217,7 @@
 
     void OnSearch(string keyword)
     {
-        customer_groups = temp_customer_groups.Where(r=> (r.customer_group_name_en + " " + r.customer_group_name_kh).ToLower().Contains(keyword.ToLower())).ToList();
+        roles = temp_roles.Where(r=> (r.role_name).ToLower().Contains(keyword.ToLower())).ToList();
         SetFilterValue2(state.filters, "keyword", keyword);
     }
     async Task OnRemoveKeyword()
@@ -244,7 +235,7 @@
         await LoadData();
     }
 
-        async Task OnDelete(CustomerGroupModel p)
+        async Task OnDelete(RoleModel p)
     {
         p.is_loading = true;
             
@@ -264,7 +255,7 @@
     }
 
 
-    async Task OnRestore(CustomerGroupModel p)
+    async Task OnRestore(RoleModel p)
     {
         p.is_loading = true;
         if (await alert.ShowMessageBox("Restore Customer", "Are you sure you want to restore this record?") == true)
@@ -299,9 +290,5 @@
         state.page_title = m.title;
         state.pager.current_page = 1;
         await LoadData();
-    }
-
-    void DropClik(){
-
     }
 }

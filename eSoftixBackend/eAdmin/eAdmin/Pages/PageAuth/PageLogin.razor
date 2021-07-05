@@ -14,15 +14,9 @@
                 <div class="d-flex flex-column mud-width-full">
                     <MudPaper Elevation="25" Class="pa-8" Width="100%" MaxWidth="500px">
                         <img src="images/esoftix-logo.svg" style="height:50px"/>
-            
-
                         <MudText Typo="Typo.h4" GutterBottom="true" Align="MudBlazor.Align.Center">Sign In</MudText>
-                         
-
                         <MudTextField T="string" @bind-Value="@model.Username" Label="Username" Variant="Variant.Outlined" Class="my-6"  For="@(() => model.Username)" Required="true"></MudTextField>
-                       
                         <MudTextField @bind-Value="@model.Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="TogglePasswordVisibility"  Required="true"  For="@(() => model.Password)" />
-
                         @if (IsShowMessage)
                         {
                            <MudAlert Severity="Severity.Error" Class="my-4">@Message</MudAlert>
@@ -34,10 +28,7 @@
                         }else {
                             <MudButton Variant="Variant.Filled" Color="MudBlazor.Color.Primary"  ButtonType="ButtonType.Submit"  Size="Size.Large" FullWidth="true" Class="my-4">Sign In </MudButton>
                         }
-                        
-
                     </MudPaper>
-       
                 </div>
             </MudContainer>
         </EditForm>

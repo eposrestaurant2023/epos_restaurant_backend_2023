@@ -55,7 +55,13 @@ namespace eAPI.Controllers
             return r;
         }
 
-
+        [HttpGet]
+        [Route("PermissionRole")]
+        public IQueryable<PermissionOptionRoleModel> GetPermissionRole()
+        {
+            var p = db.PermissionOptionRole;
+            return p;
+        }
 
     }
 }
