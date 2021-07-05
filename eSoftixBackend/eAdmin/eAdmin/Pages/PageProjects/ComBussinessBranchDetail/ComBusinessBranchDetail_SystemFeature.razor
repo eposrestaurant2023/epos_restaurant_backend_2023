@@ -4,7 +4,7 @@
 <UIPanel Title="System Features">
     <UIPanelHeaderRight>
         <MenuButton>
-            <MenuButtonItem icon="@Icons.Material.Filled.Edit" OnClick="@OnEdit">Edit System Feature</MenuButtonItem>
+            <MenuButtonItem icon="@Icons.Material.Filled.Edit" OnClick="@OnEdit" disabled="@business_branch.is_deleted">Edit System Feature</MenuButtonItem>
         </MenuButton>
     </UIPanelHeaderRight>
     <UIPanelBody>
@@ -54,6 +54,7 @@
 
 @code {
     [Parameter] public string business_branch_id { get; set; }
+    [Parameter] public BusinessBranchModel business_branch { get; set; }
     bool is_loading;
     bool is_edited,is_saving;
 

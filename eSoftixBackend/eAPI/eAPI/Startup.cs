@@ -137,6 +137,7 @@ namespace eAPI
             
             
             odataBuilder.EntitySet<eKnowledgeBaseModel>("eKnowledgeBase");
+            odataBuilder.EntitySet<StockLocationModel>("StockLocation");
 
             return odataBuilder.GetEdmModel();
         }
