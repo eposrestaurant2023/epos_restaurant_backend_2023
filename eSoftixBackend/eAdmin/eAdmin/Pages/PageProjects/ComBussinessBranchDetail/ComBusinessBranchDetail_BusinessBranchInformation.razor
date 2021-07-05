@@ -1,11 +1,18 @@
 ﻿ @inject IHttpService  http
+@inject IDialogService Dialog;
+   
+@inject IDialogService alert;
+@inject ISnackbar toast;
+
+<Loading is_loading="is_loading"/>
 
 @if(model!=null){ 
 
 <UIPanel Title="Branch Information">
     <UIPanelHeaderRight>
+            <LabelDeleted is_visible="@model.is_deleted"/>
           <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
-            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@EditBusinessBranch_Click" >Edit</MudMenuItem>
+            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@EditBusinessBranch_Click" Disabled="@model.is_deleted" >Edit</MudMenuItem>
             <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteProject_Click">Delete</MenuButtonItem>
             <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteProject_Click">Restore</MenuButtonItem>
     </MenuButton>
@@ -35,15 +42,64 @@
 </UIPanel>
 }
 @code {
-    
-    [Parameter] public BusinessBranchModel model { get; set; }
-    [CascadingParameter] public AppState gv { get; set; }
 
+    [Parameter] public BusinessBranchModel model { get; set; }
+    [Parameter] public EventCallback<BusinessBranchModel> modelChanged { get; set; }
+    [CascadingParameter] public AppState gv { get; set; }
+    bool is_loading;
     async Task EditBusinessBranch_Click(){
-        await Task.Delay(100);
+        BusinessBranchModel backup_model = JsonSerializer.Deserialize<BusinessBranchModel>(JsonSerializer.Serialize(model));
+       var parameters = new DialogParameters { ["model"]= model};
+        var dialog = Dialog.Show<ComAddBusinessBranch>("Business Branch",parameters);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            model=(BusinessBranchModel)(result.Data);
+            await modelChanged.InvokeAsync(model);
+        }else {
+            model = backup_model;
+        }
     }
     async Task DeleteProject_Click(){
-        await Task.Delay(100);
+        string message ="Are you sure you want to delete this branch?";
+        if(model.is_deleted){
+            message = "Are you sure you want to restore this branch?";
+        }
+      bool? result = await alert.ShowMessageBox(
+            "Warning", 
+            message, 
+            yesText:model.is_deleted?"Restore":"Delete", cancelText:"Cancel");
+        if (result != null)
+        {
+             is_loading = true;
+            model.is_deleted = !model.is_deleted;
+            var resp = await http.ApiPost("BusinessBranch/Save", model);
+            if (resp.IsSuccess)
+            {
+                if (model.is_deleted)
+                {
+                    toast.Add("Delete business branch successfully", Severity.Success);
+                }else {
+                    toast.Add("Restore business branch successfully", Severity.Success);
+                }
+                
+                await modelChanged.InvokeAsync(model);
+                 
+            }else
+            {
+                model.is_deleted = false;
+                if (model.is_deleted)
+                {
+                    toast.Add("Delete business branch fail", Severity.Warning);
+                }else{
+                    toast.Add("Restore business branch fail", Severity.Warning);
+                }
+                
+            }
+            
+            is_loading = false;
+        }
     }
 
      

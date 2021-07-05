@@ -25,6 +25,9 @@ namespace eModels
 
         public bool is_deleted { get; set; }
 
+        [NotMapped]
+        public bool is_delete { get; set; }
+
 
     }
 }

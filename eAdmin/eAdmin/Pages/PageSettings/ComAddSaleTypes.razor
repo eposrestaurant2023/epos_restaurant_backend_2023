@@ -1,0 +1,43 @@
+﻿@inject IMatToaster toast;
+<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+    <tr>
+        <Th>Sale Type Name</Th>
+        <ThCenter>Is Order Use Table</ThCenter>
+        <Th></Th>
+    </tr>
+    @foreach (var p in sale_types.Where(r => r.is_deleted == false))
+    {
+        <tr>
+            <td><TextInput @bind-text="@p.sale_type_name" placeholder="Sale Type Name" /></td>
+            <TdCenter>
+                <ComInputCheckBox label_inline="true" @bind-value="@p.is_order_use_table"/>
+            </TdCenter>
+            <TdCenter>
+                <Icon icon="delete" OnClick="@(()=>Delete(p))" is_visible="@(!p.is_build_in)"/>
+            </TdCenter>
+
+        </tr>
+    }
+
+
+</table>
+
+@code {
+
+    [Parameter] public List<SaleTypeModel> sale_types { get; set; }
+
+    SaleTypeModel sale_type = new SaleTypeModel();
+
+    void Delete(SaleTypeModel p)
+    {
+        if (p.id == Guid.Empty)
+        {
+            sale_types.Remove(p);
+        }
+        else
+        {
+            p.is_deleted = true;
+        }
+    }
+
+}

@@ -1,0 +1,41 @@
+﻿@typeparam TItem
+
+@if (Items != null || Items.Count() > 0)
+{
+    if (is_parent)
+    {
+        <ul class="tree @css_class @(is_parent?"uk-nav-default uk-nav-parent-icon":"")" uk-nav="toggle: >@toogle;">
+            @foreach (var item in Items)
+            {
+                @ItemTemplate(item)
+            }
+        </ul>
+    }
+    else
+    {
+        <ul class="tree @css_class uk-nav-sub" uk-nav="toggle: >@toogle;">
+            @foreach (var item in Items)
+            {
+                @ItemTemplate(item)
+            }
+        </ul>
+    }
+}
+@code{
+
+
+    [Parameter] public string css_class { get; set; }
+    [Parameter] public bool IsRoleTree { get; set; }
+    [Parameter] public bool is_parent { get; set; }
+    [Parameter] public string toogle { get; set; } = "*";
+
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+
+
+    [Parameter]
+    public IReadOnlyList<TItem> Items { get; set; }
+
+
+
+}
