@@ -50,7 +50,8 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] RoleModel u)
         {
-            var r = db.Roles.Where(r=>r.role_name.ToLower() == u.role_name.ToLower());
+            var r = db.Roles.Where(r=>r.role_name.ToLower() == u.role_name.ToLower() && r.is_deleted == false);
+            
             if (u.id == 0)
             {
                 if (r.Any())

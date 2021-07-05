@@ -2,10 +2,14 @@
 @inject IHttpService http
 <Modal>
        <ModalContent>
-            <FileUpload @bind-ImageUrl="model.photo"></FileUpload>
+            <FileUpload @bind-ImageUrl="model.photo" class_name="d-flex justify-center"></FileUpload>
             <MudTextField @bind-Value="@model.full_name" Label="Full Name"></MudTextField>
             <MudTextField @bind-Value="@model.username" Label="User Name"></MudTextField>
+            @model.password
+            <MudTextField @bind-Value="@model.password" Label="Password" InputType="InputType.Password"></MudTextField>
             <MudTextField @bind-Value="@model.email" Label="Email"></MudTextField>
+            <MudTextField @bind-Value="@model.phone_1" Label="Phone 1"></MudTextField>
+            <MudTextField @bind-Value="@model.phone_2" Label="Phone 2"></MudTextField>
             <MudSelect T="int" Label="Role" @bind-Value="@model.role_id">
                 <MudSelectItem Value="0">Please select role</MudSelectItem>
                 @if(roles.Any()){
@@ -35,7 +39,7 @@
         await Task.Delay(100);
         await LoadUserType();
         if(user_id > 0){
-            var res = await http.ApiGet($"user({user_id})");
+            var res = await http.ApiGet($"user({user_id})?$select=username,full_name,role_id,email,phone_1,phone_2,note&$expand=role($select=id,role_name)");
             if(res.IsSuccess){
                 model = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
             }
@@ -67,7 +71,7 @@
         }
         else
         {
-            var res = await http.ApiPost("user/save",model);
+            var res = await http.ApiPost($"user/save?password={model.password}",model);
                 if(res.IsSuccess)
                 {
                     toast.Add("Save Successfull",Severity.Success);
