@@ -18,18 +18,23 @@
     </MudGrid>
     <Spacing/>
 
-    <ComBusinessBranchDetail_BusinessBranchInformation model="@model"/>
+    <ComBusinessBranchDetail_BusinessBranchInformation model="@model" modelChanged="@OnModelChanged"/>
     <Spacing/>
-    <ComBusinessBranchDetail_SystemFeature business_branch_id="@(model.id.ToString())"/>
+    <ComBusinessBranchDetail_SystemFeature business_branch="@model" business_branch_id="@(model.id.ToString())"/>
     <Spacing/>
-    <ComBusinessBranchDetail_StockLocation stock_locations="@model.stock_locations"/>
+    <ComBusinessBranchDetail_StockLocation stock_locations="@model.stock_locations" business_branch="@model"/>
     <Spacing/>
     <ComBusinessBranchDetail_OutletAndStation outlets="@model.outlets"/>
 }
 @code {
-    
+
     [Parameter] public BusinessBranchModel model { get; set; }
+    [Parameter] public EventCallback<BusinessBranchModel> modelChanged { get; set; }
     [CascadingParameter] public AppState gv { get; set; }
+
+    async Task OnModelChanged(){
+        await modelChanged.InvokeAsync(model);
+    }
  
 }
 

@@ -1,0 +1,78 @@
+﻿@inject IHttpService http ;
+@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="Product Tax" Icon="attach_money">
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+
+        <Tab>
+            <TabHeader>
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                    <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                }
+            </TabHeader>
+            <TabBody>
+
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                <TabItem>
+
+                    <ListTable>
+                        @if (product_taxes.Where(r => r.business_branch_id == b.id).Any())
+                        {
+                        <ListTableItem ItemTitle="@tax_rule.tax_1_name">@ProductTax(product_taxes.Where(r => r.business_branch_id == b.id).FirstOrDefault().tax_1_rate)</ListTableItem>
+                        <ListTableItem ItemTitle="@tax_rule.tax_2_name">@ProductTax(product_taxes.Where(r => r.business_branch_id == b.id).FirstOrDefault().tax_2_rate)</ListTableItem>
+                        <ListTableItem ItemTitle="@tax_rule.tax_3_name">@ProductTax(product_taxes.Where(r => r.business_branch_id == b.id).FirstOrDefault().tax_3_rate)</ListTableItem>
+                        }
+                    </ListTable>
+
+                </TabItem>
+                }
+            </TabBody>
+        </Tab>
+    }
+</UIContainerBox>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_id { get; set; }
+    List<ProductTaxModel> product_taxes = new List<ProductTaxModel>();
+    public eShareModel.TaxRuleModel tax_rule = new eShareModel.TaxRuleModel();
+    List<ProductTaxPercentageModel> product_tax_percentages = new List<ProductTaxPercentageModel>();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await Task.Delay(100);
+        tax_rule = JsonSerializer.Deserialize<eShareModel.TaxRuleModel>(gv.tax_rule);
+        product_tax_percentages = JsonSerializer.Deserialize<List<ProductTaxPercentageModel>>(gv.product_tax_percentages);
+        var resp = await http.ApiGetOData($"ProductTax?$filter=product_id eq {product_id}");
+        if (resp.IsSuccess)
+        {
+            product_taxes = JsonSerializer.Deserialize<List<ProductTaxModel>>(resp.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+    public string ProductTax(decimal value)
+    {
+        if (product_tax_percentages.Any())
+        {
+            if (value < 0)
+                return product_tax_percentages.Where(r => r.tax_value == -1).FirstOrDefault().tax_name;
+            else if (value == 0)
+                return product_tax_percentages.Where(r => r.tax_value == value).FirstOrDefault().tax_name;
+            else
+                return value.ToString(gv.percentage_format);
+        }
+        else
+        {
+            value = 0;
+            return value.ToString(gv.percentage_format);
+        }
+    }
+}

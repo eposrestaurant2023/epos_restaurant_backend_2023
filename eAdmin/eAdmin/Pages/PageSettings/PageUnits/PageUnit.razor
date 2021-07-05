@@ -33,7 +33,9 @@
                             <Content>
                                 <ComAddUnit units="@b.units" />
                                 <hr />
-                                <Button OnClick="@(()=>AddUnit(b))">@lang["Add Unit"]</Button>
+                                <div class="uk-text-right">
+                                    <Button OnClick="@(()=>AddUnit(b))">@lang["Add Unit"]</Button>
+                                </div>
                             </Content>
                         </ComAccordion>
 

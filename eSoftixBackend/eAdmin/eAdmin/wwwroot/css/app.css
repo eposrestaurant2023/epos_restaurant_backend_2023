@@ -328,6 +328,23 @@ a.disabled, a.disabled:hover {
 .view_table .mud-list-item-text{
     text-transform:lowercase !important;
 }
+.wrp-action-form {
+    width: calc(100% - 220px) !important;
+    position: fixed;
+    bottom: 0;
+    margin: 0 0 0 -15px;
+    box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
+    background-color: #fff;
+    z-index: 0;
+    padding: 10px;
+    display: block;
+    justify-content: normal;
+    text-align: center;
+}
+.wrap-text {
+    white-space: pre-line;
+}
+ 
 
 
 @media only screen and (min-width: 960px) {
@@ -336,11 +353,17 @@ a.disabled, a.disabled:hover {
         overflow-y: scroll
     }
 
+
+
 }
 
 @media only screen and (max-width: 960px) {
     .width_medui {
         max-height: 300px;
         overflow-y: scroll
+    }
+
+    .wrp-action-form {
+        width: 100% !important;
     }
 }

@@ -33,11 +33,13 @@
                             {
                                   <MudListItem Icon="@Icons.Material.Filled.Layers" IconColor="@MudBlazor.Color.Success">
                                         <MudText  Typo="@Typo.subtitle2">@d.business_branch_name_en</MudText>
+                                        <LabelDeleted is_visible="@model.is_deleted"/>
                                     </MudListItem>
                                     <MudDivider/>
                             }else{
                                   <MudListItem Icon="@Icons.Material.Filled.Layers" OnClick="@(()=>BusinessBranch_Click(d))">
                                         <MudText  Typo="@Typo.subtitle2">@d.business_branch_name_en</MudText>
+                                         <LabelDeleted is_visible="@model.is_deleted"/>
                                     </MudListItem>
                                     <MudDivider/>
                             }
@@ -61,7 +63,7 @@
         
     @if (model != null)
     {
-        <ComBusinessBranchInformation model="@model" />
+        <ComBusinessBranchInformation @bind-model="@model" />
     }else{
         <div>There is no business branch selected. (Pls design empty component)</div>
     }
