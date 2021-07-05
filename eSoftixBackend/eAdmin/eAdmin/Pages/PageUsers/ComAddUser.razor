@@ -6,7 +6,6 @@
             <MudTextField @bind-Value="@model.full_name" Label="Full Name"></MudTextField>
             <MudTextField @bind-Value="@model.username" Label="User Name"></MudTextField>
             <MudTextField @bind-Value="@model.email" Label="Email"></MudTextField>
-            @model.role_id
             <MudSelect T="int" Label="Role" @bind-Value="@model.role_id">
                 <MudSelectItem Value="0">Please select role</MudSelectItem>
                 @if(roles.Any()){
