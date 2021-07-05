@@ -32,7 +32,9 @@
                              <Content> 
                                  <ComAddSaleTypes sale_types="@b.sale_types"/>
                                  <hr />
-                                 <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
+                                 <div class="uk-text-right">
+                                     <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
+                                 </div>
                              </Content>
                          </ComAccordion>
                     
