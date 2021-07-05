@@ -40,7 +40,7 @@ namespace eAdmin.Pages.PagePermissions
             if (post.IsSuccess)
             {
                 AddToast("Saved successfully");
-                nav.NavigateTo("permission/role");
+                nav.NavigateTo("role");
             }
             else
             {

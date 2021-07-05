@@ -8,7 +8,7 @@
 }
 @if (!is_loading)
 {
-<PageContainer roles="custo">
+<PageContainer roles="customer_group_management">
       <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
         <Filter>
             <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
