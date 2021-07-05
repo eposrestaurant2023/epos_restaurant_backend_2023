@@ -93,15 +93,23 @@ namespace eAPI.Controllers
             return Ok(u);
         }
 
-        //[HttpPost]
-        //[Route("clone/{id}")]
-        //public async Task<ActionResult<PriceRuleModel>> CloneRecord(int id) //Delete
-        //{
-        //    var u = await db.PriceRules.FindAsync(id);
-        //    u.id = 0;
-        //    u.created_date = DateTime.Now;
-        //    await db.SaveChangesAsync();
-        //    return Ok(u);
-        //}
+        [HttpPost("SavePermission")]
+        public async Task<ActionResult<RoleModel>> SavePermission([FromBody] RoleModel p)
+        {
+            if (p.permission_option_roles.Any())
+            {
+                RoleModel r = db.Roles.Include(r => r.permission_option_roles).Where(r => r.id == p.id).FirstOrDefault();
+                r.role_name = p.role_name;
+                r.description = p.description;
+                r.permission_option_roles.Clear();
+                db.Roles.Update(r);
+                r.permission_option_roles = p.permission_option_roles;
+                db.Roles.Update(r);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                db.Database.ExecuteSqlRaw("exec sp_update_permission_option_role");
+                return Ok(r);
+            }
+            return Ok();
+        }
     }
 }
