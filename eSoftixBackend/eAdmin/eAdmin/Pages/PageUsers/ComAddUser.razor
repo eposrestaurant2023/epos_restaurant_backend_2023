@@ -1,4 +1,5 @@
-﻿@inject ISnackbar toast
+﻿@using NETCore.Encrypt
+@inject ISnackbar toast
 @inject IHttpService http
 <Modal>
        <ModalContent>
@@ -39,9 +40,10 @@
         await Task.Delay(100);
         await LoadUserType();
         if(user_id > 0){
-            var res = await http.ApiGet($"user({user_id})?$select=username,full_name,role_id,email,phone_1,phone_2,note&$expand=role($select=id,role_name)");
+            var res = await http.ApiGet($"user({user_id})");
             if(res.IsSuccess){
                 model = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
+                model.password =  EncryptProvider.Base64Decrypt(model.password);
             }
         }else if(clone_id > 0)
         {

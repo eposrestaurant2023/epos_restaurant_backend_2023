@@ -63,51 +63,43 @@ namespace eAPI.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromQuery] string password, [FromBody] UserModel user)
+        public async Task<ActionResult<string>> Save([FromQuery] string password, [FromBody] UserModel u)
         {
             //check if user duplicate
-            if (user.id == 0)
+            if (u.id == 0)
             {
-                var users = db.Users.Where(r => r.username.ToLower().Trim() == user.username.ToLower().Trim() && r.is_deleted == false);
-                if (users.Count() > 0)
+                var user = db.Users.Where(r => r.username.ToLower().Trim() == u.username.ToLower().Trim() && r.is_deleted == false);
+                if (user.Count() > 0)
                 {
-                    return StatusCode(301, $"Username {user.username} is already exists.");
+                    return StatusCode(301, $"Username {u.username} is already exists.");
                 }
-
             }
             else
             {
-                var users = db.Users.Where(r => r.username.ToLower().Trim() == user.username.ToLower().Trim() && r.id != user.id && r.is_deleted == false);
-                if (users.Count() > 0)
+                var user = db.Users.Where(r => r.username.ToLower().Trim() == u.username.ToLower().Trim() && r.id != u.id && r.is_deleted == false);
+                if (user.Count() > 0)
                 {
-                    return StatusCode(301, $"Username {user.username} is already exists.");
+                    return StatusCode(301, $"Username {u.username} is already exists.");
                 }
 
             }
-
-
-            user.password = EncryptProvider.AESEncrypt(password, "bqDQTa2YcczBx02gzsu16IUTYfGJ0zn1");
-            if (user.id > 0)
+            if (!string.IsNullOrEmpty(password))
             {
-                var u = await db.Users.FindAsync(user.id);
-                u.phone_1 = user.phone_1;
-                u.phone_2 = user.phone_2;
-                u.role_id = user.role_id;
-                u.note = user.note;
-                u.photo = user.photo;
-                u.full_name = user.full_name;
-                u.email = user.email;
-                u.username = user.username;
-                u.password = string.IsNullOrEmpty(password) ? u.password : user.password;
+                u.password = EncryptProvider.Base64Encrypt(password);
+            }
+            if (u.id == 0)
+            {
+
+                db.Users.Add(u);
+            }
+            else
+            {
+                u.role = null;
                 db.Users.Update(u);
             }
-            else
-            {
-                db.Users.Add(user);
-            }
-
+            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(user);
+            return Ok(u);
 
 
         }
