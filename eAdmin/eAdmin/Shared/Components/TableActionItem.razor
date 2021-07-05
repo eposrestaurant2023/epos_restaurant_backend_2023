@@ -1,8 +1,6 @@
-﻿@if (is_visible)
-{
+﻿ @if(is_visible) { 
     @if (roles == "")
-    {
-
+    { 
         <li>
             @if (url != "")
             {
@@ -12,8 +10,7 @@
             {
                 <a @onclick="@OnClick" class="uk-drop-close"><Icon icon="@icon" className="@icon" /> @ChildContent</a>
             }
-        </li>
-
+        </li> 
     }
     else
     {
@@ -27,11 +24,10 @@
                 {
                     <a @onclick="@OnClick" class="uk-drop-close"><Icon icon="@icon" className="@icon"/> @ChildContent</a>
                 }
-            </li>
+            </li> 
         </AuthorizeView>
     }
-
-}
+ }
 
 
 @code{
