@@ -50,13 +50,23 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] RoleModel u)
         {
-            db.Database.ExecuteSqlRaw($"delete tbl_business_branch_role where role_id = {u.id}");
+            var r = db.Roles.Where(r=>r.role_name.ToLower() == u.role_name.ToLower() && r.is_deleted == false);
+            
             if (u.id == 0)
             {
+                if (r.Any())
+                {
+                    return StatusCode(409,"Role already exist.");
+                }
                 db.Roles.Add(u);
             }
             else
             {
+                var role = db.Roles.Where(r => r.role_name.ToLower() == u.role_name.ToLower() && r.id != u.id);
+                if (role.Any())
+                {
+                    return StatusCode(409, "Role already exist.");
+                }
                 db.Roles.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -69,6 +79,14 @@ namespace eAPI.Controllers
         {
             var s = db.Roles.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(s);
+        }
+        [HttpPost("clone/{id}")]
+        public async Task<ActionResult> Clone(int id)
+        {
+            var r = await db.Roles.FindAsync(id);
+            r.id = 0;
+            r.status = true;
+            return Ok(r);
         }
 
         [HttpPost]
@@ -93,15 +111,23 @@ namespace eAPI.Controllers
             return Ok(u);
         }
 
-        //[HttpPost]
-        //[Route("clone/{id}")]
-        //public async Task<ActionResult<PriceRuleModel>> CloneRecord(int id) //Delete
-        //{
-        //    var u = await db.PriceRules.FindAsync(id);
-        //    u.id = 0;
-        //    u.created_date = DateTime.Now;
-        //    await db.SaveChangesAsync();
-        //    return Ok(u);
-        //}
+        [HttpPost("SavePermission")]
+        public async Task<ActionResult<RoleModel>> SavePermission([FromBody] RoleModel p)
+        {
+            if (p.permission_option_roles.Any())
+            {
+                RoleModel r = db.Roles.Include(r => r.permission_option_roles).Where(r => r.id == p.id).FirstOrDefault();
+                r.role_name = p.role_name;
+                r.description = p.description;
+                r.permission_option_roles.Clear();
+                db.Roles.Update(r);
+                r.permission_option_roles = p.permission_option_roles;
+                db.Roles.Update(r);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                db.Database.ExecuteSqlRaw("exec sp_update_permission_option_role");
+                return Ok(r);
+            }
+            return Ok();
+        }
     }
 }

@@ -1364,7 +1364,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("expired_date")
+                    b.Property<DateTime?>("expired_date")
                         .HasColumnType("date");
 
                     b.Property<bool>("is_deleted")

@@ -6,7 +6,7 @@
 @if (!is_loading)
 {
     <Title Value="@(id > 0? lang["Edit Product Category & Group"] : lang["New Product Category & Group"])"></Title>
-    <PageContainer roles="@gv.GetRole("product_category_group")">
+    <PageContainer roles="@gv.GetRole(id > 0? "product_group_category_edit" : "product_group_category_add")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -137,16 +137,25 @@
 
             Object obj = new Object();
             ProductGroupModel save_product_group = JsonSerializer.Deserialize<ProductGroupModel>(JsonSerializer.Serialize(d));
-            if (save_product_group.status == false)
+
+            if (save_product_group.product_categories.Where(r=>r.is_deleted == false).Any() == false)
             {
-                if (save_product_group.product_categories.FirstOrDefault().products.Any())
+                toast.Add(lang["Category cannot empty"], MatBlazor.MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+            else
+            {
+                if (save_product_group.status == false)
                 {
-                    toast.Add(lang["Cannot change status to inactive."], MatBlazor.MatToastType.Warning);
-                    is_saving = false;
-                    return;
+                    if (save_product_group.product_categories.Where(r=>r.is_deleted == false && r.status == true).Any())
+                    {
+                        toast.Add(lang["Cannot change status to inactive"], MatBlazor.MatToastType.Warning);
+                        is_saving = false;
+                        return;
+                    }
                 }
             }
-
 
             save_product_group.product_categories.ForEach(r => r.products = null);
             var res = await http.ApiPost($"{ControllerApi}/save", save_product_group);

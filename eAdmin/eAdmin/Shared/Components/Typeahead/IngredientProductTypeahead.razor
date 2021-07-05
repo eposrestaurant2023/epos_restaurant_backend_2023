@@ -1,65 +1,74 @@
-﻿@inherits PageCore;
- 
-<BlazoredTypeahead SearchMethod="SearchProduct" @bind-Value="@selected_product" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
-    <SelectedTemplate>
-        @context.product_name_en
-    </SelectedTemplate>
-    <ResultTemplate>
-        @if (result_count > 0)
-        {
-            <span>@context.product_name_en</span>
-        }
-        else
-        {
-            <span>Add @context.product_name_en</span>
-        }
-    </ResultTemplate>
-</BlazoredTypeahead> 
+﻿@inherits PageCore
+<div class="search-add-typeahead">
+    <Grid ClassName="uk-grid-small">
+        <div class="uk-width-auto">
+            <div class="search-add-icon">
+                <Icon icon="search" size="25px" icon_color="#99afc5" title="Search / Add Product" />
+            </div>
+        </div>
+        <div class="uk-width-expand uk-padding-remove">
+            <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
+                <SelectedTemplate>
+                    @context.product_name_en
+                </SelectedTemplate>
+                <ResultTemplate>
+                    @if (!context.is_new)
+                    {
+                        <span>@context.product_name_en</span>
+                    }
+                    else
+                    {
+                        <span>Add @context.product_name_en</span>
+                    }
+                </ResultTemplate>
+            </BlazoredTypeahead>
+        </div>
+
+    </Grid>
+</div>
 @code{
-    
-    [Parameter] public string label { get; set; } = "product";
+
+    [Parameter] public string label { get; set; } = "Product";
     [Parameter] public string status { get; set; } = "";
-    [Parameter] public string placeholder { get; set; } = "Select product";
+    [Parameter] public string placeholder { get; set; } = "Select Product";
     [Parameter] public ProductModel product { get; set; }
     [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
+    [Parameter] public int? product_id { get; set; }
     [Parameter] public EventCallback<int> product_idChanged { get; set; }
-    
-    int result_count = 0;
-    string product_name;
 
-    public async Task<IEnumerable<ProductModel>> SearchProduct(string searchText)
+    List<ProductModel> result = new List<ProductModel>();
+    public async Task<IEnumerable<ProductModel>> SearchModifier(string searchText)
     {
-        string api_url = $"product?$expand=unit&keyword={searchText}&$orderby=product_name_en asc&$top=20";
-
-        state.filters.Clear();
-
-        state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
-
-        state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
-
-        if (status == "Active")
+        if (!string.IsNullOrWhiteSpace(searchText) && searchText != "")
         {
-            state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
-        }
-        else if (status == "Inactive")
-        {
-            state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
-        }
 
-        api_url = api_url + GetFilter(state.filters);
-        var res = await http.ApiGetOData(api_url);
-        if (res.IsSuccess)
-        {
-            var result = JsonSerializer.Deserialize<List<ProductModel>>(res.Content.ToString());
-            result_count = result.Count();
+            string api_url = $"product?$expand=unit&keyword={searchText}&$orderby=product_name_en asc&$top=20";
 
-            if (result_count ==0 && searchText!="")
+            state.filters.Clear();
+
+            state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+
+            if (status == "Active")
             {
-                result.Add(new ProductModel() { product_name_en = searchText });
+                state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
+            }
+            else if (status == "Inactive")
+            {
+                state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
             }
 
-            return result;
+            api_url = api_url + GetFilter(state.filters);
+            var res = await http.ApiGetOData(api_url);
+            if (res.IsSuccess)
+            {
+                result = JsonSerializer.Deserialize<List<ProductModel>>(res.Content.ToString());
+                if (!result.Any() || result.Where(r => r.product_name_en.ToLower() != searchText.ToLower()).Any())
+                {
+                    result.Add(new ProductModel() { product_name_en = searchText, is_new = true });
+                }
+                return result;
 
+            }
         }
         return new List<ProductModel>();
     }
@@ -70,27 +79,28 @@
         {
             if (product.id == 0)
             {
-                selected_product = null;
+                selected = null;
             }
             else
             {
-                selected_product = product;
+                selected = product;
             }
         }
-        await SearchProduct("");
+        await SearchModifier("");
     }
 
-    private ProductModel _selected_product;
-    public ProductModel selected_product
+    private ProductModel _selected;
+    public ProductModel selected
     {
         get
         {
-            _selected_product = product;
-            return _selected_product;
+            _selected = product;
+            return _selected;
         }
         set
         {
-            _selected_product = value;
+            _selected = value;
+
             productChanged.InvokeAsync(value);
             if (value != null)
             {

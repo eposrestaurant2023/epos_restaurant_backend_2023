@@ -20,12 +20,12 @@
             @if (IsVisible)
             {
                 <div class="wrp_input_attach_file">
-                   
                     <InputFile id="fileInput" OnChange="HandleSelection" style="display: none;" />
                     <MudButton 
                            HtmlTag="label"
                            Variant="Variant.Filled"
                            Color="MudBlazor.Color.Primary"
+                           FullWidth="true"
                            StartIcon="@Icons.Filled.CloudUpload"
                            for="fileInput">
                         Upload Files

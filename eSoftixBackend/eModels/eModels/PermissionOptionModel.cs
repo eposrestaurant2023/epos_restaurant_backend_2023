@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;  
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace eModels
 {
@@ -52,6 +53,30 @@ namespace eModels
 
         public bool is_section_header { get; set; }
         public bool show_in_sub_menu { get; set; }
+
+        [NotMapped, JsonIgnore]
+        public bool is_open_child { get; set; } 
+
+        [NotMapped, JsonIgnore]
+        public bool is_loading { get; set; } 
+
+        [NotMapped, JsonIgnore]
+        public bool is_selected
+        {
+            get
+            {
+                if (permission_option_roles.Count > 0)
+                {
+                    return permission_option_roles.Count > 0;
+                }
+                else
+                {
+                    return false;
+
+                }
+
+            }
+        }
 
     }  
 }

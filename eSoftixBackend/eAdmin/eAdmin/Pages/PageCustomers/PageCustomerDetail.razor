@@ -31,16 +31,10 @@
                         <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
                    </MenuButton>
                 </MudHidden>
-                   <MudTooltip Text="More">
-                        <MudMenu PositionAtCurser="true" Icon="@Icons.Material.Filled.ArrowDropDown" Direction="Direction.Bottom" OffsetY="true">
-                            <MudMenuItem OnClick="@(()=>Navigation_Click($"customer/edit{id}"))">Delete</MudMenuItem>
-                            <MudMenuItem OnClick="@(()=>ChangeStatus_Click(Guid.Parse(id)))">Status</MudMenuItem>
-                        </MudMenu>
-                    </MudTooltip>
                 <RefreshButton OnClick="@OnRefresh"/>
                       <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
                              <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                                   <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.Person" url="@($"customer/new")">New Customer</MenuButtonItem>
+                                <MenuButtonItem roles="@gv.GetRole("customer_add")" icon="@Icons.Material.Filled.Person" url="@($"customer/new")">New Customer</MenuButtonItem>
                                 <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
                                 <MudDivider />
                              </MudHidden>

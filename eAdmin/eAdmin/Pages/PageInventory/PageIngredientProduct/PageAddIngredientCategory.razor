@@ -5,7 +5,7 @@
 @if (!is_loading)
 {
     <Title Value="@lang["Ingredient Category"]"></Title>
-    <PageContainer roles="@gv.GetRole("product_category_group")">
+    <PageContainer roles="@gv.GetRole("product_category_group_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -81,7 +81,7 @@
 
     List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
     string ControllerApi = "ProductGroup";
-   
+
     public string api_url
     {
         get
@@ -137,8 +137,8 @@
 
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
-        { 
-            product_category = JsonSerializer.Deserialize<List<ProductCategoryModel>>(resp.Content.ToString()); 
+        {
+            product_category = JsonSerializer.Deserialize<List<ProductCategoryModel>>(resp.Content.ToString());
         }
         is_loading_data = false;
 
@@ -184,6 +184,12 @@
 
             Object obj = new Object();
             d.product_categories.ForEach(r => r.is_ingredient_category = true);
+            if (d.product_categories.Where(r=> string.IsNullOrEmpty(r.product_category_en) && string.IsNullOrEmpty(r.product_category_kh)).Any())
+            {
+                toast.Add("Product category cannot empty", MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
             ProductGroupModel save_product_group = JsonSerializer.Deserialize<ProductGroupModel>(JsonSerializer.Serialize(d));
 
             var res = await http.ApiPost($"{ControllerApi}/save", save_product_group);

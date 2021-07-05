@@ -1,15 +1,14 @@
 ﻿@inject ISnackbar toast
 @inject IHttpService http
+
 <Modal>
-       <ModalContent>     
-            <MudTextField RequiredError="@("Please enter group name en")" @bind-Value="@model.customer_group_name_en" Label="Group Name En">
-            <ValidationMessage For="(()=>model.customer_group_name_en)"/>    
+    <ModalContent>     
+        <MudTextField @bind-Value="@model.customer_group_name_en" Label="Group Name En">
 
             </MudTextField>
             <MudTextField @bind-Value="@model.customer_group_name_kh" Label="Group Name Kh"></MudTextField>
             <MudTextField @bind-Value="@model.note" Lines="3" Label="Note"></MudTextField>
- 
-        </ModalContent>
+    </ModalContent>
   
     <ActionButton>
         <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click" Variant="Variant.Filled">Save</MudButton>
@@ -25,7 +24,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-    await Task.Delay(100);
         if(group_id > 0){
             var res = await http.ApiGet($"customergroup({group_id})");
             if(res.IsSuccess){

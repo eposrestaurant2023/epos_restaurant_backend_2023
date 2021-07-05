@@ -26,7 +26,6 @@ namespace eModels
             product_taxes = new List<ProductTaxModel>();
         }
 
-
         public bool is_out_of_stock { get; set; } = false;
         public bool is_low_inventory { get; set; } = false;
         public bool is_over_stock { get; set; } = false;
@@ -152,6 +151,9 @@ namespace eModels
         public int unit_category_id { get; set; }
         public string stock_locations { get; set; }
 
+
+        [NotMapped, JsonIgnore]
+        public bool is_new { get; set; }
     }
 
 

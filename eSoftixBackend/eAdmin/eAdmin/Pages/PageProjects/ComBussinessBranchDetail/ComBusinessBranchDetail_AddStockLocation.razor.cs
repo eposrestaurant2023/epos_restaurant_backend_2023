@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using eModels;
 using eAdmin.Services;
+using System.Text.Json;
 
 namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
 {
@@ -23,7 +24,7 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             {
 
                 toast.Add("Save stock location successfully", Severity.Success);
-                MudDialog.Close(DialogResult.Ok(model));
+                MudDialog.Close(DialogResult.Ok(JsonSerializer.Deserialize<StockLocationModel>(resp.Content.ToString())));
             }
             else
             {

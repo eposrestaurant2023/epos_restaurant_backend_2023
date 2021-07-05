@@ -4,7 +4,7 @@
 @if (!is_loading && !is_error)
 {
     <Title Value="@($"Customer | {model.customer_code_name}")"></Title>
-    <PageContainer roles="@gv.GetRole("customer_view")">
+    <PageContainer roles="@gv.GetRole("customer_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">

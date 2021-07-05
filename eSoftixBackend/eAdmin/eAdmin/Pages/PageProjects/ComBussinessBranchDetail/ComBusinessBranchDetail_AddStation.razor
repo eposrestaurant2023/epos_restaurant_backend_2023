@@ -1,0 +1,16 @@
+﻿ <Loading is_loading="@(is_saving)"/>
+ <EditForm Model="@model" OnValidSubmit="@Save_Click">
+<Modal>
+    <ModalContent>
+          <DataAnnotationsValidator />
+                <MudTextField T="string" @bind-Value="@model.station_name_en" Label="Station Name" For="@(() => model.station_name_en)" Required="true"/>
+                <MudDatePicker Label="Expire Date" @bind-Date="@(model.expired_date)"  Disabled="@(model.id != Guid.Empty)"/>
+
+    </ModalContent>
+    <ActionButton>
+        <SaveButton  is_loading="@is_saving" />
+    </ActionButton>
+</Modal>
+</EditForm>
+ 
+

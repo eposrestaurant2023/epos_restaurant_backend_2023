@@ -78,7 +78,7 @@ where
         </QueryParameters>
         <CommandText>select 
 	a.document_number,
-	a.working_date,
+	a.closed_date,
 	c.business_branch_name_en,
 	c.address_en,
 	c.phone_1,
@@ -94,13 +94,16 @@ where
 	a.closed_by,
 	e.customer_name_en,
 	e.phone_1 as customer_phone_1,
-	e.phone_2 as customer_phone_2
-	
+	e.phone_2 as customer_phone_2,
+	f.table_name,
+	g.station_name_en
 from tbl_sale a 
 inner join tbl_outlet b on a.outlet_id = b.id
 inner join tbl_business_branch c on c.id = a.business_branch_id
 inner join tbl_sale_status d on d.id = a.status_id
 inner join tbl_customer e on a.customer_id = e.id
+inner join tbl_table f on f.id = a.table_id 
+inner join tbl_station g on g.id = a.station_id
 where
 	a.id = @sale_id</CommandText>
       </Query>
@@ -109,8 +112,8 @@ where
           <DataField>document_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="working_date">
-          <DataField>working_date</DataField>
+        <Field Name="closed_date">
+          <DataField>closed_date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="business_branch_name_en">
@@ -177,6 +180,14 @@ where
           <DataField>customer_phone_2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="table_name">
+          <DataField>table_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="station_name_en">
+          <DataField>station_name_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="setting">
@@ -202,6 +213,18 @@ where
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="shift_management">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText>select setting_value as shift_management  from tbl_setting where id = 60</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="shift_management">
+          <DataField>shift_management</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -211,13 +234,13 @@ where
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.16968in</Width>
+                  <Width>1.11506in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.15917in</Width>
+                  <Width>0.14583in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.85275in</Width>
+                  <Width>1.51594in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -304,7 +327,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!working_date.Value,First(Fields!date_format.Value, "setting"))</Value>
+                                  <Value>=first(Fields!date_time_format.Value, "setting")</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                   </Style>
@@ -424,6 +447,330 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>closed_by</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Shift #</Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox28">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>:</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cashier_shift_number">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!cashier_shift_number.Value</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cashier_shift_number</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Station Name</Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox16">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>:</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox16</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="station_name_en">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!station_name_en.Value</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>station_name_en</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox19">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Table #</Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox19</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox21">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>:</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox21</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="table_name">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!table_name.Value</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>table_name</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -784,13 +1131,16 @@ where
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>1.39336in</Top>
-            <Left>3.99382in</Left>
-            <Height>1.25in</Height>
-            <Width>2.18159in</Width>
+            <Top>1.64336in</Top>
+            <Left>4.41428in</Left>
+            <Height>2in</Height>
+            <Width>2.77684in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -802,25 +1152,25 @@ where
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.33929in</Width>
+                  <Width>0.48512in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.9018in</Width>
+                  <Width>2.04763in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.53722in</Width>
+                  <Width>0.68305in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.60714in</Width>
+                  <Width>0.75297in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.8918in</Width>
+                  <Width>1.03763in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.91277in</Width>
+                  <Width>1.0586in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.98541in</Width>
+                  <Width>1.13124in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -850,7 +1200,6 @@ where
                           <rd:DefaultName>Textbox9</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -887,7 +1236,6 @@ where
                           <rd:DefaultName>Textbox11</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -926,7 +1274,6 @@ where
                           <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -951,7 +1298,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Unit</Value>
+                                  <Value>UNIT</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -965,7 +1312,6 @@ where
                           <rd:DefaultName>Textbox67</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -1005,7 +1351,6 @@ where
                           <rd:DefaultName>Textbox17</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -1045,7 +1390,6 @@ where
                           <rd:DefaultName>Textbox20</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -1085,7 +1429,6 @@ where
                           <rd:DefaultName>Textbox22</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>LightGrey</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -1360,10 +1703,9 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_product</DataSetName>
-            <Top>2.71281in</Top>
-            <Left>0in</Left>
+            <Top>4.33781in</Top>
             <Height>0.53125in</Height>
-            <Width>6.17541in</Width>
+            <Width>7.19626in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -1378,9 +1720,9 @@ where
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Reciept</Value>
+                    <Value>RECEIPT</Value>
                     <Style>
-                      <FontSize>24pt</FontSize>
+                      <FontSize>20pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
@@ -1391,10 +1733,10 @@ where
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox55</rd:DefaultName>
-            <Top>0.8517in</Top>
+            <Top>0.89337in</Top>
             <Left>0.00512in</Left>
-            <Height>0.35253in</Height>
-            <Width>6.17029in</Width>
+            <Height>0.43586in</Height>
+            <Width>7.19112in</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -1416,7 +1758,7 @@ where
                     <Value>Mahob Group</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
-                      <FontSize>16pt</FontSize>
+                      <FontSize>18pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
@@ -1428,9 +1770,9 @@ where
             </Paragraphs>
             <rd:DefaultName>Textbox4</rd:DefaultName>
             <Top>0.30044in</Top>
-            <Left>1.07456in</Left>
+            <Left>1.04679in</Left>
             <Height>0.28674in</Height>
-            <Width>4.26588in</Width>
+            <Width>5.09876in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -1446,13 +1788,13 @@ where
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>5.13412in</Width>
+                  <Width>5.80983in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.21098in</Width>
+                  <Width>0.23459in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.8303in</Width>
+                  <Width>1.15182in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1483,7 +1825,6 @@ where
                           <rd:DefaultName>Textbox113</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>#e8e8e8</Color>
                               <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -1532,7 +1873,6 @@ where
                           <rd:DefaultName>Textbox30</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>#e8e8e8</Color>
                               <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -1577,7 +1917,6 @@ where
                           <rd:DefaultName>paid_amount</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>#e8e8e8</Color>
                               <Style>Solid</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -1965,7 +2304,6 @@ where
                           <rd:DefaultName>Textbox102</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>#e8e8e8</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -2005,7 +2343,6 @@ where
                           <rd:DefaultName>Textbox30</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>#e8e8e8</Color>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -2041,7 +2378,123 @@ where
                           <rd:DefaultName>paid_amount</rd:DefaultName>
                           <Style>
                             <Border>
-                              <Color>#e8e8e8</Color>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>3.75pt</PaddingLeft>
+                            <PaddingRight>3.75pt</PaddingRight>
+                            <PaddingTop>3.75pt</PaddingTop>
+                            <PaddingBottom>3.75pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox37">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox37</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>3.75pt</PaddingLeft>
+                            <PaddingRight>3.75pt</PaddingRight>
+                            <PaddingTop>3.75pt</PaddingTop>
+                            <PaddingBottom>3.75pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox38">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox38</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox39">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox39</rd:DefaultName>
+                          <Style>
+                            <Border>
                               <Style>None</Style>
                               <Width>0.25pt</Width>
                             </Border>
@@ -2079,14 +2532,28 @@ where
                     <TablixMember />
                   </TablixMembers>
                 </TablixMember>
+                <TablixMember>
+                  <Group Name="document_number">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!document_number.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!document_number.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>3.24468in</Top>
-            <Left>0in</Left>
-            <Height>1.29167in</Height>
-            <Width>6.17541in</Width>
+            <Top>4.86968in</Top>
+            <Height>1.54167in</Height>
+            <Width>7.19624in</Width>
             <ZIndex>4</ZIndex>
+            <Visibility>
+              <Hidden>=Sum(Fields!balance.Value, "sale_data") &gt; 0</Hidden>
+            </Visibility>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2101,9 +2568,8 @@ where
             <Value>logomahobkhmer</Value>
             <Sizing>FitProportional</Sizing>
             <Top>0.29605in</Top>
-            <Left>0in</Left>
             <Height>0.73191in</Height>
-            <Width>1.00511in</Width>
+            <Width>0.99123in</Width>
             <ZIndex>5</ZIndex>
             <Style>
               <Border>
@@ -2132,10 +2598,10 @@ where
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox73</rd:DefaultName>
-            <Top>0.66456in</Top>
+            <Top>0.56734in</Top>
             <Left>1.01901in</Left>
             <Height>0.17325in</Height>
-            <Width>4.88092in</Width>
+            <Width>5.12653in</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -2164,10 +2630,10 @@ where
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox74</rd:DefaultName>
-            <Top>0.8517in</Top>
+            <Top>0.73313in</Top>
             <Left>1.01901in</Left>
             <Height>0.10468in</Height>
-            <Width>4.88092in</Width>
+            <Width>5.12653in</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -2179,13 +2645,13 @@ where
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.73313in</Width>
+                  <Width>0.65674in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.08937in</Width>
+                  <Width>0.16965in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.38033in</Width>
+                  <Width>2.72061in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2417,10 +2883,10 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>1.39336in</Top>
+            <Top>1.64336in</Top>
             <Left>0.00512in</Left>
             <Height>0.5in</Height>
-            <Width>3.20283in</Width>
+            <Width>3.547in</Width>
             <ZIndex>8</ZIndex>
             <Style>
               <Border>
@@ -2428,14 +2894,49 @@ where
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="Textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Receipt#: </Value>
+                    <Style />
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!document_number.Value, "sale_data")</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>1.28756in</Top>
+            <Height>0.17708in</Height>
+            <Width>7.19112in</Width>
+            <ZIndex>9</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>5.89163in</Height>
+        <Height>6.41135in</Height>
         <Style />
       </Body>
-      <Width>6.17576in</Width>
+      <Width>7.20622in</Width>
       <Page>
         <PageFooter>
-          <Height>0.42187in</Height>
+          <Height>1.97569in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -2454,8 +2955,7 @@ where
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox122</rd:DefaultName>
-              <Top>0.06944in</Top>
-              <Left>0in</Left>
+              <Top>1.69444in</Top>
               <Height>0.25in</Height>
               <Width>3.31125in</Width>
               <Style>
@@ -2485,10 +2985,10 @@ where
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox123</rd:DefaultName>
-              <Top>0.06944in</Top>
+              <Top>1.69444in</Top>
               <Left>3.31125in</Left>
               <Height>0.25in</Height>
-              <Width>2.86416in</Width>
+              <Width>3.89497in</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -2542,7 +3042,7 @@ where
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>c873a118-9a2f-46f8-8ec9-33df3f4e7a33</Value>
+          <Value>EED5F1C1-EBA8-4885-8CA9-08D93DF83989</Value>
         </Values>
       </DefaultValue>
       <Prompt>sale id</Prompt>

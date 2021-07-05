@@ -8,7 +8,7 @@
 }
 @if (!is_loading)
 {
-<PageContainer>
+<PageContainer roles="customer_group_management">
       <PageHeader title="@state.page_title" OnRefresh="@OnRefresh" >
         <Filter>
             <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
@@ -18,7 +18,7 @@
                 
             </ComSearch>
              <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@OnAddNew_Click"/>
+                <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@OnAddNew_Click"/>
              </MudHidden>
           
         </Right>
@@ -28,7 +28,7 @@
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"
                 isLoading="@is_loading_data"
-                ShowPager="true"
+                ShowPager="false"
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
