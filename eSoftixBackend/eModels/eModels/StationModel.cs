@@ -16,7 +16,7 @@ namespace eModels
 
 
         private string _station_name_en;
-        
+
         [MaxLength(50)]
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string station_name_en
@@ -32,7 +32,7 @@ namespace eModels
         [MaxLength(50)]
         public string station_name_kh { get; set; }
         [Column(TypeName = "date")]
-        public DateTime expired_date { get; set; }
+        public DateTime? expired_date { get; set; } = DateTime.Now.AddMonths(1);
 
         public bool is_full_license { get; set; }
 
