@@ -8,7 +8,7 @@
  @if (!is_loading)
 {
     <Title Value="@title"></Title>
-    <PageContainer roles="@gv.GetRole($"{((!string.IsNullOrEmpty(clone_id)) || (!string.IsNullOrEmpty(clone_id) && !string.IsNullOrEmpty(id)) ? "customer_add" : "customer_edit") }")">
+    <PageContainer roles="@gv.GetRole($"{((!string.IsNullOrEmpty(clone_id)) || (!string.IsNullOrEmpty(clone_id) && !string.IsNullOrEmpty(id)) ? "customer_edit" : "customer_add") }")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">

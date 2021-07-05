@@ -7,7 +7,15 @@
             {
                 @if (string.IsNullOrEmpty(target))
                 {
-                    <i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i>
+                    if (!string.IsNullOrEmpty(url))
+                    {
+                        <a href="@url"><i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i></a>
+                    }
+                    else
+                    {
+                        <i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i>
+                    }
+
                 }
                 else
                 {
@@ -25,7 +33,16 @@
         {
             @if (string.IsNullOrEmpty(target))
             {
-                <i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i>
+
+                if (!string.IsNullOrEmpty(url))
+                {
+                    <a href="@url"><i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i></a>
+                }
+                else
+                {
+                    <i class="@theme @className @cursor" uk-tooltip="@title" @onclick="OnClick" style="color: @icon_color; font-size: @size;">@icon</i>
+                }
+
             }
             else
             {
@@ -37,7 +54,7 @@
 }
 else
 {
-    <Spinner/>
+    <Spinner />
 }
 
 @code{
@@ -50,6 +67,7 @@ else
     [Parameter] public string size { get; set; } = "";
     [Parameter] public string cursor { get; set; } = "cp";
     [Parameter] public string roles { get; set; } = "";
+    [Parameter] public string url { get; set; }
     [Parameter] public bool is_visible { get; set; } = true;
     [Parameter] public bool is_loading { get; set; } = false;
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }

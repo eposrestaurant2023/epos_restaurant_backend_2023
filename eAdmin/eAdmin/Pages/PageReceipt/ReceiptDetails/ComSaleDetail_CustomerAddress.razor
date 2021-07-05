@@ -14,7 +14,7 @@
                     </div>
                     <div style="margin-right:4px;">
                         <div>
-                            <ComAuthorize roles="@gv.GetRole("customer_view")" OnClick="@(()=>nav.NavigateTo($"customer/{sale.customer_id}"))"><Icon icon="person" />@sale.customer?.customer_code_name <Com is_visible="sale.customer?.gender !=null">(@sale.customer?.gender)</Com></ComAuthorize>
+                            <ComAuthorize roles="@gv.GetRole("customer_management")" OnClick="@(()=>nav.NavigateTo($"customer/{sale.customer_id}"))"><Icon icon="person" />@sale.customer?.customer_code_name <Com is_visible="sale.customer?.gender !=null">(@sale.customer?.gender)</Com></ComAuthorize>
                             <LabelInActive is_visible="@(!sale.customer.status && !sale.customer.is_deleted)" />
                             <LabelActive is_visible="@(sale.customer.status && !sale.customer.is_deleted)" />
                             <LabelDeleted is_visible="@sale.customer.is_deleted" />

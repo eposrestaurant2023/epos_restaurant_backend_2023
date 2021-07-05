@@ -61,7 +61,11 @@ namespace eAPI.Controllers
                 db.PermissionOptionRole.AddRange(_p.permission_option_roles);
             }
             db.PermissionOption.UpdateRange(p);
+
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw("exec sp_update_permission_option_role");
+
             return Ok();
         }
 

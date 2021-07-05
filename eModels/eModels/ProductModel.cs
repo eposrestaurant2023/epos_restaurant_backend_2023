@@ -26,7 +26,6 @@ namespace eModels
             product_taxes = new List<ProductTaxModel>();
         }
 
-
         public bool is_out_of_stock { get; set; } = false;
         public bool is_low_inventory { get; set; } = false;
         public bool is_over_stock { get; set; } = false;
