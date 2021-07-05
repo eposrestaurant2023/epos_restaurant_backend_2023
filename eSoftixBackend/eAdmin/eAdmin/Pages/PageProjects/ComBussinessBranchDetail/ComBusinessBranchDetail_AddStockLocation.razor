@@ -1,0 +1,16 @@
+﻿ <Loading is_loading="@(is_saving)"/>
+ <EditForm Model="@model" OnValidSubmit="@Save_Click">
+<Modal>
+    <ModalContent>
+          <DataAnnotationsValidator />
+        
+                <MudTextField T="string" @bind-Value="@model.stock_location_name" Label="Stock Location Name" For="@(() => model.stock_location_name)" Required="true"/>
+                 
+                <MudSwitch @bind-Checked="@model.is_default" Label="Mark as Default" Color="MudBlazor.Color.Success" />
+    </ModalContent>
+    <ActionButton>
+        <SaveButton  is_loading="@is_saving" />
+    </ActionButton>
+</Modal>
+</EditForm>
+ 

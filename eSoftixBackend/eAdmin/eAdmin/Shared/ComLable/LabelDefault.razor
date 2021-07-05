@@ -1,0 +1,9 @@
+﻿@if (is_visible)
+{
+    <MudChip  Label="true" Color="MudBlazor.Color.Default" Icon="@IconName" Size="Size.Small">Default</MudChip>
+}
+
+@code{
+    [Parameter] public bool is_visible { get; set; }
+    [Parameter] public string IconName { get; set; }
+}
