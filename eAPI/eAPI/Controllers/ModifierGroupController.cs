@@ -65,7 +65,6 @@ namespace eAPI.Controllers
                 u.modifier_group_product_categories.ForEach(r => r.modifer_group_id = 0);
                 u.modifier_group_product_categories.ForEach(r => r.id = 0);
                 u.modifier_group_product_categories.ForEach(r => r.product_category = null);
-
                 u.modifier_group_items.ForEach(r=>r.id = 0);
                 u.modifier_group_items.ForEach(r => r.modifier_group = null);
                 u.modifier_group_items.ForEach(r => r.modifier_group_id = 0);

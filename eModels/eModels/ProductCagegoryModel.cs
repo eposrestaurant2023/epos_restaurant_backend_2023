@@ -47,6 +47,7 @@ namespace eModels
 
         public bool has_ingredient_product { get; set; }
         public bool has_menu_product { get; set; }
+        public bool is_defualt { get; set; }
 
     }
 }
