@@ -64,11 +64,13 @@
         <Spacing Number="10" />
     </Com>
     <ComProductDetail_Portion product_id="@model.id" />
-    <Spacing Number="10" />
+    
     <ComProductDetail_Modifired product="@model" />
-    <Spacing Number="10" />
+    
+    @if (gv.enable_tax_feature) {
     <ComProductDetail_ProductTax product_id="@model.id" />
-    <Spacing Number="10" />
+    
+    }
     <ComProductDetail_Menu product_id="@model.id" />
     <Spacing Number="10" />
     <ComProductDetail_ProductPrinter product_id="@model.id" />

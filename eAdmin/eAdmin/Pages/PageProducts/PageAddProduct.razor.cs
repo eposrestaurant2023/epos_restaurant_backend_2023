@@ -56,7 +56,8 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
-                url = url + "stock_location_products,product_taxes,unit";
+                url = url + "stock_location_products,product_taxes,unit,";
+                url = url + "default_stock_location_products($expand=business_branch,stock_location)";
                 return url;
         } }
 
@@ -177,17 +178,23 @@ namespace eAdmin.Pages.PageProducts
             is_loading = false;
 
         }
- 
+
         public async Task Save_Click()
-        { 
+        {
             is_saving = true;
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
-            
+
+            if (save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).Any())
+            {
+                toast.Add($"{save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).FirstOrDefault().business_branch?.business_branch_name_en} cannot empty default stock location", MatBlazor.MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
             foreach (var m in save_model.product_modifiers.Where(r => r.is_section == true))
             {
-                if(!m.children.Where(r => r.is_deleted == false).Any())
+                if (!m.children.Where(r => r.is_deleted == false).Any())
                 {
                     toast.Add($"{m.section_name} has no modifier.", MatBlazor.MatToastType.Warning);
                     is_saving = false;
@@ -195,7 +202,7 @@ namespace eAdmin.Pages.PageProducts
                 }
             }
             if (save_model.unit_id == 0)
-            { 
+            {
                 toast.Add(lang["Please select unit."], MatToastType.Warning);
                 is_saving = false;
                 return;
@@ -206,12 +213,12 @@ namespace eAdmin.Pages.PageProducts
                 is_saving = false;
                 return;
             }
-            
 
 
-            foreach(var pp in model.product_portions.Where(r=>r.is_deleted == false))
+
+            foreach (var pp in model.product_portions.Where(r => r.is_deleted == false))
             {
-                if(!gv.units.Where(r=>r.unit_category_id == model.unit_category_id && r.id == pp.unit_id).Any())
+                if (!gv.units.Where(r => r.unit_category_id == model.unit_category_id && r.id == pp.unit_id).Any())
                 {
                     toast.Add("Please select unit in Product Portion Price", MatToastType.Warning);
                     is_saving = false;
@@ -232,7 +239,8 @@ namespace eAdmin.Pages.PageProducts
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
-
+            save_model.default_stock_location_products.ForEach(r =>{ r.business_branch = null; r.stock_location = null; });
+            Console.WriteLine(JsonSerializer.Serialize(save_model));
             var resp = await http.ApiPost($"Product/Save", save_model);
 
             if (resp.IsSuccess)

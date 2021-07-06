@@ -10,8 +10,8 @@ using eAPIClient;
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210703014459_stock_locations_product")]
-    partial class stock_locations_product
+    [Migration("20210706043152_category_notexmx")]
+    partial class category_notexmx
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,6 +101,31 @@ namespace eAPIClient.Migrations
                     b.HasIndex("working_day_id");
 
                     b.ToTable("tbl_cashier_shift");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.CategoryNoteModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("category_note_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("category_note_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("category_note_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("is_multiple_select")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_category_note");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.ConfigDataModel", b =>
@@ -333,6 +358,49 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_menu");
                 });
 
+            modelBuilder.Entity("eAPIClient.Models.NoteModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("category_note_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("note_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_note");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.PrefixPriceModel", b =>
                 {
                     b.Property<int>("id")
@@ -432,6 +500,10 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("product_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("product_tax_value")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -985,7 +1057,7 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("stock_location_id")
+                    b.Property<Guid?>("stock_location_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("sub_total")
@@ -1465,7 +1537,7 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.SalePaymentModel", b =>
                 {
                     b.HasOne("eAPIClient.Models.SaleModel", "sale")
-                        .WithMany("payments")
+                        .WithMany("sale_payments")
                         .HasForeignKey("sale_id");
 
                     b.Navigation("sale");
@@ -1546,7 +1618,7 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.SaleModel", b =>
                 {
-                    b.Navigation("payments");
+                    b.Navigation("sale_payments");
 
                     b.Navigation("sale_products");
                 });
