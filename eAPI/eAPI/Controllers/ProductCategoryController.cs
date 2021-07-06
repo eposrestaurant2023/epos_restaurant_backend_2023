@@ -53,6 +53,7 @@ namespace eAPI.Controllers
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            db.Database.ExecuteSqlRaw($"sp_update_product_category_information {u.id}");
             return Ok(u);
 
 

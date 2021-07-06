@@ -34,7 +34,7 @@
                             <TabHeaderItem>
                                 @lang["Modifired"]
                             </TabHeaderItem>
-                            <TabHeaderItem>
+                            <TabHeaderItem is_visible="@gv.enable_tax_feature">
                                 @lang["Product Tax"]
                             </TabHeaderItem>
                         </TabHeader>
@@ -86,7 +86,7 @@
                                     <ComAddProduct_Modifier model="@model" />
                                 </UIGridCenter>
                             </TabItem>
-                            <TabItem>
+                            <TabItem is_visible="@gv.enable_tax_feature">
                                 <UIGridCenter>
                                     <ComAddProduct_ProductTax model="@model"/>
                                 </UIGridCenter>

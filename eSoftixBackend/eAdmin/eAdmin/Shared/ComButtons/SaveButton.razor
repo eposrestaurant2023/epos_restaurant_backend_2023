@@ -1,6 +1,6 @@
 ﻿@if (is_loading)
 {
-    <MudButton StartIcon="@Icons.Material.Filled.Save" Variant="Variant.Filled" Color="MudBlazor.Color.Success">
+    <MudButton StartIcon="@Icons.Material.Filled.Save" Variant="Variant.Filled" Color="MudBlazor.Color.Primary">
     @if (@ChildContent == null)
     {
         @("Save")
@@ -12,7 +12,7 @@
     
 </MudButton>
 }else {
-    <MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="@OnClick" Variant="Variant.Filled" Color="MudBlazor.Color.Success" ButtonType="@button_type">
+    <MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="@OnClick" Variant="Variant.Filled" Color="MudBlazor.Color.Primary" ButtonType="@button_type">
     @if (@ChildContent == null)
     {
         @("Save")
