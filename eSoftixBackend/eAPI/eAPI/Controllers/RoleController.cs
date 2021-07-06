@@ -112,22 +112,13 @@ namespace eAPI.Controllers
         }
 
         [HttpPost("SavePermission")]
-        public async Task<ActionResult<RoleModel>> SavePermission([FromBody] RoleModel p)
+        public ActionResult<RoleModel> SavePermission([FromBody] RoleModel p,string options_id)
         {
-            if (p.permission_option_roles.Any())
+            if (!string.IsNullOrEmpty(options_id) )
             {
-                RoleModel r = db.Roles.Include(r => r.permission_option_roles).Where(r => r.id == p.id).FirstOrDefault();
-                r.role_name = p.role_name;
-                r.description = p.description;
-                r.permission_option_roles.Clear();
-                db.Roles.Update(r);
-                r.permission_option_roles = p.permission_option_roles;
-                db.Roles.Update(r);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                db.Database.ExecuteSqlRaw("exec sp_update_permission_option_role");
-                return Ok(r);
+                db.Database.ExecuteSqlRaw($"exec sp_update_permission_option_role {p.id},'{options_id}'");
             }
-            return Ok();
+            return Ok();    
         }
     }
 }
