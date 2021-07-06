@@ -46,6 +46,7 @@ namespace eModels
             business_branch_roles = new List<BusinessBranchRoleModel>();
             stock_locations = new List<StockLocationModel>();
             discount_codes = new List<DiscountCodeModel>();
+            default_stock_location_products = new List<DefaultStockLocationProductModel>();
 
         }
 
@@ -62,6 +63,7 @@ namespace eModels
         public List<BusinessBranchSettingModel> business_branch_settings { get; set; }
         public List<BusinessBranchRoleModel> business_branch_roles { get; set; }
         public List<NoteModel> cashier_notes { get; set; }
+        public List<DefaultStockLocationProductModel> default_stock_location_products { get; set; }
   
          
     }
