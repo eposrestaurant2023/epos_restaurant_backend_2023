@@ -342,8 +342,12 @@ a.disabled, a.disabled:hover {
 .wrap-text {
     white-space: pre-line;
 }
- 
 
+.mud-dialog-content .mud-picker .mud-picker-inline-paper {
+    top:0 !important;
+    position: fixed !important;
+    z-index: calc(var(--mud-zindex-popover) + 1);
+}
 
 @media only screen and (min-width: 960px) {
     .width_medui {
