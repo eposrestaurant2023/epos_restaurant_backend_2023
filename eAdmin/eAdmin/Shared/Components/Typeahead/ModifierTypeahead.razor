@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="uk-width-expand uk-padding-remove">
-            <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected_modifier" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
+            <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
                 <SelectedTemplate>
                     @context.modifier_name
                 </SelectedTemplate>
@@ -78,27 +78,27 @@
         {
             if (modifier.id == 0)
             {
-                selected_modifier = null;
+                selected = null;
             }
             else
             {
-                selected_modifier = modifier;
+                selected = modifier;
             }
         }
         await SearchModifier("");
     }
 
-    private ModifierModel _selected_modifier;
-    public ModifierModel selected_modifier
+    private ModifierModel _selected;
+    public ModifierModel selected
     {
         get
         {
-            _selected_modifier = modifier;
-            return _selected_modifier;
+            _selected = modifier;
+            return _selected;
         }
         set
         {
-            _selected_modifier = value;
+            _selected = value;
 
             modifierChanged.InvokeAsync(value);
             if (value != null)
@@ -111,4 +111,5 @@
             }
         }
     }
+
 }
