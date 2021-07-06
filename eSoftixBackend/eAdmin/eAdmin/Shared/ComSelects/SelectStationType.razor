@@ -1,0 +1,29 @@
+﻿       <MudSelect T="string" Label="@label" Variant="@variant" Value="@selected_value"  ValueChanged="@((value) => SelectedValueChange(value))">
+            @if(show_empty == true){
+            <MudSelectItem T="string" Value="@("")">@empty_text</MudSelectItem>
+            }
+            <MudSelectItem T="string" Value="@("Desktop")">Desktop</MudSelectItem>
+            <MudSelectItem T="string" Value="@("Tablet")">Tablet</MudSelectItem>
+            <MudSelectItem T="string" Value="@("Ipad")">Ipad</MudSelectItem>
+            <MudSelectItem T="string" Value="@("Mobile Phone")">Mobile Phone</MudSelectItem>
+        </MudSelect>
+
+@code{
+    [Parameter] public string label { get; set; } = "Station Type";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Station Type";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public Variant variant { get; set; } = Variant.Outlined;
+
+   [Parameter] public string selected_value { get; set; } = "";
+    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
+
+   
+     public async Task SelectedValueChange(string n)
+    {
+      selected_value = n;
+      await selected_valueChanged.InvokeAsync(selected_value);
+    }
+
+}
