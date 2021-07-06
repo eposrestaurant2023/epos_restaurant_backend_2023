@@ -33,8 +33,12 @@ namespace eModels
         public string station_name_kh { get; set; }
         [Column(TypeName = "date")]
         public DateTime? expired_date { get; set; } = DateTime.Now.AddMonths(1);
-
+        public DateTime? full_license_date { get; set; } = DateTime.Now.AddMonths(1);
+        public string full_license_by { get; set; }
         public bool is_full_license { get; set; }
+        public string station_type { get; set; }
+        public string hardware_detail { get; set; }
+        public string note { get; set; }
 
 
 
