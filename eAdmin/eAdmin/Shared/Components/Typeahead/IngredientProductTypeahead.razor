@@ -88,6 +88,8 @@
         }
         await SearchModifier("");
     }
+ 
+
 
     private ProductModel _selected;
     public ProductModel selected
@@ -110,6 +112,8 @@
             {
                 product_idChanged.InvokeAsync(0);
             }
+
+            product = null;
         }
     }
 }

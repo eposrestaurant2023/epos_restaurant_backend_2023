@@ -98,6 +98,7 @@ else
     async Task Save_Click()
     {
         is_saving = true;
+        Console.WriteLine(JsonSerializer.Serialize(modifier));
 
         ModifierModel save_model = JsonSerializer.Deserialize<ModifierModel>(JsonSerializer.Serialize(modifier));
         if (clone_id > 0)
@@ -106,10 +107,12 @@ else
             save_model.created_date = DateTime.Now;
             save_model.created_by = gv.current_login_user.full_name;
         }
-        //save_model.product_modifiers = null;
+
+        save_model.product_modifiers.Where(r => r.product_id > 0).ToList().ForEach(r=>r.product = null);
         save_model.modifier_ingredients.ForEach(r => r.ingredient = null);
         save_model.modifier_ingredients.ForEach(r => r.modifier = null);
         save_model.modifier_ingredients.ForEach(r => r.unit = null);
+        Console.WriteLine(JsonSerializer.Serialize(save_model));
         var resp = await http.ApiPost("Modifier/Save", save_model);
         if (resp.IsSuccess)
         {

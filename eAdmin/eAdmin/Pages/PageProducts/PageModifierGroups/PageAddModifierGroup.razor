@@ -138,7 +138,6 @@ else
 
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
 
-        Console.WriteLine(JsonSerializer.Serialize(save_model));
         var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)
         {
