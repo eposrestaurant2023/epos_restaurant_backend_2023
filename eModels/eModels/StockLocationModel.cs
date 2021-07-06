@@ -16,6 +16,7 @@ namespace eModels
         public StockLocationModel()
         {
             stock_location_products = new List<StockLocationProductModel>();
+            default_stock_location_products = new List<DefaultStockLocationProductModel>();
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -30,6 +31,7 @@ namespace eModels
         public string bustiness_branch_name { get; set; }
 
         public List<StockLocationProductModel> stock_location_products { get; set; }
+        public List<DefaultStockLocationProductModel> default_stock_location_products { get; set; }
     }
 
     
@@ -101,5 +103,20 @@ namespace eModels
 
     }
 
-
+    [Table("tbl_default_stock_location_product")]
+    public class DefaultStockLocationProductModel
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public Guid id { get; set; }
+        public Guid business_branch_id { get; set; }
+        [ForeignKey("business_branch_id")]
+        public BusinessBranchModel business_branch { get; set; }
+        public Guid stock_location_id { get; set; }
+        [ForeignKey("stock_location_id")]
+        public StockLocationModel stock_location { get; set; }
+        public int product_id { get; set; }
+        [ForeignKey("product_id")]
+        public ProductModel product { get; set; }
+    }
 }

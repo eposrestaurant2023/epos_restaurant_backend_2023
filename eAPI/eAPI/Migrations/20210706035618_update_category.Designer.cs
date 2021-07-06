@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210706035618_update_category")]
+    partial class update_category
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -776,32 +778,6 @@ namespace eAPI.Migrations
                     b.HasIndex("customer_group_id");
 
                     b.ToTable("tbl_customer");
-                });
-
-            modelBuilder.Entity("eModels.DefaultStockLocationProductModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.HasIndex("product_id");
-
-                    b.HasIndex("stock_location_id");
-
-                    b.ToTable("tbl_default_stock_location_product");
                 });
 
             modelBuilder.Entity("eModels.DiscountCodeModel", b =>
@@ -4828,33 +4804,6 @@ namespace eAPI.Migrations
                     b.Navigation("customer_group");
                 });
 
-            modelBuilder.Entity("eModels.DefaultStockLocationProductModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("default_stock_location_products")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany("default_stock_location_products")
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany("default_stock_location_products")
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("product");
-
-                    b.Navigation("stock_location");
-                });
-
             modelBuilder.Entity("eModels.DiscountCodeModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
@@ -5754,8 +5703,6 @@ namespace eAPI.Migrations
 
                     b.Navigation("customer_business_branchs");
 
-                    b.Navigation("default_stock_location_products");
-
                     b.Navigation("discount_codes");
 
                     b.Navigation("outlets");
@@ -5860,8 +5807,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductModel", b =>
                 {
-                    b.Navigation("default_stock_location_products");
-
                     b.Navigation("histories");
 
                     b.Navigation("modifier_ingredients");
@@ -5940,8 +5885,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.StockLocationModel", b =>
                 {
-                    b.Navigation("default_stock_location_products");
-
                     b.Navigation("stock_location_products");
                 });
 
