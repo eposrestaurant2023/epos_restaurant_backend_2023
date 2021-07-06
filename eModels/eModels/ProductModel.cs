@@ -151,6 +151,9 @@ namespace eModels
         public int unit_category_id { get; set; }
         public string stock_locations { get; set; }
 
+
+        [NotMapped, JsonIgnore]
+        public bool is_new { get; set; }
     }
 
 
