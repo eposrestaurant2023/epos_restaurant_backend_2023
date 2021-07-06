@@ -1,6 +1,7 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
 <div class="defualt-stock-location">
+    <Spacing Number="15"/>
     <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
     <Tab>
         <TabHeader>
@@ -33,11 +34,10 @@
         is_loading = true;
         if (product_id > 0)
         {
-            var resp = await http.ApiGet($"Product({product_id})?$expand=stock_location($select=stock_location_name;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))");
+            var resp = await http.ApiGet($"Product({product_id})?$select=id&$expand=default_stock_location_products($expand=stock_location($select=stock_location_name),business_branch($select=business_branch_name_en,business_branch_name_kh))");
             if (resp.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
-
             }
         }
 

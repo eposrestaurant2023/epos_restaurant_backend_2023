@@ -1,17 +1,17 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
+@if (is_loading && models.Any()) {
 
-<UIContainerBox Title="@lang["Modifier Information"]">
-    <Com is_visible="@(!is_loading)"> 
+    <UIContainerBox Title="@lang["Modifier Information"]"> 
         <ComProductDetail_TableViewModifier models="@models" product_category_id="@product.product_category_id" />
-    </Com>
-</UIContainerBox>
+    </UIContainerBox>
+    <Spacing Number="10" />
+}
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel product {get; set;}
     List<ProductModifierModel> models = new List<ProductModifierModel>();
     bool is_loading;
-    int TotalRecord = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -21,7 +21,6 @@
             if (resp.IsSuccess)
             {
                 models = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
-                TotalRecord = resp.Count;
             }
         }
         is_loading = false;

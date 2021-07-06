@@ -185,6 +185,7 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
+
             if (save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).Any())
             {
                 toast.Add($"{save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).FirstOrDefault().business_branch?.business_branch_name_en} cannot empty default stock location", MatBlazor.MatToastType.Warning);
