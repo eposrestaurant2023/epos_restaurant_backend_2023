@@ -15,7 +15,7 @@ namespace eAdmin.Pages.PagePermissions
         [Parameter] public bool is_role_check { get; set; }
         public bool is_checked;
         public bool input_error;
-        public HashSet<int> SelectedOption { get; set; } = new HashSet<int>();
+        public HashSet<PermissionModel> SelectedOption { get; set; } = new HashSet<PermissionModel>();
         public RoleModel role = new RoleModel();
         public List<RoleModel> roles { get; set; } = new List<RoleModel>();
         public List<PermissionModel> permissions { get; set; } = new List<PermissionModel>();
@@ -35,9 +35,12 @@ namespace eAdmin.Pages.PagePermissions
         protected async Task SaveRole_Click()
         {
             is_saving = true;
-           
-                
-                var post = await http.ApiPost($"Role/SavePermission?options_id={role.options_id}", role);
+            List<int> SelectedOption_id = SelectedOption.Select(r=>r.id).ToList();
+            var selected_id = string.Join(",", SelectedOption_id);
+                var post = await http.ApiPost($"Role/SavePermission",new OptionModel() { 
+                    role_id=role_id,
+                    options = selected_id
+                });
                 if (post.IsSuccess)
                 {
                     AddToast("Saved successfully");
@@ -80,8 +83,8 @@ namespace eAdmin.Pages.PagePermissions
     {
         public int id { get; set; }
         public string note { get; set; }
-        public bool is_selected { get; set; }
+        public bool is_selected { get; set; } = false;
 
-        public List<PermissionModel> ChildItem { get; set; }
+        public HashSet<PermissionModel> ChildItem { get; set; }
     }
 }

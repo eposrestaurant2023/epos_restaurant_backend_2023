@@ -26,11 +26,12 @@
                             </MudTextField>
                         </UIPanel>
                         <UIPanel>
-                            
-
-                                    @* ==== *@ 
-                                      
-                                    @* ==== *@
+                             <MudTreeView CanActivate="true" @bind-SelectedValues="@SelectedOption" Items="@(new HashSet<PermissionModel>(permissions))" CanSelect="true" Context="d">
+                                    <ItemTemplate>
+                                        <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@d.ChildItem" Value="@d"
+                                                        Text="@d.note" />
+                                    </ItemTemplate>
+                                </MudTreeView>
                         </UIPanel>
                     </UICenter>
                     <PageFooter>

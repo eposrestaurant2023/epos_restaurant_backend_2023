@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace eModels
 {
     [Table("tbl_search")]
-    public class SsearchModel
+    public class SearchModel
     {
         public Guid id { get; set; }
         public string icon { get; set; }

@@ -112,11 +112,11 @@ namespace eAPI.Controllers
         }
 
         [HttpPost("SavePermission")]
-        public ActionResult<RoleModel> SavePermission([FromBody] RoleModel p,string options_id)
+        public ActionResult<RoleModel> SavePermission([FromBody] OptionModel option)
         {
-            if (!string.IsNullOrEmpty(options_id) )
+            if (!string.IsNullOrEmpty(option.options) )
             {
-                db.Database.ExecuteSqlRaw($"exec sp_update_permission_option_role {p.id},'{options_id}'");
+                db.Database.ExecuteSqlRaw($"exec sp_update_permission_option_role {option.role_id},'{option.options}'");
             }
             return Ok();    
         }

@@ -213,4 +213,10 @@ namespace eModels
         public string month_text { get; set; }
     }
 
+    public class OptionModel
+    {
+        public string options { get; set; }
+        public int role_id { get; set; }
+    }
+
 }
