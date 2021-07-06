@@ -23,7 +23,18 @@ namespace eModels
         [MaxLength(50)]
         public string option_name { get; set; }
 
-        public string note { get; set; }
+  
+
+        private string _note;
+
+        public string note
+        {
+            get {
+             
+                return _note + "/" + id.ToString(); }
+            set { _note = value; }
+        }
+
 
         public string roles { get; set; }
 

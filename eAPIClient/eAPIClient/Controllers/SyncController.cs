@@ -73,7 +73,13 @@ namespace eAPIClient.Controllers
 
             string business_branch_id = config.GetValue<string>("business_branch_id");
             //run script prepare config data 
-            var prepare = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data ", procedure_parameter = $"'{business_branch_id}'" }); 
+            var prepare = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data ", procedure_parameter = $"'{business_branch_id}'" });
+
+            //
+            await GetNote(business_branch_id);
+            if (!is_get_remote_data_success)
+                return BadRequest();
+
             List<MenuModel> menu_datas = await GetRemoteMenu(business_branch_id);
             if (!is_get_remote_data_success)
                 return BadRequest();
@@ -292,5 +298,104 @@ namespace eAPIClient.Controllers
             }
             return new List<SaleProductStatusModel>();
         }
-    }   
+
+        async Task GetNote(string business_branch_id) 
+        {
+            is_get_remote_data_success = false;
+            string _query = $"Note/Category?$select=id,category_note_name_en,category_note_name_kh,is_multiple_select&$expand=notes($filter=is_deleted eq false and status eq true and business_branch_id eq {business_branch_id})";
+            var resp = await http.ApiGet(_query);
+            if (resp.IsSuccess)
+            {
+                is_get_remote_data_success = true;
+
+                List<CategoryNoteModel> _tempNewCategoryNotes = new List<CategoryNoteModel>();
+                List<CategoryNoteModel> _tempAppendCategoryNotes = new List<CategoryNoteModel>();
+                List<NoteModel> _tempNewNotes = new List<NoteModel>();
+                List<NoteModel> _tempAppendNotes = new List<NoteModel>();
+                List<CategoryNoteModel> _LocalCategoryNotes = new List<CategoryNoteModel>();
+                _LocalCategoryNotes = db.CategoryNotes.AsNoTracking().ToList();
+
+                List<NoteModel> _LocalNotes = new List<NoteModel>();
+                _LocalNotes = db.Notes.AsNoTracking().ToList();
+
+                List<NoteCategory> data = new List<NoteCategory>(); 
+                data = JsonSerializer.Deserialize<List<NoteCategory>>(resp.Content.ToString());
+                //Get Category 
+                data.ForEach(c =>
+                {
+                    CategoryNoteModel _categoryNote = new CategoryNoteModel()
+                    { 
+                        category_note_id = c.id,
+                        category_note_name_en=c.category_note_name_en,
+                        category_note_name_kh = c.category_note_name_kh,
+                        is_multiple_select = c.is_multiple_select
+                    };
+
+                    var _c = _LocalCategoryNotes.Where(r => r.category_note_id == c.id);
+                    if (_c.Count() > 0)
+                    {
+                        _categoryNote.id = _c.FirstOrDefault().id;
+                        _tempAppendCategoryNotes.Add(_categoryNote); 
+                    }
+                    else
+                    {
+                        _categoryNote.id = Guid.NewGuid();
+                        _tempNewCategoryNotes.Add(_categoryNote);
+                    } 
+                });
+                ////Get Note 
+                data.SelectMany(r => r.notes).ToList().ForEach(n =>
+                {
+                    NoteModel _note = new NoteModel()
+                    {
+                        note_id = n.id,
+                        category_note_id = n.category_note_id,
+                        created_by = n.created_by,
+                        created_date = n.created_date,
+                        is_deleted = n.is_deleted,
+                        deleted_by = n.deleted_by,
+                        deleted_date = n.deleted_date,
+                        note = n.note,
+                        status = n.status
+                    };
+                    var _n = _LocalNotes.Where(r => r.note_id == n.id);
+                    if (_n.Count() > 0)
+                    {
+                        _note.id = _n.FirstOrDefault().id;
+                        _tempAppendNotes.Add(_note);
+                    }
+                    else
+                    {
+                        _note.id = Guid.NewGuid();
+                        _tempNewNotes.Add(_note);
+                    }
+                });
+
+                //
+
+                if (_tempNewCategoryNotes.Count()>0)
+                {
+                    db.CategoryNotes.AddRange(_tempNewCategoryNotes); 
+                }
+                if (_tempAppendCategoryNotes.Count() > 0)
+                { 
+                    db.CategoryNotes.UpdateRange(_tempAppendCategoryNotes);
+                }
+                if (_tempNewNotes.Count() > 0)
+                {
+                    db.Notes.AddRange(_tempNewNotes);
+                }
+                if (_tempAppendNotes.Count() > 0)
+                {
+                    db.Notes.UpdateRange(_tempAppendNotes);
+                }
+                await  db.SaveChangesAsync();
+            } 
+        }
+    } 
+    
+    class NoteCategory : ShareCategoryNoteModel
+    { 
+        public List<ShareNoteModel> notes { get; set; }
+    }
 }
