@@ -14,7 +14,7 @@
                    <MudItem xs="12" sm="12" md="12">
                     <MudExpansionPanel HideIcon="true" Class="mb-4">
                         <TitleContent>
-                            <div class="d-flex">
+                            <div class="d-flex align-center">
                                 <MudText Class="mt-1">@d.outlet_name_en</MudText>
                                 <LabelDeleted  is_visible="@d.is_deleted"/>
                                  
@@ -30,9 +30,11 @@
                             </div>
                         </TitleContent>
                         <ChildContent>
+                               <MudGrid>
                            @if(d.stations.Count()>0){
+                             
                                    foreach(var s in d.stations){
-                                      
+                                      <MudItem xs="12" sm="12" md="6">
                                            <MudCard>
                                                 <MudCardHeader>
                                                     <CardHeaderAvatar>
@@ -40,7 +42,7 @@
                                                     </CardHeaderAvatar>
                                                     <CardHeaderContent>
                                                         <MudText Typo="Typo.body1">@s.station_name_en</MudText>
-                                                        <MudText Typo="Typo.body1">@s.expired_date</MudText>
+                                                        <MudText Typo="Typo.body1"><span style="font-style:italic;font-size:12px;">Expired Date:</span> @Convert.ToDateTime(s.expired_date).ToString(gv.date_format)</MudText>
                                                         <LabelDeleted is_visible="@d.is_deleted"/>
                                                         <LabelExpiredProject visible="true"/>
                                                         <LabelFullLicense visible="true"/>
@@ -57,16 +59,16 @@
                                                     </CardHeaderActions>
                                                 </MudCardHeader>
                                             </MudCard>
-                                   
+                                     </MudItem>
                                     }
-                                     
+                                
                                 }else{
                                      <MudText  Typo="@Typo.subtitle2"  Align="MudBlazor.Align.Center" Class="ma-6">There's no Station in this outlet.</MudText>
                                       <MudButton StartIcon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Success" Variant="Variant.Filled" OnClick="@(()=>AddNewStation(d))" FullWidth="true" >
                                           Add New Station
                                       </MudButton>
                                 }
-                          
+                            </MudGrid>   
                     
                         </ChildContent>
                     </MudExpansionPanel>
