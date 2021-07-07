@@ -58,7 +58,7 @@
                     <TabItem>
                         <ComProductDetail_ProductInformation model="@model"/>
                     </TabItem>
-                    <TabItem is_visible="@model.is_ingredient_product">
+                    <TabItem is_visible="@(!model.is_ingredient_product)">
                         <Com is_visible="@show_recipe_tab">
                             <ComProductDetail_ProductPortionIngredient product_id="@model.id" is_product_deleted="@model.is_deleted"/>
                         </Com>
