@@ -101,6 +101,31 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_cashier_shift");
                 });
 
+            modelBuilder.Entity("eAPIClient.Models.CategoryNoteModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("category_note_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("category_note_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("category_note_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("is_multiple_select")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_category_note");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.ConfigDataModel", b =>
                 {
                     b.Property<Guid>("id")
@@ -329,6 +354,49 @@ namespace eAPIClient.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_menu");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.NoteModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("category_note_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("note_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_note");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.PrefixPriceModel", b =>
@@ -634,6 +702,9 @@ namespace eAPIClient.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_partially_paid")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_print_invoice")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("outlet_id")
@@ -1467,7 +1538,7 @@ namespace eAPIClient.Migrations
             modelBuilder.Entity("eAPIClient.Models.SalePaymentModel", b =>
                 {
                     b.HasOne("eAPIClient.Models.SaleModel", "sale")
-                        .WithMany("payments")
+                        .WithMany("sale_payments")
                         .HasForeignKey("sale_id");
 
                     b.Navigation("sale");
@@ -1548,7 +1619,7 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.SaleModel", b =>
                 {
-                    b.Navigation("payments");
+                    b.Navigation("sale_payments");
 
                     b.Navigation("sale_products");
                 });

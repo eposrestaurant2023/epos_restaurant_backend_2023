@@ -56,6 +56,14 @@ namespace eAPI.Controllers
             return await Task.Factory.StartNew(() => SingleResult.Create<NoteModel>(db.Notes.Where(r => r.id == key).AsQueryable()));
         }
 
+        [HttpGet("category")]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        public IQueryable<CategoryNoteModel> GetCategoryNote()
+        {
+            return db.CategoryNotes;
+        }
+
+
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] NoteModel u)
         {            

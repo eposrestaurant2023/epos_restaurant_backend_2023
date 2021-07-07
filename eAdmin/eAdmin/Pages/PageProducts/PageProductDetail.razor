@@ -46,7 +46,7 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@model.is_ingredient_product" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@(!model.is_ingredient_product)" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_sale_history = true)">@lang["Sale History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_stock_stransfer = true)">@lang["Stock Transfer"]</TabHeaderItem>
@@ -58,13 +58,13 @@
                     <TabItem>
                         <ComProductDetail_ProductInformation model="@model"/>
                     </TabItem>
-                    <TabItem is_visible="@model.is_ingredient_product">
+                    <TabItem is_visible="@(!model.is_ingredient_product)">
                         <Com is_visible="@show_recipe_tab">
                             <ComProductDetail_ProductPortionIngredient product_id="@model.id" is_product_deleted="@model.is_deleted"/>
                         </Com>
                     </TabItem>
                     
-                    <TabItem>
+                    <TabItem is_visible="@(!model.is_ingredient_product)">
                         @if (show_sale_history)
                         {
                             <ComProductDetail_SaleHistory product_id="@id" />

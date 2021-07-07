@@ -61,10 +61,12 @@ namespace eAPI
         public DbSet<PermissionOptionRoleModel> PermissionOptionRole { get; set; }
         public DbSet<StoreProcedureResultModel> StoreProcedureResults { get; set; }
 
+        public DbSet<SearchModel> Searchs { get; set; }
         public DbSet<DocumentNumberModel> DocumentNumbers { get; set; }
         public DbSet<CurrencyModel> Currencies { get; set; }
         public DbSet<PaymentTypeModel> PaymentTypes { get; set; }
         public DbSet<CustomerModel> Customers { get; set; }
+        public DbSet<ExtendLicenseHistoryModel> ExtendLicenseHistories { get; set; }
         public DbSet<CustomerGroupModel> CustomerGroups { get; set; }
         public DbSet<HistoryModel> Histories { get; set; }
         public DbSet<CountryModel> Countries { get; set; }

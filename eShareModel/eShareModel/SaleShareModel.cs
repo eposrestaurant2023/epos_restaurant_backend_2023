@@ -29,6 +29,7 @@ namespace eShareModel
 
 
         public bool is_partially_paid { get; set; }
+        public bool is_print_invoice { get; set; } = false;
 
         public decimal total_quantity { get; set; }
         public decimal sub_total { get; set; }

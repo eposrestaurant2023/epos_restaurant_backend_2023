@@ -23,16 +23,16 @@
             <PageBody>
                 <UIGridCenter> 
                     <UIContainerBox Title="@lang["Ingredient Category"]" is_show_add_button="true" OnAddClick="@(()=>Add_Product_Category())">
-                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
-                                <th>@lang["Category Name En"]</th>
-                                <th>@lang["Category Name Kh"]</th>
+                                <ThAuto>@lang["Category Name En"]</ThAuto>
+                                <ThAuto>@lang["Category Name Kh"]</ThAuto>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
                             @if (model.product_categories.Any())
                             {
-                                foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
+                                foreach (var s in model.product_categories.Where(r => r.is_deleted == false && r.is_defualt == false).ToList())
                                 {
                                     <tr>
                                         <td>  <TextInput label="" placeholder="@lang["Product Category Name En"]" @bind-text="@s.product_category_en" /></td>
