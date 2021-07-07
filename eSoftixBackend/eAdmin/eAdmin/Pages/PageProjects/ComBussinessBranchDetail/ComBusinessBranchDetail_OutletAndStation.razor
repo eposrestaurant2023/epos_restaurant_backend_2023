@@ -60,8 +60,36 @@
                                                 </MudCardHeader>
                                             </MudCard>
                                      </MudItem>
-                                    <MudDrawer @bind-Open="@open" DisableOverlay="true" ClipMode="DrawerClipMode.Always" Elevation="25" Variant="@DrawerVariant.Temporary" Anchor="Anchor.Right">
-                                      <MudText Typo="Typo.h6"> Station Info</MudText>
+                                    <MudDrawer Width="300px" @bind-Open="@open" DisableOverlay="true" ClipMode="DrawerClipMode.Always" Elevation="25" Variant="@DrawerVariant.Temporary" Anchor="Anchor.Right">
+                                       <MudDrawerContainer>
+                                       <MudPaper Class="pa-4" Square="false">
+                                            
+                                           <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                               <div style="font-style:italic">Name En</div>
+                                               <div> @s.station_name_en</div>
+                                           </div>
+                                             <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                               <div style="font-style:italic">Name Kh</div>
+                                               <div> @s.station_name_kh</div>
+                                            </div>
+                                            <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                               <div style="font-style:italic">Expired date</div>
+                                               <div> @s.expired_date</div>
+                                           </div>
+                                              <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                               <div style="font-style:italic">Station Type</div>
+                                               <div> @s.station_type</div>
+                                            </div>
+                                              <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                               <div style="font-style:italic">Hardware Information</div>
+                                               <div> @s.hardware_detail</div>
+                                            </div>
+                                             <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                               <div style="font-style:italic">Note</div>
+                                               <div> @s.note</div>
+                                            </div>
+                                         </MudPaper>
+                                        </MudDrawerContainer>
                                    </MudDrawer>
 
                                     }
