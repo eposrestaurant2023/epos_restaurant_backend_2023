@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace eAPI.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class SearchController:ControllerBase
     {
         private readonly ApplicationDbContext db;
@@ -16,12 +18,12 @@ namespace eAPI.Controllers
             db= _db;
         }
         [HttpGet]
-        public async Task<ActionResult> Get(string keyword)
+        public ActionResult Get(string keyword)
         {
             if (!string.IsNullOrEmpty(keyword))
             {
-                var result = from r in db.Searchs
-                               where EF.Functions.Like((
+                var result = from r in db.Searchs.Take(20)
+                             where EF.Functions.Like((
                                      (r.keyword ?? " ")).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                                select r;
                 return Ok(result);
