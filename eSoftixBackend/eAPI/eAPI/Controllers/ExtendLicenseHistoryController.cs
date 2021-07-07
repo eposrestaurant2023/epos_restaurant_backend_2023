@@ -59,9 +59,10 @@ namespace eAPI.Controllers
             catch (Exception ex)
             {
                 string error = ex.Message;
+                return StatusCode(503);
             }
 
-            return StatusCode(503);
+            
 
 
         }

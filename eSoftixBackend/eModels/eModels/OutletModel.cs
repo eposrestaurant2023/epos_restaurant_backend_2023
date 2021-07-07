@@ -13,6 +13,7 @@ namespace eModels
 
         public OutletModel()
         {
+            
             stations = new List<StationModel>();
         }
 
