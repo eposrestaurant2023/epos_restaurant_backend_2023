@@ -1,4 +1,6 @@
 ﻿@inherits PageCore
+<div style="word-break:break-word">@JsonSerializer.Serialize(selected)</div>
+<div style="word-break:break-word">@JsonSerializer.Serialize(product)</div>
 <div class="search-add-typeahead">
     <Grid ClassName="uk-grid-small">
         <div class="uk-width-auto">
@@ -31,7 +33,7 @@
     [Parameter] public string label { get; set; } = "Product";
     [Parameter] public string status { get; set; } = "";
     [Parameter] public string placeholder { get; set; } = "Select Product";
-    [Parameter] public ProductModel product { get; set; }
+    [Parameter] public ProductModel product { get; set; } = null;
     [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
     [Parameter] public int? product_id { get; set; }
     [Parameter] public EventCallback<int> product_idChanged { get; set; }
@@ -112,8 +114,6 @@
             {
                 product_idChanged.InvokeAsync(0);
             }
-
-            product = null;
         }
     }
 }
