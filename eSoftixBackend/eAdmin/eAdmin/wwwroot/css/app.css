@@ -310,7 +310,10 @@ a.disabled, a.disabled:hover {
 .description {
     white-space: pre-wrap
 }
-
+.background_flayout {
+    color: var(--mud-palette-info-darken);
+    background-color: var(--mud-palette-info-hover);
+}
 .width-1-1 {
     width: 100%;
 }

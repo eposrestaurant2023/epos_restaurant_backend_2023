@@ -4,7 +4,7 @@
 
 <Loading is_loading="@is_saving"/>
 <EditFormContext Cancel_Click="@OnCancelClick" model="@product_portion" is_opened="is_open" title="@($"Ingredients Of {product_portion.portion_name}")" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
-    <IngredientProductTypeahead @bind-product="@product" />
+    <IngredientProductTypeahead product="@product" productChanged="@Selected"/>
     <hr/> 
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
@@ -81,8 +81,6 @@
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
     [Parameter] public EventCallback<ProductPortionModel> Save_Click { get; set; }
-
-    bool is_saving;
     private ProductModel _product;
 
     public ProductModel product
@@ -91,21 +89,55 @@
         set
         {
 
-            var data = product_portion.product_ingredients.Where(r => r.ingredient_id == value.id && r.is_deleted == false);
-
-
-            if (data.Any())
-            {
-                data.FirstOrDefault().quantity = data.FirstOrDefault().quantity + 1;
-            }
-            else
-            { 
-                product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id, unit=value.unit,unit_id=value.unit_id, cost = value.cost });
-            }
-            value = null;
             _product = value;
         }
     }
+
+    bool is_saving;
+
+
+    void Selected(ProductModel value)
+    {
+        var data = product_portion.product_ingredients.Where(r => r.ingredient_id == value.id && r.is_deleted == false);
+
+
+        if (data.Any())
+        {
+            data.FirstOrDefault().quantity = data.FirstOrDefault().quantity + 1;
+        }
+        else
+        {
+            product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id, unit = value.unit, unit_id = value.unit_id, cost = value.cost });
+        }
+
+        product = null;
+    }
+
+
+    //private ProductModel _product;
+
+    //public ProductModel product
+    //{
+    //    get { return _product; }
+    //    set
+    //    {
+
+    //        var data = product_portion.product_ingredients.Where(r => r.ingredient_id == value.id && r.is_deleted == false);
+
+
+    //        if (data.Any())
+    //        {
+    //            data.FirstOrDefault().quantity = data.FirstOrDefault().quantity + 1;
+    //        }
+    //        else
+    //        {
+    //            product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id, unit=value.unit,unit_id=value.unit_id, cost = value.cost });
+    //        }
+    //        value = null;
+    //        _product = value;
+    //        product = value;
+    //    }
+    //}
 
 
 
@@ -126,7 +158,7 @@
 
         save_model.product_ingredients.ForEach(r => r.ingredient = null);
         save_model.product_ingredients.ForEach(r => r.unit = null);
-         
+
         var resp = await http.ApiPost("ProductPortion/save", save_model);
         if (resp.IsSuccess)
         {

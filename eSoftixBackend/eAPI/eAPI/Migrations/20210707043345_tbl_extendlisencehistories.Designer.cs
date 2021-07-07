@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210707043345_tbl_extendlisencehistories")]
+    partial class tbl_extendlisencehistories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -650,19 +652,13 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("extend_date")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid>("station_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("id");
-
-                    b.HasIndex("station_id");
 
                     b.ToTable("tbl_extend_liscense_history");
                 });
@@ -1797,17 +1793,6 @@ namespace eAPI.Migrations
                     b.Navigation("customer_group");
                 });
 
-            modelBuilder.Entity("eModels.ExtendLicenseHistoryModel", b =>
-                {
-                    b.HasOne("eModels.StationModel", "station")
-                        .WithMany("extend_license_histories")
-                        .HasForeignKey("station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("station");
-                });
-
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
@@ -2043,11 +2028,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.RoleModel", b =>
                 {
                     b.Navigation("permission_option_roles");
-                });
-
-            modelBuilder.Entity("eModels.StationModel", b =>
-                {
-                    b.Navigation("extend_license_histories");
                 });
 
             modelBuilder.Entity("eModels.SystemFeatureModel", b =>
