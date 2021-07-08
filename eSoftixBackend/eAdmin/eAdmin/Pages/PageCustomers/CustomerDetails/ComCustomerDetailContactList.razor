@@ -1,0 +1,49 @@
+﻿@inherits PageCore
+    <UIPanel Title="Contact">
+    <UIPanelBody>
+        @if (!is_loading && contacts != null)
+        {
+            <MudList>
+                @foreach(var c in contacts){
+                    <MudListItem Class="list-item">
+                    <MudItem Class="d-flex">
+                        <MudItem Class="list-item-title">
+                            <MudAvatar Image="@($"{config.GetValue<string>("BaseUrl")}upload/{c.photo}")" Size="Size.Large"/>
+                        </MudItem>
+                        <MudItem Class="px-4">
+                            @c.contact_name<br/>
+                            <MudText Typo="Typo.caption">
+                                 @c.phone_1 / @c.phone_2
+                            </MudText>
+                            <br />
+                            <MudText Typo="Typo.caption">
+                                 
+                            </MudText>
+                        </MudItem>
+                    </MudItem>
+
+                </MudListItem>
+                }
+                
+            </MudList>
+        }
+        else
+        {
+            
+        }
+    </UIPanelBody>
+    </UIPanel>
+
+@code{
+    [Parameter] public string customer_id{get;set;}
+    List<ContactModel> contacts { get; set; } = new List<ContactModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading=true;
+        var res = await http.ApiGetOData($"Contact?$filter=customer_id eq {customer_id}");
+        if(res.IsSuccess){
+            contacts = JsonSerializer.Deserialize<List<ContactModel>>(res.Content.ToString());
+        }
+        is_loading = false;
+    }
+}
