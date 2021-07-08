@@ -19,7 +19,7 @@ namespace eShareModel
         public string product_category_en { get; set; }
         public string product_category_kh { get; set; }
 
-        public bool is_free { get; set; } = false;
+        public bool is_free { get; set; } = false; 
 
         public int product_id { get; set; }
         public string product_code { get; set; } = "";
