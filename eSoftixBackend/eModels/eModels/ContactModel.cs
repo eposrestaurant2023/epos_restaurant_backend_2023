@@ -22,6 +22,7 @@ namespace eModels
         public string gender { get; set; }
         public string email_address { get; set; }
         public string telegram { get; set; }
+        public string photo { get; set; }
         public Guid? project_id { get; set; }
         [ForeignKey("project_id")]
         public ProjectModel project { get; set; }
