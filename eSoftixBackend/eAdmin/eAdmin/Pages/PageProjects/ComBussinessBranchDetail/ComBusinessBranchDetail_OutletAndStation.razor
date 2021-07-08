@@ -1,6 +1,7 @@
 ﻿
 <UIPanel Title="Outlet and Station">
     <UIPanelHeaderRight>
+        @is_open_history_extend
         <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddNewOutlet"/>
     </UIPanelHeaderRight> 
     <UIPanelBody> 
@@ -37,6 +38,7 @@
                                            <MudCard>
                                                 <MudCardHeader>
                                                     <CardHeaderAvatar>
+                                                         
                                                         <MudIcon Icon="@Icons.Material.Filled.DesktopWindows" Size="MudBlazor.Size.Large" />
                                                     </CardHeaderAvatar>
                                                     <CardHeaderContent>
@@ -60,8 +62,6 @@
                                                 </MudCardHeader>
                                             </MudCard>
                                      </MudItem>
-                                
-
                                     }
                                 
                                 }else{
@@ -89,24 +89,29 @@
            
     }
 
+
     @if(station_id != Guid.Empty){
-        <ComExtendLicenseHistoryList Station_id="@station_id" open="@open" station="@Station"/>
+           <MudDrawer  Width="300px" @bind-Open="@is_open_history_extend" Anchor="@Anchor.Right" Elevation="25" Variant="@DrawerVariant.Temporary">
+        
+            <MudDrawerContainer>
+        <ComExtendLicenseHistoryList Station_id="@station_id"  station="@Station"/>
+        </MudDrawerContainer>
+        </MudDrawer>
     }
 
-      
     </UIPanelBody>
 </UIPanel>
 
 
 
 @code{
-    bool open;
+    bool is_open_history_extend;
       Guid station_id;
       StationModel Station = new StationModel();
     
     void ToggleDrawer(StationModel _station)
     {
-        open = !open;
+        is_open_history_extend = !is_open_history_extend;
         station_id = _station.id;
         Station = _station;
 
