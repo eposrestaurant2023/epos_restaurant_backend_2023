@@ -64,16 +64,21 @@
         <Spacing Number="10" />
     </Com>
     <ComProductDetail_Portion product_id="@model.id" />
-    
+
     <ComProductDetail_Modifired product="@model" />
-    
-    @if (gv.enable_tax_feature) {
-    <ComProductDetail_ProductTax product_id="@model.id" />
-    
+
+    @if (gv.enable_tax_feature)
+    {
+        <ComProductDetail_ProductTax product_id="@model.id" />
+
     }
     <ComProductDetail_Menu product_id="@model.id" />
     <Spacing Number="10" />
-    <ComProductDetail_ProductPrinter product_id="@model.id" />
+    @if (gv.system_feature_status("KOT"))
+    {
+        <ComProductDetail_ProductPrinter product_id="@model.id" />
+    }
+
     <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
         @model.note
     </UIContainerBox>

@@ -3,12 +3,14 @@
 @inject NavigationManager nav
 <MudContainer MaxWidth="MaxWidth.Small">
 
-    <MudAutocomplete T="SearchModel" Placeholder="Search" @bind-Value="@model"
+    <MudAutocomplete T="SearchModel" Placeholder="Search"  
+        DebounceInterval="700"
         AdornmentColor="MudBlazor.Color.Default" InputType="InputType.Search" Class="docs-search-bar" DisableUnderLine="true" FullWidth="false"
         Immediate="false" ResetValueOnEmptyText="true" AdornmentIcon="@Icons.Material.Filled.Search"
-        SearchFunc="@SearchAsync"  ToStringFunc="@(e=> e==null?null : $"{e.title}")">
-            <ItemTemplate Context="s">                          
-                <MudListItem Class="list-item" OnClick="@(()=> {nav.NavigateTo(s.url);} )">
+        SearchFunc="@SearchAsync"  ToStringFunc="@(e=> e==null?null : $"{e.title}")" ValueChanged="@OnSearch">
+            <ItemTemplate Context="s">
+               
+                <MudListItem Class="list-item" >
                     <MudItem Class="d-flex">
                         <MudItem Class="list-item-title">
                             @if(!string.IsNullOrEmpty(s.photo) || !string.IsNullOrEmpty(s.alias)){
@@ -57,5 +59,9 @@
         }
 
         return searchs;
+    }
+
+    void OnSearch(SearchModel s){
+        nav.NavigateTo(s.url);
     }
 }

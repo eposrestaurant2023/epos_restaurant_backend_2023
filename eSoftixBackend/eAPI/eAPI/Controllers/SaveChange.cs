@@ -32,6 +32,10 @@ namespace eAPI.Controllers
                         entinodeleted.created_date = DateTime.Now;
                         entinodeleted.created_by = user.full_name;
                     }
+
+                    
+
+
                     
                 }
 
@@ -45,6 +49,8 @@ namespace eAPI.Controllers
                         entidad.deleted_date = DateTime.Now;
                         entidad.deleted_by = user.full_name;
                     }
+
+
                 }
  
 

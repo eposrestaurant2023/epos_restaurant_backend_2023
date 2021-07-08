@@ -240,7 +240,7 @@ namespace eAdmin.Pages.PageProducts
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
             save_model.default_stock_location_products.ForEach(r =>{ r.business_branch = null; r.stock_location = null; });
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
+ 
             var resp = await http.ApiPost($"Product/Save", save_model);
 
             if (resp.IsSuccess)
