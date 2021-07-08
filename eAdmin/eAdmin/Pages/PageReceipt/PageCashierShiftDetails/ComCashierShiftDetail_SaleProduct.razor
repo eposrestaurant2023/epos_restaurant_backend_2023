@@ -1,7 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
-@if (!is_error)
-{
+ 
     <UIContainerBox Title="@Title">
         @if (!is_loading) {
         <div class="csh-sale-pro-list">
@@ -92,7 +91,7 @@
             <MudSkeleton/>
         }
     </UIContainerBox>
-}
+ 
 @code {
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -102,7 +101,7 @@
     [Parameter] public bool IsFree { get; set; }
     List<CashierShiftSaleProductSummaryModel> models = new List<CashierShiftSaleProductSummaryModel>();
     bool is_loading = false;
-    bool is_error = false;
+ 
 
     protected override async Task OnInitializedAsync()
     {
@@ -118,10 +117,6 @@
             {
                 models = JsonSerializer.Deserialize<List<CashierShiftSaleProductSummaryModel>>(resp.Content.ToString());
                 models = models.Where(r=>r.is_free == IsFree).ToList();
-            }
-            else
-            {
-                is_error = true;
             }
         }
         is_loading = false;
