@@ -160,6 +160,10 @@ namespace eAPI.Controllers
                 //chekc business branch featture 
                 CheckBusinessBranchSystemFeature();
 
+
+                db.Database.ExecuteSqlRaw("exec sp_update_system_feature_permission_option");
+                db.Database.ExecuteSqlRaw("exec sp_update_product_default_stock_location 0" );
+
                 return true;
             } 
              

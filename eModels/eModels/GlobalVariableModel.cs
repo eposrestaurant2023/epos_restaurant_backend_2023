@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace eModels
 {
@@ -351,6 +352,38 @@ namespace eModels
                 return 0;
             }
         }
+
+        public List<SystemFeatureModel> system_features { get; set; }
+        public bool project_has_inventory { get {
+                //return project_has_simple_inventory || project_has_advance_inventory; 
+                return false;
+            } 
+        }
+          public bool project_has_simple_inventory { get {
+                return system_feature_status("INV_SIMPLE");
+            } 
+        }
+          public bool project_has_advance_inventory { get {
+                return system_feature_status("INV_ADVANCE");
+            } 
+        }
+        public bool system_feature_status(string code)
+        {
+            var status = system_features.Where(r => r.feature_code == code);
+            if (status.Any()) {
+                return status.FirstOrDefault().status;
+            }
+
+
+            return false;
+             
+        }
+
+        public bool business_branch_has_inventory(string business_branch_id)
+        {
+            return true;
+        }
+
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace eModels
     [Table("tbl_search")]
     public class SearchModel
     {
+        [Key]
         public Guid id { get; set; }
         public string icon { get; set; }
         public string photo { get; set; }
