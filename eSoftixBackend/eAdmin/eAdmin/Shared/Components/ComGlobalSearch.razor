@@ -5,10 +5,10 @@
 
     <MudAutocomplete T="SearchModel" Placeholder="Search" @bind-Value="@model"
         AdornmentColor="MudBlazor.Color.Default" InputType="InputType.Search" Class="docs-search-bar" DisableUnderLine="true" FullWidth="false"
-        Immediate="false" ResetValueOnEmptyText="false" AdornmentIcon="@Icons.Material.Filled.Search"
+        Immediate="false" ResetValueOnEmptyText="true" AdornmentIcon="@Icons.Material.Filled.Search"
         SearchFunc="@SearchAsync"  ToStringFunc="@(e=> e==null?null : $"{e.title}")">
             <ItemTemplate Context="s">                          
-                <MudListItem Class="list-item" OnClick="@(()=> {nav.NavigateTo(s.url);} )">
+                <MudListItem Class="list-item" OnClick="@(()=> {nav.NavigateTo(s.url);} )" >
                     <MudItem Class="d-flex">
                         <MudItem Class="list-item-title">
                             @if(!string.IsNullOrEmpty(s.photo) || !string.IsNullOrEmpty(s.alias)){
