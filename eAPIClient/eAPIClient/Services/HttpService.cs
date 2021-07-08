@@ -82,6 +82,8 @@ namespace eAPIClient.Services
             http.DefaultRequestHeaders.Add("ContentType", "application/json"); 
             string val = _configuration.GetValue<string>("autherize_key");    
             http.DefaultRequestHeaders.Remove("Authorization");
+
+
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
