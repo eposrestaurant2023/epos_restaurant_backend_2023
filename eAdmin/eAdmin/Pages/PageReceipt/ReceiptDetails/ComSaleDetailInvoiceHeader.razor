@@ -22,13 +22,13 @@
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
-                    <AuthorizeView Roles="@gv.GetRole("sale_view")">
-                        <span>@lang["INV #"] @sale.document_number</span>
-                    </AuthorizeView>
+                        <ComAuthorize roles="@gv.GetRole("sale_view")">
+                            <span>@lang["INV #"] @sale.document_number</span>
+                        </ComAuthorize>
                     }
                     else
                     {
-                <span>@lang["INV#"] @sale.document_number</span>
+                       <span>@lang["INV#"] @sale.document_number</span>
                     }
 
                 </div>
@@ -74,14 +74,22 @@
                         {
                             <tr>
                                 <td>@lang["Working Day No"]:</td>
-                                <td>@sale.working_day_number</td>
+                                <td>
+                                    <ComAuthorize roles="@gv.GetRole("working_day_management")" url="@($"workingday/{sale.working_day_id}")">
+                                        @sale.working_day_number
+                                    </ComAuthorize>
+                                </td>
                             </tr>
                         }
                         @if (sale.cashier_shift_number != null)
                         {
                             <tr>
                                 <td>@lang["Cashier Shift No"]:</td>
-                                <td>@sale.cashier_shift_number</td>
+                                <td>
+                                    <ComAuthorize roles="@gv.GetRole("cashier_shift_management")" url="@($"cashiershift/{sale.cashier_shift_id}")">
+                                        @sale.cashier_shift_number
+                                    </ComAuthorize>
+                                </td>
                             </tr>
                         }
                     }
