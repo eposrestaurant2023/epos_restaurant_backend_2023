@@ -118,6 +118,7 @@ namespace eAPI
             odataBuilder.EntitySet<CustomerModel>("Customer");
 
             odataBuilder.EntitySet<AttachFilesModel>("AttachFiles");
+            odataBuilder.EntitySet<ContactModel>("Contact");
             odataBuilder.EntitySet<SettingModel>("Setting");
             odataBuilder.EntitySet<HistoryModel>("History");
             odataBuilder.EntitySet<AttachFileModel>("AttachFile");
