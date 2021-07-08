@@ -60,8 +60,6 @@
                                                 </MudCardHeader>
                                             </MudCard>
                                      </MudItem>
-                                
-
                                     }
                                 
                                 }else{
@@ -90,23 +88,22 @@
     }
 
     @if(station_id != Guid.Empty){
-        <ComExtendLicenseHistoryList Station_id="@station_id" open="@open" station="@Station"/>
+        <ComExtendLicenseHistoryList Station_id="@station_id" OpenExtendHistory="@is_open_history_extend" station="@Station"/>
     }
 
-      
     </UIPanelBody>
 </UIPanel>
 
 
 
 @code{
-    bool open;
+    bool is_open_history_extend;
       Guid station_id;
       StationModel Station = new StationModel();
     
     void ToggleDrawer(StationModel _station)
     {
-        open = !open;
+        is_open_history_extend = !is_open_history_extend;
         station_id = _station.id;
         Station = _station;
 
