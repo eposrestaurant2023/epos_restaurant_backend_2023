@@ -356,7 +356,7 @@ namespace eModels
         public List<SystemFeatureModel> system_features { get; set; }
         public bool project_has_inventory { get {
                 //return project_has_simple_inventory || project_has_advance_inventory; 
-                return false;
+                return true;
             } 
         }
           public bool project_has_simple_inventory { get {
@@ -369,13 +369,14 @@ namespace eModels
         }
         public bool system_feature_status(string code)
         {
-            var status = system_features.Where(r => r.feature_code == code);
-            if (status.Any()) {
-                return status.FirstOrDefault().status;
+            if (system_features.Any()) {
+                var status = system_features.Where(r => r.feature_code == code);
+                if (status.Any()) {
+                    return status.FirstOrDefault().status;
+                }
             }
 
-
-            return false;
+            return true;
              
         }
 

@@ -124,7 +124,11 @@
                     {
                         if (gv.stock_locations.Where(r=>r.business_branch_id == d.id).Any())
                         {
-                            model.default_stock_location_products.Add(new DefaultStockLocationProductModel() { business_branch_id = d.id, business_branch = d });
+                            model.default_stock_location_products.Add(new DefaultStockLocationProductModel() {
+                                business_branch_id = d.id,
+                                business_branch = d,
+                                stock_location_id = gv.stock_locations.Where(r => r.is_default == true && r.business_branch_id == d.id).Any() ? gv.stock_locations.Where(r=>r.is_default==true && r.business_branch_id == d.id).FirstOrDefault().id : Guid.Empty
+                            });
                         }
                     }
                 }
