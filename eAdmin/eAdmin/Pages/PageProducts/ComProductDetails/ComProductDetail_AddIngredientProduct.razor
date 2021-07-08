@@ -26,13 +26,13 @@
                         <NumberInput @bind-text="@p.quantity" class_name="uk-text-center"/>
                     </TdCenter>
                     <TdCenter>
-                        <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" unit_category_id="@p.unit.unit_category_id" />
+                        @*<SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" unit_category_id="@p.unit.unit_category_id" />*@
                     </TdCenter>
                     <TdRight>
-                        <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px"/>
+                        @*<NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px"/>*@
                     </TdRight>
                     <TdRight>
-                       @p.total_cost.ToString(gv.currency_format)
+                       @*@p.total_cost.ToString(gv.currency_format)*@
                     </TdRight>
                     <TdRight>
                         <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))"/>
@@ -46,7 +46,6 @@
             </td>
             <TdCenter>
                 @product_portion.product_ingredients.Where(r=>r.is_deleted == false).Sum(r=>r.quantity).ToString(gv.quantity_format)
-                                         
             </TdCenter>
             <TdCenter>
             </TdCenter>
