@@ -59,7 +59,7 @@
 
     </UISummaryBox>
     <Spacing Number="10" />
-    <Com is_visible="@model.is_inventory_product">
+    <Com is_visible="@(model.is_inventory_product && gv.project_has_inventory)">
         <ComProductDetail_InventoryInformation product_id="@model.id" product_deleted="@model.is_deleted" />
         <Spacing Number="10" />
     </Com>
