@@ -73,7 +73,8 @@
     [Parameter] public ModifierModel model { get; set; }
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
-    ProductModel product = new ProductModel();
+     
+    public ProductModel product { get; set; }
     bool is_saving;
     void OnSelected(ProductModel value)
     {

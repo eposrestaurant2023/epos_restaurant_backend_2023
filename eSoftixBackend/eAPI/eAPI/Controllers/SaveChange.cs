@@ -21,10 +21,22 @@ namespace eAPI.Controllers
                 {
                     var entidad = item.Entity as CoreModel;
                     var entinodeleted = item.Entity as CoreNoDeleted;
-                    entidad.created_date = DateTime.Now;
-                    entidad.created_by = user.full_name;
-                    entinodeleted.created_date = DateTime.Now;
-                    entinodeleted.created_by = user.full_name;
+                    
+                    if (entidad != null)
+                    {
+                        entidad.created_date = DateTime.Now;
+                        entidad.created_by = user.full_name;
+                    }
+                    if (entinodeleted != null)
+                    {
+                        entinodeleted.created_date = DateTime.Now;
+                        entinodeleted.created_by = user.full_name;
+                    }
+
+                    
+
+
+                    
                 }
 
 
@@ -37,6 +49,8 @@ namespace eAPI.Controllers
                         entidad.deleted_date = DateTime.Now;
                         entidad.deleted_by = user.full_name;
                     }
+
+
                 }
  
 
@@ -61,10 +75,20 @@ namespace eAPI.Controllers
                 {
                     var entidad = item.Entity as CoreModel;
                     var entinodeleted = item.Entity as CoreNoDeleted;
-                    entidad.created_date = DateTime.Now;
-                    entidad.created_by = user.full_name;
-                    entinodeleted.created_date = DateTime.Now;
-                    entinodeleted.created_by = user.full_name;
+                    
+
+                    if (entidad != null)
+                    {
+                        entidad.created_date = DateTime.Now;
+                        entidad.created_by = user.full_name;
+                    }
+                    if (entinodeleted != null)
+                    {
+                        entinodeleted.created_date = DateTime.Now;
+                        entinodeleted.created_by = user.full_name;
+                    }
+
+                   
                 }
 
                 foreach (var item in db.ChangeTracker.Entries()

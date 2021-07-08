@@ -126,6 +126,7 @@ namespace eAPI
             odataBuilder.EntitySet<OutletModel>("Outlet");
             odataBuilder.EntitySet<StationModel>("Station");
             odataBuilder.EntitySet<StockLocationModel>("StockLocation");
+            odataBuilder.EntitySet<ExtendLicenseHistoryModel>("ExtendLicenseHistory");
 
             odataBuilder.EntitySet<ProjectSystemFeatureModel>("ProjectSystemFeature");
             var project_feature = odataBuilder.EntitySet<ProjectSystemFeatureModel>("ProjectSystemFeature");

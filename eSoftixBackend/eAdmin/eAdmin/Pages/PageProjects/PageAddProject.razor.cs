@@ -42,7 +42,7 @@ namespace eAdmin.Pages.PageProjects
                         if (res.IsSuccess)
                         {
                             model = JsonSerializer.Deserialize<ProjectModel>(res.Content.ToString());
-                            title = $"Edit : {model.project_name}";
+                            page_title = $"Edit : {model.project_name}";
                         }
                         else
                         {
@@ -56,7 +56,7 @@ namespace eAdmin.Pages.PageProjects
                         if (res.IsSuccess)
                         {
                             model = JsonSerializer.Deserialize<ProjectModel>(res.Content.ToString());
-                            title = $"Clone : {model.project_name}";
+                            page_title = $"Clone : {model.project_name}";
                         }
                         else
                         {
@@ -67,6 +67,7 @@ namespace eAdmin.Pages.PageProjects
                 else
                 {
                     model = new ProjectModel();
+                    page_title = "New Project";
                 }
                 is_loading = false;
             }

@@ -46,19 +46,19 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@(!model.is_ingredient_product)" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@(!model.is_ingredient_product && gv.project_has_advance_inventory)" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_sale_history = true)">@lang["Sale History"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="(()=>show_stock_stransfer = true)">@lang["Stock Transfer"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="(()=>show_stock_take = true)">@lang["Stock Take"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@model.is_inventory_product" OnClick="(()=>show_inventory_strasation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_stock_stransfer = true)">@lang["Stock Transfer"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_stock_take = true)">@lang["Stock Take"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@(model.is_inventory_product && gv.project_has_advance_inventory)" OnClick="(()=>show_inventory_strasation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
                     <TabItem>
                         <ComProductDetail_ProductInformation model="@model"/>
                     </TabItem>
-                    <TabItem is_visible="@model.is_ingredient_product">
+                    <TabItem is_visible="@(!model.is_ingredient_product && gv.project_has_advance_inventory)">
                         <Com is_visible="@show_recipe_tab">
                             <ComProductDetail_ProductPortionIngredient product_id="@model.id" is_product_deleted="@model.is_deleted"/>
                         </Com>
@@ -70,25 +70,25 @@
                             <ComProductDetail_SaleHistory product_id="@id" />
                         }
                     </TabItem>
-                    <TabItem>
+                    <TabItem is_visible="@gv.project_has_advance_inventory">
                         @if (show_purchase_history)
                         {
                         <ComProductDetail_POHistory product_id="@id" />
                         }
                     </TabItem>
-                    <TabItem>
+                    <TabItem is_visible="@gv.project_has_advance_inventory">
                         @if (show_stock_stransfer) 
                         {
                             <ComProductDetail_StockTransferHistory product_id="@id" />
                         }
                     </TabItem>
-                    <TabItem>
+                    <TabItem is_visible="@gv.project_has_advance_inventory">
                         @if (show_stock_take)
                         {
                         <ComProductDetail_StockTakeHistory product_id="@id"/>
                         }
                     </TabItem>
-                    <TabItem is_visible="@model.is_inventory_product">
+                    <TabItem is_visible="@(model.is_inventory_product && gv.project_has_advance_inventory)">
                         @if (show_inventory_strasation)
                         {
                         <ComProductDetail_InventoryTransactionHistory product_id="@id"/> 

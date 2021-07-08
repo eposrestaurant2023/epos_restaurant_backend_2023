@@ -9,6 +9,14 @@ namespace eModels
     [Table("tbl_station")]
     public  class StationModel   : CoreGUIDModel
     {
+
+        public StationModel()
+        {
+
+            extend_license_histories = new List<ExtendLicenseHistoryModel>();
+        }
+
+
         public Guid outlet_id { get; set; }
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
@@ -39,7 +47,7 @@ namespace eModels
         public string station_type { get; set; }
         public string hardware_detail { get; set; }
         public string note { get; set; }
-
+        public List<ExtendLicenseHistoryModel> extend_license_histories { get; set; }
 
 
     }

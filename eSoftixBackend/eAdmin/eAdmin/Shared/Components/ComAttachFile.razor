@@ -231,7 +231,7 @@
 
         is_loading = true;
         f.is_deleting = true;
-        var result = await confirm.ShowMessageBox("Delete attach file", "Are you sure you want to delete this attach file?");
+        var result = await confirm.ShowMessageBox("Delete attach file", "Are you sure you want to delete this attach file?", "Ok" , "Cancel");
         if (Convert.ToBoolean(result))
         {
 

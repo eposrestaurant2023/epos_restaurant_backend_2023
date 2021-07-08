@@ -1,0 +1,14 @@
+﻿ <Loading is_loading="@(is_saving)"/>
+ <EditForm Model="@model" OnValidSubmit="@Save_Click">
+<Modal>
+    <ModalContent>
+        <DataAnnotationsValidator />
+        <MudDatePicker Label="Extend License Date" @bind-Date="@(model.extend_date)"/>
+        <MudTextField T="string" @bind-Value="@(model.note)" Label="Note" Lines="3"/>
+    </ModalContent>
+    <ActionButton>
+        <SaveButton  is_loading="@is_saving" />
+    </ActionButton>
+</Modal>
+</EditForm>
+

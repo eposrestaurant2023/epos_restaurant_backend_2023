@@ -1,0 +1,64 @@
+﻿@inject IHttpService http
+@if(models!=null){ 
+
+     
+                         <div style="padding:10px;">
+                             <MudIconButton Icon="@Icons.Material.Filled.Favorite" OnClick="CloseDrawerClick"/>
+                            
+                            <MudText Typo="Typo.button" Style="text-transform: uppercase;font-style:italic;">Station Information</MudText>
+                        </div>
+                            <MudCard Class="mt-2" Square="false"> 
+                                <MudCardContent>
+                                       <LabelDeleted is_visible="true"/>
+                                       <LabelExpiredProject visible="true"/>
+                                       <LabelFullLicense visible="true"/>
+                                      <MudText Typo="Typo.body2"><span style="font-style:italic">Name En :</span> @station.station_name_en</MudText>
+                                      <MudText Typo="Typo.body2"><span style="font-style:italic">Name Kh :</span> @station.station_name_kh</MudText>
+                                      <MudText Typo="Typo.body2"><span style="font-style:italic">Expired date :</span> @Convert.ToDateTime(station.expired_date).ToString(gv.date_format)</MudText>
+                                      <MudText Typo="Typo.body2"><span style="font-style:italic">Station Type :</span> @station.station_type</MudText>
+                                      <MudText Typo="Typo.body2"><span style="font-style:italic">Hardware Detail :</span> @station.hardware_detail</MudText>
+                                      <MudText Typo="Typo.body2"><span style="font-style:italic">Note :</span> @station.note</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                            <div style="padding:10px;">
+                              <MudText Typo="Typo.button" Style="text-transform: uppercase;font-style:italic;">Extend License History</MudText>
+                            </div>
+                            @foreach(var s in models){
+                                <MudCard Class="mt-2" Square="false">
+                                    <MudCardContent>
+                                        <MudText Typo="Typo.body2"><span style="font-style:italic">Extend Date :</span> @Convert.ToDateTime(s.extend_date).ToString(gv.date_format)</MudText>
+                                        <MudText Typo="Typo.body2"><span style="font-style:italic">Create Date :</span> @Convert.ToDateTime(s.created_date).ToString(gv.date_time_format)</MudText>
+                                        <MudText Typo="Typo.body2"><span style="font-style:italic">Create By :</span> @s.created_by</MudText>
+                                        <MudText Typo="Typo.body2">@s.note</MudText>
+                                    </MudCardContent>
+                                </MudCard>
+
+                            }              
+    
+
+
+}
+@code {
+
+    [Parameter] public Guid Station_id { get; set; }
+
+    [Parameter] public EventCallback<bool> OpenExtendHistoryChanged { get; set; }
+    [Parameter] public StationModel station { get; set; }
+    [CascadingParameter] public AppState gv { get; set; }
+
+    List<ExtendLicenseHistoryModel> models = new List<ExtendLicenseHistoryModel>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var api = await http.ApiGetOData($"ExtendLicenseHistory?$filter=station_id eq {Station_id}");
+        if(api.IsSuccess){
+            models = JsonSerializer.Deserialize<List<ExtendLicenseHistoryModel>>(api.Content.ToString());
+        }
+    }
+    async Task CloseDrawerClick()
+    {
+        
+    }
+
+}
+

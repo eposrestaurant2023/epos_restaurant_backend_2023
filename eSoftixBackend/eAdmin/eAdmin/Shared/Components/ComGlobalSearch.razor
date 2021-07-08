@@ -1,51 +1,67 @@
-﻿ <MudContainer MaxWidth="MaxWidth.Small">
-<MudAutocomplete Placeholder="Search" @bind-Value="choice1.State"
-             SearchFunc="@SearchAsync" Immediate="false" ResetValueOnEmptyText="true"
-             AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="MudBlazor.Color.Default"
-             For="@(() => choice1.State)" InputType="InputType.Text" Class="docs-search-bar" DisableUnderLine="true" FullWidth="false"/>
+﻿@inject IHttpService http
+@inject IConfiguration conf
+@inject NavigationManager nav
+<MudContainer MaxWidth="MaxWidth.Small">
+
+    <MudAutocomplete T="SearchModel" Placeholder="Search"  
+        DebounceInterval="700"
+        AdornmentColor="MudBlazor.Color.Default" InputType="InputType.Search" Class="docs-search-bar" DisableUnderLine="true" FullWidth="false"
+        Immediate="false" ResetValueOnEmptyText="true" AdornmentIcon="@Icons.Material.Filled.Search"
+        SearchFunc="@SearchAsync"  ToStringFunc="@(e=> e==null?null : $"{e.title}")" ValueChanged="@OnSearch">
+            <ItemTemplate Context="s">
+               
+                <MudListItem Class="list-item" >
+                    <MudItem Class="d-flex">
+                        <MudItem Class="list-item-title">
+                            @if(!string.IsNullOrEmpty(s.photo) || !string.IsNullOrEmpty(s.alias)){
+                                @if(!string.IsNullOrEmpty(s.photo)){
+                                     <MudAvatar Image="@($"{conf.GetValue<string>("BaseUrl")}upload/{s.photo}")" Size="Size.Large"/>
+                                }else{
+                                     <MudAvatar Variant="Variant.Filled" Size="Size.Large" Color="@MudBlazor.Color.Primary">@s.alias</MudAvatar>
+                                }
+                            }else{
+                               <MudAvatar  Class="ma-2">
+                                    <MudIcon Icon="@s.icon" Size="@Size.Large"/>
+                                </MudAvatar>
+                            }
+                        </MudItem>
+                        <MudItem Class="px-4">
+                            @s.title<br/>
+                            <MudText Typo="Typo.caption">
+                                 @s.description
+                            </MudText>
+                            <br />
+                            <MudText Typo="Typo.caption">
+                                 @s.keyword
+                            </MudText>
+                        </MudItem>
+                    </MudItem>
+
+                </MudListItem>
+            </ItemTemplate>
+        </MudAutocomplete>
+
 </MudContainer>
 
 @code {
     public string keyword { get; set; }
 
-    private Choice choice1 = new();
+    SearchModel model = new SearchModel();
+    List<SearchModel> searchs = new List<SearchModel>();
 
-     private static string[] states =
-    {
-        "Alabama", "Alaska", "American Samoa", "Arizona",
-        "Arkansas", "California", "Colorado", "Connecticut",
-        "Delaware", "District of Columbia", "Federated States of Micronesia",
-        "Florida", "Georgia", "Guam", "Hawaii", "Idaho",
-        "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-        "Louisiana", "Maine", "Marshall Islands", "Maryland",
-        "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-        "Missouri", "Montana", "Nebraska", "Nevada",
-        "New Hampshire", "New Jersey", "New Mexico", "New York",
-        "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio",
-        "Oklahoma", "Oregon", "Palau", "Pennsylvania", "Puerto Rico",
-        "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
-        "Texas", "Utah", "Vermont", "Virgin Island", "Virginia",
-        "Washington", "West Virginia", "Wisconsin", "Wyoming",
-    };
 
-     public class Choice
+    private async Task<IEnumerable<SearchModel>> SearchAsync(string value)
     {
+        var res =await http.ApiGet($"search?keyword={value}");
         
-        public string State { get; set;}
-
-    }
-
-    private async Task<IEnumerable<string>> SearchAsync(string value)
-    {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-        {
-            return states;
+        if(res.IsSuccess){
+            searchs = JsonSerializer.Deserialize<List<SearchModel>>(res.Content.ToString());
         }
 
-        return states.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        return searchs;
+    }
+
+    void OnSearch(SearchModel s){
+        nav.NavigateTo(s.url);
     }
 }
