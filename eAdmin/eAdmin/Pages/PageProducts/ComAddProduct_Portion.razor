@@ -3,7 +3,7 @@
 <UIContainerBox Title="Product Prices" Icon="monetization_on" is_show_add_button="true" OnAddClick="@AddProductPortion">
     @if (is_loading)
     {
-        <Spinner is_template_spinning="true"/>
+        <Spinner is_template_spinning="true" />
     }
     else
     {
@@ -39,10 +39,11 @@
                                         <TextInput placeholder="@lang["Portion Name"]" @bind-text="@pp.portion_name" width="100%" />
                                     </td>
                                     <TdCenter>
-            
+
                                         <SelectUnit @bind-selected_value="@pp.unit_id" @bind-unit="@pp.unit" unit_category_id="@model.unit_category_id" is_select_unit_category="true" show_empty="true" width="100%">
-                                            <ValidationMessage For="@(() => pp.unit_id)" />
-                                        </SelectUnit>
+                                                <ValidationMessage For="@(() => pp.unit_id)" />
+                                            </SelectUnit>
+ 
                                     </TdCenter>
                                     <TdRight>
                                         <NumberInput placeholder="@lang["Cost"]" @bind-text="@pp.cost" width="100%" class_name="uk-text-right" />
@@ -56,7 +57,7 @@
                                                 <NumberInput placeholder="@p.price_name"
                                                              @bind-text="@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().price"
                                                              is_read_only="@(!@pp.product_prices.Where(r => r.price_rule_id == p.id).FirstOrDefault().status)"
-                                                             class_name="uk-text-right" width="100%"/>
+                                                             class_name="uk-text-right" width="100%" />
                                             }
                                         </TdRight>
                                     }
@@ -79,7 +80,7 @@
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel model { get; set; }
-    [Parameter] public EventCallback< ProductModel> modelChanged { get; set; }
+    [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
 
     List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
 
@@ -94,7 +95,7 @@
         if (model.id == 0 && model.product_portions.Count() == 0)
         {
 
-            model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Normal"], unit_id=model.unit_id, unit = model.unit });
+            model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Normal"], unit_id = model.unit_id, unit = model.unit });
 
         }
         else
@@ -120,7 +121,7 @@
 
     void AddProductPortion()
     {
-        model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Portion Name"], unit_id=model.unit_id, unit = model.unit });
+        model.product_portions.Add(new ProductPortionModel(price_rules) { portion_name = lang["Portion Name"], unit_id = model.unit_id, unit = model.unit });
     }
 
 
@@ -149,6 +150,5 @@
         return false;
 
     }
-
-
+ 
 }
