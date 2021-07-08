@@ -1,6 +1,7 @@
 ﻿@page "/systemlicense"
 @inject IStringLocalizer<Resource> lang
 @inject IHttpService http
+@inject IMatToaster toast
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
@@ -14,6 +15,10 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <Button icon="360" title="@lang["Check System Feature"]" OnClick="@OnCheckSystemFeature" />
+                <RefreshButton OnClick="@OnInitializedAsync" />
+            </HeaderRight>
         </PageHeader>
 
         <PageBody>
@@ -54,7 +59,7 @@
     bool is_loading = false;
     protected override async Task OnInitializedAsync()
     {
-       
+        is_loading = true;
         var resp = await http.ApiGetOData($"BusinessBranch?$expand=outlets($filter=is_deleted eq false;$expand=stations($filter=is_deleted eq false)),stock_locations&$filter=is_deleted eq false");
         if (resp.IsSuccess)
         {
@@ -62,4 +67,17 @@
         }
         is_loading = false;
     }
+
+
+    async Task OnCheckSystemFeature()
+    {
+        is_loading = true;
+        var resp = await http.ApiGet("eSoftixBackend/CheckSystemFeatures");
+        if (resp.IsSuccess)
+        {
+            toast.Add("Checked System Features", MatBlazor.MatToastType.Success);
+        }
+        is_loading = false;
+    }
+
 }
