@@ -1,9 +1,12 @@
 ﻿@inject IHttpService http
 @if(models!=null){ 
 
-        <MudDrawer Width="300px" @bind-Open="@OpenExtendHistory" ClipMode="DrawerClipMode.Always" Elevation="25" Variant="@DrawerVariant.Temporary" Anchor="Anchor.Right">
+        <MudDrawer  Width="300px" @bind-Open="@OpenExtendHistory" Anchor="@Anchor.Right" Elevation="25" Variant="@DrawerVariant.Temporary">
+        
             <MudDrawerContainer>
                          <div style="padding:10px;">
+                             <MudIconButton Icon="@Icons.Material.Filled.Favorite" OnClick="CloseDrawerClick"/>
+                            
                             <MudText Typo="Typo.button" Style="text-transform: uppercase;font-style:italic;">Station Information</MudText>
                         </div>
                             <MudCard Class="mt-2" Square="false"> 
@@ -46,6 +49,7 @@
 
     [Parameter] public Guid Station_id { get; set; }
     [Parameter] public bool OpenExtendHistory { get; set; }
+    [Parameter] public EventCallback<bool> OpenExtendHistoryChanged { get; set; }
     [Parameter] public StationModel station { get; set; }
     [CascadingParameter] public AppState gv { get; set; }
 
@@ -57,6 +61,11 @@
         if(api.IsSuccess){
             models = JsonSerializer.Deserialize<List<ExtendLicenseHistoryModel>>(api.Content.ToString());
         }
+    }
+    async Task CloseDrawerClick()
+    {
+        OpenExtendHistory = !OpenExtendHistory;
+        OpenExtendHistoryChanged.InvokeAsync(OpenExtendHistory);
     }
 
 }

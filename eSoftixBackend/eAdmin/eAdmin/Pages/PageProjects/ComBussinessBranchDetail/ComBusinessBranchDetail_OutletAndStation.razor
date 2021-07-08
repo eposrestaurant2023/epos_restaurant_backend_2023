@@ -37,6 +37,8 @@
                                            <MudCard>
                                                 <MudCardHeader>
                                                     <CardHeaderAvatar>
+                                                        @is_open_history_extend
+                                                        <MudButton Variant="Variant.Text" OnClick="@(() =>{open = !open;})">Bottom</MudButton>
                                                         <MudIcon Icon="@Icons.Material.Filled.DesktopWindows" Size="MudBlazor.Size.Large" />
                                                     </CardHeaderAvatar>
                                                     <CardHeaderContent>
@@ -87,8 +89,9 @@
            
     }
 
+
     @if(station_id != Guid.Empty){
-        <ComExtendLicenseHistoryList Station_id="@station_id" OpenExtendHistory="@is_open_history_extend" station="@Station"/>
+        <ComExtendLicenseHistoryList Station_id="@station_id" @bind-OpenExtendHistory="@is_open_history_extend" station="@Station"/>
     }
 
     </UIPanelBody>
