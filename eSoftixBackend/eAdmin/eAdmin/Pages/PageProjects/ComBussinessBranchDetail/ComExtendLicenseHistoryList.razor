@@ -1,0 +1,65 @@
+﻿@inject IHttpService http
+@if(models!=null){ 
+
+        <MudDrawer Width="300px" @bind-Open="@open" DisableOverlay="true" ClipMode="DrawerClipMode.Always" Elevation="25" Variant="@DrawerVariant.Temporary" Anchor="Anchor.Right">
+            <MudDrawerContainer>
+                            <MudPaper Class="pa-4" Square="false">             
+                            <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                <div style="font-style:italic">Name En</div>
+                                <div>
+                                    @station.station_name_en
+                                </div>
+                            </div>
+                                <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                <div style="font-style:italic">Name Kh</div>
+                                <div> @station.station_name_kh</div>
+                            </div>
+                            <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                <div style="font-style:italic">Expired date</div>
+                                <div> @station.expired_date</div>
+                            </div>
+                                <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                <div style="font-style:italic">Station Type</div>
+                                <div> @station.station_type</div>
+                            </div>
+                                <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                <div style="font-style:italic">Hardware Information</div>
+                                <div> @station.hardware_detail</div>
+                            </div>
+                                <div class="d-flex justify-space-between" style="margin-bottom: 5px;">
+                                <div style="font-style:italic">Note</div>
+                                <div> @station.note</div>
+                            </div>
+                            </MudPaper>
+            @foreach(var s in models){
+
+                @s.extend_date
+        
+       }              
+            </MudDrawerContainer>
+
+
+
+
+        </MudDrawer>
+
+
+}
+@code {
+
+    [Parameter] public Guid Station_id { get; set; }
+    [Parameter] public bool open { get; set; }
+    [Parameter] public StationModel station { get; set; }
+
+    List<ExtendLicenseHistoryModel> models = new List<ExtendLicenseHistoryModel>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var api = await http.ApiGetOData($"ExtendLicenseHistory?$filter=station_id eq {Station_id}");
+        if(api.IsSuccess){
+            models = JsonSerializer.Deserialize<List<ExtendLicenseHistoryModel>>(api.Content.ToString());
+        }
+    }
+
+}
+

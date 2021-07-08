@@ -1,14 +1,18 @@
 ﻿<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
     <tr>
         <ThAuto>Sale Type Name</ThAuto>
+        <ThCenter>Order Use Table</ThCenter>
         <th></th>
     </tr>
     @foreach(var p in sale_types.Where(r=>r.is_deleted == false).ToList())
     {
         <tr>
             <td>
-            <TextInput @bind-text="@p.sale_type_name" placeholder="Sale Type Name" is_read_only="@p.is_build_in"/>
+                <TextInput @bind-text="@p.sale_type_name" placeholder="Sale Type Name" is_read_only="@p.is_build_in"/>
             </td>
+            <TdCenter>
+                <ComInputCheckBox @bind-value="@p.is_order_use_table" is_read_only="@p.is_build_in"/>
+            </TdCenter>
             <TdCenter>
                 <Icon icon="delete" OnClick="@(()=>Delete(p))" is_visible="@(!p.is_build_in)"/>
             </TdCenter>

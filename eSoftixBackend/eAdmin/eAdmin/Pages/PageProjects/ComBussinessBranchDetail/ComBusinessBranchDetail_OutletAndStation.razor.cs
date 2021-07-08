@@ -92,6 +92,18 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             is_loading = false;
         }
 
+        async Task AddNewExtendLisence(StationModel station)
+        {
+            var parameters = new DialogParameters { ["model"] = new ExtendLicenseHistoryModel() { station_id = station.id } };
+            var dialog = Dialog.Show<ComBusinessBranchDetail_AddExtendLicenseHistory>("Add New Extend License History", parameters);
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+
+                station.extend_license_histories.Add((ExtendLicenseHistoryModel)result.Data);
+            }
+        }
+
         async Task AddNewStation(OutletModel outlet)
         {
             var parameters = new DialogParameters{["model"] = new StationModel() {outlet_id = outlet.id}};

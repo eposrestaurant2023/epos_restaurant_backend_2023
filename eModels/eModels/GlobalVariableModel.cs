@@ -237,6 +237,17 @@ namespace eModels
                 return get_setting_value(61);
             }
         }
+
+        public bool enable_tax_feature
+        {
+            get
+            {
+                if (get_setting_value(63) == "1")
+                    return true;
+
+                return false;
+            }
+        }
         private CurrencyModel get_currency(bool is_main = true)
         {
             return currencies.Where(r => r.is_main == is_main).FirstOrDefault();

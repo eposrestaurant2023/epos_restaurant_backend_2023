@@ -51,6 +51,11 @@
         }else
         {
             <MudText Typo="Typo.subtitle1" Align="MudBlazor.Align.Center">There is no stock location in this Branch.</MudText>
+            <div class="d-flex justify-center">
+               <MudButton StartIcon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Success" Variant="Variant.Filled" OnClick="@AddNewStockLocation"  >
+                    Add New Stock Location
+                </MudButton> 
+          </div>
         }
     </UIPanelBody>
 </UIPanel>

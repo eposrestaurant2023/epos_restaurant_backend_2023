@@ -11,7 +11,7 @@
 <UIPanel Title="Branch Information">
     <UIPanelHeaderRight>
             <LabelDeleted is_visible="@model.is_deleted"/>
-          <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
+            <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
             <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@EditBusinessBranch_Click" Disabled="@model.is_deleted" >Edit</MudMenuItem>
             <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteProject_Click">Delete</MenuButtonItem>
             <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteProject_Click">Restore</MenuButtonItem>

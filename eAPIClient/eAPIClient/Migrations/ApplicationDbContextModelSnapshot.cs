@@ -704,6 +704,9 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_partially_paid")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_print_invoice")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 

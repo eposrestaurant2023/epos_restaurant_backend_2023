@@ -22,7 +22,21 @@ namespace eShareModel
 
     }
 
-    public class Core
+    public class CoreNoDeleted 
+    {
+        [Key]
+        public int id { get; set; }
+        [MaxLength(100)]
+        public string created_by { get; set; }
+        public DateTime created_date { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        [JsonIgnore]
+        public bool is_saving { get; set; } = false;
+   
+    }
+
+        public class Core
     {
         [MaxLength(100)]
         public string created_by { get; set; }

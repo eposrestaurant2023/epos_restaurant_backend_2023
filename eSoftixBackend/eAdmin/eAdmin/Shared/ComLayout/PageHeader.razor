@@ -1,4 +1,6 @@
-﻿<MudPaper Elevation="25">
+﻿@inject IJSRuntime JS
+
+<MudPaper Elevation="25">
  <MudToolBar DisableGutters="true" Class="mx-4" >
     <MudText Typo="Typo.h5" Color="MudBlazor.Color.Primary">@title</MudText>
     @if(Filter!=null){
@@ -18,11 +20,10 @@
     }
     @if (show_back_button)
     {
-    <MudIconButton Icon="@Icons.Material.Filled.Reply" Variant="Variant.Text"></MudIconButton>    
+    <MudIconButton Icon="@Icons.Material.Filled.Reply" Variant="Variant.Text" OnClick="GoBack"></MudIconButton>    
     }
  
    
-    
 </MudToolBar>
 </MudPaper>
 @code {
@@ -37,6 +38,11 @@
     [Parameter] public bool show_refresh_button { get; set; } = true;
     [Parameter] public EventCallback OnRefresh { get; set; } 
 
+    
+    private async Task GoBack()
+    {
+        await JS.InvokeVoidAsync("GoBack");
+   }
 
 
 

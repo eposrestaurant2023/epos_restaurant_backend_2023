@@ -19,7 +19,9 @@ function CapturePhoto() {
     });
 }
 
-
+function GoBack() {
+    history.back(-1);
+}
 
 
     $('.helpicon').on('click', function () {

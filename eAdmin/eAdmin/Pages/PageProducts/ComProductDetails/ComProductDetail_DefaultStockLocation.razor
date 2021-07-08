@@ -1,0 +1,46 @@
+﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
+<div class="defualt-stock-location">
+    <Spacing Number="15"/>
+    <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
+    <Tab>
+        <TabHeader>
+            @foreach (var b in model.default_stock_location_products)
+            {
+                <TabHeaderItem>@b.business_branch.business_branch_name_en</TabHeaderItem>
+            }
+        </TabHeader>
+        <TabBody>
+            @foreach (var b in model.default_stock_location_products)
+            {
+            <TabItem>
+                <ListTable>
+                    <ListTableItem ItemTitle="Stock Location">@b.stock_location?.stock_location_name</ListTableItem>
+                </ListTable>
+            </TabItem>
+            }
+        </TabBody>
+    </Tab>
+</div>
+ 
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_id { get; set; }
+    ProductModel model = new ProductModel();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        if (product_id > 0)
+        {
+            var resp = await http.ApiGet($"Product({product_id})?$select=id&$expand=default_stock_location_products($expand=stock_location($select=stock_location_name),business_branch($select=business_branch_name_en,business_branch_name_kh))");
+            if (resp.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+            }
+        }
+
+        is_loading = false;
+    }
+}
