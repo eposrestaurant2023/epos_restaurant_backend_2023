@@ -32,7 +32,7 @@
                         <MudIcon Icon="@s.outlet.business_branch.Project.project_type.icon" />
                     </MudAvatar>
                 <div style="padding-left:6px">
-                        <AuthView roles="project_view" url="@($"project/{s.outlet?.business_branch?.project_id}")">
+                        <AuthView roles="project_view" url="@($"project/{s.outlet?.business_branch?.Project?.id}")">
                         <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.project_name</MudText>    
                             <MudText Typo="Typo.caption">@s.outlet?.business_branch?.Project?.project_code</MudText>
                         </AuthView>

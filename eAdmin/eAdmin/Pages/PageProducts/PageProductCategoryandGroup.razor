@@ -129,6 +129,7 @@
             is_saving = true;
             if (p.product_categories.Where(r=>r.is_deleted == false).Any())
             {
+
                 toast.Add(lang["This group not availiable"], MatBlazor.MatToastType.Warning);
                 is_saving = false;
                 return;

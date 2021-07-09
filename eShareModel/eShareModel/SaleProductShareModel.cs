@@ -61,6 +61,8 @@ namespace eShareModel
         public decimal quantity { get; set; } 
         public decimal sub_total { get; set; }
 
+        public string sale_product_modifier_name { get; set; }
+
 
         //Discount
         public decimal sale_product_discount_value { get; set; }
