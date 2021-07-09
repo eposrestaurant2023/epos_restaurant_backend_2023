@@ -51,6 +51,8 @@ namespace eAPI.Controllers
             }
             
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw($"exec sp_update_stock_location_information '{u.id}'");
             return Ok(u);
 
 
@@ -82,6 +84,7 @@ namespace eAPI.Controllers
             u.is_deleted = !u.is_deleted;
             db.StockLocations.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw($"exec sp_update_stock_location_information '{u.id}'");
             return Ok(u);
         }
     }
