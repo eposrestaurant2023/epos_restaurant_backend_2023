@@ -32,7 +32,7 @@
                         <MudIcon Icon="@s.outlet.business_branch.Project.project_type.icon" />
                     </MudAvatar>
                 <div style="padding-left:6px">
-                        <AuthView roles="project_view" url="@($"project/{s.outlet?.business_branch?.project_id}")">
+                        <AuthView roles="project_view" url="@($"project/{s.outlet?.business_branch?.Project?.id}")">
                         <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.project_name</MudText>    
                             <MudText Typo="Typo.caption">@s.outlet?.business_branch?.Project?.project_code</MudText>
                         </AuthView>
@@ -70,7 +70,7 @@
                     
                 </td>
                 <TdCenter>
-                    <MudText Typo="Typo.body1">@((DateTime)s.expired_date).ToString("dd-MM-yyyy") 
+                    <MudText Typo="Typo.body1">@(Convert.ToDateTime(s.expired_date).ToString("dd-MM-yyyy")) 
                         <MudChip Color="MudBlazor.Color.Warning" Label="true" Size="Size.Small">
                             @(Math.Ceiling(((DateTime)s.expired_date - DateTime.Now).TotalDays))
                        </MudChip>
@@ -104,7 +104,7 @@
     async Task LoadData()
     {
         is_loading=true;
-        api_url = $"station?$filter=expired_date gt {DateTime.Now.ToString("yyyy-MM-dd")} and expired_date lt {DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")} and is_deleted eq false and outlet/is_deleted eq false and outlet/business_branch/is_deleted eq false and outlet/business_branch/project/is_deleted eq false and outlet/business_branch/project/customer/is_deleted eq false&$expand=outlet($select=outlet_name_en,outlet_name_kh;$expand=business_branch($select=business_branch_name_kh,business_branch_name_en;$expand=project($select=project_name,project_code;$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,phone_1,phone_2),project_type($select=icon,color,project_type_name))))&$select=station_name_en,station_name_kh,expired_date,status,&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";
+        api_url = $"station?$filter=expired_date gt {DateTime.Now.ToString("yyyy-MM-dd")} and expired_date lt {DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")} and is_deleted eq false and outlet/is_deleted eq false and outlet/business_branch/is_deleted eq false and outlet/business_branch/project/is_deleted eq false and outlet/business_branch/project/customer/is_deleted eq false&$expand=outlet($select=outlet_name_en,outlet_name_kh;$expand=business_branch($select=business_branch_name_kh,business_branch_name_en;$expand=project($select=id,project_name,project_code;$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,phone_1,phone_2),project_type($select=icon,color,project_type_name))))&$select=station_name_en,station_name_kh,expired_date,status,&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";
         var res = await http.ApiGetOData(api_url);
         if(res.IsSuccess){
             models=JsonSerializer.Deserialize<List<StationModel>>(res.Content.ToString());

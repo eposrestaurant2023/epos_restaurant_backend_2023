@@ -42,8 +42,8 @@
                                                         <MudText Typo="Typo.body1">@s.station_name_en</MudText>
                                                         <MudText Typo="Typo.body1"><span style="font-style:italic;font-size:12px;">Expired Date:</span> @Convert.ToDateTime(s.expired_date).ToString(gv.date_format)</MudText>
                                                         <LabelDeleted is_visible="@d.is_deleted"/>
-                                                        <LabelExpiredProject visible="true"/>
-                                                        <LabelFullLicense visible="true"/>
+                                                        <LabelExpiredProject visible="@(d.business_branch.Project.is_expired)"/>
+                                                        <LabelFullLicense visible="@(d.business_branch.Project.is_full_license)"/>
                                                     </CardHeaderContent>
                                                     <CardHeaderActions>
                                                         <MudIconButton  Color="MudBlazor.Color.Primary" OnClick="@(() => ToggleDrawer(s))" Icon="@Icons.Material.Filled.ErrorOutline" Style="margin-top: -14px;"/>

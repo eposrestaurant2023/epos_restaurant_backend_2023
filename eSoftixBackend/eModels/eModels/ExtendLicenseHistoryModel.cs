@@ -16,7 +16,7 @@ namespace eModels
         public StationModel station { get; set; }
 
         [Required]
-
+        [DataType(DataType.Date)]
         public DateTime? extend_date { get; set; } = DateTime.Now.AddMonths(1);
 
         public string note { get; set; }
