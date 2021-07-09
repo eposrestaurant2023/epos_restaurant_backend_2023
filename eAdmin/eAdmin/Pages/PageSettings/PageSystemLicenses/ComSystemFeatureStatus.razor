@@ -1,20 +1,22 @@
 ﻿@if (is_deleted)
 {
-    <LabelDeleted is_visible="true"/>
+    <LabelDeleted is_visible="true" />
 }
 else if (is_full_license)
 {
-    <LabelFullLicense is_visible="true"/>
+    <LabelFullLicense is_visible="true" />
 }
 else
 {
-    if (expired_date < DateTime.Now)
+    if (expired_date > DateTime.Now)
     {
-        <LabelExpired is_visible="true"/>
+
+        @*<label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString(gv.date_format) (@Math.Ceiling(((DateTime)expired_date - DateTime.Now).TotalDays))</label>*@
+        <label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString(gv.date_format) (@((int)(Convert.ToDateTime(expired_date) - DateTime.Now).TotalDays))</label>
     }
     else
     {
-<label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString(gv.date_format) (@Math.Ceiling(((DateTime)expired_date - DateTime.Now).TotalDays))</label>
+        <LabelExpired is_visible="true" />
     }
 }
 @code {
