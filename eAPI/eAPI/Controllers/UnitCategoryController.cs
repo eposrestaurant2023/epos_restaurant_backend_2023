@@ -54,6 +54,7 @@ namespace eAPI.Controllers
             db.UnitCategorys.UpdateRange(unitCategories);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             //db.Database.ExecuteSqlRaw("delete from tbl_unit where is_deleted = 1");
+            db.Database.ExecuteSqlRaw("sp_update_product_portion_unit_multipler");
             return Ok(unitCategories);
         }
 

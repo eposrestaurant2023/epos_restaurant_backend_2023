@@ -26,13 +26,13 @@
                         <NumberInput @bind-text="@p.quantity" class_name="uk-text-center"/>
                     </TdCenter>
                     <TdCenter>
-                        @*<SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" unit_category_id="@p.unit.unit_category_id" />*@
+                        <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" unit_category_id="@p.unit.unit_category_id" />
                     </TdCenter>
                     <TdRight>
-                        @*<NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px"/>*@
+                        <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px"/>
                     </TdRight>
                     <TdRight>
-                       @*@p.total_cost.ToString(gv.currency_format)*@
+                       @p.total_cost.ToString(gv.currency_format)
                     </TdRight>
                     <TdRight>
                         <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))"/>
@@ -106,40 +106,19 @@
         }
         else
         {
-            product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id, unit = value.unit, unit_id = value.unit_id, cost = value.cost });
+            product_portion.product_ingredients.Add(
+                new ProductIngredientModel() 
+                { 
+                    ingredient = value, 
+                    ingredient_id = value.id, 
+                    unit = gv.units.Where(r=>r.id == value.unit_id).FirstOrDefault(), 
+                    unit_id = value.unit_id, cost = value.cost 
+                }
+           );
         }
 
         product = null;
     }
-
-
-    //private ProductModel _product;
-
-    //public ProductModel product
-    //{
-    //    get { return _product; }
-    //    set
-    //    {
-
-    //        var data = product_portion.product_ingredients.Where(r => r.ingredient_id == value.id && r.is_deleted == false);
-
-
-    //        if (data.Any())
-    //        {
-    //            data.FirstOrDefault().quantity = data.FirstOrDefault().quantity + 1;
-    //        }
-    //        else
-    //        {
-    //            product_portion.product_ingredients.Add(new ProductIngredientModel() { ingredient = value, ingredient_id = value.id, unit=value.unit,unit_id=value.unit_id, cost = value.cost });
-    //        }
-    //        value = null;
-    //        _product = value;
-    //        product = value;
-    //    }
-    //}
-
-
-
 
     async Task OnCancelClick()
     {
