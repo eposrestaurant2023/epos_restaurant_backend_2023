@@ -32,15 +32,13 @@
                         <MudIcon Icon="@s.outlet.business_branch.Project.project_type.icon" />
                     </MudAvatar>
                 <div style="padding-left:6px">
-                        <AuthView roles="project_view" url="@($"project/{s.outlet?.business_branch?.Project?.id}")">
+                        <AuthView roles="project_view" url="@($"project/{s.outlet?.business_branch?.project_id}")">
                         <MudText Typo="Typo.body1">@s.outlet?.business_branch?.Project?.project_name</MudText>    
                             <MudText Typo="Typo.caption">@s.outlet?.business_branch?.Project?.project_code</MudText>
                         </AuthView>
                 </div>
                 
                 </div>
-
-                    
                 </TdCenter>
                 <td>
                     <div>
@@ -72,7 +70,7 @@
                 <TdCenter>
                     <MudText Typo="Typo.body1">@(Convert.ToDateTime(s.expired_date).ToString(gv.date_format)) 
                         <MudChip Color="MudBlazor.Color.Warning" Label="true" Size="Size.Small">
-                            @(Math.Ceiling(((DateTime)s.expired_date - DateTime.Now).TotalDays))
+                            @((int)(Convert.ToDateTime(s.expired_date) - DateTime.Now).TotalDays)
                        </MudChip>
                    </MudText>
                 </TdCenter>

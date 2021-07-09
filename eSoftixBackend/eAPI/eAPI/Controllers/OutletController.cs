@@ -53,6 +53,7 @@ namespace eAPI.Controllers
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            db.Database.ExecuteSqlRaw($"exec sp_update_outlet_information '{u.id}'");
             return Ok(u);
 
 
@@ -67,7 +68,8 @@ namespace eAPI.Controllers
             u.is_deleted = !u.is_deleted;
             
             db.Outlets.Update(u);
-            await db.SaveChangesAsync();
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            db.Database.ExecuteSqlRaw($"exec sp_update_outlet_information '{u.id}'");
             return Ok(u);
         }
 
