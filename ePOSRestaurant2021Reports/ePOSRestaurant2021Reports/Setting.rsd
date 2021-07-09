@@ -3,8 +3,7 @@
   <DataSet Name="DataSet1">
     <Query>
       <DataSourceReference>DataSource</DataSourceReference>
-      <CommandType>StoredProcedure</CommandType>
-      <CommandText>sp_get_setting</CommandText>
+      <CommandText>exec sp_get_setting</CommandText>
     </Query>
     <Fields>
       <Field Name="date_format">
