@@ -10,7 +10,7 @@
     @foreach (var p in units.OrderBy(r=>r.sort_order).Where(r => r.is_deleted == false))
     {
         <tr>
-            <td><TextInput is_read_only="@p.is_built_in" @bind-text="@p.unit_name" placeholder="Unit Name" /></td>
+            <td><TextInput is_read_only="@p.is_built_in" @bind-text="@p.unit_name" placeholder="Unit Name" width="120px"/></td>
             <td>
                 <SelectUnitTypeName is_read_only="@p.is_built_in" @bind-selected_value="@p.type_name" is_horizontal="false"/>
             </td>
