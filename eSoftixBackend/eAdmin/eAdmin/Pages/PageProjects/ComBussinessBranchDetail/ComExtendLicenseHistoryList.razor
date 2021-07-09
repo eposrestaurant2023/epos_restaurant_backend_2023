@@ -7,9 +7,9 @@
                         </div>
                             <MudCard Class="mt-2" Square="false"> 
                                 <MudCardContent>
-                                       <LabelDeleted is_visible="true"/>
-                                       <LabelExpiredProject visible="true"/>
-                                       <LabelFullLicense visible="true"/>
+                                       <LabelDeleted is_visible="@station.is_deleted"/>
+                                       <LabelExpiredProject visible="@(DateTime.Now > station.expired_date)"/>
+                                       <LabelFullLicense visible="@station.is_full_license"/>
                                       <MudText Typo="Typo.body2"><span style="font-style:italic">Name En :</span> @station.station_name_en</MudText>
                                       <MudText Typo="Typo.body2"><span style="font-style:italic">Name Kh :</span> @station.station_name_kh</MudText>
                                       <MudText Typo="Typo.body2"><span style="font-style:italic">Expired date :</span> @Convert.ToDateTime(station.expired_date).ToString(gv.date_format)</MudText>
