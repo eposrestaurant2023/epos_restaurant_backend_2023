@@ -1,5 +1,4 @@
-﻿
-@if (is_deleted)
+﻿@if (is_deleted)
 {
     <LabelDeleted is_visible="true"/>
 }
@@ -15,7 +14,7 @@ else
     }
     else
     {
-        <label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString(gv.date_format) (@(Math.Ceiling((expired_date - DateTime.Now).TotalDays)))</label>
+<label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString(gv.date_format) (@Math.Ceiling(((DateTime)expired_date - DateTime.Now).TotalDays))</label>
     }
 }
 @code {
