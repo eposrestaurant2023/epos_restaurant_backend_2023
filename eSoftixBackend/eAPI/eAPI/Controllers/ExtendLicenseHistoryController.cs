@@ -53,6 +53,7 @@ namespace eAPI.Controllers
                 }
 
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                db.Database.ExecuteSqlRaw($"exec sp_update_station_information '{u.station_id}'");
                 return Ok(u);
 
             }

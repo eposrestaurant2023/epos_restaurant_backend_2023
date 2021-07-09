@@ -1,7 +1,6 @@
 ﻿
 <UIPanel Title="Outlet and Station">
     <UIPanelHeaderRight>
-        @is_open_history_extend
         <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddNewOutlet"/>
     </UIPanelHeaderRight> 
     <UIPanelBody> 
@@ -9,7 +8,6 @@
         {
             <MudExpansionPanels>
               <MudGrid>
-
                 @foreach (var d in outlets)
                 {
                    <MudItem xs="12" sm="12" md="12">
@@ -38,7 +36,6 @@
                                            <MudCard>
                                                 <MudCardHeader>
                                                     <CardHeaderAvatar>
-                                                         
                                                         <MudIcon Icon="@Icons.Material.Filled.DesktopWindows" Size="MudBlazor.Size.Large" />
                                                     </CardHeaderAvatar>
                                                     <CardHeaderContent>
