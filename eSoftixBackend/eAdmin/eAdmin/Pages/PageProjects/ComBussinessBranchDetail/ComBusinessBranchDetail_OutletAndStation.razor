@@ -18,11 +18,11 @@
                                 <LabelDeleted  is_visible="@d.is_deleted"/>
                                  
                                 <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading" ClassName="d-flex ml-auto pa-0" >
-                                    <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditOutlet_Click(d))">Edit</MudMenuItem>
+                                    <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditOutlet_Click(d))">Edit</MenuButtonItem>
                                     <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteOutlet_Click(d))">Delete</MenuButtonItem>
                                     <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteOutlet_Click(d))">Restore</MenuButtonItem>
                                     <MudDivider/>
-                                    <MudMenuItem  roles="@gv.GetRole("project_add")"  icon="@Icons.Material.Filled.DesktopWindows" OnClick="@(()=>AddNewStation(d))">Add New Station</MudMenuItem>
+                                    <MenuButtonItem  roles="@gv.GetRole("project_add")"  icon="@Icons.Material.Filled.DesktopWindows" OnClick="@(()=>AddNewStation(d))">Add New Station</MenuButtonItem>
                                     
                                  </MenuButton>
                          
@@ -42,16 +42,16 @@
                                                         <MudText Typo="Typo.body1">@s.station_name_en</MudText>
                                                         <MudText Typo="Typo.body1"><span style="font-style:italic;font-size:12px;">Expired Date:</span> @Convert.ToDateTime(s.expired_date).ToString(gv.date_format)</MudText>
                                                         <LabelDeleted is_visible="@d.is_deleted"/>
-                                                        <LabelExpiredProject visible="true"/>
-                                                        <LabelFullLicense visible="true"/>
+                                                        <LabelExpiredProject visible="@(s.expired_date < DateTime.Now)"/>
+                                                        <LabelFullLicense visible="@s.is_full_license"/>
                                                     </CardHeaderContent>
                                                     <CardHeaderActions>
                                                         <MudIconButton  Color="MudBlazor.Color.Primary" OnClick="@(() => ToggleDrawer(s))" Icon="@Icons.Material.Filled.ErrorOutline" Style="margin-top: -14px;"/>
                                                         <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading">
-                                                            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStation_Click(s))">Edit</MudMenuItem>
-                                                            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>AddNewExtendLisence(s))">Extend Expired Date</MudMenuItem>
-                                                            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.LockClock" OnClick="@(()=>EditStation_Click(s))">Mark as Full License</MudMenuItem>
-                                                            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Cancel Full License</MudMenuItem>
+                                                            <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStation_Click(s))">Edit</MenuButtonItem>
+                                                            <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>AddNewExtendLisence(s))">Extend Expired Date</MenuButtonItem>
+                                                            <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.LockClock" OnClick="@(()=>EditStation_Click(s))">Mark as Full License</MenuButtonItem>
+                                                            <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Cancel Full License</MenuButtonItem>
                                                             <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Delete</MenuButtonItem>
                                                             <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Restore</MenuButtonItem>
                                                         </MenuButton>
