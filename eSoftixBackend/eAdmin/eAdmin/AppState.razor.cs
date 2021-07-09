@@ -52,6 +52,8 @@ namespace eAdmin
             }
         }
 
+        public string theme { get; set; } = "";
+
         private MudTheme _current_theme;
         public MudTheme current_theme
         {
@@ -60,8 +62,13 @@ namespace eAdmin
                 if (_current_theme == null)
                 {
                     _current_theme = defaultTheme;
+                 
                 }
-
+                theme = "";
+                if (_current_theme == darkTheme)
+                {
+                    theme = "dark";
+                }
                 return _current_theme;
             }
 
