@@ -30,7 +30,6 @@
 
        <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" Keyword="@GetFilterValue2(state.filters, "keyword","")" OnRemoveKeywordClick="@OnRemoveKeyword" OnRemoveAllFilterClick="@RemoveAllFilter" />
 
-
         <Table Items="@customers"
                 PerPage="@state.pager.per_page"
                 TotalItem="@TotalRecord"

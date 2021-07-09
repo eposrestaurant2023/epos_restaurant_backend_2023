@@ -50,7 +50,8 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] RoleModel u)
         {
-            var r = db.Roles.Where(r=>r.role_name.ToLower() == u.role_name.ToLower());
+            var r = db.Roles.Where(r=>r.role_name.ToLower() == u.role_name.ToLower() && r.is_deleted == false);
+            
             if (u.id == 0)
             {
                 if (r.Any())
@@ -111,22 +112,13 @@ namespace eAPI.Controllers
         }
 
         [HttpPost("SavePermission")]
-        public async Task<ActionResult<RoleModel>> SavePermission([FromBody] RoleModel p)
+        public ActionResult<RoleModel> SavePermission([FromBody] OptionModel option)
         {
-            if (p.permission_option_roles.Any())
+            if (!string.IsNullOrEmpty(option.options) )
             {
-                RoleModel r = db.Roles.Include(r => r.permission_option_roles).Where(r => r.id == p.id).FirstOrDefault();
-                r.role_name = p.role_name;
-                r.description = p.description;
-                r.permission_option_roles.Clear();
-                db.Roles.Update(r);
-                r.permission_option_roles = p.permission_option_roles;
-                db.Roles.Update(r);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                db.Database.ExecuteSqlRaw("exec sp_update_permission_option_role");
-                return Ok(r);
+                db.Database.ExecuteSqlRaw($"exec sp_update_permission_option_role {option.role_id},'{option.options}'");
             }
-            return Ok();
+            return Ok();    
         }
     }
 }

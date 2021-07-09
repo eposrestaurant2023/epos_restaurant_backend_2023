@@ -1,0 +1,69 @@
+﻿@*@inherits PageCore
+<Loading is_loading="@(is_saving)"/>
+ <EditForm Model="@model" OnValidSubmit="@Save_Click">
+<Modal>
+    <ModalContent>
+        <DataAnnotationsValidator />
+        <FileUpload @bind-ImageUrl="@model.photo"></FileUpload>
+        <MudTextField T="string" @bind-Value="@model.contact_name" Label="Business Branch Name (En)" For="@(() => model.contact_name)"/>
+        <UI2Columns>
+            <Left>
+            <MudSelect T="string" Label="Coffee">
+                <MudSelectItem Text="@("Please select gender")" Value="@(null)"/>
+                <MudSelectItem Text="@("Male")" Value="@("Male")"/>
+                <MudSelectItem Text="@("Female")" Value="@("Female")"/>
+            </MudSelect>
+                <MudTextField T="string" @bind-Value="@model.gender" Label="Gender" />
+            </Left>
+            <Right>
+                <MudTextField T="string" @bind-Value="@model.postion" Label="Email" />
+            </Right>
+        </UI2Columns>
+        <UI2Columns>
+            <Left>
+                <MudTextField T="string" @bind-Value="@model.phone_1" Label="Phone" />
+            </Left>
+            <Right>
+                <MudTextField T="string" @bind-Value="@model.phone_2" Label="Phone" />
+            </Right>
+        </UI2Columns>
+        <UI2Columns>
+            <Left>
+                <MudTextField T="string" @bind-Value="@model.telegram" Label="Phone" />
+            </Left>
+            <Right>
+                <MudTextField T="string" @bind-Value="@model.email_address" Label="Phone" />
+            </Right>
+        </UI2Columns>
+    </ModalContent>
+    <ActionButton>
+        <SaveButton  is_loading="@is_saving" />
+    </ActionButton>
+</Modal>
+</EditForm>
+
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    bool is_saving;
+    [Parameter] public ContactModel model { get;set; }
+
+    public async Task Save_Click()
+    {
+        is_saving = true;
+        var resp = await http.ApiPost("Contact", model);
+        if (resp.IsSuccess)
+        {
+           AddToast("Save business branch successfully");
+            MudDialog.Close(DialogResult.Ok(model));
+        }else
+        {
+            AddToast("Save business branch fail", Severity.Warning);
+        }
+            
+        is_saving = false;
+    }
+
+}
+ 
+*@

@@ -23,7 +23,6 @@
     border-radius: 100%;
     border: 6px solid #ff0000;
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-    margin-left: 250px;
 }
 
 .is_segment {
@@ -311,7 +310,10 @@ a.disabled, a.disabled:hover {
 .description {
     white-space: pre-wrap
 }
-
+.background_flayout {
+    color: var(--mud-palette-info-darken);
+    background-color: var(--mud-palette-info-hover);
+}
 .width-1-1 {
     width: 100%;
 }
@@ -343,8 +345,12 @@ a.disabled, a.disabled:hover {
 .wrap-text {
     white-space: pre-line;
 }
- 
 
+.mud-dialog-content .mud-picker .mud-picker-inline-paper {
+    top:0 !important;
+    position: fixed !important;
+    z-index: calc(var(--mud-zindex-popover) + 1);
+}
 
 @media only screen and (min-width: 960px) {
     .width_medui {

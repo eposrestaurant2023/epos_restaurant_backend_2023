@@ -277,6 +277,10 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("photo")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("postion")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -632,6 +636,39 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.ToTable("tbl_document_number");
+                });
+
+            modelBuilder.Entity("eModels.ExtendLicenseHistoryModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("extend_date")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("station_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("station_id");
+
+                    b.ToTable("tbl_extend_liscense_history");
                 });
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
@@ -1313,6 +1350,45 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_role");
                 });
 
+            modelBuilder.Entity("eModels.SearchModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("alias")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("description")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("icon")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("keyword")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("photo")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("title")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("url")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_search");
+                });
+
             modelBuilder.Entity("eModels.SettingModel", b =>
                 {
                     b.Property<int>("id")
@@ -1364,14 +1440,29 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("expired_date")
+                    b.Property<DateTime?>("expired_date")
                         .HasColumnType("date");
+
+                    b.Property<string>("full_license_by")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("full_license_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("hardware_detail")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_full_license")
                         .HasColumnType("bit");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -1385,6 +1476,10 @@ namespace eAPI.Migrations
                     b.Property<string>("station_name_kh")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("station_type")
+                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("status")
@@ -1706,6 +1801,17 @@ namespace eAPI.Migrations
                     b.Navigation("customer_group");
                 });
 
+            modelBuilder.Entity("eModels.ExtendLicenseHistoryModel", b =>
+                {
+                    b.HasOne("eModels.StationModel", "station")
+                        .WithMany("extend_license_histories")
+                        .HasForeignKey("station_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("station");
+                });
+
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
@@ -1941,6 +2047,11 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.RoleModel", b =>
                 {
                     b.Navigation("permission_option_roles");
+                });
+
+            modelBuilder.Entity("eModels.StationModel", b =>
+                {
+                    b.Navigation("extend_license_histories");
                 });
 
             modelBuilder.Entity("eModels.SystemFeatureModel", b =>

@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 <Loading is_loading="@is_saving" />
-    <IngredientProductTypeahead @bind-product="@product" />
+    <IngredientProductTypeahead product="@product" productChanged="@OnSelected"/>
     <hr />
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
@@ -73,31 +73,25 @@
     [Parameter] public ModifierModel model { get; set; }
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
-
+     
+    public ProductModel product { get; set; }
     bool is_saving;
-    private ProductModel _product;
-
-    public ProductModel product
+    void OnSelected(ProductModel value)
     {
-        get { return _product; }
-        set
+        var data = model.modifier_ingredients.Where(r => r.ingredient_id == value.id && r.ingredient.product_name_en == value.product_name_en && r.is_deleted == false);
+
+        if (data.Any())
         {
-            var data = model.modifier_ingredients.Where(r => r.ingredient_id == value.id && r.is_deleted == false);
-
-            if (data.Any())
-            {
-                data.FirstOrDefault().quantity = data.FirstOrDefault().quantity + 1;
-            }
-            else
-            {
-                model.modifier_ingredients.Add(new ModifierIngredientModel() {ingredient = value,ingredient_id = value.id, unit = value.unit, unit_id = value.unit_id, cost = value.cost });
-            }
-            value = null;
-            _product = value;
+            data.FirstOrDefault().quantity = data.FirstOrDefault().quantity + 1;
         }
+        else
+        {
+            if (value.unit == null) value.unit = gv.units.Where(r => r.id == 1).FirstOrDefault();
+            value.product_category_id = gv.product_categories.Where(r => r.is_defualt == true).FirstOrDefault().id;
+            model.modifier_ingredients.Add(new ModifierIngredientModel() { ingredient = value, ingredient_id = value.id, unit = value.unit, unit_id = value.unit_id, cost = value.cost });
+        }
+        value = null;
     }
-
-
 
 
     void OnDeleteClick(ModifierIngredientModel p)

@@ -1,0 +1,73 @@
+﻿@*@inherits PageCore
+@inject IDialogService Dialog
+    <UIPanel>
+    <UIPanelHeaderLeft>
+        <MudText Typo="Typo.h6" Class="d-flex align-center">
+            Contact
+        </MudText>
+    </UIPanelHeaderLeft>
+    
+    <UIPanelHeaderRight>
+        <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddNewClick">
+            
+        </MudIconButton>
+    </UIPanelHeaderRight>
+    <UIPanelBody>
+        @if (!is_loading && contacts != null)
+        {
+            <MudList>
+                @foreach(var c in contacts){
+                    <MudListItem Class="list-item">
+                    <MudItem Class="d-flex">
+                        <MudItem Class="list-item-title">
+                            <MudAvatar Image="@($"{config.GetValue<string>("BaseUrl")}upload/{c.photo}")" Size="Size.Large"/>
+                        </MudItem>
+                        <MudItem Class="px-4">
+                            @c.contact_name<br/>
+                            <MudText Typo="Typo.caption">
+                                 @c.phone_1 / @c.phone_2
+                            </MudText>
+                            <br />
+                            <MudText Typo="Typo.caption">
+                                  @c.telegram
+                            </MudText>
+                        </MudItem>
+                    </MudItem>
+
+                </MudListItem>
+                }
+                
+            </MudList>
+        }
+        else
+        {
+            
+        }
+    </UIPanelBody>
+    </UIPanel>
+
+@code{
+    [Parameter] public string customer_id{get;set;}
+    List<ContactModel> contacts { get; set; } = new List<ContactModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading=true;
+        var res = await http.ApiGetOData($"Contact?$filter=customer_id eq {customer_id}");
+        if(res.IsSuccess){
+            contacts = JsonSerializer.Deserialize<List<ContactModel>>(res.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+    async Task AddNewClick()
+    {
+        var parameters = new DialogParameters { ["model"]=new ContactModel(){ customer_id = new Guid(customer_id) }};
+        var dialog = Dialog.Show<ComAddBusinessBranch>("New Contact",parameters);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            contacts.Add((ContactModel)result.Data);
+        }
+    }
+}*@

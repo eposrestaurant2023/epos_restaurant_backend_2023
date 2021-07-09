@@ -1,9 +1,12 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIContainerBox Title="@lang["Inventory / Ingredient Product"]">
     <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)"/>
-    <Com is_visible="@(is_show_ingredient)">
-        <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
-    </Com>
+   @if(gv.project_has_advance_inventory){
+         <Com is_visible="@(is_show_ingredient)">
+            <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
+        </Com>
+   }
+ 
      
     <Com is_visible="@(model.is_inventory_product)"> 
         @if(model.stock_location_products != null && model.stock_location_products.Any()){
@@ -71,6 +74,25 @@
             </tfoot>
         </table>
         }
+        <div class="defualt-stock-location">
+            <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
+            <Tab>
+                <TabHeader> 
+                    @foreach (var b in model.default_stock_location_products)
+                    { 
+                            <TabHeaderItem>@b.business_branch.business_branch_name_en</TabHeaderItem> 
+                    }
+                </TabHeader>
+                <TabBody>
+                    @foreach (var b in model.default_stock_location_products)
+                    {
+                        <TabItem>
+                            <SelectStockLocation show_empty="true" @bind-selected_value="@b.stock_location_id" business_branch_id="@b.business_branch_id" empty_text="Select Defualt Stock Location"/>
+                        </TabItem>
+                    }
+                </TabBody>
+            </Tab>
+        </div>
     </Com>
 </UIContainerBox>
 @code {
@@ -92,21 +114,36 @@
             {
                 if ( !model.stock_location_products.Any())
                 {
-
                     foreach (var d in gv.stock_locations)
                     {
                         model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id });
                     }
                 }
+                if(!model.default_stock_location_products.Any()){
+                    foreach (var d in gv.bussiness_branches.Where(r=>r.is_deleted==false).ToList())
+                    {
+                        if (gv.stock_locations.Where(r=>r.business_branch_id == d.id).Any())
+                        {
+                            model.default_stock_location_products.Add(new DefaultStockLocationProductModel() {
+                                business_branch_id = d.id,
+                                business_branch = d,
+                                stock_location_id = gv.stock_locations.Where(r => r.is_default == true && r.business_branch_id == d.id).Any() ? gv.stock_locations.Where(r=>r.is_default==true && r.business_branch_id == d.id).FirstOrDefault().id : Guid.Empty
+                            });
+                        }
+                    }
+                }
 
-            }else
+            }
+            else
             {
                 if (model.id == 0 )
                 {
                     model.stock_location_products.Clear();
+                    model.default_stock_location_products.Clear();
                 }
                 else {
                     model.stock_location_products.RemoveAll(r => r.id == 0);
+                    model.default_stock_location_products.RemoveAll(r => r.id == Guid.Empty);
                 }
             }
 

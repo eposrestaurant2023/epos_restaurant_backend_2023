@@ -1,4 +1,9 @@
-﻿ @inject IDialogService Dialog;
+﻿ @inject IHttpService  http;
+@inject IDialogService Dialog;
+   
+@inject IDialogService alert;
+@inject ISnackbar toast;
+<Loading is_loading="@is_loading"/>
 <UIPanel Title="Warehouse">
     <UIPanelHeaderRight>
         <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddNewStockLocation"/>
@@ -46,17 +51,21 @@
         }else
         {
             <MudText Typo="Typo.subtitle1" Align="MudBlazor.Align.Center">There is no stock location in this Branch.</MudText>
+            <div class="d-flex justify-center">
+               <MudButton StartIcon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Success" Variant="Variant.Filled" OnClick="@AddNewStockLocation"  >
+                    Add New Stock Location
+                </MudButton> 
+          </div>
         }
     </UIPanelBody>
 </UIPanel>
  
-
 @code {
-    
     [Parameter] public List<StockLocationModel> stock_locations { get; set; }
     [Parameter] public BusinessBranchModel business_branch { get; set; }
     [CascadingParameter] public AppState gv { get; set; }
-
+        
+    bool is_loading;
      async Task AddNewStockLocation()
     {
            
@@ -71,12 +80,64 @@
     }
 
     async Task EditStockLocation_Click(StockLocationModel stock_location){
-        await Task.Delay(100);
-    }
-    async Task DeleteStockLocation_Click(StockLocationModel stock_location){
-        await Task.Delay(100);
+          StockLocationModel backup_model = JsonSerializer.Deserialize<StockLocationModel>(JsonSerializer.Serialize(stock_location));
+        var parameters = new DialogParameters { ["model"]=stock_location};
+        var dialog = Dialog.Show<ComBusinessBranchDetail_AddStockLocation>("Edit Stock Location",parameters);
+        var result = await dialog.Result;
+
+        if (result.Cancelled)
+        {
+            stock_location = backup_model;
+        }
     }
 
+    async Task DeleteStockLocation_Click(StockLocationModel stock_location){
+       string message ="Are you sure you want to delete this Stock Location?";
+        if(stock_location.is_deleted){
+            message = "Are you sure you want to restore this Stock Location?";
+        }
      
+        
+      bool? result = await alert.ShowMessageBox(
+            "Warning", 
+            message, 
+            yesText:stock_location.is_deleted?"Restore":"Delete", cancelText:"Cancel");
+
+        if (result != null)
+        {
+            is_loading = true;
+            stock_location.is_deleted = !stock_location.is_deleted;
+            var resp = await http.ApiPost("StockLocation/Save", stock_location);
+            if (resp.IsSuccess)
+            {
+                if (stock_location.is_deleted)
+                {
+                    toast.Add("Delete Stock Location Successfully", Severity.Success);
+                }
+                else
+                {
+                    toast.Add("Restore Stock Location successfully", Severity.Success);
+                }
+
+
+
+            }
+            else
+            {
+                stock_location.is_deleted = false;
+                if (stock_location.is_deleted)
+                {
+                    toast.Add("Delete Stock Location Fail", Severity.Warning);
+                }
+                else
+                {
+                    toast.Add("Restore Stock Location Fail", Severity.Warning);
+                }
+
+            }
+
+        }  
+            is_loading = false;
+    }
 }
 

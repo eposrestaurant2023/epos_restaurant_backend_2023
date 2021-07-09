@@ -54,11 +54,11 @@
                         <LabelDeleted is_visible="@p.is_deleted"/>
                     </td>
                     <TdActions>
-                        <TableActionItem OnClick="@(()=>OnEdit(p.id))" icon="edit" is_visible="@(!p.is_deleted)">Edit </TableActionItem>
-                        <TableActionItem icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
-                        <TableActionItem icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
-                        <TableActionItem  icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">Delete</TableActionItem>
-                        <TableActionItem  icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">Restore</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" OnClick="@(()=>OnEdit(p.id))" icon="edit" is_visible="@(!p.is_deleted)">Edit </TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">Delete</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">Restore</TableActionItem>
                     </TdActions>
                 </RowTemplate>
             </Table>

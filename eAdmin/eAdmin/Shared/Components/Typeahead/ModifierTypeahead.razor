@@ -1,114 +1,115 @@
 ﻿@inherits PageCore
-    <div class="search-add-typeahead">
-        <Grid ClassName="uk-grid-small">
-            <div class="uk-width-auto">
-                <div class="search-add-icon">
-                    <Icon icon="search" size="25px" icon_color="#99afc5" title="Search / Add Modifier"/>
-                </div>
+<div class="search-add-typeahead">
+    <Grid ClassName="uk-grid-small">
+        <div class="uk-width-auto">
+            <div class="search-add-icon">
+                <Icon icon="search" size="25px" icon_color="#99afc5" title="Search / Add Modifier"/>
             </div>
-            <div class="uk-width-expand uk-padding-remove">
-                <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected_modifier" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
-                    <SelectedTemplate>
-                        @context.modifier_name
-                    </SelectedTemplate>
-                    <ResultTemplate>
-                        @if (!context.is_new)
-                        {
-                            <span>@context.modifier_name</span>
-                        }
-                        else
-                        {
-                            <span>Add @context.modifier_name</span>
-                        }
-                    </ResultTemplate>
-                </BlazoredTypeahead>
-            </div>
-
-        </Grid>
-    </div>
-    @code{
-
-        [Parameter] public string label { get; set; } = "Modifier";
-        [Parameter] public string status { get; set; } = "";
-        [Parameter] public string placeholder { get; set; } = "Select Modifier";
-        [Parameter] public ModifierModel modifier { get; set; }
-        [Parameter] public EventCallback<ModifierModel> modifierChanged { get; set; }
-        [Parameter] public int? modifer_id { get; set; }
-        [Parameter] public EventCallback<int> modifier_idChanged { get; set; }
-
-        List<ModifierModel> result = new List<ModifierModel>();
-        public async Task<IEnumerable<ModifierModel>> SearchModifier(string searchText)
-        {
-            if (!string.IsNullOrWhiteSpace(searchText) && searchText != "") {
-
-                string api_url = $"Modifier?keyword={searchText}&$orderby=modifier_name asc&$top=20";
-
-                state.filters.Clear();
-
-                state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
-
-                if (status == "Active")
-                {
-                    state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
-                }
-                else if (status == "Inactive")
-                {
-                    state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
-                }
-
-                api_url = api_url + GetFilter(state.filters);
-                var res = await http.ApiGetOData(api_url);
-                if (res.IsSuccess)
-                {
-                    result = JsonSerializer.Deserialize<List<ModifierModel>>(res.Content.ToString());
-                    if (!result.Any() || result.Where(r=>r.modifier_name.ToLower() != searchText.ToLower()).Any())
+        </div>
+        <div class="uk-width-expand uk-padding-remove">
+            <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
+                <SelectedTemplate>
+                    @context.modifier_name
+                </SelectedTemplate>
+                <ResultTemplate>
+                    @if (!context.is_new)
                     {
-                        result.Add(new ModifierModel() { modifier_name = searchText, is_new = true });
+                        <span>@context.modifier_name</span>
                     }
-                    return result;
+                    else
+                    {
+                        <span>Add @context.modifier_name</span>
+                    }
+                </ResultTemplate>
+            </BlazoredTypeahead>
+        </div>
 
-                }
+    </Grid>
+</div>
+@code{
+
+    [Parameter] public string label { get; set; } = "Modifier";
+    [Parameter] public string status { get; set; } = "";
+    [Parameter] public string placeholder { get; set; } = "Select Modifier";
+    [Parameter] public ModifierModel modifier { get; set; }
+    [Parameter] public EventCallback<ModifierModel> modifierChanged { get; set; }
+    [Parameter] public int? modifer_id { get; set; }
+    [Parameter] public EventCallback<int> modifier_idChanged { get; set; }
+
+    List<ModifierModel> result = new List<ModifierModel>();
+    public async Task<IEnumerable<ModifierModel>> SearchModifier(string searchText)
+    {
+        if (!string.IsNullOrWhiteSpace(searchText) && searchText != "") {
+
+            string api_url = $"Modifier?keyword={searchText}&$orderby=modifier_name asc&$top=20";
+
+            state.filters.Clear();
+
+            state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
+
+            if (status == "Active")
+            {
+                state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
             }
-            return new List<ModifierModel>();
+            else if (status == "Inactive")
+            {
+                state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
+            }
+
+            api_url = api_url + GetFilter(state.filters);
+            var res = await http.ApiGetOData(api_url);
+            if (res.IsSuccess)
+            {
+                result = JsonSerializer.Deserialize<List<ModifierModel>>(res.Content.ToString());
+                if (!result.Any() || result.Where(r=>r.modifier_name.ToLower() != searchText.ToLower()).Any())
+                {
+                    result.Add(new ModifierModel() { modifier_name = searchText, is_new = true });
+                }
+                return result;
+
+            }
         }
+        return new List<ModifierModel>();
+    }
 
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
+    {
+        if (modifier != null)
         {
-            if (modifier != null)
+            if (modifier.id == 0)
             {
-                if (modifier.id == 0)
-                {
-                    selected_modifier = null;
-                }
-                else
-                {
-                    selected_modifier = modifier;
-                }
+                selected = null;
             }
-            await SearchModifier("");
+            else
+            {
+                selected = modifier;
+            }
         }
+        await SearchModifier("");
+    }
 
-        private ModifierModel _selected_modifier;
-        public ModifierModel selected_modifier
+    private ModifierModel _selected;
+    public ModifierModel selected
+    {
+        get
         {
-            get
-            {
-                _selected_modifier = modifier;
-                return _selected_modifier;
-            }
-            set
-            {
-                _selected_modifier = value;
+            _selected = modifier;
+            return _selected;
+        }
+        set
+        {
+            _selected = value;
 
-                modifierChanged.InvokeAsync(value);
-                if (value != null)
-                {
-                    modifier_idChanged.InvokeAsync(value.id);
-                }
-                else
-                {
-                    modifier_idChanged.InvokeAsync(0);
-                }
+            modifierChanged.InvokeAsync(value);
+            if (value != null)
+            {
+                modifier_idChanged.InvokeAsync(value.id);
+            }
+            else
+            {
+                modifier_idChanged.InvokeAsync(0);
             }
         }
     }
+
+}

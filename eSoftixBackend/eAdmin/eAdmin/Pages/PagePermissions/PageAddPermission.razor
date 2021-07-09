@@ -26,27 +26,12 @@
                             </MudTextField>
                         </UIPanel>
                         <UIPanel>
-                            @if (PermissionOptions.Where(r => r.permission_option_roles.Count == 0).ToList().Count > 0)
-                                {
-                                    <MudCheckBox T="bool" CheckedChanged="@(()=>SelectAllRoleClick(true))" Color="MudBlazor.Color.Tertiary">
-                                        <MudText Typo="Typo.body1">
-                                            Select All
-                                        </MudText>
-                                    </MudCheckBox>
-                                    
-                                }
-                                else
-                                {
-                                    <MudCheckBox T="bool" Checked="true" CheckedChanged="@(()=>SelectAllRoleClick(false))" Color="MudBlazor.Color.Tertiary">
-                                        <MudText Typo="Typo.body1">
-                                            Unselect All
-                                        </MudText>
-                                    </MudCheckBox>
-                                    
-                                }
-                                <CascadingValue Value="@PermissionOptions">
-                                    <ComPermissionOptionTree role_id="@role_id" parent_id="null" OnSelect="@SelectedPermission_Click" />
-                                </CascadingValue>
+                             <MudTreeView CanActivate="true" @bind-SelectedValues="@SelectedOption" Items="@(new HashSet<PermissionModel>(permissions))" CanSelect="true" Context="d">
+                                    <ItemTemplate>
+                                        <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@d.ChildItem" Value="@d"
+                                                        Text="@d.note" />
+                                    </ItemTemplate>
+                                </MudTreeView>
                         </UIPanel>
                     </UICenter>
                     <PageFooter>

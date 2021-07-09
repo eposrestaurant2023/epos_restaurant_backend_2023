@@ -47,9 +47,7 @@ if(state.is_logined ){
                     <MudListItem Icon="@Icons.Material.Filled.Brightness4"  OnClick="@ChangeTheme" IconColor="MudBlazor.Color.Inherit">
                        Dark Mode
                     </MudListItem>
-               
                 </MudList>
-              
             <MudNavMenu>
                <MudNavGroup Title="Quick Add" Icon="@Icons.Material.Outlined.Add" Expanded="true">
                 <MudNavLink Href="@($"customer/new")" Icon="@Icons.Material.Filled.Person" IconColor="MudBlazor.Color.Default">New Customer</MudNavLink>
@@ -57,7 +55,7 @@ if(state.is_logined ){
             </MudNavGroup>
             </MudNavMenu>
             <div style="height:20px;"></div>
-           <div style="text-align:center;">
+            <div style="text-align:center;">
             <MudButton Link="auth/logout"
                        Variant="Variant.Filled"
                        EndIcon="@Icons.Material.Outlined.Login"
@@ -66,7 +64,7 @@ if(state.is_logined ){
             </MudButton>
           </div>
         </MudDrawer>
-    <MudMainContent Class="mb-8 pb-8">
+    <MudMainContent Class="@($"mb-8 pb-8 {state.theme}")">
        
             @Body
         

@@ -1,6 +1,8 @@
-﻿@if(is_visble){ 
-    <MudAlert Severity="Severity.Warning" Class="my-4">This project will be expire on @expired_date (@duration Day(s)) </MudAlert>    
+﻿@if(is_visble){
+    <MudAlert Severity="Severity.Warning" Class="my-4">This project will be expire on @expired_date (@duration Day(s)) </MudAlert>
 }
+        
+
 
 @code {
     [Parameter] public ProjectModel model { get; set; }
@@ -49,7 +51,7 @@
                 if (model.expired_date != null)
                 {
                     DateTime my_date = Convert.ToDateTime(model.expired_date);
-                    return (int)(my_date - DateTime.Now).TotalDays ;
+                    return (int)(my_date -  Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"))).TotalDays ;
                 }
             return 0;
 

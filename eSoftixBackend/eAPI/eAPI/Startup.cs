@@ -118,6 +118,7 @@ namespace eAPI
             odataBuilder.EntitySet<CustomerModel>("Customer");
 
             odataBuilder.EntitySet<AttachFilesModel>("AttachFiles");
+            odataBuilder.EntitySet<ContactModel>("Contact");
             odataBuilder.EntitySet<SettingModel>("Setting");
             odataBuilder.EntitySet<HistoryModel>("History");
             odataBuilder.EntitySet<AttachFileModel>("AttachFile");
@@ -126,6 +127,7 @@ namespace eAPI
             odataBuilder.EntitySet<OutletModel>("Outlet");
             odataBuilder.EntitySet<StationModel>("Station");
             odataBuilder.EntitySet<StockLocationModel>("StockLocation");
+            odataBuilder.EntitySet<ExtendLicenseHistoryModel>("ExtendLicenseHistory");
 
             odataBuilder.EntitySet<ProjectSystemFeatureModel>("ProjectSystemFeature");
             var project_feature = odataBuilder.EntitySet<ProjectSystemFeatureModel>("ProjectSystemFeature");
