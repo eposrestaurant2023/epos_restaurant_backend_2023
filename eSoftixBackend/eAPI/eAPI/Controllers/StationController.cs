@@ -53,7 +53,6 @@ namespace eAPI.Controllers
                 }
 
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                db.Database.ExecuteSqlRaw($"exec sp_update_station_information '{u.id}'");
                 return Ok(u);
 
             }
@@ -92,7 +91,7 @@ namespace eAPI.Controllers
             var u = await db.Stations.FindAsync(id);
             u.is_deleted = !u.is_deleted;
             db.Stations.Update(u);
-            await db.SaveChangesAsync();
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
         }
     }
