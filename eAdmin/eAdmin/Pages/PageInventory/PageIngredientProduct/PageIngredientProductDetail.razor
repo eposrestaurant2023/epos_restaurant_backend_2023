@@ -45,10 +45,9 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_association_products = true)">@lang["Associate Product"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>show_association_products = true)">@lang["Associate Products & Modifiers"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_inventory_transation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
-                    
                 </TabHeader>
                 <TabBody>
                     <TabItem>
@@ -57,7 +56,7 @@
                     <TabItem>
                         @if (show_association_products)
                         {
-                        <ComIngredientProductDetail_AssociationProducts ingredient_id="@model.id" />
+                            <ComIngredientProductDetail_AssociationProductsAndModifiers ingredient_id="@model.id"/>
                         }
                         
                     </TabItem>

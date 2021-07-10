@@ -12,7 +12,7 @@
     <PageContainer roles="@gv.GetRole("product_management")" is_container="false">
         <PageHeader is_subpage="true">
             <HeaderLeft>
-                <PageTitle>
+                <PageTitle ShowFilter="false">
                     <HeaderTemplate><span>Association Products</span></HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -26,60 +26,59 @@
         </PageHeader>
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
- 
-                <Table Items="@models"
-                       PerPage="@state.pager.per_page"
-                       TotalItem="@TotalRecord"
-                       CurrentPage="@state.pager.current_page"
-                       OnPagerChange="@SelectChange"
-                       OnPageChange="@ChangePager"
-                       isLoading="@is_loading_data"
-                       ShowPager="true"
-                       ShowCounter="true"
-                       ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto">
-                    <TableHeader>
-                        <ThCenter>@lang["Image"]</ThCenter>
-                        @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-                        @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
-                        @HeaderTemplate("product_category/product_category_en", lang["Category"])
-                        <ThRight>@lang["Price"]</ThRight>
-                        <ThRight>
-                            @lang["Status"]
-                        </ThRight>
-                        <th class="uk-width-auto"></th>
-                    </TableHeader>
-                    <RowTemplate Context="p">
-                        <TdCenter>
-                            <Image ImageUrl="@http.ImageUrl(p.product?.photo)" PopupImageUrl="@http.ImageUrl(p.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
-                        </TdCenter>
-                        <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("")" url="@($"product/{p.product_id}")">@p.product?.product_code</ComAuthorize>
-                        </TdCenter>
-                        <td>
-                            <ComAuthorize roles="@gv.GetRole("")" url="@($"product/{p.product_id}")">@p.product_name_en @(!string.IsNullOrEmpty(p.product_name_kh)? $"({p.product_name_kh})":"")</ComAuthorize>
-                        </td>
-                        <td>@p.product?.product_category?.product_category_en</td>
-                        <TdRight>
-                            @if (p.product.min_price == p.product?.max_price)
-                                {
-                                <span>@p.product?.min_price.ToString(gv.currency_format)</span>
-                                }
-                                else
-                                {
-                                <span>@p.product?.min_price.ToString(gv.currency_format) - @p.product?.max_price.ToString(gv.currency_format)</span>
-                                }
-                        </TdRight>
-                        <TdCenter>
-                            <LabelDeleted is_visible="@p.product.is_deleted" />
-                            <LabelActive is_visible="@(!p.product.is_deleted && p.product.status)" />
-                            <LabelInActive is_visible="@(!p.product.is_deleted && !p.product.status)" />
-                        </TdCenter>
-                        <TdActions>
-                            <TableActionItem icon="visibility" is_visible="@(!p.product.is_deleted)" url="@($"product/{p.product_id}")">View</TableActionItem>
-                        </TdActions>
-                    </RowTemplate>
-                </Table>
+            <Table Items="@models"
+                    PerPage="@state.pager.per_page"
+                    TotalItem="@TotalRecord"
+                    CurrentPage="@state.pager.current_page"
+                    OnPagerChange="@SelectChange"
+                    OnPageChange="@ChangePager"
+                    isLoading="@is_loading_data"
+                    ShowPager="true"
+                    ShowCounter="true"
+                    ClassName="uk-table-small uk-table-striped uk-table-hover"
+                    ScrollClass="uk-overflow-auto">
+                <TableHeader>
+                    <ThCenter>@lang["Image"]</ThCenter>
+                    @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
+                    @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
+                    @HeaderTemplate("product_category/product_category_en", lang["Category"])
+                    <ThRight>@lang["Price"]</ThRight>
+                    <ThRight>
+                        @lang["Status"]
+                    </ThRight>
+                    <th class="uk-width-auto"></th>
+                </TableHeader>
+                <RowTemplate Context="p">
+                    <TdCenter>
+                        <Image ImageUrl="@http.ImageUrl(p.product?.photo)" PopupImageUrl="@http.ImageUrl(p.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                    </TdCenter>
+                    <TdCenter>
+                        <a href="@($"product/{p.product_id}")">@p.product?.product_code</a>
+                    </TdCenter>
+                    <td>
+                        <a href="@($"product/{p.product_id}")">@p.product?.product_name_en @(!string.IsNullOrEmpty(p.product?.product_name_kh)? $"({p.product?.product_name_kh})":"")</a>
+                    </td>
+                    <td>@p.product?.product_category?.product_category_en</td>
+                    <TdRight>
+                        @if (p.product.min_price == p.product?.max_price)
+                            {
+                            <span>@p.product?.min_price.ToString(gv.currency_format)</span>
+                            }
+                            else
+                            {
+                            <span>@p.product?.min_price.ToString(gv.currency_format) - @p.product?.max_price.ToString(gv.currency_format)</span>
+                            }
+                    </TdRight>
+                    <TdCenter>
+                        <LabelDeleted is_visible="@p.product.is_deleted" />
+                        <LabelActive is_visible="@(!p.product.is_deleted && p.product.status)" />
+                        <LabelInActive is_visible="@(!p.product.is_deleted && !p.product.status)" />
+                    </TdCenter>
+                    <TdActions>
+                        <TableActionItem icon="visibility" is_visible="@(!p.product.is_deleted)" url="@($"product/{p.product_id}")">View</TableActionItem>
+                    </TdActions>
+                </RowTemplate>
+            </Table>
  
         </PageBody>
     </PageContainer>
