@@ -12,6 +12,7 @@ namespace eModels
     {
         public ProjectModel()
         {
+            project_system_features = new List<ProjectSystemFeatureModel>();
             business_branches = new List<BusinessBranchModel>();
             contacts = new List<ContactRelatedModel>();
         }

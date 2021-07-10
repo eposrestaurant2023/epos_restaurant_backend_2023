@@ -26,25 +26,23 @@
                  <UIPanelBody>
                      @if(project.business_branches!=null && project.business_branches.Count()>0){ 
                          <MudList Clickable="true">
-
-                        @foreach(var d in project.business_branches)
-                        {
-                            if (d.is_selected)
-                            {
-                                  <MudListItem Icon="@Icons.Material.Filled.Layers" IconColor="@MudBlazor.Color.Success">
-                                        <MudText  Typo="@Typo.subtitle2">@d.business_branch_name_en</MudText>
-                                        <LabelDeleted is_visible="@model.is_deleted"/>
-                                    </MudListItem>
-                                    <MudDivider/>
-                            }else{
-                                  <MudListItem Icon="@Icons.Material.Filled.Layers" OnClick="@(()=>BusinessBranch_Click(d))">
-                                        <MudText  Typo="@Typo.subtitle2">@d.business_branch_name_en</MudText>
-                                         <LabelDeleted is_visible="@model.is_deleted"/>
-                                    </MudListItem>
-                                    <MudDivider/>
-                            }
-                      
-                        }
+                                @foreach(var d in project.business_branches)
+                                {   
+                                        @if (d.is_selected)
+                                        {
+                                            <MudListItem Icon="@Icons.Material.Filled.Layers" IconColor="@MudBlazor.Color.Success">
+                                                <MudText Typo="@Typo.subtitle2">@d.business_branch_name_en</MudText>
+                                                <LabelDeleted is_visible="@d.is_deleted"/>
+                                            </MudListItem>
+                                            <MudDivider/>
+                                        }else{
+                                            <MudListItem Icon="@Icons.Material.Filled.Layers" OnClick="@(()=>BusinessBranch_Click(d))">
+                                                <MudText Typo="@Typo.subtitle2">@d.business_branch_name_en</MudText>
+                                                    <LabelDeleted is_visible="@d.is_deleted"/>
+                                            </MudListItem>
+                                            <MudDivider/>
+                                        }
+                                }
                         </MudList>
                         }
                         else {

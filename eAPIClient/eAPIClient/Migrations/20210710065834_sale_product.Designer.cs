@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210710065834_sale_product")]
+    partial class sale_product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -862,9 +864,6 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("exchange_rate")
-                        .HasColumnType("float");
-
                     b.Property<bool>("is_create_payment_in_sale_order")
                         .HasColumnType("bit");
 
@@ -896,10 +895,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<Guid?>("sale_id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("sale_payment_exchange_rates")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");

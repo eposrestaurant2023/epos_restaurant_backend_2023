@@ -69,7 +69,7 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ProjectModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<ProjectModel>> DeleteRecord(Guid id) //Delete
         {
             var u = await db.Project.FindAsync(id);
             u.is_deleted = !u.is_deleted;
