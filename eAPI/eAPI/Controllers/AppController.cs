@@ -60,6 +60,7 @@ namespace eAPI.Controllers
             gv.unit_categories= db.UnitCategorys.ToList();
             gv.inventory_transaction_type= db.InventoryTransactionTypes.ToList();
             gv.kitchen_groups= db.KitchenGroups.ToList();
+            gv.system_features = db.system_features.ToList();
 
             return Ok(gv);
         }

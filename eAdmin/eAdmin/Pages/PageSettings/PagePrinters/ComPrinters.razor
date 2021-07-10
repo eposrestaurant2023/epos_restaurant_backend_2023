@@ -1,18 +1,17 @@
 ﻿@inject IMatToaster toast; 
 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
     <tr>
-        <Th>Printer Name</Th>
+        <ThAuto>Printer Name</ThAuto>
         <ThCenter>IPAddress</ThCenter>
         <ThCenter>Port</ThCenter>
-       
         <Th></Th>
     </tr>
     @foreach(var p in printers.Where(r=>r.is_deleted==false))
     {
         <tr>
             <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name"/></td>
-            <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address"/></TdCenter>
-            <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port"/></TdCenter>
+            <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address" width="120px"/></TdCenter>
+            <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port" width="60px"/></TdCenter>
              
             <TdCenter>
                 <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))"/>
