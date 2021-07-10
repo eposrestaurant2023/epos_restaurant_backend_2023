@@ -24,7 +24,7 @@
         </TableHeader>
         <RowTemplate Context="p">
             <TdCenter>
-                <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"receiptlist/{p.working_day_id}")">@p.working_date.ToString(gv.date_format)</ComAuthorize>
+                <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"receiptlist/sale/{p.working_day_id}")">@p.working_date.ToString(gv.date_format)</ComAuthorize>
             </TdCenter>
             <TdCenter>
                 <Column is_visible="@(p.closed_date != null)">
@@ -32,7 +32,7 @@
                 </Column>
             </TdCenter>
             <TdCenter>
-                <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"receiptlist/{p.id}")">@p.document_number</ComAuthorize>
+                <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"receiptlist/sale/{p.id}")">@p.document_number</ComAuthorize>
             </TdCenter>
             <td>
                 <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
@@ -58,7 +58,7 @@
                 <ComSaleStatus sale="@p"/>
             </TdRight>
             <TdCenter>
-                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
+                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
             </TdCenter>
         </RowTemplate>
     </Table>

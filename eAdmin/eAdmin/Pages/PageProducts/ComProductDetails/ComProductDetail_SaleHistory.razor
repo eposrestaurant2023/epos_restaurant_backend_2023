@@ -57,7 +57,7 @@
                             @p.sale?.working_date.ToString(gv.date_format)
                         </TdCenter>
                         <TdCenter>
-                            <div><a href="@($"receiptlist/{p.sale.id}")">@p.sale?.document_number</a></div>
+                            <div><a href="@($"receiptlist/sale/{p.sale.id}")">@p.sale?.document_number</a></div>
                         </TdCenter>
                         <td>
                             <ComProfileInfo url="@($"customer/{p.sale.customer_id}")" photo="@p.sale.customer?.photo" role="customer_management">@p.sale?.customer?.customer_code_name</ComProfileInfo>
@@ -79,7 +79,7 @@
                         <TdCenter>@p.sale?.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.sale?.created_by</td>
                         <TdCenter> 
-                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" /> 
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.sale_id}"))" /> 
                         </TdCenter>
                     </RowTemplate>
                 </Table>
