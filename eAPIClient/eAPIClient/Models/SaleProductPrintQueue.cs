@@ -44,5 +44,7 @@ namespace eAPIClient.Models
 
         public bool is_printed { get; set; } = false;  
         public string modifier_items { get; set; }
+
+        public string sale_product_status_note { get; set; }
     }
 }
