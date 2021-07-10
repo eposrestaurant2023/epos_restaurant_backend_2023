@@ -7,13 +7,13 @@
 
         
         <MudItem xs="12" lg="4">
-            <ComDashboardKPI Title="Warehouse" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.CropSquare" Value="@model.stock_locations.Count().ToString()"/>
+            <ComDashboardKPI Title="Warehouse" color="@MudBlazor.Color.Success" Icon="@Icons.Material.Filled.CropSquare" Value="@model.stock_locations.Where(r=>r.is_deleted == false).Count().ToString()"/>
         </MudItem>
         <MudItem xs="12" lg="4">
-            <ComDashboardKPI Title="Outlet" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.BusinessCenter" Value="@model.outlets.Count().ToString()"/>
+            <ComDashboardKPI Title="Outlet" color="@MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.BusinessCenter" Value="@model.outlets.Where(r=>r.is_deleted == false).Count().ToString()"/>
         </MudItem>
         <MudItem xs="12" lg="4">
-            <ComDashboardKPI Title="Station" color="@MudBlazor.Color.Info" Icon="@Icons.Material.Filled.DesktopWindows" Value="@model.outlets.SelectMany(r=>r.stations).Count().ToString()"/>
+            <ComDashboardKPI Title="Station" color="@MudBlazor.Color.Info" Icon="@Icons.Material.Filled.DesktopWindows" Value="@model.outlets.SelectMany(r=>r.stations.Where(r=>r.is_deleted == false)).Count().ToString()"/>
         </MudItem>
     </MudGrid>
     <Spacing/>
