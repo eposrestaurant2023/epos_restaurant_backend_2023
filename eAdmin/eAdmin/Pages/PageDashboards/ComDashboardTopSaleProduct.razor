@@ -24,7 +24,7 @@
         </TableHeader>
         <RowTemplate Context="p">
             <td>
-                <ComProfileInfo url="@($"product/{p.id}")" photo="@p.photo" role="product_management">@p.product_name_en (@p.product_code)</ComProfileInfo>
+                <ComProfileInfo url="@($"product/{p.id}")" photo="@p.photo" role="@("product_management")">@p.product_name_en (@p.product_code)</ComProfileInfo>
             </td>
             <td>
                 @p.quantity.ToString(gv.quantity_format)

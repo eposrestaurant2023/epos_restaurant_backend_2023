@@ -43,8 +43,9 @@
                 </tr>
             </TableFooter>
         </Table>
-
-        <ComProductDetail_DefaultStockLocation product_id="@product_id"/>
+        @if (!is_ingredient) {
+            <ComProductDetail_DefaultStockLocation product_id="@product_id"/>
+        }
     </Com>
 </UIContainerBox>
 @if (ShowModal)
@@ -56,6 +57,7 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int product_id { get; set; }
     [Parameter] public bool product_deleted { get; set; }
+    [Parameter] public bool is_ingredient { get; set; } = false;
     List<StockLocationProductModel> models = new List<StockLocationProductModel>();
     bool is_loading, is_saving, ShowModal;
 
@@ -85,6 +87,6 @@
 
     }
 
- 
+
 
 }
