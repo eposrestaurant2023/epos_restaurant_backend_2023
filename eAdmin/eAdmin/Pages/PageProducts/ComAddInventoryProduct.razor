@@ -2,7 +2,7 @@
 <UIContainerBox Title="@lang["Inventory / Ingredient Product"]">
     <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)"/>
    @if(gv.project_has_advance_inventory){
-         <Com is_visible="@(is_show_ingredient)">
+         <Com is_visible="@(!is_ingredient)">
             <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
         </Com>
    }
@@ -74,12 +74,13 @@
             </tfoot>
         </table>
         }
+        @if (!is_ingredient) {
         <div class="defualt-stock-location">
             <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
             <Tab>
                 <TabHeader> 
                     @foreach (var b in model.default_stock_location_products)
-                    { 
+                    {
                             <TabHeaderItem>@b.business_branch.business_branch_name_en</TabHeaderItem> 
                     }
                 </TabHeader>
@@ -93,13 +94,14 @@
                 </TabBody>
             </Tab>
         </div>
+        }
     </Com>
 </UIContainerBox>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel model { get; set; }
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
-    [Parameter] public bool is_show_ingredient { get; set; } = true;
+    [Parameter] public bool is_ingredient { get; set; } = false;
 
 
     private bool _is_inventory_product;

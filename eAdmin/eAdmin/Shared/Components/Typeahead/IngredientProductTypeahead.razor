@@ -55,8 +55,9 @@
             }
             else if (status == "Inactive")
             {
-                state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
+                state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
             }
+            state.filters.Add(new FilterModel() { key="" });
 
             api_url = api_url + GetFilter(state.filters);
             var res = await http.ApiGetOData(api_url);
@@ -89,7 +90,7 @@
         }
         await SearchModifier("");
     }
- 
+
 
 
     private ProductModel _selected;
