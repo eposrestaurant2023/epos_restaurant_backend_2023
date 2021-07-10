@@ -21,5 +21,8 @@ namespace eShareModel
 
         public bool is_create_payment_in_sale_order { get; set; }
         public bool is_credit { get; set; }
+
+        public string sale_payment_exchange_rates { get; set; }
+        public double exchange_rate { get; set; }
     }
 }

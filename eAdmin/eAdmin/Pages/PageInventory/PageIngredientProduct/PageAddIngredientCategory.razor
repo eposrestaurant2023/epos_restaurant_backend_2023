@@ -38,8 +38,8 @@
                                         <td>  <TextInput label="" placeholder="@lang["Product Category Name En"]" @bind-text="@s.product_category_en" /></td>
                                         <td>  <TextInput label="" placeholder="@lang["Product Category Name Kh"]" @bind-text="@s.product_category_kh" /></td>
                                         <td>
-                                            <LabelActive OnClick="@(()=>s.status=false)" is_visible="@s.status" />
-                                            <LabelInActive OnClick="@(()=>s.status=true)" is_visible="@(!s.status)" />
+                                            <LabelActive OnClick="@(() => s.status = false)" is_visible="@s.status" />
+                                            <LabelInActive OnClick="@(() => s.status = true)" is_visible="@(!s.status)" />
                                         </td>
                                         <td>
                                             <Icon icon="delete" OnClick="@(()=>Delete_Product_Category(s))" />
@@ -81,21 +81,6 @@
 
     List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
     string ControllerApi = "ProductGroup";
-
-    public string api_url
-    {
-        get
-        {
-            string query = ControllerApi;
-            query = query + $"({id})?";
-            query = query + "$expand=product_categories($select=id,product_category_en,product_category_kh,status)";
-
-            return query;
-
-        }
-    }
-
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -153,7 +138,7 @@
         {
             api_url = ControllerApi;
             api_url = api_url + $"({id})?";
-            api_url = api_url + "$expand=product_categories($select=id,product_category_en,product_category_kh,status;$filter= is_deleted eq false),";
+            api_url = api_url + "$expand=product_categories($select=id,product_category_en,product_category_kh,status,is_defualt;$filter= is_deleted eq false),";
 
 
         }

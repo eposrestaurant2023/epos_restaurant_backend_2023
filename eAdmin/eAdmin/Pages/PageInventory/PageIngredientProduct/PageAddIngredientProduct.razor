@@ -20,9 +20,7 @@
 
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true">
-
-            </HeaderRight>
+            <HeaderRight ShowBackButton="true"/>
         </PageHeader>
         <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click())" @attributes="@formAttributes">
             <DataAnnotationsValidator />
@@ -42,14 +40,19 @@
                         <TextInput label="@lang["Product Name(KH)"]" @bind-text="@model.product_name_kh" />
                         <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true" is_ingredient_category="true">
                             <ValidationMessage For="@(()=>model.product_category_id)" />
-                        </SelectProductCategory> 
+                        </SelectProductCategory>
+                        <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@model.unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
+
+                        <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@model.unit_category_id" is_select_unit_category="true" show_empty="false">
+                            <ValidationMessage For="@(()=>model.unit_id)" />
+                        </SelectUnit>
                         <SelectStatus @bind-selected_value="@model.status" />
                     </UIContainerBox>
                     <UIContainerBox Title="Purchase Information">
                         <NumberInput label="@lang["Cost"]" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
                         <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
                     </UIContainerBox>
-                    <ComAddInventoryProduct  @bind-model="@model" is_show_ingredient="false"/>
+                    <ComAddInventoryProduct  @bind-model="@model" is_ingredient="true"/>
                     <UIContainerBox Title="@lang["Note"]">
                         <TextInput label="" placeholder="@lang["Note"]" @bind-text="@model.note" type="textarea" row="2" />
                     </UIContainerBox>

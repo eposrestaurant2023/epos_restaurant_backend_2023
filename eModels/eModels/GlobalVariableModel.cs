@@ -355,8 +355,7 @@ namespace eModels
 
         public List<SystemFeatureModel> system_features { get; set; }
         public bool project_has_inventory { get {
-                //return project_has_simple_inventory || project_has_advance_inventory; 
-                return true;
+                return project_has_simple_inventory || project_has_advance_inventory; 
             } 
         }
           public bool project_has_simple_inventory { get {

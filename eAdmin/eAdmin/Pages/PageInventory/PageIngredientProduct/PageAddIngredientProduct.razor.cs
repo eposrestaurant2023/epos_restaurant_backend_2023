@@ -93,6 +93,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 if (resp.IsSuccess)
                 {
                     model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+                    model.unit_category_id = model.unit.unit_category_id;
                 }
             }
             is_loading = false;
@@ -120,7 +121,8 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             ProductModel save_model = new ProductModel();
 
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
- 
+            // assign multipier from unit
+            save_model.product_portions.ForEach(r => r.multiplier = r.unit.multiplier);
             //remove menu
             save_model.product_menus.ForEach(r => r.menu = null);
             save_model.stock_location_products.ForEach(r => r.stock_location = null);
@@ -128,7 +130,11 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             save_model.is_ingredient_product = true;
             save_model.is_menu_product = false;
             save_model.vendor = null;
+            // remove defualt stock location
+            save_model.default_stock_location_products = null;
+
             Console.WriteLine(JsonSerializer.Serialize(save_model));
+
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
@@ -156,6 +162,17 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
     }
 
+        public void onUnitCategoryChange(int val)
+        {
+            if (model.unit_category_id != val)
+            {
+                var _data = gv.units.Where(r => r.unit_category_id == val && !r.is_deleted && r.status && r.type_name == "Reference").ToList();
 
+                model.unit_id = _data.Count > 0 ? _data.FirstOrDefault().id : 0;
+                model.unit = _data.Count > 0 ? _data.FirstOrDefault() : new UnitModel();
+                model.unit_category_id = val;
+            }
+
+        }
     }
 }

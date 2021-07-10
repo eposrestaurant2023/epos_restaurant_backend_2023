@@ -28,7 +28,7 @@
                                      File="@(new AttachFilesModel() { product_id =  id })"
                                      IsVisible="@(!model.is_deleted)" />
 
-                <AddButton url="product/new" roles="@gv.GetRole("ingredient_add")">@lang["New Ingredient"]</AddButton>
+                <AddButton url="ingredient/new" roles="@gv.GetRole("ingredient_add")">@lang["New Ingredient"]</AddButton>
 
                 <MoreButton is_loading="@(model.is_loading ||model.is_change_status || model.is_deleting || model.is_restoring)">
                     <MoreButtonItem roles="@gv.GetRole("ingredient_add")" icon="file_copy" url="@($"ingredient/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
@@ -99,7 +99,7 @@
 
     public string api_url { get {
             string url = $"Product({id})";
-            url = url + "?$expand=product_category($select=product_category_en)";
+            url = url + "?$expand=product_category($select=product_category_en),unit,vendor($select=id,vendor_code, vendor_name,photo)";
             return url;
         }
     }

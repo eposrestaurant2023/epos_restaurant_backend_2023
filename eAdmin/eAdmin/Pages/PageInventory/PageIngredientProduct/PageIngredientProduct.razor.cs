@@ -26,7 +26,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url = url + $"$expand=product_menus($expand=menu($select=id,menu_name_en);$top=10;$count=true),product_category($select=product_category_en)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                url = url + $"$expand=unit,product_category($select=product_category_en)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 return url + GetFilter(state.filters) + " and is_ingredient_product eq true";
             }
         }
@@ -60,14 +60,14 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         public void OnEdit(int id)
         {
             is_loading_data = true;
-            nav.NavigateTo($"product/edit/{id}");
+            nav.NavigateTo($"ingredient/edit/{id}");
             is_loading_data = false;
         }
 
         public void Clone_Click(int id)
         {
             is_loading_data = true;
-            nav.NavigateTo($"product/clone/{id}");
+            nav.NavigateTo($"ingredient/clone/{id}");
             is_loading_data = false;
         }
 
