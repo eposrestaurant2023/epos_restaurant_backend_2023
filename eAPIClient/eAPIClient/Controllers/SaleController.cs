@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -95,7 +96,13 @@ namespace eAPIClient.Controllers
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     }
                 }
+                FileStream fs = new FileStream($"c:\\epossync\\{model.id}.txt", FileMode.Create);
+                fs.Close();
+
+                
                 return Ok(model);
+
+              
             }
             catch
             { 
