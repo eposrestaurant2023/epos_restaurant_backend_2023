@@ -52,8 +52,7 @@ namespace eAPIClient
         public DbSet<ShiftModel> Shifts { get; set; }
         public DbSet<SaleProductModifierModel> SaleProductModifiers { get; set; }
         public DbSet<SaleStatusModel> SaleStatuses { get; set; }
-        public DbSet<SaleProductStatusModel> SaleProductStatuses { get; set; }
-        public DbSet<PrefixPriceModel> PrefixPrices { get; set; }
+        public DbSet<SaleProductStatusModel> SaleProductStatuses { get; set; } 
         public DbSet<CategoryNoteModel> CategoryNotes { get; set; }
         public DbSet<NoteModel> Notes { get; set; }
 
