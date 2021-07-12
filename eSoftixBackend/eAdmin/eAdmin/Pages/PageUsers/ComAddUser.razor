@@ -23,7 +23,7 @@
         </ModalContent>
   
     <ActionButton>
-        <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click">Ok</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click" Variant="Variant.Filled">Save</MudButton>
     </ActionButton>
 </Modal>
 
@@ -74,15 +74,16 @@
         else
         {
             var res = await http.ApiPost($"user/save?password={model.password}",model);
-                if(res.IsSuccess)
-                {
-                    toast.Add("Save Successfull",Severity.Success);
-                    MudDialog.Close(DialogResult.Ok(model));
-                }else{
-                    toast.Add(res.Content.ToString(),Severity.Warning);
-                }
+            if(res.IsSuccess)
+            {
+                toast.Add("Save Successfull",Severity.Success);
+                MudDialog.Close(DialogResult.Ok(model));
+            }else{
+                toast.Add(res.Content.ToString(),Severity.Warning);
+            }
             
         }
     }
+
 
 }

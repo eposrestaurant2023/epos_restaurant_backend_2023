@@ -38,11 +38,11 @@
             {
             if (!is_saving)
             {
-                <MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="@OnSave" Class="mr-2" Variant="Variant.Filled">Save</MudButton>
-                <MudButton StartIcon="@Icons.Material.Filled.Cancel" OnClick="@OnEdit" Class="mx-2" Color="@MudBlazor.Color.Error" Variant="Variant.Filled">Cancel</MudButton>
+                <MudButton OnClick="@OnSave" Class="mr-2" Variant="Variant.Filled" Color="MudBlazor.Color.Primary">Save</MudButton>
+                <MudButton OnClick="@OnEdit" Class="mx-2" Color="@MudBlazor.Color.Default" Variant="Variant.Filled">Cancel</MudButton>
             }else
             {
-                <MudButton StartIcon="@Icons.Material.Filled.Save" Variant="Variant.Filled" Class="mr-2" >Save <Spinner/></MudButton>    
+                <MudButton Variant="Variant.Filled" Class="mr-2" Color="MudBlazor.Color.Primary">Save <Spinner/></MudButton>    
             }
                 
             }

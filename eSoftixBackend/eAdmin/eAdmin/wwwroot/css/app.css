@@ -345,9 +345,14 @@ a.disabled, a.disabled:hover {
 .wrap-text {
     white-space: pre-line;
 }
-
+.dark .apexcharts-legend-text {
+    color: rgb(192 192 195) !important;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: Helvetica, Arial, sans-serif;
+}
 .mud-dialog-content .mud-picker .mud-picker-inline-paper {
-    top:0 !important;
+    top: 0 !important;
     position: fixed !important;
     z-index: calc(var(--mud-zindex-popover) + 1);
 }
