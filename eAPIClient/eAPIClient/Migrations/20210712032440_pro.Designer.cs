@@ -10,8 +10,8 @@ using eAPIClient;
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210712021637_remove_f")]
-    partial class remove_f
+    [Migration("20210712032440_pro")]
+    partial class pro
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -507,10 +507,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("stock_locations")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.HasKey("id");
 
                     b.ToTable("tbl_product");
@@ -854,6 +850,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal>("change_amount")
                         .HasColumnType("decimal(19,4)");
+
+                    b.Property<double>("change_exchange_rate")
+                        .HasColumnType("float");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)

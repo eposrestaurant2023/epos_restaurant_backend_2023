@@ -23,6 +23,7 @@ namespace eShareModel
         public bool is_credit { get; set; }
          
         public double exchange_rate { get; set; }
+        public double change_exchange_rate { get; set; }
 
         public decimal change_amount { get; set; }
 

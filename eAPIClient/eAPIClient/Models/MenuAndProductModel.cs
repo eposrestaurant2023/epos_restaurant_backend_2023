@@ -42,9 +42,6 @@ namespace eAPIClient.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
-
-   
-
         private string _product_code ="";
 
         public string product_code
@@ -55,10 +52,7 @@ namespace eAPIClient.Models
                 keyword +=value +" ";
             }
         }
-
-
         private string _product_name_en ="";
-
         public string product_name_en
         {
             get { return _product_name_en; }
@@ -69,7 +63,6 @@ namespace eAPIClient.Models
         }
 
         private string _product_name_kh = "";
-
         public string product_name_kh
         {
             get { return _product_name_kh; }
@@ -82,21 +75,12 @@ namespace eAPIClient.Models
         public string photo { get; set; }
         public bool is_allow_discount { get; set; }
         public bool is_inventory_product { get; set; }
-
         public string kitchen_group_name { get; set; }
         public int kitchen_group_sort_order { get; set; }
-
         public int product_category_id { get; set; } = 0;
-
         public string product_category_en { get; set; }
         public string product_category_kh { get; set; }
-
-        public string stock_locations { get; set; }
         public string product_tax_value { get; set; }
-
-
-        
-
         public int product_group_id { get; set; } = 0;
           
         public List<ProductPrinterModel> product_printers { get; set; }
@@ -107,8 +91,6 @@ namespace eAPIClient.Models
             get;
             set;
         }
-
-
     }
 
     [Table("tbl_product_menu")]
@@ -143,8 +125,6 @@ namespace eAPIClient.Models
 
     }
 
-
-    
     [Table("tbl_product_modifier")]
     public class ProductModifierModel
     {
@@ -153,7 +133,7 @@ namespace eAPIClient.Models
         public int id { get; set; }
         public int? parent_id { get; set; }
         [ForeignKey("parent_id")]
-        public ProductModifierModel parent { get; set; }    
+        public ProductModifierModel parent { get; set; }
         public int? product_id { get; set; }
         [ForeignKey("product_id")]
         public virtual ProductModel product { get; set; }
@@ -167,7 +147,6 @@ namespace eAPIClient.Models
         public bool is_section { get; set; } = false;     
 
     }
-    
     
     [Table("tbl_product_portion")]
     public class ProductPortionModel
@@ -189,7 +168,6 @@ namespace eAPIClient.Models
 
 
     }
-
 
     [Table("tbl_product_price")]
     public class ProductPriceModel
