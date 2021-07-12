@@ -6,7 +6,6 @@
             <FileUpload @bind-ImageUrl="model.photo" class_name="d-flex justify-center"></FileUpload>
             <MudTextField @bind-Value="@model.full_name" Label="Full Name"></MudTextField>
             <MudTextField @bind-Value="@model.username" Label="User Name"></MudTextField>
-            @model.password
             <MudTextField @bind-Value="@model.password" Label="Password" InputType="InputType.Password"></MudTextField>
             <MudTextField @bind-Value="@model.email" Label="Email"></MudTextField>
             <MudTextField @bind-Value="@model.phone_1" Label="Phone 1"></MudTextField>
@@ -23,7 +22,13 @@
         </ModalContent>
   
     <ActionButton>
-        <MudButton Color="MudBlazor.Color.Primary" OnClick="OnSave_Click">Ok</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" OnClick="OnSave_Click">
+            Save
+            @if (model.is_saving)
+            {
+                <Spinner IsLoading="@(model.is_saving)"/>
+            }
+        </MudButton>
     </ActionButton>
 </Modal>
 
@@ -68,6 +73,7 @@
 
     async Task OnSave_Click()
     {
+        model.is_saving =true;
         if(string.IsNullOrWhiteSpace(model.full_name)){
             toast.Add("Please enter role name.",Severity.Warning);
         }
@@ -83,6 +89,7 @@
                 }
             
         }
+        model.is_saving =false;
     }
 
 }

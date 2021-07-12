@@ -1,6 +1,6 @@
 ﻿@page "/project/{id}";
 @inherits PageProjectDetails
-<Loading is_loading="@is_loading"/>
+<Loading is_loading="@(is_loading || is_loading_data)"/>
 
 <PageContainer is_loading="@is_loading">
 @if (model != null)
@@ -24,7 +24,7 @@
             <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
             <MudDivider />
             </MudHidden>
-            <MenuButtonItem roles="@gv.GetRole("project_edit")" is_visible="@(!model.is_deleted && !model.is_closed)" icon="@Icons.Material.Filled.ContentCopy">Close Project</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_edit")" is_visible="@(!model.is_deleted && !model.is_closed)" OnClick="@OnCloseProject_Click" icon="@Icons.Material.Filled.ContentCopy">Close Project</MenuButtonItem>
             <MenuButtonItem roles="@gv.GetRole("project_edit")" is_visible="@(!model.is_deleted && model.is_closed)" icon="@Icons.Material.Filled.ContentCopy">Reopen Project</MenuButtonItem>
             <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.ContentCopy" url="@($"project/clone/{model.id}")">Clone</MenuButtonItem>
             <MenuButtonItem  roles="@gv.GetRole("project_edit")" icon="@Icons.Material.Filled.Edit" url="@($"project/edit/{id}")">Edit</MenuButtonItem>

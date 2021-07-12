@@ -49,6 +49,7 @@ namespace eShareModel
         public DateTime? deleted_date { get; set; }
 
         public bool status { get; set; } = true;
+        public DateTime? last_modified { get; set; }
 
         [NotMapped]
         [JsonIgnore]

@@ -1,0 +1,21 @@
+﻿@inject IHttpService http
+
+<Modal>
+    <ModalContent>
+        <MudTextField Label="Note" Lines="5" @bind-Value="model.closed_note"></MudTextField>
+    </ModalContent>
+    <ActionButton>
+       <MudButton Color="MudBlazor.Color.Primary" Variant="Variant.Filled" OnClick="SaveClick">Save</MudButton>
+    </ActionButton>
+</Modal>
+
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public ProjectModel model {get;set;}
+
+   void SaveClick()
+   {
+        MudDialog.Close(DialogResult.Ok(model));
+   }
+}
