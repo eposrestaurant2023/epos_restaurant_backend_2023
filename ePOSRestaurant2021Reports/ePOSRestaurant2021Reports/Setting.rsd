@@ -6,12 +6,24 @@
       <CommandText>exec sp_get_setting</CommandText>
     </Query>
     <Fields>
+      <Field Name="tax_1_name">
+        <DataField>tax_1_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
       <Field Name="date_format">
         <DataField>date_format</DataField>
         <rd:TypeName>System.String</rd:TypeName>
       </Field>
+      <Field Name="tax_2_name">
+        <DataField>tax_2_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
       <Field Name="date_time_format">
         <DataField>date_time_format</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="tax_3_name">
+        <DataField>tax_3_name</DataField>
         <rd:TypeName>System.String</rd:TypeName>
       </Field>
       <Field Name="currency_format">
@@ -20,6 +32,10 @@
       </Field>
       <Field Name="quantity_format">
         <DataField>quantity_format</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="use_shift_management">
+        <DataField>use_shift_management</DataField>
         <rd:TypeName>System.String</rd:TypeName>
       </Field>
     </Fields>
