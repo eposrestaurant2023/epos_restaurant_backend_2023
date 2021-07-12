@@ -77,12 +77,14 @@ namespace eAPI.Controllers
             return Ok(u);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("clone/{id}")]
         public ActionResult<ModifierModel> Clone(int id) //clone
         {
             var u = db.Modifiers.Find(id);
             u.id = 0;
+            u.is_deleted = false;
+            u.status = false;
             u.created_date = DateTime.Now;
             return Ok(u);
         }

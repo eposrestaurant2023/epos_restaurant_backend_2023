@@ -1,0 +1,23 @@
+﻿@inject IStringLocalizer<Resource> lang
+<Tab>
+    <TabHeader>
+        <TabHeaderItem>@lang["Products"]</TabHeaderItem>
+        <TabHeaderItem OnClick="@(()=>show_association_modifiers = true)">@lang["Modifiers"]</TabHeaderItem>
+    </TabHeader>
+    <TabBody>
+        <TabItem>
+            <ComIngredientProductDetail_AssociationProducts ingredient_id="@ingredient_id" />
+        </TabItem>
+        <TabItem>
+            @if (show_association_modifiers)
+            {
+                <ComIngredientProductDetail_AssociationModifiers ingredient_id="@ingredient_id"/>
+            }
+        </TabItem>
+    </TabBody>
+</Tab>
+@code {
+    [Parameter] public int ingredient_id { get; set; }
+    bool show_association_modifiers = false;
+
+}

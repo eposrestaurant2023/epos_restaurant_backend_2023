@@ -21,8 +21,17 @@ namespace eShareModel
 
         public bool is_create_payment_in_sale_order { get; set; }
         public bool is_credit { get; set; }
-
-        public string sale_payment_exchange_rates { get; set; }
+         
         public double exchange_rate { get; set; }
+        public double change_exchange_rate { get; set; }
+
+        public decimal change_amount { get; set; }
+
+        public int currency_id { get; set; }
+        public string currency_name_en { get; set; }
+        public string currency_name_kh { get; set; }
+
+        public string payment_type_name_en { get; set; }
+        public string payment_type_name_kh { get; set; }
     }
 }

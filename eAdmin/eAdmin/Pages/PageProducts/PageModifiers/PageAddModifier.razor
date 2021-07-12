@@ -63,7 +63,6 @@ else
     bool is_save_and_new = false;
     protected override async Task OnInitializedAsync()
     {
-        is_loading = true;
         await LoadData();
     }
 
@@ -81,6 +80,11 @@ else
             if (clone_id > 0)
             {
                 title = $"Clone : {modifier.modifier_name}";
+                modifier.id = 0;
+                modifier.is_deleted = false;
+                modifier.status = true;
+                modifier.created_date = DateTime.Now;
+
             }
             else
             {
@@ -98,8 +102,6 @@ else
     async Task Save_Click()
     {
         is_saving = true;
-        Console.WriteLine(JsonSerializer.Serialize(modifier));
-
         ModifierModel save_model = JsonSerializer.Deserialize<ModifierModel>(JsonSerializer.Serialize(modifier));
         if (clone_id > 0)
         {
