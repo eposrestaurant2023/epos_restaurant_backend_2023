@@ -1,0 +1,36 @@
+﻿@inject IHttpService http
+@inject ISnackbar toast
+<Modal>
+    <ModalContent>
+        <MudDatePicker @ref="_picker" Label="With action buttons" @bind-Date="@model.full_license_date" AutoClose="@true">
+            
+        </MudDatePicker>
+    </ModalContent>
+    <ActionButton>
+        <MudButton Variant="Variant.Filled">
+            Save
+            <Spinner IsLoading="@model.is_saving"/>
+        </MudButton>
+    </ActionButton>
+</Modal>
+
+
+@code{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    MudDatePicker _picker;
+    [Parameter] public StationModel model {get;set;}
+
+    async Task MarkAsFullLicense_Click()
+    {
+        model.is_saving =true;
+        var res = await http.ApiPost("Station/",model);
+        if(res.IsSuccess){
+            model = JsonSerializer.Deserialize<StationModel>(res.Content.ToString());
+            toast.Add(model.is_full_license?"Station mark as full license successfully":"Station cancel full license successfully");
+            MudDialog.Close(DialogResult.Ok(model));
+        }
+        model.is_saving =false;
+    }
+
+
+}

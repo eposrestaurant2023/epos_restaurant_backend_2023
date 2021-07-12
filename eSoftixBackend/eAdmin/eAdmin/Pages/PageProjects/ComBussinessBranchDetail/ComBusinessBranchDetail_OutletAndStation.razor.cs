@@ -7,6 +7,7 @@ using System.Text.Json;
 using eAdmin.Services;
 using System;
 using System.Linq;
+using eAdmin.Pages.PageProjects.ComProjectDetails;
 
 namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
 {
@@ -129,6 +130,21 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             }
         }
 
+        async Task MarkAsFullLicense_Click(StationModel _station)
+        {
+            StationModel backup_model = JsonSerializer.Deserialize<StationModel>(JsonSerializer.Serialize(_station));
+            var parameters = new DialogParameters { ["model"] = _station };
+            var dialog = Dialog.Show<ComProjectDetail_MarkAsFullLicense>(_station.is_full_license?"Cancel Full License":"Mark As Full License", parameters);
+            var result = await dialog.Result;
+            if (result.Cancelled)
+            {
+                _station = backup_model;
+            }
+            else
+            {
+                //outlets.Where(r=>r.stations.se)(StationModel)result.Data
+            }
+        }
 
         async Task DeleteStation_Click(StationModel station)
         {

@@ -1,0 +1,14 @@
+﻿@if(is_visble){ 
+<MudAlert Severity="Severity.Normal" NoIcon="true">
+    The project is closed by @model.closed_by at @(Convert.ToDateTime(model.closed_date).ToString(app.date_format))
+    <br/>
+    @model.closed_note
+</MudAlert>
+    
+}
+
+@code {
+    [CascadingParameter] AppState app { get; set; }
+    [Parameter] public ProjectModel model { get; set; }
+    [Parameter] public bool is_visble { get; set; }
+}

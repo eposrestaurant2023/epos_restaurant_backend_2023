@@ -57,7 +57,7 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
                 url = url + "stock_location_products,product_taxes,unit,";
-                url = url + "default_stock_location_products($expand=business_branch,stock_location)";
+                url = url + "default_stock_location_products($expand=business_branch,stock_location,station)";
                 return url;
         } }
 
@@ -244,24 +244,7 @@ namespace eAdmin.Pages.PageProducts
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
-            
-            
-            //foreach (var d in outlets.SelectMany(r=>r.stations).ToList())
-            //{
-            //    if (save_model.default_stock_location_products.Where(r=>r.station_id != d.id).Any())
-            //    {
-            //        save_model.default_stock_location_products.Add(
-            //            new DefaultStockLocationProductModel 
-            //            {
-            //                business_branch_id = save_model.default_stock_location_products.FirstOrDefault().business_branch_id,
-            //                stock_location_id = save_model.default_stock_location_products.FirstOrDefault().stock_location_id,
-            //                station_id = d.id
-            //            }
-            //        );
-            //    }
-            //} 
-
-            save_model.default_stock_location_products.ForEach(r => { r.business_branch = null; r.stock_location = null; });
+            save_model.default_stock_location_products.ForEach(r=> { r.business_branch = null; r.product = null; r.stock_location = null; r.station = null; });
 
             var resp = await http.ApiPost($"Product/Save", save_model);
 
