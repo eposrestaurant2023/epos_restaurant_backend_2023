@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210712065746_salechange_exchange_ratex")]
+    partial class salechange_exchange_ratex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -806,8 +808,6 @@ namespace eAPI.Migrations
 
                     b.HasIndex("product_id");
 
-                    b.HasIndex("station_id");
-
                     b.HasIndex("stock_location_id");
 
                     b.ToTable("tbl_default_stock_location_product");
@@ -842,10 +842,6 @@ namespace eAPI.Migrations
                     b.Property<string>("discount_code")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("discount_type")
-                        .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("discount_value")
@@ -1809,18 +1805,20 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_predefine_note");
                 });
 
-            modelBuilder.Entity("eModels.PredefinePaymentAmountModel", b =>
+            modelBuilder.Entity("eModels.PredefinedPaymentAmountModel", b =>
                 {
                     b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    b.Property<int>("currency_id")
+                        .HasColumnType("int");
 
                     b.Property<int>("payment_type_id")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("predefine_value")
-                        .HasColumnType("decimal(19,4)");
+                    b.Property<string>("prefix_price_value")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
@@ -1830,7 +1828,7 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("tbl_predefine_payment_amount");
+                    b.ToTable("tbl_predefined_payment_amount");
                 });
 
             modelBuilder.Entity("eModels.PriceRuleModel", b =>
@@ -4918,12 +4916,6 @@ namespace eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("eModels.StationModel", "station")
-                        .WithMany()
-                        .HasForeignKey("station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eModels.StockLocationModel", "stock_location")
                         .WithMany("default_stock_location_products")
                         .HasForeignKey("stock_location_id")
@@ -4933,8 +4925,6 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
 
                     b.Navigation("product");
-
-                    b.Navigation("station");
 
                     b.Navigation("stock_location");
                 });

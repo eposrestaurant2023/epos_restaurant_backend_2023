@@ -31,6 +31,7 @@ namespace eAPIClient.Controllers
         }
 
         [HttpPost("Sale")] 
+        [AllowAnonymous]
         public async Task<ActionResult> SyncSale(Guid saleId)
         {
             try
@@ -64,9 +65,44 @@ namespace eAPIClient.Controllers
            
         }
 
+        [HttpGet("SyncSale")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncSaleGet(Guid saleId)
+        {
+            try
+            {
+                var _saleData = db.Sales.Where(r => r.id == saleId)
+                     .Include(r => r.sale_payments)
+                     .Include(r => r.sale_products).ThenInclude(r => r.sale_product_modifiers)
+                     .AsNoTrackingWithIdentityResolution();
 
 
-       [HttpPost("GetRemoteData")]    
+                if (_saleData.Count() > 0)
+                {
+                    var _syncResp = await http.ApiPost("Sale/Save", _saleData.FirstOrDefault());
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+
+
+        }
+
+
+
+        [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
         public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool is_service_sync=false)
         {

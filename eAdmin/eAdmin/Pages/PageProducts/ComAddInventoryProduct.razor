@@ -1,129 +1,160 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
 <UIContainerBox Title="@lang["Inventory / Ingredient Product"]">
-    <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)"/>
-   @if(gv.project_has_advance_inventory){
-         <Com is_visible="@(!is_ingredient)">
+    <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)" />
+    @if (gv.project_has_advance_inventory)
+    {
+        <Com is_visible="@(!is_ingredient)">
             <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
         </Com>
-   }
- 
-     
-    <Com is_visible="@(model.is_inventory_product)"> 
-        @if(model.stock_location_products != null && model.stock_location_products.Any()){
-        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-            <thead>
-                <tr>
-                    <ThAuto>@lang["Stock Location"]</ThAuto>
-                    @if (model.id > 0)
-                    {
-                        <ThCenter>@lang["QTY on Hand"]</ThCenter>
-                    }
-                    <ThCenter>@lang["QTY"]</ThCenter>
-                    <ThCenter>@lang["Min QTY"]</ThCenter>
-                    <ThCenter>@lang["Max QTY"]</ThCenter>
-                </tr>
-            </thead>
-            <tbody>
+    }
 
-                @foreach (var p in model.stock_location_products)
-                {
+
+    <Com is_visible="@(model.is_inventory_product)">
+        @if (model.stock_location_products != null && model.stock_location_products.Any())
+        {
+            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                <thead>
                     <tr>
-                        <td>
-                            <div>
-                                @gv.stock_locations.Where(r => r.id == p.stock_location_id).FirstOrDefault().stock_location_name
-                                <Label Text="@gv.stock_locations.Where(r=>r.id==p.stock_location_id).FirstOrDefault().business_branch?.business_branch_name_en" />
-                            </div>
-                        </td>
+                        <ThAuto>@lang["Stock Location"]</ThAuto>
                         @if (model.id > 0)
                         {
-                            <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
-                        }  
-                            
-                        <td>
-                            @if (model.is_product_has_inventory_transaction)
-                            {
-                                <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
-                            }
-                            else
-                            {
-                                <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" />
-                            }
-
-                        </td>
-                        <td>
-                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.min_quantity" text_format="@gv.quantity_format" width="100px" />
-                        </td>
-                        <td>
-                            <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.max_quantity" text_format="@gv.quantity_format" width="100px" />
-                        </td>
+                            <ThCenter>@lang["QTY on Hand"]</ThCenter>
+                        }
+                        <ThCenter>@lang["QTY"]</ThCenter>
+                        <ThCenter>@lang["Min QTY"]</ThCenter>
+                        <ThCenter>@lang["Max QTY"]</ThCenter>
                     </tr>
+                </thead>
+                <tbody>
 
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>@lang["Total Quantity"]</td>
-                    @if (model.id > 0)
+                    @foreach (var p in model.stock_location_products)
                     {
-                        <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
-                    }
-                    <td class="uk-text-center">@model.stock_location_products.Sum(r => r.initial_quantity).ToString(gv.quantity_format)</td>
-
-                    <td colspan="2"></td>
-                </tr>
-            </tfoot>
-        </table>
-        }
-        @if (!is_ingredient) { 
-        <div style="word-break:break-all">@JsonSerializer.Serialize(model.default_stock_location_products)</div>
-        <div class="defualt-stock-location">
-            <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
-            <Tab>
-                <TabHeader> 
-                    @foreach (var b in gv.business_branch_by_role)
-                    {
-                            <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem> 
-                    }
-                </TabHeader>
-                <TabBody>
-                    @foreach (var b in gv.business_branch_by_role)
-                    {
-                    <TabItem>
-                        <table>
-                            <tr>
-                                <td>Station</td>
-                                <td>Stock location</td>
-                            </tr>
-                            
-                            @foreach(var d in model.default_stock_location_products.Where(r=>r.business_branch_id==b.id)){
-                                <tr>
-                                    <td>@d.station.station_name_en</td>
-                                    <td>
-                                            <SelectStockLocation label=""  show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="Select Defualt Stock Location" />                                        
-                                    </td>
-                                    </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    @gv.stock_locations.Where(r => r.id == p.stock_location_id).FirstOrDefault().stock_location_name
+                                    <Label Text="@gv.stock_locations.Where(r=>r.id==p.stock_location_id).FirstOrDefault().business_branch?.business_branch_name_en" />
+                                </div>
+                            </td>
+                            @if (model.id > 0)
+                            {
+                                <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
                             }
 
+                            <td>
+                                @if (model.is_product_has_inventory_transaction)
+                                {
+                                    <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
+                                }
+                                else
+                                {
+                                    <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" />
+                                }
 
-                            </table>
-                        
-                            
-                        
+                            </td>
+                            <td>
+                                <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.min_quantity" text_format="@gv.quantity_format" width="100px" />
+                            </td>
+                            <td>
+                                <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.max_quantity" text_format="@gv.quantity_format" width="100px" />
+                            </td>
+                        </tr>
 
-                       
-                    </TabItem>
                     }
-                </TabBody>
-            </Tab>
-        </div>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>@lang["Total Quantity"]</td>
+                        @if (model.id > 0)
+                        {
+                            <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
+                        }
+                        <td class="uk-text-center">@model.stock_location_products.Sum(r => r.initial_quantity).ToString(gv.quantity_format)</td>
+
+                        <td colspan="2"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+        @if (!is_ingredient)
+        { 
+            <div class="defualt-stock-location">
+                <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
+                <Tab>
+                    <TabHeader>
+                        @foreach (var b in gv.business_branch_by_role)
+                        {
+                            <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                        }
+                    </TabHeader>
+                    <TabBody>
+                        @foreach (var b in gv.business_branch_by_role)
+                        {
+                            <TabItem>
+                                <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                    <tr>
+                                        <ThAuto>Station</ThAuto>
+                                        <th>Stock location</th>
+                                        <ThCenter>Status</ThCenter>
+                                    </tr>
+                                    @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
+                                    {
+                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).ToList())
+                                        {
+                                            @if (d.station != null)
+                                            {
+                                                <tr>
+                                                    <td>@d.station?.station_name_en</td>
+                                                    <td>
+                                                        <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="Select Defualt Stock Location" width="260px" />
+                                                    </td>
+                                                    <TdCenter>
+
+                                                        <ComSystemFeatureStatus is_deleted="@d.station.is_deleted" is_full_license="@d.station.is_full_license" expired_date="@d.station.expired_date" />
+
+                                                    </TdCenter>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <div class="uk-text-center">
+                                                            <Icon icon="search" />
+                                                            <br />
+                                                            <p>There is no station</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="uk-text-center">
+                                                    <Icon icon="search" />
+                                                    <br />
+                                                    <p>There is no station</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </TabItem>
+                        }
+                    </TabBody>
+                </Tab>
+            </div>
         }
     </Com>
 </UIContainerBox>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel model { get; set; }
- 
+
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     [Parameter] public bool is_ingredient { get; set; } = false;
 
@@ -131,44 +162,51 @@
 
     public bool is_inventory_product
     {
-        get {
+        get
+        {
             _is_inventory_product = model.is_inventory_product;
-            return _is_inventory_product; }
-        set {
+            return _is_inventory_product;
+        }
+        set
+        {
             if (value)
             {
-                if ( !model.stock_location_products.Any())
+                if (!model.stock_location_products.Any())
                 {
                     foreach (var d in gv.stock_locations)
                     {
                         model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id });
                     }
                 }
-                 
+
 
             }
             else
             {
-                if (model.id == 0 )
+                if (model.id == 0)
                 {
                     model.stock_location_products.Clear();
-                   
+
                 }
-                else {
+                else
+                {
                     model.stock_location_products.RemoveAll(r => r.id == 0);
-                    
+
                 }
             }
             GenerateDefaultStockLocation(value);
             model.is_inventory_product = value;
-            _is_inventory_product = value; }
+            _is_inventory_product = value;
+        }
     }
 
     void GenerateDefaultStockLocation(bool is_checked)
     {
-       
-           if(is_checked){
-            if(model.default_stock_location_products.Count()==0){
+
+        if (is_checked)
+        {
+            if (model.default_stock_location_products.Count() == 0)
+            {
                 foreach (var o in gv.outlets)
                 {
                     foreach (var s in o.stations)
@@ -198,10 +236,12 @@
                     }
                 }
             }
-           }else {
-                model.default_stock_location_products.Clear();
-           }
-        
+        }
+        else
+        {
+            model.default_stock_location_products.Clear();
+        }
+
     }
 
     async Task OnSelectVendor(VendorModel v)
