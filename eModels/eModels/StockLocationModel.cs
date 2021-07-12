@@ -120,5 +120,7 @@ namespace eModels
         public ProductModel product { get; set; }
 
         public Guid station_id { get; set; }
+        [ForeignKey("station_id")]
+        public StationModel station { get; set; }
     }
 }

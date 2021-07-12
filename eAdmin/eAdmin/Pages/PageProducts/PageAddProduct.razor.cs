@@ -16,8 +16,7 @@ namespace eAdmin.Pages.PageProducts
         [Parameter] public int clone_id { get; set; }
         public ProductModel model { get; set; } = new ProductModel();
         ApiResponseModel error_saving_info = new ApiResponseModel();
-        public List<OutletModel> outlets { get; set; }
-
+       
         public string PageTitle
         {
             get
@@ -84,7 +83,7 @@ namespace eAdmin.Pages.PageProducts
         {
 
             is_loading = true;
-            await GetStations();
+          
             if (id == 0) {
                 model.unit = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault();
                 model.unit_category_id = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault().unit_category_id;
@@ -181,14 +180,7 @@ namespace eAdmin.Pages.PageProducts
 
         }
 
-        public async Task GetStations()
-        { 
-            var resp = await http.ApiGetOData("Outlet?$select=id,business_branch_id&$expand=stations($select=id,station_name_en,station_name_kh,is_full_license,expired_date;$filter=is_deleted eq false and status eq status)&$filter=is_deleted eq false and status eq status");
-            if (resp.IsSuccess)
-            {
-                outlets = JsonSerializer.Deserialize<List<OutletModel>>(resp.Content.ToString());
-            } 
-        }
+      
 
         public async Task Save_Click()
         {

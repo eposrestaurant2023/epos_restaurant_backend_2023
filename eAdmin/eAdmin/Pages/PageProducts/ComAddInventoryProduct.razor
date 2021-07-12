@@ -90,50 +90,28 @@
                     @foreach (var b in gv.business_branch_by_role)
                     {
                     <TabItem>
-                        @if (model.default_stock_location_products != null)
-                        {
-                            <SelectStockLocation show_empty="true" @bind-selected_value="@model.default_stock_location_products.Where(r=>r.business_branch_id == b.id).FirstOrDefault().stock_location_id" business_branch_id="@b.id" empty_text="Select Defualt Stock Location" />
-                        }
-
-                        @if (outlets != null)
-                        {
-                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                <thead>
-                                    <tr>
-                                        <ThAuto>@lang["Station Name En"]</ThAuto>
-                                        <ThAuto>@lang["Station Name Kh"]</ThAuto>
-                                        <ThCenter>@lang["Status"]</ThCenter>
+                        <table>
+                            <tr>
+                                <td>Station</td>
+                                <td>Stock location</td>
+                            </tr>
+                            
+                            @foreach(var d in model.default_stock_location_products.Where(r=>r.business_branch_id==b.id)){
+                                <tr>
+                                    <td>@d.station.station_name_en</td>
+                                    <td>
+                                            <SelectStockLocation label=""  show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="Select Defualt Stock Location" />                                        
+                                    </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @if (outlets.Where(r => r.business_branch_id == b.id).Any())
-                                    {
-                                        foreach (var s in outlets.Where(r => r.business_branch_id == b.id).SelectMany(r => r.stations).ToList())
-                                        {
-                                            <tr>
-                                                <td>@s.station_name_en</td>
-                                                <td>@s.station_name_kh</td>
-                                                <TdCenter>
-                                                    <ComSystemFeatureStatus is_deleted="@s.is_deleted" is_full_license="@s.is_full_license" expired_date="@s.expired_date" />
-                                                </TdCenter>
-                                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="3">
-                                                <div class="uk-text-center">
-                                                    <Icon icon="search" />
-                                                    <br />
-                                                    <p>There is no station</p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
+                            }
+
+
                             </table>
-                        }
+                        
+                            
+                        
+
+                       
                     </TabItem>
                     }
                 </TabBody>
@@ -145,7 +123,7 @@
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel model { get; set; }
-    [Parameter] public List<OutletModel> outlets { get; set; }
+ 
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     [Parameter] public bool is_ingredient { get; set; } = false;
 
@@ -166,30 +144,7 @@
                         model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id });
                     }
                 }
-                if(!model.default_stock_location_products.Any() && outlets.Any())
-                {
-
-                    foreach (var d in gv.business_branch_by_role.Where(r => r.is_deleted == false).ToList())
-                    {
-                        foreach (var s in outlets.Where(r=>r.business_branch_id == d.id).SelectMany(r=>r.stations).ToList())
-                        {
-                            if (gv.stock_locations.Where(r => r.business_branch_id == d.id).Any())
-                            {
-                                model.default_stock_location_products.Add(new DefaultStockLocationProductModel()
-                                {
-                                    business_branch_id = d.id,
-                                    business_branch = d,
-                                    stock_location_id = gv.stock_locations.Where(r => r.is_default == true && r.business_branch_id == d.id).Any() ? gv.stock_locations.Where(r => r.is_default == true && r.business_branch_id == d.id).FirstOrDefault().id : Guid.Empty,
-                                    station_id = s.id
-
-                                });
-                            }
-                        }
-
-                    }
-
-
-                }
+                 
 
             }
             else
@@ -197,20 +152,57 @@
                 if (model.id == 0 )
                 {
                     model.stock_location_products.Clear();
-                    model.default_stock_location_products.Clear();
+                   
                 }
                 else {
                     model.stock_location_products.RemoveAll(r => r.id == 0);
-                    model.default_stock_location_products.RemoveAll(r => r.id == Guid.Empty);
+                    
                 }
             }
-
+            GenerateDefaultStockLocation(value);
             model.is_inventory_product = value;
             _is_inventory_product = value; }
     }
 
+    void GenerateDefaultStockLocation(bool is_checked)
+    {
+       
+           if(is_checked){
+            if(model.default_stock_location_products.Count()==0){
+                foreach (var o in gv.outlets)
+                {
+                    foreach (var s in o.stations)
+                    {
+                        var st = gv.stock_locations.Where(r => r.business_branch_id == o.business_branch_id);
+                        if (st.Count() > 0)
+                        {
+                            StockLocationModel default_st = new StockLocationModel();
 
+                            if (st.Where(r => r.is_default).Any())
+                            {
+                                default_st = st.Where(r => r.is_default).FirstOrDefault();
+                            }
+                            else
+                            {
+                                default_st = st.FirstOrDefault();
+                            }
 
+                            DefaultStockLocationProductModel d = new DefaultStockLocationProductModel();
+                            d.station_id = s.id;
+                            d.station = s;
+                            d.business_branch_id = o.business_branch_id;
+                            d.stock_location_id = default_st.id;
+
+                            model.default_stock_location_products.Add(d);
+                        }
+                    }
+                }
+            }
+           }else {
+                model.default_stock_location_products.Clear();
+           }
+        
+    }
 
     async Task OnSelectVendor(VendorModel v)
     {
