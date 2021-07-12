@@ -24,7 +24,7 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             {
 
                 toast.Add("Save Extend License History successfully", Severity.Success);
-                MudDialog.Close();
+                MudDialog.Close(DialogResult.Ok(JsonSerializer.Deserialize<StationModel>(resp.Content.ToString())));
             }
             else
             {

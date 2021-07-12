@@ -30,7 +30,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
             {
                 
                 string url = $"{controller_api}?";
-                url = url + $"$expand=product_category($select=product_category_en),unit($select=unit_name,id,unit_category_id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                url = url + $"$expand=product($select=id,photo,is_deleted,min_price,max_price,status,product_code,product_name_en,product_name_kh;$expand=product_category($select=id,product_category_en,product_category_kh))&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 
                 return url + GetFilter(state.filters);
             }
@@ -40,14 +40,8 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
         {
             is_loading = true;
             state = await GetState(StateKey);
-            state.filters.Clear();
- 
-            state.filters.Add(new FilterModel()
-            {
-                key = "is_deleted",
-                value1 = "false"
-            });
- 
+
+            state.filters.Clear(); 
             state.filters.Add(new FilterModel()
             {
                 key = "ingredient_id",
@@ -80,7 +74,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {
-                models = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
+                models = JsonSerializer.Deserialize<List<ProductIngredientRelatedModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
             }
             is_loading = false;
@@ -110,7 +104,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "product_category/product_group_id",
+                    key = "product/product_category/product_group_id",
                     value1 = state.product_group.id.ToString(),
                     filter_title = lang["Product Group"],
                     state_property_name = "product_group",
@@ -124,7 +118,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "product_category_id",
+                    key = "product/product_category_id",
                     value1 = state.product_category.id.ToString(),
                     filter_title = lang["Product Category"],
                     state_property_name = "product_category",

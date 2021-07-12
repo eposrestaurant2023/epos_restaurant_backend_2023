@@ -9,7 +9,9 @@
     <Left>
         <LabelExpiredProject visible="model.is_expired"/>
         <LabelCloseProject visible="@model.is_closed"/>
+        <LabelOpenProject visible="@(!model.is_closed && !model.is_deleted)"/>
         <LabelFullLicense visible="@model.is_full_license"/>
+        <LabelDeleted is_visible="@model.is_deleted"/>
     </Left>
     <Right>
         <ComAttachFileButton File="@(new AttachFilesModel(){ project_id = new Guid(id)})" ApiFilter="@($"project_id eq {id}")" Class="mr-2"/>
@@ -22,10 +24,10 @@
             <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.Layers" url="@($"project/new")">New Project</MenuButtonItem>
             <MudDivider />
             </MudHidden>
-            <MenuButtonItem roles="@gv.GetRole("project_edit")" icon="@Icons.Material.Filled.ContentCopy">Close Project</MenuButtonItem>
-            <MenuButtonItem roles="@gv.GetRole("project_edit")" icon="@Icons.Material.Filled.ContentCopy">Reopen Project</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_edit")" is_visible="@(!model.is_deleted && !model.is_closed)" icon="@Icons.Material.Filled.ContentCopy">Close Project</MenuButtonItem>
+            <MenuButtonItem roles="@gv.GetRole("project_edit")" is_visible="@(!model.is_deleted && model.is_closed)" icon="@Icons.Material.Filled.ContentCopy">Reopen Project</MenuButtonItem>
             <MenuButtonItem roles="@gv.GetRole("project_add")" icon="@Icons.Material.Filled.ContentCopy" url="@($"project/clone/{model.id}")">Clone</MenuButtonItem>
-            <MudMenuItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" Link="@($"project/edit/{id}")">Edit</MudMenuItem>
+            <MenuButtonItem  roles="@gv.GetRole("project_edit")" icon="@Icons.Material.Filled.Edit" url="@($"project/edit/{id}")">Edit</MenuButtonItem>
             <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!model.is_deleted)" OnClick="@DeleteProject_Click">Delete</MenuButtonItem>
             <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(model.is_deleted)" OnClick="@DeleteProject_Click">Restore</MenuButtonItem>
     </MenuButton>

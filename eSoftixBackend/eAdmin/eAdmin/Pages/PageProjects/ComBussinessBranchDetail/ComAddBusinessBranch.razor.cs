@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using eModels;
 using MudBlazor;
 using eAdmin.Services;
+using System.Text.Json;
 
 namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
 {
@@ -27,7 +28,7 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             {
 
                 toast.Add("Save business branch successfully", Severity.Success);
-                MudDialog.Close(DialogResult.Ok(model));
+                MudDialog.Close(DialogResult.Ok(JsonSerializer.Deserialize<BusinessBranchModel>(resp.Content.ToString())));
             }else
             {
                 toast.Add("Save business branch fail", Severity.Warning);
