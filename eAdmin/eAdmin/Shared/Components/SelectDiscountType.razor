@@ -1,0 +1,34 @@
+﻿<div class="uk-margin-small">
+    <div>
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+            <option value="Percent">Percent</option>
+            <option value="Amount">Amount</option>
+        </select>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public string selected_value { get; set; } = "Percent";
+    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
+
+    public string SelectedValue
+    {
+        get
+        {
+            return selected_value;
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = n;
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+
+}

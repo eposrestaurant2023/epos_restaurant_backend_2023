@@ -100,17 +100,34 @@
                                     </tr>
                                     @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
                                     {
-                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id))
+                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).ToList())
                                         {
-                                            <tr>
-                                                <td>@d.station.station_name_en</td>
-                                                <td>
-                                                    <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="Select Defualt Stock Location" width="260px"/>
-                                                </td>
-                                                <TdCenter>
-                                                    <ComSystemFeatureStatus is_deleted="@d.station.is_deleted" is_full_license="@d.station.is_full_license" expired_date="@d.station.expired_date" />
-                                                </TdCenter>
-                                            </tr>
+                                            @if (d.station != null)
+                                            {
+                                                <tr>
+                                                    <td>@d.station?.station_name_en</td>
+                                                    <td>
+                                                        <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="Select Defualt Stock Location" width="260px" />
+                                                    </td>
+                                                    <TdCenter>
+
+                                                        <ComSystemFeatureStatus is_deleted="@d.station.is_deleted" is_full_license="@d.station.is_full_license" expired_date="@d.station.expired_date" />
+
+                                                    </TdCenter>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <div class="uk-text-center">
+                                                            <Icon icon="search" />
+                                                            <br />
+                                                            <p>There is no station</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
                                     }
                                     else
@@ -125,13 +142,7 @@
                                             </td>
                                         </tr>
                                     }
-
                                 </table>
-
-
-
-
-
                             </TabItem>
                         }
                     </TabBody>
