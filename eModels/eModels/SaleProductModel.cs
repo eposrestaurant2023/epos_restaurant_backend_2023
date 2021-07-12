@@ -23,11 +23,6 @@ namespace eModels
         [ForeignKey("product_id")]
         public ProductModel product { get; set; }
 
-
-        // stock location
-        [ForeignKey("stock_location_id")]
-        public StockLocationModel stock_location { get; set; }
-
         public List<SaleProductModifierModel> sale_product_modifiers { get; set; }
 
     }

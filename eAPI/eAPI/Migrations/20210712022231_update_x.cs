@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace eAPIClient.Migrations
+namespace eAPI.Migrations
 {
-    public partial class sale_proeuct_moid : Migration
+    public partial class update_x : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "sale_product_modifier_name",
-                table: "tbl_sale_product",
+                name: "report_format",
+                table: "tbl_currency",
                 type: "nvarchar(max)",
                 nullable: true,
                 collation: "Khmer_100_BIN");
@@ -17,8 +17,8 @@ namespace eAPIClient.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "sale_product_modifier_name",
-                table: "tbl_sale_product");
+                name: "report_format",
+                table: "tbl_currency");
         }
     }
 }

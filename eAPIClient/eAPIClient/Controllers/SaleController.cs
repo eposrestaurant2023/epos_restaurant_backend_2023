@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -33,18 +34,15 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-         public IQueryable<SaleModel> Get(string keyword = "",string shift="",string open_by="",string close_by="")
-       {
-           
-                return (from r in db.Sales
-                        where EF.Functions.Like(
-                                  ((r.document_number ?? " ") + (r.customer.customer_name_en ?? " ") +
-                                   (r.customer.customer_name_kh ?? " ") + (r.sale_note ?? " ")
-                                  ).ToLower().Trim(), $"%{(keyword??"")}%".ToLower().Trim()) && r.cashier_shift.shift == ((shift ?? "") == "" ? r.cashier_shift.shift : shift) &&
-                                  r.created_by == ((open_by??"") =="" ? r.created_by : open_by) && r.closed_by == ((close_by??"") == "" ? r.closed_by : close_by)
-                        select r);
-
-           
+        public IQueryable<SaleModel> Get(string keyword = "", string shift = "", string open_by = "", string close_by = "")
+        { 
+            return (from r in db.Sales
+                    where EF.Functions.Like(
+                              ((r.document_number ?? " ") + (r.customer.customer_name_en ?? " ") +
+                               (r.customer.customer_name_kh ?? " ") + (r.sale_note ?? " ")
+                              ).ToLower().Trim(), $"%{(keyword ?? "")}%".ToLower().Trim()) && r.cashier_shift.shift == ((shift ?? "") == "" ? r.cashier_shift.shift : shift) &&
+                              r.created_by == ((open_by ?? "") == "" ? r.created_by : open_by) && r.closed_by == ((close_by ?? "") == "" ? r.closed_by : close_by)
+                    select r);
         }
 
         [HttpGet]
@@ -62,8 +60,6 @@ namespace eAPIClient.Controllers
             {
                 bool is_new = true;
                 model.customer = null;
-              
-
                 if (model.id == Guid.Empty)
                 {
                     model.sale_number = await app.GenerateDocumentNumber("SaleNum", model.outlet_id.ToString());
@@ -71,7 +67,9 @@ namespace eAPIClient.Controllers
                     {
                         if (sp.sale_product_print_queues != null)
                         {
-                            sp.sale_product_print_queues.ForEach(_spq => { _spq.sale_number = model.sale_number; });
+                            sp.sale_product_print_queues.ForEach(_spq => { 
+                                _spq.sale_number = model.sale_number; 
+                            });
                         }
                     });
                     db.Sales.Add(model);
@@ -98,9 +96,13 @@ namespace eAPIClient.Controllers
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     }
                 }
+                FileStream fs = new FileStream($"c:\\epossync\\{model.id}.txt", FileMode.Create);
+                fs.Close();
 
-
+                
                 return Ok(model);
+
+              
             }
             catch
             { 

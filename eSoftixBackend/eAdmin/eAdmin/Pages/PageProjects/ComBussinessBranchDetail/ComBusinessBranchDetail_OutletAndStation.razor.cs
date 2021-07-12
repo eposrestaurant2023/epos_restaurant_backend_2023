@@ -5,6 +5,9 @@ using MudBlazor;
 using eModels;
 using System.Text.Json;
 using eAdmin.Services;
+using System;
+using System.Linq;
+using eAdmin.Pages.PageProjects.ComProjectDetails;
 
 namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
 {
@@ -99,8 +102,8 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             var result = await dialog.Result;
             if (!result.Cancelled)
             {
-
-                station.extend_license_histories.Add((ExtendLicenseHistoryModel)result.Data);
+                station = (StationModel)result.Data;
+                outlets.SelectMany(r => r.stations.Where(r => r.id == station.id)).FirstOrDefault().expired_date = station.expired_date;
             }
         }
 
@@ -127,9 +130,64 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             }
         }
 
-        async Task DeleteStation_Click(StationModel _station)
+        async Task MarkAsFullLicense_Click(StationModel _station)
         {
-            await Task.Delay(100);
+            StationModel backup_model = JsonSerializer.Deserialize<StationModel>(JsonSerializer.Serialize(_station));
+            var parameters = new DialogParameters { ["model"] = _station };
+            var dialog = Dialog.Show<ComProjectDetail_MarkAsFullLicense>(_station.is_full_license?"Cancel Full License":"Mark As Full License", parameters);
+            var result = await dialog.Result;
+            if (result.Cancelled)
+            {
+                _station = backup_model;
+            }
+            else
+            {
+                //outlets.Where(r=>r.stations.se)(StationModel)result.Data
+            }
         }
+
+        async Task DeleteStation_Click(StationModel station)
+        {
+            string message = "Are you sure you want to delete this Station?";
+            if (station.is_deleted)
+            {
+                message = "Are you sure you want to restore this Station?";
+            }
+
+            bool? result = await Dialog.ShowMessageBox("Warning", message, yesText: station.is_deleted ? "Restore" : "Delete", cancelText: "Cancel");
+            if (result != null)
+            {
+                is_loading = true;
+                station.is_deleted = !station.is_deleted;
+                var resp = await http.ApiPost($"Station/save",station);
+                if (resp.IsSuccess)
+                {
+                    if (station.is_deleted)
+                    {
+                        toast.Add("Delete Station Successfully", Severity.Success);
+                    }
+                    else
+                    {
+                        toast.Add("Restore Station successfully", Severity.Success);
+                    }
+                }
+                else
+                {
+                    station.is_deleted = !station.is_deleted;
+                    if (station.is_deleted)
+                    {
+                        toast.Add("Delete Station Fail", Severity.Warning);
+                    }
+                    else
+                    {
+                        toast.Add("Restore Station Fail", Severity.Warning);
+                    }
+                    Console.WriteLine(resp.Content.ToString());
+                }
+            }
+
+            is_loading = false;
+        }
+
     }
 }

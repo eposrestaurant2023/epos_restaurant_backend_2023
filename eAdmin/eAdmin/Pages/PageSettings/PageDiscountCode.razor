@@ -1,7 +1,7 @@
 ﻿@page "/discountcode"
 @inject IJSRuntime js
 @inherits PageCore;
-<Loading is_loading="@is_loading" />
+<Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
 {
     <Title Value="Discount Code"></Title>
@@ -36,8 +36,9 @@
                                 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
 
                                     <tr>
-                                        <Th>Discound Code</Th>
-                                        <Th>Discound Code Value</Th>
+                                        <ThAuto>Discound Type</ThAuto>
+                                        <ThAuto>Discound Code</ThAuto>
+                                        <ThAuto>Discound Code Value</ThAuto>
                                         <ThCenter>Status</ThCenter>
                                         <Th></Th>
                                     </tr>
@@ -45,7 +46,14 @@
                                     {
                                         <tr>
                                             <td>
-                                              <TextInput @bind-text="@d.discount_code" placeholder="Discount Code"/>
+                                                <SelectDiscountType @bind-selected_value="@d.discount_type"/>
+                                            </td>
+                                            <td>
+                                                @if (d.discount_type != "Amount")
+                                                {
+                                                    <TextInput @bind-text="@d.discount_code" placeholder="Discount Code"/>
+                                                }
+
                                             </td>
                                             <td><NumberInput @bind-text="@d.discount_value" label="" placeholder="Discount Value" /></td>
                                             <TdCenter>
@@ -127,8 +135,25 @@
 
         is_saving = true;
 
-        string xx = JsonSerializer.Serialize(branches);
-
+        foreach (var b in branches)
+        {
+            foreach (var discount in b.discount_codes)
+            {
+                if (discount.discount_type == "Amount")
+                {
+                    discount.discount_code = discount.discount_value.ToString();
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(discount.discount_code))
+                    {
+                        toast.Add("Discount code cannot empty", MatToastType.Warning);
+                        is_saving = false;
+                        return;
+                    }
+                }
+            }
+        }
         var resp = await http.ApiPost("BusinessBranch/save/multiple", branches);
         if (resp.IsSuccess)
         {
@@ -162,7 +187,10 @@
 
     }
 
+    void SelectedValueChange(string value)
+    {
 
+    }
 
     void Activebutton(DiscountCodeModel b)
     {

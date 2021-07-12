@@ -53,9 +53,16 @@
                             </ComAuthorize>
                         </td>
                         <TdCenter>
-                            <LabelActive is_visible="@(m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
-                            <LabelInActive is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
-                            <LabelDeleted is_visible="@(m.is_deleted)" />
+                            @if (!m.is_loading)
+                            {
+                                <LabelActive is_visible="@(m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
+                                <LabelInActive is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
+                                <LabelDeleted is_visible="@(m.is_deleted)" />
+                            }
+                            else
+                            {
+                                <Spinner />
+                            }
                         </TdCenter>
                         <TdCenter>
                             <ComTableActions is_loading="@(m.is_loading)">
@@ -87,7 +94,7 @@
     {
         get
         {
-            if (state.pager.order_by == "")
+            if (state.pager.order_by == "" || state.pager.order_by == "id")
             {
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";

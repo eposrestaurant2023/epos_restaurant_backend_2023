@@ -79,6 +79,7 @@ namespace eAPI
         public DbSet<PaymentTypeModel> PaymentTypes { get; set; }
         public DbSet<CustomerModel> Customers { get; set; }
         public DbSet<CustomerGroupModel> CustomerGroups { get; set; }
+        public DbSet<PredefinePaymentAmountModel> PredefinePaymentAmounts { get; set; }
         public DbSet<HistoryModel> Histories { get; set; }
         public DbSet<CountryModel> Countries { get; set; }
         public DbSet<SettingModel> Settings { get; set; }

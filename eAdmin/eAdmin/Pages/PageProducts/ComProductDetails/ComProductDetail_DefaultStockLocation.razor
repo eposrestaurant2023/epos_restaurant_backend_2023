@@ -1,26 +1,63 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
 <div class="defualt-stock-location">
-    <Spacing Number="15"/>
+    <Spacing Number="15" />
     <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
     <Tab>
         <TabHeader>
-            @foreach (var b in model.default_stock_location_products)
+            @foreach (var b in gv.business_branch_by_role)
             {
-                <TabHeaderItem>@b.business_branch.business_branch_name_en</TabHeaderItem>
+                <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
             }
         </TabHeader>
         <TabBody>
-            @foreach (var b in model.default_stock_location_products)
+            @foreach (var b in gv.business_branch_by_role)
             {
-            <TabItem>
-                <ListTable>
-                    <ListTableItem ItemTitle="Stock Location">@b.stock_location?.stock_location_name</ListTableItem>
-                </ListTable>
-            </TabItem>
+                <TabItem>
+                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                        <tr>
+                            <ThAuto>Station</ThAuto>
+                            <th>Stock location</th>
+                            <ThCenter>Status</ThCenter>
+                        </tr>
+                        @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
+                        {
+                            @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).ToList())
+                            {
+                                @if (d.station != null)
+                                {
+                                    <tr>
+                                        <td>@d.station?.station_name_en</td>
+                                        <td>
+                                            @d.stock_location?.stock_location_name
+                                        </td>
+                                        <TdCenter>
+
+                                            <ComSystemFeatureStatus is_deleted="@d.station.is_deleted" is_full_license="@d.station.is_full_license" expired_date="@d.station.expired_date" />
+
+                                        </TdCenter>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3">
+                                    <div class="uk-text-center">
+                                        <Icon icon="search" />
+                                        <br />
+                                        <p>There is no station</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </TabItem>
             }
         </TabBody>
     </Tab>
+
 </div>
  
 @code {
@@ -34,7 +71,9 @@
         is_loading = true;
         if (product_id > 0)
         {
-            var resp = await http.ApiGet($"Product({product_id})?$select=id&$expand=default_stock_location_products($expand=stock_location($select=stock_location_name),business_branch($select=business_branch_name_en,business_branch_name_kh))");
+            var resp = await http.ApiGet($"Product({product_id})?$select=id&$expand=default_stock_location_products($expand=stock_location($select=stock_location_name)," +
+                $"business_branch($select=business_branch_name_en,business_branch_name_kh)," +
+                $"station($select=id,station_name_en,station_name_kh,is_deleted,is_full_license,expired_date))");
             if (resp.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());

@@ -13,6 +13,7 @@ namespace eModels
             outlets = new List<OutletModel>();
             stock_locations = new List<StockLocationModel>();
             contacts = new List<ContactRelatedModel>();
+            business_branch_system_features = new List<BusinessBranchSystemFeatureModel>();
         }
          
         public  Guid project_id { get; set; }

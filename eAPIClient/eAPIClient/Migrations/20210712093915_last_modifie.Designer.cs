@@ -10,8 +10,8 @@ using eAPIClient;
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210706042312_category_note")]
-    partial class category_note
+    [Migration("20210712093915_last_modifie")]
+    partial class last_modifie
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,6 +73,9 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
+
                     b.Property<decimal?>("open_amount")
                         .HasColumnType("decimal(19,4)");
 
@@ -101,6 +104,31 @@ namespace eAPIClient.Migrations
                     b.HasIndex("working_day_id");
 
                     b.ToTable("tbl_cashier_shift");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.CategoryNoteModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("category_note_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("category_note_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("category_note_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("is_multiple_select")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_category_note");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.ConfigDataModel", b =>
@@ -159,6 +187,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -232,6 +263,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("nationality")
                         .HasColumnType("nvarchar(max)")
@@ -333,34 +367,50 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_menu");
                 });
 
-            modelBuilder.Entity("eAPIClient.Models.PrefixPriceModel", b =>
+            modelBuilder.Entity("eAPIClient.Models.NoteModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("category_note_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("payment_type_id")
+                    b.Property<int>("note_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("prefix_price_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("prefix_price_value")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.HasKey("id");
 
-                    b.ToTable("tbl_prefix_price");
+                    b.ToTable("tbl_note");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.ProductMenuModel", b =>
@@ -436,10 +486,6 @@ namespace eAPIClient.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("product_tax_value")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("stock_locations")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -597,6 +643,10 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("currency_exchange_rate_data")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid?>("customer_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -637,6 +687,12 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_partially_paid")
                         .HasColumnType("bit");
+
+                    b.Property<bool>("is_print_invoice")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -777,6 +833,12 @@ namespace eAPIClient.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal>("change_amount")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<double>("change_exchange_rate")
+                        .HasColumnType("float");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -784,6 +846,17 @@ namespace eAPIClient.Migrations
 
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("currency_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("currency_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("currency_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -793,6 +866,9 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("exchange_rate")
+                        .HasColumnType("float");
+
                     b.Property<bool>("is_create_payment_in_sale_order")
                         .HasColumnType("bit");
 
@@ -801,6 +877,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -817,6 +896,14 @@ namespace eAPIClient.Migrations
 
                     b.Property<int>("payment_type_id")
                         .HasColumnType("int");
+
+                    b.Property<string>("payment_type_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("payment_type_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("reference_number")
                         .HasColumnType("nvarchar(max)")
@@ -890,6 +977,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<int>("kitchen_group_sort_order")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("multiplier")
                         .HasColumnType("float");
@@ -979,6 +1069,10 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("sale_product_discount_value")
                         .HasColumnType("decimal(19,4)");
 
+                    b.Property<string>("sale_product_modifier_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -988,9 +1082,6 @@ namespace eAPIClient.Migrations
                     b.Property<string>("status_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<Guid?>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
@@ -1073,6 +1164,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("modifier_name")
                         .HasColumnType("nvarchar(max)")
@@ -1175,6 +1269,10 @@ namespace eAPIClient.Migrations
 
                     b.Property<Guid>("sale_product_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("sale_product_status_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("station_name")
                         .HasColumnType("nvarchar(max)")
@@ -1329,6 +1427,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("last_modified")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("open_note")
                         .HasColumnType("nvarchar(max)")

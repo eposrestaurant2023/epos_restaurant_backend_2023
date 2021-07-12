@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 <Loading is_loading="@is_saving" />
-    <IngredientProductTypeahead product="@product" productChanged="@OnSelected"/>
+    <IngredientProductTypeahead product="@product" productChanged="@OnSelected" placeholder="Select Ingredient"/>
     <hr />
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>

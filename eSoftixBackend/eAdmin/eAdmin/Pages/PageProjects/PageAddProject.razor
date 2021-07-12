@@ -27,7 +27,11 @@
                        </Left>
                        <Right>
                             <SelectProjectType @bind-selected_value="model.project_type_id" variant="Variant.Text"/> 
-                       </Right>
+                            <MudText Color="@MudBlazor.Color.Error">
+                                <ValidationMessage For="@(()=>model.project_type_id)"/>
+                            </MudText>
+                            
+                        </Right>
                    </UI2Columns>
                     <MudTextField Lines="5" @bind-Value="@model.note" Label="Note" Variant="Variant.Text"></MudTextField>
                </UIPanel>

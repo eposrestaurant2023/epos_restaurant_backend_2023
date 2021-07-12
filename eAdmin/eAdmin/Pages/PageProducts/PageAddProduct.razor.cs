@@ -16,7 +16,7 @@ namespace eAdmin.Pages.PageProducts
         [Parameter] public int clone_id { get; set; }
         public ProductModel model { get; set; } = new ProductModel();
         ApiResponseModel error_saving_info = new ApiResponseModel();
- 
+       
         public string PageTitle
         {
             get
@@ -57,7 +57,7 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
                 url = url + "stock_location_products,product_taxes,unit,";
-                url = url + "default_stock_location_products($expand=business_branch,stock_location)";
+                url = url + "default_stock_location_products($expand=business_branch,stock_location,station)";
                 return url;
         } }
 
@@ -83,6 +83,7 @@ namespace eAdmin.Pages.PageProducts
         {
 
             is_loading = true;
+          
             if (id == 0) {
                 model.unit = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault();
                 model.unit_category_id = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault().unit_category_id;
@@ -179,6 +180,8 @@ namespace eAdmin.Pages.PageProducts
 
         }
 
+      
+
         public async Task Save_Click()
         {
             is_saving = true;
@@ -241,8 +244,8 @@ namespace eAdmin.Pages.PageProducts
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
-            save_model.default_stock_location_products.ForEach(r =>{ r.business_branch = null; r.stock_location = null; });
- 
+            save_model.default_stock_location_products.ForEach(r=> { r.business_branch = null; r.product = null; r.stock_location = null; r.station = null; });
+
             var resp = await http.ApiPost($"Product/Save", save_model);
 
             if (resp.IsSuccess)

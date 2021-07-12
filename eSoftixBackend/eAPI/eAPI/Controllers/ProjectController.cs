@@ -38,7 +38,7 @@ namespace eAPI.Controllers
 
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] ProjectModel u)
+        public async Task<ActionResult<ProjectModel>> Save([FromBody] ProjectModel u)
         {
             if (u.id == Guid.Empty)
             {
@@ -48,12 +48,25 @@ namespace eAPI.Controllers
             {
                 db.Project.Update(u);
             }
-
-          
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await db.Database.ExecuteSqlRawAsync($"sp_update_customer_information '{u.customer_id}'");
+            
             return Ok(u);
         }
 
+        [HttpPost("close")]
+        public async Task<ActionResult<string>> Close([FromBody] ProjectModel u)
+        {
+            var project = await db.Project.FindAsync(u.id);
+            project.is_closed = true;
+            var user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            project.closed_by = user.full_name;
+            project.closed_note = u.closed_note;
+            project.closed_date = DateTime.Now;
+            db.Project.Update(project);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(project);
+        }
 
         [HttpPost("SaveServerID")]
         public async Task<ActionResult<string>> SaveServerID([FromBody] ServerConfigModel u)
@@ -69,13 +82,14 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ProjectModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<ProjectModel>> DeleteRecord(Guid id) //Delete
         {
             var u = await db.Project.FindAsync(id);
             u.is_deleted = !u.is_deleted;
 
             db.Project.Update(u);
-            await db.SaveChangesAsync();
+
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
         }
 
@@ -94,13 +108,12 @@ namespace eAPI.Controllers
         }
         [HttpPost]
         [Route("ChangedCustomer")]
-        public async Task<ActionResult<CustomerModel>> ChangeCustomer(Guid project_id, Guid customer_id)
+        public async Task<ActionResult<CustomerModel>> ChangeCustomer([FromQuery]Guid project_id, [FromQuery] Guid customer_id)
         {
-            var project = await db.Project.FindAsync(project_id);
             var customer = await db.Customers.FindAsync(customer_id);
-            project.customer_id = customer_id;
-            db.Project.Update(project);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            var project = await db.Project.FindAsync(project_id);
+            await db.Database.ExecuteSqlRawAsync($"exec sp_update_customer_project_summary '{customer_id}','{project_id}'");
+            
             return Ok(customer);
         }
         [HttpGet("find")]

@@ -28,7 +28,7 @@
                                      File="@(new AttachFilesModel() { product_id =  id })"
                                      IsVisible="@(!model.is_deleted)" />
 
-                <AddButton url="product/new" roles="@gv.GetRole("ingredient_add")">@lang["New Ingredient"]</AddButton>
+                <AddButton url="ingredient/new" roles="@gv.GetRole("ingredient_add")">@lang["New Ingredient"]</AddButton>
 
                 <MoreButton is_loading="@(model.is_loading ||model.is_change_status || model.is_deleting || model.is_restoring)">
                     <MoreButtonItem roles="@gv.GetRole("ingredient_add")" icon="file_copy" url="@($"ingredient/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
@@ -45,10 +45,9 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_association_products = true)">@lang["Associate Product"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>show_association_products = true)">@lang["Associate Products & Modifiers"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_inventory_transation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
-                    
                 </TabHeader>
                 <TabBody>
                     <TabItem>
@@ -57,7 +56,7 @@
                     <TabItem>
                         @if (show_association_products)
                         {
-                        <ComIngredientProductDetail_AssociationProducts ingredient_id="@model.id" />
+                            <ComIngredientProductDetail_AssociationProductsAndModifiers ingredient_id="@model.id"/>
                         }
                         
                     </TabItem>
@@ -99,7 +98,7 @@
 
     public string api_url { get {
             string url = $"Product({id})";
-            url = url + "?$expand=product_category($select=product_category_en)";
+            url = url + "?$expand=product_category($select=product_category_en),unit,vendor($select=id,vendor_code, vendor_name,photo)";
             return url;
         }
     }

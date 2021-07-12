@@ -1,40 +1,66 @@
-﻿@inherits PageCore
-<UIGridCenter>
-    <UIContainerBox Title="Association Products">
-        <Com is_visible="@(models != null)">
-                <Table Items="@models"
-                       isLoading="@is_loading" 
-                       ShowCounter="false"
-                       ShowPaging="false"
-                       ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
-                    <TableHeader>
-                        <ThCenter>Image</ThCenter>
-                        <ThCenter>Code</ThCenter>
-                        <ThAuto>Name (En)</ThAuto>
-                        <ThAuto>Name (Kh)</ThAuto>
-                        <th>Category</th> 
-                       <ThRight>Price</ThRight>
-                       <ThCenter>Status</ThCenter>
-                        <th class="uk-width-auto"></th>
-                    </TableHeader>
-                    <RowTemplate Context="p">
-                        <TdCenter>
-                            <Image ImageUrl="@http.ImageUrl(p.product?.photo)" PopupImageUrl="@http.ImageUrl(p.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
-                        </TdCenter> 
-                        <TdCenter>
-                            <a href="@($"product/{p.product_id}")">@p.product?.product_code</a>
-                        </TdCenter>
-                        <td>
-                            <a href="@($"product/{p.product_id}")">@p.product?.product_name_en</a>
-                        </td>
-                        <td>
-                            <a href="@($"product/{p.product_id}")">@p.product?.product_name_kh</a>
-                        </td>
-                        <td>@p.product?.product_category?.product_category_en</td>
-                        <TdRight>
-                            @if (p.product.min_price == p.product?.max_price)
+﻿@inherits ProductIngredientRelatedBase
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (!is_loading)
+{ 
+    <PageContainer roles="@gv.GetRole("product_management")" is_container="false">
+        <PageHeader is_subpage="true">
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate><span>Association Products</span></HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight> 
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]"/>
+                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
+                </ComSearch>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            <Table Items="@models"
+                    PerPage="@state.pager.per_page"
+                    TotalItem="@TotalRecord"
+                    CurrentPage="@state.pager.current_page"
+                    OnPagerChange="@SelectChange"
+                    OnPageChange="@ChangePager"
+                    isLoading="@is_loading_data"
+                    ShowPager="true"
+                    ShowCounter="true"
+                    ClassName="uk-table-small uk-table-striped uk-table-hover"
+                    ScrollClass="uk-overflow-auto">
+                <TableHeader>
+                    <ThCenter>@lang["Image"]</ThCenter>
+                    @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
+                    @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
+                    @HeaderTemplate("product_category/product_category_en", lang["Category"])
+                    <ThRight>@lang["Price"]</ThRight>
+                    <ThRight>
+                        @lang["Status"]
+                    </ThRight>
+                    <th class="uk-width-auto"></th>
+                </TableHeader>
+                <RowTemplate Context="p">
+                    <TdCenter>
+                        <Image ImageUrl="@http.ImageUrl(p.product?.photo)" PopupImageUrl="@http.ImageUrl(p.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                    </TdCenter>
+                    <TdCenter>
+                        <a href="@($"product/{p.product_id}")">@p.product?.product_code</a>
+                    </TdCenter>
+                    <td>
+                        <a href="@($"product/{p.product_id}")">@p.product?.product_name_en @(!string.IsNullOrEmpty(p.product?.product_name_kh)? $"({p.product?.product_name_kh})":"")</a>
+                    </td>
+                    <td>@p.product?.product_category?.product_category_en</td>
+                    <TdRight>
+                        @if (p.product.min_price == p.product?.max_price)
                             {
                             <span>@p.product?.min_price.ToString(gv.currency_format)</span>
                             }
@@ -42,34 +68,19 @@
                             {
                             <span>@p.product?.min_price.ToString(gv.currency_format) - @p.product?.max_price.ToString(gv.currency_format)</span>
                             }
-                        </TdRight>
-                        <TdCenter>
-                            <LabelDeleted is_visible="@p.product.is_deleted" />
-                            <LabelActive is_visible="@(!p.product.is_deleted && p.product.status)" />
-                            <LabelInActive is_visible="@(!p.product.is_deleted && !p.product.status)" />
-                        </TdCenter>
-                        <TdActions>
-                            <TableActionItem icon="visibility" is_visible="@(!p.product.is_deleted)" url="@($"product/{p.product_id}")">View</TableActionItem>  
-                        </TdActions>
-                    </RowTemplate>
-                </Table>
-        </Com>
-    </UIContainerBox>
-</UIGridCenter>
-@code {
-    [Parameter] public int ingredient_id { get; set; }
-    List<ProductIngredientRelatedModel> models = new List<ProductIngredientRelatedModel>();
-
-    protected override async Task OnInitializedAsync()
-    {
-            is_loading = true;
-            var resp = await http.ApiGetOData($"ProductIngredientRelated?$filter=ingredient_id eq {ingredient_id}&$expand=product($select=id,photo,is_deleted,min_price,max_price,status,product_code,product_name_en,product_name_kh;$expand=product_category($select=id,product_category_en,product_category_kh))");
-            if (resp.IsSuccess)
-            {
-                models = JsonSerializer.Deserialize<List<ProductIngredientRelatedModel>>(resp.Content.ToString());
-            }else{
-                toast.Add("Cannot get data.", MatToastType.Warning);
-            }
-            is_loading = false;
-        }
+                    </TdRight>
+                    <TdCenter>
+                        <LabelDeleted is_visible="@p.product.is_deleted" />
+                        <LabelActive is_visible="@(!p.product.is_deleted && p.product.status)" />
+                        <LabelInActive is_visible="@(!p.product.is_deleted && !p.product.status)" />
+                    </TdCenter>
+                    <TdActions>
+                        <TableActionItem icon="visibility" is_visible="@(!p.product.is_deleted)" url="@($"product/{p.product_id}")">View</TableActionItem>
+                    </TdActions>
+                </RowTemplate>
+            </Table>
+ 
+        </PageBody>
+    </PageContainer>
 }
+

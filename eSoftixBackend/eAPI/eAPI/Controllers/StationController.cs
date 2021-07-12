@@ -97,6 +97,20 @@ namespace eAPI.Controllers
             db.Database.ExecuteSqlRaw($"exec sp_update_station_information '{id}'");
             return Ok(u);
         }
+
+        [HttpPost]
+        [Route("FullLicense")]
+        public async Task<ActionResult<StationModel>> FullLicense([FromBody]StationModel station) //Delete
+        {
+            var s = await db.Stations.FindAsync(station.id);
+            var user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            s.is_full_license = !s.is_full_license;
+            s.full_license_by = user.full_name;
+            s.full_license_date = station.full_license_date;
+            db.Stations.Update(s);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(s);
+        }
     }
 
 }

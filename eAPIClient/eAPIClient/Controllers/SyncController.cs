@@ -31,6 +31,7 @@ namespace eAPIClient.Controllers
         }
 
         [HttpPost("Sale")] 
+        [AllowAnonymous]
         public async Task<ActionResult> SyncSale(Guid saleId)
         {
             try
@@ -64,9 +65,44 @@ namespace eAPIClient.Controllers
            
         }
 
+        [HttpGet("SyncSale")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncSaleGet(Guid saleId)
+        {
+            try
+            {
+                var _saleData = db.Sales.Where(r => r.id == saleId)
+                     .Include(r => r.sale_payments)
+                     .Include(r => r.sale_products).ThenInclude(r => r.sale_product_modifiers)
+                     .AsNoTrackingWithIdentityResolution();
 
 
-       [HttpPost("GetRemoteData")]    
+                if (_saleData.Count() > 0)
+                {
+                    var _syncResp = await http.ApiPost("Sale/Save", _saleData.FirstOrDefault());
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+
+
+        }
+
+
+
+        [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
         public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool is_service_sync=false)
         {
@@ -178,7 +214,7 @@ namespace eAPIClient.Controllers
             is_get_remote_data_success = false;
             string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section";
 
-            string url = $"product?$select=product_group_id,stock_locations,product_tax_value,product_category_id,product_category_en,product_category_kh,id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
+            string url = $"product?$select=product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
             url = url + $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
             url = url + $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
             url = url + $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";
@@ -190,19 +226,6 @@ namespace eAPIClient.Controllers
                 _products = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());                
                 _products.ForEach((p) =>
                 {
-                    //Get Product Stock Location
-                    p.stock_locations = string.IsNullOrEmpty(p.stock_locations) ? "[]" : p.stock_locations;
-                    List<BusinessBranchStockLocationModel> _businessBranchStockLocations = new List<BusinessBranchStockLocationModel>();
-                    _businessBranchStockLocations = JsonSerializer.Deserialize<List<BusinessBranchStockLocationModel>>(p.stock_locations);
-                    var _data = _businessBranchStockLocations.Where(r => r.business_branch_id.ToLower() == business_branch_id.ToLower());
-                    if (_data.Count()>0)
-                    {
-                        p.stock_locations = JsonSerializer.Serialize((_data.FirstOrDefault().stock_locations));
-                    }
-                    else
-                    {
-                        p.stock_locations = "[]";
-                    }
                     //Get Product Tax Config
                     p.product_tax_value = string.IsNullOrEmpty(p.product_tax_value) ? "[]" : p.product_tax_value;
                     List<BusinessBranchProductTaxConfigModel> _productTaxs = new List<BusinessBranchProductTaxConfigModel>();

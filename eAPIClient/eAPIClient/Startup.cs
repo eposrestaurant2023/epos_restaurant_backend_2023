@@ -106,7 +106,7 @@ namespace eAPIClient
             odataBuilder.EntitySet<ProductModel>("Product");
             odataBuilder.EntitySet<ProductPrinterModel>("ProductPrinter");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
-            odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
+            //odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
             odataBuilder.EntitySet<ProductPortionModel>("ProductPortion");
             odataBuilder.EntitySet<WorkingDayModel>("WorkingDay");
             odataBuilder.EntitySet<CashierShiftModel>("CashierShift");
@@ -114,8 +114,7 @@ namespace eAPIClient
             odataBuilder.EntitySet<CustomerModel>("Customer");
             odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
             odataBuilder.EntitySet<ConfigDataModel>("ConfigData");                 
-            odataBuilder.EntitySet<SaleModel>("Sale");
-            odataBuilder.EntitySet<PrefixPriceModel>("PrefixPrice");
+            odataBuilder.EntitySet<SaleModel>("Sale"); 
             odataBuilder.EntitySet<NoteModel>("Note");
             return odataBuilder.GetEdmModel();
         }

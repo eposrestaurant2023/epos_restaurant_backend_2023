@@ -292,6 +292,7 @@ namespace eAPI.Controllers
                 Include(r=>r.product_menus.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.menu)
                 .Include(r=>r.product_modifiers.Where(r=>r.is_deleted ==false)).ThenInclude(r=>r.modifier)
                 .Include(r=>r.unit)
+                .Include(r=>r.default_stock_location_products)
                 .ToList();
              
             if (data.Any())

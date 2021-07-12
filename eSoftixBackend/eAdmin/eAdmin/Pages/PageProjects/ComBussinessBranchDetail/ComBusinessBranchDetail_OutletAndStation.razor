@@ -17,14 +17,15 @@
                                 <MudText Class="mt-1">@d.outlet_name_en</MudText>
                                 <LabelDeleted  is_visible="@d.is_deleted"/>
                                  
-                                <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading" ClassName="d-flex ml-auto pa-0" >
-                                    <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditOutlet_Click(d))">Edit</MenuButtonItem>
-                                    <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteOutlet_Click(d))">Delete</MenuButtonItem>
-                                    <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteOutlet_Click(d))">Restore</MenuButtonItem>
-                                    <MudDivider/>
-                                    <MenuButtonItem  roles="@gv.GetRole("project_add")"  icon="@Icons.Material.Filled.DesktopWindows" OnClick="@(()=>AddNewStation(d))">Add New Station</MenuButtonItem>
-                                    
-                                 </MenuButton>
+                                     <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading" ClassName="d-flex ml-auto pa-0" >
+                                        <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditOutlet_Click(d))">Edit</MenuButtonItem>
+                                        <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteOutlet_Click(d))">Delete</MenuButtonItem>
+                                        <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteOutlet_Click(d))">Restore</MenuButtonItem>
+                                        <MudDivider/>
+                                        <MenuButtonItem  roles="@gv.GetRole("project_add")"  icon="@Icons.Material.Filled.DesktopWindows" is_visible="@(!d.is_deleted)" OnClick="@(()=>AddNewStation(d))">Add New Station</MenuButtonItem>
+                                    </MenuButton>
+                                 
+                                
                          
                             </div>
                         </TitleContent>
@@ -41,7 +42,7 @@
                                                     <CardHeaderContent>
                                                         <MudText Typo="Typo.body1">@s.station_name_en</MudText>
                                                         <MudText Typo="Typo.body1"><span style="font-style:italic;font-size:12px;">Expired Date:</span> @Convert.ToDateTime(s.expired_date).ToString(gv.date_format)</MudText>
-                                                        <LabelDeleted is_visible="@d.is_deleted"/>
+                                                        <LabelDeleted is_visible="@s.is_deleted"/>
                                                         <LabelExpiredProject visible="@(s.expired_date < DateTime.Now)"/>
                                                         <LabelFullLicense visible="@s.is_full_license"/>
                                                     </CardHeaderContent>
@@ -50,10 +51,10 @@
                                                         <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@d.is_loading">
                                                             <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditStation_Click(s))">Edit</MenuButtonItem>
                                                             <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>AddNewExtendLisence(s))">Extend Expired Date</MenuButtonItem>
-                                                            <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.LockClock" OnClick="@(()=>EditStation_Click(s))">Mark as Full License</MenuButtonItem>
-                                                            <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" OnClick="@(()=>EditStation_Click(s))">Cancel Full License</MenuButtonItem>
-                                                            <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Delete</MenuButtonItem>
-                                                            <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(d.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Restore</MenuButtonItem>
+                                                            <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.LockClock" is_visible="@(!s.is_deleted && !s.is_full_license)" OnClick="@(()=>MarkAsFullLicense_Click(s))">Mark as Full License</MenuButtonItem>
+                                                            <MenuButtonItem  roles="@gv.GetRole("project_edit")"  icon="@Icons.Material.Filled.CalendarToday" is_visible="@(!s.is_deleted && s.is_full_license)" OnClick="@(()=>MarkAsFullLicense_Click(s))">Cancel Full License</MenuButtonItem>
+                                                            <MenuButtonItem roles="@gv.GetRole("project_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!s.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Delete</MenuButtonItem>
+                                                            <MenuButtonItem roles="@gv.GetRole("project_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(s.is_deleted)" OnClick="@(()=>DeleteStation_Click(s))">Restore</MenuButtonItem>
                                                         </MenuButton>
                                                     </CardHeaderActions>
                                                 </MudCardHeader>

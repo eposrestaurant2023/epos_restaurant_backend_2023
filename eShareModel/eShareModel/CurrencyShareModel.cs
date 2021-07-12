@@ -15,5 +15,6 @@ namespace eShareModel
         public bool is_base_exchange_currency { get; set; }
         public bool is_main { get; set; }
         public bool status { get; set; } = true;
+        public string report_format { get; set; }
     }
 }
