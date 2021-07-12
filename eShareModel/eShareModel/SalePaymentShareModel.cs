@@ -24,5 +24,12 @@ namespace eShareModel
 
         public string sale_payment_exchange_rates { get; set; }
         public double exchange_rate { get; set; }
+
+        public decimal change_amount { get; set; }
+        public string currency_name_en { get; set; }
+        public string currency_name_kh { get; set; }
+
+        public string payment_type_name_en { get; set; }
+        public string payment_type_name_kh { get; set; }
     }
 }
