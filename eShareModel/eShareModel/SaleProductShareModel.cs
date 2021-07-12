@@ -10,8 +10,6 @@ namespace eShareModel
 
         public Guid sale_order_id { get; set; }
 
-        public Guid? stock_location_id { get; set; }
-
         public int product_group_id { get; set; }
         public int product_category_id { get; set; }
         public string product_group_en { get; set; }

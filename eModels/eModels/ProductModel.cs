@@ -151,7 +151,6 @@ namespace eModels
         public int total_product_menu { get; set; }
          [NotMapped, JsonIgnore]
         public int unit_category_id { get; set; }
-        public string stock_locations { get; set; }
 
 
         [NotMapped, JsonIgnore]

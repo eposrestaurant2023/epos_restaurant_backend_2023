@@ -77,7 +77,7 @@ namespace eAPI.Controllers
             return Ok(u);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("clone/{id}")]
         public ActionResult<ModifierModel> Clone(int id) //clone
         {
