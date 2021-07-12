@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 using MudBlazor;
+using eAdmin.Pages.PageProjects.ComProjectDetails;
 
 namespace eAdmin.Pages.PageProjects
 {
@@ -90,8 +91,32 @@ namespace eAdmin.Pages.PageProjects
 
             is_loading = false;
         }
+        
+        public async Task OnCloseProject_Click()
+        {
+            DialogParameters parameters = new DialogParameters();
+            parameters.Add("model", model);
+            var dialog = alert.Show<ComProjectDetail_ClosedProject>("Close Project", parameters, new DialogOptions() { CloseButton = true });
+            var result = await dialog.Result;
+            if (!result.Cancelled)  
+            {
+                is_loading_data = true;
+                StateHasChanged();
+                var res = await http.ApiPost("Project/Close", (ProjectModel)result.Data);
+                if (res.IsSuccess)
+                {
+                    AddToast("Save Successfull");
+                    await LoadProject();
+                }
+                else
+                {
+                    AddToast(res.Content.ToString(), Severity.Warning);
+                }
+                is_loading_data = false;
+            }
+        }
 
-   
+
 
 
     }

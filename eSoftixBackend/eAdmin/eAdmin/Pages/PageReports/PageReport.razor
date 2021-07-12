@@ -1,6 +1,28 @@
 ﻿@page "/report"
-<h3>PageReport</h3>
+@layout ReportLayout
+<PageContainer>
+    @foreach (var p in app.gv.permission_options.Where(r=>r.parent_id == 9))
+    {
+        <MudListItem OnClick="@(()=>MainReport_Click(p.id))">
+          @p.note  
+        </MudListItem>
+        if(main_report_id > 0){
+            @foreach (var sp in app.gv.permission_options.Where(r=>r.parent_id == main_report_id)){
+                <MudListItem OnClick="@(()=>MainReport_Click(p.id))">
+                  @sp.note  
+                </MudListItem>
+            }
+        }
+    }
+
+</PageContainer>
 
 @code {
+    [CascadingParameter] public AppState app {get;set;}
+    int main_report_id = 0;
+
+    void MainReport_Click(int id){
+        main_report_id = id;
+    }
 
 }

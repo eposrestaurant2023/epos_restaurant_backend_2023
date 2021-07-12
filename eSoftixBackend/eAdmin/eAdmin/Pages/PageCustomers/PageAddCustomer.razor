@@ -94,7 +94,7 @@
     </PageBody>
            <PageFooter>
            <Center>
-               <MudButton Disabled="@model.is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">Save
+               <MudButton Disabled="@model.is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mx-2">Save
                 @if(model.is_saving){
                     <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
                 }

@@ -15,15 +15,14 @@ namespace eAPI.Controllers
 
             if (user != null)
             {
-
-                foreach (var item in db.ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Added && (e.Entity is CoreModel || e.Entity is CoreNoDeleted)))
+                foreach (var item in db.ChangeTracker.Entries().Where(e => e.State == EntityState.Added && (e.Entity is Core || e.Entity is CoreNoDeleted)))
                 {
-                    var entidad = item.Entity as CoreModel;
+                    var entidad = item.Entity as Core;
                     var entinodeleted = item.Entity as CoreNoDeleted;
                     
                     if (entidad != null)
                     {
+                        entidad.last_modified = DateTime.Now;
                         entidad.created_date = DateTime.Now;
                         entidad.created_by = user.full_name;
                     }
@@ -32,33 +31,20 @@ namespace eAPI.Controllers
                         entinodeleted.created_date = DateTime.Now;
                         entinodeleted.created_by = user.full_name;
                     }
-
-                    
-
-
-                    
                 }
 
-
                 foreach (var item in db.ChangeTracker.Entries()
-                    .Where(e => e.State == EntityState.Modified && e.Entity is CoreModel))
+                    .Where(e => e.State == EntityState.Modified && e.Entity is Core))
                 {
-                    var entidad = item.Entity as CoreModel;
+                    var entidad = item.Entity as Core;
+                    entidad.last_modified = DateTime.Now;
                     if (entidad.is_deleted == true)
                     {
                         entidad.deleted_date = DateTime.Now;
                         entidad.deleted_by = user.full_name;
                     }
 
-
                 }
- 
-
-               
-
-
-
-
 
             }
 
@@ -71,15 +57,15 @@ namespace eAPI.Controllers
             if (user != null)
             {
                 foreach (var item in db.ChangeTracker.Entries()
-                    .Where(e => e.State == EntityState.Added && (e.Entity is CoreModel|| e.Entity is CoreNoDeleted)))
+                    .Where(e => e.State == EntityState.Added && (e.Entity is Core || e.Entity is CoreNoDeleted)))
                 {
-                    var entidad = item.Entity as CoreModel;
+                    var entidad = item.Entity as Core;
                     var entinodeleted = item.Entity as CoreNoDeleted;
                     
-
                     if (entidad != null)
                     {
                         entidad.created_date = DateTime.Now;
+                        entidad.last_modified = DateTime.Now;
                         entidad.created_by = user.full_name;
                     }
                     if (entinodeleted != null)
@@ -92,9 +78,10 @@ namespace eAPI.Controllers
                 }
 
                 foreach (var item in db.ChangeTracker.Entries()
-                    .Where(e => e.State == EntityState.Modified && e.Entity is CoreModel))
+                    .Where(e => e.State == EntityState.Modified && e.Entity is Core))
                 {
-                    var entidad = item.Entity as CoreModel;
+                    var entidad = item.Entity as Core;
+                    entidad.last_modified = DateTime.Now;
                     if (entidad.is_deleted == true)
                     {
                         entidad.deleted_date = DateTime.Now;
