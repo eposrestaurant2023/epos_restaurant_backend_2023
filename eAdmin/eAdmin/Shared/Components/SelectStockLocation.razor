@@ -1,7 +1,11 @@
 ﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
-    <div class="uk-form-controls">
-        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+    @if (!string.IsNullOrEmpty(label))
+    {
+        <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
+    }
+
+    <div class="@(!string.IsNullOrEmpty(label) ? "uk-form-controls" : "")">
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
             @if (show_empty)
             {
                 <option value="@Guid.Empty">@empty_text</option>
