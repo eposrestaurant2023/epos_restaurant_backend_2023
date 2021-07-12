@@ -83,6 +83,8 @@ namespace eAPI.Controllers
         {
             var u = db.Modifiers.Find(id);
             u.id = 0;
+            u.is_deleted = false;
+            u.status = false;
             u.created_date = DateTime.Now;
             return Ok(u);
         }
