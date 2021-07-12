@@ -21,6 +21,8 @@ namespace eModels
         [MaxLength(50)]
         public string discount_code { get; set; }
 
-        public decimal discount_value { get; set; }      
+        public decimal discount_value { get; set; }
+
+        public string discount_type { get; set; } = "Percent";//Percent, Amount
     }
 }
