@@ -1,6 +1,32 @@
 ﻿@page   "/user/profile"
-<h3>PageUserProfile</h3>
+@inherits PageCore
+<PageContainer>
+    <PageHeader>
+        <Left>
+            Profile
+        </Left>
+        <Right></Right>
+    </PageHeader>
+      <EditForm Model="@model">
+    <PageBody>
+        <UICenter>
+             <UIPanel Title="Photo">
+                    <FileUpload @bind-ImageUrl="model.photo"></FileUpload>
+                </UIPanel>
+            <UIPanel Title="General Information">
+               <MudTextField @bind-Value="TextValue" Label="UserName" Variant="Variant.Text"></MudTextField>
+               <MudTextField @bind-Value="TextValue" Label="Password" Variant="Variant.Text"></MudTextField>
+            </UIPanel>
+        </UICenter>
+    </PageBody>
+    </EditForm>
+</PageContainer>
 
 @code {
+    public string TextValue { get; set; }
+    public UserModel model { get; set; }
 
+
+
+    
 }

@@ -49,7 +49,7 @@ namespace eAPI.Controllers
  
             gv.countries = db.Countries.ToList();
             gv.stock_locations = db.StockLocations.ToList();
-            gv.outlets = db.Outlets.ToList();
+            gv.outlets = db.Outlets.Include(r=>r.stations).ToList();
             gv.vendors = db.Vendors.ToList();
             gv.vendor_groups = db.VendorGroups.Where(r => r.is_deleted == false && status == true).ToList();
             gv.provinces = db.Provinces.ToList();

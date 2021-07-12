@@ -16,7 +16,7 @@ namespace eAdmin.Pages.PageProducts
         [Parameter] public int clone_id { get; set; }
         public ProductModel model { get; set; } = new ProductModel();
         ApiResponseModel error_saving_info = new ApiResponseModel();
- 
+       
         public string PageTitle
         {
             get
@@ -83,6 +83,7 @@ namespace eAdmin.Pages.PageProducts
         {
 
             is_loading = true;
+          
             if (id == 0) {
                 model.unit = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault();
                 model.unit_category_id = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault().unit_category_id;
@@ -179,6 +180,8 @@ namespace eAdmin.Pages.PageProducts
 
         }
 
+      
+
         public async Task Save_Click()
         {
             is_saving = true;
@@ -241,8 +244,25 @@ namespace eAdmin.Pages.PageProducts
             save_model.is_menu_product = true;
             save_model.vendor = null;
             save_model.vendor_id = save_model.vendor_id == 0 ? null : save_model.vendor_id;
-            save_model.default_stock_location_products.ForEach(r =>{ r.business_branch = null; r.stock_location = null; });
- 
+            
+            
+            //foreach (var d in outlets.SelectMany(r=>r.stations).ToList())
+            //{
+            //    if (save_model.default_stock_location_products.Where(r=>r.station_id != d.id).Any())
+            //    {
+            //        save_model.default_stock_location_products.Add(
+            //            new DefaultStockLocationProductModel 
+            //            {
+            //                business_branch_id = save_model.default_stock_location_products.FirstOrDefault().business_branch_id,
+            //                stock_location_id = save_model.default_stock_location_products.FirstOrDefault().stock_location_id,
+            //                station_id = d.id
+            //            }
+            //        );
+            //    }
+            //} 
+
+            save_model.default_stock_location_products.ForEach(r => { r.business_branch = null; r.stock_location = null; });
+
             var resp = await http.ApiPost($"Product/Save", save_model);
 
             if (resp.IsSuccess)

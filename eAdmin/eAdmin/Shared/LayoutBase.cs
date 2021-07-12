@@ -110,7 +110,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "roles,";
                      
                     api_url = api_url + "countries,";
-                    api_url = api_url + "outlets,";
+                    api_url = api_url + "outlets($expand=stations),";
                     api_url = api_url + "category_notes,";
                     api_url = api_url + "stock_locations($expand=business_branch),";
                     api_url = api_url + "printers,";
