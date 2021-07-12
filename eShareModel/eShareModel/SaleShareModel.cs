@@ -74,6 +74,8 @@ namespace eShareModel
 
 
         //Other 
+
+        public string currency_exchange_rate_data { get; set; }
         public string sale_note { get; set; }
         public int status_id { get; set; }
         //

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210712014154_salePayment")]
+    partial class salePayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -663,10 +665,6 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("currency_exchange_rate_data")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<Guid?>("customer_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -861,9 +859,6 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime>("created_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("currency_id")
-                        .HasColumnType("int");
-
                     b.Property<string>("currency_name_en")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -922,6 +917,10 @@ namespace eAPIClient.Migrations
 
                     b.Property<Guid?>("sale_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("sale_payment_exchange_rates")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
