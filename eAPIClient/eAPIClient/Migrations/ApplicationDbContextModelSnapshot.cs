@@ -505,10 +505,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("stock_locations")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.HasKey("id");
 
                     b.ToTable("tbl_product");
@@ -852,6 +848,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal>("change_amount")
                         .HasColumnType("decimal(19,4)");
+
+                    b.Property<double>("change_exchange_rate")
+                        .HasColumnType("float");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)

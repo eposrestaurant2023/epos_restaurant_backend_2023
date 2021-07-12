@@ -106,7 +106,7 @@ namespace eAPIClient
             odataBuilder.EntitySet<ProductModel>("Product");
             odataBuilder.EntitySet<ProductPrinterModel>("ProductPrinter");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
-            odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
+            //odataBuilder.EntitySet<ProductModifierModel>("ProductModifier");
             odataBuilder.EntitySet<ProductPortionModel>("ProductPortion");
             odataBuilder.EntitySet<WorkingDayModel>("WorkingDay");
             odataBuilder.EntitySet<CashierShiftModel>("CashierShift");
