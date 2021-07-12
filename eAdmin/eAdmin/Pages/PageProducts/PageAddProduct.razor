@@ -73,7 +73,7 @@
                                         <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
                                     </UIContainerBox>
                                     @if(gv.project_has_inventory){ 
-                                        <ComAddInventoryProduct @bind-model="@model"/>
+                                        <ComAddInventoryProduct @bind-model="@model" outlets="@outlets"/>
                                     }
                                     <ComAddProduct_Portion @bind-model="@model" />
                                     @if(gv.system_feature_status("KOT")){  
