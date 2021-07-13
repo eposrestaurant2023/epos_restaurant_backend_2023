@@ -36,7 +36,16 @@ namespace eAPI.Controllers
            
         }
 
-        
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        [AllowAnonymous]
+        [Route("getsingle")]
+        public async Task<SingleResult<StationModel>> Get([FromODataUri] Guid key)
+        {
+            return await Task.Factory.StartNew(() => SingleResult.Create<StationModel>(db.Stations.Where(r => r.id == key).AsQueryable()));
+        }
+
+
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] StationModel u)
         {

@@ -3126,7 +3126,7 @@ namespace eAPI.Migrations
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<int>("table_id")
+                    b.Property<int?>("table_id")
                         .HasColumnType("int");
 
                     b.Property<string>("table_name")
