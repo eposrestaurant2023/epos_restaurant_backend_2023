@@ -96,8 +96,18 @@ namespace eAPIClient.Controllers
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     }
                 }
-                FileStream fs = new FileStream($"c:\\epossync\\{model.id}.txt", FileMode.Create);
-                fs.Close();
+
+                string path = @"c:\\epossync";
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                } 
+                // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, $"{model.id}.txt")))
+                {
+                    await outputFile.WriteAsync(model.id.ToString());
+                }
+                 
 
                 
                 return Ok(model);
