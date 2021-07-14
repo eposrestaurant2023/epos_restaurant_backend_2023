@@ -22,7 +22,6 @@
                         <tr>
                             <ThAuto>Station</ThAuto>
                             <th>Stock location</th>
-                            <ThCenter>Status</ThCenter>
                         </tr>
                         @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
                         {
@@ -35,11 +34,6 @@
                                         <td>
                                             @d.stock_location?.stock_location_name
                                         </td>
-                                        <TdCenter>
-
-                                            <ComSystemFeatureStatus is_deleted="@d.station.is_deleted" is_full_license="@d.station.is_full_license" expired_date="@d.station.expired_date" />
-
-                                        </TdCenter>
                                     </tr>
                                 }
                             }

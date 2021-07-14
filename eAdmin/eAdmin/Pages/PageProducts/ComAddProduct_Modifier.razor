@@ -31,7 +31,7 @@
                             <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="80px" class_name="uk-text-center" />
                         </TdCenter>
                         <TdCenter>
-                            <Icon icon="delete" OnClick="@(() => DeleteModifier(pm))" is_visible="@(pm.modifier_group_id == 0)" />
+                            <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children,pm))" is_visible="@(pm.modifier_group_id == 0)" />
                         </TdCenter>
                     </tr>
                 }
@@ -85,7 +85,7 @@ else
     }
 
 
-    void DeleteModifier(ProductModifierModel pm)
+    void DeleteModifier(List<ProductModifierModel> child_pm ,ProductModifierModel pm)
     {
         if (pm.id > 0)
         {
@@ -93,7 +93,8 @@ else
         }
         else
         {
-            model.product_modifiers.Remove(pm);
+            //model.product_modifiers.Remove(pm);
+            child_pm.Remove(pm);
         }
     }
 
