@@ -45,11 +45,6 @@
     [CascadingParameter] public AppState app {get;set;}
     int main_report_id = 0;
 
-    protected override void OnInitialized()
-    {
-        Console.WriteLine(JsonSerializer.Serialize(app.gv.permission_options.Where(r=>r.parent_id == 9)));
-    }
-
     void MainReport_Click(int id){
         main_report_id = id;
     }
