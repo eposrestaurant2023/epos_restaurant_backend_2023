@@ -76,6 +76,7 @@
         if (resp.IsSuccess)
         {
             toast.Add("Checked System Features", MatBlazor.MatToastType.Success);
+            await OnInitializedAsync();
         }
         is_loading = false;
     }

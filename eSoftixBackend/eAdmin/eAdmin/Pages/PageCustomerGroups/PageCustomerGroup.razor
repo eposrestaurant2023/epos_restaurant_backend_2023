@@ -152,15 +152,7 @@
         {
             is_loading_data=true;
             StateHasChanged();
-            var res = await http.ApiPost("customergroup/save",group);
-            if(res.IsSuccess)
-            {
-                AddToast("Save Successfull");
-                await LoadData();
-                
-            }else{
-                AddToast(res.Content.ToString(),Severity.Warning);
-            }
+            await Task.Delay(100);
             is_loading_data=false;
         }
 

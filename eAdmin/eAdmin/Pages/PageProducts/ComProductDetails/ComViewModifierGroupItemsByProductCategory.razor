@@ -21,13 +21,14 @@ foreach (var mg in models.Select(r => r.modifier_group).Where(r => r.modifier_gr
                     </div>
                 </td>
                 <td colspan="2">
-                    @foreach (var c in m.children.OrderBy(r => r.sort_order))
-                    {
-                        <Grid ClassName="uk-grid-small">
-                            <div class="uk-width-expand" uk-leader><a href="@($"modifier/{c.modifier.id}")" target="_blank">@c.modifier?.modifier_name</a></div>
-                            <div class="uk-width-auto">@c.price.ToString(gv.main_currency_format)</div>
-                        </Grid>
-                    }
+                        @foreach (var c in m.children.OrderBy(r => r.sort_order))
+                        {
+                            <Grid ClassName="uk-grid-small">
+                                <div class="uk-width-expand" uk-leader><a href="@($"modifier/{c.modifier?.id}")" target="_blank">@c.modifier?.modifier_name</a></div>
+                                <div class="uk-width-auto">@c.price.ToString(gv.main_currency_format)</div>
+                            </Grid>
+                        }
+                    
                 </td>
             </tr>
         }
@@ -36,5 +37,5 @@ foreach (var mg in models.Select(r => r.modifier_group).Where(r => r.modifier_gr
 
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public List<ModifierGroupProductCategoryModel> models { get; set; }
+    [Parameter] public List<ModifierGroupProductCategoryModel> models { get; set; } = new List<ModifierGroupProductCategoryModel>();
 }
