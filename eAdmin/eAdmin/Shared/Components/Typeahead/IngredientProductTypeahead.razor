@@ -30,7 +30,6 @@
 @code{
 
     [Parameter] public string label { get; set; } = "Product";
-    [Parameter] public string status { get; set; } = "";
     [Parameter] public string placeholder { get; set; } = "Select Product";
     [Parameter] public ProductModel product { get; set; } = null;
     [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
@@ -48,15 +47,11 @@
             state.filters.Clear();
 
             state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
-
-            if (status == "Active")
-            {
-                state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
-            }
-            else if (status == "Inactive")
-            {
-                state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
-            }
+ 
+            state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
+    
+            state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
+ 
             state.filters.Add(new FilterModel() { key="" });
 
             api_url = api_url + GetFilter(state.filters);

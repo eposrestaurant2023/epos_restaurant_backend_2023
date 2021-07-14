@@ -28,7 +28,7 @@
                 </thead>
                 <tbody>
 
-                    @foreach (var p in model.stock_location_products)
+                    @foreach (var p in model.stock_location_products.OrderBy(r => r.stock_location.stock_location_name).ToList())
                     {
                         <tr>
                             <td>
@@ -102,7 +102,7 @@
                                     </tr>
                                     @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
                                     {
-                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).ToList())
+                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r=>r.station.station_name_en).ToList())
                                         {
                                             @if (d.station != null)
                                             {

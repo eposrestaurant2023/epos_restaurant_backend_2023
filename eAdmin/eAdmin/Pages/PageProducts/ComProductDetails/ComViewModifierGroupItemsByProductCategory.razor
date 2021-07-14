@@ -1,19 +1,21 @@
-﻿@if (models.Any()) { 
-foreach (var mg in models.Select(r => r.modifier_group).Where(r => r.modifier_group_items.Any()).ToList())
+﻿@if (models.Any())
 {
-    foreach (var m in mg.modifier_group_items)
+ 
+    foreach (var mg in models.Select(r => r.modifier_group).Where(r => r.modifier_group_items.Any()).ToList())
     {
-        <tr>
-            <td>
-                <div>
+        foreach (var m in mg.modifier_group_items)
+        {
+            <tr>
+                <td>
+                    <div>
 
-                    @if (!string.IsNullOrEmpty(mg.modifier_group_display_name))
-                    {<a href="modifiergroup/@mg.id" target="_blank"><span uk-tooltip="Modifier Group Name">(@mg.modifier_group_display_name)</span></a>
-            }
-            else
-            {
-                <span>@m.section_name</span>
-            }
+                        @if (!string.IsNullOrEmpty(mg.modifier_group_display_name))
+                        {<a href="modifiergroup/@mg.id" target="_blank"><span uk-tooltip="Modifier Group Name">(@mg.modifier_group_display_name)</span></a>
+                    }
+                    else
+                    {
+                        <span>@m.section_name</span>
+                    }
                     </div>
                     <div class="uk-margin-small-top">
                         <LabelIsRequired is_visible="@m.is_required" />
