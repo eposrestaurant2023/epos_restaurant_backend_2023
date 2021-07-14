@@ -37,12 +37,15 @@
                                                     <div> 
                                                             <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("product_group_category_edit")"/>
                                                             <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("product_group_category_edit")"/>
+
                                                             <span>
                                                                 <Icon icon="edit" url="@($"productcategory/edit/{d.id}")" roles="@gv.GetRole("product_group_category_edit")"/> 
                                                             </span>
+                                                            
                                                             <span>
-                                                                <Icon icon="delete" OnClick="@(()=>Deleted(d))" roles="@gv.GetRole("product_group_category_delete")"/> 
+                                                                <Icon icon="delete" OnClick="@(()=>Deleted(d))" roles="@gv.GetRole("product_group_category_delete")" is_visible="@(!d.is_built_in)"/> 
                                                             </span> 
+
                                                     </div>
                                                 </Column>
                                             </div>
@@ -108,7 +111,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=product_categories($filter=is_deleted eq false)&$filter=is_built_in eq false and is_deleted eq false";
+            api_url = $"{ControllerApi}?$expand=product_categories($filter=is_deleted eq false)&$filter=is_deleted eq false and id ne 1";
         }
 
         var resp = await http.ApiGetOData(api_url);

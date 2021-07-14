@@ -15,8 +15,8 @@ namespace eShareModel
         public Guid? customer_id { get; set; }
 
         public int guest_cover { get; set; } = 0;
-        public int table_id { get; set; }
-        public string table_name { get; set; }
+        public int? table_id { get; set; }
+        public string table_name { get; set; } = "";
         public Guid working_day_id { get; set; }
         public Guid cashier_shift_id { get; set; }
 

@@ -10,8 +10,8 @@ using eAPI;
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210712093846_last_modifier")]
-    partial class last_modifier
+    [Migration("20210713051907_tableid")]
+    partial class tableid
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -3128,7 +3128,7 @@ namespace eAPI.Migrations
                     b.Property<decimal>("sub_total")
                         .HasColumnType("decimal(19,4)");
 
-                    b.Property<int>("table_id")
+                    b.Property<int?>("table_id")
                         .HasColumnType("int");
 
                     b.Property<string>("table_name")
