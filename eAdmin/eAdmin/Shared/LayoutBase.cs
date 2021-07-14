@@ -123,6 +123,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "inventory_transaction_type,";
                     api_url = api_url + "unit_categories,";
                     api_url = api_url + "kitchen_groups,";
+                    api_url = api_url + "business_branch_system_features,";
                     api_url = api_url + "system_features";
 
                     GetResponse res = await http.ApiGet(api_url);

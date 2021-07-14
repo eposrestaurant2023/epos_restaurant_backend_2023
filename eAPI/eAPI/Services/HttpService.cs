@@ -41,9 +41,9 @@ namespace eAPI.Services
         {
             HttpStatusCode StatusCode = new HttpStatusCode();
 
-
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:NZNHBAMudv%EFeQ-hGCc^9rJpF69m%$hRD%A*");
+           
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:MN[D8beAt:AWeW5");
             string val = System.Convert.ToBase64String(plainTextBytes);
             http.DefaultRequestHeaders.Remove("Authorization");
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
@@ -73,17 +73,12 @@ namespace eAPI.Services
             string base_url = _configuration.GetValue<string>("apieSoftixUrl");
 
 
-
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:NZNHBAMudv%EFeQ-hGCc^9rJpF69m%$hRD%A*");
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:MN[D8beAt:AWeW5");
             string val = System.Convert.ToBase64String(plainTextBytes);
 
             http.DefaultRequestHeaders.Remove("Authorization");
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
-
-
-
-
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
             if (obj != null)

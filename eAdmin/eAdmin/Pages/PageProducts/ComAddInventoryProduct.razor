@@ -77,20 +77,22 @@
                 </tfoot>
             </table>
         }
-        @if (!is_ingredient)
-        { 
+        
             <div class="defualt-stock-location">
                 <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
                 <Tab>
                     <TabHeader>
                         @foreach (var b in gv.business_branch_by_role)
                         {
+                             if(gv.business_branch_has_inventory(b.id.ToString())){
                             <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                            }
                         }
                     </TabHeader>
                     <TabBody>
                         @foreach (var b in gv.business_branch_by_role)
                         {
+                             if(gv.business_branch_has_inventory(b.id.ToString())){
                             <TabItem>
                                 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                     <tr>
@@ -133,11 +135,12 @@
                                 </table>
                             </TabItem>
                         }
+                        }
                     </TabBody>
                 </Tab>
 
             </div>
-        }
+        
     </Com>
 </UIContainerBox>
 @code {

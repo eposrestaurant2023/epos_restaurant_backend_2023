@@ -162,7 +162,7 @@ namespace eAPI.Controllers
 
 
                 db.Database.ExecuteSqlRaw("exec sp_update_system_feature_permission_option");
-                db.Database.ExecuteSqlRaw("exec sp_update_product_default_stock_location 0" );
+                db.Database.ExecuteSqlRaw("exec sp_update_build_in_role_permission");
 
                 return true;
             } 

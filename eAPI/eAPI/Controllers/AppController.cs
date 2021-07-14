@@ -61,6 +61,7 @@ namespace eAPI.Controllers
             gv.inventory_transaction_type= db.InventoryTransactionTypes.ToList();
             gv.kitchen_groups= db.KitchenGroups.ToList();
             gv.system_features = db.system_features.ToList();
+            gv.business_branch_system_features= db.BusinessBranchSystemFeatures.ToList();
 
             return Ok(gv);
         }

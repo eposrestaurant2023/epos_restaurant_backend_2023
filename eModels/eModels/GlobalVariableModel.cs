@@ -273,8 +273,8 @@ namespace eModels
             {
                 return "R";
             }
-        } 
-        
+        }
+
         public string percentage_format
         {
             get
@@ -354,17 +354,21 @@ namespace eModels
         }
 
         public List<SystemFeatureModel> system_features { get; set; }
+        public List<BusinessBranchSystemFeatureModel> business_branch_system_features { get; set; }
+
+
+
         public bool project_has_inventory { get {
-                return project_has_simple_inventory || project_has_advance_inventory; 
-            } 
+                return project_has_simple_inventory || project_has_advance_inventory;
+            }
         }
-          public bool project_has_simple_inventory { get {
+        public bool project_has_simple_inventory { get {
                 return system_feature_status("INV_SIMPLE");
-            } 
+            }
         }
-          public bool project_has_advance_inventory { get {
+        public bool project_has_advance_inventory { get {
                 return system_feature_status("INV_ADVANCE");
-            } 
+            }
         }
         public bool system_feature_status(string code)
         {
@@ -376,12 +380,60 @@ namespace eModels
             }
 
             return true;
-             
+
         }
 
         public bool business_branch_has_inventory(string business_branch_id)
         {
-            return true;
+
+            return business_branch_has_simple_inventory(business_branch_id) || business_branch_has_advance_inventory(business_branch_id);
+        } 
+        public bool business_branch_has_simple_inventory(string business_branch_id)
+        {
+
+            Guid id = Guid.Empty;
+            if (system_features.Any())
+            {
+                var d = system_features.Where(r => r.feature_code == "INV_SIMPLE");
+                if (d.Any())
+                {
+                    id = d.FirstOrDefault().id;
+                }
+            }
+
+            if (id != Guid.Empty)
+            {
+                var f = business_branch_system_features.Where(r => r.business_branch_id.ToString() == business_branch_id && r.system_feature_id == id);
+                if (f.Any())
+                {
+                    return f.FirstOrDefault().status;
+                }
+            }
+
+            return false;
+        } 
+        public bool business_branch_has_advance_inventory(string business_branch_id)
+        {
+            Guid id = Guid.Empty;
+            if (system_features.Any())
+            {
+                var d = system_features.Where(r => r.feature_code == "INV_ADVANCE");
+                if (d.Any())
+                {
+                    id = d.FirstOrDefault().id;
+                }
+            }
+
+            if (id != Guid.Empty)
+            {
+                var f = business_branch_system_features.Where(r => r.business_branch_id.ToString() == business_branch_id && r.system_feature_id == id);
+                if (f.Any())
+                {
+                    return f.FirstOrDefault().status;
+                }
+            }
+
+            return false;
         }
 
     }
