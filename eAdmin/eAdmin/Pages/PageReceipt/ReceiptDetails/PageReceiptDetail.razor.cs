@@ -39,6 +39,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         public async Task LoadData()
         {
             is_loading_data = true;
+            is_loading = true;
             var resp =await http.ApiGet(api_url);
             if (resp.IsSuccess)
             {
@@ -55,6 +56,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
 
                 is_loading_data = false;
             }
+            is_loading = false;
             is_loading_data = false;
         }
 

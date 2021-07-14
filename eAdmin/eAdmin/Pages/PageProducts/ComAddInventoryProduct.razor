@@ -28,7 +28,7 @@
                 </thead>
                 <tbody>
 
-                    @foreach (var p in model.stock_location_products)
+                    @foreach (var p in model.stock_location_products.OrderBy(r => r.stock_location.stock_location_name).ToList())
                     {
                         <tr>
                             <td>
@@ -79,12 +79,13 @@
         }
         
             <div class="defualt-stock-location">
-                <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
+                <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
                 <Tab>
                     <TabHeader>
                         @foreach (var b in gv.business_branch_by_role)
                         {
-                             if(gv.business_branch_has_inventory(b.id.ToString())){
+                           
+                            if(gv.business_branch_has_inventory(b.id.ToString())){
                             <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
                             }
                         }
@@ -98,11 +99,10 @@
                                     <tr>
                                         <ThAuto>Station</ThAuto>
                                         <th>Stock location</th>
-                                        <ThCenter>Status</ThCenter>
                                     </tr>
                                     @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
                                     {
-                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).ToList())
+                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r=>r.station.station_name_en).ToList())
                                         {
                                             @if (d.station != null)
                                             {
@@ -111,11 +111,6 @@
                                                     <td>
                                                         <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="Select Defualt Stock Location" width="260px" />
                                                     </td>
-                                                    <TdCenter>
-
-                                                        <ComSystemFeatureStatus is_deleted="@d.station.is_deleted" is_full_license="@d.station.is_full_license" expired_date="@d.station.expired_date" />
-
-                                                    </TdCenter>
                                                 </tr>
                                             }
                                         }
@@ -167,7 +162,7 @@
                 {
                     foreach (var d in gv.stock_locations)
                     {
-                        model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id });
+                        model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id,stock_location = d });
                     }
                 }
 

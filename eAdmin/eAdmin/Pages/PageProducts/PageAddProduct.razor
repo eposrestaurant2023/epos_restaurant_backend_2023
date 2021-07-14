@@ -60,7 +60,7 @@
                                         <SelectKitchenGroupNullable @bind-selected_value="@model.kitchen_group_id" show_empty="true" />
 
                                         <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@model.unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
-                                        
+
                                         <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@model.unit_category_id" is_select_unit_category="true" show_empty="false">
                                             <ValidationMessage For="@(()=>model.unit_id)" />
                                         </SelectUnit>

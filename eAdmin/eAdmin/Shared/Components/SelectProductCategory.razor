@@ -87,6 +87,7 @@
         }
         else
         {
+
             await product_categoryChanged.InvokeAsync(gv.product_categories.Where(r => r.id == selected_value).FirstOrDefault());
         }
 

@@ -1,20 +1,44 @@
 ﻿@page "/report"
 @layout ReportLayout
-<PageContainer>
-    @foreach (var p in app.gv.permission_options.Where(r=>r.parent_id == 9))
-    {
-        <MudListItem OnClick="@(()=>MainReport_Click(p.id))">
-          @p.note  
-        </MudListItem>
-        if(main_report_id > 0){
-            @foreach (var sp in app.gv.permission_options.Where(r=>r.parent_id == main_report_id)){
-                <MudListItem OnClick="@(()=>MainReport_Click(p.id))">
-                  @sp.note  
-                </MudListItem>
-            }
-        }
-    }
 
+<PageContainer>
+ <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudPaper Elevation="25" Class="px-3 py-6 mr-6" MinWidth="250px">
+        <MudList>
+            @foreach (var p in app.gv.permission_options.Where(r=>r.parent_id == 9))
+            {
+            <MudListItem OnClick="@(()=>MainReport_Click(p.id))">
+              @p.note  
+            </MudListItem>
+            }
+        </MudList>
+        
+        </MudPaper>
+    </MudHidden>
+    <MudPaper Elevation="25" Class="py-4 flex-grow-1">
+        
+        @if(main_report_id > 0){
+            <MudList>
+                @foreach (var sp in app.gv.permission_options.Where(r=>r.parent_id == main_report_id)){
+                    <MudListItem>
+                      @sp.note  
+                    </MudListItem>
+                }
+        </MudList>
+        }
+        else
+        {
+            <MudList>
+                @foreach (var sp in app.gv.permission_options.Where(r=>r.parent_id == main_report_id)){
+                    <MudListItem>
+                      @sp.note  
+                    </MudListItem>
+                }
+        </MudList>
+        }
+        </MudPaper>
+    
+        
 </PageContainer>
 
 @code {

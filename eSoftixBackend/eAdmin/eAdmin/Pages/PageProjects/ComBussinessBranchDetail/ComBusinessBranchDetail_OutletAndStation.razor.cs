@@ -142,7 +142,7 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             }
             else
             {
-                //outlets.Where(r=>r.stations.se)(StationModel)result.Data
+                outlets.SelectMany(r => r.stations).Where(r=>r.id == _station.id).FirstOrDefault().is_full_license = ((StationModel)result.Data).is_full_license;
             }
         }
 
