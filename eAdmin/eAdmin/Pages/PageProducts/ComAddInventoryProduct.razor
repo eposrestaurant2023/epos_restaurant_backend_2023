@@ -79,12 +79,13 @@
         }
         
             <div class="defualt-stock-location">
-                <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
+                <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
                 <Tab>
                     <TabHeader>
                         @foreach (var b in gv.business_branch_by_role)
                         {
-                             if(gv.business_branch_has_inventory(b.id.ToString())){
+                           
+                            if(gv.business_branch_has_inventory(b.id.ToString())){
                             <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
                             }
                         }
@@ -167,7 +168,7 @@
                 {
                     foreach (var d in gv.stock_locations)
                     {
-                        model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id });
+                        model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id,stock_location = d });
                     }
                 }
 
