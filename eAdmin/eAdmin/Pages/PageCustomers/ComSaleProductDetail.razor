@@ -64,7 +64,7 @@
                     </TdCenter>
                     <td>
                         <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"customer/{p.sale?.customer_id}")">
-                            <ComCustomerInfo customer="p.sale?.customer" />
+                            @*<ComCustomerInfo customer="p.sale?.customer" />*@
                         </ComAuthorize>
                     </td>
                     <TdCenter>

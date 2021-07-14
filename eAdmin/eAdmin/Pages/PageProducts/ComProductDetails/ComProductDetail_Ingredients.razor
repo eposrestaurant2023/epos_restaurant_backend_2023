@@ -66,8 +66,7 @@
     </UIContainerBox>
   
    
-<Com is_visible="@show_modal">
-    @*<ComProductDetail_AddIngredientProduct  @bind-is_open="@show_modal" Save_Click="OnSave"   product_portion="@(JsonSerializer.Deserialize<ProductPortionModel>(JsonSerializer.Serialize(product_portion)))" />*@
+<Com is_visible="@show_modal"> 
     <ComProductDetail_AddIngredientProduct  @bind-is_open="@show_modal" Save_Click="OnSave"   product_portion="@product_portion" />
 </Com>
 @code {
