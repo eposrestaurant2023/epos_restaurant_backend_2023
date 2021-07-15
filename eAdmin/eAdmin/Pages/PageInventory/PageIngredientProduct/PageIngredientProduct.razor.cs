@@ -56,14 +56,6 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             await LoadData(state.api_url);
             is_loading = false;
         }
-
-        public void OnEdit(int id)
-        {
-            is_loading_data = true;
-            nav.NavigateTo($"ingredient/edit/{id}");
-            is_loading_data = false;
-        }
-
         public void Clone_Click(int id)
         {
             is_loading_data = true;

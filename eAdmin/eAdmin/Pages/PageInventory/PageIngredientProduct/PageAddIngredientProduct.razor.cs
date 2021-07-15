@@ -72,12 +72,17 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         {
 
             is_loading = true;
+
             if (id > 0)
             {
                 await LoadData();
             }else if (clone_id > 0)
             {
                 await CloneProduct();
+            }
+            else
+            {
+                model.is_ingredient_product = true;
             }
             is_loading = false;
         }
