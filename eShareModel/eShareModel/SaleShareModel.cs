@@ -11,6 +11,12 @@ namespace eShareModel
         public Guid outlet_id { get; set; }
         public Guid station_id { get; set; }
 
+        public string station_name_en { get; set; }
+        public string station_name_kh { get; set; }
+
+        public string outlet_name_en { get; set; }
+        public string outlet_name_kh { get; set; }
+
         public Guid business_branch_id { get; set; }
         public Guid? customer_id { get; set; }
 
