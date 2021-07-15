@@ -21,6 +21,20 @@
                         <div>
                             @p.stock_location.stock_location_name
                         </div>
+                        <Icon OnClick="@(()=> { p.is_add_note = !p.is_add_note; })" icon="chat" />
+
+                        @if (p.is_add_note)
+                        {
+                            <div>
+                                <TextInput @bind-text="@p.note" width="250px" type="textarea" row="2" is_height_auto="true" />
+                            </div>
+                        }
+                        else
+                        {
+                            <Column is_visible="@(!string.IsNullOrEmpty(p.note))" ClassName="text-area wrp-comment-tt text-muted">
+                                @p.note
+                            </Column>
+                        }
                     </td>
 
                     <TdCenter>

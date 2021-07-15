@@ -60,10 +60,7 @@ namespace eAPI.Controllers
         [HttpPost("save/multiple")]
         public async Task<ActionResult<string>> SaveMultiple([FromBody] List<PurchaseOrderProductModel> branches)
         {
-
-            string xx = JsonSerializer.Serialize(branches);
             db.PurchaseOrderProducts.UpdateRange(branches);
-
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
