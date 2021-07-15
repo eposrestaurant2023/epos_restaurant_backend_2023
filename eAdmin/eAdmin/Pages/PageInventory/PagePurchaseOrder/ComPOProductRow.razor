@@ -4,7 +4,7 @@
     <Image ImageUrl="@http.ImageUrl(purchase_order_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(purchase_order_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
 </TdCenter>
 <TdCenter>
-    <ComAuthorize roles="@gv.GetRole("product_view")" url="@($"product/{purchase_order_product.product_id}")" target="true">
+    <ComAuthorize roles="@gv.GetRole("product_management")" url="@($"product/{purchase_order_product.product_id}")" target="true">
         @purchase_order_product?.product?.product_code
     </ComAuthorize>
 </TdCenter>
