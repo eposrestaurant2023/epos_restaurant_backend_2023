@@ -7,7 +7,7 @@
         </MudDatePicker>
     </ModalContent>
     <ActionButton>
-        <MudButton Variant="Variant.Filled">
+        <MudButton Variant="Variant.Filled" OnClick="MarkAsFullLicense_Click" Color="@MudBlazor.Color.Primary">
             Save
             <Spinner IsLoading="@model.is_saving"/>
         </MudButton>
@@ -23,10 +23,10 @@
     async Task MarkAsFullLicense_Click()
     {
         model.is_saving =true;
-        var res = await http.ApiPost("Station/",model);
+        var res = await http.ApiPost("Station/FullLicense",model);
         if(res.IsSuccess){
             model = JsonSerializer.Deserialize<StationModel>(res.Content.ToString());
-            toast.Add(model.is_full_license?"Station mark as full license successfully":"Station cancel full license successfully");
+            toast.Add(model.is_full_license?"Station mark as full license successfully":"Station cancel full license successfully",Severity.Success);
             MudDialog.Close(DialogResult.Ok(model));
         }
         model.is_saving =false;
