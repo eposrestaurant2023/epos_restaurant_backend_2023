@@ -3,7 +3,7 @@
 
 <UIContainerBox Title="@lang["Inventory Information"]" is_show_edit_button="@(!product_deleted)" OnEditClick="@OnOpenModel">
     <Com is_visible="@(!is_loading)">
-        <Table Items="@models"
+        <Table Items="@models.OrderByDescending(r=>r.stock_location_id).ToList()"
                isLoading="@is_loading"
                ShowPager="false"
                ShowCounter="true"

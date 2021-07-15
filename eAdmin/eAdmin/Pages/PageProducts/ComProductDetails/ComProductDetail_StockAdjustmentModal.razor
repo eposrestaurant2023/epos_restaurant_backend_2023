@@ -13,7 +13,7 @@
                 <ThCenter>@lang["Different"]</ThCenter>
             </thead>
             <tbody>
-                @foreach (var p in stock_location_products)
+                @foreach (var p in stock_location_products.OrderByDescending(r => r.stock_location_id).ToList())
                 {
                 <tr>
                     <td>@p.stock_location?.business_branch?.business_branch_name_en</td>

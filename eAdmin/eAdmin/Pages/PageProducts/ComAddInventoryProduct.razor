@@ -28,7 +28,7 @@
                 </thead>
                 <tbody>
 
-                    @foreach (var p in model.stock_location_products.ToList())
+                    @foreach (var p in model.stock_location_products.OrderByDescending(r=>r.stock_location_id).ToList())
                     {
                         if (gv.stock_location_by_role.Where(r => r.id == p.stock_location_id).Any())
                         {
