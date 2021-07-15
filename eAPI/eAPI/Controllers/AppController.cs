@@ -213,7 +213,7 @@ namespace eAPI.Controllers
             return BadRequest();
         }
 
-        [HttpGet("is_working")]
+        [HttpGet("isServerAPIWork")]
         [EnableQuery(MaxExpansionDepth = 0)]
         public ActionResult<bool> IsAPIWorking()
         {

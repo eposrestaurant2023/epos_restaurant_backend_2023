@@ -28,7 +28,7 @@ namespace eAPIClient.Controllers
 
         
 
-        [HttpGet("is_working")]
+        [HttpGet("isClientAPIWork")]
         [EnableQuery(MaxExpansionDepth = 0)]             
         public ActionResult<bool> IsAPIWorking()
         {
