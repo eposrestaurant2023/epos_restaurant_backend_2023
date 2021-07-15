@@ -65,6 +65,8 @@ namespace eShareModel
         public decimal total_cost { get; set; }
         public decimal total_profit { get; set; } //net_sale - total_cost
 
+        public double rounding_amount { get; set; } = 0;
+
 
 
         //Tax 
