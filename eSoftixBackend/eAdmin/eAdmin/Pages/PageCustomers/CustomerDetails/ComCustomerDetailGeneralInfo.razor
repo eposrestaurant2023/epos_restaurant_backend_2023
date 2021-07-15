@@ -34,8 +34,9 @@
     
     </UIPanelBody>
 </UIPanel>
+    <ComCustomerDetailContactList customer_id="@model.id.ToString()"/>
     <ComCustomerDetailCurrentProject id="@model.id.ToString()"/>
-    <!--<ComCustomerDetailContactList customer_id="@model.id.ToString()"/>-->
+    
     <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" Class="my-4" PanelClass="pa-4">
         <MudTabPanel Text="Address">
             <MudText Typo="Typo.body1">
