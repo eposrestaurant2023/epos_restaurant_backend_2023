@@ -109,7 +109,7 @@ namespace eAPI.Controllers
                 }
                 
                 await db.SaveChangesAsync();
-                db.Database.ExecuteSqlRaw($"exec sp_update_sale_inventory_transaction '{model.id}'");
+              db.Database.ExecuteSqlRaw($"exec sp_update_sale_inventory_transaction '{model.id}'");
                 return Ok();
             }
             catch(Exception ex) 

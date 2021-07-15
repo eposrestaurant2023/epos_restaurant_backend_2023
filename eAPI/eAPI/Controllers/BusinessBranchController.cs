@@ -35,9 +35,8 @@ namespace eAPI.Controllers
            
                 return db.BusinessBranches;
            
-        }
+        }  
 
-        
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] BusinessBranchModel u)
         {
@@ -73,6 +72,7 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
+        [AllowAnonymous]
         public SingleResult<BusinessBranchModel> Get([FromODataUri] Guid key)
         {
             var s = db.BusinessBranches.Where(r => r.id == key).AsQueryable();
