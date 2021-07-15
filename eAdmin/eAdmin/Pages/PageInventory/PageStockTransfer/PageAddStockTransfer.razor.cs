@@ -164,9 +164,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             save_model.to_stock_location = save_model.from_stock_location = null;
             save_model.to_business_branch = save_model.from_business_branch = null;
 
-            is_saving = true;
-
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
+            is_saving = true; 
 
             var resp = await http.ApiPost("StockTransfer/save", save_model);
             if (resp.IsSuccess)

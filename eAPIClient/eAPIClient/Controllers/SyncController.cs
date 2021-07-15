@@ -104,7 +104,7 @@ namespace eAPIClient.Controllers
 
         [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
-        public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool is_service_sync=false)
+        public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData()
         {
 
             string business_branch_id = config.GetValue<string>("business_branch_id");
@@ -193,9 +193,12 @@ namespace eAPIClient.Controllers
             db.ConfigDatas.AddRange(config_datas);     
             await db.SaveChangesAsync();
             //
-            return Ok();       
+
+
+            return Ok( business_branch_id ); 
 
         }
+
 
         async Task<List<MenuModel>> GetRemoteMenu(string business_branch_id)
         {      
@@ -421,4 +424,6 @@ namespace eAPIClient.Controllers
     { 
         public List<ShareNoteModel> notes { get; set; }
     }
+
+     
 }

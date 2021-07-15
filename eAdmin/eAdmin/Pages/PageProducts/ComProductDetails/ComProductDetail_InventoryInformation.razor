@@ -3,7 +3,7 @@
 
 <UIContainerBox Title="@lang["Inventory Information"]" is_show_edit_button="@(!product_deleted)" OnEditClick="@OnOpenModel">
     <Com is_visible="@(!is_loading)">
-        <Table Items="@models.OrderBy(r=>r.stock_location.business_branch.business_branch_name_en).ToList()"
+        <Table Items="@models.OrderByDescending(r=>r.stock_location_id).ToList()"
                isLoading="@is_loading"
                ShowPager="false"
                ShowCounter="true"
@@ -68,7 +68,16 @@
         is_loading = true;
         if (product_id > 0)
         {
-            var resp = await http.ApiGetOData($"StockLocationProduct?$expand=stock_location($select=stock_location_name;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))&$filter=product_id eq {product_id}");
+            // branch by permission 
+            string filter_branches = "";
+            foreach (var b in gv.stock_location_by_role)
+            {
+                filter_branches += $"stock_location/id eq {b.id} or ";
+            }
+
+            filter_branches = filter_branches.Substring(0, filter_branches.Length - 4); 
+
+            var resp = await http.ApiGetOData($"StockLocationProduct?$expand=stock_location($select=stock_location_name;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))&$filter=product_id eq {product_id} and ({filter_branches})");
             if (resp.IsSuccess)
             {
                 models = JsonSerializer.Deserialize<List<StockLocationProductModel>>(resp.Content.ToString());

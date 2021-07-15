@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210715021951_station_outlet")]
+    partial class station_outlet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -705,9 +707,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal>("paid_amount")
                         .HasColumnType("decimal(19,4)");
-
-                    b.Property<double>("rounding_amount")
-                        .HasColumnType("float");
 
                     b.Property<decimal>("sale_discount_amount")
                         .HasColumnType("decimal(19,4)");
