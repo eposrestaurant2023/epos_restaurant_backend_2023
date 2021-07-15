@@ -1,4 +1,4 @@
-﻿@page "/tablegroupandtable/new"
+﻿@page "/tablegroupandtable/{business_branch_id}/new"
 @page "/tablegroupandtable/edit/{id:int}"
 @inherits PageCore
 
@@ -11,22 +11,11 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @if (id > 0)
-                        {
-                            <div>Edit Table Group & Table</div>
-                        }
-
-                        else
-                        {
-                            <div>New Table Group & Table</div>
-                        }
-
+                        <div>@(id > 0 ? "Edit" : "New") Table Group & Table in @business_branch.business_branch_name_en</div>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true">
-
-            </HeaderRight>
+            <HeaderRight ShowBackButton="true" />
         </PageHeader>
 
         <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
@@ -43,7 +32,7 @@
                             <ValidationMessage For="@(() => model.table_group_name_en )" />
                         </TextInput>
                         <TextInput @bind-text="@model.table_group_name_kh" label="Table Group Name Kh" />
-                        <SelectOutlet @bind-selected_value="@model.outlet_id" @bind-outlet="@model.outlet">
+                        <SelectOutlet show_empty="true" @bind-selected_value="@model.outlet_id" @bind-outlet="@model.outlet" business_branch_id="@business_branch.id">
                             <ValidationMessage For="@(() => model.outlet_id)" />
                         </SelectOutlet>
                         <ComInputCheckBox @bind-value="@model.status" label="Status" />
@@ -79,7 +68,7 @@
                             <tr>
                                 <ThAuto>Apply All</ThAuto>
                                 <th>
-                                    <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px"/>
+                                    <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
                                 </th>
                                 <th></th>
                             </tr>
@@ -91,7 +80,7 @@
                                         <TextInput label="" @bind-text="@s.table_name" />
                                     </td>
                                     <td>
-                                        <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px"/>
+                                        <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
                                     </td>
                                     <td>
                                         <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
@@ -117,23 +106,29 @@
 }
 
 @code{
-    [Parameter] public int id { get; set; }
+    [Parameter] public int id { get; set; } = 0;
+    [Parameter] public string business_branch_id { get; set; }
     TableGroupModel model = new TableGroupModel();
 
+    BusinessBranchModel business_branch { get; set; }
     string prefix = "T";
     string number_format = "00";
     int min = 1;
     int max = 10;
+    Guid outlet_id = Guid.Empty;
 
     string ControllerApi = "TableGroup";
     bool ShowModel = false;
+
+
 
     private int? _price_rule;
 
     public int? price_rule
     {
         get { return _price_rule; }
-        set {
+        set
+        {
             _price_rule = value;
             model.tables.ForEach(r => r.price_rule_id = _price_rule);
         }
@@ -142,43 +137,46 @@
 
     protected override async Task OnInitializedAsync()
     {
-
-
         is_loading = true;
-
-        await LoadData();
-
+        @if (id > 0 && string.IsNullOrEmpty(business_branch_id))
+        {
+            await LoadData();
+        }
+        else
+        {
+            business_branch = gv.bussiness_branches.Where(r => r.id == Guid.Parse(business_branch_id)).FirstOrDefault();
+        }
         is_loading = false;
     }
 
-
-
     async Task LoadData()
     {
-
         is_loading_data = true;
-
-
         string api_url = ControllerApi;
         api_url = api_url + $"({id})?";
-        api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$filter= is_deleted  eq false),";
+        api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
         api_url = api_url + "tables($select = id,table_name,height,width,position_x_percent,position_y_percent,price_rule_id;$filter= is_deleted  eq false)";
 
 
         var resp = await http.ApiGet(api_url);
         if (resp.IsSuccess)
         {
-
             model = JsonSerializer.Deserialize<TableGroupModel>(resp.Content.ToString());
+            business_branch = model.outlet.business_branch;
 
         }
         is_loading_data = false;
-
     }
-
 
     async Task Save_Click(EditContext editContext)
     {
+        if (model.outlet_id == Guid.Empty)
+        {
+            toast.Add("Please select outlet", MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+
         TableGroupModel d = model;
         if (!is_saving)
         {
@@ -221,9 +219,6 @@
             });
             min = min + 1;
         }
-
-
-
     }
 
     void Delete_Table(TableModel s)
@@ -237,6 +232,4 @@
             s.is_deleted = true;
         }
     }
-
-
 }

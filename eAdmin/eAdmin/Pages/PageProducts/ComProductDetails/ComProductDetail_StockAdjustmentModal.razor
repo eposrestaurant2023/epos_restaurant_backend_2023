@@ -26,7 +26,7 @@
                         @if (p.is_add_note)
                         {
                             <div>
-                                <TextInput @bind-text="@p.note" width="250px" type="textarea" row="2" is_height_auto="true" />
+                                <TextInput @bind-text="@p.note" width="180px" type="textarea" row="2" is_height_auto="true" />
                             </div>
                         }
                         else
@@ -94,6 +94,7 @@
 
         if (! stock_location_products.Where(r => r.quantity != r.adjust_quantity).Any()){
             toast.Add(lang["There's no quantity changed"], MatToastType.Warning);
+            is_saving = false;
             return;
         }
         List<QuantityAdjustmentModel> quantity_adjustments = new List<QuantityAdjustmentModel>();

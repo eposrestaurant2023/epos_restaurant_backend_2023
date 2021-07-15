@@ -116,8 +116,7 @@ else
         save_model.modifier_ingredients.Where(r=>r.ingredient_id > 0).ToList().ForEach(r => r.ingredient = null);
 
         save_model.modifier_ingredients.ForEach(r => r.modifier = null);
-        save_model.modifier_ingredients.ForEach(r => r.unit = null);
-        Console.WriteLine(JsonSerializer.Serialize(save_model));
+        save_model.modifier_ingredients.ForEach(r => r.unit = null); 
         var resp = await http.ApiPost("Modifier/Save", save_model);
         if (resp.IsSuccess)
         {

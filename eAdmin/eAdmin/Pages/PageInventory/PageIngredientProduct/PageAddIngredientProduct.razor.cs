@@ -131,9 +131,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             save_model.is_menu_product = false;
             save_model.vendor = null;
             // remove defualt stock location
-            save_model.default_stock_location_products = null;
-
-            Console.WriteLine(JsonSerializer.Serialize(save_model));
+            save_model.default_stock_location_products = null; 
 
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
