@@ -18,7 +18,7 @@ namespace eModels
         [Required(ErrorMessage = "Please enter phone number")]
         public string phone_1 { get; set; }
         public string phone_2 { get; set; }
-        public string postion { get; set; }
+        public string position { get; set; }
         public string gender { get; set; }
         public string email_address { get; set; }
         public string telegram { get; set; }

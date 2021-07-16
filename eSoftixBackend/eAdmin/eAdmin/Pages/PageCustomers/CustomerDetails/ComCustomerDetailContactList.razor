@@ -1,6 +1,6 @@
 ﻿@inherits PageCore
 @inject IDialogService Dialog
-<UIPanel Title="Title">
+<UIPanel Title="Conact">
     
     <UIPanelHeaderRight>
         <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddNewClick">
@@ -29,12 +29,15 @@
                         </MudItem>
                         <MudItem>
                             <MudText Typo="Typo.caption">
-                                 @c.email_address 
+                                  @c.email_address 
                             </MudText>
-                           
-                        </MudItem>
-                        <MudItem>
+                            <br/>
                             <MudText Typo="Typo.caption">
+                                  @c.gender 
+                            </MudText>
+                            <br/>
+                            <MudText Typo="Typo.caption">
+                                  @c.position 
                             </MudText>
                         </MudItem>
                             <MudSpacer/>
