@@ -70,6 +70,7 @@ namespace eModels
 
         public decimal initial_quantity { get; set; } = 0;
         public decimal initial_adjustment_quantity { get; set; } = 0;
+        public string note { get; set; }
         
         [NotMapped, JsonIgnore]
         public decimal adjust_quantity { get; set; } 
@@ -101,6 +102,9 @@ namespace eModels
             }
         }
 
+
+        [NotMapped, JsonIgnore]
+        public bool is_add_note;
     }
 
     [Table("tbl_default_stock_location_product")]

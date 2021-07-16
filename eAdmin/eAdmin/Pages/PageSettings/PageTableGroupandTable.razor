@@ -1,192 +1,38 @@
 ﻿@page "/tablegroupandtable"
-@inject IJSRuntime js
-@inherits PageCore;
-<Loading is_loading="@is_loading" />
-@if (!is_loading)
-{
-    <Title Value="Table Group & Table"></Title>
-    <PageContainer roles="@gv.GetRole("table_group_table")">
-        <PageHeader>
-            <HeaderLeft>
-                <PageTitle ShowFilter="false">
-                    <HeaderTemplate>
-                        Table Group & Table
-                    </HeaderTemplate>
-                </PageTitle>
-            </HeaderLeft>
-            <HeaderRight>
-                <LinkButton url="tablegroupandtable/new" icon="add" background="uk-button-primary">New</LinkButton>
-            </HeaderRight>
-        </PageHeader>
+ 
+<Title Value="Table Group & Table"></Title>
+<PageContainer roles="@gv.GetRole("table_group_table")">
+    <PageHeader>
+        <HeaderLeft>
+            <PageTitle ShowFilter="false">
+                <HeaderTemplate>
+                    Table Group & Table
+                </HeaderTemplate>
+            </PageTitle>
+        </HeaderLeft>
+    </PageHeader>
 
-        <PageBody>
-            <Tab>
-                <TabHeader>
-                    @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
-                    {
-                        <TabHeaderItem>@d.table_group_name_en</TabHeaderItem>
-                    }
-                </TabHeader>
-                <TabBody> 
-                    @foreach (var d in models.Where(r => r.is_deleted == false).ToList())
-                    {
-                    <TabItem>
-                        <UIGridCenter>
-                            <div class="container-layout">
-                                <div class="title-header">
-                                    <div class="uk-panel">
-                                        <div class="uk-float-left">
-                                            <span>
-                                                @d.table_group_name_en
-                                            </span>
-                                            <span>
-                                                <label class="uk-label activ"><Icon icon="home" />@d.outlet?.outlet_name_en</label>
-                                            </span>
-                                        </div>
-                                        <div class="uk-float-right">
-                                            <div>
-                                                <div>
-                                                    <LabelActive OnClick="@(()=>Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                                    <LabelInActive OnClick="@(()=>Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                                </div>
-                                                <div>
-                                                    <div class="uk-flex uk-flex-inline">
-                                                        <div style="margin-right:5px;">
-                                                            <Icon icon="delete" OnClick="@(()=>click_delete(d))" />
-                                                        </div>
-                                                        <div>
-                                                            <a href="@($"tablegroupandtable/edit/{d.id}")">
-                                                                <Icon icon="edit" />
-                                                            </a>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div>
-                                    <UISummaryBox ImageUrl="@d.photo">
-                                        <ContentLeft>
-                                            <table>
-                                                <tr>
-                                                    <th>@lang["Table Group Name"]</th>
-                                                    <td>@d.table_group_name_en</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>@lang["Outlet Name"]</th>
-                                                    <td>@d.outlet?.outlet_name_en</td>
-                                                </tr>
-                                            </table>
-                                        </ContentLeft>
-                                    </UISummaryBox>
-                                    <hr />
-                                    <ComAccordion>
-                                        <Header>
-                                            Table
-                                        </Header>
-                                        <Content>
-                                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                                <tr>
-                                                    <ThAuto>Table Name</ThAuto>
-                                                    <th>Price Rule</th>
-                                                </tr>
-                                                @foreach (var s in d.tables)
-                                                {
-                                                    <tr>
-                                                        <td>@s.table_name</td>
-                                                        <td>@s.price_rule?.price_name</td>
-                                                    </tr>
-                                                }
-                                            </table>
-                                        </Content>
-                                    </ComAccordion>
-                                </div>
-                            </div>
-                        </UIGridCenter>
-                    </TabItem>
-                    }
-                </TabBody>
-            </Tab>
-        </PageBody>
-    </PageContainer>
-}
+    <PageBody>
+        <Tab>
+            <TabHeader>
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                    <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                } 
+            </TabHeader>
+            <TabBody>
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                <TabItem>
+                    <ComTableGroupandTable business_branch="b" />
+                </TabItem>
+                }
+            </TabBody>
+        </Tab>
+    </PageBody>
+</PageContainer>
+ 
 
 @code{
-    List<TableGroupModel> models = new List<TableGroupModel>();
-    List<TableModel> Tables = new List<TableModel>();
-    string ControllerApi = "TableGroup";
-
-    protected override async Task OnInitializedAsync()
-    {
-        is_loading = true;
-        await LoadData();
-        is_loading = false;
-    }
-
-
-
-    async Task LoadData(string api_url = "")
-    {
-
-        is_loading_data = true;
-
-        if (string.IsNullOrEmpty(api_url))
-        {
-
-            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,height,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
-        }
-
-        var resp = await http.ApiGetOData(api_url);
-        if (resp.IsSuccess)
-        {
-
-            models = JsonSerializer.Deserialize<List<TableGroupModel>>(resp.Content.ToString());
-
-        }
-        is_loading_data = false;
-
-    }
-
-
-    async Task Activebutton(TableGroupModel b)
-    {
-
-        b.is_change_status = true;
-        await Task.Delay(1000);
-        b.status = !b.status;
-
-        var resp = await http.ApiPost($"{ControllerApi}/Save", b);
-        if (resp.IsSuccess)
-        {
-            toast.Add("Change status successfully", MatToastType.Success);
-        }
-
-        b.is_change_status = false;
-
-    }
-    async Task click_delete(TableGroupModel d)
-    {
-        d.is_loading = true;
-        if (await js.Confirm("Table Group", "Are you sure you want to delete this this record?", SweetAlertMessageType.question))
-        {
-            var resp = await http.ApiPost(ControllerApi + "/delete/" + d.id);
-
-            if (resp.IsSuccess)
-            {
-                await LoadData();
-                toast.Add("Delete Outlet successfully", MatToastType.Success);
-            }
-            else
-            {
-                toast.Add("Delete Outlet fail", MatBlazor.MatToastType.Warning);
-            }
-
-
-        }
-        d.is_loading = false;
-    }
-
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
 }

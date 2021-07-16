@@ -63,7 +63,6 @@ namespace eAPI.Controllers
             return await Task.Factory.StartNew(() => SingleResult.Create<ProductModel>(db.Products.Where(r => r.id == key).AsQueryable()));
         }
 
-
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {

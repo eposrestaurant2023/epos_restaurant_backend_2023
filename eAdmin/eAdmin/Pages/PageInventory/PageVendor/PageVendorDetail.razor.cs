@@ -48,6 +48,7 @@ namespace eAdmin.Pages.PageVendors
             else
             {
                 is_error = true;
+                error_text = "Page not found.";
             }
 
             is_loading = false;

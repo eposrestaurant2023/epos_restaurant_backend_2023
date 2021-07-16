@@ -1,0 +1,51 @@
+﻿@inherits PageCore
+<MudForm @ref="form" @bind-IsValid="@success">
+    <Modal>
+        <ModalContent>
+            <FileUpload @bind-ImageUrl="model.photo"></FileUpload>
+            <MudTextField Required="true" @bind-Value="@model.contact_name" Label="Name"></MudTextField>
+             <MudSelect  T="string" Label="Please Select A Gender" @bind-Value="@model.gender">
+                <MudSelectItem T="string" Value="@("Male")">
+                    Male
+                </MudSelectItem>
+                <MudSelectItem T="string" Value="@("Femal")">
+                    Female
+                </MudSelectItem>
+            </MudSelect>
+            <MudTextField Required="true" @bind-Value="@model.phone_1"  Label="Phone 2"></MudTextField>
+            <MudTextField @bind-Value="@model.phone_2" Label="Phone 2"></MudTextField>
+            <MudTextField @bind-Value="@model.postion" Label="Position"></MudTextField>
+            <MudTextField @bind-Value="@model.telegram" Label="Telegram"></MudTextField>
+            <MudTextField @bind-Value="@model.email_address" Label="Address" Lines="3"></MudTextField>
+        </ModalContent>
+        <ActionButton>
+            <MudButton Color="@MudBlazor.Color.Primary" Variant="@Variant.Filled" OnClick="OnSave">
+                Save
+                <Spinner IsLoading="model.is_saving"/>
+            </MudButton>
+        </ActionButton>
+    </Modal>
+</MudForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    
+    [Parameter] public ContactModel model { get; set; }
+    MudForm form;
+    bool success;
+
+    async Task OnSave()
+    {
+        form.Validate();
+        @if(success){
+            model.is_saving = true;
+            var res = await http.ApiPost("contact",model);
+            if(res.IsSuccess){
+                MudDialog.Close(DialogResult.Ok(JsonSerializer.Deserialize<ContactModel>(res.Content.ToString())));
+                AddToast("Save Success");
+            }
+            model.is_saving=false;
+        }
+        
+    }
+}
