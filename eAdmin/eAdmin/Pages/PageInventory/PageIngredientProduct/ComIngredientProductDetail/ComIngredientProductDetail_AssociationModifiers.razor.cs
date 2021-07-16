@@ -13,23 +13,25 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
     public  class AssociationModifierBase : PageCore
     {
         [Parameter] public int ingredient_id { get; set; }
-        public List<ProductModifierModel> models = new List<ProductModifierModel>();
+        public List<ModifierIngredientModel> models = new List<ModifierIngredientModel>();
         
         public string StateKey = "INGRMODIfierxxd45KJssASSOciate21"; //Storage and Session Key
 
         public int TotalRecord = 0;
        
 
-        string controller_api = "ProductModifier";
+        string controller_api = "ModifierIngredient";
 
        
         public string ControllerApi
         {
             get
             {
-                
-                string url = $"{controller_api}?";
-                url = url + $"$select=id,product_id,price,modifier_name&$expand=modifier($select=id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+                if (state.pager.order_by == "id")
+                {
+                    state.pager.order_by = "modifier_id";
+                }
+                string url = $"{controller_api}?$expand=modifier&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
                 
                 return url + GetFilter(state.filters);
             }
@@ -43,7 +45,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
             state.filters.Clear(); 
             state.filters.Add(new FilterModel()
             {
-                key = "product_id",
+                key = "ingredient_id",
                 value1 = ingredient_id.ToString()
             });
             await LoadData(state.api_url);
@@ -73,7 +75,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {
-                models = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
+                models = JsonSerializer.Deserialize<List<ModifierIngredientModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
             }
             is_loading = false;

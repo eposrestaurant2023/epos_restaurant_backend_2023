@@ -39,8 +39,7 @@
                     ClassName="uk-table-small uk-table-striped uk-table-hover"
                     ScrollClass="uk-overflow-auto">
                 <TableHeader>
-                    @HeaderTemplate("modifier_name", lang["Name En (Name Kh)"], "col-auto")
-                    @HeaderTemplate("price", lang["Price"], "uk-text-right")
+                    @HeaderTemplate("modifier/modifier_name", lang["Name En (Name Kh)"], "col-auto")
                     <ThRight>
                         @lang["Status"]
                     </ThRight>
@@ -48,13 +47,14 @@
                 </TableHeader>
                 <RowTemplate Context="p">
                     <td>
-                        <ComAuthorize roles="@gv.GetRole("modifier_management")" url="@($"modifier/{p.modifier.id}")">@p.modifier_name</ComAuthorize>
+                        <ComAuthorize roles="@gv.GetRole("modifier_management")" url="@($"modifier/{p.modifier_id}")">@p.modifier?.modifier_name</ComAuthorize>
                     </td>
-                    <TdRight>
-                        @p.price.ToString(gv.currency_format)
-                    </TdRight>
+                    <TdCenter>
+                        <LabelActive is_visible="@(p.modifier.status && !p.is_deleted)" />
+                        <LabelInActive is_visible="@(!p.modifier.status && !p.is_deleted)" />
+                    </TdCenter>
                     <TdActions>
-                        <TableActionItem icon="visibility" roles="@gv.GetRole("modifier_management")" url="@($"modifier/{p.modifier.id}")">View</TableActionItem>
+                        <TableActionItem icon="visibility" roles="@gv.GetRole("modifier_management")" url="@($"modifier/{p.modifier_id}")">View</TableActionItem>
                     </TdActions>
                 </RowTemplate>
             </Table>
