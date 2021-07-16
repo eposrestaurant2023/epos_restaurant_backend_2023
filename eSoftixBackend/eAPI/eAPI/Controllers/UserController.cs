@@ -83,9 +83,9 @@ namespace eAPI.Controllers
                 }
 
             }
-            if (!string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(u.password))
             {
-                u.password = EncryptProvider.Base64Encrypt(password);
+                u.password = EncryptProvider.Base64Encrypt(u.password);
             }
             if (u.id == 0)
             {
