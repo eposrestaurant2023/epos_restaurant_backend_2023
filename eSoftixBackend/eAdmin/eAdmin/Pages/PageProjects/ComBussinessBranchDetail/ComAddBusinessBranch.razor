@@ -15,6 +15,14 @@
         <MudTextField T="string" @bind-Value="@model.contact_name" Label="Contact Name" />
         <UI2Columns>
             <Left>
+                <MudDatePicker Label="Start Date" @bind-Date="@(model.start_date)"/> 
+            </Left>
+            <Right>
+                 <MudDatePicker Label="Expire Date" @bind-Date="@(model.expired_date)"/>
+            </Right>
+        </UI2Columns>
+        <UI2Columns>
+            <Left>
                 <MudTextField T="string" @bind-Value="@model.phone_1" Label="Phone Number " />
                 
             </Left>
