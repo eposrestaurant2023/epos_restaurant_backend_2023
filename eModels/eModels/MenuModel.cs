@@ -41,6 +41,7 @@ namespace eModels
         [MaxLength(100)]
         public string menu_name_kh { get; set; } = "";
         public string photo { get; set; } = "";
+        public bool is_shortcut_menu { get; set; }
         public List<MenuModel> menus { get; set; }
 
         public List<ProductMenuModel> product_menus { get; set; }
