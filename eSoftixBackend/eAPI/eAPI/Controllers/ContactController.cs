@@ -25,7 +25,7 @@ namespace eAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ContactModel contact)
         {
-            if (contact.id > 0)
+            if (contact.id == 0)
             {
                 db.Contacts.Add(contact);
             }

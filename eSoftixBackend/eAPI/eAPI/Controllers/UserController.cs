@@ -83,9 +83,9 @@ namespace eAPI.Controllers
                 }
 
             }
-            if (!string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(u.password))
             {
-                u.password = EncryptProvider.Base64Encrypt(password);
+                u.password = EncryptProvider.Base64Encrypt(u.password);
             }
             if (u.id == 0)
             {
@@ -104,20 +104,37 @@ namespace eAPI.Controllers
 
         }
         [HttpPost]
-        [Route("SaveUserProfile")]
-        public async Task<ActionResult<string>> SaveUserProfile([FromQuery] string password, [FromBody] UserModel u)
+        [Route("changepassword")]
+        public async Task<ActionResult<string>> SaveUserProfile([FromBody] UserModel u)
         {
-
-            if (!string.IsNullOrEmpty(password))
+            var user = db.Users.Find(u.id);
+            db.Entry<UserModel>(user).State = EntityState.Detached;
+            if (u.new_password.Length < 6)
             {
-                u.password = EncryptProvider.Base64Encrypt(password);
+                return BadRequest("Password Must More Than 6 digits");
             }
-            u.role = null;
-            db.Users.Update(u);
-
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            u = db.Users.Where(r => r.id == u.id).Include(r => r.role).FirstOrDefault();
-            return Ok(u);
+            else
+            {
+                if (EncryptProvider.Base64Encrypt(u.current_password) != user.password)
+                {
+                    return BadRequest("Invalid Current Password");
+                }
+                else
+                {
+                    if (u.new_password != u.retype_new_password)
+                    {
+                        return BadRequest("Confirm Password Not Match");
+                    }
+                    else
+                    {
+                        u.password = EncryptProvider.Base64Encrypt(u.new_password);
+                        db.Users.Update(u);
+                        await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                        return Ok(u);
+                    }
+                }
+            }
+            
         }
 
         [HttpGet]

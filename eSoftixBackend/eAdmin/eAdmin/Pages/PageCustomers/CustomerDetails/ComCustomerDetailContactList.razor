@@ -1,6 +1,6 @@
 ﻿@inherits PageCore
 @inject IDialogService Dialog
-<UIPanel Title="Title">
+<UIPanel Title="Conact">
     
     <UIPanelHeaderRight>
         <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddNewClick">
@@ -29,12 +29,15 @@
                         </MudItem>
                         <MudItem>
                             <MudText Typo="Typo.caption">
-                                 @c.email_address 
+                                  @c.email_address 
                             </MudText>
-                           
-                        </MudItem>
-                        <MudItem>
+                            <br/>
                             <MudText Typo="Typo.caption">
+                                  @c.gender 
+                            </MudText>
+                            <br/>
+                            <MudText Typo="Typo.caption">
+                                  @c.position 
                             </MudText>
                         </MudItem>
                             <MudSpacer/>
@@ -59,11 +62,15 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading=true;
-        var res = await http.ApiGetOData($"Contact?$filter=customer_id eq {customer_id}");
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData(){
+    var res = await http.ApiGetOData($"Contact?$filter=customer_id eq {customer_id}");
         if(res.IsSuccess){
             contacts = JsonSerializer.Deserialize<List<ContactModel>>(res.Content.ToString());
         }
-        is_loading = false;
     }
 
     async Task AddNewClick()
@@ -74,7 +81,7 @@
 
         if (!result.Cancelled)
         {
-            contacts.Add((ContactModel)result.Data);
+            await LoadData();
         }
     }
     async Task EditClick(ContactModel c)
@@ -91,7 +98,7 @@
 
         if (!result.Cancelled)
         {
-            contacts.Add((ContactModel)result.Data);
+            await LoadData();
         }
     }
      async Task DeleteClick(ContactModel c)
