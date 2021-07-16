@@ -17,7 +17,6 @@
             <ModuleView module_views="@gv.GetModuleView("page_project")" OnClick="@ViewClick" />
         </Filter>
         <Right>
-           
             <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                 <FilterDateRange SwitchLabel="Filter Start Date" @bind-dates="@state.start_date_range" label="Start Date"/>
                 <FilterDateRange  SwitchLabel="Filter Close Date" @bind-dates="@state.close_date_range"  label="Close Date" />
@@ -107,8 +106,7 @@
              </TdCenter>
              <TdActions>
                 <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("project_view")" is_visible="@(!p.is_deleted)" url="@($"project/{p.id}")">View</TableActionItem>
-                <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("project_add")" url="@($"project/clone/{p.id}")">Clone</TableActionItem>
-                           
+                <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("project_add")" url="@($"project/clone/{p.id}")">Clone</TableActionItem>      
              </TdActions>
             </RowTemplate>
         </Table>

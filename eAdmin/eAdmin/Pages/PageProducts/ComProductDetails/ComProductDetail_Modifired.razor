@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
-@if (is_loading && models.Any()) {
+@if (!is_loading && models.Any()) {
 
     <UIContainerBox Title="@lang["Modifier Information"]"> 
         <ComProductDetail_TableViewModifier models="@models" product_category_id="@product.product_category_id" />

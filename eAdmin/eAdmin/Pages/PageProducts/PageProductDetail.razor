@@ -1,23 +1,19 @@
 ﻿@page "/product/{id:int}"
-@inject IHttpService http
-@inject NavigationManager nav
-@inject IMatToaster toast
-@inject IJSRuntime js
-@inject IStringLocalizer<Resource> lang
+@inherits PageCore
+
 <Loading is_loading="@(is_loading || is_loading_data)" />
-
-
-@if (model != null && !is_loading)
+<Title Value="@lang["Product Detail"]"></Title>
+@if (!is_error && !is_loading)
 {
 
-    <Title Value="@lang["Product Detail"]"></Title>
+
     <PageContainer roles="@gv.GetRole("product_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
                         @model.product_display_name
-                        <ComProductDetail_HeaderStatus model="@model" is_menu_product="false"/>
+                        <ComProductDetail_HeaderStatus model="@model" is_menu_product="false" />
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -56,14 +52,14 @@
                 </TabHeader>
                 <TabBody>
                     <TabItem>
-                        <ComProductDetail_ProductInformation model="@model"/>
+                        <ComProductDetail_ProductInformation model="@model" />
                     </TabItem>
                     <TabItem is_visible="@(!model.is_ingredient_product && gv.project_has_advance_inventory)">
                         <Com is_visible="@show_recipe_tab">
-                            <ComProductDetail_ProductPortionIngredient product_id="@model.id" is_product_deleted="@model.is_deleted"/>
+                            <ComProductDetail_ProductPortionIngredient product_id="@model.id" is_product_deleted="@model.is_deleted" />
                         </Com>
                     </TabItem>
-                    
+
                     <TabItem>
                         @if (show_sale_history)
                         {
@@ -73,11 +69,11 @@
                     <TabItem is_visible="@gv.project_has_advance_inventory">
                         @if (show_purchase_history)
                         {
-                        <ComProductDetail_POHistory product_id="@id" />
+                            <ComProductDetail_POHistory product_id="@id" />
                         }
                     </TabItem>
                     <TabItem is_visible="@gv.project_has_advance_inventory">
-                        @if (show_stock_stransfer) 
+                        @if (show_stock_stransfer)
                         {
                             <ComProductDetail_StockTransferHistory product_id="@id" />
                         }
@@ -85,46 +81,53 @@
                     <TabItem is_visible="@gv.project_has_advance_inventory">
                         @if (show_stock_take)
                         {
-                        <ComProductDetail_StockTakeHistory product_id="@id"/>
+                            <ComProductDetail_StockTakeHistory product_id="@id" />
                         }
                     </TabItem>
                     <TabItem is_visible="@(model.is_inventory_product && gv.project_has_advance_inventory)">
                         @if (show_inventory_strasation)
                         {
-                        <ComProductDetail_InventoryTransactionHistory product_id="@id"/> 
+                            <ComProductDetail_InventoryTransactionHistory product_id="@id" />
                         }
                     </TabItem>
                     <TabItem>
                         @if (show_comment_tab)
                         {
-                        <UIGridCenter>
-                            <UIContainerBox Title="@lang["Comment and History"]">
-                                <ComHistory RoleAdd="@gv.GetRole("product_add")"
-                                            RoleDelete="@gv.GetRole("product_delete")"
-                                            RoleEdit="@gv.GetRole("product_add")"
-                                            ApiFilter="@($"product_id eq {id}")"
-                                            history="@(new HistoryModel() { product_id = id})" />
-                            </UIContainerBox>
-                        </UIGridCenter>
-                               
-                            
+                            <UIGridCenter>
+                                <UIContainerBox Title="@lang["Comment and History"]">
+                                    <ComHistory RoleAdd="@gv.GetRole("product_add")"
+                                                RoleDelete="@gv.GetRole("product_delete")"
+                                                RoleEdit="@gv.GetRole("product_add")"
+                                                ApiFilter="@($"product_id eq {id}")"
+                                                history="@(new HistoryModel() { product_id = id})" />
+                                </UIContainerBox>
+                            </UIGridCenter>
+
+
                         }
                     </TabItem>
 
                 </TabBody>
             </Tab>
-             
+
         </PageBody>
     </PageContainer>
 }
-
+@if (is_error)
+{
+    <Error title="Product Detail">
+        @error_text
+    </Error>
+}
 @code{
     [Parameter] public int id { get; set; }
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     public ProductModel model { get; set; }
-    bool is_loading, is_loading_data, show_comment_tab, show_recipe_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation;
+    bool show_comment_tab, show_recipe_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation;
 
-    public string api_url { get {
+    public string api_url
+    {
+        get
+        {
             string url = $"Product({id})";
             url = url + "?$expand=kitchen_group,vendor($select=id,vendor_name,vendor_code),product_category($select=product_category_en),unit($select=unit_name)";
             return url;
@@ -142,10 +145,15 @@
     async Task LoadData()
     {
         is_loading = true;
-        var resp =await http.ApiGet(api_url);
+        var resp = await http.ApiGet(api_url);
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
+        }
+        else
+        {
+            is_error = true;
+            error_text = "Page not found.";
         }
         is_loading = false;
 
@@ -156,7 +164,7 @@
 
 
         model.is_deleting = true;
-        if(await js.Confirm(lang["Delete Product"], lang["Are you sure you want to delete this product?"], SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete Product"], lang["Are you sure you want to delete this product?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost("Product/delete/" + id);
             if (resp.IsSuccess)
@@ -204,4 +212,3 @@
 
 }
 
- 

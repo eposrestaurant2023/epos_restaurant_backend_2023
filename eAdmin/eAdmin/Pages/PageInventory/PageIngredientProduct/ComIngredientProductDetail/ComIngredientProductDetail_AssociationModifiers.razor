@@ -26,7 +26,7 @@
         </PageHeader>
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
-            <div style="word-break:break-word">@ControllerApi</div>
+  
             <Table Items="@models"
                     PerPage="@state.pager.per_page"
                     TotalItem="@TotalRecord"

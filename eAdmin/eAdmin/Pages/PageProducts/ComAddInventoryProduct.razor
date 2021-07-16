@@ -28,39 +28,41 @@
                 </thead>
                 <tbody>
 
-                    @foreach (var p in model.stock_location_products.OrderBy(r => r.stock_location.stock_location_name).ToList())
+                    @foreach (var p in model.stock_location_products.OrderByDescending(r=>r.stock_location_id).ToList())
                     {
-                        <tr>
-                            <td>
-                                <div>
-                                    @gv.stock_locations.Where(r => r.id == p.stock_location_id).FirstOrDefault().stock_location_name
-                                    <Label Text="@gv.stock_locations.Where(r=>r.id==p.stock_location_id).FirstOrDefault().business_branch?.business_branch_name_en" />
-                                </div>
-                            </td>
-                            @if (model.id > 0)
-                            {
-                                <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
-                            }
-
-                            <td>
-                                @if (model.is_product_has_inventory_transaction)
+                        if (gv.stock_location_by_role.Where(r => r.id == p.stock_location_id).Any())
+                        {
+                            <tr>
+                                <td>
+                                    <div>
+                                        @gv.stock_locations.Where(r => r.id == p.stock_location_id).FirstOrDefault().stock_location_name
+                                        <Label Text="@gv.stock_locations.Where(r => r.id == p.stock_location_id).FirstOrDefault().business_branch?.business_branch_name_en" />
+                                    </div>
+                                </td>
+                                @if (model.id > 0)
                                 {
-                                    <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
-                                }
-                                else
-                                {
-                                    <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" />
+                                    <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
                                 }
 
-                            </td>
-                            <td>
-                                <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.min_quantity" text_format="@gv.quantity_format" width="100px" />
-                            </td>
-                            <td>
-                                <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.max_quantity" text_format="@gv.quantity_format" width="100px" />
-                            </td>
-                        </tr>
+                                <td>
+                                    @if (model.is_product_has_inventory_transaction)
+                                    {
+                                        <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
+                                    }
+                                    else
+                                    {
+                                        <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.initial_quantity" text_format="@gv.quantity_format" width="100px" />
+                                    }
 
+                                </td>
+                                <td>
+                                    <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.min_quantity" text_format="@gv.quantity_format" width="100px" />
+                                </td>
+                                <td>
+                                    <NumberInput label="" class_name="uk-input uk-form-small uk-text-center" @bind-text="@p.max_quantity" text_format="@gv.quantity_format" width="100px" />
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
                 <tfoot>
@@ -77,23 +79,25 @@
                 </tfoot>
             </table>
         }
-        
-            <div class="defualt-stock-location">
-                <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
-                <Tab>
-                    <TabHeader>
-                        @foreach (var b in gv.business_branch_by_role)
+
+        <div class="defualt-stock-location">
+            <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
+            <Tab>
+                <TabHeader>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+
+                        if (gv.business_branch_has_inventory(b.id.ToString()))
                         {
-                           
-                            if(gv.business_branch_has_inventory(b.id.ToString())){
                             <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
-                            }
                         }
-                    </TabHeader>
-                    <TabBody>
-                        @foreach (var b in gv.business_branch_by_role)
+                    }
+                </TabHeader>
+                <TabBody>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+                        if (gv.business_branch_has_inventory(b.id.ToString()))
                         {
-                             if(gv.business_branch_has_inventory(b.id.ToString())){
                             <TabItem>
                                 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                     <tr>
@@ -102,7 +106,7 @@
                                     </tr>
                                     @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
                                     {
-                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r=>r.station.station_name_en).ToList())
+                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r => r.station.station_name_en).ToList())
                                         {
                                             @if (d.station != null)
                                             {
@@ -130,12 +134,12 @@
                                 </table>
                             </TabItem>
                         }
-                        }
-                    </TabBody>
-                </Tab>
+                    }
+                </TabBody>
+            </Tab>
 
-            </div>
-        
+        </div>
+
     </Com>
 </UIContainerBox>
 @code {
@@ -162,7 +166,7 @@
                 {
                     foreach (var d in gv.stock_locations)
                     {
-                        model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id,stock_location = d });
+                        model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
                     }
                 }
 
