@@ -50,8 +50,15 @@ namespace eModels
         public bool is_buildin { get; set; } = false;
         public string photo { get; set; } = "";
 
-        [NotMapped, JsonIgnore]
+        [NotMapped]
         public string new_password { get; set; }
+
+        [NotMapped]
+        public string retype_new_password { get; set; }
+
+
+        [NotMapped]
+        public string current_password { get; set; }
 
 
 
