@@ -62,11 +62,15 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading=true;
-        var res = await http.ApiGetOData($"Contact?$filter=customer_id eq {customer_id}");
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData(){
+    var res = await http.ApiGetOData($"Contact?$filter=customer_id eq {customer_id}");
         if(res.IsSuccess){
             contacts = JsonSerializer.Deserialize<List<ContactModel>>(res.Content.ToString());
         }
-        is_loading = false;
     }
 
     async Task AddNewClick()
@@ -77,7 +81,7 @@
 
         if (!result.Cancelled)
         {
-            contacts.Add((ContactModel)result.Data);
+            await LoadData();
         }
     }
     async Task EditClick(ContactModel c)
@@ -94,7 +98,7 @@
 
         if (!result.Cancelled)
         {
-            contacts.Add((ContactModel)result.Data);
+            await LoadData();
         }
     }
      async Task DeleteClick(ContactModel c)

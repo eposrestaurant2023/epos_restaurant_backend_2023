@@ -8,13 +8,13 @@
                 <MudSelectItem T="string" Value="@("Male")">
                     Male
                 </MudSelectItem>
-                <MudSelectItem T="string" Value="@("Femal")">
+                <MudSelectItem T="string" Value="@("Female")">
                     Female
                 </MudSelectItem>
             </MudSelect>
             <MudTextField Required="true" @bind-Value="@model.phone_1"  Label="Phone 1"></MudTextField>
             <MudTextField @bind-Value="@model.phone_2" Label="Phone 2"></MudTextField>
-            <MudTextField @bind-Value="@model.postion" Label="Position"></MudTextField>
+            <MudTextField @bind-Value="@model.position" Label="Position"></MudTextField>
             <MudTextField @bind-Value="@model.telegram" Label="Telegram"></MudTextField>
             <MudTextField @bind-Value="@model.email_address" Label="Email Address"></MudTextField>
         </ModalContent>
