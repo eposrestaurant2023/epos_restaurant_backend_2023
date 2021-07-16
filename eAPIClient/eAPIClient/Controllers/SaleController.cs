@@ -103,7 +103,7 @@ namespace eAPIClient.Controllers
                     Directory.CreateDirectory(path);
                 } 
                 // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, $"{model.id}.txt")))
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, $"{model.id},{Guid.NewGuid()}.txt")))
                 {
                     await outputFile.WriteAsync(model.id.ToString());
                 }

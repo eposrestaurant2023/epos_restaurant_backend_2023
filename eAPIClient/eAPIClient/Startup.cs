@@ -12,7 +12,9 @@ using eAPIClient.Services;
 using Microsoft.OData.Edm;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
-using eAPIClient.Models;     
+using eAPIClient.Models;
+using System.Text.Json.Serialization;
+
 namespace eAPIClient
 {
     public class Startup
@@ -31,6 +33,7 @@ namespace eAPIClient
 
             services.AddControllers();
 
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAnyOrigin",
@@ -43,11 +46,10 @@ namespace eAPIClient
             services.AddDbContext<ApplicationDbContext>(options => options.EnableSensitiveDataLogging().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             services.AddControllersWithViews().AddNewtonsoftJson(options => {
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
                 options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
             });
-
-
+    
             services.AddMvc();
             services.AddOData();
 
@@ -116,6 +118,8 @@ namespace eAPIClient
             odataBuilder.EntitySet<ConfigDataModel>("ConfigData");                 
             odataBuilder.EntitySet<SaleModel>("Sale"); 
             odataBuilder.EntitySet<NoteModel>("Note");
+            odataBuilder.EntitySet<SaleProductModel>("SaleProduct");
+            odataBuilder.EntitySet<SaleProductModifierModel>("SaleProductModifier");
             return odataBuilder.GetEdmModel();
         }
     }

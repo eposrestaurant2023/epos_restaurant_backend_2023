@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using eAPIClient.Models;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace eAPIClient.Services
 {
     public interface IHttpService
@@ -88,12 +90,18 @@ namespace eAPIClient.Services
 
             HttpRequestMessage requestMessage = new HttpRequestMessage();
             if (obj != null)
-            {     
+            {
+                JsonSerializerOptions options = new()
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                    WriteIndented = true
+                };
+
                 requestMessage = new HttpRequestMessage()
                 {
                     Method = new HttpMethod("POST"),
                     RequestUri = new Uri($"{_configuration.GetValue<string>("server_api_url")}{url}"),
-                    Content = new StringContent(JsonSerializer.Serialize(obj))
+                    Content = new StringContent(JsonSerializer.Serialize(obj,options))
                 };
             }
             else
