@@ -1,32 +1,52 @@
 ﻿@page   "/user/profile"
-@inherits PageCore
+@inherits PageUserProfiles
+
+
+<Loading is_loading="is_loading"/>
+@if(!is_loading){
 <PageContainer>
-    <PageHeader>
-        <Left>
-            Profile
-        </Left>
-        <Right></Right>
+    <PageHeader title="@page_title" show_back_button="true" show_refresh_button="false">
     </PageHeader>
-      <EditForm Model="@model">
+    <EditForm Model="@model" OnValidSubmit="@Save_Click">
     <PageBody>
-        <UICenter>
-             <UIPanel Title="Photo">
-                    <FileUpload @bind-ImageUrl="model.photo"></FileUpload>
-                </UIPanel>
+        
+       <UICenter>
             <UIPanel Title="General Information">
-               <MudTextField @bind-Value="TextValue" Label="UserName" Variant="Variant.Text"></MudTextField>
-               <MudTextField @bind-Value="TextValue" Label="Password" Variant="Variant.Text"></MudTextField>
+                <UIPanelHeaderRight>
+                    <MudButton OnClick="@(()=>{is_changepassword = !is_changepassword;})">Change Password</MudButton>
+                </UIPanelHeaderRight>
+            
+                <UIPanelBody>
+                      <FileUpload @bind-ImageUrl="@model.photo"/>
+                     <MudTextField @bind-Value="@model.full_name" Label="Full Name"></MudTextField>
+                    <MudTextField @bind-Value="@model.email" Label="Email"></MudTextField>
+                    <MudTextField @bind-Value="@model.phone_1" Label="Phone 1"></MudTextField>
+                    <MudTextField @bind-Value="@model.phone_2" Label="Phone 2"></MudTextField>
+                </UIPanelBody>
+
             </UIPanel>
-        </UICenter>
+            @if(is_changepassword == true){
+               <UIPanel Title="Change Password">
+                <MudTextField @bind-Value="@model.current_password" Label="Current Password" InputType="InputType.Password"></MudTextField>
+                <MudTextField @bind-Value="@model.new_password" Label="New Password" InputType="InputType.Password"></MudTextField>
+                <MudTextField @bind-Value="@model.retype_new_password" Label="Re-Type Password" InputType="InputType.Password"></MudTextField>
+            </UIPanel>
+            }
+         
+       </UICenter>
+
+        
     </PageBody>
-    </EditForm>
+           <PageFooter>
+           <Center>
+               <MudButton Disabled="@model.is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mx-2">Save
+                @if(model.is_saving){
+                    <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
+                }
+                </MudButton>
+                <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button">Cancel</MudButton>
+           </Center>
+       </PageFooter>
+       </EditForm>
 </PageContainer>
-
-@code {
-    public string TextValue { get; set; }
-    public UserModel model { get; set; }
-
-
-
-    
 }
