@@ -65,11 +65,25 @@ namespace eAPIClient.Controllers
                 }
 
 
-                //Sale
+                //sale add 
+                foreach (var item in db.ChangeTracker.Entries()
+               .Where(e => e.State == EntityState.Added && (e.Entity is SaleModel)))
+                {
+                    var entidad = item.Entity as SaleModel;
+                    entidad.last_modified_by = user.full_name;
+                    entidad.last_modified_date = DateTime.Now;
+
+
+                }
+                //Sale update 
+
                 foreach (var item in db.ChangeTracker.Entries()
                .Where(e => e.State == EntityState.Modified && (e.Entity is SaleModel)))
                 {
                     var entidad = item.Entity as SaleModel;
+                    entidad.last_modified_by = user.full_name;
+                    entidad.last_modified_date = DateTime.Now;
+
                     if (entidad.is_closed == true)
                     {
                         entidad.closed_date = DateTime.Now;
@@ -131,11 +145,25 @@ namespace eAPIClient.Controllers
                 }
 
 
-                //Sale
+                //sale add 
+                foreach (var item in db.ChangeTracker.Entries()
+               .Where(e => e.State == EntityState.Added && (e.Entity is SaleModel)))
+                {
+                    var entidad = item.Entity as SaleModel;
+                    entidad.last_modified_by = user.full_name;
+                    entidad.last_modified_date = DateTime.Now;
+
+                   
+                }
+                //Sale update 
+
                 foreach (var item in db.ChangeTracker.Entries()
                .Where(e => e.State == EntityState.Modified && (e.Entity is SaleModel)))
                 {
-                    var entidad = item.Entity as SaleModel;  
+                    var entidad = item.Entity as SaleModel;
+                    entidad.last_modified_by = user.full_name;
+                    entidad.last_modified_date = DateTime.Now;
+
                     if (entidad.is_closed == true)
                     {
                         entidad.closed_date = DateTime.Now;
