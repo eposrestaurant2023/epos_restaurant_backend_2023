@@ -87,13 +87,13 @@
     }
     protected override async Task OnInitializedAsync()
     {
-      
+        if(project.business_branches!=null){
             if (project.business_branches.Count() > 0)
             {
                 model = project.business_branches.FirstOrDefault();
                 model.is_selected = true;
             }
-     
+        }
     }
 
     async Task AddNewBussinessBranch()
