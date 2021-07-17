@@ -25,6 +25,7 @@ namespace eAPIClient.Models
         public string text_color { get; set; }
         public string background_color { get; set; }    
         public int root_menu_id { get; set; }
+        public bool is_shortcut_menu { get; set; } = false;
 
         public List<ProductMenuModel> product_menus { get; set; }
 

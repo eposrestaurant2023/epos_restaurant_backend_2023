@@ -63,7 +63,12 @@
     {
         <ComBusinessBranchInformation @bind-model="@model" />
     }else{
-        <div>There is no business branch selected. (Pls design empty component)</div>
+        <div class="text-center">
+                     <MudIcon Icon="@Icons.Material.Filled.SentimentVeryDissatisfied" Size="Size.Large"/>
+                    <MudText Typo="Typo.subtitle1">
+                       There is no business branch selected. 
+                    </MudText>
+         </div>
     }
         
     </MudContainer>

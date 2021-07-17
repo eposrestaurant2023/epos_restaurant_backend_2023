@@ -47,11 +47,11 @@
             state.filters.Clear();
 
             state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
- 
+
             state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
-    
+
             state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
- 
+
             state.filters.Add(new FilterModel() { key="" });
 
             api_url = api_url + GetFilter(state.filters);
@@ -98,6 +98,7 @@
         }
         set
         {
+            value.is_ingredient_product = true;
             _selected = value;
 
             productChanged.InvokeAsync(value);
