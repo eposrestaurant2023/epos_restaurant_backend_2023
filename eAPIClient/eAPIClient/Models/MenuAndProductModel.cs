@@ -83,7 +83,9 @@ namespace eAPIClient.Models
         public string product_category_kh { get; set; }
         public string product_tax_value { get; set; }
         public int product_group_id { get; set; } = 0;
-          
+
+        public bool is_open_product { get; set; } = false;
+
         public List<ProductPrinterModel> product_printers { get; set; }
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<ProductPortionModel> product_portions { get; set; }

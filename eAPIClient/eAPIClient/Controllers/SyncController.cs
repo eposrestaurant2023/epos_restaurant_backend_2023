@@ -218,11 +218,12 @@ namespace eAPIClient.Controllers
             is_get_remote_data_success = false;
             string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section";
 
-            string url = $"product?$select=product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
-            url = url + $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
-            url = url + $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
-            url = url + $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";
-            url = url + "&$filter=is_deleted eq false and status eq true";
+            string url = $"product?$select=product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,is_open_product,";
+            url += "product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
+            url += $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
+            url += $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
+            url += $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";
+            url += "&$filter=is_deleted eq false and status eq true";
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
