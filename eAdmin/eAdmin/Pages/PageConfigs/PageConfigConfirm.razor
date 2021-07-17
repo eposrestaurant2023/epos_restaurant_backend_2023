@@ -76,7 +76,7 @@
                                                                                 <ul>
                                                                                     @foreach (var s in o.stations)
                                                                                     {
-                                                                                        <li>@s.station_name_en <ComSystemFeatureStatus is_deleted="@s.is_deleted" is_full_license="@s.is_full_license" expired_date="@s.expired_date" /></li>
+                                                                                        <li>@s.station_name_en @s.expired_date <ComSystemFeatureStatus is_deleted="@s.is_deleted" is_full_license="@s.is_full_license" expired_date="@s.expired_date" /></li>
                                                                                     }
                                                                                 </ul>
                                                                             </div>
