@@ -49,7 +49,7 @@ namespace eShareModel
         public int kitchen_group_sort_order { get; set; } = 0;
         //
         public string unit { get; set; }
-        public double multiplier { get; set; } = 1;
+        public decimal multiplier { get; set; } = 1;
         public int status_id { get; set; } = 1;
         public string status_name { get; set; } = "New";
 
