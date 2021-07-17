@@ -12,7 +12,7 @@ else
     {
 
         @*<label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString(gv.date_format) (@Math.Ceiling(((DateTime)expired_date - DateTime.Now).TotalDays))</label>*@
-        <label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString(gv.date_format) (@((int)(Convert.ToDateTime(expired_date) - DateTime.Now).TotalDays))</label>
+        <label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString("yyyy-MM-dd") (@((int)(Convert.ToDateTime(expired_date) - DateTime.Now).TotalDays))</label>
     }
     else
     {
