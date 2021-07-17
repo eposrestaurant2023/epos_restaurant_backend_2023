@@ -99,8 +99,7 @@ namespace eAPI.Controllers
                         if (_payment.Count() <= 0)
                         {
                             _spay.sale = null;
-                            db.SalePayments.Add(_spay);
-                            db.SaveChanges();
+                            db.Entry(_spay).State = EntityState.Added;
                         }
                     });
 
