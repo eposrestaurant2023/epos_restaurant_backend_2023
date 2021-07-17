@@ -72,6 +72,7 @@ namespace eAPI.Controllers
                 var _chk = db.Sales.Where(r => r.id == model.id).AsNoTracking();
                 if (_chk.Count() > 0)
                 {
+                     
                     model.sale_products.ForEach(_sp =>
                     {
                         if (db.SaleProducts.Where(r => r.id == _sp.id).Count() <= 0)
