@@ -253,4 +253,18 @@ namespace eModels
         public int sort_order { get; set; } = 0;
     }
 
+
+    [Table("tbl_test")]
+    public class TestModel
+    {
+        [Key]
+        public Guid id { get; set; }
+
+        public string name { get; set; }
+    }
+
+
+
+
+
 }

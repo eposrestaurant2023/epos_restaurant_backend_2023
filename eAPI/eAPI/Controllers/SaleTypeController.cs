@@ -32,27 +32,29 @@ namespace eAPI.Controllers
             return db.SaleTypes;
         }
 
-        [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] SaleTypeModel u)
+        [HttpPost("SaveTest")]
+        public async Task<ActionResult<string>> SaveTest([FromBody] TestModel u)
         {
+ 
 
-            if (u.id == Guid.Empty)
-            {
 
-                db.SaleTypes.Add(u);
-            }
-            else
-            {
-
-                db.SaleTypes.Update(u);
-            }
-
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            AddOrUpdate(u);
             return Ok(u);
 
         }
 
+        public virtual void AddOrUpdate(TestModel entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException("entity");
+
+            db.Update(entity);
+            db.SaveChanges();
+        }
+
     }
 
-    
+  
+
+
 }
