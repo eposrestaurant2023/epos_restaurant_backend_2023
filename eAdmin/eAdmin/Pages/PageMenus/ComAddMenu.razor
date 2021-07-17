@@ -32,6 +32,7 @@
                 <TextInput label="@lang["Text Color"]" type="color" @bind-text="@model.text_color" />
                 <TextInput label="@lang["Background Color"]" type="color" @bind-text="@model.background_color" />
                 <NumberInputInt label="@lang["Sort Order"]" @bind-text="@model.sort_order" />
+                <ComInputCheckBox @bind-Value="@model.is_shortcut_menu" label="@lang["Shortcut Menu"]"/>
                 <SelectStatus label="@lang["Status"]" @bind-selected_value="@model.status" />
 
             </UIContainerBox>
@@ -50,7 +51,6 @@
                             </div>
                         </div>
                     </div>
-                   
                 </Grid>
             </UIContainerBox>
         }
