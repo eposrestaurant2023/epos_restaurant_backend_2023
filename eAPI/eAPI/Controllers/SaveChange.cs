@@ -37,16 +37,6 @@ namespace eAPI.Controllers
                 }
 
 
-                foreach (var item in db.ChangeTracker.Entries()
-                    .Where(e => e.State == EntityState.Modified && e.Entity is SaleShareModel))
-                {
-                    var entidad = item.Entity as SaleShareModel;
-                    entidad.last_modified_by = user.full_name;
-                    entidad.last_modified_date = DateTime.Now;
-                    
-                }
-
-
 
             }
 
