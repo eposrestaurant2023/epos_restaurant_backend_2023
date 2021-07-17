@@ -72,6 +72,7 @@ namespace eAPI.Controllers
                 var _chk = db.Sales.Where(r => r.id == model.id).AsNoTracking();
                 if (_chk.Count() > 0)
                 {
+                     
                     model.sale_products.ForEach(_sp =>
                     {
                         if (db.SaleProducts.Where(r => r.id == _sp.id).Count() <= 0)
@@ -94,8 +95,10 @@ namespace eAPI.Controllers
 
                     model.sale_payments.ForEach(_spay =>
                     {
-                        if (db.SalePayments.Where(r => r.id == _spay.id).Count() <= 0)
+                        var _payment = db.SalePayments.Where(r => r.id == _spay.id).AsNoTracking();
+                        if (_payment.Count() <= 0)
                         {
+                            _spay.sale = null;
                             db.SalePayments.Add(_spay);
                             db.SaveChanges();
                         }
