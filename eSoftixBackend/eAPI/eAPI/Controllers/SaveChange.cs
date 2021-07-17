@@ -22,7 +22,6 @@ namespace eAPI.Controllers
                     
                     if (entidad != null)
                     {
-                        entidad.last_modified = DateTime.Now;
                         entidad.created_date = DateTime.Now;
                         entidad.created_by = user.full_name;
                     }
@@ -37,7 +36,6 @@ namespace eAPI.Controllers
                     .Where(e => e.State == EntityState.Modified && e.Entity is Core))
                 {
                     var entidad = item.Entity as Core;
-                    entidad.last_modified = DateTime.Now;
                     if (entidad.is_deleted == true)
                     {
                         entidad.deleted_date = DateTime.Now;
@@ -65,7 +63,6 @@ namespace eAPI.Controllers
                     if (entidad != null)
                     {
                         entidad.created_date = DateTime.Now;
-                        entidad.last_modified = DateTime.Now;
                         entidad.created_by = user.full_name;
                     }
                     if (entinodeleted != null)
@@ -81,7 +78,6 @@ namespace eAPI.Controllers
                     .Where(e => e.State == EntityState.Modified && e.Entity is Core))
                 {
                     var entidad = item.Entity as Core;
-                    entidad.last_modified = DateTime.Now;
                     if (entidad.is_deleted == true)
                     {
                         entidad.deleted_date = DateTime.Now;
