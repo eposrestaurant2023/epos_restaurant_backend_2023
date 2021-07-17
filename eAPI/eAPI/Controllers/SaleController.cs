@@ -94,8 +94,10 @@ namespace eAPI.Controllers
 
                     model.sale_payments.ForEach(_spay =>
                     {
-                        if (db.SalePayments.Where(r => r.id == _spay.id).Count() <= 0)
+                        var _payment = db.SalePayments.Where(r => r.id == _spay.id).AsNoTracking();
+                        if (_payment.Count() <= 0)
                         {
+                            _spay.sale = null;
                             db.SalePayments.Add(_spay);
                             db.SaveChanges();
                         }
