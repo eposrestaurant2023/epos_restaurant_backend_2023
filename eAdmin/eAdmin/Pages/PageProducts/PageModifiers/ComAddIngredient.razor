@@ -89,9 +89,10 @@
             if (value.unit == null) value.unit = gv.units.Where(r => r.id == 1).FirstOrDefault();
             value.product_category_id = gv.product_categories.Where(r => r.is_defualt == true).FirstOrDefault().id;
             model.modifier_ingredients.Add(new ModifierIngredientModel() { ingredient = value, ingredient_id = value.id, unit = value.unit, unit_id = value.unit_id, cost = value.cost });
+           
         }
         value = null;
-    }
+    } 
 
 
     void OnDeleteClick(ModifierIngredientModel p)
