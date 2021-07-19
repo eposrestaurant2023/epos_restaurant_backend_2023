@@ -13,7 +13,7 @@ namespace eAdmin.Pages.PageProducts.PageModifiers
 {
     public class ComModifierDetailSaleHistoryBase : PageCore
     { 
-        [Parameter] public int product_modifier_id { get; set; }
+        [Parameter] public string product_modifier_id { get; set; }
         public List<SaleProductModifierModel> models = new List<SaleProductModifierModel>();
         public SaleProductModifierModel model = new SaleProductModifierModel();
         public string StateKey = "XCUMODIFERSIXZXRGrRwdzVOID201545AEj";   

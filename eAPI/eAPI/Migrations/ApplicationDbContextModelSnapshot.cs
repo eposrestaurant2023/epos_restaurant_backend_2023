@@ -70,11 +70,11 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_document_file")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("modifier_group_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("modifier_group_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("modifier_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("modifier_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -938,11 +938,11 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("modifier_group_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("modifier_group_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("modifier_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("modifier_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("module")
                         .HasColumnType("nvarchar(max)")
@@ -1079,12 +1079,6 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<Guid?>("sale_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("sale_product_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("sale_product_modifier_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("stock_location_id")
@@ -1241,10 +1235,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupItemModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1274,14 +1267,14 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_section")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("modifier_group_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("modifier_group_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("modifier_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("modifier_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("parent_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("parent_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,8)");
@@ -1309,10 +1302,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1360,8 +1352,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("modifer_group_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("modifer_group_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("product_category_id")
                         .HasColumnType("int");
@@ -1377,8 +1369,8 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierIngredientModel", b =>
                 {
-                    b.Property<int>("modifier_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("modifier_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ingredient_id")
                         .HasColumnType("int");
@@ -1409,10 +1401,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1433,8 +1424,8 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("modifier_group_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("modifier_group_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("modifier_name")
                         .IsRequired()
@@ -2307,10 +2298,12 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ProductModifierModelid")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2340,18 +2333,15 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_section")
                         .HasColumnType("bit");
 
-                    b.Property<int>("modifier_group_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("modifier_group_id")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("modifier_id")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("modifier_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("modifier_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int?>("parent_id")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,8)");
@@ -2371,9 +2361,9 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("modifier_id");
+                    b.HasIndex("ProductModifierModelid");
 
-                    b.HasIndex("parent_id");
+                    b.HasIndex("modifier_id");
 
                     b.HasIndex("product_id");
 
@@ -3493,8 +3483,8 @@ namespace eAPI.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<int>("product_modifier_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("product_modifier_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("reqular_price")
                         .HasColumnType("decimal(19,8)");
@@ -4740,11 +4730,11 @@ namespace eAPI.Migrations
                         .HasForeignKey("customer_id");
 
                     b.HasOne("eModels.ModifierGroupModel", "modifier_group")
-                        .WithMany("attach_files")
+                        .WithMany("attache_files")
                         .HasForeignKey("modifier_group_id");
 
                     b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany()
+                        .WithMany("attache_files")
                         .HasForeignKey("modifier_id");
 
                     b.HasOne("eModels.ProductModel", "product")
@@ -5024,7 +5014,7 @@ namespace eAPI.Migrations
                         .HasForeignKey("modifier_group_id");
 
                     b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany()
+                        .WithMany("histories")
                         .HasForeignKey("modifier_id");
 
                     b.HasOne("eModels.ProductModel", "product")
@@ -5391,21 +5381,19 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
                 {
+                    b.HasOne("eModels.ProductModifierModel", null)
+                        .WithMany("children")
+                        .HasForeignKey("ProductModifierModelid");
+
                     b.HasOne("eModels.ModifierModel", "modifier")
                         .WithMany("product_modifiers")
                         .HasForeignKey("modifier_id");
-
-                    b.HasOne("eModels.ProductModifierModel", "parent")
-                        .WithMany("children")
-                        .HasForeignKey("parent_id");
 
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany("product_modifiers")
                         .HasForeignKey("product_id");
 
                     b.Navigation("modifier");
-
-                    b.Navigation("parent");
 
                     b.Navigation("product");
                 });
@@ -5943,7 +5931,7 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
                 {
-                    b.Navigation("attach_files");
+                    b.Navigation("attache_files");
 
                     b.Navigation("histories");
 
@@ -5954,6 +5942,10 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierModel", b =>
                 {
+                    b.Navigation("attache_files");
+
+                    b.Navigation("histories");
+
                     b.Navigation("modifier_group_items");
 
                     b.Navigation("modifier_ingredients");

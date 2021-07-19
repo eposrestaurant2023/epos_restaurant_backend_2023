@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,15 +9,17 @@ using eShareModel;
 namespace eModels
 {
     [Table("tbl_modifier")]
-   public class ModifierModel : CoreModel
+   public class ModifierModel : CoreGUIDModel
     {
         public ModifierModel()
         {
             product_modifiers = new List<ProductModifierModel>();
             modifier_ingredients = new List<ModifierIngredientModel>();
+            attache_files = new List<AttachFilesModel>();
+            histories = new List<HistoryModel>();
         }
- 
-        public int? modifier_group_id { get; set; }
+
+        public Guid? modifier_group_id { get; set; }
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
 
@@ -24,7 +27,6 @@ namespace eModels
         [Required(ErrorMessage = "Field cannot be blank.")]
         public string modifier_name { get; set; }
 
-        
 
         public List<ProductModifierModel> product_modifiers { get; set; }
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
@@ -33,26 +35,31 @@ namespace eModels
         [NotMapped, JsonIgnore]
         public bool is_new { get; set; } = false;
 
-    }
+        public List<AttachFilesModel> attache_files { get; set; }
+        public List<HistoryModel> histories{ get; set; }
 
+    }
     [Table("tbl_modifier_group_item")]
-    public class ModifierGroupItemModel : CoreModel
+    public class ModifierGroupItemModel : CoreGUIDModel
     {
         public ModifierGroupItemModel()
         {
             children = new List<ModifierGroupItemModel>();
         }
-        public int? parent_id { get; set; }
+
+        public Guid? parent_id { get; set; }
         [ForeignKey("parent_id")]
         public ModifierGroupItemModel parent { get; set; }
+
         public List<ModifierGroupItemModel> children { get; set; }
 
-        public int? modifier_group_id { get; set; }
+        public Guid? modifier_group_id { get; set; }
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
-        public int? modifier_id { get; set; }
+        public Guid? modifier_id { get; set; }
         [ForeignKey("modifier_id")]
         public ModifierModel modifier { get; set; }
+
 
         public int sort_order { get; set; }
         public bool is_section { get; set; }
@@ -65,15 +72,15 @@ namespace eModels
     }
 
     [Table("tbl_modifier_group")]
-    public class ModifierGroupModel : CoreModel
+    public class ModifierGroupModel : CoreGUIDModel
     {
         public ModifierGroupModel()
         {
             
             modifier_group_product_categories = new List<ModifierGroupProductCategoryModel>();
             modifier_group_items = new List<ModifierGroupItemModel>();
+            attache_files = new List<AttachFilesModel>();
             histories = new List<HistoryModel>();
-            attach_files = new List<AttachFilesModel>();
         }
 
         private string _modifier_group_name_en;
@@ -95,8 +102,7 @@ namespace eModels
 
         public List<ModifierGroupProductCategoryModel> modifier_group_product_categories { get; set; }
         public List<ModifierGroupItemModel> modifier_group_items { get; set; }
-        public List<HistoryModel> histories { get; set; }
-        public List<AttachFilesModel> attach_files { get; set; }
+   
 
         [NotMapped, JsonIgnore]
         public string modifier_group_display_name
@@ -106,6 +112,9 @@ namespace eModels
                 return (string.IsNullOrEmpty(modifier_group_name_kh) ? modifier_group_name_en : $"{modifier_group_name_en} ({modifier_group_name_kh})");
             }
         }
+
+        public List<AttachFilesModel> attache_files { get; set; }
+        public List<HistoryModel> histories { get; set; }
     }
 
     [Table("tbl_modifier_group_product_category")]
@@ -114,7 +123,7 @@ namespace eModels
         [Key]
         public int id { get; set; }
 
-        public int modifer_group_id { get; set; }
+        public Guid modifer_group_id { get; set; }
         [ForeignKey("modifer_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
 
@@ -127,22 +136,24 @@ namespace eModels
 
     [Table("tbl_product_modifier")]
 
-    public class ProductModifierModel: CoreModel
+    public class ProductModifierModel: CoreGUIDModel
     {
         public ProductModifierModel()
         {
             children = new List<ProductModifierModel>();
         }
 
-     
-        public int? parent_id { get; set; }
-        [ForeignKey("parent_id")]
-        public ProductModifierModel parent { get; set; }
+
+        //public Guid? parent_id { get; set; }
+        //[ForeignKey("parent_id")]
+        //public ProductModifierModel parent { get; set; }
+
+
         public List<ProductModifierModel> children { get; set; }
 
 
 
-        public int? modifier_id { get; set; }
+        public Guid? modifier_id { get; set; }
         [ForeignKey("modifier_id")]
         public ModifierModel modifier { get; set; }
 
@@ -152,7 +163,7 @@ namespace eModels
 
         public decimal price { get; set; }
 
-        public int modifier_group_id { get; set; }
+        public Guid modifier_group_id { get; set; }
 
         public string modifier_name { get; set; }
 

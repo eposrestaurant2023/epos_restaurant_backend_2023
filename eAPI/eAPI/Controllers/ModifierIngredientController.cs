@@ -39,11 +39,14 @@ namespace eAPI.Controllers
                     ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                         select r;
                 return c.AsQueryable();
+
+
             }
             else
             {
                 return db.ModifierIngredients;
             }
+            
         }
     }
 }

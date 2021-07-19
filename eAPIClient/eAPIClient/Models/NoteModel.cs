@@ -11,6 +11,7 @@ namespace eAPIClient.Models
         public int note_id { get; set; }
         public string note { get; set; }
         public int category_note_id { get; set; }
+        public int product_id { get; set; }
     }
 
     public class ShareNoteModel: CoreModel

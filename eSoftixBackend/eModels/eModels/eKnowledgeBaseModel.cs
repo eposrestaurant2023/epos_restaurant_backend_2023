@@ -26,6 +26,8 @@ namespace eModels
         [ForeignKey("parent_id")]
         public eKnowledgeBaseModel parent { get; set; }
 
+        public List<eKnowledgeBaseModel> children { get; set; }
+
         public int sort_order { get; set; }
 
 

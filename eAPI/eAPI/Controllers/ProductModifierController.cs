@@ -36,7 +36,7 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductModifierModel u)
         {            
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
                 db.ProductModifiers.Add(u);
             }
@@ -50,7 +50,7 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<ProductModifierModel> Get([FromODataUri] int key)
+        public SingleResult<ProductModifierModel> Get([FromODataUri] Guid key)
         {
             var s = db.ProductModifiers.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(s);

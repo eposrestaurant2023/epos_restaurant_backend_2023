@@ -89,7 +89,7 @@
 
         void DeleteModifier(ModifierGroupItemModel m)
         {
-            if (m.id == 0)
+            if (m.id != Guid.Empty)
             {
                 modifer_group.modifier_group_items.ForEach(r=>r.children.Remove(m));
             }
@@ -111,7 +111,7 @@
 
         void DeleteModifierSection(ModifierGroupItemModel m)
         {
-            if (m.modifier_group_id == 0)
+            if (m.modifier_group_id != Guid.Empty)
             {
                 modifer_group.modifier_group_items.Remove(m);
             }

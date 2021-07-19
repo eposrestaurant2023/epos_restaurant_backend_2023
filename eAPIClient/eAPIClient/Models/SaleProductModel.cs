@@ -33,6 +33,6 @@ namespace eAPIClient.Models
     {
 
         [ForeignKey("sale_product_id")]
-        public SaleProductModel sale_product { get; set; }    
+        public SaleProductModel sale_product { get; set; }
     }
 }

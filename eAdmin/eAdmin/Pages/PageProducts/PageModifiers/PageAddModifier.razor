@@ -80,7 +80,7 @@ else
             if (clone_id > 0)
             {
                 title = $"Clone : {modifier.modifier_name}";
-                modifier.id = 0;
+                modifier.id = Guid.Empty;
                 modifier.is_deleted = false;
                 modifier.status = true;
                 modifier.created_date = DateTime.Now;
@@ -105,7 +105,7 @@ else
         ModifierModel save_model = JsonSerializer.Deserialize<ModifierModel>(JsonSerializer.Serialize(modifier));
         if (clone_id > 0)
         {
-            save_model.id = 0;
+            save_model.id = Guid.Empty;
             save_model.created_date = DateTime.Now;
             save_model.created_by = gv.current_login_user.full_name;
         }
