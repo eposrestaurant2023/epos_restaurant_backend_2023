@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210719080347_update_5")]
+    partial class update_5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1166,6 +1168,9 @@ namespace eAPIClient.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("SaleProductModelid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -1192,9 +1197,6 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<Guid>("product_modifier_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("reqular_price")
                         .HasColumnType("decimal(19,8)");
 
@@ -1206,7 +1208,7 @@ namespace eAPIClient.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("sale_product_id");
+                    b.HasIndex("SaleProductModelid");
 
                     b.ToTable("tbl_sale_product_modifier");
                 });
@@ -1619,13 +1621,9 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.SaleProductModifierModel", b =>
                 {
-                    b.HasOne("eAPIClient.Models.SaleProductModel", "sale_product")
+                    b.HasOne("eAPIClient.Models.SaleProductModel", null)
                         .WithMany("sale_product_modifiers")
-                        .HasForeignKey("sale_product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("sale_product");
+                        .HasForeignKey("SaleProductModelid");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.SaleProductPrintQueue", b =>

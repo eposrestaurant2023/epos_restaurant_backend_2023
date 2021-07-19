@@ -1,6 +1,6 @@
 ﻿@page "/modifiergroup/new"
-@page "/modifiergroup/edit/{id:int}"
-@page "/modifiergroup/clone/{clone_id:int}"
+@page "/modifiergroup/edit/{id}"
+@page "/modifiergroup/clone/{clone_id}"
 @inherits PageCore
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
@@ -8,7 +8,7 @@
 @if (!is_loading && !is_error)
 {
     <Title Value="@title"></Title>
-    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "modifier_group_edit" : "modifier_group_add")}")">
+    <PageContainer roles="@gv.GetRole($"{(id != Guid.Empty.ToString() ? "modifier_group_edit" : "modifier_group_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -57,8 +57,8 @@ else
 }
 
 @code{
-    [Parameter] public int clone_id { get; set; }
-    [Parameter] public int id { get; set; }
+    [Parameter] public string clone_id { get; set; }
+    [Parameter] public string id { get; set; }
     string controller_api = "ModifierGroup";
     ModifierGroupModel modifier_group = new ModifierGroupModel();
 
@@ -67,17 +67,16 @@ else
     {
         is_loading = true;
         await LoadData();
-
     }
 
     async Task LoadData()
     {
         is_loading = true;
-        if (clone_id > 0 || id > 0)
+        if (clone_id != Guid.Empty.ToString() || id != Guid.Empty.ToString())
         {
-            if (id > 0)
+            if (id != Guid.Empty.ToString())
             {
-                var resp = await http.ApiGet($"{controller_api}({(id != 0 ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
+                var resp = await http.ApiGet($"{controller_api}({(id != Guid.Empty.ToString() ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
                 if (resp.IsSuccess)
                 {
                     modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
@@ -138,6 +137,8 @@ else
 
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
 
+        save_model.modifier_group_items.SelectMany(r => r.children).Where(y=>y.id != Guid.Empty).ToList().ForEach(x => x.modifier = null);
+
         var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)
         {
@@ -163,7 +164,7 @@ else
     }
 
     void OnCancel() {
-        if (id > 0)
+        if (id != Guid.Empty.ToString())
         {
             nav.NavigateTo("modifiergroup/" + id);
         }else

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210719054056_change_modifier_guid_5")]
+    partial class change_modifier_guid_5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1079,6 +1081,12 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<Guid?>("sale_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("sale_product_id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("sale_product_modifier_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("stock_location_id")
@@ -4730,11 +4738,11 @@ namespace eAPI.Migrations
                         .HasForeignKey("customer_id");
 
                     b.HasOne("eModels.ModifierGroupModel", "modifier_group")
-                        .WithMany("attache_files")
+                        .WithMany("attach_files")
                         .HasForeignKey("modifier_group_id");
 
                     b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany("attache_files")
+                        .WithMany()
                         .HasForeignKey("modifier_id");
 
                     b.HasOne("eModels.ProductModel", "product")
@@ -5014,7 +5022,7 @@ namespace eAPI.Migrations
                         .HasForeignKey("modifier_group_id");
 
                     b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany("histories")
+                        .WithMany()
                         .HasForeignKey("modifier_id");
 
                     b.HasOne("eModels.ProductModel", "product")
@@ -5933,7 +5941,7 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
                 {
-                    b.Navigation("attache_files");
+                    b.Navigation("attach_files");
 
                     b.Navigation("histories");
 
@@ -5944,10 +5952,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierModel", b =>
                 {
-                    b.Navigation("attache_files");
-
-                    b.Navigation("histories");
-
                     b.Navigation("modifier_group_items");
 
                     b.Navigation("modifier_ingredients");

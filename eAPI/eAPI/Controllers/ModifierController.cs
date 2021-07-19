@@ -46,7 +46,7 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("getsingle")]
-        public async Task<SingleResult<ModifierModel>> Get([FromODataUri] int key)
+        public async Task<SingleResult<ModifierModel>> Get([FromODataUri] Guid key)
         {
             return await Task.Factory.StartNew(() => SingleResult.Create<ModifierModel>(db.Modifiers.Where(r => r.id == key).AsQueryable()));
         }
@@ -54,7 +54,7 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ModifierModel u)
         {
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
                 db.Modifiers.Add(u);
             }
@@ -82,7 +82,7 @@ namespace eAPI.Controllers
         public ActionResult<ModifierModel> Clone(int id) //clone
         {
             var u = db.Modifiers.Find(id);
-            u.id = 0;
+            u.id = Guid.Empty;
             u.is_deleted = false;
             u.status = false;
             u.created_date = DateTime.Now;

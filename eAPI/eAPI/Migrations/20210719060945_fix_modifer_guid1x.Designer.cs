@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210719060945_fix_modifer_guid1x")]
+    partial class fix_modifer_guid1x
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,12 +72,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_document_file")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("modifier_group_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("modifier_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -101,10 +97,6 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("customer_id");
-
-                    b.HasIndex("modifier_group_id");
-
-                    b.HasIndex("modifier_id");
 
                     b.HasIndex("product_id");
 
@@ -938,12 +930,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("modifier_group_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("modifier_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("module")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -1001,10 +987,6 @@ namespace eAPI.Migrations
                     b.HasIndex("PurchaseOrderPaymentModelid");
 
                     b.HasIndex("customer_id");
-
-                    b.HasIndex("modifier_group_id");
-
-                    b.HasIndex("modifier_id");
 
                     b.HasIndex("product_id");
 
@@ -4729,14 +4711,6 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("customer_id");
 
-                    b.HasOne("eModels.ModifierGroupModel", "modifier_group")
-                        .WithMany("attache_files")
-                        .HasForeignKey("modifier_group_id");
-
-                    b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany("attache_files")
-                        .HasForeignKey("modifier_id");
-
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany()
                         .HasForeignKey("product_id");
@@ -4758,10 +4732,6 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
-
-                    b.Navigation("modifier");
-
-                    b.Navigation("modifier_group");
 
                     b.Navigation("product");
 
@@ -5009,14 +4979,6 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("customer_id");
 
-                    b.HasOne("eModels.ModifierGroupModel", "modifier_group")
-                        .WithMany("histories")
-                        .HasForeignKey("modifier_group_id");
-
-                    b.HasOne("eModels.ModifierModel", "modifier")
-                        .WithMany("histories")
-                        .HasForeignKey("modifier_id");
-
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany("histories")
                         .HasForeignKey("product_id");
@@ -5050,10 +5012,6 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
-
-                    b.Navigation("modifier");
-
-                    b.Navigation("modifier_group");
 
                     b.Navigation("product");
 
@@ -5933,10 +5891,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierGroupModel", b =>
                 {
-                    b.Navigation("attache_files");
-
-                    b.Navigation("histories");
-
                     b.Navigation("modifier_group_items");
 
                     b.Navigation("modifier_group_product_categories");
@@ -5944,10 +5898,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ModifierModel", b =>
                 {
-                    b.Navigation("attache_files");
-
-                    b.Navigation("histories");
-
                     b.Navigation("modifier_group_items");
 
                     b.Navigation("modifier_ingredients");

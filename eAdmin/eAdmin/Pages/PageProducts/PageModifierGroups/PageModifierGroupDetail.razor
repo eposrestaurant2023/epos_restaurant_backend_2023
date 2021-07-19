@@ -25,7 +25,7 @@
                                      RoleEdit="@gv.GetRole("modifier_group_edit")"
                                      RoleDelete="@gv.GetRole("modifier_group_delete")"
                                      ApiFilter="@($"modifier_group_id eq {id} ")"
-                                     File="@(new AttachFilesModel() { modifier_group_id =  id })"
+                                     File="@(new AttachFilesModel() { modifier_group_id = Guid.Parse(id) })"
                                      IsVisible="@(!modifier_group.is_deleted)" />
                 <AddButton url="modifiergroup/new" roles="@gv.GetRole("modifier_group_add")">@lang["New Modifier"]</AddButton>
                 <MoreButton is_loading="@(modifier_group.is_loading ||modifier_group.is_change_status || modifier_group.is_deleting || modifier_group.is_restoring)">
@@ -82,7 +82,7 @@
                                                 RoleDelete="@gv.GetRole("modifier_group_delete")"
                                                 RoleEdit="@gv.GetRole("modifier_group_edit")"
                                                 ApiFilter="@($"modifier_group_id eq {id}")"
-                                                history="@(new HistoryModel() { modifier_group_id = id})" />
+                                                history="@(new HistoryModel() { modifier_group_id = Guid.Parse(id)})" />
                                 </UIContainerBox>
                             </UIGridCenter>
                         }
@@ -103,11 +103,11 @@ else
 }
 
 @code{
-    [Parameter] public int id { get; set; }
+    [Parameter] public string id { get; set; }
     string controller_api = "ModifierGroup";
     ModifierGroupModel modifier_group = new ModifierGroupModel();
     List<ProductGroupModel> product_groups = new List<ProductGroupModel>();
-
+   
     bool is_save_and_new = false;
     bool show_comment_tab = false;
     protected override async Task OnInitializedAsync()

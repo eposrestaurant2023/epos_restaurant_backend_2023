@@ -33,7 +33,7 @@ namespace eAPI.Controllers
                 return db.ModifierGroups.Where(r =>
                 (
                 (r.modifier_group_name_en ?? "") +
-                (r.modifier_group_name_kh ?? "") 
+                (r.modifier_group_name_kh ?? "")
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
             else
@@ -45,7 +45,7 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("getsingle")]
-        public async Task<SingleResult<ModifierGroupModel>> Get([FromODataUri] int key)
+        public async Task<SingleResult<ModifierGroupModel>> Get([FromODataUri] Guid key)
         {
             return await Task.Factory.StartNew(() => SingleResult.Create<ModifierGroupModel>(db.ModifierGroups.Where(r => r.id == key).AsQueryable()));
         }
@@ -56,28 +56,41 @@ namespace eAPI.Controllers
         {
             foreach (var pm in u.modifier_group_items)
             {
-                pm.children.Where(r => r.id > 0).ToList().ForEach(r => r.modifier = null);
+                pm.children.Where(r => r.id != Guid.Empty).ToList().ForEach(r => r.modifier = null);
             }
 
-            if (u.id == 0)
+            if (u.id == Guid.Empty)
             {
-                u.modifier_group_product_categories.ForEach(r => r.modifier_group = null);
-                u.modifier_group_product_categories.ForEach(r => r.modifer_group_id = 0);
-                u.modifier_group_product_categories.ForEach(r => r.id = 0);
-                u.modifier_group_product_categories.ForEach(r => r.product_category = null);
-                u.modifier_group_items.ForEach(r=>r.id = 0);
-                u.modifier_group_items.ForEach(r => r.modifier_group = null);
-                u.modifier_group_items.ForEach(r => r.modifier_group_id = 0);
-                u.modifier_group_items.ForEach(r => r.modifier = null);
+                u.modifier_group_product_categories.ForEach(r =>
+                {
+                    r.modifier_group = null;
+                    r.modifer_group_id = Guid.Empty;
+                    r.id = 0;
+                    r.product_category = null;
+                });
+
+
+
+                u.modifier_group_items.ForEach(r =>
+                {
+                    r.id = Guid.Empty;
+                    r.modifier_group = null;
+                    r.modifier_group_id = Guid.Empty;
+                    r.modifier = null;
+                });
+
+
+
                 db.ModifierGroups.Add(u);
             }
             else
-            {      
+            {
                 db.ModifierGroups.Update(u);
-            }            
+            }
+
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer {u.id},0" );
+            //db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer {u.id},0" );
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             return Ok(db.ModifierGroups.Find(u.id));
@@ -96,25 +109,27 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("clone/{id}")]
-        public ActionResult<ModifierGroupModel> Clone(int id) //clone
+        public ActionResult<ModifierGroupModel> Clone(Guid id) //clone
         {
-            var u = db.ModifierGroups.Where(r=>r.id == id)
-                .Include(r=>r.modifier_group_items.Where(r=>r.is_deleted == false)).ThenInclude(r=>r.modifier)
-                .Include(r=>r.modifier_group_items.Where(r=>r.is_deleted == false)).ThenInclude(r=>r.children).ThenInclude(r=>r.modifier)
-                .Include(r=>r.modifier_group_product_categories.Where(r=>r.is_deleted == false)).ThenInclude(r=>r.product_category).ToList();
+            var u = db.ModifierGroups.Where(r => r.id == id)
+                .Include(r => r.modifier_group_items.Where(r => r.is_deleted == false)).ThenInclude(r => r.modifier)
+                .Include(r => r.modifier_group_items.Where(r => r.is_deleted == false)).ThenInclude(r => r.children).ThenInclude(r => r.modifier)
+                .Include(r => r.modifier_group_product_categories.Where(r => r.is_deleted == false)).ThenInclude(r => r.product_category).ToList();
             if (u.Any())
             {
                 ModifierGroupModel m = u.FirstOrDefault();
-                m.id = 0;
+                m.id = Guid.Empty;
                 m.created_date = DateTime.Now;
-                m.modifier_group_items.ForEach(r => { r.modifier_group_id = 0; r.id = 0; r.children.ForEach(x => x.id = 0); });
-                m.modifier_group_product_categories.ForEach(r => r.modifer_group_id = 0);
+                m.modifier_group_items.ForEach(r => { r.modifier_group_id = Guid.Empty; r.id = Guid.Empty; r.children.ForEach(x => x.id = Guid.Empty); });
+                m.modifier_group_product_categories.ForEach(r => r.modifer_group_id = Guid.Empty);
                 return Ok(m);
             }
             else
             {
                 return NotFound();
             }
+
+
         }
 
         [HttpPost]

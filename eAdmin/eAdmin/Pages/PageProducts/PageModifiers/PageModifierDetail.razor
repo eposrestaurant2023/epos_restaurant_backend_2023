@@ -1,4 +1,4 @@
-﻿@page "/modifier/{id:int}"
+﻿@page "/modifier/{id}"
 @inherits PageCore
 @inject IStringLocalizer<Resource> lang
 
@@ -25,7 +25,7 @@
                                      RoleEdit="@gv.GetRole("modifier_edit")"
                                      RoleDelete="@gv.GetRole("modifier_delete")"
                                      ApiFilter="@($"modifier_id eq {id} ")"
-                                     File="@(new AttachFilesModel() { modifier_id =  id })"
+                                     File="@(new AttachFilesModel() { modifier_id =  new Guid(id) })"
                                      IsVisible="@(!modifier.is_deleted)" />
                 <AddButton url="modifier/new" roles="@gv.GetRole("modifier_add")">New Modifier</AddButton>
                 <MoreButton is_loading="@(modifier.is_loading ||modifier.is_change_status || modifier.is_deleting || modifier.is_restoring)">
@@ -68,7 +68,7 @@
                     <TabItem>
                         @if (show_sale_history)
                         {
-                            <ComModifierDetails_SaleHistory product_modifier_id="@id"/>
+                            <ComModifierDetails_SaleHistory product_modifier_id="@(id.ToString())"/>
                         }
                     </TabItem>
                     <TabItem>
@@ -80,7 +80,7 @@
                                                 RoleDelete="@gv.GetRole("modifier_delete")"
                                                 RoleEdit="@gv.GetRole("modifier_edit")"
                                                 ApiFilter="@($"modifier_id eq {id}")"
-                                                history="@(new HistoryModel() { modifier_id = id})" />
+                                                history="@(new HistoryModel() { modifier_id = new Guid(id)})" />
                                 </UIContainerBox>
                             </UIGridCenter>
                         }
@@ -100,7 +100,7 @@ else
 }
 
 @code{
-    [Parameter] public int id { get; set; }
+    [Parameter] public string id { get; set; }
     string controller_api = "Modifier";
     ModifierModel modifier = new ModifierModel();
     List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
