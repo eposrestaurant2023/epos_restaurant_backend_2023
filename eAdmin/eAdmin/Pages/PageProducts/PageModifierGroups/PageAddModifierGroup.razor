@@ -105,6 +105,7 @@ else
     {
         is_saving = true;
 
+
         // where don't add group item
         if (!modifier_group.modifier_group_items.Where(r=>r.is_deleted == false).Any())
         {
@@ -134,7 +135,17 @@ else
             is_saving = false;
             return;
         }
-
+        // where modifier no name
+        foreach (var child in modifier_group.modifier_group_items.SelectMany(r=>r.children).ToList())
+        {
+            if (string.IsNullOrEmpty(child.modifier.modifier_name))
+            {
+                toast.Add(lang["Modifier name cannot empty."], MatBlazor.MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+        }
+        
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
 
         save_model.modifier_group_items.SelectMany(r => r.children).Where(y=>y.id != Guid.Empty).ToList().ForEach(x => x.modifier = null);

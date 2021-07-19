@@ -60,6 +60,9 @@
                             <div>@lang["Business Branch"]</div>
                             <div class="sub-header-table">@lang["Outlet"]</div>
                         </ThAuto>
+                        <ThAuto>
+                            <div>@lang["Station"]</div>
+                        </ThAuto>
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
@@ -74,7 +77,8 @@
                             <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">@p.document_number</ComAuthorize>
                         </TdCenter>
                         <td>
-                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
+                            
+                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
                             <div>
@@ -83,6 +87,11 @@
                             <div class="sub-info-row-table">
                                 @p.outlet?.outlet_name_en
                             </div>
+                        </td>
+                        <td>
+                            <div>
+                                @p.station_name_en
+                            </div> 
                         </td>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
