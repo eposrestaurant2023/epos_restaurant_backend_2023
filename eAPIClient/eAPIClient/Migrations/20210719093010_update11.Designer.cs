@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210719093010_update11")]
+    partial class update11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -507,7 +509,7 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid?>("parent_id")
+                    b.Property<Guid>("parent_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("price")
@@ -1518,7 +1520,9 @@ namespace eAPIClient.Migrations
                 {
                     b.HasOne("eAPIClient.Models.ProductModifierModel", "parent")
                         .WithMany("children")
-                        .HasForeignKey("parent_id");
+                        .HasForeignKey("parent_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eAPIClient.Models.ProductModel", "product")
                         .WithMany("product_modifiers")
