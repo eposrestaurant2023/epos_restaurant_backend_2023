@@ -2302,9 +2302,6 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ProductModifierModelid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -2343,6 +2340,9 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<Guid?>("parent_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,8)");
 
@@ -2361,9 +2361,9 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("ProductModifierModelid");
-
                     b.HasIndex("modifier_id");
+
+                    b.HasIndex("parent_id");
 
                     b.HasIndex("product_id");
 
@@ -5381,19 +5381,21 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.ProductModifierModel", b =>
                 {
-                    b.HasOne("eModels.ProductModifierModel", null)
-                        .WithMany("children")
-                        .HasForeignKey("ProductModifierModelid");
-
                     b.HasOne("eModels.ModifierModel", "modifier")
                         .WithMany("product_modifiers")
                         .HasForeignKey("modifier_id");
+
+                    b.HasOne("eModels.ProductModifierModel", "parent")
+                        .WithMany("children")
+                        .HasForeignKey("parent_id");
 
                     b.HasOne("eModels.ProductModel", "product")
                         .WithMany("product_modifiers")
                         .HasForeignKey("product_id");
 
                     b.Navigation("modifier");
+
+                    b.Navigation("parent");
 
                     b.Navigation("product");
                 });
