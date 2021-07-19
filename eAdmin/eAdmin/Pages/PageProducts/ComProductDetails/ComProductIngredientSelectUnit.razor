@@ -1,0 +1,159 @@
+﻿@inject IHttpService http
+@if (!is_loading) { 
+    @if (!string.IsNullOrEmpty(label))
+    {
+        <div class="uk-margin-small">
+            <label class="uk-form-label" for="@id">@label</label>
+            <div class="uk-form-controls">
+                @if (is_ready_only)
+                {
+                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: @width; min-width:80px;" disabled>
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
+
+                    @foreach (var p in units)
+                    {
+                        <option value="@p.id">@p.unit_name</option>
+                    }
+                </select>
+                }
+                else
+                {
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width; min-width:80px;">
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
+
+                    @foreach (var p in units)
+                    {
+                        <option value="@p.id">@p.unit_name</option>
+                    }
+                </select>
+                }
+                @ChildContent
+            </div>
+        </div>
+    }
+    else
+    {
+        if (is_ready_only)
+        {
+            <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: auto; min-width:80px;" disabled>
+                @if (show_empty)
+                {
+                    <option value="0">@empty_text</option>
+                }
+
+                @foreach (var p in units)
+                {
+                    <option value="@p.id">@p.unit_name</option>
+                }
+            </select>
+        }
+        else
+        {
+            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width; min-width:80px;">
+                @if (show_empty)
+                {
+                    <option value="0">@empty_text</option>
+                }
+
+                @foreach (var p in units)
+                {
+                    <option value="@p.id">@p.unit_name</option>
+                }
+            </select>
+        }
+
+        @ChildContent
+    }
+}
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; }
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public bool is_ready_only { get; set; } = false;
+
+    [Parameter] public string empty_text { get; set; } = "Select Unit";
+    [Parameter] public string width { get; set; } = "100%";
+
+    [Parameter] public int selected_value { get; set; } = 0;
+
+    [Parameter] public ProductIngredientModel product_ingredient { get; set; }
+    [Parameter] public EventCallback<ProductIngredientModel> product_ingredientChanged { get; set; }
+
+    ProductModel ingredient { get; set; }
+
+    bool is_loading;
+    decimal regular_cost = 0;
+    public List<UnitModel> units
+    {
+        get
+        {
+            if (product_ingredient != null) {
+                if (product_ingredient.unit != null) {
+                    if (product_ingredient.unit.unit_category_id > 0)
+                    {
+                        var _data = gv.units.Where(r => (r.status && !r.is_deleted) && r.unit_category_id == product_ingredient.unit.unit_category_id).ToList();
+                        return _data;
+                    }
+                }
+            }
+            return gv.units.Where(r => (r.status && !r.is_deleted)).ToList();
+        }
+    }
+
+
+
+    public int SelectedValue
+    {
+        get
+        {
+
+            return product_ingredient.unit == null ? selected_value : product_ingredient.unit.id;
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Int32.Parse(n);
+
+        UnitModel unit_selected = new UnitModel();
+
+        if (selected_value > 0)
+        {
+            if (gv.units.Where(r => r.id == selected_value).FirstOrDefault() != null)
+            {
+                unit_selected = gv.units.Where(r => r.id == selected_value).FirstOrDefault();
+            }
+        }
+
+        product_ingredient.cost = regular_cost * unit_selected.multiplier;
+        product_ingredient.unit = unit_selected;
+
+        await product_ingredientChanged.InvokeAsync(product_ingredient);
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        if (product_ingredient.ingredient_id > 0) {
+            var original_ingredient = await http.ApiGet($"Product({product_ingredient.ingredient_id})?$select=cost");
+            if (original_ingredient.IsSuccess) {
+                ingredient = JsonSerializer.Deserialize<ProductModel>(original_ingredient.Content.ToString());
+                regular_cost = ingredient.cost;
+            }
+        }
+
+        is_loading = false;
+    }
+
+
+}
