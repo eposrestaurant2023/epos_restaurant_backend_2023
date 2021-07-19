@@ -1,0 +1,27 @@
+﻿@page "/eknowledgebase"
+@page "/eknowledgebase/{id}"
+@inherits PageEknowledgeBases
+@layout EknowledgeBaseLayout
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@if (!is_loading)
+{
+    <PageContainer>
+        <div class="pa-8">
+        @if(!string.IsNullOrEmpty(id)){
+            <MudGrid>
+                    @foreach(var e in eknowledgebase.Where(r=>r.parent_id == Guid.Parse(id)))
+                    {
+
+                        <MudItem  xs="6" sm="3">
+                            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+                              @e.title_en  
+                            </MudPaper>
+                        </MudItem>
+                        
+                    }
+            </MudGrid>
+          
+        }
+          </div>
+    </PageContainer>
+}
