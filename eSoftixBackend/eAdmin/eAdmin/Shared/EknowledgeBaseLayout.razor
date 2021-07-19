@@ -1,0 +1,78 @@
+﻿@inherits LayoutComponentBase
+@layout MainLayout
+@inject IHttpService http;
+
+ <MudToolBar DisableGutters="true" Class="mx-4">
+    <MudText Typo="Typo.h5" Color="MudBlazor.Color.Primary">eKnowledge Base</MudText>
+</MudToolBar>
+<MudDivider Class="mb-4"/>
+
+<MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <MudPaper Elevation="25" Class="d-flex align-center py-1 mb-4">
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Class="ml-3 mr-2" />
+        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Business Branch</MudText>
+    </MudPaper>
+</MudHidden>
+<div class="d-flex flex-grow-1 flex-row ma-4">
+ <PageContainer>
+     <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudPaper Elevation="25" Class="px-3 py-6 mr-6" MinWidth="250px">
+         <MudTextField @bind-Value="TextValue" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"/>
+            <MudList Clickable="true" @bind-SelectedItem="selectedItem">
+                @foreach (var p in eknowledgebase.Where(r=>r.parent_id == null))
+                {
+                 
+                    <MudListItem Text="@(p.title_en)">
+                             <NestedList>
+                                @foreach (var sp in p.children){
+                                   <MudListItem Text="@sp.title_en" Href="@($"eknowledgebase/{sp.id}")"/>
+                                }
+                           </NestedList>
+                    </MudListItem>
+                   
+                }
+            </MudList>
+        </MudPaper>
+    </MudHidden>
+    <MudPaper Elevation="25" Class="py-4 flex-grow-1">
+       @Body
+    </MudPaper>
+
+</PageContainer>
+        
+</div>
+
+
+
+
+
+
+
+
+    @code{
+    [Parameter] public string parent_id { get; set; }
+    public List<eKnowledgeBaseModel> eknowledgebase = new List<eKnowledgeBaseModel>();
+    bool is_loading;
+    string TextValue { get; set; }
+    MudListItem selectedItem;
+     protected override async Task OnInitializedAsync()
+        {
+             is_loading = true;
+              await LoadData();
+             is_loading = false;
+        }
+
+        async Task LoadData(){
+
+            var url = "eKnowledgeBase?$filter=parent_id eq null &$expand=children";
+            var resp = await http.ApiGetOData(url);
+            if(resp.IsSuccess){
+                eknowledgebase = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(resp.Content.ToString());
+            }
+
+        }
+
+       
+
+    }
+ 

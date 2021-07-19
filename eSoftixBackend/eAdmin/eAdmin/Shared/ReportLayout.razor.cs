@@ -26,17 +26,6 @@ namespace eAdmin.Shared
     public partial class ReportLayout
     {
         bool open;
-        [Parameter]
-        public string folder { get; set; }
-
-       
-        protected override void OnInitialized()
-        {
-            if (String.IsNullOrEmpty(folder))
-            {
-                folder = "inbox";
-            }
-        }
 
         void OpenDrawer()
         {
