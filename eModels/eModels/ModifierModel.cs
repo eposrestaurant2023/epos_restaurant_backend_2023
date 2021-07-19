@@ -144,9 +144,9 @@ namespace eModels
         }
 
 
-        public Guid? parent_id { get; set; }
-        [ForeignKey("parent_id")]
-        public ProductModifierModel parent { get; set; }
+        //public Guid? parent_id { get; set; }
+        //[ForeignKey("parent_id")]
+        //public ProductModifierModel parent { get; set; }
 
 
         public List<ProductModifierModel> children { get; set; }
