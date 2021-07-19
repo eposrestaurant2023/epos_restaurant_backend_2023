@@ -33,8 +33,8 @@
     [Parameter] public string placeholder { get; set; } = "Select Modifier";
     [Parameter] public ModifierModel modifier { get; set; }
     [Parameter] public EventCallback<ModifierModel> modifierChanged { get; set; }
-    [Parameter] public int? modifer_id { get; set; }
-    [Parameter] public EventCallback<int> modifier_idChanged { get; set; }
+    [Parameter] public Guid? modifer_id { get; set; }
+    [Parameter] public EventCallback<Guid> modifier_idChanged { get; set; }
 
     List<ModifierModel> result = new List<ModifierModel>();
     public async Task<IEnumerable<ModifierModel>> SearchModifier(string searchText)
@@ -76,7 +76,7 @@
     {
         if (modifier != null)
         {
-            if (modifier.id == 0)
+            if (modifier.id != Guid.Empty)
             {
                 selected = null;
             }
@@ -107,7 +107,7 @@
             }
             else
             {
-                modifier_idChanged.InvokeAsync(0);
+                modifier_idChanged.InvokeAsync(Guid.Empty);
             }
         }
     }

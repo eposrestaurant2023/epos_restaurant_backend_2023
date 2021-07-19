@@ -114,7 +114,7 @@ namespace eAPI.Controllers
             {
                 foreach (var pm in u.product_modifiers)
                 {
-                    pm.children.Where(r => r.modifier_id > 0).ToList().ForEach(r => r.modifier = null);
+                    pm.children.Where(r => r.modifier_id != Guid.Empty).ToList().ForEach(r => r.modifier = null);
                 }
             }
 
@@ -304,7 +304,7 @@ namespace eAPI.Controllers
                 p.product_menus.ForEach(r => r.id = 0);
                 p.product_menus.ForEach(r => r.product_id = 0);
                 p.product_menus.ForEach(r => r.menu.menus = new List<MenuModel>());
-                p.product_modifiers.ForEach(r => { r.id = 0; r.product_id = 0; });
+                p.product_modifiers.ForEach(r => { r.id = Guid.Empty; r.product_id = 0; });
                 p.is_product_has_inventory_transaction = false;
                 
                 return Ok(p);

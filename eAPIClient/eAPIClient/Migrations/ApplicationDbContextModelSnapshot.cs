@@ -394,6 +394,9 @@ namespace eAPIClient.Migrations
                     b.Property<int>("note_id")
                         .HasColumnType("int");
 
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -1192,8 +1195,8 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<int>("product_modifier_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("product_modifier_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("reqular_price")
                         .HasColumnType("decimal(19,8)");
