@@ -46,6 +46,20 @@ namespace eAdmin.Pages.PageReceipt
         public async Task LoadData(string api_url="")
         {
             is_loading = true;
+
+            if (state.filters.Where(r => r.key == "is_deleted").Count() == 0)
+            {
+                //Business Branch Filter
+                state.filters.Add(new FilterModel()
+                {
+                    key = "is_deleted",
+                    value1 = "false",
+                    is_clear_all = true,
+                    will_remove = true,
+                    is_show_on_infor = false
+                });
+            }
+
             if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
             {
                 //Business Branch Filter
@@ -62,6 +76,7 @@ namespace eAdmin.Pages.PageReceipt
                     is_show_on_infor = false
                 });
             }
+
             if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
             {
                 //Outlet Filter
@@ -285,25 +300,6 @@ namespace eAdmin.Pages.PageReceipt
             state.pager.order_by = col_name;
             state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");      
             await LoadData();
-        }
-
-        public async Task OnDelete(SaleModel p)
-        {
-            p.is_loading = true;
-            if (await js.Confirm("Delete Sale", "Are you sure you want to delete this record?"))
-            {
-                var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
-                if (resp.IsSuccess)
-                {
-                    toast.Add("Delete sale successfully", MatToastType.Success);
-                    if (models.Count() == 1 && state.pager.current_page > 0)
-                    {
-                        state.pager.current_page = state.pager.current_page - 1;
-                    }
-                    await LoadData();
-                }
-            }
-            p.is_loading = false;
         }
 
         public async Task RemoveFilter(FilterModel f)
