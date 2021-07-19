@@ -133,8 +133,8 @@ namespace eAPIClient.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int id { get; set; }
-        public int? parent_id { get; set; }
+        public Guid id { get; set; }
+        public Guid? parent_id { get; set; }
         [ForeignKey("parent_id")]
         public ProductModifierModel parent { get; set; }
         public int? product_id { get; set; }

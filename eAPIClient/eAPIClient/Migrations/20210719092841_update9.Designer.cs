@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210719092841_update9")]
+    partial class update9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -491,7 +493,10 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.ProductModifierModel", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("id_test")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ProductModifierModelid_test")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("is_multiple_select")
@@ -507,9 +512,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid?>("parent_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("price")
                         .HasColumnType("decimal(19,8)");
 
@@ -520,9 +522,9 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.HasKey("id");
+                    b.HasKey("id_test");
 
-                    b.HasIndex("parent_id");
+                    b.HasIndex("ProductModifierModelid_test");
 
                     b.HasIndex("product_id");
 
@@ -1516,15 +1518,13 @@ namespace eAPIClient.Migrations
 
             modelBuilder.Entity("eAPIClient.Models.ProductModifierModel", b =>
                 {
-                    b.HasOne("eAPIClient.Models.ProductModifierModel", "parent")
+                    b.HasOne("eAPIClient.Models.ProductModifierModel", null)
                         .WithMany("children")
-                        .HasForeignKey("parent_id");
+                        .HasForeignKey("ProductModifierModelid_test");
 
                     b.HasOne("eAPIClient.Models.ProductModel", "product")
                         .WithMany("product_modifiers")
                         .HasForeignKey("product_id");
-
-                    b.Navigation("parent");
 
                     b.Navigation("product");
                 });
