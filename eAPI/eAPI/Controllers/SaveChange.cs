@@ -35,7 +35,8 @@ namespace eAPI.Controllers
                         entidad.deleted_by = user.full_name;
                     }
                 }
-  
+
+
 
             }
 

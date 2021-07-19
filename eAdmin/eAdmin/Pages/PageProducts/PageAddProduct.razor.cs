@@ -97,9 +97,7 @@ namespace eAdmin.Pages.PageProducts
             {
                 await CloneProduct();
             }
-
-            
-
+             
             is_loading = false;
         }
 
@@ -235,8 +233,7 @@ namespace eAdmin.Pages.PageProducts
                 save_model.min_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Min(r => r.price);
                 save_model.max_price = save_model.product_portions.Where(r => r.is_deleted == false).SelectMany(r => r.product_prices).Where(r => r.is_deleted == false && r.price > 0).Max(r => r.price);
             }
-            // assign multipier from unit
-            save_model.product_portions.ForEach(r=>r.multiplier = r.unit.multiplier);
+
 
             //remove menu
             save_model.product_portions.ForEach(r => r.unit = null);

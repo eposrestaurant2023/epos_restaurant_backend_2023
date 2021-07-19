@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210717043132_sale")]
+    partial class sale
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -990,8 +992,8 @@ namespace eAPIClient.Migrations
                     b.Property<int>("kitchen_group_sort_order")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                    b.Property<double>("multiplier")
+                        .HasColumnType("float");
 
                     b.Property<decimal>("net_sale")
                         .HasColumnType("decimal(19,8)");

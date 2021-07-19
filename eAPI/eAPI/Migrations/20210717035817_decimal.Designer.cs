@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210717035817_decimal")]
+    partial class @decimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3293,8 +3295,8 @@ namespace eAPI.Migrations
                     b.Property<int>("kitchen_group_sort_order")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                    b.Property<double>("multiplier")
+                        .HasColumnType("float");
 
                     b.Property<decimal>("net_sale")
                         .HasColumnType("decimal(19,8)");
@@ -4307,21 +4309,6 @@ namespace eAPI.Migrations
                     b.HasIndex("table_group_id");
 
                     b.ToTable("tbl_table");
-                });
-
-            modelBuilder.Entity("eModels.TestModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_test");
                 });
 
             modelBuilder.Entity("eModels.UnitCategoryModel", b =>

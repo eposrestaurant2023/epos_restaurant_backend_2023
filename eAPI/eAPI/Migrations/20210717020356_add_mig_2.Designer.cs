@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210717020356_add_mig_2")]
+    partial class add_mig_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -429,7 +431,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal?>("close_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("close_note")
                         .HasColumnType("nvarchar(max)")
@@ -462,7 +464,7 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("exchange_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_closed")
                         .HasColumnType("bit");
@@ -471,7 +473,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("open_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("open_note")
                         .HasColumnType("nvarchar(max)")
@@ -773,7 +775,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("total_receivable")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.HasKey("id");
 
@@ -849,7 +851,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("discount_value")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -906,7 +908,7 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -953,7 +955,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("old_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid?>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -1047,14 +1049,14 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("old_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int?>("portion_id")
                         .HasColumnType("int");
@@ -1069,10 +1071,10 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("quantity_on_hand")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("reference_number")
                         .HasColumnType("nvarchar(max)")
@@ -1284,7 +1286,7 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("section_name")
                         .HasColumnType("nvarchar(max)")
@@ -1384,16 +1386,16 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("unit_id")
                         .HasColumnType("int");
@@ -1780,7 +1782,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("discount_value")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
@@ -1823,7 +1825,7 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("predefine_value")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
@@ -2066,7 +2068,7 @@ namespace eAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2094,13 +2096,13 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("total_cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("unit_id")
                         .HasColumnType("int");
@@ -2171,7 +2173,7 @@ namespace eAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2233,10 +2235,10 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("max_price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("min_price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -2281,7 +2283,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -2354,7 +2356,7 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
@@ -2388,7 +2390,7 @@ namespace eAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2410,7 +2412,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("portion_name")
                         .IsRequired()
@@ -2463,7 +2465,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("price_rule_id")
                         .HasColumnType("int");
@@ -2555,13 +2557,13 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("tax_1_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.HasKey("id");
 
@@ -2596,7 +2598,7 @@ namespace eAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("balance")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -2618,7 +2620,7 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("discount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("discount_type")
                         .HasColumnType("nvarchar(max)")
@@ -2628,7 +2630,7 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("discountable_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("document_number")
                         .HasColumnType("nvarchar(max)")
@@ -2638,7 +2640,7 @@ namespace eAPI.Migrations
                         .HasColumnType("date");
 
                     b.Property<decimal>("grand_total_discount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -2656,10 +2658,10 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("paid_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("po_product_discount_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("purchase_date")
                         .HasColumnType("date");
@@ -2679,20 +2681,20 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("sub_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("term_conditions")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_discount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("vendor_id")
                         .HasColumnType("int");
@@ -2744,7 +2746,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("payment_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("payment_date")
                         .HasColumnType("date");
@@ -2783,7 +2785,7 @@ namespace eAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -2802,17 +2804,17 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("discount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("discount_type")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("grand_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("invoice_discount_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_allow_discount")
                         .HasColumnType("bit");
@@ -2827,7 +2829,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -2840,22 +2842,22 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("regular_cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("sub_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_discount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("unit")
                         .HasColumnType("nvarchar(max)")
@@ -2924,7 +2926,7 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("balance")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -2975,7 +2977,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("discountable_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("document_number")
                         .HasColumnType("nvarchar(max)")
@@ -3018,20 +3020,20 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("paid_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<double>("rounding_amount")
                         .HasColumnType("float");
 
                     b.Property<decimal>("sale_discount_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("sale_discount_type")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("sale_discount_value")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("sale_note")
                         .HasColumnType("nvarchar(max)")
@@ -3042,7 +3044,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("sale_product_discount_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("sale_type")
                         .HasColumnType("nvarchar(max)")
@@ -3066,7 +3068,7 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("sub_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int?>("table_id")
                         .HasColumnType("int");
@@ -3076,46 +3078,46 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("tax_1_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_1_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_credit")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_discount_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_net_sale")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_profit")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_tax_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("working_date")
                         .HasColumnType("date");
@@ -3147,7 +3149,7 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("change_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<double>("change_exchange_rate")
                         .HasColumnType("float");
@@ -3198,7 +3200,7 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("payment_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<DateTime>("payment_date")
                         .HasColumnType("date");
@@ -3244,7 +3246,7 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -3293,11 +3295,11 @@ namespace eAPI.Migrations
                     b.Property<int>("kitchen_group_sort_order")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                    b.Property<double>("multiplier")
+                        .HasColumnType("float");
 
                     b.Property<decimal>("net_sale")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -3311,7 +3313,7 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("product_category_en")
                         .HasColumnType("nvarchar(max)")
@@ -3351,19 +3353,19 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("profit")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("reqular_price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("sale_discount_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("sale_discount_value")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid>("sale_id")
                         .HasColumnType("uniqueidentifier");
@@ -3372,14 +3374,14 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("sale_product_discount_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("sale_product_discount_type")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("sale_product_discount_value")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("sale_product_modifier_name")
                         .HasColumnType("nvarchar(max)")
@@ -3407,46 +3409,46 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("sub_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_1_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_1_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_1_taxable_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_taxable_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_taxable_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_discount_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_modifier_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_tax_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("unit")
                         .HasColumnType("nvarchar(max)")
@@ -3491,13 +3493,13 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("product_modifier_id")
                         .HasColumnType("int");
 
                     b.Property<decimal>("reqular_price")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid>("sale_product_id")
                         .HasColumnType("uniqueidentifier");
@@ -3734,22 +3736,22 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("tax_1_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_1_taxable_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_2_taxable_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("tax_3_taxable_rate")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.HasKey("id");
 
@@ -3789,19 +3791,19 @@ namespace eAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("initial_adjustment_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("initial_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("max_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("min_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -3811,7 +3813,7 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<Guid>("stock_location_id")
                         .HasColumnType("uniqueidentifier");
@@ -3887,10 +3889,10 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.HasKey("id");
 
@@ -3909,7 +3911,7 @@ namespace eAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -3928,7 +3930,7 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("grand_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -3940,7 +3942,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -3950,10 +3952,10 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("regular_cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -3962,10 +3964,10 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("sub_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("unit")
                         .HasColumnType("nvarchar(max)")
@@ -4034,7 +4036,7 @@ namespace eAPI.Migrations
                         .HasColumnType("date");
 
                     b.Property<decimal>("sub_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("term_conditions")
                         .HasColumnType("nvarchar(max)")
@@ -4047,10 +4049,10 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.HasKey("id");
 
@@ -4073,7 +4075,7 @@ namespace eAPI.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -4092,7 +4094,7 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("grand_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -4104,7 +4106,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -4114,10 +4116,10 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("regular_cost")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
@@ -4126,10 +4128,10 @@ namespace eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("sub_total")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("unit")
                         .HasColumnType("nvarchar(max)")
@@ -4147,7 +4149,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.StoreProcedureResultDecimalModel", b =>
                 {
                     b.Property<decimal>("result")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.ToTable("StoreProcedureResultsDecimal");
                 });
@@ -4309,21 +4311,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_table");
                 });
 
-            modelBuilder.Entity("eModels.TestModel", b =>
-                {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.ToTable("tbl_test");
-                });
-
             modelBuilder.Entity("eModels.UnitCategoryModel", b =>
                 {
                     b.Property<int>("id")
@@ -4339,7 +4326,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("length")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
@@ -4349,10 +4336,10 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<decimal>("volumes")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<decimal>("weight")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.HasKey("id");
 
@@ -4392,7 +4379,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
@@ -4633,7 +4620,7 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("total_payable")
-                        .HasColumnType("decimal(19,8)");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<string>("vendor_code")
                         .IsRequired()

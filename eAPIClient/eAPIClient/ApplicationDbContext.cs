@@ -21,7 +21,7 @@ namespace eAPIClient
                 }
                 else
                 {
-                    property.SetColumnType("decimal(19,4)");
+                    property.SetColumnType("decimal(19,8)");
                 }
             }
 
