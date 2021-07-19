@@ -5,20 +5,29 @@
             <Image ImageUrl="@http.ImageUrl(photo)" IsBackgroundImage="true" Width="35px" Height="35px" IsLightBox="true" />
         </FlexItem>
         <FlexItem class_name="uk-margin-small-left">
-            <div>
-                @if (string.IsNullOrEmpty(url))
-                {
-                    @ChildContent
-                }
-                else if(string.IsNullOrEmpty(role) && !string.IsNullOrEmpty(url))
-                {
-                    <a href="@url" target="@(is_target?"_blank":"_self")">@ChildContent</a>
-                }
-                else
-                {
-                    <ComAuthorize roles="@gv.GetRole(@role)" url="@(url)">@ChildContent</ComAuthorize>
-                }
-            </div>
+            @if (!is_null)
+            {
+                <div>
+                    @if (string.IsNullOrEmpty(url))
+                    {
+                        @ChildContent
+                    }
+                    else if (string.IsNullOrEmpty(role) && !string.IsNullOrEmpty(url))
+                    {
+                        <a href="@url" target="@(is_target ? "_blank" : "_self")">@ChildContent</a>
+                    }
+                    else
+                    {
+                        <ComAuthorize roles="@gv.GetRole(@role)" url="@(url)">@ChildContent</ComAuthorize>
+                    }
+                </div>
+            }
+            else
+            {
+                <div>
+                    @default_profile
+                </div>
+            }
         </FlexItem>
     </UkFlex>
 </Com>
@@ -29,5 +38,7 @@
     [Parameter] public string role { get; set; }
     [Parameter] public bool is_target { get; set; } = false; 
     [Parameter] public bool is_visible { get; set; } = true; 
+    [Parameter] public bool is_null { get; set; } = false; 
+    [Parameter] public string default_profile { get; set; } = ""; 
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

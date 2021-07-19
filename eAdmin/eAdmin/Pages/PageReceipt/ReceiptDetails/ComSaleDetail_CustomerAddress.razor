@@ -3,14 +3,15 @@
 
 <div uk-grid class="uk-grid-small">
     <div class="uk-width uk-margin-remove-top">
+        <div class="sub_title font-sm">Customer</div>
         @if (sale.customer != null)
         {
-            <div class="sub_title font-sm">Customer</div>
+
             <div>
                 <div class="uk-flex">
                     <div style="margin-right:4px;">
                         <Image ImageUrl="@http.ImageUrl(sale.customer?.photo)" PopupImageUrl="@http.ImageUrl(sale.customer?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="40px" Height="40px" />
-                        <Spacing Number="5"/>
+                        <Spacing Number="5" />
                     </div>
                     <div style="margin-right:4px;">
                         <div>
@@ -19,7 +20,7 @@
                             <LabelActive is_visible="@(sale.customer.status && !sale.customer.is_deleted)" />
                             <LabelDeleted is_visible="@sale.customer.is_deleted" />
                         </div>
-                    
+
                         <Com is_visible="sale.customer?.phone_1 !=null && sale.customer?.phone_1 !=null">
                             <div>
                                 <Icon icon="phone" />
@@ -38,10 +39,27 @@
 
                 </div>
             </div>
-            <br />
         }
+        else
+        {
+            <div>
+                <div class="uk-flex">
+                    <div style="margin-right:4px;">
+                        <Image ImageUrl="@http.ImageUrl("placeholder.png")" PopupImageUrl="@http.ImageUrl("placeholder.png")" IsLightBox="true" IsBackgroundImage="true" Width="40px" Height="40px" />
+                        <Spacing Number="5" />
+                    </div>
+                    <div style="margin-right:4px;">
+                        <div>
+                            <span><Icon icon="person" />General Customer</span>
+                            <LabelActive is_visible="true" />
+                        </div>
+                    </div>
 
-         </div>
+                </div>
+            </div>
+        }
+        <br />
+    </div>
     </div>
 
 
@@ -50,4 +68,6 @@
 @code {
     [Parameter] public SaleModel sale { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+
 }
