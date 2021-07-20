@@ -254,7 +254,8 @@ namespace eAPI.Controllers
            .ToString();
 
          
-            if (deviceId == "NCn_YBwcxPq1k9a7F9poQoVWSBJnuLYz0QlnP7bf3wkzyx" ||
+            if (
+                deviceId == "NCn_YBwcxPq1k9a7F9poQoVWSBJnuLYz0QlnP7bf3wkzyx" ||
                 deviceId == "OHHzxvomyr_YzGuY6ysKkYwyDWk9ueuz5VmPHF3exAk" ||
                 deviceId == "8T1jIfz9R-YqK2W1DQyFdVMI2XFEcZzJ3I8pGOc5Kdw" ||
                 deviceId == "E4_eXtdxdL3OwNp0XTTy-emrisT5XI8_rg8dXHS8AJo" ||
@@ -263,8 +264,8 @@ namespace eAPI.Controllers
                 deviceId == "ONRxV2e8zoYUdTtIY-zf0Nlt9GROAdYpPjmXT4W4nhY"||
                 deviceId == "84mCv3v_sF0X4CPXbUdxEQ9UvdMZuvCkaezApIG6K5Y" ||
                 deviceId == "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM" ||
-                deviceId == "fNqPfLuN8aHbB2BVj82vJjh_Fe-nXjUBhw3Rl7KD-Dc"
-
+                deviceId == "fNqPfLuN8aHbB2BVj82vJjh_Fe-nXjUBhw3Rl7KD-Dc" ||
+                deviceId == "jZouDyVlwOjh8QAH89f0cl7lsNIUSQDpoWP0WKfVPvY"
                 )
             {
                 //deviceId = "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM";

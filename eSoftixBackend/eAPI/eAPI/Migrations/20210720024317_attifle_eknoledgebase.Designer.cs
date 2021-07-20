@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210720024317_attifle_eknoledgebase")]
+    partial class attifle_eknoledgebase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +46,9 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("eknowledgebase_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("file_extension")
                         .HasColumnType("nvarchar(max)")
@@ -83,6 +88,8 @@ namespace eAPI.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("customer_id");
+
+                    b.HasIndex("eknowledgebase_id");
 
                     b.HasIndex("project_id");
 
@@ -1684,10 +1691,6 @@ namespace eAPI.Migrations
                     b.Property<Guid?>("parent_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("photo")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
 
@@ -1712,11 +1715,17 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("customer_id");
 
+                    b.HasOne("eModels.eKnowledgeBaseModel", "eKnowledgeBase")
+                        .WithMany()
+                        .HasForeignKey("eknowledgebase_id");
+
                     b.HasOne("eModels.ProjectModel", "project")
                         .WithMany()
                         .HasForeignKey("project_id");
 
                     b.Navigation("customer");
+
+                    b.Navigation("eKnowledgeBase");
 
                     b.Navigation("project");
                 });

@@ -72,9 +72,9 @@ else
     async Task LoadData()
     {
         is_loading = true;
-        if (clone_id != Guid.Empty.ToString() || id != Guid.Empty.ToString())
+        if (!string.IsNullOrEmpty(clone_id) || !string.IsNullOrEmpty(id))
         {
-            if (id != Guid.Empty.ToString())
+            if (!string.IsNullOrEmpty(id))
             {
                 var resp = await http.ApiGet($"{controller_api}({(id != Guid.Empty.ToString() ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
                 if (resp.IsSuccess)
