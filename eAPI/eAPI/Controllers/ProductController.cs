@@ -175,14 +175,12 @@ namespace eAPI.Controllers
 
                 }
             }
-            else
+
+            if (is_add)
             {
-                if (!is_add)
-                {
-                    ////>>????????? where deleted
-                }
+                db.Database.ExecuteSqlRaw("exec sp_update_modifer_group_item_to_product_modifer " + u.id);
             }
-          
+         
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record " + u.id); 
             db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id); 
            
