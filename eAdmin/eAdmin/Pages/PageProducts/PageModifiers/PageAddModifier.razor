@@ -141,7 +141,7 @@ else
     }
 
     void OnCancel() {
-        if (Guid.Parse(id) != Guid.Empty)
+        if (!string.IsNullOrEmpty(id))
         {
             nav.NavigateTo("modifier/" + id);
         }else
