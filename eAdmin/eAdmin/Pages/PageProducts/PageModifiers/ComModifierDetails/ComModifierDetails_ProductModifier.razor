@@ -27,8 +27,6 @@
         </PageHeader>
         <PageBody>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
-            <div style="word-break:break-all">@ControllerApi</div>
-
             <Table Items="@models"
                    PerPage="@state.pager.per_page"
                    TotalItem="@TotalRecord"
@@ -60,9 +58,9 @@
                         <a href="@($"product/{p.parent?.product_id}")">@p.parent?.product?.product_code</a>
                     </TdCenter>
                     <td>
-                        <a href="@($"product/{p.parent?.product_id}")">@p.parent?.product?.product_name_en @(!string.IsNullOrEmpty(p.product?.product_name_kh)? $"({p.product?.product_name_kh})":"")</a>
+                        <a href="@($"product/{p.parent?.product_id}")">@p.parent?.product?.product_name_en @(!string.IsNullOrEmpty(p.parent?.product?.product_name_kh)? $"({p.parent?.product?.product_name_kh})":"")</a>
                     </td>
-                    <td>@p.product?.product_category?.product_category_en</td>
+                    <td>@p.parent?.product?.product_category?.product_category_en</td>
                     <TdCenter>
                         @p.parent.product?.quantity.ToString(gv.quantity_format)
                     </TdCenter>
@@ -109,7 +107,7 @@
         {
 
             string url = $"{controller_api}?";
-            url = url + $"&$expand=parent($expand=product($expand=product_category))&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+            url = url + $"$select=id&$expand=parent($select=id,product_id;$expand=product($select=id,product_name_en,product_name_kh,photo,product_code,quantity,min_price,max_price,is_deleted,status;$expand=product_category($select=product_category_en)))&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
             return url + GetFilter(state.filters);
         }
