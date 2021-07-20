@@ -1,69 +1,255 @@
-﻿@inject IHttpService http
-@inject IStringLocalizer<Resource> lang
-<UIContainerBox Title="@lang["Product Modifier"]">
-    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-        <tr>
-            <ThCenter>@lang["Image"]</ThCenter>
-            <ThCenter>@lang["Code"]</ThCenter>
-            <ThAuto>@lang["Name (En)"]</ThAuto>
-            <ThAuto>@lang["Name (Kh)"]</ThAuto>
-            <th>@lang["Category"]</th>
-            <ThCenter>@lang["Quanlity"]</ThCenter>
-            <ThRight>@lang["Price"]</ThRight>
-            <ThCenter>@lang["Status"]</ThCenter>
-        </tr>
-        @if (modifier.product_modifiers.Where(r => r.is_deleted == false).Any())
-        {
-            foreach (var p in modifier.product_modifiers.Where(r => r.is_deleted == false))
-            {
-                <tr>
+﻿@inherits PageCore
+
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (!is_loading)
+{
+    <PageContainer roles="@gv.GetRole("product_management")" is_container="false">
+        <PageHeader is_subpage="true">
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate><span>Association Products</span></HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
+                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
+                </ComSearch>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            <Table Items="@models"
+                   PerPage="@state.pager.per_page"
+                   TotalItem="@TotalRecord"
+                   CurrentPage="@state.pager.current_page"
+                   OnPagerChange="@SelectChange"
+                   OnPageChange="@ChangePager"
+                   isLoading="@is_loading_data"
+                   ShowPager="true"
+                   ShowCounter="true"
+                   ClassName="uk-table-small uk-table-striped uk-table-hover"
+                   ScrollClass="uk-overflow-auto">
+                <TableHeader>
+                    <ThCenter>@lang["Image"]</ThCenter>
+                    @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
+                    @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
+                    @HeaderTemplate("product_category/product_category_en", lang["Category"])
+                    <ThCenter>@lang["Quanlity"]</ThCenter>
+                    <ThRight>@lang["Price"]</ThRight>
+                    <ThRight>
+                        @lang["Status"]
+                    </ThRight>
+                    <th class="uk-width-auto"></th>
+                </TableHeader>
+                <RowTemplate Context="p">
                     <TdCenter>
-                        <Image ImageUrl="@http.ImageUrl(p.parent.product?.photo)" PopupImageUrl="@http.ImageUrl(p.parent.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+                        <Image ImageUrl="@http.ImageUrl(p.parent?.product?.photo)" PopupImageUrl="@http.ImageUrl(p.parent?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
                     </TdCenter>
                     <TdCenter>
-                        <a href="@($"product/{p.parent.product_id}")">@p.parent.product?.product_code</a>
+                        <a href="@($"product/{p.parent?.product_id}")">@p.parent?.product?.product_code</a>
                     </TdCenter>
                     <td>
-                        <a href="@($"product/{p.parent.product_id}")">@p.parent.product?.product_name_en</a>
+                        <a href="@($"product/{p.parent?.product_id}")">@p.parent?.product?.product_name_en @(!string.IsNullOrEmpty(p.parent?.product?.product_name_kh)? $"({p.parent?.product?.product_name_kh})":"")</a>
                     </td>
-                    <td>
-                        <a href="@($"product/{p.parent.product_id}")">@p.parent.product?.product_name_kh</a>
-                    </td>
-                    <td>@p.parent.product?.product_category?.product_category_en</td>
+                    <td>@p.parent?.product?.product_category?.product_category_en</td>
                     <TdCenter>
                         @p.parent.product?.quantity.ToString(gv.quantity_format)
                     </TdCenter>
                     <TdRight>
-                        @if (p.parent.product?.min_price == p.product?.max_price)
-                        {
+                        @if (p.parent.product?.min_price == p.parent?.product?.max_price)
+                            {
                             <span>@p.parent.product?.min_price.ToString(gv.currency_format)</span>
-                        }
-                        else
-                        {
-                            <span>@p.parent.product?.min_price.ToString(gv.currency_format) - @p.parent.product?.max_price.ToString(gv.currency_format)</span>
-                        }
+                            }
+                            else
+                            {
+                            <span>@p.parent.product?.min_price.ToString(gv.currency_format) - @p.parent?.product?.max_price.ToString(gv.currency_format)</span>
+                            }
                     </TdRight>
-
                     <TdCenter>
                         <LabelDeleted is_visible="@p.is_deleted" />
                         <LabelActive is_visible="@(!p.is_deleted && p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
                         <LabelInActive is_visible="@(!p.is_deleted && !p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
                     </TdCenter>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="8">
-                    <ComEmptyTemplate padding_top_bottom="25px" />
-                </td>
-            </tr>
-        }
-    </table>
-</UIContainerBox>
+                    <TdActions>
+                        <TableActionItem icon="visibility" is_visible="@(!p.parent.product.is_deleted)" url="@($"product/{p.parent?.product_id}")">View</TableActionItem>
+                    </TdActions>
+                </RowTemplate>
+            </Table>
+
+        </PageBody>
+    </PageContainer>
+}
+
 
 @code {
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public ModifierModel modifier { get; set; }
+    [Parameter] public Guid id { get; set; }
+    public List<ProductModifierModel> models = new List<ProductModifierModel>();
+    public string StateKey = "sd45KJssASSOciMoDIFIERXES2"; //Storage and Session Key
+
+    public int TotalRecord = 0;
+
+
+    string controller_api = "productmodifier";
+
+
+    public string ControllerApi
+    {
+        get
+        {
+
+            string url = $"{controller_api}?";
+            url = url + $"$select=id&$expand=parent($select=id,product_id;$expand=product($select=id,product_name_en,product_name_kh,photo,product_code,quantity,min_price,max_price,is_deleted,status;$expand=product_category($select=product_category_en)))&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
+
+            return url + GetFilter(state.filters);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        StateKey = StateKey + id.ToString();
+        state = await GetState(StateKey);
+
+        state.filters.Clear();
+        state.filters.Add(new FilterModel()
+        {
+            key = "modifier_id",
+            value1 = id.ToString()
+        });
+        await LoadData(state.api_url);
+        is_loading = false;
+    }
+    public async Task ViewClick(ModuleViewModel m)
+    {
+        state.filters.Clear();
+        state.filters = m.filters;
+        state.pager.order_by = m.default_order_by;
+        state.pager.order_by_type = m.default_order_by_type;
+        state.page_title = m.title;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+    public async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+        if (string.IsNullOrEmpty(api_url))
+        {
+            api_url = $"{ControllerApi}";
+            state.api_url = api_url;
+            await SetState(StateKey, state);
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
+            TotalRecord = resp.Count;
+        }
+        is_loading = false;
+    }
+
+    public async Task OrderBy(string col_name = "")
+    {
+
+        state.pager.order_by = col_name;
+        state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
+
+        await LoadData();
+    }
+
+    public async Task SelectChange(int perpage)
+    {
+        state.pager.per_page = perpage;
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+    public async Task FilterClick()
+    {
+        state.filters.RemoveAll(r => r.filter_info_text != "");
+
+        if (state.product_group != null && state.product_group.id > 0)
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "product/product_category/product_group_id",
+                value1 = state.product_group.id.ToString(),
+                filter_title = lang["Product Group"],
+                state_property_name = "product_group",
+                filter_info_text = state.product_group.product_group_en,
+                is_clear_all = true,
+                will_remove = true
+            });
+        }
+
+        if (state.product_category != null && state.product_category.id > 0)
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "product/product_category_id",
+                value1 = state.product_category.id.ToString(),
+                filter_title = lang["Product Category"],
+                state_property_name = "product_category",
+                filter_info_text = state.product_category.product_category_en,
+                is_clear_all = true,
+                will_remove = true
+            });
+        }
+
+        state.pager.current_page = 1;
+        await LoadData();
+    }
+
+    public async Task RemoveFilter(FilterModel f)
+    {
+        is_loading = true;
+        string[] remove_key = f.remove_key.Split(',');
+        foreach (var k in remove_key)
+        {
+            state.filters.RemoveAll(r => r.key == k);
+        }
+
+        state.pager.current_page = 1;
+        //gv.RemoveFilter
+        RemoveFilter(state, f.state_property_name);
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task RemoveAllFilter()
+    {
+        is_loading = true;
+        foreach (var f in state.filters.Where(r => r.is_clear_all == true))
+        {
+            RemoveFilter(state, f.state_property_name);
+        }
+
+        state.filters.RemoveAll(r => r.is_clear_all == true);
+        state.pager.current_page = 1;
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task ChangePager(int _page)
+    {
+        state.pager.current_page = _page;
+        await LoadData();
+    }
+
+    public async Task OnSearch(string keyword)
+    {
+        state.pager = new PagerModel();
+        SetFilterValue2(state.filters, "keyword", keyword);
+        await LoadData();
+    }
 }

@@ -60,6 +60,7 @@ namespace eAPIClient.Controllers
             {
                 bool is_new = true;
                 model.customer = null;
+                model.sale_products.ForEach(r => r.sale_order = r.sale_order_id!= Guid.Empty ? null : r.sale_order);
                 if (model.id == Guid.Empty)
                 {
                     model.sale_number = await app.GenerateDocumentNumber("SaleNum", model.outlet_id.ToString());
@@ -114,8 +115,9 @@ namespace eAPIClient.Controllers
 
               
             }
-            catch
-            { 
+            catch(Exception _ex)
+            {
+                var _x = _ex;
                 return BadRequest();
             }
 

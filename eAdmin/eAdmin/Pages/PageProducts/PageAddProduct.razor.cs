@@ -57,7 +57,7 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
                 url = url + "stock_location_products($expand=stock_location),product_taxes,unit,";
-                url = url + "default_stock_location_products($expand=business_branch,stock_location,station)";
+                url = url + "default_stock_location_products($expand=business_branch,stock_location,station($filter=is_deleted eq false and status eq true))";
                 return url;
         } }
 
@@ -200,6 +200,16 @@ namespace eAdmin.Pages.PageProducts
                     toast.Add($"{m.section_name} has no modifier.", MatBlazor.MatToastType.Warning);
                     is_saving = false;
                     return;
+                }
+
+                foreach (var child in m.children)
+                {
+                    if (string.IsNullOrEmpty(child.modifier.modifier_name))
+                    {
+                        toast.Add($"{m.section_name} has empty modifier name.", MatBlazor.MatToastType.Warning);
+                        is_saving = false;
+                        return;
+                    }
                 }
             }
             if (save_model.unit_id == 0)

@@ -215,6 +215,7 @@ namespace eAPIClient.Controllers
         async Task<List<ProductModel>> GetRemoteProduct(string business_branch_id)
         {
             List < ProductModel > _products = new List<ProductModel>();
+
             is_get_remote_data_success = false;
             string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section";
 
@@ -227,6 +228,7 @@ namespace eAPIClient.Controllers
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
+                
                 is_get_remote_data_success = true;
                 _products = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());                
                 _products.ForEach((p) =>

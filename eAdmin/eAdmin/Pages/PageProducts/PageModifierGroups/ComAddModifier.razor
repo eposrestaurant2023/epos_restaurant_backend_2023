@@ -24,7 +24,15 @@
                         {
                             <tr>
                                 <td>
-                                    @m.modifier?.modifier_name
+                                    @if (m.modifier.id == Guid.Empty)
+                                    {
+                                        <TextInput @bind-text="@m.modifier.modifier_name" label="" placeholder="@lang["Modifier Name"]" />
+                                    }
+                                    else
+                                    {
+                                        @m.modifier?.modifier_name
+                                    }
+
                                 </td>
                                 <TdRight>
                                     <NumberInput @bind-text="@m.price" label="" placeholder="@lang["Price"]" width="100px" class_name="uk-text-right"/>
@@ -78,7 +86,7 @@
             int sort_number = parent.children.Any() ? parent.children.Where(r => r.is_deleted == false).LastOrDefault().sort_order : 0;
 
             sort_number++;
-            if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower().Contains(child.modifier_name.ToLower().Trim())).Any())
+            if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower() == child.modifier_name.ToLower().Trim()).Any())
             {
                 parent.children.Add(new ModifierGroupItemModel() { modifier = child, modifier_id = child.id, sort_order = sort_number });
             }

@@ -144,9 +144,9 @@ namespace eModels
         }
 
 
-        //public Guid? parent_id { get; set; }
-        //[ForeignKey("parent_id")]
-        //public ProductModifierModel parent { get; set; }
+        public Guid? parent_id { get; set; }
+        [ForeignKey("parent_id")]
+        public ProductModifierModel parent { get; set; }
 
 
         public List<ProductModifierModel> children { get; set; }
@@ -163,7 +163,7 @@ namespace eModels
 
         public decimal price { get; set; }
 
-        public Guid modifier_group_id { get; set; }
+        public Guid? modifier_group_id { get; set; }
 
         public string modifier_name { get; set; }
 

@@ -39,6 +39,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
+            StateKey = StateKey + ingredient_id.ToString();
             state = await GetState(StateKey);
 
             state.filters.Clear(); 

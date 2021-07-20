@@ -18,22 +18,23 @@
 
     </PageHeader>
     <PageBody>
-
+        @if (gv.business_branch_by_role.Count() > 1)
+        {
         <Tab>
             <TabHeader>
+                <TabHeaderItem OnClick="@(async () => await LoadData(""))">All Business Branches</TabHeaderItem>
                 @foreach (var b in gv.business_branch_by_role)
                 {
-                    <TabHeaderItem OnClick="@(async()=>await LoadData(b.id.ToString()))">@b.business_branch_name_en</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(async () => await LoadData(b.id.ToString()))">@b.business_branch_name_en</TabHeaderItem>
                 }
             </TabHeader>
-               
-            
         </Tab>
-         @if (!is_loading)
-                {
-                    <Spacing Number="20" />
-                    <ComDashboard business_branch_id="@business_branch_id" />
-                }
+        }
+        @if (!is_loading)
+        {
+            <Spacing Number="20" />
+            <ComDashboard business_branch_id="@business_branch_id" />
+        }
     </PageBody>
 
 </PageContainer>

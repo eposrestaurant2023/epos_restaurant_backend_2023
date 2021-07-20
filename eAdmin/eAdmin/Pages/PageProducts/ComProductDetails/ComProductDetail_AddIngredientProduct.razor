@@ -26,7 +26,7 @@
                         <NumberInput @bind-text="@p.quantity" class_name="uk-text-center"/>
                     </TdCenter>
                     <TdCenter>
-                        <SelectUnit @bind-selected_value="@p.unit_id" label="" width="auto" unit_category_id="@p.unit.unit_category_id" />
+                        <ComProductIngredientSelectUnit product_ingredient="@p" product_ingredientChanged="@OnChangedUnit"/>
                     </TdCenter>
                     <TdRight>
                         <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px"/>
@@ -107,12 +107,12 @@
         else
         {
             product_portion.product_ingredients.Add(
-                new ProductIngredientModel() 
-                { 
-                    ingredient = value, 
-                    ingredient_id = value.id, 
-                    unit = gv.units.Where(r=>r.id == value.unit_id).FirstOrDefault(), 
-                    unit_id = value.unit_id, cost = value.cost 
+                new ProductIngredientModel()
+                {
+                    ingredient = value,
+                    ingredient_id = value.id,
+                    unit = gv.units.Where(r=>r.id == value.unit_id).FirstOrDefault(),
+                    unit_id = value.unit_id, cost = value.cost
                 }
            );
         }
@@ -133,8 +133,17 @@
 
         ProductPortionModel save_model = new ProductPortionModel();
         save_model = JsonSerializer.Deserialize<ProductPortionModel>(JsonSerializer.Serialize(product_portion));
-
-        save_model.product_ingredients.ForEach(r => r.ingredient = null);
+        // set defualt category for new ingredient
+        if(gv.product_categories.Where(r => r.is_defualt == true).FirstOrDefault() != null)
+        {
+            save_model.product_ingredients.Where(r => r.ingredient.id == 0).ToList().ForEach(r => r.ingredient.product_category_id = gv.product_categories.Where(r => r.is_defualt == true).FirstOrDefault().id);
+        }
+        else
+        {
+            toast.Add("Invalid Defualt Ingredient Category", MatToastType.Success);
+            return;
+        }
+        save_model.product_ingredients.Where(r=>r.ingredient.id > 0).ToList().ForEach(r => r.ingredient = null);
         save_model.product_ingredients.ForEach(r => r.unit = null);
 
         var resp = await http.ApiPost("ProductPortion/save", save_model);
@@ -164,5 +173,26 @@
         {
             product_portion.product_ingredients.Remove(p);
         }
+    }
+
+    void OnChangedUnit(ProductIngredientModel p)
+    {
+        if (p.ingredient_id > 0)
+        {
+            if (product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault() != null)
+            {
+
+                product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().unit_id = p.unit.id;
+                product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().cost = p.cost;
+                product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().quantity = p.quantity;
+            }
+
+        }
+        else
+        {
+            product_portion.product_ingredients.Add(p);
+        }
+
+        //Console.WriteLine(JsonSerializer.Serialize(product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault()));
     }
 }

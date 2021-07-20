@@ -1,6 +1,6 @@
 ﻿@page "/modifier/new"
-@page "/modifier/edit/{id:int}"
-@page "/modifier/clone/{clone_id:int}"
+@page "/modifier/edit/{id}"
+@page "/modifier/clone/{clone_id}"
 @inherits PageCore
 @inject IStringLocalizer<Resource> lang
 
@@ -9,7 +9,7 @@
 @if (!is_loading && !is_error)
 {
     <Title Value="@title"></Title>
-    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "modifier_edit" : "modifier_add")}")">
+    <PageContainer roles="@gv.GetRole($"{(!string.IsNullOrEmpty(id) ? "modifier_edit" : "modifier_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
@@ -55,8 +55,8 @@ else
 }
 
 @code{
-    [Parameter] public int clone_id { get; set; }
-    [Parameter] public int id { get; set; }
+    [Parameter] public string clone_id { get; set; }
+    [Parameter] public string id { get; set; }
     string controller_api = "Modifier";
     ModifierModel modifier = new ModifierModel();
 
@@ -70,14 +70,14 @@ else
     async Task LoadData()
     {
         is_loading = true;
-        if (clone_id > 0 || id > 0)
+        if (!string.IsNullOrEmpty(clone_id) || !string.IsNullOrEmpty(id))
         {
-            var resp = await http.ApiGet($"{controller_api}({(id != 0 ? id : clone_id)})?$expand=modifier_ingredients($expand=ingredient,unit)");
+            var resp = await http.ApiGet($"{controller_api}({(!string.IsNullOrEmpty(id) ? Guid.Parse(id) : clone_id)})?$expand=modifier_ingredients($expand=ingredient,unit)");
             if (resp.IsSuccess)
             {
                 modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
             }
-            if (clone_id > 0)
+            if (!string.IsNullOrEmpty(clone_id))
             {
                 title = $"Clone : {modifier.modifier_name}";
                 modifier.id = Guid.Empty;
@@ -103,7 +103,7 @@ else
     {
         is_saving = true;
         ModifierModel save_model = JsonSerializer.Deserialize<ModifierModel>(JsonSerializer.Serialize(modifier));
-        if (clone_id > 0)
+        if (!string.IsNullOrEmpty(clone_id))
         {
             save_model.id = Guid.Empty;
             save_model.created_date = DateTime.Now;
@@ -141,7 +141,7 @@ else
     }
 
     void OnCancel() {
-        if (id > 0)
+        if (Guid.Parse(id) != Guid.Empty)
         {
             nav.NavigateTo("modifier/" + id);
         }else

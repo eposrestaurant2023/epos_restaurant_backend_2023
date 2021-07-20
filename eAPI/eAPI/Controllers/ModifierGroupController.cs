@@ -90,7 +90,7 @@ namespace eAPI.Controllers
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            //db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer {u.id},0" );
+            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer '{u.id}'" );
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             return Ok(db.ModifierGroups.Find(u.id));

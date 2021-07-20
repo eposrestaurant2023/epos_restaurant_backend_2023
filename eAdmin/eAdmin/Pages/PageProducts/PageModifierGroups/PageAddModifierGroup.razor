@@ -72,9 +72,9 @@ else
     async Task LoadData()
     {
         is_loading = true;
-        if (clone_id != Guid.Empty.ToString() || id != Guid.Empty.ToString())
+        if (!string.IsNullOrEmpty(clone_id) || !string.IsNullOrEmpty(id))
         {
-            if (id != Guid.Empty.ToString())
+            if (!string.IsNullOrEmpty(id))
             {
                 var resp = await http.ApiGet($"{controller_api}({(id != Guid.Empty.ToString() ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
                 if (resp.IsSuccess)
@@ -105,6 +105,7 @@ else
     {
         is_saving = true;
 
+
         // where don't add group item
         if (!modifier_group.modifier_group_items.Where(r=>r.is_deleted == false).Any())
         {
@@ -134,7 +135,17 @@ else
             is_saving = false;
             return;
         }
-
+        // where modifier no name
+        foreach (var child in modifier_group.modifier_group_items.SelectMany(r=>r.children).ToList())
+        {
+            if (string.IsNullOrEmpty(child.modifier.modifier_name))
+            {
+                toast.Add(lang["Modifier name cannot empty."], MatBlazor.MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+        }
+        
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
 
         save_model.modifier_group_items.SelectMany(r => r.children).Where(y=>y.id != Guid.Empty).ToList().ForEach(x => x.modifier = null);
