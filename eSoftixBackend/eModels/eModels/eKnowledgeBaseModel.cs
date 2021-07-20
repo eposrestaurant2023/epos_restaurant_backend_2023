@@ -20,7 +20,7 @@ namespace eModels
         public string title_kh { get; set; }
         public string description_en { get; set; }
         public string description_kh { get; set; }
-
+        public string photo { get; set; }
 
         public Guid? parent_id { get; set; }
         [ForeignKey("parent_id")]
