@@ -163,7 +163,7 @@ namespace eModels
 
         public decimal price { get; set; }
 
-        public Guid modifier_group_id { get; set; }
+        public Guid? modifier_group_id { get; set; }
 
         public string modifier_name { get; set; }
 

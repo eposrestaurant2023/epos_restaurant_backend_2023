@@ -14,9 +14,19 @@
             {
                 <tr>
                     <td>
-                        <ComAuthorize roles="@gv.GetRole("ingredient_management")" url="@($"ingredient/{p.ingredient_id}")">
-                            @p.ingredient?.product_display_name
-                        </ComAuthorize>
+                        @if (p.ingredient.is_menu_product)
+                        {
+                            <ComAuthorize roles="@gv.GetRole("product_management")" url="@($"product/{p.ingredient_id}")">
+                                @p.ingredient?.product_display_name
+                            </ComAuthorize>
+                        }
+                        else
+                        {
+                            <ComAuthorize roles="@gv.GetRole("ingredient_management")" url="@($"ingredient/{p.ingredient_id}")">
+                                @p.ingredient?.product_display_name
+                            </ComAuthorize>
+                        }
+
                     </td>
                     <TdCenter>
                         <div>
