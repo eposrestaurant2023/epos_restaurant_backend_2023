@@ -68,9 +68,9 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("status/{id}")]
-        public async Task<ActionResult<ModifierModel>> ChangeStatus(int id) //Delete
+        public async Task<ActionResult<ModifierModel>> ChangeStatus(string id) //Delete
         {
-            var u = await db.Modifiers.FindAsync(id);
+            var u = await db.Modifiers.FindAsync(Guid.Parse(id));
             u.status = !u.status;
             db.Modifiers.Update(u);
             await db.SaveChangesAsync();
@@ -79,9 +79,9 @@ namespace eAPI.Controllers
 
         [HttpGet]
         [Route("clone/{id}")]
-        public ActionResult<ModifierModel> Clone(int id) //clone
+        public ActionResult<ModifierModel> Clone(string id) //clone
         {
-            var u = db.Modifiers.Find(id);
+            var u = db.Modifiers.Find(Guid.Parse(id));
             u.id = Guid.Empty;
             u.is_deleted = false;
             u.status = false;
@@ -91,9 +91,9 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ModifierModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<ModifierModel>> DeleteRecord(string id) //Delete
         {
-            var u = await db.Modifiers.FindAsync(id);
+            var u = await db.Modifiers.FindAsync(Guid.Parse(id));
             u.is_deleted = !u.is_deleted;            
             db.Modifiers.Update(u);
             await db.SaveChangesAsync();

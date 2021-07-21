@@ -98,12 +98,13 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("status/{id}")]
-        public async Task<ActionResult<ModifierGroupModel>> Status(int id) //Delete
+        public async Task<ActionResult<ModifierGroupModel>> Status(string id) //Delete
         {
-            var u = await db.ModifierGroups.FindAsync(id);
+            var u = await db.ModifierGroups.FindAsync(Guid.Parse(id));
             u.status = !u.status;
             db.ModifierGroups.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer '{u.id}'");
             return Ok(u);
         }
 
@@ -134,12 +135,13 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ModifierGroupModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<ModifierGroupModel>> DeleteRecord(string id) //Delete
         {
-            var u = await db.ModifierGroups.FindAsync(id);
+            var u = await db.ModifierGroups.FindAsync(Guid.Parse(id));
             u.is_deleted = !u.is_deleted;
             db.ModifierGroups.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer '{u.id}'");
             return Ok(u);
         }
     }
