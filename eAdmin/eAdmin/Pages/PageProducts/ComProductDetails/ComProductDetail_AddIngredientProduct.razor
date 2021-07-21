@@ -3,6 +3,7 @@
 @inject IStringLocalizer<Resource> lang
 
 <Loading is_loading="@is_saving"/>
+@if (!is_loading) {
 <EditFormContext Cancel_Click="@OnCancelClick" model="@product_portion" is_opened="is_open" title="@($"Ingredients Of {product_portion.portion_name}")" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
     <IngredientProductTypeahead product="@product" productChanged="@Selected"/>
     <hr/> 
@@ -15,8 +16,8 @@
             <ThRight>@lang["Total Cost"]</ThRight>
             <ThCenter></ThCenter>
         </tr>
-        @if(product_portion.product_ingredients.Where(r=>r.is_deleted==false).Any()){
-            foreach(var p in product_portion.product_ingredients.Where(r=>r.is_deleted==false))
+        @if (product_portion.product_ingredients.Where(r => r.is_deleted == false).Any()) {
+            foreach (var p in product_portion.product_ingredients.Where(r => r.is_deleted == false))
             {
                 <tr>
                     <td>
@@ -35,7 +36,7 @@
                        @p.total_cost.ToString(gv.currency_format)
                     </TdRight>
                     <TdRight>
-                        <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))"/>
+                        <Icon icon="delete" OnClick="@(() => OnDeleteClick(p))"/>
                     </TdRight>
                 </tr> 
             }
@@ -45,7 +46,7 @@
                 Total 
             </td>
             <TdCenter>
-                @product_portion.product_ingredients.Where(r=>r.is_deleted == false).Sum(r=>r.quantity).ToString(gv.quantity_format)
+                @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
             </TdCenter>
             <TdCenter>
             </TdCenter>
@@ -70,16 +71,16 @@
         }
     </table>
 </EditFormContext>
-
+}
 @code {
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public ProductPortionModel product_portion { get; set; }
-
-
+    [Parameter] public int product_portion_id { get; set; }
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
     [Parameter] public EventCallback<ProductPortionModel> Save_Click { get; set; }
+    ProductPortionModel product_portion = new ProductPortionModel();
+    bool is_loading = false;
     private ProductModel _product;
 
     public ProductModel product
@@ -94,6 +95,17 @@
 
     bool is_saving;
 
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiGet($"ProductPortion({product_portion_id})?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
+        if (resp.IsSuccess)
+        {
+            product_portion = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());
+        }
+
+        is_loading = false;
+    }
 
     void Selected(ProductModel value)
     {
@@ -112,7 +124,8 @@
                     ingredient = value,
                     ingredient_id = value.id,
                     unit = gv.units.Where(r=>r.id == value.unit_id).FirstOrDefault(),
-                    unit_id = value.unit_id, cost = value.cost
+                    unit_id = value.unit_id,
+                    cost = value.cost
                 }
            );
         }
@@ -122,6 +135,8 @@
 
     async Task OnCancelClick()
     {
+
+        is_open = false;
         await is_openChanged.InvokeAsync(false);
     }
 
@@ -192,7 +207,6 @@
         {
             product_portion.product_ingredients.Add(p);
         }
-
-        //Console.WriteLine(JsonSerializer.Serialize(product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault()));
+         
     }
 }

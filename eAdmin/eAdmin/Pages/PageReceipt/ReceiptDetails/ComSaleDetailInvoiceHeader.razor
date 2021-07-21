@@ -69,7 +69,8 @@
                             <td>@sale.outlet?.outlet_name_en</td>
                         </tr>
                     }
-                    @if (gv.is_shift_management) {
+                    @if (gv.is_shift_management)
+                    {
                         if (sale.working_day_number != null)
                         {
                             <tr>
@@ -81,17 +82,20 @@
                                 </td>
                             </tr>
                         }
-                        @if (sale.cashier_shift_number != null)
-                        {
-                            <tr>
-                                <td>@lang["Cashier Shift No"]:</td>
-                                <td>
-                                    <ComAuthorize roles="@gv.GetRole("cashier_shift_management")" url="@($"cashiershift/{sale.cashier_shift_id}")">
-                                        @sale.cashier_shift_number
-                                    </ComAuthorize>
-                                </td>
-                            </tr>
+                       
+                            @if (sale.cashier_shift_number != null)
+                            {
+                                <tr>
+                                    <td>@lang["Cashier Shift No"]:</td>
+                                    <td>
+                                        <ComAuthorize roles="@gv.GetRole("cashier_shift_management")" url="@($"cashiershift/{sale.cashier_shift_id}")">
+                                            @sale.cashier_shift_number
+                                        </ComAuthorize>
+                                    </td>
+                                </tr>
+                            
                         }
+
                     }
                 </table>
             </div>
