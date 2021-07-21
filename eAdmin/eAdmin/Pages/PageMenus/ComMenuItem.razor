@@ -57,6 +57,7 @@
     [Parameter] public EventCallback<int> menu_idChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnMoveMenu{ get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnDeleteMenu { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnRefreshData { get; set; }
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
     [Parameter] public int parent_menu_id { get; set; }
@@ -89,6 +90,7 @@
     {
 
         show_add_menu = false;
+        OnRefreshData.InvokeAsync();
     }
 
 }
