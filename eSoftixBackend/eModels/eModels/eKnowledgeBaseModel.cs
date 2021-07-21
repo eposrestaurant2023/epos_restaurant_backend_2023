@@ -11,6 +11,16 @@ namespace eModels
     [Table("tbl_eknowledge_base")]
     public class eKnowledgeBaseModel
     {
+
+        public eKnowledgeBaseModel()
+        {
+             
+        }
+
+        public eKnowledgeBaseModel(Guid _id)
+        {
+            parent_id = _id;
+        }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid id { get; set; }

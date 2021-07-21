@@ -120,9 +120,10 @@
         product = null;
     }
 
-    async Task OnCancelClick()
+    void OnCancelClick()
     {
-        await is_openChanged.InvokeAsync(false);
+        is_open = false;
+        //await is_openChanged.InvokeAsync(false);
     }
 
     async Task OnSaveClick()
