@@ -48,21 +48,22 @@ namespace eAPI.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] eKnowledgeBaseModel u)
+        public async Task<ActionResult<string>> Save([FromBody] List<eKnowledgeBaseModel> u)
         {
-           
-            
-            
-            if (u.id == Guid.Empty)
+            var a = u.Where(r => r.id == Guid.Empty).ToList();
+            var b= u.Where(r => r.id != Guid.Empty).ToList();
+            db.eKnowledgeBases.AddRange(a);
+            db.eKnowledgeBases.UpdateRange(b);
+            try
             {
-                db.eKnowledgeBases.Add(u);
-                }
-            else
-            {
-                db.eKnowledgeBases.Update(u);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             }
-
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            catch (Exception c)
+            {
+                var x = c.Message;
+                throw;
+            }
+           
             return Ok(u);
 
 

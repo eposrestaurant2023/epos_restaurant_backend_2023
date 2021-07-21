@@ -11,7 +11,7 @@
                 <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" show_advance_filter="false">
                    
                 </ComSearch>
-                 <AddButton OnClick="@(()=>nav.NavigateTo("eknowledgebase/new"))"/>
+                 <AddButton OnClick="@(()=>nav.NavigateTo($"eknowledgebase/new/{id}"))"/>
           
             </Right>
         </PageHeader>
