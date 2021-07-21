@@ -67,7 +67,7 @@
   
    
 <Com is_visible="@show_modal"> 
-    <ComProductDetail_AddIngredientProduct  @bind-is_open="@show_modal" Save_Click="OnSave"   product_portion="@product_portion" />
+    <ComProductDetail_AddIngredientProduct is_open="@show_modal" is_openChanged="@OnOpenModal" Save_Click="OnSave"   product_portion_id="@product_portion.id" />
 </Com>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -99,7 +99,10 @@
         }
     }
 
-
+    void OnOpenModal(bool is_open)
+    {
+        show_modal = is_open;
+    }
 
 
 
