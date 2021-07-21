@@ -2,6 +2,7 @@
 @layout MainLayout
 @inject IHttpService http;
 @inject IDialogService Dialog;
+@inject NavigationManager nav;
 
  <MudToolBar DisableGutters="true" Class="mx-4">
     <MudText Typo="Typo.h5" Color="MudBlazor.Color.Primary">eKnowledge Base</MudText>
@@ -23,21 +24,32 @@
 
            <div class="d-flex d-flex justify-space-between align-center">
                <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Add Eknowledge Base</MudText>
-               <div><MudIconButton Icon="@Icons.Material.Filled.Add" Class="d-flex ml-auto"/></div>
+               <div><MudIconButton Icon="@Icons.Material.Filled.Add" Class="d-flex ml-auto" OnClick="@AddNewEknowledgeParent"/></div>
            </div>
            <MudDivider />
 
 
             <MudList Clickable="true" @bind-SelectedItem="selectedItem">
-                @foreach (var p in eknowledgebase.Where(r=>r.parent_id == null))
+                
+                @foreach (var p in eknowledgebase)
                 {
-                    <MudListItem Text="@(p.title_en)">
-                             <NestedList>
-                                @foreach (var sp in p.children){
-                                   <MudListItem Text="@sp.title_en" Href="@($"eknowledgebase/{sp.id}")"/>
-                                }
-                           </NestedList>
-                    </MudListItem>
+                        @if (p.children.Any())
+                        {
+                            <MudListItem Text="@(p.title_en)">
+                               <NestedList>
+                                    @foreach (var sp in p.children){
+                                       <MudListItem Text="@sp.title_en" Href="@($"eknowledgebase/{sp.id}")"/>
+                                    }
+                               </NestedList>
+                       </MudListItem>
+                        }
+                        else
+                        {
+                             <MudListItem Text="@(p.title_en)">
+                                 
+                             </MudListItem>
+
+                        }
                    
                 }
             </MudList>
@@ -69,18 +81,33 @@
         {
              is_loading = true;
               await LoadData();
-             is_loading = false;
+        
+        is_loading = false;
         }
 
         async Task LoadData(){
 
-            var url = "eKnowledgeBase?$filter=parent_id eq null &$expand=children";
+            var url = "eKnowledgeBase?$filter=parent_id eq null &$expand=children &$orderby= sort_order desc";
             var resp = await http.ApiGetOData(url);
             if(resp.IsSuccess){
                 eknowledgebase = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(resp.Content.ToString());
+                nav.NavigateTo($"eknowledgebase/{eknowledgebase.FirstOrDefault().children.FirstOrDefault().id}");
             }
 
         }
+
+        async Task AddNewEknowledgeParent()
+       {
+           
+            var parameters = new DialogParameters { ["model"]= new eKnowledgeBaseModel()};
+            var dialog = Dialog.Show<ComAddEknowledgeBase>("Add New Eknowledge Base",parameters);
+            var result = await dialog.Result;
+             if (!result.Cancelled)
+            {
+                eknowledgebase.Add((eKnowledgeBaseModel)result.Data);
+            }
+
+       }
 
 
     }

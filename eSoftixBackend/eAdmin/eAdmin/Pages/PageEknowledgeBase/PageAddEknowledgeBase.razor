@@ -37,18 +37,18 @@
                          
                    
                 </UIPanel>
-          
+                <Spacing Number="20"/>
+                <div class="d-flex justify-end">
+                     <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mx-2">Save
+                    @if(is_saving){
+                        <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
+                    }
+                    </MudButton>
+                    <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button">Cancel</MudButton> 
+                </div>
+           
             </UICenter>
         </PageBody>
-         <PageFooter>
-           <Center>
-               <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mx-2">Save
-                @if(is_saving){
-                    <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
-                }
-                </MudButton>
-                <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button">Cancel</MudButton>
-           </Center>
-       </PageFooter>
+         
     </EditForm>
 </PageContainer>

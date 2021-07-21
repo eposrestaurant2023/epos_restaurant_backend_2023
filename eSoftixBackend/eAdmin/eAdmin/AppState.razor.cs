@@ -196,6 +196,7 @@ namespace eAdmin
             api_url = api_url + "payment_types,";
             api_url = api_url + "customer_groups,";
             api_url = api_url + "settings,";
+            api_url = api_url + "eknowledge_base,";
             api_url = api_url + "project_types,";
             api_url = api_url + "currencies,";
             api_url = api_url + "roles";

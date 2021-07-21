@@ -1,0 +1,62 @@
+﻿
+         <MudSelect T="Guid?" Label="@label" Value="@SelectedValue" Strict="true" Variant="@variant" ValueChanged="@((id) => SelectedValueChange(id))">
+            
+            @if (show_empty)
+            {
+                <MudSelectItem T="Guid?" Value="@Guid.Empty">@empty_text</MudSelectItem>
+            }
+            @foreach (var p in app_state.gv.eknowledge_base.Where(r => r.parent_id == null))
+            {
+             
+                <MudSelectItem T="Guid?" Value="@(p.id)">@p.title_en</MudSelectItem>
+            }
+        </MudSelect>
+
+        @ChildContent
+@code{
+    [CascadingParameter] public AppState app_state { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Eknowledge base parent";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Eknowledge base parent";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public Variant variant { get; set; } = Variant.Outlined;
+    [Parameter] public Guid? selected_value { get; set; } = Guid.Empty;
+    [Parameter] public EventCallback<Guid?> selected_valueChanged { get; set; }
+
+    [Parameter] public eKnowledgeBaseModel eknowledge_base { get; set; }
+    [Parameter] public EventCallback<eKnowledgeBaseModel> eknowledge_baseChanged { get; set; }
+
+
+    public Guid? SelectedValue
+    {
+        get
+        {
+            return eknowledge_base == null ? selected_value : eknowledge_base.id;
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(Guid? n)
+    {
+
+        if (n == Guid.Empty)
+        {
+            n = null;
+        }
+        selected_value = n;
+        await selected_valueChanged.InvokeAsync(selected_value);
+        if (selected_value == null)
+        {
+            await eknowledge_baseChanged.InvokeAsync(new eKnowledgeBaseModel());
+        }
+        else
+        { 
+            await eknowledge_baseChanged.InvokeAsync(app_state.gv.eknowledge_base.Where(r => r.id == selected_value).FirstOrDefault());
+        }
+
+    }
+
+}

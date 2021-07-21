@@ -69,6 +69,26 @@ namespace eAPI.Controllers
 
         }
 
+        [HttpPost("savesingle")]
+        public async Task<ActionResult<string>> savesingle([FromBody] eKnowledgeBaseModel u)
+        {
+
+
+
+            if (u.id == Guid.Empty)
+            {
+                db.eKnowledgeBases.Add(u);
+            }
+            else
+            {
+                db.eKnowledgeBases.Update(u);
+            }
+
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(u);
+
+
+        }
 
         [HttpPost]
         [Route("delete/{id}")]

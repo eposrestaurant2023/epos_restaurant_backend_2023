@@ -111,7 +111,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
 
         public void Click_add()
         {
-            models.Add(new eKnowledgeBaseModel(Guid.Parse(id)));
+            models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
         }
     }
 }

@@ -38,6 +38,7 @@ namespace eModels
         public List<ProjectTypeModel> project_types { get; set; }
         public List<BusinessBranchModel> bussiness_branches { get; set; }
         public List<PrinterModel> printers { get; set; }
+        public List<eKnowledgeBaseModel> eknowledge_base { get; set; }
  
         public List<CategoryNoteModel> category_notes { get; set; }
         public List<ProvinceModel> provinces { get; set; }
