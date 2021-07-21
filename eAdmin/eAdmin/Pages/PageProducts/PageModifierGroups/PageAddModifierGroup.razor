@@ -146,7 +146,6 @@ else
             }
         }
 
-
         ModifierGroupModel save_model = JsonSerializer.Deserialize<ModifierGroupModel>(JsonSerializer.Serialize(modifier_group));
 
         save_model.modifier_group_items.SelectMany(r => r.children).Where(r=> r.modifier_id != Guid.Empty).ToList().ForEach(x => x.modifier = null);
