@@ -104,7 +104,7 @@
                                         <ThAuto>Station</ThAuto>
                                         <th>Stock location</th>
                                     </tr>
-                                    @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
+                                    @if (model.default_stock_location_products != null ? model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any() : false)
                                     {
                                         @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r => r.station.station_name_en).ToList())
                                         {
