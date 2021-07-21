@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @layout MainLayout
 @inject IHttpService http;
+@inject IDialogService Dialog;
 
  <MudToolBar DisableGutters="true" Class="mx-4">
     <MudText Typo="Typo.h5" Color="MudBlazor.Color.Primary">eKnowledge Base</MudText>
@@ -17,11 +18,19 @@
  <PageContainer>
      <MudHidden Breakpoint="Breakpoint.SmAndDown">
         <MudPaper Elevation="25" Class="px-3 py-6 mr-6" MinWidth="250px">
-         <MudTextField @bind-Value="TextValue" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"/>
+
+         <!--<MudTextField @bind-Value="TextValue" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"/>-->
+
+           <div class="d-flex d-flex justify-space-between align-center">
+               <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Add Eknowledge Base</MudText>
+               <div><MudIconButton Icon="@Icons.Material.Filled.Add" Class="d-flex ml-auto"/></div>
+           </div>
+           <MudDivider />
+
+
             <MudList Clickable="true" @bind-SelectedItem="selectedItem">
                 @foreach (var p in eknowledgebase.Where(r=>r.parent_id == null))
                 {
-                 
                     <MudListItem Text="@(p.title_en)">
                              <NestedList>
                                 @foreach (var sp in p.children){
@@ -53,6 +62,7 @@
     [Parameter] public string parent_id { get; set; }
     public List<eKnowledgeBaseModel> eknowledgebase = new List<eKnowledgeBaseModel>();
     bool is_loading;
+    bool is_saving;
     string TextValue { get; set; }
     MudListItem selectedItem;
      protected override async Task OnInitializedAsync()
@@ -72,7 +82,6 @@
 
         }
 
-       
 
     }
  
