@@ -121,6 +121,8 @@ namespace eAPI.Controllers
                 ModifierGroupModel m = u.FirstOrDefault();
                 m.id = Guid.Empty;
                 m.created_date = DateTime.Now;
+                m.status = true;
+                m.is_deleted = false;
                 m.modifier_group_items.ForEach(r => { r.modifier_group_id = Guid.Empty; r.id = Guid.Empty; r.children.ForEach(x => x.id = Guid.Empty); });
                 m.modifier_group_product_categories.ForEach(r => r.modifer_group_id = Guid.Empty);
                 return Ok(m);
