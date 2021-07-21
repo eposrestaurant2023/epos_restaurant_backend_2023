@@ -10,13 +10,19 @@
            ShowCounter="false"
            ClassName="uk-table-small uk-table-striped uk-table-hover"
            ScrollClass="uk-overflow-auto" >
-        <TableHeader> 
+        <TableHeader>
             <ThCenter>@lang["Working Date"]</ThCenter>
             <ThCenter>@lang["Closed Date"]</ThCenter>
             <ThCenter>@lang["Document #"]</ThCenter>
             <ThAuto>@lang["Customer"]</ThAuto>
-            <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto>
+            <ThAuto>
+                <div>@lang["Business Branch"]</div>
+                <div class="sub-header-table">@lang["Outlet"]</div>
+                <div class="sub-header-table">@lang["Station"]</div>
+            </ThAuto>
             <ThRight>@lang["Total Amount"]</ThRight>
+            <ThRight>@lang["Discount"]</ThRight>
+            <ThRight>@lang["Tax"]</ThRight>
             <ThRight>@lang["Paid Amount"]</ThRight>
             <ThRight>@lang["Balance"]</ThRight>
             <ThRight>@lang["Status"]</ThRight>
@@ -44,9 +50,18 @@
                 <div class="sub-info-row-table">
                     @p.outlet?.outlet_name_en
                 </div>
-            </td> 
+                <div class="sub-info-row-table">
+                    @p.station_name_en
+                </div>
+            </td>
             <TdRight>
                 @p.total_amount.ToString(gv.main_currency_format)
+            </TdRight>
+            <TdRight>
+                @p.total_discount_amount.ToString(gv.main_currency_format)
+            </TdRight>
+            <TdRight>
+                @p.total_tax_amount.ToString(gv.main_currency_format)
             </TdRight>
             <TdRight>
                 @p.paid_amount.ToString(gv.main_currency_format)
@@ -55,7 +70,7 @@
                 @p.balance.ToString(gv.main_currency_format)
             </TdRight>
             <TdRight>
-                <ComSaleStatus sale="@p"/>
+                <ComSaleStatus sale="@p" />
             </TdRight>
             <TdCenter>
                 <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
@@ -83,7 +98,7 @@
             }
             filter_business_branch_ids = filter_business_branch_ids.Remove(filter_business_branch_ids.LastIndexOf(" or ")).TrimEnd();
             filter_business_branch_ids += ")";
-            var resp = await http.ApiGetOData($"sale?$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)&$filter=is_deleted eq false {filter_business_branch_ids}&$top=10&$orderby=working_date desc");
+            var resp = await http.ApiGetOData($"sale?$expand=sale_status,customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)&$filter=is_deleted eq false {filter_business_branch_ids}&$top=10&$orderby=working_date desc");
             if (resp.IsSuccess)
             {
                 models = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());

@@ -44,12 +44,18 @@
                         @HeaderTemplate("sale/working_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("sale/document_number", lang["Document #"], "uk-text-center")
                         @HeaderTemplate("sale/customer/customer_name", lang["Customer"], "col-auto")
-                        <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto> 
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Outlet"]</div>
+                            <div class="sub-header-table">@lang["Station"]</div>
+                        </ThAuto>
                         <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Discount"]</ThRight>
+                        <ThRight>@lang["Tax"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
-                        <ThCenter>@lang["Created Date"]</ThCenter>
-                        <th>@lang["Created By"]</th>
+                        <ThCenter>@lang["Last Modified Date"]</ThCenter>
+                        <th>@lang["Last Modified By"]</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -63,12 +69,19 @@
                             <ComProfileInfo url="@($"customer/{p.sale.customer_id}")" photo="@p.sale.customer?.photo" role="customer_management">@p.sale?.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
-                            
+
                             <div>@p.sale?.business_branch?.business_branch_name_en</div>
                             <div class="sub-info-row-table">@p.sale?.outlet?.outlet_name_en</div>
-                        </td> 
+                            <div class="sub-info-row-table">@p.station_name_en</div>
+                        </td>
                         <TdRight>
                             @p.sale?.total_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_discount_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_tax_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
                             @p.sale?.paid_amount.ToString(gv.main_currency_format)
@@ -76,10 +89,14 @@
                         <TdRight>
                             @p.sale?.balance.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>@p.sale?.created_date.ToString(gv.date_time_format)</TdCenter>
-                        <td>@p.sale?.created_by</td>
-                        <TdCenter> 
-                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.sale_id}"))" /> 
+                        <TdCenter>
+                            @(p.sale?.last_modified_date?.ToString(gv.date_time_format))
+                        </TdCenter>
+                        <td>
+                            @p.sale?.last_modified_by
+                        </td>
+                        <TdCenter>
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.sale_id}"))" />
                         </TdCenter>
                     </RowTemplate>
                 </Table>

@@ -59,18 +59,18 @@
                         <ThAuto>
                             <div>@lang["Business Branch"]</div>
                             <div class="sub-header-table">@lang["Outlet"]</div>
-                        </ThAuto>
-                        <ThAuto>
-                            <div>@lang["Station"]</div>
+                            <div class="sub-header-table">@lang["Station"]</div>
                         </ThAuto>
                         <ThCenter>@lang["Sale Type"]</ThCenter>
                         <th>@lang["Table #"]</th>
 
                         <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Discount"]</ThRight>    
+                        <ThRight>@lang["Tax"]</ThRight>    
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
                         <ThCenter>@lang["Last Modified Date"]</ThCenter>
-                        <ThRight>@lang["Last Modified By"]</ThRight>
+                        <th>@lang["Last Modified By"]</th>
                         <ThRight>@lang["Status"]</ThRight>
 
                         <th class="uk-width-auto"></th>
@@ -83,17 +83,14 @@
                             <div>
                                 <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
                                     @if (p.document_number == "New")
-                                    {
-                                    @p.sale_number
-                                    }
-                                    else
-                                    {
-                                    @p.document_number
-                                    }
+                                        {
+                                        @p.sale_number
+                                        }
+                                        else
+                                        {
+                                        @p.document_number
+                                        }
                                 </ComAuthorize>
-                            </div>
-                            <div>
-                                <Label ClassName="label-sale-status" Background="@p.sale_status?.background" Color="@p.sale_status?.foreground">@p.sale_status?.status_name</Label>
                             </div>
                         </TdCenter>
                         <td>
@@ -107,9 +104,7 @@
                             <div class="sub-info-row-table">
                                 @p.outlet?.outlet_name_en
                             </div>
-                        </td>
-                        <td>
-                            <div>
+                            <div class="sub-info-row-table">
                                 @p.station_name_en
                             </div>
                         </td>
@@ -127,6 +122,12 @@
                             @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
+                            @p.total_discount_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_tax_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
                             @p.paid_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
@@ -135,13 +136,12 @@
                         <TdCenter>
                             @(p.last_modified_date?.ToString(gv.date_time_format))
                         </TdCenter>
-                        <TdRight>
+                        <td>
                             @p.last_modified_by
-                        </TdRight>
+                        </td>
                         <TdRight>
                             <ComSaleStatus sale="@p" />
                         </TdRight>
-
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
                         </TdCenter>
