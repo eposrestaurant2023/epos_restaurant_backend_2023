@@ -22,7 +22,15 @@
                 {
                     <tr>
                         <td>
-                            @pm.modifier.modifier_name
+                            @if (pm.id == Guid.Empty)
+                            {
+                                <TextInput @bind-text="@pm.modifier.modifier_name"/>
+                            }
+                            else
+                            {
+                                @pm.modifier.modifier_name
+                            }
+
                         </td>
                         <TdCenter>
                             <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-right" />
@@ -77,7 +85,7 @@ else
     void OnSelectModifer(ProductModifierModel parent, ModifierModel child)
     {
 
-        if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower().Contains(child.modifier_name.ToLower().Trim())).Any())
+        if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower() == child.modifier_name.ToLower().Trim()).Any())
         {
             parent.children.Add(new ProductModifierModel() { modifier = child, modifier_id = child.id });
         }

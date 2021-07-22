@@ -1,4 +1,5 @@
-﻿@if (is_deleted)
+﻿
+@if (is_deleted)
 {
     <LabelDeleted is_visible="true" />
 }
@@ -12,7 +13,7 @@ else
     {
         @*@gv.date_format*@
         @*<label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString(gv.date_format) (@Math.Ceiling(((DateTime)expired_date - DateTime.Now).TotalDays))</label>*@
-        <label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString("yyyy-MM-dd") (@((int)(Convert.ToDateTime(expired_date) - DateTime.Now).TotalDays))</label>
+        <label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString("dd-MM-yyyy") (@((int)(Convert.ToDateTime(expired_date) - DateTime.Now).TotalDays))</label>
     }
     else
     {
@@ -21,7 +22,6 @@ else
 }
 @code {
 
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public bool is_deleted { get; set; }
     [Parameter] public bool is_full_license { get; set; }
     [Parameter] public DateTime expired_date { get; set; }

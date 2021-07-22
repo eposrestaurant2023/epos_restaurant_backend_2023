@@ -103,7 +103,7 @@ else
     {
         is_saving = true;
         ModifierModel save_model = JsonSerializer.Deserialize<ModifierModel>(JsonSerializer.Serialize(modifier));
-        if (Guid.Parse(clone_id) != Guid.Empty)
+        if (!string.IsNullOrEmpty(clone_id))
         {
             save_model.id = Guid.Empty;
             save_model.created_date = DateTime.Now;
@@ -141,7 +141,7 @@ else
     }
 
     void OnCancel() {
-        if (Guid.Parse(id) != Guid.Empty)
+        if (!string.IsNullOrEmpty(id))
         {
             nav.NavigateTo("modifier/" + id);
         }else

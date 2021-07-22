@@ -90,7 +90,7 @@ namespace eAPI.Controllers
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer {u.id},0" );
+            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer '{u.id}'" );
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             return Ok(db.ModifierGroups.Find(u.id));
@@ -98,12 +98,13 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("status/{id}")]
-        public async Task<ActionResult<ModifierGroupModel>> Status(int id) //Delete
+        public async Task<ActionResult<ModifierGroupModel>> Status(string id) //Delete
         {
-            var u = await db.ModifierGroups.FindAsync(id);
+            var u = await db.ModifierGroups.FindAsync(Guid.Parse(id));
             u.status = !u.status;
             db.ModifierGroups.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer '{u.id}'");
             return Ok(u);
         }
 
@@ -120,6 +121,8 @@ namespace eAPI.Controllers
                 ModifierGroupModel m = u.FirstOrDefault();
                 m.id = Guid.Empty;
                 m.created_date = DateTime.Now;
+                m.status = true;
+                m.is_deleted = false;
                 m.modifier_group_items.ForEach(r => { r.modifier_group_id = Guid.Empty; r.id = Guid.Empty; r.children.ForEach(x => x.id = Guid.Empty); });
                 m.modifier_group_product_categories.ForEach(r => r.modifer_group_id = Guid.Empty);
                 return Ok(m);
@@ -134,12 +137,13 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<ModifierGroupModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<ModifierGroupModel>> DeleteRecord(string id) //Delete
         {
-            var u = await db.ModifierGroups.FindAsync(id);
+            var u = await db.ModifierGroups.FindAsync(Guid.Parse(id));
             u.is_deleted = !u.is_deleted;
             db.ModifierGroups.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw($"exec sp_update_product_modifer '{u.id}'");
             return Ok(u);
         }
     }

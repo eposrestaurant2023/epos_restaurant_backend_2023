@@ -56,7 +56,7 @@
                 state.filters.Add(new FilterModel() { key = "status", value1 = "false" });
             }
 
-            api_url = api_url + GetFilter(state.filters);
+            api_url = api_url + GetFilter(state.filters) + " and modifier_group_id eq null";
             var res = await http.ApiGetOData(api_url);
             if (res.IsSuccess)
             {

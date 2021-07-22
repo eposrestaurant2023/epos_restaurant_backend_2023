@@ -2330,7 +2330,7 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_section")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("modifier_group_id")
+                    b.Property<Guid?>("modifier_group_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("modifier_id")

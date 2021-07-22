@@ -175,14 +175,12 @@ namespace eAPI.Controllers
 
                 }
             }
-            else
+
+            if (is_add)
             {
-                if (!is_add)
-                {
-                    ////>>????????? where deleted
-                }
+                db.Database.ExecuteSqlRaw("exec sp_update_modifer_group_item_to_product_modifer " + u.id);
             }
-          
+         
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record " + u.id); 
             db.Database.ExecuteSqlRaw("exec sp_update_product_information " + u.id); 
            
@@ -291,13 +289,15 @@ namespace eAPI.Controllers
                 Include(r=>r.product_menus.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.menu)
                 .Include(r=>r.product_modifiers.Where(r=>r.is_deleted ==false)).ThenInclude(r=>r.modifier)
                 .Include(r=>r.unit)
-                .Include(r=>r.default_stock_location_products)
+                .Include(r=>r.default_stock_location_products).ThenInclude(r=>r.station)
                 .ToList();
              
             if (data.Any())
             {
                 ProductModel p = data.FirstOrDefault();
                 p.id = 0;
+                p.is_deleted = false;
+                p.status = true;
                 p.product_portions.ForEach(r => r.id = 0);
                 p.product_portions.SelectMany(r=>r.product_prices).ToList().ForEach(r => r.id = 0);
                 p.product_printers.ForEach(r => r.id = 0);

@@ -1,0 +1,54 @@
+﻿@page "/eknowledgebase/new/{parent_id}"
+@page "/eknowledgebase/edit/{id}"
+@layout EknowledgeBaseLayout
+@inherits PageAddEknowledgeBases
+<PageContainer>
+    <PageHeader title="@page_title" show_refresh_button="false">
+        
+    </PageHeader>
+    <EditForm Model="@models" OnValidSubmit="@Save_Click">
+        <PageBody>
+            <UICenter>
+                <UIPanel Title="page title">
+                    <UIPanelHeaderRight>
+                     <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@Click_add"/>
+                    </UIPanelHeaderRight>
+                   
+                    <UIPanelBody>
+                      @foreach(var p in models)
+                        {
+                          <MudPaper Class="pa-4 ma-2" Square="true">
+                              <div class="d-flex justify-center">
+                                 <FileUpload @bind-ImageUrl="p.photo"></FileUpload>
+                              </div>
+                             <UI2Columns>
+                             <Left>
+                                  <MudTextField @bind-Value="@p.title_en" Label="Title En" Variant="Variant.Text"/>
+                             </Left>
+                              <Right>
+                                   <MudTextField @bind-Value="@p.title_kh" Label="Title Kh" Variant="Variant.Text"/>
+                              </Right>
+                            </UI2Columns>
+                            <MudTextField @bind-Value="@p.description_en" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                            <MudTextField @bind-Value="@p.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                         </MudPaper>
+                        }
+                     </UIPanelBody>
+                         
+                   
+                </UIPanel>
+                <Spacing Number="20"/>
+                <div class="d-flex justify-end">
+                     <MudButton Disabled="@is_saving" Color="MudBlazor.Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mx-2">Save
+                    @if(is_saving){
+                        <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
+                    }
+                    </MudButton>
+                    <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button">Cancel</MudButton> 
+                </div>
+           
+            </UICenter>
+        </PageBody>
+         
+    </EditForm>
+</PageContainer>

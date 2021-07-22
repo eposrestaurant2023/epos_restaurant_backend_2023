@@ -208,7 +208,7 @@
         p.is_loading = true;
         if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_name + "?", SweetAlertMessageType.question))
         {
-            var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+            var resp = await http.ApiPost(controller_api + $"/delete/{p.id}");
 
             if (resp.IsSuccess)
             {

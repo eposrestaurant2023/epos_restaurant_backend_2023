@@ -1684,6 +1684,10 @@ namespace eAPI.Migrations
                     b.Property<Guid?>("parent_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("photo")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<int>("sort_order")
                         .HasColumnType("int");
 

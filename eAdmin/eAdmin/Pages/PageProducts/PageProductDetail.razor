@@ -43,6 +43,7 @@
                 <TabHeader>
                     <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
                     <TabHeaderItem is_visible="@(!model.is_ingredient_product && gv.project_has_advance_inventory)" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@model.is_ingredient_product" OnClick="@(()=>show_association_products = true)">@lang["Associate Products & Modifiers"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_sale_history = true)">@lang["Sale History"]</TabHeaderItem>
                     <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
                     <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_stock_stransfer = true)">@lang["Stock Transfer"]</TabHeaderItem>
@@ -59,7 +60,12 @@
                             <ComProductDetail_ProductPortionIngredient product_id="@model.id" is_product_deleted="@model.is_deleted" />
                         </Com>
                     </TabItem>
-
+                    <TabItem is_visible="@model.is_ingredient_product">
+                        @if (show_association_products)
+                        {
+                            <ComIngredientProductDetail_AssociationProductsAndModifiers ingredient_id="@model.id" />
+                        }
+                    </TabItem>
                     <TabItem>
                         @if (show_sale_history)
                         {
@@ -122,7 +128,7 @@
 @code{
     [Parameter] public int id { get; set; }
     public ProductModel model { get; set; }
-    bool show_comment_tab, show_recipe_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation;
+    bool show_comment_tab, show_recipe_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
 
     public string api_url
     {
@@ -133,7 +139,8 @@
             return url;
         }
     }
-    protected override async Task OnInitializedAsync()
+
+    protected override async Task OnParametersSetAsync()
     {
 
         is_loading = true;

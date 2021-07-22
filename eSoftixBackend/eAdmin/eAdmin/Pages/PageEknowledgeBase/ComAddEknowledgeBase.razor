@@ -1,0 +1,55 @@
+﻿@inject IHttpService http;
+@inject ISnackbar toast;
+
+ <Loading is_loading="@(is_saving)"/>
+ <EditForm Model="@model" OnSubmit="@Save_Click">
+<Modal>
+    <ModalContent>
+        <MudSwitch @bind-Checked="@model.is_select_parent" Color="MudBlazor.Color.Tertiary">Select Parent</MudSwitch>
+        @if(model.is_select_parent == true)
+            {
+              <SelecteKnowledgeBaseParent @bind-selected_value="@model.parent_id"/>
+            }
+        <UI2Columns>
+            <Left>
+                <MudTextField T="string" @bind-Value="@model.title_en" Label="Title En"/>
+            </Left>
+            <Right>
+                <MudTextField T="string" @bind-Value="@model.title_kh" Label="Title Kh"/>
+            </Right>
+        </UI2Columns>
+        <MudTextField T="string" @bind-Value="@model.description_en" Label="Description En" Lines="3" />
+        <MudTextField T="string" @bind-Value="@model.description_kh" Label="Description Kh" Lines="3" />
+         
+    </ModalContent>
+    <ActionButton>
+        <SaveButton  is_loading="@is_saving" />
+    </ActionButton>
+</Modal>
+</EditForm>
+ 
+
+@code{
+    bool is_saving;
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+     [Parameter] public eKnowledgeBaseModel model { get; set; } = new eKnowledgeBaseModel();
+
+      public async Task Save_Click()
+        {
+            is_saving = true;
+            var resp = await http.ApiPost("eKnowledgeBase/savesingle", model);
+            if (resp.IsSuccess)
+            {
+
+                toast.Add("Save business branch successfully", Severity.Success);
+                MudDialog.Close(DialogResult.Ok(JsonSerializer.Deserialize<eKnowledgeBaseModel>(resp.Content.ToString())));
+            }else
+            {
+                toast.Add("Save business branch fail", Severity.Warning);
+            }
+            
+            is_saving = false;
+        }
+
+}
+ 

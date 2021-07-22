@@ -42,6 +42,7 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["Overview"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>show_associate_product=true)">@lang["Associate Product"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_sale_history=true)">@lang["Sale History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
@@ -59,10 +60,13 @@
                         </UIGridCenter>
                         <UIGridCenter>
                             <ComModifierDetails_Ingredient modifier="@modifier" />
-                        </UIGridCenter>
-                        <UIGridCenter>
-                            <ComModifierDetails_ProductModifier modifier="@modifier"/>
-                        </UIGridCenter>
+                        </UIGridCenter> 
+                    </TabItem>
+                    <TabItem>
+                        @if (show_associate_product)
+                        {
+                            <ComModifierDetails_ProductModifier id="@modifier.id"/>
+                        }
                     </TabItem>
                     @*============comment===========*@
                     <TabItem>
@@ -103,41 +107,28 @@ else
     [Parameter] public string id { get; set; }
     string controller_api = "Modifier";
     ModifierModel modifier = new ModifierModel();
-    List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
-
     bool is_save_and_new = false;
     bool show_sale_history = false;
     bool show_comment_tab = false;
+    bool show_associate_product = false;
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        await LoadData();
-        await LoadModifierProduct();
+        await LoadData(); 
     }
 
     async Task LoadData()
     {
         is_loading = true;
 
-        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit),product_modifiers($expand=parent($expand=product($expand=product_category)))");
+        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_ingredients($expand=ingredient,unit)");
         if (resp.IsSuccess)
         {
             modifier = JsonSerializer.Deserialize<ModifierModel>(resp.Content.ToString());
         }
         is_loading = false;
     }
-
-    async Task LoadModifierProduct()
-    {
-        is_loading = true;
-
-        var resp = await http.ApiGetOData($"ProductModifier?$filter=modifier_id eq {id}");
-        if (resp.IsSuccess)
-        {
-            product_modifiers = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
-        }
-        is_loading = false;
-    }
+ 
 
     async Task OnChangeStatus(ModifierModel u)
     {

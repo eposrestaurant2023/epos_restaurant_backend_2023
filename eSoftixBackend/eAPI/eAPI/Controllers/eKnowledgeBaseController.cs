@@ -48,15 +48,37 @@ namespace eAPI.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] eKnowledgeBaseModel u)
+        public async Task<ActionResult<string>> Save([FromBody] List<eKnowledgeBaseModel> u)
         {
+            var a = u.Where(r => r.id == Guid.Empty).ToList();
+            var b= u.Where(r => r.id != Guid.Empty).ToList();
+            db.eKnowledgeBases.AddRange(a);
+            db.eKnowledgeBases.UpdateRange(b);
+            try
+            {
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }
+            catch (Exception c)
+            {
+                var x = c.Message;
+                throw;
+            }
            
-            
-            
+            return Ok(u);
+
+
+        }
+
+        [HttpPost("savesingle")]
+        public async Task<ActionResult<string>> savesingle([FromBody] eKnowledgeBaseModel u)
+        {
+
+
+
             if (u.id == Guid.Empty)
             {
                 db.eKnowledgeBases.Add(u);
-                }
+            }
             else
             {
                 db.eKnowledgeBases.Update(u);
@@ -67,7 +89,6 @@ namespace eAPI.Controllers
 
 
         }
-
 
         [HttpPost]
         [Route("delete/{id}")]
