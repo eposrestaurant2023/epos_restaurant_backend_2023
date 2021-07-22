@@ -39,7 +39,9 @@ namespace eShareModel
 
         public decimal total_quantity { get; set; }
         public decimal sub_total { get; set; }
-         
+
+        public string shift_name { get; set; }
+
 
         //Discount
         public decimal discountable_amount { get; set; } 
@@ -94,6 +96,7 @@ namespace eShareModel
 
         public string sale_type { get; set; } = "Dine in";
 
+        public bool is_synced { get; set; } = false;
 
 
     }

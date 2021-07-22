@@ -82,7 +82,9 @@ namespace eAPIClient.Controllers
 
                 if (_saleData.Count() > 0)
                 {
-                    var _syncResp = await http.ApiPost("Sale/Save", _saleData.FirstOrDefault());
+                    var _sale = _saleData.FirstOrDefault();
+                    _sale.is_synced = true;
+                    var _syncResp = await http.ApiPost("Sale/Save",_sale);
                     if (!_syncResp.IsSuccess)
                     {
                         return BadRequest();

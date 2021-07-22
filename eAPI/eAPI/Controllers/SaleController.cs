@@ -69,34 +69,33 @@ namespace eAPI.Controllers
         {
             try
             {
-                var _chk = db.Sales.Where(r => r.id == model.id).AsNoTracking();
-                if (_chk.Count() > 0)
+                var saleCheck = db.Sales.Where(r => r.id == model.id).AsNoTracking()
+                                    .Include(r=>r.sale_products).ThenInclude(x=>x.sale_product_modifiers).AsNoTracking()
+                                    .Include(r=>r.sale_payments).AsNoTracking();
+                if (saleCheck.Count() > 0)
                 {
-                     
+                    var _sale = saleCheck.FirstOrDefault();
                     model.sale_products.ForEach(_sp =>
                     {
-                        if (db.SaleProducts.Where(r => r.id == _sp.id).Count() <= 0)
+                        if (_sale.sale_products.Where(r => r.id == _sp.id).Count() <= 0)
                         {
-                            db.SaleProducts.Add(_sp);
-                             db.SaveChanges();
+                            db.Entry(_sp).State = EntityState.Added; 
                         }
                         else if(_sp.sale_product_modifiers.Count() > 0)
                         {
                             _sp.sale_product_modifiers.ForEach(_spm =>
                             {
-                                if (db.SaleProductModifiers.Where(r => r.id == _spm.id).Count() <= 0)
+                                if (_sale.sale_products.SelectMany(r=>r.sale_product_modifiers).Where(r => r.id == _spm.id).Count() <= 0)
                                 {
-                                    db.SaleProductModifiers.Add(_spm);
-                                    db.SaveChanges();
+                                    db.Entry(_spm).State = EntityState.Added; 
                                 }
                             }); 
                         }
                     });
 
                     model.sale_payments.ForEach(_spay =>
-                    {
-                        var _payment = db.SalePayments.Where(r => r.id == _spay.id).AsNoTracking();
-                        if (_payment.Count() <= 0)
+                    { 
+                        if (_sale.sale_payments.Where(r => r.id == _spay.id).Count() <= 0)
                         {
                             _spay.sale = null;
                             db.Entry(_spay).State = EntityState.Added;

@@ -266,6 +266,8 @@ namespace eAPI.Controllers
                 deviceId == "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM" ||
                 deviceId == "fNqPfLuN8aHbB2BVj82vJjh_Fe-nXjUBhw3Rl7KD-Dc" ||
                 deviceId == "jZouDyVlwOjh8QAH89f0cl7lsNIUSQDpoWP0WKfVPvY" ||
+                deviceId == "SDOoJUSChdeLkqSBYCcDhyCW_nuzlcnjFYacKAwQS9s" ||
+                deviceId == "L7_I24eoNzEmQ1iao39ojrek026LhjocLtig7X_DQHs" ||
                 deviceId == "rczv27Je0KGcoeVClR5mr3LbDOrDjQ4upErIxWXHz2g"
 
 
