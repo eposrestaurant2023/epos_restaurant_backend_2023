@@ -73,7 +73,8 @@ namespace eAPIClient.Controllers
                             });
                         }
                     });
-                    db.Sales.Add(model);
+                    db.Sales.Add(model); 
+                    is_new = !(model.is_closed??false);
                 }
                 else
                 {

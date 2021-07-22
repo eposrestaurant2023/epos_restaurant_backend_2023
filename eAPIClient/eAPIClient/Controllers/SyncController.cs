@@ -12,6 +12,7 @@ using System.Text.Json;
 using eAPIClient.Models;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
+using System.Security.Claims;
 
 namespace eAPIClient.Controllers
 {
@@ -38,34 +39,31 @@ namespace eAPIClient.Controllers
             try
             {
                 var _saleData = db.Sales.Where(r => r.id == saleId)
-                     .Include(r => r.sale_payments)
-
+                     .Include(r => r.sale_payments) 
                      .Include(r => r.sale_products).ThenInclude(r => r.sale_product_modifiers)
-                     .AsNoTrackingWithIdentityResolution();
-              
-
-                 
+                     .AsNoTrackingWithIdentityResolution();  
                 if (_saleData.Count() > 0)
-                { 
-                    var _syncResp = await http.ApiPost("Sale/Save", _saleData.FirstOrDefault());
+                {
+                    var _sale = _saleData.FirstOrDefault();
+                    _sale.is_synced = true;
+                    var _syncResp = await http.ApiPost("Sale/Save", _sale);
                     if (!_syncResp.IsSuccess)
                     {
                         return BadRequest();
                     }
+                    db.Sales.Update(_sale);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     return Ok();
                 }
                 else
                 {
                     return NotFound();
-                }
-               
+                } 
             }
             catch(Exception ex)
             {
                 return BadRequest();
-            }
-
-           
+            } 
         }
 
         [HttpGet("SyncSale")]
@@ -77,9 +75,7 @@ namespace eAPIClient.Controllers
                 var _saleData = db.Sales.Where(r => r.id == saleId)
                      .Include(r => r.sale_payments)
                      .Include(r => r.sale_products).ThenInclude(r => r.sale_product_modifiers)
-                     .AsNoTrackingWithIdentityResolution();
-
-
+                     .AsNoTrackingWithIdentityResolution(); 
                 if (_saleData.Count() > 0)
                 {
                     var _sale = _saleData.FirstOrDefault();
@@ -89,6 +85,8 @@ namespace eAPIClient.Controllers
                     {
                         return BadRequest();
                     }
+                    db.Sales.Update(_sale);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     return Ok();
                 }
                 else
@@ -100,13 +98,8 @@ namespace eAPIClient.Controllers
             catch (Exception ex)
             {
                 return BadRequest();
-            }
-
-
-        }
-
-
-
+            } 
+        } 
         [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
         public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData()
