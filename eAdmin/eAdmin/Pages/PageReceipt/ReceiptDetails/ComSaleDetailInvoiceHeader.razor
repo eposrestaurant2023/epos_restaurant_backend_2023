@@ -49,11 +49,6 @@
                         <td>@lang["Invoice Date"]:</td>
                         <td>@sale.working_date.ToString(gv.date_format)</td>
                     </tr>
-                    <tr>
-                        <td>@lang["Invoice Status"]</td>
-                        <td>@sale.sale_status?.status_name</td>
-                    </tr>
-
                     @if (sale.business_branch != null)
                     {
                         <tr>
