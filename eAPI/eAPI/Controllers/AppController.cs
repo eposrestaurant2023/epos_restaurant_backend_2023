@@ -270,10 +270,12 @@ namespace eAPI.Controllers
                 deviceId == "L7_I24eoNzEmQ1iao39ojrek026LhjocLtig7X_DQHs" ||
                 deviceId == "rczv27Je0KGcoeVClR5mr3LbDOrDjQ4upErIxWXHz2g"
 
+
                 )
             {
                 //deviceId = "R-WsoGUbh9gjl4HOkj2LCeeSJcyMbLXJOxR-OwjNShM";
-                deviceId = "L7_I24eoNzEmQ1iao39ojrek026LhjocLtig7X_DQHs";
+                //deviceId = "L7_I24eoNzEmQ1iao39ojrek026LhjocLtig7X_DQHs";
+                deviceId = "SDOoJUSChdeLkqSBYCcDhyCW_nuzlcnjFYacKAwQS9s";
             }
 
             return deviceId;
