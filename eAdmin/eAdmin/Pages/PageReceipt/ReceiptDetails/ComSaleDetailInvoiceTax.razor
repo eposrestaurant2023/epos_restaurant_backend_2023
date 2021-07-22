@@ -33,6 +33,11 @@
 @code {
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public eShareModel.TaxRuleModel tax_rule { get; set; }
     [Parameter] public SaleModel sale { get; set; }
+
+    public eShareModel.TaxRuleModel tax_rule { get; set; }
+    protected override void OnInitialized()
+    {
+        tax_rule = JsonSerializer.Deserialize<eShareModel.TaxRuleModel>(gv.tax_rule);
+    }
 }
