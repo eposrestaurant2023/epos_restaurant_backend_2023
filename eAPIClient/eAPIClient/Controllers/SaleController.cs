@@ -97,20 +97,20 @@ namespace eAPIClient.Controllers
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     }
                 }
-
-                string path = @"c:\\epossync";
-                if (!Directory.Exists(path))
+                if (model.is_closed == true)
                 {
-                    Directory.CreateDirectory(path);
+                    string path = @"c:\\epossync";
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, $"{model.id},{Guid.NewGuid()}.txt")))
+                    {
+                        await outputFile.WriteAsync(model.id.ToString());
+                    }
                 } 
-                // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, $"{model.id},{Guid.NewGuid()}.txt")))
-                {
-                    await outputFile.WriteAsync(model.id.ToString());
-                }
-                 
 
-                
                 return Ok(model);
 
               
