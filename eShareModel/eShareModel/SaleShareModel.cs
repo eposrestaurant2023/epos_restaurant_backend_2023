@@ -96,6 +96,7 @@ namespace eShareModel
 
         public string sale_type { get; set; } = "Dine in";
 
+        public bool is_synced { get; set; } = false;
 
 
     }

@@ -23,7 +23,7 @@ namespace eShareModel
 
         [Column(TypeName ="decimal(19,8)")]
         public decimal exchange_rate { get; set; }
-        public string shift { get; set; }
+        public string shift_name { get; set; }
 
 
     }
