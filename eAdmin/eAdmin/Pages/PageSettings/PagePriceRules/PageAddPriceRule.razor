@@ -38,14 +38,14 @@
                         <SelectStatus @bind-selected_value="@price.status" />
                         @foreach (var b in business_branches)
                         {
-                            <div><ComInputCheckBox is_read_only="@(b.business_branch_prices.Where(r=>r.price_rule_id == id && r.business_branch_id == b.id && r.is_default == true).Count() > 0)" @bind-value="b.is_selected" label="@b.business_branch_name_en" label_inline="false"/></div>
+                            <div><ComInputCheckBox is_read_only="@(b.business_branch_prices.Where(r=>r.price_rule_id == id && r.business_branch_id == b.id && r.is_default == true).Count() > 0)" @bind-value="b.is_selected" label="@b.business_branch_name_en" label_inline="false" /></div>
                         }
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
                 <FooterCenter>
-                    <ComSavingFormButton is_loading="@is_saving" cancel_url="pricerule"/>
+                    <ComSavingFormButton is_loading="@is_saving" cancel_url="pricerule" />
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -58,6 +58,7 @@
     PriceRuleModel price = new PriceRuleModel();
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
     string ControllerApi = "PriceRule";
+    string page_title = "";
     public string api_url
     {
         get
@@ -74,6 +75,14 @@
         is_loading = true;
         await LoadData();
         await LoadBusinessBranch();
+        if (clone_id > 0)
+        {
+            page_title = "Clone : " + price.price_name;
+        }
+        else
+        {
+            page_title = id > 0 ? $"Edit : {price.price_name}" : page_title = "New Price Rule";
+        }
         is_loading = false;
     }
 
@@ -128,11 +137,11 @@
                 {
                     business_branch_id = a.id,
                     price_rule_id = id,
-                    is_default = a.business_branch_prices.Where(r=>r.business_branch_id == a.id && r.price_rule_id == id).Select(r=>r.is_default).FirstOrDefault()
+                    is_default = a.business_branch_prices.Where(r => r.business_branch_id == a.id && r.price_rule_id == id).Select(r => r.is_default).FirstOrDefault()
                 });
             }
         }
-        if (business_branches.Where(r=>r.is_selected == true).Count() > 0)
+        if (business_branches.Where(r => r.is_selected == true).Count() > 0)
         {
             var post = await http.ApiPost("PriceRule/Save", price);
             if (post.IsSuccess)
