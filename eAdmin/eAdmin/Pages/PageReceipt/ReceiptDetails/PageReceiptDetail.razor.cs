@@ -15,8 +15,6 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         [Parameter] public Guid id { get; set; }
         public bool is_open_print, is_show_comment, is_show_payment_history;
         public HistoryModel history { get; set; } = new HistoryModel();
-        public eShareModel.TaxRuleModel tax_rule { get; set; }
-
 
         public string api_url { get {
                 string url = $"sale({id})?";
@@ -35,7 +33,6 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            tax_rule = JsonSerializer.Deserialize<eShareModel.TaxRuleModel>(gv.tax_rule);
             await LoadData(); 
             is_loading = false;
         }

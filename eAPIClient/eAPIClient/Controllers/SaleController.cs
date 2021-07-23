@@ -34,14 +34,14 @@ namespace eAPIClient.Controllers
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
-        public IQueryable<SaleModel> Get(string keyword = "", string shift = "", string open_by = "", string close_by = "")
+        public IQueryable<SaleModel> Get(string keyword = "")
         { 
             return (from r in db.Sales
                     where EF.Functions.Like(
                               ((r.document_number ?? " ") + (r.customer.customer_name_en ?? " ") +
                                (r.customer.customer_name_kh ?? " ") + (r.sale_note ?? " ")
-                              ).ToLower().Trim(), $"%{(keyword ?? "")}%".ToLower().Trim()) && r.cashier_shift.shift == ((shift ?? "") == "" ? r.cashier_shift.shift : shift) &&
-                              r.created_by == ((open_by ?? "") == "" ? r.created_by : open_by) && r.closed_by == ((close_by ?? "") == "" ? r.closed_by : close_by)
+                              ).ToLower().Trim(), $"%{(keyword ?? "")}%".ToLower().Trim()) 
+                             
                     select r);
         }
 
@@ -73,7 +73,8 @@ namespace eAPIClient.Controllers
                             });
                         }
                     });
-                    db.Sales.Add(model);
+                    db.Sales.Add(model); 
+                    is_new = !(model.is_closed??false);
                 }
                 else
                 {
@@ -97,20 +98,20 @@ namespace eAPIClient.Controllers
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     }
                 }
-
-                string path = @"c:\\epossync";
-                if (!Directory.Exists(path))
+                if (model.is_closed == true)
                 {
-                    Directory.CreateDirectory(path);
+                    string path = @"c:\\epossync";
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, $"{model.id},{Guid.NewGuid()}.txt")))
+                    {
+                        await outputFile.WriteAsync(model.id.ToString());
+                    }
                 } 
-                // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, $"{model.id},{Guid.NewGuid()}.txt")))
-                {
-                    await outputFile.WriteAsync(model.id.ToString());
-                }
-                 
 
-                
                 return Ok(model);
 
               

@@ -82,12 +82,13 @@
 
     void AddUnit(UnitCategoryModel b)
     {
-        b.units.Add(new UnitModel() { type_name = lang["Reference"]});
+        b.units.Add(new UnitModel() { type_name = lang["Reference"], is_deleted = false, unit_name = "", unit_category_id = b.id});
     }
 
     async Task Save_Click()
     {
-        if (unit_categories.SelectMany(r => r.units).Where(r => r.is_deleted == false && r.unit_name.Trim() == "").Any())
+        
+        if (unit_categories.SelectMany(r => r.units).Where(r => r.is_deleted == false && string.IsNullOrWhiteSpace(r.unit_name)).Any())
         {
             toast.Add(lang["Please enter unit name"], MatToastType.Warning);
             return;

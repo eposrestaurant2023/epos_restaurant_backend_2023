@@ -24,7 +24,6 @@ namespace eModels
        
         [ForeignKey("sale_id")]
         public SaleModel sale { get; set; }
-        public bool is_payment_from_pos { get; set; }
 
         [NotMapped, JsonIgnore]
         public bool is_add_note { get; set; }

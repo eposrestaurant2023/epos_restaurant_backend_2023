@@ -6,7 +6,7 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Outlet & Station"></Title>
+    <Title Value="@page_title"></Title>
     <PageContainer roles="@gv.GetRole($"{(id > 0 ? "payment_type_edit" : "payment_type_add")}")">
         <PageHeader>
             <HeaderLeft>
@@ -43,19 +43,19 @@
                         </SelectCurrency>
                         <SelectStatus @bind-selected_value="@model.status" />
 
-                      
+
                     </UIContainerBox>
                     <UIContainerBox Title="Business Branches">
-                          @foreach (var b in business_branches)
+                        @foreach (var b in business_branches)
                         {
-                            <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true"/></div>
+                            <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
                         }
                     </UIContainerBox>
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
-                <FooterCenter> 
-                    <ComSavingFormButton is_loading="@is_saving" cancel_url="paymenttype"/>
+                <FooterCenter>
+                    <ComSavingFormButton is_loading="@is_saving" cancel_url="paymenttype" />
                 </FooterCenter>
             </PageFooter>
         </EditForm>
@@ -79,12 +79,27 @@
             return query;
         }
     }
+    string page_title;
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         await LoadData();
         await LoadBusinessBranch();
+        if(clone_id > 0)
+        {
+            page_title = "Clone : " + model.payment_type_name_en;
+        }
+        else
+        {
+            if (id > 0)
+            {
+                page_title = $"Edit: { model.payment_type_name_en}";
+            }
+            else{
+                page_title = "New Payment Type";
+            }
+        }
         is_loading = false;
     }
 

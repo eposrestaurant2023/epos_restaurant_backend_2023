@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210722015532_shift_name")]
+    partial class shift_name
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -483,7 +485,7 @@ namespace eAPI.Migrations
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("shift_name")
+                    b.Property<string>("shift")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -2330,7 +2332,7 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_section")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("modifier_group_id")
+                    b.Property<Guid>("modifier_group_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("modifier_id")
@@ -2987,9 +2989,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_print_invoice")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_synced")
                         .HasColumnType("bit");
 
                     b.Property<string>("last_modified_by")
