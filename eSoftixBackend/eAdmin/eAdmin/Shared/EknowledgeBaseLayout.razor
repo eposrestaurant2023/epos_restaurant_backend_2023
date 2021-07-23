@@ -2,9 +2,13 @@
 @layout MainLayout
 @inject IHttpService http;
 @inject IDialogService Dialog;
+@inject IDialogService DialogService
 @inject NavigationManager nav;
-
- <MudToolBar DisableGutters="true" Class="mx-4">
+@inject ISnackbar toast;
+<Loading is_loading="@is_loading"/>
+@if (!is_loading)
+{
+    <MudToolBar DisableGutters="true" Class="mx-4">
     <MudText Typo="Typo.h5" Color="MudBlazor.Color.Primary">eKnowledge Base</MudText>
 </MudToolBar>
 <MudDivider Class="mb-4"/>
@@ -54,8 +58,8 @@
                                        </MudLink>
                                     </div>
                                     <div>
-                                         <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@click_deleted" Size="Size.Small"/>
-                                         <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@AddNewEknowledgeParent" Size="Size.Small"/>
+                                         <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="(()=>DeleteCustomer_Click(p.id))" Size="Size.Small"/>
+                                         <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>click_edit(p.id))" Size="Size.Small"/>
                                     </div>
                                 </div>
                              </MudListItem>
@@ -74,6 +78,8 @@
         
 </div>
 
+}
+
     @code{
     [Parameter] public string parent_id { get; set; }
     public List<eKnowledgeBaseModel> eknowledgebase = new List<eKnowledgeBaseModel>();
@@ -86,13 +92,13 @@
              is_loading = true;
              await LoadData();
              
-        
-        is_loading = false;
+            
+           is_loading = false;
         }
 
         async Task LoadData(){
 
-            var url = "eKnowledgeBase?$filter=parent_id eq null &$expand=children &$orderby= sort_order desc";
+            var url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children &$orderby= sort_order desc";
             var resp = await http.ApiGetOData(url);
             if(resp.IsSuccess){
                 eknowledgebase = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(resp.Content.ToString());
@@ -107,18 +113,76 @@
             var parameters = new DialogParameters { ["model"]= new eKnowledgeBaseModel()};
             var dialog = Dialog.Show<ComAddEknowledgeBase>("Add New Eknowledge Base",parameters);
             var result = await dialog.Result;
-             if (!result.Cancelled)
+            if (!result.Cancelled)
             {
                 eknowledgebase.Add((eKnowledgeBaseModel)result.Data);
             }
 
        }
 
-        void click_deleted()
+         async Task click_edit(Guid id)
         {
-          
+         
+         
+            var url = $"eKnowledgeBase({id})";
+            var resp = await http.ApiGet(url);
+            if(resp.IsSuccess){
+            
+                var e = JsonSerializer.Deserialize<eKnowledgeBaseModel>(resp.Content.ToString());
+                    var parameters = new DialogParameters { ["model"]= e};
+                     var dialog = Dialog.Show<ComAddEknowledgeBase>("Add New Eknowledge Base",parameters);
+                    var result = await dialog.Result;
+                    
+                    if (!result.Cancelled)
+                    {
+                       is_loading = true;
+                       StateHasChanged();
+                        await LoadData();
+                       is_loading = false;
+                   }
+            
         }
 
+              
+        }
+
+        async Task click_Delete(Guid id)
+        {
+         
+         
+            var url = $"eKnowledgeBase/delete/{id}";
+            var resp = await http.ApiGet(url);
+            
+
+              
+        }
+
+        public async Task DeleteCustomer_Click(Guid id)
+        {
+            
+            string state = "Are You sure your want to delete?";
+            
+            bool? result = await DialogService.ShowMessageBox(
+            "Delete",
+            state,
+            yesText: "Ok", cancelText: "Cancel");
+            StateHasChanged();
+            if ((bool)result)
+            {
+                is_loading = true;
+                var res = await http.ApiPost($"eKnowledgeBase/delete/{id}");
+                if (res.IsSuccess)
+                {
+                    toast.Add("Delete successfuly.", Severity.Success);
+                    await LoadData();
+                }
+                
+            }
+            
+           is_loading = false;
+            
+           
+        }
 
     }
  
