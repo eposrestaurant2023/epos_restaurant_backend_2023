@@ -1,51 +1,43 @@
 @inject IStringLocalizer<Resource> lang
-<div class="invoice-sub-title">@lang["Tax Information"]</div>
-<table class="view_table uk-table uk-table-small uk-table-divider table-bordered table-invoice uk-margin-remove">
-    <tbody>
-        <tr>
-            <ThAuto>@lang["Tax Name"]</ThAuto>
-            <ThCenter>@lang["Rate"]</ThCenter>
-            <ThRight>@lang["Amount"]</ThRight>
-        </tr>
-        <tr>
-            <td>
-                @tax_rule.tax_1_name
-            </td>
-            <TdCenter>
-                @sale.tax_1_rate.ToString(gv.percentage_format)
-            </TdCenter>
-            <TdRight>
-                @sale.tax_1_amount.ToString(gv.main_currency_format)
-            </TdRight>
-        </tr>
-        <tr>
-            <td>
-                @tax_rule.tax_2_name
-            </td>
-            <TdCenter>
-                @sale.tax_2_rate.ToString(gv.percentage_format)
-            </TdCenter>
-            <TdRight>
-                @sale.tax_2_amount.ToString(gv.main_currency_format)
-            </TdRight>
-        </tr>
-        <tr>
-            <td>
-                @tax_rule.tax_3_name
-            </td>
-            <TdCenter>
-                @sale.tax_3_rate.ToString(gv.percentage_format)
-            </TdCenter>
-            <TdRight>
-                @sale.tax_3_amount.ToString(gv.main_currency_format)
-            </TdRight>
-        </tr>
-    </tbody>
-</table>
+
+@if (sale.tax_1_rate > 0 || sale.tax_1_amount > 0)
+{
+    <tr>
+        <td colspan="7" class="uk-text-right">@tax_rule.tax_1_name (@sale.tax_1_rate.ToString(gv.percentage_format))</td>
+        <td class="uk-text-right bg_hightlight">
+            @sale.tax_1_amount.ToString(gv.main_currency_format)
+        </td>
+    </tr>
+}
+
+@if (sale.tax_2_rate > 0 || sale.tax_2_amount > 0)
+{
+    <tr>
+        <td colspan="7" class="uk-text-right">@tax_rule.tax_2_name (@sale.tax_2_rate.ToString(gv.percentage_format))</td>
+        <td class="uk-text-right bg_hightlight">
+            @sale.tax_2_amount.ToString(gv.main_currency_format)
+        </td>
+    </tr>
+}
+
+@if (sale.tax_3_rate > 0 || sale.tax_3_amount > 0)
+{
+    <tr>
+        <td colspan="7" class="uk-text-right">@tax_rule.tax_3_name (@sale.tax_3_rate.ToString(gv.percentage_format))</td>
+        <td class="uk-text-right bg_hightlight">
+            @sale.tax_3_amount.ToString(gv.main_currency_format)
+        </td>
+    </tr>
+}
 
 @code {
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public eShareModel.TaxRuleModel tax_rule { get; set; }
     [Parameter] public SaleModel sale { get; set; }
+
+    public eShareModel.TaxRuleModel tax_rule { get; set; }
+    protected override void OnInitialized()
+    {
+        tax_rule = JsonSerializer.Deserialize<eShareModel.TaxRuleModel>(gv.tax_rule);
+    }
 }

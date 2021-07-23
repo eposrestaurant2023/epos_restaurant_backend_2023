@@ -82,7 +82,7 @@
 
     void AddUnit(UnitCategoryModel b)
     {
-        b.units.Add(new UnitModel() { type_name = lang["Reference"]});
+        b.units.Add(new UnitModel() { type_name = lang["Reference"], is_deleted = false, unit_name = "", unit_category_id = b.id});
     }
 
     async Task Save_Click()
