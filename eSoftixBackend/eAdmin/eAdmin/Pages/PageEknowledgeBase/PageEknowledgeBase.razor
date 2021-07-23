@@ -17,7 +17,6 @@
         </PageHeader>
         <PageBody>
             @if(!string.IsNullOrEmpty(id)){
-
               <Table Items="@eknowledgebase.Where(r=>r.parent_id == Guid.Parse(id)).ToList()"
                      PerPage="@state.pager.per_page"
                     TotalItem="@TotalRecord"
@@ -34,17 +33,15 @@
                       <RowTemplate Context="e">
                           <td> 
                               @e.title_en
-                             
-                           
                           </td>
                           <TdCenter>
                            <LabelDeleted is_visible="@e.is_deleted"/> 
                           </TdCenter>
                             <TdActions>
-                                    <TableActionItem icon="@Icons.Material.Filled.Edit" url="@($"eknowledgebase/edit/{e.id}")">Edit</TableActionItem>
-                                    <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@(!e.is_deleted)">Delete</TableActionItem>
-                                    <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@e.is_deleted">Restore</TableActionItem>
-                              </TdActions>
+                                <TableActionItem icon="@Icons.Material.Filled.Edit" url="@($"eknowledgebase/edit/{e.id}")">Edit</TableActionItem>
+                                <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@(!e.is_deleted)">Delete</TableActionItem>
+                                <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@e.is_deleted">Restore</TableActionItem>
+                            </TdActions>
                       </RowTemplate>
               </Table>
           
