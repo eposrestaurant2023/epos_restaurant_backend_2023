@@ -27,18 +27,23 @@
                     ShowCounter="true"
                     EmptyText="There is no customer record.">
                      <TableHeader>
-                         <ThAuto>Title</ThAuto>
+                         <ThAuto>Title </ThAuto>
+                         <ThCenter>Status</ThCenter>
                          <ThCenter></ThCenter>
                      </TableHeader>
                       <RowTemplate Context="e">
                           <td> 
                               @e.title_en
-                            
+                             
+                           
                           </td>
+                          <TdCenter>
+                           <LabelDeleted is_visible="@e.is_deleted"/> 
+                          </TdCenter>
                             <TdActions>
                                     <TableActionItem icon="@Icons.Material.Filled.Edit" url="@($"eknowledgebase/edit/{e.id}")">Edit</TableActionItem>
-                                    <TableActionItem icon="@Icons.Material.Filled.Delete" >Delete</TableActionItem>
-                                    <TableActionItem icon="@Icons.Material.Filled.Delete" >Restore</TableActionItem>
+                                    <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@(!e.is_deleted)">Delete</TableActionItem>
+                                    <TableActionItem icon="@Icons.Material.Filled.Delete" OnClick="@(()=>Delete_Click(e.id))" is_visible="@e.is_deleted">Restore</TableActionItem>
                               </TdActions>
                       </RowTemplate>
               </Table>

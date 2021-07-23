@@ -45,7 +45,7 @@
                         }
                         else
                         {
-                             <MudListItem Text="@(p.title_en)">
+                             <MudListItem Text="@(p.title_en)" Href="@($"eknowledgebase/{p.id}")">
                                  
                              </MudListItem>
 
@@ -62,13 +62,6 @@
 </PageContainer>
         
 </div>
-
-
-
-
-
-
-
 
     @code{
     [Parameter] public string parent_id { get; set; }

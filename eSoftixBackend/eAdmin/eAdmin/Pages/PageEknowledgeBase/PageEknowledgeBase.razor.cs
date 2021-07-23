@@ -28,6 +28,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
     public class PageEknowledgeBases :PageCore
     {
         [Parameter] public string id { get; set; }
+        [Inject] IDialogService DialogService { get; set; }
         public List<eKnowledgeBaseModel> eknowledgebase = new List<eKnowledgeBaseModel>();
         public eKnowledgeBaseModel model = new eKnowledgeBaseModel();
         public string StateKey = "EKNOJ84567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
@@ -104,7 +105,34 @@ namespace eAdmin.Pages.PageEknowledgeBase
             is_loading = false;
         }
 
-       
+        public async Task Delete_Click(Guid _id)
+        {
+
+            string state = "Are You sure your want to delete?";
+            if (model.is_deleted)
+            {
+                state = "Are You sure your want to restore?";
+            }
+            bool? result = await DialogService.ShowMessageBox(
+            "Delete",
+            state,
+            yesText: "Ok", cancelText: "Cancel");
+            StateHasChanged();
+            if ((bool)result)
+            {
+                is_loading = true;
+                var res = await http.ApiPost($"eKnowledgeBase/delete/{_id}");
+                if (res.IsSuccess)
+                {
+                    toast.Add("Delete successfuly.", Severity.Success);
+                    await LoadData();
+                }
+
+            }
+            is_loading = false;
+
+
+        }
 
     }
 }

@@ -92,12 +92,13 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<eKnowledgeBaseModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<eKnowledgeBaseModel>> DeleteRecord(Guid id) //Delete
         {
             var u = await db.eKnowledgeBases.FindAsync(id);
-            
-            
+
+            u.is_deleted = !u.is_deleted;
             db.eKnowledgeBases.Update(u);
+          
             await db.SaveChangesAsync();
             return Ok(u);
         }

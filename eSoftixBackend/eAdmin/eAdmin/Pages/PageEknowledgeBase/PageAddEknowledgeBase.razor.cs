@@ -44,7 +44,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
         {
             if (!string.IsNullOrEmpty(id))
             {
-                await LoadProject();
+                await LoadData();
             }
             else
             {
@@ -56,7 +56,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
             }
             
         }
-        async Task LoadProject()
+        async Task LoadData()
         {
             if (!is_loading)
             {
@@ -93,13 +93,11 @@ namespace eAdmin.Pages.PageEknowledgeBase
         public async Task Save_Click()
         {
             is_saving = true;
-          
             var res = await http.ApiPost($"eKnowledgeBase/save", models);
             if (res.IsSuccess)
             {
                 toast.Add("Save Successfull.", Severity.Success);
                 var c = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(res.Content.ToString());
-                
                 nav.NavigateTo($"eknowledgebase/{c.FirstOrDefault().parent_id}");
             }
             else
@@ -110,8 +108,11 @@ namespace eAdmin.Pages.PageEknowledgeBase
         }
 
         public void Click_add()
-        {
+        {  
             models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
         }
+
+      
+
     }
 }

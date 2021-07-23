@@ -34,6 +34,8 @@ namespace eModels
         public string description_kh { get; set; }
         public string photo { get; set; }
 
+        public bool is_deleted { get; set; } = false;
+
         [NotMapped]
         [JsonIgnore]
         public bool is_select_parent { get; set; }

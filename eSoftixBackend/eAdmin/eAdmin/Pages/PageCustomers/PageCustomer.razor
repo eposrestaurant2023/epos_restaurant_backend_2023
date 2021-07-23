@@ -99,13 +99,10 @@
                </TdCenter>
                <TdCenter>
                     <MudText Typo="Typo.body2">@p.total_project / @p.pending_project </MudText>
-
                </TdCenter>
-             
                 <TdCenter>
                    @p.created_date.ToString(gv.date_format)
                </TdCenter>
-
                  <TdCenter>
                      @if(p.expired_date != null){
                          <span>
@@ -122,8 +119,7 @@
                 <TdActions>
                         <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("customer_view")" is_visible="@(!p.is_deleted)" url="@($"customer/{p.id}")">View</TableActionItem>
                         <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("customer_add")" url="@($"customer/clone/{p.id}")">Clone</TableActionItem>
-                           
-                  </TdActions>
+                </TdActions>
 
             </RowTemplate>
         </Table>
