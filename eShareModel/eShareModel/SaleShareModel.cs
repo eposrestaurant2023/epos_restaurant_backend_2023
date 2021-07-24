@@ -41,6 +41,7 @@ namespace eShareModel
         public decimal sub_total { get; set; }
 
         public string shift_name { get; set; }
+        public bool is_sale_use_tax { get; set; }
 
 
         //Discount
