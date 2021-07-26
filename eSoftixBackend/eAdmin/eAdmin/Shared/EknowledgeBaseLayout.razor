@@ -45,30 +45,44 @@
                         {
                             <MudListItem Text="@(p.title_en)">
                                <NestedList>
-                                    @foreach (var sp in p.children){
-                                       <MudListItem Text="@sp.title_en" Href="@($"eknowledgebase/{sp.id}")"/>
+                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id)){
+
+                                         <MudListItem>
+                                        <div class="d-flex justify-space-between align-center">
+                                            <div>
+                                                <MudLink Href="@($"eknowledgebase/{sp.id}")" Underline="Underline.None">
+                                                  <MudText Typo="Typo.body1">@sp.title_en</MudText>
+                                               </MudLink>
+                                            </div>
+                                            <div>
+                                                 <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="(()=>DeleteCustomer_Click(sp.id))" Size="Size.Small"/>
+                                                 <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>click_edit(sp.id))" Size="Size.Small"/>
+                                            </div>
+                                        </div>
+                                     </MudListItem>
                                     }
                                </NestedList>
                            </MudListItem>
-                        }
+                    }
                         else
                         {
-                            @* 
-                            <MudListItem Text="@p.title_en" Href="@($"eknowledgebase/{p.id}")"></MudListItem>*@
-                            
-                        <MudListItem>
-                                <div class="d-flex justify-space-between align-center">
-                                    <div>
-                                        <MudLink Href="@($"eknowledgebase/{p.id}")" Underline="Underline.None">
-                                          <MudText Typo="Typo.body1">@p.title_en</MudText>
-                                       </MudLink>
-                                    </div>
-                                    <div>
-                                         <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="(()=>DeleteCustomer_Click(p.id))" Size="Size.Small"/>
-                                         <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>click_edit(p.id))" Size="Size.Small"/>
-                                    </div>
-                                </div>
-                             </MudListItem>
+                                @if (p.parent_id == null)
+                                {
+                                       <MudListItem>
+                                        <div class="d-flex justify-space-between align-center">
+                                            <div>
+                                                <MudLink Href="@($"eknowledgebase/{p.id}")" Underline="Underline.None">
+                                                  <MudText Typo="Typo.body1">@p.title_en</MudText>
+                                               </MudLink>
+                                            </div>
+                                            <div>
+                                                 <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="(()=>DeleteCustomer_Click(p.id))" Size="Size.Small"/>
+                                                 <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>click_edit(p.id))" Size="Size.Small"/>
+                                            </div>
+                                        </div>
+                                     </MudListItem>
+                                }
+                           
 
                         }
                    
@@ -106,13 +120,13 @@
 
         async Task LoadData(string url=""){
             if(string.IsNullOrEmpty(url)){
-                url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children &top={50}&$orderby=title_en";
+                url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children($filter=is_deleted eq false) &top={50}&$orderby=title_en";
             }
             
             var resp = await http.ApiGetOData(url);
             if(resp.IsSuccess){
                 eknowledgebase = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(resp.Content.ToString());
-                nav.NavigateTo($"eknowledgebase/{eknowledgebase.FirstOrDefault().children.FirstOrDefault().id}");
+                nav.NavigateTo($"eknowledgebase/{eknowledgebase.FirstOrDefault()?.children?.FirstOrDefault()?.id}");
             }
 
         }
@@ -120,13 +134,10 @@
         async Task OnSearch(string debouncedText)
         {
 
-        var url = $"eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &keyword={debouncedText}&$expand=children &top={50}&$orderby=title_en";
-
-      
-
+           var url = $"eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &keyword={debouncedText}&$expand=children &top={50}&$orderby=title_en";
             await LoadData(url);
 
-    }
+        }
 
         async Task AddNewEknowledgeParent()
        {

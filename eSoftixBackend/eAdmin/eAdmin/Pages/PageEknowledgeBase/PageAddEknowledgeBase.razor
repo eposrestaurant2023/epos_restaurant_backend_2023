@@ -3,7 +3,7 @@
 @layout EknowledgeBaseLayout
 @inherits PageAddEknowledgeBases
 <PageContainer>
-    <EditForm Model="@models" OnValidSubmit="@Save_Click">
+    <EditForm Model="@model" OnValidSubmit="@Save_Click">
         <PageBody>
             <UICenter>
                
@@ -14,62 +14,59 @@
                         <CardHeaderContent>
                             <MudText Typo="Typo.h6">Add Content Eknowledge Base</MudText>
                         </CardHeaderContent>
-               
-                        <CardHeaderActions>
-                            <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@Click_add"/>
-                        </CardHeaderActions>  
                     </MudCardHeader>
                 }
                 <MudCardContent>
-@*
-                    <MudPaper Class="pa-4 ma-2" Square="true">
-
-                              <MudGrid Class="d-flex align-center">
-                                   <MudItem xs="2">
-                                      <FileUpload @bind-ImageUrl="@models.photo" is_square="true"></FileUpload>
-                                    </MudItem>
-                                    <MudItem xs="10">
-                                         <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
-                                            <MudTabPanel Text="Title En">
-                                               <MudTextField @bind-Value="@models.title_en" Label="Title En" Variant="Variant.Text"/>
-                                               <MudTextField @bind-Value="@models.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
-                                            </MudTabPanel>
-                                            <MudTabPanel Text="Title Kh">
-                                              <MudTextField @bind-Value="@models.title_kh" Label="Title Kh" Variant="Variant.Text"/>
-                                              <MudTextField @bind-Value="@models.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
-                                            </MudTabPanel>
-                                        </MudTabs>
-                                    </MudItem>
-
-                              </MudGrid>
-
-                         </MudPaper>*@
-
-                    @foreach(var p in models)
-                        {
                           <MudPaper Class="pa-4 ma-2" Square="true">
-
                               <MudGrid Class="d-flex align-center">
                                    <MudItem xs="2">
-                                      <FileUpload @bind-ImageUrl="p.photo" is_square="true"></FileUpload>
+                                      <FileUpload @bind-ImageUrl="model.photo" is_square="true"></FileUpload>
                                     </MudItem>
                                     <MudItem xs="10">
                                          <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
                                             <MudTabPanel Text="Title En">
-                                               <MudTextField @bind-Value="@p.title_en" Label="Title En" Variant="Variant.Text"/>
-                                               <MudTextField @bind-Value="@p.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
+                                               <MudTextField @bind-Value="@model.title_en" Label="Title En" Variant="Variant.Text"/>
+                                               <MudTextField @bind-Value="@model.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Title Kh">
-                                              <MudTextField @bind-Value="@p.title_kh" Label="Title Kh" Variant="Variant.Text"/>
-                                              <MudTextField @bind-Value="@p.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                                              <MudTextField @bind-Value="@model.title_kh" Label="Title Kh" Variant="Variant.Text"/>
+                                              <MudTextField @bind-Value="@model.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
                                             </MudTabPanel>
                                         </MudTabs>
+                                        <Spacing Number="20"/>
+                                        <div class="d-flex justify-end">
+                                               <MudButton OnClick="AddChild_Click"
+                                                   Variant="Variant.Filled"
+                                                   EndIcon="@Icons.Filled.Add"
+                                                   Color="MudBlazor.Color.Primary">
+                                                   Add
+                                               </MudButton>
+                                        </div>
                                     </MudItem>
-
                               </MudGrid>
-
+                                @foreach(var c in model.children){
+                                             <MudPaper Class="pa-4 ma-2" Square="true">
+                                                 <MudGrid Class="d-flex align-center">
+                                                     <MudItem xs="2">
+                                                          <FileUpload @bind-ImageUrl="c.photo" is_square="true"></FileUpload>
+                                                     </MudItem>
+                                                     <MudItem xs="10">
+                                                             <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
+                                                                <MudTabPanel Text="Title En">
+                                                                   <MudTextField @bind-Value="@c.title_en" Label="Title En" Variant="Variant.Text"/>
+                                                                   <MudTextField @bind-Value="@c.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
+                                                                </MudTabPanel>
+                                                                <MudTabPanel Text="Title Kh">
+                                                                  <MudTextField @bind-Value="@c.title_kh" Label="Title Kh" Variant="Variant.Text"/>
+                                                                  <MudTextField @bind-Value="@c.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                                                                </MudTabPanel>
+                                                            </MudTabs>
+                                                     </MudItem>
+                                                 </MudGrid>
+                                             </MudPaper>
+                                        }
                          </MudPaper>
-                        }
+                        
                 </MudCardContent>
             </MudCard>
 
@@ -80,7 +77,7 @@
                             <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Small" Indeterminate="true"/>    
                         }
                     </MudButton>
-                    <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button" OnClick="@(()=>nav.NavigateTo($"eknowledgebase/{parent_id}"))">Cancel</MudButton> 
+                    <MudButton Color="MudBlazor.Color.Default" Variant="Variant.Filled"  ButtonType="ButtonType.Button" OnClick="@(()=>nav.NavigateTo($"eknowledgebase/{model.parent_id}"))">Cancel</MudButton> 
                 </div>
            
             </UICenter>

@@ -3,6 +3,7 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,19 @@ namespace eAPI.Controllers
             var cus = db.PermissionOption;
             return Ok(cus);
         }
+
+        public IQueryable<PermissionOptionModel> Get(string keyword = "")
+        {
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                var permission_option = db.PermissionOption.Where(r => r.note.Trim().ToLower().Contains(keyword.Trim().ToLower()));
+                return permission_option;
+            }
+            var c = db.PermissionOption.AsQueryable();
+            return c;
+        }
+
+
 
         [HttpPost("save")]
         public async Task<ActionResult<PermissionOptionModel>> Save([FromBody] PermissionOptionModel c)

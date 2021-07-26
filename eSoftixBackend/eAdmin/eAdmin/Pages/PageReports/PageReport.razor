@@ -1,24 +1,31 @@
 ﻿@page "/report"
 @layout ReportLayout
+@inject IHttpService http;
+@inject IDialogService Dialog;
+@inject IDialogService DialogService
+@inject NavigationManager nav;
+@inject ISnackbar toast;
 
 <PageContainer>
  <MudHidden Breakpoint="Breakpoint.SmAndDown">
         <MudPaper Elevation="25" Class="px-3 py-6 mr-6" MinWidth="250px">
-         <MudTextField @bind-Value="TextValue" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"/>
+        <MudTextField T="string" Placeholder="Search..."    Adornment="Adornment.End"
+                      AdornmentIcon="@Icons.Filled.Search"
+                      DebounceInterval="500" OnDebounceIntervalElapsed="@OnSearch"/>
             <MudList Clickable="true" @bind-SelectedItem="selectedItem">
-                @foreach (var p in app.gv.permission_options.Where(r=>r.parent_id == 9))
+                @foreach (var p in models.Where(r=>r.parent_id == 9))
                 {
                     <MudListItem OnClick="@(()=>MainReport_Click(p.id))" Text="@(p.note)">
                        <NestedList>
                         @if (main_report_id > 0)
                         {
-                              @foreach (var sp in app.gv.permission_options.Where(r=>r.parent_id == p.id)){
+                              @foreach (var sp in models.Where(r=>r.parent_id == p.id)){
                                  <MudListItem Text="@sp.note" />
                             }
                         }
                         else
                         {
-                            @foreach (var sp in app.gv.permission_options.Where(r=>r.parent_id == p.id))
+                            @foreach (var sp in models.Where(r=>r.parent_id == p.id))
                             {
                                  <MudListItem Text="@sp.note" />
                             }
@@ -39,15 +46,47 @@
 
 @code {
     [CascadingParameter] public AppState app {get;set;}
-
+     public List<PermissionOptionModel> models  = new List<PermissionOptionModel>();
+    string keyword = "";
+    bool is_loading;
     public string TextValue { get; set; }
 
     int main_report_id = 0;
 
     MudListItem selectedItem;
 
+         protected override async Task OnInitializedAsync()
+        {
+             is_loading = true;
+             await LoadData();
+             
+            
+             is_loading = false;
+        }
+
+
+
     void MainReport_Click(int id){
         main_report_id = id;
     }
 
+            async Task LoadData(string url=""){
+            if(string.IsNullOrEmpty(url)){
+                url = "permissionoption?&top={50}&$orderby=sort_order";
+            }
+            
+            var resp = await http.ApiGetOData(url);
+            if(resp.IsSuccess){
+                models = JsonSerializer.Deserialize<List<PermissionOptionModel>>(resp.Content.ToString());
+            }
+
+        }
+
+        async Task OnSearch(string debouncedText)
+        {
+
+           var url = $"permissionoption?&keyword={debouncedText} &top={50}&$orderby=sort_order";
+            await LoadData(url);
+
+        }
 }

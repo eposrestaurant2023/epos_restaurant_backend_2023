@@ -28,7 +28,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
     {
         [Parameter] public string id { get; set; }
         [Parameter] public string parent_id { get; set; }
-        public eKnowledgeBaseModel model { get; set; }
+        public eKnowledgeBaseModel model { get; set; } = new eKnowledgeBaseModel();
         public List<eKnowledgeBaseModel> models = new List<eKnowledgeBaseModel>();
         public string page_title { get; set; }
         public string api_url
@@ -50,7 +50,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
             {
                 if (!string.IsNullOrEmpty(parent_id))
                 {
-                    models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
+                    model = new eKnowledgeBaseModel(Guid.Parse(parent_id));
                 }
                 
             }
@@ -69,7 +69,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
                     {
                         model = JsonSerializer.Deserialize<eKnowledgeBaseModel>(res.Content.ToString());
                         page_title = $"Edit : {model.title_en}";
-                        models.Add(model);
+                        
                     }
                     else
                     {
@@ -93,12 +93,12 @@ namespace eAdmin.Pages.PageEknowledgeBase
         public async Task Save_Click()
         {
             is_saving = true;
-            var res = await http.ApiPost($"eKnowledgeBase/save", models);
+            var res = await http.ApiPost($"eKnowledgeBase/savesingle", model);
             if (res.IsSuccess)
             {
                 toast.Add("Save Successfull.", Severity.Success);
-                var c = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(res.Content.ToString());
-                nav.NavigateTo($"eknowledgebase/{c.FirstOrDefault().parent_id}");
+                var c = JsonSerializer.Deserialize<eKnowledgeBaseModel>(res.Content.ToString());
+                nav.NavigateTo($"eknowledgebase/{c.parent_id}");
             }
             else
             {
@@ -112,7 +112,10 @@ namespace eAdmin.Pages.PageEknowledgeBase
             models.Add(new eKnowledgeBaseModel(Guid.Parse(parent_id)));
         }
 
-      
+      public void AddChild_Click()
+        {
+            model.children.Add(new eKnowledgeBaseModel());
+        }
 
     }
 }

@@ -46,7 +46,7 @@ namespace eAdmin.Pages.PageEknowledgeBase
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}";
+                string url = $"{controller_api}?$filter= is_deleted eq false";
                 return url;
             }
         }
