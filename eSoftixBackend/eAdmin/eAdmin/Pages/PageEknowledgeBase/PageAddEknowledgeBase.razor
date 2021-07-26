@@ -21,6 +21,30 @@
                     </MudCardHeader>
                 }
                 <MudCardContent>
+@*
+                    <MudPaper Class="pa-4 ma-2" Square="true">
+
+                              <MudGrid Class="d-flex align-center">
+                                   <MudItem xs="2">
+                                      <FileUpload @bind-ImageUrl="@models.photo" is_square="true"></FileUpload>
+                                    </MudItem>
+                                    <MudItem xs="10">
+                                         <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
+                                            <MudTabPanel Text="Title En">
+                                               <MudTextField @bind-Value="@models.title_en" Label="Title En" Variant="Variant.Text"/>
+                                               <MudTextField @bind-Value="@models.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
+                                            </MudTabPanel>
+                                            <MudTabPanel Text="Title Kh">
+                                              <MudTextField @bind-Value="@models.title_kh" Label="Title Kh" Variant="Variant.Text"/>
+                                              <MudTextField @bind-Value="@models.description_kh" Label="Description Kh" Variant="Variant.Text" Lines="3"/>
+                                            </MudTabPanel>
+                                        </MudTabs>
+                                    </MudItem>
+
+                              </MudGrid>
+
+                         </MudPaper>*@
+
                     @foreach(var p in models)
                         {
                           <MudPaper Class="pa-4 ma-2" Square="true">
@@ -33,7 +57,7 @@
                                          <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true">
                                             <MudTabPanel Text="Title En">
                                                <MudTextField @bind-Value="@p.title_en" Label="Title En" Variant="Variant.Text"/>
-                                                <MudTextField @bind-Value="@p.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
+                                               <MudTextField @bind-Value="@p.description_en" Label="Description En" Variant="Variant.Text" Lines="3"/>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Title Kh">
                                               <MudTextField @bind-Value="@p.title_kh" Label="Title Kh" Variant="Variant.Text"/>

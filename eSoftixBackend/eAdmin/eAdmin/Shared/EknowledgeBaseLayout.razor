@@ -5,6 +5,8 @@
 @inject IDialogService DialogService
 @inject NavigationManager nav;
 @inject ISnackbar toast;
+
+
 <Loading is_loading="@is_loading"/>
 @if (!is_loading)
 {
@@ -23,7 +25,11 @@
  <PageContainer>
      <MudHidden Breakpoint="Breakpoint.SmAndDown">
         <MudPaper Elevation="25" Class="px-3 py-6 mr-6" MinWidth="250px">
-         <!--<MudTextField @bind-Value="TextValue" Variant="Variant.Outlined" Margin="Margin.Dense" Placeholder="Search"/>-->
+            <MudTextField T="string" Placeholder="Search..."    Adornment="Adornment.End"
+                      AdornmentIcon="@Icons.Filled.Search"
+                      DebounceInterval="500"
+                      OnDebounceIntervalElapsed="@OnSearch" />
+
            <div class="d-flex d-flex justify-space-between align-center">
                <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Add Eknowledge Base</MudText>
                <div><MudIconButton Icon="@Icons.Material.Filled.Add" Class="d-flex ml-auto" OnClick="@AddNewEknowledgeParent"/></div>
@@ -83,6 +89,8 @@
     @code{
     [Parameter] public string parent_id { get; set; }
     public List<eKnowledgeBaseModel> eknowledgebase = new List<eKnowledgeBaseModel>();
+    string keyword = "";
+    public string StateKey = "123484567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
     bool is_loading;
     bool is_saving;
     string TextValue { get; set; }
@@ -96,9 +104,11 @@
            is_loading = false;
         }
 
-        async Task LoadData(){
-
-            var url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children &$orderby= sort_order desc";
+        async Task LoadData(string url=""){
+            if(string.IsNullOrEmpty(url)){
+                url = "eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &$expand=children &top={50}&$orderby=title_en";
+            }
+            
             var resp = await http.ApiGetOData(url);
             if(resp.IsSuccess){
                 eknowledgebase = JsonSerializer.Deserialize<List<eKnowledgeBaseModel>>(resp.Content.ToString());
@@ -106,6 +116,17 @@
             }
 
         }
+
+        async Task OnSearch(string debouncedText)
+        {
+
+        var url = $"eKnowledgeBase?$filter=parent_id eq null and is_deleted eq false &keyword={debouncedText}&$expand=children &top={50}&$orderby=title_en";
+
+      
+
+            await LoadData(url);
+
+    }
 
         async Task AddNewEknowledgeParent()
        {
@@ -148,13 +169,8 @@
 
         async Task click_Delete(Guid id)
         {
-         
-         
             var url = $"eKnowledgeBase/delete/{id}";
             var resp = await http.ApiGet(url);
-            
-
-              
         }
 
         public async Task DeleteCustomer_Click(Guid id)

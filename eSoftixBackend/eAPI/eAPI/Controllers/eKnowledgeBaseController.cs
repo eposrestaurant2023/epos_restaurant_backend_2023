@@ -29,11 +29,21 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [AllowAnonymous]
-        public IQueryable<eKnowledgeBaseModel> Get()
+        public IQueryable<eKnowledgeBaseModel> Get(string keyword)
         {
-           
-                return db.eKnowledgeBases.AsQueryable();
-           
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                var eknoledge = from r in db.eKnowledgeBases
+                               where EF.Functions.Like((
+                                     (r.title_en ?? " ") +
+                                     (r.title_kh ?? " ")).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                               select r;
+                return eknoledge;
+            }
+            var e = db.eKnowledgeBases.AsQueryable();
+            return e;
+
         }
 
 
