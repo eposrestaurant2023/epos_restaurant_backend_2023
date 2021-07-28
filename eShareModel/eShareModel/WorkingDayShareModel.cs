@@ -10,6 +10,15 @@ namespace eShareModel
         public Guid closed_station_id { get; set; }
         public Guid opened_station_id { get; set; }
 
+        public string outlet_name_en { get; set; }
+        public string outlet_name_kh { get; set; }
+
+        public string closed_station_name_en { get; set; }
+        public string closed_station_name_kh { get; set; }
+
+        public string opended_station_name_en { get; set; }
+        public string opended_station_name_kh { get; set; }
+
         [Column(TypeName ="date")]
         public DateTime working_date { get; set; }     
         public bool is_closed { get; set; }
