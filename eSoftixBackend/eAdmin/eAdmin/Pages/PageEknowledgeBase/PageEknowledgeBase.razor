@@ -17,13 +17,15 @@
         <PageBody>
             @if(!string.IsNullOrEmpty(id)){
               <Table Items="@eknowledgebase.Where(r=>r.parent_id == Guid.Parse(id)).ToList()"
-                     PerPage="@state.pager.per_page"
-                    TotalItem="@TotalRecord"
-                    CurrentPage="@state.pager.current_page"
-                    isLoading="@is_loading_data"
-                    ShowPager="true"
-                    ShowCounter="true"
-                    EmptyText="There is no customer record.">
+                        PerPage="@state.pager.per_page"
+                        TotalItem="@TotalRecord"
+                        CurrentPage="@state.pager.current_page"
+                        OnPagerChange="@SelectChange"
+                        OnPageChange="@ChangePager"
+                        isLoading="@is_loading_data"
+                        ShowPager="true"
+                        ShowCounter="true"
+                        EmptyText="There is no customer record.">
                      <TableHeader>
                          <ThAuto>Title </ThAuto>
                          <ThCenter>Status</ThCenter>

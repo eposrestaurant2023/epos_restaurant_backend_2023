@@ -56,26 +56,29 @@ namespace eAdmin.Pages.PageEknowledgeBase
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
+            is_loading_data = true;
             state = await GetState(StateKey);
-            if (state.page_title == "")
-            {
-                state.page_title = "eKnowledgeBase";
-                var default_view = gv.GetDefaultModuleView("page_eknowledgebase");
-                if (default_view != null)
+                if (state.page_title == "")
                 {
-                    state.page_title = default_view.title;
-                    state.filters = default_view.filters;
+                    state.page_title = "eKnowledgeBase";
+                    var default_view = gv.GetDefaultModuleView("page_eknowledgebase");
+                    if (default_view != null)
+                    {
+                        state.page_title = default_view.title;
+                        state.filters = default_view.filters;
+                    }
                 }
-            }
-            if (state.filters.Count == 0)
-            {
-                state.filters.Add(new FilterModel()
+                if (state.filters.Count == 0)
                 {
-                    key = "is_deleted",
-                    value1 = "false"
-                });
-            }
+                    state.filters.Add(new FilterModel()
+                    {
+                        key = "is_deleted",
+                        value1 = "false"
+                    });
+                }
             await LoadData();
+
+            is_loading_data = false;
             is_loading = false;
         }
 
@@ -84,6 +87,19 @@ namespace eAdmin.Pages.PageEknowledgeBase
             is_loading = true;
             await LoadData();
             is_loading = false;
+        }
+
+        public async Task SelectChange(int perpage)
+        {
+            state.pager.per_page = perpage;
+            state.pager.current_page = 1;
+            await LoadData();
+        }
+
+        public async Task ChangePager(int _page)
+        {
+            state.pager.current_page = _page;
+            await LoadData();
         }
 
         public async Task LoadData(string api_url = "")

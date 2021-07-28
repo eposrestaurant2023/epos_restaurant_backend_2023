@@ -4,29 +4,25 @@
     {
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" Direction="Direction.Right">
 
-            @if (position=="top-left")
-            {
+                @if (position=="top-left")
+                {
                 
-                @ChildContent
+                    @ChildContent
                  
-            }
-            else
-            {
+                }
+                else
+                {
             
-             @ChildContent
+                 @ChildContent
                   
-            }
+                }
 
-</MudMenu>
+            </MudMenu>
     }
     else
     {
         <Spinner IsLoading="is_loading"/>
     }
-
-
-
-
 
 </TdCenter>
 @code{

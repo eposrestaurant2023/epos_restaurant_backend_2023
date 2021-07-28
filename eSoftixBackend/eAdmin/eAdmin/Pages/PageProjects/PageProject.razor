@@ -82,7 +82,7 @@
                         </div>
                     </div>  
              </td>
-             <td>@p.project_type?.project_type_name </td>
+             <td>@p.project_type?.project_type_name</td>
              <TdCenter>
                  @Convert.ToDateTime(p.start_date).ToString(gv.date_format)
              </TdCenter>
@@ -90,7 +90,6 @@
                  @if(p.closed_date != null){
                      @Convert.ToDateTime(p.closed_date).ToString(gv.date_format)
                  }
-                 
              </TdCenter>
              <TdCenter>
                  @if(p.expired_date != null){
