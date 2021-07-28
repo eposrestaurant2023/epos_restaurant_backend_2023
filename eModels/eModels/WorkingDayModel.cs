@@ -14,7 +14,7 @@ namespace eModels
             cashier_shifts = new List<CashierShiftModel>();
         }
 
-        public Guid business_branch_id { get; set; }
+       
         public List<CashierShiftModel> cashier_shifts { get; set; }
 
         [ForeignKey("outlet_id")]
