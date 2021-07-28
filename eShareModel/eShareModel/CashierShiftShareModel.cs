@@ -34,9 +34,7 @@ namespace eShareModel
 
         public string open_note { get; set; }
         public string close_note { get; set; }
-
-        [Column(TypeName ="decimal(19,8)")]
-        public decimal exchange_rate { get; set; }
+ 
         public string shift_name { get; set; }
 
 
