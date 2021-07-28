@@ -442,7 +442,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("closed_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("closed_station_id")
+                    b.Property<Guid?>("closed_station_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("closed_station_name_en")
@@ -4704,7 +4704,7 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("closed_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("closed_station_id")
+                    b.Property<Guid?>("closed_station_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("closed_station_name_en")
@@ -4953,9 +4953,7 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.StationModel", "closed_station")
                         .WithMany()
-                        .HasForeignKey("closed_station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("closed_station_id");
 
                     b.HasOne("eModels.StationModel", "opened_station")
                         .WithMany()
@@ -5905,9 +5903,7 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.StationModel", "closed_station")
                         .WithMany()
-                        .HasForeignKey("closed_station_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("closed_station_id");
 
                     b.HasOne("eModels.StationModel", "opened_station")
                         .WithMany()

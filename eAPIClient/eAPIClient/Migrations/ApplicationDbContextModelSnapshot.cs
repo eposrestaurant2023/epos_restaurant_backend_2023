@@ -43,7 +43,7 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime?>("closed_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("closed_station_id")
+                    b.Property<Guid?>("closed_station_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("closed_station_name_en")
@@ -1463,7 +1463,7 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime?>("closed_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("closed_station_id")
+                    b.Property<Guid?>("closed_station_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("closed_station_name_en")
