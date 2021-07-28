@@ -29,7 +29,6 @@
                       AdornmentIcon="@Icons.Filled.Search"
                       DebounceInterval="500"
                       OnDebounceIntervalElapsed="@OnSearch" />
-
            <div class="d-flex d-flex justify-space-between align-center">
                <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Add Eknowledge Base</MudText>
                <div><MudIconButton Icon="@Icons.Material.Filled.Add" Class="d-flex ml-auto" OnClick="@AddNewEknowledgeParent"/></div>
@@ -48,17 +47,17 @@
                                     @foreach (var sp in p.children.Where(r=>r.parent_id == p.id)){
 
                                          <MudListItem>
-                                        <div class="d-flex justify-space-between align-center">
-                                            <div>
-                                                <MudLink Href="@($"eknowledgebase/{sp.id}")" Underline="Underline.None">
-                                                  <MudText Typo="Typo.body1">@sp.title_en</MudText>
-                                               </MudLink>
+                                            <div class="d-flex justify-space-between align-center">
+                                                <div>
+                                                    <MudLink Href="@($"eknowledgebase/{sp.id}")" Underline="Underline.None">
+                                                      <MudText Typo="Typo.body1">@sp.title_en</MudText>
+                                                   </MudLink>
+                                                </div>
+                                                <div>
+                                                     <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="(()=>DeleteCustomer_Click(sp.id))" Size="Size.Small"/>
+                                                     <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>click_edit(sp.id))" Size="Size.Small"/>
+                                                </div>
                                             </div>
-                                            <div>
-                                                 <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="(()=>DeleteCustomer_Click(sp.id))" Size="Size.Small"/>
-                                                 <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>click_edit(sp.id))" Size="Size.Small"/>
-                                            </div>
-                                        </div>
                                      </MudListItem>
                                     }
                                </NestedList>
