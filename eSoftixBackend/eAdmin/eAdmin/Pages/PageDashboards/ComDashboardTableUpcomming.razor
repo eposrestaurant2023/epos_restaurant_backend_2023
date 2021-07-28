@@ -18,12 +18,12 @@
                 ShowCounter="true"
                 EmptyText="There is no customer record.">
             <TableHeader>
-                @HeaderTemplate("outlet/business_branch/project/project_name", "Project","cp")
+                @HeaderTemplate("outlet/business_branch/project/project_name", "Project","col-auto cp")
                 @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Customer", "col-auto cp")
                 <Th>Phone</Th>
                 @HeaderTemplate("outlet/business_branch/business_branch_name_en", "Branch", "col-auto cp")
-                @HeaderTemplate("station_name_en", "Station", "uk-text-left cp")
-                @HeaderTemplate("expired_date", "Expired Date", "uk-text-center cp")
+                @HeaderTemplate("station_name_en", "Station", "cp")
+                <ThCenter width="170px">Expired Date</ThCenter>
             </TableHeader>
             <RowTemplate Context="s">
                 <TdCenter>

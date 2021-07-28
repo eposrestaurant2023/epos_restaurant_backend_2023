@@ -18,11 +18,11 @@
                         ShowCounter="true"
                         EmptyText="There is no customer record.">
                     <TableHeader>
-                        @HeaderTemplate("Project")
-                        @HeaderTemplate("Customer")
-                        @HeaderTemplate("Start Date","text-center")
-                        @HeaderTemplate("Close Date","text-center")
-                        @HeaderTemplate("Status")
+                        @HeaderTemplate("Project","col-auto")
+                        @HeaderTemplate("Customer","col-auto")
+                        <ThCenter width="120px">Start Date</ThCenter>
+                        <ThCenter width="120px">Close Date</ThCenter>
+                        <ThCenter width="120px">Status</ThCenter>
                     </TableHeader>
                     <RowTemplate Context="s">
                         <td>
