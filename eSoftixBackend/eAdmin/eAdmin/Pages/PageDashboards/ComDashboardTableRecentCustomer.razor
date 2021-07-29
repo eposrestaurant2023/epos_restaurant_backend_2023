@@ -21,7 +21,7 @@
                 @HeaderTemplate("Customer Group")
                 <Th>Phone</Th>
                 @HeaderTemplate("Company")
-                @HeaderTemplate("Current Balance","col-center")
+                <ThCenter width="120px">Current Balance</ThCenter>
             </TableHeader>
             <RowTemplate Context="s">
                 <td>
@@ -49,10 +49,10 @@
                         @s.phone_2
                     </MudText>
                 </td>
-                <TdCenter>
+                <td>
                     <MudText Typo="Typo.body1">@s.company_name</MudText>
                     
-                </TdCenter>
+                </td>
                 <TdCenter>
                     <MudText Typo="Typo.body1">@s.current_balance.ToString("C2")</MudText>
                 </TdCenter>

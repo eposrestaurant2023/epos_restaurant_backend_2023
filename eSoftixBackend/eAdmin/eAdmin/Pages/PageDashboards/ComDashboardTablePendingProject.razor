@@ -1,4 +1,5 @@
-﻿@inherits PageCore
+﻿
+@inherits PageCore
 @{
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(pg.order_by == field_name)" OrderByType="@pg.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
@@ -30,10 +31,9 @@ else
                 <TableHeader>
                     @HeaderTemplate("outlet/business_branch/project/project_name", "Project","cp col-auto")
                     @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Customer", "col-auto cp")
-                    @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Start Date", "col-auto cp")
-                    @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Close Date", "col-auto cp")
-                    @HeaderTemplate("outlet/business_branch/project/customer/customer_en", "Status", "col-auto cp")
-                  
+                    <ThCenter width="120px">Start Date</ThCenter>
+                    <ThCenter width="120px">Close Date</ThCenter>
+                    <ThCenter width="120px">Status</ThCenter>
                 </TableHeader>
                 <RowTemplate Context="s">
                 <td>
