@@ -20,8 +20,10 @@ namespace eShareModel
         public string product_group_kh { get; set; }
         public string product_category_en { get; set; }
         public string product_category_kh { get; set; }
-        public bool is_sale_use_tax { get; set; }
-                                                                                    
+        public bool is_sale_use_tax_1 { get; set; }
+        public bool is_sale_use_tax_2 { get; set; }
+        public bool is_sale_use_tax_3 { get; set; }
+
 
         public bool is_free { get; set; } = false; 
 
