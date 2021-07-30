@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210729040342_sale_use_tax")]
+    partial class sale_use_tax
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3316,13 +3318,7 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_inventory_product")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_sale_use_tax_1")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_sale_use_tax_2")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_sale_use_tax_3")
+                    b.Property<bool>("is_sale_use_tax")
                         .HasColumnType("bit");
 
                     b.Property<string>("kitchen_group_name")
