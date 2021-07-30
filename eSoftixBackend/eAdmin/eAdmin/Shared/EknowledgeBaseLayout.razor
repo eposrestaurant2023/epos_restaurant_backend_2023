@@ -17,8 +17,8 @@
 
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
     <MudPaper Elevation="25" Class="d-flex align-center py-1 mb-4">
-        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Class="ml-3 mr-2" />
-        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" >Business Branch</MudText>
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Class="ml-3 mr-2" OnClick="@Open_Drower"/>
+        <MudText Typo="Typo.subtitle1" Color="MudBlazor.Color.Primary" > Eknowledge Base </MudText>
     </MudPaper>
 </MudHidden>
 <div class="d-flex flex-grow-1 flex-row ma-4">
@@ -97,6 +97,61 @@
         
 </div>
 
+<MudDrawer @bind-Open="@open" Anchor="@Anchor.Left" Elevation="1" Variant="@DrawerVariant.Temporary">
+                <MudList Clickable="true" @bind-SelectedItem="selectedItem">
+                
+                @foreach (var p in eknowledgebase)
+                {
+                        @if (p.children.Any())
+                        {
+                            <MudListItem Text="@(p.title_en)">
+                               <NestedList>
+                                    @foreach (var sp in p.children.Where(r=>r.parent_id == p.id)){
+
+                                         <MudListItem>
+                                            <div class="d-flex justify-space-between align-center">
+                                                <div>
+                                                    <MudLink Href="@($"eknowledgebase/{sp.id}")" Underline="Underline.None">
+                                                      <MudText Typo="Typo.body1">@sp.title_en</MudText>
+                                                   </MudLink>
+                                                </div>
+                                                <div>
+                                                     <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="(()=>DeleteCustomer_Click(sp.id))" Size="Size.Small"/>
+                                                     <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>click_edit(sp.id))" Size="Size.Small"/>
+                                                </div>
+                                            </div>
+                                     </MudListItem>
+                                    }
+                               </NestedList>
+                           </MudListItem>
+                    }
+                        else
+                        {
+                                @if (p.parent_id == null)
+                                {
+                                       <MudListItem>
+                                        <div class="d-flex justify-space-between align-center">
+                                            <div>
+                                                <MudLink Href="@($"eknowledgebase/{p.id}")" Underline="Underline.None">
+                                                  <MudText Typo="Typo.body1">@p.title_en</MudText>
+                                               </MudLink>
+                                            </div>
+                                            <div>
+                                                 <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="(()=>DeleteCustomer_Click(p.id))" Size="Size.Small"/>
+                                                 <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(()=>click_edit(p.id))" Size="Size.Small"/>
+                                            </div>
+                                        </div>
+                                     </MudListItem>
+                                }
+                           
+
+                        }
+                   
+                }
+            </MudList>
+</MudDrawer>
+
+
 }
 
     @code{
@@ -105,6 +160,7 @@
     string keyword = "";
     public string StateKey = "123484567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
     bool is_loading;
+    bool open;
     bool is_saving;
     string TextValue { get; set; }
     MudListItem selectedItem;
@@ -209,6 +265,12 @@
             
            
         }
+
+
+       void Open_Drower(){
+
+        open = !open;
+    }
 
     }
  
