@@ -41,25 +41,34 @@ namespace eAPIClient.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] CashierShiftModel u)
         {
-         
-            if (u.id == Guid.Empty)
+            try
             {
-                var data = db.CashierShifts.Where(r => r.working_day_id == u.working_day_id && r.is_closed == false);
-                if (data.Any())
+                DocumentNumberModel _doc = new DocumentNumberModel();
+                if (u.id == Guid.Empty)
                 {
-                    return Ok(data.FirstOrDefault());
-                }
+                    var data = db.CashierShifts.Where(r => r.working_day_id == u.working_day_id && r.is_closed == false);
+                    if (data.Any())
+                    {
+                        return Ok(data.FirstOrDefault());
+                    }
 
-                u.cashier_shift_number = await app.GenerateDocumentNumber("CashierShiftNum", u.outlet_id.ToString());
-                db.CashierShifts.Add(u);
+                    _doc = app.GetDocument("CashierShiftNum", u.outlet_id.ToString());
+                    u.cashier_shift_number = _doc.id > 0 ? app.GetDocumentFormat(_doc) : "NONE";
+                    db.CashierShifts.Add(u);
                 }
-            else
-            {
-                db.CashierShifts.Update(u);
+                else
+                {
+                    db.CashierShifts.Update(u);
+                }
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                //Update Document
+                await app.UpdateDocument(_doc);
+                return Ok(u);
             }
-
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(u);   
+            catch (Exception _ex)
+            {
+                return BadRequest(new BadRequestModel() { message = _ex.Message });        
+            }
         }
 
 
@@ -67,20 +76,25 @@ namespace eAPIClient.Controllers
         [Route("delete/{id}")]
         public async Task<ActionResult<CashierShiftModel>> DeleteRecord(int id) //Delete
         {
-            var u = await db.CashierShifts.FindAsync(id);
-            u.is_deleted = !u.is_deleted;
-            
-            db.CashierShifts.Update(u);
-            await db.SaveChangesAsync();
-            return Ok(u);
+            try
+            {
+                var u = await db.CashierShifts.FindAsync(id);
+                u.is_deleted = !u.is_deleted;
+
+                db.CashierShifts.Update(u);
+                await db.SaveChangesAsync();
+                return Ok(u);
+            }catch(Exception _ex)
+            {
+                return BadRequest(new BadRequestModel() { message = _ex.Message });
+            }
         }
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
         public SingleResult<CashierShiftModel> Get([FromODataUri] Guid key)
         {
-            var s = db.CashierShifts.Where(r => r.id == key).AsQueryable();
-
+            var s = db.CashierShifts.Where(r => r.id == key).AsQueryable();     
             return SingleResult.Create(s);
         }
     }

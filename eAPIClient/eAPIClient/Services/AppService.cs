@@ -16,72 +16,45 @@ namespace eAPIClient.Services
         {
             db = _db;
 
+        }          
+             
+
+        public string GetDocumentFormat(DocumentNumberModel _doc)
+        {
+            if (string.IsNullOrEmpty(_doc.format))
+            {
+                return string.Format(@"{0}{1:" + _doc.counter_digit + "}", _doc.prefix, _doc.counter);
+            }
+            return string.Format(@"{0}{1:" + _doc.format + "}{2:" + _doc.counter_digit + "}", _doc.prefix, DateTime.Now, _doc.counter);
+        } 
+
+        public DocumentNumberModel GetDocument(string type, string outlet_id)
+        {
+
+            DocumentNumberModel _doc = new DocumentNumberModel();       
+            var _find = (from r in db.DocumentNumbers
+                         where r.document_name == type &&
+                               EF.Functions.Like(
+                                   (
+                                      (r.outlet_id ?? " ")
+                                   ).ToLower().Trim(), $"%{outlet_id}%".ToLower().Trim())
+                         select r);
+            if (_find.Count() > 0)
+            {
+                _doc = _find.FirstOrDefault();
+                _doc.counter += 1;
+            }  
+
+            return _doc;
         }
 
-        public async Task<string> GetDocumentNumber(int id)
+        public async Task UpdateDocument(DocumentNumberModel _doc)
         {
-            DocumentNumberModel dc = await db.DocumentNumbers.FindAsync(id);
-            dc.counter = dc.counter + 1;
-            if (string.IsNullOrEmpty(dc.format))
+            if (_doc.id > 0)
             {
-                return string.Format("{0}{1:" + dc.counter_digit + "}", dc.prefix, dc.counter);
-            }
-            else
-            {
-                return string.Format("{0}{1:" + dc.format + "}{2:" + dc.counter_digit + "}", dc.prefix, DateTime.Now, dc.counter);
-            }
-        } 
-        public async Task<string> GetDocumentNumber(DocumentNumberModel dc)
-        {
-            await Task.Delay(10);
-            dc.counter = dc.counter + 1;
-            if (string.IsNullOrEmpty(dc.format))
-            {
-                return string.Format("{0}{1:" + dc.counter_digit + "}", dc.prefix, dc.counter);
-            }
-            else
-            {
-                return string.Format("{0}{1:" + dc.format + "}{2:" + dc.counter_digit + "}", dc.prefix, DateTime.Now, dc.counter);
-            }
-        } 
-    
-        public async Task SaveDocumentNumber(int id)
-        {
-            DocumentNumberModel dc = await db.DocumentNumbers.FindAsync(id);
-            dc.counter = dc.counter + 1;
-            db.DocumentNumbers.Update(dc);
-            await db.SaveChangesAsync();
-        }
-
-       public async Task<string> GenerateDocumentNumber(string type, string outlet_id)
-        {
-
-            var _doc = (from r in db.DocumentNumbers
-                        where r.document_name == type &&
-                              EF.Functions.Like(
-                                  (
-                                     (r.outlet_id ?? " ")
-                                  ).ToLower().Trim(), $"%{outlet_id}%".ToLower().Trim())
-                        select r);
-            string _result = "";
-            if (_doc.Count() > 0)
-            {
-                var _d = _doc.FirstOrDefault();
-                _d.counter += 1;
-                db.DocumentNumbers.Update(_d);
+                db.DocumentNumbers.Update(_doc);
                 await db.SaveChangesAsync();
-
-                if (string.IsNullOrEmpty(_d.format))
-                {
-                    _result = string.Format(@"{0}{1:" + _d.counter_digit + "}", _d.prefix, _d.counter);
-                }
-                else
-                {
-                    _result = string.Format(@"{0}{1:" + _d.format + "}{2:" + _d.counter_digit + "}", _d.prefix, DateTime.Now, _d.counter);
-                }
-
             }
-            return _result;
         }
         public async Task<List<UserModel>> AllUsers()
         {

@@ -43,27 +43,32 @@ namespace eAPIClient.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] WorkingDayModel u)
         {
-         
-            if (u.id == Guid.Empty)
+            try
             {
-                var data = db.WorkingDays.Where(r => r.business_branch_id == u.business_branch_id && r.outlet_id == u.outlet_id && r.is_closed == false);
-                if (data.Any())
+                DocumentNumberModel _doc = new DocumentNumberModel();
+                if (u.id == Guid.Empty)
                 {
-                    return Ok(data.FirstOrDefault());
+                    var data = db.WorkingDays.Where(r => r.business_branch_id == u.business_branch_id && r.outlet_id == u.outlet_id && r.is_closed == false);
+                    if (data.Any())
+                    {
+                        return Ok(data.FirstOrDefault());
+                    }
+                    _doc = app.GetDocument("WorkingDayNum", u.outlet_id.ToString());
+                    u.working_day_number = _doc.id > 0 ? app.GetDocumentFormat(_doc) : "NONE";
+                    db.WorkingDays.Add(u);
                 }
-
-                u.working_day_number = await  app.GenerateDocumentNumber("WorkingDayNum", u.outlet_id.ToString());      
-                db.WorkingDays.Add(u);
+                else
+                {
+                    db.WorkingDays.Update(u);
                 }
-            else
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                //Update Document Number
+                await app.UpdateDocument(_doc);
+                return Ok(u);
+            }catch(Exception _ex)
             {
-                db.WorkingDays.Update(u);
+                return BadRequest(new BadRequestModel() { message = _ex.Message });
             }
-
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            return Ok(u);
-
-
         }
 
 
@@ -71,11 +76,18 @@ namespace eAPIClient.Controllers
         [Route("delete/{id}")]
         public async Task<ActionResult<WorkingDayModel>> DeleteRecord(int id) //Delete
         {
-            var u = await db.WorkingDays.FindAsync(id);
-            u.is_deleted = !u.is_deleted;  
-            db.WorkingDays.Update(u);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));           
-            return Ok(u);
+            try
+            {
+                var u = await db.WorkingDays.FindAsync(id);
+                u.is_deleted = !u.is_deleted;
+                db.WorkingDays.Update(u);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(u);
+            }
+            catch(Exception _ex)
+            {
+                return BadRequest(new BadRequestModel() { message = _ex.Message });
+            }
         }
 
         [HttpGet("find")]

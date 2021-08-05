@@ -58,23 +58,26 @@ namespace eAPIClient.Controllers
         {
             try
             {
+                DocumentNumberModel _saleNumber = new DocumentNumberModel();
                 bool is_new = true;
                 model.customer = null;
-                model.sale_products.ForEach(r => r.sale_order = r.sale_order_id!= Guid.Empty ? null : r.sale_order);
+                model.sale_products.ForEach(r => r.sale_order = r.sale_order_id != Guid.Empty ? null : r.sale_order);
                 if (model.id == Guid.Empty)
                 {
-                    model.sale_number = await app.GenerateDocumentNumber("SaleNum", model.outlet_id.ToString());
+                    _saleNumber = app.GetDocument("SaleNum", model.outlet_id.ToString());
+                    model.sale_number = _saleNumber.id > 0 ? app.GetDocumentFormat(_saleNumber) : "New";
                     model.sale_products.ForEach(sp =>
                     {
                         if (sp.sale_product_print_queues != null)
                         {
-                            sp.sale_product_print_queues.ForEach(_spq => { 
-                                _spq.sale_number = model.sale_number; 
+                            sp.sale_product_print_queues.ForEach(_spq =>
+                            {
+                                _spq.sale_number = model.sale_number;
                             });
                         }
                     });
-                    db.Sales.Add(model); 
-                    is_new = !(model.is_closed??false);
+                    db.Sales.Add(model);
+                    is_new = !(model.is_closed ?? false);
                 }
                 else
                 {
@@ -89,15 +92,20 @@ namespace eAPIClient.Controllers
                     db.Sales.Update(model);
                 }
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
+                //Update Document
+                await app.UpdateDocument(_saleNumber);
                 if (!is_new)
                 {
                     if (model.is_closed == true && (model.document_number == "New" || model.document_number == ""))
                     {
-                        model.document_number = await app.GenerateDocumentNumber("SaleDoc", model.outlet_id.ToString());
+                        DocumentNumberModel _saleDoc = new DocumentNumberModel();
+                        _saleDoc = app.GetDocument("SaleDoc", model.outlet_id.ToString());
+                        model.document_number = _saleDoc.id > 0 ? app.GetDocumentFormat(_saleDoc) : "New";
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                        await app.UpdateDocument(_saleDoc);
                     }
                 }
+
                 if (model.is_closed == true)
                 {
                     string path = @"c:\\epossync";
@@ -110,19 +118,13 @@ namespace eAPIClient.Controllers
                     {
                         await outputFile.WriteAsync(model.id.ToString());
                     }
-                } 
-
+                }
                 return Ok(model);
-
-              
             }
-            catch(Exception _ex)
+            catch (Exception _ex)
             {
-                var _x = _ex;
-                return BadRequest();
+                return BadRequest(new BadRequestModel() { message = _ex.Message }) ;
             }
-
         } 
-    }
-
+    } 
 }
