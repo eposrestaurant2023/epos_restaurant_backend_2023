@@ -6094,6 +6094,11 @@ td.warning {
 .dashboard-item_accordent .uk-accordion-content {
     border:none !important;
 }
+.report-model i.uk-modal-close-default {
+    margin-right: 23px !important;
+    margin-top: 7px !important;
+    color: #fff;
+}
 .dashboard-item_accordent {
     /* display: grid; */
     background: #FFF;
@@ -7288,6 +7293,30 @@ z-index:999999!important;
     border: 1px solid #dadada;
     background-color: #ebeff3;
 }
+.uk-accordion-title {
+    font-size: 14px;
+    font-weight: 600;
+    background: #f3f3f3;
+    padding: 8px;
+    border-radius: 3px 3px 0px 0px;
+    color: #313131;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+.category_report {
+    padding-left: 25px;
+    font-size: 12px;
+    font-style: italic;
+    color: #a6aaae;
+}
+.report-model .modal-title {
+    background: #5899dc;
+    color: #fff;
+    font-size: 19px;
+    padding: 10px 30px;
+    border-radius: 4px 4px 0px 0px;
+}
 .mud-list-item-icon {
     min-width: 25px!important;
 }
@@ -7295,7 +7324,7 @@ z-index:999999!important;
     width: 150px!important;
 }
 .ui-box-outline {
-    border: 1px solid #000;
+    border: 1px solid #d0cece;
     border-radius: 4px;
 }
 .accordion-header {

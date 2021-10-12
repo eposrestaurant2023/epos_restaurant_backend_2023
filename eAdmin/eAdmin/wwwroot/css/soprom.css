@@ -419,14 +419,17 @@ button.uk-button.uk-button-tab {
         margin-right: 15px;
     }
 .report-content-item {
-    padding: 15px;
     cursor: pointer;
     transition: .2s;
+    padding-top: 5px;
+    padding-bottom: 5px;
     user-select: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size:12px;
 }
-    .report-content-item:hover {
-        background: #fbfbfb;
-    }
+
 .report-content-item:not(:last-child) {
     border-bottom: 1px solid #eaeaea;
 }
