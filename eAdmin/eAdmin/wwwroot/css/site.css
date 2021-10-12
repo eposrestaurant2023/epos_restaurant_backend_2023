@@ -3898,21 +3898,11 @@ input, select, textarea {
 
     input:read-only,
     input:disabled {
-        background: #f9f9f9;
         color: #6a6a6a;
     }
 .uk-input:disabled, .uk-select:disabled, .uk-textarea:disabled {
     color: #6a6a6a;
 }
-
-        input:read-only:hover,
-        input:read-only:focus
-        {
-            cursor: not-allowed;
-            border: 1px solid #e5e5e5;
-            background: #f9f9f9;
-        }
-
 
 input[type="file"] {
     background: #ececec;

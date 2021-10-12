@@ -32,7 +32,7 @@
                 }
                 else
                 {
-                    <label disabled class="cp uk-margin-remove-top"><input class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
+                    <label class="cp uk-margin-remove-top"><input class="uk-checkbox" type="checkbox" checked="@value" disabled="disabled"> @label</label>
                 }
             </div>
 
@@ -42,14 +42,13 @@
             <div class="uk-margin-small">
                 <label class="uk-form-label cp" for="@id">@label</label>
                 <div class="uk-form-controls">
-
                     @if (!is_read_only)
                     {
                         <input @onchange="@((ui) =>valueChange((bool)ui.Value))" id="@id" class="uk-checkbox" type="checkbox" checked="@value">
                     }
                     else
                     {
-                        <input disabled @onchange="@((ui) =>valueChange((bool)ui.Value))" id="@id" class="uk-checkbox" type="checkbox" checked="@value">
+                        <input disabled="disabled" @onchange="@((ui) =>valueChange((bool)ui.Value))" id="@id" class="uk-checkbox" type="checkbox" checked="@value">
                     }
                 </div>
             </div>
@@ -65,7 +64,7 @@
         }
         else
         {
-            <input disabled @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value">
+            <input disabled="disabled" @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value">
         }
 
     }
@@ -86,7 +85,7 @@ else
                         }
                         else
                         {
-                            <label disabled class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
+                            <label class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value" disabled="disabled"> @label</label>
                         }
 
                     </div>
@@ -102,7 +101,7 @@ else
                             }
                             else
                             {
-                                <input disabled @onchange="@((ui) =>valueChange((bool)ui.Value))" id="@id" class="uk-checkbox" type="checkbox" checked="@value">
+                                <input disabled="disabled" @onchange="@((ui) =>valueChange((bool)ui.Value))" id="@id" class="uk-checkbox" type="checkbox" checked="@value">
                             }
 
                         </div>

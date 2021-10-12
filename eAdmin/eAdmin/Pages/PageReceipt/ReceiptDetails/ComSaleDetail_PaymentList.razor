@@ -6,7 +6,7 @@
 @if (!is_loading)
 {
     <UIGridCenter>
-        <UIContainerBox Title="@lang["Payment History"]" is_show_add_button="@(sale.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = Guid.Empty; })" show_print="@(sale.sale_payments.Where(r=>r.is_deleted == false).Any())" OnPrint="@(()=>is_print = true)">
+        <UIContainerBox Title="@lang["Payment History"]" is_show_add_button="@(sale.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = Guid.Empty; })">
             <ViewEmptyTemplate is_view="@(sale.sale_payments.Where(r => r.is_deleted == false).Any())">
                 @foreach (var p in sale.sale_payments.Where(r => r.is_deleted == false).OrderByDescending(r => r.created_date))
                 {
@@ -37,7 +37,6 @@
                             </div>
                             <Spacing Number="10" />
                             <Column ClassName="uk-text-right">
-                                <Icon icon="print" OnClick="@(()=>is_print = true)" title="@lang["Print"]" />
                                 <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" title="@lang["Edit"]" />
                                 <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" title="@lang["Delete"]" is_loading="@p.is_deleting" />
                             </Column>
@@ -52,10 +51,10 @@
     {
         <ComSaleDetail_AddPayment sale_id="@sale_id" payment_id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload" />
     }
-    @if (is_print)
+    @*@if (is_print)
     {
         <ComPreviewReport report_id="185" @bind-IsOpened="is_print" />
-    }
+    }*@
 }
 @code {
 
