@@ -1,19 +1,19 @@
-﻿using eAdmin.JSHelpers;
-using eModels;
-using MatBlazor;
-using System.Text.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using eAdmin.JSHelpers;
+using eModels;
+using MatBlazor;
 
-namespace eAdmin.Pages.PageInventory.PageIngredientProduct
+namespace eAdmin.Pages.PageInventory.PageProductionProducts
 {
-    public  class PageIngredientProductBase : PageCore
+    public class PageProductionProductBase:PageCore
     {
         public List<ProductModel> products = new List<ProductModel>();
         public ProductModel model = new ProductModel();
-        public string StateKey = "278484INGREPRODUCTssHGytkjhTon250014"; //Storage and Session Key
+        public string StateKey = "278484prod3uctioenssHGytkjhTon250014"; //Storage and Session Key
         public int TotalRecord = 0;
         string controller_api = "Product";
         public string ControllerApi
@@ -27,7 +27,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 }
                 string url = $"{controller_api}?";
                 url = url + $"$expand=unit,product_category($select=product_category_en)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
-                return url + GetFilter(state.filters) + " and is_ingredient_product eq true and is_production_product eq false";
+                return url + GetFilter(state.filters) + " and is_ingredient_product eq true and is_production_product eq true";
             }
         }
 
@@ -37,8 +37,8 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             state = await GetState(StateKey);
             if (state.page_title == "")
             {
-                state.page_title = "Ingredient Product";
-                var default_view = gv.GetDefaultModuleView("page_ingredient_product");
+                state.page_title = "Production Product";
+                var default_view = gv.GetDefaultModuleView("page_production_product");
                 if (default_view != null)
                 {
                     state.page_title = default_view.title;
@@ -51,7 +51,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 {
                     key = "is_deleted",
                     value1 = "false"
-                }); 
+                });
             }
             await LoadData(state.api_url);
             is_loading = false;
@@ -59,7 +59,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         public void Clone_Click(int id)
         {
             is_loading_data = true;
-            nav.NavigateTo($"ingredient/clone/{id}");
+            nav.NavigateTo($"productionproduct/clone/{id}");
             is_loading_data = false;
         }
 
@@ -90,7 +90,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 products = JsonSerializer.Deserialize<List<ProductModel>>(resp.Content.ToString());
 
                 TotalRecord = resp.Count;
-                 
+
             }
             is_loading = false;
         }
@@ -121,7 +121,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             var product = new ProductModel();
             product = p;
             product.status = !product.status;
-            var resp = await http.ApiPost(controller_api + "/ChangeStatus/"+product.id);
+            var resp = await http.ApiPost(controller_api + "/ChangeStatus/" + product.id);
             if (resp.IsSuccess)
             {
                 toast.Add("Change status successfully", MatToastType.Success);
@@ -137,12 +137,12 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         public async Task OnDelete(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Ingredient Product", "Are you sure you want to delete this record?"))
+            if (await js.Confirm("Delete Production Product", "Are you sure you want to delete this record?"))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete Ingredient Product successfully", MatToastType.Success);
+                    toast.Add("Delete production product successfully", MatToastType.Success);
                     if (products.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -156,7 +156,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         public async Task OnRestore(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Restore Ingredient Product", "Are you sure you want to restore this record?"))
+            if (await js.Confirm("Restore Production Product", "Are you sure you want to restore this record?"))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -168,7 +168,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                     }
                     await LoadData();
                 }
-                toast.Add("Restore ingredient product successfully", MatBlazor.MatToastType.Success);
+                toast.Add("Restore production product successfully", MatBlazor.MatToastType.Success);
             }
             p.is_loading = false;
         }

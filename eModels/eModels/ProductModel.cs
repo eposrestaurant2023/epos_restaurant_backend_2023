@@ -173,7 +173,7 @@ namespace eModels
         public string printer_name { get; set; }
         public string ip_address { get; set; }
         public int port { get; set; }
-
+        public int group_item_type_id { get; set; } = 1;
         public bool is_deleted { get; set; } = false;
 
     }

@@ -25,7 +25,7 @@ namespace eShareModel
         public bool is_sale_use_tax_3 { get; set; }
 
         public string seat_number { get; set; }
-
+        public int group_item_type_id { get; set; } = 1;
 
         public bool is_free { get; set; } = false; 
 

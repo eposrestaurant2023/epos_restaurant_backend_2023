@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\PageInventory\PageProductionProducts\PageAddProductionProduct.razor" />
     <Content Remove="Pages\PageSettings\PageCurrencyExchangeRates\ComStatusCurrency.razor" />
   </ItemGroup>
  
@@ -67,10 +66,6 @@
  
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="Pages\PageSettings\PageCurrencyExchangeRates\ComStatusCurrency.razor" />
-	</ItemGroup>
- 
-	<ItemGroup>
-	  <Compile Include="Pages\PageInventory\PageProductionProducts\PageAddProductionProduct.razor" />
 	</ItemGroup>
 
 </Project>

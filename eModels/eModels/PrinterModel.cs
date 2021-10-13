@@ -18,8 +18,8 @@ namespace eModels
         public string printer_name { get; set; } = "";
         public string ip_address { get; set; } = "";
         public int port { get; set; } = 9100;
- 
 
+        public int group_item_type_id { get; set; } = 1;
         public string note { get; set; } = "";
     }
 }
