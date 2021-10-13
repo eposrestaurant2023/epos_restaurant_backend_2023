@@ -78,7 +78,7 @@ namespace eAPI.Controllers
             var s = db.BusinessBranches.Where(r => r.id == key).AsQueryable();  
             try
             {
-                db.Database.ExecuteSqlRaw($"exec sp_prepare_sync_config_data_business_branch '{s.SingleOrDefault().id}'");
+                db.Database.ExecuteSqlRaw($"exec sp_prepare_sync_config_data_business_branch '{key.ToString()}'");
             }catch { }
 
             return SingleResult.Create(s);
