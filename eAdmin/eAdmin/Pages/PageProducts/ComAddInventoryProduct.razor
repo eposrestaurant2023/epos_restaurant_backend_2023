@@ -1,15 +1,16 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
 <UIContainerBox Title="@lang["Inventory / Ingredient Product"]">
-    <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)" />
-    @if (gv.project_has_advance_inventory)
+    @if (!is_production_product)
     {
-        <Com is_visible="@(!is_ingredient)">
-            <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
-        </Com>
+        <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)" />
+        @if (gv.project_has_advance_inventory)
+        {
+            <Com is_visible="@(!is_ingredient)">
+                <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
+            </Com>
+        }
     }
-
-
     <Com is_visible="@(model.is_inventory_product)">
         @if (model.stock_location_products != null && model.stock_location_products.Any())
         {
@@ -28,7 +29,7 @@
                 </thead>
                 <tbody>
 
-                    @foreach (var p in model.stock_location_products.OrderByDescending(r=>r.stock_location_id).ToList())
+                    @foreach (var p in model.stock_location_products.OrderByDescending(r => r.stock_location_id).ToList())
                     {
                         if (gv.stock_location_by_role.Where(r => r.id == p.stock_location_id).Any())
                         {
@@ -148,6 +149,9 @@
 
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     [Parameter] public bool is_ingredient { get; set; } = false;
+    [Parameter] public bool is_production_product { get; set; } = false;
+
+
 
     private bool _is_inventory_product;
 
@@ -156,6 +160,10 @@
         get
         {
             _is_inventory_product = model.is_inventory_product;
+            if (is_production_product)
+            {
+                _is_inventory_product = is_production_product;
+            }
             return _is_inventory_product;
         }
         set
@@ -169,7 +177,6 @@
                         model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
                     }
                 }
-
 
             }
             else
@@ -189,6 +196,24 @@
             model.is_inventory_product = value;
             _is_inventory_product = value;
         }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (is_production_product)
+        {
+
+            is_inventory_product = true;
+            //if (!model.stock_location_products.Any())
+            //{
+            //    foreach (var d in gv.stock_locations)
+            //    {
+            //        model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
+            //    }
+            //}
+
+        }
+
     }
 
     void GenerateDefaultStockLocation(bool is_checked)
@@ -240,6 +265,7 @@
         model.vendor_id = v.id;
         await modelChanged.InvokeAsync(model);
     }
+
 
 
 }

@@ -14,20 +14,35 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
         [Parameter] public int id { get; set; }
         [Parameter] public int clone_id { get; set; }
+        [Parameter] public bool is_production_product { get; set; }
         public ProductModel model { get; set; } = new ProductModel();
         public string PageTitle
         {
             get
             {
-
-                if (id > 0)
+                if (!is_production_product)
                 {
-                    return lang["Edit Ingredient"];
+                    if (id > 0)
+                    {
+                        return lang["Edit Ingredient"];
+                    }
+                    else
+                    {
+                        return lang["New Ingredient"];
+                    }
                 }
                 else
                 {
-                    return lang["New Ingredient"];
+                    if (id > 0)
+                    {
+                        return lang["Edit Production Product"];
+                    }
+                    else
+                    {
+                        return lang["New Production Product"];
+                    }
                 }
+                
             }
         }
 
@@ -35,14 +50,30 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         {
             get
             {
-                if (id > 0)
+                if (!is_production_product)
                 {
-                    return "ingredient_edit";
+                    if (id > 0)
+                    {
+                        return "ingredient_edit";
+                    }
+                    else
+                    {
+                        return "ingredient_add";
+                    }
                 }
                 else
                 {
-                    return "ingredient_add";
+                    if (id > 0)
+                    {
+                        return "production_edit";
+                    }
+                    else
+                    {
+                        return "production_add";
+                    }
+
                 }
+                
 
             }
         }
@@ -59,13 +90,29 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
 
        public void OnCancel()
         {
-            if (id == 0)
+            if (!is_production_product)
             {
-                nav.NavigateTo("ingredient");
-            }else
-            {
-                nav.NavigateTo("ingredient/" + id);
+                if (id == 0)
+                {
+                    nav.NavigateTo("ingredient");
+                }
+                else
+                {
+                    nav.NavigateTo("ingredient/" + id);
+                }
             }
+            else
+            {
+                if (id == 0)
+                {
+                    nav.NavigateTo("productionproduct");
+                }
+                else
+                {
+                    nav.NavigateTo("productionproduct/" + id);
+                }
+            }
+            
         }
 
         protected override async Task OnInitializedAsync()
@@ -83,6 +130,8 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             else
             {
                 model.is_ingredient_product = true;
+                model.is_production_product = is_production_product;
+                
             }
             is_loading = false;
         }
@@ -147,12 +196,28 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                     model = new ProductModel();
                     model.product_category_id = save_model.product_category_id;
                     is_save_and_new = false;
-                    nav.NavigateTo("ingredient/new");
+                    if (!is_production_product)
+                    {
+                        nav.NavigateTo("ingredient/new");
+                    }
+                    else
+                    {
+                        nav.NavigateTo("productionproduct/new");
+                    }
+                    
 
                 }else
                 {
                     save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
-                    nav.NavigateTo($"ingredient/{save_model.id}"); 
+                    if (!is_production_product)
+                    {
+                        nav.NavigateTo($"ingredient/{save_model.id}");
+                    }
+                    else
+                    {
+                        nav.NavigateTo($"productionproduct/{save_model.id}");
+                    }
+                        
                 }
                 
             }

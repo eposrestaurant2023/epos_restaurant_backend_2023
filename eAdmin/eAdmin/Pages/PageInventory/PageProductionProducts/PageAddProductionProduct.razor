@@ -1,6 +1,9 @@
-﻿@page "/productionproduct"
-<h3>PageAddProductionProduct</h3>
+﻿@page "/productionproduct/new"
+@page "/productionproduct/edit/{id:int}"
+@page "/productionproduct/clone/{clone_id:int}"
+<PageAddIngredientProduct is_production_product="true" clone_id="@clone_id" id="@id"/>
 
-@code {
-
+@code{
+    [Parameter] public int id { get; set; }
+    [Parameter] public int clone_id { get; set; }
 }
