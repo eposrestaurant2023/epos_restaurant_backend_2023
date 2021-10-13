@@ -119,7 +119,7 @@ namespace eModels
 
         public int product_group_id { get; set; } = 0;
 
-
+        public bool is_production_product { get; set; }
         public List<HistoryModel> histories { get; set; }
 
         [NotMapped, JsonIgnore]
