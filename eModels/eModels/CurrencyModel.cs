@@ -7,5 +7,6 @@ namespace eModels
     public class CurrencyModel    : CurrencyShareModel
     {
         public string symbol { get; set; }
+        public bool is_prefix_symbol { get; set; }
     }
 }
