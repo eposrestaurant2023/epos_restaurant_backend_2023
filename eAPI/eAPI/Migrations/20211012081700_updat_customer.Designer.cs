@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211012081700_updat_customer")]
+    partial class updat_customer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -627,6 +629,12 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<double>("default_change_exchange_rate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("default_exchange_rate")
+                        .HasColumnType("float");
+
                     b.Property<bool>("is_base_exchange_currency")
                         .HasColumnType("bit");
 
@@ -639,10 +647,6 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
-
-                    b.Property<string>("symbol")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.HasKey("id");
 
@@ -2233,9 +2237,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_product_has_inventory_transaction")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_production_product")
                         .HasColumnType("bit");
 
                     b.Property<int?>("kitchen_group_id")

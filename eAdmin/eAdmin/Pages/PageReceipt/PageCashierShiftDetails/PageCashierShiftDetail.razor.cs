@@ -13,7 +13,7 @@ namespace eAdmin.Pages.PageReceipt.PageCashierShiftDetails
     {
         [Parameter] public string id { get; set; }
         string controller_api = "CashierShift";
-        public bool receipt_tab_click, sale_product_history_tab_click, payment_history_tab_click;
+        public bool is_open_print, receipt_tab_click, sale_product_history_tab_click, payment_history_tab_click;
         public CashierShiftModel model = new CashierShiftModel();
         public List<ListSummaryModel> list_summaries = new List<ListSummaryModel>();
 
@@ -59,7 +59,7 @@ namespace eAdmin.Pages.PageReceipt.PageCashierShiftDetails
         }
         public void OnPrint()
         {
-            //
+            is_open_print = true;
         }
 
         

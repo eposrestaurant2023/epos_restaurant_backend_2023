@@ -18,6 +18,9 @@
 
     </PageHeader>
     <PageBody>
+  @if(gv.business_branch_by_role.Count() > 1)
+  {
+
 
         <Tab>
             <TabHeader>
@@ -30,6 +33,7 @@
                
             
         </Tab>
+  }
          @if (!is_loading)
         {
             <Spacing Number="20" />
