@@ -2,6 +2,7 @@
 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
     <tr>
         <ThAuto>Printer Name</ThAuto>
+        <ThAuto>Group Item Type</ThAuto>
         <ThCenter>IPAddress</ThCenter>
         <ThCenter>Port</ThCenter>
         <Th></Th>
@@ -10,6 +11,7 @@
     {
         <tr>
             <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name"/></td>
+            <TdCenter><SelectGroupItemType @bind-selected_value="@p.group_item_type_id"/></TdCenter>
             <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address" width="120px"/></TdCenter>
             <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port" width="60px"/></TdCenter>
              
