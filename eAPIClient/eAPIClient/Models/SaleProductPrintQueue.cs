@@ -25,7 +25,7 @@ namespace eAPIClient.Models
         public string outlet_name { get; set; }
         public string station_name { get; set; }
         public string sale_number { get; set; }
-
+        public int group_item_type_id { get; set; } = 1;
         public string printer_name { get; set; }
         public string printer_ip_address { get; set; }
         public int printer_port { get; set; }
