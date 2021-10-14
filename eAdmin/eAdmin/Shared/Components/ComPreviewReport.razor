@@ -106,11 +106,11 @@ public List<PermissionOptionModel> Reports
             await Task.Delay(500);
             if (report_parameters == "")
             {
-                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true";
+                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&printed_by={gv.current_login_user.username}&report_url={model.option_name}";
             }
             else
             {
-                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&{report_parameters}";
+                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&{report_parameters}&printed_by={gv.current_login_user.username}&report_url={model.option_name}";
             }
 
             is_loading = false;
