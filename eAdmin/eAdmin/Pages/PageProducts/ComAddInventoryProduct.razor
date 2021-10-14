@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
-<UIContainerBox Title="@lang["Inventory / Ingredient Product"]">
+<UIContainerBox Title="@(!is_production_product? lang["Inventory / Ingredient Product"]:lang["Inventory / Production Product"])">
     @if (!is_production_product)
     {
         <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)" />

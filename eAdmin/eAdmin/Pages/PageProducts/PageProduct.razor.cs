@@ -30,7 +30,7 @@ namespace eAdmin.Pages.PageProducts
                 
                 string url = $"{controller_api}?";
                 url = url + $"$expand=product_category($select=product_category_en),unit($select=unit_name,id,unit_category_id)&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
-                return url + GetFilter(state.filters) + " and is_menu_product eq true";
+                return url + GetFilter(state.filters) + " and is_menu_product eq true and is_production_product eq false";
             }
         }
 
