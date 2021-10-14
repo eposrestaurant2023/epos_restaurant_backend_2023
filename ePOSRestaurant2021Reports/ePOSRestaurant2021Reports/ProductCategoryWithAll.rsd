@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>DataSource</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@product_group_id">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>with a as  (
+
+	select 0 as id, 'All Categories' as product_category_en, 'All Categories' as product_category_kh, 0 as sort_order
+	union all
+	select 
+		id,
+		product_category_en,
+		product_category_kh,
+		1 as sort_order
+	from tbl_product_category 
+	where 
+		status = 1 and 
+		is_deleted = 0 and 
+		product_group_id = iif (@product_group_id = 0,product_group_id,@product_group_id)
+)
+select * from a order by sort_order, product_category_en
+</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="id">
+        <DataField>id</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="product_category_en">
+        <DataField>product_category_en</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="product_category_kh">
+        <DataField>product_category_kh</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="sort_order">
+        <DataField>sort_order</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>
