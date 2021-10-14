@@ -1,21 +1,19 @@
-﻿
-using eModels;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
-using MatBlazor;
-using eAdmin.JSHelpers;
-namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
+using eModels;
+using Microsoft.AspNetCore.Components;
+using System.Text.Json;
+
+namespace eAdmin.Pages.PageInventory.PageProductionProducts.ComsProductionProductDetail
 {
-    public class StockStransferProductDetailHistoryBase : PageCore
-    { 
+    public class ComProductionProductDetailStockTransferHistory:PageCore
+    {
         [Parameter] public int product_id { get; set; }
         public List<StockTransferProductModel> models = new List<StockTransferProductModel>();
         public int TotalRecord = 0;
-        public string  StateKey = "STOSTOCKSFTANProdyctsaledmRGrRwd5021D20154coN";
+        public string StateKey = "STOSTOCKSFTANProdtctdmRGrRwd5021D20154coN";
         string controller_api = "StockTransferProduct";
         public string ControllerApi
         {
@@ -30,7 +28,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 url += $"$expand=stock_transfer($select=id,from_business_branch_id,from_stock_location_id,to_business_branch_id,to_stock_location_id,document_number,stock_transfer_date,reference_number,is_fulfilled;$expand=from_business_branch($select=id,business_branch_name_en,business_branch_name_kh),to_business_branch($select=id,business_branch_name_en,business_branch_name_kh),from_stock_location,to_stock_location)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
-                return url + GetFilter(state.filters);  
+                return url + GetFilter(state.filters);
             }
         }
 
@@ -56,9 +54,9 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             }
 
             await LoadData();
-        }   
+        }
 
-        public async Task LoadData(string api_url="")
+        public async Task LoadData(string api_url = "")
         {
             is_loading = true;
             if (state.filters.Where(r => r.key == "stock_transfer/from_business_branch_id").Count() == 0)
@@ -455,6 +453,5 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             state.pager.order_by_type = (state.pager.order_by_type == "asc" ? "desc" : "asc");
             await LoadData();
         }
-
     }
 }

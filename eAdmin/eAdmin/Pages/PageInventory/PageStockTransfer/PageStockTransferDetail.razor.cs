@@ -55,6 +55,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         {
             is_loading = true;
             var resp = await http.ApiGet(api_url);
+            Console.WriteLine(api_url);
             if (resp.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<StockTransferModel>(resp.Content.ToString());

@@ -14,13 +14,13 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                     @lang["All Stock Stransfer History"]
+                        @lang["All Stock Stransfer History"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <div class="uk-form-controls control-advince-filter-group">
                         <label class="uk-form-label uk-text-bold">From Stock</label>
@@ -33,7 +33,7 @@
                         <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_3" @bind-selected_stock_location="@state.multi_select_id_4" stock_location_id="@((val)=>state.multi_select_value_4=val)" />
 
                     </div>
-               </ComSearch>
+                </ComSearch>
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -53,7 +53,7 @@
                     <TableHeader>
                         @HeaderTemplate("stock_transfer/stock_transfer_date", "Stock Transfer Date", "uk-text-center")
                         @HeaderTemplate("stock_transfer/document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("stock_transfer/referance_number", "Referance#", "uk-text-center") 
+                        @HeaderTemplate("stock_transfer/referance_number", "Referance#", "uk-text-center")
                         <ThAuto>
                             <div>@lang["From Business Branch"]</div>
                             <div class="sub-header-table">@lang["Warehouse"]</div>
@@ -71,7 +71,7 @@
                     <RowTemplate Context="p">
                         <TdCenter>@p.stock_transfer.stock_transfer_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("stock_transfer_management")" url="@($"stocktransfer/{p.id}")">
+                            <ComAuthorize roles="@gv.GetRole("stock_transfer_management")" url="@($"stocktransfer/{p.stock_transfer_id}")">
                                 @p.stock_transfer?.document_number
                             </ComAuthorize>
                         </TdCenter>
