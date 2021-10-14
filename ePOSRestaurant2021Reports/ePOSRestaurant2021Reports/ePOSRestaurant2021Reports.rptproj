@@ -50,10 +50,16 @@
   </PropertyGroup>
   <ItemGroup>
     <DataSet Include="BusinessBranch.rsd" />
+    <DataSet Include="BusinessBranchWithAll.rsd" />
+    <DataSet Include="CompanyInfo.rsd" />
     <DataSet Include="Outlet.rsd" />
+    <DataSet Include="ProductCategoryWithAll.rsd" />
+    <DataSet Include="ProductGroupWithAll.rsd" />
+    <DataSet Include="report_name.rsd" />
     <DataSet Include="SaleType.rsd" />
     <DataSet Include="Setting.rsd" />
     <DataSet Include="StationName.rsd" />
+    <DataSet Include="StockLocationWithAll.rsd" />
     <DataSet Include="TableName.rsd" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +68,7 @@
   <ItemGroup>
     <Report Include="rptCashierShiftSaleProduct.rdl" />
     <Report Include="rptCloseWorkingDay.rdl" />
+    <Report Include="rptProductList.rdl" />
     <Report Include="rptPurchaseOrderPaymentReceipt.rdl" />
     <Report Include="rptPurchaseOrderReceiptA4.rdl" />
     <Report Include="rptPurchaseOrderReceiptA5.rdl" />
