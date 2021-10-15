@@ -88,7 +88,34 @@
     <DataSet Name="Product">
       <Query>
         <DataSourceName>Datasource</DataSourceName>
-        <CommandText>select 
+        <QueryParameters>
+          <QueryParameter Name="@printed_by">
+            <Value>=Parameters!printed_by.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@product_category_id">
+            <Value>=Parameters!product_category_id.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@product_group_id">
+            <Value>=Parameters!product_group_id.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>
+
+--get price rule id 
+if object_id('tempdb..#tbl_price_rule') is not null drop table #tbl_price_rule
+select 
+	distinct
+	a.price_rule_id 
+	into #tbl_price_rule  
+from tbl_business_branch_price_rule a 
+	inner join  dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = a.business_branch_id
+where
+	a.is_deleted = 0 and 
+	a.status = 1;
+
+
+
+select 
 	d.id as product_id,
 	e.product_category_en,
 	d.product_code,
@@ -102,10 +129,16 @@ from tbl_product_price a
 	inner join tbl_product_portion b on b.id = a.product_portion_id
 	inner join tbl_price_rule c on c.id  = a.price_rule_id
 	inner join tbl_product d on d.id = b.product_id
-	inner join tbl_product_category e on e.id = d.product_category_id
+	inner join tbl_product_category e on e.id = d.product_category_id 
+	inner join #tbl_price_rule f on f.price_rule_id = a.price_rule_id 
+where
+	d.product_category_id = iif(@product_category_id = 0,d.product_category_id, @product_category_id) and 
+	e.product_group_id= iif(@product_group_id= 0,e.product_group_id, @product_group_id) and 
+	d.is_menu_product = 1
 order by
 	e.product_category_en,
-	d.product_name_en</CommandText>
+	d.product_name_en
+</CommandText>
       </Query>
       <Fields>
         <Field Name="product_id">

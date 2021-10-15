@@ -53,6 +53,7 @@
     <DataSet Include="BusinessBranchWithAll.rsd" />
     <DataSet Include="CompanyInfo.rsd" />
     <DataSet Include="Outlet.rsd" />
+    <DataSet Include="OutletWithAll.rsd" />
     <DataSet Include="ProductCategoryWithAll.rsd" />
     <DataSet Include="ProductGroupWithAll.rsd" />
     <DataSet Include="report_name.rsd" />
@@ -68,7 +69,7 @@
   <ItemGroup>
     <Report Include="rptCashierShiftSaleProduct.rdl" />
     <Report Include="rptCloseWorkingDay.rdl" />
-    <Report Include="rptCustomerList.rdl" />
+    <Report Include="rptHourlySaleSummary.rdl" />
     <Report Include="rptIngredientProductList.rdl" />
     <Report Include="rptInventoryProductList.rdl" />
     <Report Include="rptMenuProductPriceList.rdl" />
@@ -82,6 +83,7 @@
     <Report Include="rptSaleReceiptA4.rdl" />
     <Report Include="rptSaleReceiptA5.rdl" />
     <Report Include="rptStockTakeList.rdl" />
+    <Report Include="rptSaleTransaction.rdl" />
     <Report Include="rptStockTakeReceiptA4.rdl" />
     <Report Include="rptStockTakeReceiptA5.rdl" />
     <Report Include="rptStockTransferList.rdl" />
