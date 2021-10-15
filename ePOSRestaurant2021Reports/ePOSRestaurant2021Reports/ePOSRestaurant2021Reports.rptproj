@@ -68,6 +68,7 @@
   <ItemGroup>
     <Report Include="rptCashierShiftSaleProduct.rdl" />
     <Report Include="rptCloseWorkingDay.rdl" />
+    <Report Include="rptCustomerList.rdl" />
     <Report Include="rptProductList.rdl" />
     <Report Include="rptPurchaseOrderPaymentReceipt.rdl" />
     <Report Include="rptPurchaseOrderReceiptA4.rdl" />

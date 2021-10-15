@@ -161,7 +161,13 @@
                     });
                 }
             }
-             
+            if (!model.customer_business_branchs.Any())
+            {
+                toast.Add("Please select business branches",MatToastType.Warning);
+                is_saving = false;
+                return;
+            }
+
 
             var res = await http.ApiPost($"customer/save?allow_duplicate_name={allow_duplicate_name}", model);
 
