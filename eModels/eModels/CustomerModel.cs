@@ -18,7 +18,6 @@ namespace eModels
 
        
       
-      
         [ForeignKey("customer_group_id")]
         public CustomerGroupModel customer_group { get; set; }    
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
