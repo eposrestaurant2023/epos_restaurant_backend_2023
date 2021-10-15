@@ -152,102 +152,66 @@
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="CustomerGroup">
+    <DataSet Name="VendorGroup">
       <Query>
         <DataSourceName>Datasource</DataSourceName>
-        <CommandText>select 0 as id, 'All Customer Group' as customer_group_name_en
+        <CommandText>select 0 as id, 'All Vendor Group' as vendor_group_name_en
 union
-select id,customer_group_name_en from tbl_customer_group</CommandText>
+select id,vendor_group_name_en from tbl_vendor_group</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
           <DataField>id</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="customer_group_name_en">
-          <DataField>customer_group_name_en</DataField>
+        <Field Name="vendor_group_name_en">
+          <DataField>vendor_group_name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="Customer">
+    <DataSet Name="Vendor">
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@printed_by">
-            <Value>=Parameters!printed_by.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@business_branch_id">
-            <Value>=Parameters!business_branch_id.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@customer_group_id">
-            <Value>=Parameters!customer_group_id.Value</Value>
+          <QueryParameter Name="@vendor_group_id">
+            <Value>=Parameters!vendor_group_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandText>select 
-	
-	distinct customer_id
-  into #tbl
-from tbl_customer_business_branch c 
-	inner  join dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = c.business_branch_id
-where c.business_branch_id = iif(@business_branch_id='',c.business_branch_id,@business_branch_id)
-
-select 
-	c.phone_1,
-	c.phone_2,
-	c.photo,
-	c.customer_code,
-	c.customer_name_en,
-	g.customer_group_name_en,
-	c.gender,
-	c.total_receivable,
-	date_of_birth,
-	nationality
-from 
-	tbl_customer c inner join #tbl t on c.id = t.customer_id
-	inner join tbl_customer_group g on g.id = c.customer_group_id
-where 
-	c.customer_group_id = IIF(@customer_group_id=0,c.customer_group_id,@customer_group_id)</CommandText>
+	company_name,
+	vendor_name,
+	vendor_code,
+	office_phone,
+	total_payable,
+	b.vendor_group_name_en
+from  tbl_vendor a 
+	inner join tbl_vendor_group b on a.vendor_group_id = b.id
+where a.vendor_group_id = iif(@vendor_group_id = 0,a.vendor_group_id,@vendor_group_id)</CommandText>
       </Query>
       <Fields>
-        <Field Name="phone_1">
-          <DataField>phone_1</DataField>
+        <Field Name="company_name">
+          <DataField>company_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="phone_2">
-          <DataField>phone_2</DataField>
+        <Field Name="vendor_name">
+          <DataField>vendor_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="photo">
-          <DataField>photo</DataField>
+        <Field Name="vendor_code">
+          <DataField>vendor_code</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="customer_code">
-          <DataField>customer_code</DataField>
+        <Field Name="office_phone">
+          <DataField>office_phone</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="customer_name_en">
-          <DataField>customer_name_en</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="customer_group_name_en">
-          <DataField>customer_group_name_en</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="gender">
-          <DataField>gender</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="total_receivable">
-          <DataField>total_receivable</DataField>
+        <Field Name="total_payable">
+          <DataField>total_payable</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="date_of_birth">
-          <DataField>date_of_birth</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
-        </Field>
-        <Field Name="nationality">
-          <DataField>nationality</DataField>
+        <Field Name="vendor_group_name_en">
+          <DataField>vendor_group_name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -264,28 +228,22 @@ where
                   <Width>0.42557in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.54167in</Width>
+                  <Width>0.84375in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.17693in</Width>
+                  <Width>1.51766in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.05661in</Width>
+                  <Width>1.11911in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.30207in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.68599in</Width>
+                  <Width>1.00891in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.5625in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.72766in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.76932in</Width>
+                  <Width>1.03125in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -414,7 +372,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Group Group</Value>
+                                  <Value>Group</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -492,7 +450,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>DOB</Value>
+                                  <Value>Company</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -501,7 +459,7 @@ where
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -532,7 +490,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Gender</Value>
+                                  <Value>Payable</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -541,106 +499,11 @@ where
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox41</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox20">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Nationality</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox20</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox16">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Recievable</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox16</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -699,14 +562,14 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="customer_code">
+                        <Textbox Name="vendor_code">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!customer_code.Value</Value>
+                                  <Value>=Fields!vendor_code.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -716,7 +579,7 @@ where
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>customer_code</rd:DefaultName>
+                          <rd:DefaultName>vendor_code</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -732,14 +595,14 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="customer_name_en">
+                        <Textbox Name="vendor_name">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!customer_name_en.Value</Value>
+                                  <Value>=Fields!vendor_name.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -749,7 +612,7 @@ where
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>customer_name_en</rd:DefaultName>
+                          <rd:DefaultName>vendor_name</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -765,14 +628,14 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="customer_group_name_en">
+                        <Textbox Name="vendor_group_name_en">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!customer_group_name_en.Value</Value>
+                                  <Value>=Fields!vendor_group_name_en.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -782,7 +645,7 @@ where
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>customer_group_name_en</rd:DefaultName>
+                          <rd:DefaultName>vendor_group_name_en</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -798,14 +661,14 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="phone_1">
+                        <Textbox Name="office_phone">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!phone_1.Value + " " + IIF(Fields!phone_2.Value = "" , "", "/ " + Fields!phone_2.Value)</Value>
+                                  <Value>=Fields!office_phone.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -817,7 +680,7 @@ where
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>phone_1</rd:DefaultName>
+                          <rd:DefaultName>office_phone</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -833,49 +696,14 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="date_of_birth">
+                        <Textbox Name="company_name">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Format(Fields!date_of_birth.Value,First(Fields!date_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>date_of_birth</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="gender">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!gender.Value</Value>
+                                  <Value>=Fields!company_name.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -887,7 +715,7 @@ where
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>gender</rd:DefaultName>
+                          <rd:DefaultName>company_name</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -903,49 +731,14 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="nationality">
+                        <Textbox Name="total_payable">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!nationality.Value</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Left</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>nationality</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="total_receivable">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Format(Fields!total_receivable.Value,First(Fields!currency_format.Value, "Setting"))</Value>
+                                  <Value>=Format(Fields!total_payable.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -957,7 +750,7 @@ where
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>total_receivable</rd:DefaultName>
+                          <rd:DefaultName>total_payable</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -984,8 +777,6 @@ where
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -999,7 +790,7 @@ where
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>Customer</DataSetName>
+            <DataSetName>Vendor</DataSetName>
             <Top>0.05034in</Top>
             <Left>0.00001in</Left>
             <Height>0.47917in</Height>
@@ -1094,25 +885,13 @@ where
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Branch: </Value>
+                      <Value> Group: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=Parameters!business_branch_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> / Group: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!customer_group_id.Label</Value>
+                      <Value>=Parameters!vendor_group_id.Label</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1287,24 +1066,7 @@ where
       <Prompt>report_url</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
-    <ReportParameter Name="business_branch_id">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value />
-        </Values>
-      </DefaultValue>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Branch</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>BusinessBranch</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>business_branch_name_en</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
-    <ReportParameter Name="customer_group_id">
+    <ReportParameter Name="vendor_group_id">
       <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
@@ -1314,9 +1076,9 @@ where
       <Prompt>Vendor Group</Prompt>
       <ValidValues>
         <DataSetReference>
-          <DataSetName>CustomerGroup</DataSetName>
+          <DataSetName>VendorGroup</DataSetName>
           <ValueField>id</ValueField>
-          <LabelField>customer_group_name_en</LabelField>
+          <LabelField>vendor_group_name_en</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
@@ -1337,14 +1099,9 @@ where
           <ParameterName>report_url</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>1</RowIndex>
-          <ParameterName>business_branch_id</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>1</RowIndex>
-          <ParameterName>customer_group_id</ParameterName>
+          <ParameterName>vendor_group_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

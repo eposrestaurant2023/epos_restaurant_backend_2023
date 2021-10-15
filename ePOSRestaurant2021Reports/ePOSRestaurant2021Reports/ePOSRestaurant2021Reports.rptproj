@@ -83,6 +83,7 @@
     <Report Include="rptStockTakeReceiptA5.rdl" />
     <Report Include="rptStockTransferReceiptA4.rdl" />
     <Report Include="rptStockTransferReceiptA5.rdl" />
+    <Report Include="rptVendorList.rdl" />
     <Report Include="rptxSaleReceiptA5.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
