@@ -101,6 +101,7 @@ namespace eShareModel
         public DateTime? closed_date { get; set; }
 
         public string sale_type { get; set; } = "Dine in";
+        public bool is_foc { get; set; }
 
         public bool is_synced { get; set; } = false;
 
