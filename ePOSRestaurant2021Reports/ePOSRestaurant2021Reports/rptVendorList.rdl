@@ -157,7 +157,7 @@
         <DataSourceName>Datasource</DataSourceName>
         <CommandText>select 0 as id, 'All Vendor Group' as vendor_group_name_en
 union
-select id,vendor_group_name_en from tbl_vendor_group</CommandText>
+select id,vendor_group_name_en from tbl_vendor_group where is_deleted = 0</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
