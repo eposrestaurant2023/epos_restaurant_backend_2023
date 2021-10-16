@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>DataSource</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@printed_by">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+        <DataSetParameter Name="@business_branch_id">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+        <DataSetParameter Name="@customer_group_id">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>
+
+if object_id ('tempdb..#tbl_customer') is not null drop table #tbl_customer
+select 
+	distinct 
+	a.customer_id
+	into #tbl_customer
+from tbl_customer_business_branch a
+inner join dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = a.business_branch_id
+where
+	cast(a.business_branch_id as nvarchar(50)) = iif(@business_branch_id = '',cast(a.business_branch_id as nvarchar(50)),@business_branch_id) 
+
+;with a as  (
+	select '' as id, 'All Customers' as customer_name, 0 as sort_order
+	union all
+	select 
+		cast(id as nvarchar(50)) as id , 
+		c.customer_name_en,
+		1 as sort_order 
+	from tbl_customer c 
+		inner join #tbl_customer t on t.customer_id = c.id
+	where
+		c.status = 1 and 
+		c.is_deleted = 0 and 
+		cast(c.customer_group_id as nvarchar(50)) =  iif(@customer_group_id='',cast(c.customer_group_id as nvarchar(50)) ,@customer_group_id)
+ 	
+)
+select * from a order by sort_order, customer_name</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="id">
+        <DataField>id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="customer_name">
+        <DataField>customer_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="sort_order">
+        <DataField>sort_order</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>
