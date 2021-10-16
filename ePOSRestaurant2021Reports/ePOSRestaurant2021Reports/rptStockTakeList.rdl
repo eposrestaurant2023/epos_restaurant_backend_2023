@@ -85,21 +85,18 @@
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="Product">
+    <DataSet Name="StockTake">
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@product_category_id">
-            <Value>=Parameters!product_category_id.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@product_group_id">
-            <Value>=Parameters!product_group_id.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@option_id">
-            <Value>=Parameters!option_id.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@printed_by">
             <Value>=Parameters!printed_by.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@start_date">
+            <Value>=Parameters!start_date.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@end_date">
+            <Value>=Parameters!end_date.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@business_branch_id">
             <Value>=Parameters!business_branch_id.Value</Value>
@@ -108,132 +105,46 @@
             <Value>=Parameters!stock_location_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>		
-if object_id('tempdb..#tbl') is not null drop table #tbl
-select 
-	p.id,
-	p.product_category_en, 
-	p.product_category_kh,
-	p.product_code,
-	p.product_name_en,
-	p.product_name_kh,
-	p.cost,
-	p.min_price,
-	p.max_price,
-	p.unit_id,
-	u.unit_name,
-	p.quantity,
-	p.is_inventory_product
-	into #tbl
-from tbl_product p 
-	inner join tbl_product_category pc on pc.id = p.product_category_id
-	inner join tbl_unit u on u.id = p.unit_id
+        <CommandText>select 
+	b.business_branch_name_en,
+	a.stock_take_date,
+	a.document_number,
+	a.total_amount,
+	d.stock_location_name,
+	reference_number
+from 
+	tbl_stock_take a
+	inner join fn_get_business_branch_by_role(@printed_by) b on a.business_branch_id = b.id
+	inner join tbl_stock_location d on d.id = a.stock_location_id
 where 
-	p.is_deleted = 0 and 
-	p.status = 1 and 
-	p.is_menu_product = 1 and 
-	p.product_category_id = iif(@product_category_id = 0, p.product_category_id, @product_category_id) and 
-	pc.product_group_id= iif(@product_group_id= 0, p.product_group_id, @product_group_id) 
-
---remove some product filter
---1 option_id = 1 show stock_product
-if @option_id = 1 delete #tbl where is_inventory_product = 0;
---2 option_id = 2 show none stock_product
-if @option_id = 2 delete #tbl where is_inventory_product = 1;
-
-
-
--- update quantity by business branch
-if object_id('tempdb..#tbl_inventory') is not null drop table #tbl_inventory
-select 
-	a.product_id,
-	sum(a.quantity) as quantity
-	into #tbl_inventory
-from tbl_stock_location_product a 
-inner join #tbl t on t.id = a.product_id
-inner join tbl_stock_location b on b.id = a.stock_location_id
-inner join dbo.fn_get_business_branch_by_role(@printed_by) c on c.id = b.business_branch_id
-where 
-	c.id &lt;&gt; '' and 
-	cast(b.business_branch_id as nvarchar(50)) = iif(@business_branch_id = '', cast(b.business_branch_id as nvarchar(50)),@business_branch_id) and 
-	cast(a.stock_location_id as nvarchar(50)) = iif(@stock_location_id = '', cast(a.stock_location_id as nvarchar(50)),@stock_location_id)
-group by
-	a.product_id
-
----update quantity to product
-if @business_branch_id &lt;&gt; '' or @stock_location_id &lt;&gt; ''
-begin
-	update #tbl set quantity = 0 
-end
-update t 
-	set t.quantity = v.quantity
-from #tbl t inner join #tbl_inventory v on v.product_id = t.id 
-
-
---check if product is none stock and if quantity &gt; 0 update to  0
-update #tbl set quantity = 0 where is_inventory_product = 0; 
-
-
---3 option_id = 3 show product have stock
-if @option_id = 3 delete #tbl where (is_inventory_product = 1 and quantity&lt;=0) or quantity&lt;=0;
---4 option_id = 4 show product out of stock
-if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
-
-
-  select * from #tbl</CommandText>
+	a.stock_take_date between @start_date and @end_date and
+	a.business_branch_id = iif(@business_branch_id='',a.business_branch_id,@business_branch_id) and
+	a.stock_location_id = iif(@stock_location_id = '',a.stock_location_id,@stock_location_id)</CommandText>
       </Query>
       <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="product_category_en">
-          <DataField>product_category_en</DataField>
+        <Field Name="business_branch_name_en">
+          <DataField>business_branch_name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="product_category_kh">
-          <DataField>product_category_kh</DataField>
+        <Field Name="stock_take_date">
+          <DataField>stock_take_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="document_number">
+          <DataField>document_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="product_code">
-          <DataField>product_code</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="product_name_en">
-          <DataField>product_name_en</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="product_name_kh">
-          <DataField>product_name_kh</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="cost">
-          <DataField>cost</DataField>
+        <Field Name="total_amount">
+          <DataField>total_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="min_price">
-          <DataField>min_price</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="max_price">
-          <DataField>max_price</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="unit_id">
-          <DataField>unit_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="unit_name">
-          <DataField>unit_name</DataField>
+        <Field Name="stock_location_name">
+          <DataField>stock_location_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="quantity">
-          <DataField>quantity</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="is_inventory_product">
-          <DataField>is_inventory_product</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
+        <Field Name="reference_number">
+          <DataField>reference_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -273,57 +184,6 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
         <Field Name="use_shift_management">
           <DataField>use_shift_management</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-    <DataSet Name="ProductGroup">
-      <SharedDataSet>
-        <SharedDataSetReference>ProductGroupWithAll</SharedDataSetReference>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="product_group_en">
-          <DataField>product_group_en</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="product_group_kh">
-          <DataField>product_group_kh</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-    <DataSet Name="ProductCategory">
-      <SharedDataSet>
-        <SharedDataSetReference>ProductCategoryWithAll</SharedDataSetReference>
-        <QueryParameters>
-          <QueryParameter Name="@product_group_id">
-            <Value>=Parameters!product_group_id.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="product_category_en">
-          <DataField>product_category_en</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="product_category_kh">
-          <DataField>product_category_kh</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -394,25 +254,22 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                   <Width>0.42557in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15474in</Width>
+                  <Width>1.15557in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.01932in</Width>
+                  <Width>0.9889in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.07141in</Width>
+                  <Width>1.22901in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.58182in</Width>
+                  <Width>1.25287in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.56099in</Width>
+                  <Width>1.33334in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.67557in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>0.76932in</Width>
+                  <Width>0.86307in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -460,6 +317,44 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Date</Value>
+                                  <Style>
+                                    <FontFamily>arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox8">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -467,7 +362,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Category</Value>
+                                  <Value>Doc #</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -497,89 +392,14 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox10">
+                        <Textbox Name="Textbox9">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Code</Value>
-                                  <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox12">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Name</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox12</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox14">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>Reference</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -588,11 +408,11 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -612,14 +432,14 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox20">
+                        <Textbox Name="Textbox11">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Unit</Value>
+                                  <Value>Business Branch</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -628,11 +448,11 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox20</rd:DefaultName>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -652,14 +472,54 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox16">
+                        <Textbox Name="Textbox31">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Cost</Value>
+                                  <Value>Warehouse</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox31</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox24">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Total Amount</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -672,47 +532,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox16</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox18">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Price</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -771,14 +591,14 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="product_category_en">
+                        <Textbox Name="purchase_date">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!product_category_en.Value</Value>
+                                  <Value>=Format(Fields!stock_take_date.Value,First(Fields!date_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -788,7 +608,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>product_category_en</rd:DefaultName>
+                          <rd:DefaultName>purchase_date</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -804,46 +624,14 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="product_code">
+                        <Textbox Name="document_number">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!product_code.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>product_code</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="product_name_en">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Fields!product_name_en.Value</Value>
+                                  <Value>=Fields!document_number.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -853,7 +641,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>product_name_en</rd:DefaultName>
+                          <rd:DefaultName>document_number</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -869,14 +657,14 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="quantity">
+                        <Textbox Name="reference_number">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!quantity.Value,First(Fields!quantity_format.Value, "Setting"))</Value>
+                                  <Value>=Fields!reference_number.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -884,11 +672,11 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>quantity</rd:DefaultName>
+                          <rd:DefaultName>reference_number</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -904,14 +692,49 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="unit_name">
+                        <Textbox Name="business_branch_name_en1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!unit_name.Value</Value>
+                                  <Value>=Fields!business_branch_name_en.Value</Value>
+                                  <Style>
+                                    <FontFamily>Kh System</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="stock_location_name">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!stock_location_name.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -919,11 +742,11 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>unit_name</rd:DefaultName>
+                          <rd:DefaultName>stock_location_name</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -939,14 +762,14 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="cost">
+                        <Textbox Name="total_amount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!cost.Value,First(Fields!currency_format.Value, "Setting"))</Value>
+                                  <Value>=Format(Fields!total_amount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -958,42 +781,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>cost</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="max_price">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(Fields!max_price.Value,First(Fields!currency_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>max_price</rd:DefaultName>
+                          <rd:DefaultName>total_amount</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1057,87 +845,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="id">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=count(Fields!id.Value)</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>id</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="quantity1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(Sum(Fields!quantity.Value),First(Fields!quantity_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>quantity1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox27">
+                        <Textbox Name="Textbox12">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1153,11 +861,11 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox27</rd:DefaultName>
+                          <rd:DefaultName>Textbox12</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1177,7 +885,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox28">
+                        <Textbox Name="Textbox14">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1185,6 +893,86 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                               <TextRuns>
                                 <TextRun>
                                   <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox33">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox33</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox26">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Format(Sum(Fields!total_amount.Value),First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1197,47 +985,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox28</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox29">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox29</rd:DefaultName>
+                          <rd:DefaultName>Textbox26</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1268,7 +1016,6 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1285,10 +1032,10 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>Product</DataSetName>
+            <DataSetName>StockTake</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.25874in</Width>
+            <Width>7.24833in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1299,7 +1046,7 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
         <Height>0.82986in</Height>
         <Style />
       </Body>
-      <Width>7.25875in</Width>
+      <Width>7.24916in</Width>
       <Page>
         <PageHeader>
           <Height>0.8125in</Height>
@@ -1379,7 +1126,19 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Branch: </Value>
+                      <Value> Date: </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Format(Parameters!start_date.Value,First(Fields!date_format.Value, "Setting")) + " : " + Format(Parameters!end_date.Value,First(Fields!date_format.Value, "Setting"))</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> / Branch: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1398,30 +1157,6 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!stock_location_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> / Group: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!product_group_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> / Category: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!product_category_id.Label</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1596,6 +1331,14 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
       <Prompt>report_url</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
+    <ReportParameter Name="start_date">
+      <DataType>DateTime</DataType>
+      <Prompt>Start Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="end_date">
+      <DataType>DateTime</DataType>
+      <Prompt>End Date</Prompt>
+    </ReportParameter>
     <ReportParameter Name="business_branch_id">
       <DataType>String</DataType>
       <DefaultValue>
@@ -1630,71 +1373,6 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
-    <ReportParameter Name="product_group_id">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Group</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>ProductGroup</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>product_group_en</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
-    <ReportParameter Name="product_category_id">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Category</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>ProductCategory</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>product_category_en</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
-    <ReportParameter Name="option_id">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Option</Prompt>
-      <ValidValues>
-        <ParameterValues>
-          <ParameterValue>
-            <Value>0</Value>
-            <Label>All Product Type</Label>
-          </ParameterValue>
-          <ParameterValue>
-            <Value>1</Value>
-            <Label>Stock Product</Label>
-          </ParameterValue>
-          <ParameterValue>
-            <Value>2</Value>
-            <Label>None Stock Product</Label>
-          </ParameterValue>
-          <ParameterValue>
-            <Value>3</Value>
-            <Label>Product in Stock</Label>
-          </ParameterValue>
-          <ParameterValue>
-            <Value>4</Value>
-            <Label>Product out of Stock</Label>
-          </ParameterValue>
-        </ParameterValues>
-      </ValidValues>
-    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1714,27 +1392,22 @@ if @option_id = 4 delete #tbl where is_inventory_product = 1 and quantity&gt;0;
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>2</RowIndex>
-          <ParameterName>product_group_id</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>2</RowIndex>
-          <ParameterName>product_category_id</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>1</RowIndex>
           <ParameterName>business_branch_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>1</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>stock_location_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>3</RowIndex>
-          <ParameterName>option_id</ParameterName>
+          <RowIndex>1</RowIndex>
+          <ParameterName>start_date</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>end_date</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
