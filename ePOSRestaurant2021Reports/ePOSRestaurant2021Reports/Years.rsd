@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>DataSource</DataSourceReference>
+      <CommandText>declare @start_year int
+SET @start_year = (select year(min(working_date)) from tbl_working_day );
+SET @start_year = coalesce(@start_year,year(getdate()))-1
+
+
+declare @tbl table([year] int)
+while @start_year &lt;= year(getdate()) + 1
+begin
+	insert into @tbl select @start_year
+	SET @start_year = @start_year + 1
+
+end
+
+select * from @tbl</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="year">
+        <DataField>year</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

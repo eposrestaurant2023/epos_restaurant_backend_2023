@@ -112,8 +112,6 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>
-
-
 select 
 	s.id,
 	s.document_number,
@@ -138,13 +136,12 @@ where
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
-	s.is_foc = 0 and 
+	s.is_foc = 1 and 
 	coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
 	coalesce(cast(c.customer_group_id as nvarchar(50)),'') = iif(@customer_group_id = '', coalesce(cast(c.customer_group_id as nvarchar(50)),'') ,@customer_group_id) 
 	 
 order by
-	document_number
-</CommandText>
+	document_number</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
