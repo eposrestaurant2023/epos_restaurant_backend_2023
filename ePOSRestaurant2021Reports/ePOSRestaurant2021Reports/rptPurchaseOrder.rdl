@@ -2098,19 +2098,6 @@ select id,vendor_name from tbl_vendor</CommandText>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
-    <ReportParameter Name="id">
-      <DataType>Integer</DataType>
-      <Prompt>id</Prompt>
-      <Hidden>true</Hidden>
-    </ReportParameter>
-    <ReportParameter Name="start_date">
-      <DataType>DateTime</DataType>
-      <Prompt>Start Date</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="end_date">
-      <DataType>DateTime</DataType>
-      <Prompt>End Date</Prompt>
-    </ReportParameter>
     <ReportParameter Name="vendor_id">
       <DataType>String</DataType>
       <Prompt>Vendor</Prompt>
@@ -2121,6 +2108,11 @@ select id,vendor_name from tbl_vendor</CommandText>
           <LabelField>vendor_name</LabelField>
         </DataSetReference>
       </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="id">
+      <DataType>Integer</DataType>
+      <Prompt>id</Prompt>
+      <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
@@ -2154,18 +2146,8 @@ select id,vendor_name from tbl_vendor</CommandText>
           <ParameterName>id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
-          <RowIndex>3</RowIndex>
-          <ParameterName>start_date</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>4</RowIndex>
-          <ParameterName>end_date</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>4</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>vendor_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
