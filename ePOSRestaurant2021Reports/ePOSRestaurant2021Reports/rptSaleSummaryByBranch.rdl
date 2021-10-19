@@ -98,18 +98,10 @@
           <QueryParameter Name="@printed_by">
             <Value>=Parameters!printed_by.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@business_branch_id">
-            <Value>=Parameters!business_branch_id.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@outlet_id">
-            <Value>=Parameters!outlet_id.Value</Value>
-          </QueryParameter>
         </QueryParameters>
-        <CommandText>		 
-if object_id('tempdb..#tbl') is not null drop table #tbl
-
+        <CommandText>
 select 
-	format(closed_date,'HH') as [hour],
+	c.business_branch_name_en,
 	count(s.id) as total_document,
 	sum(s.total_quantity) as total_quantity,
 	sum(s.sub_total) as sub_total,
@@ -118,38 +110,20 @@ select
 	sum(s.total_cost) as total_cost,
 	sum(s.total_profit) as total_profit,
 	sum(s.total_tax_amount) as total_tax_amount
-	into #tbl
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) c on c.id = s.business_branch_id
 where
-	s.is_foc = 0 and
-	working_date between @start_date and @end_date and 
-	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
-	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) 
+	s.is_foc = 0 and 
+	working_date between @start_date and @end_date   
 group by
-	format(closed_date,'HH')
+	c.business_branch_name_en
 
-select 
-	n.number as [hour],
-	coalesce(t.total_document,0) as total_document,
-	coalesce(t.total_quantity,0) as total_quantity,
-	coalesce(t.sub_total,0) as sub_total,
-	coalesce(t.total_amount,0) as total_amount,
-	coalesce(t.total_discount_amount,0) as total_discount_amount,
-	coalesce(t.total_cost,0) as total_cost,
-	coalesce(t.total_profit,0) as total_profit,
-	coalesce(t.total_tax_amount,0) as total_tax_amount 
-	 
-
-from tbl_number n
-left join #tbl t on cast(t.[hour] as int) = n.number
-where
-	n.number between 0 and 23</CommandText>
+ </CommandText>
       </Query>
       <Fields>
-        <Field Name="hour">
-          <DataField>hour</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="business_branch_name_en">
+          <DataField>business_branch_name_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="total_document">
           <DataField>total_document</DataField>
@@ -224,61 +198,6 @@ where
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="BusinessBranch">
-      <SharedDataSet>
-        <SharedDataSetReference>BusinessBranchWithAll</SharedDataSetReference>
-        <QueryParameters>
-          <QueryParameter Name="@printed_by">
-            <Value>=Parameters!printed_by.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="business_branch_name_en">
-          <DataField>business_branch_name_en</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="business_branch_name_kh">
-          <DataField>business_branch_name_kh</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-    <DataSet Name="Outlet">
-      <SharedDataSet>
-        <SharedDataSetReference>OutletWithAll</SharedDataSetReference>
-        <QueryParameters>
-          <QueryParameter Name="@printed_by">
-            <Value>=Parameters!printed_by.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@business_branch_id">
-            <Value>=Parameters!business_branch_id.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="outlet_name">
-          <DataField>outlet_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -288,31 +207,34 @@ where
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.48812in</Width>
+                  <Width>0.49228in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93473in</Width>
+                  <Width>0.81666in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.8174in</Width>
+                  <Width>0.95973in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.82782in</Width>
+                  <Width>0.5924in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.76532in</Width>
+                  <Width>0.66532in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.77573in</Width>
+                  <Width>0.64448in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.81891in</Width>
+                  <Width>0.54031in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.06891in</Width>
+                  <Width>0.70849in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.871in</Width>
+                  <Width>1.07307in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.87516in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -341,6 +263,46 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox8">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Branch</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -719,6 +681,41 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="business_branch_name_en1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!business_branch_name_en.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="total_document">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1025,6 +1022,46 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox21</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox15">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1377,6 +1414,7 @@ where
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1396,7 +1434,7 @@ where
             <DataSetName>Sale</DataSetName>
             <Top>0.075in</Top>
             <Height>0.72917in</Height>
-            <Width>7.36794in</Width>
+            <Width>7.36792in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1407,7 +1445,7 @@ where
         <Height>0.85417in</Height>
         <Style />
       </Body>
-      <Width>7.36794in</Width>
+      <Width>7.36792in</Width>
       <Page>
         <PageHeader>
           <Height>0.8125in</Height>
@@ -1511,25 +1549,7 @@ where
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Branch: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!business_branch_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> / Outlet: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!outlet_id.Label</Value>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1712,45 +1732,11 @@ where
       <DataType>DateTime</DataType>
       <Prompt>End Date</Prompt>
     </ReportParameter>
-    <ReportParameter Name="business_branch_id">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value />
-        </Values>
-      </DefaultValue>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Branch</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>BusinessBranch</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>business_branch_name_en</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
-    <ReportParameter Name="outlet_id">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value />
-        </Values>
-      </DefaultValue>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Outlet</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>Outlet</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>outlet_name</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>3</NumberOfColumns>
-      <NumberOfRows>3</NumberOfRows>
+      <NumberOfRows>2</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1764,11 +1750,6 @@ where
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
-          <ParameterName>business_branch_id</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>start_date</ParameterName>
         </CellDefinition>
@@ -1776,11 +1757,6 @@ where
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>end_date</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>2</RowIndex>
-          <ParameterName>outlet_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
