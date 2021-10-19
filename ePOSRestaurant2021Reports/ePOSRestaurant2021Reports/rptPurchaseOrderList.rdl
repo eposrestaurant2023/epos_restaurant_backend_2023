@@ -1336,7 +1336,7 @@ where is_deleted = 0</CommandText>
             <DataSetName>PurchaseOrder</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.23353in</Width>
+            <Width>7.23354in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1652,6 +1652,22 @@ where is_deleted = 0</CommandText>
       <DataType>DateTime</DataType>
       <Prompt>End Date</Prompt>
     </ReportParameter>
+    <ReportParameter Name="vendor_id">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Vendor</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Vendor</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>vendor_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
     <ReportParameter Name="business_branch_id">
       <DataType>String</DataType>
       <DefaultValue>
@@ -1683,22 +1699,6 @@ where is_deleted = 0</CommandText>
           <DataSetName>StockLocation</DataSetName>
           <ValueField>id</ValueField>
           <LabelField>stock_location_name</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
-    <ReportParameter Name="vendor_id">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Vendor</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>Vendor</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>vendor_name</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
@@ -1740,7 +1740,7 @@ where is_deleted = 0</CommandText>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>2</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>vendor_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
