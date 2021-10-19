@@ -13,7 +13,7 @@ namespace eAdmin.Pages.PageReceipt.PageWorkingDayDetails
     {
         [Parameter] public string id { get; set; }
         string controller_api = "WorkingDay";
-        public bool receipt_tab_click, sale_product_history_tab_click, payment_history_tab_click;
+        public bool receipt_tab_click, is_open_print, sale_product_history_tab_click, payment_history_tab_click;
         public WorkingDayModel model = new WorkingDayModel();
         public List<ListSummaryModel> list_summaries = new List<ListSummaryModel>();
 
@@ -59,7 +59,7 @@ namespace eAdmin.Pages.PageReceipt.PageWorkingDayDetails
         }
         public void OnPrint()
         {
-            //
+            is_open_print = true;
         }
 
         
