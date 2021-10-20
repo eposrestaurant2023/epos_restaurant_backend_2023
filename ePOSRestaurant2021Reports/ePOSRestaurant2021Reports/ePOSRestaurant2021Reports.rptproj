@@ -90,6 +90,7 @@
     <Report Include="rptPurchaseOrderReceiptA4.rdl" />
     <Report Include="rptPurchaseOrderReceiptA5.rdl" />
     <Report Include="rptPurchaseOrderSinglePaymentReceipt.rdl" />
+    <Report Include="rptSaleProductDetail.rdl" />
     <Report Include="rptSaleReceiptA4.rdl" />
     <Report Include="rptSaleReceiptA5.rdl" />
     <Report Include="rptSaleTransaction.rdl" />
