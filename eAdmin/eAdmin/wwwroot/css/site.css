@@ -326,7 +326,9 @@
     border-radius: 5px;
     padding: 10px;
 }
-
+.report-model .modal-content{
+    height:100vh;
+}
 .font_waith_cust .tbl_actions_group {
     border: none !important;
 }

@@ -11,6 +11,8 @@
             </Com>
         }
     }
+    <ComInputCheckBox @bind-value="@model.is_production_product" label="@lang["Is Production"]" />
+
     <Com is_visible="@(model.is_inventory_product)">
         @if (model.stock_location_products != null && model.stock_location_products.Any())
         {
@@ -74,7 +76,6 @@
                             <td class="uk-text-center">@model.stock_location_products.Sum(r => r.quantity).ToString(gv.quantity_format)</td>
                         }
                         <td class="uk-text-center">@model.stock_location_products.Sum(r => r.initial_quantity).ToString(gv.quantity_format)</td>
-
                         <td colspan="2"></td>
                     </tr>
                 </tfoot>

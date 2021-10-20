@@ -14,7 +14,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="print" title="@lang["Print"]" OnClick="@OnPrint"/>
+                <Button icon="print" title="@lang["Print"]" OnClick="@OnPrint" />
                 <RefreshButton OnClick="@LoadData" />
             </HeaderRight>
         </PageHeader>
@@ -23,37 +23,38 @@
                 <TabHeader>
                     <TabHeaderItem>@lang["Working Day Information"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>receipt_tab_click = true)"> @lang["Sale Receipt"]</TabHeaderItem>
-                     <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)"> @lang["Sale Product"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)"> @lang["Sale Product"]</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
                     <TabItem>
                         <ComWorkingDayDetail_Information model="@model" />
-                        @foreach (var d in list_summaries.Select(r=>r.group_name).Distinct()) {
-                        <UIGridCenter>
-                            <UIContainerBox Title="@d.ToString()">
-                                <ListTable ClassWidth="uk-width-1-1">
-                                    @foreach (var t in list_summaries.Where(r=>r.group_name == d.ToString()))
-                                    {
-                                        <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
-                                    }
-                                </ListTable>
-                            </UIContainerBox>
-                        </UIGridCenter>
+                        @foreach (var d in list_summaries.Select(r => r.group_name).Distinct())
+                        {
+                            <UIGridCenter>
+                                <UIContainerBox Title="@d.ToString()">
+                                    <ListTable ClassWidth="uk-width-1-1">
+                                        @foreach (var t in list_summaries.Where(r => r.group_name == d.ToString()))
+                                        {
+                                            <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
+                                        }
+                                    </ListTable>
+                                </UIContainerBox>
+                            </UIGridCenter>
                         }
                     </TabItem>
                     <TabItem>
                         @if (receipt_tab_click)
                         {
-                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="YuuXCAshierWokignDAYDEl97FALse" Title="@lang["Sale Receipt"]" IsDeletedReceipt="false"/>
-                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="REceCAshWokignxxDAYiptDEl978TRUE" Title="@lang["Deleted Sale Receipt"]" IsDeletedReceipt="true"/>
+                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="YuuXCAshierWokignDAYDEl97FALse" Title="@lang["Sale Receipt"]" IsDeletedReceipt="false" />
+                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="REceCAshWokignxxDAYiptDEl978TRUE" Title="@lang["Deleted Sale Receipt"]" IsDeletedReceipt="true" />
                         }
                     </TabItem>
                     <TabItem>
                         @if (sale_product_history_tab_click)
-                        { 
+                        {
                             <UIGridCenter>
-                                <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" WorkingDayId="@id"/>
-                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" WorkingDayId="@id"/>
+                                <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" WorkingDayId="@id" />
+                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" WorkingDayId="@id" />
                             </UIGridCenter>
                         }
                     </TabItem>
@@ -61,6 +62,11 @@
             </Tab>
         </PageBody>
     </PageContainer>
+    @if (is_open_print)
+    {
+
+        <ComPreviewReport @bind-IsOpened="@is_open_print" report_id="231" Title="@lang["Working Day Detail"]" report_parameters="@($"id={id}&user_id={gv.current_login_user.id}")" />
+    }
 }
 @if (is_error)
 {
