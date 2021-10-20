@@ -419,6 +419,7 @@ button.uk-button.uk-button-tab {
         margin-right: 15px;
     }
 .report-content-item {
+    border-bottom: 1px solid #eaeaea;
     cursor: pointer;
     transition: .2s;
     padding-top: 5px;
@@ -427,12 +428,12 @@ button.uk-button.uk-button-tab {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    font-size:12px;
+    font-size: 12px;
 }
 
-.report-content-item:not(:last-child) {
+/*.report-content-item:not(:last-child) {
     border-bottom: 1px solid #eaeaea;
-}
+}*/
 .label-btn-file-upload {
     background: white;
     padding: 5px;
