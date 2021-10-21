@@ -6,89 +6,16 @@
     <DataSource Name="DataSource">
       <DataSourceReference>DataSource</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
-      <rd:DataSourceID>6abf4afe-7a5f-4b13-8b9f-d7968b2ea8e5</rd:DataSourceID>
+      <rd:DataSourceID>f311e62a-705a-4551-90b1-990de62cb39a</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="sale_product">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <QueryParameters>
-          <QueryParameter Name="@sale_id">
-            <Value>=Parameters!sale_id.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <CommandText>select 
-	note,
-	product_name_en,
-	product_name_kh,
-portion_name,
-is_free,
-	total_discount_amount,
-	quantity,
-	price,
-	total_amount,
-	unit,
-	sale_product_modifier_name 
-from tbl_sale_product
-where 
-	sale_id = @sale_id and
-	is_deleted = 0 and
-	status = 1</CommandText>
-      </Query>
-      <Fields>
-        <Field Name="note">
-          <DataField>note</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="product_name_en">
-          <DataField>product_name_en</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="product_name_kh">
-          <DataField>product_name_kh</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="portion_name">
-          <DataField>portion_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="is_free">
-          <DataField>is_free</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="total_discount_amount">
-          <DataField>total_discount_amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="quantity">
-          <DataField>quantity</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="price">
-          <DataField>price</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="total_amount">
-          <DataField>total_amount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="unit">
-          <DataField>unit</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sale_product_modifier_name">
-          <DataField>sale_product_modifier_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
     <DataSet Name="sale_data">
       <Query>
         <DataSourceName>DataSource</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@sale_id">
-            <Value>=Parameters!sale_id.Value</Value>
+          <QueryParameter Name="@id">
+            <Value>=Parameters!id.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandText>select 
@@ -111,23 +38,22 @@ a.sale_type,
 	e.customer_name_en,
 	e.phone_1 as customer_phone_1,
 	e.phone_2 as customer_phone_2,
-	f.table_name,
-	g.station_name_en,
+	a.table_name,
+	a.station_name_en,
 a.tax_1_rate,
 a.tax_1_amount,
 a.tax_2_rate,
 a.tax_2_amount,
 a.tax_3_rate,
-a.tax_3_amount 
+a.tax_3_amount ,
+a.total_amount
 from tbl_sale a 
 inner join tbl_outlet b on a.outlet_id = b.id
 inner join tbl_business_branch c on c.id = a.business_branch_id
 inner join tbl_sale_status d on d.id = a.status_id
-inner join tbl_customer e on a.customer_id = e.id
-inner join tbl_table f on f.id = a.table_id 
-inner join tbl_station g on g.id = a.station_id
+LEFT join tbl_customer e on a.customer_id = e.id
 where
-	a.id = @sale_id</CommandText>
+cast(a.id as nvarchar(50)) = @id</CommandText>
       </Query>
       <Fields>
         <Field Name="document_number">
@@ -238,6 +164,10 @@ where
           <DataField>tax_3_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="total_amount">
+          <DataField>total_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="setting">
@@ -283,20 +213,20 @@ where
       <Query>
         <DataSourceName>DataSource</DataSourceName>
         <QueryParameters>
-          <QueryParameter Name="@sale_id">
-            <Value>=Parameters!sale_id.Value</Value>
+          <QueryParameter Name="@id">
+            <Value>=Parameters!id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>select  
-b.payment_type_name_en,
-a.payment_amount,
-c.report_format
-from tbl_sale_payment a
-inner join tbl_payment_type b on a.payment_type_id = b.id
-inner join tbl_currency c on c.id = a.currency_id
-where 
-a.is_deleted = 0 and a.status = 1 and
-sale_id = @sale_id</CommandText>
+        <CommandText>	select  
+	b.payment_type_name_en,
+	a.payment_amount,
+	c.report_format
+	from tbl_sale_payment a
+	inner join tbl_payment_type b on a.payment_type_id = b.id
+	inner join tbl_currency c on c.id = a.currency_id
+	where 
+	a.is_deleted = 0 and a.status = 1 and
+	cast(sale_id As nvarchar(50))= @id</CommandText>
       </Query>
       <Fields>
         <Field Name="payment_type_name_en">
@@ -310,6 +240,138 @@ sale_id = @sale_id</CommandText>
         <Field Name="report_format">
           <DataField>report_format</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="sale_product">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@id">
+            <Value>=Parameters!id.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>select 
+	note,
+	product_name_en,
+	product_name_kh,
+portion_name,
+is_free,
+	total_discount_amount,
+	quantity,
+	price,
+	total_amount,
+	unit,
+	sale_product_modifier_name 
+from tbl_sale_product
+where 
+	cast(sale_id as nvarchar(50)) = @id and
+	is_deleted = 0 and
+	status = 1</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="unit">
+          <DataField>unit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="quantity">
+          <DataField>quantity</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="total_discount_amount">
+          <DataField>total_discount_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="total_amount">
+          <DataField>total_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="product_name_en">
+          <DataField>product_name_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="product_name_kh">
+          <DataField>product_name_kh</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="note">
+          <DataField>note</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="portion_name">
+          <DataField>portion_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="price">
+          <DataField>price</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="is_free">
+          <DataField>is_free</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="sale_product_modifier_name">
+          <DataField>sale_product_modifier_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="company_infor">
+      <SharedDataSet>
+        <SharedDataSetReference>CompanyInfo</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="company_name">
+          <DataField>company_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="company_name_kh">
+          <DataField>company_name_kh</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="company_logo">
+          <DataField>company_logo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="address">
+          <DataField>address</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="mobile_phone">
+          <DataField>mobile_phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="office_phone">
+          <DataField>office_phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="email">
+          <DataField>email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="contact_name">
+          <DataField>contact_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="contact_phone_number">
+          <DataField>contact_phone_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="contact_office_number">
+          <DataField>contact_office_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="contact_email">
+          <DataField>contact_email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="color">
+          <DataField>color</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -1600,18 +1662,7 @@ sale_id = @sale_id</CommandText>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>(</Value>
-                                  <Style />
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!sale_product_modifier_name.Value</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>)</Value>
+                                  <Value>=iif(Fields!sale_product_modifier_name.Value = "","","(") &amp; Fields!sale_product_modifier_name.Value &amp; iif(Fields!sale_product_modifier_name.Value = "","",")")</Value>
                                   <Style />
                                 </TextRun>
                                 <TextRun>
@@ -1838,7 +1889,7 @@ sale_id = @sale_id</CommandText>
             <Top>3.81066in</Top>
             <Left>0.08929in</Left>
             <Height>0.72979in</Height>
-            <Width>7.11572in</Width>
+            <Width>7.11573in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -1888,7 +1939,7 @@ sale_id = @sale_id</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Mahob Group</Value>
+                    <Value>=First(Fields!company_name.Value, "company_infor")</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>18pt</FontSize>
@@ -1902,10 +1953,9 @@ sale_id = @sale_id</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox4</rd:DefaultName>
-            <Top>0.30044in</Top>
-            <Left>1.05556in</Left>
+            <Left>0.09385in</Left>
             <Height>0.28674in</Height>
-            <Width>5.09876in</Width>
+            <Width>7.09272in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -2688,6 +2738,115 @@ sale_id = @sale_id</CommandText>
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox85">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Total Amount</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox85</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>2pt</Width>
+                            </Border>
+                            <PaddingLeft>3.75pt</PaddingLeft>
+                            <PaddingRight>3.75pt</PaddingRight>
+                            <PaddingTop>3.75pt</PaddingTop>
+                            <PaddingBottom>3.75pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox45">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>:</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox30</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox92">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!total_amount.Value, First(Fields!currency_format.Value, "setting"))</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox92</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                              <Width>2pt</Width>
+                            </Border>
+                            <PaddingLeft>3.75pt</PaddingLeft>
+                            <PaddingRight>3.75pt</PaddingRight>
+                            <PaddingTop>3.75pt</PaddingTop>
+                            <PaddingBottom>3.75pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
@@ -2714,12 +2873,15 @@ sale_id = @sale_id</CommandText>
                     <TablixMember />
                   </TablixMembers>
                 </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
             <Top>4.71753in</Top>
             <Left>0.08929in</Left>
-            <Height>1.54167in</Height>
+            <Height>1.79167in</Height>
             <Width>7.10183in</Width>
             <ZIndex>4</ZIndex>
             <Visibility>
@@ -2734,21 +2896,6 @@ sale_id = @sale_id</CommandText>
               </TopBorder>
             </Style>
           </Tablix>
-          <Image Name="Logo">
-            <Source>Embedded</Source>
-            <Value>logomahobkhmer</Value>
-            <Sizing>FitProportional</Sizing>
-            <Top>0.29605in</Top>
-            <Left>0.00877in</Left>
-            <Height>0.73191in</Height>
-            <Width>0.99123in</Width>
-            <ZIndex>5</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Image>
           <Textbox Name="Textbox73">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -2770,11 +2917,11 @@ sale_id = @sale_id</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox73</rd:DefaultName>
-            <Top>0.56734in</Top>
-            <Left>1.02778in</Left>
+            <Top>0.30063in</Top>
+            <Left>0.03571in</Left>
             <Height>0.17325in</Height>
-            <Width>5.12653in</Width>
-            <ZIndex>6</ZIndex>
+            <Width>7.18657in</Width>
+            <ZIndex>5</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2802,11 +2949,11 @@ sale_id = @sale_id</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox74</rd:DefaultName>
-            <Top>0.73313in</Top>
-            <Left>1.02778in</Left>
+            <Top>0.51555in</Top>
+            <Left>0.08929in</Left>
             <Height>0.10468in</Height>
-            <Width>5.12653in</Width>
-            <ZIndex>7</ZIndex>
+            <Width>7.18657in</Width>
+            <ZIndex>6</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3058,7 +3205,7 @@ sale_id = @sale_id</CommandText>
             <Left>0.00877in</Left>
             <Height>0.5in</Height>
             <Width>3.547in</Width>
-            <ZIndex>8</ZIndex>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3089,7 +3236,7 @@ sale_id = @sale_id</CommandText>
             <Top>1.32923in</Top>
             <Height>0.17708in</Height>
             <Width>7.19112in</Width>
-            <ZIndex>9</ZIndex>
+            <ZIndex>8</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3238,7 +3385,7 @@ sale_id = @sale_id</CommandText>
             <Top>1.64336in</Top>
             <Height>0.25in</Height>
             <Width>3.55577in</Width>
-            <ZIndex>10</ZIndex>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3396,11 +3543,11 @@ sale_id = @sale_id</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>6.7592in</Top>
-            <Left>0.08929in</Left>
+            <Top>7.06476in</Top>
+            <Left>0.09385in</Left>
             <Height>0.25in</Height>
             <Width>7.09728in</Width>
-            <ZIndex>11</ZIndex>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3547,11 +3694,11 @@ sale_id = @sale_id</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_payment</DataSetName>
-            <Top>6.2592in</Top>
-            <Left>0.08929in</Left>
+            <Top>6.52309in</Top>
+            <Left>0.08473in</Left>
             <Height>0.25in</Height>
             <Width>7.09728in</Width>
-            <ZIndex>12</ZIndex>
+            <ZIndex>11</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3711,11 +3858,11 @@ sale_id = @sale_id</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>6.5092in</Top>
-            <Left>0.09385in</Left>
+            <Top>6.78698in</Top>
+            <Left>0.08929in</Left>
             <Height>0.25in</Height>
             <Width>7.09272in</Width>
-            <ZIndex>13</ZIndex>
+            <ZIndex>12</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3726,7 +3873,7 @@ sale_id = @sale_id</CommandText>
         <Height>7.3842in</Height>
         <Style />
       </Body>
-      <Width>7.22228in</Width>
+      <Width>7.27586in</Width>
       <Page>
         <PageFooter>
           <Height>3.125in</Height>
@@ -3822,24 +3969,26 @@ sale_id = @sale_id</CommandText>
       <Prompt>id</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
-    <ReportParameter Name="user_id">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>1</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>user_id</Prompt>
-      <Hidden>true</Hidden>
-    </ReportParameter>
-    <ReportParameter Name="sale_id">
+    <ReportParameter Name="printed_by">
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>EED5F1C1-EBA8-4885-8CA9-08D93DF83989</Value>
+          <Value>admin</Value>
         </Values>
       </DefaultValue>
-      <Prompt>sale id</Prompt>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>printed_by</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="report_url">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=Globals!ReportName</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>report_url</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
@@ -3856,12 +4005,12 @@ sale_id = @sale_id</CommandText>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>0</RowIndex>
-          <ParameterName>user_id</ParameterName>
+          <ParameterName>printed_by</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>2</ColumnIndex>
           <RowIndex>0</RowIndex>
-          <ParameterName>sale_id</ParameterName>
+          <ParameterName>report_url</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
