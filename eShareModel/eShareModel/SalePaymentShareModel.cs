@@ -30,6 +30,8 @@ namespace eShareModel
         public int currency_id { get; set; }
         public string currency_name_en { get; set; }
         public string currency_name_kh { get; set; }
+        public string currency_format { get; set; }
+
 
         public string payment_type_name_en { get; set; }
         public string payment_type_name_kh { get; set; }
