@@ -90,11 +90,8 @@
     <Report Include="rptPurchaseOrderReceiptA4.rdl" />
     <Report Include="rptPurchaseOrderReceiptA5.rdl" />
     <Report Include="rptPurchaseOrderSinglePaymentReceipt.rdl" />
-    <Report Include="rptSaleProductDetail.rdl" />
-    <Report Include="rptSaleProductSummary.rdl" />
     <Report Include="rptSaleReceiptA4.rdl" />
-    <Report Include="rptSaleSummaryByProductCategory.rdl" />
-    <Report Include="rptSaleSummaryByProductGroup.rdl" />
+    <Report Include="rptSaleReceiptA5.rdl" />
     <Report Include="rptSaleTransaction.rdl" />
     <Report Include="rptStockTakeList.rdl" />
     <Report Include="rptStockTakeReceiptA4.rdl" />
@@ -103,6 +100,7 @@
     <Report Include="rptStockTransferReceiptA4.rdl" />
     <Report Include="rptStockTransferReceiptA5.rdl" />
     <Report Include="rptVendorList.rdl" />
+    <Report Include="rptxSaleReceiptA5.rdl" />
     <Report Include="rptYearlySaleSummary.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
