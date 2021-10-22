@@ -111,8 +111,7 @@
             <Value>=Parameters!customer_group_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
-select 
+        <CommandText>select 
 	s.working_date,
 	sum(s.sub_total) as sub_total,
 	sum(s.total_amount) as total_amount,
@@ -125,13 +124,14 @@ from tbl_sale s
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id
 where
+	s.is_deleted = 0 and 
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	s.is_foc = 0 and 
 	coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
-	coalesce(cast(c.customer_group_id as nvarchar(50)),'') = iif(@customer_group_id = '', coalesce(cast(c.customer_group_id as nvarchar(50)),'') ,@customer_group_id) 
-	 
+	coalesce(cast(c.customer_group_id as nvarchar(50)),0) = iif(@customer_group_id = 0, coalesce(cast(c.customer_group_id as nvarchar(50)),0) ,@customer_group_id) 
+	  
 group by
 	s.working_date</CommandText>
       </Query>
@@ -1428,7 +1428,7 @@ group by
             <DataSetName>Sale</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.25917in</Width>
+            <Width>7.25915in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1803,13 +1803,12 @@ group by
       </ValidValues>
     </ReportParameter>
     <ReportParameter Name="customer_group_id">
-      <DataType>String</DataType>
+      <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
-          <Value />
+          <Value>0</Value>
         </Values>
       </DefaultValue>
-      <AllowBlank>true</AllowBlank>
       <Prompt>Customer Group</Prompt>
       <ValidValues>
         <DataSetReference>

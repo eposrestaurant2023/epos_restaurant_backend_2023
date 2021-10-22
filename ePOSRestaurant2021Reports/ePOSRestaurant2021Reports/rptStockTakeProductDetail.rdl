@@ -85,10 +85,13 @@
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="PurchaseOrder">
+    <DataSet Name="StockTakeData">
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
+          <QueryParameter Name="@printed_by">
+            <Value>=Parameters!printed_by.Value</Value>
+          </QueryParameter>
           <QueryParameter Name="@start_date">
             <Value>=Parameters!start_date.Value</Value>
           </QueryParameter>
@@ -101,12 +104,6 @@
           <QueryParameter Name="@stock_location_id">
             <Value>=Parameters!stock_location_id.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@vendor_id">
-            <Value>=Parameters!vendor_id.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@vendor_group_id">
-            <Value>=Parameters!vendor_group_id.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@product_category_id">
             <Value>=Parameters!product_category_id.Value</Value>
           </QueryParameter>
@@ -114,60 +111,89 @@
             <Value>=Parameters!product_group_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>select 
-	p.product_name_en,
-	p.product_category_en,
-	avg(pop.cost) as cost,
-	SUM(pop.quantity) as quantity,
-	SUM(pop.total_discount) as total_discount,
-	SUM(pop.sub_total) as sub_total,
-	SUM(pop.total_amount) as total_amount
-from tbl_purchase_order_product pop
-	inner join tbl_purchase_order po on po.id = pop.purchase_order_id
-	inner join tbl_vendor v on  v.id = po.vendor_id
-	inner join tbl_product p on p.id = pop.product_id 
+        <CommandText>
+	select
+	b.product_name_en,
+	a.quantity,
+	a.total_amount,
+	a.cost,
+	a.sub_total,
+	c.created_by,
+	c.created_date,
+	d.product_category_en,
+	c.document_number,
+	c.stock_take_date,
+	f.business_branch_name_en,
+	st.stock_location_name
+from tbl_stock_take_product a 
+	inner join tbl_product b on a.product_id = b.id
+	inner join tbl_stock_take c on c.id = a.stock_take_id
+	inner join tbl_product_category d on d.id = b.product_category_id 
+	inner join dbo.fn_get_business_branch_by_role(@printed_by) f on f.id = c.business_branch_id
+	inner join tbl_stock_location st on st.id = c.stock_location_id
 where 
-	po.purchase_date between @start_date and @end_date and
-	po.business_branch_id = iif(@business_branch_id='',po.business_branch_id,@business_branch_id) and
-	po.stock_location_id = iif(@stock_location_id='',po.stock_location_id,@stock_location_id) and 
-	po.is_deleted = 0 and 
-	pop.is_deleted = 0 and 
-	po.vendor_id = iif(@vendor_id = 0,po.vendor_id,@vendor_id) and 
-	v.vendor_group_id  = iif(@vendor_group_id = 0,v.vendor_group_id,@vendor_group_id) and 
-	p.product_category_id = iif(@product_category_id = 0,p.product_category_id,@product_category_id) and 
-	p.product_group_id = iif(@product_group_id = 0,p.product_group_id,@product_group_id)
-group by
-	p.product_category_en,
-	p.product_name_en</CommandText>
+	c.is_deleted = 0 and 
+	a.is_deleted = 0 and 
+	c.stock_take_date  between @start_date and @end_date and
+	c.business_branch_id = iif(@business_branch_id='',c.business_branch_id,@business_branch_id) and
+	c.stock_location_id = iif(@stock_location_id='',c.stock_location_id,@stock_location_id) and 
+	b.product_category_id = iif(@product_category_id = 0,b.product_category_id,@product_category_id) and 
+	b.product_group_id = iif(@product_group_id = 0,b.product_group_id,@product_group_id)
+ 
+
+order by
+	c.document_number,
+	b.product_category_en,
+	b.product_name_en</CommandText>
       </Query>
       <Fields>
         <Field Name="product_name_en">
           <DataField>product_name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="product_category_en">
-          <DataField>product_category_en</DataField>
+        <Field Name="quantity">
+          <DataField>quantity</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="document_number">
+          <DataField>document_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="cost">
           <DataField>cost</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="quantity">
-          <DataField>quantity</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="total_discount">
-          <DataField>total_discount</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
         <Field Name="sub_total">
           <DataField>sub_total</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="created_by">
+          <DataField>created_by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="total_amount">
           <DataField>total_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="created_date">
+          <DataField>created_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="stock_take_date">
+          <DataField>stock_take_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="product_category_en">
+          <DataField>product_category_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="business_branch_name_en">
+          <DataField>business_branch_name_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="stock_location_name">
+          <DataField>stock_location_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -265,49 +291,6 @@ group by
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="VendorGroup">
-      <SharedDataSet>
-        <SharedDataSetReference>VendorGroupWithAll</SharedDataSetReference>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="vendor_group_name">
-          <DataField>vendor_group_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-    <DataSet Name="Vendor">
-      <SharedDataSet>
-        <SharedDataSetReference>VendorWithAll</SharedDataSetReference>
-        <QueryParameters>
-          <QueryParameter Name="@vendor_group_id">
-            <Value>=Parameters!vendor_group_id.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="vendor_name">
-          <DataField>vendor_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
     <DataSet Name="ProductGroup">
       <SharedDataSet>
         <SharedDataSetReference>ProductGroupWithAll</SharedDataSetReference>
@@ -368,28 +351,37 @@ group by
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.42557in</Width>
+                  <Width>0.63702in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>0.96077in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.71505in</Width>
+                  <Width>1.18087in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6339in</Width>
+                  <Width>1.14744in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6875in</Width>
+                  <Width>1.35124in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.86004in</Width>
+                  <Width>0.79478in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.76041in</Width>
+                  <Width>0.84687in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.16585in</Width>
+                  <Width>1.0016in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.13854in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.89895in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.09687in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -437,14 +429,52 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox9">
+                        <Textbox Name="Textbox1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Category</Value>
+                                  <Value>Date</Value>
+                                  <Style>
+                                    <FontFamily>arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox48">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Doc #</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -454,7 +484,7 @@ group by
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <rd:DefaultName>Textbox48</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -511,7 +541,62 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox24">
+                        <Textbox Name="Textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Branch</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Warehouse</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox35">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -528,6 +613,86 @@ group by
                               </TextRuns>
                               <Style>
                                 <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox35</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox10">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Cost</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox10</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox24">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Sub Total</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -558,7 +723,7 @@ group by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Cost</Value>
+                                  <Value>Total Amount</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -591,14 +756,14 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox27">
+                        <Textbox Name="Textbox18">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Sub Total</Value>
+                                  <Value>User</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -607,11 +772,11 @@ group by
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox27</rd:DefaultName>
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -631,14 +796,14 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox1">
+                        <Textbox Name="Textbox15">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Discount</Value>
+                                  <Value>Created Date</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -647,51 +812,11 @@ group by
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox11">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Total Amount</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -750,14 +875,14 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="product_name_en1">
+                        <Textbox Name="purchase_date">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!product_name_en.Value</Value>
+                                  <Value>=Format(Fields!stock_take_date.Value,"dd/MM/yyyy")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -767,7 +892,7 @@ group by
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>product_name_en1</rd:DefaultName>
+                          <rd:DefaultName>purchase_date</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -790,7 +915,7 @@ group by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!product_name_en.Value</Value>
+                                  <Value>=Fields!document_number.Value</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -801,6 +926,87 @@ group by
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>product_name_en</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="document_number">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!product_name_en.Value</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>document_number</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="business_branch_name_en1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!business_branch_name_en.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!stock_location_name.Value</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>business_branch_name_en1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -851,49 +1057,14 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="cost">
+                        <Textbox Name="sub_total2">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Format(Fields!cost.Value,First(Fields!currency_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>cost</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="sub_total">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Format(Fields!sub_total.Value,First(Fields!currency_format.Value, "Setting"))</Value>
+                                  <Value>=format(Fields!cost.Value, First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -921,14 +1092,14 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="total_discount">
+                        <Textbox Name="sub_total">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Format(Fields!total_discount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
+                                  <Value>=format(Fields!sub_total.Value,First(Fields!currency_format.Value, "Setting"))</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -940,7 +1111,7 @@ group by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>total_discount</rd:DefaultName>
+                          <rd:DefaultName>sub_total</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -976,6 +1147,76 @@ group by
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>total_amount</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="created_by">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!created_by.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>created_by</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="created_date">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Format(Fields!created_date.Value,"dd/MM/yyyy HH:mm")</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>created_date</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1032,14 +1273,55 @@ group by
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <ColSpan>3</ColSpan>
+                        <ColSpan>4</ColSpan>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
                     <TablixCell />
+                    <TablixCell />
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="quantity1">
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox37">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1059,7 +1341,7 @@ group by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>quantity1</rd:DefaultName>
+                          <rd:DefaultName>Textbox37</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1079,7 +1361,7 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="cost1">
+                        <Textbox Name="Textbox69">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1099,7 +1381,7 @@ group by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>cost1</rd:DefaultName>
+                          <rd:DefaultName>Textbox69</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1119,7 +1401,7 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="sub_total1">
+                        <Textbox Name="Textbox26">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1139,7 +1421,7 @@ group by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>sub_total1</rd:DefaultName>
+                          <rd:DefaultName>Textbox26</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1159,47 +1441,7 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox10">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Format(Sum(Fields!total_discount.Value),First(Fields!currency_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox13">
+                        <Textbox Name="Textbox23">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1219,7 +1461,87 @@ group by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox21">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox21</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox17">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1251,6 +1573,9 @@ group by
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1261,16 +1586,19 @@ group by
                 </TablixMember>
                 <TablixMember>
                   <Group Name="Details" />
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
                 </TablixMember>
                 <TablixMember>
                   <KeepWithGroup>Before</KeepWithGroup>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>PurchaseOrder</DataSetName>
+            <DataSetName>StockTakeData</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.24833in</Width>
+            <Width>11.05495in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1278,10 +1606,10 @@ group by
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>0.82986in</Height>
+        <Height>0.79862in</Height>
         <Style />
       </Body>
-      <Width>7.24916in</Width>
+      <Width>11.05495in</Width>
       <Page>
         <PageHeader>
           <Height>0.8125in</Height>
@@ -1309,7 +1637,7 @@ group by
               </Paragraphs>
               <rd:DefaultName>business_branch_name_en</rd:DefaultName>
               <Height>0.25in</Height>
-              <Width>7.24833in</Width>
+              <Width>11.05495in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1342,7 +1670,7 @@ group by
               <Top>0.27083in</Top>
               <Left>0.00083in</Left>
               <Height>0.22917in</Height>
-              <Width>7.24833in</Width>
+              <Width>11.05412in</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -1367,19 +1695,7 @@ group by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value>=Format(Parameters!start_date.Value,"dd/MM/yyyy")</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>- </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Format(Parameters!end_date.Value,"dd/MM/yyyy")</Value>
+                      <Value>=Format(Parameters!start_date.Value,"dd/MM/yyyy") + "/" + Format(Parameters!end_date.Value,"dd/MM/yyyy")</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1397,7 +1713,7 @@ group by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Warehouse: </Value>
+                      <Value>  / Warehouse: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1432,30 +1748,6 @@ group by
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
-                    <TextRun>
-                      <Value>/ Vendor Group: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!vendor_group_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> / Vendor: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!vendor_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
                   </TextRuns>
                   <Style />
                 </Paragraph>
@@ -1464,7 +1756,7 @@ group by
               <Top>0.54167in</Top>
               <Left>0.00083in</Left>
               <Height>0.20833in</Height>
-              <Width>7.24833in</Width>
+              <Width>11.05412in</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>
@@ -1574,7 +1866,7 @@ group by
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
               <Top>0.06944in</Top>
-              <Left>4.14583in</Left>
+              <Left>7.95245in</Left>
               <Height>0.1875in</Height>
               <Width>3.1025in</Width>
               <ZIndex>1</ZIndex>
@@ -1595,12 +1887,12 @@ group by
             </Border>
           </Style>
         </PageFooter>
-        <PageHeight>11.69in</PageHeight>
-        <PageWidth>8.27in</PageWidth>
-        <LeftMargin>0.5in</LeftMargin>
-        <RightMargin>0.5in</RightMargin>
-        <TopMargin>0.3in</TopMargin>
-        <BottomMargin>0.3in</BottomMargin>
+        <PageHeight>8.27in</PageHeight>
+        <PageWidth>11.69in</PageWidth>
+        <LeftMargin>0.3in</LeftMargin>
+        <RightMargin>0.3in</RightMargin>
+        <TopMargin>0.5in</TopMargin>
+        <BottomMargin>0.5in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -1700,43 +1992,11 @@ group by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
-    <ReportParameter Name="vendor_group_id">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Vendor Group</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>VendorGroup</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>vendor_group_name</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
-    <ReportParameter Name="vendor_id">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Vendor</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>Vendor</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>vendor_name</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>3</NumberOfColumns>
-      <NumberOfRows>5</NumberOfRows>
+      <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1754,11 +2014,6 @@ group by
           <ParameterName>business_branch_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>2</RowIndex>
-          <ParameterName>stock_location_id</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>start_date</ParameterName>
@@ -1769,9 +2024,9 @@ group by
           <ParameterName>end_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
-          <RowIndex>4</RowIndex>
-          <ParameterName>vendor_group_id</ParameterName>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>stock_location_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1782,11 +2037,6 @@ group by
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>product_category_id</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>4</RowIndex>
-          <ParameterName>vendor_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

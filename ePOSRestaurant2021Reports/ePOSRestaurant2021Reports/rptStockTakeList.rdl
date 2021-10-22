@@ -109,6 +109,7 @@
 	b.business_branch_name_en,
 	a.stock_take_date,
 	a.document_number,
+	a.total_quantity,
 	a.total_amount,
 	d.stock_location_name,
 	reference_number
@@ -117,9 +118,12 @@ from
 	inner join fn_get_business_branch_by_role(@printed_by) b on a.business_branch_id = b.id
 	inner join tbl_stock_location d on d.id = a.stock_location_id
 where 
+	a.is_deleted = 0 and
 	a.stock_take_date between @start_date and @end_date and
 	a.business_branch_id = iif(@business_branch_id='',a.business_branch_id,@business_branch_id) and
-	a.stock_location_id = iif(@stock_location_id = '',a.stock_location_id,@stock_location_id)</CommandText>
+	a.stock_location_id = iif(@stock_location_id = '',a.stock_location_id,@stock_location_id)
+order by
+	a.document_number</CommandText>
       </Query>
       <Fields>
         <Field Name="business_branch_name_en">
@@ -133,6 +137,10 @@ where
         <Field Name="document_number">
           <DataField>document_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="total_quantity">
+          <DataField>total_quantity</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_amount">
           <DataField>total_amount</DataField>
@@ -251,25 +259,28 @@ where
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.42557in</Width>
+                  <Width>0.48406in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15557in</Width>
+                  <Width>1.01614in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.9889in</Width>
+                  <Width>0.92322in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.22901in</Width>
+                  <Width>1.02708in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.25287in</Width>
+                  <Width>1.15511in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.33334in</Width>
+                  <Width>1.00641in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.86307in</Width>
+                  <Width>0.71474in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.92156in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -332,7 +343,9 @@ where
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox1</rd:DefaultName>
@@ -369,7 +382,9 @@ where
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox8</rd:DefaultName>
@@ -408,7 +423,7 @@ where
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -493,6 +508,46 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox31</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox16">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>QTY</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox16</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -605,7 +660,9 @@ where
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>purchase_date</rd:DefaultName>
@@ -638,7 +695,9 @@ where
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>document_number</rd:DefaultName>
@@ -672,7 +731,7 @@ where
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -747,6 +806,41 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>stock_location_name</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="total_quantity">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!total_quantity.Value,First(Fields!quantity_format.Value, "Setting"))</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>total_quantity</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -861,7 +955,7 @@ where
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Left</TextAlign>
+                                <TextAlign>Center</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -965,6 +1059,46 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox18">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!total_quantity.Value),First(Fields!quantity_format.Value, "Setting"))</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox26">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1009,6 +1143,7 @@ where
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
+                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />

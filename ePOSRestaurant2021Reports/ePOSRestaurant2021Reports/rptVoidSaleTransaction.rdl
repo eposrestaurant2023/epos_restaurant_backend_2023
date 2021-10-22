@@ -113,9 +113,9 @@
         </QueryParameters>
         <CommandText>
 
-
 select 
 	s.id,
+	sale_number,
 	s.document_number,
 	s.table_name,
 	s.working_date,
@@ -129,18 +129,20 @@ select
 	s.outlet_name_en,
 	s.business_branch_id,
 	b.business_branch_name_en,
-	s.closed_by,
+	s.deleted_by,
+	s.deleted_date,
+	s.deleted_note,
 	s.customer_name
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id
 where
+	s.is_deleted = 1 and
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
-	s.is_foc = 0 and 
 	coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
-	coalesce(cast(c.customer_group_id as nvarchar(50)),'') = iif(@customer_group_id = '', coalesce(cast(c.customer_group_id as nvarchar(50)),'') ,@customer_group_id) 
+	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id)  
 	 
 order by
 	document_number</CommandText>
@@ -149,6 +151,10 @@ order by
         <Field Name="id">
           <DataField>id</DataField>
           <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="sale_number">
+          <DataField>sale_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="document_number">
           <DataField>document_number</DataField>
@@ -202,12 +208,20 @@ order by
           <DataField>business_branch_name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="closed_by">
-          <DataField>closed_by</DataField>
+        <Field Name="deleted_by">
+          <DataField>deleted_by</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="customer_name">
           <DataField>customer_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="deleted_date">
+          <DataField>deleted_date</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="deleted_note">
+          <DataField>deleted_note</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -385,25 +399,25 @@ order by
                   <Width>0.48851in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.76976in</Width>
+                  <Width>0.69684in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.70726in</Width>
+                  <Width>0.54059in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.71767in</Width>
+                  <Width>0.551in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.76085in</Width>
+                  <Width>0.88585in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.01085in</Width>
+                  <Width>0.88666in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.81294in</Width>
+                  <Width>1in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.03249in</Width>
+                  <Width>1.25171in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -703,7 +717,7 @@ order by
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -734,7 +748,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Discount</Value>
+                                  <Value>Dis.</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -807,46 +821,6 @@ order by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox29">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Cost</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox29</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="Textbox32">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -854,7 +828,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total Amount</Value>
+                                  <Value>Total Amt</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -868,46 +842,6 @@ order by
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox32</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox35">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Profit</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox35</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -948,6 +882,86 @@ order by
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox44</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Deleted Date</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox17">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Note</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1013,7 +1027,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!document_number.Value</Value>
+                                  <Value>=iif(Fields!document_number.Value="",Fields!sale_number.Value,Fields!document_number.Value)</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1030,7 +1044,7 @@ order by
                             <Actions>
                               <Action>
                                 <Drillthrough>
-                                  <ReportName>rptSaleReceiptA4</ReportName>
+                                  <ReportName>rptVoidSaleReceiptA4</ReportName>
                                   <Parameters>
                                     <Parameter Name="id">
                                       <Value>=Fields!id.Value</Value>
@@ -1248,7 +1262,7 @@ order by
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1338,41 +1352,6 @@ order by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="total_cost">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(Fields!total_cost.Value,First(Fields!currency_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>total_cost</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="total_net_sale">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1408,14 +1387,14 @@ order by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="total_profit">
+                        <Textbox Name="deleted_by">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!total_profit.Value,First(Fields!currency_format.Value, "Setting"))</Value>
+                                  <Value>=Fields!deleted_by.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1423,11 +1402,11 @@ order by
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Right</TextAlign>
+                                <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>total_profit</rd:DefaultName>
+                          <rd:DefaultName>deleted_by</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1443,14 +1422,49 @@ order by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="closed_by">
+                        <Textbox Name="deleted_date">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!closed_by.Value</Value>
+                                  <Value>=format(Fields!deleted_date.Value,"dd/MM/yyyy HH:mm")</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>deleted_date</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="deleted_note">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!deleted_note.Value</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1462,7 +1476,7 @@ order by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>closed_by</rd:DefaultName>
+                          <rd:DefaultName>deleted_note</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1779,7 +1793,7 @@ order by
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -1883,46 +1897,6 @@ order by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox31">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(Sum(Fields!total_cost.Value),First(Fields!currency_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox31</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="Textbox34">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1944,46 +1918,6 @@ order by
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox34</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox37">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=format(Sum(Fields!total_profit.Value),First(Fields!currency_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox37</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -2041,6 +1975,86 @@ order by
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox16">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox16</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox19">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox19</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
@@ -2080,7 +2094,7 @@ order by
             <DataSetName>Sale</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>11.07999in</Width>
+            <Width>11.08082in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2455,13 +2469,12 @@ order by
       </ValidValues>
     </ReportParameter>
     <ReportParameter Name="customer_group_id">
-      <DataType>String</DataType>
+      <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
-          <Value />
+          <Value>0</Value>
         </Values>
       </DefaultValue>
-      <AllowBlank>true</AllowBlank>
       <Prompt>Customer Group</Prompt>
       <ValidValues>
         <DataSetReference>

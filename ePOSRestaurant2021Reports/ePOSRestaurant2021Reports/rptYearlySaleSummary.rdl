@@ -116,7 +116,7 @@ from tbl_sale s
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) c on c.id = s.business_branch_id
 where
 	s.is_foc = 0 and
-
+	s.is_deleted = 0 and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) 
 group by
