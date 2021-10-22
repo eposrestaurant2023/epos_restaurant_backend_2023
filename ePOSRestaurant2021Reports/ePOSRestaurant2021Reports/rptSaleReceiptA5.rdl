@@ -564,13 +564,13 @@ where
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.00944in</Width>
+                  <Width>1.1513in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.21972in</Width>
+                  <Width>0.22123in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.13887in</Width>
+                  <Width>1.63198in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1376,10 +1376,10 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>1.39336in</Top>
-            <Left>2.85197in</Left>
+            <Top>1.14336in</Top>
+            <Left>2.21548in</Left>
             <Height>1.75in</Height>
-            <Width>2.36803in</Width>
+            <Width>3.00451in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1847,7 +1847,7 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_product</DataSetName>
-            <Top>3.22316in</Top>
+            <Top>2.97316in</Top>
             <Height>0.55271in</Height>
             <Width>5.22in</Width>
             <ZIndex>1</ZIndex>
@@ -1864,11 +1864,15 @@ where
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>RECEIPT</Value>
+                    <Value>RECEIPT # : </Value>
                     <Style>
                       <FontSize>12pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>=First(Fields!document_number.Value, "sale_data")</Value>
+                    <Style />
                   </TextRun>
                 </TextRuns>
                 <Style>
@@ -2767,7 +2771,7 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>3.84253in</Top>
+            <Top>3.59253in</Top>
             <Left>1.60197in</Left>
             <Height>1.5in</Height>
             <Width>3.61803in</Width>
@@ -2856,52 +2860,11 @@ where
               </Border>
             </Style>
           </Textbox>
-          <Textbox Name="Textbox1">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Receipt</Value>
-                    <Style />
-                  </TextRun>
-                  <TextRun>
-                    <Value>#: </Value>
-                    <Style>
-                      <FontSize>11pt</FontSize>
-                    </Style>
-                  </TextRun>
-                  <TextRun>
-                    <Value>=First(Fields!document_number.Value, "sale_data")</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox1</rd:DefaultName>
-            <Top>1.07923in</Top>
-            <Height>0.22385in</Height>
-            <Width>5.22in</Width>
-            <ZIndex>7</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Tablix Name="Tablix1">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>1.13954in</Width>
+                  <Width>0.74371in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.24418in</Width>
@@ -3353,7 +3316,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Business Branch</Value>
+                                  <Value>Branch</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Arial</FontFamily>
@@ -3463,7 +3426,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Outlet Name</Value>
+                                  <Value>Outlet</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontSize>9pt</FontSize>
@@ -3571,7 +3534,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Station Name</Value>
+                                  <Value>Station </Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontSize>9pt</FontSize>
@@ -3688,10 +3651,10 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_data</DataSetName>
-            <Top>1.39336in</Top>
+            <Top>1.14336in</Top>
             <Height>1.75in</Height>
-            <Width>2.47003in</Width>
-            <ZIndex>8</ZIndex>
+            <Width>2.07421in</Width>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3699,10 +3662,10 @@ where
             </Style>
           </Tablix>
           <Line Name="Line1">
-            <Top>3.80781in</Top>
+            <Top>3.55781in</Top>
             <Height>0in</Height>
             <Width>5.22in</Width>
-            <ZIndex>9</ZIndex>
+            <ZIndex>8</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -3869,11 +3832,11 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>GrandTotalData</DataSetName>
-            <Top>5.36197in</Top>
+            <Top>5.11197in</Top>
             <Left>1.60197in</Left>
             <Height>0.25in</Height>
-            <Width>3.61803in</Width>
-            <ZIndex>10</ZIndex>
+            <Width>3.61802in</Width>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Style>Solid</Style>
@@ -4144,11 +4107,11 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>PaymentData</DataSetName>
-            <Top>5.63003in</Top>
+            <Top>5.38003in</Top>
             <Left>1.60197in</Left>
             <Height>0.5in</Height>
             <Width>3.61803in</Width>
-            <ZIndex>11</ZIndex>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4342,11 +4305,11 @@ where
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>sale_product</DataSetName>
-            <Top>3.90917in</Top>
+            <Top>3.65917in</Top>
             <Left>0.01389in</Left>
             <Height>0.5in</Height>
             <Width>1.51864in</Width>
-            <ZIndex>12</ZIndex>
+            <ZIndex>11</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
