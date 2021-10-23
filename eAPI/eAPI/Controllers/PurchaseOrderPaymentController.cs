@@ -102,7 +102,8 @@ namespace eAPI.Controllers
              
                 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            db.Database.ExecuteSqlRaw("exec sp_update_purchase_order_payment " + p.purchase_order_id);
+            string _query_update = $"exec sp_update_purchase_order_payment_currency_value {p.purchase_order_id},{p.id}; exec sp_update_purchase_order_payment {p.purchase_order_id}";
+            db.Database.ExecuteSqlRaw(_query_update);
             return Ok(p);
              
         }
