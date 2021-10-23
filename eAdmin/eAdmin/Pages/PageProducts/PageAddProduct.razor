@@ -56,7 +56,6 @@
                                         <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true" is_ingredient_category="false">
                                             <ValidationMessage For="@(()=>model.product_category_id)" />
                                         </SelectProductCategory>
-
                                         <SelectKitchenGroupNullable @bind-selected_value="@model.kitchen_group_id" show_empty="true" />
 
                                         <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@model.unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
