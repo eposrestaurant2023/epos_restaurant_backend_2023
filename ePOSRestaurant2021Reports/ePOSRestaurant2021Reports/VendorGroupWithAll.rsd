@@ -3,28 +3,33 @@
   <DataSet Name="DataSet1">
     <Query>
       <DataSourceReference>DataSource</DataSourceReference>
-      <CommandText>with a as  (
-	select 0 as id, 'All Groups' as customer_group, 0 as sort_order
+      <CommandText> 
+;with a as  (
+	select 0 as id, 'All Vendor Group' as vendor_group_name, 0 as sort_order
 	union all
 	select 
-		id , 
-		customer_group_name_en, 
+		id  as id, 
+		c.vendor_group_name_en,
 		1 as sort_order 
-	from tbl_customer_group 
+	from tbl_vendor_group c 
 	where
-		status = 1 and 
-		is_deleted = 0
+		c.status = 1 and 
+		c.is_deleted = 0 
  	
 )
-select * from a order by sort_order, customer_group</CommandText>
+select * from a order by sort_order, vendor_group_name
+
+ 
+
+</CommandText>
     </Query>
     <Fields>
       <Field Name="id">
         <DataField>id</DataField>
         <rd:TypeName>System.Int32</rd:TypeName>
       </Field>
-      <Field Name="customer_group">
-        <DataField>customer_group</DataField>
+      <Field Name="vendor_group_name">
+        <DataField>vendor_group_name</DataField>
         <rd:TypeName>System.String</rd:TypeName>
       </Field>
       <Field Name="sort_order">

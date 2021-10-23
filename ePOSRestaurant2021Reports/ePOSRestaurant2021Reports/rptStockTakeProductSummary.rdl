@@ -85,7 +85,7 @@
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="PurchaseOrder">
+    <DataSet Name="StockTakeData">
       <Query>
         <DataSourceName>Datasource</DataSourceName>
         <QueryParameters>
@@ -101,12 +101,6 @@
           <QueryParameter Name="@stock_location_id">
             <Value>=Parameters!stock_location_id.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@vendor_id">
-            <Value>=Parameters!vendor_id.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@vendor_group_id">
-            <Value>=Parameters!vendor_group_id.Value</Value>
-          </QueryParameter>
           <QueryParameter Name="@product_category_id">
             <Value>=Parameters!product_category_id.Value</Value>
           </QueryParameter>
@@ -114,26 +108,23 @@
             <Value>=Parameters!product_group_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>select 
+        <CommandText>
+select 
 	p.product_name_en,
 	p.product_category_en,
-	avg(pop.cost) as cost,
-	SUM(pop.quantity) as quantity,
-	SUM(pop.total_discount) as total_discount,
-	SUM(pop.sub_total) as sub_total,
-	SUM(pop.total_amount) as total_amount
-from tbl_purchase_order_product pop
-	inner join tbl_purchase_order po on po.id = pop.purchase_order_id
-	inner join tbl_vendor v on  v.id = po.vendor_id
-	inner join tbl_product p on p.id = pop.product_id 
+	avg(sp.cost) as cost,
+	SUM(sp.quantity) as quantity,
+	SUM(sp.sub_total) as sub_total,
+	SUM(sp.total_amount) as total_amount
+from tbl_stock_take_product sp
+	inner join tbl_stock_take s on s.id = sp.stock_take_id
+	inner join tbl_product p on p.id = sp.product_id 
 where 
-	po.purchase_date between @start_date and @end_date and
-	po.business_branch_id = iif(@business_branch_id='',po.business_branch_id,@business_branch_id) and
-	po.stock_location_id = iif(@stock_location_id='',po.stock_location_id,@stock_location_id) and 
-	po.is_deleted = 0 and 
-	pop.is_deleted = 0 and 
-	po.vendor_id = iif(@vendor_id = 0,po.vendor_id,@vendor_id) and 
-	v.vendor_group_id  = iif(@vendor_group_id = 0,v.vendor_group_id,@vendor_group_id) and 
+	s.stock_take_date between @start_date and @end_date and
+	s.business_branch_id = iif(@business_branch_id='',s.business_branch_id,@business_branch_id) and
+	s.stock_location_id = iif(@stock_location_id='',s.stock_location_id,@stock_location_id) and 
+	s.is_deleted = 0 and 
+	sp.is_deleted = 0 and 
 	p.product_category_id = iif(@product_category_id = 0,p.product_category_id,@product_category_id) and 
 	p.product_group_id = iif(@product_group_id = 0,p.product_group_id,@product_group_id)
 group by
@@ -155,10 +146,6 @@ group by
         </Field>
         <Field Name="quantity">
           <DataField>quantity</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="total_discount">
-          <DataField>total_discount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="sub_total">
@@ -265,49 +252,6 @@ group by
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="VendorGroup">
-      <SharedDataSet>
-        <SharedDataSetReference>VendorGroupWithAll</SharedDataSetReference>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="vendor_group_name">
-          <DataField>vendor_group_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
-    <DataSet Name="Vendor">
-      <SharedDataSet>
-        <SharedDataSetReference>VendorWithAll</SharedDataSetReference>
-        <QueryParameters>
-          <QueryParameter Name="@vendor_group_id">
-            <Value>=Parameters!vendor_group_id.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="vendor_name">
-          <DataField>vendor_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="sort_order">
-          <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
     <DataSet Name="ProductGroup">
       <SharedDataSet>
         <SharedDataSetReference>ProductGroupWithAll</SharedDataSetReference>
@@ -368,28 +312,25 @@ group by
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.42557in</Width>
+                  <Width>0.5342in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1in</Width>
+                  <Width>1.10863in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.71505in</Width>
+                  <Width>1.82368in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6339in</Width>
+                  <Width>0.74253in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6875in</Width>
+                  <Width>0.79613in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.86004in</Width>
+                  <Width>0.96867in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.76041in</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>1.16585in</Width>
+                  <Width>1.27448in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -612,46 +553,6 @@ group by
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox27</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <BottomBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </BottomBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
-                        <Textbox Name="Textbox1">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Discount</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -921,41 +822,6 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="total_discount">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Format(Fields!total_discount.Value,First(Fields!currency_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>total_discount</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="total_amount">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1159,46 +1025,6 @@ group by
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox10">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>=Format(Sum(Fields!total_discount.Value),First(Fields!currency_format.Value, "Setting"))</Value>
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                              <Width>0.25pt</Width>
-                            </Border>
-                            <TopBorder>
-                              <Style>Solid</Style>
-                              <Width>1pt</Width>
-                            </TopBorder>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell>
-                      <CellContents>
                         <Textbox Name="Textbox13">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1250,7 +1076,6 @@ group by
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
-                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1267,7 +1092,7 @@ group by
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>PurchaseOrder</DataSetName>
+            <DataSetName>StockTakeData</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
             <Width>7.24833in</Width>
@@ -1428,30 +1253,6 @@ group by
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!product_category_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>/ Vendor Group: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!vendor_group_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value> / Vendor: </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!vendor_id.Label</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1700,43 +1501,11 @@ group by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
-    <ReportParameter Name="vendor_group_id">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Vendor Group</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>VendorGroup</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>vendor_group_name</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
-    <ReportParameter Name="vendor_id">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Vendor</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>Vendor</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>vendor_name</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>3</NumberOfColumns>
-      <NumberOfRows>5</NumberOfRows>
+      <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1770,11 +1539,6 @@ group by
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>4</RowIndex>
-          <ParameterName>vendor_group_id</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>product_group_id</ParameterName>
         </CellDefinition>
@@ -1782,11 +1546,6 @@ group by
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>product_category_id</ParameterName>
-        </CellDefinition>
-        <CellDefinition>
-          <ColumnIndex>1</ColumnIndex>
-          <RowIndex>4</RowIndex>
-          <ParameterName>vendor_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

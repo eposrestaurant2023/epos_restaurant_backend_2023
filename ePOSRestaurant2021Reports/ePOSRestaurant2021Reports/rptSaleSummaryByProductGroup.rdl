@@ -131,9 +131,12 @@ from tbl_sale_product sp
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id 
 where
+	s.is_deleted = 0 and 
+	sp.is_deleted = 0 and 
+	sp.status_id in (1,2) and 
 	s.working_date between @start_date and @end_date and
-	cast(s.customer_id as nvarchar(50)) = iif(@customer_id = '',cast(s.customer_id as nvarchar(50)) ,@customer_id) and 
-	c.customer_group_id = iif(@customer_group_id= 0,c.customer_group_id,@customer_group_id) and 
+	coalesce(cast(s.customer_id as nvarchar(50)),'') = iif(@customer_id = '',coalesce(cast(s.customer_id as nvarchar(50)),'') ,@customer_id) and 
+	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) and 
 	sp.product_category_id = iif(@product_category_id=0,sp.product_category_id,@product_category_id) and 
 	sp.product_group_id  = iif(@product_group_id = 0, sp.product_group_id,@product_group_id) and 
 	cast(s.outlet_id as nvarchar(50))= iif(@outlet_id = 0, cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
@@ -142,9 +145,7 @@ where
 group by
 	coalesce(sp.product_group_en,'Not Set')
 order by 
-	coalesce(sp.product_group_en,'Not Set')
-
-	 </CommandText>
+	coalesce(sp.product_group_en,'Not Set')</CommandText>
       </Query>
       <Fields>
         <Field Name="poduct_group_name_en">
@@ -1895,13 +1896,12 @@ order by
       </ValidValues>
     </ReportParameter>
     <ReportParameter Name="customer_group_id">
-      <DataType>String</DataType>
+      <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
-          <Value />
+          <Value>0</Value>
         </Values>
       </DefaultValue>
-      <AllowBlank>true</AllowBlank>
       <Prompt>Customer Group</Prompt>
       <ValidValues>
         <DataSetReference>

@@ -111,14 +111,16 @@
             <Value>=Parameters!to_business_branch_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>select 
+        <CommandText>
+select 
 	b.business_branch_name_en,
 	a.stock_transfer_date,
 	a.document_number,
+	a.total_quantity,
 	a.total_amount,
 	b.business_branch_name_en as from_business_branch_name,
 	d.stock_location_name as from_stock_location_name,
-	d.stock_location_name as to_business_branch,
+	e.business_branch_name_en as to_business_branch,
 	f.stock_location_name as to_stock_location_name,
 	a.reference_number
 from 
@@ -128,11 +130,14 @@ from
 	inner join fn_get_business_branch_by_role(@printed_by) e on a.to_business_branch_id = b.id
 	inner join tbl_stock_location f on a.to_stock_location_id = f.id
 where 
+	a.is_deleted  = 0 and 
 	a.stock_transfer_date between @start_date and @end_date and
-	a.from_business_branch_id = iif(@from_business_branch_id='',a.from_business_branch_id,@from_business_branch_id) and
-	a.from_stock_location_id = iif(@to_stock_location_id = '',a.from_stock_location_id,@from_stock_location_id) and
-	a.to_stock_location_id = iif(@to_stock_location_id = '',a.to_stock_location_id,@to_stock_location_id) and
-	a.to_business_branch_id = iif(@from_business_branch_id='',a.to_business_branch_id,@to_business_branch_id)</CommandText>
+	cast(a.from_business_branch_id as nvarchar(50)) = iif(@from_business_branch_id='',cast(a.from_business_branch_id as nvarchar(50)),@from_business_branch_id) and
+	cast(a.from_stock_location_id as nvarchar(50))= iif(@to_stock_location_id = '',cast(a.from_stock_location_id as nvarchar(50)),@from_stock_location_id) and
+	cast(a.to_stock_location_id as nvarchar(50))= iif(@to_stock_location_id = '',cast(a.to_stock_location_id as nvarchar(50)),@to_stock_location_id) and
+	cast(a.to_business_branch_id as nvarchar(50))= iif(@from_business_branch_id='',cast(a.to_business_branch_id as nvarchar(50)),@to_business_branch_id)
+order by
+	a.document_number </CommandText>
       </Query>
       <Fields>
         <Field Name="business_branch_name_en">
@@ -146,6 +151,10 @@ where
         <Field Name="document_number">
           <DataField>document_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="total_quantity">
+          <DataField>total_quantity</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="total_amount">
           <DataField>total_amount</DataField>
@@ -315,10 +324,13 @@ where
                   <Width>1.01026in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.55495in</Width>
+                  <Width>1.20078in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.63542in</Width>
+                  <Width>1.25in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.75in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.86307in</Width>
@@ -491,7 +503,22 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>From Business Branch</Value>
+                                  <Value>From Branch</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>From Warehouse</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -531,7 +558,22 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>To Business Branch</Value>
+                                  <Value>To Branch</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>To Warehouse</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -545,6 +587,46 @@ where
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox10</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>QTY</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -751,7 +833,21 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!from_business_branch_name.Value + " (" + Fields!from_stock_location_name.Value + ")"</Value>
+                                  <Value>=Fields!business_branch_name_en.Value</Value>
+                                  <Style>
+                                    <FontFamily>Kh System</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!from_stock_location_name.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -779,14 +875,28 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="from_business_branch_name">
+                        <Textbox Name="to_business_branch">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!from_business_branch_name.Value + " (" + Fields!to_stock_location_name.Value + ")"</Value>
+                                  <Value>=Fields!to_business_branch.Value</Value>
+                                  <Style>
+                                    <FontFamily>Kh System</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!from_stock_location_name.Value</Value>
                                   <Style>
                                     <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -798,7 +908,42 @@ where
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>from_business_branch_name</rd:DefaultName>
+                          <rd:DefaultName>to_business_branch</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="total_quantity">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!total_quantity.Value,First(Fields!quantity_format.Value, "Setting"))</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>total_quantity</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1017,6 +1162,46 @@ where
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox17">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!total_quantity.Value),First(Fields!quantity_format.Value, "Setting"))</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox26">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1068,6 +1253,7 @@ where
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -1087,7 +1273,7 @@ where
             <DataSetName>StockTransfer</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.24833in</Width>
+            <Width>7.25875in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1098,7 +1284,7 @@ where
         <Height>0.75695in</Height>
         <Style />
       </Body>
-      <Width>7.24916in</Width>
+      <Width>7.25875in</Width>
       <Page>
         <PageHeader>
           <Height>0.8125in</Height>
@@ -1190,7 +1376,7 @@ where
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / From Branch: </Value>
+                      <Value> / Warehouse: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1202,7 +1388,7 @@ where
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / From Warehouse: </Value>
+                      <Value> (</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1214,18 +1400,7 @@ where
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style />
-                </Paragraph>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value> From Branch: </Value>
+                      <Value>)  to  </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1237,13 +1412,19 @@ where
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / From Warehouse: </Value>
+                      <Value> (</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!to_stock_location_id.Label</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>)</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>

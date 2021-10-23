@@ -133,12 +133,13 @@ from tbl_sale s
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id
 where
+	s.is_deleted = 0 and
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
 	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) and 
 	s.is_foc = 1 and 
 	coalesce(cast(c.id as nvarchar(50)),'') = iif(@customer_id = '', coalesce(cast(c.id as nvarchar(50)),'') ,@customer_id) and 
-	coalesce(cast(c.customer_group_id as nvarchar(50)),'') = iif(@customer_group_id = '', coalesce(cast(c.customer_group_id as nvarchar(50)),'') ,@customer_group_id) 
+	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id) 
 	 
 order by
 	document_number</CommandText>
@@ -2436,7 +2437,7 @@ order by
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value />
+          <Value>0</Value>
         </Values>
       </DefaultValue>
       <AllowBlank>true</AllowBlank>

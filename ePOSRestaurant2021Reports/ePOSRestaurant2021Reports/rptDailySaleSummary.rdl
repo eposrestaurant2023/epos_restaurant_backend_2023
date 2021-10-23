@@ -105,7 +105,7 @@
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
+        <CommandText>		
  declare @start_date date, @end_date date;
  SET @start_date = cast(@year as nvarchar(4)) + '-' + cast(@month as nvarchar(2)) + '-01'
  SET @end_date = EOMONTH(@start_date)
@@ -127,6 +127,7 @@ select
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) c on c.id = s.business_branch_id
 where
+	s.is_deleted = 0 and 
 	s.is_foc = 0 and
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
@@ -147,8 +148,7 @@ select
 from tbl_number n
 left join #tbl t on working_date  = cast(@year as nvarchar(4)) + '-' + cast(@month as nvarchar(2)) + '-' + cast(n.number as nvarchar(2))
 where
-	n.number between 1 and  DAY(@end_date)
-	 </CommandText>
+	n.number between 1 and  DAY(@end_date)</CommandText>
       </Query>
       <Fields>
         <Field Name="working_date">

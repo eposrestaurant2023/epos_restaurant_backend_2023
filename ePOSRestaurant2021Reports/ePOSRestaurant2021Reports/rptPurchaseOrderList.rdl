@@ -107,8 +107,12 @@
           <QueryParameter Name="@vendor_id">
             <Value>=Parameters!vendor_id.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@vendor_group_id">
+            <Value>=Parameters!vendor_group_id.Value</Value>
+          </QueryParameter>
         </QueryParameters>
-        <CommandText>select 
+        <CommandText>
+select 
 	b.business_branch_name_en,
 	a.purchase_date,
 	a.document_number,
@@ -129,10 +133,14 @@ from
 	inner join tbl_vendor c on a.vendor_id = c.id 
 	inner join tbl_stock_location d on d.id = a.stock_location_id
 where 
+	a.is_deleted = 0 and 
 	a.purchase_date between @start_date and @end_date and
 	a.business_branch_id = iif(@business_branch_id='',a.business_branch_id,@business_branch_id) and
 	a.stock_location_id = iif(@stock_location_id = '',a.stock_location_id,@stock_location_id) and
-	a.vendor_id = iif(@vendor_id=0,a.vendor_id,@vendor_id)</CommandText>
+	a.vendor_id = iif(@vendor_id=0,a.vendor_id,@vendor_id) and 
+	c.vendor_group_id = iif(@vendor_group_id= 0,c.vendor_group_id,@vendor_group_id)  	 
+order by
+	a.document_number</CommandText>
       </Query>
       <Fields>
         <Field Name="business_branch_name_en">
@@ -288,16 +296,14 @@ where
       </Fields>
     </DataSet>
     <DataSet Name="Vendor">
-      <Query>
-        <DataSourceName>Datasource</DataSourceName>
-        <CommandText>select 0 as id, 'All Vendor' as vendor_name
-union
-select 
-	id,vendor_name 
-from 
-	tbl_vendor
-where is_deleted = 0</CommandText>
-      </Query>
+      <SharedDataSet>
+        <SharedDataSetReference>VendorWithAll</SharedDataSetReference>
+        <QueryParameters>
+          <QueryParameter Name="@vendor_group_id">
+            <Value>=Parameters!vendor_group_id.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+      </SharedDataSet>
       <Fields>
         <Field Name="id">
           <DataField>id</DataField>
@@ -306,6 +312,29 @@ where is_deleted = 0</CommandText>
         <Field Name="vendor_name">
           <DataField>vendor_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="VendorGroup">
+      <SharedDataSet>
+        <SharedDataSetReference>VendorGroupWithAll</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="vendor_group_name">
+          <DataField>vendor_group_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="sort_order">
+          <DataField>sort_order</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -1439,18 +1468,6 @@ where is_deleted = 0</CommandText>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> /  Vendor:  </Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
-                      <Value>=Parameters!vendor_id.Label</Value>
-                      <Style>
-                        <FontSize>8pt</FontSize>
-                      </Style>
-                    </TextRun>
-                    <TextRun>
                       <Value> / Branch: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
@@ -1470,6 +1487,30 @@ where is_deleted = 0</CommandText>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!stock_location_id.Label</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> / Vendor Group: </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!vendor_group_id.Label</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> / Vendor:  </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!vendor_id.Label</Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1652,22 +1693,6 @@ where is_deleted = 0</CommandText>
       <DataType>DateTime</DataType>
       <Prompt>End Date</Prompt>
     </ReportParameter>
-    <ReportParameter Name="vendor_id">
-      <DataType>Integer</DataType>
-      <DefaultValue>
-        <Values>
-          <Value>0</Value>
-        </Values>
-      </DefaultValue>
-      <Prompt>Vendor</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>Vendor</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>vendor_name</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
     <ReportParameter Name="business_branch_id">
       <DataType>String</DataType>
       <DefaultValue>
@@ -1699,6 +1724,38 @@ where is_deleted = 0</CommandText>
           <DataSetName>StockLocation</DataSetName>
           <ValueField>id</ValueField>
           <LabelField>stock_location_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="vendor_group_id">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Vendor Group</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>VendorGroup</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>vendor_group_name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="vendor_id">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Vendor</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Vendor</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>vendor_name</LabelField>
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
@@ -1739,9 +1796,14 @@ where is_deleted = 0</CommandText>
           <ParameterName>end_date</ParameterName>
         </CellDefinition>
         <CellDefinition>
-          <ColumnIndex>2</ColumnIndex>
-          <RowIndex>1</RowIndex>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>3</RowIndex>
           <ParameterName>vendor_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>vendor_group_id</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

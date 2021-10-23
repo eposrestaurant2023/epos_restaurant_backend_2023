@@ -65,6 +65,8 @@
     <DataSet Include="StationName.rsd" />
     <DataSet Include="StockLocationWithAll.rsd" />
     <DataSet Include="TableName.rsd" />
+    <DataSet Include="VendorGroupWithAll.rsd" />
+    <DataSet Include="VendorWithAll.rsd" />
     <DataSet Include="Years.rsd" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +75,7 @@
   <ItemGroup>
     <Report Include="rptCashierShiftSaleProduct.rdl" />
     <Report Include="rptCloseWorkingDay.rdl" />
+    <Report Include="rptCustomerList.rdl" />
     <Report Include="rptDailySaleSummary.rdl" />
     <Report Include="rptFOCSaleSummaryByCustomer.rdl" />
     <Report Include="rptFOCSaleTransaction.rdl" />
@@ -82,7 +85,6 @@
     <Report Include="rptMenuProductPriceList.rdl" />
     <Report Include="rptMonthlySaleSummary.rdl" />
     <Report Include="rptProductList.rdl" />
-    <Report Include="rptPurchaseOrder.rdl" />
     <Report Include="rptPurchaseOrderList.rdl" />
     <Report Include="rptPurchaseOrderPaymentReceipt.rdl" />
     <Report Include="rptPurchaseOrderProductDetail.rdl" />
@@ -91,15 +93,27 @@
     <Report Include="rptPurchaseOrderReceiptA5.rdl" />
     <Report Include="rptPurchaseOrderSinglePaymentReceipt.rdl" />
     <Report Include="rptSaleReceiptA4.rdl" />
+    <Report Include="rptSaleSummaryByBranch.rdl" />
+    <Report Include="rptSaleSummaryByCustomer.rdl" />
+    <Report Include="rptSaleSummaryByOutlet.rdl" />
+    <Report Include="rptSaleSummaryByPaymentType.rdl" />
+    <Report Include="rptSaleSummaryByProductCategory.rdl" />
+    <Report Include="rptSaleSummaryByProductGroup.rdl" />
+    <Report Include="rptSaleTaxSummary.rdl" />
     <Report Include="rptSaleReceiptA5.rdl" />
     <Report Include="rptSaleTransaction.rdl" />
     <Report Include="rptStockTakeList.rdl" />
+    <Report Include="rptStockTakeProductDetail.rdl" />
+    <Report Include="rptStockTakeProductSummary.rdl" />
     <Report Include="rptStockTakeReceiptA4.rdl" />
-    <Report Include="rptStockTakeReceiptA5.rdl" />
     <Report Include="rptStockTransferList.rdl" />
+    <Report Include="rptStockTransferProductDetail.rdl" />
     <Report Include="rptStockTransferReceiptA4.rdl" />
     <Report Include="rptStockTransferReceiptA5.rdl" />
     <Report Include="rptVendorList.rdl" />
+    <Report Include="rptVoidSaleProductDetail.rdl" />
+    <Report Include="rptVoidSaleReceiptA4.rdl" />
+    <Report Include="rptVoidSaleTransaction.rdl" />
     <Report Include="rptYearlySaleSummary.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />

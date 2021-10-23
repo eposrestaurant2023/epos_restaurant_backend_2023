@@ -105,7 +105,8 @@
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>		 
+        <CommandText>
+		 
 if object_id('tempdb..#tbl') is not null drop table #tbl
 
 select 
@@ -122,6 +123,7 @@ select
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) c on c.id = s.business_branch_id
 where
+	s.is_deleted = 0 and
 	s.is_foc = 0 and
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
