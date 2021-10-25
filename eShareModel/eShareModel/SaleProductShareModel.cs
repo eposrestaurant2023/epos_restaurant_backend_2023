@@ -112,6 +112,9 @@ namespace eShareModel
         public string discount_note { get; set; }
         public string discount_code { get; set; }
 
+
+        public string revenue_group_name { get; set; }
+
     }
 
     public class SaleProductModifierShareModel : CoreGUIDModel

@@ -160,6 +160,7 @@ namespace eAPI
         public DbSet<ProductTaxModel> ProductTaxes { get; set; }
         public DbSet<CashDrawerModel> CashDrawers { get; set; }
         public DbSet<CashDrawerAmountModel> CashDrawerAmounts{ get; set; }
+        public DbSet<RevenueGroupModel> RevenueGroups{ get; set; }
         public DbSet<TestModel> Tests { get; set; }
        
     }
