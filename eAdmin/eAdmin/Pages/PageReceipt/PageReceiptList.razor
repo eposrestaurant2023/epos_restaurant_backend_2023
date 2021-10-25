@@ -134,7 +134,7 @@
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdCenter>
-                            @(p.last_modified_date?.ToString(gv.date_time_format))
+                            @(Convert.ToDateTime(p.last_modified_date).ToString(gv.date_time_format))
                         </TdCenter>
                         <td>
                             @p.last_modified_by
