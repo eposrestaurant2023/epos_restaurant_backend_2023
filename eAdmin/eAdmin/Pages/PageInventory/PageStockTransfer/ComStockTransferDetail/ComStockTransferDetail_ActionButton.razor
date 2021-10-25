@@ -27,8 +27,7 @@
 
 @if (is_open_print)
 {
-
-    <ComPreviewReport IsOpened="@is_open_print" report_id="201" Title="Stock Transfer Receipt" report_parameters="@($"id={model.id}&user_id={gv.current_login_user.id}")" OnClose="@(()=>is_open_print=false)" />
+    <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="200" Title="@lang["Stock Transfer Receipt"]" report_parameters="@($"id={model.id}")" />
 }
 
 

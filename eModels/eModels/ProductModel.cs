@@ -31,6 +31,7 @@ namespace eModels
         public bool is_low_inventory { get; set; } = false;
         public bool is_over_stock { get; set; } = false;
         public decimal quantity { get; set; }
+        public string revenue_group_name { get; set; }
         public List<StockLocationProductModel> stock_location_products { get; set; }
         public List<ProductTaxModel> product_taxes { get; set; }
         public string product_tax_value { get; set; }

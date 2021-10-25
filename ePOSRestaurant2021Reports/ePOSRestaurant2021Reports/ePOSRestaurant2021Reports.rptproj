@@ -113,6 +113,8 @@
     <Report Include="rptVoidSaleProductDetail.rdl" />
     <Report Include="rptVoidSaleReceiptA4.rdl" />
     <Report Include="rptVoidSaleTransaction.rdl" />
+    <Report Include="rptWorkingDayDetailA4.rdl" />
+    <Report Include="rptWorkingDayList.rdl" />
     <Report Include="rptYearlySaleSummary.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
