@@ -90,7 +90,7 @@
                             @p.sale?.balance.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdCenter>
-                            @(p.sale?.last_modified_date?.ToString(gv.date_time_format))
+                            @(p.sale?.last_modified_date.ToString(gv.date_time_format))
                         </TdCenter>
                         <td>
                             @p.sale?.last_modified_by
