@@ -28,5 +28,9 @@ namespace eShareModel
         public string close_note { get; set; }
         public string open_note { get; set; }
         public string working_day_number { get; set; } = "";
+
+        public Guid cash_drawer_id { get; set; }
+         
+
     }
 }
