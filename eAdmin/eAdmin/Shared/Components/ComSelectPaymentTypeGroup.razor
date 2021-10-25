@@ -1,0 +1,47 @@
+﻿<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">@label</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+            @foreach (var d in payment_types)
+            {
+                <option value="@d">@d</option>
+            }
+        </select>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Payment Type Group";
+    [Parameter] public bool show_empty { get; set; } = true;
+    [Parameter] public string empty_text { get; set; } = "Select Payment Type Group";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public string selected_value { get; set; }
+    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
+
+    List<string> payment_types
+    {
+        get
+        {
+            string a = gv.settings.Where(r => r.id == 6).FirstOrDefault().setting_value;
+            return gv.settings.Where(r => r.id == 6).FirstOrDefault().setting_value.Split(", ").ToList();
+        }
+    }
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+
+        await selected_valueChanged.InvokeAsync(n);
+
+    }
+
+}

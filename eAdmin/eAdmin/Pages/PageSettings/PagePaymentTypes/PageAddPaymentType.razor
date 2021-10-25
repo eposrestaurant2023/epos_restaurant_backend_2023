@@ -19,7 +19,7 @@
                             }
                             else
                             {
-                                @(id>0? $"Edit : {model.payment_type_name_en}" : "New Payment Type")
+                                @(id > 0 ? $"Edit : {model.payment_type_name_en}" : "New Payment Type")
                             }
                         </span>
                     </HeaderTemplate>
@@ -39,8 +39,9 @@
                         <NumberInputInt @bind-text="@model.sort_order" label="Sort Order" width="100%" />
                         <TextInput label="Note" @bind-text="@model.note" type="textarea" />
                         <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="Select Currency" label="Currency">
-                            <ValidationMessage For="@(()=>model.currency_id)" />
+                            <ValidationMessage For="@(() => model.currency_id)" />
                         </SelectCurrency>
+                        <ComSelectPaymentTypeGroup @bind-selected_value="@model.payment_type_group"/>
                         <SelectStatus @bind-selected_value="@model.status" />
 
 
@@ -68,6 +69,8 @@
     [Parameter] public int clone_id { get; set; }
     PaymentTypeModel model = new PaymentTypeModel();
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
+   
+
     string ControllerApi = "PaymentType";
     public string api_url
     {
