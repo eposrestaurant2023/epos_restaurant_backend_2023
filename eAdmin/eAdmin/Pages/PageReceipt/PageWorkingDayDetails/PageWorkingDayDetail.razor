@@ -28,12 +28,12 @@
                 <TabBody>
                     <TabItem>
                         <ComWorkingDayDetail_Information model="@model" />
-                        @foreach (var d in list_summaries.Select(r => r.group_name).Distinct())
+                        @foreach (var d in list_summaries.Select(r => r.group).Distinct())
                         {
                             <UIGridCenter>
                                 <UIContainerBox Title="@d.ToString()">
                                     <ListTable ClassWidth="uk-width-1-1">
-                                        @foreach (var t in list_summaries.Where(r => r.group_name == d.ToString()))
+                                        @foreach (var t in list_summaries.Where(r => r.group == d.ToString()))
                                         {
                                             <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
                                         }
