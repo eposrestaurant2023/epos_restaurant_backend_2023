@@ -14,6 +14,8 @@ namespace eShareModel
         public string outlet_name_en { get; set; }
         public string outlet_name_kh { get; set; }
 
+ 
+
         public string closed_station_name_en { get; set; }
         public string closed_station_name_kh { get; set; }
 
@@ -36,6 +38,10 @@ namespace eShareModel
         public string close_note { get; set; }
  
         public string shift_name { get; set; }
+
+
+        public Guid cash_drawer_id { get; set; }
+        public string cash_drawer_name { get; set; }
 
 
     }
