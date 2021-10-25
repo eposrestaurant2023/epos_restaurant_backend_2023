@@ -45,7 +45,8 @@ namespace eModels
 
     public class ListSummaryModel
     {
-        public string group_name { get; set; }
+        public string group { get; set; }
+        public int sort_order { get; set; }
         public string title { get; set; }
         public string value { get; set; }
     }
