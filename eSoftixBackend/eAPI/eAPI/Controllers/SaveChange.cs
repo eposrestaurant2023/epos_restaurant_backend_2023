@@ -24,7 +24,10 @@ namespace eAPI.Controllers
                     {
                         entidad.created_date = DateTime.Now;
                         entidad.created_by = user.full_name;
+                        entidad.last_modified_date = DateTime.Now;
+                        entidad.last_modified_by = user.full_name;
                     }
+
                     if (entinodeleted != null)
                     {
                         entinodeleted.created_date = DateTime.Now;
@@ -41,6 +44,8 @@ namespace eAPI.Controllers
                         entidad.deleted_date = DateTime.Now;
                         entidad.deleted_by = user.full_name;
                     }
+                    entidad.last_modified_date = DateTime.Now;
+                    entidad.last_modified_by= user.full_name;
 
                 }
 
