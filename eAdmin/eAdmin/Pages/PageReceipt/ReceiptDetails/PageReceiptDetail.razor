@@ -6,7 +6,7 @@
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"Receipt Invoice: {sale.document_number}")"></Title>
+    <Title Value="@($"{lang["Receipt Invoice"]}: {sale.document_number}")"></Title>
 
     <PageContainer>
         <PageHeader>
