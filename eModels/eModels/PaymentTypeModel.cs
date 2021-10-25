@@ -43,6 +43,7 @@ namespace eModels
         public string note { get; set; }
 
         public string payment_type_group { get; set; }
+        public bool is_foc { get; set; }
 
         public List<BusinessBranchPaymentTypeModel> business_branch_payment_types { get; set; }
     }
