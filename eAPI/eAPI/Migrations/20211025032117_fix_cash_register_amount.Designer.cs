@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211025032117_fix_cash_register_amount")]
+    partial class fix_cash_register_amount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1779,10 +1781,6 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("payment_type_group")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -5224,13 +5222,6 @@ namespace eAPI.Migrations
                     b.Property<decimal>("base_currency_amount")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<string>("base_currency_format")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("cash_deposit_to")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -5266,10 +5257,6 @@ namespace eAPI.Migrations
 
                     b.Property<double>("exchange_rate")
                         .HasColumnType("float");
-
-                    b.Property<string>("format")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");

@@ -157,37 +157,13 @@ namespace eAPI.Controllers
 
             s.is_fulfilled = true;
             db.StockTransfers.Update(s);
-            await db.SaveChangesAsync();
+
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             // add to history
-            var data = db.StockTransferProducts.Where(r => r.stock_transfer_id == id && r.is_deleted == false && r.is_inventory_product == true);
+            db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_out_inventory_transaction {id}");
+            db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_in_inventory_transaction {id}");
 
-            // for from stock
-            foreach (StockTransferProductModel d in data)
-            {
-
-                InventoryTransactionModel inv = new InventoryTransactionModel();
-                inv.reference_number = s.document_number;
-                inv.transaction_date = s.stock_transfer_date;
-                inv.inventory_transaction_type_id = 6; // stock out
-                inv.stock_location_id = s.from_stock_location_id;
-                inv.stock_transfer_id = s.id;
-                inv.product_id = d.product_id;
-                inv.stock_transfer_product_id = d.id;
-                inv.quantity = d.quantity * -1;
-                inv.unit = d.unit;
-                inv.multiplier = d.multiplier;
-                inv.created_by = user.created_by;
-                inv.url = "stocktransfer/" + inv.stock_transfer_id;
-                inv.note = $"Stock Transfer Out Fulfilled ({s.document_number})";
-
-                await app.AddInventoryTransaction(inv);
-                inv.id = 0;
-                inv.quantity = d.quantity;
-                inv.stock_location_id = s.to_stock_location_id;
-                inv.inventory_transaction_type_id = 5; // stock in
-                inv.note = $"Stock Transfer In Fulfilled ({s.document_number})";
-                await app.AddInventoryTransaction(inv);
-            } 
+       
 
             return Ok();
 

@@ -10,7 +10,6 @@ namespace eShareModel
         public Guid outlet_id { get; set; }
         public Guid? closed_station_id { get; set; }
         public Guid opened_station_id { get; set; }
-
         public string outlet_name_en { get; set; }
         public string outlet_name_kh { get; set; }
 
@@ -28,5 +27,9 @@ namespace eShareModel
         public string close_note { get; set; }
         public string open_note { get; set; }
         public string working_day_number { get; set; } = "";
+
+        public Guid cash_drawer_id { get; set; }
+         
+
     }
 }

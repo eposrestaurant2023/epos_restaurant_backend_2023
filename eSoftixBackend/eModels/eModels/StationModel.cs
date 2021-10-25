@@ -20,6 +20,10 @@ namespace eModels
         public Guid outlet_id { get; set; }
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
+        
+        public Guid? cash_drawer_id { get; set; }
+        [ForeignKey("cash_drawer_id")]
+        public CashDrawerModel cash_drawer { get; set; }
 
 
 

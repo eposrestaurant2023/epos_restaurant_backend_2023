@@ -73,6 +73,7 @@
     <DataSource Include="DataSource.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="rptCashierShiftList.rdl" />
     <Report Include="rptCashierShiftSaleProduct.rdl" />
     <Report Include="rptCloseWorkingDay.rdl" />
     <Report Include="rptCustomerList.rdl" />
@@ -81,6 +82,7 @@
     <Report Include="rptFOCSaleTransaction.rdl" />
     <Report Include="rptHourlySaleSummary.rdl" />
     <Report Include="rptIngredientProductList.rdl" />
+    <Report Include="rptInventoryMovement.rdl" />
     <Report Include="rptInventoryProductList.rdl" />
     <Report Include="rptMenuProductPriceList.rdl" />
     <Report Include="rptMonthlySaleSummary.rdl" />
@@ -107,12 +109,15 @@
     <Report Include="rptStockTakeReceiptA4.rdl" />
     <Report Include="rptStockTransferList.rdl" />
     <Report Include="rptStockTransferProductDetail.rdl" />
+    <Report Include="rptStockTransferProductSummary.rdl" />
     <Report Include="rptStockTransferReceiptA4.rdl" />
     <Report Include="rptStockTransferReceiptA5.rdl" />
     <Report Include="rptVendorList.rdl" />
     <Report Include="rptVoidSaleProductDetail.rdl" />
     <Report Include="rptVoidSaleReceiptA4.rdl" />
     <Report Include="rptVoidSaleTransaction.rdl" />
+    <Report Include="rptWorkingDayDetailA4.rdl" />
+    <Report Include="rptWorkingDayList.rdl" />
     <Report Include="rptYearlySaleSummary.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
