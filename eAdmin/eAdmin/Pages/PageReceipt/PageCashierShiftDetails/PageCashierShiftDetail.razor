@@ -28,14 +28,23 @@
                 <TabBody>
                     <TabItem>
                         <ComCashierShiftDetail_Information model="@model" />
-                        @foreach (var d in list_summaries.Select(r => r.group_name).Distinct())
+                        @foreach (var d in list_summaries.Select(r => r.group).Distinct())
                         {
+                            @("Hi")
                             <UIGridCenter>
                                 <UIContainerBox Title="@d.ToString()">
                                     <ListTable ClassWidth="uk-width-1-1">
-                                        @foreach (var t in list_summaries.Where(r => r.group_name == d.ToString()))
+                                        @foreach (var t in list_summaries.Where(r => r.group == d.ToString()))
                                         {
-                                            <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
+
+                                            if (t.title == "separator")
+                                            {
+                                                <hr />
+                                            }
+                                            else
+                                            {
+                                                <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value @(t.title == "separator")</ListTableItem>
+                                            }
                                         }
                                     </ListTable>
                                 </UIContainerBox>
@@ -53,8 +62,8 @@
                         @if (sale_product_history_tab_click)
                         {
                             <UIGridCenter>
-                                <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" Id="@id" />
-                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" Id="@id" />
+                                <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" CashierShiftId="@id" />
+                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" CashierShiftId="@id" />
                             </UIGridCenter>
                         }
                     </TabItem>

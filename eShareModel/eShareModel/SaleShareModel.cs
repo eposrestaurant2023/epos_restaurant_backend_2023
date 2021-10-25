@@ -75,8 +75,6 @@ namespace eShareModel
 
         public double rounding_amount { get; set; } = 0;
 
-        public string last_modified_by { get; set; }
-        public DateTime? last_modified_date { get; set; }
 
         //Tax 
         public decimal tax_1_rate { get; set; }
@@ -101,7 +99,9 @@ namespace eShareModel
         public DateTime? closed_date { get; set; }
 
         public string sale_type { get; set; } = "Dine in";
+        public bool is_foc { get; set; }
 
+        public string deleted_note { get; set; }
         public bool is_synced { get; set; } = false;
 
 

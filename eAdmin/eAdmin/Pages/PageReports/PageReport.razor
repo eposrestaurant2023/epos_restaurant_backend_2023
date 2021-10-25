@@ -24,7 +24,7 @@
                         <input type="text" class="uk-input uk-form-small" placeholder="search" @bind="@keyword" @bind:event="oninput" />
                         @if (keyword == "")
                         {
-                            @foreach (var r in main_report_list)
+                            @foreach (var r in main_report_list.OrderBy(r=>r.sort_order))
                             {
                                 <ComAuthorizeDisplay roles="@gv.GetRole(r.option_name)">
                                     @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)

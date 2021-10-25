@@ -25,11 +25,11 @@
 
 @if (is_open_print)
 {
-
-    <ComPreviewReport IsOpened="@is_open_print" report_id="198" Title="@lang["Stock Take Receipt"]" report_parameters="@($"id={model.id}&user_id={gv.current_login_user.id}")"  OnClose="@(()=>is_open_print=false)"/>
+    <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="197" Title="@lang["Stock Take Receipt"]" report_parameters="@($"id={model.id}")" />
 }
 
 @code {
+
     [Parameter] public StockTakeModel model { get; set; }
     [Parameter] public EventCallback<StockTakeModel> modelChanged { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }

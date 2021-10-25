@@ -22,6 +22,9 @@ namespace eAPI.Controllers
                     var entidad = item.Entity as Core;
                     entidad.created_date = DateTime.Now;
                     entidad.created_by = user.full_name;
+
+                    entidad.last_modified_date = DateTime.Now;
+                    entidad.last_modified_by = user.full_name;
                 }
 
 
@@ -34,6 +37,9 @@ namespace eAPI.Controllers
                         entidad.deleted_date = DateTime.Now;
                         entidad.deleted_by = user.full_name;
                     }
+
+                    entidad.last_modified_date = DateTime.Now;
+                    entidad.last_modified_by = user.full_name;
                 }
 
 
@@ -65,6 +71,9 @@ namespace eAPI.Controllers
                         entidad.deleted_date = DateTime.Now;
                         entidad.deleted_by = user.full_name;
                     }
+
+                    entidad.last_modified_date = DateTime.Now;
+                    entidad.last_modified_by = user.full_name;
                 }
             }
             db.SaveChanges();

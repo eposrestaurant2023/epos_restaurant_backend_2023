@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>DataSource</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@vendor_group_id">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText> 
+;with a as  (
+	select 0 as id, 'All Vendors' as vendor_name, 0 as sort_order
+	union all
+	select 
+		id  as id, 
+		c.vendor_name,
+		1 as sort_order 
+	from tbl_vendor c 
+	where
+		c.status = 1 and 
+		c.is_deleted = 0 and 
+		c.vendor_group_id = iif(@vendor_group_id=0,c.vendor_group_id,@vendor_group_id)
+ 	
+)
+select * from a order by sort_order, vendor_name
+</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="id">
+        <DataField>id</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="vendor_name">
+        <DataField>vendor_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="sort_order">
+        <DataField>sort_order</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

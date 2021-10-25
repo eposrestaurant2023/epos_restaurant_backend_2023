@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>DataSource</DataSourceReference>
+      <CommandText>Select 1 as month_number, 'January' as month_text
+union
+Select 2 as month_number, 'February' as month_text
+union
+Select 3 as month_number, 'March' as month_text
+union
+Select 4 as month_number, 'April' as month_text
+union
+Select 5 as month_number, 'May' as month_text
+union
+Select 6 as month_number, 'June' as month_text
+union
+Select 7 as month_number, 'July' as month_text
+union
+Select 8 as month_number, 'August' as month_text
+union
+Select 9 as month_number, 'September' as month_text
+union
+Select 10 as month_number, 'October' as month_text
+union
+Select 11 as month_number, 'November' as month_text
+union
+Select 12 as month_number, 'December' as month_text
+</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="month_number">
+        <DataField>month_number</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="month_text">
+        <DataField>month_text</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

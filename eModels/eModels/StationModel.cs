@@ -14,6 +14,9 @@ namespace eModels
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
 
+        public Guid cash_drawer_id { get; set; }
+        public string cash_drawer_name { get; set; }
+
 
         private string _station_name_en;
         

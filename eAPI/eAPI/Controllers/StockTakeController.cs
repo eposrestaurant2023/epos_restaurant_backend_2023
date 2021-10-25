@@ -159,30 +159,9 @@ namespace eAPI.Controllers
 
             s.is_fulfilled = true;
             db.StockTakes.Update(s);
-            await db.SaveChangesAsync();
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             // add to history
-            var data = db.StockTakeProducts.Where(r => r.stock_take_id == id && r.is_deleted == false && r.is_inventory_product == true);
-
-            foreach (StockTakeProductModel d in data)
-            {
-
-                InventoryTransactionModel inv = new InventoryTransactionModel();
-                inv.reference_number = s.document_number;
-                inv.transaction_date = s.stock_take_date;
-                inv.inventory_transaction_type_id = 7;
-                inv.stock_location_id = s.stock_location_id;
-                inv.stock_take_id = s.id;
-                inv.product_id = d.product_id;
-                inv.stock_take_product_id = d.id;
-                inv.quantity = d.quantity * -1;
-                inv.unit = d.unit;
-                inv.multiplier = d.multiplier;
-                inv.created_by = user.created_by;
-                inv.url = "stocktake/" + inv.stock_take_id;
-                inv.note = $"Stock Take Fulfilled ({s.document_number})";
-
-                await app.AddInventoryTransaction(inv);
-            }
+            db.Database.ExecuteSqlRaw($"exec sp_update_stock_take_inventory_transaction {id}");
             return Ok();
 
         }
