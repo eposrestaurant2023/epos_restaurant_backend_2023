@@ -60,18 +60,16 @@ namespace eAPIClient.Controllers
                     {
                         entidad.closed_date = DateTime.Now;
                         entidad.closed_by = user.full_name;
-                    }
-                     
+                    }                      
                 }
-
 
                 //sale add 
                 foreach (var item in db.ChangeTracker.Entries()
                .Where(e => e.State == EntityState.Added && (e.Entity is SaleModel)))
                 {
                     var entidad = item.Entity as SaleModel;
-                    entidad.last_modified_by = user.full_name;
-                    entidad.last_modified_date = DateTime.Now;
+                    //entidad.last_modified_by = user.full_name;
+                    //entidad.last_modified_date = DateTime.Now;
 
 
                 }
@@ -89,14 +87,8 @@ namespace eAPIClient.Controllers
                         entidad.closed_date = DateTime.Now;
                         entidad.closed_by = user.full_name;
                     }
-                }
-
-
-
-
-
-            }
-
+                }  
+            }   
             await db.SaveChangesAsync();
         }
 
@@ -151,9 +143,8 @@ namespace eAPIClient.Controllers
                 {
                     var entidad = item.Entity as SaleModel;
                     entidad.last_modified_by = user.full_name;
-                    entidad.last_modified_date = DateTime.Now;
+                    entidad.last_modified_date = DateTime.Now;     
 
-                   
                 }
                 //Sale update 
 
