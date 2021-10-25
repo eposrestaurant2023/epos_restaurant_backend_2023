@@ -1318,7 +1318,7 @@
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!group.Value</Value>
+                      <Value>=Fields!sort_order.Value</Value>
                     </SortExpression>
                   </SortExpressions>
                   <TablixMembers>
