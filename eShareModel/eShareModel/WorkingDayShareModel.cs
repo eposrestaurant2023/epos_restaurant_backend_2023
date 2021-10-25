@@ -12,9 +12,7 @@ namespace eShareModel
         public Guid opened_station_id { get; set; }
         public string outlet_name_en { get; set; }
         public string outlet_name_kh { get; set; }
-
-        public string closed_outlet_name_en { get; set; }
-        public string close_outlet_name_kh { get; set; }
+ 
         public string closed_station_name_en { get; set; }
         public string closed_station_name_kh { get; set; }
 
