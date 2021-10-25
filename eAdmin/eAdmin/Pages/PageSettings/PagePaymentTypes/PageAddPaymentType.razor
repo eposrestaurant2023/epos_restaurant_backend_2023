@@ -42,6 +42,7 @@
                             <ValidationMessage For="@(() => model.currency_id)" />
                         </SelectCurrency>
                         <ComSelectPaymentTypeGroup @bind-selected_value="@model.payment_type_group"/>
+                        <ComInputCheckBox label="FOC" @bind-value="@model.is_foc"/>
                         <SelectStatus @bind-selected_value="@model.status" />
 
 

@@ -61,7 +61,13 @@ namespace eAdmin.Pages.PageReceipt.PageWorkingDayDetails
         {
             is_open_print = true;
         }
-
+        public async Task OnRefresh()
+        {
+            is_loading = true;
+            await GetTistSummary();
+            await LoadData();
+            is_loading = false;
+        }
         
     }
 }
