@@ -83,65 +83,6 @@ cast(a.id as nvarchar(50)) = @id</CommandText>
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="company_infor">
-      <SharedDataSet>
-        <SharedDataSetReference>CompanyInfo</SharedDataSetReference>
-      </SharedDataSet>
-      <Fields>
-        <Field Name="company_name">
-          <DataField>company_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="company_name_kh">
-          <DataField>company_name_kh</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="company_logo">
-          <DataField>company_logo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="address">
-          <DataField>address</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="mobile_phone">
-          <DataField>mobile_phone</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="office_phone">
-          <DataField>office_phone</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="email">
-          <DataField>email</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="contact_name">
-          <DataField>contact_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="contact_phone_number">
-          <DataField>contact_phone_number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="contact_office_number">
-          <DataField>contact_office_number</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="contact_email">
-          <DataField>contact_email</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="color">
-          <DataField>color</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="id">
-          <DataField>id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
-        </Field>
-      </Fields>
-    </DataSet>
     <DataSet Name="stock_take_product">
       <Query>
         <DataSourceName>DataSource</DataSourceName>
@@ -238,6 +179,65 @@ where
         <Field Name="use_shift_management">
           <DataField>use_shift_management</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="company_infor">
+      <SharedDataSet>
+        <SharedDataSetReference>CompanyInfo</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="company_name">
+          <DataField>company_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="company_name_kh">
+          <DataField>company_name_kh</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="company_logo">
+          <DataField>company_logo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="address">
+          <DataField>address</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="mobile_phone">
+          <DataField>mobile_phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="office_phone">
+          <DataField>office_phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="email">
+          <DataField>email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="contact_name">
+          <DataField>contact_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="contact_phone_number">
+          <DataField>contact_phone_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="contact_office_number">
+          <DataField>contact_office_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="contact_email">
+          <DataField>contact_email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="color">
+          <DataField>color</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="id">
+          <DataField>id</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
