@@ -211,14 +211,16 @@ cast(a.id as nvarchar(50)) = @id</CommandText>
             <Value>=Parameters!id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>select 
+        <CommandText>
+select 
 	a.note,
 	p.product_name_en,
 	a.total_amount,
 	a.total_discount,
 	a.unit,
-	p.cost,
-	p.quantity 
+	a.cost,
+	a.quantity ,
+	a.sub_total
 from tbl_purchase_order_product a 
 inner join tbl_product p on p.id = a.product_id
 where 
@@ -253,6 +255,10 @@ where
         </Field>
         <Field Name="quantity">
           <DataField>quantity</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="sub_total">
+          <DataField>sub_total</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
@@ -1011,7 +1017,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Referent #:</Value>
+                                  <Value>Referent #</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontSize>9pt</FontSize>
@@ -1082,7 +1088,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!reference_number.Value, "po_data")</Value>
+                                  <Value>=format(First(Fields!reference_number.Value, "po_data"), First(Fields!date_time_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
@@ -1120,7 +1126,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>PO Day #</Value>
+                                  <Value>PO Date</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontSize>9pt</FontSize>
@@ -1191,7 +1197,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=First(Fields!purchase_date.Value, "po_data")</Value>
+                                  <Value>=Format(First(Fields!purchase_date.Value, "po_data"), First(Fields!date_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
@@ -1471,25 +1477,28 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.46922in</Width>
+                  <Width>0.46141in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.20904in</Width>
+                  <Width>2.85748in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.58172in</Width>
+                  <Width>0.57391in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.49125in</Width>
+                  <Width>0.48344in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.85714in</Width>
+                  <Width>0.78336in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.88696in</Width>
+                  <Width>0.78386in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.75076in</Width>
+                  <Width>0.56665in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.74295in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1667,11 +1676,51 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox148</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>#e8e8e8</BackgroundColor>
+                            <PaddingLeft>3.75pt</PaddingLeft>
+                            <PaddingRight>3.75pt</PaddingRight>
+                            <PaddingTop>3.75pt</PaddingTop>
+                            <PaddingBottom>3.75pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Sub Total</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1698,7 +1747,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>DISCOUNT</Value>
+                                  <Value>Dis.</Value>
                                   <Style>
                                     <FontFamily>Arial</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -1924,7 +1973,41 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                                 </TextRun>
                               </TextRuns>
                               <Style>
-                                <TextAlign>Center</TextAlign>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>3.75pt</PaddingLeft>
+                            <PaddingRight>3.75pt</PaddingRight>
+                            <PaddingTop>3.75pt</PaddingTop>
+                            <PaddingBottom>3.75pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox12">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!sub_total.Value, First(Fields!currency_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
                               </Style>
                             </Paragraph>
                           </Paragraphs>
@@ -2025,6 +2108,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -2038,10 +2122,10 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>po_product</DataSetName>
-            <Top>2.34699in</Top>
+            <Top>2.35949in</Top>
             <Left>0.03528cm</Left>
             <Height>0.55271in</Height>
-            <Width>7.24609in</Width>
+            <Width>7.25305in</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -2463,7 +2547,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>po_data</DataSetName>
-            <Top>2.95525in</Top>
+            <Top>2.96775in</Top>
             <Left>3.97755in</Left>
             <Height>0.75in</Height>
             <Width>3.27334in</Width>
@@ -2621,7 +2705,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>payment_data</DataSetName>
-            <Top>3.71914in</Top>
+            <Top>3.73164in</Top>
             <Left>3.97755in</Left>
             <Height>0.25in</Height>
             <Width>3.26856in</Width>
@@ -2646,13 +2730,13 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
             </Style>
           </Line>
         </ReportItems>
-        <Height>6.60542in</Height>
+        <Height>4.0325in</Height>
         <Style />
       </Body>
-      <Width>7.26in</Width>
+      <Width>7.26694in</Width>
       <Page>
         <PageFooter>
-          <Height>1in</Height>
+          <Height>0.33333in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -2691,9 +2775,9 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0.8125in</Top>
+              <Top>0.0625in</Top>
               <Height>0.1875in</Height>
-              <Width>4in</Width>
+              <Width>4.09375in</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -2741,10 +2825,10 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>0.8125in</Top>
-              <Left>3.87773in</Left>
+              <Top>0.0625in</Top>
+              <Left>4.39013in</Left>
               <Height>0.1875in</Height>
-              <Width>3.36838in</Width>
+              <Width>2.85598in</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
