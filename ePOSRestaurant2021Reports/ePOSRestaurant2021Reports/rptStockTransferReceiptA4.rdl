@@ -2096,7 +2096,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Fields!total_quantity.Value, First(Fields!currency_format.Value, "setting"))</Value>
+                                  <Value>=format(Fields!total_quantity.Value, First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
