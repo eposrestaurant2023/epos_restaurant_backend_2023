@@ -38,7 +38,7 @@ namespace eModels
 
         public List<SaleProductModel> active_sale_products
         {
-            get { return sale_products.Where(r => r.is_deleted == false).ToList(); } 
+            get { return sale_products.Where(r => r.is_deleted == false).ToList(); }
         }
 
 
