@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211025071510_currenct_1d")]
+    partial class currenct_1d
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,14 +77,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<decimal?>("open_amount")
                         .HasColumnType("decimal(19,8)");
@@ -215,14 +209,6 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -295,14 +281,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("nationality")
                         .HasColumnType("nvarchar(max)")
@@ -434,14 +412,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
@@ -769,14 +739,6 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_synced")
                         .HasColumnType("bit");
 
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -995,14 +957,6 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_payment_from_pos")
                         .HasColumnType("bit");
 
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -1108,14 +1062,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<int>("kitchen_group_sort_order")
                         .HasColumnType("int");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("multiplier")
                         .HasColumnType("decimal(19,8)");
@@ -1315,14 +1261,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("modifier_name")
                         .HasColumnType("nvarchar(max)")
@@ -1597,14 +1535,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("open_note")
                         .HasColumnType("nvarchar(max)")

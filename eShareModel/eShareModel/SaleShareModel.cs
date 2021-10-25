@@ -81,8 +81,6 @@ namespace eShareModel
 
         public double rounding_amount { get; set; } = 0;
 
-        public string last_modified_by { get; set; }
-        public DateTime? last_modified_date { get; set; }
 
         //Tax 
         public decimal tax_1_rate { get; set; }

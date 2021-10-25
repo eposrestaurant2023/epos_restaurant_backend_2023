@@ -40,7 +40,8 @@ namespace eShareModel
     {
         [MaxLength(100)]
         public string created_by { get; set; }
-        public DateTime created_date { get; set; } = DateTime.Now; 
+        public DateTime created_date { get; set; } = DateTime.Now;
+
         [MaxLength(100)]
         public string last_modified_by { get; set; }
         public DateTime last_modified_date { get; set; } = DateTime.Now;

@@ -35,7 +35,15 @@
                                     <ListTable ClassWidth="uk-width-1-1">
                                         @foreach (var t in list_summaries.Where(r => r.group == d.ToString()))
                                         {
-                                            <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
+                                            if (t.title == "separator")
+                                            {
+                                                <hr/>
+                                            }
+                                            else
+                                            {
+                                                <ListTableItem ItemTitle="@t.title" IsBetweenValue="true">@t.value</ListTableItem>
+                                            }
+
                                         }
                                     </ListTable>
                                 </UIContainerBox>
