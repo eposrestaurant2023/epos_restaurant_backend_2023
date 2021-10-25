@@ -9,7 +9,9 @@ namespace eShareModel
         public string sale_number { get; set; }
 
         public Guid outlet_id { get; set; }
+ 
         public Guid station_id { get; set; }
+        public Guid? closed_station_id { get; set; }
 
         public string station_name_en { get; set; }
         public string station_name_kh { get; set; }
@@ -27,7 +29,11 @@ namespace eShareModel
         public int? table_id { get; set; }
         public string table_name { get; set; } = "";
         public Guid working_day_id { get; set; }
+        public Guid? closed_working_day_id { get; set; }
         public Guid cashier_shift_id { get; set; }
+        public Guid? closed_cashier_shift_id { get; set; }
+        public Guid cash_drawer_id { get; set; }
+        public Guid? closed_cash_drawer_id  { get; set; }
 
         public string working_day_number { get; set; }
         public string cashier_shift_number { get; set; }
@@ -75,8 +81,6 @@ namespace eShareModel
 
         public double rounding_amount { get; set; } = 0;
 
-        public string last_modified_by { get; set; }
-        public DateTime? last_modified_date { get; set; }
 
         //Tax 
         public decimal tax_1_rate { get; set; }

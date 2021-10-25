@@ -16,5 +16,9 @@ namespace eShareModel
         public bool is_main { get; set; }
         public bool status { get; set; } = true;
         public string report_format { get; set; }
+        public string symbol { get; set; }
+        public bool is_prefix_symbol { get; set; }
+        public bool is_show_in_bill { get; set; }
+        public int sort { get; set; }
     }
 }
