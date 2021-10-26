@@ -64,12 +64,12 @@
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("working_day_management")" url="@($"workingday/{p.id}")">
                                 @p.working_date.ToString(gv.date_format)
-                            </ComAuthorize>
                         </TdCenter>
                         <TdCenter>
-                            @p.working_day_number
+                            <ComAuthorize roles="@gv.GetRole("working_day_management")" url="@($"workingday/{p.id}")">
+                                @p.working_day_number
+                            </ComAuthorize>
                         </TdCenter>
                         <td>
                             @p.cash_drawer_name

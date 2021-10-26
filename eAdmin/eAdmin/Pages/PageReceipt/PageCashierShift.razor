@@ -43,30 +43,69 @@
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
+                        @HeaderTemplate("working_date", lang["Working Date"], "uk-text-center")
                         @HeaderTemplate("cashier_shift_number", lang["Cashier Shift Number"], "uk-text-center")
-                        @HeaderTemplate("open_amount", lang["Open Amount"], "uk-text-center")
-                        @HeaderTemplate("closed_by", lang["Closed By"], "uk-text-center")
+                        @HeaderTemplate("working_day_number", lang["Working Day Number"], "uk-text-center")
+                        @HeaderTemplate("cash_drawer_name", lang["Cash Drawer"])
+                        @HeaderTemplate("outlet_name_en", lang["Outlet"])
+
+                        <Th>
+                            Opened Station
+                            <br />
+                            Close Station
+                        </Th>
+                        @HeaderTemplate("closed_by", lang["Closed By"])
                         @HeaderTemplate("closed_date", lang["Closed Date"], "uk-text-center")
-                        @HeaderTemplate("close_amount", lang["Close Amount"], "uk-text-center")
+                        @HeaderTemplate("created_by", lang["Created by"], "col-center")
+                        @HeaderTemplate("created_date", lang["Created date"], "uk-text-center")
+
+                        <ThCenter>Status</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
+                        <TdCenter>
+                            @p.working_date.ToString(gv.date_format)
+                        </TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("cashier_shift_management")" url="@($"cashiershift/{p.id}")">
                                 @p.cashier_shift_number
                             </ComAuthorize>
                         </TdCenter>
                         <TdCenter>
-                            @p.open_amount
-                        </TdCenter> 
-                        <TdCenter>
+                            @p.working_day.working_day_number
+                        </TdCenter>
+                        <td>
+                            @p.cash_drawer_name
+                        </td>
+                        <td>
+                            @p.outlet_name_en
+                        </td>
+                        <td>
+                            @p.opened_station_name_en
+                            <br />
+                            @p.closed_station_name_en
+                        </td>
+                        <td>
                             @p.closed_by
+                        </td>
+                        <TdCenter>
+                            @Convert.ToDateTime(p.closed_date).ToString(gv.date_time_format)
+                        </TdCenter>
+                        <td>
+                            @p.created_by
+                        </td>
+                        <TdCenter>
+                            @Convert.ToDateTime(p.created_date).ToString(gv.date_time_format)
                         </TdCenter>
                         <TdCenter>
-                            @p.closed_date
-                        </TdCenter>
-                        <TdCenter>
-                            @p.close_amount
+                            @if (p.is_closed)
+                                {
+                                <LabelInActive text="Closed" />
+                                }
+                                else
+                                {
+                                <Label Text="Opened" />
+                                }
                         </TdCenter>
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"cashiershift/{p.id}"))" />
@@ -93,7 +132,7 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string url = $"{controller_api}?";
+            string url = $"{controller_api}?$expand=working_day($select=working_day_number,outlet_name_en,outlet_name_kh)";
             url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
             return url + GetFilter(state.filters);
