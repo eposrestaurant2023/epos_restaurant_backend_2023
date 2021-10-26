@@ -115,6 +115,7 @@
     <Report Include="rptVoidSaleTransaction.rdl" />
     <Report Include="rptWorkingDayDetailA4.rdl" />
     <Report Include="rptWorkingDayList.rdl" />
+    <Report Include="rptWorkingDay_SaleProduct.rdl" />
     <Report Include="rptWorkingDay_SaleTransaction.rdl" />
     <Report Include="rptYearlySaleSummary.rdl" />
   </ItemGroup>
