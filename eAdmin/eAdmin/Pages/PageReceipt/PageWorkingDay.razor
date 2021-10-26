@@ -306,20 +306,7 @@
                 is_show_on_infor = false
             });
         }
-        // customer
-        if (state.customer != null)
-        {
-            state.filters.Add(new FilterModel()
-            {
-                key = "customer_id",
-                value1 = state.customer.id.ToString(),
-                filter_title = "Customer",
-                state_property_name = "customer",
-                filter_info_text = state.customer.customer_code_name,
-                is_clear_all = true,
-                will_remove = true
-            });
-        }
+      
 
         state.pager.current_page = 1;
         await LoadData();
