@@ -157,11 +157,11 @@
             }
             else
             {
-                if (state.filters.Where(r => r.key == "cashier_shift_id").Any())
+                if (state.filters.Where(r => r.key == "closed_cashier_shift_id").Any())
                 {
-                    state.filters.Remove(state.filters.Where(r => r.key == "cashier_shift_id").FirstOrDefault());
+                    state.filters.Remove(state.filters.Where(r => r.key == "closed_cashier_shift_id").FirstOrDefault());
                 }
-                state.filters.Add(new FilterModel() { key = "cashier_shift_id", value1 = $"{CashierShiftId}" });
+                state.filters.Add(new FilterModel() { key = "closed_cashier_shift_id", value1 = $"{CashierShiftId}" });
             }
 
             if (state.filters.Where(r => r.key == "is_deleted").Any())

@@ -63,10 +63,13 @@
                     <TabItem>
                         @if (sale_product_history_tab_click)
                         {
-                            <UIGridCenter>
-                                <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" CashierShiftId="@id" />
-                                <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" CashierShiftId="@id" />
-                            </UIGridCenter>
+                        <UIGridCenter>
+                            <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" CashierShiftId="@id" />
+                            <ComCashierShiftDetail_SaleProduct_FOC IsRevenueGroup="true" Title="Summary By Revenue Group" CashierShiftId="@id" />
+                            <ComCashierShiftDetail_SaleProduct_FOC Title="FOC" CashierShiftId="@id" />
+
+                            <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" CashierShiftId="@id" />
+                        </UIGridCenter>
                         }
                     </TabItem>
                 </TabBody>
