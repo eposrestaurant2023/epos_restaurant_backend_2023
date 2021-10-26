@@ -105,6 +105,15 @@
     async Task Save_Click()
     {
 
+
+        if (models.Where(r => r.is_deleted == false && string.IsNullOrEmpty(r.revenue_group_name_en)).Any())
+        {
+
+            toast.Add(lang["Please enter revenue group name"], MatToastType.Warning);
+            return;
+
+        }
+
         is_saving = true;
 
         var resp = await http.ApiPost("RevenueGroup/Save", models);
