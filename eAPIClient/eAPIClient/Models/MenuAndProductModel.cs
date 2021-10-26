@@ -85,6 +85,7 @@ namespace eAPIClient.Models
         public int product_group_id { get; set; } = 0;
 
         public bool is_open_product { get; set; } = false;
+        public string revenue_group_name { get; set; }
 
         public List<ProductPrinterModel> product_printers { get; set; }
         public List<ProductModifierModel> product_modifiers { get; set; }
