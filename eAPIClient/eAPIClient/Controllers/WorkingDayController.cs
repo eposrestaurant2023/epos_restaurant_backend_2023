@@ -48,7 +48,7 @@ namespace eAPIClient.Controllers
                 DocumentNumberModel _doc = new DocumentNumberModel();
                 if (u.id == Guid.Empty)
                 {
-                    var data = db.WorkingDays.Where(r => r.business_branch_id == u.business_branch_id && r.outlet_id == u.outlet_id && r.is_closed == false);
+                    var data = db.WorkingDays.Where(r => r.business_branch_id == u.business_branch_id && r.outlet_id == u.outlet_id && r.cash_drawer_id == u.cash_drawer_id && r.is_closed == false);
                     if (data.Any())
                     {
                         return Ok(data.FirstOrDefault());

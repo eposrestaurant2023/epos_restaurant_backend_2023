@@ -12,10 +12,12 @@ namespace eModels
         public WorkingDayModel()
         {
             cashier_shifts = new List<CashierShiftModel>();
+            cash_drawer_amounts = new List<CashDrawerAmountModel>();
         }
 
        
         public List<CashierShiftModel> cashier_shifts { get; set; }
+        public List<CashDrawerAmountModel> cash_drawer_amounts{ get; set; }
 
         [ForeignKey("outlet_id")]
         public OutletModel outlet { get; set; }
@@ -24,6 +26,8 @@ namespace eModels
 
         [ForeignKey("closed_station_id")]
         public StationModel closed_station { get; set; }
+
+
     }
 
 

@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace eShareModel
 {
-    [Table("tbl_cash_drawer_amount")]
-    public class CashDrawerAmountModel:CoreGUIDModel
+   
+    public class CashDrawerAmountShareModel:CoreGUIDModel
     {
 
         public Guid business_branch_id { get; set; }   
-        public Guid working_day_id { get; set; }   
+      
+         
         public Guid? cashier_shift_id { get; set; }   
         public Guid outlet_id { get; set; }   
         public Guid cash_drawer_id { get; set; }
