@@ -120,6 +120,7 @@ namespace eAdmin.Shared
                     api_url = api_url + "vendor_groups,";
                     api_url = api_url + "units,";
                     api_url = api_url + "product_categories,";
+                    api_url = api_url + "revenue_groups,";
                     api_url = api_url + "inventory_transaction_type,";
                     api_url = api_url + "unit_categories,";
                     api_url = api_url + "kitchen_groups,";

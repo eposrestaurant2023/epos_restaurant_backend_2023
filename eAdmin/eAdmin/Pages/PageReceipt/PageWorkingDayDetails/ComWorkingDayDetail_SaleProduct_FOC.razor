@@ -1,0 +1,187 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http
+
+<UIContainerBox Title="@Title">
+    @if (!is_loading)
+    {
+        <div class="csh-sale-pro-list">
+            <table class="uk-table view_table set-verticle-middle uk-table-small">
+                <thead>
+                    <tr>
+                        <ThAuto>@lang["Name"]</ThAuto>
+                        <ThCenter>@lang["QTY"]</ThCenter>
+                        <ThRight>@lang["Amount"]</ThRight>
+                    </tr>
+                </thead>
+                @if (IsRevenueGroup)
+                {
+                    @if (summary_by_revenue_group != null)
+                    {
+                        <tbody>
+                            @foreach (var c in summary_by_revenue_group)
+                            {
+                            <tr>
+                                <td class="uk-padding-remove-bottom">
+                                    <div class="uk-text-uppercase uk-text-bold">@c.revenue_group_name.ToString()</div>
+                                </td>
+
+                                <TdCenter ClassName="uk-padding-remove-bottom">
+                                    <div class="uk-text-uppercase">@c.qty.ToString(gv.quantity_format)</div>
+                                </TdCenter>
+                                <TdCenter ClassName="uk-padding-remove-bottom">
+                                    <div class="uk-text-uppercase">@c.amount.ToString(gv.main_currency_format)</div>
+                                </TdCenter>
+                            </tr>
+                                
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
+                                <TdCenter ClassName="uk-text-bold">@summary_by_revenue_group.Sum(r => r.qty).ToString(gv.quantity_format)</TdCenter>
+                                <TdRight ClassName="uk-text-bold">@summary_by_revenue_group.Sum(r => r.amount).ToString(gv.main_currency_format)</TdRight>
+                            </tr>
+                        </tfoot>
+                    }
+                    else
+                    {
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="uk-text-center">
+                                        <Icon icon="search" />
+                                        <br />
+                                        <p>@lang["There's no record in the system"]</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                }
+                else
+                {
+                    @if (models.Any())
+                    {
+                        <tbody>
+                            @foreach (var c in models.Select(r => r.product_group_en).Distinct().ToList())
+                            {
+                                <tr>
+                                    <td colspan="3" class="uk-padding-remove-bottom">
+                                        <div class="uk-text-uppercase uk-text-bold">@c.ToString()</div>
+                                    </td>
+                                </tr>
+                                @foreach (var g in models.Where(r => r.product_group_en == c.ToString()).Select(r => r.product_category_en).Distinct().ToList())
+                                {
+                                    <tr>
+                                        <td colspan="3" class="uk-padding-remove-bottom uk-padding-remove-top">
+                                            <div class="uk-margin-small-left uk-text-bold">@g.ToString()</div>
+                                        </td>
+                                    </tr>
+                                    @foreach (var p in models.Where(r => r.product_category_en == g.ToString()).ToList())
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="uk-margin-small-left">@p.product_name_en</div>
+                                            </td>
+                                            <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
+                                            <TdRight>@p.total_amount.ToString(gv.main_currency_format)</TdRight>
+                                        </tr>
+
+                                    }
+                                    foreach (var gt in models.Where(r => r.product_category_en == g.ToString()).Select(r => r.product_category_en).Distinct().ToList())
+                                    {
+                                        <tr>
+                                            <TdRight ClassName="uk-text-bold">Total - @gt.ToString()</TdRight>
+                                            <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                                            <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
+                                        </tr>
+                                    }
+
+                                }
+                                @foreach (var tc in models.Where(r => r.product_group_en == c).Select(r => r.product_group_en).Distinct().ToList())
+                                {
+                                    <tr>
+                                        <TdRight ClassName="uk-text-bold">Total - @c.ToString()</TdRight>
+                                        <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == tc.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                                        <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == tc.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdCenter>
+                                    </tr>
+
+
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
+                                <TdCenter ClassName="uk-text-bold">@models.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                                <TdRight ClassName="uk-text-bold">@models.Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
+                            </tr>
+                        </tfoot>
+                    }
+                    else
+                    {
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="uk-text-center">
+                                        <Icon icon="search" />
+                                        <br />
+                                        <p>@lang["There's no record in the system"]</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                }
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <MudSkeleton />
+    }
+</UIContainerBox>
+
+@code {
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public string Title { get; set; } = "Sale Product";
+    [Parameter] public string WorkingDayId { get; set; }
+    [Parameter] public bool IsRevenueGroup { get; set; }
+    List<CashierShiftSaleProductSummaryModel> models = new List<CashierShiftSaleProductSummaryModel>();
+    IEnumerable<RevenueGroupSummary> summary_by_revenue_group;
+    bool is_loading = false;
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    public async Task LoadData()
+    {
+        is_loading = true;
+        var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = !IsRevenueGroup?"sp_get_working_day_foc_sale_product_summary": "sp_get_working_day_sale_product_summary", procedure_parameter = $"'{WorkingDayId}'" });
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<CashierShiftSaleProductSummaryModel>>(resp.Content.ToString());
+            if (IsRevenueGroup)
+            {
+                summary_by_revenue_group = from p in models
+                                           group p.revenue_group_name by p.revenue_group_name into g
+                                           select new RevenueGroupSummary { revenue_group_name = g.Key, qty = models.Where(r => r.revenue_group_name == g.Key && !r.is_free).Sum(r => r.quantity), amount = models.Where(r => r.revenue_group_name == g.Key && !r.is_free).Sum(r => r.total_amount) };
+
+            }
+        }
+        is_loading = false;
+    }
+    class RevenueGroupSummary {
+        public string revenue_group_name { get; set; }
+        public decimal qty { get; set; }
+        public decimal amount { get; set; }
+    }
+}

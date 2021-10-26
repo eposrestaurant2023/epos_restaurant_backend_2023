@@ -182,6 +182,14 @@ namespace eAdmin.Pages.PageProducts
 
         public async Task Save_Click()
         {
+
+            if (string.IsNullOrEmpty(model.revenue_group_name))
+            {
+                toast.Add(lang["Please select revenue group name"], MatToastType.Warning);
+                return;
+
+            }
+
             is_saving = true;
 
             ProductModel save_model = new ProductModel();

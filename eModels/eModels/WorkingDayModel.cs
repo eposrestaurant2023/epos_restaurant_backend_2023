@@ -62,5 +62,6 @@ namespace eModels
         public string portion_name { get; set; }
         public decimal quantity { get; set; }
         public decimal total_amount { get; set; }
+        public string revenue_group_name { get; set; }
     }
 }

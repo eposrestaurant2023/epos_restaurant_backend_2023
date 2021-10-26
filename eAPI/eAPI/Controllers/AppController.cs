@@ -62,6 +62,7 @@ namespace eAPI.Controllers
             gv.kitchen_groups= db.KitchenGroups.ToList();
             gv.system_features = db.system_features.ToList();
             gv.business_branch_system_features= db.BusinessBranchSystemFeatures.ToList();
+            gv.revenue_groups= db.RevenueGroups.ToList();
 
             return Ok(gv);
         }
