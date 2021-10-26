@@ -275,7 +275,7 @@ cast(a.id as nvarchar(50)) = @id</CommandText>
           </QueryParameter>
         </QueryParameters>
         <CommandText>
-select 
+ select 
 	product_group_en,
 	note,
 	product_name_en,
@@ -287,11 +287,13 @@ select
 	price + total_modifier_amount as price ,
 	total_amount,
 	unit,
-	sale_product_modifier_name 
+	sale_product_modifier_name ,
+	revenue_group_name
 from tbl_sale_product
 where 
 	cast(sale_id as nvarchar(50)) = @id and
-	is_deleted = 0 and
+	is_deleted = 0 and 
+	status_id in (1,2) and 
 	status = 1</CommandText>
       </Query>
       <Fields>
@@ -341,6 +343,10 @@ where
         </Field>
         <Field Name="sale_product_modifier_name">
           <DataField>sale_product_modifier_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="revenue_group_name">
+          <DataField>revenue_group_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -1903,7 +1909,7 @@ where
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!company_name.Value, "company_infor")</Value>
+                    <Value>=First(Fields!business_branch_name_en.Value, "sale_data")</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>12pt</FontSize>
@@ -4298,7 +4304,7 @@ where
                 <TablixMember>
                   <Group Name="Details3">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!product_group_en.Value</GroupExpression>
+                      <GroupExpression>=Fields!revenue_group_name.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                 </TablixMember>
