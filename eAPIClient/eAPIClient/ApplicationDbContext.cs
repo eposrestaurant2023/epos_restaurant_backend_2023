@@ -55,6 +55,7 @@ namespace eAPIClient
         public DbSet<SaleProductStatusModel> SaleProductStatuses { get; set; } 
         public DbSet<CategoryNoteModel> CategoryNotes { get; set; }
         public DbSet<NoteModel> Notes { get; set; }
+        public DbSet<CashDrawerAmountModel> CashDrawerAmounts { get; set; }
 
     }
 

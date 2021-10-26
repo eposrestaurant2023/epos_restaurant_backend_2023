@@ -20,10 +20,10 @@ namespace eShareModel
         public string opended_station_name_kh { get; set; }
 
         [Column(TypeName ="date")]
-        public DateTime working_date { get; set; }     
-        public bool is_closed { get; set; }
+        public DateTime working_date { get; set; }
+        public bool is_closed { get; set; } = false;
         public string closed_by { get; set; }
-        public DateTime? closed_date { get; set; }
+        public DateTime? closed_date { get; set; } = DateTime.Now;
         public string close_note { get; set; }
         public string open_note { get; set; }
         public string working_day_number { get; set; } = "";

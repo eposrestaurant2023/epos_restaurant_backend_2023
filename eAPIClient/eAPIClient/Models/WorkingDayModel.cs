@@ -11,8 +11,15 @@ namespace eAPIClient.Models
         WorkingDayModel()
         {
             cashier_shifts = new List<CashierShiftModel>();
+            cash_drawer_amounts = new List<CashDrawerAmountModel>();
         }                                                
+        
+        
         public List<CashierShiftModel> cashier_shifts { get; set; }
+        public List<CashDrawerAmountModel> cash_drawer_amounts { get; set; }
+
+
+
 
     }
     [Table("tbl_cashier_shift")]
@@ -20,6 +27,9 @@ namespace eAPIClient.Models
     { 
         [ForeignKey("working_day_id")]
         public  WorkingDayModel working_day { get; set; }
+
+
+
       
     }
 }

@@ -2870,6 +2870,15 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>SaleProductData</DataSetName>
+            <Filters>
+              <Filter>
+                <FilterExpression>=Fields!is_free.Value</FilterExpression>
+                <Operator>Equal</Operator>
+                <FilterValues>
+                  <FilterValue DataType="Boolean">false</FilterValue>
+                </FilterValues>
+              </Filter>
+            </Filters>
             <Top>14.28562cm</Top>
             <Left>0.03528cm</Left>
             <Height>2.81479cm</Height>
