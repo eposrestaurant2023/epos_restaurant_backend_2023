@@ -1,0 +1,135 @@
+﻿@page "/setting/revenuegroup"
+@inherits PageCore
+<Loading is_loading="@(is_loading || is_saving)" />
+@if (!is_loading)
+{
+   
+    <Title Value="@lang["Revenue Group"]"></Title>
+    <PageContainer roles="@gv.GetRole("revenue_group_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Revenue Group"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+               <RefreshButton OnClick="@OnInitializedAsync"/>
+            </HeaderRight>
+        </PageHeader>
+
+        <PageBody>
+            <UIGridCenter>
+                <UIContainerBox Title="@lang["Revenue Group"]">
+                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                            <tr>
+                                <Th>Revenue Group EN</Th>
+                                <Th>Revenue Group KH</Th>
+                                <ThCenter>Sort Order</ThCenter>
+                                <Th></Th>
+                            </tr>
+                            @foreach (var b in models.Where(r => r.is_deleted == false))
+                            {
+                                <tr>
+                                    <td><TextInput @bind-text="@b.revenue_group_name_en" placeholder="Revenue Group en" /></td>
+                                    <td><TextInput @bind-text="@b.revenue_group_name_kh" placeholder="Revenue Group kh" /></td>
+                                    <TdCenter>
+                                        <NumberInputInt @bind-text="@b.sort_order" />
+                                    </TdCenter>
+                                    <TdCenter>
+                                        <Icon icon="delete" OnClick="@(()=>Delete(b))" />
+                                    </TdCenter>
+
+                                </tr>
+                            }
+                        </table>
+                        <Button OnClick="@(()=>Add())">@lang["Add Revenue Group"]</Button>
+                </UIContainerBox>
+            </UIGridCenter>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@Save_Click"/>
+            </FooterCenter>
+        </PageFooter>
+        </PageContainer>
+}
+
+@code{
+    List<RevenueGroupModel> models = new List<RevenueGroupModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData()
+    {
+
+        var resp = await http.ApiGetOData("RevenueGroup");
+        if (resp.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<RevenueGroupModel>>(resp.Content.ToString());
+        }
+        else
+        {
+
+            toast.Add(lang["Loading Revenue Group fail."], MatToastType.Warning);
+        }
+
+
+    }
+
+    void Add()
+    {
+        models.Add(new RevenueGroupModel());
+
+    }
+
+    void Delete(RevenueGroupModel p)
+    {
+        if (p.id == Guid.Empty)
+        {
+            models.Remove(p);
+        }
+        else
+        {
+            p.is_deleted = true;
+        }
+    }
+
+    async Task Save_Click()
+    {
+
+
+        if (models.Where(r => r.is_deleted == false && string.IsNullOrEmpty(r.revenue_group_name_en)).Any())
+        {
+
+            toast.Add(lang["Please enter revenue group name"], MatToastType.Warning);
+            return;
+
+        }
+
+        is_saving = true;
+
+        var resp = await http.ApiPost("RevenueGroup/Save", models);
+        if (resp.IsSuccess)
+        {
+
+            toast.Add(lang["Save revenue group successfully"], MatToastType.Success);
+
+            await LoadData();
+        }
+        else
+        {
+
+            toast.Add(lang["Save Revenue Group fail"], MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+
+}
