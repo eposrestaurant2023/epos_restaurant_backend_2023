@@ -28,11 +28,20 @@
                         <ThAuto>
                             <div>@lang["Business Branch"]</div>
                             <div class="sub-header-table">@lang["Outlet"]</div>
+                            <div class="sub-header-table">@lang["Station"]</div>
                         </ThAuto>
+                        <ThCenter>@lang["Sale Type"]</ThCenter>
+                        <th>@lang["Table #"]</th>
+
                         <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Discount"]</ThRight>
+                        <ThRight>@lang["Tax"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
+                        <ThCenter>@lang["Last Modified Date"]</ThCenter>
+                        <th>@lang["Last Modified By"]</th>
                         <ThRight>@lang["Status"]</ThRight>
+
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -40,10 +49,22 @@
                             @p.working_date.ToString(gv.date_format)
                         </TdCenter>
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/{p.id}")">@p.document_number</ComAuthorize>
+                            <div>
+                                <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
+                                    @if (p.document_number == "New")
+                                        {
+                                        @p.sale_number
+                                        }
+                                        else
+                                        {
+                                        @p.document_number
+                                        }
+                                </ComAuthorize>
+                            </div>
                         </TdCenter>
                         <td>
-                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management">@p.customer?.customer_code_name</ComProfileInfo>
+
+                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
                             <div>
@@ -52,9 +73,28 @@
                             <div class="sub-info-row-table">
                                 @p.outlet?.outlet_name_en
                             </div>
+                            <div class="sub-info-row-table">
+                                @p.station_name_en
+                            </div>
+                        </td>
+                        <TdCenter>
+                            <div>
+                                @p.sale_type
+                            </div>
+                        </TdCenter>
+                        <td>
+                            <div>
+                                @p.table_name
+                            </div>
                         </td>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_discount_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            @p.total_tax_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
                             @p.paid_amount.ToString(gv.main_currency_format)
@@ -62,11 +102,17 @@
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
+                        <TdCenter>
+                            @(Convert.ToDateTime(p.last_modified_date).ToString(gv.date_time_format))
+                        </TdCenter>
+                        <td>
+                            @p.last_modified_by
+                        </td>
                         <TdRight>
                             <ComSaleStatus sale="@p" />
                         </TdRight>
                         <TdCenter>
-                            <Icon icon="visibility" OnClick="@(() => nav.NavigateTo($"receiptlist/{p.id}"))" />
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
                         </TdCenter>
                     </RowTemplate>
                 </Table>
@@ -99,7 +145,7 @@
                 state.pager.order_by_type = "desc";
             }
             string url = $"{controller_api}?";
-            url += $"$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
+            url += $"$expand=sale_status,customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
             url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
             if (!string.IsNullOrEmpty(WorkingDayId)) {

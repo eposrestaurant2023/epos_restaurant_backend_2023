@@ -38,15 +38,17 @@
                                 <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
                                 <TdRight>@p.total_amount.ToString(gv.main_currency_format)</TdRight>
                             </tr>
-                            foreach (var gt in models.Where(r => r.product_group_en == p.ToString()).Select(r => r.product_category_en).Distinct().ToList())
-                            {
-                                <tr>
-                                    <TdRight ClassName="uk-text-bold">Total - @p.ToString()</TdRight>
-                                    <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == p.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                                    <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == p.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
-                                </tr>
-                            }
+
                         }
+                        foreach (var gt in models.Where(r => r.product_category_en == g.ToString()).Select(r => r.product_category_en).Distinct().ToList())
+                        {
+                            <tr>
+                                <TdRight ClassName="uk-text-bold">Total - @gt.ToString()</TdRight>
+                                <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                                <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
+                            </tr>
+                        }
+
                     }
                     @foreach (var tc in models.Where(r => r.product_group_en == c).Select(r => r.product_group_en).Distinct().ToList())
                     {
@@ -58,33 +60,9 @@
 
 
                     }
-
-                    <tr>
-                        <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
-                        <TdCenter ClassName="uk-text-bold">@models.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                        <TdRight ClassName="uk-text-bold">@models.Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
-                    </tr>
                 }
             </tbody>
                     <tfoot>
-                        @foreach (var c in models.Select(r=>r.product_group_en).Distinct().ToList())
-                        {
-                        <tr>
-                            <TdRight ClassName="uk-text-bold">Total - @c.ToString()</TdRight>
-                            <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == c.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                            <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == c.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdCenter>
-                        </tr>
-
-                            foreach (var g in models.Where(r=>r.product_group_en == c.ToString()).Select(r=>r.product_category_en).Distinct().ToList())
-                            {
-                                <tr>
-                                    <TdRight ClassName="uk-text-bold">Total - @g.ToString()</TdRight>
-                                    <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                                    <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
-                                </tr>
-                            }
-                        }
-
                         <tr>
                             <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
                             <TdCenter ClassName="uk-text-bold">@models.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>

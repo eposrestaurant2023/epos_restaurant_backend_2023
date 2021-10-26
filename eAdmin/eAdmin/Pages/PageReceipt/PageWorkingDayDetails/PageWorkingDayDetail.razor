@@ -15,7 +15,7 @@
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
                 <Button icon="print" title="@lang["Print"]" OnClick="@OnPrint" />
-                <RefreshButton OnClick="@LoadData" />
+                <RefreshButton OnClick="@OnRefresh" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -37,7 +37,10 @@
                                         {
                                             if (t.title == "separator")
                                             {
-                                                <hr/>
+                                                <td colspan="3">
+                                                    <hr/>
+                                                </td>
+                                                
                                             }
                                             else
                                             {
@@ -62,6 +65,7 @@
                         {
                             <UIGridCenter>
                                 <ComCashierShiftDetail_SaleProduct Title="Sale Product" IsFree="false" WorkingDayId="@id" />
+                                <ComCashierShiftDetail_SaleProduct Title="FOC" IsFree="true" WorkingDayId="@id" />
                                 <ComCashierShiftDetail_SaleProduct Title="Free Product" IsFree="true" WorkingDayId="@id" />
                             </UIGridCenter>
                         }
@@ -73,7 +77,7 @@
     @if (is_open_print)
     {
 
-        <ComPreviewReport @bind-IsOpened="@is_open_print" report_id="231" Title="@lang["Working Day Detail"]" report_parameters="@($"id={id}&user_id={gv.current_login_user.id}")" />
+        <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="50" report_id="231" Title="@lang["Working Day Detail"]" report_parameters="@($"id={id}")" />
     }
 }
 @if (is_error)
