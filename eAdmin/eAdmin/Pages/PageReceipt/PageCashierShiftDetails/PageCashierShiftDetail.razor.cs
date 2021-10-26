@@ -51,7 +51,7 @@ namespace eAdmin.Pages.PageReceipt.PageCashierShiftDetails
         }
         public async Task GetCloseCashierShiftSummary()
         {
-            var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = "sp_get_close_cashier_shift_summary", procedure_parameter = $"'{id}'"});
+            var resp = await http.ApiPost("GetData", new FilterModel { procedure_name = "sp_get_close_cashier_shift_summary", procedure_parameter = $"'{id}','json'"});
             if (resp.IsSuccess)
             {
                 list_summaries = JsonSerializer.Deserialize<List<ListSummaryModel>>(resp.Content.ToString());

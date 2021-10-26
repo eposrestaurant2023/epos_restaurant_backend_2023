@@ -72,7 +72,9 @@
                             </ComAuthorize>
                         </TdCenter>
                         <TdCenter>
-                            @p.working_day.working_day_number
+                            <ComAuthorize roles="@gv.GetRole("cashier_shift_management")" url="@($"workingday/{p.working_day_id}")">
+                                @p.working_day.working_day_number
+                            </ComAuthorize>
                         </TdCenter>
                         <td>
                             @p.cash_drawer_name
