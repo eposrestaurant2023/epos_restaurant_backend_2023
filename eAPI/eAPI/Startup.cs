@@ -213,6 +213,7 @@ namespace eAPI
             odataBuilder.EntitySet<CashierShiftModel>("CashierShift");
             odataBuilder.EntitySet<SystemFeatureModel>("SystemFeature");
             odataBuilder.EntitySet<SaleTypeModel>("SaleType");
+            odataBuilder.EntitySet<RevenueGroupModel>("RevenueGroup");
             odataBuilder.EntitySet<ProductTaxModel>("ProductTax");
 
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
