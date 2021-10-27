@@ -1,7 +1,6 @@
 ﻿using DeviceId;
 using eAPI.Services;
 using eModels;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +55,7 @@ namespace eAPI.Controllers
 
             }
         }
-              public List<eSoftixBackend.StationModel> esoftix_stations
+        public List<eSoftixBackend.StationModel> esoftix_stations
         {
             get
             {
@@ -67,8 +66,20 @@ namespace eAPI.Controllers
                 return new List<eSoftixBackend.StationModel>();
 
             }
-        } 
-        
+        }
+        public List<eSoftixBackend.CashDrawerModel> esoftix_cash_drawers
+        {
+            get
+            {
+                if (project != null)
+                {
+                    return project.business_branches.SelectMany(r => r.cash_drawers).ToList();
+                }
+                return new List<eSoftixBackend.CashDrawerModel>();
+
+            }
+        }
+
         public List<eSoftixBackend.StockLocationModel> esoftix_stock_locations
         {
             get
@@ -130,7 +141,7 @@ namespace eAPI.Controllers
             string api_url = $"project({project_id})?";
             api_url = api_url + $"$expand=customer,";
             api_url = api_url + $"project_system_features($expand=system_feature),";
-            api_url = api_url + $"business_branches($expand=business_branch_system_features,stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)";
+            api_url = api_url + $"business_branches($expand=business_branch_system_features,cash_drawers,stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)";
           
 
             
@@ -144,7 +155,8 @@ namespace eAPI.Controllers
 
                 //Check Outlet 
                 CheckOutlet();
-
+                //check cash drawer
+                CheckCashDrawer();
                 //check sttion
                 CheckStation();
 
@@ -162,7 +174,6 @@ namespace eAPI.Controllers
 
 
                 db.Database.ExecuteSqlRaw("exec sp_update_system_feature_permission_option");
-                db.Database.ExecuteSqlRaw("exec sp_update_build_in_role_permission");
 
                 return true;
             } 
@@ -298,6 +309,33 @@ namespace eAPI.Controllers
             db.SaveChanges();
 
         }
+        void CheckCashDrawer()
+        {
+            //get branch from local db
+            var cash_drawers = db.CashDrawers;
+            foreach (var remote_cash_drawer in esoftix_cash_drawers)
+            {
+                eShareModel.CashDrawerModel local_cash_drawer = new eShareModel.CashDrawerModel();
+                if (cash_drawers.Where(r => r.id == remote_cash_drawer.id).Any())
+                {
+
+                    local_cash_drawer = cash_drawers.Where(r => r.id == remote_cash_drawer.id).FirstOrDefault();
+                    MapCashDrawerField(remote_cash_drawer, local_cash_drawer);
+
+                }
+                else
+                {
+                    MapCashDrawerField(remote_cash_drawer, local_cash_drawer);
+                    cash_drawers.Add(local_cash_drawer);
+                }
+            }
+
+            db.CashDrawers.UpdateRange(cash_drawers);
+
+            db.SaveChanges();
+
+        }
+
 
         void MapStationField(eSoftixBackend.StationModel remote, StationModel local)
         {
@@ -305,6 +343,8 @@ namespace eAPI.Controllers
             local.station_name_en = remote.station_name_en;
             local.station_name_kh = remote.station_name_kh;
             //local.is_already_config = remote.is_already_config;
+            local.cash_drawer_id = remote.cash_drawer_id;
+            local.cash_drawer_name = remote.cash_drawer_name;
             local.created_by = remote.created_by;
             local.created_date = remote.created_date;
             local.is_deleted = remote.is_deleted;
@@ -314,6 +354,20 @@ namespace eAPI.Controllers
             local.outlet_id = remote.outlet_id;
             local.is_full_license = remote.is_full_license;
             local.expired_date = remote.expired_date;
+        }
+
+        void MapCashDrawerField(eSoftixBackend.CashDrawerModel remote, eShareModel.CashDrawerModel local)
+        {
+            local.id = remote.id;
+            
+            local.cash_drawer_name = remote.cash_drawer_name;
+            local.created_by = remote.created_by;
+            local.created_date = remote.created_date;
+            local.is_deleted = remote.is_deleted;
+            local.deleted_by = remote.deleted_by;
+            local.deleted_date = remote.deleted_date;
+            local.status = remote.status;
+          
         }
 
 
