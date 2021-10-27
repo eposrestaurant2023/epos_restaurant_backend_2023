@@ -73,8 +73,10 @@
     <DataSource Include="DataSource.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="CashierShift_SaleTransaction.rdl" />
     <Report Include="rptCashierShiftDetailA4.rdl" />
     <Report Include="rptCashierShiftSaleProduct.rdl" />
+    <Report Include="rptCashierShift_SaleProduct.rdl" />
     <Report Include="rptCloseWorkingDay.rdl" />
     <Report Include="rptCustomerList.rdl" />
     <Report Include="rptDailySaleSummary.rdl" />
