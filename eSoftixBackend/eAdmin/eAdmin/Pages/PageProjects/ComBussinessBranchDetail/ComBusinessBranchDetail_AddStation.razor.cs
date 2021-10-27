@@ -4,12 +4,14 @@ using MudBlazor;
 using eModels;
 using eAdmin.Services;
 using System.Text.Json;
+using System;
 
 namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
 {
     public partial class ComBusinessBranchDetail_AddStation
     {
         [Parameter] public StationModel model { get; set; } = new StationModel();
+        [Parameter] public Guid business_branch_id { get; set; } = Guid.Empty;
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
         [Inject] IHttpService http { get; set; }
         [Inject] ISnackbar toast { get; set; }
@@ -23,12 +25,12 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
             if (resp.IsSuccess)
             {
 
-                toast.Add("Save outlet successfully", Severity.Success);
+                toast.Add("Save station successfully", Severity.Success);
                 MudDialog.Close(DialogResult.Ok(JsonSerializer.Deserialize<StationModel>(resp.Content.ToString())));
             }
             else
             {
-                toast.Add("Save outlet fail", Severity.Warning);
+                toast.Add("Save station fail", Severity.Warning);
             }
 
             is_saving = false;

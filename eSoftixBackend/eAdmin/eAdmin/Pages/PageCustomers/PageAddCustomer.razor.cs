@@ -55,7 +55,6 @@ namespace eAdmin.Pages.PageCustomers
                         if (res.IsSuccess)
                         {
                             model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                            Console.WriteLine(res.Content.ToString());
                             title = $"Clone : {model.customer_name_en}";
                         }
                         else

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211027015823_add_cash_drawer_5")]
+    partial class add_cash_drawer_5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,9 +230,6 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("cash_drawer_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -262,17 +261,10 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("project_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
                     b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.HasIndex("project_id");
 
                     b.ToTable("tbl_cash_drawer");
                 });
@@ -1942,25 +1934,6 @@ namespace eAPI.Migrations
                     b.Navigation("system_feature");
                 });
 
-            modelBuilder.Entity("eModels.CashDrawerModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("cash_drawers")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ProjectModel", "project")
-                        .WithMany()
-                        .HasForeignKey("project_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("project");
-                });
-
             modelBuilder.Entity("eModels.ContactModel", b =>
                 {
                     b.HasOne("eModels.CustomerModel", "customer")
@@ -2219,8 +2192,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.BusinessBranchModel", b =>
                 {
                     b.Navigation("business_branch_system_features");
-
-                    b.Navigation("cash_drawers");
 
                     b.Navigation("contacts");
 

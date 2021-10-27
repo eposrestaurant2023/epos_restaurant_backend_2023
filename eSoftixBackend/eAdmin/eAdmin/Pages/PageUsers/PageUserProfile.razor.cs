@@ -48,8 +48,6 @@ namespace eAdmin.Pages.PageUsers
             {
                 if (!string.IsNullOrEmpty(model.current_password) && !string.IsNullOrEmpty(model.new_password) && !string.IsNullOrEmpty(model.retype_new_password))
                 {
-
-                    Console.WriteLine(save_model.new_password);
                     var res = await http.ApiPost($"user/changepassword?", save_model);
                     if (res.IsSuccess)
                     {

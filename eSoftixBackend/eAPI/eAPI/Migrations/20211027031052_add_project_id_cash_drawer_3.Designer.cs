@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211027031052_add_project_id_cash_drawer_3")]
+    partial class add_project_id_cash_drawer_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -262,6 +264,9 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("project_business_branch_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("project_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -270,7 +275,7 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("business_branch_id");
+                    b.HasIndex("project_business_branch_id");
 
                     b.HasIndex("project_id");
 
@@ -1946,9 +1951,7 @@ namespace eAPI.Migrations
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
                         .WithMany("cash_drawers")
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("project_business_branch_id");
 
                     b.HasOne("eModels.ProjectModel", "project")
                         .WithMany()
