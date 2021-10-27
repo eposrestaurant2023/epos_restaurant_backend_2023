@@ -12,6 +12,7 @@ namespace eModels
         {
             outlets = new List<OutletModel>();
             stock_locations = new List<StockLocationModel>();
+            cash_drawers = new List<CashDrawerModel>();
             contacts = new List<ContactRelatedModel>();
             business_branch_system_features = new List<BusinessBranchSystemFeatureModel>();
         }
@@ -27,6 +28,7 @@ namespace eModels
 
 
        public List<StockLocationModel> stock_locations { get; set; }
+       public List<CashDrawerModel> cash_drawers { get; set; }
 
         public List<ContactRelatedModel> contacts { get; set; }
 

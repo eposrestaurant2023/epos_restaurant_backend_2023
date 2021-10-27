@@ -109,7 +109,7 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
 
         async Task AddNewStation(OutletModel outlet)
         {
-            var parameters = new DialogParameters{["model"] = new StationModel() {outlet_id = outlet.id}};
+            var parameters = new DialogParameters{["model"] = new StationModel() {outlet_id = outlet.id},["business_branch_id"] = business_branch.id};
             var dialog = Dialog.Show<ComBusinessBranchDetail_AddStation>("Add New Station", parameters);
             var result = await dialog.Result;
             if (!result.Cancelled)
@@ -121,7 +121,7 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
         async Task EditStation_Click(StationModel _station)
         {
             StationModel backup_model = JsonSerializer.Deserialize<StationModel>(JsonSerializer.Serialize(_station));
-            var parameters = new DialogParameters { ["model"] = _station };
+            var parameters = new DialogParameters { ["model"] = _station, ["business_branch_id"] = business_branch.id };
             var dialog = Dialog.Show<ComBusinessBranchDetail_AddStation>("Edit Station", parameters);
             var result = await dialog.Result;
             if (result.Cancelled)
@@ -182,7 +182,6 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
                     {
                         toast.Add("Restore Station Fail", Severity.Warning);
                     }
-                    Console.WriteLine(resp.Content.ToString());
                 }
             }
 

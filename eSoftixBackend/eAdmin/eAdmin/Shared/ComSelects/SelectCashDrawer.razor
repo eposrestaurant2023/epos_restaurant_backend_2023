@@ -1,0 +1,52 @@
+﻿ @inject IHttpService http 
+ @if(is_loading){
+      <MudSelect T="Guid?" Label="@label" Variant="@variant" Value="@selected_value" >
+
+        <MudSelectItem T="Guid?" Value="@Guid.Empty">Select Cash Drawer</MudSelectItem>
+    
+    
+</MudSelect>
+ }else{
+    <MudSelect T="Guid?" Label="@label" Variant="@variant" Value="@selected_value"  ValueChanged="@((value) => SelectedValueChange(value))">
+        @foreach (var c in cash_drawers)
+        {
+            <MudSelectItem T="Guid?" Value="@c.id">@c.cash_drawer_name</MudSelectItem>
+        }
+    </MudSelect>
+ }
+
+@code{
+    [Parameter] public string label { get; set; } = "Cash Drawer";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Cash Drawer";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public Variant variant { get; set; } = Variant.Outlined;
+
+    [Parameter] public Guid? selected_value { get; set; } = Guid.Empty;
+    [Parameter] public EventCallback<Guid?> selected_valueChanged { get; set; }
+    List<CashDrawerModel> cash_drawers = new List<CashDrawerModel>();
+    [Parameter] public Guid businness_branch_id { get; set; }
+    [Parameter] public bool is_loading { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        var res = await http.ApiGetOData($"Cashdrawer?$filter=status eq true and is_deleted eq false and business_branch_id eq {businness_branch_id}");
+        if (res.IsSuccess)
+        {
+            cash_drawers = JsonSerializer.Deserialize<List<CashDrawerModel>>(res.Content.ToString());
+        }
+    }
+    public async Task SelectedValueChange(Guid? n)
+    {
+        selected_value = n;
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+
+}
