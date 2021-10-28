@@ -1,0 +1,31 @@
+﻿@inject IHttpService http
+@inject NavigationManager nav
+
+@foreach (var sp in model.active_production_products)
+{
+    <tr>
+        <td>@(model.active_production_products.IndexOf(sp) + 1 )</td>
+        <TdCenter>
+            <Image ImageUrl="@http.ImageUrl(sp.product.photo)" data-caption="@sp.product?.product_display_name" PopupImageUrl="@http.ImageUrl(sp.product.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+        </TdCenter>
+        <td class="cust_wirth_space">
+            <ComAuthorize roles="@gv.GetRole("product_management")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
+                <div>@sp.product?.product_display_name</div>
+            </ComAuthorize>
+            @if (!string.IsNullOrEmpty(sp.note))
+            {
+                <div class="font-xs text-pre-wrap">@sp.note</div>
+            }
+        </td>
+        <TdCenter>@sp.quantity.ToString(gv.quantity_format) @sp.unit</TdCenter> 
+        <td class="uk-text-right">@sp.cost.ToString(gv.currency_format)</td>
+        <td class="uk-text-right">@sp.total_amount.ToString(gv.currency_format)</td>
+    </tr>
+
+}
+
+@code{
+    [Parameter] public ProductionModel model { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+}

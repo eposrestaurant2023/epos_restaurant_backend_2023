@@ -1,0 +1,91 @@
+﻿@page "/Production/{id:int}";
+@inherits PageProductionDetailBase
+
+@if (is_loading_data || is_loading)
+{
+    <Loading is_loading="@( is_loading_data || is_loading_data)" />
+
+}
+
+@if (!is_loading && is_error == false)
+{
+    <Title Value="@($"Production Invoice Invoice: {model.production_code}")"></Title>
+
+    <PageContainer roles="@gv.GetRole("production_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Production Invoice #"] @model.production_code
+                        <ComProductionStatus model="@model" />
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                
+                <ComProductionDetail_ActionButton @bind-model="@model" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <Tab>
+                <TabHeader>
+                    <TabHeaderItem>@lang["Invoice"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
+                </TabHeader>
+
+                <TabBody>
+                    <TabItem>
+                        <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
+                        <ComPage>
+                            <ComProductionDetail_InvoiceHeader model="@model" />
+                            <Spacing Number="20" />
+                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@lang["No"]</th>
+                                        <ThCenter>@lang["Image"]</ThCenter>
+                                        <th class="col-auto">@lang["Item"]</th>
+                                        <th class="uk-text-center">@lang["QTY"]</th>
+                                        <th class="uk-text-right">@lang["Price"]</th>
+                                        <th class="uk-text-right">@lang["Amount"]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ComProductionDetail_InvoiceBody model="@model" />
+                                </tbody>
+                                <tfoot>
+                                    <ComProductionDetail_InvoiceFooter model="@model" />
+                                </tfoot>
+                            </table>
+                            <Spacing Number="20" />
+                            <ComProductionDetail_Note model="@model" />
+                            <ComProductionDetail_FooterInformation model="@model" />
+                        </ComPage>
+                    </TabItem>
+                    <TabItem>
+                        @if (is_show_comment)
+                        {
+                            <ComHistory RoleAdd="@gv.GetRole("production_add")"
+                                        RoleDelete="@gv.GetRole("production_delete")"
+                                        RoleEdit="@gv.GetRole("production_edit")"
+                                        ApiFilter="@($"production_id eq {id}")"
+                                        history="@history" />
+
+                        }
+
+                    </TabItem>
+
+                </TabBody>
+            </Tab>
+            <div class="spacing40"></div>
+        </PageBody>
+    </PageContainer>
+  
+}
+
+@if (is_error)
+{
+    <Error title="Production Detail">
+        @error_text
+    </Error>
+}

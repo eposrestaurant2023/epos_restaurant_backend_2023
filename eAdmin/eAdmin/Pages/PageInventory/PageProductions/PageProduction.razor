@@ -1,0 +1,93 @@
+﻿@page "/production"
+@inherits PageProductionBase
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@{
+    RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
+    @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
+}
+
+@if (!is_loading)
+{
+    <Title Value="@lang["Production"]"></Title>
+    <PageContainer roles="@gv.GetRole("production_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle>
+                    <HeaderTemplate>
+                        @state.page_title
+                    </HeaderTemplate>
+                    <FilterTemplate>
+                        <PageFilter title="@lang["Status"]">
+                            <ModuleView module_views="@gv.GetModuleView("page_production_product")" OnClick="@ViewClick" />
+                        </PageFilter>
+                    </FilterTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <AddButton roles="@gv.GetRole("production_add")" url="production/new">@lang["New Production"]</AddButton>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <FilterDateRange @bind-dates="@state.date_range" />
+                    <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                </ComSearch>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+            <Com is_visible="@(models != null)">
+                <Table Items="@models"
+                       PerPage="@state.pager.per_page"
+                       TotalItem="@TotalRecord"
+                       CurrentPage="@state.pager.current_page"
+                       OnPagerChange="@SelectChange"
+                       OnPageChange="@ChangePager"
+                       isLoading="@is_loading_data"
+                       ShowPager="true"
+                       ShowCounter="true"
+                       ClassName="uk-table-small uk-table-striped uk-table-hover"
+                       ScrollClass="uk-overflow-auto">
+                    <TableHeader>
+                        @HeaderTemplate("production_date", lang["Production Date"], "uk-text-center")
+                        @HeaderTemplate("code", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Warehouse"]</div>
+                        </ThAuto>
+                        <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThRight>@lang["Status"]</ThRight>
+                        <th class="uk-width-auto"></th>
+                    </TableHeader>
+                    <RowTemplate Context="p">
+                        <TdCenter>@p.production_date.ToString(gv.date_format)</TdCenter>
+                        <TdCenter>
+                            <ComAuthorize roles="@gv.GetRole("production_management")" url="@($"production/{p.id}")">
+                                @p.production_code
+                            </ComAuthorize>
+                        </TdCenter>
+                        <TdCenter>@p.reference_number</TdCenter>
+                        <td>
+                            <div>@p.business_branch?.business_branch_name_en</div>
+                            <div class="sub-info-row-table">@p.stock_location?.stock_location_name</div>
+                        </td>
+
+                        <TdRight>
+                            @p.total_amount.ToString(gv.main_currency_format)
+                        </TdRight>
+                        <TdRight>
+                            <ComProductionStatus model="@p" />
+                        </TdRight>
+                        <TdActions is_loading="@p.is_loading">
+                            <TableActionItem roles="@gv.GetRole("production_management")" icon="visibility" url="@($"production/{p.id}")">@lang["View"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("production_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"production/edit/{p.id}")">@lang["Edit"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("production_add")" icon="file_copy" url="@($"production/clone/{p.id}")">@lang["Clone"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("production_delete")" icon="delete" is_visible="@(!p.is_deleted && !p.is_fulfilled)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
+                        </TdActions>
+                    </RowTemplate>
+                </Table>
+            </Com>
+        </PageBody>
+    </PageContainer>
+}
