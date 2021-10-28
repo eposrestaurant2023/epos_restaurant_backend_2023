@@ -14,8 +14,8 @@ namespace eAdmin.Pages.PageReceipt
     public class ComSaleBase : PageCore
     {
         public List<SaleModel> models = new List<SaleModel>();
+        public string StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj";
         public SaleModel model = new SaleModel();
-        public string StateKey = "";   
         public int TotalRecord = 0; 
         string controller_api = "sale";
         public string ControllerApi
@@ -38,9 +38,20 @@ namespace eAdmin.Pages.PageReceipt
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj"; 
             state = await GetState(StateKey);
+            if (string.IsNullOrEmpty(state.page_title))
+            {
+                state.page_title = "Sale";
+                var default_view = gv.GetDefaultModuleView("page_sale");
+                if (default_view != null)
+                {
+                    state.page_title = default_view.title;
+                    state.filters = default_view.filters;
+                }
+            }
             await LoadData();
+
+            is_loading = false;
         }   
 
         public async Task LoadData(string api_url="")
@@ -94,13 +105,6 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
             
-            var default_view = gv.GetDefaultModuleView("page_sale");
-            if (default_view != null)
-            {
-                state.page_title = default_view.title;
-            }
-
-
             if (string.IsNullOrEmpty(api_url))
             {
                 api_url = $"{ControllerApi}";
