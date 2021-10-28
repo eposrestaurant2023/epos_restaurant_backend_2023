@@ -24,7 +24,7 @@
                 <th></th>
 </TableHeader>
             <RowTemplate Context="p">
-                @*<ComProductionProductRow model="@model" production_product="@p" production_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />*@
+                <ComProductionProductRow model="@model" production_product="@p" production_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
         </Table>
     }
