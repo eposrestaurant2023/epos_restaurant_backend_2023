@@ -1,0 +1,51 @@
+﻿@inject IHttpService http
+@inject IMatToaster toast
+<UIGridCenter>
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+        @foreach (var pp in product_potions)
+        {
+            <ComProductDetail_Ingredients product_portion="@pp" is_product_deleted="@is_product_deleted" is_search_all_product="true" />
+        }
+    }
+</UIGridCenter>
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public int product_id { get; set; }
+    [Parameter] public bool is_product_deleted { get; set; }
+    List<ProductPortionModel> product_potions = new List<ProductPortionModel>();
+
+    bool is_loading;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    public async Task LoadData()
+    {
+        is_loading = true;
+
+        if (product_id > 0)
+        {
+            var resp = await http.ApiGetOData($"ProductPortion?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product),unit($select=id,unit_name,unit_category_id))&$filter=product_id eq {product_id}");
+            if (resp.IsSuccess)
+            {
+                product_potions = JsonSerializer.Deserialize<List<ProductPortionModel>>(resp.Content.ToString());
+            }
+        }
+        is_loading = false;
+    }
+
+   
+
+
+}

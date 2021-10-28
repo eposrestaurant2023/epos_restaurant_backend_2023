@@ -13,7 +13,7 @@ namespace eModels
         {
             cashier_shifts = new List<CashierShiftModel>();
             cash_drawer_amounts = new List<CashDrawerAmountModel>();
-        }
+        } 
 
        
         public List<CashierShiftModel> cashier_shifts { get; set; }

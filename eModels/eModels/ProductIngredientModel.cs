@@ -16,12 +16,15 @@ namespace eModels
         public int ingredient_id { get; set; }
         [ForeignKey("ingredient_id")]
         public ProductModel ingredient { get; set; }
-        
+        public int? ingredient_portion_id { get; set; }
+      
         public int product_portion_id { get; set; }
         [ForeignKey("product_portion_id")]
         public ProductPortionModel product_portion { get; set; }
 
         public decimal quantity { get; set; } = 1;
+
+     
 
         public int unit_id { get; set; }
         [ForeignKey("unit_id")]
