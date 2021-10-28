@@ -56,7 +56,7 @@ namespace eAdmin.Pages.PageProducts
                 url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
                 url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
-                url = url + "stock_location_products($expand=stock_location),product_taxes,unit,";
+                url = url + "product_taxes,unit,";
                 url = url + "default_stock_location_products($expand=business_branch,stock_location,station($filter=is_deleted eq false and status eq true))";
                 return url;
         } }

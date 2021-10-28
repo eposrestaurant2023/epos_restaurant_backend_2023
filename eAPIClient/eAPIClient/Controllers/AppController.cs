@@ -33,7 +33,22 @@ namespace eAPIClient.Controllers
         public ActionResult<bool> IsAPIWorking()
         {
             return Ok();
-        }  
+        }
+
+
+        [HttpPost]
+        [Route("GetData")]
+        public ActionResult<string> GetData([FromBody] FilterModel f)
+        {
+            var d = db.StoreProcedureResults.FromSqlRaw(string.Format("exec {0} {1}", f.procedure_name, f.procedure_parameter)).ToList().FirstOrDefault();
+            if (d != null)
+            {
+                string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
+                return r;
+            }
+            return BadRequest();
+
+        }
     }
 
 }
