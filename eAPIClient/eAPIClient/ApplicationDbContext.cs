@@ -29,6 +29,9 @@ namespace eAPIClient
             {
                 property.SetCollation("Khmer_100_BIN");
             }
+
+            builder.Entity<StoreProcedureResultModel>().HasNoKey();
+
         }
 
         public DbSet<DocumentNumberModel> DocumentNumbers { get; set; }        
@@ -56,6 +59,9 @@ namespace eAPIClient
         public DbSet<CategoryNoteModel> CategoryNotes { get; set; }
         public DbSet<NoteModel> Notes { get; set; }
         public DbSet<CashDrawerAmountModel> CashDrawerAmounts { get; set; }
+
+        public DbSet<StoreProcedureResultModel> StoreProcedureResults { get; set; }
+
 
     }
 
