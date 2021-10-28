@@ -196,6 +196,7 @@ namespace eAdmin.Pages.PageProducts
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
+            save_model.product_category = null;
 
             if (save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).Any())
             {
