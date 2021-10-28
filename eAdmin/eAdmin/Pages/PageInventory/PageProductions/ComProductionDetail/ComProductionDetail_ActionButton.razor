@@ -21,11 +21,12 @@
 <MoreButton is_loading="@model.is_loading">
     <MoreButtonItem roles="@gv.GetRole("production_add")" icon="file_copy" url="@($"production/clone/{model.id}")">@lang["Clone Invoice"]</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("production_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("production_delete")" icon="delete" is_visible="@model.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
 </MoreButton>
 
 @if (is_open_print)
 {
-    <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="197" Title="@lang["Production Receipt"]" report_parameters="@($"id={model.id}")" />
+    <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="237" Title="@lang["Production Receipt"]" report_parameters="@($"id={model.id}")" />
 }
 
 @code {
@@ -35,6 +36,7 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     AttachFilesModel file = new AttachFilesModel();
     bool is_loading;
+    bool is_loading_data;
     protected override void OnInitialized()
     {
         file.production_id = model.id;
@@ -93,5 +95,20 @@
 
         is_loading = false;
     }
+    public async Task CancelMarkAsFulfilled()
+    {
+        is_loading = true;
+        if (await js.Confirm("Cancel Make As Fulfilled", "Are you sure you want to​ cancel make as fulfilled?"))
+        {
 
+            var resp = await http.ApiPost("Production/CancelMarkAsFulfilled/" + model.id);
+            if (resp.IsSuccess)
+            {
+                await modelChanged.InvokeAsync(model);
+                toast.Add("Cancel Mark as fulfilled successfully", MatToastType.Success);
+            }
+        }
+        is_loading = false;
+
+    }
 }

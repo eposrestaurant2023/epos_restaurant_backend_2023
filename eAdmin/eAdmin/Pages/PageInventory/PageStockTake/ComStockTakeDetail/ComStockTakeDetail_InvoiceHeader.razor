@@ -9,10 +9,10 @@
                     <img src="@http.ImageUrl(gv.business_info.company_logo)" class="uk-image" width="130" />
                 }
                 <div class="uk-text-top">
-                    <div class="font-xxl">@gv.business_info.company_name</div>
-                    <div>@gv.business_info.address</div>
-                    <div>@gv.business_info.contact_office_number</div>
-                    <div>@gv.business_info.contact_phone_number</div>
+                    <div class="font-xxl">@model.business_branch.business_branch_name_en</div>
+                    <div>@model.business_branch.address_en</div>
+                    <div>@model.business_branch.phone_1</div>
+                    <div>@model.business_branch.phone_2</div>
                 </div>
             </div>
         </HeaderLeft>
@@ -40,7 +40,7 @@
     <Grid ClassName="uk-grid-small">
         <div class="uk-width-expand">
             <div style="width: 260px;">
-                <div class="sub_title font-sm">From Stock Location</div>
+                <div class="sub_title font-sm">Stock Location</div>
                 <table class="uk-width-1-1">
                     @if (model.business_branch != null)
                     {

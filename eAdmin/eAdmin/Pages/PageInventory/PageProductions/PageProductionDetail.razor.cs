@@ -10,7 +10,6 @@ namespace eAdmin.Pages.PageInventory.PageProductions
 {
     public class PageProductionDetailBase : PageCore
     {
-
         [Parameter] public int id { get; set; }
 
         public bool is_open_print, is_show_comment;
@@ -96,6 +95,8 @@ namespace eAdmin.Pages.PageInventory.PageProductions
 
             is_loading_data = false;
         }
+
+       
 
     }
 
