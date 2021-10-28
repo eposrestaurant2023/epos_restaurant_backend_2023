@@ -28,7 +28,7 @@ namespace eAPI.Controllers
         }
 
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
+        [EnableQuery(MaxExpansionDepth = 0)]
 
         public IQueryable<ProductionModel> Get(string keyword = "")
         {
@@ -161,6 +161,22 @@ namespace eAPI.Controllers
 
         }
 
+        [Route("CancelMarkAsFulfilled/{id}")]
+        public async Task<ActionResult> CancelMarkAsFulfilled(int id) //mark as fullfileld 
+        {
+
+            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            ProductionModel s = db.Productions.Find(id);
+
+            s.is_fulfilled = false;
+            db.Productions.Update(s);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            // add to history
+            //db.Database.ExecuteSqlRaw($"exec sp_update_stock_take_inventory_transaction {id}");
+            return Ok();
+
+        }
 
     }
 }
