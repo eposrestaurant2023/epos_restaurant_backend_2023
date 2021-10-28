@@ -1,14 +1,14 @@
 ﻿@inject IHttpService http
 
-<TdCenter> 
+@*<TdCenter> 
     <Image ImageUrl="@http.ImageUrl(production_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(production_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
 </TdCenter>
 <TdCenter>
     <ComAuthorize roles="@gv.GetRole("production_product_view")" url="@($"production_product/{production_product.product_id}")" target="true">
         @production_product?.product?.product_code
     </ComAuthorize>
-</TdCenter>
-<td>
+</TdCenter>*@
+@*<td>
     <div>
         <div>
             <span>
@@ -34,9 +34,9 @@
             }
         </div>
     </div>
-</td>
+</td>*@
 
-<TdCenter>
+@*<TdCenter>
     @if (production_product.is_fulfilled)
     {
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@production_product.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
@@ -45,8 +45,8 @@
     {
         <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@production_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
     }
-</TdCenter>
-<TdCenter>
+</TdCenter>*@
+@*<TdCenter>
     <SelectUnitName  @bind-unit_name="@production_product.unit" @bind-multiplier="@production_product.multiplier" unit_category_id="@production_product.product.unit.unit_category_id" show_empty="false"/>
 </TdCenter>
 <TdRight>
@@ -55,7 +55,7 @@
 <TdRight>
     @production_product.total_amount.ToString(gv.currency_format)
 </TdRight>
-<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
+<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>*@
 
 
 @code{

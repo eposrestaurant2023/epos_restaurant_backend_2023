@@ -36,7 +36,7 @@ namespace eAPI.Controllers
             {
                 return db.Productions.Where(r =>
                 (
-                (r.code ?? "") +
+                (r.production_code ?? "") +
                 (r.reference_number ?? "")
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
@@ -57,7 +57,7 @@ namespace eAPI.Controllers
             {
                 ProductionModel u = data.FirstOrDefault();
                 u.id = 0;
-                u.code = "";
+                u.production_code = "";
                 u.reference_number = "";
                 u.status = true;
                 u.is_deleted = false;
@@ -106,9 +106,9 @@ namespace eAPI.Controllers
         {
             HistoryModel h = new HistoryModel("New Production Created");
             h.module = "production";
-            h.document_number = s.code;
+            h.document_number = s.production_code;
 
-            h.description = $"{(s.id == 0 ? "Production." : "New Production Created.")} Production Code#: {s.code}.";
+            h.description = $"{(s.id == 0 ? "Production." : "New Production Created.")} Production Code#: {s.production_code}.";
 
             s.histories.Add(h);
         }
