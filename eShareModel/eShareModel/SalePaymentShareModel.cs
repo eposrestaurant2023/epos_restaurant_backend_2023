@@ -35,6 +35,8 @@ namespace eShareModel
 
         public string payment_type_name_en { get; set; }
         public string payment_type_name_kh { get; set; }
+        public string payment_type_group { get; set; }
+
 
         public bool is_payment_from_pos { get; set; } = false;
     }
