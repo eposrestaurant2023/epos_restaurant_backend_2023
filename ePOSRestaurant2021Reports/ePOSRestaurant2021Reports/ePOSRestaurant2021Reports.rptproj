@@ -87,6 +87,7 @@
     <Report Include="rptInventoryProductList.rdl" />
     <Report Include="rptMenuProductPriceList.rdl" />
     <Report Include="rptMonthlySaleSummary.rdl" />
+    <Report Include="rptProductionReceiptA4.rdl" />
     <Report Include="rptProductList.rdl" />
     <Report Include="rptPurchaseOrderList.rdl" />
     <Report Include="rptPurchaseOrderPaymentReceipt.rdl" />
