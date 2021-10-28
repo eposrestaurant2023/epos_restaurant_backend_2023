@@ -21,5 +21,7 @@ namespace eShareModel
         public bool allow_send_to_printer_when_merge_table { get; set; }
 
         public string note { get; set; }
+
+        public int? multiplier { get; set; }
     }
 }
