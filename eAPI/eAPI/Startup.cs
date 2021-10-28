@@ -215,7 +215,7 @@ namespace eAPI
             odataBuilder.EntitySet<SaleTypeModel>("SaleType");
             odataBuilder.EntitySet<RevenueGroupModel>("RevenueGroup");
             odataBuilder.EntitySet<ProductTaxModel>("ProductTax");
-            odataBuilder.EntitySet<ProductionModel>("Prodduction");
+            odataBuilder.EntitySet<ProductionModel>("Production");
 
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             var business_branch_system_features = odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
