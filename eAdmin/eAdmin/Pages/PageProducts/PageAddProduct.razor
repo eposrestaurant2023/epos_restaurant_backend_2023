@@ -56,6 +56,7 @@
                                         <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true" is_ingredient_category="false">
                                             <ValidationMessage For="@(()=>model.product_category_id)" />
                                         </SelectProductCategory>
+                                        @model.product_category_id
                                         <SelectRevenueGroup @bind-selected_value="@model.revenue_group_name" show_empty="true"/>
                                         <SelectKitchenGroupNullable @bind-selected_value="@model.kitchen_group_id" show_empty="true" />
 
@@ -87,7 +88,7 @@
                             </TabItem>
                             <TabItem>
                                 <UIGridCenter>
-                                    <ComAddProduct_Modifier model="@model" />
+                                    <ComAddProduct_Modifier @bind-model="@model" />
                                 </UIGridCenter>
                             </TabItem>
                             <TabItem is_visible="@gv.enable_tax_feature">
@@ -100,7 +101,7 @@
                 </PageBody>
                 <PageFooter>
                     <FooterCenter>
-                        <ComSavingFormButton is_loading="@is_saving" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)" is_show_cancel_action="true" OnCancel="@OnCancel" />
+                        <ComSavingFormButton is_loading="@is_saving" is_show_cancel_action="true" OnCancel="@OnCancel" />
                     </FooterCenter>
                 </PageFooter>
             </EditForm>

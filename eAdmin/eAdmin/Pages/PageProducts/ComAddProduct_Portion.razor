@@ -1,4 +1,5 @@
 ﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http;
 
 <UIContainerBox Title="Product Prices" Icon="monetization_on" is_show_add_button="true" OnAddClick="@AddProductPortion">
     @if (is_loading)
@@ -84,12 +85,13 @@
 
     List<PriceRuleModel> price_rules = new List<PriceRuleModel>();
 
+    List<ProductPortionModel> product_portions = new List<ProductPortionModel>();
 
     bool is_loading;
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        await Task.Delay(100);
+        await LoadData();
         price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(JsonSerializer.Serialize(gv.price_rules));
 
         if (model.id == 0 && model.product_portions.Count() == 0)
@@ -150,5 +152,24 @@
         return false;
 
     }
- 
+
+
+    async Task LoadData()
+    {
+
+        if (model.id > 0)
+        {
+            
+            string api_url = $"ProductPortion?$expand=product_prices,unit&$filter=is_deleted eq false and product_id eq {model.id}";
+            var resp = await http.ApiGetOData(api_url);
+            if (resp.IsSuccess)
+            {
+                product_portions = JsonSerializer.Deserialize<List<ProductPortionModel>>(resp.Content.ToString());
+                model.product_portions= product_portions;
+                await modelChanged.InvokeAsync(model);
+            }
+          
+        }
+    }
+
 }

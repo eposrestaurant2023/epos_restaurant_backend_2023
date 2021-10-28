@@ -28,7 +28,7 @@ namespace eAPI.Controllers
         }
 
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
+        [EnableQuery(MaxExpansionDepth = 0)]
 
         public IQueryable<ProductionModel> Get(string keyword = "")
         {
@@ -94,6 +94,7 @@ namespace eAPI.Controllers
             {
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
+                
 
                 return Ok(p);
             }

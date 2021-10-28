@@ -102,7 +102,7 @@ namespace eAPIClient.Controllers
         } 
         [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
-        public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData()
+        public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool isFirstSetup=false)
         {
 
             string business_branch_id = config.GetValue<string>("business_branch_id");
@@ -159,29 +159,32 @@ namespace eAPIClient.Controllers
 
 
             //Config Data
-            foreach (var a in sale_statuses)
+            if (isFirstSetup)
             {
-                var _sps = db.SaleStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
-                if (_sps.Count() <= 0)
+                foreach (var a in sale_statuses)
                 {
-                    db.SaleStatuses.Add(a);
+                    var _sps = db.SaleStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
+                    if (_sps.Count() <= 0)
+                    {
+                        db.SaleStatuses.Add(a);
+                    }
+                    else
+                    {
+                        db.SaleStatuses.Update(a);
+                    }
                 }
-                else
-                {
-                    db.SaleStatuses.Update(a);
-                }
-            }
 
-            foreach (var a in sale_product_statuses)
-            {
-                var _sps = db.SaleProductStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
-                if (_sps.Count() <= 0)
-                {     
-                    db.SaleProductStatuses.Add(a); 
-                }
-                else
+                foreach (var a in sale_product_statuses)
                 {
-                    db.SaleProductStatuses.Update(a);
+                    var _sps = db.SaleProductStatuses.Where(r => r.id == a.id).AsNoTracking().ToList();
+                    if (_sps.Count() <= 0)
+                    {
+                        db.SaleProductStatuses.Add(a);
+                    }
+                    else
+                    {
+                        db.SaleProductStatuses.Update(a);
+                    }
                 }
             }
 
