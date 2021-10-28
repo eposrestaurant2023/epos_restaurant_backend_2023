@@ -87,7 +87,7 @@
                             </TabItem>
                             <TabItem>
                                 <UIGridCenter>
-                                    <ComAddProduct_Modifier model="@model" />
+                                    <ComAddProduct_Modifier @bind-model="@model" />
                                 </UIGridCenter>
                             </TabItem>
                             <TabItem is_visible="@gv.enable_tax_feature">
@@ -100,7 +100,7 @@
                 </PageBody>
                 <PageFooter>
                     <FooterCenter>
-                        <ComSavingFormButton is_loading="@is_saving" is_show_save_new="true" OnSaveNew="@(()=>is_save_and_new = true)" is_show_cancel_action="true" OnCancel="@OnCancel" />
+                        <ComSavingFormButton is_loading="@is_saving" is_show_cancel_action="true" OnCancel="@OnCancel" />
                     </FooterCenter>
                 </PageFooter>
             </EditForm>

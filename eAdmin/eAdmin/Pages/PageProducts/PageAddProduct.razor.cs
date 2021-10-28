@@ -53,18 +53,16 @@ namespace eAdmin.Pages.PageProducts
 
                 string url = $"Product({id})?";
                 url = url + "$expand=product_printers,product_category,";
-                url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
+                //url = url + "product_portions($expand=product_prices,unit;$filter=is_deleted eq false),";
                 url = url + "product_menus($expand=menu;$filter=is_deleted eq false),";
-                url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
+                //url = url + "product_modifiers($expand=children($expand=modifier;$filter=is_deleted eq false);$filter=is_deleted eq false),";
                 url = url + "product_taxes,unit,";
                 url = url + "default_stock_location_products($expand=business_branch,stock_location,station($filter=is_deleted eq false and status eq true))";
                 return url;
         } }
 
         
-        public bool is_save_and_new { get; set; }
-
-
+    
 
        public void OnCancel()
         {
@@ -83,21 +81,25 @@ namespace eAdmin.Pages.PageProducts
         {
 
             is_loading = true;
-          
-            if (id == 0) {
-                model.unit = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault();
-                model.unit_category_id = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault().unit_category_id;
-                await LoadData();
-            }
-            else  if (id > 0)
-            {
-                await LoadData();
-            }
-            else if (clone_id > 0)
+
+            if (clone_id > 0)
             {
                 await CloneProduct();
+            }else
+            {
+                if (id == 0)
+                {
+                    model.unit = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault();
+                    model.unit_category_id = gv.units.Where(r => r.id == model.unit_id).FirstOrDefault().unit_category_id;
+                    await LoadData();
+                }
+                else if (id > 0)
+                {
+                    await LoadData();
+                }
+
             }
-             
+
             is_loading = false;
         }
 
@@ -266,19 +268,10 @@ namespace eAdmin.Pages.PageProducts
             if (resp.IsSuccess)
             {
                 toast.Add(lang["Save product successfully"], MatToastType.Success);
-                if (is_save_and_new)
-                {
-                    model = new ProductModel();
-                    model.product_category_id = save_model.product_category_id;
-                    is_save_and_new = false;
-                    save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
-                    nav.NavigateTo("product/new");
-
-                }else
-                {
+                
                     save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
                     nav.NavigateTo($"product/{save_model.id}"); 
-                }
+                
             }
             else
             {

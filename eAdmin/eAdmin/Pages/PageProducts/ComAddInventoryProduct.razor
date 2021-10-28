@@ -1,7 +1,12 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
 <UIContainerBox Title="@(!is_production_product? lang["Inventory / Ingredient Product"]:lang["Inventory / Production Product"])">
-
+    @if (is_loading)
+    {
+        <Spinner/>
+    }
+    else
+    {
     <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)" />
     @if (gv.project_has_advance_inventory)
     {
@@ -146,6 +151,7 @@
         </div>
 
     </Com>
+    }
 </UIContainerBox>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -155,7 +161,9 @@
     [Parameter] public bool is_ingredient { get; set; } = false;
     [Parameter] public bool is_production_product { get; set; } = false;
 
+    List<StockLocationProductModel> stock_locatin_products = new List<StockLocationProductModel>();
 
+    bool is_loading;
 
     private bool _is_inventory_product;
 
@@ -202,8 +210,10 @@
         }
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+
+       await  LoadData();
         if (is_production_product)
         {
 
@@ -275,14 +285,19 @@
 
     async Task LoadData()
     {
+
         if (model.id > 0)
         {
+            is_loading = true;
             string api_url = $"StockLocationProduct?$expand=stock_location&$filter=product_id eq {model.id}";
             var resp = await http.ApiGetOData(api_url);
-                if (resp.IsSuccess)
-                {
-                    
-                }
+            if (resp.IsSuccess)
+            {
+                stock_locatin_products = JsonSerializer.Deserialize<List<StockLocationProductModel>>(resp.Content.ToString());
+                model.stock_location_products = stock_locatin_products;
+                await modelChanged.InvokeAsync(model);
+            }
+            is_loading = false;
         }
     }
 
