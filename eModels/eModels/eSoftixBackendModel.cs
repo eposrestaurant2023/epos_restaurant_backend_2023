@@ -39,6 +39,8 @@ namespace eSoftixBackend
         {
             outlets = new List<OutletModel>();
             stock_locations = new List<StockLocationModel>();
+            cash_drawers = new List<CashDrawerModel>();
+
         }
         public string business_branch_name_en { get; set; }
         public string business_branch_name_kh { get; set; }
@@ -66,6 +68,7 @@ namespace eSoftixBackend
         public List<OutletModel> outlets { get; set; }
         public List<StockLocationModel> stock_locations { get; set; }
         public List<BusinessBranchSystemFeatureModel> business_branch_system_features { get; set; }
+        public List<CashDrawerModel> cash_drawers { get; set; }
 
 
     }
@@ -142,8 +145,15 @@ namespace eSoftixBackend
         public bool is_full_license { get; set; }
         [Column(TypeName = "date")]
         public DateTime expired_date { get; set; }
+        public Guid? cash_drawer_id { get; set; }
+        public string cash_drawer_name { get; set; }
 
 
+    }
+
+    public class CashDrawerModel : eShareModel.CoreGUIDModel
+    {
+        public string cash_drawer_name { get; set; }
     }
 
     public class StockLocationModel
