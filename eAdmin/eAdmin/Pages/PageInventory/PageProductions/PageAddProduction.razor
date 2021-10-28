@@ -1,0 +1,87 @@
+﻿@page "/production/new"
+@page "/production/edit/{id:int}"
+@page "/production/clone/{clone_id:int}"
+
+@inherits PageAddProductions
+
+<Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
+<Com is_visible="@(!is_loading && !is_error)">
+    <Title Value="@title"></Title>
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @title
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true" />
+        </PageHeader>
+        <PageBody>
+            <div class="content-add-sale">
+                <div class="section-content">
+                    <Spacing Number="20" />
+                    <ComPurchaseOrderSearchProduct productChanged="@OnSearchProduct" select_productsChanged="@OnSearchProducts" />
+                </div>
+                <Spacing Number="20" />
+                <Grid ClassName="uk-grid-small uk-grid-divider uk-child-width-1-2">
+                    <div>
+                        <div class="uk-form-horizontal">
+                            <div class="uk-margin-small">
+                                <label class="uk-form-label"><Icon icon="layers" size="16px" />@lang["Referance #"]</label>
+                                <div class="uk-form-controls">
+                                    <TextInput @bind-text="@model.reference_number" placeholder="@lang[" Referance Number"]" />
+                                </div>
+                            </div>
+                            <DateInput label="@lang["Production Date"]" value="@model.production_date" icon="layers" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="section-content">
+                            <div class="uk-form-horizontal">
+                                <SelectBusinessBranchByRole show_empty="true" icon="layers" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
+                                @if (!is_selecting_business_branch)
+                                {
+                                <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" icon="layers" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="@model.stock_location_id" />
+                                }
+                                else
+                                {
+                                <div class="uk-margin-small">
+                                    <label class="uk-form-label"><Icon icon="layers" size="16px" /> @lang["Stock Location"]</label>
+                                    <div class="uk-form-controls">
+                                        <div style="height:30px">
+                                            <Spinner />
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </Grid>
+                <hr />
+                <section class="wrp-sale-invoice-body">
+                    <h3 class="title uk-display-inline-block">
+                        <Icon icon="upload" />
+                        <span class="title">@lang["Stock Take Products"]</span>
+                    </h3>
+                    <Spacing Number="10" />
+                    <ComStockTakeProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
+                    <hr />
+                    <Spacing Number="10" />
+                    <ComStockTakeSummary @bind-model="@model" />
+                </section>
+            </div>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" disabled_save_button="@(model.active_stock_take_products.Count()<=0)" OnSave="OnSaveClick" is_show_save_action="true" />
+            </FooterCenter>
+            <FooterRight>
+                <strong class="uk-margin-small-right">@lang["Total Amount"]</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
+            </FooterRight>
+        </PageFooter>
+    </PageContainer>
+</Com>

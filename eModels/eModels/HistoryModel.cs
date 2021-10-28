@@ -47,6 +47,10 @@ namespace eModels
         [ForeignKey("product_id")]
         public virtual ProductModel product { get; set; }
 
+        public int? production_id { get; set; }
+        [ForeignKey("production_id")]
+        public virtual ProductionModel production { get; set; }
+
         //public Guid? purchase_order_payment_id { get; set; }
         //[ForeignKey("purchase_order_payment_id")]
         //public virtual PurchaseOrderPaymentModel purchase_order_payment { get; set; }

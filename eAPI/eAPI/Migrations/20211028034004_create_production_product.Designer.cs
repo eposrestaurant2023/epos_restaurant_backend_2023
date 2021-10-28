@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211028034004_create_production_product")]
+    partial class create_production_product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2378,9 +2380,6 @@ namespace eAPI.Migrations
                     b.Property<int>("ingredient_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ingredient_portion_id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
@@ -2495,9 +2494,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_auto_generate_code")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_composite_product")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
@@ -2936,10 +2932,6 @@ namespace eAPI.Migrations
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("code")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -2955,6 +2947,10 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("document_number")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
@@ -2974,9 +2970,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<DateTime>("production_date")
-                        .HasColumnType("date");
-
                     b.Property<string>("reference_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -2986,6 +2979,9 @@ namespace eAPI.Migrations
 
                     b.Property<Guid>("stock_location_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("stock_take_date")
+                        .HasColumnType("date");
 
                     b.Property<string>("term_conditions")
                         .HasColumnType("nvarchar(max)")

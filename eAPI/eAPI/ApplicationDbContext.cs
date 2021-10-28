@@ -129,7 +129,11 @@ namespace eAPI
         public DbSet<ProvinceModel> Provinces{ get; set; }
         public DbSet<VendorGroupModel> VendorGroups{ get; set; }
         public DbSet<StockTakeModel> StockTakes { get; set; }
-        public DbSet<StockTakeProductModel> StockTakeProducts { get; set; }        
+        public DbSet<StockTakeProductModel> StockTakeProducts { get; set; }
+
+        public DbSet<ProductionModel> Productions { get; set; }
+        public DbSet<ProductionProductModel> ProductionProducts { get; set; }
+
         public DbSet<StockTransferModel> StockTransfers { get; set; }
         public DbSet<StockTransferProductModel> StockTransferProducts { get; set; }
         public DbSet<BusinessBranchRoleModel> businessBranchRoles { get; set; }

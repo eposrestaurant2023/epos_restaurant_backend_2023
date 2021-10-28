@@ -97,6 +97,7 @@
 
     async Task LoadData()
     {
+        is_loading = true;
         is_loading_data = true;
         var res = await http.ApiGetOData("BusinessBranchCurrency?$expand=currency,business_branch($select=id,business_branch_name_en,business_branch_name_kh)");
         if (res.IsSuccess)
@@ -104,6 +105,7 @@
             models = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(res.Content.ToString());
         }
         is_loading_data = false;
+        is_loading = false;
     }
 
 

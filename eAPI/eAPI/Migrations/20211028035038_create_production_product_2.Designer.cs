@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211028035038_create_production_product_2")]
+    partial class create_production_product_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2974,9 +2976,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<DateTime>("production_date")
-                        .HasColumnType("date");
-
                     b.Property<string>("reference_number")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -2986,6 +2985,9 @@ namespace eAPI.Migrations
 
                     b.Property<Guid>("stock_location_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("stock_take_date")
+                        .HasColumnType("date");
 
                     b.Property<string>("term_conditions")
                         .HasColumnType("nvarchar(max)")
