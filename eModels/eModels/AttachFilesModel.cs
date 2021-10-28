@@ -46,6 +46,10 @@ namespace eModels
         [ForeignKey("stock_take_id")]
         public StockTakeModel stock_take { get; set; }
 
+        public int? production_id { get; set; }
+        [ForeignKey("production_id")]
+        public ProductionModel production { get; set; }
+
         public int? stock_transfer_id { get; set; }
         [ForeignKey("stock_transfer_id")]
         public StockTransferModel stock_transfer { get; set; }

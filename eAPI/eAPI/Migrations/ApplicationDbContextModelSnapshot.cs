@@ -91,6 +91,9 @@ namespace eAPI.Migrations
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
+                    b.Property<int?>("production_id")
+                        .HasColumnType("int");
+
                     b.Property<int?>("purchase_order_id")
                         .HasColumnType("int");
 
@@ -115,6 +118,8 @@ namespace eAPI.Migrations
                     b.HasIndex("modifier_id");
 
                     b.HasIndex("product_id");
+
+                    b.HasIndex("production_id");
 
                     b.HasIndex("purchase_order_id");
 
@@ -5657,6 +5662,10 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("product_id");
 
+                    b.HasOne("eModels.ProductionModel", "production")
+                        .WithMany()
+                        .HasForeignKey("production_id");
+
                     b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
                         .WithMany()
                         .HasForeignKey("purchase_order_id");
@@ -5680,6 +5689,8 @@ namespace eAPI.Migrations
                     b.Navigation("modifier_group");
 
                     b.Navigation("product");
+
+                    b.Navigation("production");
 
                     b.Navigation("purchase_order");
 
