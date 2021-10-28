@@ -28,7 +28,7 @@ namespace eAPI.Controllers
         }
 
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
+        [EnableQuery(MaxExpansionDepth = 0)]
 
         public IQueryable<ProductionModel> Get(string keyword = "")
         {

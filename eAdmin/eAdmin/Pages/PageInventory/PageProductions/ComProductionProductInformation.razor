@@ -22,7 +22,7 @@
                 <ThRight>@lang["Price"]</ThRight>
                 <ThRight>@lang["Amount"]</ThRight>
                 <th></th>
-</TableHeader>
+            </TableHeader>
             <RowTemplate Context="p">
                 <ComProductionProductRow model="@model" production_product="@p" production_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
