@@ -164,10 +164,12 @@
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
     [Parameter] public string keyword { get; set; }
     [Parameter] public EventCallback<string> keywordChanged { get; set; }
+    [Parameter] public bool isProduction { get; set; }
 
     public List<SelectedProductModel> selected_products { get; set; } = new List<SelectedProductModel>();
     public SelectedProductModel selected_product { get; set; } = new SelectedProductModel();
     [Parameter] public EventCallback<List<SelectedProductModel>> OnConfirmSelectedProductClick { get; set; }
+
 
     ProductModel product;
 
@@ -199,7 +201,7 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string url = $"{controller_api}?$expand=unit&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";          
+            string url = $"{controller_api}?$expand=unit&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={pg.per_page}&$skip={pg.per_page * (pg.current_page - 1)}&$orderby={pg.order_by} {pg.order_by_type}";
             return   url + GetFilter(state.filters) + " and (is_inventory_product eq true or is_ingredient_product eq true)";
 
         }
@@ -238,6 +240,15 @@
                 key = "keyword",
                 value2 = keyword
             });
+        }
+        if (isProduction)
+        {
+            state.filters.Add(new FilterModel()
+            {
+                key = "is_production",
+                value2 = "true"
+            });
+            Console.WriteLine(isProduction);
         }
         await LoadData();
     }
@@ -291,7 +302,7 @@
                 product = p,
                 unit = p.unit,
                 cost = p.cost,
-                quantity = 1 
+                quantity = 1
             });
         }
 

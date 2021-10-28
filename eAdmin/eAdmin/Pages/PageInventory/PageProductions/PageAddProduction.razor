@@ -1,4 +1,4 @@
-﻿@*@page "/production/new"
+﻿@page "/production/new"
 @page "/production/edit/{id:int}"
 @page "/production/clone/{clone_id:int}"
 
@@ -22,7 +22,7 @@
             <div class="content-add-sale">
                 <div class="section-content">
                     <Spacing Number="20" />
-                    <ComPurchaseOrderSearchProduct productChanged="@OnSearchProduct" select_productsChanged="@OnSearchProducts" />
+                    <ComPurchaseOrderSearchProduct isProduction="true" productChanged="@OnSearchProduct" select_productsChanged="@OnSearchProducts" />
                 </div>
                 <Spacing Number="20" />
                 <Grid ClassName="uk-grid-small uk-grid-divider uk-child-width-1-2">
@@ -93,4 +93,4 @@
             </FooterRight>
         </PageFooter>
     </PageContainer>
-</Com>*@
+</Com>
