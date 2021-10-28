@@ -289,12 +289,13 @@ namespace eAPI.Controllers
         {
             var data = db.Products.Where(r => r.id == id)
                 .Include(r=>r.product_portions.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.product_prices.Where(r=>r.is_deleted==false))
-                
                 .Include(r=>r.product_printers.Where(r=>r.is_deleted==false)).
                 Include(r=>r.product_menus.Where(r=>r.is_deleted==false)).ThenInclude(r=>r.menu)
                 .Include(r=>r.product_modifiers.Where(r=>r.is_deleted ==false)).ThenInclude(r=>r.modifier)
                 .Include(r=>r.unit)
+                .Include(r=>r.vendor)
                 .Include(r=>r.default_stock_location_products).ThenInclude(r=>r.station)
+                .Include(r=>r.product_taxes)
                 .ToList();
              
             if (data.Any())
@@ -302,6 +303,7 @@ namespace eAPI.Controllers
                 ProductModel p = data.FirstOrDefault();
                 p.id = 0;
                 p.is_deleted = false;
+                p.is_inventory_product = false;
                 p.status = true;
                 p.product_portions.ForEach(r => r.id = 0);
                 p.product_portions.SelectMany(r=>r.product_prices).ToList().ForEach(r => r.id = 0);
@@ -309,9 +311,24 @@ namespace eAPI.Controllers
                 p.product_menus.ForEach(r => r.id = 0);
                 p.product_menus.ForEach(r => r.product_id = 0);
                 p.product_menus.ForEach(r => r.menu.menus = new List<MenuModel>());
-                p.product_modifiers.ForEach(r => { r.id = Guid.Empty; r.product_id = 0; });
+                p.product_taxes.ForEach(r =>r.id=0);
+                p.default_stock_location_products.ForEach(r =>r.id = Guid.NewGuid());
+              
                 p.is_product_has_inventory_transaction = false;
-                
+
+
+                //prepare product modifier
+                List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
+                foreach(var pm in p.product_modifiers)
+                {
+                    product_modifiers = new List<ProductModifierModel>();
+                    product_modifiers = db.ProductModifiers.Where(r => r.parent_id == pm.id && r.is_deleted == false).Include(r=>r.modifier).ToList();
+                    product_modifiers.ForEach(r => { r.id = Guid.NewGuid(); r.parent_id = null; });
+                   
+                    pm.id = Guid.NewGuid();
+                    
+                }
+
                 return Ok(p);
             }
             else

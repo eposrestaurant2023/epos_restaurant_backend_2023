@@ -1,15 +1,22 @@
 ﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http;
 
-@if (model.product_modifiers.Where(r => r.is_section && r.is_deleted == false).Any())
+@if (is_loading)
 {
-    foreach (var s in model.product_modifiers.Where(r => r.is_section == true && r.is_deleted == false))
+    <Spinner/>
+}
+else
+{
+    if (model.product_modifiers.Where(r => r.is_section && r.is_deleted == false).Any())
     {
-        <UIContainerBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(()=>DeleteSection(s))">
+        foreach (var s in model.product_modifiers.Where(r => r.is_section == true && r.is_deleted == false))
+        {
+        <UIContainerBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(() => DeleteSection(s))">
             <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
             <ComInputCheckBox @bind-value="@s.is_required" label="@lang["Is Required"]" />
             <ComInputCheckBox @bind-value="@s.is_multiple_select" label="@lang["Allow Multiple Select"]" />
             <hr />
-            <ModifierTypeahead modifier="@modifier" modifierChanged="@((val)=>OnSelectModifer(s, val))" />
+            <ModifierTypeahead modifier="@modifier" modifierChanged="@((val) => OnSelectModifer(s, val))" />
             <hr />
             <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                 <tr>
@@ -39,38 +46,51 @@
                             <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="80px" class_name="uk-text-center" />
                         </TdCenter>
                         <TdCenter>
-                            <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children,pm))" is_visible="@(pm.modifier_group_id == Guid.Empty)" />
+                            <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children, pm))" is_visible="@(pm.modifier_group_id == Guid.Empty)" />
                         </TdCenter>
                     </tr>
                 }
             </table>
         </UIContainerBox>
-    }
+        }
     <hr />
     <div class="uk-text-right">
         <Button OnClick="@AddSection">@lang["Add Section"]</Button>
     </div>
 
-}
-else
-{
+    }
+    else
+    {
     <ComEmptyTemplate empty="@lang["Please click button below to add section."]" class_name="container-layout" icon="create_new_folder">
         <div class="uk-text-center">
             <Button OnClick="@AddSection">@lang["Add Section"]</Button>
         </div>
     </ComEmptyTemplate>
-}
+    }
 <Spacing Number="15"/>
 <UIContainerBox Title="@lang["Modifier Group Of Product Category"]">
     <ViewEmptyTemplate is_view="@(model.product_category_id > 0)" empty="@lang["Please select product category to view modifier group by category."]">
         <ComProductDetail_TableViewModifierGroupByProductCategory product_category_id="@model.product_category_id" is_show_table="true" />
     </ViewEmptyTemplate>
 </UIContainerBox>
+
+}
 @code{
     [Parameter] public ProductModel model { get; set; }
-
+    [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
 
     private ModifierModel _modifier;
+
+    List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
+
+
+    bool is_loading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
 
     public ModifierModel modifier
     {
@@ -125,6 +145,25 @@ else
         else
         {
             model.product_modifiers.Remove(pm);
+        }
+    }
+
+    async Task LoadData()
+    {
+
+        if (model.id > 0)
+        {
+            is_loading = true;
+            string api_url = $"ProductModifier?$expand=children($expand=modifier;$filter=is_deleted eq false)&$filter=is_deleted eq false and product_id eq {model.id}";
+            var resp = await http.ApiGetOData(api_url);
+            if (resp.IsSuccess)
+            {
+                product_modifiers = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
+                model.product_modifiers = product_modifiers;
+
+                await modelChanged.InvokeAsync(model);
+            }
+            is_loading = false;
         }
     }
 
