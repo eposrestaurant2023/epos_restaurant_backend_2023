@@ -6,10 +6,9 @@
         is_show_edit_button="@can_edit"
         OnAddClick="@(()=> show_modal = true)"
         OnEditClick="@(()=> show_modal = true)">
-
         <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
             <tr>
-                <ThAuto>@lang["Ingredient Name"]</ThAuto>
+                <ThAuto>@lang["Item Name"]</ThAuto>
                 <ThCenter>@lang["Quantity"]</ThCenter>
                 <ThCenter>@lang["Unit"]</ThCenter>
                 <ThRight>@lang["Cost"]</ThRight>
@@ -20,13 +19,26 @@
             {
                 foreach (var pi in product_portion.product_ingredients.Where(r => r.is_deleted == false).ToList())
                 {
-                    <tr>
-                        <td>
-                            <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{pi.ingredient_id}")">
-                                @pi.ingredient?.product_display_name
 
-                            </ComAuthorize>
-                        </td>
+
+<tr>
+    <td>
+        @if (pi.ingredient.is_menu_product)
+        {
+            <a href="@($"product/{pi.ingredient_id}")">
+                @pi.ingredient?.product_display_name
+            </a> }
+        else
+        {
+            <a href="@($"ingredient/{pi.ingredient_id}")">
+                @pi.ingredient?.product_display_name
+            </a>
+        }
+
+        <br />
+        <LabelIngredient is_visible="@pi.ingredient.is_ingredient_product" />
+        <LabelMenuProduct is_visible="@pi.ingredient.is_menu_product" />
+    </td>
                         <TdCenter>
                             @pi.quantity.ToString(gv.quantity_format)
                         </TdCenter>
@@ -67,13 +79,14 @@
   
    
 <Com is_visible="@show_modal"> 
-    <ComProductDetail_AddIngredientProduct is_open="@show_modal" is_openChanged="@OnOpenModal" Save_Click="OnSave"   product_portion_id="@product_portion.id" />
+    <ComProductDetail_AddIngredientProduct is_search_all_product="@is_search_all_product" is_open="@show_modal" is_openChanged="@OnOpenModal" Save_Click="OnSave"   product_portion_id="@product_portion.id" />
 </Com>
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
     [Parameter] public ProductPortionModel product_portion { get; set; }
     [Parameter] public bool is_product_deleted { get; set; }
+    [Parameter] public bool is_search_all_product { get; set; } = false;
 
     bool is_loading, show_modal;
 
@@ -118,7 +131,7 @@
         is_loading = true;
 
 
-        var resp = await http.ApiGet($"ProductPortion({product_portion.id})?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
+        var resp = await http.ApiGet($"ProductPortion({product_portion.id})?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             product_portion = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());

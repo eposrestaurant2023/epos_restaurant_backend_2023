@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211027100820_add_ingredient_portion_id")]
+    partial class add_ingredient_portion_id
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -755,12 +757,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<double>("default_change_exchange_rate")
-                        .HasColumnType("float");
-
-                    b.Property<double>("default_exchange_rate")
-                        .HasColumnType("float");
-
                     b.Property<bool>("is_base_exchange_currency")
                         .HasColumnType("bit");
 
@@ -1158,9 +1154,6 @@ namespace eAPI.Migrations
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("production_id")
-                        .HasColumnType("int");
-
                     b.Property<int?>("purchase_order_id")
                         .HasColumnType("int");
 
@@ -1207,8 +1200,6 @@ namespace eAPI.Migrations
                     b.HasIndex("modifier_id");
 
                     b.HasIndex("product_id");
-
-                    b.HasIndex("production_id");
 
                     b.HasIndex("purchase_order_id");
 
@@ -2926,173 +2917,6 @@ namespace eAPI.Migrations
                     b.ToTable("tbl_product_tax");
                 });
 
-            modelBuilder.Entity("eModels.ProductionModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid>("business_branch_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("document_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_fulfilled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("reference_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("stock_location_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("stock_take_date")
-                        .HasColumnType("date");
-
-                    b.Property<string>("term_conditions")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<decimal>("total_quantity")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
-
-                    b.HasIndex("stock_location_id");
-
-                    b.ToTable("tbl_production");
-                });
-
-            modelBuilder.Entity("eModels.ProductionProductModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("cost")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("grand_total")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_fulfilled")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_inventory_product")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("multiplier")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<int>("product_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("production_id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("quantity")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<decimal>("regular_cost")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("sub_total")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<decimal>("total_amount")
-                        .HasColumnType("decimal(19,8)");
-
-                    b.Property<string>("unit")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("product_id");
-
-                    b.HasIndex("production_id");
-
-                    b.ToTable("tbl_production_product");
-                });
-
             modelBuilder.Entity("eModels.ProvinceModel", b =>
                 {
                     b.Property<int>("id")
@@ -4407,7 +4231,7 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("cash_drawer_id")
+                    b.Property<Guid>("cash_drawer_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("cash_drawer_name")
@@ -5946,10 +5770,6 @@ namespace eAPI.Migrations
                         .WithMany("histories")
                         .HasForeignKey("product_id");
 
-                    b.HasOne("eModels.ProductionModel", "production")
-                        .WithMany("histories")
-                        .HasForeignKey("production_id");
-
                     b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
                         .WithMany("histories")
                         .HasForeignKey("purchase_order_id");
@@ -5985,8 +5805,6 @@ namespace eAPI.Migrations
                     b.Navigation("modifier_group");
 
                     b.Navigation("product");
-
-                    b.Navigation("production");
 
                     b.Navigation("purchase_order");
 
@@ -6405,44 +6223,6 @@ namespace eAPI.Migrations
                     b.Navigation("business_branch");
 
                     b.Navigation("product");
-                });
-
-            modelBuilder.Entity("eModels.ProductionModel", b =>
-                {
-                    b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany()
-                        .HasForeignKey("business_branch_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.StockLocationModel", "stock_location")
-                        .WithMany()
-                        .HasForeignKey("stock_location_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("business_branch");
-
-                    b.Navigation("stock_location");
-                });
-
-            modelBuilder.Entity("eModels.ProductionProductModel", b =>
-                {
-                    b.HasOne("eModels.ProductModel", "product")
-                        .WithMany()
-                        .HasForeignKey("product_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eModels.ProductionModel", "production")
-                        .WithMany("production_products")
-                        .HasForeignKey("production_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
-
-                    b.Navigation("production");
                 });
 
             modelBuilder.Entity("eModels.PurchaseOrderModel", b =>
@@ -6989,13 +6769,6 @@ namespace eAPI.Migrations
                     b.Navigation("product_ingredients");
 
                     b.Navigation("product_prices");
-                });
-
-            modelBuilder.Entity("eModels.ProductionModel", b =>
-                {
-                    b.Navigation("histories");
-
-                    b.Navigation("production_products");
                 });
 
             modelBuilder.Entity("eModels.PurchaseOrderModel", b =>

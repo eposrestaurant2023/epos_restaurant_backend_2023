@@ -15,11 +15,20 @@
                 <ResultTemplate>
                     @if (!context.is_new)
                     {
+                    <div>
                         <span>@context.product_name_en</span>
+                        <LabelIngredient is_visible="@context.is_ingredient_product" />
+                        <LabelMenuProduct is_visible="@context.is_menu_product" />
+                    </div>
+                        
+                      
                     }
                     else
                     {
+                        if (!is_search_all_product)
+                        {
                         <span>Add @context.product_name_en</span>
+                        }
                     }
                 </ResultTemplate>
             </BlazoredTypeahead>
@@ -29,28 +38,31 @@
 </div>
 @code{
 
-    [Parameter] public string label { get; set; } = "Product";
-    [Parameter] public string placeholder { get; set; } = "Select Product";
-    [Parameter] public ProductModel product { get; set; } = null;
-    [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
-    [Parameter] public int? product_id { get; set; }
-    [Parameter] public EventCallback<int> product_idChanged { get; set; }
+        [Parameter] public string label { get; set; } = "Product";
+        [Parameter] public string placeholder { get; set; } = "Select Product";
+        [Parameter] public ProductModel product { get; set; } = null;
+        [Parameter] public EventCallback<ProductModel> productChanged { get; set; }
+        [Parameter] public int? product_id { get; set; }
+        [Parameter] public bool is_search_all_product { get; set; } = false;
+        [Parameter] public EventCallback<int> product_idChanged { get; set; }
 
-    List<ProductModel> result = new List<ProductModel>();
-    public async Task<IEnumerable<ProductModel>> SearchModifier(string searchText)
-    {
-        if (!string.IsNullOrWhiteSpace(searchText) && searchText != "")
+        List<ProductModel> result = new List<ProductModel>();
+        public async Task<IEnumerable<ProductModel>> SearchModifier(string searchText)
         {
 
-            string api_url = $"product?$expand=unit&keyword={searchText}&$orderby=product_name_en asc&$top=20";
+
+            string api_url = $"product?$expand=unit,product_portions($select=id,unit_id,portion_name;$filter=is_deleted eq false)&keyword={searchText??""}&$orderby=product_name_en asc&$top=20";
 
             state.filters.Clear();
 
             state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
 
             state.filters.Add(new FilterModel() { key = "status", value1 = "true" });
+            if (!is_search_all_product)
+            {
+                state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
+            }
 
-            state.filters.Add(new FilterModel() { key = "is_ingredient_product", value1 = "true" });
 
             state.filters.Add(new FilterModel() { key="" });
 
@@ -66,9 +78,9 @@
                 return result;
 
             }
+
+            return new List<ProductModel>();
         }
-        return new List<ProductModel>();
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -98,7 +110,10 @@
         }
         set
         {
-            value.is_ingredient_product = true;
+            if (value.id == 0)
+            {
+                value.is_ingredient_product = true;
+            }
             _selected = value;
 
             productChanged.InvokeAsync(value);

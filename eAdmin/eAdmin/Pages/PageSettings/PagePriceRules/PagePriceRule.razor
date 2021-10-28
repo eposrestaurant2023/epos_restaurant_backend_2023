@@ -81,11 +81,13 @@
 
     async Task LoadData()
     {
+        is_loading = true;
         var res = await http.ApiGetOData("BusinessBranchPriceRule?$expand=price_rule($filter=is_deleted eq false and status eq true)");
         if (res.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<BusinessBranchPriceRule>>(res.Content.ToString());
         }
+        is_loading = false;
     }
 
     async Task OnToogleStatus(BusinessBranchPriceRule p)

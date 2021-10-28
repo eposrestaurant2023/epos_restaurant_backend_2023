@@ -20,6 +20,11 @@
                     <th>@lang["Categroy"]</th>
                     <td>@model.product_category?.product_category_en</td>
                 </tr>
+                
+                <tr>
+                    <th>@lang["Revenue Group"]</th>
+                    <td>@model.revenue_group_name</td>
+                </tr>
 
                 <Com is_visible="@(model.kitchen_group_id > 0)">
                     <tr>

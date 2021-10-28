@@ -67,6 +67,11 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] ProductModel u)
         {
             bool is_add = false;
+            //check if product is composition product untick is ingredient
+            if (u.is_composite_product)
+            {
+                u.is_ingredient_product = false;
+            }
             //check product if it is already has inv transaction then retail fail
             if (u.id > 0) {
                 var db_product = db.Products.Where(r => r.id == u.id).AsNoTracking().Include(r=>r.stock_location_products).AsNoTracking();

@@ -4,13 +4,16 @@
 
 <Loading is_loading="@is_saving"/>
 @if (!is_loading) {
-<EditFormContext Cancel_Click="@OnCancelClick" model="@product_portion" is_opened="is_open" title="@($"Ingredients Of {product_portion.portion_name}")" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
-    <IngredientProductTypeahead product="@product" productChanged="@Selected"/>
+<EditFormContext Cancel_Click="@OnCancelClick" model="@product_portion" is_opened="is_open" title="@($"Items Of {product_portion.portion_name}")" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
+    <IngredientProductTypeahead is_search_all_product="@is_search_all_product" product="@product" productChanged="@Selected"/>
     <hr/> 
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
-            <ThAuto>@lang["Ingredient Name"]</ThAuto>
+            <ThAuto>@lang["Item Name"]</ThAuto>
             <ThCenter>@lang["Quantity"]</ThCenter>
+            @if (is_search_all_product) {  
+            <ThCenter>@lang["Portion"]</ThCenter>
+            }
             <ThCenter>@lang["Unit"]</ThCenter>
             <ThRight>@lang["Cost"]</ThRight>
             <ThRight>@lang["Total Cost"]</ThRight>
@@ -19,44 +22,65 @@
         @if (product_portion.product_ingredients.Where(r => r.is_deleted == false).Any()) {
             foreach (var p in product_portion.product_ingredients.Where(r => r.is_deleted == false))
             {
-                <tr>
-                    <td>
-                        @p.ingredient?.product_display_name
-                    </td>
-                    <TdCenter> 
-                        <NumberInput @bind-text="@p.quantity" class_name="uk-text-center"/>
-                    </TdCenter>
-                    <TdCenter>
-                        <ComProductIngredientSelectUnit product_ingredient="@p" product_ingredientChanged="@OnChangedUnit"/>
-                    </TdCenter>
-                    <TdRight>
-                        <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px"/>
-                    </TdRight>
-                    <TdRight>
-                       @p.total_cost.ToString(gv.currency_format)
-                    </TdRight>
-                    <TdRight>
-                        <Icon icon="delete" OnClick="@(() => OnDeleteClick(p))"/>
-                    </TdRight>
-                </tr> 
+    <tr>
+        <td>
+            <span>@p.ingredient?.product_display_name</span>
+            <br />
+            <LabelIngredient is_visible="@p.ingredient.is_ingredient_product" />
+            <LabelMenuProduct is_visible="@p.ingredient.is_menu_product" />
+        </td>
+
+        <TdCenter>
+            <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
+        </TdCenter>
+        @if (is_search_all_product)
+        {
+            <TdCenter>
+                <select value="@p.ingredient_portion_id" @onchange="@((ui) => OnPortionChanged(p, (string)ui.Value))" class="uk-select uk-form-small" style="min-width:80px;">
+                    <option value="0">Select Portion</option>
+                    @foreach (var pt in p.ingredient.product_portions)
+                    {
+                        <option value="@pt.id">@pt.portion_name</option>
+                    }
+                </select>
+            
+            </TdCenter>
+        }
+            <TdCenter>
+                <ComProductIngredientSelectUnit product_ingredient="@p" @bind-selected_value="@p.unit_id" is_ready_only="@(p.ingredient_portion_id>0 || p.ingredient.is_inventory_product==false)" />
+            </TdCenter>
+            <TdRight>
+                <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
+            </TdRight>
+            <TdRight>
+                @p.total_cost.ToString(gv.currency_format)
+            </TdRight>
+            <TdRight>
+                <Icon icon="delete" OnClick="@(() => OnDeleteClick(p))" />
+            </TdRight>
+        </tr> 
             }
     <tfoot>
         <tr>
             <td>
-                Total 
+                Total
             </td>
             <TdCenter>
                 @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
             </TdCenter>
-            <TdCenter>
-            </TdCenter>
+            @if (is_search_all_product)
+            {
+                <TdCenter></TdCenter>
+            }
+           
+            <TdCenter></TdCenter>
             <TdRight>
             </TdRight>
             <TdRight>
                 @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.total_cost).ToString(gv.currency_format)
             </TdRight>
             <TdRight>
-                
+
             </TdRight>
         </tr>
     </tfoot>
@@ -77,6 +101,7 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int product_portion_id { get; set; }
     [Parameter] public bool is_open { get; set; }
+    [Parameter] public bool is_search_all_product { get; set; } = false;
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
     [Parameter] public EventCallback<ProductPortionModel> Save_Click { get; set; }
     ProductPortionModel product_portion = new ProductPortionModel();
@@ -98,7 +123,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        var resp = await http.ApiGet($"ProductPortion({product_portion_id})?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
+        var resp = await http.ApiGet($"ProductPortion({product_portion_id})?$expand=product_ingredients($expand=ingredient($select=id,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product,is_inventory_product;$expand=product_portions($select=id,unit_id,portion_name,cost;$filter=is_deleted eq false)),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             product_portion = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());
@@ -109,6 +134,18 @@
 
     void Selected(ProductModel value)
     {
+        if (value.is_composite_product)
+        {
+            toast.Add(lang["You cannot a composite product to a composite product."], MatToastType.Warning);
+            return;
+        }
+        if(product_portion.product_id == value.id)
+        {
+            toast.Add(lang["You cannot select current product as composite item."], MatToastType.Warning);
+            return;
+        }
+
+
         var data = product_portion.product_ingredients.Where(r => r.ingredient_id == value.id && r.is_deleted == false);
 
 
@@ -148,6 +185,7 @@
 
         ProductPortionModel save_model = new ProductPortionModel();
         save_model = JsonSerializer.Deserialize<ProductPortionModel>(JsonSerializer.Serialize(product_portion));
+        save_model.product_ingredients.ForEach(r => r.ingredient_portion_id = (r.ingredient_portion_id == 0 ? null : r.ingredient_portion_id));
         // set defualt category for new ingredient
         if(gv.product_categories.Where(r => r.is_defualt == true).FirstOrDefault() != null)
         {
@@ -192,21 +230,41 @@
 
     void OnChangedUnit(ProductIngredientModel p)
     {
-        if (p.ingredient_id > 0)
+        //if (p.ingredient_id > 0)
+        //{
+        //    if (product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault() != null)
+        //    {
+
+        //        product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().unit_id = p.unit.id;
+        //        product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().cost = p.cost;
+        //        product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().quantity = p.quantity;
+        //    }
+
+        //}
+        //else
+        //{
+        //    product_portion.product_ingredients.Add(p);
+        //}
+
+    }
+
+    void OnPortionChanged(ProductIngredientModel p, string portion_id)
+    {
+        int id = Convert.ToInt32(portion_id);
+        if (id == 0)
         {
-            if (product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault() != null)
-            {
-
-                product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().unit_id = p.unit.id;
-                product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().cost = p.cost;
-                product_portion.product_ingredients.Where(r => r.id == p.id).FirstOrDefault().quantity = p.quantity;
-            }
-
+            p.ingredient_portion_id = 0;
         }
         else
         {
-            product_portion.product_ingredients.Add(p);
+            p.ingredient_portion_id = id;
+            var d = p.ingredient.product_portions.Where(r => r.id == id);
+
+            if (d.Any())
+            {
+                p.unit_id = d.FirstOrDefault().unit_id;
+                p.cost = d.FirstOrDefault().cost;
+            }
         }
-         
     }
 }

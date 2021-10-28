@@ -82,6 +82,7 @@
     [Parameter] public string width { get; set; } = "100%";
 
     [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
 
     [Parameter] public ProductIngredientModel product_ingredient { get; set; }
     [Parameter] public EventCallback<ProductIngredientModel> product_ingredientChanged { get; set; }
@@ -114,7 +115,7 @@
         get
         {
 
-            return product_ingredient.unit == null ? selected_value : product_ingredient.unit.id;
+            return selected_value;
         }
     }
 
@@ -135,8 +136,9 @@
         }
 
         product_ingredient.cost = regular_cost * unit_selected.multiplier;
-        product_ingredient.unit = unit_selected;
 
+
+        await selected_valueChanged.InvokeAsync(selected_value);
         await product_ingredientChanged.InvokeAsync(product_ingredient);
 
     }
@@ -144,13 +146,26 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        if (product_ingredient.ingredient_id > 0) {
+
+
+        if (product_ingredient.ingredient_id > 0 && product_ingredient.id==0) {
             var original_ingredient = await http.ApiGet($"Product({product_ingredient.ingredient_id})?$select=cost");
             if (original_ingredient.IsSuccess) {
                 ingredient = JsonSerializer.Deserialize<ProductModel>(original_ingredient.Content.ToString());
+
                 regular_cost = ingredient.cost;
+
             }
+        }else
+        {
+            var unit = units.Where(r => r.id == product_ingredient.unit_id);
+            if (unit.Any())
+            {
+                regular_cost = product_ingredient.cost / unit.FirstOrDefault().multiplier;
+            }
+
         }
+
 
         is_loading = false;
     }

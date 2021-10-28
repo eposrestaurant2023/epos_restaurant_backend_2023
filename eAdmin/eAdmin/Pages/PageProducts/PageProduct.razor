@@ -75,6 +75,8 @@
                             <div>
                                 <LabelIngredient is_visible="@p.is_ingredient_product" />
                                 <LabelInventory is_visible="@p.is_inventory_product" />
+                                <LabelCompositeMenu is_visible="@p.is_composite_product" />
+                                <LabelProductionProduct is_visible="@p.is_production_product" />
                             </div>
                         </td>
                         <td>@p.product_category?.product_category_en</td>

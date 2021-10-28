@@ -1522,7 +1522,7 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox46">
-                          <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
