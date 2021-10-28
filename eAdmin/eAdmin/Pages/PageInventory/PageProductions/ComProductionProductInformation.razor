@@ -7,7 +7,7 @@
     @if (model != null)
     {
         <Table ShowTotalCount="false"
-               Items="@model.active_stock_take_products"
+               Items="@model.active_production_products"
                ShowPager="false"
                ShowPagination="false"
                ShowPaging="false"
@@ -24,7 +24,7 @@
                 <th></th>
 </TableHeader>
             <RowTemplate Context="p">
-                <ComStockTakeProductRow model="@model" stock_take_product="@p" stock_take_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
+                <ComProductionProductRow model="@model" production_product="@p" production_productChanged="ProductChanged" OnRemove="@(()=>RemoveProduct(p))" OnClone="@(()=>CloneProduct(p))" />
             </RowTemplate>
         </Table>
     }
@@ -46,7 +46,7 @@
     {
         if (sp.id == 0)
         {
-            model.stock_take_products.Remove(sp);
+            model.production_products.Remove(sp);
         }
         else
         {
@@ -58,12 +58,12 @@
 
         await modelChanged.InvokeAsync(model);
     }
-    async Task CloneProduct(StockTakeProductModel sp)
+    async Task CloneProduct(ProductionProductModel sp)
     {
         var json = JsonSerializer.Serialize(sp);
-        var data = JsonSerializer.Deserialize<StockTakeProductModel>(json);
+        var data = JsonSerializer.Deserialize<ProductionProductModel>(json);
         data.id = 0;
-        model.stock_take_products.Add(data);
+        model.production_products.Add(data);
         await modelChanged.InvokeAsync(model);
 
     }
