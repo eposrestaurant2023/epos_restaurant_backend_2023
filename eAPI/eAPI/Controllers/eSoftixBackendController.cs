@@ -141,7 +141,7 @@ namespace eAPI.Controllers
             string api_url = $"project({project_id})?";
             api_url = api_url + $"$expand=customer,";
             api_url = api_url + $"project_system_features($expand=system_feature),";
-            api_url = api_url + $"business_branches($expand=business_branch_system_features,cash_drawers,stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)";
+            api_url = api_url + $"business_branches($expand=business_branch_system_features,cash_drawers($filter=is_deleted eq false),stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)";
           
 
             
@@ -155,10 +155,13 @@ namespace eAPI.Controllers
 
                 //Check Outlet 
                 CheckOutlet();
-                //check cash drawer
-                CheckCashDrawer();
+
                 //check sttion
                 CheckStation();
+
+                //check cash drawer
+                CheckCashDrawer();
+                
 
                 CheckStockLocation();
 
@@ -344,7 +347,7 @@ namespace eAPI.Controllers
             local.station_name_kh = remote.station_name_kh;
             //local.is_already_config = remote.is_already_config;
             local.cash_drawer_id = remote.cash_drawer_id;
-            local.cash_drawer_name = remote.cash_drawer_name;
+            local.cash_drawer_name = !string.IsNullOrEmpty(remote.cash_drawer_name)? remote.cash_drawer_name :esoftix_cash_drawers.Where(r=>r.id == remote.cash_drawer_id).FirstOrDefault()?.cash_drawer_name;
             local.created_by = remote.created_by;
             local.created_date = remote.created_date;
             local.is_deleted = remote.is_deleted;
