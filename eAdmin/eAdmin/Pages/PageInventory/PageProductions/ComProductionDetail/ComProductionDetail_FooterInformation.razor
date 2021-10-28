@@ -1,0 +1,15 @@
+﻿<div class="spacing30"></div>
+<div class="invoice_footer_description">
+    <div>
+        Created by @model.created_by on   @model.created_date.ToString(gv.date_time_format)
+    </div>
+ 
+    @if (model.is_deleted)
+    {
+        <div>Deleted by @model.deleted_by on  @model.deleted_date</div>
+    }
+</div>
+@code {
+    [Parameter] public ProductionModel model { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}

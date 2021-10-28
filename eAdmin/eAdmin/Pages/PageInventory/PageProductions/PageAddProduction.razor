@@ -65,19 +65,19 @@
                 <section class="wrp-sale-invoice-body">
                     <h3 class="title uk-display-inline-block">
                         <Icon icon="upload" />
-                        <span class="title">@lang["Stock Take Products"]</span>
+                        <span class="title">@lang["Production Products"]</span>
                     </h3>
                     <Spacing Number="10" />
-                    <ComStockTakeProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
+                    <ComProductionProductInformation @bind-model="@model" @bind-model:event="modelChanged" />
                     <hr />
                     <Spacing Number="10" />
-                    <ComStockTakeSummary @bind-model="@model" />
+                    <ComProductionSummary @bind-model="@model" />
                 </section>
             </div>
         </PageBody>
         <PageFooter>
             <FooterCenter>
-                <ComSavingFormButton is_loading="@is_saving" disabled_save_button="@(model.active_stock_take_products.Count()<=0)" OnSave="OnSaveClick" is_show_save_action="true" />
+                <ComSavingFormButton is_loading="@is_saving" disabled_save_button="@(model.active_production_products.Count()<=0)" OnSave="OnSaveClick" is_show_save_action="true" />
             </FooterCenter>
             <FooterRight>
                 <strong class="uk-margin-small-right">@lang["Total Amount"]</strong> <span class="grand-total">@model.total_amount.ToString(gv.currency_format)</span>
