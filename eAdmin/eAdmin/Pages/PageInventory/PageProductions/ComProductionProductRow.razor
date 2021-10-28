@@ -1,0 +1,80 @@
+﻿@inject IHttpService http
+
+<TdCenter> 
+    <Image ImageUrl="@http.ImageUrl(production_product?.product?.photo)" PopupImageUrl="@http.ImageUrl(production_product?.product?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
+</TdCenter>
+<TdCenter>
+    <ComAuthorize roles="@gv.GetRole("production_product_view")" url="@($"production_product/{production_product.product_id}")" target="true">
+        @production_product?.product?.product_code
+    </ComAuthorize>
+</TdCenter>
+<td>
+    <div>
+        <div>
+            <span>
+                <ComAuthorize roles="@gv.GetRole("production_product_view")" url="@($"production_product/{production_product.product_id}")" target="true">
+                    @production_product?.product?.product_display_name
+                </ComAuthorize> 
+            </span>
+        </div> 
+        <div>
+            <Icon OnClick="@(()=> { production_product.is_add_note = !production_product.is_add_note; })" icon="chat" />
+
+            @if (production_product.is_add_note)
+            {
+            <div>
+                <TextInput @bind-text="@production_product.note" width="250px" type="textarea" row="2" is_height_auto="true" />
+            </div>
+            }
+            else
+            {
+                <Column is_visible="@(!string.IsNullOrEmpty(production_product.note))" ClassName="text-area wrp-comment-tt text-muted">
+                    @production_product.note
+                </Column>
+            }
+        </div>
+    </div>
+</td>
+
+<TdCenter>
+    @if (production_product.is_fulfilled)
+    {
+        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@production_product.quantity" text_format="@gv.quantity_format" width="100px" is_read_only="true" />
+    }
+    else
+    {
+        <NumberInput class_name="uk-input uk-form-small uk-text-center" text="@production_product.quantity" textChanged="@QuantityChange" text_format="@gv.quantity_format" width="100px" />
+    }
+</TdCenter>
+<TdCenter>
+    <SelectUnitName  @bind-unit_name="@production_product.unit" @bind-multiplier="@production_product.multiplier" unit_category_id="@production_product.product.unit.unit_category_id" show_empty="false"/>
+</TdCenter>
+<TdRight>
+    <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@production_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
+</TdRight>
+<TdRight>
+    @production_product.total_amount.ToString(gv.currency_format)
+</TdRight>
+<td><Icon icon="copy" OnClick="@OnClone" className="icon-clone-product" title="Clone Product" /> <Icon icon="delete" OnClick="@OnRemove" className="icon-remove-product" title="Remove Product" /></td>
+
+
+@code{
+    [Parameter] public ProductionProductModel production_product { get; set; }
+    [Parameter] public ProductionModel model { get; set; }
+    [Parameter] public EventCallback<ProductionProductModel> production_productChanged { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnRemove { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClone { get; set; } 
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+
+    async Task QuantityChange(decimal qty)
+    {
+        production_product.quantity = qty;
+        await production_productChanged.InvokeAsync(production_product);
+    }
+    async Task CostChange(decimal _cost)
+    {
+        production_product.cost = _cost;
+        await production_productChanged.InvokeAsync(production_product);
+    }
+}

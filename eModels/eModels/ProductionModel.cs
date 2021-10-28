@@ -30,7 +30,7 @@ namespace eModels
         public string code { get; set; } = "New";
 
         [Column(TypeName = "date")]
-        public DateTime stock_take_date { get; set; } = DateTime.Now;
+        public DateTime production_date { get; set; } = DateTime.Now;
         public string reference_number { get; set; }
         public string term_conditions { get; set; }
         public string note { get; set; }
