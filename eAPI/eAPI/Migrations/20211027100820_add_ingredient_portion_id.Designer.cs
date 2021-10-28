@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211027100820_add_ingredient_portion_id")]
+    partial class add_ingredient_portion_id
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -754,12 +756,6 @@ namespace eAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<double>("default_change_exchange_rate")
-                        .HasColumnType("float");
-
-                    b.Property<double>("default_exchange_rate")
-                        .HasColumnType("float");
 
                     b.Property<bool>("is_base_exchange_currency")
                         .HasColumnType("bit");
@@ -4235,7 +4231,7 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("cash_drawer_id")
+                    b.Property<Guid>("cash_drawer_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("cash_drawer_name")

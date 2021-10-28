@@ -42,7 +42,8 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@(!model.is_ingredient_product && gv.project_has_advance_inventory)" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@(!model.is_composite_product  && !model.is_ingredient_product && gv.project_has_advance_inventory)" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@(model.is_composite_product && gv.project_has_advance_inventory)" OnClick="@(()=>show_composite_product_tab=true)">@lang["Composite Items"]</TabHeaderItem>
                     <TabHeaderItem is_visible="@model.is_ingredient_product" OnClick="@(()=>show_association_products = true)">@lang["Associate Products & Modifiers"]</TabHeaderItem>
                     <TabHeaderItem OnClick="(()=>show_sale_history = true)">@lang["Sale History"]</TabHeaderItem>
                     <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
@@ -55,9 +56,14 @@
                     <TabItem>
                         <ComProductDetail_ProductInformation model="@model" />
                     </TabItem>
-                    <TabItem is_visible="@(!model.is_ingredient_product && gv.project_has_advance_inventory)">
+                    <TabItem is_visible="@(!model.is_composite_product  &&  !model.is_ingredient_product && gv.project_has_advance_inventory)">
                         <Com is_visible="@show_recipe_tab">
                             <ComProductDetail_ProductPortionIngredient product_id="@model.id" is_product_deleted="@model.is_deleted" />
+                        </Com>
+                    </TabItem>
+                    <TabItem is_visible="@(model.is_composite_product && gv.project_has_advance_inventory)">
+                        <Com is_visible="@show_composite_product_tab">
+                            <ComProductDetail_ProductPortionCompositeItems product_id="@model.id" is_product_deleted="@model.is_deleted"  />
                         </Com>
                     </TabItem>
                     <TabItem is_visible="@model.is_ingredient_product">
@@ -128,7 +134,7 @@
 @code{
     [Parameter] public int id { get; set; }
     public ProductModel model { get; set; }
-    bool show_comment_tab, show_recipe_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
+    bool show_comment_tab, show_recipe_tab,show_composite_product_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
 
     public string api_url
     {

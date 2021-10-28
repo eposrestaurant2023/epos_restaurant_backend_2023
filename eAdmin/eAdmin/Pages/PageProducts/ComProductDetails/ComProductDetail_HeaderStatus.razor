@@ -1,12 +1,15 @@
 ﻿@inject IStringLocalizer<Resource> lang
-@if (model != null) {
+@if (model != null)
+{
 
-<LabelIngredient is_visible="@(model.is_ingredient_product && is_ingredient)"/>
-<LabelMenuProduct is_visible="@(model.is_menu_product && is_menu_product)"/>
-<Label is_visible="@model.is_inventory_product" Text="@lang["Inventory"]"/>
-<LabelActive is_visible="@(!model.is_deleted && model.status)" is_loading="@model.is_change_status" />
-<LabelInActive is_visible="@(!model.is_deleted && !model.status)" is_loading="@model.is_change_status" />
-<LabelDeleted is_visible="@model.is_deleted" />
+    <LabelIngredient is_visible="@(model.is_ingredient_product && is_ingredient)" />
+    <LabelMenuProduct is_visible="@(model.is_menu_product && is_menu_product)" />
+    <Label is_visible="@model.is_inventory_product" Text="@lang["Inventory"]" />
+    <LabelCompositeMenu is_visible="@model.is_composite_product" />
+    <LabelProductionProduct is_visible="@model.is_production_product" />
+    <LabelActive is_visible="@(!model.is_deleted && model.status)" is_loading="@model.is_change_status" />
+    <LabelInActive is_visible="@(!model.is_deleted && !model.status)" is_loading="@model.is_change_status" />
+    <LabelDeleted is_visible="@model.is_deleted" />
 }
 @code {
     [Parameter] public ProductModel model { get; set; }

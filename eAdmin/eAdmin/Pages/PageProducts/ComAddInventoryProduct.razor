@@ -1,17 +1,20 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
 <UIContainerBox Title="@(!is_production_product? lang["Inventory / Ingredient Product"]:lang["Inventory / Production Product"])">
-    @if (!is_production_product)
+
+    <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)" />
+    @if (gv.project_has_advance_inventory)
     {
-        <ComInputCheckBox @bind-value="@is_inventory_product" label="@lang["Is Inventory Product"]" is_read_only="@(model.is_product_has_inventory_transaction)" />
-        @if (gv.project_has_advance_inventory)
-        {
-            <Com is_visible="@(!is_ingredient)">
-                <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
-            </Com>
-        }
+        <Com is_visible="@(!is_ingredient)">
+            <ComInputCheckBox @bind-value="@model.is_ingredient_product" label="@lang["Is Ingredient"]" />
+
+        </Com>
     }
-    <ComInputCheckBox @bind-value="@model.is_production_product" label="@lang["Is Production"]" />
+    @if (!is_ingredient)
+    {
+        <ComInputCheckBox @bind-value="@model.is_composite_product" label="@lang["Is Composite Menu"]" />
+        <ComInputCheckBox @bind-value="@model.is_production_product" label="@lang["Is Use in Production"]" />
+    }
 
     <Com is_visible="@(model.is_inventory_product)">
         @if (model.stock_location_products != null && model.stock_location_products.Any())
