@@ -273,5 +273,18 @@
     }
 
 
+    async Task LoadData()
+    {
+        if (model.id > 0)
+        {
+            string api_url = $"StockLocationProduct?$expand=stock_location&$filter=product_id eq {model.id}";
+            var resp = await http.ApiGetOData(api_url);
+                if (resp.IsSuccess)
+                {
+                    
+                }
+        }
+    }
+
 
 }
