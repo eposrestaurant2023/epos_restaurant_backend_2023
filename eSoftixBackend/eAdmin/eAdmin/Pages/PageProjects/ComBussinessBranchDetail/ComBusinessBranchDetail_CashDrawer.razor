@@ -1,0 +1,65 @@
+﻿<UIPanel Title="Cash Drawer">
+    <UIPanelHeaderRight>
+        <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="@AddNewCashDrawer"/>
+    </UIPanelHeaderRight> 
+    <UIPanelBody> 
+        @if (cash_drawers != null && cash_drawers.Count() > 0)
+        {
+            <MudExpansionPanels>
+              <MudGrid>
+               
+                
+                   <MudItem xs="12" sm="12" md="12">
+                    
+                                <MudGrid>
+                           @if(cash_drawers.Count()>0){
+                              
+                                   foreach(var s in cash_drawers){
+                                      <MudItem xs="12" sm="12" md="6">
+                                           <MudCard>
+                                                <MudCardHeader>
+                                                    <CardHeaderAvatar>
+                                                        <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Size="MudBlazor.Size.Large" />
+                                                    </CardHeaderAvatar>
+                                                    <CardHeaderContent>
+                                                        <MudText Typo="Typo.body1">@s.cash_drawer_name</MudText>
+                                                        <LabelDeleted is_visible="@s.is_deleted"/> 
+                                                    </CardHeaderContent>
+                                                    <CardHeaderActions>
+                                                        <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="@s.is_loading">
+                                                            <MenuButtonItem  roles="@gv.GetRole("cash_drawer_edit")"  icon="@Icons.Material.Filled.Edit" OnClick="@(()=>EditCashDrawer_Click(s))">Edit</MenuButtonItem>
+                                                            <MenuButtonItem roles="@gv.GetRole("cash_drawer_delete")" icon="@Icons.Material.Filled.Delete" is_visible="@(!s.is_deleted)" OnClick="@(()=>DeleteCashDrawer_Click(s))">Delete</MenuButtonItem>
+                                                            <MenuButtonItem roles="@gv.GetRole("cash_drawer_restore")" icon="@Icons.Material.Filled.Refresh" is_visible="@(s.is_deleted)" OnClick="@(()=>DeleteCashDrawer_Click(s))">Restore</MenuButtonItem>
+                                                        </MenuButton>
+                                                    </CardHeaderActions>
+                                                </MudCardHeader>
+                                            </MudCard>
+                                     </MudItem>
+                                     }
+                                }else{
+                                    <div style="width:100%;">
+                                          <MudText  Typo="@Typo.subtitle2"  Align="MudBlazor.Align.Center" Class="ma-6">There's no Station in this outlet.</MudText>
+                                    </div>
+                                   
+                                    <div style="width:100%;">
+                                        <MudButton StartIcon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Success" Variant="Variant.Filled" OnClick="@(()=>AddNewCashDrawer())" FullWidth="true" >
+                                           Add New Station
+                                        </MudButton>
+                                    </div>
+                                }
+                             </MudGrid> 
+                      </MudItem>
+                
+              </MudGrid>
+              </MudExpansionPanels>
+     }else {
+    <MudText  Typo="@Typo.subtitle2"  Align="MudBlazor.Align.Center" Class="ma-6">There's no outlet in this Branch.</MudText>
+    <div class="d-flex justify-center">
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Color="MudBlazor.Color.Success" Variant="Variant.Filled" OnClick="@AddNewCashDrawer"   >
+            Add Cash Drawer
+        </MudButton>
+    </div>     
+    }
+
+    </UIPanelBody>
+</UIPanel>

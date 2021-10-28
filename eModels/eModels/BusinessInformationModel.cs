@@ -64,6 +64,7 @@ namespace eModels
         public List<BusinessBranchRoleModel> business_branch_roles { get; set; }
         public List<NoteModel> cashier_notes { get; set; }
         public List<DefaultStockLocationProductModel> default_stock_location_products { get; set; }
+        
   
          
     }

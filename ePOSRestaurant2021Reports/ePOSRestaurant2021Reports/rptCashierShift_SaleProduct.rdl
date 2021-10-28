@@ -49,7 +49,7 @@
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="WorkingDayInfo">
+    <DataSet Name="CashierShiftInfo">
       <Query>
         <DataSourceName>DataSource</DataSourceName>
         <QueryParameters>
@@ -57,26 +57,23 @@
             <Value>=Parameters!id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
-	  
-	select 
+        <CommandText>	select 
 		a.*,
 		b.business_branch_name_en,
 		b.phone_1,
 		b.phone_2,
+	    w.working_day_number,
 		b.address_en
-	from tbl_working_day a
-	inner join tbl_business_branch b on b.id = a.business_branch_id
+	from tbl_cashier_shift a
+	inner join tbl_working_day w on w.id = a.working_day_id
+	inner join tbl_business_branch b on b.id = w.business_branch_id
 	where
-		a.id = @id</CommandText>
+		a.id = @id
+</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
           <DataField>id</DataField>
-          <rd:TypeName>System.Guid</rd:TypeName>
-        </Field>
-        <Field Name="business_branch_id">
-          <DataField>business_branch_id</DataField>
           <rd:TypeName>System.Guid</rd:TypeName>
         </Field>
         <Field Name="created_by">
@@ -103,6 +100,14 @@
           <DataField>status</DataField>
           <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
+        <Field Name="cashier_shift_number">
+          <DataField>cashier_shift_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="working_day_id">
+          <DataField>working_day_id</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
         <Field Name="working_date">
           <DataField>working_date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
@@ -119,16 +124,20 @@
           <DataField>closed_date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
+        <Field Name="open_amount">
+          <DataField>open_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="close_note">
           <DataField>close_note</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="close_amount">
+          <DataField>close_amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="open_note">
           <DataField>open_note</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="working_day_number">
-          <DataField>working_day_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="outlet_id">
@@ -138,6 +147,10 @@
         <Field Name="opened_station_id">
           <DataField>opened_station_id</DataField>
           <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="shift_name">
+          <DataField>shift_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="closed_station_id">
           <DataField>closed_station_id</DataField>
@@ -151,16 +164,16 @@
           <DataField>closed_station_name_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="opended_station_name_en">
-          <DataField>opended_station_name_en</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="opended_station_name_kh">
-          <DataField>opended_station_name_kh</DataField>
+        <Field Name="opened_station_name_en">
+          <DataField>opened_station_name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="outlet_name_en">
           <DataField>outlet_name_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="opened_station_name_kh">
+          <DataField>opened_station_name_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="outlet_name_kh">
@@ -193,6 +206,10 @@
         </Field>
         <Field Name="phone_2">
           <DataField>phone_2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="working_day_number">
+          <DataField>working_day_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="address_en">
@@ -245,7 +262,7 @@
 		where 
 			s.status_id in (4) and 
 			s.is_deleted = 0 and
-			s.closed_working_day_id = @id and 
+			s.closed_cashier_shift_id = @id and 
 			s.is_foc =0 and 
 			s.is_closed = 1
 		group by
@@ -319,9 +336,7 @@
             <Value>=Parameters!id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
-
-	 select 
+        <CommandText>	 select 
 			sp.product_category_id,
 			sp.product_group_id,
 			sp.product_id,
@@ -341,7 +356,7 @@
 		where 
 			s.status_id in (4) and 
 			s.is_deleted = 0 and
-			s.closed_working_day_id = @id and 
+			s.closed_cashier_shift_id = @id and 
 			s.is_foc =1 and 
 			s.is_closed = 1
 		group by
@@ -416,10 +431,10 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>3.25963in</Width>
+                  <Width>3.25269in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.98648in</Width>
+                  <Width>3.97954in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1209,51 +1224,17 @@
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>WorkingDayInfo</DataSetName>
-            <Top>1.12206in</Top>
+            <DataSetName>CashierShiftInfo</DataSetName>
+            <Top>0.87206in</Top>
+            <Left>0.07056cm</Left>
             <Height>2.20932in</Height>
-            <Width>7.24611in</Width>
+            <Width>7.23222in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
           </Tablix>
-          <Textbox Name="Textbox55">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=First(Fields!report_title.Value, "ReportName")</Value>
-                    <Style>
-                      <FontSize>12pt</FontSize>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Center</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox55</rd:DefaultName>
-            <Top>0.73134in</Top>
-            <Left>0.01389in</Left>
-            <Height>0.32128in</Height>
-            <Width>7.24611in</Width>
-            <ZIndex>1</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Textbox Name="Textbox4">
             <CanGrow>true</CanGrow>
             <KeepTogether>true</KeepTogether>
@@ -1261,7 +1242,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!business_branch_name_en.Value, "WorkingDayInfo")</Value>
+                    <Value>=First(Fields!business_branch_name_en.Value, "CashierShiftInfo")</Value>
                     <Style>
                       <FontFamily>Arial</FontFamily>
                       <FontSize>14pt</FontSize>
@@ -1275,9 +1256,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox4</rd:DefaultName>
-            <Height>0.28674in</Height>
+            <Height>0.23119in</Height>
             <Width>7.26in</Width>
-            <ZIndex>2</ZIndex>
+            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1301,7 +1282,7 @@
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>=First(Fields!address_en.Value, "WorkingDayInfo")</Value>
+                    <Value>=First(Fields!address_en.Value, "CashierShiftInfo")</Value>
                     <Style>
                       <FontSize>11pt</FontSize>
                     </Style>
@@ -1313,10 +1294,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox73</rd:DefaultName>
-            <Top>0.30063in</Top>
-            <Height>0.17325in</Height>
+            <Top>0.39507in</Top>
+            <Height>0.20103in</Height>
             <Width>7.26in</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1331,27 +1312,19 @@
                 <TextRuns>
                   <TextRun>
                     <Value>Phone: </Value>
-                    <Style>
-                      <FontSize>11pt</FontSize>
-                    </Style>
+                    <Style />
                   </TextRun>
                   <TextRun>
-                    <Value>=First(Fields!phone_1.Value, "WorkingDayInfo")</Value>
-                    <Style>
-                      <FontSize>11pt</FontSize>
-                    </Style>
+                    <Value>=First(Fields!phone_1.Value, "CashierShiftInfo")</Value>
+                    <Style />
                   </TextRun>
                   <TextRun>
                     <Value xml:space="preserve"> </Value>
-                    <Style>
-                      <FontSize>11pt</FontSize>
-                    </Style>
+                    <Style />
                   </TextRun>
                   <TextRun>
-                    <Value>=iif(First(Fields!phone_2.Value, "WorkingDayInfo")="",""," / " &amp; First(Fields!phone_2.Value, "WorkingDayInfo"))</Value>
-                    <Style>
-                      <FontSize>11pt</FontSize>
-                    </Style>
+                    <Value>=iif(First(Fields!phone_2.Value, "CashierShiftInfo")="",""," / " &amp; First(Fields!phone_2.Value, "CashierShiftInfo"))</Value>
+                    <Style />
                   </TextRun>
                 </TextRuns>
                 <Style>
@@ -1360,10 +1333,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox74</rd:DefaultName>
-            <Top>0.51555in</Top>
-            <Height>0.18801in</Height>
+            <Top>0.19263in</Top>
+            <Height>0.19843in</Height>
             <Width>7.26in</Width>
-            <ZIndex>4</ZIndex>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1374,13 +1347,13 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>13.36984cm</Width>
+                  <Width>13.35808cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.48824cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.48824cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2295,11 +2268,11 @@
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>8.77041cm</Top>
-            <Left>0.03528cm</Left>
+            <Top>7.81791cm</Top>
+            <Left>0.10584cm</Left>
             <Height>5.21479cm</Height>
-            <Width>18.36984cm</Width>
-            <ZIndex>5</ZIndex>
+            <Width>18.33456cm</Width>
+            <ZIndex>4</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2310,13 +2283,13 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>13.36984cm</Width>
+                  <Width>13.35808cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.48824cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.48824cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2879,11 +2852,11 @@
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>14.28562cm</Top>
-            <Left>0.03528cm</Left>
+            <Top>13.96812cm</Top>
+            <Left>0.10584cm</Left>
             <Height>2.81479cm</Height>
-            <Width>18.36984cm</Width>
-            <ZIndex>6</ZIndex>
+            <Width>18.33456cm</Width>
+            <ZIndex>5</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2894,13 +2867,13 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>13.36984cm</Width>
+                  <Width>13.35808cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.48824cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.48824cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -3806,11 +3779,11 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>FOCSaleProductData</DataSetName>
-            <Top>17.30281cm</Top>
-            <Left>0.03528cm</Left>
+            <Top>16.98531cm</Top>
+            <Left>0.10584cm</Left>
             <Height>5.21479cm</Height>
-            <Width>18.36984cm</Width>
-            <ZIndex>7</ZIndex>
+            <Width>18.33456cm</Width>
+            <ZIndex>6</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3821,13 +3794,13 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>13.36984cm</Width>
+                  <Width>13.35808cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.48824cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.5cm</Width>
+                  <Width>2.48824cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -4742,25 +4715,60 @@
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>22.78015cm</Top>
-            <Left>0.03528cm</Left>
+            <Top>22.14515cm</Top>
+            <Left>0.10584cm</Left>
             <Height>5.21479cm</Height>
-            <Width>18.36984cm</Width>
-            <ZIndex>8</ZIndex>
+            <Width>18.33456cm</Width>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
               </Border>
             </Style>
           </Tablix>
+          <Textbox Name="Textbox55">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!report_title.Value, "ReportName")</Value>
+                    <Style>
+                      <FontSize>14pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Center</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox55</rd:DefaultName>
+            <Top>0.63068in</Top>
+            <Left>0.02778in</Left>
+            <Height>0.23795in</Height>
+            <Width>7.22701in</Width>
+            <ZIndex>8</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
         </ReportItems>
-        <Height>11.14663in</Height>
+        <Height>11.59722in</Height>
         <Style />
       </Body>
       <Width>7.26in</Width>
       <Page>
         <PageFooter>
-          <Height>0.35625in</Height>
+          <Height>0.30416in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -4799,7 +4807,8 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0.09375in</Top>
+              <Top>0.04375in</Top>
+              <Left>0.03528cm</Left>
               <Height>0.1875in</Height>
               <Width>3.72917in</Width>
               <Style>
@@ -4849,10 +4858,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>0.09375in</Top>
-              <Left>3.89162in</Left>
+              <Top>0.04375in</Top>
+              <Left>3.90551in</Left>
               <Height>0.1875in</Height>
-              <Width>3.36838in</Width>
+              <Width>3.35449in</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -4875,8 +4884,8 @@
         <PageWidth>8.27in</PageWidth>
         <LeftMargin>0.5in</LeftMargin>
         <RightMargin>0.5in</RightMargin>
-        <TopMargin>0.3in</TopMargin>
-        <BottomMargin>0.3in</BottomMargin>
+        <TopMargin>0.2in</TopMargin>
+        <BottomMargin>0.2in</BottomMargin>
         <Style />
       </Page>
     </ReportSection>
@@ -4886,7 +4895,7 @@
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>B1733C18-05D5-451C-89CA-08D9E84FAABC</Value>
+          <Value>b1733c18-05d5-451c-89ca-07d9e84faabc</Value>
         </Values>
       </DefaultValue>
       <Prompt>id</Prompt>

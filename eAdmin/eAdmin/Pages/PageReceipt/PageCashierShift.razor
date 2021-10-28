@@ -134,7 +134,7 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string url = $"{controller_api}?$expand=working_day($select=working_day_number,outlet_name_en,outlet_name_kh)";
+            string url = $"{controller_api}?$expand=working_day($select=working_day_number,business_branch_id,outlet_name_en,outlet_name_kh)";
             url += $"&keyword={GetFilterValue2(state.filters, "keyword", "")}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
             return url + GetFilter(state.filters);
@@ -144,7 +144,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        StateKey = "hUndmRGrRCashierSHIFTDAy0ee2u9T3AEj";
+        StateKey = "hUndmRGrRCashierSHIFTDAy0ee2u9T3123";
         state = await GetState(StateKey);
         await LoadData();
     }
@@ -228,7 +228,7 @@
 
             state.filters.Add(new FilterModel()
             {
-                key = "business_branch_id",
+                key = "working_day/business_branch_id",
                 value1 = business_branch_ids,
                 filter_title = "Business Branch",
                 filter_operator = "multiple",
@@ -242,7 +242,7 @@
         {
             state.filters.Add(new FilterModel()
             {
-                key = "business_branch_id",
+                key = "working_day/business_branch_id",
                 value1 = gv.business_branch_ids_filter_1,
                 filter_title = "Business Branch",
                 filter_operator = "multiple",
