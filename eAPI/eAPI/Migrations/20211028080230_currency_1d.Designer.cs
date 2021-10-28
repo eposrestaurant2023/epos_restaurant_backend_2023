@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211028080230_currency_1d")]
+    partial class currency_1d
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,9 +93,6 @@ namespace eAPI.Migrations
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("production_id")
-                        .HasColumnType("int");
-
                     b.Property<int?>("purchase_order_id")
                         .HasColumnType("int");
 
@@ -118,8 +117,6 @@ namespace eAPI.Migrations
                     b.HasIndex("modifier_id");
 
                     b.HasIndex("product_id");
-
-                    b.HasIndex("production_id");
 
                     b.HasIndex("purchase_order_id");
 
@@ -2941,6 +2938,10 @@ namespace eAPI.Migrations
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("code")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -2972,10 +2973,6 @@ namespace eAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("note")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("production_code")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -5665,10 +5662,6 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("product_id");
 
-                    b.HasOne("eModels.ProductionModel", "production")
-                        .WithMany()
-                        .HasForeignKey("production_id");
-
                     b.HasOne("eModels.PurchaseOrderModel", "purchase_order")
                         .WithMany()
                         .HasForeignKey("purchase_order_id");
@@ -5692,8 +5685,6 @@ namespace eAPI.Migrations
                     b.Navigation("modifier_group");
 
                     b.Navigation("product");
-
-                    b.Navigation("production");
 
                     b.Navigation("purchase_order");
 
