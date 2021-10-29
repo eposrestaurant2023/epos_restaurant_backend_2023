@@ -4,7 +4,7 @@
 
 <Loading is_loading="@is_saving"/>
 @if (!is_loading) {
-<EditFormContext Cancel_Click="@OnCancelClick" model="@product_portion" is_opened="is_open" title="@($"Items Of {product_portion.portion_name}")" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
+<EditFormContext Cancel_Click="@OnCancelClick" form_attributes="cus_typeherd" model="@product_portion"  is_opened="is_open" title="@($"Items Of {product_portion.portion_name}")" Save_Click="OnSaveClick" modal_width="800px" is_submitting="@is_saving">
     <IngredientProductTypeahead is_search_all_product="@is_search_all_product" product="@product" productChanged="@Selected"/>
     <hr/> 
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
