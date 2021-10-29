@@ -10,11 +10,12 @@
     </div>
 </div>
 <Com is_visible="is_selected_product">
-    <ComSearchProduct @bind-is_open="@is_selected_product" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProduct_Click"/>
+    <ComSearchProduct @bind-is_open="@is_selected_product" isProduction="@isProduction" @bind-keyword="@keyword" OnConfirmSelectedProductClick="@SelectProduct_Click"/>
 </Com>
 @code{
     [Parameter] public string place_holder { get; set; }
     [Parameter] public string keyword { get; set; }
+    [Parameter] public bool isProduction { get; set; }
     [Parameter] public SelectedProductModel product { get; set; }
     [Parameter] public EventCallback<SelectedProductModel> productChanged { get; set; }
     [Parameter] public List<SelectedProductModel> select_products { get; set; }
@@ -62,7 +63,12 @@
     {
         if (keyword != "")
         {
-            string api = $"Product?$expand=unit&$filter=tolower(product_code) eq '{keyword.Trim().ToLower()}' {filter_for_PO}";
+            string filter_production = "and is_production eq true";
+            if (isProduction)
+            {
+                filter_production = "cv";
+            }
+            string api = $"Product?$expand=unit&$filter=tolower(product_code) eq '{keyword.Trim().ToLower()}' {filter_for_PO} {filter_production}";
             var resp = await http.ApiGetOData(api);
             if (resp.IsSuccess)
             {
