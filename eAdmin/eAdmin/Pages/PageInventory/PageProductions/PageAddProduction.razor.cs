@@ -111,7 +111,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             if (id > 0)
             {
                 string url = $"production({id})?";
-                url += $"$expand=production_products($expand=portion_product,product($expand=unit);$filter=is_deleted eq false)";
+                url += $"$expand=production_products($expand=product_portion($expand=unit),product($expand=unit);$filter=is_deleted eq false)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
@@ -143,6 +143,14 @@ namespace eAdmin.Pages.PageInventory.PageProductions
                 return;
             }
 
+            if (model.production_products.Where(r=>r.product_portion_id == 0).Any())
+            {
+                toast.Add("Please select portion.", MatToastType.Warning);
+                return ;
+            }
+                
+                
+            
             ProductionModel save_model = JsonSerializer.Deserialize<ProductionModel>(JsonSerializer.Serialize(model));
             save_model.production_products.ForEach(r => r.product = null);
             save_model.stock_location = null;
