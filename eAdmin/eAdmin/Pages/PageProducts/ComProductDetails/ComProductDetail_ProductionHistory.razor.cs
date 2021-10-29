@@ -1,5 +1,4 @@
-﻿
-using eModels;
+﻿using eModels;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using System.Collections.Generic;
@@ -8,15 +7,15 @@ using System.Threading.Tasks;
 using System;
 using MatBlazor;
 using eAdmin.JSHelpers;
-namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
-{
-    public class StockTakeProductDetailHistoryBase : PageCore
+namespace eAdmin.Pages.PageProducts.ComProductDetails
+{ 
+    public class ProductionProductDetailHistoryBase : PageCore
     { 
         [Parameter] public int product_id { get; set; }
-        public List<StockTakeProductModel> models = new List<StockTakeProductModel>();
+        public List<ProductionProductModel> models = new List<ProductionProductModel>();
         public int TotalRecord = 0;
-        public string  StateKey = "STOSTOCKTAKEProdyctsaledmRGrRwd5021D20154coN";
-        string controller_api = "StockTakeProduct";
+        public string  StateKey = "PRODUCTIONPRODUCTrodyctsaledmRGrRwd5021D20154coN";
+        string controller_api = "ProductionProduct";
         public string ControllerApi
         {
             get
@@ -27,7 +26,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=stock_take($select=id,is_fulfilled,business_branch_id,stock_location_id,document_number,stock_take_date,reference_number;$expand=business_branch,stock_location)";
+                url += $"$expand=production($select=id,is_fulfilled,business_branch_id,stock_location_id,production_code,production_date,reference_number;$expand=business_branch,stock_location)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -40,7 +39,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             StateKey += product_id;
             state = await GetState(StateKey);
 
-            var default_view = gv.GetDefaultModuleView("page_purchase_order");
+            var default_view = gv.GetDefaultModuleView("page_production_product");
             if (default_view != null)
             {
                 state.page_title = default_view.title;
@@ -54,19 +53,18 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     value1 = product_id.ToString()
                 });
             }
-
             await LoadData();
         }   
 
         public async Task LoadData(string api_url="")
         {
             is_loading = true;
-            if (state.filters.Where(r => r.key == "stock_take/business_branch_id").Count() == 0)
+            if (state.filters.Where(r => r.key == "production/business_branch_id").Count() == 0)
             {
                 //Business Branch Filter
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_take/business_branch_id",
+                    key = "production/business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -77,12 +75,12 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     is_show_on_infor = false
                 });
             }
-            if (state.filters.Where(r => r.key == "stock_take/business_branch_id").Count() == 0)
+            if (state.filters.Where(r => r.key == "production/business_branch_id").Count() == 0)
             {
                 //Outlet Filter
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_take/stock_location_id",
+                    key = "production/stock_location_id",
                     value1 = gv.stock_location_ids_filter(gv.business_branch_ids_filter_1),
                     filter_title = "Stock Location",
                     filter_operator = "multiple",
@@ -100,11 +98,10 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.api_url = api_url;
                 await SetState(StateKey, state);
             }
-
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {
-                models = JsonSerializer.Deserialize<List<StockTakeProductModel>>(resp.Content.ToString());
+                models = JsonSerializer.Deserialize<List<ProductionProductModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
             }
             is_loading = false;
@@ -118,9 +115,9 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "stock_take/stock_take_date",
+                        key = "production/production_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "Purchase Date",
+                        filter_title = "Production Date",
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
@@ -132,7 +129,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_take/stock_take_date",
+                    key = "production/production_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",
@@ -159,7 +156,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_take/business_branch_id",
+                    key = "production/business_branch_id",
                     value1 = business_branch_ids,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -173,7 +170,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_take/business_branch_id",
+                    key = "production/business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
                     filter_title = "Business Branch",
                     filter_operator = "multiple",
@@ -200,7 +197,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
 
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_take/stock_location_id",
+                    key = "production/stock_location_id",
                     value1 = value,
                     filter_title = "Stock Location",
                     filter_operator = "multiple",
@@ -214,7 +211,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "stock_take/stock_location_id",
+                    key = "production/stock_location_id",
                     value1 = gv.stock_location_ids_filter(business_branch_ids),
                     filter_title = "Stock Location",
                     filter_operator = "multiple",
@@ -237,14 +234,14 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             foreach (var k in remove_key)
             {
                 // clear filter business
-                if (k == "stock_take/business_branch_id" && state.multi_select_id_1 != null)
+                if (k == "production/business_branch_id" && state.multi_select_id_1 != null)
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
 
                 // clear filter outlet
-                if (k == "stock_take/stock_location_id" && state.multi_select_id_2 != null)
+                if (k == "production/stock_location_id" && state.multi_select_id_2 != null)
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
@@ -264,14 +261,14 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             foreach (var f in state.filters.Where(r => r.is_clear_all == true))
             {
                 // clear filter business
-                if (f.key == "stock_take/business_branch_id")
+                if (f.key == "production/business_branch_id")
                 {
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
 
                 // clear filter stock location
-                if (f.key == "stock_take/stock_location_id")
+                if (f.key == "production/stock_location_id")
                 {
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
