@@ -218,9 +218,9 @@
 .cus_typeherd .search-add-typeahead .blazored-typeahead__results {
     position: fixed;
     box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
-    border: 1 px solid #dbdbdb;
-    min-height: 2 rem;
-    max-height: 30 rem;
+    border: 1px solid #dbdbdb;
+    min-height: 2rem;
+    max-height: 30rem;
     overflow-y: auto;
     z-index: 999999;
     background: #fff;
