@@ -18,17 +18,17 @@
         </HeaderLeft>
         <HeaderRight ClassName="uk-flex-top">
             <div class="uk-text-right">
-                <h2 class="uk-text-uppercase uk-margin-small-bottom">Invoice</h2>
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">Production</h2>
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
                     <AuthorizeView Roles="@gv.GetRole("production_view")">
-                        <span>INV# @model.production_code</span>
+                        <span>Production# @model.production_code</span>
                     </AuthorizeView>
                     }
                     else
                     {
-                        <span>INV# @model.production_code</span>
+                        <span>Production# @model.production_code</span>
                     }
 
                 </div>
@@ -62,10 +62,10 @@
         </div>
         <div class="uk-width-auto">
             <div class="box-invoice-header-info">
-                <div class="invoice-header-title">Invoice Information</div>
+                <div class="invoice-header-title">Production Information</div>
                 <table class="invoice_header_description">
                     <tr>
-                        <td>Invoice Date :</td>
+                        <td>Production Date :</td>
                         <td>@model.production_date.ToString(gv.date_format)</td>
                     </tr>
                     <tr>

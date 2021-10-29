@@ -75,7 +75,12 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] ProductionModel p)
         {
-            
+            if (p.id == 0)
+            {
+                var doc = db.DocumentNumbers.Where(r => r.document_name == "Production Document");
+                string document_number = await app.GetDocumentNumber(doc.FirstOrDefault());
+                p.production_code = document_number;
+            }
 
             if (p.id == 0)
             {
