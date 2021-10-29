@@ -44,7 +44,10 @@ namespace eModels
 
         public decimal grand_total { get; set; }
 
-  
+        public int product_portion_id { get; set; }
+        [ForeignKey("product_portion_id")]
+        public ProductPortionModel product_portion { get; set; }
+
 
         private decimal _sub_total;
         public decimal sub_total

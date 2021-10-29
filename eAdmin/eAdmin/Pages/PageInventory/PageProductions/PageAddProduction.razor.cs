@@ -111,7 +111,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             if (id > 0)
             {
                 string url = $"production({id})?";
-                url += $"$expand=production_products($expand=product($expand=unit);$filter=is_deleted eq false)";
+                url += $"$expand=production_products($expand=portion_product,product($expand=unit);$filter=is_deleted eq false)";
                 var resp = await http.ApiGet(url);
                 if (resp.IsSuccess)
                 {
