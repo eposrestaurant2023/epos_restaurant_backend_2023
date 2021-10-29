@@ -49,6 +49,7 @@
                     <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
                     <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_stock_stransfer = true)">@lang["Stock Transfer"]</TabHeaderItem>
                     <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_stock_take = true)">@lang["Stock Take"]</TabHeaderItem>
+                    <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_production = true)">@lang["Production"]</TabHeaderItem>
                     <TabHeaderItem is_visible="@(model.is_inventory_product && gv.project_has_advance_inventory)" OnClick="(()=>show_inventory_strasation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
@@ -96,6 +97,12 @@
                             <ComProductDetail_StockTakeHistory product_id="@id" />
                         }
                     </TabItem>
+                    <TabItem is_visible="@gv.project_has_advance_inventory">
+                        @if (show_production)
+                        {
+                        <ComProductDetail_ProductionHistory product_id="@id"/>
+                        }
+                    </TabItem>
                     <TabItem is_visible="@(model.is_inventory_product && gv.project_has_advance_inventory)">
                         @if (show_inventory_strasation)
                         {
@@ -134,7 +141,7 @@
 @code{
     [Parameter] public int id { get; set; }
     public ProductModel model { get; set; }
-    bool show_comment_tab, show_recipe_tab,show_composite_product_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
+    bool show_production, show_comment_tab, show_recipe_tab,show_composite_product_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
 
     public string api_url
     {
