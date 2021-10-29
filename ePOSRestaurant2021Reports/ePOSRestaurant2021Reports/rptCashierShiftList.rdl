@@ -147,7 +147,7 @@ order by
 --get total sale 
 if object_id('tempdb..#tbl_sale') is not null drop table #tbl_sale
 select 
-	s.cashier_shift_id,
+	s.closed_cashier_shift_id,
 	count(s.id) as total_sale_order,
 	sum(s.sub_total) as sub_total,
 	sum(s.total_amount) as total_amount,
@@ -155,11 +155,11 @@ select
 	sum(s.total_tax_amount) as total_tax_amount
 	into #tbl_sale
 from tbl_sale s 
-inner join #tbl t on t.id = s.cashier_shift_id
+inner join #tbl t on t.id = s.closed_cashier_shift_id
 where
 	 s.status_id in (4)
 group by
-	s.cashier_shift_id
+	s.closed_cashier_shift_id
 
 update t
 	set t.total_sale_order = s.total_sale_order,
@@ -169,7 +169,7 @@ update t
 		t.sub_total = s.sub_total,
 		t.difference_amount = t.close_amount - s.total_amount
 from #tbl t 
-	inner join #tbl_sale s on s.cashier_shift_id = t.id 
+	inner join #tbl_sale s on s.closed_cashier_shift_id = t.id 
 
 
 select 
@@ -2230,7 +2230,7 @@ from #tbl </CommandText>
             <DataSetName>CashiftShiftData</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>11.08083in</Width>
+            <Width>11.08082in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
