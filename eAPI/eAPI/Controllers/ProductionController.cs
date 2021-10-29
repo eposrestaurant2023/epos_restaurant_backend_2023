@@ -81,7 +81,7 @@ namespace eAPI.Controllers
                 string document_number = await app.GetDocumentNumber(doc.FirstOrDefault());
                 p.production_code = document_number;
             }
-
+            p.production_products.ForEach(r => r.product_portion = null);
             if (p.id == 0)
             {
                 db.Productions.Add(p);
@@ -104,7 +104,7 @@ namespace eAPI.Controllers
                 return Ok(p);
             }
             catch(Exception ex) {
-                return StatusCode(415,"Save data fail. Please try again.");
+                return StatusCode(415, ex.InnerException);
             }
           
         }

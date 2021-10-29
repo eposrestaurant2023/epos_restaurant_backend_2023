@@ -1,0 +1,133 @@
+﻿@inject IHttpService http
+@if (!is_loading)
+{
+    @if (is_inline)
+    {
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+            @foreach (var p in models)
+            {
+                <option value="@p.id">@p.portion_name</option>
+            }
+        </select>
+    }
+    else
+    {
+
+        <div class="uk-form-horizontal">
+            <div class="uk-margin-small">
+                <label class="uk-form-label" for="@id">@label</label>
+                <div class="uk-form-controls">
+                    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+                        @if (show_empty)
+                        {
+                            <option value="0">@empty_text</option>
+                        }
+                        @foreach (var p in models)
+                        {
+                            <option value="@p.id">@p.portion_name</option>
+                        }
+                    </select>
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+}
+else
+{
+    @if (is_inline)
+    {
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+            @if (show_empty)
+            {
+                <option value="0">@empty_text</option>
+            }
+          
+        </select>
+    }
+    else
+    {
+
+        <div class="uk-form-horizontal">
+            <div class="uk-margin-small">
+                <label class="uk-form-label" for="@id">@label</label>
+                <div class="uk-form-controls">
+                    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+                        @if (show_empty)
+                        {
+                            <option value="0">@empty_text</option>
+                        }
+                    </select>
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    }
+}
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Portion";
+    [Parameter] public bool show_empty { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Select Portion";
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public bool is_inline { get; set; } = false;
+    [Parameter] public int product_id { get; set; }
+    [Parameter] public int selected_value { get; set; } = 0;
+    [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
+    [Parameter] public ProductPortionModel portion { get; set; }
+    [Parameter] public EventCallback<ProductPortionModel> portionChanged { get; set; }
+    [Parameter] public string unit_name { get; set; }
+    [Parameter] public EventCallback<string> unit_nameChanged { get; set; }
+    Guid id = Guid.NewGuid();
+    List<ProductPortionModel> models = new List<ProductPortionModel>();
+
+    bool is_loading = false;
+    public int SelectedValue
+    {
+        get
+        {
+            return portion == null ? selected_value : portion.id;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        if (product_id > 0)
+        {
+            var res = await http.ApiGetOData($"productportion?$filter=product_id eq {product_id} and is_deleted eq false&$expand=unit");
+            if (res.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<ProductPortionModel>>(res.Content.ToString());
+            }
+        }
+        is_loading = false;
+    }
+
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = Int32.Parse(n);
+        await selected_valueChanged.InvokeAsync(selected_value);
+        if (selected_value == 0)
+        {
+            await unit_nameChanged.InvokeAsync("");
+            await portionChanged.InvokeAsync(new ProductPortionModel());
+        }
+        else
+        {
+            unit_name = models.Where(r => r.id == selected_value).FirstOrDefault().unit.unit_name;
+            await unit_nameChanged.InvokeAsync(unit_name);
+            await portionChanged.InvokeAsync(models.Where(r => r.id == selected_value).FirstOrDefault());
+        }
+
+    }
+
+}

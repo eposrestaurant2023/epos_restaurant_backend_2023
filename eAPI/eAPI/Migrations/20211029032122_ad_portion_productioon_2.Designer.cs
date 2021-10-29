@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211029032122_ad_portion_productioon_2")]
+    partial class ad_portion_productioon_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3067,7 +3069,7 @@ namespace eAPI.Migrations
                     b.Property<int>("product_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("product_portion_id")
+                    b.Property<int?>("product_portion_id")
                         .HasColumnType("int");
 
                     b.Property<int>("production_id")
@@ -6459,9 +6461,7 @@ namespace eAPI.Migrations
 
                     b.HasOne("eModels.ProductPortionModel", "product_portion")
                         .WithMany()
-                        .HasForeignKey("product_portion_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("product_portion_id");
 
                     b.HasOne("eModels.ProductionModel", "production")
                         .WithMany("production_products")

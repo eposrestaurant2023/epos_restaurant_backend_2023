@@ -47,7 +47,7 @@
     }
 </TdCenter>
 <TdCenter>
-    <SelectUnitName  @bind-unit_name="@production_product.unit" @bind-multiplier="@production_product.multiplier" unit_category_id="@production_product.product.unit.unit_category_id" show_empty="false"/>
+    <SelectProductPortion is_inline="true" @bind-selected_value="@production_product.product_portion_id" @bind-unit_name="@production_product.unit" product_id="production_product.product_id" @bind-portion="production_product.product_portion" show_empty="true" /> @($"({production_product.product_portion?.unit?.unit_name})")
 </TdCenter>
 <TdRight>
     <NumberInput class_name="uk-input uk-text-right uk-form-small" text="@production_product.cost" textChanged="@CostChange" text_format="@gv.currency_format" width="100px" />
