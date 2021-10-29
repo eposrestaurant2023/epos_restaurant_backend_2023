@@ -21,6 +21,7 @@
 <MoreButton is_loading="@model.is_loading">
     <MoreButtonItem roles="@gv.GetRole("stock_take_add")" icon="file_copy" url="@($"stocktake/clone/{model.id}")">@lang["Clone Invoice"]</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("stock_take_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("stock_take_delete")" icon="clear" is_visible="@model.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
 </MoreButton>
 
 @if (is_open_print)
@@ -92,6 +93,25 @@
         }
 
         is_loading = false;
+    }
+
+
+    public async Task CancelMarkAsFulfilled()
+    {
+        is_loading = true;
+        if (await js.Confirm("Cancel Make As Fulfilled", "Are you sure you want to​ cancel make as fulfilled?"))
+        {
+
+            var resp = await http.ApiPost("stocktake/CancelMarkAsFulfilled/" + model.id);
+            if (resp.IsSuccess)
+            {
+                model.is_fulfilled = !model.is_fulfilled;
+                await modelChanged.InvokeAsync(model);
+                toast.Add("Cancel Mark as fulfilled successfully", MatToastType.Success);
+            }
+        }
+        is_loading = false;
+
     }
 
 }

@@ -24,6 +24,7 @@
 <MoreButton is_loading="@po.is_loading">
     <MoreButtonItem roles="@gv.GetRole("purchase_order_add")" icon="file_copy" url="@($"purchaseorder/clone/{po.id}")">@lang["Clone Invoice"]</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@po.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="clear" is_visible="@po.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
 </MoreButton>
 
 @if (is_open_print)
@@ -102,5 +103,23 @@
         }
 
         is_loading = false;
+    }
+
+    public async Task CancelMarkAsFulfilled()
+    {
+        is_loading = true;
+        if (await js.Confirm("Cancel Make As Fulfilled", "Are you sure you want to​ cancel make as fulfilled?"))
+        {
+
+            var resp = await http.ApiPost("purchaseorder/CancelMarkAsFulfilled/" + po.id);
+            if (resp.IsSuccess)
+            {
+                po.is_fulfilled = !po.is_fulfilled;
+                await poChanged.InvokeAsync(po);
+                toast.Add("Cancel Mark as fulfilled successfully", MatToastType.Success);
+            }
+        }
+        is_loading = false;
+
     }
 }

@@ -164,6 +164,23 @@ namespace eAPI.Controllers
 
         }
 
+        [HttpPost]
+        [Route("CancelMarkAsFulfilled/{id}")]
+        public async Task<ActionResult> CancelMarkAsFulfilled(int id) //mark as fullfileld 
+        {
+
+            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            PurchaseOrderModel s = db.PurchaseOrders.Find(id);
+
+            s.is_fulfilled = false;
+            db.PurchaseOrders.Update(s);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            // add to history
+            db.Database.ExecuteSqlRaw($"exec sp_update_purchase_order_inventory_transaction {id}");
+            return Ok();
+
+        }
 
     }
 }

@@ -215,6 +215,18 @@
     font-weight: 500;
     letter-spacing: 1px;
 }
+.cus_typeherd .search-add-typeahead .blazored-typeahead__results {
+    position: fixed;
+    box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+    border: 1 px solid #dbdbdb;
+    min-height: 2 rem;
+    max-height: 30 rem;
+    overflow-y: auto;
+    z-index: 999999;
+    background: #fff;
+    max-width: 727px;
+}
+
 .cus_broder_drodown .material-icons-outlined {
     color: #999 !important;
 }
