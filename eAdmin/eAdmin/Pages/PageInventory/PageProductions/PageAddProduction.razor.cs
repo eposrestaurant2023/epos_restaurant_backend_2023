@@ -90,9 +90,13 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             d.quantity = sp.quantity;
             d.cost = sp.cost;
             d.regular_cost = sp.cost;
-            d.unit = sp.unit.unit_name;
+            if (sp.product_portion != null)
+            {
+                d.unit = sp.product_portion.unit.unit_name;
+            }
             d.multiplier = sp.unit.multiplier;
-
+            d.product_portion = sp.product_portion;
+            d.product_portion_id = sp.product_portion_id;
 
 
             model.production_products.Add(d);

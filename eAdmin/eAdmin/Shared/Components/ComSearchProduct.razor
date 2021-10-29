@@ -80,9 +80,17 @@
                                 <TableHeader>
                                     <ThCenter>Image</ThCenter>
                                     <ThAuto>Product</ThAuto>
-                                    <ThRight>Cost</ThRight> 
+                                    <ThRight>Cost</ThRight>
                                     <ThCenter>Quantity</ThCenter>
-                                    <ThCenter>Unit</ThCenter>
+                                    @if (isProduction)
+                                    {
+                                        <ThAuto>Portion (Unit)</ThAuto>
+                                    }
+                                    else
+                                    {
+                                        <ThCenter>Unit</ThCenter>
+                                    }
+
                                     <th></th>
                                 </TableHeader>
                                 <RowTemplate Context="p">
@@ -99,7 +107,17 @@
                                     <TdRight>@p.cost.ToString(gv.main_currency_format)</TdRight>
                                     <TdCenter><NumberInput @bind-text="@p.quantity" class_name="uk-text-center uk-form-small" /></TdCenter>
                                     <TdCenter>
+                                   @if (isProduction)
+                                    {
+                                        <SelectProductPortion @bind-selected_value="@p.product_portion_id" @bind-portion="p.product_portion" product_id="p.product.id" @bind-unit_name="@p.unit_name" show_empty="true" is_inline="true" /> 
+                                            @if (!string.IsNullOrEmpty(p.unit_name)) { @($" ({p.unit_name})")
+                                        }
+                                        }
+                                        else
+                                        {
                                         <SelectUnit label="" @bind-unit="@p.unit" unit_category_id="@p.product.unit.unit_category_id" />
+                                    }
+
 
                                     </TdCenter>
                                     <td>

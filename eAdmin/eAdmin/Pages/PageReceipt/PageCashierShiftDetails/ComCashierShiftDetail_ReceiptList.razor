@@ -128,6 +128,7 @@
     [Parameter] public string Title { get; set; }
     [Parameter] public string StateKey { get; set; }
     [Parameter] public bool IsDeletedReceipt { get; set; }
+    [Parameter] public bool IsFocReceipt { get; set; }
     [Parameter] public string CashierShiftId { get; set; }
     [Parameter] public string WorkingDayId { get; set; }
 
@@ -176,7 +177,11 @@
             {
                 state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
             }
-
+            if (IsFocReceipt)
+            {
+                state.filters.Remove(state.filters.Where(r => r.key == "is_foc").FirstOrDefault());
+                state.filters.Add(new FilterModel() { key = "is_foc", value1 = "true" });
+            }
             return url + GetFilter(state.filters);
         }
     }
@@ -186,11 +191,12 @@
         is_loading = true;
         state = await GetState(StateKey);
         await LoadData();
+        is_loading =false;
     }
 
     public async Task LoadData(string api_url = "")
     {
-        is_loading = true;
+        is_loading_data = true;
         if (string.IsNullOrEmpty(api_url))
         {
             api_url = $"{ControllerApi}";
@@ -204,7 +210,7 @@
             models = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());
             TotalRecord = resp.Count;
         }
-        is_loading = false;
+        is_loading_data = false;
     }
     public async Task SelectChange(int perpage)
     {

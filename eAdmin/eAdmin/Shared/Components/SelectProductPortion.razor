@@ -66,6 +66,7 @@ else
                         }
                     </select>
                     @ChildContent
+
                 </div>
             </div>
         </div>
@@ -77,7 +78,7 @@ else
     [Parameter] public string label { get; set; } = "Portion";
     [Parameter] public bool show_empty { get; set; } = false;
     [Parameter] public string empty_text { get; set; } = "Select Portion";
-    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public string width { get; set; } = "90%";
     [Parameter] public bool is_inline { get; set; } = false;
     [Parameter] public int product_id { get; set; }
     [Parameter] public int selected_value { get; set; } = 0;

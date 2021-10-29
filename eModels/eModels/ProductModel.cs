@@ -247,7 +247,11 @@ namespace eModels
         public decimal price { get; set; }
         public decimal cost { get; set; }
         public decimal quantity { get; set; } = 1;
+        public int product_portion_id { get; set; }
+        public ProductPortionModel product_portion { get; set; }
+        public string unit_name { get; set; }
         public bool is_allow_discount { get; set; }
+
          
 
         private UnitModel _unit;
