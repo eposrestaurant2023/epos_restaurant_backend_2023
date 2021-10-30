@@ -145,6 +145,7 @@ namespace eAPI.Controllers
             u.is_deleted = !u.is_deleted;
             db.Productions.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw($"exec sp_update_production_to_inventory_transaction {id}");
             return Ok(u);
         }
  
