@@ -26,6 +26,7 @@
         <td>
             <span>@p.ingredient?.product_display_name</span>
             <br />
+            <LabelInventory is_visible="@p.ingredient.is_inventory_product" />
             <LabelIngredient is_visible="@p.ingredient.is_ingredient_product" />
             <LabelMenuProduct is_visible="@p.ingredient.is_menu_product" />
         </td>
