@@ -64,7 +64,7 @@
                         <TdCenter>@p.production_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
                             <ComAuthorize roles="@gv.GetRole("production_management")" url="@($"production/{p.id}")">
-                                @p.production_code
+                                @p.document_number
                             </ComAuthorize>
                         </TdCenter>
                         <TdCenter>@p.reference_number</TdCenter>

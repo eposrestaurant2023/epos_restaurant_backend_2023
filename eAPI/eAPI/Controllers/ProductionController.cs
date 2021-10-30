@@ -36,7 +36,7 @@ namespace eAPI.Controllers
             {
                 return db.Productions.Where(r =>
                 (
-                (r.production_code ?? "") +
+                (r.document_number ?? "") +
                 (r.reference_number ?? "")
                 ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
             }
@@ -57,7 +57,7 @@ namespace eAPI.Controllers
             {
                 ProductionModel u = data.FirstOrDefault();
                 u.id = 0;
-                u.production_code = "";
+                u.document_number = "";
                 u.reference_number = "";
                 u.status = true;
                 u.is_deleted = false;
@@ -79,7 +79,7 @@ namespace eAPI.Controllers
             {
                 var doc = db.DocumentNumbers.Where(r => r.document_name == "Production Document");
                 string document_number = await app.GetDocumentNumber(doc.FirstOrDefault());
-                p.production_code = document_number;
+                p.document_number = document_number;
             }
             p.production_products.ForEach(r => r.product_portion = null);
             if (p.id == 0)
@@ -112,9 +112,9 @@ namespace eAPI.Controllers
         {
             HistoryModel h = new HistoryModel("New Production Created");
             h.module = "production";
-            h.document_number = s.production_code;
+            h.document_number = s.document_number;
 
-            h.description = $"{(s.id == 0 ? "Production." : "New Production Created.")} Production Code#: {s.production_code}.";
+            h.description = $"{(s.id == 0 ? "Production." : "New Production Created.")} Production Code#: {s.document_number}.";
 
             s.histories.Add(h);
         }

@@ -27,7 +27,7 @@ namespace eModels
         [ForeignKey("stock_location_id")]
         public StockLocationModel stock_location { get; set; }
 
-        public string production_code { get; set; }
+        public string document_number { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime production_date { get; set; } = DateTime.Now;

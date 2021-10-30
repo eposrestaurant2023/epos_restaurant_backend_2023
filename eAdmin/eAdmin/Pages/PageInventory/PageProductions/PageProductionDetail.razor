@@ -9,14 +9,14 @@
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"Production: {model.production_code}")"></Title>
+    <Title Value="@($"Production: {model.document_number}")"></Title>
 
     <PageContainer roles="@gv.GetRole("production_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Production#"] @model.production_code
+                        @lang["Production#"] @model.document_number
                         <ComProductionStatus model="@model" />
                     </HeaderTemplate>
                 </PageTitle>

@@ -23,12 +23,12 @@
                     @if (is_view_detail)
                     {
                     <AuthorizeView Roles="@gv.GetRole("production_view")">
-                        <span>Production# @model.production_code</span>
+                        <span>Production# @model.document_number</span>
                     </AuthorizeView>
                     }
                     else
                     {
-                        <span>Production# @model.production_code</span>
+                        <span>Production# @model.document_number</span>
                     }
 
                 </div>

@@ -38,7 +38,7 @@ namespace eAPI.Controllers
                            where 
                                  EF.Functions.Like(
                                      (
-                                        (r.production.production_code ?? " ") + 
+                                        (r.production.document_number ?? " ") + 
                                         (r.production.reference_number ?? " ") 
                                      ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                            select r);
