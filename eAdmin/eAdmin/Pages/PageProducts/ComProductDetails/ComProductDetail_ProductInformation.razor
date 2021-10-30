@@ -15,12 +15,15 @@
                     <th>@lang["Product (Kh)"]</th>
                     <td>@model.product_name_kh</td>
                 </tr>
-
+                <tr>
+                    <th>@lang["Product Group"]</th>
+                    <td>@model.product_category?.product_group.product_group_en</td>
+                </tr>
                 <tr>
                     <th>@lang["Categroy"]</th>
                     <td>@model.product_category?.product_category_en</td>
                 </tr>
-                
+
                 <tr>
                     <th>@lang["Revenue Group"]</th>
                     <td>@model.revenue_group_name</td>

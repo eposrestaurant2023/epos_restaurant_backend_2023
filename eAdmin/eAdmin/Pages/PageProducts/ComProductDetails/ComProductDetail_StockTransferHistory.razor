@@ -71,7 +71,7 @@
                     <RowTemplate Context="p">
                         <TdCenter>@p.stock_transfer.stock_transfer_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("stock_transfer_management")" url="@($"stocktransfer/{p.id}")">
+                            <ComAuthorize roles="@gv.GetRole("stock_transfer_management")" url="@($"stocktransfer/{p.stock_transfer_id}")">
                                 @p.stock_transfer?.document_number
                             </ComAuthorize>
                         </TdCenter>

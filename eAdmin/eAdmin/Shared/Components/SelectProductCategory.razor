@@ -21,7 +21,7 @@
                     <option value="0">@empty_text</option>
                 } 
 
-                @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category))
+                @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category && r.product_group_id ==(product_group_id == 0? r.product_group_id:product_group_id)))
                 {
                     <option value="@p.id">@p.product_category_en</option>
                 }
@@ -36,7 +36,7 @@
                     <option value="0">@empty_text</option>
                 }
                 
-                @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category))
+                @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category && r.product_group_id == (product_group_id == 0 ? r.product_group_id : product_group_id)))
                 {
                     <option value="@p.id">@p.product_category_en</option>
                 }
@@ -58,6 +58,7 @@
     [Parameter] public bool is_readonly { get; set; } = false;
     [Parameter] public string empty_text { get; set; } = "Select Product Category";
     [Parameter] public int empty_value { get; set; }
+    [Parameter] public int product_group_id { get; set; }
     [Parameter] public string label { get; set; } = "Product Category";
     [Parameter] public string width { get; set; } = "";
 
