@@ -83,6 +83,7 @@
     <Report Include="rptFOCSaleTransaction.rdl" />
     <Report Include="rptHourlySaleSummary.rdl" />
     <Report Include="rptIngredientProductList.rdl" />
+    <Report Include="rptInventoryMovement.rdl" />
     <Report Include="rptInventoryProductList.rdl" />
     <Report Include="rptMenuProductPriceList.rdl" />
     <Report Include="rptMonthlySaleSummary.rdl" />

@@ -118,7 +118,6 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>
-
 if object_id('tempdb..#tbl') is not null drop table #tbl
 
 select 
@@ -133,7 +132,8 @@ select
 	cast(0.00  as decimal(16,4)) as quantity_sale,
 	cast(0.00  as decimal(16,4)) as stock_take,
 	cast(0.00  as decimal(16,4)) as quantity_transfer_in,
-	cast(0.00  as decimal(16,4)) as quantity_transfer_out
+	cast(0.00  as decimal(16,4)) as quantity_transfer_out,
+	cast(0.00  as decimal(16,4)) as quantity_production
 	into #tbl
 from tbl_product p
 inner join tbl_unit u on u.id = p.unit_id 
@@ -184,7 +184,8 @@ select
 	sum(iif(a.inventory_transaction_type_id =4, a.quantity,0)) as stock_in,
 	sum(iif(a.inventory_transaction_type_id =7 , a.quantity,0)) as stock_take,
 	sum(iif(a.inventory_transaction_type_id =5, a.quantity,0)) as stock_transfer_in,
-	sum(iif(a.inventory_transaction_type_id =6, a.quantity,0)) as stock_transfer_out
+	sum(iif(a.inventory_transaction_type_id =6, a.quantity,0)) as stock_transfer_out,
+	sum(iif(a.inventory_transaction_type_id =9, a.quantity,0)) as production
 	into	#tbl_current_transaction
 from  tbl_inventory_transaction a
 	inner join tbl_stock_location l on l.id= a.stock_location_id
@@ -207,7 +208,8 @@ update t
 		t.stock_take = s.stock_take,
 		t.quantity_sale = s.sale_order,
 		t.quantity_transfer_in = s.stock_transfer_in,
-		t.quantity_transfer_out = s.stock_transfer_out
+		t.quantity_transfer_out = s.stock_transfer_out,
+		t.quantity_production = s.production
 from #tbl t
 	inner join #tbl_current_transaction s on s.product_id = t.id
 
@@ -216,7 +218,7 @@ from #tbl t
 
 select 
 	*,
-	starting_balance + quantity_adjustment_in + quantity_adjustment_out + stock_take + quantity_receive + quantity_sale + quantity_transfer_in + quantity_transfer_out  as quantity_on_hand
+	starting_balance + quantity_adjustment_in + quantity_adjustment_out + stock_take + quantity_receive + quantity_sale + quantity_transfer_in + quantity_transfer_out + quantity_production  as quantity_on_hand
 from #tbl
 </CommandText>
       </Query>
@@ -267,6 +269,10 @@ from #tbl
         </Field>
         <Field Name="quantity_transfer_out">
           <DataField>quantity_transfer_out</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="quantity_production">
+          <DataField>quantity_production</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
         <Field Name="quantity_on_hand">
@@ -406,43 +412,46 @@ from #tbl
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>0.6619in</Width>
+                  <Width>0.50118in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.9079in</Width>
+                  <Width>0.91385in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.90791in</Width>
+                  <Width>1.82011in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.54087in</Width>
+                  <Width>0.54682in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.67874in</Width>
+                  <Width>0.68469in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.73053in</Width>
+                  <Width>0.92262in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.81652in</Width>
+                  <Width>0.65315in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.85582in</Width>
+                  <Width>0.68705in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.65545in</Width>
+                  <Width>0.71594in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.74881in</Width>
+                  <Width>0.6614in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93633in</Width>
+                  <Width>0.66101in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.76207in</Width>
+                  <Width>0.72353in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.78469in</Width>
+                  <Width>0.70552in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.79064in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -645,6 +654,46 @@ from #tbl
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox7</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox15">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Production</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox15</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1251,6 +1300,41 @@ from #tbl
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="starting_balance17">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Fields!quantity_production.Value, First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="starting_balance2">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1657,6 +1741,45 @@ from #tbl
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="starting_balance26">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=format(Sum(Fields!quantity_production.Value), First(Fields!quantity_format.Value, "setting"))</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>starting_balance</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                              <Width>0.25pt</Width>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="starting_balance9">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1986,6 +2109,7 @@ from #tbl
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -2010,7 +2134,7 @@ from #tbl
             <Top>0.0125in</Top>
             <Left>0.0125in</Left>
             <Height>0.81029in</Height>
-            <Width>10.9875in</Width>
+            <Width>10.98751in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2022,7 +2146,7 @@ from #tbl
         <Height>0.82279in</Height>
         <Style />
       </Body>
-      <Width>11in</Width>
+      <Width>11.00001in</Width>
       <Page>
         <PageHeader>
           <Height>0.8543in</Height>
