@@ -20,7 +20,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             get
             {
                 string url = $"Production({id})?";
-                url = url + "$expand=production_products($expand=product),";  
+                url = url + "$expand=production_products($expand=product,product_portion),";  
                 url = url + "business_branch,";
                 url = url + "stock_location";
                 return url;

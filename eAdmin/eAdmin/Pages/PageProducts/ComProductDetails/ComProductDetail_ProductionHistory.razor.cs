@@ -26,7 +26,7 @@ namespace eAdmin.Pages.PageProducts.ComProductDetails
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=production($select=id,is_fulfilled,business_branch_id,stock_location_id,production_code,production_date,reference_number;$expand=business_branch,stock_location)";
+                url += $"$expand=production($select=id,is_fulfilled,business_branch_id,stock_location_id,document_number,production_date,reference_number;$expand=business_branch,stock_location)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
