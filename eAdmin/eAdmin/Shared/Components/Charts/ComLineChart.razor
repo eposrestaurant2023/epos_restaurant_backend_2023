@@ -1,0 +1,58 @@
+﻿@inject IStringLocalizer<Resource> lang
+@if (chart_data != null)
+{
+    if (chart_data.Count() > 0)
+    {
+        @if (stacked)
+        {
+            <ApexChart TItem="ApexChartDataModel" Height="@height" ChartType="@chart_type" Options="@GetOptions()">
+
+                @foreach (var _s in chart_data.ToList())
+                {
+                    <ApexSeries TItem="ApexChartDataModel"
+                                Items="@_s.data"
+                                Name="@lang[$"{_s.title}"]"
+                                XValue="@(e => e.label)"
+                                YAggregate="@(e => e.Sum(e => e.value))"
+                                Stroke="@(new SeriesStroke() { Color = _s.color,Width=1})"
+                                ShowDataLabels="@show_label" />
+                }
+            </ApexChart>
+        }
+        else
+        {
+            <ApexChart TItem="ApexChartDataModel" Height="@height" ChartType="@chart_type">
+
+                @foreach (var _s in chart_data.ToList())
+                {
+                    <ApexSeries TItem="ApexChartDataModel"
+                                Items="@_s.data"
+                                Name="@lang[$"{_s.title}"]"
+                                XValue="@(e => e.label)"
+                                YAggregate="@(e => e.Sum(e => e.value))"
+                                Stroke="@(new SeriesStroke() { Color = _s.color,Width=1})"
+                                ShowDataLabels="@show_label" />
+                }
+            </ApexChart>
+        }
+    }
+}
+@code {
+
+    [Parameter] public List<ApexChartModel> chart_data { get; set; }
+    [Parameter] public string height { get; set; } = "450";
+    [Parameter] public bool stacked { get; set; } = false;
+    [Parameter] public bool show_label { get; set; } = true;
+
+    [Parameter] public ApexCharts.ChartType chart_type { get; set; } = ApexCharts.ChartType.Line;
+
+    private ApexCharts.ApexChartOptions<ApexChartDataModel> GetOptions()
+    {
+        var options = new ApexCharts.ApexChartOptions<ApexChartDataModel>();
+
+        options.Chart = new Chart { Stacked = stacked };
+        return options;
+    }
+
+
+}
