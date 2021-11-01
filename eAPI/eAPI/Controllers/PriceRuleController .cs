@@ -58,8 +58,12 @@ namespace eAPI.Controllers
                 db.PriceRules.Update(u);
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            //generate product all product to have price rule id in tbl_product price
+            db.Database.ExecuteSqlRaw($"exec sp_update_price_rule_information  {u.id},'{u.last_modified_by}'");
             return Ok(u);
         }
+
+        
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]

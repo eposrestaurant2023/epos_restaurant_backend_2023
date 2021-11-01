@@ -74,8 +74,11 @@ namespace eAPI.Controllers
         [Route("delete/{id}/{price_id}")]
         public async Task<ActionResult<BusinessBranchPriceRule>> DeleteRecord(Guid id , int price_id) //Delete
         {
-            db.Database.ExecuteSqlRaw($"delete tbl_business_branch_price_rule where price_rule_id = {price_id} and business_branch_id = '{id}'");
-            await db.SaveChangesAsync();
+
+            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            db.Database.ExecuteSqlRaw($"exec sp_delete_product_price_rule {price_id},'{id}','{user.full_name}'");
+           
             return Ok();
         }
 

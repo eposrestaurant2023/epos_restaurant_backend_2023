@@ -243,6 +243,25 @@ namespace eAPI.Controllers
         }
 
 
+        [HttpPost]
+        [Route("UpdateProductPrice/{id}/{price}")]
+        public async Task<ActionResult> UpdateProductPrice(int id,decimal price) //Delete
+        {
+            var data =   db.ProductPrices.Where(r => r.id == id).ToList();
+            if (data.Any())
+            {
+                ProductPriceModel pp = data.FirstOrDefault();
+                pp.price = price;
+                db.ProductPrices.Update(pp);
+                await db.SaveChangesAsync();
+
+                
+                
+            }
+
+           
+            return Ok();
+        }
 
         [HttpPost]
         [Route("delete/{id}")]
