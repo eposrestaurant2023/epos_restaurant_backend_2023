@@ -9,7 +9,7 @@
     {
         @if (chart != null)
         {
-            <ComLineChart chart_data="chart" chart_type="ApexCharts.ChartType.Area" />
+            <ComChart chart_data="chart" chart_type="ApexCharts.ChartType.Area" />
         }
     }
    
@@ -39,10 +39,6 @@
     void SetLineData() {
         if (data != null)
         {
-            List<ApexChartDataModel> line_data = new List<ApexChartDataModel>();
-
-
-
             chart = new List<ApexChartModel>();
 
             temp = data.Select(r => new HourlySaleRevenueModel()
@@ -56,7 +52,7 @@
                           .GroupBy(p => new { p.business_branch_id })
                           .Select(g => g.FirstOrDefault())
                           .ToList();
-            Console.WriteLine( JsonSerializer.Serialize(temp));
+            chart = new List<ApexChartModel>();
             foreach (var d in temp)
             {
                 List<ApexChartDataModel> a = data.Where(r => r.business_branch_id == d.business_branch_id).Select(r => new ApexChartDataModel() { label = string.Format("{0:00}", r.hour), value = Convert.ToDecimal(r.total_amount) }).ToList();
@@ -64,10 +60,9 @@
                 {
                     color = d.color,
                     title = d.business_branch_name,
-                    data = line_data
+                    data = a
                 });
             }
-            Console.WriteLine(JsonSerializer.Serialize(line_data));
         }
     }
 
