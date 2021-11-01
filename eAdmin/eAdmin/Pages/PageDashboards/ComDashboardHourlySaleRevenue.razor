@@ -7,10 +7,9 @@
     }
     else
     {
-        @if (data_line != null)
+        @if (chart != null)
         {
-      
-            <LineChart Data="@data_line" Height="250" Width="100" />
+            <ComChart chart_data="chart" chart_type="ApexCharts.ChartType.Area" />
         }
     }
    
@@ -20,10 +19,11 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public string business_branch_id { get; set; }
 
-    LineChartModel data_line;
-  
+    List<ApexChartModel> chart = new List<ApexChartModel>();
+
     bool is_loading;
     List<HourlySaleRevenueModel> data = new List<HourlySaleRevenueModel>();
+    List<HourlySaleRevenueModel> temp = new List<HourlySaleRevenueModel>();
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
@@ -39,31 +39,30 @@
     void SetLineData() {
         if (data != null)
         {
-            var line_chart_label = data.Select(r => r.hour.ToString("00")).Distinct().ToArray();
-            List<ChartDataModel> line_data = new List<ChartDataModel>();
+            chart = new List<ApexChartModel>();
 
-
-            var business_branch = (from a in data
-                                   select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct();
-
-            foreach (var b in business_branch)
+            temp = data.Select(r => new HourlySaleRevenueModel()
             {
-                line_data.Add(
-                   new ChartDataModel()
-                   {
-                       label = b.business_branch_name,
-                       color = b.color,
-                       data = data.Where(r => r.business_branch_id == b.business_branch_id).Select(r => (double)r.total_amount).ToArray()
-                   });
+                business_branch_id = r.business_branch_id,
+                color = r.color,
+                hour = r.hour,
+                total_amount = r.total_amount,
+                business_branch_name = r.business_branch_name,
+            })
+                          .GroupBy(p => new { p.business_branch_id })
+                          .Select(g => g.FirstOrDefault())
+                          .ToList();
+            chart = new List<ApexChartModel>();
+            foreach (var d in temp)
+            {
+                List<ApexChartDataModel> a = data.Where(r => r.business_branch_id == d.business_branch_id).Select(r => new ApexChartDataModel() { label = string.Format("{0:00}", r.hour), value = Convert.ToDecimal(r.total_amount) }).ToList();
+                chart.Add(new ApexChartModel()
+                {
+                    color = d.color,
+                    title = d.business_branch_name,
+                    data = a
+                });
             }
-
-
-
-            data_line = new LineChartModel()
-            {
-                label = line_chart_label,
-                data = line_data
-            };
         }
     }
 

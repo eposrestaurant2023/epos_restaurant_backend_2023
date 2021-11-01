@@ -47,7 +47,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             {
                 state.filters.Add(new FilterModel()
                 {
-                    key = "product_id",
+                    key = "product_id",  
                     value1 = product_id.ToString()
                 });
             }

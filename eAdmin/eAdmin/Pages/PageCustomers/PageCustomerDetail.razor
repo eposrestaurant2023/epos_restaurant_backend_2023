@@ -74,14 +74,12 @@
                     </TabItem>
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
-                            <UIContainerBox Title="@lang["Comment and History"]">
-                                <ComHistory RoleAdd="@gv.GetRole("customer_add")"
+                            <ComHistory RoleAdd="@gv.GetRole("customer_add")"
                                             RoleDelete="@gv.GetRole("customer_delete")"
                                             RoleEdit="@gv.GetRole("customer_edit")"
                                             ApiFilter="@($"customer_id eq {id}")"
                                             history="@(new HistoryModel() { customer_id = Guid.Parse(id)})"
                                             OnSave="@SaveComment" />
-                            </UIContainerBox>
                         </Com>
                     </TabItem>
                 </TabBody>

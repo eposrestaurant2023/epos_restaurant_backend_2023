@@ -9,9 +9,9 @@
     }
     else
     {
-        @if (data != null && barchart_data!=null)
+        @if (data != null && chart != null)
         {
-            <BarChart Data="@barchart_data" Height="325" Width="100" />
+            <ComChart chart_data="chart" chart_type="ApexCharts.ChartType.Bar" />
         }
     }
 
@@ -19,9 +19,10 @@
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public string business_branch_id { get; set; }
-    BarChartModel barchart_data;
     bool is_loading;
     List<DailySaleRevenueModel> data = new List<DailySaleRevenueModel>();
+    List<ApexChartModel> chart = new List<ApexChartModel>();
+    List<DailySaleRevenueModel> temp = new List<DailySaleRevenueModel>();
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
@@ -37,27 +38,34 @@
 
     void SetBarchartData()
     {
+       
+
         if (data != null)
         {
-            barchart_data = new BarChartModel();
-            var chart_label = data.Select(r => r.day.ToString("00")).Distinct().ToArray(); //footer
+            chart = new List<ApexChartModel>();
 
-            var business_branch = (from a in data
-                                   select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct();
-            barchart_data.label = chart_label;
-            foreach (var b in business_branch)
+            temp = data.Select(r => new DailySaleRevenueModel()
             {
-                barchart_data.data.Add(new ChartDataModel
+                business_branch_id = r.business_branch_id,
+                color = r.color,
+                day = r.day,
+                total_amount = r.total_amount,
+                business_branch_name = r.business_branch_name,
+            })
+                          .GroupBy(p => new { p.business_branch_id })
+                          .Select(g => g.FirstOrDefault())
+                          .ToList();
+            chart = new List<ApexChartModel>();
+            foreach (var d in temp)
+            {
+                List<ApexChartDataModel> a = data.Where(r => r.business_branch_id == d.business_branch_id).Select(r => new ApexChartDataModel() { label = r.day.ToString("00"), value = Convert.ToDecimal(r.total_amount) }).ToList();
+                chart.Add(new ApexChartModel()
                 {
-                    label = b.business_branch_name ,
-                    color = b.color,
-                    data = data.Where(r => r.business_branch_id == b.business_branch_id).Select(r => (double)r.total_amount).ToArray()
+                    color = d.color,
+                    title = d.business_branch_name,
+                    data = a
                 });
-
-
             }
-
-
         }
     }
 

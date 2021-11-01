@@ -31,6 +31,7 @@
 @using eAdmin.Pages.PageProducts.ComProductDetails
 @using eAdmin.Pages.PageProducts
 @using eAdmin.Pages.PageProducts.PageModifiers.ComModifierDetails
+@using eAdmin.Shared.Components.Charts
 
 @using eAdmin.Pages.PageReceipt
 @using eAdmin.Pages.PageReceipt.ReceiptDetails
@@ -43,8 +44,8 @@
 @using eAdmin.Pages.PageInventory.PageStockTake.ComStockTakeDetail
 @using eAdmin.Pages.PageInventory.PageIngredientProduct
 @using eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductDetail
-@using eAdmin.Pages.PageInventory.PageProductions 
-@using eAdmin.Pages.PageInventory.PageProductions.ComProductionDetail 
+@using eAdmin.Pages.PageInventory.PageProductions
+@using eAdmin.Pages.PageInventory.PageProductions.ComProductionDetail
 @using eAdmin.Pages.PageSearchResult.GlobleSearch
 
 @using eAdmin.Pages.PageInventory.PageStockTransfer
@@ -59,7 +60,6 @@
 
 
 
-@using eAdmin.JSHelpers
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Authorization
 @using Pages.PageAuth
@@ -69,16 +69,15 @@
 @using Blazored.SessionStorage
 @using NETCore.Encrypt
 @using Blazored.Typeahead;
-@using eAdmin.Shared.Components;
 
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
 
 
 @using MatBlazor;
-@using ChartJs.Blazor;
 
 @using MudBlazor;
+@using ApexCharts
 
 @using eAdmin.Shared.ResourceTranslateFiles
 @using Microsoft.Extensions.Localization

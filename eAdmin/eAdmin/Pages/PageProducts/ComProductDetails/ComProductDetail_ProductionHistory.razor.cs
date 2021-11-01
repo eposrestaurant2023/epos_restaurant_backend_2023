@@ -91,6 +91,18 @@ namespace eAdmin.Pages.PageProducts.ComProductDetails
                     is_show_on_infor = false
                 });
             }
+            state.filters.RemoveAll(r=>r.key =="is_deleted");
+            state.filters.Add(new FilterModel() { 
+                key="is_deleted",
+                value1 = "false"
+            });
+
+            state.filters.RemoveAll(r => r.key == "production/is_deleted");
+            state.filters.Add(new FilterModel()
+            {
+                key = "production/is_deleted",
+                value1 = "false"
+            });
 
             if (string.IsNullOrEmpty(api_url))
             {
