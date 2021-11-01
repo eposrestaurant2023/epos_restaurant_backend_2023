@@ -140,6 +140,9 @@
                 await LoadData();
                 toast.Add("Delete Price Rule successfully", MatToastType.Success);
             }
+            else {
+                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            }
         }
         p.is_loading = false;
     }

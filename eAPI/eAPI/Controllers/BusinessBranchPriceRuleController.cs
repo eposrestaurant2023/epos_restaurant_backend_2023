@@ -76,10 +76,17 @@ namespace eAPI.Controllers
         {
 
             UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            try
+            {
+                db.Database.ExecuteSqlRaw($"exec sp_delete_product_price_rule {price_id},'{user.full_name}'");
 
-            db.Database.ExecuteSqlRaw($"exec sp_delete_product_price_rule {price_id},'{id}','{user.full_name}'");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(301, e.Message);
+            }
            
-            return Ok();
         }
 
         [HttpPost]
