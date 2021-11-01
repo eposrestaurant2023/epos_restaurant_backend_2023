@@ -78,15 +78,11 @@
                     <TabItem>
                         @if (show_comment_tab)
                         {
-                            <UIGridCenter>
-                                <UIContainerBox Title="Comment and History">
-                                    <ComHistory RoleAdd="@gv.GetRole("modifier_add")"
+                              <ComHistory RoleAdd="@gv.GetRole("modifier_add")"
                                                 RoleDelete="@gv.GetRole("modifier_delete")"
                                                 RoleEdit="@gv.GetRole("modifier_edit")"
                                                 ApiFilter="@($"modifier_id eq {id}")"
                                                 history="@(new HistoryModel() { modifier_id = new Guid(id)})" />
-                                </UIContainerBox>
-                            </UIGridCenter>
                         }
                     </TabItem>
                 </TabBody>

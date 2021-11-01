@@ -123,14 +123,12 @@
                     </TabItem>
                     <TabItem>
                         <Com is_visible="@is_comment_loaded">
-                            <UIContainerBox Title="@lang["Comment and History"]">
-                                <ComHistory RoleAdd="@gv.GetRole("vendor_add")"
+                            <ComHistory RoleAdd="@gv.GetRole("vendor_add")"
                                             RoleDelete="@gv.GetRole("vendor_delete")"
                                             RoleEdit="@gv.GetRole("vendor_edit")"
                                             ApiFilter="@($"vendor_id eq {id}")"
                                             history="@(new HistoryModel() { vendor_id = id})"
                                             OnSave="@SaveComment" />
-                            </UIContainerBox>
 
                         </Com>
                     </TabItem>
