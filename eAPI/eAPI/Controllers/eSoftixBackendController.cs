@@ -176,7 +176,7 @@ namespace eAPI.Controllers
                 CheckBusinessBranchSystemFeature();
 
 
-                db.Database.ExecuteSqlRaw("exec sp_update_system_feature_permission_option");
+                db.Database.ExecuteSqlRaw("exec sp_update_system_after_synchronize_with_esoftix_backend");
 
                 return true;
             } 
