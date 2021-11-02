@@ -67,7 +67,7 @@ namespace eAPIClient.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<CashDrawerAmountModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<CashDrawerAmountModel>> DeleteRecord(Guid id) //Delete
         {
             try
             {
