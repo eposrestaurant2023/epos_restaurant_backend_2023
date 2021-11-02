@@ -263,7 +263,11 @@ namespace eModels
         public string name { get; set; }
     }
 
-
+    public class OptionModel
+    {
+        public string options { get; set; }
+        public int role_id { get; set; }
+    }
 
 
 

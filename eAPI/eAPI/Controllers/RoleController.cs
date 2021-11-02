@@ -59,10 +59,22 @@ namespace eAPI.Controllers
             else
             {
                 db.Roles.Update(u);
+                db.Database.ExecuteSqlRaw("sp_update_permission_option_role");
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return Ok(u);
         }
+
+        [HttpPost("SavePermission")]
+        public ActionResult<RoleModel> SavePermission([FromBody] OptionModel option)
+        {
+            if (!string.IsNullOrEmpty(option.options))
+            {
+                db.Database.ExecuteSqlRaw($"exec sp_update_permission_option_role {option.role_id},'{option.options}'");
+            }
+            return Ok();
+        }
+
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
