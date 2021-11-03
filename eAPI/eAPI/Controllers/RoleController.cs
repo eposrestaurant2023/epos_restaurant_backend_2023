@@ -59,9 +59,10 @@ namespace eAPI.Controllers
             else
             {
                 db.Roles.Update(u);
-                db.Database.ExecuteSqlRaw("sp_update_permission_option_role");
+               
             }            
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+             db.Database.ExecuteSqlRaw("exec sp_update_permission_option_role 0,''");
             return Ok(u);
         }
 
@@ -103,6 +104,7 @@ namespace eAPI.Controllers
             u.status = !u.status;
             db.Roles.Update(u);
             await db.SaveChangesAsync();
+            db.Database.ExecuteSqlRaw("exec sp_update_permission_option_role 0,''");
             return Ok(u);
         }
 

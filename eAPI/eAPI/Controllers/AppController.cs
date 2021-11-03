@@ -345,6 +345,9 @@ namespace eAPI.Controllers
             db.BusinessBranchSystemFeatures.AddRange(JsonSerializer.Deserialize<List<BusinessBranchSystemFeatureModel>>(JsonSerializer.Serialize(business_branch_system_features)));
 
 
+            //cash drawer
+            xx
+
 
             if (business_informations.Any())
             {

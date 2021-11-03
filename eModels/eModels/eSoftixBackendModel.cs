@@ -26,6 +26,7 @@ namespace eSoftixBackend
 
         public List<BusinessBranchModel> business_branches { get; set; }
         public List<ProjectSystemFeatureModel> project_system_features { get; set; }
+        public List<CashDrawerModel> cash_drawers { get; set; }
          
         
 

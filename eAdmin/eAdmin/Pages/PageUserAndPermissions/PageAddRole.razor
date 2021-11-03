@@ -22,6 +22,7 @@
         <EditForm Model="@model" OnValidSubmit="@SaveRole_Click" @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
+             
                 <UIGridCenter>
                     <UIContainerBox Title="Role">
                         <TextInput label="Role Name" @bind-text="@model.role_name">
