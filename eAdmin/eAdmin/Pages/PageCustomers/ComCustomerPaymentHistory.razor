@@ -50,13 +50,13 @@
                 </TableHeader>
                 <RowTemplate Context="p">
                     <TdCenter>
-                        <ComAuthorize url="@($"receiptlist/{p.sale_id}")" roles="@gv.GetRole("receipt_list_management")">
+                        <ComAuthorize url="@($"receiptlist/sale/{p.sale_id}")" roles="@gv.GetRole("receipt_list_management")">
                             @p.payment_date.ToString(gv.date_format)
                         </ComAuthorize>
                         
                     </TdCenter>
                     <TdCenter>
-                        <ComAuthorize url="@($"receiptlist/{p.sale_id}")" roles="@gv.GetRole("receipt_list_management")">
+                        <ComAuthorize url="@($"receiptlist/sale/{p.sale_id}")" roles="@gv.GetRole("receipt_list_management")">
                             @p.sale?.document_number
                         </ComAuthorize>
                     </TdCenter>
@@ -73,7 +73,7 @@
                         <ComSaleStatus sale="@p.sale" />
                     </TdRight>
                     <TdCenter>
-                        <Icon icon="visibility" roles="@gv.GetRole("receipt_list_management")" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.sale_id}"))" />
+                        <Icon icon="visibility" roles="@gv.GetRole("receipt_list_management")" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.sale_id}"))" />
                     </TdCenter>
                 </RowTemplate>
             </Table>

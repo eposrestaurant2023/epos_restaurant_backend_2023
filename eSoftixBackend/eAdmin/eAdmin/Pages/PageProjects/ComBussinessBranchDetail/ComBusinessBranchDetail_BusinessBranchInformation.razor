@@ -33,6 +33,7 @@
                 <ListItem Title="Website">@model.website</ListItem>
                 <ListItem Title="Phone">@model.phone_1 @((!string.IsNullOrEmpty(model.phone_2)?"/" + model.phone_2:""))  </ListItem>
                 <ListItem Title="Telegram">@model.note</ListItem>
+                <ListItem Title="Color"> <div style="background-color:@model.color;width:100px;height:20px;"> </div> </ListItem>
             </MudList>
         </MudItem>
     </MudGrid>

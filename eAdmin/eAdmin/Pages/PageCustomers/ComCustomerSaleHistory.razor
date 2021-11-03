@@ -57,7 +57,7 @@
                     <RowTemplate Context="p">
                         <TdCenter>@p.working_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <div><a href="receiptlist/@p.id">@p.document_number</a></div>
+                            <div><a href="receiptlist/sale/@p.id">@p.document_number</a></div>
                         </TdCenter>
                         <td> 
                             <div>
@@ -78,14 +78,7 @@
                             <ComSaleStatus sale="@p" />
                         </TdRight>
                         <TdCenter>
-                            @if (p.is_deleted)
-                                {
-                                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"void/{p.id}"))" />
-                                }
-                                else
-                                {
-                                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
-                                }
+                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
                         </TdCenter>
                     </RowTemplate>
                 </Table>

@@ -39,6 +39,7 @@
                 <MudTextField T="string" @bind-Value="@model.website" Label="Website" />
             </Right>
         </UI2Columns>
+        <MudColorPicker Label="Color Picker" @bind-Text="@model.color" Style="@($"color: {model.color};")" Placeholder="Select Color" />
         <MudTextField T="string" @bind-Value="@model.address_en" Label="Address" Lines="3" />
         <MudTextField T="string" @bind-Value="@model.note" Label="Note" Lines="3" />
          

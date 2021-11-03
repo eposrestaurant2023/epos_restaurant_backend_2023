@@ -86,7 +86,7 @@
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />
                             <LabelActive is_visible="@(!p.is_deleted && p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("customer_edit")" is_loading="@p.is_change_status" />
-                            <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("customer_edit")" is_loading="@p.is_change_status" />
+                            <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("customer_edit")" is_loading="@p.is_change_status" text="@lang["Inactive"]"/>
                         </TdCenter>
                         <TdActions is_loading="@p.is_loading">
                             <TableActionItem roles="@gv.GetRole("customer_management")" icon="visibility" url="@($"customer/{p.id}")">View</TableActionItem>
