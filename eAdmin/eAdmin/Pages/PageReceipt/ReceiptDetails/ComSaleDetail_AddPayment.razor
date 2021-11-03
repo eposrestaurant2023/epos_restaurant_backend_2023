@@ -9,6 +9,7 @@
         }
         else
         {
+         
             <UIContainerBox Title="@lang["Sale Balance Amount"]">
                 <NumberInput text="@sale_balance" label="@lang["Balance"]" is_read_only="true" />
             </UIContainerBox>
@@ -17,8 +18,14 @@
                 <UIContainerBox>
                     <TextInput label="@lang["Reference #"]" @bind-text="@model.reference_number" is_horizontal="true"/>
                     <DateInput @bind-Value="@model.payment_date" label="@lang["Payment Date"]" /> 
-                    <SelectPaymentType @bind-selected_value="@model.payment_type_id" payment_type="@model.payment_type"/>
+                    <SelectPaymentType selected_valueChanged="@PaymentTypeChanged" @bind-payment_type="@model.payment_type"/>
                     <NumberInput @bind-text="@model.payment_amount" label="@lang["Payment Amount"]"/>
+                    @if (is_main_currency == false)
+                    {
+  <p>
+      Total paid amount in base currency: (@model.payment_amount / @model.exchange_rate);
+  </p>
+                    }
                 </UIContainerBox>
 
                 <UIContainerBox Icon="notes" Title="@lang["Notes"]">
@@ -55,6 +62,9 @@
 
     [Parameter] public EventCallback<bool> OnSave { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
+
+
+
     bool is_saving,is_loading;
 
     decimal sale_balance = 0;
@@ -64,6 +74,7 @@
 
     SalePaymentModel model = new SalePaymentModel();
 
+    List<BusinessBranchCurrencyModel> currencies = new List<BusinessBranchCurrencyModel>();
 
     public bool can_enter_payment
     {
@@ -89,11 +100,35 @@
     }
 
 
+    public bool is_main_currency
+    {
+        get
+        {
+            if (!is_loading)
+            {
+                if (currencies.Any())
+                {
+                    var data = currencies.Where(r => r.currency_id == model.currency_id && r.business_branch_id == sale.business_branch_id).ToList();
+                    if (data.Any())
+                    {
+                        if (data.FirstOrDefault().exchange_rate == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+            }
+            return false;
+        }
+    }
+
+
     protected override async Task OnInitializedAsync()
     {
 
         is_loading = true;
-
+        await LoadExchangeRate();
         await LoadData();
         if (payment_id != Guid.Empty)
         {
@@ -102,6 +137,24 @@
         else
         {
             model.sale_id = sale_id;
+            model.payment_type_id = gv.default_payment_type_id;
+            model.payment_type = gv.payment_types.Where(r => r.id == model.payment_type_id).FirstOrDefault();
+
+
+            model.currency_id = model.payment_type.currency_id;
+
+            var currency = currencies.Where(r => r.business_branch_id == sale.business_branch_id && r.currency_id == model.currency_id);
+            if(currency.Any())
+            {
+                var c = currency.FirstOrDefault();
+                model.currency_name_en = c.currency.currency_name_en;
+                model.currency_name_kh = c.currency.currency_name_kh;
+                model.currency_format = c.currency.currency_format;
+                model.exchange_rate = c.exchange_rate;
+                model.change_exchange_rate = c.change_exchange_rate;
+
+            }
+
         }
 
         //load default payment
@@ -109,10 +162,15 @@
         if (sale != null) {
             sale_balance = sale.balance;
             model.payment_amount = sale.balance;
-            model.payment_type_id = gv.default_payment_type_id;
+
+            model.outlet_id = sale.outlet_id;
+            model.is_create_payment_in_sale_order = true;
+
         }
         is_loading = false;
     }
+
+
 
     async Task LoadData()
     {
@@ -141,6 +199,39 @@
 
         }
     }
+
+    async Task LoadExchangeRate()
+    {
+        var resp = await http.ApiGetOData($"BusinessBranchCurrency?$expand=currency($select=currency_name_en,currency_name_kh,currency_format)");
+        if (resp.IsSuccess)
+        {
+            currencies = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(resp.Content.ToString());
+
+        }
+        else
+        {
+            toast.Add("Error Loading Exchange Rate Fail.", MatToastType.Warning);
+
+        }
+    }
+
+    void PaymentTypeChanged(int payment_type_id)
+    {
+        model.payment_type_id = payment_type_id;
+        int currency_id = gv.payment_types.Where(r => r.id == payment_type_id).FirstOrDefault().currency_id;
+        var data = currencies.Where(r => r.business_branch_id == sale.business_branch_id && r.currency_id == currency_id);
+        if (data.Any())
+        {
+            var c = data.FirstOrDefault();
+            model.exchange_rate = c.exchange_rate;
+            model.currency_id = c.currency_id;
+            model.currency_format = c.currency.currency_format;
+            model.change_exchange_rate = c.change_exchange_rate;
+            model.currency_name_en = c.currency.currency_name_en;
+            model.currency_name_kh = c.currency.currency_name_kh;
+        }
+    }
+
 
     async Task Save_Click()
     {

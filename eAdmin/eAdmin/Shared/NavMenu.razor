@@ -4,6 +4,7 @@
 </div>
 <div class="main_nav @NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="uk-nav-default uk-nav-parent-icon flex-column" uk-nav>
+      
         @foreach (var d in gv.MainMenu().ToList())
         {
             if (gv.SubMenu(d.id).Count() > 0)

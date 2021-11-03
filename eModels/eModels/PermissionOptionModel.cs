@@ -30,8 +30,9 @@ namespace eModels
         public string note
         {
             get {
-             
-                return _note + "/" + id.ToString(); }
+
+                return _note;
+            }
             set { _note = value; }
         }
 

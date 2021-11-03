@@ -37,8 +37,8 @@
                             </div>
                             <Spacing Number="10" />
                             <Column ClassName="uk-text-right">
-                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" title="@lang["Edit"]" />
-                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" title="@lang["Delete"]" is_loading="@p.is_deleting" />
+                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" title="@lang["Edit"]" is_visible="@(!p.is_payment_from_pos)" />
+                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" title="@lang["Delete"]" is_loading="@p.is_deleting" is_visible="@(!p.is_payment_from_pos)"/>
                             </Column>
                         </ContentRight>
                     </UIListBox>
