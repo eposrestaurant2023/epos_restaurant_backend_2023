@@ -346,7 +346,7 @@ namespace eAPI.Controllers
 
 
             //cash drawer
-            xx
+            db.CashDrawers.AddRange(JsonSerializer.Deserialize<List<eShareModel.CashDrawerModel>>(JsonSerializer.Serialize(p.cash_drawers)));
 
 
             if (business_informations.Any())
