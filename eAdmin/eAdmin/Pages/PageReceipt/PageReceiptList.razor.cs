@@ -50,7 +50,6 @@ namespace eAdmin.Pages.PageReceipt
                 }
             }
             await LoadData();
-
             is_loading = false;
         }   
 

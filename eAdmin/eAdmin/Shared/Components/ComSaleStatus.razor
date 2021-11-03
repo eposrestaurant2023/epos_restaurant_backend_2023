@@ -5,7 +5,7 @@
     <LabelUnpaid is_visible="@(!sale.is_deleted && !sale.is_paid && (sale.total_amount > 0) && (sale.balance == sale.total_amount))" />
     <Com is_visible="@is_show_deleted_status"><LabelDeleted is_visible="@sale.is_deleted" /></Com>
     <Com is_visible="@(!string.IsNullOrEmpty(sale.discount_code))">
-        <Label Background="##f48024" Color="#fff" TextTooltip="Free Of Charge" is_visible="@(sale.discount_code.ToLower() == "foc")">FOC</Label>
+        <Label Background="#f48024" Color="#fff" TextTooltip="Free Of Charge" is_visible="@(sale.discount_code.ToLower() == "foc")">FOC</Label>
     </Com>
 </Com>
 

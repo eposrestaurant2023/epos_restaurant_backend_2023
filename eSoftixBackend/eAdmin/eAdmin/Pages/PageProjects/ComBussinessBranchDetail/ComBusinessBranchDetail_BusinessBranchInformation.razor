@@ -9,6 +9,10 @@
 @if(model!=null){ 
 
 <UIPanel Title="Branch Information">
+    <UIPanelHeaderLeft>
+       
+        <div style="background-color:@model.color;width:50px;height:15px;"> </div>
+    </UIPanelHeaderLeft>
     <UIPanelHeaderRight>
             <LabelDeleted is_visible="@model.is_deleted"/>
             <MenuButton icon="@Icons.Material.Filled.MoreVert" is_loading="model.is_loading">
