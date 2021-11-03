@@ -15,6 +15,7 @@ namespace eModels
             project_system_features = new List<ProjectSystemFeatureModel>();
             business_branches = new List<BusinessBranchModel>();
             contacts = new List<ContactRelatedModel>();
+            cash_drawers = new List<CashDrawerModel>();
         }
         [Range(1, int.MaxValue, ErrorMessage = "Please select Project Type")]
         [Display(Name = "Project Type")]
@@ -70,5 +71,6 @@ namespace eModels
 
         public List<ContactRelatedModel> contacts { get; set; }
         public List<ProjectSystemFeatureModel> project_system_features { get; set; }
+        public List<CashDrawerModel> cash_drawers { get; set; }
     }
 }
