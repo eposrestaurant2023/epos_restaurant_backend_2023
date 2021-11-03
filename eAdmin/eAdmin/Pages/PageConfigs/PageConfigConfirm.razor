@@ -160,7 +160,7 @@
         is_loading = true;
         try
         {
-            var resp = await http.eSoftixApiGet($"project({project_id})?$expand=customer,project_system_features($expand=system_feature),business_branches($expand=business_branch_system_features($expand=system_feature),stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)");
+            var resp = await http.eSoftixApiGet($"project({project_id})?$expand=cash_drawers,customer,project_system_features($expand=system_feature),business_branches($expand=business_branch_system_features($expand=system_feature),stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)");
             if (resp.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<eSoftixBackend.ProjectModel>(resp.Content.ToString());

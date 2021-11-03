@@ -24,6 +24,7 @@ namespace eModels
         public Guid? cash_drawer_id { get; set; }
         [ForeignKey("cash_drawer_id")]
         public CashDrawerModel cash_drawer { get; set; }
+        public string cash_drawer_name { get; set; }
 
 
 
