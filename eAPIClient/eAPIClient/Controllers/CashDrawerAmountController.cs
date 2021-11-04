@@ -64,6 +64,21 @@ namespace eAPIClient.Controllers
             }
         }
 
+        [HttpPost("multiple")]
+        public async Task<ActionResult<string>> SaveMultiple([FromBody] List<CashDrawerAmountModel> u)
+        {
+            try
+            {
+                db.CashDrawerAmounts.UpdateRange(u);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(u);
+            }
+            catch (Exception _ex)
+            {
+                return BadRequest(new BadRequestModel() { message = _ex.Message });
+            }
+        }
+
 
         [HttpPost]
         [Route("delete/{id}")]
