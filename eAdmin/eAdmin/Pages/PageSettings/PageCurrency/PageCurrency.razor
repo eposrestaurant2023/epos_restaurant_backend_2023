@@ -1,0 +1,101 @@
+﻿@page "/currency"
+@inherits PageCore
+
+<Loading is_loading="@(is_loading || is_loading_data)" />
+
+@if (!is_loading)
+{
+    <Title Value="@(lang["Currency"])"></Title>
+    <PageContainer roles="@gv.GetRole("currency_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Currency"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <LinkButton url="currency/new" icon="add" background="uk-button-primary" Class_Name="button-large">@lang["New"]</LinkButton>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <UIGridCenter>
+                @foreach (var d in gv.business_branch_by_role)
+                {
+                    <div class="container-layout">
+                        <div class="title-header">
+                            <div class="uk-panel">
+                                <div class="uk-float-left">
+                                    <span>
+                                        @d.business_branch_name_en
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div>
+                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                <tr>
+                                    <Th>@lang["Name EN"]</Th>
+                                    <Th>@lang["Name KH"]</Th>
+                                    <Th>
+                                        @lang["Currency format"]
+                                    </Th>
+                                    <Th>@lang["Sort"]</Th>
+                                    <th>
+
+                                    </th>
+                                </tr>
+                                @foreach (var bp in models)
+                                {
+                                    <tr>
+                                        <td>@bp.currency_name_en</td>
+                                        <td>@bp.currency_name_kh</td>
+                                        <td>
+                                            <TextInput is_read_only="true" @bind-text="@bp.currency_format"/>
+                                        </td>
+                                        <td>
+                                            <NumberInputInt is_read_only="true" @bind-text="@bp.sort"/>
+                                        </td>
+                                        <TdActions>
+                                           
+                                        </TdActions>
+                                    </tr>
+
+                                }
+                            </table>
+                        </div>
+                    </div>
+                }
+            </UIGridCenter>
+        </PageBody>
+    </PageContainer>
+}
+
+@code{
+    List<CurrencyModel> models = new List<CurrencyModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        is_loading = true;
+        var res = await http.ApiGetOData("Currency");
+        if (res.IsSuccess)
+        {
+            models = JsonSerializer.Deserialize<List<CurrencyModel>>(res.Content.ToString());
+        }
+        is_loading = false;
+    }
+
+
+
+}
+

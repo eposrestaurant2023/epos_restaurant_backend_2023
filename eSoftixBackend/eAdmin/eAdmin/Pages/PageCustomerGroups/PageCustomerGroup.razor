@@ -17,8 +17,9 @@
             <ComSearch search_text="@GetFilterValue2(state.filters, "keyword","")" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
                 
             </ComSearch>
-            <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@OnAddNew_Click"/>
-          
+                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                       <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@OnAddNew_Click"/>
+                </MudHidden>
         </Right>
     </PageHeader>
     <PageBody>
@@ -71,7 +72,7 @@
         
 </PageContainer>
 <MudHidden Breakpoint="Breakpoint.MdAndUp">
-    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" Link="@($"customer/new")"/>    
+    <MudFab Color="MudBlazor.Color.Primary" Icon="@Icons.Material.Filled.Add" Style="position:fixed; bottom:25px;right:5px;" OnClick="@OnAddNew_Click"/>    
 </MudHidden>
 
 }

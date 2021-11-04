@@ -22,7 +22,11 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
         {
             is_saving = true;
 
-            model.cash_drawer_name = model.cash_drawer.cash_drawer_name;
+            if (model.cash_drawer != null)
+            {
+                model.cash_drawer_name = model.cash_drawer.cash_drawer_name;
+            }
+           
 
             StationModel save_model = JsonSerializer.Deserialize<StationModel>(JsonSerializer.Serialize(model));
             save_model.cash_drawer = null;
