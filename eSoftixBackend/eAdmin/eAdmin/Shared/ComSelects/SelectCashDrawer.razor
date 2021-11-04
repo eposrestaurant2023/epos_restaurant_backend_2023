@@ -25,6 +25,9 @@
 
     [Parameter] public Guid? selected_value { get; set; } = Guid.Empty;
     [Parameter] public EventCallback<Guid?> selected_valueChanged { get; set; }
+    [Parameter] public CashDrawerModel cash_drawer { get; set; } 
+    [Parameter] public EventCallback<CashDrawerModel?> cash_drawerChanged { get; set; }
+
     List<CashDrawerModel> cash_drawers = new List<CashDrawerModel>();
     [Parameter] public Guid businness_branch_id { get; set; }
     [Parameter] public bool is_loading { get; set; }
@@ -47,6 +50,14 @@
     {
         selected_value = n;
         await selected_valueChanged.InvokeAsync(selected_value);
+        if(n!= Guid.Empty)
+        {
+            var data = cash_drawers.Where(r => r.id == n);
+            if (data.Any())
+            {
+                 await cash_drawerChanged.InvokeAsync(data.FirstOrDefault());
+            }
+        }
     }
 
 }
