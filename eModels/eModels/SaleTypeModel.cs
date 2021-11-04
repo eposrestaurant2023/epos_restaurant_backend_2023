@@ -28,6 +28,6 @@ namespace eModels
 
         public bool is_order_use_table { get; set; } = true;
         public bool is_deleted { get; set; } = false;
-
+        public int sort_order { get; set; }
     }
 }
