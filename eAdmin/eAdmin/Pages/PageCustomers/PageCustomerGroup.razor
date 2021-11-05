@@ -22,8 +22,8 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@AddNew" custom_class="button-create">@lang["New Customer Group"]</AddButton>
-                <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>

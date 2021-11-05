@@ -17,9 +17,10 @@
                     </PageTitle>
                 </HeaderLeft>
                 <HeaderRight ShowBackButton="true">
-                    <ComSearch @bind-Keyword="@keyword">
+                    <ComSearch @bind-Keyword="@keyword" show_advance_filter="false">
 
                     </ComSearch>
+                    <RefreshButton OnClick="@(async()=>await LoadData())"/>
                 </HeaderRight>
             </PageHeader>
        
