@@ -18,12 +18,12 @@ namespace eAPIClient.Controllers
     [Route("api")]      
     public class AppController : ODataController
     {                
-        public IConfiguration Configuration { get; }    
+        public IConfiguration config { get; }    
         private readonly ApplicationDbContext db;
-        public AppController(ApplicationDbContext _db, IConfiguration configuration)
+        public AppController(ApplicationDbContext _db, IConfiguration _config)
         {
             db = _db;
-            Configuration = configuration;
+            config = _config;
         }
 
         
@@ -49,6 +49,26 @@ namespace eAPIClient.Controllers
             return BadRequest();
 
         }
+
+
+        [HttpGet("CurrentBusinessBranch")]
+        [EnableQuery(MaxExpansionDepth = 0)]
+        public ActionResult<bool> CurrentBusinessBranchId(string businessBranchId)
+        {
+            string _businessBranchId = config.GetValue<string>("business_branch_id");
+
+            if(_businessBranchId.ToLower() != businessBranchId.ToLower())
+            {          
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+
+
+
+
+
     }
 
 }

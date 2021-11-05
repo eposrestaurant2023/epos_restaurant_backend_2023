@@ -1,0 +1,123 @@
+﻿@page "/currency/new"
+@page "/currency/edit/{id:int}"
+@page "/currency/clone/{clone_id:int}"
+@inject IJSRuntime js
+@inherits PageCore;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="New Currency"></Title>
+    <PageContainer roles="@gv.GetRole($"{(id > 0 ? "currency_edit" : "currency_add")}")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        <span>
+                            @if (clone_id > 0)
+                            {
+                                @("Clone : " + currency.currency_name_en)
+                            }
+                            else
+                            {
+                                @(id>0? $"Edit : {currency.currency_name_en}" : "New Currency")
+                            }
+                        </span>
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true"></HeaderRight>
+        </PageHeader>
+        <EditForm Model="@currency" OnValidSubmit="@SavePriceRule_Click" @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter>
+                    @JsonSerializer.Serialize(currency).ToString()
+                    <UIContainerBox Title="Currency">
+                        <TextInput label="Name EN" @bind-text="@currency.currency_name_en">
+                            <ValidationMessage For="@(()=>currency.currency_name_en)" />
+                        </TextInput>
+                        <TextInput label="Name KH" @bind-text="@currency.currency_name_kh">
+                        </TextInput>
+                        <TextInput label="Format" @bind-text="@currency.currency_format">
+                        </TextInput>
+                        <NumberInputInt label="Sort Order" @bind-text="@currency.sort" />
+                        <SelectStatus @bind-selected_value="@currency.status" />
+                    
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <ComSavingFormButton is_loading="@is_saving" cancel_url="currency" />
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
+}
+
+@code{
+    [Parameter] public int id { get; set; }
+    [Parameter] public int clone_id { get; set; }
+    CurrencyModel currency = new CurrencyModel();
+    List<BusinessBranchModel> businesses = new List<BusinessBranchModel>();
+    string ControllerApi = "Currency";
+    string page_title = "";
+    public string api_url
+    {
+        get
+        {
+            string query = ControllerApi;
+            query = query + $"({(id == 0 ? clone_id : id)})";
+            return query;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        if (clone_id > 0)
+        {
+            page_title = "Clone : " + currency.currency_name_en;
+        }
+        else
+        {
+            page_title = id > 0 ? $"Edit : {currency.currency_name_en}" : page_title = "New Currency";
+        }
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(api_url);
+        if (resp.IsSuccess)
+        {
+            currency = JsonSerializer.Deserialize<CurrencyModel>(resp.Content.ToString());
+            if (clone_id > 0)
+            {
+                currency.id = 0;
+            }
+        }
+        is_loading_data = false;
+    }
+
+
+
+    async Task SavePriceRule_Click()
+    {
+        is_saving = true;
+        var res = await http.ApiPost("Currency/save", currency);
+        if (res.IsSuccess)
+        {
+            toast.Add("Save sucessfully", MatToastType.Success);
+
+            await LoadData();
+        }
+        else
+        {
+            toast.Add(res.Content.ToString(), MatToastType.Warning);
+        }
+        is_saving = false;
+    }
+}

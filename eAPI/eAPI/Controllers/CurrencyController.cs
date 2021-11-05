@@ -52,6 +52,34 @@ namespace eAPI.Controllers
             return Ok();
         
         }
+
+
+        [HttpPost("save")]
+        public async Task<ActionResult> Save([FromBody] CurrencyModel u)
+        {
+
+            if (u.id == 0)
+            {
+
+                db.Currencies.Add(u);
+            }
+            else
+            {
+
+                db.Currencies.Update(u);
+            }
+
+            try
+            {
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(u);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.InnerException.Message);
+                throw;
+            }
+        }
     }
 
 }
