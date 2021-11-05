@@ -28,7 +28,6 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("stock_transfer_add")" url="stocktransfer/new">@lang["New Stock Transfer"]</AddButton>
-                <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <div class="uk-form-controls control-advince-filter-group">
@@ -43,6 +42,7 @@
 
                     </div>
                 </ComSearch>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>

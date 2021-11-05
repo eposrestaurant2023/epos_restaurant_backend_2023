@@ -119,7 +119,8 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
             //{
             //    state.filters.Add(new FilterModel()
             //    {
-            //        key = "product/product_category_id",
+            //        key = "product
+            //        _category_id",
             //        value1 = state.product_category.id.ToString(),
             //        filter_title = lang["Product Category"],
             //        state_property_name = "product_category",

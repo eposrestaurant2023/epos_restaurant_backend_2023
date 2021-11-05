@@ -22,9 +22,9 @@
                     <NumberInput @bind-text="@model.payment_amount" label="@lang["Payment Amount"]"/>
                     @if (is_main_currency == false)
                     {
-  <p>
-      Total paid amount in base currency: (@model.payment_amount / @model.exchange_rate);
-  </p>
+                      <p>
+                          @lang["Total paid amount in base currency"] : @total_base_payment_amount.ToString(gv.currency_format)
+                      </p>
                     }
                 </UIContainerBox>
 
@@ -53,21 +53,21 @@
 
 @code {
 
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public Guid payment_id { get; set; }
-    [Parameter] public Guid sale_id { get; set; }
-    [Parameter] public bool is_opened { get; set; }
-    [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
+        [CascadingParameter] public GlobalVariableModel gv { get; set; }
+        [Parameter] public Guid payment_id { get; set; }
+        [Parameter] public Guid sale_id { get; set; }
+        [Parameter] public bool is_opened { get; set; }
+        [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
 
 
-    [Parameter] public EventCallback<bool> OnSave { get; set; }
-    [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
+        [Parameter] public EventCallback<bool> OnSave { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
 
 
 
-    bool is_saving,is_loading;
+        bool is_saving,is_loading;
 
-    decimal sale_balance = 0;
+        decimal sale_balance = 0;
 
 
     public SaleModel sale { get; set; }
@@ -75,6 +75,14 @@
     SalePaymentModel model = new SalePaymentModel();
 
     List<BusinessBranchCurrencyModel> currencies = new List<BusinessBranchCurrencyModel>();
+
+    public decimal total_base_payment_amount
+    {
+        get
+        {
+            return model.payment_amount / Convert.ToDecimal( model.exchange_rate);
+        }
+    }
 
     public bool can_enter_payment
     {
@@ -244,7 +252,7 @@
             return;
         }
 
-        if (model.payment_amount > sale_balance)
+        if (total_base_payment_amount > sale_balance)
         {
             toast.Add(lang["Payment amount cannot greater than po balance."], MatToastType.Warning);
             is_saving = false;
@@ -257,7 +265,11 @@
             return;
         }
 
-        var resp = await http.ApiPost("SalePayment/save", model);
+        SalePaymentModel save_model = JsonSerializer.Deserialize<SalePaymentModel>(JsonSerializer.Serialize(model));
+        save_model.payment_type = null;
+        
+
+        var resp = await http.ApiPost("SalePayment/save", save_model);
 
         if (resp.IsSuccess)
         {

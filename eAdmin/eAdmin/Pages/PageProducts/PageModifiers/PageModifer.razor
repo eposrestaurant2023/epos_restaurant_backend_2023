@@ -27,8 +27,8 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("modifier_add")" OnClick="@(()=> nav.NavigateTo("modifier/new"))">@lang["New"]</AddButton>
-                <RefreshButton OnClick="@OnInitializedAsync" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <RefreshButton OnClick="@OnInitializedAsync" />
             </HeaderRight>
         </PageHeader>
         <PageBody>

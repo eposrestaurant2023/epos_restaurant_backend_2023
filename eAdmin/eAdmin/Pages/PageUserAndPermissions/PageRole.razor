@@ -23,8 +23,8 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("role_add")" url="role/new" custom_class="button-large">New User Type</AddButton>
-                <RefreshButton OnClick="@(()=>LoadData(""))" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <RefreshButton OnClick="@(()=>LoadData(""))" />
             </HeaderRight>
         </PageHeader>
         <PageBody>

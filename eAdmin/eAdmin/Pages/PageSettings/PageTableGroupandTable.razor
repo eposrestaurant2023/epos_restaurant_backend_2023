@@ -1,5 +1,4 @@
 ﻿@page "/tablegroupandtable"
- 
 <Title Value="Table Group & Table"></Title>
 <PageContainer roles="@gv.GetRole("table_group_table")">
     <PageHeader>
@@ -10,6 +9,8 @@
                 </HeaderTemplate>
             </PageTitle>
         </HeaderLeft>
+        <HeaderRight ShowBackButton="true">
+        </HeaderRight>
     </PageHeader>
 
     <PageBody>
@@ -24,7 +25,7 @@
                 @foreach (var b in gv.business_branch_by_role)
                 {
                 <TabItem>
-                    <ComTableGroupandTable business_branch="b" />
+                    <ComTableGroupandTable business_branch="b"/>
                 </TabItem>
                 }
             </TabBody>

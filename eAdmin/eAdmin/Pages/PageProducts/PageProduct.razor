@@ -28,11 +28,11 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("product_add")" OnClick="@(()=>nav.NavigateTo("product/new"))">@lang["New Product"]</AddButton>
-                <RefreshButton OnClick="@(async()=>await LoadData())" />
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]"/>
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
                     <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
                 </ComSearch>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
