@@ -203,7 +203,7 @@
                 {
                     key = "working_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                    filter_title = "Sale Date",
+                    filter_title = "Working Date",
                     filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                     filter_operator = "Ge",
                     is_clear_all = true,
@@ -340,12 +340,12 @@
     public async Task OnDelete(SaleModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete Sale", "Are you sure you want to delete this record?"))
+        if (await js.Confirm("Delete working day", "Are you sure you want to delete this record?"))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
             {
-                toast.Add("Delete sale successfully", MatToastType.Success);
+                toast.Add("Delete working day successfully", MatToastType.Success);
                 if (models.Count() == 1 && state.pager.current_page > 0)
                 {
                     state.pager.current_page = state.pager.current_page - 1;

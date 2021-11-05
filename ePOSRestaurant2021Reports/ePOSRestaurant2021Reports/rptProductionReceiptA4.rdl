@@ -19,7 +19,7 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>	select 
-	a.production_code,
+	a.document_number,
 	c.business_branch_name_en,
 	c.address_en,
 	c.phone_1,
@@ -37,8 +37,8 @@ where
 cast(a.id as nvarchar(50)) = @id</CommandText>
       </Query>
       <Fields>
-        <Field Name="production_code">
-          <DataField>production_code</DataField>
+        <Field Name="document_number">
+          <DataField>document_number</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="business_branch_name_en">
@@ -396,7 +396,7 @@ where
                     </Style>
                   </TextRun>
                   <TextRun>
-                    <Value>=First(Fields!production_code.Value, "production_data")</Value>
+                    <Value>=First(Fields!document_number.Value, "production_data")</Value>
                     <Style>
                       <FontSize>11pt</FontSize>
                     </Style>
@@ -889,7 +889,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!production_code.Value</Value>
+                                  <Value>=Fields!reference_number.Value</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                   </Style>
