@@ -63,7 +63,7 @@ namespace eAPI.Controllers
             if (p.id == Guid.Empty)
             {
                
-                if (s.balance < p.payment_amount)
+                if (s.balance < (p.payment_amount/Convert.ToDecimal( p.exchange_rate)))
                 {
                     return StatusCode(300, "Payment amount cannot greater than Balance Amount");
                 }
@@ -73,7 +73,7 @@ namespace eAPI.Controllers
                 var payments = db.SalePayments.Where(r => r.sale_id == p.sale_id && !r.is_deleted && r.id!=p.id);
                 if (payments.Any())
                 {
-                    if (payments.Sum(r => r.payment_amount) + p.payment_amount > s.total_amount)
+                    if (payments.Sum(r => r.payment_amount/ Convert.ToDecimal(p.exchange_rate)) + p.payment_amount / Convert.ToDecimal(p.exchange_rate) > s.total_amount)
                     {
                         return StatusCode(300, "Payment amount cannot greater than Balance Amount");
                     }
