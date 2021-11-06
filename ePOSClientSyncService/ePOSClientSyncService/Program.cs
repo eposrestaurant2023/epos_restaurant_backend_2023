@@ -49,7 +49,7 @@ namespace ePOSClientSyncService
 
                 client = new HttpClient(clientHandler);
 
-                Task.Run(() =>   client.GetAsync($"http://localhost:7072/api/Sync/SyncSale?saleId={value}"));
+                Task.Run(() =>   client.GetAsync($"http://customer.esoftix.com:9597/client/api/Sync/SyncSale?saleId={value}"));
 
 
                 File.Delete(e.FullPath);
