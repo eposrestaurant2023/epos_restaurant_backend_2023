@@ -1,18 +1,18 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 <div class="top-row uk-padding-remove-left uk-text-center navbar navbar-dark uk-visible@l">
     <a class="navbar-brand uk-width-1-1" href="">ePOSRestaurant</a>
 </div>
 <div class="main_nav @NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="uk-nav-default uk-nav-parent-icon flex-column" uk-nav>
-      
+
         @foreach (var d in gv.MainMenu().ToList())
         {
             if (gv.SubMenu(d.id).Count() > 0)
             {
-                <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@d.note">
+                <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@lang[d.note]">
                     @foreach (var sub in gv.SubMenu(d.id))
                     {
-                        <SubMenuItem roles="@sub.roles" url="@sub.url">@sub.note</SubMenuItem>
+                        <SubMenuItem roles="@sub.roles" url="@sub.url">@lang[sub.note]</SubMenuItem>
                     }
                 </ParentMenuItem>
             }
@@ -20,11 +20,11 @@
             {
                 if (d.url == "/")
                 {
-                    <MenuItemDynamic IconName="@d.icon" Match="NavLinkMatch.All">@d.note</MenuItemDynamic>
+                     <MenuItemDynamic IconName="@d.icon" Match="NavLinkMatch.All">@lang[d.note]</MenuItemDynamic>
                 }
                 else
                 {
-                    <MenuItemDynamic IconName="@d.icon" MenuUrl="@d.url">@d.note</MenuItemDynamic>
+                    <MenuItemDynamic IconName="@d.icon" MenuUrl="@d.url">@lang[d.note]</MenuItemDynamic>
                 }
 
             }

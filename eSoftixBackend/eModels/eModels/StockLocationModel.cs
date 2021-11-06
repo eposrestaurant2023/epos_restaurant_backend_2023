@@ -15,7 +15,7 @@ namespace eModels
         [ForeignKey("business_branch_id")]
         public BusinessBranchModel business_branch { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Field can not be blank.")]
         public string stock_location_name { get; set; }
         public bool is_default { get; set; } 
         [NotMapped]
