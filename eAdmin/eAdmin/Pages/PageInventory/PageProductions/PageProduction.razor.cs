@@ -147,7 +147,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
                     {
                         key = "production_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "Stock Take Date",
+                        filter_title = "Production Date",
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,

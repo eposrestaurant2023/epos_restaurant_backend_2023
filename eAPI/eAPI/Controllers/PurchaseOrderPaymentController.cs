@@ -63,7 +63,7 @@ namespace eAPI.Controllers
             if (p.id ==0)
             {
                
-                if (s.balance < p.payment_amount)
+                if (s.balance < Convert.ToDecimal(p.payment_amount) / Convert.ToDecimal(p.exchange_rate))
                 {
                     return StatusCode(300, "Payment amount cannot greater than Balance Amount");
                 }
@@ -102,8 +102,8 @@ namespace eAPI.Controllers
              
                 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            string _query_update = $"exec sp_update_purchase_order_payment_currency_value {p.purchase_order_id},{p.id}; exec sp_update_purchase_order_payment {p.purchase_order_id}";
-            db.Database.ExecuteSqlRaw(_query_update);
+            //string _query_update = $"exec sp_update_purchase_order_payment {p.purchase_order_id}";
+            //db.Database.ExecuteSqlRaw(_query_update);
             return Ok(p);
              
         }

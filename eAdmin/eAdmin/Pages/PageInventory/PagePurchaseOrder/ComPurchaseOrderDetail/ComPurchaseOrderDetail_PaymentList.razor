@@ -53,7 +53,7 @@
 
     @if (is_add_payment)
     { 
-        <ComPurchaseOrderDetail_AddPayment po_id="@po_id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload"/>
+        <ComPurchaseOrderDetail_AddPayment po_id="@po_id" id="@payment_id" @bind-is_opened="@is_add_payment" payment_id="@payment_id" OnSave="@OnReload"/>
     }
     @if (is_print)
     {
