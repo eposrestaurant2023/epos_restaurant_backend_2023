@@ -135,6 +135,15 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             is_loading_data = true;
             await LoadData();
             is_loading_data = false;
+        }   
+        public async Task OnSavePayment(bool is_saving)
+        {
+            if(is_saving)
+            {
+                await LoadData();
+
+            }
+
         }
 
 

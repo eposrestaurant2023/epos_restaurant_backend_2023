@@ -102,7 +102,8 @@
                 }
                 else
                 {
-                    return po.balance + old_model.payment_amount / Convert.ToDecimal(old_model.exchange_rate);
+                    decimal exchange_rate = Convert.ToDecimal(old_model.exchange_rate);
+                    return po.balance + old_model.payment_amount / (exchange_rate ==0?1:exchange_rate);
                 }
             }
             return 0;
@@ -211,13 +212,14 @@
     }
 
 
- 
+
     async Task LoadPayment()
     {
         var resp = await http.ApiGet($"PurchaseOrderPayment({id})");
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<PurchaseOrderPaymentModel>(resp.Content.ToString());
+            old_model = JsonSerializer.Deserialize<PurchaseOrderPaymentModel>(resp.Content.ToString());
 
         }
         else

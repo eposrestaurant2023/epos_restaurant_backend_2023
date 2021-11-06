@@ -84,10 +84,11 @@ namespace eAPI.Controllers
             //end check validation
 
             HistoryModel h = new HistoryModel($"{(p.id != 0? "Update PO Payment" : "Create New Payment")}");
-            h.description = $"{(p.id != 0? "Update PO payment." : "Create new payment.")} Purchase order #: {po.document_number}";
+            h.description = $"{(p.id != 0? "Update PO payment." : "Create new payment.")} Purchase order #: {po.document_number}. Amount ({p.currency_name_en}): {p.payment_amount.ToString(p.currency_format)}";
             h.document_number = po.document_number;
             h.vendor_id = po.vendor_id;
             h.purchase_order_id = po.id;
+            h.amount = p.payment_amount;
 
             p.histories.Add(h);
 
@@ -120,18 +121,20 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<HistoryModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
         {
 
             PurchaseOrderPaymentModel p = db.PurchaseOrderPayments.Find(id);
             PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
-            //historymodel h = new historymodel("deleted po payment");
-            //h.description = $"Deleted PO Payment. Invoice Number: {s.document_number}";
-            //h.document_number = s.document_number;
-            //h.vendor_id = s.vendor_id;
-            //h.purchase_order_id = s.id;
-            //p.histories.Add(h);
+            HistoryModel h = new HistoryModel("Delete Purchase Order Payment");
+            h.description = $"Deleted PO Payment. Purchase Ordedr #: {s.document_number}. Amount({p.currency_name_en}): {p.payment_amount.ToString(p.currency_format)}";
+            h.document_number = s.document_number;
+            h.vendor_id = s.vendor_id;
+            h.purchase_order_id = s.id;
+            h.amount = p.payment_amount;
+            p.histories.Add(h);
             p.is_deleted = true;
+            p.histories.Add(h);
             db.PurchaseOrderPayments.Update(p);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 

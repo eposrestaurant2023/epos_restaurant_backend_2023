@@ -82,7 +82,8 @@
                     return sale.balance;
                 }else
                 {
-                    return sale.balance + old_model.payment_amount / Convert.ToDecimal( old_model.exchange_rate);
+                    decimal exchange_rate = Convert.ToDecimal(old_model.exchange_rate);
+                    return sale.balance + old_model.payment_amount / (exchange_rate == 0 ? 1 : exchange_rate);
                 }
             }
             return 0;

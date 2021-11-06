@@ -11,7 +11,7 @@
                         {
                             <option value="0">@empty_text</option>
                         }
-                        @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted))
+                        @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted && r.payment_type_group != "On Account" && r.payment_type_group != "FOC"))
                         {
                             <option value="@p.id">@p.payment_type_name_en</option>
                         }
@@ -31,7 +31,7 @@
                     {
                         <option value="0">@empty_text</option>
                     }
-                    @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted))
+                    @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted && r.payment_type_group != "On Account" && r.payment_type_group != "FOC"))
                     {
                         <option value="@p.id">@p.payment_type_name_en</option>
                     }
@@ -111,7 +111,7 @@ else
         }
         else
         {
-            await payment_typeChanged.InvokeAsync(gv.payment_types.Where(r => r.id == selected_value).FirstOrDefault());
+            await payment_typeChanged.InvokeAsync(gv.payment_types.Where(r => r.id == selected_value ).FirstOrDefault());
         }
 
     }

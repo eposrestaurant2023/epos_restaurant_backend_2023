@@ -20,7 +20,7 @@
                      File="@file"
                      IsVisible="@(!po.is_deleted)" />
 
-<AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New Purchase Order"]</AddButton>
+<AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New PO"]</AddButton>
 <MoreButton is_loading="@po.is_loading">
     <MoreButtonItem roles="@gv.GetRole("purchase_order_add")" icon="file_copy" url="@($"purchaseorder/clone/{po.id}")">@lang["Clone Purchase Order"]</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@po.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Purchase Order"]</MoreButtonItem>

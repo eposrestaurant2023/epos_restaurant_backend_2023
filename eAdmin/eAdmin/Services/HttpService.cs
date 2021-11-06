@@ -81,14 +81,25 @@ namespace eAdmin.Services
 
             }
 
-            var resp = await http.GetAsync($"{_configuration.GetValue<string>("apiBaseUrl")}{url}");
-            StatusCode = resp.StatusCode;
-            if (resp.IsSuccessStatusCode)
+            try
             {
-                var jsonString = await resp.Content.ReadAsStringAsync();
-                return new GetResponse(true, jsonString);
+                var resp = await http.GetAsync($"{_configuration.GetValue<string>("apiBaseUrl")}{url}");
+                StatusCode = resp.StatusCode;
+                if (resp.IsSuccessStatusCode)
+                {
+                    var jsonString = await resp.Content.ReadAsStringAsync();
+                    return new GetResponse(true, jsonString);
+                }
+
+                return new GetResponse(false, StatusCode);
             }
-            return new GetResponse(false, StatusCode);
+            catch
+            {
+
+            }
+
+            return new GetResponse(false, 500);
+
 
         }
 
@@ -118,7 +129,7 @@ namespace eAdmin.Services
             catch
             {
                 
-                return new GetResponse(false, null, 503);
+                return new GetResponse(false, null, 500);
             }
             return new GetResponse(false, StatusCode);
         }
@@ -145,8 +156,10 @@ namespace eAdmin.Services
                
             }
 
-          
+            try
+            {
                 var resp = await http.GetAsync($"{_configuration.GetValue<string>("apiBaseUrl")}{url}");
+
                 if (resp.IsSuccessStatusCode)
                 {
 
@@ -154,6 +167,12 @@ namespace eAdmin.Services
                     var con = JsonSerializer.Deserialize<GetOdataResponse>(jsonString);
                     return new GetOdataResponse(true, con.Count, con.Content);
                 }
+            }
+            catch
+            {
+
+            }
+                
          
             return new GetOdataResponse(false);
         }
@@ -210,29 +229,37 @@ namespace eAdmin.Services
                 requestMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
             }
-            var response = await http.SendAsync(requestMessage);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
+                var response = await http.SendAsync(requestMessage);
 
-                return new PostReponse(true, responseBody);
-            }
-            else
-            {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                PostReponse con = new PostReponse();
-                StatusCode = response.StatusCode;
-                if (responseBody.Contains("@odata.context"))
+                if (response.IsSuccessStatusCode)
                 {
-                    con = JsonSerializer.Deserialize<PostReponse>(responseBody);
-                    return new PostReponse() { IsSuccess = false, Content = con.value, status_code = Convert.ToInt32((HttpStatusCode)StatusCode) };
+                    var responseBody = await response.Content.ReadAsStringAsync();
+
+                    return new PostReponse(true, responseBody);
                 }
                 else
                 {
-                    return new PostReponse(false, responseBody, Convert.ToInt32((HttpStatusCode)StatusCode));
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    PostReponse con = new PostReponse();
+                    StatusCode = response.StatusCode;
+                    if (responseBody.Contains("@odata.context"))
+                    {
+                        con = JsonSerializer.Deserialize<PostReponse>(responseBody);
+                        return new PostReponse() { IsSuccess = false, Content = con.value, status_code = Convert.ToInt32((HttpStatusCode)StatusCode) };
+                    }
+                    else
+                    {
+                        return new PostReponse(false, responseBody, Convert.ToInt32((HttpStatusCode)StatusCode));
+                    }
                 }
             }
+            catch
+            {
+
+            }
+            return new PostReponse(false, "",500);
         }
      public async Task<PostReponse> eSoftixApiPost(string url, object obj = null)
         {
@@ -276,28 +303,36 @@ namespace eAdmin.Services
                 requestMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
             }
-            var response = await http.SendAsync(requestMessage);
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
+                var response = await http.SendAsync(requestMessage);
 
-                return new PostReponse(true, responseBody);
-            }
-            else
-            {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                PostReponse con = new PostReponse();
-                StatusCode = response.StatusCode;
-                if (responseBody.Contains("@odata.context"))
+                if (response.IsSuccessStatusCode)
                 {
-                    con = JsonSerializer.Deserialize<PostReponse>(responseBody);
-                    return new PostReponse() { IsSuccess = false, Content = con.value, status_code = Convert.ToInt32((HttpStatusCode)StatusCode) };
+                    var responseBody = await response.Content.ReadAsStringAsync();
+
+                    return new PostReponse(true, responseBody);
                 }
                 else
                 {
-                    return new PostReponse(false, responseBody, Convert.ToInt32((HttpStatusCode)StatusCode));
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    PostReponse con = new PostReponse();
+                    StatusCode = response.StatusCode;
+                    if (responseBody.Contains("@odata.context"))
+                    {
+                        con = JsonSerializer.Deserialize<PostReponse>(responseBody);
+                        return new PostReponse() { IsSuccess = false, Content = con.value, status_code = Convert.ToInt32((HttpStatusCode)StatusCode) };
+                    }
+                    else
+                    {
+                        return new PostReponse(false, responseBody, Convert.ToInt32((HttpStatusCode)StatusCode));
+                    }
                 }
+            }
+            catch
+            {
+                return new PostReponse(false, "", 500);
             }
         }
   

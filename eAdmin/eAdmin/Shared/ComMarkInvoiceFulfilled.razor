@@ -48,7 +48,7 @@
             if (string.IsNullOrEmpty(_message))
                 _message = lang["You can mark this invoice as Fulfilled."];
 
-            return _message;
+            return lang[_message];
         }
         set
         {

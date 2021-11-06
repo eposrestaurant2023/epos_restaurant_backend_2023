@@ -1,10 +1,10 @@
 ﻿@page "/purchaseorder/{id:int}";
 @inherits PagePurchaseOrderDetailBase
 
- 
-    <Loading is_loading="@( is_loading_data || is_loading_data)" />
 
- 
+<Loading is_loading="@( is_loading_data || is_loading_data)" />
+
+
 
 @if (!is_loading && is_error == false)
 {
@@ -21,7 +21,7 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true"> 
+            <HeaderRight ShowBackButton="true">
                 <ComPurchaseOrderDetail_ActionButton @bind-po="@model" OnAddPayment="@(()=>is_add_payment=true)" />
             </HeaderRight>
         </PageHeader>
@@ -35,7 +35,7 @@
 
                 <TabBody>
                     <TabItem roles="@gv.GetRole("purchase_order_management")">
-                        <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled)" OnClick="@MarkAsFulfilled" />
+                        <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled)" OnClick="@MarkAsFulfilled" message="You can mark this purchase order as Fulfilled" />
                         <ComPage>
                             <ComPurchaseOrderDetail_InvoiceHeader po="@model" />
                             <Spacing Number="20" />
@@ -67,7 +67,7 @@
                     <TabItem>
                         @if (is_show_payment_history)
                         {
-                            <ComPurchaseOrderDetail_PaymentList po="@model"  on_reload="LoadData" />
+                            <ComPurchaseOrderDetail_PaymentList po="@model" on_reload="LoadData" />
                         }
                     </TabItem>
                     <TabItem>
@@ -88,7 +88,7 @@
             <div class="spacing40"></div>
         </PageBody>
     </PageContainer>
-  
+
 }
 
 @if (is_error)
@@ -98,4 +98,8 @@
     </Error>
 }
 
- 
+
+@if (is_add_payment)
+{
+    <ComPurchaseOrderDetail_AddPayment po="@model" id="0" @bind-is_opened="@is_add_payment" payment_id="@payment_id" OnSave="@OnSavePayment" />
+}
