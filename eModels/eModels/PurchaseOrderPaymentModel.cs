@@ -34,12 +34,12 @@ namespace eModels
 
         public string payment_note { get; set; }
         public double exchange_rate { get; set; }
-        public bool is_create_payment_in_puchase_order { get; set; }
+       
         public int currency_id { get; set; }
         public string currency_name_en { get; set; }
         public string currency_name_kh { get; set; }
         public string currency_format { get; set; }
-        public double change_exchange_rate { get; set; }
+  
 
         [NotMapped, JsonIgnore]
         public bool is_add_note { get; set; }
