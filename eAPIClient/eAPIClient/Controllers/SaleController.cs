@@ -58,13 +58,14 @@ namespace eAPIClient.Controllers
         {
             try
             {
+                model.is_synced = false;
                 DocumentNumberModel _saleNumber = new DocumentNumberModel();
                 bool is_new = true;
                 model.customer = null;
                 model.sale_products.ForEach(r => r.sale_order = r.sale_order_id != Guid.Empty ? null : r.sale_order);
                 if (model.id == Guid.Empty)
                 {
-                    _saleNumber = app.GetDocument("SaleNum", model.outlet_id.ToString());
+                    _saleNumber = app.GetDocument("SaleNum", model.cash_drawer_id.ToString());
                     model.sale_number = _saleNumber.id > 0 ? app.GetDocumentFormat(_saleNumber) : "New";
                     model.sale_products.ForEach(sp =>
                     {
@@ -99,14 +100,12 @@ namespace eAPIClient.Controllers
                     if (model.is_closed == true && (model.document_number == "New" || model.document_number == ""))
                     {
                         DocumentNumberModel _saleDoc = new DocumentNumberModel();
-                        _saleDoc = app.GetDocument("SaleDoc", model.outlet_id.ToString());
+                        _saleDoc = app.GetDocument("SaleDoc", model.closed_cash_drawer_id.ToString());
                         model.document_number = _saleDoc.id > 0 ? app.GetDocumentFormat(_saleDoc) : "New";
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                         await app.UpdateDocument(_saleDoc);
                     }
                 }
-
-
                 app.sendSyncRequest();
 
                 return Ok(model);
