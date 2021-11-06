@@ -41,6 +41,7 @@ namespace eAPIClient.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] CashDrawerAmountModel u)
         {
+            u.is_synced = false;
             try
             {
                 DocumentNumberModel _doc = new DocumentNumberModel();
@@ -56,6 +57,7 @@ namespace eAPIClient.Controllers
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 //Update Document
                 await app.UpdateDocument(_doc);
+                app.sendSyncRequest();
                 return Ok(u);
             }
             catch (Exception _ex)
