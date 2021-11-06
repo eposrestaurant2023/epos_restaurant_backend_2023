@@ -211,23 +211,7 @@
     }
 
 
-
-    async Task LoadExchangeRate()
-    {
-        var resp = await http.ApiGetOData($"BusinessBranchCurrency?$expand=currency($select=currency_name_en,currency_name_kh,currency_format)");
-        if (resp.IsSuccess)
-        {
-            currencies = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(resp.Content.ToString());
-
-        }
-        else
-        {
-            toast.Add("Error Loading Exchange Rate Fail.", MatToastType.Warning);
-
-
-
-        }
-    }
+ 
     async Task LoadPayment()
     {
         var resp = await http.ApiGet($"PurchaseOrderPayment({id})");

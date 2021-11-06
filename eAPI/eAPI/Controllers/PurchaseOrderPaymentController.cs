@@ -100,11 +100,18 @@ namespace eAPI.Controllers
             {
                 db.PurchaseOrderPayments.Update(p);
             }
-             
-                
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            string _query_update = $"exec sp_update_purchase_order_payment {p.purchase_order_id}";
-            db.Database.ExecuteSqlRaw(_query_update);
+
+            try
+            {
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                string _query_update = $"exec sp_update_purchase_order_payment {p.purchase_order_id}";
+                db.Database.ExecuteSqlRaw(_query_update);
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+           
             return Ok(p);
              
         }

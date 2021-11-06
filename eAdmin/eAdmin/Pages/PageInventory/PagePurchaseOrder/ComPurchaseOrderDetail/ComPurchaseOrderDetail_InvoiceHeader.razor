@@ -34,12 +34,12 @@
                     @if (is_view_detail)
                     {
                     <AuthorizeView Roles="@gv.GetRole("purchase_order_view")">
-                        <span>INV# @po.document_number</span>
+                        <span>PO# @po.document_number</span>
                     </AuthorizeView>
                     }
                     else
                     {
-                        <span>INV# @po.document_number</span>
+                <span>PO# @po.document_number</span>
                     }
 
                 </div>
@@ -54,10 +54,10 @@
         </div>
         <div class="uk-width-auto">
             <div class="box-invoice-header-info">
-                <div class="invoice-header-title">Invoice Information</div>
+                <div class="invoice-header-title">PO Information</div>
                 <table class="invoice_header_description">
                     <tr>
-                        <td>Invoice Date:</td>
+                        <td>PO Date:</td>
                         <td>@po.purchase_date.ToString(gv.date_format)</td>
                     </tr>
 
@@ -75,7 +75,7 @@
                     @if (po.business_branch != null)
                     {
                         <tr>
-                            <td>Business Branch Name:</td>
+                            <td>Branch:</td>
                             <td>@po.business_branch?.business_branch_name_en</td>
                         </tr>
                     }

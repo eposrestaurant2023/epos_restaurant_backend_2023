@@ -53,7 +53,7 @@
 
     @if (is_add_payment)
     { 
-        <ComPurchaseOrderDetail_AddPayment po_id="@po_id" id="@payment_id" @bind-is_opened="@is_add_payment" payment_id="@payment_id" OnSave="@OnReload"/>
+        <ComPurchaseOrderDetail_AddPayment po="@po" id="@payment_id" @bind-is_opened="@is_add_payment" payment_id="@payment_id" OnSave="@OnReload"/>
     }
     @if (is_print)
     {
@@ -66,7 +66,8 @@
     [Parameter] public PurchaseOrderModel po { get; set; } = new PurchaseOrderModel();
 
     [Parameter] public int vendor_id { get; set; }
-    [Parameter] public int po_id { get; set; }
+     
+   
     [Parameter] public EventCallback<bool> on_reload { get; set; }
     int payment_id = 0;
     bool is_loading, is_add_payment, is_print;

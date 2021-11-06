@@ -67,7 +67,7 @@
                     <TabItem>
                         @if (is_show_payment_history)
                         {
-                            <ComPurchaseOrderDetail_PaymentList po="@model" po_id="@model.id" on_reload="LoadData" />
+                            <ComPurchaseOrderDetail_PaymentList po="@model"  on_reload="LoadData" />
                         }
                     </TabItem>
                     <TabItem>
@@ -98,7 +98,4 @@
     </Error>
 }
 
-@if (is_add_payment)
-{
-    <ComPurchaseOrderDetail_AddPayment po_id="@id" id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@SavePayment_Click" />
-}
+ 
