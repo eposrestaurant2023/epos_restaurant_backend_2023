@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using eAPIClient.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace eAPIClient.Services
 {
 
     public class AppService
     {
+        public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
-        public AppService(ApplicationDbContext _db)
+        public AppService(ApplicationDbContext _db, IConfiguration _config)
         {
             db = _db;
-
+            config = _config;
         }          
              
 
@@ -68,6 +71,18 @@ namespace eAPIClient.Services
 
             }
             return new List<UserModel>();
+        }
+
+        public void sendSyncRequest()
+        {
+
+            string path = config.GetValue<string>("sync_request_part"); ;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt"));
         }
 
     }
