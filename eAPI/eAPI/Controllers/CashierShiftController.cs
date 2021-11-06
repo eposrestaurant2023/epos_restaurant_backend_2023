@@ -59,5 +59,32 @@ namespace eAPI.Controllers
             return await Task.Factory.StartNew(() => SingleResult.Create<CashierShiftModel>(db.CashierShifts.Where(r => r.id == key).AsQueryable()));
         }
 
+        [HttpPost("save")]
+        public async Task<ActionResult<string>> Save([FromBody] CashierShiftModel model)
+        {
+            try
+            {
+                var _modelCheck = db.CashierShifts.Where(r => r.id == model.id).AsNoTracking();
+                if (_modelCheck.Count() > 0)
+                {
+                    db.CashierShifts.Update(model);
+                }
+                else
+                {
+                    db.CashierShifts.Add(model);
+                }
+
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var _ex = ex;
+                return BadRequest();
+            }
+        }
+
     }
+
+
 }

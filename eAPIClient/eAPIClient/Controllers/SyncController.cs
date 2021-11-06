@@ -100,6 +100,73 @@ namespace eAPIClient.Controllers
             }
         }
 
+        [HttpGet("SyncCashierShift")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncCashierShiftGet(Guid id)
+        {
+            try
+            {
+                var _modelData = db.CashierShifts.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_modelData.Count() > 0)
+                {
+                    var _model = _modelData.FirstOrDefault();
+                    _model.is_synced = true;
+                    var _syncResp = await http.ApiPost("CashierShift/Save", _model);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    db.CashierShifts.Update(_model);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("SyncCashDrawerAmount")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncCashDrawerAmountGet(Guid id)
+        {
+            try
+            {
+                var _modelData = db.CashDrawerAmounts.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_modelData.Count() > 0)
+                {
+                    var _model = _modelData.FirstOrDefault();
+                    _model.is_synced = true;
+                    var _syncResp = await http.ApiPost("CashDrawerAmount/Save", _model);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    db.CashDrawerAmounts.Update(_model);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+
 
         [HttpGet("SyncSale")]
         [AllowAnonymous]

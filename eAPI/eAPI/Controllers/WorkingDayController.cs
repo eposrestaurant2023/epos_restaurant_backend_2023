@@ -67,7 +67,6 @@ namespace eAPI.Controllers
                 var workingDayCheck = db.WorkingDays.Where(r => r.id == model.id).AsNoTracking();
                 if (workingDayCheck.Count() > 0)
                 {
-                    var _workingDay = workingDayCheck.FirstOrDefault();
                     db.WorkingDays.Update(model);
                 }
                 else
