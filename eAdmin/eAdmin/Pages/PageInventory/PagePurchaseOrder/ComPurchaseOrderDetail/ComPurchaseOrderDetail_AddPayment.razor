@@ -275,7 +275,7 @@
         save_model.payment_type = null;
 
 
-        var resp = await http.ApiPost("PurchaseOrderPayment/save", model);
+        var resp = await http.ApiPost("PurchaseOrderPayment/save", save_model);
         if (resp.IsSuccess)
         {
             await OnSave.InvokeAsync(true);
