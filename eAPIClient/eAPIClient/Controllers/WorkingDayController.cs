@@ -31,12 +31,10 @@ namespace eAPIClient.Controllers
 
 
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)] 
+        [EnableQuery(MaxExpansionDepth = 8)]
         public IQueryable<WorkingDayModel> Get()
         {
-           
-                return db.WorkingDays;
-           
+            return db.WorkingDays;
         }
 
         
@@ -54,7 +52,7 @@ namespace eAPIClient.Controllers
                     {
                         return Ok(data.FirstOrDefault());
                     }
-                    _doc = app.GetDocument("WorkingDayNum", u.outlet_id.ToString());
+                    _doc = app.GetDocument("WorkingDayNum", u.cash_drawer_id.ToString());
                     u.working_day_number = _doc.id > 0 ? app.GetDocumentFormat(_doc) : "NONE";
                     db.WorkingDays.Add(u);
                 }
@@ -82,6 +80,7 @@ namespace eAPIClient.Controllers
             {
                 var u = await db.WorkingDays.FindAsync(id);
                 u.is_deleted = !u.is_deleted;
+                u.is_synced = false;
                 db.WorkingDays.Update(u);
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return Ok(u);
@@ -96,8 +95,7 @@ namespace eAPIClient.Controllers
         [EnableQuery(MaxExpansionDepth = 4)]
         public SingleResult<WorkingDayModel> Get([FromODataUri] Guid key)
         {
-            var s = db.WorkingDays.Where(r => r.id == key).AsQueryable();
-
+            var s = db.WorkingDays.Where(r => r.id == key).AsQueryable();     
             return SingleResult.Create(s);
         }
     }
