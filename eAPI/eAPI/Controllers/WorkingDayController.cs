@@ -58,5 +58,31 @@ namespace eAPI.Controllers
             return await Task.Factory.StartNew(() => SingleResult.Create<WorkingDayModel>(db.WorkingDays.Where(r => r.id == key).AsQueryable()));
         }
 
+
+        [HttpPost("save")]
+        public async Task<ActionResult<string>> Save([FromBody] WorkingDayModel model)
+        {
+            try
+            {
+                var workingDayCheck = db.WorkingDays.Where(r => r.id == model.id).AsNoTracking();
+                if (workingDayCheck.Count() > 0)
+                {
+                    db.WorkingDays.Update(model);
+                }
+                else
+                {
+                    db.WorkingDays.Add(model);
+                }
+
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var _ex = ex;
+                return BadRequest();
+            }
+        }
+
     }
 }

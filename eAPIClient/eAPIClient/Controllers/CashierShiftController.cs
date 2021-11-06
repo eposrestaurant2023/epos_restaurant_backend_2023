@@ -43,6 +43,7 @@ namespace eAPIClient.Controllers
         {
             try
             {
+                u.is_synced = false;
                 DocumentNumberModel _doc = new DocumentNumberModel();
                 if (u.id == Guid.Empty)
                 {
@@ -52,7 +53,7 @@ namespace eAPIClient.Controllers
                         return Ok(data.FirstOrDefault());
                     }
 
-                    _doc = app.GetDocument("CashierShiftNum", u.outlet_id.ToString());
+                    _doc = app.GetDocument("CashierShiftNum", u.cash_drawer_id.ToString());
                     u.cashier_shift_number = _doc.id > 0 ? app.GetDocumentFormat(_doc) : "NONE";
                     db.CashierShifts.Add(u);
                 }
@@ -63,6 +64,7 @@ namespace eAPIClient.Controllers
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 //Update Document
                 await app.UpdateDocument(_doc);
+                app.sendSyncRequest();
                 return Ok(u);
             }
             catch (Exception _ex)
@@ -80,7 +82,7 @@ namespace eAPIClient.Controllers
             {
                 var u = await db.CashierShifts.FindAsync(id);
                 u.is_deleted = !u.is_deleted;
-
+                u.is_synced = false;  
                 db.CashierShifts.Update(u);
                 await db.SaveChangesAsync();
                 return Ok(u);

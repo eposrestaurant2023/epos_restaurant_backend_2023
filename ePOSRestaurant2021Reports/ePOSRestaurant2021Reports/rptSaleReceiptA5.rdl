@@ -418,8 +418,9 @@ where
             <Value>=Parameters!id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>declare 
-		@currency nvarchar(max),
+        <CommandText>
+declare 
+ 		@currency nvarchar(max),
 		@total_amount decimal(16,4);
 			 
 	  
@@ -432,19 +433,21 @@ where
 
  --get currency for Grand Total Amount Data
 	 if object_id('tempdb..#tbl_currency') is not null drop table #tbl_currency
-	SELECT *,  
-		'name en' as name_en,
-		'name kh' as name_kh,
-		'#,###,##0.00##' as [format], 
-		'$' as symbol,
-		'1' as show_in_receipt,
-		0 as sort_order
+	SELECT *
 		into #tbl_currency
 	FROM OPENJSON(@currency, '$')
 	WITH  (
-			id int '$.currency_id',  
-			exchange_rate   decimal(19,10)     '$.exchange_rate',
-			change_exchange_rate   decimal(19,10)     '$.change_exchange_rate'
+			id						int					'$.id',  
+			exchange_rate			decimal(19,10)		'$.ex_rate',
+			change_exchange_rate    decimal(19,10)		'$.ch_ex_rate',
+			name_en					nvarchar(50)		'$.name_en',
+			[format]				nvarchar(50)		'$.format',
+			name_kh					nvarchar(50)		'$.name_kh',
+			symbol					nvarchar(50)		'$.symbol',
+			show_in_receipt			bit					'$.show',
+			sort_order				bit					'$.sort'
+
+
 	); 
 	 
 
@@ -473,12 +476,12 @@ where
           <DataField>name_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="name_kh">
-          <DataField>name_kh</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="format">
           <DataField>format</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="name_kh">
+          <DataField>name_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="symbol">
@@ -487,11 +490,11 @@ where
         </Field>
         <Field Name="show_in_receipt">
           <DataField>show_in_receipt</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="sort_order">
           <DataField>sort_order</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="total_amount">
           <DataField>total_amount</DataField>
@@ -4323,7 +4326,7 @@ where
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>6.41128in</Height>
+        <Height>6.06753in</Height>
         <Style />
       </Body>
       <Width>5.22in</Width>

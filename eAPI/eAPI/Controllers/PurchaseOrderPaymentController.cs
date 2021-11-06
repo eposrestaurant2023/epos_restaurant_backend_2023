@@ -59,36 +59,37 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] PurchaseOrderPaymentModel p)
         {
             //validat check if payment is over PO amount
-            PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
-            if (p.id ==0)
+            PurchaseOrderModel po = db.PurchaseOrders.Find(p.purchase_order_id);
+            if (p.id == 0)
             {
-               
-                if (s.balance < p.payment_amount)
+
+                if (po.balance< (p.payment_amount / Convert.ToDecimal(p.exchange_rate)))
                 {
-                    return StatusCode(300, "Payment amount cannot greater than Balance Amount");
+                    return StatusCode(300, "Payment amount cannot greater than balance amount");
                 }
 
-            }else
+            }
+            else
             {
-                var PurchaseOrderPayments = db.PurchaseOrderPayments.Where(r => r.purchase_order_id == p.purchase_order_id && !r.is_deleted && r.id != p.id);
-                if (PurchaseOrderPayments.Any())
+                var payments = db.PurchaseOrderPayments.Where(r => r.purchase_order_id== p.purchase_order_id&& !r.is_deleted && r.id != p.id);
+                if (payments.Any())
                 {
-                    if (PurchaseOrderPayments.Sum(r => r.payment_amount) + p.payment_amount > s.total_amount)
+                    if (payments.Sum(r => r.payment_amount / Convert.ToDecimal(r.exchange_rate)) + p.payment_amount / Convert.ToDecimal(p.exchange_rate) > po.total_amount)
                     {
-                        return StatusCode(300, "Payment amount cannot greater than Balance Amount");
+                        return StatusCode(300, "Payment amount cannot greater than balance amount");
                     }
                 }
-                
+
             }
             //end check validation
 
-            //HistoryModel h = new HistoryModel($"{(p.id != Guid.Empty? "Update PO Payment":"Create New Payment" )}");
-            //h.description = $"{(p.id != Guid.Empty ? "Update PO payment." : "Create new payment.")} Invoice Number: {s.document_number}";
-            //h.document_number = s.document_number;
-            //h.vendor_id = s.vendor_id;
-            //h.purchase_order_id = s.id;
+            HistoryModel h = new HistoryModel($"{(p.id != 0? "Update PO Payment" : "Create New Payment")}");
+            h.description = $"{(p.id != 0? "Update PO payment." : "Create new payment.")} Purchase order #: {po.document_number}";
+            h.document_number = po.document_number;
+            h.vendor_id = po.vendor_id;
+            h.purchase_order_id = po.id;
 
-            //p.histories.Add(h);
+            p.histories.Add(h);
 
 
             if (p.id == 0)
@@ -102,7 +103,7 @@ namespace eAPI.Controllers
              
                 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            string _query_update = $"exec sp_update_purchase_order_payment_currency_value {p.purchase_order_id},{p.id}; exec sp_update_purchase_order_payment {p.purchase_order_id}";
+            string _query_update = $"exec sp_update_purchase_order_payment {p.purchase_order_id}";
             db.Database.ExecuteSqlRaw(_query_update);
             return Ok(p);
              

@@ -66,6 +66,108 @@ namespace eAPIClient.Controllers
             } 
         }
 
+
+        [HttpGet("SyncWorkingDay")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncWorkingDayGet(Guid workingDayId)
+        {
+            try
+            {
+                var _workingDayData = db.WorkingDays.Where(r => r.id == workingDayId)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_workingDayData.Count() > 0)
+                {
+                    var _workingDay = _workingDayData.FirstOrDefault();
+                    _workingDay.is_synced = true;
+                    var _syncResp = await http.ApiPost("WorkingDay/Save", _workingDay);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    db.WorkingDays.Update(_workingDay);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("SyncCashierShift")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncCashierShiftGet(Guid id)
+        {
+            try
+            {
+                var _modelData = db.CashierShifts.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_modelData.Count() > 0)
+                {
+                    var _model = _modelData.FirstOrDefault();
+                    _model.is_synced = true;
+                    var _syncResp = await http.ApiPost("CashierShift/Save", _model);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    db.CashierShifts.Update(_model);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("SyncCashDrawerAmount")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncCashDrawerAmountGet(Guid id)
+        {
+            try
+            {
+                var _modelData = db.CashDrawerAmounts.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_modelData.Count() > 0)
+                {
+                    var _model = _modelData.FirstOrDefault();
+                    _model.is_synced = true;
+                    var _syncResp = await http.ApiPost("CashDrawerAmount/Save", _model);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    db.CashDrawerAmounts.Update(_model);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+
+
         [HttpGet("SyncSale")]
         [AllowAnonymous]
         public async Task<ActionResult> SyncSaleGet(Guid saleId)

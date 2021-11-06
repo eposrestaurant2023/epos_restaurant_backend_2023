@@ -9,6 +9,7 @@
         }
         else
         {
+           
          
             <UIContainerBox Title="@lang["Sale Balance Amount"]">
                 <NumberInput text="@sale_balance" label="@lang["Balance"]" is_read_only="true" />
@@ -19,13 +20,17 @@
                     <TextInput label="@lang["Reference #"]" @bind-text="@model.reference_number" is_horizontal="true"/>
                     <DateInput @bind-Value="@model.payment_date" label="@lang["Payment Date"]" /> 
                     <SelectPaymentType selected_valueChanged="@PaymentTypeChanged" @bind-payment_type="@model.payment_type"/>
-                    <NumberInput @bind-text="@model.payment_amount" label="@lang["Payment Amount"]"/>
-                    @if (is_main_currency == false)
-                    {
-                      <p>
-                          @lang["Total paid amount in base currency"] : @total_base_payment_amount.ToString(gv.currency_format)
-                      </p>
-                    }
+                    <NumberInput @bind-text="@model.payment_amount" label="@lang["Payment Amount"]">
+                        @if (is_main_currency == false)
+                        {
+                            <span>
+                                
+                                @lang["Total paid amount in base currency"] : @total_base_payment_amount.ToString(gv.currency_format) <br/>
+                                @lang["Exchange Rate"]: @model.exchange_rate.ToString(model.currency_format)
+                            </span>
+                        }
+                    </NumberInput>
+                   
                 </UIContainerBox>
 
                 <UIContainerBox Icon="notes" Title="@lang["Notes"]">
@@ -44,35 +49,50 @@
     </ModalBody>
     @if (can_enter_payment)
     {
-    <ModalFooter is_action_form="false">
-        <ComSavingFormButton is_loading="@is_saving" is_show_save_submit="false" is_show_save_action="true" OnSave="@Save_Click" is_show_cancel_action="true" OnCancel="@(()=>ToogleModal(false))" />
-    </ModalFooter>
+        <ModalFooter is_action_form="false">
+            <ComSavingFormButton is_loading="@is_saving" is_show_save_submit="false" is_show_save_action="true" OnSave="@Save_Click" is_show_cancel_action="true" OnCancel="@(()=>ToogleModal(false))" />
+        </ModalFooter>
     }
     
 </Modal>
 
 @code {
 
-        [CascadingParameter] public GlobalVariableModel gv { get; set; }
-        [Parameter] public Guid payment_id { get; set; }
-        [Parameter] public Guid sale_id { get; set; }
-        [Parameter] public bool is_opened { get; set; }
-        [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public Guid payment_id { get; set; }
+    [Parameter] public Guid sale_id { get; set; }
+    [Parameter] public bool is_opened { get; set; }
+    [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
 
 
-        [Parameter] public EventCallback<bool> OnSave { get; set; }
-        [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
+    [Parameter] public EventCallback<bool> OnSave { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
 
 
 
-        bool is_saving,is_loading;
+    bool is_saving,is_loading;
 
-        decimal sale_balance = 0;
+
+
+    public decimal sale_balance  { get {
+            if (sale != null)
+            {
+                if(model.id == Guid.Empty)
+                {
+                    return sale.balance;
+                }else
+                {
+                    return sale.balance + old_model.payment_amount / Convert.ToDecimal( old_model.exchange_rate);
+                }
+            }
+            return 0;
+        } }
 
 
     public SaleModel sale { get; set; }
 
     SalePaymentModel model = new SalePaymentModel();
+    SalePaymentModel old_model= new SalePaymentModel();
 
     List<BusinessBranchCurrencyModel> currencies = new List<BusinessBranchCurrencyModel>();
 
@@ -134,6 +154,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        old_model = new SalePaymentModel();
 
         is_loading = true;
         await LoadExchangeRate();
@@ -147,6 +168,9 @@
             model.sale_id = sale_id;
             model.payment_type_id = gv.default_payment_type_id;
             model.payment_type = gv.payment_types.Where(r => r.id == model.payment_type_id).FirstOrDefault();
+            model.payment_type_group = model.payment_type.payment_type_group;
+            model.payment_type_name_en= model.payment_type.payment_type_name_en;
+            model.payment_type_name_kh= model.payment_type.payment_type_name_kh;
 
 
             model.currency_id = model.payment_type.currency_id;
@@ -163,18 +187,18 @@
 
             }
 
-        }
 
-        //load default payment
-
-        if (sale != null) {
-            sale_balance = sale.balance;
             model.payment_amount = sale.balance;
 
             model.outlet_id = sale.outlet_id;
             model.is_create_payment_in_sale_order = true;
 
+
         }
+
+        //load default payment
+
+
         is_loading = false;
     }
 
@@ -195,10 +219,11 @@
     }
     async Task LoadPayment()
     {
-        var resp = await http.ApiGet($"SalePayment({payment_id})");
+        var resp = await http.ApiGet($"SalePayment({payment_id})?$expand=payment_type");
         if (resp.IsSuccess)
         {
             model = JsonSerializer.Deserialize<SalePaymentModel>(resp.Content.ToString());
+            old_model = JsonSerializer.Deserialize<SalePaymentModel>(resp.Content.ToString());
 
         }
         else
@@ -226,7 +251,8 @@
     void PaymentTypeChanged(int payment_type_id)
     {
         model.payment_type_id = payment_type_id;
-        int currency_id = gv.payment_types.Where(r => r.id == payment_type_id).FirstOrDefault().currency_id;
+        var pt = gv.payment_types.Where(r => r.id == payment_type_id).FirstOrDefault();
+        int currency_id = pt.currency_id;
         var data = currencies.Where(r => r.business_branch_id == sale.business_branch_id && r.currency_id == currency_id);
         if (data.Any())
         {
@@ -237,6 +263,10 @@
             model.change_exchange_rate = c.change_exchange_rate;
             model.currency_name_en = c.currency.currency_name_en;
             model.currency_name_kh = c.currency.currency_name_kh;
+            model.payment_type_group = pt.payment_type_group;
+            model.payment_type_name_en = pt.payment_type_name_en;
+            model.payment_type_name_kh = pt.payment_type_name_kh;
+
         }
     }
 
@@ -254,7 +284,7 @@
 
         if (total_base_payment_amount > sale_balance)
         {
-            toast.Add(lang["Payment amount cannot greater than po balance."], MatToastType.Warning);
+            toast.Add(lang["Payment amount cannot greater than balance."], MatToastType.Warning);
             is_saving = false;
             return;
         }
@@ -267,7 +297,7 @@
 
         SalePaymentModel save_model = JsonSerializer.Deserialize<SalePaymentModel>(JsonSerializer.Serialize(model));
         save_model.payment_type = null;
-        
+
 
         var resp = await http.ApiPost("SalePayment/save", save_model);
 

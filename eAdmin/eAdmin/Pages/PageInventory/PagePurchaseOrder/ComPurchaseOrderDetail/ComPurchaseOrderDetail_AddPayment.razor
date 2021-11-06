@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 @inject IStringLocalizer<Resource> lang
-<Modal IsSimpleMode="false" Title="PO Payment" OnClosed="@(()=>ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
+<Modal IsSimpleMode="false" Title="PO Payment" OnClosed="@(() => ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
     <ModalBody>
         @if (is_loading)
         {
@@ -17,8 +17,18 @@
                 <UIContainerBox>
                     <TextInput label="Reference #" @bind-text="@model.reference_number" is_horizontal="true"/>
                     <DateInput @bind-Value="@model.payment_date" label="@lang["Payment Date"]" /> 
-                    <SelectPaymentType @bind-selected_value="@model.payment_type_id" payment_type="@model.payment_type"/>
-                    <NumberInput @bind-text="@model.payment_amount" label="@lang["Payment Amount"]"/>
+                    <SelectPaymentType selected_valueChanged="@PaymentTypeChanged" selected_value="@model.payment_type_id" payment_type="@model.payment_type"/>
+                    <NumberInput @bind-text="@model.payment_amount" label="@lang["Payment Amount"]">
+                        @if (is_main_currency == false)
+                        {
+                            <span>
+
+                                @lang["Total paid amount in base currency"] : @total_base_payment_amount.ToString(gv.currency_format) <br />
+                                @lang["Exchange Rate"]: @model.exchange_rate.ToString(model.currency_format)
+                            </span>
+                        }
+
+                    </NumberInput>
                 </UIContainerBox>
 
                 <UIContainerBox Icon="notes" Title="@lang["Notes"]">
@@ -29,7 +39,7 @@
             else
             {
                 <UIContainerBox>
-                    @lang["Cannot add payment for this sale invoice."]
+                    @lang["Cannot add payment for this PO invoice."]
                 </UIContainerBox>
             }
         }
@@ -47,7 +57,7 @@
                     else
                     {
                         <Button icon="save" OnClick="@Save_Click">@lang["Save"]</Button>
-                        <Button icon="reply" class_name="danger" OnClick="@(()=>ToogleModal(false))">@lang["Cancel"]</Button>
+                        <Button icon="reply" class_name="danger" OnClick="@(() => ToogleModal(false))">@lang["Cancel"]</Button>
                     }
                 </div>
             </div>
@@ -59,21 +69,79 @@
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int id { get; set; }
-    [Parameter] public int po_id { get; set; }
+    [Parameter] public PurchaseOrderModel po { get; set; }
+
     [Parameter] public bool is_opened { get; set; }
     [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
-
+    [Parameter] public int payment_id { get; set; }
 
     [Parameter] public EventCallback<bool> OnSave { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
     bool is_saving,is_loading;
 
-    decimal po_balance = 0;
 
 
-    public PurchaseOrderModel po { get; set; }
 
     PurchaseOrderPaymentModel model = new PurchaseOrderPaymentModel();
+
+    PurchaseOrderPaymentModel old_model = new PurchaseOrderPaymentModel();
+
+    List<BusinessBranchCurrencyModel> currencies = new List<BusinessBranchCurrencyModel>();
+
+
+
+    public decimal po_balance
+    {
+        get
+        {
+            if (po != null)
+            {
+                if (model.id == 0)
+                {
+                    return po.balance;
+                }
+                else
+                {
+                    return po.balance + old_model.payment_amount / Convert.ToDecimal(old_model.exchange_rate);
+                }
+            }
+            return 0;
+        }
+    }
+
+
+    public bool is_main_currency
+    {
+        get
+        {
+            if (!is_loading)
+            {
+                if (currencies.Any())
+                {
+                    var data = currencies.Where(r => r.currency_id == model.currency_id && r.business_branch_id == po.business_branch_id).ToList();
+                    if (data.Any())
+                    {
+                        if (data.FirstOrDefault().exchange_rate == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+            }
+            return false;
+        }
+    }
+
+
+    public decimal total_base_payment_amount
+    {
+        get
+        {
+            return model.payment_amount / Convert.ToDecimal(model.exchange_rate);
+        }
+    }
+
 
 
     public bool can_enter_payment
@@ -86,7 +154,7 @@
             if (po_balance == 0) return false;
 
 
-            if (id > 0)
+            if (payment_id != 0)
             {
                 if (model == null)
                 {
@@ -104,44 +172,60 @@
     {
 
         is_loading = true;
+        await LoadExchangeRate();
 
-        await LoadData();
         if (id > 0)
         {
             await LoadPayment();
         }
         else
         {
-            model.purchase_order_id = po_id;
+            model.purchase_order_id = po.id;
+            model.payment_type_id = gv.default_payment_type_id;
+            model.payment_type = gv.payment_types.Where(r => r.id == model.payment_type_id).FirstOrDefault();
+
+
+
+            model.currency_id = model.payment_type.currency_id;
+
+            var currency = currencies.Where(r => r.business_branch_id == po.business_branch_id && r.currency_id == model.currency_id);
+            if (currency.Any())
+            {
+                var c = currency.FirstOrDefault();
+                model.currency_name_en = c.currency.currency_name_en;
+                model.currency_name_kh = c.currency.currency_name_kh;
+                model.currency_format = c.currency.currency_format;
+                model.exchange_rate = c.exchange_rate;
+
+
+            }
+
+
+            model.payment_amount = po.balance;
+
+
         }
 
-        //load default payment
-        
-        if (po != null) {
-            if (id == 0)
-            {
-                po_balance = po.balance;
-                model.payment_amount = po.balance;
-                model.payment_type_id = gv.default_payment_type_id;
-            }
-            else
-            {
-                po_balance = po.balance + model.payment_amount;
-            }
-        }
+
         is_loading = false;
     }
 
-    async Task LoadData()
+
+
+    async Task LoadExchangeRate()
     {
-        var resp = await http.ApiGet($"PurchaseOrder({po_id})");
+        var resp = await http.ApiGetOData($"BusinessBranchCurrency?$expand=currency($select=currency_name_en,currency_name_kh,currency_format)");
         if (resp.IsSuccess)
         {
-            po = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
+            currencies = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(resp.Content.ToString());
+
         }
         else
         {
-            toast.Add(lang["Can not get PO ID."], MatToastType.Warning);
+            toast.Add("Error Loading Exchange Rate Fail.", MatToastType.Warning);
+
+
+
         }
     }
     async Task LoadPayment()
@@ -159,9 +243,30 @@
         }
     }
 
+    void PaymentTypeChanged(int payment_type_id)
+    {
+        model.payment_type_id = payment_type_id;
+        var pt = gv.payment_types.Where(r => r.id == payment_type_id).FirstOrDefault();
+        int currency_id = pt.currency_id;
+        var data = currencies.Where(r => r.business_branch_id == po.business_branch_id && r.currency_id == currency_id);
+        if (data.Any())
+        {
+            var c = data.FirstOrDefault();
+            model.exchange_rate = c.exchange_rate;
+            model.currency_id = c.currency_id;
+            model.currency_format = c.currency.currency_format;
+
+            model.currency_name_en = c.currency.currency_name_en;
+            model.currency_name_kh = c.currency.currency_name_kh;
+
+        }
+    }
+
+
     async Task Save_Click()
     {
         is_saving = true;
+
         if (model.payment_amount <= 0)
         {
             toast.Add(lang["Please enter payment amount."], MatToastType.Warning);
@@ -169,31 +274,34 @@
             return;
         }
 
-        if (model.payment_amount > po_balance)
+        if (total_base_payment_amount > po_balance)
+        {
+            toast.Add(lang["Payment amount cannot greater than balance."], MatToastType.Warning);
+            is_saving = false;
+            return;
+        }
+        if (model.payment_type_id <= 0)
         {
             toast.Add(lang["Payment amount cannot greater than po balance."], MatToastType.Warning);
             is_saving = false;
             return;
         }
-        if(model.payment_type_id <= 0)
-        {
-            toast.Add(lang["Please select a payment type."], MatToastType.Warning);
-            is_saving = false;
-            return;
-        }
-         
-        
+
+        PurchaseOrderPaymentModel save_model = JsonSerializer.Deserialize<PurchaseOrderPaymentModel>(JsonSerializer.Serialize(model));
+        save_model.payment_type = null;
+
+
         var resp = await http.ApiPost("PurchaseOrderPayment/save", model);
         if (resp.IsSuccess)
         {
             await OnSave.InvokeAsync(true);
             model = new PurchaseOrderPaymentModel();
-            toast.Add(lang["Add payment successfully"], MatToastType.Success);
+            toast.Add(lang["Save data successfully"], MatToastType.Success);
         }
         else
         {
             await OnSave.InvokeAsync(false);
-            toast.Add(lang["Cannot add payment."], MatToastType.Warning);
+            toast.Add(lang["Save data fail."], MatToastType.Warning);
             is_saving = false;
             return;
         }
@@ -205,5 +313,21 @@
         model = new PurchaseOrderPaymentModel();
         is_opened = _open;
         is_openedChanged.InvokeAsync(_open);
+    }
+
+    async Task LoadExchangeRate()
+    {
+        var resp = await http.ApiGetOData($"BusinessBranchCurrency?$expand=currency($select=currency_name_en,currency_name_kh,currency_format)");
+        if (resp.IsSuccess)
+        {
+            currencies = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(resp.Content.ToString());
+
+        }
+        else
+        {
+            toast.Add("Error Loading Exchange Rate Fail.", MatToastType.Warning);
+
+        }
+
     }
 }

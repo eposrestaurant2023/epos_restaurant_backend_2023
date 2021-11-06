@@ -32,7 +32,7 @@
                         <ContentRight>
                             <div class="pos-label">
                                 <div class="txt-bold">
-                                    @p.payment_amount.ToString(gv.currency_format)
+                                    @p.payment_amount.ToString(p.currency_format)
                                 </div>
                             </div>
                             <Spacing Number="10" />
@@ -51,10 +51,7 @@
     {
         <ComSaleDetail_AddPayment sale_id="@sale_id" payment_id="@payment_id" @bind-is_opened="@is_add_payment" OnSave="@OnReload" />
     }
-    @*@if (is_print)
-    {
-        <ComPreviewReport report_id="185" @bind-IsOpened="is_print" />
-    }*@
+  
 }
 @code {
 
@@ -108,7 +105,7 @@
 
     async Task LoadPaymentHistory()
     {
-        var api_url = $"sale({sale_id})?$select=id,document_number,balance&$expand=sale_payments($expand=payment_type($select=photo,payment_type_name_en,payment_type_name_kh);$filter=is_credit eq false)";
+        var api_url = $"sale({sale_id})?$select=id,document_number,balance&$expand=sale_payments($expand=payment_type($select=photo,payment_type_name_en,payment_type_name_kh))";
         var resp = await http.ApiGet(api_url);
         sale = JsonSerializer.Deserialize<SaleModel>(resp.Content.ToString());
     }

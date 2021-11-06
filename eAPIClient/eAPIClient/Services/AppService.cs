@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using eAPIClient.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace eAPIClient.Services
 {
 
     public class AppService
     {
+        public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
-        public AppService(ApplicationDbContext _db)
+        public AppService(ApplicationDbContext _db, IConfiguration _config)
         {
             db = _db;
-
+            config = _config;
         }          
              
 
@@ -28,7 +31,7 @@ namespace eAPIClient.Services
             return string.Format(@"{0}{1:" + _doc.format + "}{2:" + _doc.counter_digit + "}", _doc.prefix, DateTime.Now, _doc.counter);
         } 
 
-        public DocumentNumberModel GetDocument(string type, string outlet_id)
+        public DocumentNumberModel GetDocument(string type, string cash_drawer_id)
         {
 
             DocumentNumberModel _doc = new DocumentNumberModel();       
@@ -36,8 +39,8 @@ namespace eAPIClient.Services
                          where r.document_name == type &&
                                EF.Functions.Like(
                                    (
-                                      (r.outlet_id ?? " ")
-                                   ).ToLower().Trim(), $"%{outlet_id}%".ToLower().Trim())
+                                      (r.cash_drawer_id ?? " ")
+                                   ).ToLower().Trim(), $"%{cash_drawer_id}%".ToLower().Trim())
                          select r);
             if (_find.Count() > 0)
             {
@@ -68,6 +71,18 @@ namespace eAPIClient.Services
 
             }
             return new List<UserModel>();
+        }
+
+        public void sendSyncRequest()
+        {
+
+            string path = config.GetValue<string>("sync_request_part"); ;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt"));
         }
 
     }

@@ -1,15 +1,14 @@
 ﻿@page "/purchaseorder/{id:int}";
 @inherits PagePurchaseOrderDetailBase
 
-@if (is_loading_data || is_loading)
-{
+ 
     <Loading is_loading="@( is_loading_data || is_loading_data)" />
 
-}
+ 
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"{lang["PO Invoice"]} : {model.document_number}")"></Title>
+    <Title Value="@($"{lang["Purchase Order #"]} : {model.document_number}")"></Title>
 
     <PageContainer roles="@gv.GetRole("purchase_order_management")">
         <PageHeader>
@@ -29,7 +28,7 @@
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem roles="@gv.GetRole("purchase_order_management")">@lang["Invoice"]</TabHeaderItem>
+                    <TabHeaderItem roles="@gv.GetRole("purchase_order_management")">@lang["Purchase Order"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>

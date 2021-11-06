@@ -21,7 +21,6 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
                 url = url + "$expand=customer,sale_status,";
                 url = url + "sale_products($expand=product,sale_product_modifiers($select=modifier_name,price)),";
                 url = url + "sale_payments($expand=payment_type),";
-                url = url + "outlet,"; 
                 url = url + "business_branch";
                 return url;
             }
@@ -39,7 +38,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         public async Task LoadData()
         {
             is_loading_data = true;
-            is_loading = true;
+          
             var resp =await http.ApiGet(api_url);
             if (resp.IsSuccess)
             {
@@ -56,7 +55,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
 
                 is_loading_data = false;
             }
-            is_loading = false;
+         
             is_loading_data = false;
         }
 

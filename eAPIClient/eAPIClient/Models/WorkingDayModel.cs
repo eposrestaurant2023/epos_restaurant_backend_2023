@@ -20,7 +20,6 @@ namespace eAPIClient.Models
 
 
 
-
     }
     [Table("tbl_cashier_shift")]
     public class CashierShiftModel: CashierShiftShareModel
