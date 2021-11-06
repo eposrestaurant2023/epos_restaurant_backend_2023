@@ -67,8 +67,7 @@ namespace eAPI.Controllers
                 var _modelCheck = db.CashierShifts.Where(r => r.id == model.id).AsNoTracking();
                 if (_modelCheck.Count() > 0)
                 {
-                    var _model = _modelCheck.FirstOrDefault();
-                    db.CashierShifts.Update(_model);
+                    db.CashierShifts.Update(model);
                 }
                 else
                 {

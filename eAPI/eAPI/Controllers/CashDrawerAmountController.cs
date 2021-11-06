@@ -50,8 +50,7 @@ namespace eAPI.Controllers
                 var _modelCheck = db.CashDrawerAmounts.Where(r => r.id == model.id).AsNoTracking();
                 if (_modelCheck.Count() > 0)
                 {
-                    var _model = _modelCheck.FirstOrDefault();
-                    db.CashDrawerAmounts.Update(_model);
+                    db.CashDrawerAmounts.Update(model);
                 }
                 else
                 {
