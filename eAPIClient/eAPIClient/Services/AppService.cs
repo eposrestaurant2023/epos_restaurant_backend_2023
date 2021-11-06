@@ -31,7 +31,7 @@ namespace eAPIClient.Services
             return string.Format(@"{0}{1:" + _doc.format + "}{2:" + _doc.counter_digit + "}", _doc.prefix, DateTime.Now, _doc.counter);
         } 
 
-        public DocumentNumberModel GetDocument(string type, string outlet_id)
+        public DocumentNumberModel GetDocument(string type, string cash_drawer_id)
         {
 
             DocumentNumberModel _doc = new DocumentNumberModel();       
@@ -39,8 +39,8 @@ namespace eAPIClient.Services
                          where r.document_name == type &&
                                EF.Functions.Like(
                                    (
-                                      (r.outlet_id ?? " ")
-                                   ).ToLower().Trim(), $"%{outlet_id}%".ToLower().Trim())
+                                      (r.cash_drawer_id ?? " ")
+                                   ).ToLower().Trim(), $"%{cash_drawer_id}%".ToLower().Trim())
                          select r);
             if (_find.Count() > 0)
             {
