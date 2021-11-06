@@ -65,17 +65,17 @@ namespace eAPI.Controllers
                
                 if (s.balance < (p.payment_amount/Convert.ToDecimal( p.exchange_rate)))
                 {
-                    return StatusCode(300, "Payment amount cannot greater than Balance Amount");
+                    return StatusCode(300, "Payment amount cannot greater than balance amount");
                 }
 
             }else
             {
-                var payments = db.SalePayments.Where(r => r.sale_id == p.sale_id && !r.is_deleted && r.id!=p.id);
+                var payments = db.SalePayments.Where(r => r.sale_id == p.sale_id && !r.is_deleted && r.id!=p.id && p.payment_type_group== "On Account");
                 if (payments.Any())
                 {
-                    if (payments.Sum(r => r.payment_amount/ Convert.ToDecimal(p.exchange_rate)) + p.payment_amount / Convert.ToDecimal(p.exchange_rate) > s.total_amount)
+                    if (payments.Sum(r => r.payment_amount/ Convert.ToDecimal(r.exchange_rate)) + p.payment_amount / Convert.ToDecimal(p.exchange_rate) > s.total_amount)
                     {
-                        return StatusCode(300, "Payment amount cannot greater than Balance Amount");
+                        return StatusCode(300, "Payment amount cannot greater than balance amount");
                     }
                 }
                 
@@ -98,10 +98,15 @@ namespace eAPI.Controllers
             {
                 db.SalePayments.Update(p);
             }
-             
-                
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            //db.Database.ExecuteSqlRaw("exec sp_update_sale_payment " + p.sale_id);
+            try
+            {
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }catch(Exception ex)
+            {
+                var msg = ex.Message;
+            }
+            
+            db.Database.ExecuteSqlRaw($"exec sp_update_sale_information '{ p.sale_id}'");
             return Ok(p);
              
         }
@@ -144,19 +149,26 @@ namespace eAPI.Controllers
         {
 
             SalePaymentModel p = db.SalePayments.Find(id);
-            SaleModel s = db.Sales.Find(p.sale_id);
-            HistoryModel h = new HistoryModel("Delete Sale Payment");
-            h.description = $"Delete Sale Payment. Invoice Number: {s.document_number}";
-            h.document_number = s.document_number;
-            h.customer_id = s.customer_id;
-            h.sale_id = s.id;
-            p.histories.Add(h);
-            p.is_deleted = true;
-            db.SalePayments.Update(p);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            var sale = db.Sales.Where(r => r.id == p.sale_id).AsNoTracking();
+            if (sale.Any())
+            {
+                SaleModel s = sale.FirstOrDefault();
 
-            //db.Database.ExecuteSqlRaw("exec  sp_update_sale_payment " + p.sale_id);
-            return Ok(h);
+
+                HistoryModel h = new HistoryModel("Delete Sale Payment");
+                h.description = $"Delete Sale Payment. Invoice Number: {s.document_number}";
+                h.document_number = s.document_number;
+                h.customer_id = s.customer_id;
+                h.sale_id = s.id;
+                p.histories.Add(h);
+                p.is_deleted = true;
+                db.SalePayments.Update(p);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+                db.Database.ExecuteSqlRaw($"exec sp_update_sale_information '{ p.sale_id}'");
+                return Ok(h);
+            }
+            return NotFound();
              
         }
 

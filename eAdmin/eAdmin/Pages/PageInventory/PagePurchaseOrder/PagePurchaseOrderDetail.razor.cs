@@ -37,8 +37,9 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         { 
             if (!is_error)
             {
-
+                is_loading = true;
                 await LoadData();
+                is_loading = false;
 
             }
 
@@ -63,7 +64,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
         public async Task LoadData()
         {
-            is_loading = true;
+            is_loading_data = true;
             var resp = await http.ApiGet(api_url);
             if (resp.IsSuccess)
             {
@@ -73,7 +74,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             {
                 is_loading_data = false;
             }
-            is_loading = false;
+            is_loading_data = false;
         }
         public void ShowComment()
         {
@@ -94,13 +95,13 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         {
             if (is_success)
             {
-                is_loading_data = true;
+             
                 await LoadData();
-                is_loading_data = false;
+              
             }
             is_add_payment = false;
             model.is_loading = false;
-            is_loading_data = false;
+          
         }
 
         public void EditPayment_Click(PurchaseOrderPaymentModel p)

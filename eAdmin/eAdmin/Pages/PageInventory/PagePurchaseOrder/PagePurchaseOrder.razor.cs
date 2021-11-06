@@ -15,10 +15,19 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
     { 
         public List<PurchaseOrderModel> models = new List<PurchaseOrderModel>();
         public PurchaseOrderModel model = new PurchaseOrderModel();       
-        public string StateKey = "ENsg9hUndmRGPURCHASE09332221"; //Storage and Session Key      
+          
         public int TotalRecord = 0;
 
         string controller_api = "PurchaseOrder";
+
+        public string StateKey
+        {
+            get
+            {
+                 
+                return "ENsg9hUndmRGPURCHASE09332221_" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -181,7 +190,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
             // filter business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
             {
 
                 foreach (var x in state.multi_select_value_1)
