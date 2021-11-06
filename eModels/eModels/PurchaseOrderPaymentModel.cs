@@ -39,6 +39,7 @@ namespace eModels
         public string currency_name_en { get; set; }
         public string currency_name_kh { get; set; }
         public string currency_format { get; set; }
+        public double change_exchange_rate { get; set; }
 
         [NotMapped, JsonIgnore]
         public bool is_add_note { get; set; }
