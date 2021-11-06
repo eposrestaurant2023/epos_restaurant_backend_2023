@@ -150,4 +150,94 @@
   <data name="welcome" xml:space="preserve">
     <value>សូមស្វាគមន៍</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>ទំព័រដើម</value>
+  </data>
+  <data name="Receipt List" xml:space="preserve">
+    <value>វិកាយបត្រ័លក់</value>
+  </data>
+  <data name="Working Day" xml:space="preserve">
+    <value>ថ្ងៃធ្វើការ</value>
+  </data>
+  <data name="Cashier Shift" xml:space="preserve">
+    <value>វេនធ្វើការ</value>
+  </data>
+  <data name="Customer Setup" xml:space="preserve">
+    <value>អតិថិជន</value>
+  </data>
+  <data name="Customer Group" xml:space="preserve">
+    <value>ក្រុមអតិថិជន</value>
+  </data>
+  <data name="Product Setup" xml:space="preserve">
+    <value>ផលិតផល</value>
+  </data>
+  <data name="Product Category" xml:space="preserve">
+    <value>ប្រភេទ​ផលិតផល</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>ផលិតផល</value>
+  </data>
+  <data name="Product Price Adjustment" xml:space="preserve">
+    <value>កែតម្រូវតម្លៃផលិតផល</value>
+  </data>
+  <data name="Menu Setup" xml:space="preserve">
+    <value>ម៉ឺនុយ</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>ម៉ឺនុយ</value>
+  </data>
+  <data name="Vendor" xml:space="preserve">
+    <value>អ្នកផ្គត់ផ្គង់</value>
+  </data>
+  <data name="Vendor Group" xml:space="preserve">
+    <value>ក្រុមអ្នកផ្គត់ផ្គង់</value>
+  </data>
+  <data name="Ingredient Category" xml:space="preserve">
+    <value>ប្រភេទគ្រឿងផ្សំ</value>
+  </data>
+  <data name="Ingredient" xml:space="preserve">
+    <value>គ្រឿងផ្សំ</value>
+  </data>
+  <data name="Purchase Order" xml:space="preserve">
+    <value>បញ្ជា​រ​ទិញ</value>
+  </data>
+  <data name="User Setup" xml:space="preserve">
+    <value>អ្នកប្រើប្រាស់</value>
+  </data>
+  <data name="User Type" xml:space="preserve">
+    <value>ប្រភេទអ្នកប្រើប្រាស់</value>
+  </data>
+  <data name="User Account" xml:space="preserve">
+    <value>គណនី​អ្នកប្រើប្រាស់</value>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>ការកំណត់</value>
+  </data>
+  <data name="Business Information" xml:space="preserve">
+    <value>ព័ត៌មានអាជីវកម្ម</value>
+  </data>
+  <data name="Currency Exchange Rate" xml:space="preserve">
+    <value>អត្រាប្តូរប្រាក់</value>
+  </data>
+  <data name="Price Rule" xml:space="preserve">
+    <value>ច្បាប់នៃតម្លៃ</value>
+  </data>
+  <data name="Unit of Measurement (UoM)" xml:space="preserve">
+    <value>ខ្នាត</value>
+  </data>
+  <data name="Table Group &amp; Table" xml:space="preserve">
+    <value>ក្រុមតុនិង​តុ</value>
+  </data>
+  <data name="Table Group &amp; Table" xml:space="preserve">
+    <value>ក្រុមតុនិង​តុ</value>
+  </data>
+  <data name="Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់</value>
+  </data>
+ <data name="Discount Code" xml:space="preserve">
+    <value>លេខ​កូដ​បញ្ចុះតម្លៃ</value>
+  </data>
+ <data name="Cashier Note" xml:space="preserve">
+    <value>អ្នកគិតលុយ(កំណត់ចំណាំ)</value>
+  </data>
 </root>

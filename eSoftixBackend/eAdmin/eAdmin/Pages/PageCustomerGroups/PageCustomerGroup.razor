@@ -57,7 +57,7 @@
                     <LabelDeleted is_visible="@p.is_deleted"/>
                 </TdCenter>
                 <TdActions is_loading="@(p.is_loading || p.is_change_status)">
-                        <TableActionItem icon="@Icons.Material.Filled.Visibility" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p))">Edit</TableActionItem>
+                        <TableActionItem icon="@Icons.Material.Filled.Edit" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p))">Edit</TableActionItem>
                         <TableActionItem icon="@Icons.Material.Filled.ContentCopy" roles="@gv.GetRole("customer_group_add")" is_visible="@(!p.is_deleted )" OnClick="@(()=>OnClone(p))">Clone</TableActionItem>
                         <TableActionItem icon="@Icons.Material.Filled.Check" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted  && !p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">Active</TableActionItem>
                         <TableActionItem icon="@Icons.Material.Filled.HighlightOff" roles="@gv.GetRole("customer_group_edit")" is_visible="@(!p.is_deleted && p.status)" OnClick="@(()=>OnToogleStatusLabel(p))">InActive</TableActionItem>
