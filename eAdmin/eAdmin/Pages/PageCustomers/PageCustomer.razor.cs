@@ -14,13 +14,19 @@ namespace eAdmin.Pages.PageCustomers
         public List<CustomerModel> customers = new List<CustomerModel>();
         public CustomerModel model = new CustomerModel();
 
-        public string StateKey = "278484567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
-
         public int TotalRecord = 0;
         public bool ShowModal = false;
         public string ModalTitle = "";
 
         string controller_api = "Customer";
+        public string StateKey
+        {
+            get
+            {
+
+                return "278484567Gs25245KJHGytkjhTonB3PCz2Ts" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
 
         DateTime date = DateTime.Now;
 

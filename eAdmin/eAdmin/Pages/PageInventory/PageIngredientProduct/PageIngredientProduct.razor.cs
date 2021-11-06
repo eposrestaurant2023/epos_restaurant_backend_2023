@@ -13,9 +13,16 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
     {
         public List<ProductModel> products = new List<ProductModel>();
         public ProductModel model = new ProductModel();
-        public string StateKey = "278484INGREPRODUCTssHGytkjhTon250014"; //Storage and Session Key
         public int TotalRecord = 0;
         string controller_api = "Product";
+        public string StateKey
+        {
+            get
+            {
+
+                return "278484INGREPRODUCTssHGytkjhTon250014" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get

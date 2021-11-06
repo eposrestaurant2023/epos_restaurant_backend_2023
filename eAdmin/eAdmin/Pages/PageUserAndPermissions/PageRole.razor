@@ -84,7 +84,14 @@
 @code{
     List<RoleModel> roles_list = new List<RoleModel>();
     RoleModel role = new RoleModel();
-    public string StateKey { get { return "SWwLKswetmeUUKsSwe:}/SEUewervvvw%^&*"; } }
+    public string StateKey
+    {
+        get
+        {
+
+            return "SWwLKswetmeUUKsSwe:}/SEUewervvvw%^&*" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
     bool is_open;
     int TotalRecord = 0;
 

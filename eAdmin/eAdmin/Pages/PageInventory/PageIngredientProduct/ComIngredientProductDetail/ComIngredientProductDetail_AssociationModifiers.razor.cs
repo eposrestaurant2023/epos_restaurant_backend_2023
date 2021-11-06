@@ -14,15 +14,20 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
     {
         [Parameter] public int ingredient_id { get; set; }
         public List<ModifierIngredientModel> models = new List<ModifierIngredientModel>();
-        
-        public string StateKey = "INGRMODIfierxxd45KJssASSOciate21"; //Storage and Session Key
 
         public int TotalRecord = 0;
        
 
         string controller_api = "ModifierIngredient";
 
-       
+        public string StateKey
+        {
+            get
+            {
+
+                return "INGRMODIfierxxd45KJssASSOciate21" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get

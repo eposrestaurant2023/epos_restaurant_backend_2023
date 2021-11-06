@@ -118,9 +118,16 @@
 @code{
 
     public List<WorkingDayModel> models = new List<WorkingDayModel>();
-    public string StateKey = "";
     public int TotalRecord = 0;
     string controller_api = "WorkingDay";
+    public string StateKey
+    {
+        get
+        {
+
+            return "hUndmRGrRwdzVWorkingDAy012u9T3AEj" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
     public string ControllerApi
     {
         get
@@ -140,7 +147,6 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        StateKey = "hUndmRGrRwdzVWorkingDAy012u9T3AEj";
         state = await GetState(StateKey);
         await LoadData();
     }
@@ -226,7 +232,7 @@
 
         // filter business
         string business_branch_ids = "";
-        if (state.multi_select_value_1 != null)
+        if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
         {
 
             foreach (var x in state.multi_select_value_1)
@@ -306,7 +312,7 @@
                 is_show_on_infor = false
             });
         }
-      
+
 
         state.pager.current_page = 1;
         await LoadData();

@@ -16,8 +16,16 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
         [Parameter] public Guid customer_id { get; set; }
         public List<SalePaymentModel> models = new List<SalePaymentModel>();
         public int TotalRecord = 0;
-        public string  StateKey = "PAMENTsaledmRGrRwdzVOID20154coN";
         string controller_api = "SalePayment";
+
+        public string StateKey
+        {
+            get
+            {
+
+                return "PAMENTsaledmRGrRwdzVOID20154coN" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -38,7 +46,6 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            StateKey += customer_id;
             state = await GetState(StateKey);
 
             var default_view = gv.GetDefaultModuleView("page_sale_product");
@@ -146,7 +153,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
 
             // filter business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
             {
 
                 foreach (var x in state.multi_select_value_1)

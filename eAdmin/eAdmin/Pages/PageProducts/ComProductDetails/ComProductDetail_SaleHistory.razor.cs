@@ -15,10 +15,16 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
     { 
         [Parameter] public int product_id { get; set; }
         public List<SaleProductModel> models = new List<SaleProductModel>();
-        public SaleProductModel model = new SaleProductModel();
-        public string StateKey = "XCUSTOMERSALEPRODUCTdmRGrRwdzVOID201545AEj";   
-        public int TotalRecord = 0; 
+        public SaleProductModel model = new SaleProductModel();   
+        public int TotalRecord = 0;
+        public string StateKey
+        {
+            get
+            {
 
+                return "XCUSTOMERSALEPRODUCTdmRGrRwdzVOID201545AEj" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         string controller_api = "SaleProduct";
         public string ControllerApi
         {
@@ -40,7 +46,6 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            StateKey += product_id;
             state = await GetState(StateKey);  
 
             var default_view = gv.GetDefaultModuleView("page_sale");
@@ -163,7 +168,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             }
             // filter business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
             {
 
                 foreach (var x in state.multi_select_value_1)

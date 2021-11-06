@@ -15,11 +15,19 @@ namespace eAdmin.Pages.PageProducts.PageModifiers
     { 
         [Parameter] public string product_modifier_id { get; set; }
         public List<SaleProductModifierModel> models = new List<SaleProductModifierModel>();
-        public SaleProductModifierModel model = new SaleProductModifierModel();
-        public string StateKey = "XCUMODIFERSIXZXRGrRwdzVOID201545AEj";   
+        public SaleProductModifierModel model = new SaleProductModifierModel(); 
         public int TotalRecord = 0; 
 
         string controller_api = "SaleProductModifier";
+
+        public string StateKey
+        {
+            get
+            {
+
+                return "XCUMODIFERSIXZXRGrRwdzVOID201545AEj" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -49,7 +57,6 @@ namespace eAdmin.Pages.PageProducts.PageModifiers
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            StateKey += product_modifier_id;
             state = await GetState(StateKey);  
 
             var default_view = gv.GetDefaultModuleView("page_sale");

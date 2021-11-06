@@ -122,9 +122,17 @@
 @code{
 
     public List<CashierShiftModel> models = new List<CashierShiftModel>();
-    public string StateKey = "";
     public int TotalRecord = 0;
     string controller_api = "CashierShift";
+    public string StateKey
+    {
+        get
+        {
+
+            return "hUndmRGrRCashierSHIFTDAy0ee2u9T3123" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
+
     public string ControllerApi
     {
         get
@@ -144,7 +152,6 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        StateKey = "hUndmRGrRCashierSHIFTDAy0ee2u9T3123";
         state = await GetState(StateKey);
         await LoadData();
     }
@@ -214,7 +221,7 @@
 
         // filter business
         string business_branch_ids = "";
-        if (state.multi_select_value_1 != null)
+        if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
         {
 
             foreach (var x in state.multi_select_value_1)

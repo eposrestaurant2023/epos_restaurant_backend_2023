@@ -15,8 +15,16 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
         [Parameter] public int product_id { get; set; }
         public List<StockTakeProductModel> models = new List<StockTakeProductModel>();
         public int TotalRecord = 0;
-        public string  StateKey = "STOSTOCKTAKEProdyctsaledmRGrRwd5021D20154coN";
         string controller_api = "StockTakeProduct";
+
+        public string StateKey
+        {
+            get
+            {
+
+                return "STOSTOCKTAKEProdyctsaledmRGrRwd5021D20154coN" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -37,7 +45,6 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            StateKey += product_id;
             state = await GetState(StateKey);
 
             var default_view = gv.GetDefaultModuleView("page_purchase_order");
@@ -145,7 +152,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
 
             // filter business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
             {
 
                 foreach (var x in state.multi_select_value_1)

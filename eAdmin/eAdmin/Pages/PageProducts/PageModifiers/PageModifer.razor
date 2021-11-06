@@ -88,8 +88,14 @@
     int TotalItem;
     bool is_dialog_open;
     string controller_api = "Modifier";
-    string StateKey = "55sNaBpzJlLzh2114785239lwfBSCTTx";
+    public string StateKey
+    {
+        get
+        {
 
+            return "55sNaBpzJlLzh2114785239lwfBSCTTx" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
     public string ControllerApi
     {
         get

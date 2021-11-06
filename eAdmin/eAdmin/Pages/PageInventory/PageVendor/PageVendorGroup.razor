@@ -85,10 +85,16 @@
 
     string ModalTitle = "";
     public int TotalRecord = 0;
-    public string StateKey = "098484567Gs254254njht8kjhTonB3PCz2Ts"; //Storage and Session Key
 
     string controller_api = "VendorGroup";
+    public string StateKey
+    {
+        get
+        {
 
+            return "098484567Gs254254njht8kjhTonB3PCz2Ts" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
     public string ControllerApi
     {
         get

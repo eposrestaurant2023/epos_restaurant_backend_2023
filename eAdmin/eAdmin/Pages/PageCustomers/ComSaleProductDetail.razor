@@ -99,8 +99,15 @@
     List<SaleProductModel> models = new List<SaleProductModel>();
     SaleProductModel model = new SaleProductModel();
     int TotalRecord = 0;
-    public string StateKey = "2COMSAKEPRodutDETAIL78484"; //Storage and Session Key
     string controller_api = "saleproduct";
+    public string StateKey
+    {
+        get
+        {
+
+            return "2COMSAKEPRodutDETAIL78484" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
     string ControllerApi
     {
         get

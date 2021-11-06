@@ -93,13 +93,20 @@
 @code {
     [Parameter] public Guid id { get; set; }
     public List<ProductModifierModel> models = new List<ProductModifierModel>();
-    public string StateKey = "sd45KJssASSOciMoDIFIERXES2"; //Storage and Session Key
 
     public int TotalRecord = 0;
 
 
     string controller_api = "productmodifier";
 
+    public string StateKey
+    {
+        get
+        {
+
+            return "sd45KJssASSOciMoDIFIERXES2" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
 
     public string ControllerApi
     {
@@ -116,7 +123,6 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        StateKey = StateKey + id.ToString();
         state = await GetState(StateKey);
 
         state.filters.Clear();

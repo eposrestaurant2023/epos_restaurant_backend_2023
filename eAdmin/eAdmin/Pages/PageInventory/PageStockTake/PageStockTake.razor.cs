@@ -14,11 +14,19 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
     public class PageStockTakeBase : PageCore
     { 
         public List<StockTakeModel> models = new List<StockTakeModel>();
-        public StockTakeModel model = new StockTakeModel();       
-        public string StateKey = "ENsg9hUndmRGPUStockTake09830212"; //Storage and Session Key      
+        public StockTakeModel model = new StockTakeModel();          
         public int TotalRecord = 0;
 
         string controller_api = "StockTake";
+
+        public string StateKey
+        {
+            get
+            {
+
+                return "ENsg9hUndmRGPUStockTake09830212" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -39,8 +47,6 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-
-            StateKey += model.id;
             state = await GetState(StateKey);
 
 
@@ -170,7 +176,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
             // filter business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
             {
 
                 foreach (var x in state.multi_select_value_1)
