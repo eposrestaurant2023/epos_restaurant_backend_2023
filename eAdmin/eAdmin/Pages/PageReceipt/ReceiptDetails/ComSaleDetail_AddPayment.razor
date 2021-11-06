@@ -49,9 +49,9 @@
     </ModalBody>
     @if (can_enter_payment)
     {
-    <ModalFooter is_action_form="false">
-        <ComSavingFormButton is_loading="@is_saving" is_show_save_submit="false" is_show_save_action="true" OnSave="@Save_Click" is_show_cancel_action="true" OnCancel="@(()=>ToogleModal(false))" />
-    </ModalFooter>
+        <ModalFooter is_action_form="false">
+            <ComSavingFormButton is_loading="@is_saving" is_show_save_submit="false" is_show_save_action="true" OnSave="@Save_Click" is_show_cancel_action="true" OnCancel="@(()=>ToogleModal(false))" />
+        </ModalFooter>
     }
     
 </Modal>

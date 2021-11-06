@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211105080022_add_change_exchage_rate")]
+    partial class add_change_exchage_rate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -501,9 +503,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_synced")
-                        .HasColumnType("bit");
-
                     b.Property<string>("last_modified_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -601,9 +600,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_synced")
                         .HasColumnType("bit");
 
                     b.Property<string>("last_modified_by")
@@ -5574,9 +5570,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_synced")
                         .HasColumnType("bit");
 
                     b.Property<string>("last_modified_by")

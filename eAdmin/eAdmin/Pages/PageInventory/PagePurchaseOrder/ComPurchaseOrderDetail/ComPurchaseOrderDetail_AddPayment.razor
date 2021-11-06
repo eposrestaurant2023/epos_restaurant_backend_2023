@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 @inject IStringLocalizer<Resource> lang
-<Modal IsSimpleMode="false" Title="PO Payment" OnClosed="@(()=>ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
+<Modal IsSimpleMode="false" Title="PO Payment" OnClosed="@(() => ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
     <ModalBody>
         @if (is_loading)
         {
@@ -39,7 +39,7 @@
             else
             {
                 <UIContainerBox>
-                    @lang["Cannot add payment for this sale invoice."]
+                    @lang["Cannot add payment for this PO invoice."]
                 </UIContainerBox>
             }
         }
@@ -57,7 +57,7 @@
                     else
                     {
                         <Button icon="save" OnClick="@Save_Click">@lang["Save"]</Button>
-                        <Button icon="reply" class_name="danger" OnClick="@(()=>ToogleModal(false))">@lang["Cancel"]</Button>
+                        <Button icon="reply" class_name="danger" OnClick="@(() => ToogleModal(false))">@lang["Cancel"]</Button>
                     }
                 </div>
             </div>
@@ -73,7 +73,7 @@
 
     [Parameter] public bool is_opened { get; set; }
     [Parameter] public EventCallback<bool> is_openedChanged { get; set; }
-
+    [Parameter] public int payment_id { get; set; }
 
     [Parameter] public EventCallback<bool> OnSave { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
@@ -154,7 +154,7 @@
             if (po_balance == 0) return false;
 
 
-            if (id > 0)
+            if (payment_id != 0)
             {
                 if (model == null)
                 {
@@ -282,7 +282,7 @@
         }
         if (model.payment_type_id <= 0)
         {
-            toast.Add(lang["Please select a payment type."], MatToastType.Warning);
+            toast.Add(lang["Payment amount cannot greater than po balance."], MatToastType.Warning);
             is_saving = false;
             return;
         }
@@ -313,5 +313,21 @@
         model = new PurchaseOrderPaymentModel();
         is_opened = _open;
         is_openedChanged.InvokeAsync(_open);
+    }
+
+    async Task LoadExchangeRate()
+    {
+        var resp = await http.ApiGetOData($"BusinessBranchCurrency?$expand=currency($select=currency_name_en,currency_name_kh,currency_format)");
+        if (resp.IsSuccess)
+        {
+            currencies = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(resp.Content.ToString());
+
+        }
+        else
+        {
+            toast.Add("Error Loading Exchange Rate Fail.", MatToastType.Warning);
+
+        }
+
     }
 }
