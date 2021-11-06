@@ -1,7 +1,7 @@
 ﻿@inject IHttpService http
 @inject IMatToaster toast
 @inject IStringLocalizer<Resource> lang
-<Modal IsSimpleMode="false" Title="PO Payment" OnClosed="@(() => ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
+<Modal IsSimpleMode="false" Title="@lang["PO Payment"]" OnClosed="@(() => ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px" >
     <ModalBody>
         @if (is_loading)
         {
@@ -39,7 +39,7 @@
             else
             {
                 <UIContainerBox>
-                    @lang["Cannot add payment for this PO invoice."]
+                    @lang["Cannot add payment for this purchase order."]
                 </UIContainerBox>
             }
         }
@@ -50,7 +50,7 @@
         <div class="model-footer">
             <div uk-margin class="uk-flex">
                 <div class="uk-margin-auto-left">
-                    @if (is_loading)
+                    @if (is_saving)
                     {
                         <Button icon="save" OnClick="@Save_Click">@lang["Saving"] <Spinner /></Button>
                     }
@@ -275,7 +275,7 @@
         save_model.payment_type = null;
 
 
-        var resp = await http.ApiPost("PurchaseOrderPayment/save", model);
+        var resp = await http.ApiPost("PurchaseOrderPayment/save", save_model);
         if (resp.IsSuccess)
         {
             await OnSave.InvokeAsync(true);

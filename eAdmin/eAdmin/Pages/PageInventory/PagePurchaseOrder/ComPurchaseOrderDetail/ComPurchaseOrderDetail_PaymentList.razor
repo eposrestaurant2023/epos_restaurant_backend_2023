@@ -5,7 +5,7 @@
 @if (!is_loading)
 {
     <UIGridCenter>
-        <UIContainerBox Title="@lang["Payment History"]" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = 0; })" show_print="@(po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())" OnPrint="@(()=>is_print = true)">
+        <UIContainerBox Title="@lang["Payment History"]" is_show_add_button="@(po.balance > 0)" OnAddClick="@(()=> { is_add_payment = true; payment_id = 0; })">
           @if (po.purchase_order_payments.Where(r=>r.is_deleted == false).Any())
             {
                 @foreach (var p in po.purchase_order_payments.Where(r=>r.is_deleted == false).OrderByDescending(r => r.created_date))
@@ -36,7 +36,7 @@
                             </div>
                             <Spacing Number="10" />
                             <Column ClassName="uk-text-right">
-                                <Icon icon="print" OnClick="@(()=>is_print = true)" roles="@gv.GetRole("purchase_order_edit")" title="Print" />
+                              
                                 <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" roles="@gv.GetRole("purchase_order_edit")" title="Edit" />
                                 <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("purchase_order_delete_payment")" title="Delete" />
                             </Column>
@@ -55,10 +55,7 @@
     { 
         <ComPurchaseOrderDetail_AddPayment po="@po" id="@payment_id" @bind-is_opened="@is_add_payment" payment_id="@payment_id" OnSave="@OnReload"/>
     }
-    @if (is_print)
-    {
-        <ComPreviewReport report_id="204" @bind-IsOpened="@is_print" />
-    }
+  
 }
 @code {
 
@@ -70,7 +67,7 @@
    
     [Parameter] public EventCallback<bool> on_reload { get; set; }
     int payment_id = 0;
-    bool is_loading, is_add_payment, is_print;
+    bool is_loading, is_add_payment;
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
