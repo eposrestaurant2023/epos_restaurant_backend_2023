@@ -81,9 +81,14 @@
     [Parameter] public StockTakeModel model { get; set; }
     [Parameter] public bool is_view_detail { get; set; } = false;
 
-    string StateKey = "StotTAKE100r9u0rPURHEADERINV9897";
+    public string StateKey
+    {
+        get
+        {
 
-
+            return "StotTAKE100r9u0rPURHEADERINV9897" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;

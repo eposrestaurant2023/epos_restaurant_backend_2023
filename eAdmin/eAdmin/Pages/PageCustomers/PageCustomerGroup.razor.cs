@@ -13,11 +13,19 @@ namespace eAdmin.Pages.PageCustomers
     {
         public List<CustomerGroupModel> customer_groups = new List<CustomerGroupModel>();
         public CustomerGroupModel model = new CustomerGroupModel();
-        public string StateKey = "278484567Gs254254njht8kjhTonB3PCz2Ts"; //Storage and Session Key
         public int TotalRecord = 0;
         public bool ShowModal = false;
         public string ModalTitle = "";
         string controller_api = "CustomerGroup";
+        public string StateKey
+        {
+            get
+            {
+
+                return "278484567Gs254254njht8kjhTonB3PCz2Ts" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
+
         DateTime date = DateTime.Now;
         public string ControllerApi
         {

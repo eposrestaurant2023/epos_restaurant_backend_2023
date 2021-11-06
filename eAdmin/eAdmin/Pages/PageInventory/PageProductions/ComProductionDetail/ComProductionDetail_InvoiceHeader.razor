@@ -80,9 +80,14 @@
 @code {
     [Parameter] public ProductionModel model { get; set; }
     [Parameter] public bool is_view_detail { get; set; } = false;
+    public string StateKey
+    {
+        get
+        {
 
-    string StateKey = "PRODUCT100r9u0rPURHEADERINV9897";
-
+            return "PRODUCT100r9u0rPURHEADERINV9897" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

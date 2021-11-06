@@ -15,11 +15,17 @@ namespace eAdmin.Pages.PageProducts
         public ProductModel model = new ProductModel();
          
 
-        public string StateKey = "278484567Gs252sd45KJssHGytkjhTonB3PCz2Ts"; //Storage and Session Key
 
         public int TotalRecord = 0;
-       
 
+        public string StateKey
+        {
+            get
+            {
+
+                return "278484567Gs252sd45KJssHGytkjhTonB3PCz2Ts" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         string controller_api = "Product";
 
        

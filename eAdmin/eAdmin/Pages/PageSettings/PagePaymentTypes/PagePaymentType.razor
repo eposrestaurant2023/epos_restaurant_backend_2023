@@ -123,7 +123,14 @@
     List<PaymentTypeModel> payment_types = new List<PaymentTypeModel>();
     List<BusinessBranchPaymentTypeModel> business_branch_payment_types = new List<BusinessBranchPaymentTypeModel>();
     string controller_api = "PaymentType";
-    string StateKey = "278484567G25478kjdyvgetrjhTonB3PCz2Ts";
+    public string StateKey
+    {
+        get
+        {
+
+            return "278484567G25478kjdyvgetrjhTonB3PCz2Ts" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
     string api_query = "?$expand=business_branch_payment_types";
 
     string ControllerApi

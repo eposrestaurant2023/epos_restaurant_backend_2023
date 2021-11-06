@@ -16,14 +16,20 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
         public List<ProductIngredientRelatedModel> models = new List<ProductIngredientRelatedModel>();
         public ProductIngredientRelatedModel model = new ProductIngredientRelatedModel();
         
-        public string StateKey = "INGRE84567Gs252sd45KJssASSOciate21"; //Storage and Session Key
 
         public int TotalRecord = 0;
        
 
         string controller_api = "ProductIngredientRelated";
+        public string StateKey
+        {
+            get
+            {
 
-       
+                return "INGRE84567Gs252sd45KJssASSOciate21" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
+
         public string ControllerApi
         {
             get
@@ -39,7 +45,6 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            StateKey = StateKey + ingredient_id.ToString();
             state = await GetState(StateKey);
 
             state.filters.Clear(); 

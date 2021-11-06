@@ -14,10 +14,17 @@ namespace eAdmin.Pages.PageReceipt
     public class ComSaleBase : PageCore
     {
         public List<SaleModel> models = new List<SaleModel>();
-        public string StateKey = "list9hUndmRGrRwdzVOID2012u9T3AEj";
         public SaleModel model = new SaleModel();
         public int TotalRecord = 0; 
         string controller_api = "sale";
+        public string StateKey
+        {
+            get
+            {
+
+                return "list9hUndmRGrRwdzVOID2012u9T3AEj" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -166,7 +173,7 @@ namespace eAdmin.Pages.PageReceipt
 
             // filter business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
             {
                
                 foreach(var x in state.multi_select_value_1)

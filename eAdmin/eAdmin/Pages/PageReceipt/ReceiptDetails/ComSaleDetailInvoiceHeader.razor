@@ -101,9 +101,14 @@
     [Parameter] public SaleModel sale { get; set; }
     [Parameter] public bool is_view_detail { get; set; } = false;
 
+    public string StateKey
+    {
+        get
+        {
 
-    string StateKey = "803024893204r3ui20r9u0rfmdjiosfdjlsfjsd";
-
+            return "803024893204r3ui20r9u0rfmdjiosfdjlsfjsd" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

@@ -94,9 +94,14 @@
 @code {
     [Parameter] public PurchaseOrderModel po { get; set; }
     [Parameter] public bool is_view_detail { get; set; } = false;
+    public string StateKey
+    {
+        get
+        {
 
-    string StateKey = "24893204r3ui20r9u0rPURHEADERINV9897";
-
+            return "24893204r3ui20r9u0rPURHEADERINV9897" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

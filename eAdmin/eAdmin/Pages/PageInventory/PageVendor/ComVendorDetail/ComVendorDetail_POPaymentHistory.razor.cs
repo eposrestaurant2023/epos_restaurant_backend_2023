@@ -16,8 +16,15 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
         [Parameter] public int vendor_id { get; set; }
         public List<PurchaseOrderPaymentModel> models = new List<PurchaseOrderPaymentModel>();
         public int TotalRecord = 0;
-        public string  StateKey = "STOPOPaymentdmRGrRwd5021D20154coN";
         string controller_api = "PurchaseOrderPayment";
+        public string StateKey
+        {
+            get
+            {
+
+                return "STOPOPaymentdmRGrRwd5021D20154coN" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -38,7 +45,6 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            StateKey += vendor_id;
             state = await GetState(StateKey);
 
             var default_view = gv.GetDefaultModuleView("page_purchase_payment");
@@ -147,7 +153,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
 
             // filter business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
             {
 
                 foreach (var x in state.multi_select_value_1)

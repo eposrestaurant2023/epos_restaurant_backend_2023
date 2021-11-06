@@ -14,13 +14,21 @@ namespace eAdmin.Pages.PageCustomers
         public List<VendorModel> Vendor = new List<VendorModel>();
         public VendorModel model = new VendorModel();
 
-        public string StateKey = "123484567Gs25245KJHGytkjhTonB3PCz2Ts"; //Storage and Session Key
 
         public int TotalRecord = 0;
         public bool ShowModal = false;
         public string ModalTitle = "";
 
         string controller_api = "Vendor";
+
+        public string StateKey
+        {
+            get
+            {
+
+                return "123484567Gs25245KJHGytkjhTonB3PCz2Ts" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
 
         DateTime date = DateTime.Now;
 

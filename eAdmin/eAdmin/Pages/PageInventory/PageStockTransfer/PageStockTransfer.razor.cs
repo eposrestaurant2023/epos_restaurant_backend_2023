@@ -14,11 +14,19 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
     public class PageStockTransferBase : PageCore
     { 
         public List<StockTransferModel> models = new List<StockTransferModel>();
-        public StockTransferModel model = new StockTransferModel();       
-        public string StateKey = "TRANSFERndmRGPUSTOCKe09830212"; //Storage and Session Key      
+        public StockTransferModel model = new StockTransferModel();         
         public int TotalRecord = 0;
 
         string controller_api = "StockTransfer";
+
+        public string StateKey
+        {
+            get
+            {
+
+                return "TRANSFERndmRGPUSTOCKe09830212" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -40,7 +48,6 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            StateKey += model.id;
             state = await GetState(StateKey);
             if (state.page_title == "")
             {
@@ -199,7 +206,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
 
             // filter from  business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null && state.multi_select_value_1.Any())
             {
 
                 foreach (var x in state.multi_select_value_1)

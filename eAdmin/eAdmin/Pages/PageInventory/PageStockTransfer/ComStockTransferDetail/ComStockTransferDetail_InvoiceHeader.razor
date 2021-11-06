@@ -100,9 +100,14 @@
 @code {
     [Parameter] public StockTransferModel model { get; set; }
     [Parameter] public bool is_view_detail { get; set; } = false;
+    public string StateKey
+    {
+        get
+        {
 
-    string StateKey = "STOCKTRANESFER0r9u0rPURHEADERIN007";
-
+            return "STOCKTRANESFER0r9u0rPURHEADERIN007" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

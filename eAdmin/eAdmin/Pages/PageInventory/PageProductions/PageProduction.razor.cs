@@ -14,11 +14,18 @@ namespace eAdmin.Pages.PageInventory.PageProductions
     public class PageProductionBase : PageCore
     {
         public List<ProductionModel> models = new List<ProductionModel>();
-        public ProductionModel model = new ProductionModel();
-        public string StateKey = "PROD9hUndmRGPUStockTake09830212"; //Storage and Session Key      
+        public ProductionModel model = new ProductionModel();    
         public int TotalRecord = 0;
 
         string controller_api = "Production";
+        public string StateKey
+        {
+            get
+            {
+
+                return "PROD9hUndmRGPUStockTake09830212" + gv.current_login_user.id; //Storage and Session Key  
+            }
+        }
         public string ControllerApi
         {
             get
@@ -40,7 +47,6 @@ namespace eAdmin.Pages.PageInventory.PageProductions
         {
             is_loading = true;
 
-            StateKey += model.id;
             state = await GetState(StateKey);
 
 
@@ -170,7 +176,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
 
             // filter business
             string business_branch_ids = "";
-            if (state.multi_select_value_1 != null)
+            if (state.multi_select_value_1 != null &&state.multi_select_value_1.Any())
             {
 
                 foreach (var x in state.multi_select_value_1)
