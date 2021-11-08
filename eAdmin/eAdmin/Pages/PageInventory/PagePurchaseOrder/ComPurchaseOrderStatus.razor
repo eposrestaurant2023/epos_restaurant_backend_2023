@@ -18,11 +18,18 @@
     }
 
     <LabelUnpaid is_visible="@(!po.is_deleted && !po.is_paid && (po.total_amount > 0) && (po.balance == po.total_amount))" />
-
-    @if (po.is_fulfilled && !po.is_deleted)
+    @if (po.is_deleted == false)
     {
-        <span class="uk-label fulfilled">Fulfilled</span>
+        @if (po.is_fulfilled)
+        {
+            <span class="uk-label fulfilled">Fulfilled</span>
+        }
+        else
+        {
+            <span class="uk-label draft">Draft</span>
+        }
     }
+
     @if (is_show_deleted_status)
     {
         <LabelDeleted is_visible="@(po.is_deleted)" />

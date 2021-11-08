@@ -47,7 +47,7 @@
                         <ThCenter>@lang["Quantity On Hand"]</ThCenter> 
                         <ThAuto>@lang["Note"]</ThAuto>
                         <ThCenter>@lang["Created Date"]</ThCenter>
-                        <ThRight>@lang["Created By"]</ThRight>
+                        <Th>@lang["Created By"]</Th>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>@p.transaction_date.ToString(gv.date_format)</TdCenter>
@@ -76,7 +76,7 @@
                             @p.note
                         </td>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
-                        <TdRight>@p.created_by</TdRight>
+                        <td>@p.created_by</td>
                     </RowTemplate>
                 </Table>
             </Com>

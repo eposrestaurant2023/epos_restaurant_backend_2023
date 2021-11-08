@@ -56,7 +56,7 @@
                         @HeaderTemplate("vendor_group_name_en", lang["Vendor Group"], "uk-text-left")
                         @HeaderTemplate("mobile_phone", lang["Mobile Phone"], "uk-text-center")
                         @HeaderTemplate("office_phone", lang["Office Phone"], "uk-text-center")
-                        @HeaderTemplate("total_payable", lang["Total Payable"], "uk-text-right")
+                        @HeaderTemplate("total_payable", lang["Balance"], "uk-text-right")
                         @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
                     </TableHeader>
@@ -86,7 +86,7 @@
                             @p.office_phone
                         </TdCenter>
                         <TdRight>
-                            00
+                            @p.total_payable.ToString(gv.currency_format)
                         </TdRight>
                         <TdCenter>
                             <LabelDeleted is_visible="@p.is_deleted" />

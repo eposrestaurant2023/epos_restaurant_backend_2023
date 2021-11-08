@@ -54,7 +54,7 @@
                         <ThRight>@lang["Cost"]</ThRight>
                         <ThRight> @lang["Grand Total"]</ThRight>
                         <ThCenter>@lang["Created Date"]</ThCenter>
-                        <ThRight>@lang["Created By"]</ThRight>
+                        <Th>@lang["Created By"]</Th>
                         <ThCenter>@lang["Status"]</ThCenter>
                         <ThCenter></ThCenter>
                     </TableHeader>
@@ -84,7 +84,7 @@
                             @p.grand_total.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
-                        <TdRight>@p.created_by</TdRight>
+                        <td>@p.created_by</td>
                         <TdRight>
                             <ComProductionStatus model="@p.production"/>
                         </TdRight>
