@@ -69,13 +69,13 @@
             <div>
                 @lang["Created By"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
             </div>
-
             @if (model.is_deleted)
             {
                 <div>
                     @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
                 </div>
             }
+            <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
         </div>
     @code {
 

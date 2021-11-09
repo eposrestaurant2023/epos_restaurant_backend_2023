@@ -9,8 +9,9 @@
     }
     @if (sale.is_deleted)
     {
-        <div>Deleted by @sale.deleted_by on @string.Format(sale.deleted_date.ToString(),"dd-MM-yyyy")</div>
+        <div>Deleted by @sale.deleted_by on @string.Format(sale.deleted_date.ToString(), "dd-MM-yyyy")</div>
     }
+    <div>Last modified by @sale.last_modified_by on @string.Format(sale.last_modified_date.ToString(), "dd-MM-yyyy")</div>
 </div>
 @code {
     [Parameter] public SaleModel sale { get; set; }

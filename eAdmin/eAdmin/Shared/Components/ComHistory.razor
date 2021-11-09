@@ -51,7 +51,7 @@
                             <div class="description">@h.description</div>
                         </div>
                         <div class="uk-width-auto">
-                            <div class="wrp-comment-tt">@h.created_date.ToString("MMM dd yyyy ") at @h.created_date.ToString("HH:mm")</div> 
+                            <div class="wrp-comment-tt">@h.created_date.ToString(gv.date_time_format)</div> 
                             <div class="uk-flex uk-flex-inline uk-flex-middle">
                                 <div>
                                     <Image ImageUrl="@http.ImageUrl(h.user?.photo)" PopupImageUrl="@http.ImageUrl(h.user?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />

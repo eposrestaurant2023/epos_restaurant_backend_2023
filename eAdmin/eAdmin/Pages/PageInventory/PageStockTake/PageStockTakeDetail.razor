@@ -9,14 +9,14 @@
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"Stock Take Invoice: {model.document_number}")"></Title>
+    <Title Value="@($"Stock Take: {model.document_number}")"></Title>
 
     <PageContainer roles="@gv.GetRole("stock_take_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Stock Take Invoice #"] @model.document_number
+                        @lang["Stock Take#"] @model.document_number
                         <ComStockTakeStatus model="@model" />
                     </HeaderTemplate>
                 </PageTitle>

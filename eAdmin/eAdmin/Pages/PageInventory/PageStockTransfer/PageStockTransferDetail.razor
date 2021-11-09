@@ -8,14 +8,14 @@
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"{lang["Stock Transfer Invoice"]} : {model.document_number}")" ></Title>
+    <Title Value="@($"{lang["Stock Transfer"]} : {model.document_number}")" ></Title>
 
     <PageContainer roles="@gv.GetRole("stock_transfer_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Stock Transfer Invoice #"] @model.document_number
+                        @lang["Stock Transfer#"] @model.document_number
                         <ComStockTransferStatus model="@model"/>
                     </HeaderTemplate>
                 </PageTitle>
