@@ -981,7 +981,7 @@ a, .btn-link {
 .uk-button-default,
 .loading-button {
     color: #12344d !important;
-    background-image: linear-gradient(to bottom,#fff,#f3f5f7);
+    background: #f3f5f7;
     border: 1px solid #cfd7df !important;
 }
 .loading-button {
@@ -1366,6 +1366,15 @@ a, a:hover {
     padding: 0px 8px;
 }
 
+.bg_donautchart {
+    top: 50%;
+    background: #fff;
+    left: 50%;
+    border-radius: 50%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
 
 #top-head > .uk-container {
     padding-left: 10px;
@@ -6635,14 +6644,18 @@ button.reconciled {
 .uk-card-header, .uk-card-body, .uk-card-footer {
     padding: 8px 15px !important;
 }
-
-    .uk-card-footer {
-        position: absolute;
-        left: 0px;
-        right: 0px;
-        top: auto;
-        bottom: 0px;
-    }
+.active_chart {
+    border: none !important;
+    color: #fff !important;
+    background-color: #1a2a7a !important;
+}
+.uk-card-footer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: auto;
+    bottom: 0px;
+}
 
     .item-info-title {
         font-size: 12px;

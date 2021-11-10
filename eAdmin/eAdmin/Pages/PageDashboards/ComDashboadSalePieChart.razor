@@ -1,0 +1,48 @@
+﻿@inject IStringLocalizer<Resource> lang
+<ComPanel>
+    <div>
+        @if (data.total_closed_order == 0 && data.total_active_order == 0 && data.total_deleted_order == 0)
+        {
+            <ChartNoData IsNoData="true" Empty="@lang["No Data"]" />
+        }
+        else
+        {
+            <ApexChart TItem="ChartModel" ChartType="ApexCharts.ChartType.Pie" Options="@GetOptions()">
+                <ApexSeries TItem="ChartModel"
+                            Items="chart_data"
+                            OrderBy="@(e=>e.X)"
+                            Name="Sale"
+                            XValue="@(e => e.label)"
+                            YAggregate="@(e => e.Sum(e => e.value))"
+                            ShowDataLabels="true" />
+            </ApexChart>
+
+        }
+    </div>
+</ComPanel>
+
+@code {
+    [Parameter] public DashboardKPIModel data { get; set; }
+    List<ChartModel> chart_data = new List<ChartModel>();
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    protected override void OnInitialized()
+    {
+        chart_data.Add(new ChartModel() { label = lang["Close Orders"], value = data.total_closed_order, color = "#ff8820" });
+        chart_data.Add(new ChartModel() { label = lang["Pending Orders"], value = data.total_active_order, color = "#ff8820" });
+        chart_data.Add(new ChartModel() { label = lang["Void Orders"], value = data.total_deleted_order, color = "#ff3324" });
+    }
+    private ApexCharts.ApexChartOptions<ChartModel> GetOptions()
+    {
+        var options = new ApexCharts.ApexChartOptions<ChartModel>();
+        options.Colors = chart_data.OrderBy(r => r.label).Select(r => r.color).ToList();
+        return options;
+    }
+
+
+    class ChartModel
+    {
+        public string label { get; set; }
+        public decimal value { get; set; }
+        public string color { get; set; }
+    }
+}

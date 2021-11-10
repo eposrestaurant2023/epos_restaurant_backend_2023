@@ -1,0 +1,18 @@
+﻿
+<div class="uk-position-relative">
+    <Com is_visible="@IsVisible">
+        @ChildContent
+    </Com>
+    <Com is_visible="@IsNoData">
+        <div class="bg_donautchart uk-align-center" style="width: @(NoDataWidth+"px"); height: @(NoDataWidth+"px");border: @(NoDataRadius+"px") solid #dadada;"><div> @Empty </div> </div>
+    </Com>
+</div>
+
+@code{
+    [Parameter] public bool IsNoData { get; set; } = false;
+    [Parameter] public string Empty { get; set; }
+    [Parameter] public bool IsVisible { get; set; } = true;
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public Int32 NoDataWidth { get; set; } = 200;
+    [Parameter] public Int32 NoDataRadius { get; set; } = 25;
+}

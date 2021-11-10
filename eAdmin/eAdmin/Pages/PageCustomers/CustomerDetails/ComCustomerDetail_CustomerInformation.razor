@@ -46,11 +46,7 @@
             <UIContainerBox Title="KPI">
                 <ComCustomerKPI data="@kpi" />
             </UIContainerBox>
-
-            @*<ComCustomerDetail_YearlySaleBarchart customer_id="@(model.id.ToString())" />*@
-
-
-
+            <ComCustomerDetail_YearlySaleBarchart customer_id="@(model.id.ToString())" />
             <UIContainerBox Title="@lang["Social Media Information"]">
                 <ListTable>
                     <ListTableItem ItemTitle="@lang["Email"]">@model.email</ListTableItem>
