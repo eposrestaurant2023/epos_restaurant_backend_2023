@@ -145,7 +145,6 @@ namespace eAPI.Controllers
             }
         }
 
-
         [HttpPost]
         [Route("MarkAsFulfilled/{id}")]
         public async Task<ActionResult> MarkAsFulfilled(int id) //mark as fullfileld 
@@ -162,11 +161,28 @@ namespace eAPI.Controllers
             // add to history
             db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_out_inventory_transaction {id}");
             db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_in_inventory_transaction {id}");
-
-       
-
             return Ok();
 
         }
+
+        [HttpPost]
+        [Route("CancelMarkAsFulfilled/{id}")]
+        public async Task<ActionResult> CancelMarkAsFulfilled(int id) //mark as fullfileld 
+        {
+
+            UserModel user = await db.Users.FindAsync(Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            StockTransferModel s = db.StockTransfers.Find(id);
+
+            s.is_fulfilled = false;
+            db.StockTransfers.Update(s);
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            // add to history
+            db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_in_inventory_transaction {id}");
+            return Ok();
+
+        }
+
+
     }
 }

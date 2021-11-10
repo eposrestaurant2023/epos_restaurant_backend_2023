@@ -8,8 +8,8 @@
     @if (po.is_deleted)
     {
         <div>Deleted by @po.deleted_by on  @po.deleted_date</div>
-        <div>@lang["Last modified by"] @po.last_modified_by @lang["on"] @po.last_modified_date</div>
     }
+    <div>@lang["Last modified by"] @po.last_modified_by @lang["on"] @po.last_modified_date</div>
 </div>
 @code {
     [Parameter] public PurchaseOrderModel po { get; set; }
