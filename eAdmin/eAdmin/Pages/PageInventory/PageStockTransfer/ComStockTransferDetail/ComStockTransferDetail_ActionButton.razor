@@ -79,6 +79,7 @@
     public async Task CancelMarkAsFulfilled()
     {
         is_loading = true;
+
         if (await js.Confirm("Cancel Make As Fulfilled", "Are you sure you want to​ cancel make as fulfilled?"))
         {
 
@@ -90,6 +91,7 @@
                 toast.Add("Cancel Mark as fulfilled successfully", MatToastType.Success);
             }
         }
+
         is_loading = false;
 
     }
