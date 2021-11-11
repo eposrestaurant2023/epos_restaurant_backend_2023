@@ -62,6 +62,11 @@ namespace eAPIClient.Controllers
                 DocumentNumberModel _saleNumber = new DocumentNumberModel();
                 bool is_new = true;
                 model.customer = null;
+                model.is_foc = false;
+                if (model.sale_payments.Any())
+                {
+                    model.is_foc = model.sale_payments.Where(r => r.is_deleted == false && r.payment_type_group == "FOC").Any();
+                }
                 model.sale_products.ForEach(r => r.sale_order = r.sale_order_id != Guid.Empty ? null : r.sale_order);
                 if (model.id == Guid.Empty)
                 {
@@ -106,6 +111,12 @@ namespace eAPIClient.Controllers
                         await app.UpdateDocument(_saleDoc);
                     }
                 }
+
+
+                //for anyupdate that related to sale if have
+                db.Database.ExecuteSqlRaw($"exec sp_update_sale_infomation '{model.id}'");
+
+
                 app.sendSyncRequest();
 
                 return Ok(model);
