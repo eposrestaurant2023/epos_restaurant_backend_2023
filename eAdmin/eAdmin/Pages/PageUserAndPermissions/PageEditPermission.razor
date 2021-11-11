@@ -3,6 +3,8 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
+    @string.Join(",", SelectedOption.Select(r => r.id).ToArray())
+
     <Title Value="Set Permission"></Title>
     <PageContainer roles="@gv.GetRole($"{(role_id > 0 ? "role_edit" : "role_add")}")">
         <PageHeader>
@@ -31,7 +33,7 @@
                         <TabItem>
                             <UIGridCenter>
                                 <UIContainerBox Title="Front End">
-                                    <MudTreeView CanActivate="true" @bind-SelectedValues="@SelectedOption" Items="@(new HashSet<PermissionModel>(permissions.Where(r=>r.is_front_end == true)))" T="PermissionModel" CanSelect="true" Context="d">
+                                    <MudTreeView CanActivate="true" @bind-SelectedValues="@SelectedOptionFrontend" Items="@(new HashSet<PermissionModel>(permissions.Where(r=>r.is_front_end == true)))" T="PermissionModel" CanSelect="true" Context="d">
                                         <ItemTemplate>
                                             <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@(new HashSet<PermissionModel>(d.ChildItem.Where(r=>r.is_front_end == true)))" Value="@d" Text="@d.note">
 
@@ -42,13 +44,12 @@
                             </UIGridCenter>
                         </TabItem>
                         <TabItem>
-                            @if (is_backend)
-                            {
+                             
                                 <UIGridCenter>
                                     <UIContainerBox Title="Back End">
-                                        <MudTreeView CanActivate="true" @bind-SelectedValues="@SelectedOption" Items="@(new HashSet<PermissionModel>(permissions.Where(r=>r.is_front_end  == false)))" T="PermissionModel" CanSelect="true" Context="d">
+                                        <MudTreeView CanActivate="true" @bind-SelectedValues="@SelectedOptionBackend" Items="@(new HashSet<PermissionModel>(permissions.Where(r=>r.is_front_end  == false && r.is_report==false && r.parent_id!=44)))" T="PermissionModel" CanSelect="true" Context="d">
                                             <ItemTemplate>
-                                                <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@(new HashSet<PermissionModel>(d.ChildItem.Where(r=>r.is_front_end  == false)))" Value="@d" Text="@d.note">
+                                                <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@(new HashSet<PermissionModel>(d.ChildItem.Where(r=>r.is_front_end  == false && r.is_report == false)))" Value="@d" Text="@d.note">
 
                                                 </MudTreeViewItem>
                                             </ItemTemplate>
@@ -56,24 +57,26 @@
                                     </UIContainerBox>
                                 </UIGridCenter>
 
-                            }
+                           
                         </TabItem>
                         <TabItem>
-                            @if (is_report)
-                            {
-                                <UIGridCenter>
-                                    <UIContainerBox Title="Report">
-                                        <MudTreeView T="PermissionModel" CanActivate="true" @bind-SelectedValues="@SelectedOption" Items="@(new  HashSet<PermissionModel>(permissions.Where(r=>r.is_report  == true)))" CanSelect="true" Context="d">
-                                            <ItemTemplate>
-                                                <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@(new HashSet<PermissionModel>(d.ChildItem.Where(r=>r.is_report == true)))" Value="@d" Text="@d.note">
-
-                                                </MudTreeViewItem>
-                                            </ItemTemplate>
-                                        </MudTreeView>
-                                    </UIContainerBox>
-                                </UIGridCenter>
                              
-                            }
+                            <UIGridCenter>
+                                <UIContainerBox Title="@lang["Access Report"]">
+                                    <ComInputCheckBox label="@lang["View Report"]" @bind-value="@view_report" label_inline="true" />
+                                </UIContainerBox>
+                                <UIContainerBox Title="Report" is_visible="@view_report">
+                                    <MudTreeView T="PermissionModel" CanActivate="true" @bind-SelectedValues="@SelectedOptionReport" Items="@(new  HashSet<PermissionModel>(permissions.Where(r=>r.is_report  == true && r.parent_id == 44)))" CanSelect="true" Context="d">
+                                        <ItemTemplate>
+                                            <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@(new HashSet<PermissionModel>(d.ChildItem.Where(r=>r.is_report == true)))" Value="@d" Text="@d.note">
+
+                                            </MudTreeViewItem>
+                                        </ItemTemplate>
+                                    </MudTreeView>
+                                </UIContainerBox>
+                            </UIGridCenter>
+                             
+                            
                         </TabItem>
                     </TabBody>
                 </Tab>
@@ -90,10 +93,12 @@
 
 @code {
     [Parameter] public int role_id { get; set; }
-    public HashSet<PermissionModel> SelectedOption { get; set; } = new HashSet<PermissionModel>();
+    public HashSet<PermissionModel> SelectedOptionFrontend { get; set; } = new HashSet<PermissionModel>();
+    public HashSet<PermissionModel> SelectedOptionBackend { get; set; } = new HashSet<PermissionModel>();
+    public HashSet<PermissionModel> SelectedOptionReport { get; set; } = new HashSet<PermissionModel>();
     List<PermissionModel> permissions{ get; set; } = new List<PermissionModel>();
     RoleModel role = new RoleModel();
-    bool is_fronend, is_backend, is_report;
+    bool is_fronend, is_backend, is_report, view_report;
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
