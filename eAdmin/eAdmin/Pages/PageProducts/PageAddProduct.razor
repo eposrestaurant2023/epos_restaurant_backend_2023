@@ -53,7 +53,7 @@
                                             <ValidationMessage For="@(() => model.product_name_en)" />
                                         </TextInput>
                                         <TextInput label="@lang["Product Name(KH)"]" @bind-text="@model.product_name_kh" />
-                                        <SelectProductGroup @bind-selected_value="@model.product_group_id" show_empty="true" empty_text="Please select group"/>
+                                        <SelectProductGroup selected_value="@model.product_group_id" selected_valueChanged="@ProductGroupChanged" show_empty="true" empty_text="Please select group"/>
                                         <SelectProductCategory @bind-selected_value="@model.product_category_id" product_group_id="@model.product_group_id" show_empty="true"  is_ingredient_category="false">
                                             <ValidationMessage For="@(()=>model.product_category_id)" />
                                         </SelectProductCategory>
