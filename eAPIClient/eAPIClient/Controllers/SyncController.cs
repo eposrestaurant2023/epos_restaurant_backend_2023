@@ -324,7 +324,7 @@ namespace eAPIClient.Controllers
             url += $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
             url += $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
             url += $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";
-            url += "&$filter=is_deleted eq false and status eq true";
+            url += "&$filter=is_deleted eq false and status eq true and is_menu_product eq true";
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
