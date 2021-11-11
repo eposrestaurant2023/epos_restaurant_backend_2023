@@ -121,7 +121,14 @@
     string new_password = "";
     string old_username = "";
     string controller_api = "User";
-    string StateKey = "55sNaBpzJlLzhs9IjuzqEODlwfBSCTTx";
+    public string StateKey
+    {
+        get
+        {
+
+            return "55sNaBpzJlLzhs9IjuzqEODlwfBSCTTx" + gv.current_login_user.id; //Storage and Session Key  
+        }
+    }
     public string ControllerApi
     {
         get

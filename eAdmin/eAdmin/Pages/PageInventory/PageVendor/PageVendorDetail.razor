@@ -79,7 +79,7 @@
                                         </table>
                                         <Spacing Number="15" />
                                         <div class="uk-card uk-card-credit uk-card-body">
-                                            <h3 class="uk-margin-remove">125.00</h3>
+                                            <h3 class="uk-margin-remove">@model.total_payable.ToString(gv.currency_format)</h3>
                                             <div class="uk-text-small uk-text-italic">@lang["Credit Ballance"]</div>
                                         </div>
                                     </ContentRight>
@@ -100,6 +100,19 @@
                                 @model.address
                             </UIContainerBox>
                         </UIGridCenter>
+
+                        <div class="invoice_footer_description">
+                            <div>
+                                @lang["Created By"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
+                            </div>
+                            @if (model.is_deleted)
+                            {
+                                <div>
+                                    @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
+                                </div>
+                            }
+                            <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+                        </div>
                     </TabItem>
                    
                     <TabItem>

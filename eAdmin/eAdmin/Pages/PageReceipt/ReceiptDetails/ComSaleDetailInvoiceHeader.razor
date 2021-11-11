@@ -56,12 +56,32 @@
                             <td>@sale.business_branch?.business_branch_name_en</td>
                         </tr>
                     }
-
                     @if (sale.outlet != null)
                     {
                         <tr>
-                            <td>@lang["Outlet Name"]:</td>
-                            <td>@sale.outlet?.outlet_name_en</td>
+                            <td>@lang["Business Branch"]:</td>
+                            <td>@sale.business_branch?.business_branch_name_en</td>
+                        </tr>
+                    }
+                    @if (!String.IsNullOrEmpty(sale.outlet_name_en))
+                    {
+                        <tr>
+                            <td>@lang["Outlet"]:</td>
+                            <td>@sale.outlet_name_en</td>
+                        </tr>
+                    }
+                    @if (!String.IsNullOrEmpty(sale.station_name_en))
+                    {
+                        <tr>
+                            <td>@lang["Station"]:</td>
+                            <td>@sale.station_name_en</td>
+                        </tr>
+                    }
+                    @if (!String.IsNullOrEmpty(sale.cash_drawer_name))
+                    {
+                        <tr>
+                            <td>@lang["Cash Drawer"]:</td>
+                            <td>@sale.cash_drawer_name</td>
                         </tr>
                     }
                     @if (gv.is_shift_management)
@@ -77,18 +97,18 @@
                                 </td>
                             </tr>
                         }
-                       
-                            @if (sale.cashier_shift_number != null)
-                            {
-                                <tr>
-                                    <td>@lang["Cashier Shift No"]:</td>
-                                    <td>
-                                        <ComAuthorize roles="@gv.GetRole("cashier_shift_management")" url="@($"cashiershift/{sale.cashier_shift_id}")">
-                                            @sale.cashier_shift_number
-                                        </ComAuthorize>
-                                    </td>
-                                </tr>
-                            
+
+                        @if (sale.cashier_shift_number != null)
+                        {
+                            <tr>
+                                <td>@lang["Cashier Shift No"]:</td>
+                                <td>
+                                    <ComAuthorize roles="@gv.GetRole("cashier_shift_management")" url="@($"cashiershift/{sale.cashier_shift_id}")">
+                                        @sale.cashier_shift_number
+                                    </ComAuthorize>
+                                </td>
+                            </tr>
+
                         }
 
                     }

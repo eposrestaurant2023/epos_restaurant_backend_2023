@@ -3576,6 +3576,10 @@ namespace eAPI.Migrations
                     b.Property<Guid>("cash_drawer_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("cash_drawer_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid>("cashier_shift_id")
                         .HasColumnType("uniqueidentifier");
 

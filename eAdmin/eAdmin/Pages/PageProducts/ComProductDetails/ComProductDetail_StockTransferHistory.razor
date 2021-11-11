@@ -64,7 +64,7 @@
                         </ThAuto>
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThCenter>@lang["Created Date"]</ThCenter>
-                        <ThRight>@lang["Created By"]</ThRight>
+                        <Th>@lang["Created By"]</Th>
                         <ThRight>@lang["Status"]</ThRight>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
@@ -94,9 +94,9 @@
                         <TdCenter>
                             @p.stock_transfer?.created_date.ToString(gv.date_time_format)
                         </TdCenter>
-                        <TdRight>
+                        <td>
                             @p.stock_transfer?.created_by
-                        </TdRight>
+                        </td>
                         <TdRight>
                             <ComStockTransferStatus model="@p.stock_transfer" />
                         </TdRight>

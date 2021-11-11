@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIGridCenter>
-    <UISummaryBox Title="@lang["Ingredient Product Information"]"  ShowImage="true" ImageUrl="@model.photo">
+    <UISummaryBox Title="@lang["Ingredient Product Information"]" ShowImage="true" ImageUrl="@model.photo">
         <ContentLeft>
             <table>
                 <tr>
@@ -18,7 +18,7 @@
                 <tr>
                     <th>@lang["Category"]</th>
                     <td>@model.product_category?.product_category_en</td>
-                </tr>    
+                </tr>
                 <tr>
                     <th>@lang["Unit"]</th>
                     <td>@model.unit?.unit_name</td>
@@ -48,14 +48,27 @@
     </UISummaryBox>
     <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
         <div class="area-text">
-        @model.note
+            @model.note
         </div>
     </UIContainerBox>
     <Com is_visible="@model.is_inventory_product">
-        <Spacing Number="10"/>
-        <ComProductDetail_InventoryInformation product_id="@model.id" is_ingredient="true"/>
+        <Spacing Number="10" />
+        <ComProductDetail_InventoryInformation product_id="@model.id" is_ingredient="true" />
     </Com>
 </UIGridCenter>
+
+<div class="invoice_footer_description">
+    <div>
+        @lang["Created By"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
+    </div>
+    @if (model.is_deleted)
+    {
+        <div>
+            @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
+        </div>
+    }
+    <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+</div>
 
 @code {
     [Parameter] public ProductModel model { get; set; }

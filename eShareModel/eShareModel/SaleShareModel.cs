@@ -15,6 +15,7 @@ namespace eShareModel
 
         public string station_name_en { get; set; }
         public string station_name_kh { get; set; }
+        public string cash_drawer_name { get; set; }
 
         public string outlet_name_en { get; set; }
         public string outlet_name_kh { get; set; }
