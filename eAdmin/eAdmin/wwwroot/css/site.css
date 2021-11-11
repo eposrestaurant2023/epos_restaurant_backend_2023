@@ -1389,7 +1389,11 @@ a, a:hover {
     border: 1px solid #dadada;
     transition: .2s;
 }
-
+.cus_card_heigh {
+    background: #fff;
+    color: #666;
+    box-shadow: 0 5px 15px rgb(0 0 0 / 8%);
+}
     .btn_logout:hover {
         border: 1px solid #bbbbbb;
         background: #ececec;
