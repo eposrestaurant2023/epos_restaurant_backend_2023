@@ -1,45 +1,62 @@
 ﻿@inject IStringLocalizer<Resource> lang
-<ComPanel>
-    @if (data.total_closed_order == 0 && data.total_active_order == 0 && data.total_deleted_order == 0)
+@inject IHttpService http; 
+<ComPanel Title="Sale Type Summary">
+    @if (is_loading)
     {
-        <ChartNoData IsNoData="true" Empty="@lang["No Data"]" />
+        <Spinner />
     }
     else
     {
-        <ApexChart TItem="ChartModel" ChartType="ApexCharts.ChartType.Pie" Options="@GetOptions()" Width="300">
-            <ApexSeries TItem="ChartModel"
-                        Items="chart_data"
-                        OrderBy="@(e=>e.X)"
-                        Name="Sale"
-                        XValue="@(e => e.label)"
-                        YAggregate="@(e => e.Sum(e => e.value))"
-                        ShowDataLabels="true" />
-        </ApexChart>
 
+        
+            <ApexChart TItem="SaleTypeSummary" ChartType="ApexCharts.ChartType.Pie" Options="@GetOptions()" Width="300">
+                <ApexSeries TItem="SaleTypeSummary"
+                            Items="data"
+                            OrderBy="@(e => e.X)"
+                            Name="Sale"
+                            XValue="@(e => e.sale_type)"
+                            YAggregate="@(e => e.Sum(e => e.total_order))"
+                            ShowDataLabels="true" />
+            </ApexChart>
+
+       
     }
-</ComPanel>
+    </ComPanel>
 @code {
-    [Parameter] public DashboardKPIModel data { get; set; }
-    List<ChartModel> chart_data = new List<ChartModel>();
+
+
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    protected override void OnInitialized()
+    [Parameter] public string business_branch_id { get; set; } = "";
+
+    List<SaleTypeSummary> data = new List<SaleTypeSummary>();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
     {
-        chart_data.Add(new ChartModel() { label = lang["Close Orders"], value = data.total_closed_order, color = "#ff8820" });
-        chart_data.Add(new ChartModel() { label = lang["Pending Orders"], value = data.total_active_order, color = "#ff8820" });
-        chart_data.Add(new ChartModel() { label = lang["Void Orders"], value = data.total_deleted_order, color = "#ff3324" });
+        is_loading = true;
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_sale_type_summary", procedure_parameter = $"'{business_branch_id}'" });
+        if (resp.IsSuccess)
+        {
+            data = JsonSerializer.Deserialize<List<SaleTypeSummary>>(resp.Content.ToString());
+
+        }
+        is_loading = false;
     }
-    private ApexCharts.ApexChartOptions<ChartModel> GetOptions()
+
+
+    private ApexCharts.ApexChartOptions<SaleTypeSummary> GetOptions()
     {
-        var options = new ApexCharts.ApexChartOptions<ChartModel>();
-        options.Colors = chart_data.OrderBy(r => r.label).Select(r => r.color).ToList();
+        var options = new ApexCharts.ApexChartOptions<SaleTypeSummary>();
+        options.Colors = data.OrderBy(r => r.sale_type).Select(r => r.color).ToList();
         return options;
     }
 
 
-    class ChartModel
+    class SaleTypeSummary
     {
-        public string label { get; set; }
-        public decimal value { get; set; }
+
+        public string sale_type { get; set; }
         public string color { get; set; }
+        public decimal total_order { get; set; }
+
     }
 }

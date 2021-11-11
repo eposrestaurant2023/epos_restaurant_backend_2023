@@ -16,7 +16,7 @@
         <div class="uk-width-1-3">
             <ComDashboardSaleIndicator data="kpi" />
             <Spacing Number="15" />
-            <ComDashboadSalePieChart data="kpi" />
+            <ComDashboadSalePieChart business_branch_id="@business_branch_id" />
         </div>
         </div>
 
@@ -46,7 +46,7 @@
 }
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public string business_branch_id { get; set; }
+    [Parameter] public string business_branch_id { get; set; } = "";
 
     int top = 10;
     string select_order = "10";

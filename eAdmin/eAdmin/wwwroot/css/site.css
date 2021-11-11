@@ -1,3 +1,10 @@
+html:lang(en) {
+    font-family: "Roboto",sans-serif;
+}
+
+html:lang(km-kh), .lang-km-kh {
+    font-family: Battambang,"Open Sans",Calibri,Candara,Arial,sans-serif !important;
+}
 :root {
     --mud-palette-black: #000000;
     --mud-palette-white: #FFFFFF;
@@ -103,10 +110,7 @@
     --mud-zindex-snackbar: 1500;
     --mud-zindex-tooltip: 1600;
 }
-@font-face {
-    font-family: siemreap;
-    src: url(../fonts/Siemreap.ttf);
-}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -176,7 +180,10 @@
     color: #fff;
     font-size: 24px;
 }
-
+.lang-km-kh {
+    color: #666 !important;
+    font-weight: 100;
+}
 .mdc-linear-progress {
     position: fixed !important;
     top: 0px;

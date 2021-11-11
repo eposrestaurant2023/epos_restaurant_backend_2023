@@ -63,7 +63,7 @@
                             <div class="sub-header-table">@lang["Station"]</div>
                         </ThAuto>
                         <ThCenter>@lang["Sale Type"]</ThCenter>
-                        <th>@lang["Table #"]</th>
+                        <ThCenter>@lang["Table #"]</ThCenter>
 
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Discount"]</ThRight>    
@@ -114,11 +114,11 @@
                                 @p.sale_type
                             </div>
                         </TdCenter>
-                        <td>
+                        <TdCenter>
                             <div>
                                 @p.table_name
                             </div>
-                        </td>
+                        </TdCenter>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
