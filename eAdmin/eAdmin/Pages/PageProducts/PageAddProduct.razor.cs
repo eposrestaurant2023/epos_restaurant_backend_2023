@@ -281,5 +281,12 @@ namespace eAdmin.Pages.PageProducts
             is_saving = false;
         }
          
+
+        public void ProductGroupChanged(int id)
+        {
+            model.product_category_id = 0;
+            model.product_group_id = id;
+        }
+
     }
 }

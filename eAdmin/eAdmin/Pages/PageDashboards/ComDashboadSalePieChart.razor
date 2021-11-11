@@ -1,26 +1,23 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <ComPanel>
-    <div>
-        @if (data.total_closed_order == 0 && data.total_active_order == 0 && data.total_deleted_order == 0)
-        {
-            <ChartNoData IsNoData="true" Empty="@lang["No Data"]" />
-        }
-        else
-        {
-            <ApexChart TItem="ChartModel" ChartType="ApexCharts.ChartType.Pie" Options="@GetOptions()">
-                <ApexSeries TItem="ChartModel"
-                            Items="chart_data"
-                            OrderBy="@(e=>e.X)"
-                            Name="Sale"
-                            XValue="@(e => e.label)"
-                            YAggregate="@(e => e.Sum(e => e.value))"
-                            ShowDataLabels="true" />
-            </ApexChart>
+    @if (data.total_closed_order == 0 && data.total_active_order == 0 && data.total_deleted_order == 0)
+    {
+        <ChartNoData IsNoData="true" Empty="@lang["No Data"]" />
+    }
+    else
+    {
+        <ApexChart TItem="ChartModel" ChartType="ApexCharts.ChartType.Pie" Options="@GetOptions()" Width="300">
+            <ApexSeries TItem="ChartModel"
+                        Items="chart_data"
+                        OrderBy="@(e=>e.X)"
+                        Name="Sale"
+                        XValue="@(e => e.label)"
+                        YAggregate="@(e => e.Sum(e => e.value))"
+                        ShowDataLabels="true" />
+        </ApexChart>
 
-        }
-    </div>
+    }
 </ComPanel>
-
 @code {
     [Parameter] public DashboardKPIModel data { get; set; }
     List<ChartModel> chart_data = new List<ChartModel>();

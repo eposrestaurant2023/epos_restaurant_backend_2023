@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211111043350_add_product_group_name_to_group")]
+    partial class add_product_group_name_to_group
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2600,6 +2602,14 @@ namespace eAPI.Migrations
                     b.Property<int>("product_group_id")
                         .HasColumnType("int");
 
+                    b.Property<string>("product_group_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("product_group_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("product_name_en")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -4348,10 +4358,6 @@ namespace eAPI.Migrations
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("color")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<bool>("is_build_in")
                         .HasColumnType("bit");
