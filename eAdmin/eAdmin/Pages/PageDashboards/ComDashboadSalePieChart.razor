@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http; 
-<ComPanel Title="Sale Type Summary">
+<ComPanel Title="@lang["Sale Type Summary"]">
     @if (is_loading)
     {
         <Spinner />
