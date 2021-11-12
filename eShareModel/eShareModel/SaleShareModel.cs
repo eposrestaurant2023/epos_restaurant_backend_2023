@@ -109,6 +109,7 @@ namespace eShareModel
         public bool is_foc { get; set; }
 
         public string deleted_note { get; set; }
+        public string old_table_name { get; set; }
         public bool is_synced { get; set; } = false;
 
 

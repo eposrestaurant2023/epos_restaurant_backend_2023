@@ -46,5 +46,7 @@ namespace eAPIClient.Models
         public string modifier_items { get; set; }
 
         public string sale_product_status_note { get; set; }
+
+        public Guid session_id { get; set; }
     }
 }

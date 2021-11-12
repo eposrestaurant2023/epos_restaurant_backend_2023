@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211112025510_change_table_note")]
+    partial class change_table_note
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -800,6 +802,10 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("changed_table_data")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("closed_by")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -909,10 +915,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("old_table_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -1577,9 +1579,6 @@ namespace eAPIClient.Migrations
                     b.Property<string>("sale_product_status_note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<Guid>("session_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("station_name")
                         .HasColumnType("nvarchar(max)")

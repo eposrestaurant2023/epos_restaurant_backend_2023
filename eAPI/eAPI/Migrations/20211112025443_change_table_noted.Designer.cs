@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211112025443_change_table_noted")]
+    partial class change_table_noted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,12 +136,11 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.BusinessBranchCurrencyModel", b =>
                 {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("currency_id")
+                        .HasColumnType("int");
 
                     b.Property<double>("change_exchange_rate")
                         .HasColumnType("float");
@@ -147,21 +148,13 @@ namespace eAPI.Migrations
                     b.Property<double>("change_exchange_rate_input")
                         .HasColumnType("float");
 
-                    b.Property<int>("currency_id")
-                        .HasColumnType("int");
-
                     b.Property<double>("exchange_rate")
                         .HasColumnType("float");
 
                     b.Property<double>("exchange_rate_input")
                         .HasColumnType("float");
 
-                    b.Property<bool>("is_deleted")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("business_branch_id");
+                    b.HasKey("business_branch_id", "currency_id");
 
                     b.HasIndex("currency_id");
 
@@ -375,9 +368,6 @@ namespace eAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("system_feature_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("status")
@@ -785,12 +775,6 @@ namespace eAPI.Migrations
                         .HasColumnType("float");
 
                     b.Property<bool>("is_base_exchange_currency")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_build_in")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_main")
@@ -3605,6 +3589,10 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("changed_table_data")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<string>("closed_by")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -3714,10 +3702,6 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("old_table_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -5769,7 +5753,7 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("eModels.CurrencyModel", "currency")
-                        .WithMany("business_branch_currencies")
+                        .WithMany()
                         .HasForeignKey("currency_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -6948,11 +6932,6 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
                 {
                     b.Navigation("notes");
-                });
-
-            modelBuilder.Entity("eModels.CurrencyModel", b =>
-                {
-                    b.Navigation("business_branch_currencies");
                 });
 
             modelBuilder.Entity("eModels.CustomerGroupModel", b =>
