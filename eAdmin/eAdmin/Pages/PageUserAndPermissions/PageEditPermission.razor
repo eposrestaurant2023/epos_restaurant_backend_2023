@@ -1,11 +1,9 @@
-﻿@*@page "/role/edit/permission/{role_id:int}"
+﻿@page "/role/edit/permission/{role_id:int}"
 @inherits PageCore
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    @string.Join(",", SelectedOption.Select(r => r.id).ToArray())
-
-    <Title Value="Set Permission"></Title>
+     <Title Value="Set Permission"></Title>
     <PageContainer roles="@gv.GetRole($"{(role_id > 0 ? "role_edit" : "role_add")}")">
         <PageHeader>
             <HeaderLeft>
@@ -62,11 +60,9 @@
                         <TabItem>
                              
                             <UIGridCenter>
-                                <UIContainerBox Title="@lang["Access Report"]">
-                                    <ComInputCheckBox label="@lang["View Report"]" @bind-value="@view_report" label_inline="true" />
-                                </UIContainerBox>
-                                <UIContainerBox Title="Report" is_visible="@view_report">
-                                    <MudTreeView T="PermissionModel" CanActivate="true" @bind-SelectedValues="@SelectedOptionReport" Items="@(new  HashSet<PermissionModel>(permissions.Where(r=>r.is_report  == true && r.parent_id == 44)))" CanSelect="true" Context="d">
+                                 
+                                <UIContainerBox Title="Report" >
+                                    <MudTreeView T="PermissionModel" CanActivate="true" @bind-SelectedValues="@SelectedOptionReport" Items="@(new  HashSet<PermissionModel>(permissions.Where(r=>r.is_report  == true && r.id == 44)))" CanSelect="true" Context="d">
                                         <ItemTemplate>
                                             <MudTreeViewItem @bind-Selected="@d.is_selected" Items="@(new HashSet<PermissionModel>(d.ChildItem.Where(r=>r.is_report == true)))" Value="@d" Text="@d.note">
 
@@ -123,16 +119,18 @@
         var post = await http.ApiPost($"Role/SavePermission", new OptionModel()
         {
             role_id = role_id,
-           // options = string.Join(",", SelectedOption.Select(r => r.id).ToArray())
+            options = string.Join(",", SelectedOptionFrontend.Select(r => r.id).ToArray()) + "," +
+                    string.Join(",", SelectedOptionBackend.Select(r => r.id).ToArray()) + "," +
+                      string.Join(",", SelectedOptionReport.Select(r => r.id).ToArray())
         });
         if (post.IsSuccess)
         {
-            toast.Add("Saved successfully", MatBlazor.MatToastType.Success);
-            nav.NavigateTo("role");
+            toast.Add(lang["Saved successfully"], MatBlazor.MatToastType.Success);
+          
         }
         else
         {
-            toast.Add(post.Content.ToString(), MatBlazor.MatToastType.Success);
+            toast.Add(lang["Save data fail."], MatBlazor.MatToastType.Warning);
         }
 
         is_saving = false;
@@ -182,4 +180,4 @@
 
     }
 
-}*@
+}
