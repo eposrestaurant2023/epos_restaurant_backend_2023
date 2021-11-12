@@ -45,6 +45,7 @@ namespace eModels
         public List<ProvinceModel> provinces { get; set; }
         public List<KitchenGroupModel> kitchen_groups { get; set; }
 
+        public LanguageModel current_language { get; set; }
         public int current_outlet_id { get; set; }
 
 
@@ -330,6 +331,7 @@ namespace eModels
             return null;
 
         }
+
         public bool CheckPaging(PagerModel pager, int total_record)
         {
             if (total_record > 0)
@@ -439,6 +441,14 @@ namespace eModels
         }
 
     }
+
+    public class LanguageModel
+    {
+        public string language_id { get; set; }
+        public string language_name { get; set; }
+        public string image_url { get; set; }
+    }
+
 
 }
 

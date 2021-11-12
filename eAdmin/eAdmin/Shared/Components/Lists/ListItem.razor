@@ -1,0 +1,84 @@
+﻿
+@if (!string.IsNullOrEmpty(Roles))
+{
+    <AuthorizeView Roles="@Roles">
+        <li @onclick="@OnClick" class="@ClassName">
+            @if (!IsListItem)
+            {
+                @if (Toggle != "" && WebUrl != "")
+                {
+                    <a href="@WebUrl" uk-toggle="@Toggle">
+                        <Icon IconName="@IconName" IsVisible="@(IconName != "")" ClassName="uk-margin-small-right" />
+                        @ChildContent
+                    </a>
+                }
+                else if (Toggle == "" && WebUrl == "")
+                {
+                    <a>
+                        <Icon IconName="@IconName" IsVisible="@(IconName != "")" ClassName="uk-margin-small-right" />
+                        @ChildContent
+                    </a>
+                }
+                else
+                {
+                    <a href="@WebUrl">
+                        <Icon IconName="@IconName" IsVisible="@(IconName != "")" ClassName="uk-margin-small-right" />
+                        @ChildContent
+                    </a>
+                }
+
+            }
+            else
+            {
+                @ChildContent
+            }
+        </li>
+
+    </AuthorizeView>
+}
+else
+{
+    <li @onclick="@OnClick" class="@ClassName">
+        @if (!IsListItem)
+        {
+            @if (Toggle != "" && WebUrl != "")
+            {
+                <a href="@WebUrl" uk-toggle="@Toggle">
+                    <Icon IconName="@IconName" IsVisible="@(IconName != "")" ClassName="uk-margin-small-right" />
+                    @ChildContent
+                </a>
+            }
+            else if (Toggle == "" && WebUrl == "")
+            {
+                <a>
+                    <Icon IconName="@IconName" IsVisible="@(IconName != "")" ClassName="uk-margin-small-right" />
+                    @ChildContent
+                </a>
+            }
+            else
+            {
+                <a href="@WebUrl">
+                    <Icon IconName="@IconName" IsVisible="@(IconName != "")" ClassName="uk-margin-small-right" />
+                    @ChildContent
+                </a>
+            }
+
+        }
+        else
+        {
+            @ChildContent
+        }
+    </li>
+}
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string IconName { get; set; } = "";
+    [Parameter] public string WebUrl { get; set; } = "";
+    [Parameter] public string Toggle { get; set; } = "";
+    [Parameter] public string ClassName { get; set; } = "";
+    [Parameter] public string Roles { get; set; } = "";
+    [Parameter] public bool IsListItem { get; set; } = false;
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+}

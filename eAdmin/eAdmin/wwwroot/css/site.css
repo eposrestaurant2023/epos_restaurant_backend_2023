@@ -2493,13 +2493,25 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
     border-radius: 3px;
     border-top: 1px solid #bcbcbc;
 }
-
-    .wrp-sale-invoice-footer .uk-flex-column > div {
-        border-bottom: 1px solid #d7d7d7;
-        padding-bottom: 10px;
-        letter-spacing: .5px;
-        margin-top: 10px;
-    }
+.md-lang-image{
+    border-radius: 50%;
+}
+.langIcon {
+    margin-top: -2px;
+}
+.tittle_swech {
+    color: #252a32;
+    text-transform: capitalize;
+    font-size: 16px;
+    padding: 7px 12px 2px;
+    font-weight: 600;
+}
+.wrp-sale-invoice-footer .uk-flex-column > div {
+    border-bottom: 1px solid #d7d7d7;
+    padding-bottom: 10px;
+    letter-spacing: .5px;
+    margin-top: 10px;
+}
 
         .wrp-sale-invoice-footer .uk-flex-column > div > div {
             padding-left: 0px;
