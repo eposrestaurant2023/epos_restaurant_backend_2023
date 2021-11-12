@@ -176,10 +176,10 @@
     <value>ម៉ឺនុយ</value>
   </data>
   <data name="MTD Sale Quantity" xml:space="preserve">
-    <value>xxx</value>
+    <value>ចំនួនលក់ក្នុងខែនេះ</value>
   </data>
   <data name="MTD Sale Revenue" xml:space="preserve">
-    <value>yyy</value>
+    <value>ប្រាក់ចំណូលក្នុងខែនេះ</value>
   </data>
   <data name="Payment Type" xml:space="preserve">
     <value>ប្រភេទការទូទាត់</value>
@@ -233,7 +233,10 @@
     <value>គ្មានទិន្នន័យក្នុងប្រព័ន្ធ</value>
   </data>
   <data name="Today Sale Revenue" xml:space="preserve">
-    <value>xxxxxxx</value>
+    <value>ប្រាក់ចំណូលក្នុងថ្ងៃនេះ</value>
+  </data>
+	<data name="Today Sale Quantity" xml:space="preserve">
+    <value>ចំនួនលក់ក្នុងថ្ងៃនេះ</value>
   </data>
   <data name="Top Sale Product" xml:space="preserve">
     <value>ផលិតផលដែលលក់ដាច់ជាងគេ</value>

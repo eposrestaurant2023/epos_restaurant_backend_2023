@@ -1,7 +1,6 @@
 ﻿@page "/dashboard"
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@is_loading" />
-
 <Title Value="@lang["Dashboard"]"></Title>
 <PageContainer roles=@gv.GetRole("dashboard")>
     <PageHeader>
