@@ -240,4 +240,10 @@
  <data name="Cashier Note" xml:space="preserve">
     <value>អ្នកគិតលុយ(កំណត់ចំណាំ)</value>
   </data>
+ <data name="Report" xml:space="preserve">
+    <value>របាយការណ៍</value>
+  </data>
+ <data name="Report" xml:space="preserve">
+    <value>របាយការណ៍</value>
+  </data>
 </root>

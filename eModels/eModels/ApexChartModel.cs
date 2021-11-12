@@ -15,6 +15,8 @@ namespace eModels
         public string title { get; set; }
         public string color { get; set; }
 
+        public decimal value { get; set; }
+
         public List<ApexChartDataModel> data { get; set; } = new List<ApexChartDataModel>();
     }
     public class ApexChartDataModel
