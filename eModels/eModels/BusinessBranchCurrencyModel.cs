@@ -18,6 +18,8 @@ namespace eModels
         public CurrencyModel currency { get; set; }
 
         public bool is_deleted { get; set; }
+        [NotMapped]
+        public bool is_deleting { get; set; }
 
         [NotMapped]
         public bool is_selected { get; set; }

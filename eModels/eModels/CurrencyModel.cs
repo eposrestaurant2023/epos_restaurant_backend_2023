@@ -17,8 +17,11 @@ namespace eModels
      public List<BusinessBranchCurrencyModel> business_branch_currencies { get; set; }
 
         public bool is_deleted { get; set; }
+        public bool is_build_in { get; set; }
+        [NotMapped]
+        public bool is_deleting { get; set; }
       
-
+         
 
     }
 }

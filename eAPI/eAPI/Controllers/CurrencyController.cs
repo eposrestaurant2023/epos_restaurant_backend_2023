@@ -35,7 +35,14 @@ namespace eAPI.Controllers
             return db.Currencies;
         }
 
- 
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 8)]
+        [Route("getsingle")]
+        public async Task<SingleResult<CurrencyModel>> Get([FromODataUri] int key)
+        {
+            return await Task.Factory.StartNew(() => SingleResult.Create<CurrencyModel>(db.Currencies.Where(r => r.id == key && r.is_deleted == false).AsQueryable()));
+        }
+
         [HttpPost("save/multiple")]
         public async Task<ActionResult<string>> SaveMultiple([FromBody] List<CurrencyModel> c)
         {
@@ -53,14 +60,36 @@ namespace eAPI.Controllers
         
         }
 
+        [HttpPost]
+        [Route("delete/{id}")]
+        public async Task<ActionResult<bool>> DeleteRecord(int id) //Delete
+        {
+            var data =   db.Currencies.Where(r => r.id == id).Include(r => r.business_branch_currencies).ToList();
+
+            if (data.Any())
+            {
+                CurrencyModel c = data.FirstOrDefault();
+                c.is_deleted = true;
+                c.business_branch_currencies.ForEach(r => r.is_deleted = true);
+                db.Currencies.Update(c);
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+           
+            return NotFound();
+        }
+
 
         [HttpPost("save")]
         public async Task<ActionResult> Save([FromBody] CurrencyModel u)
         {
 
+
+            var data = db.Currencies.AsNoTracking();
+
             if (u.id == 0)
             {
-
+                u.id = data.Max(r => r.id) + 1;
                 db.Currencies.Add(u);
             }
             else

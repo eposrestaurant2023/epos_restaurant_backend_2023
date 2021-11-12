@@ -43,26 +43,35 @@
                                     <Th>
                                         @lang["Currency format"]
                                     </Th>
-                                    <Th>@lang["Sort"]</Th>
+                                    <Th>@lang["Report format"]</Th>
                                     <th>
 
                                     </th>
                                 </tr>
-                                @foreach (var bp in models)
+                                @foreach (var bp in models.Where(r=>r.is_deleted==false))
                                 {
+                                    if (bp.business_branch_currencies.Where(r => r.business_branch_id == d.id).Any())
+                                    {
                                     <tr>
                                         <td>@bp.currency_name_en</td>
                                         <td>@bp.currency_name_kh</td>
                                         <td>
-                                            <TextInput is_read_only="true" @bind-text="@bp.currency_format"/>
+                                           @bp.currency_format 
                                         </td>
                                         <td>
-                                            <NumberInputInt is_read_only="true" @bind-text="@bp.sort"/>
+                                           @bp.report_format
                                         </td>
-                                        <TdActions>
-                                           
+
+                                        <TdActions is_loading="@(bp.is_deleting || bp.business_branch_currencies.Where(r => r.business_branch_id == d.id).FirstOrDefault().is_deleting)">
+                                             
+                                           <Label is_visible="@bp.is_main" Text="@lang["Main Currency"]" Background="orange"/>
+                                            <TableActionItem  roles="@gv.GetRole("currency_edit")" icon="check"  OnClick="@(() => MarkAsMainCurrency(bp))">@lang["Mark as Main Currency"]</TableActionItem>
+                                            <TableActionItem roles="@gv.GetRole("currency_edit")" icon="edit"  OnClick="@(() => OnEdit(bp.id))">@lang["Edit"]</TableActionItem>
+                                            <TableActionItem is_visible="@(!bp.is_build_in)" roles="@gv.GetRole("currency_delete")" icon="delete" OnClick="@(() => OnDelete(bp))">@lang["Delete"]</TableActionItem>
+                                             
                                         </TdActions>
                                     </tr>
+                                    }
 
                                 }
                             </table>
@@ -87,12 +96,65 @@
     async Task LoadData()
     {
         is_loading = true;
-        var res = await http.ApiGetOData("Currency");
+        var res = await http.ApiGetOData("Currency?$expand=business_branch_currencies($filter=is_deleted eq false)");
         if (res.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<CurrencyModel>>(res.Content.ToString());
         }
         is_loading = false;
+    }
+
+    void OnEdit(int id)
+    {
+        nav.NavigateTo($"currency/edit/{id}");
+
+    }  
+     
+    async Task OnDelete(CurrencyModel c)
+    {
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this currency?"]))
+        {
+
+            //do delete
+            is_loading_data = true;
+            c.is_deleting = true;
+            var resp = await http.ApiPost("Currency/delete/" + c.id);
+            if (resp.IsSuccess)
+            {
+                c.is_deleted = true;
+                toast.Add(lang["Delete record successfully"], MatToastType.Success);
+            }else
+            {
+                toast.Add(lang["Delete record fail"], MatToastType.Warning);
+            }
+            is_loading_data = false;
+            c.is_deleting = false;
+        }
+
+
+    }
+        async Task MarkAsMainCurrency(CurrencyModel c)
+    {
+        if (await js.Confirm(lang["Update currency"], lang["Are you sure you want to mark this currency as main currency?"]))
+        {
+
+            //do delete
+            is_loading_data = true;
+            c.is_deleting = true;
+            var resp = await http.ApiPost("Currency/MarkAsMainCurrency/" + c.id);
+            if (resp.IsSuccess)
+            {
+                c.is_deleted = true;
+                toast.Add(lang["Mark as main currency successfully"], MatToastType.Success);
+            }else
+            {
+                toast.Add(lang["Mark as main currency fail"], MatToastType.Warning);
+            }
+            is_loading_data = false;
+            c.is_deleting = false;
+        }
+
+
     }
 
 
