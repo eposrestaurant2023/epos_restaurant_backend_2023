@@ -246,4 +246,7 @@
  <data name="Report" xml:space="preserve">
     <value>របាយការណ៍</value>
   </data>
+	<data name="All Branch" xml:space="preserve">
+    <value>សាខាទាំងអស់</value>
+  </data>
 </root>
