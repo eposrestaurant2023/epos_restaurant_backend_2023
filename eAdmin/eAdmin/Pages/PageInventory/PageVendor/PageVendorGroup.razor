@@ -151,6 +151,7 @@
         if (resp.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<VendorGroupModel>>(resp.Content.ToString());
+            gv.vendor_groups = models;
             TotalRecord = resp.Count;
         }
         is_loading = false;

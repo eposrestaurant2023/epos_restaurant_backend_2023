@@ -43,6 +43,9 @@
                                         @lang["Is Default"]                                        
                                     </Th>
                                     <th>
+                                        @lang["Status"]
+                                    </th>
+                                    <th>
 
                                     </th>
                                 </tr>
@@ -52,6 +55,10 @@
                                             <td>@bp.price_rule?.price_name</td>
                                             <td>
                                                 <ComInputCheckBox is_read_only="@bp.is_default" value="@bp.is_default" valueChanged="@(()=>CheckIsDefault(bp))" />
+                                            </td>
+                                            <td>
+                                                <LabelActive is_visible="@bp.price_rule.status"/>
+                                                <LabelInActive is_visible="@(!bp.price_rule.status)"/>
                                             </td>
                                             <TdActions is_loading="@bp.is_loading">
                                                 <TableActionItem roles="@gv.GetRole("price_rule_edit")" icon="edit" is_visible="@(!bp.is_deleted)" OnClick="@(()=>OnEdit(bp))">Edit</TableActionItem>
@@ -87,8 +94,18 @@
         {
             models = JsonSerializer.Deserialize<List<BusinessBranchPriceRule>>(res.Content.ToString());
         }
+
+        var price_rule = await http.ApiGetOData("PriceRule?$filter=is_deleted eq false and status eq true");
+        if (res.IsSuccess)
+        {
+            gv.price_rules = JsonSerializer.Deserialize<List<PriceRuleModel>>(price_rule.Content.ToString());
+        }
+
         is_loading = false;
     }
+
+
+
 
     async Task OnToogleStatus(BusinessBranchPriceRule p)
     {

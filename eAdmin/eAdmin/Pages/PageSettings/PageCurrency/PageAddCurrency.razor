@@ -148,8 +148,10 @@
         if (resp.IsSuccess)
         {
             currency = JsonSerializer.Deserialize<CurrencyModel>(resp.Content.ToString());
+          
 
-        }else
+        }
+        else
         {
             error_text = lang["No Record Found"];
             is_error = true;
@@ -185,7 +187,7 @@
         {
             toast.Add("Save sucessfully", MatToastType.Success);
             nav.NavigateTo("currency");
-         
+
         }
         else
         {

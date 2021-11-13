@@ -44,11 +44,11 @@ namespace eAPI.Controllers
             gv.customer_groups = db.CustomerGroups.ToList();
             gv.product_groups = db.ProductGroups.Where(r=>r.is_deleted==false).ToList();
             gv.product_categories = db.ProductCategories.Where(r => r.is_deleted == false).ToList();
-            gv.currencies = db.Currencies.ToList();
+            gv.currencies = db.Currencies.Where(r=>r.is_deleted==false).ToList();
             gv.roles = db.Roles.ToList();
  
             gv.countries = db.Countries.ToList();
-            gv.stock_locations = db.StockLocations.ToList();
+            gv.stock_locations = db.StockLocations.Where(r=>r.is_deleted == false).ToList();
             gv.outlets = db.Outlets.Include(r=>r.stations).ToList();
             gv.vendors = db.Vendors.ToList();
             gv.vendor_groups = db.VendorGroups.Where(r => r.is_deleted == false && status == true).ToList();

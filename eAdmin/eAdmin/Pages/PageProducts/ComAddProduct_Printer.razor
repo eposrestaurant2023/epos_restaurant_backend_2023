@@ -19,18 +19,24 @@
                 <TabHeader>
                     @foreach (var b in gv.business_branch_by_role)
                     {
-                        <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                        if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
+                        {
+                            <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                        }
                     }
                 </TabHeader>
                 <TabBody>
                     @foreach (var b in gv.business_branch_by_role)
                     {
+                        if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
+                        {
                         <TabItem>
                             @foreach (var p in printers.Where(r => r.business_branch_id == b.id))
                             {
                                 <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
                             }
                         </TabItem>
+                        }
                     }
                 </TabBody>
             </Tab>

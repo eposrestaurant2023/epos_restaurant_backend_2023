@@ -60,7 +60,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        var resp = await http.ApiGetOData($"BusinessBranch?$expand=outlets($filter=is_deleted eq false;$expand=stations($filter=is_deleted eq false)),stock_locations&$filter=is_deleted eq false");
+        var resp = await http.ApiGetOData($"BusinessBranch?$expand=outlets($filter=is_deleted eq false;$expand=stations($filter=is_deleted eq false)),stock_locations($filter=is_deleted eq false)&$filter=is_deleted eq false");
         if (resp.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());

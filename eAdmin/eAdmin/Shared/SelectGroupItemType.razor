@@ -6,9 +6,9 @@
         <div class="uk-form-controls">
             <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select  uk-form-small" style="width:@width">
 
-                <option value="1"> 1 </option>
-                <option value="2"> 2 </option>
-                <option value="3"> 3 </option>
+                <option value="1"> Print cut by order </option>
+                <option value="2"> Print cut by order line</option>
+                <option value="3"> Print cut by order quantity </option>
             </select>
 
             @ValidatorTemplate
@@ -19,9 +19,9 @@ else
 {
     <div class="form-control">
         <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select  uk-form-small" style="width:@width">
-            <option value="1"> 1 </option>
-            <option value="2"> 2 </option>
-            <option value="3"> 3 </option>
+            <option value="1"> Print cut by order </option>
+            <option value="2"> Print cut by order line</option>
+            <option value="3"> Print cut by order quantity </option>
         </select>
         @ValidatorTemplate
     </div>

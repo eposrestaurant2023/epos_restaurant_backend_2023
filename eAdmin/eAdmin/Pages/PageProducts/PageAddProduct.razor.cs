@@ -192,11 +192,15 @@ namespace eAdmin.Pages.PageProducts
 
             }
 
+            model.is_production_product = model.is_composite_product ? model.is_production_product : false;
+            model.is_ingredient_product = model.is_composite_product ? false: model.is_ingredient_product;
+
             is_saving = true;
 
             ProductModel save_model = new ProductModel();
             save_model = JsonSerializer.Deserialize<ProductModel>(JsonSerializer.Serialize(model));
             save_model.product_category = null;
+
 
             if (save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).Any())
             {

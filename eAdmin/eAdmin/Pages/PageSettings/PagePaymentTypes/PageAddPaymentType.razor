@@ -47,6 +47,29 @@
 
 
                     </UIContainerBox>
+                    <UIContainerBox Title="@lang["Rooms"]" is_visible="@(model.payment_type_group=="Pay to Room")" is_show_add_button="true" OnAddClick="@AddNewRoom">
+                        <table class="uk-table cus_hearder_table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                            <tr>
+                                <Th>@lang["Room No"]</Th>
+                                <Th>@lang["Sort Order"]</Th>
+                                <Th></Th>
+                            </tr>
+                           
+                                @foreach (var d in room_list.OrderBy(r=>r.sort_order).ThenBy(r=>r.room_number))
+                                {
+                                    <tr>
+                                        <td>
+                                            <TextInput @bind-text="@d.room_number" placeholder="@lang["Room Number"]" />
+
+                                        </td>
+                                        <td><NumberInputInt @bind-text="@d.sort_order" placeholder="@lang["Room Number"]" /></td>
+                                        <td><Icon icon="delete" OnClick="@(()=>room_list.Remove(d))"/> </td>
+                                    </tr>
+                                }
+
+                        </table>
+                        <Button OnClick="@AddNewRoom">Add New Room</Button>
+                    </UIContainerBox>
                     <UIContainerBox Title="Business Branches">
                         @foreach (var b in business_branches)
                         {
@@ -70,7 +93,9 @@
     [Parameter] public int clone_id { get; set; }
     PaymentTypeModel model = new PaymentTypeModel();
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
-   
+
+    List<RoomListModel> room_list = new List<RoomListModel>();
+
 
     string ControllerApi = "PaymentType";
     public string api_url
@@ -121,6 +146,14 @@
                 model.created_date = DateTime.Now;
             }
         }
+        try
+        {
+            room_list = JsonSerializer.Deserialize<List<RoomListModel>>(model.room_numbers);
+        }
+        catch
+        {
+            room_list = new List<RoomListModel>();
+        }
         is_loading_data = false;
     }
 
@@ -147,6 +180,10 @@
     {
         is_saving = true;
         model.business_branch_payment_types.Clear();
+        if(model.payment_type_group =="Pay to Room")
+        {
+            model.room_numbers = JsonSerializer.Serialize(room_list);
+        }
         foreach (var a in business_branches.ToList())
         {
             if (a.is_selected)
@@ -171,5 +208,16 @@
             toast.Add(post.Content.ToString(), MatToastType.Warning);
         }
         is_saving = false;
+    }
+
+    void AddNewRoom()
+    {
+        room_list.Add(new RoomListModel() { room_number = "Room " + (room_list.Count() + 1).ToString() });
+    }
+
+    public class RoomListModel
+    {
+        public string room_number { get; set; }
+        public int sort_order { get; set; } = 0;
     }
 }

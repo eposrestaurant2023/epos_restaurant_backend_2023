@@ -36,6 +36,9 @@
                             <ValidationMessage For="@(()=>price.price_name)" />
                         </TextInput>
                         <SelectStatus @bind-selected_value="@price.status" />
+                        
+                    </UIContainerBox>
+                    <UIContainerBox Title="@lang["Branches"]">
                         @foreach (var b in business_branches)
                         {
                             <div><ComInputCheckBox is_read_only="@(b.business_branch_prices.Where(r=>r.price_rule_id == id && r.business_branch_id == b.id && r.is_default == true).Count() > 0)" @bind-value="b.is_selected" label="@b.business_branch_name_en" label_inline="false" /></div>
@@ -102,6 +105,8 @@
                     s.is_default = false;
                 }
             }
+
+
         }
         is_loading_data = false;
     }

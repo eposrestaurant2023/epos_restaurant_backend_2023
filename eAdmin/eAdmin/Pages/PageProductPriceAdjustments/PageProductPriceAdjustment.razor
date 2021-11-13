@@ -34,7 +34,7 @@
                             {
                             <ComAccordion>
                                 <Header>
-                                    @c.product_category_en (@c.product.Where(r => r.total_product_portion > 0 && r.p_name.Contains(keyword)).Count())
+                                    @c.product_category_en (@c.product.Where(r => r.total_product_portion > 0 && r.p_name.Trim().ToLower().Contains(keyword.Trim().ToLower())).Count())
                                 </Header>
                                 <Content>
                                     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover ">

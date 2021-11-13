@@ -17,7 +17,7 @@
     }
     @if (!is_ingredient)
     {
-        <ComInputCheckBox @bind-value="@model.is_composite_product" label="@lang["Is Composite Menu"]" />
+        
         <ComInputCheckBox @bind-value="@model.is_production_product" label="@lang["Is Use in Production"]" />
     }
 
@@ -289,7 +289,7 @@
         if (model.id > 0)
         {
             is_loading = true;
-            string api_url = $"StockLocationProduct?$expand=stock_location&$filter=product_id eq {model.id}";
+            string api_url = $"StockLocationProduct?$expand=stock_location&$filter=is_deleted eq false and product_id eq {model.id}";
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {

@@ -411,6 +411,7 @@ namespace eAPI.Controllers
             local.business_branch_id = remote.business_branch_id;
             local.stock_location_name = remote.stock_location_name;
             local.is_default = remote.is_default;
+            local.is_deleted = remote.is_default;
         }
 
         /// <summary>

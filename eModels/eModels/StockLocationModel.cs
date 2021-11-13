@@ -26,6 +26,7 @@ namespace eModels
         public BusinessBranchModel business_branch { get; set; }
         public string stock_location_name { get; set; }
         public bool is_default { get; set; }
+        public bool is_deleted { get; set; }
 
         [NotMapped, JsonIgnore]
         public string bustiness_branch_name { get; set; }
@@ -71,7 +72,9 @@ namespace eModels
         public decimal initial_quantity { get; set; } = 0;
         public decimal initial_adjustment_quantity { get; set; } = 0;
         public string note { get; set; }
-        
+
+        public bool is_deleted { get; set; } = false;
+
         [NotMapped, JsonIgnore]
         public decimal adjust_quantity { get; set; } 
 
@@ -105,6 +108,8 @@ namespace eModels
 
         [NotMapped, JsonIgnore]
         public bool is_add_note;
+
+
     }
 
     [Table("tbl_default_stock_location_product")]

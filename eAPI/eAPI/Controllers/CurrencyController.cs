@@ -80,6 +80,39 @@ namespace eAPI.Controllers
         }
 
 
+        [HttpPost]
+        [Route("MarkAsMainCurrency/{id}")]
+        public async Task<ActionResult<bool>> MarkAsMainCurrency(int id) //Delete
+        {
+
+            var old_main_currency = db.Currencies.Where(r => r.is_main == true);
+            if (old_main_currency.Any())
+            {
+                CurrencyModel old_currency = old_main_currency.FirstOrDefault();
+                old_currency.is_main = false;
+                old_currency.is_base_exchange_currency = false;
+            }
+            var data = db.Currencies.Where(r => r.id == id).Include(r => r.business_branch_currencies).ToList(); ;
+
+            if (data.Any())
+            {
+                CurrencyModel c = data.FirstOrDefault();
+                c.is_main=true;
+                c.default_change_exchange_rate = 1;
+                c.default_exchange_rate = 1;
+                c.is_base_exchange_currency = true;
+
+                c.business_branch_currencies.ForEach(r => { r.exchange_rate = 1; r.change_exchange_rate = 1; r.change_exchange_rate_input = 1;r.exchange_rate_input = 1; });
+                db.Currencies.Update(c);
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
+
+
         [HttpPost("save")]
         public async Task<ActionResult> Save([FromBody] CurrencyModel u)
         {
