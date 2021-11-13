@@ -1,20 +1,21 @@
-﻿@if (selected_date != null)
+﻿@inject IStringLocalizer<Resource> lang
+@if (selected_date != null)
 {
-    <ComInputCheckBox label="Filter by Date" @bind-value="@selected_date.is_visible"/>
+    <ComInputCheckBox label="@lang["Filter by Date"]" @bind-value="@selected_date.is_visible" />
     @if (selected_date.is_visible)
     {
 
         @if (show_select_period)
         {
-            <SelectDefaultPeroid @bind-SelectedValue="@selected_date"  InputLabel="Peroid Date" />
+            <SelectDefaultPeroid @bind-SelectedValue="@selected_date" InputLabel="@lang["Peroid Date"]" />
 
-        } 
+        }
         if (dates.id == 8)
         {
-            <label class="uk-form-label">@label</label>
-            <DateInput @bind-value="@selected_date.start_date" ClassName="date_custom" is_horizontal="false" is_inline="true"/>
-            <Spacing Number="5"/>
-            <DateInput @bind-value="@selected_date.end_date" ClassName="date_custom" is_horizontal="false" is_inline="true"/>
+            <label class="uk-form-label">@lang[label]</label>
+            <DateInput @bind-value="@selected_date.start_date" ClassName="date_custom" is_horizontal="false" is_inline="true" />
+            <Spacing Number="5" />
+            <DateInput @bind-value="@selected_date.end_date" ClassName="date_custom" is_horizontal="false" is_inline="true" />
         }
 
     }

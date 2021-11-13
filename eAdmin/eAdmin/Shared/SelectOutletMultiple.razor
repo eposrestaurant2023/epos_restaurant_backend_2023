@@ -1,6 +1,6 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 <MudItem>
-    <MudSelect T="string" Dense="true" Label="Outlet" MultiSelection="true" SelectedValues="selected_outlet" SelectedValuesChanged="@OnSelectedValuesOutlet">
+    <MudSelect T="string" Dense="true" Label="@lang["Outlet"]" MultiSelection="true" SelectedValues="selected_outlet" SelectedValuesChanged="@OnSelectedValuesOutlet">
         @foreach (var option in outlets)
         {
             <MudSelectItem T="string" Value="@($"{option.outlet_name_en} ({option.bustiness_branch_name})" )">@($"{option.outlet_name_en} ({option.bustiness_branch_name})")</MudSelectItem>
@@ -16,7 +16,7 @@
     [Parameter] public HashSet<string> selected_outlet { get; set; } = new HashSet<string>();
     [Parameter] public EventCallback<HashSet<string>> selected_outletChanged { get; set; }
     [Parameter] public EventCallback<List<string>> outlet_id { get; set; }
-  
+
 
 
     List<OutletModel> outlets
@@ -25,7 +25,7 @@
         {
             List<OutletModel> _stock_location = new List<OutletModel>();
             var data = gv.current_login_user.role.business_branch_roles.SelectMany(r => r.business_branch.outlets.Where(x => !x.is_deleted)).ToList();
-     
+
             if (business_branch_ids != null)
             {
                 if (business_branch_ids.Count() > 0)
