@@ -1,12 +1,12 @@
-﻿
-    <div class="uk-form-controls">
-        <span>Top By </span>
-        <select value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: 100px;">
-            <option value="amount">Amount</option> 
-            <option value="quantity">Quantity</option>
-        </select>
-        @ChildContent
-    </div>
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-form-controls">
+    <span>@lang["Top By"]</span>
+    <select value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: 100px;">
+        <option value="amount">@lang["Amount"]</option>
+        <option value="quantity">@lang["Quantity"]</option>
+    </select>
+    @ChildContent
+</div>
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string selected_value { get; set; } = "amount";
@@ -15,7 +15,7 @@
     {
         get
         {
-            return selected_value == "" ? "amount": selected_value;
+            return selected_value == "" ? "amount" : selected_value;
         }
     }
     async Task SelectedValueChange(string n)

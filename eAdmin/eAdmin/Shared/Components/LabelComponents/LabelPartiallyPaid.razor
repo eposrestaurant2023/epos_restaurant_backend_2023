@@ -1,6 +1,7 @@
-﻿@if (is_visible)
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_visible)
 {
-    <span class="uk-label partially-paid">Partially Paid</span>
+    <span class="uk-label partially-paid">@lang["Partially Paid"]</span>
 }
 
 @code{

@@ -84,7 +84,7 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     key = "business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
-                    filter_title = "Business Branch",
+                    filter_title = lang["Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.business_branch_ids_filter_1,
@@ -101,7 +101,7 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     key = "outlet_id",
                     value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
-                    filter_title = "Outlet",
+                    filter_title = lang["Outlet"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
@@ -150,7 +150,7 @@ namespace eAdmin.Pages.PageReceipt
                     {
                         key = "working_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "Sale Date",
+                        filter_title = lang["Sale Date"],
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
@@ -189,7 +189,7 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     key = "business_branch_id",
                     value1 = business_branch_ids,
-                    filter_title = "Business Branch",
+                    filter_title = lang["Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = business_branch_ids,
@@ -203,7 +203,7 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     key = "business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
-                    filter_title = "Business Branch",
+                    filter_title = lang["Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.business_branch_ids_filter_1,
@@ -230,7 +230,7 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     key = "outlet_id",
                     value1 = value,
-                    filter_title = "Outlet",
+                    filter_title = lang["Outlet"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = value,
@@ -244,7 +244,7 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     key = "outlet_id",
                     value1 = gv.outlet_ids_filter(business_branch_ids),
-                    filter_title = "Outlet",
+                    filter_title = lang["Outlet"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.outlet_ids_filter(business_branch_ids),
@@ -260,7 +260,7 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     key = "customer_id",
                     value1 = state.customer.id.ToString(),
-                    filter_title = "Customer",
+                    filter_title = lang["Customer"],
                     state_property_name = "customer",
                     filter_info_text = state.customer.customer_code_name,
                     is_clear_all = true,
@@ -275,9 +275,9 @@ namespace eAdmin.Pages.PageReceipt
                 {
                     key = "sale_type",
                     value1 = $"'{state.sale_type_name}'",
-                    filter_title = "Sale Type",
+                    filter_title = lang["Sale Type"],
                     state_property_name = "sale_type",
-                    filter_info_text = state.sale_type_name,
+                    filter_info_text = lang[state.sale_type_name],
                     is_clear_all = true,
                     will_remove = true
                 });

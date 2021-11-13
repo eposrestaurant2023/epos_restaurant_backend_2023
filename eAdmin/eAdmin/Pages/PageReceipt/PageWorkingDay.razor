@@ -50,16 +50,16 @@
                         @HeaderTemplate("outlet_name_en", lang["Outlet"])
 
                         <Th>
-                            Opened Station
+                           @lang["Opened Station"] 
                             <br/>
-                            Close Station
+                           @lang["Close Station"] 
                         </Th>
-                        @HeaderTemplate("closed_by", lang["Closed By"])
+                        @HeaderTemplate("closed_by", lang["Closed by"])
                         @HeaderTemplate("closed_date", lang["Closed Date"], "uk-text-center")
                         @HeaderTemplate("created_by", lang["Created by"], "col-center")
-                        @HeaderTemplate("created_date", lang["Created date"], "uk-text-center")
+                        @HeaderTemplate("created_date", lang["Created Date"], "uk-text-center")
 
-                        <ThCenter>Status</ThCenter>
+                        <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -75,12 +75,12 @@
                             @p.cash_drawer_name
                         </td>
                         <td>
-                            @p.outlet_name_en
+                            @(gv.current_language?.language_id == "km-KH" ?p.outlet_name_kh:p.outlet_name_en)
                         </td>
                         <td>
-                            @p.opended_station_name_en
+                            @(gv.current_language?.language_id == "km-KH" ?p.opended_station_name_kh:p.opended_station_name_en)
                             <br />
-                            @p.closed_station_name_en
+                            @(gv.current_language?.language_id == "km-KH" ?p.closed_station_name_kh:p.closed_station_name_en)
                         </td>
                         
                         <td>
@@ -98,11 +98,11 @@
                         <TdCenter>
                             @if (p.is_closed)
                                 {
-                                <LabelInActive text="Closed" />
+                                <LabelInActive text="@lang["Closed"]" />
                                 }
                                 else
                                 {
-                                <Label Text="Opened" />
+                                <Label Text="@lang["Opened"]" />
                                 }
                         </TdCenter>
                         <TdCenter>
@@ -161,7 +161,7 @@
             {
                 key = "business_branch_id",
                 value1 = gv.business_branch_ids_filter_1,
-                filter_title = "Business Branch",
+                filter_title = lang["Business Branch"],
                 filter_operator = "multiple",
                 state_property_name = "list_selected_values",
                 filter_info_text = gv.business_branch_ids_filter_1,
@@ -209,7 +209,7 @@
                 {
                     key = "working_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                    filter_title = "Working Date",
+                    filter_title = lang["Working Date"],
                     filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                     filter_operator = "Ge",
                     is_clear_all = true,
@@ -248,7 +248,7 @@
             {
                 key = "business_branch_id",
                 value1 = business_branch_ids,
-                filter_title = "Business Branch",
+                filter_title = lang["Business Branch"],
                 filter_operator = "multiple",
                 state_property_name = "list_selected_values",
                 filter_info_text = business_branch_ids,
@@ -262,7 +262,7 @@
             {
                 key = "business_branch_id",
                 value1 = gv.business_branch_ids_filter_1,
-                filter_title = "Business Branch",
+                filter_title = lang["Business Branch"],
                 filter_operator = "multiple",
                 state_property_name = "list_selected_values",
                 filter_info_text = gv.business_branch_ids_filter_1,
@@ -289,7 +289,7 @@
             {
                 key = "outlet_id",
                 value1 = value,
-                filter_title = "Outlet",
+                filter_title = lang["Outlet"],
                 filter_operator = "multiple",
                 state_property_name = "list_selected_values",
                 filter_info_text = value,
@@ -303,7 +303,7 @@
             {
                 key = "outlet_id",
                 value1 = gv.outlet_ids_filter(business_branch_ids),
-                filter_title = "Outlet",
+                filter_title = lang["Outlet"],
                 filter_operator = "multiple",
                 state_property_name = "list_selected_values",
                 filter_info_text = gv.outlet_ids_filter(business_branch_ids),
@@ -346,12 +346,12 @@
     public async Task OnDelete(SaleModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete working day", "Are you sure you want to delete this record?"))
+        if (await js.Confirm(lang["Delete working day"], lang["Are you sure you want to delete this record?"]))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
             {
-                toast.Add("Delete working day successfully", MatToastType.Success);
+                toast.Add(lang["Delete working day successfully"], MatToastType.Success);
                 if (models.Count() == 1 && state.pager.current_page > 0)
                 {
                     state.pager.current_page = state.pager.current_page - 1;

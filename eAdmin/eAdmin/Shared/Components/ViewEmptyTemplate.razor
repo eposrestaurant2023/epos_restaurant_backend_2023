@@ -9,7 +9,7 @@ else
     {
         <tr>
             <td colspan="@colspan">
-                <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
+                <ComEmptyTemplate empty="@lang[empty]" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
             </td>
         </tr>
     }
@@ -18,12 +18,12 @@ else
         if (is_box_empty)
         {
         <UIContainerBox Title="@lang["Empty Box"]">
-            <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
+            <ComEmptyTemplate empty="@lang[empty]" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
         </UIContainerBox>   
         }
         else
         {
-            <ComEmptyTemplate empty="@empty" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
+            <ComEmptyTemplate empty="@lang[empty]" padding_top_bottom="15px" icon="@icon" icon_size="30px" class_name="@empty_class" text_size="@text_size" />
         }
 
     }

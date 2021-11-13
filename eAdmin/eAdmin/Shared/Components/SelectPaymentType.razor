@@ -1,10 +1,11 @@
-﻿@if (!is_inline)
+﻿@inject IStringLocalizer<Resource> lang
+@if (!is_inline)
 {
     @if (is_horizontal)
     {
         <div class="@(is_horizontal ? "uk-form-horizontal" : "")">
             <div class="uk-margin-small">
-                <label class="uk-form-label" for="@id">@label</label>
+                <label class="uk-form-label" for="@id">@lang[label]</label>
                 <div class="uk-form-controls">
                     <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
                         @if (show_empty)
@@ -24,7 +25,7 @@
     else
     {
         <div class="uk-margin-small">
-            <label class="uk-form-label" for="@id">@label</label>
+            <label class="uk-form-label" for="@id">@lang[label]</label>
             <div class="uk-form-controls">
                 <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
                     @if (show_empty)
@@ -111,7 +112,7 @@ else
         }
         else
         {
-            await payment_typeChanged.InvokeAsync(gv.payment_types.Where(r => r.id == selected_value ).FirstOrDefault());
+            await payment_typeChanged.InvokeAsync(gv.payment_types.Where(r => r.id == selected_value).FirstOrDefault());
         }
 
     }

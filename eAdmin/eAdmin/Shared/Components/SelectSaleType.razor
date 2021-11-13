@@ -1,20 +1,21 @@
 ﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
 @if (!is_inline)
 {
     @if (is_horizontal)
     {
         <div class="@(is_horizontal ? "uk-form-horizontal" : "")">
             <div class="uk-margin-small">
-                <label class="uk-form-label" for="@id">@label</label>
+                <label class="uk-form-label" for="@id">@lang[label]</label>
                 <div class="uk-form-controls">
                     <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
                         @if (show_empty)
                         {
-                            <option value="0">@empty_text</option>
+                            <option value="0">@lang[empty_text]</option>
                         }
                         @foreach (var p in sale_type_names)
                         {
-                            <option value="@p.ToString()">@p.ToString()</option>
+                            <option value="@p.ToString()">@lang[p.ToString()]</option>
                         }
                     </select>
                     @ChildContent
@@ -25,16 +26,16 @@
     else
     {
         <div class="uk-margin-small">
-            <label class="uk-form-label" for="@id">@label</label>
+            <label class="uk-form-label" for="@id">@lang[label]</label>
             <div class="uk-form-controls">
                 <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
                     @if (show_empty)
                     {
-                        <option value="0">@empty_text</option>
+                        <option value="0">@lang[empty_text]</option>
                     }
                     @foreach (var p in sale_type_names)
                     {
-                        <option value="@p.ToString()">@p.ToString()</option>
+                        <option value="@p.ToString()">@lang[p.ToString()]</option>
                     }
                 </select>
                 @ChildContent
@@ -49,11 +50,11 @@ else
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
             @foreach (var p in sale_type_names)
             {
-                <option value="@p.ToString()">@p.ToString()</option>
+                <option value="@p.ToString()">@lang[p.ToString()]</option>
             }
         </select>
     }
@@ -62,11 +63,11 @@ else
         <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
             @foreach (var p in sale_type_names)
             {
-                <option value="@p.ToString()">@p.ToString()</option>
+                <option value="@p.ToString()">@lang[p.ToString()]</option>
             }
         </select>
     }
