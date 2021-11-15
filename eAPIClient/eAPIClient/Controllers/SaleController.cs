@@ -114,10 +114,15 @@ namespace eAPIClient.Controllers
 
 
                 //for anyupdate that related to sale if have
-                db.Database.ExecuteSqlRaw($"exec sp_update_sale_infomation '{model.id}'");
-
-
-                app.sendSyncRequest();
+                db.Database.ExecuteSqlRaw($"exec sp_update_sale_infomation '{model.id}'");   
+                try
+                {         
+                    app.sendSyncRequest();
+                }
+                catch(Exception ex)
+                {
+                    //
+                }
 
                 return Ok(model);
             }
