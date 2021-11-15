@@ -478,17 +478,11 @@ namespace eAPIClient.Controllers
                 {
                     NoteModel _note = new NoteModel()
                     {
-                        note_id = n.id,
-                        category_note_id = n.category_note_id,
-                        created_by = n.created_by,
-                        created_date = n.created_date,
-                        is_deleted = n.is_deleted,
-                        deleted_by = n.deleted_by,
-                        deleted_date = n.deleted_date,
-                        note = n.note,
-                        status = n.status
+           
+                        category = n.category,
+                        note = n.note
                     };
-                    var _n = _LocalNotes.Where(r => r.note_id == n.id);
+                    var _n = _LocalNotes.Where(r => r.id == n.id);
                     if (_n.Count() > 0)
                     {
                         _note.id = _n.FirstOrDefault().id;
@@ -496,21 +490,22 @@ namespace eAPIClient.Controllers
                     }
                     else
                     {
-                        _note.id = Guid.NewGuid();
+             
                         _tempNewNotes.Add(_note);
                     }
                 });
 
                 //
 
-                if (_tempNewCategoryNotes.Count()>0)
-                {
-                    db.CategoryNotes.AddRange(_tempNewCategoryNotes); 
-                }
-                if (_tempAppendCategoryNotes.Count() > 0)
-                { 
-                    db.CategoryNotes.UpdateRange(_tempAppendCategoryNotes);
-                }
+                //if (_tempNewCategoryNotes.Count()>0)
+                //{
+                //    db.CategoryNotes.AddRange(_tempNewCategoryNotes); 
+                //}
+                //if (_tempAppendCategoryNotes.Count() > 0)
+                //{ 
+                //    db.CategoryNotes.UpdateRange(_tempAppendCategoryNotes);
+                //}
+
                 if (_tempNewNotes.Count() > 0)
                 {
                     db.Notes.AddRange(_tempNewNotes);
