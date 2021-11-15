@@ -6,8 +6,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eModels
 {
     [Table("tbl_note")]
-    public  class NoteModel: CoreModel
+    public  class NoteModel
     {
+
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public Guid id { get; set; }
+
+
         [Required(ErrorMessage ="Please Select a business branch.")]
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
@@ -22,5 +29,7 @@ namespace eModels
 
         [MaxLength(250)]
         public string note { get; set; } = "";
+
+        public bool is_deleted  { get; set; }
     }
 }
