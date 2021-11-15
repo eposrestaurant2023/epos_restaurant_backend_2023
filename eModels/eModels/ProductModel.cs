@@ -87,6 +87,8 @@ namespace eModels
         public VendorModel vendor { get; set; }
 
         public bool is_allow_discount { get; set; } = true;   
+        public bool is_allow_free{ get; set; } = true;   
+        public bool is_allow_change_price{ get; set; } = true;   
         public bool is_open_product { get; set; } = false;
 
         private bool _is_auto_generate_code = false;

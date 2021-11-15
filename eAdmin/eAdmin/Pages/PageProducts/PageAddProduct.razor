@@ -65,6 +65,8 @@
                                             <ValidationMessage For="@(()=>model.unit_id)" />
                                         </SelectUnit>
                                         <ComInputCheckBox @bind-value="@model.is_allow_discount" label="@lang["Allow Discount"]" />
+                                        <ComInputCheckBox @bind-value="@model.is_allow_free" label="@lang["Allow Free"]" />
+                                        <ComInputCheckBox @bind-value="@model.is_allow_change_price" label="@lang["Allow Change Price"]" />
                                         <ComInputCheckBox @bind-value="@model.is_open_product" label="@lang["Is Opened Product"]" />
                                         @if (!model.is_ingredient_product)
                                         {
