@@ -64,7 +64,7 @@ namespace eAPIClient.Controllers
                     if (entidad.is_closed == true)
                     {
                         entidad.closed_date = DateTime.Now;
-                        entidad.closed_by = user.full_name;
+                        entidad.closed_by = string.IsNullOrEmpty(entidad.closed_by) ? user.full_name : entidad.closed_by;
                     }
                 }
 
@@ -76,7 +76,7 @@ namespace eAPIClient.Controllers
                     if (entidad.is_closed == true)
                     {
                         entidad.closed_date = DateTime.Now;
-                        entidad.closed_by = user.full_name;
+                        entidad.closed_by = string.IsNullOrEmpty(entidad.closed_by) ? user.full_name : entidad.closed_by;
                     }
                 }
 
@@ -90,7 +90,7 @@ namespace eAPIClient.Controllers
                     if (entidad.is_closed == true)
                     {
                         entidad.closed_date = DateTime.Now;
-                        entidad.closed_by = user.full_name;
+                        entidad.closed_by =  user.full_name;
                     }
                 }  
             }   
