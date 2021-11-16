@@ -300,6 +300,10 @@
 	<data name="Cash In" xml:space="preserve">
     <value>សាច់ប្រាក់ចូល</value>
   </data>
+	<data name="Cash In(Dollar)" xml:space="preserve">
+    <value>សាច់ប្រាក់ចូល (ដុល្លារ)</value>
+  </data>
+	
 	<data name="Cash Out" xml:space="preserve">
     <value>សាច់ប្រាក់ចេញ</value>
   </data>
@@ -369,6 +373,9 @@
 	<data name="Sale Balance Amount" xml:space="preserve">
     <value>ទឹកប្រាក់សមតុល្យ</value>
   </data>
+	<data name="Starting Amount (Bath)" xml:space="preserve">
+    <value>ចំនួនទឹកប្រាក់ចាប់ផ្ដើម (បាត)</value>
+  </data>
 	<data name="Starting Amount (Dollar)" xml:space="preserve">
     <value>ចំនួនទឹកប្រាក់ចាប់ផ្ដើម (ដុល្លារ)</value>
   </data>
@@ -414,11 +421,17 @@
   <data name="Customer Group" xml:space="preserve">
     <value>ក្រុមអតិថិជន</value>
   </data>
+	<data name="All Customer Group" xml:space="preserve">
+    <value>ក្រុមអតិថិជនទាំងអស់</value>
+  </data>
   <data name="Customer Setup" xml:space="preserve">
     <value>អតិថិជន</value>
   </data>
 	  <data name="Customer" xml:space="preserve">
     <value>អតិថិជន</value>
+  </data>
+	<data name="New Customer" xml:space="preserve">
+    <value>បង្កើតអតិថិជន</value>
   </data>
  <data name="Business Branch" xml:space="preserve">
     <value>សាខាអាជីវកម្ម</value>
@@ -609,6 +622,25 @@
   <data name="Receipt List" xml:space="preserve">
     <value>វិក័យបត្រ័លក់</value>
   </data>
+	<data name="All Customer" xml:space="preserve">
+    <value>ទាំងអស់អតិថិជន</value>
+  </data>
+	<data name="Active Customer" xml:space="preserve">
+    <value>អតិថិជនសកម្ម</value>
+  </data>
+	<data name="Inactive Customer" xml:space="preserve">
+    <value>អតិថិជនអសកម្ម</value>
+  </data>
+	<data name="Customer Credit" xml:space="preserve">
+    <value>អតិថិជនអសកម្ម</value>
+  </data>
+	<data name="Deleted Customer" xml:space="preserve">
+    <value>អតិថិជនដែលបានលុប</value>
+  </data>
+	
+	<data name="Recently Added Customer" xml:space="preserve">
+    <value>អតិថិជនបង្កើតហើយថ្មីៗ</value>
+  </data>
 	<data name="All Receipt" xml:space="preserve">
     <value>ទាំងអស់វិក័យបត្រ័</value>
   </data>
@@ -761,5 +793,38 @@
   </data>
 	<data name="Name" xml:space="preserve">
     <value>ឈ្មោះ</value>
+  </data>
+	<data name="Name (Kh)" xml:space="preserve">
+    <value>ឈ្មោះ</value>
+  </data>
+	<data name="Code" xml:space="preserve">
+    <value>កូដ</value>
+  </data>
+	<data name="Phone" xml:space="preserve">
+    <value>លេខទូរស័ព្ទ</value>
+  </data>
+	<data name="Gender" xml:space="preserve">
+    <value>ភេទ</value>
+  </data>
+	<data name="View" xml:space="preserve">
+    <value>មើលសម្អិត</value>
+  </data>
+	<data name="Edit" xml:space="preserve">
+    <value>កែប្រែ</value>
+  </data>
+	<data name="Inactive" xml:space="preserve">
+    <value>អសកម្ម</value>
+  </data>
+	<data name="Active" xml:space="preserve">
+    <value>សកម្ម</value>
+  </data>
+	<data name="Delete" xml:space="preserve">
+    <value>លុប</value>
+  </data>
+	<data name="Restore" xml:space="preserve">
+    <value>ទាញយក</value>
+  </data>
+	<data name="Clone" xml:space="preserve">
+    <value>ចម្លង</value>
   </data>
 </root>
