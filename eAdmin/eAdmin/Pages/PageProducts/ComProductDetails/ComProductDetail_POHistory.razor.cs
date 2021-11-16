@@ -76,7 +76,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 {
                     key = "purchase_order/business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
-                    filter_title = "Business Branch",
+                    filter_title = lang["Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.business_branch_ids_filter_1,
@@ -92,7 +92,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 {
                     key = "purchase_order/stock_location_id",
                     value1 = gv.stock_location_ids_filter(gv.business_branch_ids_filter_1),
-                    filter_title = "Stock Location",
+                    filter_title = lang["Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.stock_location_ids_filter(gv.business_branch_ids_filter_1),
@@ -130,7 +130,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     {
                         key = "purchase_order/purchase_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = "Purchase Date",
+                        filter_title = lang["Purchase Date"],
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
@@ -170,7 +170,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 {
                     key = "purchase_order/business_branch_id",
                     value1 = business_branch_ids,
-                    filter_title = "Business Branch",
+                    filter_title = lang["Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = business_branch_ids,
@@ -211,7 +211,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 {
                     key = "purchase_order/stock_location_id",
                     value1 = value,
-                    filter_title = "Stock Location",
+                    filter_title = lang["Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = value,
@@ -225,7 +225,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                 {
                     key = "purchase_order/stock_location_id",
                     value1 = gv.outlet_ids_filter(business_branch_ids),
-                    filter_title = "Stock Location",
+                    filter_title = lang["Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.outlet_ids_filter(business_branch_ids),

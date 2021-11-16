@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http;
-
+@inject IStringLocalizer<Resource> lang
 <div style="position:relative;" class="uk-width-1-6@l uk-width-1-4@m uk-width-1-2@s">
     <div class="icon_edit_menu">
         <Icon icon="edit" icon_color="@menu.text_color" OnClick="@(()=>EditMenu())" />
@@ -12,9 +12,9 @@
                 <ul class="uk-nav uk-dropdown-nav">
                     @if (!menu.product_menus.Where(r => r.is_deleted == false).Any())
                     {
-                        <li @onclick="@OnDeleteMenu"> <Icon icon="delete" />Delete</li>
+                        <li @onclick="@OnDeleteMenu"> <Icon icon="delete" />@lang["Delete"]</li>
                     }
-                    <li @onclick="@OnMoveMenu"> <Icon icon="arrow_back" />Move To</li>
+                <li @onclick="@OnMoveMenu"> <Icon icon="arrow_back" />@lang["Move to"]</li>
                 </ul>
             </div>
         </div>
@@ -55,7 +55,7 @@
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public int menu_id { get; set; }
     [Parameter] public EventCallback<int> menu_idChanged { get; set; }
-    [Parameter] public EventCallback<MouseEventArgs> OnMoveMenu{ get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnMoveMenu { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnDeleteMenu { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnRefreshData { get; set; }
     [Parameter] public string keyword { get; set; }

@@ -50,7 +50,7 @@
                         </SelectUnit>
                         <SelectStatus @bind-selected_value="@model.status" />
                     </UIContainerBox>
-                    <UIContainerBox Title="Purchase Information">
+                    <UIContainerBox Title="@lang["Purchase Information"]">
                         <NumberInput label="@lang["Cost"]" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
                         <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
                     </UIContainerBox>

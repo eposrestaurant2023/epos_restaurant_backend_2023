@@ -1,10 +1,10 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 @if (is_visible)
 {
     if (is_loading)
     {
-<label class="uk-label active"> <Spinner /></label>
-       
+        <label class="uk-label active"> <Spinner /></label>
+
     }
     else
     {
@@ -12,16 +12,16 @@
 
         if (roles == "")
         {
-            <label class="uk-label active @ClassName" @onclick="@OnClick"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" />Active</label>
+            <label class="uk-label active @ClassName" @onclick="@OnClick"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" />@lang["Active"]</label>
         }
         else
         {
             <AuthorizeView Roles="@roles">
                 <Authorized>
-                    <label class="uk-label active @ClassName" @onclick="@OnClick"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" /> Active</label>
+                    <label class="uk-label active @ClassName" @onclick="@OnClick"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" /> @lang["Active"]</label>
                 </Authorized>
                 <NotAuthorized>
-                    <label class="uk-label active @ClassName"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" />Active</label>
+                    <label class="uk-label active @ClassName"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" />@lang["Active"]</label>
                 </NotAuthorized>
             </AuthorizeView>
 

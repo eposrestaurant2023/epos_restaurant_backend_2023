@@ -70,6 +70,51 @@ namespace eAdmin.Shared.ResourceTranslateFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Help and Support.
+        /// </summary>
+        public static string help_and_support {
+            get {
+                return ResourceManager.GetString("help_and_support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string On_Date {
+            get {
+                return ResourceManager.GetString("On_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string On_Hour {
+            get {
+                return ResourceManager.GetString("On_Hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stock Take Date.
+        /// </summary>
+        public static string stock_take_date {
+            get {
+                return ResourceManager.GetString("stock_take_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference.
+        /// </summary>
+        public static string unit_reference {
+            get {
+                return ResourceManager.GetString("unit_reference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome.
         /// </summary>
         public static string welcome {

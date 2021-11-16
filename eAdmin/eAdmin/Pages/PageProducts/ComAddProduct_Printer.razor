@@ -1,11 +1,12 @@
-﻿<UIContainerBox Title="Printers">
+﻿@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@lang["Printers"]">
     @if (is_loading)
     {
         <Spinner />
     }
     else
     {
-     
+
         @if (gv.business_branch_by_role.Count() == 1)
         {
             @foreach (var p in printers)
@@ -30,12 +31,12 @@
                     {
                         if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
                         {
-                        <TabItem>
-                            @foreach (var p in printers.Where(r => r.business_branch_id == b.id))
-                            {
-                                <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
-                            }
-                        </TabItem>
+                            <TabItem>
+                                @foreach (var p in printers.Where(r => r.business_branch_id == b.id))
+                                {
+                                    <ComInputCheckBox label="@p.printer_name" value="@p.is_selected" valueChanged="@(() => PrinterChanged(p))" />
+                                }
+                            </TabItem>
                         }
                     }
                 </TabBody>
@@ -48,14 +49,14 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
     [Parameter] public ProductModel model { get; set; }
-    [Parameter] public EventCallback< ProductModel> modelChanged { get; set; }
+    [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     List<PrinterModel> printers = new List<PrinterModel>();
     bool is_loading;
     protected override void OnInitialized()
     {
         is_loading = true;
         printers = JsonSerializer.Deserialize<List<PrinterModel>>(JsonSerializer.Serialize(gv.printers));
-        foreach(var p  in model.product_printers)
+        foreach (var p in model.product_printers)
         {
             if (printers.Where(r => r.id == p.printer_id).Any())
             {
@@ -71,15 +72,17 @@
         p.is_selected = !p.is_selected;
         if (p.is_selected)
         {
-            if(model.product_printers.Where(r => r.printer_id == p.id).Any())
+            if (model.product_printers.Where(r => r.printer_id == p.id).Any())
             {
                 model.product_printers.Where(r => r.printer_id == p.id).FirstOrDefault().is_deleted = false;
-            }else
+            }
+            else
             {
                 model.product_printers.Add(new ProductPrinterModel() { printer_id = p.id });
             }
 
-        }else
+        }
+        else
         {
 
             model.product_printers.Where(r => r.printer_id == p.id && r.id > 0).ToList().ForEach(r => r.is_deleted = true);

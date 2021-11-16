@@ -62,9 +62,9 @@
                 <LabelInActive is_visible="@(!p.is_deleted && !p.status)"  roles="@gv.GetRole("customer_edit")" is_loading="@p.is_change_status" />
             </TdCenter>
             <TdActions is_loading="@p.is_loading">
-                    <TableActionItem roles="@gv.GetRole("customer_management")" url="@($"customer/{p.id}")" icon="search">View</TableActionItem>
-                    <TableActionItem roles="@gv.GetRole("customer_edit")" url="@($"customer/edit/{p.id}")" icon="edit" is_visible="@(!p.is_deleted)">Edit</TableActionItem>
-                    <TableActionItem roles="@gv.GetRole("customer_add")" url="@($"customer/clone/{p.id}")" icon="copy">Clone</TableActionItem>
+                <TableActionItem roles="@gv.GetRole("customer_management")" url="@($"customer/{p.id}")" icon="search">@lang["View"]</TableActionItem>
+                    <TableActionItem roles="@gv.GetRole("customer_edit")" url="@($"customer/edit/{p.id}")" icon="edit" is_visible="@(!p.is_deleted)">@lang["Edit"]</TableActionItem>
+                    <TableActionItem roles="@gv.GetRole("customer_add")" url="@($"customer/clone/{p.id}")" icon="copy">@lang["Clone"]</TableActionItem>
             </TdActions>
         </RowTemplate>
     </Table>

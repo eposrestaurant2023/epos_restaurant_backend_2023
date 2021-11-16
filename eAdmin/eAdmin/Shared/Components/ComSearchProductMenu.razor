@@ -7,7 +7,7 @@
                 <Column>
                     <div class="search-product-model">
                         <ComSearchV2 Keyword="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@SearchProduct" />
-                        <Button custom_class="btn-search-filter-product" type="button" icon="filter_list" title="Filter Products" />
+                        <Button custom_class="btn-search-filter-product" type="button" icon="filter_list" title="@lang["Filter Products"]" />
                         <div uk-dropdown="mode: click; pos: bottom-right">
                             <div class="uk-navbar-dropdown-grid uk-child-width-expand mega-dropdown filter-select-product" uk-grid>
                                 <PageFilter use_list="false" title="Categories">
@@ -306,7 +306,7 @@
             {
                 key = "product_category_id",
                 value1 = state.product_category.id.ToString(),
-                filter_title = "Product Category",
+                filter_title = lang["Product Category"],
                 state_property_name = "product_category",
                 filter_info_text = state.product_category.product_category_en,
                 is_clear_all = true

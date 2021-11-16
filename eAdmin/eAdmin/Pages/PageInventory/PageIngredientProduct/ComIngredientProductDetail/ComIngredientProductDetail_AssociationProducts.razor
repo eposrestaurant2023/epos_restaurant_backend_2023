@@ -75,7 +75,7 @@
                         <LabelInActive is_visible="@(!p.product.is_deleted && !p.product.status)" />
                     </TdCenter>
                     <TdActions>
-                        <TableActionItem icon="visibility" is_visible="@(!p.product.is_deleted)" url="@($"product/{p.product_id}")">View</TableActionItem>
+                        <TableActionItem icon="visibility" is_visible="@(!p.product.is_deleted)" url="@($"product/{p.product_id}")">@lang["View"]</TableActionItem>
                     </TdActions>
                 </RowTemplate>
             </Table>

@@ -1,40 +1,42 @@
 ﻿@inject IHttpService http
-@if (!is_loading) {
-@if (is_inline)
+@inject IStringLocalizer<Resource> lang
+@if (!is_loading)
 {
-    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
-        @if (show_empty)
-        {
-            <option value="0">@empty_text</option>
-        }
-        @foreach (var p in gv.price_rules)
-        {
-            <option value="@p.id">@p.price_name</option>
-        }
-    </select>
-}
-else
-{
+    @if (is_inline)
+    {
+        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+            @if (show_empty)
+            {
+                <option value="0">@lang[empty_text]</option>
+            }
+            @foreach (var p in gv.price_rules)
+            {
+                <option value="@p.id">@p.price_name</option>
+            }
+        </select>
+    }
+    else
+    {
 
-    <div class="uk-form-horizontal">
-        <div class="uk-margin-small">
-            <label class="uk-form-label" for="@id">@label</label>
-            <div class="uk-form-controls">
-                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
-                    @if (show_empty)
-                    {
-                        <option value="0">@empty_text</option>
-                    }
-                    @foreach (var p in gv.price_rules)
-                    {
-                        <option value="@p.id">@p.price_name</option>
-                    }
-                </select>
-                @ChildContent
+        <div class="uk-form-horizontal">
+            <div class="uk-margin-small">
+                <label class="uk-form-label" for="@id">@lang[label]</label>
+                <div class="uk-form-controls">
+                    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+                        @if (show_empty)
+                        {
+                            <option value="0">@lang[empty_text]</option>
+                        }
+                        @foreach (var p in gv.price_rules)
+                        {
+                            <option value="@p.id">@p.price_name</option>
+                        }
+                    </select>
+                    @ChildContent
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
 }
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }

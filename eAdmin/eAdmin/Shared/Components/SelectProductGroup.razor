@@ -1,12 +1,13 @@
-﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @lang[label]</label>
     <div class="uk-form-controls">
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
-            @foreach (var p in gv.product_groups.Where(r=>r.is_built_in == false))
+            @foreach (var p in gv.product_groups.Where(r => r.is_built_in == false))
             {
                 <option value="@p.id">@p.product_group_en</option>
             }
@@ -35,7 +36,7 @@
     {
         get
         {
-                return product_group == null ? selected_value : product_group.id;
+            return product_group == null ? selected_value : product_group.id;
         }
     }
 

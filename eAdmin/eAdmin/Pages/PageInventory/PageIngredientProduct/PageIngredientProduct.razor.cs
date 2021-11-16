@@ -197,7 +197,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 {
                     key = "product_category/product_group_id",
                     value1 = state.product_group.id.ToString(),
-                    filter_title = "Product Group",
+                    filter_title = lang["Product Group"],
                     state_property_name = "product_group",
                     filter_info_text = state.product_group.product_group_en,
                     is_clear_all = true,
@@ -211,7 +211,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 {
                     key = "product_category_id",
                     value1 = state.product_category.id.ToString(),
-                    filter_title = "Product Category",
+                    filter_title = lang["Product Category"],
                     state_property_name = "product_category",
                     filter_info_text = state.product_category.product_category_en,
                     is_clear_all = true,

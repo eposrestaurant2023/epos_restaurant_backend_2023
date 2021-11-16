@@ -1,4 +1,4 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 <div class="uk-margin-small">
     <label class="uk-form-label" for="@id">
         @if (line_icon != "")
@@ -10,7 +10,7 @@
 
             <Icon icon="@icon" />
         }
-        @label
+        @lang[label]
     </label>
     <div class="uk-form-controls">
         @if (is_readonly)
@@ -18,14 +18,14 @@
             <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width" disabled>
                 @if (show_empty)
                 {
-                    <option value="0">@empty_text</option>
-                } 
+                    <option value="0">@lang[empty_text]</option>
+                }
 
-                @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category && r.product_group_id ==(product_group_id == 0? r.product_group_id:product_group_id)))
+                @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category && r.product_group_id == (product_group_id == 0 ? r.product_group_id : product_group_id)))
                 {
                     <option value="@p.id">@p.product_category_en</option>
                 }
-  
+
             </select>
         }
         else
@@ -33,9 +33,9 @@
             <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((String)ui.Value))" class="uk-select uk-form-small @width">
                 @if (show_empty)
                 {
-                    <option value="0">@empty_text</option>
+                    <option value="0">@lang[empty_text]</option>
                 }
-                
+
                 @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category && r.product_group_id == (product_group_id == 0 ? r.product_group_id : product_group_id)))
                 {
                     <option value="@p.id">@p.product_category_en</option>
@@ -66,7 +66,7 @@
 
     [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
     [Parameter] public EventCallback<ProductCategoryModel> product_categoryChanged { get; set; }
-     
+
 
     Guid id = Guid.NewGuid();
 

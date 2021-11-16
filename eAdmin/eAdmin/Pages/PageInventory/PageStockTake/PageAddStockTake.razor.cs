@@ -131,19 +131,19 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         {
             if (model.business_branch_id == Guid.Empty)
             {
-                toast.Add("Please select business branch.", MatToastType.Warning);
+                toast.Add(lang["Please select business branch."], MatToastType.Warning);
                 return;
             }
 
             if (model.stock_location_id == Guid.Empty)
             {
-                toast.Add("Please select stock location.", MatToastType.Warning);
+                toast.Add(lang["Please select stock location."], MatToastType.Warning);
                 return;
             }
 
             if (model.active_stock_take_products.Count() <= 0)
             {
-                toast.Add("Stock take item cannot be empty.", MatToastType.Warning);
+                toast.Add(lang["Stock take item cannot be empty."], MatToastType.Warning);
                 return;
             }
             
@@ -156,7 +156,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             var resp = await http.ApiPost("StockTake/save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add("Save successfully.", MatToastType.Success);
+                toast.Add(lang["Save successfully."], MatToastType.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
                 nav.NavigateTo($"stocktake/{_model.id}");
             }

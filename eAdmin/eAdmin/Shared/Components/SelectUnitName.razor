@@ -1,19 +1,20 @@
-﻿ 
-@if(!string.IsNullOrEmpty(label)){
+﻿@inject IStringLocalizer<Resource> lang
+@if (!string.IsNullOrEmpty(label))
+{
     <div class="uk-margin-small">
-        <label class="uk-form-label" for="@id">@label</label>
+        <label class="uk-form-label" for="@id">@lang[label]</label>
         <div class="uk-form-controls">
             <select id="@id" value="@unit_name" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width;">
                 @if (show_empty)
                 {
-                    <option value="">@empty_text</option>
+                    <option value="">@lang[empty_text]</option>
                 }
-             
-                    @foreach (var p in gv.units.Where(r => (r.status  && !r.is_deleted) && r.unit_category_id == unit_category_id))
-                    {
-                        <option value="@p.unit_name">@p.unit_name</option>
-                    }
-                
+
+                @foreach (var p in gv.units.Where(r => (r.status && !r.is_deleted) && r.unit_category_id == unit_category_id))
+                {
+                    <option value="@p.unit_name">@p.unit_name</option>
+                }
+
             </select>
             @ChildContent
         </div>
@@ -21,19 +22,19 @@
 }
 else
 {
-<select id="@id" value="@unit_name" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: auto; min-width:80px;">
-    @if (show_empty)
-    {
-        <option value="">@empty_text</option>
-    }
+    <select id="@id" value="@unit_name" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: auto; min-width:80px;">
+        @if (show_empty)
+        {
+            <option value="">@lang[empty_text]</option>
+        }
 
-    @foreach (var p in gv.units.Where(r => (r.status && !r.is_deleted) && r.unit_category_id == unit_category_id))
-    {
-        <option value="@p.unit_name">@p.unit_name</option>
-    }
+        @foreach (var p in gv.units.Where(r => (r.status && !r.is_deleted) && r.unit_category_id == unit_category_id))
+        {
+            <option value="@p.unit_name">@p.unit_name</option>
+        }
 
-</select>
-@ChildContent
+    </select>
+    @ChildContent
 }
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -68,7 +69,8 @@ else
             UnitModel u = gv.units.Where(r => r.unit_category_id == unit_category_id && r.unit_name.ToLower().Trim() == n.Trim().ToLower()).FirstOrDefault();
             await multiplierChanged.InvokeAsync(u.multiplier);
         }
-        else {
+        else
+        {
             await multiplierChanged.InvokeAsync(1);
         }
 

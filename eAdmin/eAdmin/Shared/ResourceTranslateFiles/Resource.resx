@@ -120,6 +120,21 @@
   <data name="helloworld" xml:space="preserve">
     <value>HELLO</value>
   </data>
+  <data name="help_and_support" xml:space="preserve">
+    <value>Help and Support</value>
+  </data>
+  <data name="On_Date" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="On_Hour" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="stock_take_date" xml:space="preserve">
+    <value>Stock Take Date</value>
+  </data>
+  <data name="unit_reference" xml:space="preserve">
+    <value>Reference</value>
+  </data>
   <data name="welcome" xml:space="preserve">
     <value>Welcome</value>
   </data>

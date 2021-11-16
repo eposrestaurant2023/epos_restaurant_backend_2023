@@ -21,7 +21,7 @@
             <div uk-grid class="uk-grid-small" uk-height-match="target: > div > .uk-card">
                 <div class="uk-width-1-5@m uk-width-1-1@s">
                     <ComPanel>
-                        <input type="text" class="uk-input uk-form-small" placeholder="search" @bind="@keyword" @bind:event="oninput" />
+                        <input type="text" class="uk-input uk-form-small" placeholder="@lang["Search"]" @bind="@keyword" @bind:event="oninput" />
                         @if (keyword == "")
                         {
                             @foreach (var r in main_report_list.OrderBy(r=>r.sort_order))

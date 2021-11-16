@@ -91,7 +91,7 @@
                         <TdActions is_loading="@p.is_loading">
                             <TableActionItem roles="@gv.GetRole("customer_management")" icon="visibility" url="@($"customer/{p.id}")">@lang["View"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("customer_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">@lang["Edit"]</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">Clone</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">@lang["Clone"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>

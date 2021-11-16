@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.JSInterop;
+@inject IStringLocalizer<Resource> lang
 
 @inject Microsoft.JSInterop.IJSRuntime js;
- 
+
 <EditForm Model="@dummy" OnSubmit="Search" @attributes="@searchFormAttributes" class="@($"uk-search uk-search-default {FrmClass}")">
     <div class="control-addon @(show_advance_filter?"control-addon-right":"") control-addon-left">
         <span uk-search-icon></span>
@@ -10,10 +11,10 @@
         @if (show_advance_filter)
         {
             <span class="input-addon-right" uk-toggle="@($"target: #{advance_filter_id}")">
-                <Icon icon="tune"/>
+                <Icon icon="tune" />
             </span>
         }
-      
+
     </div>
 </EditForm>
 @if (show_advance_filter)
@@ -31,7 +32,7 @@
 
     [Parameter] public string search_text { get; set; } = "";
     [Parameter] public string FrmClass { get; set; } = "";
-    [Parameter] public string advance_filter_id { get; set; } = "advance_filter"+string.Format("{0:yyyy_MM_dd_HH_mm_ss}",DateTime.Now);
+    [Parameter] public string advance_filter_id { get; set; } = "advance_filter" + string.Format("{0:yyyy_MM_dd_HH_mm_ss}", DateTime.Now);
     [Parameter] public bool show_advance_filter { get; set; } = true;
     [Parameter] public EventCallback OnFillterClick { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -40,7 +41,7 @@
 
 
     public Dictionary<string, object> searchFormAttributes { get; set; } = new Dictionary<string, object>()
-    {
+{
                 { "class", "uk-search uk-search-default"}
     };
 
@@ -50,7 +51,7 @@
         get
         {
 
-            return string.IsNullOrEmpty(place_holder) ? "Search" : place_holder;
+            return string.IsNullOrEmpty(place_holder) ? lang["Search"] + "..." : place_holder;
 
         }
     }

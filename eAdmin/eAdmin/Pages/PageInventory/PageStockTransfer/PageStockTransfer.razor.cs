@@ -82,7 +82,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "from_business_branch_id",
                     value1 = gv.business_branch_ids_filter_1,
-                    filter_title = "From Business Branch",
+                    filter_title = lang["From Business Branch"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.business_branch_ids_filter_1,
@@ -98,7 +98,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 {
                     key = "from_stock_location_id",
                     value1 = gv.stock_location_ids_filter(gv.business_branch_ids_filter_1),
-                    filter_title = "From Stock Location",
+                    filter_title = lang["From Stock Location"],
                     filter_operator = "multiple",
                     state_property_name = "list_selected_values",
                     filter_info_text = gv.stock_location_ids_filter(gv.business_branch_ids_filter_1),

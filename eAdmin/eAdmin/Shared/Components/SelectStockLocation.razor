@@ -1,14 +1,15 @@
-﻿<div class="uk-margin-small">
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-margin-small">
     @if (!string.IsNullOrEmpty(label))
     {
-        <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
+        <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @lang[label]</label>
     }
 
     <div class="@(!string.IsNullOrEmpty(label) ? "uk-form-controls" : "")">
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
             @if (show_empty)
             {
-                <option value="@Guid.Empty">@empty_text</option>
+                <option value="@Guid.Empty">@lang[empty_text]</option>
             }
             @foreach (var p in gv.stock_locations.Where(r => r.business_branch_id == business_branch_id))
             {

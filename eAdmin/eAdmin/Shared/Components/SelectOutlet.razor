@@ -1,10 +1,11 @@
-﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @lang[label]</label>
     <div class="uk-form-controls">
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="@Guid.Empty">@empty_text</option>
+                <option value="@Guid.Empty">@lang[empty_text]</option>
             }
             @if (business_branch_id == Guid.Empty)
             {
@@ -54,7 +55,7 @@
     Guid id = Guid.NewGuid();
 
     private async Task SelectedValueChange(string n)
-    {   
+    {
         selected_value = Guid.Parse(n);
 
         await selected_valueChanged.InvokeAsync(selected_value);

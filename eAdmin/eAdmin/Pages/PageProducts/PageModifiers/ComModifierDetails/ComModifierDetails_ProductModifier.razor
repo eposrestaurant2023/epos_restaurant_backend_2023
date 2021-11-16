@@ -80,7 +80,7 @@
                         <LabelInActive is_visible="@(!p.is_deleted && !p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
                     </TdCenter>
                     <TdActions>
-                        <TableActionItem icon="visibility" is_visible="@(!p.parent.product.is_deleted)" url="@($"product/{p.parent?.product_id}")">View</TableActionItem>
+                        <TableActionItem icon="visibility" is_visible="@(!p.parent.product.is_deleted)" url="@($"product/{p.parent?.product_id}")">@lang["View"]</TableActionItem>
                     </TdActions>
                 </RowTemplate>
             </Table>

@@ -1,18 +1,19 @@
 ﻿@inject NavigationManager nav;
+@inject IStringLocalizer<Resource> lang
 <Icon icon="add_circle_outline" title="Quick Add" className="topMainIcon" />
 <div class="uk-navbar-dropdown wrp-top-quick-add-possition header_new_general" uk-drop="mode: click" id="main_header_drop">
     <div class="uk-dropdown-grid uk-child-width-1-1 wrp-top-quick-add" uk-grid>
         <div>
             <ul class="uk-nav uk-dropdown-nav uk-text-left  uk-list uk-list-divider">
-                <li class="uk-nav-header"><Icon icon="add" /> Quick Add</li>
-                <li><a href="product/new" uk-toggle="target: #main_header_drop">New Product</a></li>
-                <li><a href="customer/new" uk-toggle="target: #main_header_drop">New Customer</a></li>
-                <li><a href="vendor/new" uk-toggle="target: #main_header_drop">New Vendor</a></li>
-                <li><a href="purchaseorder/new" uk-toggle="target: #main_header_drop">New Purchase Order</a></li>
-                <li><a href="stocktransfer/new" uk-toggle="target: #main_header_drop">New Stock Transfer</a></li>
-                <li><a href="stocktake/new" uk-toggle="target: #main_header_drop">New Stock Take</a></li>
-                <li><a href="production/new" uk-toggle="target: #main_header_drop">New Production</a></li>
-                
+                <li class="uk-nav-header"><Icon icon="add" />@lang["Quick Add"]</li>
+                <li><a href="product/new" uk-toggle="target: #main_header_drop">@lang["New Product"]</a></li>
+                <li><a href="customer/new" uk-toggle="target: #main_header_drop">@lang["New Customer"]</a></li>
+                <li><a href="vendor/new" uk-toggle="target: #main_header_drop">@lang["New Vendor"]</a></li>
+                <li><a href="purchaseorder/new" uk-toggle="target: #main_header_drop">@lang["New Purchase Order"]</a></li>
+                <li><a href="stocktransfer/new" uk-toggle="target: #main_header_drop">@lang["New Stock Transfer"]</a></li>
+                <li><a href="stocktake/new" uk-toggle="target: #main_header_drop">@lang["New Stock Take"]</a></li>
+                <li><a href="production/new" uk-toggle="target: #main_header_drop">@lang["New Production"]</a></li>
+
             </ul>
         </div>
     </div>

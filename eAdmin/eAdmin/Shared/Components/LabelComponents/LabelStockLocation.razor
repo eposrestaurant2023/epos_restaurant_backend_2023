@@ -1,6 +1,7 @@
-﻿@if (is_visible && !string.IsNullOrEmpty(label))
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_visible && !string.IsNullOrEmpty(label))
 {
-    <span class="uk-label" style="background-color: #01a9a7" uk-tooltip="Stock Location">@label</span>
+    <span class="uk-label" style="background-color: #01a9a7" uk-tooltip="@lang["Stock Location"]">@lang[label]</span>
 }
 
 @code{

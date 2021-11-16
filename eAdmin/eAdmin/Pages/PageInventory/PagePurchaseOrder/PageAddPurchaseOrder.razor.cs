@@ -167,31 +167,31 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
   
             if (model.vendor_id == 0)
             {
-                toast.Add("Please select vendor.", MatToastType.Warning);
+                toast.Add(lang["Please select vendor."], MatToastType.Warning);
                 return;
             }
 
             if (model.business_branch_id == Guid.Empty)
             {
-                toast.Add("Please select business branch.", MatToastType.Warning);
+                toast.Add(lang["Please select business branch."], MatToastType.Warning);
                 return;
             }
 
             if (model.stock_location_id == Guid.Empty)
             {
-                toast.Add("Please select stock location.", MatToastType.Warning);
+                toast.Add(lang["Please select stock location."], MatToastType.Warning);
                 return;
             }
 
             if (model.active_purchase_order_products.Count() <= 0)
             {
-                toast.Add("PO item cannot be empty.", MatToastType.Warning);
+                toast.Add(lang["PO item cannot be empty."], MatToastType.Warning);
                 return;
             }
              
             if (model.balance < 0)
             {
-                toast.Add("Balance cannot be lower then zero.", MatToastType.Warning);
+                toast.Add(lang["Balance cannot be lower then zero."], MatToastType.Warning);
                 return;
             }
             
@@ -208,7 +208,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add("Save successfully.", MatToastType.Success);
+                toast.Add(lang["Save successfully."], MatToastType.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
                 nav.NavigateTo($"purchaseorder/{_model.id}");
             }

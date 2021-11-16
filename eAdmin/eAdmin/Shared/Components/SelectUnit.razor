@@ -1,36 +1,36 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 @if (!string.IsNullOrEmpty(label))
 {
     <div class="uk-margin-small">
-        <label class="uk-form-label" for="@id">@label</label>
+        <label class="uk-form-label" for="@id">@lang[label]</label>
         <div class="uk-form-controls">
             @if (is_ready_only)
             {
-            <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: @width; min-width:80px;" disabled>
-                @if (show_empty)
-                {
-                    <option value="0">@empty_text</option>
-                }
+                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: @width; min-width:80px;" disabled>
+                    @if (show_empty)
+                    {
+                        <option value="0">@lang[empty_text]</option>
+                    }
 
-                @foreach (var p in units)
-                {
-                    <option value="@p.id">@p.unit_name</option>
-                }
-            </select>
+                    @foreach (var p in units)
+                    {
+                        <option value="@p.id">@p.unit_name</option>
+                    }
+                </select>
             }
             else
             {
-            <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width; min-width:80px;">
-                @if (show_empty)
-                {
-                    <option value="0">@empty_text</option>
-                }
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width; min-width:80px;">
+                    @if (show_empty)
+                    {
+                        <option value="0">@empty_text</option>
+                    }
 
-                @foreach (var p in units)
-                {
-                    <option value="@p.id">@p.unit_name</option>
-                }
-            </select>
+                    @foreach (var p in units)
+                    {
+                        <option value="@p.id">@p.unit_name</option>
+                    }
+                </select>
             }
             @ChildContent
         </div>

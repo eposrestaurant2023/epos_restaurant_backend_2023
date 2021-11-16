@@ -1,38 +1,19 @@
-﻿@if (roles == "")
+﻿@inject IStringLocalizer<Resource> lang
+@if (roles == "")
 {
     @if (label != "")
     {
         @if (label_inline)
         {
-            @*<div class="uk-form-horizontal">
-                    <div class="uk-margin-small">
-                        @if (!is_read_only)
-                        {
-                            <label class="uk-form-label" for="@id">@label</label>
-                            <div class="uk-form-controls">
-                                <input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value">
-                            </div>
 
-                        }
-                        else
-                        {
-                            <label class="uk-form-label" for="@id">@label</label>
-                            <div class="uk-form-controls">
-                                <input disabled @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value">
-                            </div>
-
-                        }
-
-                    </div>
-                </div>*@
             <div class="uk-width-1-1 uk-margin-small-top">
                 @if (!is_read_only)
                 {
-                    <label class="cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
+                    <label class="cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @lang[label]</label>
                 }
                 else
                 {
-                    <label class="cp uk-margin-remove-top"><input class="uk-checkbox" type="checkbox" checked="@value" disabled="disabled"> @label</label>
+                    <label class="cp uk-margin-remove-top"><input class="uk-checkbox" type="checkbox" checked="@value" disabled="disabled"> @lang[label]</label>
                 }
             </div>
 
@@ -40,7 +21,7 @@
         else
         {
             <div class="uk-margin-small">
-                <label class="uk-form-label cp" for="@id">@label</label>
+                <label class="uk-form-label cp" for="@id">@lang[label]</label>
                 <div class="uk-form-controls">
                     @if (!is_read_only)
                     {
@@ -81,11 +62,11 @@ else
                     <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                         @if (!is_read_only)
                         {
-                            <label class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @label</label>
+                            <label class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value"> @lang[label]</label>
                         }
                         else
                         {
-                            <label class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value" disabled="disabled"> @label</label>
+                            <label class="uk-form-label cp uk-margin-remove-top"><input @onchange="@((ui) =>valueChange((bool)ui.Value))" class="uk-checkbox" type="checkbox" checked="@value" disabled="disabled"> @lang[label]</label>
                         }
 
                     </div>
@@ -93,7 +74,7 @@ else
                 else
                 {
                     <div class="uk-margin-small">
-                        <label class="uk-form-label uk-margin-remove-top cp" for="@id">@label</label>
+                        <label class="uk-form-label uk-margin-remove-top cp" for="@id"> @lang[label]</label>
                         <div class="uk-form-controls">
                             @if (!is_read_only)
                             {
@@ -119,13 +100,13 @@ else
                 @if (label_inline)
                 {
                     <div class="uk-margin-small uk-margin-remove-top">
-                        <label class="cp"><input disabled class="uk-checkbox" type="checkbox" checked="@value" @onchange="@((ui) =>valueChange((bool)ui.Value))">@label</label>
+                        <label class="cp"><input disabled class="uk-checkbox" type="checkbox" checked="@value" @onchange="@((ui) =>valueChange((bool)ui.Value))"> @lang[label]</label>
                     </div>
                 }
                 else
                 {
                     <div class="uk-margin-small">
-                        <label class="uk-form-label uk-margin-remove-top cp" for="@id">@label</label>
+                        <label class="uk-form-label uk-margin-remove-top cp" for="@id"> @lang[label]</label>
                         <div class="uk-form-controls">
                             <input disabled class="uk-checkbox" checked="@value" @onchange="@((ui) =>valueChange((bool)ui.Value))" type="checkbox" id="@id">
                         </div>

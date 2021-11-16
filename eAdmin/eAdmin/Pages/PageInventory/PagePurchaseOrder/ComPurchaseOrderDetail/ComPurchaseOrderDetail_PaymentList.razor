@@ -22,7 +22,7 @@
                                 <span>@p.payment_date.ToString(gv.date_format)</span>
                             </div>
                             <div>
-                                <span>By: @p.created_by on @p.created_date.ToString(gv.date_time_format)</span>
+                                <span>@lang["By"]: @p.created_by @lang["On_Date"] @p.created_date.ToString(gv.date_time_format)</span>
                             </div>
 
                             <TextOverflow Text="@p.payment_note" ClassName="small-text" />
@@ -37,8 +37,8 @@
                             <Spacing Number="10" />
                             <Column ClassName="uk-text-right">
                               
-                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" roles="@gv.GetRole("purchase_order_edit")" title="Edit" />
-                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("purchase_order_delete_payment")" title="Delete" />
+                                <Icon icon="edit" OnClick="@(() => EditPayment_Click(p))" roles="@gv.GetRole("purchase_order_edit")" title="@lang["Edit"]" />
+                                <Icon icon="delete" OnClick="@(() => DeletePayment_Click(p))" roles="@gv.GetRole("purchase_order_delete_payment")" title="@lang["Delete"]" />
                             </Column>
                         </ContentRight>
                     </UIListBox>

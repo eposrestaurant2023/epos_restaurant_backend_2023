@@ -101,13 +101,15 @@
                                         }
                                     </TdCenter>
                                     <TdActions is_loading="@s.is_loading">
-                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="edit" is_visible="@(!s.is_deleted && !s.is_build_in)" OnClick="@(()=>OnEdit(s.id))">Edit</TableActionItem>
-                                        <TableActionItem roles="@gv.GetRole("payment_type_add")" icon="file_copy" OnClick="@(()=>Clone_Click(s.id))">Clone</TableActionItem>
-                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="highlight_off" is_visible="@(s.status && !s.is_deleted &&!s.is_build_in)" OnClick="@(()=>OnToogleStatus(s))">Inactive</TableActionItem>
-                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="check" is_visible="@(!s.status && !s.is_deleted && !s.is_build_in)" OnClick="@(() => OnToogleStatus(s))">Active</TableActionItem>
-                                        <TableActionItem roles="@gv.GetRole("payment_type_delete")" icon="delete" is_visible="@(!s.is_deleted && !s.is_build_in)" OnClick="@(() => OnDelete(s))">Delete</TableActionItem>
-                                        <TableActionItem roles="@gv.GetRole("payment_type_restore")" icon="refresh" is_visible="@(s.is_deleted)" OnClick="@(()=>OnRestore(s))">Restore</TableActionItem>
-                                    </TdActions>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="edit" is_visible="@(!s.is_deleted && !s.is_build_in)" OnClick="@(()=>OnEdit(s.id))">@lang["Edit"]</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_add")" icon="file_copy" OnClick="@(()=>Clone_Click(s.id))">@lang["Clone"]</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="highlight_off" is_visible="@(s.status && !s.is_deleted &&!s.is_build_in)" OnClick="@(()=>OnToogleStatus(s))">
+                                            @lang["Inactive"]</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_edit")" icon="check" is_visible="@(!s.status && !s.is_deleted && !s.is_build_in)" OnClick="@(() => OnToogleStatus(s))">
+                                            @lang["Active"]</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_delete")" icon="delete" is_visible="@(!s.is_deleted && !s.is_build_in)" OnClick="@(() => OnDelete(s))">@lang["Delete"]</TableActionItem>
+                                        <TableActionItem roles="@gv.GetRole("payment_type_restore")" icon="refresh" is_visible="@(s.is_deleted)" OnClick="@(()=>OnRestore(s))">@lang["Restore"]</TableActionItem>
+</TdActions>
                                 </tr>
                                     }
                             </table>

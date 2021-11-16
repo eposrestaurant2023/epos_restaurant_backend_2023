@@ -54,7 +54,7 @@
                         <LabelInActive is_visible="@(!p.modifier.status && !p.is_deleted)" />
                     </TdCenter>
                     <TdActions>
-                        <TableActionItem icon="visibility" roles="@gv.GetRole("modifier_management")" url="@($"modifier/{p.modifier_id}")">View</TableActionItem>
+                        <TableActionItem icon="visibility" roles="@gv.GetRole("modifier_management")" url="@($"modifier/{p.modifier_id}")">@lang["View"]</TableActionItem>
                     </TdActions>
                 </RowTemplate>
             </Table>

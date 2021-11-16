@@ -1,37 +1,39 @@
 ﻿@inject IHttpService http
-@if (!is_loading) { 
+@inject IStringLocalizer<Resource> lang
+@if (!is_loading)
+{
     @if (!string.IsNullOrEmpty(label))
     {
         <div class="uk-margin-small">
-            <label class="uk-form-label" for="@id">@label</label>
+            <label class="uk-form-label" for="@id">@lang[label]</label>
             <div class="uk-form-controls">
                 @if (is_ready_only)
                 {
-                <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: @width; min-width:80px;" disabled>
-                    @if (show_empty)
-                    {
-                        <option value="0">@empty_text</option>
-                    }
+                    <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: @width; min-width:80px;" disabled>
+                        @if (show_empty)
+                        {
+                            <option value="0">@lang[empty_text]</option>
+                        }
 
-                    @foreach (var p in units)
-                    {
-                        <option value="@p.id">@p.unit_name</option>
-                    }
-                </select>
+                        @foreach (var p in units)
+                        {
+                            <option value="@p.id">@p.unit_name</option>
+                        }
+                    </select>
                 }
                 else
                 {
-                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width; min-width:80px;">
-                    @if (show_empty)
-                    {
-                        <option value="0">@empty_text</option>
-                    }
+                    <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width; min-width:80px;">
+                        @if (show_empty)
+                        {
+                            <option value="0">@lang[empty_text]</option>
+                        }
 
-                    @foreach (var p in units)
-                    {
-                        <option value="@p.id">@p.unit_name</option>
-                    }
-                </select>
+                        @foreach (var p in units)
+                        {
+                            <option value="@p.id">@p.unit_name</option>
+                        }
+                    </select>
                 }
                 @ChildContent
             </div>
@@ -44,7 +46,7 @@
             <select id="@id" value="@SelectedValue" class="uk-select uk-form-small" style="width: auto; min-width:80px;" disabled>
                 @if (show_empty)
                 {
-                    <option value="0">@empty_text</option>
+                    <option value="0">@lang[empty_text]</option>
                 }
 
                 @foreach (var p in units)
@@ -58,7 +60,7 @@
             <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: @width; min-width:80px;">
                 @if (show_empty)
                 {
-                    <option value="0">@empty_text</option>
+                    <option value="0">@lang[empty_text]</option>
                 }
 
                 @foreach (var p in units)
@@ -95,8 +97,10 @@
     {
         get
         {
-            if (product_ingredient != null) {
-                if (product_ingredient.unit != null) {
+            if (product_ingredient != null)
+            {
+                if (product_ingredient.unit != null)
+                {
                     if (product_ingredient.unit.unit_category_id > 0)
                     {
                         var _data = gv.units.Where(r => (r.status && !r.is_deleted) && r.unit_category_id == product_ingredient.unit.unit_category_id).ToList();
@@ -148,15 +152,18 @@
         is_loading = true;
 
 
-        if (product_ingredient.ingredient_id > 0 && product_ingredient.id==0) {
+        if (product_ingredient.ingredient_id > 0 && product_ingredient.id == 0)
+        {
             var original_ingredient = await http.ApiGet($"Product({product_ingredient.ingredient_id})?$select=cost");
-            if (original_ingredient.IsSuccess) {
+            if (original_ingredient.IsSuccess)
+            {
                 ingredient = JsonSerializer.Deserialize<ProductModel>(original_ingredient.Content.ToString());
 
                 regular_cost = ingredient.cost;
 
             }
-        }else
+        }
+        else
         {
             var unit = units.Where(r => r.id == product_ingredient.unit_id);
             if (unit.Any())

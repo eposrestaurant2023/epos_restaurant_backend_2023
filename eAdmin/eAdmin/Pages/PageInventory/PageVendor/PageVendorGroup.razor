@@ -54,12 +54,13 @@
                         <LabelDeleted is_visible="@p.is_deleted"/>
                     </td>
                     <TdActions>
-                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" OnClick="@(()=>OnEdit(p.id))" icon="edit" is_visible="@(!p.is_deleted)">Edit </TableActionItem>
-                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
-                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
-                        <TableActionItem roles="@gv.GetRole("vendor_group_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">Delete</TableActionItem>
-                        <TableActionItem roles="@gv.GetRole("vendor_group_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">Restore</TableActionItem>
-                    </TdActions>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" OnClick="@(()=>OnEdit(p.id))" icon="edit" is_visible="@(!p.is_deleted)">
+                            @lang["Edit"]</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("vendor_group_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">@lang["Delete"]</TableActionItem>
+                                                <TableActionItem roles="@gv.GetRole("vendor_group_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">@lang["Restore"]</TableActionItem>
+</TdActions>
                 </RowTemplate>
             </Table>
             

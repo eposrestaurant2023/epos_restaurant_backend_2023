@@ -83,7 +83,7 @@
                             <div class="uk-text-truncate" uk-tooltip="@f.file_title">@f.file_title</div>
                             <div>@(f.file_size / 1000000) Mb</div>
                             <div>@f.note</div>
-                            <div>By @f.created_by on @f.created_date.ToString(gv.date_time_format) </div>
+                            <div>@lang["By"] @f.created_by @lang["On_Date"] @f.created_date.ToString(gv.date_time_format) </div>
                             @if (f.is_deleting)
                             {
                                 <Spinner />

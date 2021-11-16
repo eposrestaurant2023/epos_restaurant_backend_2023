@@ -64,13 +64,14 @@
                     </td>
                     <td>
                         <ComTableActions is_loading="@(r.is_loading)" is_visible="@(!r.is_buildin)">
-                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="edit" OnClick="@(() => nav.NavigateTo($"role/edit/{r.id}"))" is_visible="@(r.status && !r.is_deleted)">Edit</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("role_set_permission")" icon="lock" url="@($"/role/edit/permission/{r.id}")" is_visible="@(r.status && !r.is_deleted)">Set Permission</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="highlight_off" is_visible="@(r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">Inactive</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="check" is_visible="@(!r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">Active</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("role_delete")" icon="delete" is_visible="@(!r.is_deleted)" OnClick="(()=>OnDelete(r))">Delete</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("role_restore")" icon="refresh" is_visible="@(r.is_deleted)" OnClick="(()=>OnRestore(r))">Restore</TableActionItem>
-                        </ComTableActions>
+                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="edit" OnClick="@(() => nav.NavigateTo($"role/edit/{r.id}"))" is_visible="@(r.status && !r.is_deleted)">
+                                @lang["Edit"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_set_permission")" icon="lock" url="@($"/role/edit/permission/{r.id}")" is_visible="@(r.status && !r.is_deleted)">@lang["Set Permission"]</TableActionItem>
+                                                        <TableActionItem roles="@gv.GetRole("role_edit")" icon="highlight_off" is_visible="@(r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">@lang["Inactive"]</TableActionItem>
+                                                        <TableActionItem roles="@gv.GetRole("role_edit")" icon="check" is_visible="@(!r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">@lang["Active"]</TableActionItem>
+                                                        <TableActionItem roles="@gv.GetRole("role_delete")" icon="delete" is_visible="@(!r.is_deleted)" OnClick="(()=>OnDelete(r))">@lang["Delete"]</TableActionItem>
+                                                        <TableActionItem roles="@gv.GetRole("role_restore")" icon="refresh" is_visible="@(r.is_deleted)" OnClick="(()=>OnRestore(r))">@lang["Restore"]</TableActionItem>
+</ComTableActions>
                     </td>
                 </RowTemplate>
             </Table>

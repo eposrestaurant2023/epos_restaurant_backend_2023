@@ -2,14 +2,14 @@
 <div class="spacing30"></div>
 <div class="invoice_footer_description">
     <div>
-        Created by @po.created_by on   @po.created_date.ToString(gv.date_time_format)
+        @lang["Created by"] @po.created_by @lang["On_Date"]   @po.created_date.ToString(gv.date_time_format)
     </div>
 
     @if (po.is_deleted)
     {
-        <div>Deleted by @po.deleted_by on  @po.deleted_date</div>
+<div>@lang["Deleted by"] @po.deleted_by @lang["On_Date"]   @po.deleted_date</div>
     }
-    <div>@lang["Last modified by"] @po.last_modified_by @lang["on"] @po.last_modified_date</div>
+<div>@lang["Last modified by"] @po.last_modified_by @lang["On_Date"]  @po.last_modified_date</div>
 </div>
 @code {
     [Parameter] public PurchaseOrderModel po { get; set; }

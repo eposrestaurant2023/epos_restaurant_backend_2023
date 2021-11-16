@@ -1,6 +1,6 @@
 ﻿@inherits PageCore;
 <ComSaleDetailRibbonStatus sale="sale" />
-    <div class="btn_show_logo" @onclick="@ShowHideLogo">@(state.pager.show_logo ? "Hide Logo" : "Show Logo") <span uk-icon="icon: image; ratio: 0.8;"></span></div>
+    <div class="btn_show_logo" @onclick="@ShowHideLogo">@(state.pager.show_logo ? lang["Hide Logo"] : lang["Show Logo"]) <span uk-icon="icon: image; ratio: 0.8;"></span></div>
     <PageHeader is_subpage="true">
         <HeaderLeft ClassName="uk-flex-top">
             <div>

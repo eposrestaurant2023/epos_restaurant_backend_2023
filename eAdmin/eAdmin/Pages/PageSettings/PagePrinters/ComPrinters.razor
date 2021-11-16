@@ -1,27 +1,28 @@
-﻿@inject IMatToaster toast; 
+﻿@inject IMatToaster toast;
+@inject IStringLocalizer<Resource> lang
 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
     <tr>
-        <ThAuto>Printer Name</ThAuto>
-        <ThAuto>Group Item Type</ThAuto>
-        <ThCenter>IPAddress</ThCenter>
+        <ThAuto>@lang["Printer Name"]</ThAuto>
+        <ThAuto>@lang["Group Item Type"]</ThAuto>
+        <ThCenter>IP Address</ThCenter>
         <ThCenter>Port</ThCenter>
         <Th></Th>
     </tr>
-    @foreach(var p in printers.Where(r=>r.is_deleted==false))
+    @foreach (var p in printers.Where(r => r.is_deleted == false))
     {
         <tr>
-            <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name"/></td>
-            <TdCenter><SelectGroupItemType @bind-selected_value="@p.group_item_type_id"/></TdCenter>
-            <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address" width="120px"/></TdCenter>
-            <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port" width="60px"/></TdCenter>
-             
+            <td><TextInput @bind-text="@p.printer_name" placeholder="Printer Name" /></td>
+            <TdCenter><SelectGroupItemType @bind-selected_value="@p.group_item_type_id" /></TdCenter>
+            <TdCenter><TextInput @bind-text="@p.ip_address" placeholder="IP Address" width="120px" /></TdCenter>
+            <TdCenter><NumberInputInt @bind-text="@p.port" placeholder="Port" width="60px" /></TdCenter>
+
             <TdCenter>
-                <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))"/>
+                <Icon icon="delete" OnClick="@(()=>DeletePrinter(p))" />
             </TdCenter>
-            
+
         </tr>
     }
- 
+
 
 </table>
 
@@ -36,10 +37,11 @@
         if (p.id == 0)
         {
             printers.Remove(p);
-        }else
+        }
+        else
         {
             p.is_deleted = true;
         }
     }
-     
+
 }

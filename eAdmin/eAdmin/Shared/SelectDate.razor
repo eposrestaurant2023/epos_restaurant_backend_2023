@@ -1,25 +1,26 @@
-﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id">@label</label>
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">@lang[label]</label>
     <div class="uk-form-controls">
         <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
-                <option value="-7">Next week</option>
-                <option value="-14">Next 14 Days</option>
-                <option value="1">1 Month</option>
-                <option value="2">2 Months</option>
-                <option value="3">3 Months</option>
-                <option value="4">4 Months</option>
-                <option value="5">5 Months</option>
-                <option value="6">6 Months</option>
-                <option value="7">7 Months</option>
-                <option value="8">8 Months</option>
-                <option value="9">9 Months</option>
-                <option value="10">10 Months</option>
-                <option value="11">11 Months</option>
-                <option value="12">12 Months</option>
+            <option value="-7">@lang["Next week"]</option>
+            <option value="-14">@lang["Next 14 Days"]</option>
+            <option value="1">1 @lang["Month"]"</option>
+            <option value="2">2 @lang["Months"]</option>
+            <option value="3">3 @lang["Months"]</option>
+            <option value="4">4 @lang["Months"]</option>
+            <option value="5">5 @lang["Months"]</option>
+            <option value="6">6 @lang["Months"]</option>
+            <option value="7">7 @lang["Months"]</option>
+            <option value="8">8 @lang["Months"]</option>
+            <option value="9">9 @lang["Months"]</option>
+            <option value="10">10 @lang["Months"]</option>
+            <option value="11">11 @lang["Months"]</option>
+            <option value="12">12 @lang["Months"]</option>
         </select>
         @ChildContent
     </div>
@@ -38,7 +39,7 @@
     [Parameter] public EventCallback<int> selected_valueChanged { get; set; }
 
     [Parameter] public DateTime date { get; set; } = DateTime.Now;
-    [Parameter] public EventCallback<DateTime> dateChanged{ get; set; }
+    [Parameter] public EventCallback<DateTime> dateChanged { get; set; }
 
 
 

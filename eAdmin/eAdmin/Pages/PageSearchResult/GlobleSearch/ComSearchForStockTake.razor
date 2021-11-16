@@ -51,8 +51,8 @@
                 <ComStockTakeStatus model="@p" />
             </TdRight>
             <TdActions is_loading="@p.is_loading">
-                <TableActionItem roles="@gv.GetRole("stock_take_management")" icon="visibility" url="@($"stocktake/{p.id}")">View</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("stock_take_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"stocktake/edit/{p.id}")">Edit</TableActionItem>
+                <TableActionItem roles="@gv.GetRole("stock_take_management")" icon="visibility" url="@($"stocktake/{p.id}")">@lang["View"]</TableActionItem>
+                <TableActionItem roles="@gv.GetRole("stock_take_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"stocktake/edit/{p.id}")">@lang["Edit"]</TableActionItem>
             </TdActions>
         </RowTemplate>
     </Table>
@@ -104,7 +104,7 @@
             {
                 key = "business_branch_id",
                 value1 = gv.business_branch_ids_filter_1,
-                filter_title = "Business Branch",
+                filter_title = lang["Business Branch"],
                 filter_operator = "multiple",
                 state_property_name = "list_selected_values",
                 filter_info_text = gv.business_branch_ids_filter_1,

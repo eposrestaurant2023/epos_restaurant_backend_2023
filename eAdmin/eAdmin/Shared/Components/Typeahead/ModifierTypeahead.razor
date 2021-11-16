@@ -3,11 +3,11 @@
     <Grid ClassName="uk-grid-small">
         <div class="uk-width-auto">
             <div class="search-add-icon">
-                <Icon icon="search" size="25px" icon_color="#99afc5" title="Search / Add Modifier"/>
+                <Icon icon="search" size="25px" icon_color="#99afc5" title="@lang["Search / Add Modifier"]"/>
             </div>
         </div>
         <div class="uk-width-expand uk-padding-remove">
-            <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
+            <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected" Placeholder="@lang[placeholder]" class="uk-form-small" ShowDropDownOnFocus="true">
                 <SelectedTemplate>
                     @context.modifier_name
                 </SelectedTemplate>

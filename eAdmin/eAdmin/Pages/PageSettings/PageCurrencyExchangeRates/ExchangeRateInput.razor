@@ -1,14 +1,15 @@
-﻿@if (label != "")
+﻿@inject IStringLocalizer<Resource> lang
+@if (label != "")
 {
     <div class="@(is_horizontal?"uk-form-horizontal":"")">
         <div class="uk-margin-small">
             <div class="@wrp_class">
                 <label class="uk-form-label">
-                    @label
+                    @lang[label]
                 </label>
                 <div class="uk-form-controls">
 
-                    <input type="text" value="@value" placeholder="@placeholder" @onchange="@((ui) =>  onValueChanged((string)ui.Value))" step="any"  class="uk-input uk-form-small @class_name" style="width:@width"  />
+                    <input type="text" value="@value" placeholder="@placeholder" @onchange="@((ui) =>  onValueChanged((string)ui.Value))" step="any" class="uk-input uk-form-small @class_name" style="width:@width" />
 
                     @ChildContent
                 </div>
@@ -36,7 +37,7 @@
     async Task onValueChanged(string _value)
     {
         decimal _result = 0;
-        if(!string.IsNullOrEmpty(_value))
+        if (!string.IsNullOrEmpty(_value))
         {
             _result = Convert.ToDecimal(_value);
         }

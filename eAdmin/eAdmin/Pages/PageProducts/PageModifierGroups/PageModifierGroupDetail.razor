@@ -29,7 +29,7 @@
                                      IsVisible="@(!modifier_group.is_deleted)" />
                 <AddButton url="modifiergroup/new" roles="@gv.GetRole("modifier_group_add")">@lang["New Modifier"]</AddButton>
                 <MoreButton is_loading="@(modifier_group.is_loading ||modifier_group.is_change_status || modifier_group.is_deleting || modifier_group.is_restoring)">
-                    <MoreButtonItem roles="@gv.GetRole("modifier_group_add")" icon="file_copy" url="@($"modifiergroup/clone/{modifier_group.id}")">Clone</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("modifier_group_add")" icon="file_copy" url="@($"modifiergroup/clone/{modifier_group.id}")">@lang["Clone"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("modifier_group_edit")" icon="highlight_off" is_visible="@(!modifier_group.is_deleted && modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">@lang["Inactive"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("modifier_group_edit")" icon="check" is_visible="@(!modifier_group.is_deleted && !modifier_group.status)" OnClick="@(()=>OnChangeStatus(modifier_group))">@lang["Active"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("modifier_group_delete")" icon="delete" is_visible="@(!modifier_group.is_deleted)" OnClick="@(()=>OnDelete(modifier_group))">@lang["Deleted"]</MoreButtonItem>

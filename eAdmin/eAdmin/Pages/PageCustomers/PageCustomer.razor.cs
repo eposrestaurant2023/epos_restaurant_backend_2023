@@ -209,7 +209,7 @@ namespace eAdmin.Pages.PageCustomers
                 {
                     key = "customer_group_id",
                     value1 = state.customer_group.id.ToString(),
-                    filter_title = "Customer Group",
+                    filter_title =lang[ "Customer Group"],
                     state_property_name = "customer_group",
                     filter_info_text = state.customer_group.customer_group_name_en,
                     is_clear_all = true,

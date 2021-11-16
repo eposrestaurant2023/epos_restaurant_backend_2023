@@ -20,7 +20,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            title = (id > 0 ? "Edit Production" : "New Production");
+            title = (id > 0 ? lang["Edit Production"] : lang["New Production"]);
 
             if (!is_error)
             {
@@ -38,7 +38,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             if (model.is_fulfilled)
             {
                 is_error = true;
-                error_text = "This production is already fulfilled";
+                error_text = lang["This production is already fulfilled"];
             }
             is_loading = false;
 
@@ -131,25 +131,25 @@ namespace eAdmin.Pages.PageInventory.PageProductions
         {
             if (model.business_branch_id == Guid.Empty)
             {
-                toast.Add("Please select business branch.", MatToastType.Warning);
+                toast.Add(lang["Please select business branch."], MatToastType.Warning);
                 return;
             }
 
             if (model.stock_location_id == Guid.Empty)
             {
-                toast.Add("Please select stock location.", MatToastType.Warning);
+                toast.Add(lang["Please select stock location."], MatToastType.Warning);
                 return;
             }
 
             if (model.active_production_products.Count() <= 0)
             {
-                toast.Add("production item cannot be empty.", MatToastType.Warning);
+                toast.Add(lang["production item cannot be empty."], MatToastType.Warning);
                 return;
             }
 
             if (model.production_products.Where(r=>r.product_portion_id == 0).Any())
             {
-                toast.Add("Please select portion.", MatToastType.Warning);
+                toast.Add(lang["Please select portion."], MatToastType.Warning);
                 return ;
             }
                 
@@ -164,7 +164,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             var resp = await http.ApiPost("production/save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add("Save successfully.", MatToastType.Success);
+                toast.Add(lang["Save successfully."], MatToastType.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
                 nav.NavigateTo($"production/{_model.id}");
             }

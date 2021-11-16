@@ -23,7 +23,7 @@
         <PageBody>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem >General Setting</TabHeaderItem>
+                    <TabHeaderItem >@lang["General Setting"]</TabHeaderItem>
                     @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
                     {
                         <TabHeaderItem>@bs.business_branch_name_en</TabHeaderItem>

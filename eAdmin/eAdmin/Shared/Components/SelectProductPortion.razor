@@ -1,4 +1,6 @@
 ﻿@inject IHttpService http
+@inject IStringLocalizer<Resource> lang
+
 @if (!is_loading)
 {
     @if (is_inline)
@@ -6,7 +8,7 @@
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
             @foreach (var p in models)
             {
@@ -19,12 +21,12 @@
 
         <div class="uk-form-horizontal">
             <div class="uk-margin-small">
-                <label class="uk-form-label" for="@id">@label</label>
+                <label class="uk-form-label" for="@id">@lang[label]</label>
                 <div class="uk-form-controls">
                     <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
                         @if (show_empty)
                         {
-                            <option value="0">@empty_text</option>
+                            <option value="0">@lang[empty_text]</option>
                         }
                         @foreach (var p in models)
                         {
@@ -47,9 +49,9 @@ else
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
-          
+
         </select>
     }
     else
@@ -57,12 +59,12 @@ else
 
         <div class="uk-form-horizontal">
             <div class="uk-margin-small">
-                <label class="uk-form-label" for="@id">@label</label>
+                <label class="uk-form-label" for="@id">@lang[label]</label>
                 <div class="uk-form-controls">
                     <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
                         @if (show_empty)
                         {
-                            <option value="0">@empty_text</option>
+                            <option value="0">@lang[empty_text]</option>
                         }
                     </select>
                     @ChildContent

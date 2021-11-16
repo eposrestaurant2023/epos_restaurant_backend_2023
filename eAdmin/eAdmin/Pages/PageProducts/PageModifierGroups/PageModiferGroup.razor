@@ -59,13 +59,13 @@
                         </TdCenter>
                         <TdCenter>
                             <ComTableActions is_loading="@(m.is_loading)">
-                                <TableActionItem roles="@gv.GetRole("modifier_group_view")" icon="visibility" is_visible="@(!m.is_deleted)" url="@($"modifiergroup/{m.id}")">View</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("modifier_group_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">Edit</TableActionItem>
-                                <TableActionItem roles="@gv.GetRole("modifier_group_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">Clone</TableActionItem>
-                                <TableActionItem icon="check" roles="@gv.GetRole("modifier_group_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">Active</TableActionItem>
-                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_group_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">Inactive</TableActionItem>
-                                <TableActionItem icon="delete" roles="@gv.GetRole("modifier_group_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">Delete</TableActionItem>
-                                <TableActionItem icon="refresh" roles="@gv.GetRole("modifier_group_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">Restore</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_group_view")" icon="visibility" is_visible="@(!m.is_deleted)" url="@($"modifiergroup/{m.id}")">@lang["View"]</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_group_edit")" icon="edit" @onclick="(() => Edit_Click(m))" is_visible="@(m.status && !m.is_deleted)">@lang["Edit"]</TableActionItem>
+                                <TableActionItem roles="@gv.GetRole("modifier_group_add")" icon="file_copy" OnClick="@(()=>Clone_Click(m.id))">@lang["Clone"]</TableActionItem>
+                                <TableActionItem icon="check" roles="@gv.GetRole("modifier_group_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(!m.status && !m.is_deleted)">@lang["Active"]</TableActionItem>
+                                <TableActionItem icon="highlight_off" roles="@gv.GetRole("modifier_group_edit")" @onclick="(() => OnChangeStatus(m))" is_visible="@(m.status && !m.is_deleted)">@lang["Inactive"]</TableActionItem>
+                                <TableActionItem icon="delete" roles="@gv.GetRole("modifier_group_delete")" @onclick="(() => OnDelete(m))" is_visible="@(!m.is_deleted)">@lang["Delete"]</TableActionItem>
+                                <TableActionItem icon="refresh" roles="@gv.GetRole("modifier_group_restore")" @onclick="(() => OnRestore(m))" is_visible="@(m.is_deleted)">@lang["Restore"]</TableActionItem>
                             </ComTableActions>
                         </TdCenter>
                     </RowTemplate>

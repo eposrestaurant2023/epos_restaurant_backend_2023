@@ -1,14 +1,14 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 @if (!string.IsNullOrEmpty(label))
 {
     <div class="uk-margin-small">
-        <label class="uk-form-label" for="@id">@label</label>
+        <label class="uk-form-label" for="@id">@lang[label]</label>
         <div class="uk-form-controls">
             <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select  uk-form-small" style="width:@width">
 
-                <option value="1"> Print cut by order </option>
-                <option value="2"> Print cut by order line</option>
-                <option value="3"> Print cut by order quantity </option>
+                <option value="1"> @lang["Print cut by order"] </option>
+                <option value="2"> @lang["Print cut by order line"]</option>
+                <option value="3"> @lang["Print cut by order quantity"]</option>
             </select>
 
             @ValidatorTemplate
@@ -19,9 +19,9 @@ else
 {
     <div class="form-control">
         <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select  uk-form-small" style="width:@width">
-            <option value="1"> Print cut by order </option>
-            <option value="2"> Print cut by order line</option>
-            <option value="3"> Print cut by order quantity </option>
+            <option value="1"> @lang["Print cut by order"] </option>
+            <option value="2"> @lang["Print cut by order line"]</option>
+            <option value="3"> @lang["Print cut by order quantity"]</option>
         </select>
         @ValidatorTemplate
     </div>

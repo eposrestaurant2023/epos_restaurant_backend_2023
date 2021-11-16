@@ -1,13 +1,14 @@
-﻿@typeparam TItem
+﻿@inject IStringLocalizer<Resource> lang
+@typeparam TItem
 @if (!string.IsNullOrEmpty(label))
 {
     <div class="uk-margin-small">
-        <label class="uk-form-label" for="@id">@label</label>
+        <label class="uk-form-label" for="@id">@lang[label]</label>
         <div class="uk-form-controls">
             <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select  uk-form-small" style="width:@width">
                 @if (show_empty_select)
                 {
-                    <option value="0">@empty_text</option>
+                    <option value="0">@lang[empty_text]</option>
                 }
 
                 @foreach (var item in Items)
@@ -26,7 +27,7 @@ else
         <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
             @if (show_empty_select)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
 
             @foreach (var item in Items)

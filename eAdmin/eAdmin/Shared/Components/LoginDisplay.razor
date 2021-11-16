@@ -1,2 +1,3 @@
-﻿<LinkButton url="auth/logout" Class_Name="btn-logout" background="none">Logout</LinkButton>
- 
+﻿@inject IStringLocalizer<Resource> lang
+<LinkButton url="auth/logout" Class_Name="btn-logout" background="none">@lang["Logout"]</LinkButton>
+

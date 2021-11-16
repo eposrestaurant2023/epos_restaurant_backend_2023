@@ -2,17 +2,17 @@
 <div class="spacing30"></div>
 <div class="invoice_footer_description">
     <div>
-       @lang["Created by"] @sale.created_by @lang["on"] @sale.created_date.ToString(gv.date_time_format)
+       @lang["Created by"] @sale.created_by @lang["On_Date"] @sale.created_date.ToString(gv.date_time_format)
     </div>
     @if (sale.is_closed == true)
     {
-        <div>@lang["Closed by"] @sale.closed_by @lang["on"] @(sale.closed_date != null ? sale.closed_date:"")</div>
+        <div>@lang["Closed by"] @sale.closed_by @lang["On_Date"] @(sale.closed_date != null ? sale.closed_date:"")</div>
     }
     @if (sale.is_deleted)
     {
-        <div>Deleted by @sale.deleted_by on @string.Format(sale.deleted_date.ToString(), "dd-MM-yyyy")</div>
+        <div>@lang["Deleted by"] @sale.deleted_by @lang["On_Date"] @string.Format(sale.deleted_date.ToString(), gv.date_time_format)</div>
     }
-    <div>@lang["Last Modified By"] @sale.last_modified_by @lang["on"] @string.Format(sale.last_modified_date.ToString(), "dd-MM-yyyy")</div>
+    <div>@lang["Last Modified By"] @sale.last_modified_by @lang["On_Date"] @string.Format(sale.last_modified_date.ToString(), gv.date_time_format)</div>
 </div>
 @code {
     [Parameter] public SaleModel sale { get; set; }

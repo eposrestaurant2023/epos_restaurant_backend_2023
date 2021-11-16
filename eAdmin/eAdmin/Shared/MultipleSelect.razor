@@ -1,5 +1,6 @@
-﻿<MudItem>
-    <MudSelect T="string" Dense="true" Label="@label" MultiSelection="true" SelectedValues="selected_values" SelectedValuesChanged="OnSelectedValues">
+﻿@inject IStringLocalizer<Resource> lang
+<MudItem>
+    <MudSelect T="string" Dense="true" Label="@lang[label]" MultiSelection="true" SelectedValues="selected_values" SelectedValuesChanged="OnSelectedValues">
         @foreach (var option in select_options)
         {
             <MudSelectItem T="string" Value="@option">@option</MudSelectItem>

@@ -1,116 +1,115 @@
 ﻿@inherits LayoutBase
-
-
+@inject IStringLocalizer<Resource> lang
 
 <AuthorizeView>
     <Authorized>
         @if (!IsLoading)
         {
-        <CascadingValue Value="gv">
-            @if (!string.IsNullOrEmpty(gv.project_id))
-            {
-                <div class="@(is_menu_open ? "app-layout is_open" : "app-layout") ">
-                    <div class="sidebar">
-                        <NavMenu />
-                    </div>
-                    <div class="main">
-                        <div class="header_main_sm uk-hidden@l" uk-sticky="show-on-up: true">
-                            <a class="navbar-brand" href="">ePOSRestaurant </a>
+            <CascadingValue Value="gv">
+                @if (!string.IsNullOrEmpty(gv.project_id))
+                {
+                    <div class="@(is_menu_open ? "app-layout is_open" : "app-layout") ">
+                        <div class="sidebar">
+                            <NavMenu />
                         </div>
-                        <header id="top-head">
-                            <div class="uk-container uk-container-expand@l uk-container-expand">
-                                <nav class="uk-navbar" data-uk-navbar="mode:click; duration: 250">
-                                    <div class="uk-navbar-left">
-                                        <div class="uk-navbar-item">
-                                            <UkFlex>
-                                                <FlexItem class_name="uk-margin-right">
-                                                    <Icon icon="menu" target=".app-layout; cls: is_open" className="menu_humberger" OnClick="@ShowHideMenu" />
-                                                </FlexItem>
-                                                <FlexItem>
-                                                    <GlobalSearch />
-                                                </FlexItem>
-                                            </UkFlex>
+                        <div class="main">
+                            <div class="header_main_sm uk-hidden@l" uk-sticky="show-on-up: true">
+                                <a class="navbar-brand" href="">ePOSRestaurant </a>
+                            </div>
+                            <header id="top-head">
+                                <div class="uk-container uk-container-expand@l uk-container-expand">
+                                    <nav class="uk-navbar" data-uk-navbar="mode:click; duration: 250">
+                                        <div class="uk-navbar-left">
+                                            <div class="uk-navbar-item">
+                                                <UkFlex>
+                                                    <FlexItem class_name="uk-margin-right">
+                                                        <Icon icon="menu" target=".app-layout; cls: is_open" className="menu_humberger" OnClick="@ShowHideMenu" />
+                                                    </FlexItem>
+                                                    <FlexItem>
+                                                        <GlobalSearch />
+                                                    </FlexItem>
+                                                </UkFlex>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="uk-navbar-right wrp-top-right-action">
-                                        <ul class="uk-navbar-nav topactt">
-                                            <li>
-                                               <CultureSelectors/>
-                                            </li>
-                                        </ul>
-                                        <ul class="uk-navbar-nav topactt">
-                                            <li>
-                                                <Button icon="attach_money" title="Exchange Rate" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))" class_name="@($"default btn-no-text")" custom_class="button-large" />
-                                            </li>
-                                        </ul>
-                                        <ul class="uk-navbar-nav topactt">
-                                            <li>
-                                                @if (is_spinner)
-                                                {
-                                                    <Spinner />
-                                                }
-                                                else
-                                                {
-                                                    <RefreshButton OnClick="@(async () => await LoadData())" />
-                                                }
-                                            </li>
-                                        </ul>
-                                        <ul class="uk-navbar-nav topactt">
-                                            <li>
-                                                <ComQuickAddMenu />
-                                            </li>
-                                        </ul>
-                                        <ul class="uk-navbar-nav topactt">
+                                        <div class="uk-navbar-right wrp-top-right-action">
+                                            <ul class="uk-navbar-nav topactt">
+                                                <li>
+                                                    <CultureSelectors />
+                                                </li>
+                                            </ul>
+                                            <ul class="uk-navbar-nav topactt">
+                                                <li>
+                                                    <Button icon="attach_money" title="@lang["Exchange Rate"]" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))" class_name="@($"default btn-no-text")" custom_class="button-large" />
+                                                </li>
+                                            </ul>
+                                            <ul class="uk-navbar-nav topactt">
+                                                <li>
+                                                    @if (is_spinner)
+                                                    {
+                                                        <Spinner />
+                                                    }
+                                                    else
+                                                    {
+                                                        <RefreshButton OnClick="@(async () => await LoadData())" />
+                                                    }
+                                                </li>
+                                            </ul>
+                                            <ul class="uk-navbar-nav topactt">
+                                                <li>
+                                                    <ComQuickAddMenu />
+                                                </li>
+                                            </ul>
+                                            <ul class="uk-navbar-nav topactt">
 
-                                            <li>
-                                                @if (gv.current_login_user != null)
-                                                {
-                                                    <div style="background-image:url(@(image_base_url + gv.current_login_user?.photo))" class="main_profile_image"></div>
-                                                }
+                                                <li>
+                                                    @if (gv.current_login_user != null)
+                                                    {
+                                                        <div style="background-image:url(@(image_base_url + gv.current_login_user?.photo))" class="main_profile_image"></div>
+                                                    }
 
-                                                <div class="uk-navbar-dropdown" style="width: 250px;" id="user_profile">
-                                                    <div>
-                                                        <div style="background-image:url(@(image_base_url + gv.current_login_user.photo))" class="profile_img_dropdown"></div>
+                                                    <div class="uk-navbar-dropdown" style="width: 250px;" id="user_profile">
+                                                        <div>
+                                                            <div style="background-image:url(@(image_base_url + gv.current_login_user.photo))" class="profile_img_dropdown"></div>
+                                                        </div>
+                                                        <div class="uk-text-center">
+                                                            <div class="text-title">@gv.current_login_user.full_name</div>
+                                                            <div class="text-subtitle">@gv.current_login_user.username (@gv.current_login_user.role.role_name)</div>
+                                                        </div>
+                                                        <div><a @onclick="ToggleUserModal" uk-toggle="target: #user_profile" class="link-button"><Icon icon="settings" /> @lang["Manage your account"]</a></div>
+
+
+
+                                                        <div class="help-support"><a href="@gv.settings.Where(r => r.id == 7).Select(r => r.setting_title).FirstOrDefault()" target="_blank"><Icon icon="help_outline" />@lang["help_and_support"]</a></div>
+                                                        <div>
+                                                            <LoginDisplay />
+                                                        </div>
                                                     </div>
-                                                    <div class="uk-text-center">
-                                                        <div class="text-title">@gv.current_login_user.full_name</div>
-                                                        <div class="text-subtitle">@gv.current_login_user.username (@gv.current_login_user.role.role_name)</div>
-                                                    </div>
-                                                    <div><a @onclick="ToggleUserModal" uk-toggle="target: #user_profile" class="link-button"><Icon icon="settings" /> Manage your account</a></div>
+                                                </li>
 
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </header>
 
-
-                                                    <div class="help-support"><a href="@gv.settings.Where(r => r.id == 7).Select(r => r.setting_title).FirstOrDefault()" target="_blank"><Icon icon="help_outline" />Help and Support</a></div>
-                                                    <div>
-                                                        <LoginDisplay />
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </nav>
+                            <div class="uk-position-relative min_heigth_cus">
+                                <div style="padding: 15px;">
+                                    <ComSystemExpiredAlert />
+                                </div>
+                                @Body
+                                @if (is_dialog_open)
+                                {
+                                    <ComManageUser @bind-model="@gv.current_login_user" is_dialog_open="is_dialog_open" Cancel_click="ToggleUserModal" Save_User_click="ToggleUserModal" />
+                                }
                             </div>
-                        </header>
-
-                        <div class="uk-position-relative min_heigth_cus">
-                            <div style="padding: 15px;">
-                                <ComSystemExpiredAlert/>
-                            </div>
-                            @Body
-                            @if (is_dialog_open)
-                            {
-                                <ComManageUser @bind-model="@gv.current_login_user" is_dialog_open="is_dialog_open" Cancel_click="ToggleUserModal" Save_User_click="ToggleUserModal" />
-                            }
                         </div>
                     </div>
-                </div>
-            }
-            else
-            {
-                <Redirect url="login"/>
-            }
-        </CascadingValue>
+                }
+                else
+                {
+                    <Redirect url="login" />
+                }
+            </CascadingValue>
         }
     </Authorized>
     <NotAuthorized>
@@ -118,4 +117,3 @@
     </NotAuthorized>
 </AuthorizeView>
 
- 

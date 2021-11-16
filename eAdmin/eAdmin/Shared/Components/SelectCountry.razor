@@ -1,10 +1,11 @@
-﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id">@label</label>
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">@lang[label]</label>
     <div class="uk-form-controls">
         <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="">@empty_text</option>
+                <option value="">@lang[empty_text]</option>
             }
             @foreach (var p in gv.countries)
             {
@@ -23,18 +24,18 @@
     [Parameter] public string empty_text { get; set; } = "Select Country";
 
     [Parameter] public string width { get; set; } = "100%";
-    [Parameter] public string selected_value { get; set; } ="";
+    [Parameter] public string selected_value { get; set; } = "";
     [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
 
- 
-     
+
+
     Guid id = Guid.NewGuid();
 
     private async Task SelectedValueChange(string n)
     {
-        
+
         await selected_valueChanged.InvokeAsync(n);
-         
+
     }
 
 }

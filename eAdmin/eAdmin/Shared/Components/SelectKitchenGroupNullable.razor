@@ -1,5 +1,6 @@
-﻿<div class="uk-margin-small">
-    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @label</label>
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @lang[label]</label>
     <div class="uk-form-controls">
         @if (!is_laoding)
         {
@@ -8,9 +9,9 @@
                 <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width" disabled>
                     @if (show_empty)
                     {
-                        <option value="">@empty_text</option>
+                        <option value="">@lang[empty_text]</option>
                     }
-                    @foreach (var p in gv.kitchen_groups.OrderBy(r=>r.sort_order))
+                    @foreach (var p in gv.kitchen_groups.OrderBy(r => r.sort_order))
                     {
                         <option value="@p.id">@p.kitchen_group_name</option>
                     }
@@ -21,7 +22,7 @@
                 <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width" @onchange="@((ui) => SelectedValueChange((string)ui.Value))">
                     @if (show_empty)
                     {
-                        <option value="">@empty_text</option>
+                        <option value="">@lang[empty_text]</option>
                     }
                     @foreach (var p in gv.kitchen_groups)
                     {
@@ -60,8 +61,8 @@
     {
         get
         {
-            if(selected_value > 0)
-                return kitchen_group == null ? gv.kitchen_groups.Find(r=>r.id == selected_value).id : selected_value;
+            if (selected_value > 0)
+                return kitchen_group == null ? gv.kitchen_groups.Find(r => r.id == selected_value).id : selected_value;
             else
                 return kitchen_group == null ? null : kitchen_group.id;
         }

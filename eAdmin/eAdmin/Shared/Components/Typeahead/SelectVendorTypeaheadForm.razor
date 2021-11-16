@@ -3,7 +3,7 @@
 <div class="@(is_horizontal?"uk-form-horizontal":"") @class_name">
     <div class="uk-margin-small">
         <Com is_visible="@(!string.IsNullOrEmpty(label))">
-            <label class="uk-form-label">@label</label>
+            <label class="uk-form-label">@lang[label]</label>
         </Com>
         <div class="uk-form-controls form-controls-typeahead">
             <BlazoredTypeahead SearchMethod="Search" @bind-Value="@selected" Placeholder="@placeholder" ShowDropDownOnFocus="true">
