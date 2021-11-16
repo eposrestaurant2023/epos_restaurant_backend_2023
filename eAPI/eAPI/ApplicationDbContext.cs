@@ -55,6 +55,7 @@ namespace eAPI
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id });
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
+          
  
 
 

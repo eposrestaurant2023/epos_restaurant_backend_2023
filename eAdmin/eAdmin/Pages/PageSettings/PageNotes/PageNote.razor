@@ -106,7 +106,7 @@
 
 
         branches.SelectMany(r => r.cashier_notes).ToList().RemoveAll(r => r.note.Trim() == "");
-        branches.SelectMany(r => r.cashier_notes).ToList().Where(r => r.id > 0 && r.note.Trim() == "").ToList().ForEach(r => r.is_deleted = true);
+        branches.SelectMany(r => r.cashier_notes).ToList().Where(r => r.id != Guid.Empty && r.note.Trim() == "").ToList().ForEach(r => r.is_deleted = true);
          
         is_saving = true;
 

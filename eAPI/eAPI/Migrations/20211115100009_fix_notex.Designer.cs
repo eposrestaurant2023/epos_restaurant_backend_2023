@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211115100009_fix_notex")]
+    partial class fix_notex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1754,10 +1756,6 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.NoteModel", b =>
                 {
-                    b.Property<Guid>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -1771,8 +1769,6 @@ namespace eAPI.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.HasKey("id");
 
                     b.HasIndex("business_branch_id");
 
@@ -6190,13 +6186,13 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.NoteModel", b =>
                 {
                     b.HasOne("eModels.BusinessBranchModel", "business_branch")
-                        .WithMany("cashier_notes")
+                        .WithMany()
                         .HasForeignKey("business_branch_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("eModels.CategoryNoteModel", "category_note")
-                        .WithMany("notes")
+                        .WithMany()
                         .HasForeignKey("category_note_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -6916,8 +6912,6 @@ namespace eAPI.Migrations
 
                     b.Navigation("business_branch_settings");
 
-                    b.Navigation("cashier_notes");
-
                     b.Navigation("customer_business_branchs");
 
                     b.Navigation("default_stock_location_products");
@@ -6931,11 +6925,6 @@ namespace eAPI.Migrations
                     b.Navigation("sale_types");
 
                     b.Navigation("stock_locations");
-                });
-
-            modelBuilder.Entity("eModels.CategoryNoteModel", b =>
-                {
-                    b.Navigation("notes");
                 });
 
             modelBuilder.Entity("eModels.CurrencyModel", b =>
