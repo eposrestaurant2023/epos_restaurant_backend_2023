@@ -14,7 +14,10 @@ namespace eAPIClient.Models
         public Guid id { get; set; }
  
         public string note { get; set; }
+        public int category_note_id { get; set; }
         public string category{ get; set; }
+
+        public bool is_predefine_note { get; set; } = false;
         public int product_id { get; set; }
     }
 
@@ -24,7 +27,8 @@ namespace eAPIClient.Models
         [Key]
         public Guid id { get; set; }
         public string note { get; set; }
- 
+        public int category_note_id { get; set; }
+
         public string category{ get; set; }
     }
 

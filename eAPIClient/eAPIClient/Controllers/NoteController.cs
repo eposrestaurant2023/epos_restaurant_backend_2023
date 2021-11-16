@@ -55,11 +55,19 @@ namespace eAPIClient.Controllers
         {
             try
             {
-                db.Notes.Update(model);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                return Ok(model);
+                var data = db.Notes.Where(r => r.category_note_id == model.category_note_id &&  r.note.Trim().ToLower() == model.note.Trim().ToLower());
+
+                if (data.Any())
+                {
+                    return Ok(data.FirstOrDefault());
+                }
+                else { 
+                    db.Notes.Update(model);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok(model);
+                }
             }
-            catch
+            catch(Exception ex)
             {
                 return BadRequest();
             }
