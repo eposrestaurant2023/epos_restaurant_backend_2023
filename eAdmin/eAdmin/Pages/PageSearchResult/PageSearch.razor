@@ -21,15 +21,17 @@
             <AuthorizeView Roles="@gv.GetRole("receiptlist_management")">
                 <ComSearchForSale keyword="@keyword" />
             </AuthorizeView>
-            <AuthorizeView Roles="@gv.GetRole("customer_management")">
-                <ComSearchForCustomer keyword="@keyword" />
-            </AuthorizeView>
+
             <AuthorizeView Roles="@gv.GetRole("product_management")">
                 <ComSearchForProduct keyword="@keyword" />
             </AuthorizeView>
             <AuthorizeView Roles="@gv.GetRole("ingredient_management")">
                 <ComSearchForProductIngredient keyword="@keyword" />
             </AuthorizeView>
+            <AuthorizeView Roles="@gv.GetRole("customer_management")">
+                <ComSearchForCustomer keyword="@keyword" />
+            </AuthorizeView>
+
             <AuthorizeView Roles="@gv.GetRole("vendor_management")">
                 <ComSearchForVendor keyword="@keyword" />
             </AuthorizeView>
@@ -41,10 +43,9 @@
             </AuthorizeView>
             <AuthorizeView Roles="@gv.GetRole("stock_transfer_management")">
                 <ComSearchForStockTransfer keyword="@keyword" />
-            </AuthorizeView>
-            <AuthorizeView Roles="@gv.GetRole("customer_management")">
-                <ComSearchForSale keyword="@keyword" />
-            </AuthorizeView>
+            </AuthorizeView> 
+             
+
         </PageBody>
     </PageContainer>
 

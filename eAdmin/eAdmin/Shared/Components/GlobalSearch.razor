@@ -2,11 +2,11 @@
 @inject IHttpService http;
 @inject IJSRuntime js ;
 @inject NavigationManager nav;
- 
+@inject IStringLocalizer<Resource> lang
 <form @onsubmit:preventDefault="true" @onsubmit="Search">
     <div class="uk-search uk-search-default">
         <span uk-search-icon class="uk-icon uk-search-icon"></span>
-        <input @bind-value="@keyword" class="uk-search-input search-field" type="search" placeholder="Search All" @ref="@txt_search" />
+        <input @bind-value="@keyword" class="uk-search-input search-field" type="search" placeholder="@lang["Search"]" @ref="@txt_search" />
     </div>
 </form>
 @code{
@@ -18,30 +18,13 @@
         if (keyword.Trim().Length < 3)
         {
             await js.InvokeVoidAsync("JsFunctions.focusElement", txt_search);
-            toast.Add("Please enter keywords 3 or more characters", MatToastType.Warning);
+            toast.Add(lang["Please enter keywords 3 or more characters"], MatToastType.Warning);
             return;
         }
         else
         {
             nav.NavigateTo($"search/{keyword}");
 
-            //check if match with any single record
-            var response = await http.ApiPost("GetData", new FilterModel()
-            {
-                procedure_name = "sp_search_object_by_code",
-                procedure_parameter = $"'{keyword}'"
-            });
-            if (response.IsSuccess)
-            {
-            if (response.Content.ToString() != "")
-            {
-                nav.NavigateTo(response.Content.ToString());
-            }
-            else
-            {
-                nav.NavigateTo($"search/{keyword}");
-            }
-            }
         }
         await js.InvokeVoidAsync("JsFunctions.focusElement", txt_search);
 

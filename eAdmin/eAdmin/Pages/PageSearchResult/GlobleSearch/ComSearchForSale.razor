@@ -1,5 +1,5 @@
 ﻿@inherits PageCore;
-@ControllerApi
+
 @{
     RenderFragment HeaderTemplate(string field_name, string display_name, string ClassName = "") =>
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
