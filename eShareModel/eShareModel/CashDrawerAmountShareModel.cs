@@ -33,6 +33,8 @@ namespace eShareModel
 
         public string cash_deposit_to { get; set; }
         public string note { get; set; }
+        public string deleted_note{ get; set; }
+ 
 
         public bool is_synced { get; set; }
 
