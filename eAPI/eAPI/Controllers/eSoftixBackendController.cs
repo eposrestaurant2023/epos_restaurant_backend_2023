@@ -16,14 +16,20 @@ namespace eAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
     public class eSoftixBackendController : ControllerBase
     {
+
         public IConfiguration Configuration { get; }
         private readonly ApplicationDbContext db;
         private readonly IHttpService http;
 
+
+
         eSoftixBackend.ProjectModel project = new eSoftixBackend.ProjectModel();
+
+
+
+
         public eSoftixBackendController(ApplicationDbContext _db, IConfiguration configuration, IHttpService _http)
         {
             db = _db;
