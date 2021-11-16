@@ -18,6 +18,9 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <AuthorizeView Roles="@gv.GetRole("receiptlist_management")">
+                <ComSearchForSale keyword="@keyword" />
+            </AuthorizeView>
             <AuthorizeView Roles="@gv.GetRole("customer_management")">
                 <ComSearchForCustomer keyword="@keyword" />
             </AuthorizeView>
