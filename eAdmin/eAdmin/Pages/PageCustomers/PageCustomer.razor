@@ -11,16 +11,16 @@
 @if (!is_loading)
 {
 
-    <Title Value="Customer"></Title>
+    <Title Value="@lang["Customer"]"></Title>
     <PageContainer roles="@gv.GetRole("customer_management")">      
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_customer")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
@@ -55,7 +55,7 @@
                         @HeaderTemplate("customer_name_en", lang["Name (Kh)"], "col-auto")
                         @HeaderTemplate("phone_1", lang["Phone"], "uk-text-center")
                         @HeaderTemplate("gender", lang["Gender"], "uk-text-center")
-                        @HeaderTemplate("total_receivable", lang["Total Receivable"], "uk-text-right")
+                        @HeaderTemplate("total_receivable", lang["Total Paid"], "uk-text-right")
                         @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
                         <th class="uk-width-auto"></th>
                     </TableHeader>
@@ -89,13 +89,13 @@
                             <LabelInActive is_visible="@(!p.is_deleted && !p.status)" OnClick="(()=>OnToogleStatusLabel(p))" roles="@gv.GetRole("customer_edit")" is_loading="@p.is_change_status" text="@lang["Inactive"]"/>
                         </TdCenter>
                         <TdActions is_loading="@p.is_loading">
-                            <TableActionItem roles="@gv.GetRole("customer_management")" icon="visibility" url="@($"customer/{p.id}")">View</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">Edit</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_management")" icon="visibility" url="@($"customer/{p.id}")">@lang["View"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="edit" is_visible="@(!p.is_deleted)" OnClick="@(()=>OnEdit(p.id))">@lang["Edit"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("customer_edit")" icon="file_copy" OnClick="@(()=>Clone_Click(p.id))">Clone</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">Inactive</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">Active</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">Delete</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("customer_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">Restore</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("customer_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">@lang["Restore"]</TableActionItem>
                         </TdActions>
                     </RowTemplate>
                 </Table>
