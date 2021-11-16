@@ -11,7 +11,7 @@
         {
             <option value="">@empty_text</option>
         }
-        @foreach (var p in gv.revenue_groups.Where(r => r.is_deleted == false))
+        @foreach (var p in gv.revenue_groups.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order))
         {
             <option value="@p.revenue_group_name_en">@p.revenue_group_name_en</option>
         }

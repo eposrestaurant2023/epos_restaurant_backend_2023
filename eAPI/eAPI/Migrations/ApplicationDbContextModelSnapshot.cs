@@ -134,11 +134,12 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.BusinessBranchCurrencyModel", b =>
                 {
-                    b.Property<Guid>("business_branch_id")
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("currency_id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("business_branch_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("change_exchange_rate")
                         .HasColumnType("float");
@@ -146,13 +147,21 @@ namespace eAPI.Migrations
                     b.Property<double>("change_exchange_rate_input")
                         .HasColumnType("float");
 
+                    b.Property<int>("currency_id")
+                        .HasColumnType("int");
+
                     b.Property<double>("exchange_rate")
                         .HasColumnType("float");
 
                     b.Property<double>("exchange_rate_input")
                         .HasColumnType("float");
 
-                    b.HasKey("business_branch_id", "currency_id");
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("business_branch_id");
 
                     b.HasIndex("currency_id");
 
@@ -368,6 +377,9 @@ namespace eAPI.Migrations
                     b.Property<Guid>("system_feature_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -490,6 +502,10 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("deleted_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<double>("exchange_rate")
                         .HasColumnType("float");
@@ -773,6 +789,12 @@ namespace eAPI.Migrations
                         .HasColumnType("float");
 
                     b.Property<bool>("is_base_exchange_currency")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_build_in")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_main")
@@ -1736,10 +1758,9 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.NoteModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
@@ -1747,40 +1768,13 @@ namespace eAPI.Migrations
                     b.Property<int>("category_note_id")
                         .HasColumnType("int");
 
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("is_deleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("note")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -1938,6 +1932,10 @@ namespace eAPI.Migrations
                         .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("photo")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("room_numbers")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
@@ -2510,7 +2508,13 @@ namespace eAPI.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("is_allow_change_price")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_allow_discount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_allow_free")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_auto_generate_code")
@@ -3697,6 +3701,10 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("old_table_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -4349,6 +4357,10 @@ namespace eAPI.Migrations
                     b.Property<Guid>("business_branch_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("color")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<bool>("is_build_in")
                         .HasColumnType("bit");
 
@@ -4539,6 +4551,9 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_default")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("stock_location_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -4562,6 +4577,9 @@ namespace eAPI.Migrations
 
                     b.Property<decimal>("initial_quantity")
                         .HasColumnType("decimal(19,8)");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("max_quantity")
                         .HasColumnType("decimal(19,8)");
@@ -5743,7 +5761,7 @@ namespace eAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("eModels.CurrencyModel", "currency")
-                        .WithMany()
+                        .WithMany("business_branch_currencies")
                         .HasForeignKey("currency_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -6922,6 +6940,11 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eModels.CategoryNoteModel", b =>
                 {
                     b.Navigation("notes");
+                });
+
+            modelBuilder.Entity("eModels.CurrencyModel", b =>
+                {
+                    b.Navigation("business_branch_currencies");
                 });
 
             modelBuilder.Entity("eModels.CustomerGroupModel", b =>

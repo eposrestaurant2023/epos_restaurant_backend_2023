@@ -30,7 +30,7 @@
     {
         get
         {
-            string a = gv.settings.Where(r => r.id == 6).FirstOrDefault().setting_value;
+           
             return gv.settings.Where(r => r.id == 6).FirstOrDefault().setting_value.Split(", ").ToList();
         }
     }

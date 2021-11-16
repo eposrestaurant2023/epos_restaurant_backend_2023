@@ -1,9 +1,12 @@
 ﻿<TdCenter ClassName="@ClassName">
+    @if (is_visible)
+    {
     <Spinner is_spinning="is_loading" />
-    <Com is_visible="@(!is_loading)">
+    @if (!is_loading)
+    {
         <div class="uk-inline button-action-table">
             <Icon icon="more_vert" OnClick="@OnClick" />
-            @if (position=="top-left")
+            @if (position == "top-left")
             {
                 <div uk-drop="mode: click;pos:top-left" class="tbl_actions_group">
                     <ul class="uk-nav uk-dropdown-nav">
@@ -20,12 +23,14 @@
                 </div>
             }
         </div>
-    </Com>
+    }
+    }
 
 </TdCenter>
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public bool is_loading { get; set; }
+    [Parameter] public bool is_visible { get; set; } = true;
     [Parameter] public string position { get; set; } = "";
     [Parameter] public string ClassName { get; set; } = "";
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }

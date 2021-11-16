@@ -17,7 +17,12 @@
         });
     });
 }
-
+function SetLangEn() {
+    $("html").attr("lang", "en-US");
+}
+function SetLangKh() {
+    $("html").attr("lang", "km-Kh");
+}
 function HistoryBack() {
     window.history.back();
 }

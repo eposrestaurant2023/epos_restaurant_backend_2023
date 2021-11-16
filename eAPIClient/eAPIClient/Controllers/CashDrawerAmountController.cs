@@ -80,15 +80,17 @@ namespace eAPIClient.Controllers
 
 
         [HttpPost]
-        [Route("delete/{id}")]
-        public async Task<ActionResult<CashDrawerAmountModel>> DeleteRecord(Guid id) //Delete
+        [Route("delete")]
+        public async Task<ActionResult<CashDrawerAmountModel>> DeleteRecord([FromBody] CashDrawerAmountModel u) //Delete
         {
             try
             {
-                var u = await db.CashDrawerAmounts.FindAsync(id);
-                u.is_deleted = !u.is_deleted;
-
-                db.CashDrawerAmounts.Update(u);
+                var c = await db.CashDrawerAmounts.FindAsync(u.id);
+                c.is_deleted = true;
+                c.deleted_date = u.deleted_date;
+                c.deleted_by = u.deleted_by;
+                c.deleted_note = u.deleted_note;
+                db.CashDrawerAmounts.Update(c);
                 await db.SaveChangesAsync();
                 return Ok(u);
             }catch(Exception _ex)

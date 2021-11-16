@@ -19,17 +19,17 @@
         </HeaderLeft>
         <HeaderRight ClassName="uk-flex-top">
             <div class="uk-text-right">
-                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["Invoice"]</h2>
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["STOCK TRANSFER"]</h2>
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
                     <AuthorizeView Roles="@gv.GetRole("stock_transfer_view")">
-                        <span>INV# @model.document_number</span>
+                        <span>SF# @model.document_number</span>
                     </AuthorizeView>
                     }
                     else
                     {
-                        <span>INV# @model.document_number</span>
+                        <span>SF# @model.document_number</span>
                     }
 
                 </div>
@@ -58,6 +58,8 @@
                             <td>@model.from_stock_location?.stock_location_name</td>
                         </tr>
                     }
+
+
                 </table>
                 <Spacing Number="15"/>
                 <div class="sub_title font-sm">@lang["To Stock Location"]</div>
@@ -82,10 +84,10 @@
         </div>
         <div class="uk-width-auto">
             <div class="box-invoice-header-info">
-                <div class="invoice-header-title">@lang["Invoice Information"]</div>
+                <div class="invoice-header-title">@lang["Stock Transfer Information"]</div>
                 <table class="invoice_header_description">
                     <tr>
-                        <td>@lang["Invoice Date"] :</td>
+                        <td>@lang["SF Date"] :</td>
                         <td>@model.stock_transfer_date.ToString(gv.date_format)</td>
                     </tr>
                     <tr>

@@ -8,7 +8,7 @@
                 </label>
                 <div class="uk-form-controls">
 
-                    <input type="text" value="@value" placeholder="@placeholder" @onchange="@((ui) =>  onValueChanged((string)ui.Value))" step="any"  class="uk-input uk-form-small @class_name" style="width:@width" />
+                    <input type="text" value="@value" placeholder="@placeholder" @onchange="@((ui) =>  onValueChanged((string)ui.Value))" step="any"  class="uk-input uk-form-small @class_name" style="width:@width"  />
 
                     @ChildContent
                 </div>
@@ -31,17 +31,54 @@
     [Parameter] public string wrp_class { get; set; } = "uk-margin-small";
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    [Parameter] public double value { get; set; }
-    [Parameter] public EventCallback<double> valueChanged { get; set; }
+    [Parameter] public decimal value { get; set; }
+    [Parameter] public EventCallback<decimal> valueChanged { get; set; }
     async Task onValueChanged(string _value)
     {
-        double _result = 0;
+        decimal _result = 0;
         if(!string.IsNullOrEmpty(_value))
         {
-            _result = Convert.ToDouble(_value);
+            _result = Convert.ToDecimal(_value);
         }
         await valueChanged.InvokeAsync(_result);
     }
+    string strText;
+
+    //protected override void OnInitialized()
+    //{
+
+
+    //    strText = value.ToString(text_format);
+    //}
+
+
+
+    //private async Task TextChange(string n)
+    //{
+
+    //    if (String.IsNullOrEmpty(n))
+    //    {
+    //        n = "0";
+    //    }
+    //    else
+    //    {
+    //        n = n.Replace("$", "").Replace(",", "");
+
+    //        double result = 0;
+    //        if (decimal.TryParse(n, out result))
+    //        {
+    //            value = result;
+    //        }
+    //        else
+    //        {
+    //            value = 0;
+    //        }
+    //    }
+
+
+    //    await textChanged.InvokeAsync(text);
+    //}
+
 }
 
 

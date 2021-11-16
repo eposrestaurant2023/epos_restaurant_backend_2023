@@ -34,14 +34,14 @@
                                    <hr/>
                                 foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id &&  m.currency.is_base_exchange_currency == false).OrderByDescending(r => r.currency.is_main).ToList())
                                 {
-                                    <ExchangeRateInput value="@b.exchange_rate_input" valueChanged="@((value)=>RateChange( r.id, b,value))" label="@($"{base_exchange_currency.currency_name_en} => {b.currency?.currency_name_en}")" />
+                                    <ExchangeRateInput value="@(Convert.ToDecimal(b.exchange_rate_input))" valueChanged="@((value)=>RateChange( r.id, b,Convert.ToDouble( value)))" label="@($"{base_exchange_currency.currency_name_en} => {b.currency?.currency_name_en}")" />
                                 }
                               
                                 <h5>Change Exchange Rate</h5>
                                   <hr/>
                                 @foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id &&  m.currency.is_base_exchange_currency == false).OrderByDescending(r => r.currency.is_main).ToList())
                                 { 
-                                    <ExchangeRateInput value="@b.change_exchange_rate_input" valueChanged="@((value)=>Change_RateChange( r.id, b,value))" label="@($"{base_exchange_currency.currency_name_en} => {b.currency?.currency_name_en}")"  />
+                                    <ExchangeRateInput value="@(Convert.ToDecimal(b.change_exchange_rate_input))" valueChanged="@((value)=>Change_RateChange( r.id, b, Convert.ToDouble(value)))" label="@($"{base_exchange_currency.currency_name_en} => {b.currency?.currency_name_en}")"  />
                                 }
                             }
                             <Spacing Number="16" />
@@ -99,7 +99,7 @@
     {
         is_loading = true;
         is_loading_data = true;
-        var res = await http.ApiGetOData("BusinessBranchCurrency?$expand=currency,business_branch($select=id,business_branch_name_en,business_branch_name_kh)");
+        var res = await http.ApiGetOData("BusinessBranchCurrency?$expand=currency,business_branch($select=id,business_branch_name_en,business_branch_name_kh)&$filter=is_deleted eq false");
         if (res.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<BusinessBranchCurrencyModel>>(res.Content.ToString());

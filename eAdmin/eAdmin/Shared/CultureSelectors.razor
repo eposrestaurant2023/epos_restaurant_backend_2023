@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Components;
+@using Microsoft.JSInterop;
+@using System.Globalization;
+@using Blazored.LocalStorage
+@using Components.Lists
+@inject IStringLocalizer<Resource> lang
+@inject ILocalStorageService localStorage
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavManager
+
+    <div class="uk-inline">
+        <a class="uk-button">
+            <Image ClassName="md-lang-image" ImageUrl="@($"images/{current_lang}.jpg")" Width="40px"/>
+        </a>
+        <ul uk-dropdown="mode: click" style="padding:10px;" class="uk-list uk-list-collapse uk-list-divider">
+            <li class="tittle_swech">@lang["Languages"]</li>
+            @foreach (var culture in cultures.Where(r => r.Name != current_lang))
+            {
+
+                @if (!is_on_mobile)
+                {
+
+        <li @onclick="@(() => ChangeLanguage_Click(culture))">
+            @if (current_lang == "en-US")
+            {
+                <Image ImageUrl="images/km-KH.jpg" ClassName="md-lang-image" Width="25px" Height="25px" />
+            }
+            else if (current_lang == "km-KH")
+            {
+                <Image ImageUrl="images/km-KH.jpg" ClassName="md-lang-image" Width="25px" Height="25px" />
+            }
+
+            else if (current_lang == "th-TH")
+            {
+                <Image ImageUrl="images/th-TH.jpg" ClassName="md-lang-image" Width="25px" Height="25px" />
+            }
+            else if (current_lang == "ko-KR")
+            {
+                <Image ImageUrl="images/ko-KR.jpg" ClassName="md-lang-image" Width="25px" Height="25px" />
+            }
+            else if (current_lang == "zh-CN")
+            {
+                <Image ImageUrl="images/zh-CN.jpg" ClassName="md-lang-image" Width="25px" Height="25px" />
+            }
+            <span style="margin-left:5px">@lang[culture.Name]</span>
+        </li>
+                }
+                else
+                {
+                    <ul class="uk-navbar-nav" @onclick="@(()=>ChangeLanguage_Click(culture))">
+                        <li>
+                            <div class="bg-icon-side-left">
+                                @if (current_lang == "en-US")
+                                {
+                                    <Image Width="25" Height="25" ImageUrl="images/km-KH.jpg" />
+                                }
+                                else 
+                                {
+                                    <Image Width="25" Height="25" ImageUrl="images/en-US.jpg" />
+                                }
+
+                            </div>
+                        </li>
+                        <AvatarInfo Title="@lang[culture.Name]" />
+                    </ul>
+                }
+
+            }
+        </ul>
+    </div>
+
+
+
+
+@code{
+    [Parameter] public bool is_on_mobile { get; set; } = false;
+    public GlobalVariableModel gv = new GlobalVariableModel();
+    string current_lang = "";
+    CultureInfo[] cultures = new[]
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("km-KH"),
+        new CultureInfo("th-TH"),
+        new CultureInfo("ko-KR"),
+        new CultureInfo("zh-CN")
+    };
+
+    CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                var js = (IJSInProcessRuntime)JSRuntime;
+                js.InvokeVoid("blazorCulture.set", value.Name);
+                NavManager.NavigateTo(NavManager.Uri, forceLoad: true);
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        current_lang = await localStorage.GetItemAsync<string>("current_language");
+    }
+
+    void ChangeLanguage_Click(CultureInfo language)
+    {
+        Culture = language;
+    }
+
+}

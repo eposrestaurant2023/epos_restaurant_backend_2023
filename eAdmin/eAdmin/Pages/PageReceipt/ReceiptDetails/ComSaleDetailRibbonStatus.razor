@@ -1,22 +1,22 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 @if (sale.is_deleted)
 {
-    <div class="ribbon ribbon-left"><span class="uk-label-danger">Deleted</span></div>
+    <div class="ribbon ribbon-left"><span class="uk-label-danger">@lang["Deleted"]</span></div>
 }
 else
 {
 
     if (sale.is_paid)
     {
-        <div class="ribbon ribbon-left"><span class="paid">Paid</span></div>
+        <div class="ribbon ribbon-left"><span class="paid">@lang["Paid"]</span></div>
     }
     else if (sale.is_paid == false && (sale.total_amount > 0 && sale.paid_amount == 0))
     {
-        <div class="ribbon ribbon-left"><span class="unpaid">Unpaid</span></div>
+        <div class="ribbon ribbon-left"><span class="unpaid">@lang["Unpaid"]</span></div>
     }
     else if (sale.is_partially_paid)
     {
-        <div class="ribbon ribbon-left"><span class="partially-paid">Partially Paid</span></div>
+        <div class="ribbon ribbon-left"><span class="partially-paid">@lang["Partially Paid"]</span></div>
     }
 }
 @code{

@@ -23,7 +23,7 @@
                                 <span>@p.payment_date.ToString(gv.date_format)</span>
                             </div>
                             <div>
-                                <span>By: @p.created_by on @p.created_date.ToString(gv.date_time_format)</span>
+                                <span>@lang["by"]: @p.created_by @lang["on"] @p.created_date.ToString(gv.date_time_format)</span>
                             </div>
 
                             <TextOverflow Text="@p.payment_note" ClassName="small-text" />
@@ -86,13 +86,13 @@
     async Task DeletePayment_Click(SalePaymentModel p)
     {
         p.is_deleting = true;
-        if (await js.Confirm("Delete payment", "Are you sure you want to delete this payment?", SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete payment"], lang["Are you sure you want to delete this payment?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost("SalePayment/delete/" + p.id);
             if (resp.IsSuccess)
             {
                 await OnReload();
-                toast.Add("Delete payment successfully", MatToastType.Success);
+                toast.Add(lang["Delete payment successfully"], MatToastType.Success);
                 await on_reload.InvokeAsync(true);
             }
             else

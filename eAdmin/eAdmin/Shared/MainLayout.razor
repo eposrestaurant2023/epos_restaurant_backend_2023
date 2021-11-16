@@ -32,7 +32,12 @@
                                             </UkFlex>
                                         </div>
                                     </div>
-                                    <div class="uk-navbar-right wrp-top-right-action"> 
+                                    <div class="uk-navbar-right wrp-top-right-action">
+                                        <ul class="uk-navbar-nav topactt">
+                                            <li>
+                                               <CultureSelectors/>
+                                            </li>
+                                        </ul>
                                         <ul class="uk-navbar-nav topactt">
                                             <li>
                                                 <Button icon="attach_money" title="Exchange Rate" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))" class_name="@($"default btn-no-text")" custom_class="button-large" />
@@ -89,6 +94,9 @@
                         </header>
 
                         <div class="uk-position-relative min_heigth_cus">
+                            
+                            <ComSystemExpiredAlert/>
+
                             @Body
                             @if (is_dialog_open)
                             {

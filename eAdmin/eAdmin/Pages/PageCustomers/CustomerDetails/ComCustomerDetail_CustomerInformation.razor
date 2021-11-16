@@ -46,11 +46,7 @@
             <UIContainerBox Title="KPI">
                 <ComCustomerKPI data="@kpi" />
             </UIContainerBox>
-
-            @*<ComCustomerDetail_YearlySaleBarchart customer_id="@(model.id.ToString())" />*@
-
-
-
+            <ComCustomerDetail_YearlySaleBarchart customer_id="@(model.id.ToString())" />
             <UIContainerBox Title="@lang["Social Media Information"]">
                 <ListTable>
                     <ListTableItem ItemTitle="@lang["Email"]">@model.email</ListTableItem>
@@ -69,13 +65,13 @@
             <div>
                 @lang["Created By"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
             </div>
-
             @if (model.is_deleted)
             {
                 <div>
                     @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
                 </div>
             }
+            <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
         </div>
     @code {
 

@@ -60,11 +60,18 @@
                 <tr>
                     <th>@lang["Allow Discount"]</th>
                     <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_discount" /></td>
+                </tr> 
+                <tr>
+                    <th>@lang["Allow Free"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_free" /></td>
+                </tr>
+                <tr>
+                    <th>@lang["Allow Change Price"]</th>
+                    <td><ComInputCheckBox label="" is_read_only="true" value="@model.is_allow_change_price" /></td>
                 </tr>
 
             </table>
         </ContentRight>
-
     </UISummaryBox>
     <Spacing Number="10" />
     <Com is_visible="@(model.is_inventory_product && gv.project_has_inventory)">
@@ -91,7 +98,19 @@
         @model.note
     </UIContainerBox>
 </UIGridCenter>
-
+ 
+<div class="invoice_footer_description">
+    <div>
+        @lang["Created By"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
+    </div>
+    @if (model.is_deleted)
+    {
+        <div>
+            @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
+        </div>
+    }
+    <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+</div>
 
 @code {
 

@@ -119,6 +119,8 @@
         {
 
             models = JsonSerializer.Deserialize<List<ProductGroupModel>>(resp.Content.ToString());
+            gv.product_groups = models;
+            gv.product_categories = models.SelectMany(r => r.product_categories).ToList();
 
         }
         is_loading_data = false;

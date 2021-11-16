@@ -73,6 +73,8 @@
         if (resp.IsSuccess)
         {
             unit_categories = JsonSerializer.Deserialize<List<UnitCategoryModel>>(resp.Content.ToString());
+            gv.unit_categories = unit_categories;
+            gv.units = unit_categories.SelectMany(r => r.units).ToList();
         }
         else
         {
@@ -82,17 +84,39 @@
 
     void AddUnit(UnitCategoryModel b)
     {
-        b.units.Add(new UnitModel() { type_name = lang["Reference"], is_deleted = false, unit_name = "", unit_category_id = b.id});
+        b.units.Add(new UnitModel() { type_name = lang["Reference"], is_deleted = false, unit_name = "", unit_category_id = b.id, sort_order = b.units.Where(r=>r.is_deleted==false).Count()+1});
     }
 
     async Task Save_Click()
     {
-        
         if (unit_categories.SelectMany(r => r.units).Where(r => r.is_deleted == false && string.IsNullOrWhiteSpace(r.unit_name)).Any())
         {
             toast.Add(lang["Please enter unit name"], MatToastType.Warning);
             return;
         }
+
+
+        foreach (var c in unit_categories)
+        {
+            if (c.units.Where(r => r.is_deleted == false && r.type_name == "Reference").Count() == 0)
+            {
+                toast.Add(lang["Unit category must have at lease 1 Reference type"], MatToastType.Warning);
+
+                return;
+
+            }
+            if (c.units.Where(r => r.is_deleted == false && r.type_name == "Reference").Count() > 1)
+            {
+                toast.Add(lang["Unit category must have only 1 Reference type"], MatToastType.Warning);
+
+                return;
+
+            }
+
+
+        }
+
+
         is_saving = true;
         var resp = await http.ApiPost("UnitCategory/save/multiple", unit_categories);
         if (resp.IsSuccess)

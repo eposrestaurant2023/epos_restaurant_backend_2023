@@ -1,0 +1,62 @@
+﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http; 
+<ComPanel Title="@lang["Sale Type Summary"]">
+    @if (is_loading)
+    {
+        <Spinner />
+    }
+    else
+    {
+
+        
+            <ApexChart TItem="SaleTypeSummary" ChartType="ApexCharts.ChartType.Pie" Options="@GetOptions()" Width="300">
+                <ApexSeries TItem="SaleTypeSummary"
+                            Items="data"
+                            OrderBy="@(e => e.X)"
+                            Name="Sale"
+                            XValue="@(e => e.sale_type)"
+                            YAggregate="@(e => e.Sum(e => e.total_order))"
+                            ShowDataLabels="true" />
+            </ApexChart>
+
+       
+    }
+    </ComPanel>
+@code {
+
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public string business_branch_id { get; set; } = "";
+
+    List<SaleTypeSummary> data = new List<SaleTypeSummary>();
+    bool is_loading;
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_dashboard_sale_type_summary", procedure_parameter = $"'{business_branch_id}'" });
+        if (resp.IsSuccess)
+        {
+            data = JsonSerializer.Deserialize<List<SaleTypeSummary>>(resp.Content.ToString());
+
+        }
+        is_loading = false;
+    }
+
+
+    private ApexCharts.ApexChartOptions<SaleTypeSummary> GetOptions()
+    {
+        var options = new ApexCharts.ApexChartOptions<SaleTypeSummary>();
+        options.Colors = data.OrderBy(r => r.sale_type).Select(r => r.color).ToList();
+        return options;
+    }
+
+
+    class SaleTypeSummary
+    {
+
+        public string sale_type { get; set; }
+        public string color { get; set; }
+        public decimal total_order { get; set; }
+
+    }
+}

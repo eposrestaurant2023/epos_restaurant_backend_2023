@@ -19,8 +19,8 @@
 
 <AddButton roles="@gv.GetRole("stock_take_add")" url="stocktake/new">@lang["New Stock Take"]</AddButton>
 <MoreButton is_loading="@model.is_loading">
-    <MoreButtonItem roles="@gv.GetRole("stock_take_add")" icon="file_copy" url="@($"stocktake/clone/{model.id}")">@lang["Clone Invoice"]</MoreButtonItem>
-    <MoreButtonItem roles="@gv.GetRole("stock_take_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Invoice"]</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("stock_take_add")" icon="file_copy" url="@($"stocktake/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("stock_take_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete"]</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("stock_take_delete")" icon="clear" is_visible="@model.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
 </MoreButton>
 
@@ -53,14 +53,14 @@
     async Task DeleteInvoice_Click()
     {
         is_loading = true;
-        if (await js.Confirm(lang["Delete Stock Take Invoice"], lang["Are you sure you want to delete this stock take invoice?"], SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete Stock Take"], lang["Are you sure you want to delete this stock take?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost($"stocktake/delete/{model.id}");
             if (resp.IsSuccess)
             {
                 model.is_deleted = !model.is_deleted;
                 await modelChanged.InvokeAsync(model);
-                toast.Add(lang["Delete stock take invoice successfully."], MatToastType.Success);
+                toast.Add(lang["Delete stock take successfully."], MatToastType.Success);
             }
             else
             {
@@ -76,7 +76,7 @@
 
 
         is_loading = true;
-        if (await js.Confirm(lang["Restore Stock Take Invoice"], lang["Are you sure you want to restore this stock take invoice?"], SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Restore Stock Take"], lang["Are you sure you want to restore this stock take?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost($"stocktake/delete/{model.id}");
             if (resp.IsSuccess)
@@ -84,7 +84,7 @@
 
                 model.is_deleted = !model.is_deleted;
                 await modelChanged.InvokeAsync(model);
-                toast.Add(lang["Restore stock take invoice successfully."], MatToastType.Success);
+                toast.Add(lang["Restore stock take successfully."], MatToastType.Success);
             }
             else
             {

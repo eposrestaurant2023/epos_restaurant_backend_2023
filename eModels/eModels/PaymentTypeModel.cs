@@ -42,6 +42,10 @@ namespace eModels
         public int sort_order { get; set; }
         public string note { get; set; }
 
+        public string room_numbers { get; set; }
+
+        
+
         public string payment_type_group { get; set; }
         public bool is_foc { get; set; }
         public bool is_single_payment { get; set; } = false;

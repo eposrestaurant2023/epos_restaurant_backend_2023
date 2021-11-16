@@ -11,24 +11,28 @@
                 <div class="uk-text-top">
                     <div class="font-xxl">@model.business_branch.business_branch_name_en</div>
                     <div>@model.business_branch.address_en</div>
-                    <div>@model.business_branch.phone_1</div>
-                    <div>@model.business_branch.phone_2</div>
+                    <span>@model.business_branch.phone_1</span>
+                    @if (!string.IsNullOrEmpty(model.business_branch.phone_1))
+                    {
+                        <span> / @model.business_branch.phone_2</span>
+                    }
+
                 </div>
             </div>
         </HeaderLeft>
         <HeaderRight ClassName="uk-flex-top">
             <div class="uk-text-right">
-                <h2 class="uk-text-uppercase uk-margin-small-bottom">Invoice</h2>
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">STOCK TAKE</h2>
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
                     <AuthorizeView Roles="@gv.GetRole("stock_take_view")">
-                        <span>INV# @model.document_number</span>
+                        <span>ST# @model.document_number</span>
                     </AuthorizeView>
                     }
                     else
                     {
-                        <span>INV# @model.document_number</span>
+                <span>ST# @model.document_number</span>
                     }
 
                 </div>
@@ -62,10 +66,10 @@
         </div>
         <div class="uk-width-auto">
             <div class="box-invoice-header-info">
-                <div class="invoice-header-title">Invoice Information</div>
+                <div class="invoice-header-title">Stock Take Information</div>
                 <table class="invoice_header_description">
                     <tr>
-                        <td>Invoice Date :</td>
+                        <td>Stock Take Date :</td>
                         <td>@model.stock_take_date.ToString(gv.date_format)</td>
                     </tr>
                     <tr>

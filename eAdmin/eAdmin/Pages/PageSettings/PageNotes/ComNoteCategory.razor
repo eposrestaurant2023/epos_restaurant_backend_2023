@@ -22,7 +22,7 @@
 
     void Delete(NoteModel n)
     {
-        if (n.id > 0) {
+        if (n.id != Guid.Empty) {
             n.is_deleted = true;
         }else
         {

@@ -27,6 +27,8 @@
                 {
                     @foreach (var b in branches)
                     {
+                        if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
+                        {
                          <ComAccordion>
                              <Header>
                                  @b.business_branch_name_en
@@ -35,13 +37,14 @@
                                  <ComPrinters printers="@b.printers" />
                                  <hr />
                                  <div class="uk-text-right">
-                                     <Button OnClick="@(()=>AddPrinter(b))">@lang["Add Printer"]</Button>
+                                     <Button OnClick="@(() => AddPrinter(b))">@lang["Add Printer"]</Button>
                                  </div>
                              </Content>
                          </ComAccordion>
-                    
+                            }
+
+                        }
                     }
-                }
                 else
                 {
                     <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
@@ -61,7 +64,7 @@
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
-    
+
 
     bool is_loading,is_saving;
 
@@ -81,6 +84,7 @@
         if (resp.IsSuccess)
         {
             branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());
+            gv.printers = branches.SelectMany(r => r.printers).ToList();
         }
         else
         {

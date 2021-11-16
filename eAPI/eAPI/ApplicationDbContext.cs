@@ -55,9 +55,9 @@ namespace eAPI
             builder.Entity<OutletStationModel>().HasKey(t => new { t.station_id, t.outlet_id });
             builder.Entity<StoreProcedureResultModel>().HasNoKey();
             builder.Entity<StoreProcedureResultDecimalModel>().HasNoKey();
+          
+ 
 
-            builder.Entity<BusinessBranchCurrencyModel>().HasKey(t => new { t.business_branch_id, t.currency_id });
-           
 
 
             builder.Entity<BusinessBranchSystemFeatureModel>().HasKey(t => new { t.business_branch_id, t.system_feature_id });

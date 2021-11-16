@@ -1,11 +1,12 @@
-﻿<div class="uk-form-controls" style=" margin-bottom: 10px;">
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-form-controls" style=" margin-bottom: 10px;">
     <Com is_visible="@(!string.IsNullOrEmpty(InputLabel))">
         <label class="uk-form-label" for="@id">@InputLabel</label>
         <div class="wrp-input uk-form-inline">
             <select id="@id" value="@SelectedValue.id" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small">
                 @foreach (var f in filter_option_model)
                 {
-                    <option value="@f.id">@(f.name_en)</option>
+                    <option value="@f.id">@lang[(f.name_en)]</option>
                 }
 
 
@@ -18,17 +19,17 @@
 
                 @foreach (var f in filter_option_model)
                 {
-                    <option value="@f.id">@(f.name_en)</option>
+                    <option value="@f.id">@lang[(f.name_en)]</option>
                 }
             </select>
         </div>
     </Com>
 </div>
-@code{  
+@code{
     [Parameter] public string InputLabel { get; set; } = "";
     Guid id = Guid.NewGuid();
     List<FilterOptionModel> filter_option_model = new List<FilterOptionModel>()
-    {
+{
         new FilterOptionModel{ id = 0, name_en = "Today",},
         new FilterOptionModel{ id = 1,name_en = "This Week",},
         new FilterOptionModel{ id = 2,name_en = "Last Week",},
@@ -50,11 +51,12 @@
     {
         if (SelectedValue != null)
         {
-            DateRangeModel d =  new DateRangeModel(Convert.ToInt32(n));
+            DateRangeModel d = new DateRangeModel(Convert.ToInt32(n));
             SelectedValue.start_date = d.start_date;
             SelectedValue.end_date = d.end_date;
         }
-        else {
+        else
+        {
             SelectedValue = new DateRangeModel(Convert.ToInt32(n));
 
         }

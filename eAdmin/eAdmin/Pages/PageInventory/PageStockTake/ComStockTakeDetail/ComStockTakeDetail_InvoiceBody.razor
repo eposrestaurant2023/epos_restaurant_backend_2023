@@ -9,9 +9,19 @@
             <Image ImageUrl="@http.ImageUrl(sp.product.photo)" data-caption="@sp.product?.product_display_name" PopupImageUrl="@http.ImageUrl(sp.product.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
         </TdCenter>
         <td class="cust_wirth_space">
-            <ComAuthorize roles="@gv.GetRole("product_management")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
-                <div>@sp.product?.product_display_name</div>
-            </ComAuthorize>
+            @if (sp.product.is_ingredient_product)
+            {
+                <ComAuthorize roles="@gv.GetRole("product_management")" OnClick="@(()=>nav.NavigateTo($"ingredient/{sp.product.id}"))">
+                    <div>@sp.product?.product_display_name <LabelIngredient is_visible="@sp.product.is_ingredient_product" /></div>
+                </ComAuthorize>
+            }
+            else if (sp.product.is_menu_product)
+            {
+                <ComAuthorize roles="@gv.GetRole("product_management")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product.id}"))">
+                    <div>@sp.product?.product_display_name <LabelMenuProduct is_visible="sp.product.is_menu_product"/></div>
+                </ComAuthorize>
+            }
+
             @if (!string.IsNullOrEmpty(sp.note))
             {
                 <div class="font-xs text-pre-wrap">@sp.note</div>

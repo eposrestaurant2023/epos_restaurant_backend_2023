@@ -45,6 +45,7 @@ namespace eModels
         public List<ProvinceModel> provinces { get; set; }
         public List<KitchenGroupModel> kitchen_groups { get; set; }
 
+        public LanguageModel current_language { get; set; }
         public int current_outlet_id { get; set; }
 
 
@@ -330,6 +331,7 @@ namespace eModels
             return null;
 
         }
+
         public bool CheckPaging(PagerModel pager, int total_record)
         {
             if (total_record > 0)
@@ -382,6 +384,33 @@ namespace eModels
             }
 
             return true;
+
+        }
+
+        public bool business_branch_has_feature( string business_branch_id , string code)
+        {
+           
+                Guid id = Guid.Empty;
+                if (system_features.Any())
+                {
+                    var d = system_features.Where(r => r.feature_code == code);
+                    if (d.Any())
+                    {
+                        id = d.FirstOrDefault().id;
+                    }
+                }
+
+                if (id != Guid.Empty)
+                {
+                    var f = business_branch_system_features.Where(r => r.business_branch_id.ToString() == business_branch_id && r.system_feature_id == id);
+                    if (f.Any())
+                    {
+                        return f.FirstOrDefault().status;
+                    }
+                }
+
+                return false;
+           
 
         }
 
@@ -439,6 +468,14 @@ namespace eModels
         }
 
     }
+
+    public class LanguageModel
+    {
+        public string language_id { get; set; }
+        public string language_name { get; set; }
+        public string image_url { get; set; }
+    }
+
 
 }
 

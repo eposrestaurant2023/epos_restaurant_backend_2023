@@ -1,24 +1,35 @@
 ﻿
 @if (po.is_deleted)
 {
-    <div class="ribbon ribbon-left"><span class="uk-label-danger">Deleted</span></div>
+    <div class="ribbon ribbon-left"><span class="deleted">Deleted</span></div>
 }
 else
-{ 
+{
     @if (po.is_over_due)
     {
         <div class="ribbon ribbon-left"><span class="overdue">Overdue(@System.Math.Floor(@DateTime.Now.Subtract(po.due_date.Value).TotalDays))</span></div>
-    }else if (po.total_amount>0 && po.paid_amount == 0){ 
+    }
+    else if (po.total_amount > 0 && po.paid_amount == 0)
+    {
         <div class="ribbon ribbon-left"><span class="unpaid">Unpaid</span></div>
-    }else if (po.is_partially_paid )
+    }
+    else if (po.is_partially_paid)
     {
         <div class="ribbon ribbon-left"><span class="partially-paid">Partially Paid</span></div>
     }
-    else if (po.is_paid )
+    else if (po.is_paid)
     {
         <div class="ribbon ribbon-left"><span class="paid">Paid</span></div>
     }
- 
+    if (po.is_fulfilled)
+    {
+        <div class="ribbon ribbon-left"><span class="fulfilled">Fulfilled</span></div>
+    }
+    else
+    {
+        <div class="ribbon ribbon-left"><span class="draft">Draft</span></div>
+    }
+
 }
 @code{
     [Parameter] public PurchaseOrderModel po { get; set; }

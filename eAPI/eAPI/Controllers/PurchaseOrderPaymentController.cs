@@ -126,15 +126,7 @@ namespace eAPI.Controllers
 
             PurchaseOrderPaymentModel p = db.PurchaseOrderPayments.Find(id);
             PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
-            HistoryModel h = new HistoryModel("Delete Purchase Order Payment");
-            h.description = $"Deleted PO Payment. Purchase Ordedr #: {s.document_number}. Amount({p.currency_name_en}): {p.payment_amount.ToString(p.currency_format)}";
-            h.document_number = s.document_number;
-            h.vendor_id = s.vendor_id;
-            h.purchase_order_id = s.id;
-            h.amount = p.payment_amount;
-            p.histories.Add(h);
             p.is_deleted = true;
-            p.histories.Add(h);
             db.PurchaseOrderPayments.Update(p);
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 

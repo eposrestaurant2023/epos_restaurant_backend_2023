@@ -1,27 +1,18 @@
 ﻿@page "/currency/new"
 @page "/currency/edit/{id:int}"
-@page "/currency/clone/{clone_id:int}"
+ 
 @inject IJSRuntime js
 @inherits PageCore;
 <Loading is_loading="@is_loading" />
-@if (!is_loading)
+@if (!is_loading && !is_error)
 {
-    <Title Value="New Currency"></Title>
+    <Title Value="@page_title"></Title>
     <PageContainer roles="@gv.GetRole($"{(id > 0 ? "currency_edit" : "currency_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        <span>
-                            @if (clone_id > 0)
-                            {
-                                @("Clone : " + currency.currency_name_en)
-                            }
-                            else
-                            {
-                                @(id>0? $"Edit : {currency.currency_name_en}" : "New Currency")
-                            }
-                        </span>
+                       @page_title
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -31,20 +22,36 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                    @JsonSerializer.Serialize(currency).ToString()
-                    <UIContainerBox Title="Currency">
-                        <TextInput label="Name EN" @bind-text="@currency.currency_name_en">
+                  
+                    <UIContainerBox Title="@lang["Currency"]">
+                        <TextInput label="@lang["Name EN"]" @bind-text="@currency.currency_name_en">
                             <ValidationMessage For="@(()=>currency.currency_name_en)" />
                         </TextInput>
-                        <TextInput label="Name KH" @bind-text="@currency.currency_name_kh">
+                        <TextInput label="@lang["Name KH"]" @bind-text="@currency.currency_name_kh">
                         </TextInput>
-                        <TextInput label="Format" @bind-text="@currency.currency_format">
-                        </TextInput>
-                        <NumberInputInt label="Sort Order" @bind-text="@currency.sort" />
+                        <TextInput label="@lang["Format"]" @bind-text="@currency.currency_format"/>
+                        <TextInput label="@lang["Report Format"]" @bind-text="@currency.report_format"/>
+                        <TextInput label="@lang["Symbol"]" @bind-text="@currency.symbol"/>
+                        <ComInputCheckBox @bind-value="@currency.is_prefix_symbol" label="@lang["Use prefix symbol"]" />
+                        <ComInputCheckBox @bind-value="@currency.is_show_in_bill" label="@lang["Show in Receipt Total"]" />
+                        <NumberInputInt label="@lang["Sort Order"]" @bind-text="@currency.sort" />
+                        
                         <SelectStatus @bind-selected_value="@currency.status" />
-                    
+
                     </UIContainerBox>
+                    <UIContainerBox Title="@lang["Businesses Branches"]">
+                        @if (currency.business_branch_currencies != null)
+                        {
+                            foreach (var b in currency.business_branch_currencies)
+                            {
+                                <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch.business_branch_name_en" label_inline="true" /></div>
+                            }
+                        }
+
+                    </UIContainerBox>
+
                 </UIGridCenter>
+              
             </PageBody>
             <PageFooter>
                 <FooterCenter>
@@ -55,49 +62,99 @@
     </PageContainer>
 }
 
+@if (is_error){
+    <Error title="@lang["Currency"]">@error_text</Error>
+}
+
 @code{
     [Parameter] public int id { get; set; }
-    [Parameter] public int clone_id { get; set; }
+
     CurrencyModel currency = new CurrencyModel();
     List<BusinessBranchModel> businesses = new List<BusinessBranchModel>();
     string ControllerApi = "Currency";
-    string page_title = "";
-    public string api_url
+
+
+    public string page_title
     {
         get
         {
-            string query = ControllerApi;
-            query = query + $"({(id == 0 ? clone_id : id)})";
-            return query;
+            return id == 0 ? lang["New Currency"]:lang["Edit"] + " " + currency.currency_name_en ;
         }
     }
+
 
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
-        await LoadData();
-        if (clone_id > 0)
+
+        if (id > 0)
         {
-            page_title = "Clone : " + currency.currency_name_en;
+
+            await LoadData();
+
+        }
+
+
+        await LoadBusinessBranch();
+
+        is_loading = false;
+    }
+
+    async Task LoadBusinessBranch()
+    {
+        var res = await http.ApiGetOData($"BusinessBranch?$filter=is_deleted eq false");
+        businesses = JsonSerializer.Deserialize<List<BusinessBranchModel>>(res.Content.ToString());
+        if (id == 0)
+        {
+            foreach (var p in businesses)
+            {
+                currency.business_branch_currencies.Add(new BusinessBranchCurrencyModel() { business_branch = p, business_branch_id = p.id });
+            }
         }
         else
         {
-            page_title = id > 0 ? $"Edit : {currency.currency_name_en}" : page_title = "New Currency";
+            foreach (var p in businesses)
+            {
+                var check_currency = currency.business_branch_currencies.Where(r => r.business_branch_id == p.id);
+                if (check_currency.Any())
+                {
+                    check_currency.FirstOrDefault().business_branch = p;
+                    if (check_currency.FirstOrDefault().is_deleted)
+                    {
+
+                        check_currency.FirstOrDefault().is_deleted = false;
+
+                    }else
+                    {
+                        check_currency.FirstOrDefault().is_selected = true;
+                    }
+
+                }else
+                {
+                    currency.business_branch_currencies.Add(new BusinessBranchCurrencyModel() { business_branch = p, business_branch_id = p.id });
+                }
+
+            }
         }
-        is_loading = false;
+
+
     }
+
 
     async Task LoadData()
     {
         is_loading_data = true;
-        var resp = await http.ApiGet(api_url);
+        var resp = await http.ApiGet($"Currency({id})?$expand=business_branch_currencies");
         if (resp.IsSuccess)
         {
             currency = JsonSerializer.Deserialize<CurrencyModel>(resp.Content.ToString());
-            if (clone_id > 0)
-            {
-                currency.id = 0;
-            }
+          
+
+        }
+        else
+        {
+            error_text = lang["No Record Found"];
+            is_error = true;
         }
         is_loading_data = false;
     }
@@ -106,13 +163,31 @@
 
     async Task SavePriceRule_Click()
     {
+        if(string.IsNullOrEmpty( currency.currency_name_en) || string.IsNullOrEmpty(currency.currency_name_kh))
+        {
+            toast.Add(lang["Please enter currency name"], MatToastType.Warning);
+            return;
+        }
+
+        if(!currency.business_branch_currencies.Where(r=>r.is_deleted==false && r.is_selected==true).Any())
+        {
+            toast.Add(lang["Please select business branch"], MatToastType.Warning);
+            return;
+        }
+
+
         is_saving = true;
-        var res = await http.ApiPost("Currency/save", currency);
+        CurrencyModel save_model = JsonSerializer.Deserialize<CurrencyModel>(JsonSerializer.Serialize(currency));
+        save_model.business_branch_currencies.ForEach(r=>r.business_branch=null) ;
+        save_model.business_branch_currencies.RemoveAll(r => r.id == Guid.Empty && !r.is_selected);
+        save_model.business_branch_currencies.Where(r => r.is_selected == false && r.id != Guid.Empty).ToList().ForEach(r => r.is_deleted = true);
+
+        var res = await http.ApiPost("Currency/save", save_model);
         if (res.IsSuccess)
         {
             toast.Add("Save sucessfully", MatToastType.Success);
+            nav.NavigateTo("currency");
 
-            await LoadData();
         }
         else
         {

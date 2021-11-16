@@ -1,29 +1,23 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http;
-<UIContainerBox Title="@lang["Yearly Sale"]">
-
+<UIContainerBox Title="@(lang["Yearly Sale"])">
+    <div>
+        <Button  custom_class="@(chart_type==ApexCharts.ChartType.Bar?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Bar)">@lang["Bar"]</Button>
+        <Button  custom_class="@(chart_type== ApexCharts.ChartType.Line?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Line)">@lang["Line"]</Button>
+        <Button custom_class="@(chart_type==ApexCharts.ChartType.Area?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Area)">@lang["Area"]</Button>
+    </div>
     @if (is_loading)
     {
-        <Spinner is_template_spinning="true"/>
+        <Spinner />
     }
     else
     {
-        @if (data != null && barchart_data != null)
+        @if (chart != null)
         {
-            <div class="uk-text-right uk-margin-small-bottom">
-                <Button title="@lang["View In Bar Chart"]" icon="bar_chart" icon_size="30px" class_name="@(is_view_bar_chart?"view-layout-active":"view-layout")" OnClick="@(()=>is_view_bar_chart = true)"></Button>
-                <Button title="@lang["View In Table"]" icon="view_module" icon_size="30px" class_name="@(is_view_bar_chart?"view-layout":"view-layout-active")" OnClick="@(()=>is_view_bar_chart = false)"></Button>
-            </div>
-            @if (is_view_bar_chart)
-            {
-                <BarChart Data="@barchart_data" Height="325" Width="100" />
-            }
-            else
-            {
-                <ComCustomerDetail_SaleTableMatrix data="@data" />
-            }
+            <ComChart chart_data="chart" chart_type="@chart_type" height="200" />
         }
     }
+
 
 </UIContainerBox>
  
@@ -31,9 +25,12 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
     [Parameter] public string customer_id { get; set; }
+    List<ApexChartModel> chart = new List<ApexChartModel>();
     BarChartModel barchart_data;
     bool is_loading, is_view_bar_chart = true;
     List<YearlySaleRevenueModel> data = new List<YearlySaleRevenueModel>();
+    List<YearlySaleRevenueModel> temp = new List<YearlySaleRevenueModel>();
+    ApexCharts.ChartType chart_type = ApexCharts.ChartType.Bar;
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
@@ -41,43 +38,43 @@
         if (resp.IsSuccess)
         {
             data = JsonSerializer.Deserialize<List<YearlySaleRevenueModel>>(resp.Content.ToString());
-            SetBarchartData();
+            SetLineData();
         }
         is_loading = false;
     }
 
-   
-
-    void SetBarchartData()
+    void SetLineData()
     {
         if (data != null)
         {
-            barchart_data = new BarChartModel();
-            var chart_label = data.Select(r => r.cal_date.ToString("MMM")).Distinct().ToArray(); //footer
+            chart = new List<ApexChartModel>();
 
-            var business_branch = (from a in data
-                                   select new { a.business_branch_id, a.business_branch_name, a.color }).Distinct();
-            barchart_data.label = chart_label;
-            foreach (var b in business_branch)
+            temp = data.Select(r => new YearlySaleRevenueModel()
             {
-                barchart_data.data.Add(new ChartDataModel
+                business_branch_id = r.business_branch_id,
+                color = r.color,
+                business_branch_name = r.business_branch_name,
+            })
+                          .GroupBy(p => new { p.business_branch_id })
+                          .Select(g => g.FirstOrDefault())
+                          .ToList();
+            chart = new List<ApexChartModel>();
+            foreach (var d in temp)
+            {
+                List<ApexChartDataModel> a = data.Where(r => r.business_branch_id == d.business_branch_id).Select(r => new ApexChartDataModel() { label = r.cal_date.ToString("yyyy"), value = Convert.ToDecimal(r.total_amount) }).ToList();
+                chart.Add(new ApexChartModel()
                 {
-                    label = b.business_branch_name ,
-                    color = b.color,
-                    data = data.Where(r => r.business_branch_id == b.business_branch_id).Select(r => (double)r.total_amount).ToArray()
+                    color = d.color,
+                    title = d.business_branch_name,
+                    data = a
                 });
 
-
             }
-
-
         }
+
     }
 
 
 
-
-
-    
 
 }

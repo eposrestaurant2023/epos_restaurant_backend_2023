@@ -33,7 +33,7 @@
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                     <div class="uk-form-controls" style="margin-bottom: 10px;margin-top: 20px;">
                         <label sclass="uk-form-label">@lang["Customer"]</label>
-                        <CustomerTypeahead @bind-customer="@state.customer" />
+                        <CustomerTypeahead @bind-customer="@state.customer"/>
                     </div>
                 </ComSearch>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
@@ -54,7 +54,7 @@
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("working_date", lang["Working Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
                         @HeaderTemplate("customer/customer_name_en", lang["Customer"], "col-auto")
                         <ThAuto>
@@ -63,7 +63,7 @@
                             <div class="sub-header-table">@lang["Station"]</div>
                         </ThAuto>
                         <ThCenter>@lang["Sale Type"]</ThCenter>
-                        <th>@lang["Table #"]</th>
+                        <ThCenter>@lang["Table #"]</ThCenter>
 
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Discount"]</ThRight>    
@@ -100,25 +100,26 @@
                         </td>
                         <td>
                             <div>
-                                @p.business_branch?.business_branch_name_en
+                                @(gv.current_language?.language_id == "km-KH" ?p.business_branch?.business_branch_name_kh : p.business_branch?.business_branch_name_en)
                             </div>
                             <div class="sub-info-row-table">
-                                @p.outlet?.outlet_name_en
+                                @(gv.current_language?.language_id == "km-KH" ?p.outlet?.outlet_name_kh : p.outlet?.outlet_name_en)
                             </div>
                             <div class="sub-info-row-table">
-                                @p.station_name_en
+                                @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
                             </div>
                         </td>
                         <TdCenter>
                             <div>
-                                @p.sale_type
+                                @lang[p.sale_type]
                             </div>
                         </TdCenter>
-                        <td>
+                        <TdCenter>
                             <div>
+                               
                                 @p.table_name
                             </div>
-                        </td>
+                        </TdCenter>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>

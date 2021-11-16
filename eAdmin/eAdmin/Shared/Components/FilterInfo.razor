@@ -1,132 +1,133 @@
-﻿@if (filters.Count() > 0)
+﻿@inject IStringLocalizer<Resource> lang
+@if (filters.Count() > 0)
 {
     <div class="wrp-filter-label">
         @foreach (var d in filters.Where(r => r.filter_info_text != "" && r.is_show_on_infor).OrderBy(r => r.sort_order).ToList())
         {
-        <div class="uk-label filter-label-item">
-            @if (d.filter_operator == "multiple" && (d.key == "stock_location/business_branch_id" || d.key == "stock_take/business_branch_id" || d.key == "purchase_order/business_branch_id" || d.key== "sale/business_branch_id" || d.key == "business_branch_id"))
-            {
-                if (d.value1.Split(',').Length > 1)
+            <div class="uk-label filter-label-item">
+                @if (d.filter_operator == "multiple" && (d.key == "stock_location/business_branch_id" || d.key == "stock_take/business_branch_id" || d.key == "purchase_order/business_branch_id" || d.key == "sale/business_branch_id" || d.key == "business_branch_id"))
                 {
-                    <span>
-                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
+                    if (d.value1.Split(',').Length > 1)
+                    {
+                        <span>
+                            @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @d.filter_title : @gv.bussiness_branches.Where(r => r.id.ToString() == d.value1).FirstOrDefault().business_branch_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+
+                }
+                else if (d.filter_operator == "multiple" && (d.key == "sale/outlet_id" || d.key == "outlet_id"))
+                {
+
+                    if (d.value1.Split(',').Length > 1)
+                    {
+                        <span>
+                            @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @d.filter_title : @gv.outlets.Where(r => r.id.ToString() == d.value1).FirstOrDefault().outlet_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                }
+                else if (d.filter_operator == "multiple" && (d.key == "stock_take/stock_location_id" || d.key == "purchase_order/stock_location_id" || d.key == "stock_location_id"))
+                {
+
+                    if (d.value1.Split(',').Length > 1)
+                    {
+                        <span>
+                            @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                }
+                else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/from_business_branch_id" || d.key == "from_business_branch_id"))
+                {
+
+                    if (d.value1.Split(',').Length > 1)
+                    {
+                        <span>
+                            @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @d.filter_title : @gv.bussiness_branches.Where(r => r.id.ToString() == d.value1).FirstOrDefault().business_branch_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                }
+                else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/to_business_branch_id" || d.key == "to_business_branch_id"))
+                {
+
+                    if (d.value1.Split(',').Length > 1)
+                    {
+                        <span>
+                            @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @d.filter_title : @gv.bussiness_branches.Where(r => r.id.ToString() == d.value1).FirstOrDefault().business_branch_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                }
+                else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/from_stock_location_id" || d.key == "from_stock_location_id"))
+                {
+
+                    if (d.value1.Split(',').Length > 1)
+                    {
+                        <span>
+                            @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                }
+                else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/to_stock_location_id" || d.key == "to_stock_location_id"))
+                {
+
+                    if (d.value1.Split(',').Length > 1)
+                    {
+                        <span>
+                            @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        </span>
+                    }
                 }
                 else
                 {
                     <span>
-                        @d.filter_title : @gv.bussiness_branches.Where(r => r.id.ToString() == d.value1).FirstOrDefault().business_branch_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
+                        @d.filter_title : @(d.filter_operator == "multiple" ? " * " : d.filter_info_text) <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
                     </span>
                 }
-
-            }
-            else if (d.filter_operator == "multiple" && ( d.key == "sale/outlet_id" || d.key == "outlet_id"))
-            {
-
-                if (d.value1.Split(',').Length > 1)
-                {
-                    <span>
-                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-                else
-                {
-                    <span>
-                        @d.filter_title : @gv.outlets.Where(r => r.id.ToString() == d.value1).FirstOrDefault().outlet_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-            }
-            else if (d.filter_operator == "multiple" && (d.key == "stock_take/stock_location_id" || d.key == "purchase_order/stock_location_id" || d.key == "stock_location_id"))
-            {
-
-                if (d.value1.Split(',').Length > 1)
-                {
-                    <span>
-                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-                else
-                {
-                    <span>
-                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-            }
-            else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/from_business_branch_id" || d.key == "from_business_branch_id"))
-            {
-
-                if (d.value1.Split(',').Length > 1)
-                {
-                    <span>
-                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-                else
-                {
-                    <span>
-                        @d.filter_title : @gv.bussiness_branches.Where(r => r.id.ToString() == d.value1).FirstOrDefault().business_branch_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-            }
-            else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/to_business_branch_id" || d.key == "to_business_branch_id"))
-            {
-
-                if (d.value1.Split(',').Length > 1)
-                {
-                    <span>
-                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-                else
-                {
-                    <span>
-                        @d.filter_title : @gv.bussiness_branches.Where(r => r.id.ToString() == d.value1).FirstOrDefault().business_branch_name_en  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-            }
-            else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/from_stock_location_id" || d.key == "from_stock_location_id"))
-            {
-
-                if (d.value1.Split(',').Length > 1)
-                {
-                    <span>
-                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-                else
-                {
-                    <span>
-                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-            }
-            else if (d.filter_operator == "multiple" && (d.key == "stock_transfer/to_stock_location_id" || d.key == "to_stock_location_id"))
-            {
-
-                if (d.value1.Split(',').Length > 1)
-                {
-                    <span>
-                        @d.filter_title : *  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-                else
-                {
-                    <span>
-                        @d.filter_title : @gv.stock_locations.Where(r => r.id == Guid.Parse(d.value1)).FirstOrDefault().stock_location_name  <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                    </span>
-                }
-            }
-            else
-            {
-                <span>
-                    @d.filter_title : @(d.filter_operator == "multiple" ? " * " : d.filter_info_text) <Icon icon="clear" OnClick="@(() => RemoveFilterClick(d))" />
-                </span>
-            }
-        </div>
+            </div>
         }
         @if (filters.Where(r => r.filter_info_text != "" && r.will_remove == true && r.is_show_on_infor).Count() > 1)
         {
-            <a @onclick="@OnRemoveAllFilterClick" class="clear_all_filters">Clear All</a>
+            <a @onclick="@OnRemoveAllFilterClick" class="clear_all_filters">@lang["Clear All"]</a>
         }
     </div>
     <Spacing Number="5" />

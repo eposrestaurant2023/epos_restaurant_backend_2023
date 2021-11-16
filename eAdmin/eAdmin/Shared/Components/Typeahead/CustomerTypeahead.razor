@@ -1,5 +1,6 @@
-﻿@inherits PageCore;
-<BlazoredTypeahead SearchMethod="SearchCustomer" @bind-Value="@selected_customer" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
+﻿@inject IStringLocalizer<Resource> lang
+@inherits PageCore;
+<BlazoredTypeahead SearchMethod="SearchCustomer" @bind-Value="@selected_customer" Placeholder="@lang[placeholder]" class="uk-form-small" ShowDropDownOnFocus="true">
     <SelectedTemplate>
         <Grid ClassName="uk-grid-small">
             <Column ClassName="uk-width-auto">
@@ -33,7 +34,7 @@
     [Parameter] public int? customer_id { get; set; }
     [Parameter] public EventCallback<Guid> customer_idChanged { get; set; }
 
- 
+
 
     public async Task<IEnumerable<CustomerModel>> SearchCustomer(string searchText)
     {
@@ -91,14 +92,14 @@
             {
 
                 customer_idChanged.InvokeAsync(value.id);
-     
+
             }
             else
             {
                 customer_idChanged.InvokeAsync(Guid.Empty);
             }
 
-            
+
         }
     }
 }

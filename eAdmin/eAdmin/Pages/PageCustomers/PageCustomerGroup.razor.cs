@@ -125,6 +125,7 @@ namespace eAdmin.Pages.PageCustomers
             {
                 customer_groups = JsonSerializer.Deserialize<List<CustomerGroupModel>>(resp.Content.ToString());
                 TotalRecord = resp.Count;
+                gv.customer_groups = customer_groups;
             }
             is_loading = false;
         }

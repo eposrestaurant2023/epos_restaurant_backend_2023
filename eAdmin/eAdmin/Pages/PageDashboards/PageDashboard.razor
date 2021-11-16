@@ -1,7 +1,6 @@
 ﻿@page "/dashboard"
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@is_loading" />
-
 <Title Value="@lang["Dashboard"]"></Title>
 <PageContainer roles=@gv.GetRole("dashboard")>
     <PageHeader>
@@ -18,23 +17,25 @@
 
     </PageHeader>
     <PageBody>
-  @if(gv.business_branch_by_role.Count() > 1)
-  {
+        @if (gv.business_branch_by_role.Count() > 1)
+        {
 
 
-        <Tab>
-            <TabHeader>
-                <TabHeaderItem OnClick="@(async()=>await LoadData(gv.business_branch_ids_filter_1))">@lang["All Branch"]</TabHeaderItem>
-                @foreach (var b in gv.business_branch_by_role)
-                {
-                    <TabHeaderItem OnClick="@(async()=>await LoadData(b.id.ToString()))">@b.business_branch_name_en</TabHeaderItem>
-                }
-            </TabHeader>
-               
-            
-        </Tab>
-  }
-         @if (!is_loading)
+            <Tab>
+                <TabHeader>
+                    <TabHeaderItem OnClick="@(async()=>await LoadData(gv.business_branch_ids_filter_1))">@lang["All Branch"]</TabHeaderItem>
+                    @foreach (var b in gv.business_branch_by_role)
+                    {
+                        <TabHeaderItem OnClick="@(async()=>await LoadData(b.id.ToString()))">
+                            @(gv.current_language?.language_id == "km-KH" ?b.business_branch_name_kh:b.business_branch_name_en)
+                        </TabHeaderItem>
+                    }
+                </TabHeader>
+
+
+            </Tab>
+        }
+        @if (!is_loading)
         {
             <Spacing Number="20" />
             <ComDashboard business_branch_id="@business_branch_id" />
@@ -54,18 +55,22 @@
 
     protected override async Task OnInitializedAsync()
     {
+
         await LoadData();
     }
 
-    async Task LoadData(string _bussess_branch_id="") {
+    async Task LoadData(string _bussess_branch_id = "")
+    {
 
         is_loading = true;
         await Task.Delay(100);
-        if (_bussess_branch_id == "") {
+        if (_bussess_branch_id == "")
+        {
             _bussess_branch_id = gv.business_branch_ids_filter_1;
         }
         business_branch_id = _bussess_branch_id;
         is_loading = false;
     }
+
 
 }

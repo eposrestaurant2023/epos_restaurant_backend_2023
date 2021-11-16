@@ -50,6 +50,7 @@ namespace eAdmin.Shared
         protected override async Task OnInitializedAsync()
         {
             IsLoading = true;
+           
             var authState = await authenticationStateTask;
             var user = authState.User;
             if (user?.Identity != null)
@@ -151,10 +152,56 @@ namespace eAdmin.Shared
                 showhidemenustate = "1";
             }
             is_menu_open = showhidemenustate == "1";
-
+            var lang = await GetCurrentLanguage();
+            gv.current_language = lang;
+            Console.WriteLine(lang.language_id);
+            Console.WriteLine(gv.current_language.language_id);
             IsLoading = false;
         }
+        public async Task<LanguageModel> GetCurrentLanguage()
+        {
+            string current_lang = await localStorage.GetItemAsync<string>("current_language");
+            
+            if (current_lang != null)
+            {
+                return await ChangeLanguage_Click(current_lang);
+            }
+            else
+            {
+                return await ChangeLanguage_Click("km-KH");
+            }
 
+        }
+        public async Task<LanguageModel> ChangeLanguage_Click(string current_language_id)
+        {
+            LanguageModel l = new LanguageModel();
+            if (current_language_id == "en-US")
+            {
+                await js.InvokeVoidAsync("SetLangEn");
+                l = new LanguageModel()
+                {
+                    language_id = "en-US",
+                    language_name = "English",
+                    image_url = "images/en.jpg"
+                };
+            }
+            else
+            {
+                await js.InvokeVoidAsync("SetLangKh");
+                l = new LanguageModel()
+                {
+                    language_id = "km-KH",
+                    language_name = "Khmer",
+                    image_url = "images/kh.jpg"
+                };
+            }
+
+
+
+            await localStorage.SetItemAsync("current_language", current_language_id);
+            return l;
+
+        }
 
         async Task Logout() {
             var localStateProvider = (LocalAuthenticationStateProvider)AuthenticationStateProvider;

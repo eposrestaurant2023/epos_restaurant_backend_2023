@@ -9,8 +9,10 @@
                     <img src="@http.ImageUrl(gv.business_info.company_logo)" class="uk-image" style="width:100px;" />
                 }
                 <div class="uk-text-top">
-                    <div class="font-xxl">@sale.business_branch.business_branch_name_en</div>
-                    <div>@sale.business_branch.address_en</div>
+                    <div class="font-xxl"> @(gv.current_language?.language_id == "km-KH" ?sale.business_branch?.business_branch_name_kh:sale.business_branch?.business_branch_name_en)</div>
+                    <div>
+                        @(gv.current_language?.language_id == "km-KH" ?sale.business_branch?.address_kh : sale.business_branch?.address_en)
+                    </div>
                     <div>@sale.business_branch.phone_1</div>
                     <div>@sale.business_branch.phone_2</div>
                 </div>

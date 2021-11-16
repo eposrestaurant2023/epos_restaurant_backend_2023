@@ -71,6 +71,10 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("deleted_note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<double>("exchange_rate")
                         .HasColumnType("float");
 
@@ -523,48 +527,22 @@ namespace eAPIClient.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("category")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<int>("category_note_id")
                         .HasColumnType("int");
 
-                    b.Property<string>("created_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("created_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("deleted_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime?>("deleted_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("is_deleted")
+                    b.Property<bool>("is_predefine_note")
                         .HasColumnType("bit");
-
-                    b.Property<string>("last_modified_by")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<DateTime>("last_modified_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<int>("note_id")
-                        .HasColumnType("int");
-
                     b.Property<int>("product_id")
                         .HasColumnType("int");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
 
                     b.HasKey("id");
 
@@ -596,7 +574,13 @@ namespace eAPIClient.Migrations
                     b.Property<int>("id")
                         .HasColumnType("int");
 
+                    b.Property<bool>("is_allow_change_price")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_allow_discount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_allow_free")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_inventory_product")
@@ -789,6 +773,10 @@ namespace eAPIClient.Migrations
                     b.Property<Guid>("cash_drawer_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("cash_drawer_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid>("cashier_shift_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -905,6 +893,10 @@ namespace eAPIClient.Migrations
 
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("old_table_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<Guid>("outlet_id")
                         .HasColumnType("uniqueidentifier");
@@ -1569,6 +1561,9 @@ namespace eAPIClient.Migrations
                     b.Property<string>("sale_product_status_note")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid>("session_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("station_name")
                         .HasColumnType("nvarchar(max)")

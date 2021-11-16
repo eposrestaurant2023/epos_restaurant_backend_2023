@@ -27,7 +27,7 @@
         cultures.Add(new languages() { lang_name = "Chinese", lang_code = "zh-CN" });
 
 
-        _current_lang = await local.GetItemAsync<string>("lang");
+        _current_lang = await local.GetItemAsync<string>("current_language");
         if (string.IsNullOrEmpty(_current_lang))
         {
             _current_lang = "en-EN";

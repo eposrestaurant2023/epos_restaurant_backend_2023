@@ -1,3 +1,10 @@
+html:lang(en) {
+    font-family: "Roboto",sans-serif;
+}
+
+html:lang(km-kh), .lang-km-kh {
+    font-family: Battambang,"Open Sans",Calibri,Candara,Arial,sans-serif !important;
+}
 :root {
     --mud-palette-black: #000000;
     --mud-palette-white: #FFFFFF;
@@ -103,10 +110,7 @@
     --mud-zindex-snackbar: 1500;
     --mud-zindex-tooltip: 1600;
 }
-@font-face {
-    font-family: siemreap;
-    src: url(../fonts/Siemreap.ttf);
-}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -176,7 +180,10 @@
     color: #fff;
     font-size: 24px;
 }
-
+.lang-km-kh {
+    color: #666 !important;
+    font-weight: 100;
+}
 .mdc-linear-progress {
     position: fixed !important;
     top: 0px;
@@ -981,7 +988,7 @@ a, .btn-link {
 .uk-button-default,
 .loading-button {
     color: #12344d !important;
-    background-image: linear-gradient(to bottom,#fff,#f3f5f7);
+    background: #f3f5f7;
     border: 1px solid #cfd7df !important;
 }
 .loading-button {
@@ -1366,6 +1373,15 @@ a, a:hover {
     padding: 0px 8px;
 }
 
+.bg_donautchart {
+    top: 50%;
+    background: #fff;
+    left: 50%;
+    border-radius: 50%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
 
 #top-head > .uk-container {
     padding-left: 10px;
@@ -1380,7 +1396,11 @@ a, a:hover {
     border: 1px solid #dadada;
     transition: .2s;
 }
-
+.cus_card_heigh {
+    background: #fff;
+    color: #666;
+    box-shadow: 0 5px 15px rgb(0 0 0 / 8%);
+}
     .btn_logout:hover {
         border: 1px solid #bbbbbb;
         background: #ececec;
@@ -2473,13 +2493,25 @@ span.unpaid-invoice, span.sale-cutomer-invoice {
     border-radius: 3px;
     border-top: 1px solid #bcbcbc;
 }
-
-    .wrp-sale-invoice-footer .uk-flex-column > div {
-        border-bottom: 1px solid #d7d7d7;
-        padding-bottom: 10px;
-        letter-spacing: .5px;
-        margin-top: 10px;
-    }
+.md-lang-image{
+    border-radius: 50%;
+}
+.langIcon {
+    margin-top: -2px;
+}
+.tittle_swech {
+    color: #252a32;
+    text-transform: capitalize;
+    font-size: 16px;
+    padding: 7px 12px 2px;
+    font-weight: 600;
+}
+.wrp-sale-invoice-footer .uk-flex-column > div {
+    border-bottom: 1px solid #d7d7d7;
+    padding-bottom: 10px;
+    letter-spacing: .5px;
+    margin-top: 10px;
+}
 
         .wrp-sale-invoice-footer .uk-flex-column > div > div {
             padding-left: 0px;
@@ -6635,14 +6667,18 @@ button.reconciled {
 .uk-card-header, .uk-card-body, .uk-card-footer {
     padding: 8px 15px !important;
 }
-
-    .uk-card-footer {
-        position: absolute;
-        left: 0px;
-        right: 0px;
-        top: auto;
-        bottom: 0px;
-    }
+.active_chart {
+    border: none !important;
+    color: #fff !important;
+    background-color: #1a2a7a !important;
+}
+.uk-card-footer {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: auto;
+    bottom: 0px;
+}
 
     .item-info-title {
         font-size: 12px;

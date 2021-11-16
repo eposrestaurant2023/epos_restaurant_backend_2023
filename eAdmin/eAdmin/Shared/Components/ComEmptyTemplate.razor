@@ -1,4 +1,5 @@
-﻿<Com is_visible="is_visible">
+﻿@inject IStringLocalizer<Resource> lang
+<Com is_visible="is_visible">
     <div class="no-record-msg @align @class_name" style="padding-top:@padding_top_bottom; padding-bottom:@padding_top_bottom;">
         <div>
             <div>
@@ -9,11 +10,11 @@
                 else if (icon != "")
                 {
 
-                    <Icon icon="@icon" className="color_nodata" size="@icon_size"/>
+                    <Icon icon="@icon" className="color_nodata" size="@icon_size" />
                 }
             </div>
             <div>
-                <div class="color_nodata uk-margin-small-bottom" style="font-size: @text_size">@empty</div>
+                <div class="color_nodata uk-margin-small-bottom" style="font-size: @text_size">@lang[empty]</div>
                 @ChildContent
             </div>
         </div>

@@ -1,0 +1,8 @@
+﻿<ul class="uk-navbar-nav @ClassName" @onclick="@OnClick">
+    @ChildContent
+</ul>
+@code {
+    [Parameter] public string ClassName { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

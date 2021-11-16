@@ -68,7 +68,7 @@ else
     </ComEmptyTemplate>
     }
 <Spacing Number="15"/>
-<UIContainerBox Title="@lang["Modifier Group Of Product Category"]">
+<UIContainerBox Title="@lang["Category Modifier"]">
     <ViewEmptyTemplate is_view="@(model.product_category_id > 0)" empty="@lang["Please select product category to view modifier group by category."]">
         <ComProductDetail_TableViewModifierGroupByProductCategory product_category_id="@model.product_category_id" is_show_table="true" />
     </ViewEmptyTemplate>

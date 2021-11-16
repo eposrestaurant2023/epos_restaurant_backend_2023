@@ -1,9 +1,10 @@
 ﻿@inject IHttpService http;
 @inject NavigationManager nav;
+@inject IStringLocalizer<Resource> lang
 
 <div uk-grid class="uk-grid-small">
     <div class="uk-width uk-margin-remove-top">
-        <div class="sub_title font-sm">Customer</div>
+        <div class="sub_title font-sm">@lang["Customer"]</div>
         @if (sale.customer != null)
         {
 
@@ -60,7 +61,7 @@
         }
         <br />
     </div>
-    </div>
+</div>
 
 
 

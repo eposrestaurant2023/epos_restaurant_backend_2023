@@ -1,0 +1,20 @@
+﻿<li class="wpr-avatan-info @ClassName">
+    <Com IsVisible="@(SubTitle != "")">
+        <div class="avatan-name">@Title</div>
+        <div class="avatan-tite">
+            <Icon IconName="@IconName" ClassName="icon-place-header" IsVisible="@(!string.IsNullOrEmpty(IconName))" />
+            @SubTitle
+        </div>
+    </Com>
+    <Com IsVisible="@(SubTitle == "")">
+        <div class="avatan-name lh">@Title</div>
+    </Com>
+    @ParentNotification
+</li>
+@code{
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string ClassName { get; set; }
+    [Parameter] public string IconName { get; set; }
+    [Parameter] public string SubTitle { get; set; } = "";
+    [Parameter] public RenderFragment ParentNotification { get; set; }
+}

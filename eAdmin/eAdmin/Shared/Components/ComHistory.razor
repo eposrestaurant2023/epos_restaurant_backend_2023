@@ -9,7 +9,7 @@
                 <EditForm Context="no" Model="@history" OnValidSubmit="@OnSaveClick" @attributes="@formAttributes">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <TextArea @bind-Value="@description" PlaceHolder="Comment" ClassName="textarea-comment" Row="5"/>
+                    <TextArea @bind-Value="@description" PlaceHolder="@lang["Comment"]" ClassName="textarea-comment" Row="5"/>
                     <hr />
                     <div class="uk-text-right">
                         @if (is_saving)
@@ -20,7 +20,7 @@
                         }
                         else
                         {
-                            <Button OnClick="@OnSaveClick">Add Comment</Button>
+                            <Button OnClick="@OnSaveClick">@lang["Add Comment"]</Button>
                         }
 
                     </div>
@@ -40,8 +40,8 @@
                                 <ValidationSummary />
                                 <textarea @bind="@h.description" class="uk-textarea uk-width-1-1 uk-resize-vertical" />
                                 <div class="uk-margin-small-bottom"></div>
-                                <Button OnClick="@(() => OnUpdateClick(h))" disabled="@h.is_saving">Save </Button>
-                                <Button OnClick="@(() => OnCancelClick(h))" disabled="@h.is_saving" class_name="default">Cancel</Button>
+                                <Button OnClick="@(() => OnUpdateClick(h))" disabled="@h.is_saving">@lang["Save"]</Button>
+                                <Button OnClick="@(() => OnCancelClick(h))" disabled="@h.is_saving" class_name="default">@lang["Cancel"]</Button>
                             </EditForm>
                         }
                         else
@@ -51,7 +51,7 @@
                             <div class="description">@h.description</div>
                         </div>
                         <div class="uk-width-auto">
-                            <div class="wrp-comment-tt">@h.created_date.ToString("MMM dd yyyy ") at @h.created_date.ToString("HH:mm")</div> 
+                            <div class="wrp-comment-tt">@h.created_date.ToString(gv.date_time_format)</div> 
                             <div class="uk-flex uk-flex-inline uk-flex-middle">
                                 <div>
                                     <Image ImageUrl="@http.ImageUrl(h.user?.photo)" PopupImageUrl="@http.ImageUrl(h.user?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
@@ -79,7 +79,7 @@
         }
         else
         {
-            <ComEmptyTemplate padding_top_bottom="25px" empty="No comment yet."/>
+            <ComEmptyTemplate padding_top_bottom="25px" empty="@lang["No comment yet."]"/>
         }
 
         <Spacing Number="30" />
@@ -149,8 +149,8 @@
         {
             HistoryModel h = JsonSerializer.Deserialize<HistoryModel>(JsonSerializer.Serialize(history));
             is_saving = true;
-            h.title = "New Comment";
-            h.module = "comment";
+            h.title = lang["New Comment"];
+            h.module = lang["Comment"];
             h.description = description;
 
             var resp = await http.ApiPost("History/Save", h);
@@ -159,7 +159,7 @@
                 h = JsonSerializer.Deserialize<HistoryModel>(resp.Content);
                 await OnSave.InvokeAsync(h);
                 await LoadData();
-                toast.Add("Add comment successfully.", MatToastType.Success);
+                toast.Add(lang["Add comment successfully."], MatToastType.Success);
             }
 
             description = "";
@@ -178,7 +178,7 @@
                 if (resp.IsSuccess)
                 {
                     await OnUpdate.InvokeAsync(h);
-                    toast.Add("Update comment successfully.", MatToastType.Success);
+                    toast.Add(lang["Update comment successfully."], MatToastType.Success);
                 }
                 else
                 {
@@ -195,7 +195,7 @@
         h.is_loading = true;
         h.is_deleting = true;
         is_saving = true;
-        if (await js.Confirm("Delete Comment", "Are you Sure want to delete this comment?"))
+        if (await js.Confirm(lang["Delete Comment"], lang["Are you Sure want to delete this comment?"]))
         {
             h.is_deleted = true;
             var resp = await http.ApiPost($"History/delete/{h.id}");
@@ -207,7 +207,7 @@
                 }
                 await LoadData();
                 await OnDelete.InvokeAsync(h);
-                toast.Add("Delete comment successfully.", MatToastType.Success);
+                toast.Add(lang["Delete comment successfully."], MatToastType.Success);
             }
 
         }

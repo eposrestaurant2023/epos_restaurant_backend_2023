@@ -183,6 +183,7 @@
         if (resp.IsSuccess)
         {
             payment_types = JsonSerializer.Deserialize<List<PaymentTypeModel>>(resp.Content.ToString());
+            gv.payment_types = payment_types;
         }
 
         var res = await http.ApiGetOData("BusinessBranchPaymentType");

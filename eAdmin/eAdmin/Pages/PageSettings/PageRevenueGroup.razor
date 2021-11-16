@@ -29,7 +29,7 @@
                                 <ThCenter>Sort Order</ThCenter>
                                 <Th></Th>
                             </tr>
-                            @foreach (var b in models.Where(r => r.is_deleted == false))
+                            @foreach (var b in models.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order))
                             {
                                 <tr>
                                     <td><TextInput @bind-text="@b.revenue_group_name_en" placeholder="Revenue Group en" /></td>
@@ -74,6 +74,7 @@
         if (resp.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<RevenueGroupModel>>(resp.Content.ToString());
+            gv.revenue_groups = models;
         }
         else
         {
@@ -86,7 +87,7 @@
 
     void Add()
     {
-        models.Add(new RevenueGroupModel());
+        models.Add(new RevenueGroupModel() { sort_order = models.Where(r=>r.is_deleted ==false).Count()+1 });
 
     }
 

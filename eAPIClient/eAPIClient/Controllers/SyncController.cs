@@ -320,11 +320,11 @@ namespace eAPIClient.Controllers
             string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section";
 
             string url = $"product?$select=revenue_group_name,product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,is_open_product,";
-            url += "product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
+            url += "product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_allow_change_price,is_allow_free,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
             url += $"&$expand=product_printers($select=id,product_id,printer_name,ip_address,port;$filter=is_deleted eq false and printer/business_branch_id eq {business_branch_id}),";
             url += $"product_modifiers({_select_product_modifier};$expand=children({_select_product_modifier};$filter=is_deleted eq false);$filter=is_deleted eq false),";
             url += $"product_portions($select=id,product_id, portion_name,cost,multiplier,unit_id;$filter=is_deleted eq false)";
-            url += "&$filter=is_deleted eq false and status eq true";
+            url += "&$filter=is_deleted eq false and status eq true and is_menu_product eq true";
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)
             {
@@ -432,7 +432,7 @@ namespace eAPIClient.Controllers
         async Task GetNote(string business_branch_id) 
         {
             is_get_remote_data_success = false;
-            string _query = $"Note/Category?$select=id,category_note_name_en,category_note_name_kh,is_multiple_select&$expand=notes($filter=is_deleted eq false and status eq true and business_branch_id eq {business_branch_id})";
+            string _query = $"Note/Category?$select=id,category_note_name_en,category_note_name_kh,is_multiple_select&$expand=notes($filter=is_deleted eq false and business_branch_id eq {business_branch_id})";
             var resp = await http.ApiGet(_query);
             if (resp.IsSuccess)
             {
@@ -441,9 +441,9 @@ namespace eAPIClient.Controllers
                 List<CategoryNoteModel> _tempNewCategoryNotes = new List<CategoryNoteModel>();
                 List<CategoryNoteModel> _tempAppendCategoryNotes = new List<CategoryNoteModel>();
                 List<NoteModel> _tempNewNotes = new List<NoteModel>();
-                List<NoteModel> _tempAppendNotes = new List<NoteModel>();
+             
                 List<CategoryNoteModel> _LocalCategoryNotes = new List<CategoryNoteModel>();
-                _LocalCategoryNotes = db.CategoryNotes.AsNoTracking().ToList();
+              
 
                 List<NoteModel> _LocalNotes = new List<NoteModel>();
                 _LocalNotes = db.Notes.AsNoTracking().ToList();
@@ -473,52 +473,26 @@ namespace eAPIClient.Controllers
                         _tempNewCategoryNotes.Add(_categoryNote);
                     } 
                 });
-                ////Get Note 
-                data.SelectMany(r => r.notes).ToList().ForEach(n =>
-                {
-                    NoteModel _note = new NoteModel()
-                    {
-                        note_id = n.id,
-                        category_note_id = n.category_note_id,
-                        created_by = n.created_by,
-                        created_date = n.created_date,
-                        is_deleted = n.is_deleted,
-                        deleted_by = n.deleted_by,
-                        deleted_date = n.deleted_date,
-                        note = n.note,
-                        status = n.status
-                    };
-                    var _n = _LocalNotes.Where(r => r.note_id == n.id);
-                    if (_n.Count() > 0)
-                    {
-                        _note.id = _n.FirstOrDefault().id;
-                        _tempAppendNotes.Add(_note);
-                    }
-                    else
-                    {
-                        _note.id = Guid.NewGuid();
-                        _tempNewNotes.Add(_note);
-                    }
-                });
+                 
 
                 //
 
-                if (_tempNewCategoryNotes.Count()>0)
+                if (_tempNewCategoryNotes.Count() > 0)
                 {
-                    db.CategoryNotes.AddRange(_tempNewCategoryNotes); 
+                    db.CategoryNotes.AddRange(_tempNewCategoryNotes);
                 }
                 if (_tempAppendCategoryNotes.Count() > 0)
-                { 
+                {
                     db.CategoryNotes.UpdateRange(_tempAppendCategoryNotes);
                 }
-                if (_tempNewNotes.Count() > 0)
-                {
-                    db.Notes.AddRange(_tempNewNotes);
-                }
-                if (_tempAppendNotes.Count() > 0)
-                {
-                    db.Notes.UpdateRange(_tempAppendNotes);
-                }
+
+                //clear local note
+                db.Database.ExecuteSqlRaw("exec sp_clear_data_before_sync_remote_database");
+                 
+                var remote_note =JsonSerializer.Deserialize<List<NoteModel>>(JsonSerializer.Serialize( data.SelectMany(r => r.notes).ToList()));
+                remote_note.ForEach(r => r.is_predefine_note = true); 
+                db.Notes.AddRange(remote_note);
+                 
                 await  db.SaveChangesAsync();
             } 
         }

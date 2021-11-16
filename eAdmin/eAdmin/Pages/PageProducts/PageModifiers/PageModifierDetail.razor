@@ -60,7 +60,20 @@
                         </UIGridCenter>
                         <UIGridCenter>
                             <ComModifierDetails_Ingredient modifier="@modifier" />
-                        </UIGridCenter> 
+                        </UIGridCenter>
+
+                        <div class="spacing30"></div>
+                        <div class="invoice_footer_description">
+                            <div>
+                                @lang["Created by"] @modifier.created_by @lang["on"] @modifier.created_date.ToString(gv.date_time_format)
+                            </div>
+
+                            @if (modifier.is_deleted)
+                            {
+                                <div>@lang["Deleted by"] @modifier.deleted_by @lang["on"] @modifier.deleted_date</div>
+                            }
+                            <div>@lang["Last modified by"] @modifier.last_modified_by @lang["on"] @modifier.last_modified_date</div>
+                        </div>
                     </TabItem>
                     <TabItem>
                         @if (show_associate_product)
