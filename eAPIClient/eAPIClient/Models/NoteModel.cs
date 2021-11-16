@@ -14,6 +14,7 @@ namespace eAPIClient.Models
         public Guid id { get; set; }
  
         public string note { get; set; }
+        public int category_note_id { get; set; }
         public string category{ get; set; }
         public int product_id { get; set; }
     }
