@@ -3100,7 +3100,7 @@ group by  p.payment_type_name_en,p.payment_type_name_kh , a.currency_format</Com
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>20</Value>
+          <Value>34c1f00d-8a47-43a1-d74f-08d9a8d3b8b4</Value>
         </Values>
       </DefaultValue>
       <Prompt>id</Prompt>

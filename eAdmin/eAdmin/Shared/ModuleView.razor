@@ -6,7 +6,7 @@
         if (d.permission_option != "")
         {
             <PageFilterItem roles="@($"{gv.GetRole(role_prefix + d.permission_option)}")" OnClick="@(()=>ViewClick(d))">@(string.Format(lang[d.title],lang[sub_title]))</PageFilterItem>
-        }
+        }   
         else
         {
             <PageFilterItem roles="@($"{gv.GetRole(d.permission_option)}")" OnClick="@(()=>ViewClick(d))">@(string.Format(lang[d.title],lang[sub_title]))</PageFilterItem>

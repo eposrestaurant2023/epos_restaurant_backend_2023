@@ -4272,6 +4272,9 @@ declare
                   </Visibility>
                 </TablixMember>
                 <TablixMember>
+                  <Visibility>
+                    <Hidden>=first(Fields!change_amount.Value)=0</Hidden>
+                  </Visibility>
                   <KeepWithGroup>Before</KeepWithGroup>
                 </TablixMember>
               </TablixMembers>
@@ -4749,13 +4752,22 @@ declare
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>PaymentData</DataSetName>
+            <Filters>
+              <Filter>
+                <FilterExpression>=Fields!is_create_payment_in_sale_order.Value</FilterExpression>
+                <Operator>Equal</Operator>
+                <FilterValues>
+                  <FilterValue DataType="Boolean">true</FilterValue>
+                </FilterValues>
+              </Filter>
+            </Filters>
             <Top>6.19947in</Top>
             <Left>3.97755in</Left>
             <Height>0.5in</Height>
             <Width>3.26856in</Width>
             <ZIndex>13</ZIndex>
             <Visibility>
-              <Hidden>=IIF(First(Fields!is_payment_from_pos.Value, "PaymentData")= false, First(Fields!is_payment_from_pos.Value, "PaymentData"),"")</Hidden>
+              <Hidden>=sum(Fields!payment_amount.Value)=0</Hidden>
             </Visibility>
             <Style>
               <Border>
@@ -4897,7 +4909,7 @@ declare
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>bf88ce74-369a-4713-c148-08d9a0f3fad5</Value>
+          <Value>f9cc5971-2721-4719-d750-08d9a8d3b8b4</Value>
         </Values>
       </DefaultValue>
       <Prompt>id</Prompt>

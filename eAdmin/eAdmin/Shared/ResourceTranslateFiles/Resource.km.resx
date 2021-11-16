@@ -129,6 +129,24 @@
   <data name="Cashier Shift" xml:space="preserve">
     <value>វេនធ្វើការ</value>
   </data>
+	<data name="Total Cashier Shift" xml:space="preserve">
+    <value>សរុបវេនធ្វើការ</value>
+  </data>
+	<data name="# Transaction" xml:space="preserve">
+    <value>លេខប្រតិបត្តិការ</value>
+  </data>
+	<data name="Transaction" xml:space="preserve">
+    <value>ប្រតិបត្តិការ</value>
+  </data>
+	<data name="# FOC Transaction" xml:space="preserve">
+    <value>លេខFOCប្រតិបត្តិការ</value>
+  </data>
+	<data name="Guest Cover" xml:space="preserve">
+    <value>ចំនួនភ្ញៀវ</value>
+  </data>
+	<data name="# Void Transaction" xml:space="preserve">
+    <value>លេខប្រតិបត្តិការដែលបានលុប</value>
+  </data>
   <data name="Close Orders" xml:space="preserve">
     <value>បិទការបញ្ជាទិញ</value>
   </data>
@@ -195,8 +213,8 @@
 	<data name="Working Day Number" xml:space="preserve">
     <value>លេខថ្ងៃធ្វើការ</value>
   </data>
-	<data name="Cash Drawer" xml:space="preserve">
-    <value>ថត​ដាក់​ប្រាក់</value>
+	<data name="Cashier Shift Number" xml:space="preserve">
+    <value>លេខវេនធ្វើការ</value>
   </data>
 	<data name="Cash Drawer" xml:space="preserve">
     <value>ថត​ដាក់​ប្រាក់</value>
@@ -273,6 +291,18 @@
 	<data name="Payment Amount" xml:space="preserve">
     <value>ចំនួនទឹកប្រាក់ទូទាត់</value>
   </data>
+	<data name="Close Amount" xml:space="preserve">
+    <value>ទឹកប្រាក់ដែលបានបិទ</value>
+  </data>
+	<data name="Cash Deposit" xml:space="preserve">
+    <value>លុយ​តម្កល់</value>
+  </data>
+	<data name="Cash In" xml:space="preserve">
+    <value>សាច់ប្រាក់ចូល</value>
+  </data>
+	<data name="Cash Out" xml:space="preserve">
+    <value>សាច់ប្រាក់ចេញ</value>
+  </data>
 	<data name="Cannot add payment for this sale invoice." xml:space="preserve">
     <value>មិនអាចបញ្ជូលការទូទាត់សម្រាប់វិក័យបត្រ័នេះ</value>
   </data>
@@ -312,6 +342,21 @@
 	<data name="Station" xml:space="preserve">
     <value>កន្លែងលក់</value>
   </data>
+	<data name="Cashier Station " xml:space="preserve">
+    <value>ម៉ាស៊ីនគិតលុយ</value>
+  </data>
+	<data name="is expired today." xml:space="preserve">
+    <value>និងផុតកំណត់ថ្ងៃនេះ</value>
+  </data>
+	<data name="will be expired on" xml:space="preserve">
+    <value>និងផុតកំណត់នៅ</value>
+  </data>
+	<data name="Check System License" xml:space="preserve">
+    <value>ពិនិត្យអាជ្ញាប័ណ្ណប្រព័ន្ធ</value>
+  </data>
+	<data name="is expired" xml:space="preserve">
+    <value>និងផុតកំណត់</value>
+  </data>
 	<data name="Opened Station" xml:space="preserve">
     <value>កន្លែងលក់ដែលបានបើក</value>
   </data>
@@ -323,6 +368,27 @@
   </data>
 	<data name="Sale Balance Amount" xml:space="preserve">
     <value>ទឹកប្រាក់សមតុល្យ</value>
+  </data>
+	<data name="Starting Amount (Dollar)" xml:space="preserve">
+    <value>ចំនួនទឹកប្រាក់ចាប់ផ្ដើម (ដុល្លារ)</value>
+  </data>
+	<data name="Starting Amount (Riel)" xml:space="preserve">
+    <value>ចំនួនទឹកប្រាក់ចាប់ផ្ដើម (រៀល)</value>
+  </data>
+	<data name="Total Starting Amount" xml:space="preserve">
+    <value>ចំនួនទឹកប្រាក់ចាប់ផ្ដើមសរុប</value>
+  </data>
+	<data name="Cash Sale (Dollar)" xml:space="preserve">
+    <value>សាចប្រាក់លក់ (ដុល្លារ)</value>
+  </data>
+	<data name="Expected Cash (Dollar)" xml:space="preserve">
+    <value>សាចប្រាក់រំពឹងទុក (ដុល្លារ)</value>
+  </data>
+	<data name="Sale Summary" xml:space="preserve">
+    <value>សង្ខេបការលក់</value>
+  </data>
+	<data name="Service Charge" xml:space="preserve">
+    <value>ថ្លៃ​សេវាកម្ម</value>
   </data>
 	<data name="Payment History" xml:space="preserve">
     <value>ប្រវត្តិការទូទាត់</value>
@@ -338,6 +404,9 @@
   </data>
 <data name="Closed Date" xml:space="preserve">
     <value>កាលបរិច្ឆេទបិទ</value>
+  </data>
+	<data name="Date" xml:space="preserve">
+    <value>កាលបរិច្ឆេទ</value>
   </data>
 	<data name="Document #" xml:space="preserve">
     <value>លេខកូដ</value>
@@ -419,6 +488,9 @@
  </data>
 	<data name="Opened" xml:space="preserve">
     <value>បើក</value>
+ </data>
+	<data name="Opened by" xml:space="preserve">
+    <value>បើកដោយ</value>
  </data>
 	 <data name="Bill Request" xml:space="preserve">
     <value>ស្នើសុំវិក័យប័ត្រ</value>
@@ -537,7 +609,28 @@
   <data name="Receipt List" xml:space="preserve">
     <value>វិក័យបត្រ័លក់</value>
   </data>
-  <data name="Recent Receipt" xml:space="preserve">
+	<data name="All Receipt" xml:space="preserve">
+    <value>ទាំងអស់វិក័យបត្រ័</value>
+  </data>
+	<data name="Deleted Receipt" xml:space="preserve">
+    <value>វិក័យបត្រ័ដែលបានលុប</value>
+  </data>​
+	<data name="Paid Receipt" xml:space="preserve">
+    <value>វិក័យបត្រ័ដែលបានបង់</value>
+  </data>​
+	<data name="Unpaid Receipt" xml:space="preserve">
+    <value>វិក័យបត្រ័ដែលមិនបានបង់</value>
+  </data>​
+	<data name="Partially Paid Receipt" xml:space="preserve">
+    <value>វិក័យបត្រ័ដែលបានបង់ដោយផ្នែក</value>
+  </data>​
+	<data name="System Expired Alert" xml:space="preserve">
+    <value>ការជូនដំណឹងប្រព័ន្ធផុតកំណត់</value>
+  </data>​
+	<data name="FOC Receipt" xml:space="preserve">
+    <value>FOC វិក័យបត្រ័</value>
+  </data>​
+	<data name="Recent Receipt" xml:space="preserve">
     <value>វិកយប័ត្របានគិតលុយហើយថ្មីៗ</value>
   </data>
   <data name="Report" xml:space="preserve">
@@ -597,6 +690,33 @@
 	<data name="Sub Total" xml:space="preserve">
     <value>សរុបរង</value>
   </data>
+	<data name="Sale Sub Total" xml:space="preserve">
+    <value>ការលក់សរុបរង</value>
+  </data>
+	<data name="Total Discount" xml:space="preserve">
+    <value>ការបញ្ចុះតម្លៃសរុប</value>
+  </data>
+	<data name="Total FOC Sale Amount" xml:space="preserve">
+    <value>ចំនួននៃការលក់FOCសរុប</value>
+  </data>
+	<data name="Total Payment" xml:space="preserve">
+    <value>ការទូទាត់សរុប</value>
+  </data>
+	<data name="Total payment (Dollar)" xml:space="preserve">
+    <value>ការទូទាត់សរុប (ដុល្លារ)</value>
+  </data>
+	<data name="Different Amount​ (Over)" xml:space="preserve">
+    <value>ទឹកប្រាក់លំអៀង (លើស)</value>
+  </data>
+	<data name="Different Amount​ (Short)" xml:space="preserve">
+    <value>ទឹកប្រាក់លំអៀង (ខ្វះ)</value>
+  </data>
+	<data name="Payment Breakdown" xml:space="preserve">
+    <value>បំបែកការទូទាត់</value>
+  </data>
+	<data name="Total Sale Revenue" xml:space="preserve">
+    <value>ចំណូលពីការលក់សរុប</value>
+  </data>
 	<data name="Grand Total" xml:space="preserve">
     <value>តំលៃ​បូក​សរុប</value>
   </data>
@@ -611,5 +731,35 @@
   </data>
   <data name="Working Day" xml:space="preserve">
     <value>ថ្ងៃធ្វើការ</value>
+  </data>
+	<data name="Working Day Information" xml:space="preserve">
+    <value>ព័ត៌មានថ្ងៃធ្វើការ</value>
+  </data>
+	<data name="Cashier Shift Information" xml:space="preserve">
+    <value>ព័ត៌មានវេនធ្វើការរ</value>
+  </data>
+	<data name="Shift" xml:space="preserve">
+    <value>វេន</value>
+  </data>
+	<data name="Sale Receipt" xml:space="preserve">
+    <value>វិក័យបត្រ័លក់</value>
+  </data>
+	<data name="FOC Sale Receipt" xml:space="preserve">
+    <value>FOC វិក័យបត្រ័លក់</value>
+  </data>
+	<data name="Deleted Sale Receipt" xml:space="preserve">
+    <value>វិក័យបត្រ័លក់ដែលបានលក់</value>
+  </data>
+	<data name="Summary By Revenue Group" xml:space="preserve">
+    <value>សង្ខេបតាមក្រុមនៃប្រាក់ចំណូល</value>
+  </data>
+	<data name="Free Product" xml:space="preserve">
+    <value>ផលិតផលឥតគិតថ្លៃ</value>
+  </data>
+	<data name="Sale Product" xml:space="preserve">
+    <value>ផលិតផលលក់</value>
+  </data>
+	<data name="Name" xml:space="preserve">
+    <value>ឈ្មោះ</value>
   </data>
 </root>

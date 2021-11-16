@@ -1,14 +1,14 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIGridCenter>
-    <UIContainerBox Title="@lang["Working Information"]">
+    <UIContainerBox Title="@lang["Working Day Information"]">
         <ListTable ClassWidth="uk-width-1-1">
             <ListTableItem ItemTitle="@lang["No"]" IsBetweenValue="true">@model.working_day_number</ListTableItem>
             <ListTableItem ItemTitle="@lang["Outlet"]" IsBetweenValue="true">@model.outlet?.outlet_name_en</ListTableItem>
             <ListTableItem ItemTitle="@lang["Station"]" IsBetweenValue="true">@model.opened_station?.station_name_en</ListTableItem>
             <ListTableItem ItemTitle="@lang["Opened"]" IsBetweenValue="true">@model.created_date.ToString(gv.date_time_format)</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Opened By"]" IsBetweenValue="true">@model.created_by</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Opened by"]" IsBetweenValue="true">@model.created_by</ListTableItem>
             <ListTableItem ItemTitle="@lang["Closed"]" IsBetweenValue="true">@(model.closed_date != null ? model.closed_date.Value.ToString(gv.date_time_format) : "")</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Closed By"]" IsBetweenValue="true">@model.closed_by</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Closed by"]" IsBetweenValue="true">@model.closed_by</ListTableItem>
         </ListTable>
     </UIContainerBox>
 </UIGridCenter>

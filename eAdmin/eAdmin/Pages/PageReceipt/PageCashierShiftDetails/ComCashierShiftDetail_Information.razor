@@ -1,13 +1,13 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <UIGridCenter>
-    <UIContainerBox Title="@lang["Shift Information"]">
+    <UIContainerBox Title="@lang["Cashier Shift Information"]">
         <ListTable ClassWidth="uk-width-1-1">
-            <ListTableItem ItemTitle="@lang["Register"]" IsBetweenValue="true">@model.cashier_shift_number</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Cashier Shift Number"]" IsBetweenValue="true">@model.cashier_shift_number</ListTableItem>
             <ListTableItem ItemTitle="@lang["Outlet"]" IsBetweenValue="true">@model.outlet?.outlet_name_en</ListTableItem>
             <ListTableItem ItemTitle="@lang["Station"]" IsBetweenValue="true">@model.opened_station?.station_name_en</ListTableItem>
             <ListTableItem ItemTitle="@lang["Shift"]" IsBetweenValue="true">@model.shift_name</ListTableItem>
             <ListTableItem ItemTitle="@lang["Opened"]" IsBetweenValue="true">@model.created_date.ToString(gv.date_time_format)</ListTableItem>
-            <ListTableItem ItemTitle="@lang["Opened By"]" IsBetweenValue="true">@model.created_by</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Opened by"]" IsBetweenValue="true">@model.created_by</ListTableItem>
         </ListTable>
     </UIContainerBox>
 </UIGridCenter>
