@@ -19,8 +19,6 @@
     <PageBody>
         @if (gv.business_branch_by_role.Count() > 1)
         {
-
-
             <Tab>
                 <TabHeader>
                     <TabHeaderItem OnClick="@(async()=>await LoadData(gv.business_branch_ids_filter_1))">@lang["All Branch"]</TabHeaderItem>

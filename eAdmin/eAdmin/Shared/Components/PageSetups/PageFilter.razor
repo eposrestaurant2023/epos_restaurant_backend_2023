@@ -1,11 +1,12 @@
-﻿<div>
+﻿@inject IStringLocalizer<Resource> lang
+<div>
     @if (title != "")
     {
-        <h3 class="title"><Icon icon="@icon" />@title</h3>
+        <h3 class="title"><Icon icon="@icon" />@lang[title]</h3>
     }
     else if (title != "" && icon == "")
     {
-        <h3 class="title">@title</h3>
+        <h3 class="title">@lang[title]</h3>
     }
 
     @if (use_list)

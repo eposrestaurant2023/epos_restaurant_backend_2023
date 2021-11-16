@@ -1,6 +1,6 @@
 ﻿@if (type == "primary")
 {
-<div class="uk-alert-primary" uk-alert>
+<div class="uk-alert-primary @ClassName" uk-alert>
     @if (show_close)
     {
         <a class="uk-alert-close" uk-close></a>
@@ -10,7 +10,7 @@
 }
 else if (type == "success")
 {
-<div class="uk-alert-success" uk-alert>
+<div class="uk-alert-success @ClassName" uk-alert>
     @if (show_close)
     {
         <a class="uk-alert-close" uk-close></a>
@@ -18,8 +18,8 @@ else if (type == "success")
     <div>@ChildContent</div>
 </div>
 
-}else if(type=="warning"){  
-<div class="uk-alert-warning" uk-alert>
+} else if (type == "warning") {
+<div class="uk-alert-warning @ClassName" uk-alert>
     @if (show_close)
     {
         <a class="uk-alert-close" uk-close></a>
@@ -27,7 +27,7 @@ else if (type == "success")
     <div>@ChildContent</div>
 </div>
 } else if (type == "danger") {
-    <div class="uk-alert-danger" uk-alert>
+    <div class="uk-alert-danger @ClassName" uk-alert>
         @if (show_close) {
             <a class="uk-alert-close" uk-close></a>
         }
@@ -38,5 +38,6 @@ else if (type == "success")
 @code {
     [Parameter] public string type { get; set; } = "primary";//primary, success, warning, danger //
     [Parameter] public bool show_close { get; set; } = false;
+    [Parameter] public string ClassName { get; set; } = "";
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

@@ -4124,7 +4124,7 @@ declare
                 </TablixMember>
                 <TablixMember>
                   <Visibility>
-                    <Hidden>=first(Fields!change_amount.Value) = 0</Hidden>
+                    <Hidden>=first(Fields!change_amount.Value)=0</Hidden>
                   </Visibility>
                   <KeepWithGroup>Before</KeepWithGroup>
                 </TablixMember>
@@ -4609,7 +4609,7 @@ declare
             <Width>3.56703in</Width>
             <ZIndex>12</ZIndex>
             <Visibility>
-              <Hidden>=IIF(First(Fields!is_payment_from_pos.Value, "PaymentData")= false, First(Fields!is_payment_from_pos.Value, "PaymentData"),"")</Hidden>
+              <Hidden>=sum(Fields!payment_amount.Value)=0</Hidden>
             </Visibility>
             <Style>
               <Border>
@@ -4749,7 +4749,7 @@ declare
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>bf88ce74-369a-4713-c148-08d9a0f3fad5</Value>
+          <Value>f9cc5971-2721-4719-d750-08d9a8d3b8b4</Value>
         </Values>
       </DefaultValue>
       <Prompt>id</Prompt>

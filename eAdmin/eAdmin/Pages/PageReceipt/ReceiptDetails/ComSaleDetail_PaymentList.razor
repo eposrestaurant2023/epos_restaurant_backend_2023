@@ -16,7 +16,9 @@
                                 <ComAuthorize roles="@gv.GetRole("sale_management")" url="@("receiptlist/"+p.sale_id)">@p.sale?.document_number</ComAuthorize>
                             </div>
                             <div>
-                                <span>@p.payment_type?.payment_type_name_en</span>
+                                <span>
+                                    @(gv.current_language?.language_id == "km-KH" ? p.payment_type?.payment_type_name_kh: p.payment_type?.payment_type_name_en)
+                                </span>
                             </div>
                             <Column is_visible="@(!string.IsNullOrEmpty(p.reference_number))">@p.reference_number</Column>
                             <div>
