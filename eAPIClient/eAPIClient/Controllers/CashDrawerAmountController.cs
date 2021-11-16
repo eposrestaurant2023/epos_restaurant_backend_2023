@@ -89,7 +89,8 @@ namespace eAPIClient.Controllers
                 c.is_deleted = true;
                 c.deleted_date = u.deleted_date;
                 c.deleted_by = u.deleted_by;
-                db.CashDrawerAmounts.Update(u);
+                c.deleted_note = u.deleted_note;
+                db.CashDrawerAmounts.Update(c);
                 await db.SaveChangesAsync();
                 return Ok(u);
             }catch(Exception _ex)
