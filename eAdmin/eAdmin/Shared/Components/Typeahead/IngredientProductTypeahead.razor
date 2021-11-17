@@ -4,19 +4,19 @@
     <Grid ClassName="uk-grid-small">
         <div class="uk-width-auto">
             <div class="search-add-icon">
-                <Icon icon="search" size="25px" icon_color="#99afc5" title="Search / Add Product" />
+                <Icon icon="search" size="25px" icon_color="#99afc5" title="@(lang["Search"] + "/" + lang["Add Product"])" />
             </div>
         </div>
         <div class="uk-width-expand uk-padding-remove">
-            <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected" Placeholder="@placeholder" class="uk-form-small" ShowDropDownOnFocus="true">
+            <BlazoredTypeahead SearchMethod="SearchModifier" @bind-Value="@selected" Placeholder="@lang["placeholder"]" class="uk-form-small" ShowDropDownOnFocus="true">
                 <SelectedTemplate>
-                    @context.product_name_en
+                    @(gv.current_language.language_id == "km-KH"? context.product_name_kh: context.product_name_en)
                 </SelectedTemplate>
                 <ResultTemplate>
                     @if (!context.is_new)
                     {
                     <div>
-                        <span>@context.product_name_en</span>
+                        <span> @(gv.current_language.language_id == "km-KH"? context.product_name_kh: context.product_name_en)</span>
                         <LabelIngredient is_visible="@context.is_ingredient_product" />
                         <LabelMenuProduct is_visible="@context.is_menu_product" />
                     </div>
@@ -27,7 +27,7 @@
                     {
                         if (!is_search_all_product)
                         {
-                        <span>Add @context.product_name_en</span>
+                        <span>@lang["Add"] @context.product_name_en</span>
                         }
                     }
                 </ResultTemplate>

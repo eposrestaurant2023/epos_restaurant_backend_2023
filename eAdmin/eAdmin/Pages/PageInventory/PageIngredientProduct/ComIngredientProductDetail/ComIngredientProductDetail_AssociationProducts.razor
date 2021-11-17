@@ -13,7 +13,7 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate><span>Association Products</span></HeaderTemplate>
+                    <HeaderTemplate><span>@lang["Association Products"]</span></HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight> 
@@ -40,7 +40,7 @@
                 <TableHeader>
                     <ThCenter>@lang["Image"]</ThCenter>
                     @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-                    @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
+                    @HeaderTemplate("product_name_en", lang["Name En(Kh)"], "col-auto")
                     @HeaderTemplate("product_category/product_category_en", lang["Category"])
                     <ThRight>@lang["Price"]</ThRight>
                     <ThRight>

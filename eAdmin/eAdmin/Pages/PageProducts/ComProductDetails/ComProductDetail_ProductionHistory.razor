@@ -45,7 +45,7 @@
                     <TableHeader>
                         @HeaderTemplate("production/production_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("production/document_number", lang["Document #"], "uk-text-center")
-                        <ThCenter>@lang["Reference Number"]</ThCenter>
+                        <ThCenter>@lang["Reference #"]</ThCenter>
                         <ThAuto>
                             <div>@lang["Business Branch"]</div>
                             <div class="sub-header-table">@lang["Warehouse"]</div>
@@ -69,7 +69,7 @@
                             @p.production?.reference_number
                         </TdCenter>
                         <td> 
-                            <div>@p.production?.business_branch?.business_branch_name_en</div>
+                            <div>@(gv.current_language.language_id == "km-KH"? p.production?.business_branch?.business_branch_name_kh: p.production?.business_branch?.business_branch_name_en)</div>
                             <div class="sub-info-row-table">
                                 @p.production?.stock_location?.stock_location_name
                             </div>

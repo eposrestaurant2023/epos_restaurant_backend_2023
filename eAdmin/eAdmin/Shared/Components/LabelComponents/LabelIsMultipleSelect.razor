@@ -1,7 +1,8 @@
-﻿@if (is_visible)
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_visible)
 {
-    <label class="uk-label bg-primary">Multiples</label>
+    <label class="uk-label bg-primary">@lang["Multiples"]</label>
 }
-    @code {
-        [Parameter] public bool is_visible { get; set; } = true;
-    }
+@code {
+    [Parameter] public bool is_visible { get; set; } = true;
+}

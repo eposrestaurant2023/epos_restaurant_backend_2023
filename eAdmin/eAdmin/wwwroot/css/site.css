@@ -3987,7 +3987,7 @@ body {
     overflow: hidden;
 }
 .page_containter {
-    height: calc(100vh - 84px); 
+    height: calc(100vh - 130px); 
     padding: 15px;
     margin-top: 0;
     overflow: auto;

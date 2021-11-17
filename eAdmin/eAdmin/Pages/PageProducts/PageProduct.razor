@@ -52,7 +52,7 @@
                     <TableHeader>
                         <ThCenter>@lang["Image"]</ThCenter>
                         @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-                        @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
+                        @HeaderTemplate("product_name_en", lang["Name En(Kh)"], "col-auto")
                         @HeaderTemplate("product_category/product_category_en", lang["Category"])
                         <ThCenter>@lang["Quality"]</ThCenter>
                         <th>@lang["Unit"]</th>
@@ -79,7 +79,7 @@
                                 <LabelProductionProduct is_visible="@p.is_production_product" />
                             </div>
                         </td>
-                        <td>@p.product_category?.product_category_en</td>
+                        <td> @(gv.current_language?.language_id == "km-KH" ?p.product_category.product_category_kh: p.product_category.product_category_kh)</td>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)
                         </TdCenter>
