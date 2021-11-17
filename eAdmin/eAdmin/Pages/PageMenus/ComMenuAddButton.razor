@@ -1,7 +1,8 @@
-﻿<Button OnClick="@OnClick">Add Sub Menu</Button>
+﻿@inject IStringLocalizer<Resource> lang
+<Button OnClick="@OnClick">@lang["Add Sub Menu"]</Button>
 
 @code {
-      
+
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
 }

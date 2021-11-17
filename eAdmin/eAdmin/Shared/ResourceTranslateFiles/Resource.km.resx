@@ -444,7 +444,7 @@
   <data name="Change status successfully" xml:space="preserve">
     <value>ប្ដូរស្ថានភាពបានជោគជ័យ</value>
   </data>
-	<data name="Cannot change status to inactive" xml:space="preserve">
+  <data name="Cannot change status to inactive" xml:space="preserve">
     <value>មិនអាចប្ដូរស្ថានភាពទៅអសកម្មបានទេ</value>
   </data>
   <data name="Status" xml:space="preserve">
@@ -618,13 +618,13 @@
   <data name="Product Category" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផល</value>
   </data>
-	<data name="Product Category Cannot Empty" xml:space="preserve">
+  <data name="Product Category Cannot Empty" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផលមិនអាចទទេរ</value>
   </data>
-	  <data name="Product Category En" xml:space="preserve">
+  <data name="Product Category En" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផលជាភាសាអង់គ្លេស</value>
   </data>
-	<data name="Product Category Kh" xml:space="preserve">
+  <data name="Product Category Kh" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផលជាភាសាខ្មែរ</value>
   </data>
   <data name="Product Price Adjustment" xml:space="preserve">
@@ -1161,13 +1161,13 @@
   <data name="Product Group" xml:space="preserve">
     <value>ក្រុមទំនិញ</value>
   </data>
-	<data name="Product Group Code" xml:space="preserve">
+  <data name="Product Group Code" xml:space="preserve">
     <value>កូដក្រុមទំនិញ</value>
   </data>
-	<data name="Product Group En" xml:space="preserve">
+  <data name="Product Group En" xml:space="preserve">
     <value>កូដក្រុមទំនិញជាភាសាអង់គ្លេស</value>
   </data>
-	<data name="Product Group Kh" xml:space="preserve">
+  <data name="Product Group Kh" xml:space="preserve">
     <value>កូដក្រុមទំនិញជាភាសាខ្មែរ</value>
   </data>
   <data name="Production" xml:space="preserve">
@@ -1584,10 +1584,25 @@
   <data name="Product Category &amp; Group" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផល និងក្រុម</value>
   </data>
-	<data name="New Category &amp; Group" xml:space="preserve">
+  <data name="New Category &amp; Group" xml:space="preserve">
     <value>បង្កើតប្រភេទ​ផលិតផល និងក្រុម</value>
   </data>
-	<data name="Edit Product Category &amp; Group" xml:space="preserve">
+  <data name="Edit Product Category &amp; Group" xml:space="preserve">
     <value>កែប្រែប្រភេទ​ផលិតផល និងក្រុម</value>
+  </data>
+  <data name="Add New Root Menu" xml:space="preserve">
+    <value>បន្ថែមម៉ឺនុយមេថ្មី</value>
+  </data>
+  <data name="Add Sub Menu" xml:space="preserve">
+    <value>បន្ថែមម៉ឺនុយកូនថ្មី</value>
+  </data>
+  <data name="Asign Products" xml:space="preserve">
+    <value>ដាក់ទំនិញចូលម៉ឺនុយ</value>
+  </data>
+  <data name="Menus" xml:space="preserve">
+    <value>ម៉ឺនុយ</value>
+  </data>
+  <data name="Please select menu" xml:space="preserve">
+    <value>សូមជ្រើសរើសម៉ឺនុយ</value>
   </data>
 </root>

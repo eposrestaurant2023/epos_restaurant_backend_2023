@@ -26,7 +26,7 @@
                         {
                             @foreach (var r in main_report_list.OrderBy(r=>r.sort_order))
                             {
-                                <ComAuthorizeDisplay roles="@gv.GetRole(r.option_name)">
+                                <ComAuth roles="@gv.GetRole(r.option_name)">
                                     @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)
                                     {
                                         <ul uk-accordion>
@@ -45,14 +45,14 @@
                                             </li>
                                         </ul>
                                     }
-                                </ComAuthorizeDisplay>
+                                </ComAuth>
                             }
                         }
                         else
                         {
                             foreach (var r in main_report_list)
                             {
-                                <ComAuthorizeDisplay roles="@gv.GetRole(r.option_name)">
+                                <ComAuth roles="@gv.GetRole(r.option_name)">
                                     @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)
                                     {
 
@@ -68,7 +68,7 @@
 
 
                                     }
-                                </ComAuthorizeDisplay>
+                                </ComAuth>
                             }
                         }
                     </ComPanel>

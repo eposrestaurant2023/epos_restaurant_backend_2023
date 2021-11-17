@@ -3,7 +3,7 @@
 @inject IMatToaster toast
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@is_loading" />
-<UIContainerBox Title="Menus">
+<UIContainerBox Title="@lang["Menus"]">
     @if (current_menu_id == 0)
     {
         <div>@lang["Please select menu"]</div>

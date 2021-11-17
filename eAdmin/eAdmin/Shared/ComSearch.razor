@@ -25,7 +25,7 @@
 }
 
 @code{
-    [Parameter] public string place_holder { get; set; } = "Search...";
+    [Parameter] public string place_holder { get; set; } = "Search";
     public string dummy { get; set; } = "";
     [Parameter] public string Keyword { get; set; }
     [Parameter] public EventCallback<string> KeywordChanged { get; set; }
@@ -38,6 +38,13 @@
     [Parameter] public RenderFragment ChildContent { get; set; }
     private ElementReference txt_search;
 
+    public string placeholder { get {
+            if (place_holder == "Search")
+            {
+                return lang["Search"];
+            }
+            return place_holder;
+        } }
 
 
     public Dictionary<string, object> searchFormAttributes { get; set; } = new Dictionary<string, object>()
