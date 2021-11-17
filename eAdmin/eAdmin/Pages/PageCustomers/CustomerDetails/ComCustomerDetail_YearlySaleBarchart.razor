@@ -2,9 +2,9 @@
 @inject IHttpService http;
 <UIContainerBox Title="@(lang["Yearly Sale"])">
     <div>
-        <Button  custom_class="@(chart_type==ApexCharts.ChartType.Bar?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Bar)">@lang["Bar"]</Button>
-        <Button  custom_class="@(chart_type== ApexCharts.ChartType.Line?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Line)">@lang["Line"]</Button>
-        <Button custom_class="@(chart_type==ApexCharts.ChartType.Area?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Area)">@lang["Area"]</Button>
+        <Button  custom_class="@(chart_type==ApexCharts.ChartType.Bar?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Bar)">@lang["Bar_Chart"]</Button>
+        <Button  custom_class="@(chart_type== ApexCharts.ChartType.Line?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Line)">@lang["Line_Chart"]</Button>
+        <Button custom_class="@(chart_type==ApexCharts.ChartType.Area?"active_chart":"")" OnClick="@(()=>chart_type=ApexCharts.ChartType.Area)">@lang["Area_Chart"]</Button>
     </div>
     @if (is_loading)
     {

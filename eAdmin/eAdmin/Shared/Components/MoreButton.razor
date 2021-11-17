@@ -1,8 +1,8 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 @if (isVisible)
 {
     <button class="uk-button uk-button-primary button-large">
-        More
+        @lang["More"]
         <Icon icon="arrow_drop_down" />
     </button>
 

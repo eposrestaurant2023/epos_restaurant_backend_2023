@@ -1,7 +1,7 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <div class="uk-form-horizontal">
     <div class="uk-margin-small">
-        <label class="uk-form-label" for="@id">Status</label>
+        <label class="uk-form-label" for="@id">@lang["Status"]</label>
         <div class="uk-form-controls">
             <select id="@id" value="@selected_value.ToString()" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small" style="width:@Width">
                 <option value="True">@lang["Active"]</option>

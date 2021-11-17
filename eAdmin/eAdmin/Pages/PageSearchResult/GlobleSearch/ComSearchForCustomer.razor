@@ -26,12 +26,12 @@
            EmptyText="There is no record.">
         <TableHeader>
             <ThCenter>Image</ThCenter>
-            @HeaderTemplate("customer_code", "Code", "uk-text-center")
-            @HeaderTemplate("customer_name_en", "Name (Kh)", "col-auto")
-            @HeaderTemplate("phone_1", "Phone", "uk-text-center")
-            @HeaderTemplate("gender", "Gender", "uk-text-center")
-            @HeaderTemplate("total_receivable", "Total Receivable", "uk-text-right")
-            @HeaderTemplate("status", "Status", "uk-width-auto uk-text-center")
+            @HeaderTemplate("customer_code", lang["Code"], "uk-text-center")
+            @HeaderTemplate("customer_name_en", lang["Name_Kh"], "col-auto")
+            @HeaderTemplate("phone_1", lang["Phone"], "uk-text-center")
+            @HeaderTemplate("gender", lang["Gender"], "uk-text-center")
+            @HeaderTemplate("total_receivable", lang["Total Receivable"], "uk-text-right")
+            @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
