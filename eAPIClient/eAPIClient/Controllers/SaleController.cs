@@ -52,8 +52,7 @@ namespace eAPIClient.Controllers
         {
             return await Task.Factory.StartNew(() => SingleResult.Create<SaleModel>(db.Sales.Where(r => r.id == key).AsQueryable()));
         }
-
-        bool
+               
 
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] SaleModel model)
