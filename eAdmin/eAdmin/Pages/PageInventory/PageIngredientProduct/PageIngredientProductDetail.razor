@@ -124,12 +124,12 @@
 
 
         model.is_deleting = true;
-        if(await js.Confirm(lang["Delete Product"], lang["Are you sure you want to delete this product?"], SweetAlertMessageType.question))
+        if(await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost("Product/delete/" + id);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Delete product successfully"], MatToastType.Success);
+                toast.Add(lang["Delete record successfully"], MatToastType.Success);
                 model.is_deleted = true;
 
             }
@@ -142,12 +142,12 @@
     {
 
         model.is_restoring = true;
-        if (await js.Confirm(lang["Delete Product"], lang["Are you sure you want to retore this product?"], SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to retore this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost("Product/delete/" + id);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Restore product successfully"], MatToastType.Success);
+                toast.Add(lang["Restore record successfully"], MatToastType.Success);
                 model.is_deleted = false;
 
             }

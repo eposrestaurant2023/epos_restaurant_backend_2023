@@ -18,17 +18,17 @@
             <UIContainerBox Title="@lang["Menu Information"]">
                 @if (model.parent != null)
                 {
-                    <TextInput label="@lang["Parent"]" text="@model.parent.menu_name_en" is_read_only="true" />
+                    <TextInput label="@lang["Parent Menu"]" text="@model.parent.menu_name_en" is_read_only="true" />
                 }
                 else
                 {
-                    <TextInput label="@lang["Parent"]" text="@lang["Root Menu"]" is_read_only="true" />
+                    <TextInput label="@lang["Parent Menu"]" text="@lang["Root Menu"]" is_read_only="true" />
                 }
 
-                <TextInput label="@lang["Menu Name(EN)"]" @bind-text="@model.menu_name_en">
+                <TextInput label="@lang["Menu Name (En)"]" @bind-text="@model.menu_name_en">
                     <ValidationMessage For="@(() => model.menu_name_en)" />
                 </TextInput>
-                <TextInput label="@lang["Menu Name(KH)"]" @bind-text="@model.menu_name_kh" />
+                <TextInput label="@lang["Menu Name (Kh)"]" @bind-text="@model.menu_name_kh" />
                 <TextInput label="@lang["Text Color"]" type="color" @bind-text="@model.text_color" />
                 <TextInput label="@lang["Background Color"]" type="color" @bind-text="@model.background_color" />
                 <NumberInputInt label="@lang["Sort Order"]" @bind-text="@model.sort_order" />
@@ -82,7 +82,7 @@
             }
             else
             {
-                return lang["Edit Menu "] + model.menu_name_en;
+                return lang["Edit Menu"] + " " + model.menu_name_en;
             }
         }
     }

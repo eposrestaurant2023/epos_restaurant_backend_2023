@@ -1590,19 +1590,121 @@
   <data name="Edit Product Category &amp; Group" xml:space="preserve">
     <value>កែប្រែប្រភេទ​ផលិតផល និងក្រុម</value>
   </data>
+  <data name="Add New Menu" xml:space="preserve">
+    <value>បញ្ជូលម៉ឺនុយថ្មី</value>
+  </data>
   <data name="Add New Root Menu" xml:space="preserve">
     <value>បន្ថែមម៉ឺនុយមេថ្មី</value>
   </data>
   <data name="Add Sub Menu" xml:space="preserve">
     <value>បន្ថែមម៉ឺនុយកូនថ្មី</value>
   </data>
+  <data name="Are you sure you want to restore this record?" xml:space="preserve">
+    <value>តើអ្នកពិតជាចង់ទាញទិន្នន័យនេះមកវិញមែនទេ?</value>
+  </data>
   <data name="Asign Products" xml:space="preserve">
     <value>ដាក់ទំនិញចូលម៉ឺនុយ</value>
+  </data>
+  <data name="Background Color" xml:space="preserve">
+    <value>ពណ៌ផ្ទៃ</value>
+  </data>
+  <data name="Cannot connect to ePOS Server. Please contact your system administrator." xml:space="preserve">
+    <value>មិនអាចភ្ជាប់ម៉ាស៊ីនមេ ePOS បានទេ។ សូមទាក់ទងទៅកាន់អ្នកគ្រប់គ្រង់ប្រព័ន្ធរបស់អ្នក។</value>
+  </data>
+  <data name="Confirm data fail. Please try again" xml:space="preserve">
+    <value>ត្រួតពិនិត្យទិន្នន័យបរាជ័យ។ សូមព្យាយាមម្តងទៀត។</value>
+  </data>
+  <data name="Confirm data fail. Please try again." xml:space="preserve">
+    <value>ត្រួតពិនិត្យទិន្នន័យបរាជ័យ។ សូមព្យាយាមម្តងទៀត។</value>
+  </data>
+  <data name="Delete record successfully" xml:space="preserve">
+    <value>លុបទិន្នន័យបានសម្រេច</value>
+  </data>
+  <data name="Delete record successfully." xml:space="preserve">
+    <value>លុបទិន្នន័យបានសម្រេច។</value>
+  </data>
+  <data name="does not have outlet." xml:space="preserve">
+    <value>មិនមានកន្លែងលក់ទេ។</value>
+  </data>
+  <data name="does not have station." xml:space="preserve">
+    <value>មិនមានកន្លែងទទួលប្រាក់ទេ។</value>
+  </data>
+  <data name="does not have stock location." xml:space="preserve">
+    <value>មិនមានឃ្លាំងទេ។</value>
+  </data>
+  <data name="Edit Menu" xml:space="preserve">
+    <value>កែប្រែម៉ឺនុយ</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>គ្មានទិន្នន័យ</value>
+  </data>
+  <data name="Menu Information" xml:space="preserve">
+    <value>ព័ត៌មានម៉ឺនុយ</value>
+  </data>
+  <data name="Menu Name (En)" xml:space="preserve">
+    <value>ឈ្មោះម៉ឺនុយ (En)</value>
+  </data>
+  <data name="Menu Name (Kh)" xml:space="preserve">
+    <value>ឈ្មោះម៉ឺនុយ (Kh)</value>
   </data>
   <data name="Menus" xml:space="preserve">
     <value>ម៉ឺនុយ</value>
   </data>
+  <data name="Parent Menu" xml:space="preserve">
+    <value>ម៉ឺនុយមេ</value>
+  </data>
+  <data name="Payment amount cannot greater than Balance Amount." xml:space="preserve">
+    <value>ទឹកប្រាក់ទទួលមិនច្រើនជាងទឹកប្រាក់នៅសល់បានទេ។</value>
+  </data>
+  <data name="Please enter product category name" xml:space="preserve">
+    <value>សូមបញ្ជូលឈ្មោះប្រភេទទំនិញ</value>
+  </data>
+  <data name="Please enter product category name." xml:space="preserve">
+    <value>សូមបញ្ជូលឈ្មោះប្រភេទទំនិញ។</value>
+  </data>
   <data name="Please select menu" xml:space="preserve">
     <value>សូមជ្រើសរើសម៉ឺនុយ</value>
+  </data>
+  <data name="Restore record successfully" xml:space="preserve">
+    <value>ទាញទិន្នន័យមកវិញបានជោគជ័យ</value>
+  </data>
+  <data name="Restore record successfully." xml:space="preserve">
+    <value>ទាញទិន្នន័យមកវិញបានជោគជ័យ។</value>
+  </data>
+  <data name="Restore Recored" xml:space="preserve">
+    <value>ទាញទិន្នន័យមកវិញ</value>
+  </data>
+  <data name="Root Menu" xml:space="preserve">
+    <value>ម៉ឺនុយមេ</value>
+  </data>
+  <data name="Saving successfully." xml:space="preserve">
+    <value>រក្សាទុកជោគជ័យ</value>
+  </data>
+  <data name="Sort Order" xml:space="preserve">
+    <value>តម្រៀប</value>
+  </data>
+  <data name="Text Color" xml:space="preserve">
+    <value>ពណ៌អក្សរ</value>
+  </data>
+  <data name="There is no payment record" xml:space="preserve">
+    <value>គ្មានទិន្នន័យ​</value>
+  </data>
+  <data name="There is no payment record." xml:space="preserve">
+    <value>គ្មានទិន្នន័យ​។</value>
+  </data>
+  <data name="Update data successfully" xml:space="preserve">
+    <value>កែប្រែទិន្នន័យបានបានជោគជ័យ</value>
+  </data>
+  <data name="Update data successfully." xml:space="preserve">
+    <value>កែប្រែទិន្នន័យបានបានជោគជ័យ។</value>
+  </data>
+  <data name="Are you sure you want to​ cancel make as fulfilled?" xml:space="preserve">
+    <value>តើអ្នកពិតជាចង់លុប mark as fulfilled មែនទេ?</value>
+  </data>
+  <data name="Cancel Mark as fulfilled successfully" xml:space="preserve">
+    <value>Cancel Mark as fulfilled បានជោគជ័យ</value>
+  </data>
+  <data name="Cancel Mark as fulfilled successfully." xml:space="preserve">
+    <value>Cancel Mark as fulfilled បានជោគជ័យ។</value>
   </data>
 </root>

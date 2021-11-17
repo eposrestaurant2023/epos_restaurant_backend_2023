@@ -87,11 +87,11 @@
                     if (res.IsSuccess)
                     {
                         model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                        title = $"Edit : {model.customer_name_en}";
+                        title = $"{lang["Edit"]} : {model.customer_name_en}";
                     }
                     else
                     {
-                        toast.Add(res.Content.ToString(), MatToastType.Warning);
+                        toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
                     }
                 }
                 else
@@ -106,11 +106,11 @@
                         model.is_deleted = false;
                         model.status = true;
                         model.created_date = DateTime.Now;
-                        title = $"Clone : {model.customer_name_en}";
+                        title = $"{lang["Clone"]} : {model.customer_name_en}";
                     }
                     else
                     {
-                        toast.Add(res.Content.ToString(), MatToastType.Warning);
+                        toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
                     }
                 }
             }
@@ -206,12 +206,12 @@
                     is_customer_exist = true;
                     existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
 
-                    toast.Add(existing_customer_info.message, MatToastType.Warning);
+                    toast.Add(lang[existing_customer_info.message], MatToastType.Warning);
 
                 }
                 else
                 {
-                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
                 }
 
             }

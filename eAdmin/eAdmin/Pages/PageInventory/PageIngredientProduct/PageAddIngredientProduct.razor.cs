@@ -190,7 +190,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save ingredient successfully"], MatToastType.Success);
+                toast.Add(lang["Save successfully"], MatToastType.Success);
                 if (is_save_and_new)
                 {
                     model = new ProductModel();

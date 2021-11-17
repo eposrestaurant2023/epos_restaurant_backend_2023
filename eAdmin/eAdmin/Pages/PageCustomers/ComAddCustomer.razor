@@ -43,7 +43,7 @@
                 if (res.IsSuccess)
                 {
                     model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                    title = $"Edit : {model.customer_name_en}";
+                    title = $"{lang["Edit"]} : {model.customer_name_en}";
                 }
                 else
                 {
@@ -53,7 +53,7 @@
             }
             else
             {
-                title = "Add New Customer";
+                title = lang["Add New Customer"];
             }
             is_loading = false;
         }
@@ -70,7 +70,7 @@
             if (res.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                toast.Add("Saving Customer successfully", MatToastType.Success);
+                toast.Add("Saving successfully", MatToastType.Success);
                 await OnSave.InvokeAsync(model);
                 await is_openedChanged.InvokeAsync(false);
 
@@ -83,12 +83,12 @@
                 {
                     is_customer_exist = true;
                     existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
-                    toast.Add(existing_customer_info.message, MatToastType.Warning);
+                    toast.Add(lang[existing_customer_info.message], MatToastType.Warning);
 
                 }
                 else
                 {
-                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
                 }
 
             }
