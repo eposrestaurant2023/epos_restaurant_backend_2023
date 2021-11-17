@@ -1659,9 +1659,7 @@
 	  <data name="Add Revenue Group" xml:space="preserve">
     <value>បង្កើតក្រុមចំណូលថ្មី</value>
   </data>
-	<data name="Sort Order" xml:space="preserve">
-    <value>តម្រៀប</value>
-  </data>
+	 
 	  <data name="Revenue Group En" xml:space="preserve">
     <value>ក្រុមចំណូល En</value>
   </data>
