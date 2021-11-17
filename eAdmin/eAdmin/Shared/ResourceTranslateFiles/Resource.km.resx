@@ -1383,6 +1383,9 @@
 	<data name="Inventory Information" xml:space="preserve">
     <value>ពត៌មានអំពីសារពើភ័ណ្ឌ</value>
   </data>
+	<data name="All Inventory Transation" xml:space="preserve">
+    <value>ប្រតិបត្តិការសារពើភ័ណ្ឌទាំងអស់</value>
+  </data>
 	<data name="All Inventory Transation History" xml:space="preserve">
     <value>ប្រវត្តិប្រតិបត្តិការសារពើភ័ណ្ឌទាំងអស់</value>
   </data>

@@ -39,7 +39,7 @@
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         <ThCenter>@lang["Date"]</ThCenter>
-                        <ThCenter>@lang["Reference Number"]</ThCenter>
+                        <ThCenter>@lang["Reference #"]</ThCenter>
                         <ThAuto>@lang["Inventory Transaction Type"]</ThAuto> 
                         <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Warehouse"]</div></ThAuto>
                         <ThCenter>@lang["Old Quantity"]</ThCenter>
@@ -60,7 +60,7 @@
                             @p.inventory_transaction_type?.inventory_transaction_type_name
                         </td>
                         <td>
-                            <div>@p.stock_location?.business_branch?.business_branch_name_en</div>
+                            <div>@(gv.current_language.language_id =="km-KH"? p.stock_location?.business_branch?.business_branch_name_kh: p.stock_location?.business_branch?.business_branch_name_en)</div>
                             <div class="sub-info-row-table">@p.stock_location?.stock_location_name</div>
                         </td> 
                         <TdCenter>
