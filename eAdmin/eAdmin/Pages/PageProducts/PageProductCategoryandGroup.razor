@@ -30,7 +30,7 @@
                                             <div class="uk-panel">
                                                 <div class="uk-float-left">
                                                     <span>
-                                                        @d.product_group_en
+                                                        @(gv.current_language?.language_id == "km-KH" ?d.product_group_kh:d.product_group_en)
                                                     </span>
                                                 </div>
                                                 <Column ClassName="uk-float-right">
@@ -57,8 +57,8 @@
                                                 <div>
                                                     <table class="uk-table cus_hearder_table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                                         <tr>
-                                                            <Th>@lang["Product Category Name En"]</Th>
-                                                            <Th>@lang["Product Category Name Kh"]</Th>
+                                                            <Th>@lang["Product Category En"]</Th>
+                                                            <Th>@lang["Product Category Kh"]</Th>
                                                             <ThCenter>@lang["Status"]</ThCenter> 
                                                         </tr>
                                                         <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="6">

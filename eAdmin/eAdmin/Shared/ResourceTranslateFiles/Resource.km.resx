@@ -444,6 +444,9 @@
   <data name="Change status successfully" xml:space="preserve">
     <value>ប្ដូរស្ថានភាពបានជោគជ័យ</value>
   </data>
+	<data name="Cannot change status to inactive" xml:space="preserve">
+    <value>មិនអាចប្ដូរស្ថានភាពទៅអសកម្មបានទេ</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>ស្ថានភាព</value>
   </data>
@@ -614,6 +617,15 @@
   </data>
   <data name="Product Category" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផល</value>
+  </data>
+	<data name="Product Category Cannot Empty" xml:space="preserve">
+    <value>ប្រភេទ​ផលិតផលមិនអាចទទេរ</value>
+  </data>
+	  <data name="Product Category En" xml:space="preserve">
+    <value>ប្រភេទ​ផលិតផលជាភាសាអង់គ្លេស</value>
+  </data>
+	<data name="Product Category Kh" xml:space="preserve">
+    <value>ប្រភេទ​ផលិតផលជាភាសាខ្មែរ</value>
   </data>
   <data name="Product Price Adjustment" xml:space="preserve">
     <value>កែតម្រូវតម្លៃផលិតផល</value>
@@ -1149,6 +1161,15 @@
   <data name="Product Group" xml:space="preserve">
     <value>ក្រុមទំនិញ</value>
   </data>
+	<data name="Product Group Code" xml:space="preserve">
+    <value>កូដក្រុមទំនិញ</value>
+  </data>
+	<data name="Product Group En" xml:space="preserve">
+    <value>កូដក្រុមទំនិញជាភាសាអង់គ្លេស</value>
+  </data>
+	<data name="Product Group Kh" xml:space="preserve">
+    <value>កូដក្រុមទំនិញជាភាសាខ្មែរ</value>
+  </data>
   <data name="Production" xml:space="preserve">
     <value>ផលិតកម្ម</value>
   </data>
@@ -1564,6 +1585,9 @@
     <value>ប្រភេទ​ផលិតផល និងក្រុម</value>
   </data>
 	<data name="New Category &amp; Group" xml:space="preserve">
-    <value>ប្រភេទ​ផលិតផល និងក្រុមថ្មី</value>
+    <value>បង្កើតប្រភេទ​ផលិតផល និងក្រុម</value>
+  </data>
+	<data name="Edit Product Category &amp; Group" xml:space="preserve">
+    <value>កែប្រែប្រភេទ​ផលិតផល និងក្រុម</value>
   </data>
 </root>
