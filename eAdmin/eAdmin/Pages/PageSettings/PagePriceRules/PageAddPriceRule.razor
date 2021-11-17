@@ -151,7 +151,7 @@
             var post = await http.ApiPost("PriceRule/Save", price);
             if (post.IsSuccess)
             {
-                toast.Add("Save Successfully!", MatToastType.Success);
+                toast.Add(lang["Save successfully"], MatToastType.Success);
                 nav.NavigateTo("pricerule");
                 price = new PriceRuleModel();
             }
@@ -162,7 +162,7 @@
         }
         else
         {
-            toast.Add("Please choose business branch.", MatToastType.Warning);
+            toast.Add(lang["Please choose business branch"], MatToastType.Warning);
         }
         is_saving = false;
     }

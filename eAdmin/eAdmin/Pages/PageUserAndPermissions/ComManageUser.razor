@@ -74,20 +74,20 @@
         {
             if (user.status == false)
             {
-                toast.Add("You cannot disable current login user.", MatToastType.Warning);
+                toast.Add(lang["You cannot disable current login user."], MatToastType.Warning);
                 return;
             }
 
             if (new_password.Length > 0 && new_password.Length < 2)
             {
-                toast.Add("Password is too short or empty.", MatBlazor.MatToastType.Success);
+                toast.Add(lang["Password is too short or empty"], MatBlazor.MatToastType.Success);
                 user.is_loading = false;
                 return;
             }
 
             if (new_password.Length > 0 || old_username != user.username)
             {
-                if (!await js.Confirm("Change your username or password will be auto logout.", "Are you sure to proceed?", SweetAlertMessageType.question))
+                if (!await js.Confirm(lang["Logout"], lang["You have to logout after change username or password."], SweetAlertMessageType.question))
                 {
                     user.is_loading = false;
                     return;
@@ -104,7 +104,7 @@
         if (res.IsSuccess)
         {
             var u = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
-            toast.Add("Save Successfully", MatToastType.Success);
+            toast.Add(lang["Save Successfully"], MatToastType.Success);
             is_dialog_open = false;
             if (!string.IsNullOrEmpty(new_password))
             {

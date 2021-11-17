@@ -145,7 +145,7 @@ else
         var resp = await http.ApiPost(controller_api + "/status/" + u.id);
         if (resp.IsSuccess)
         {
-            toast.Add("Change status successfully", MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MatToastType.Success);
             await LoadData();
         }
         else
@@ -158,13 +158,13 @@ else
     async Task OnRestore(ModifierModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Restore modifier", "Are you sure you want to restore " + p.modifier_name + "?", SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
             {
                 await LoadData();
-                toast.Add("Restore modifier successfully", MatToastType.Success);
+                toast.Add(lang["Restore record successfully"], MatToastType.Success);
             }
             else
             {
@@ -177,7 +177,7 @@ else
     async Task OnDelete(ModifierModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete modifier", "Are you sure you want to delete " + p.modifier_name + "?", SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -185,7 +185,7 @@ else
             {
                 await LoadData();
             }
-            toast.Add("Delete modifier successfully", MatToastType.Success);
+            toast.Add(lang["Delete record successfully"], MatToastType.Success);
         }
         p.is_loading = false;
     }

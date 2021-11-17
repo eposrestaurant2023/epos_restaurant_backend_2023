@@ -72,7 +72,7 @@ protected override async Task OnInitializedAsync()
         var resp = await http.ApiGet("eSoftixBackend/CheckSystemFeatures");
         if (resp.IsSuccess)
         {
-            toast.Add("Checked System Features", MatBlazor.MatToastType.Success);
+            toast.Add(lang["Check system feature complete"], MatBlazor.MatToastType.Success);
             await OnInitializedAsync();
         }
         is_loading_data = false;

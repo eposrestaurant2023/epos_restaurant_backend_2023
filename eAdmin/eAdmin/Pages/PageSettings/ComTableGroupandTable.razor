@@ -179,7 +179,7 @@
         var resp = await http.ApiPost($"{ControllerApi}/Save", b);
         if (resp.IsSuccess)
         {
-            toast.Add("Change status successfully", MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MatToastType.Success);
         }
 
         b.is_change_status = false;
@@ -188,18 +188,18 @@
     async Task click_delete(TableGroupModel d)
     {
         d.is_loading = true;
-        if (await js.Confirm("Table Group", "Are you sure you want to delete this this record?", SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(ControllerApi + "/delete/" + d.id);
 
             if (resp.IsSuccess)
             {
                 await LoadData();
-                toast.Add("Delete Outlet successfully", MatToastType.Success);
+                toast.Add(lang["Delete Record Successfully"], MatToastType.Success);
             }
             else
             {
-                toast.Add("Delete Outlet fail", MatBlazor.MatToastType.Warning);
+                toast.Add(lang["Delete record fail"], MatBlazor.MatToastType.Warning);
             }
 
 

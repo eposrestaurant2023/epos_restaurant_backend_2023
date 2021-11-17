@@ -1,10 +1,11 @@
-﻿@inject IHttpService http;  
-@inject IMatToaster toast;  
+﻿@inject IHttpService http;
+@inject IMatToaster toast;
+@inject IStringLocalizer<Resource> lang
 
 <Com is_visible="IsVisible">
     @if (is_loading)
     {
-    <Button class_name="uk-button uk-button-primary"><Spinner /></Button>
+        <Button class_name="uk-button uk-button-primary"><Spinner /></Button>
     }
     else
     {
@@ -44,10 +45,13 @@
     [Parameter] public string ApiFilter { get; set; } = "";
     List<AttachFilesModel> files = new List<AttachFilesModel>();
 
-    public string api_url {
-        get {
+    public string api_url
+    {
+        get
+        {
             var url = $"AttachFiles?$filter=is_deleted eq false";
-            if (!string.IsNullOrEmpty(ApiFilter)) {
+            if (!string.IsNullOrEmpty(ApiFilter))
+            {
                 url = $"{url} and {ApiFilter}";
             }
             return url;
@@ -65,11 +69,11 @@
         var resp = await http.ApiGetOData(api_url);
         if (resp.IsSuccess)
         {
-            files =JsonSerializer.Deserialize<List<AttachFilesModel>>(resp.Content.ToString());
+            files = JsonSerializer.Deserialize<List<AttachFilesModel>>(resp.Content.ToString());
         }
         else
         {
-            toast.Add("There's something went wrong. Please try again.", MatToastType.Warning);
+            toast.Add(lang["Load data fail. Please try again."], MatToastType.Warning);
 
         }
 

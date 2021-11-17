@@ -260,14 +260,14 @@
 
             if (new_password.Length > 0 && new_password.Length < 2)
             {
-                Toaster.Add(lang["Password is too short or empty."], MatToastType.Warning);
+                Toaster.Add(lang["Password is too short or empty"], MatToastType.Warning);
                 user.is_loading = false;
                 return;
             }
 
             if (new_password.Length > 0 || old_username != user.username)
             {
-                if (!await js.Confirm(lang["Change your username or password will be auto logout."], lang["Are you sure to proceed?"], SweetAlertMessageType.question))
+                if (!await js.Confirm(lang["Logout"], "You have to logout after change username or password.", SweetAlertMessageType.info))
                 {
                     user.is_loading = false;
                     return;
@@ -284,7 +284,7 @@
         if (res.IsSuccess)
         {
             var u = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
-            toast.Add(lang["Save Successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MatToastType.Success);
             await LoadData();
             is_dialog_open = false;
         }
@@ -299,7 +299,7 @@
     {
         if (u.id == gv.current_login_user.id)
         {
-            toast.Add(lang["You cannot change status of the current login user."], MatToastType.Warning);
+            toast.Add(lang["You cannot disable current login user."], MatToastType.Warning);
             return;
         }
 
@@ -326,7 +326,7 @@
     async Task OnRestore(UserModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm(lang["Restore User"], lang["Are you sure you want to restore "] + p.username + "?", SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"], SweetAlertMessageType.question))
         {
 
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
@@ -338,7 +338,7 @@
                     state.pager.current_page = state.pager.current_page - 1;
                 }
                 await LoadData();
-                toast.Add(lang["Restore user successfully"], MatToastType.Success);
+                toast.Add(lang["Restore record successfully"], MatToastType.Success);
             }
             else
             {
@@ -355,13 +355,13 @@
     {
         if (p.id == gv.current_login_user.id)
         {
-            toast.Add(lang["You cannot delete current login user."], MatToastType.Warning);
+            toast.Add(lang["You cannot delete current login user"], MatToastType.Warning);
             return;
         }
 
 
         p.is_loading = true;
-        if (await js.Confirm(lang["Delete User"], lang["Are you sure you want to delete"] + p.full_name + "?", SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -374,7 +374,7 @@
 
                 await LoadData();
             }
-            toast.Add(lang["Delete user successfully"], MatToastType.Success);
+            toast.Add(lang["Delete record successfully"], MatToastType.Success);
 
         }
 

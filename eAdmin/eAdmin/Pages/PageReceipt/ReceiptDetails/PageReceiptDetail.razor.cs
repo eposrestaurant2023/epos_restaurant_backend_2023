@@ -51,7 +51,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
             }
             else
             { 
-                toast.Add("Error getting data.", MatToastType.Warning);
+                toast.Add(lang["Load data fail. Please try again."], MatToastType.Warning);
 
                 is_loading_data = false;
             }

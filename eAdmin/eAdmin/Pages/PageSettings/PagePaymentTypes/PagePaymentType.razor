@@ -205,7 +205,7 @@
         var resp = await http.ApiPost($"BusinessBranch/Save", b);
         if (resp.IsSuccess)
         {
-            toast.Add("Change status successfully", MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MatToastType.Success);
         }
         b.is_change_status = false;
     }
@@ -227,14 +227,14 @@
     async Task OnDelete(PaymentTypeModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete Payment Type", "Are you sure you want to delete this record?"))
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
         {
             var resp = await http.ApiPost($"PaymentType/delete/{p.id}");
             if (resp.IsSuccess)
             {
                 await LoadData();
             }
-            toast.Add("Delete Payment Type successfully", MatToastType.Success);
+            toast.Add(lang["Delete record successfully"], MatToastType.Success);
         }
         p.is_loading = false;
     }
@@ -242,14 +242,14 @@
     async Task OnRestore(PaymentTypeModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Restore Payment Type", "Are you sure you want to restore this record?"))
+        if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"]))
         {
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
             {
                 await LoadData();
             }
-            toast.Add("Restore Payment Type successfully", MatToastType.Success);
+            toast.Add(lang["Restore record successfully"], MatToastType.Success);
         }
         p.is_loading = false;
     }
@@ -273,7 +273,7 @@
         var resp = await http.ApiPost($"PaymentType/status/{p.id}");
         if (resp.IsSuccess)
         {
-            toast.Add("Change status successfully", MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MatToastType.Success);
             await LoadData();
         }
     }
