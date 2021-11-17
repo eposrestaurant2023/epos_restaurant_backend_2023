@@ -62,7 +62,7 @@ namespace eAdmin.Pages.PageProducts.PageModifiers
             var default_view = gv.GetDefaultModuleView("page_sale");
             if (default_view != null)
             {
-                state.page_title = default_view.title; 
+                state.page_title = lang[default_view.title]; 
             } 
 
             if(state.filters.Where(r=>r.key== "product_modifier_id").Count() == 0)

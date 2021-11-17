@@ -47,15 +47,15 @@
                    ScrollClass="uk-overflow-auto"
                    EmptyText="There is no record.">
                 <TableHeader> 
-                    @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                    @HeaderTemplate("customer/customer_name", "Customer", "col-auto")
-                    <ThCenter>Qty / Time(s)</ThCenter>
-                    <ThRight>Price</ThRight>
-                    <ThRight>Discount</ThRight>
-                    <ThRight>Amount</ThRight>
-                    <ThCenter>Created Date</ThCenter>
-                    <Th>Created By</Th>
-                    <ThCenter>Status</ThCenter>
+                    @HeaderTemplate("document_number", lang["Sale_Document_No"], "uk-text-center")
+                    @HeaderTemplate("customer/customer_name", lang["Customer"], "col-auto")
+                    <ThCenter>@lang["Qty"] / @lang["Time(s)"]</ThCenter>
+                    <ThRight>@lang["Price"]</ThRight>
+                    <ThRight>@lang["Discount"]</ThRight>
+                    <ThRight>@lang["Amount"]</ThRight>
+                    <ThCenter>@lang["Created Date"]</ThCenter>
+                    <Th>@lang["Created by"]</Th>
+                    <ThCenter>@lang["Status"]</ThCenter>
                     <th class="uk-width-auto"></th>
                 </TableHeader>
                 <RowTemplate Context="p"> 
@@ -142,7 +142,7 @@
             var default_view = gv.GetDefaultModuleView("page_sale_product");
             if (default_view != null)
             {
-                state.page_title = default_view.title;
+                state.page_title = lang[default_view.title];
                 state.filters = default_view.filters;
             }
         }

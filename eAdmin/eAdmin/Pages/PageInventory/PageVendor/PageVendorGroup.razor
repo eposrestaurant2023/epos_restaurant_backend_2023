@@ -4,7 +4,7 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Vendor Group"></Title>
+    <Title Value="@lang["Vendor Group"]"></Title>
     <PageContainer roles="@gv.GetRole("vendor_group_management")">
         <PageHeader>
             <HeaderLeft>
@@ -13,7 +13,7 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_vendor_group")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
@@ -122,7 +122,7 @@
             var default_view = gv.GetDefaultModuleView("page_vendor_group");
             if (default_view != null)
             {
-                state.page_title = default_view.title;
+                state.page_title = lang[default_view.title];
                 state.filters = default_view.filters;
             }
         }
