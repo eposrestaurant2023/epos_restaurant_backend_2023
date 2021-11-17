@@ -12,17 +12,17 @@
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
-                            <ModuleView sub_title="Product Category" module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
+                            <ModuleView sub_title="Role" module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("role_add")" url="role/new" custom_class="button-large">New User Type</AddButton>
+                <AddButton roles="@gv.GetRole("role_add")" url="role/new" custom_class="button-large">@lang["​Add New Role"]</AddButton>
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
                 <RefreshButton OnClick="@(()=>LoadData(""))" />
             </HeaderRight>
@@ -128,7 +128,7 @@
         if (state.page_title == "")
         {
             state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
-            state.page_title = $"All Role";
+            state.page_title = lang["All Role"];
             var default_view = gv.GetDefaultModuleView("page_role");
             if (default_view != null)
             {
@@ -219,7 +219,7 @@
             await LoadData();
             is_open = false;
             role = new RoleModel();
-            toast.Add("Save successfully", MatToastType.Success);
+            toast.Add(lang["Save successfully"], MatToastType.Success);
         }
         else
         {
@@ -232,7 +232,7 @@
     void AddNew()
     {
         is_open = true;
-        ModalTitle = $"New Role";
+        ModalTitle = lang["New Role"];
     }
 
     async Task OnToogleStatus(RoleModel p)
@@ -252,7 +252,7 @@
     {
         if (gv.current_login_user.role.role_name == r.role_name)
         {
-            toast.Add("You cannot change status of the current login user type.",MatToastType.Warning);
+            toast.Add(lang["You cannot change status of the current login user type."],MatToastType.Warning);
             return;
         }
         var resp = await http.ApiPost(controller_api + "/status/" + r.id);
@@ -266,14 +266,14 @@
                 await LoadData();
             }
 
-            toast.Add("Save Successfully", MatToastType.Success);
+            toast.Add(lang["Save Successfully"], MatToastType.Success);
 
         }
     }
     async Task OnDelete(RoleModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete Role", "Are you sure you want to delete this this record?", SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete Role"], lang["Are you sure you want to delete this this record?"], SweetAlertMessageType.question))
         {
 
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
@@ -289,7 +289,7 @@
 
                 await LoadData();
             }
-            toast.Add("Delete Role successfully", MatToastType.Success);
+            toast.Add(lang["Delete Role successfully"], MatToastType.Success);
 
         }
 
@@ -300,7 +300,7 @@
     async Task OnRestore(RoleModel p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Restore Role", "Are you sure you want to restore this this record?", SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Restore Role"], lang["Are you sure you want to restore this this record ?"], SweetAlertMessageType.question))
         {
 
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
@@ -313,7 +313,7 @@
                 }
                 await LoadData();
             }
-            toast.Add("Restore Role successfully", MatToastType.Success);
+            toast.Add(lang["Restore Role successfully"], MatToastType.Success);
 
         }
         p.is_loading = false;

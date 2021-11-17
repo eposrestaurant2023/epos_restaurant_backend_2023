@@ -458,8 +458,17 @@
   <data name="New Customer" xml:space="preserve">
     <value>បង្កើតអតិថិជន</value>
   </data>
-  <data name="Business Branch" xml:space="preserve">
+	  <data name="Business Branch" xml:space="preserve">
     <value>សាខាអាជីវកម្ម</value>
+  </data>
+  <data name="Business Branch Kh" xml:space="preserve">
+    <value>សាខាអាជីវកម្មជាភាសាខ្មែរ</value>
+  </data>
+		  <data name="Website" xml:space="preserve">
+    <value>គេហទំព័រ</value>
+  </data>
+	  <data name="Business Branch En" xml:space="preserve">
+    <value>សាខាអាជីវកម្មជាភាសាអង់គ្លេស</value>
   </data>
   <data name="Total Amount" xml:space="preserve">
     <value>ទឹកប្រាក់សរុប</value>
@@ -846,11 +855,41 @@
   <data name="Unit of Measurement (UoM)" xml:space="preserve">
     <value>ខ្នាត</value>
   </data>
+	<data name="Password" xml:space="preserve">
+    <value>លេខសម្ងាត់​</value>
+  </data>
+	 <data name="Password" xml:space="preserve">
+    <value>លេខសម្ងាត់​</value>
+  </data>
+	 <data name="Account" xml:space="preserve">
+    <value>គណនី​</value>
+  </data>
   <data name="User Account" xml:space="preserve">
     <value>គណនី​អ្នកប្រើប្រាស់</value>
   </data>
+	  <data name="Full Name" xml:space="preserve">
+    <value>ឈ្មោះ​ពេញ</value>
+  </data>
+	  <data name="User Name" xml:space="preserve">
+    <value>ឈ្មោះអ្នកប្រើប្រាស់</value>
+  </data>
+	<data name="User Name" xml:space="preserve">
+    <value>ឈ្មោះអ្នកប្រើប្រាស់</value>
+  </data>
   <data name="User Setup" xml:space="preserve">
     <value>អ្នកប្រើប្រាស់</value>
+  </data>
+	 <data name="Active User" xml:space="preserve">
+    <value>អ្នកប្រើប្រាស់សកម្ម</value>
+  </data>
+	 <data name="Inactive User" xml:space="preserve">
+    <value>អ្នកប្រើប្រាស់អសកម្ម</value>
+  </data>
+		 <data name="Deleted User" xml:space="preserve">
+    <value>អ្នកប្រើប្រាស់បានលុប</value>
+  </data>
+	 <data name="All User" xml:space="preserve">
+    <value>អ្នកប្រើប្រាស់ទាំងអស់</value>
   </data>
   <data name="User Type" xml:space="preserve">
     <value>ប្រភេទអ្នកប្រើប្រាស់</value>
@@ -1237,7 +1276,7 @@
 	<data name="All Stock Stransfer History" xml:space="preserve">
     <value>ប្រវត្តិការផ្ទេរទំនិញទាំងអស់</value>
   </data>
-  <data name="New Stock Stransfer" xml:space="preserve">
+  <data name="New Stock Transfer" xml:space="preserve">
     <value>បញ្ជូលការផ្ទេរទំនិញថ្មី</value>
   </data>
   <data name="New Customer Group" xml:space="preserve">
@@ -1477,14 +1516,42 @@
 	<data name="All Stock Take History" xml:space="preserve">
     <value>ប្រវត្តិបញ្ជូលទំនិញទាំងអស់</value>
   </data>
-	<data name="Stock Take" xml:space="preserve">
-    <value>បញ្ជូលទំនិញ</value>
+	<data name="All Stock Take" xml:space="preserve">
+    <value>បញ្ជូលទំនិញទាំងអស់</value>
+  </data>
+		<data name="Deleted Stock Take" xml:space="preserve">
+    <value>បញ្ជូលទំនិញបានលុប</value>
+  </data>
+		<data name="Deleted Stock Take" xml:space="preserve">
+    <value>បញ្ជូលទំនិញបានលុប</value>
+  </data>
+		<data name="ST#" xml:space="preserve">
+    <value>លេខបញ្ជូលទំនិញ</value>
+  </data>
+	<data name="Stock Take#" xml:space="preserve">
+    <value>លេខបញ្ជូលទំនិញ</value>
   </data>
   <data name="Stock take item cannot be empty." xml:space="preserve">
     <value>សូមបញ្ជូលទំនិញ។</value>
   </data>
 	<data name="Stock Transfer" xml:space="preserve">
     <value>ថ្ផ្ទេរទំនិញ</value>
+  </data>
+	<data name="Stock Transfer#" xml:space="preserve">
+    <value>លេខថ្ផ្ទេរទំនិញ</value>
+  </data>
+
+	<data name="SF Date" xml:space="preserve">
+    <value>ថ្ងៃថ្ផ្ទេរទំនិញ</value>
+  </data>
+	<data name="SF#" xml:space="preserve">
+    <value>លេខថ្ផ្ទេរទំនិញ</value>
+  </data>
+		<data name="All Stock Transfer" xml:space="preserve">
+    <value>ថ្ផ្ទេរទំនិញទាំងអស់</value>
+  </data>
+	<data name="Deleted Stock Transfer" xml:space="preserve">
+    <value>ថ្ផ្ទេរទំនិញដែលបានលុប</value>
   </data>
   <data name="Stock Transfer Date" xml:space="preserve">
     <value>ថ្ងៃផ្ទេរទំនិញ</value>
@@ -1603,8 +1670,32 @@
   <data name="Revenue Group" xml:space="preserve">
     <value>ក្រុមចំណូល</value>
   </data>
+	  <data name="Edit Role" xml:space="preserve">
+    <value>កែប្រែសិទ្ធអ្នកប្រើប្រាស់</value>
+  </data>
+	<data name="​Add New Role" xml:space="preserve">
+    <value>បង្កើតសិទ្ធអ្នកប្រើប្រាស់ថ្មី</value>
+  </data>
+	<data name="New Role" xml:space="preserve">
+    <value>បង្កើតសិទ្ធអ្នកប្រើប្រាស់</value>
+  </data>
+	 <data name="Role Name" xml:space="preserve">
+    <value>ឈ្មោះសិទ្ធអ្នកប្រើប្រាស់</value>
+  </data>
   <data name="Role" xml:space="preserve">
-    <value>តួនាទីអ្នកប្រើប្រាស់</value>
+    <value>សិទ្ធអ្នកប្រើប្រាស់</value>
+  </data>
+	<data name="Active Role" xml:space="preserve">
+    <value>សិទ្ធអ្នកប្រើប្រាស់សកម្ម</value>
+  </data>
+		<data name="Inactive Role" xml:space="preserve">
+    <value>សិទ្ធអ្នកប្រើប្រាស់អសកម្ម</value>
+  </data>
+			<data name="Deleted Role" xml:space="preserve">
+    <value>សិទ្ធអ្នកប្រើប្រាស់ដែលបានលុប</value>
+  </data>
+	  <data name="All Role" xml:space="preserve">
+    <value>សិទ្ធអ្នកប្រើប្រាស់ទាំងអស់</value>
   </data>
   <data name="Select Branch" xml:space="preserve">
     <value>ជ្រើសរើសសាខា</value>
@@ -1642,8 +1733,20 @@
   <data name="Select Price Rule" xml:space="preserve">
     <value>ជ្រើសរើសប្រភេទតម្លៃ</value>
   </data>
-	<data name="Company Name" xml:space="preserve">
+		<data name="Company Name" xml:space="preserve">
     <value>ឈ្មោះ​ក្រុម​ហ៊ុន    </value>
+  </data>
+	<data name="Contact Name" xml:space="preserve">
+    <value>ឈ្មោះ​ទំនាក់ទំនង</value>
+  </data>
+	<data name="Contact Phone" xml:space="preserve">
+    <value>លេខទំនាក់ទំនង</value>
+  </data>
+	<data name="Contact Office Phone" xml:space="preserve">
+    <value>លេខទំនាក់ទំនងការិយាល័យ</value>
+  </data>
+		<data name="Company Name KH" xml:space="preserve">
+    <value>ឈ្មោះ​ក្រុម​ហ៊ុន KH</value>
   </data>
 	<data name="Active Vendor" xml:space="preserve">
     <value>អ្នកផ្គត់ផ្គង់សកម្ម</value>
@@ -1756,6 +1859,12 @@
   <data name="Discount Value" xml:space="preserve">
     <value>តម្លៃនៃបញ្ចុះតម្លៃ</value>
   </data>
+		  <data name="Contact Email" xml:space="preserve">
+    <value>អ៊ីម៉ែលទំនាក់ទំនង</value>
+  </data>
+	  <data name="Office Email" xml:space="preserve">
+    <value>អ៊ីម៉ែលការិយាល័យ</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>អ៊ីម៉ែល</value>
   </data>
@@ -1794,6 +1903,9 @@
   </data>
 	<data name="Other information" xml:space="preserve">
     <value>ព័ត៌មាន​ផ្សេងៗ</value>
+  </data>
+		  <data name="Stock Transfer Information" xml:space="preserve">
+    <value>ព័ត៌មានការផ្ទេរទំនិញ</value>
   </data>
 	  <data name="Ingredient Product Information" xml:space="preserve">
     <value>ព័ត៌មាន​អំពីគ្រឿងផ្សំ</value>
@@ -1965,6 +2077,9 @@
   </data>
   <data name="Please select menu" xml:space="preserve">
     <value>សូមជ្រើសរើសម៉ឺនុយ</value>
+  </data>
+	  <data name="Please choose Business branch." xml:space="preserve">
+    <value>សូមជ្រើសរើសសាខាអាជីវកម្ម</value>
   </data>
   <data name="Restore record successfully" xml:space="preserve">
     <value>ទាញទិន្នន័យមកវិញបានជោគជ័យ</value>

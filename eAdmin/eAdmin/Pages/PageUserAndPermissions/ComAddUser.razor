@@ -16,7 +16,7 @@
     </UIContainerBox>
     
     <UIContainerBox Title="@lang["Account"]">
-        <TextInput label="@lang["User Code"]" @bind-text="@(user.user_code)">
+        <TextInput label="@lang["Code"]" @bind-text="@(user.user_code)">
             <ValidationMessage For="@(()=>user.user_code)" />
         </TextInput>
 

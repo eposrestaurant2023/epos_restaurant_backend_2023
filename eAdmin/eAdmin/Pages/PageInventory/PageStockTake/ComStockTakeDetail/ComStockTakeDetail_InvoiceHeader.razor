@@ -22,21 +22,21 @@
         </HeaderLeft>
         <HeaderRight ClassName="uk-flex-top">
             <div class="uk-text-right">
-                <h2 class="uk-text-uppercase uk-margin-small-bottom">STOCK TAKE</h2>
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["Stock Take"]</h2>
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
                     <AuthorizeView Roles="@gv.GetRole("stock_take_view")">
-                        <span>ST# @model.document_number</span>
+                        <span>@lang["ST#"] @model.document_number</span>
                     </AuthorizeView>
                     }
                     else
                     {
-                <span>ST# @model.document_number</span>
+                <span>@lang["ST#"] @model.document_number</span>
                     }
 
                 </div>
-                <div>Total Amount</div>
+                <div>@lang["Total Amount"]</div>
                 <div class="font-xxl"> @model.total_amount.ToString(gv.currency_format)</div>
             </div>
         </HeaderRight>
