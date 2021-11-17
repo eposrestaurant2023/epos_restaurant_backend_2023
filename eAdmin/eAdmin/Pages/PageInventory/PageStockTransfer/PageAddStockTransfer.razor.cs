@@ -175,7 +175,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             }
             else
             {
-                toast.Add(resp.Content, MatToastType.Warning);
+                toast.Add(lang[resp.Content], MatToastType.Warning);
                 is_saving = false;
             }
         }

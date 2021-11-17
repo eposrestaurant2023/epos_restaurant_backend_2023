@@ -143,7 +143,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
             if (model.active_stock_take_products.Count() <= 0)
             {
-                toast.Add(lang["Stock take item cannot be empty."], MatToastType.Warning);
+                toast.Add(lang["Please select product."], MatToastType.Warning);
                 return;
             }
             
@@ -162,7 +162,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             }
             else
             {
-                toast.Add(resp.Content, MatToastType.Warning);
+                toast.Add(lang[resp.Content], MatToastType.Warning);
                 is_saving = false;
             }
         }

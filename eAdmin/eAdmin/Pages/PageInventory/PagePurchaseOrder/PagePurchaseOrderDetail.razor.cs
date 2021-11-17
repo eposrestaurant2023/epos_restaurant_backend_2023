@@ -114,17 +114,17 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         public async Task DeletePayment_Click(PurchaseOrderPaymentModel p)
         {
             is_loading_data = true;
-            if (await js.Confirm("Delete payment", "Are you sure you want to delete this payment?", SweetAlertMessageType.question))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
             {
                 var resp = await http.ApiPost("payment/sale/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
                     await LoadData();
-                    toast.Add("Delete payment successfully", MatBlazor.MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MatBlazor.MatToastType.Success);
                 }
                 else
                 {
-                    toast.Add(resp.Content.ToString(), MatBlazor.MatToastType.Warning);
+                    toast.Add(lang[resp.Content.ToString()], MatBlazor.MatToastType.Warning);
                 }
             }
             is_loading_data = false;
@@ -150,13 +150,13 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         public async Task MarkAsFulfilled()
         {
             is_loading_data = true;
-            if (await js.Confirm("Make As Fulfilled", "Are you sure you want to make as fulfilled?"))
+            if (await js.Confirm("Make As Fulfilled", lang["Are you sure you want to make as fulfilled?"]))
             {
                 var resp = await http.ApiPost("PurchaseOrder/MarkAsFulfilled/" + model.id);
                 if (resp.IsSuccess)
                 {
                     await LoadData();
-                    toast.Add("Mark as fulfilled successfully", MatToastType.Success);
+                    toast.Add(lang["Mark as fulfilled successfully"], MatToastType.Success);
                 }
             }
 

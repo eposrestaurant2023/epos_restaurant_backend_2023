@@ -86,13 +86,13 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         public async Task MarkAsFulfilled()
         {
             is_loading_data = true;
-            if (await js.Confirm("Make As Fulfilled", "Are you sure you want to make as fulfilled?"))
+            if (await js.Confirm(lang["Make As Fulfilled"], lang["Are you sure you want to make as fulfilled?"]))
             {
                 var resp = await http.ApiPost("StockTransfer/MarkAsFulfilled/" + model.id);
                 if (resp.IsSuccess)
                 {
                     await LoadData();
-                    toast.Add("Mark as fulfilled successfully", MatToastType.Success);
+                    toast.Add(lang["Mark as fulfilled successfully"], MatToastType.Success);
                 }
             }
 

@@ -362,12 +362,12 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         public async Task OnDelete(PurchaseOrderModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete PO", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete PO successfully", MatToastType.Success);
+                    toast.Add("Delete record successfully", MatToastType.Success);
                     if (models.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;

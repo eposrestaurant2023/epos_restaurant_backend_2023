@@ -1698,13 +1698,82 @@
   <data name="Update data successfully." xml:space="preserve">
     <value>កែប្រែទិន្នន័យបានបានជោគជ័យ។</value>
   </data>
+  <data name="Add New Vendor" xml:space="preserve">
+    <value>បញ្ជូលអ្នកផ្គត់ផ្គង់ថ្មី</value>
+  </data>
+  <data name="Are you sure you want to make as fulfilled?" xml:space="preserve">
+    <value>តើអ្នកពិតជាចង់ mark as fulfilled មែនទេ?</value>
+  </data>
   <data name="Are you sure you want to​ cancel make as fulfilled?" xml:space="preserve">
     <value>តើអ្នកពិតជាចង់លុប mark as fulfilled មែនទេ?</value>
+  </data>
+  <data name="Cancel Make As Fulfilled" xml:space="preserve">
+    <value>លុប Make As Fulfilled</value>
   </data>
   <data name="Cancel Mark as fulfilled successfully" xml:space="preserve">
     <value>Cancel Mark as fulfilled បានជោគជ័យ</value>
   </data>
   <data name="Cancel Mark as fulfilled successfully." xml:space="preserve">
     <value>Cancel Mark as fulfilled បានជោគជ័យ។</value>
+  </data>
+  <data name="Cannot transfer to same stock location" xml:space="preserve">
+    <value>មិនអាចផ្ទេរទំនិញទៅឃ្លាំងដូចគ្នាបានទេ</value>
+  </data>
+  <data name="Cannot transfer to same stock location." xml:space="preserve">
+    <value>មិនអាចផ្ទេរទំនិញទៅឃ្លាំងដូចគ្នាបានទេ។</value>
+  </data>
+  <data name="Load data fail" xml:space="preserve">
+    <value>ទាញទិន្នន័យបរាជ័យ</value>
+  </data>
+  <data name="Load data fail." xml:space="preserve">
+    <value>ទាញទិន្នន័យបរាជ័យ។</value>
+  </data>
+  <data name="Mark as fulfilled successfull." xml:space="preserve">
+    <value>Mark as fulfilled បានជោគជ័យ។</value>
+  </data>
+  <data name="Mark as fulfilled successfully" xml:space="preserve">
+    <value>Mark as fulfilled បានជោគជ័យ</value>
+  </data>
+  <data name="Please select from business branch" xml:space="preserve">
+    <value>សូមជ្រើសរើសសាខាផ្ទេរទំនិញចេញ</value>
+  </data>
+  <data name="Please select from business branch." xml:space="preserve">
+    <value>សូមជ្រើសរើសសាខាផ្ទេរទំនិញចេញ។</value>
+  </data>
+  <data name="Please select from stock location" xml:space="preserve">
+    <value>សូមជ្រើសរើសឃ្លាំងផ្ទេរទំនិញចេញ</value>
+  </data>
+  <data name="Please select from stock location." xml:space="preserve">
+    <value>សូមជ្រើសរើសឃ្លាំងផ្ទេរទំនិញចេញ។</value>
+  </data>
+  <data name="Please select product" xml:space="preserve">
+    <value>សូមជ្រើសរើសទំនិញ</value>
+  </data>
+  <data name="Please select product." xml:space="preserve">
+    <value>សូមជ្រើសរើសទំនិញ។</value>
+  </data>
+  <data name="Please select products to make purchase order" xml:space="preserve">
+    <value>សូមជ្រើសរើសទំនិញដើម្បីធ្វើបញ្ជាទិញ</value>
+  </data>
+  <data name="Please select to business branch" xml:space="preserve">
+    <value>សូមជ្រើសរើសសាខាទទួលទំនិញ</value>
+  </data>
+  <data name="Please select to business branch." xml:space="preserve">
+    <value>សូមជ្រើសរើសសាខាទទួលទំនិញ។</value>
+  </data>
+  <data name="Please select to stock location" xml:space="preserve">
+    <value>សូមជ្រើសរើសឃ្លាំងទទួលទំនិញ</value>
+  </data>
+  <data name="Please select to stock location." xml:space="preserve">
+    <value>សូមជ្រើសរើសឃ្លាំងទទួលទំនិញ។</value>
+  </data>
+  <data name="Save data fail." xml:space="preserve">
+    <value>រក្សាទុកទិន្នន័យបរាជ័យ</value>
+  </data>
+  <data name="Search product fail" xml:space="preserve">
+    <value>ស្វែងរកទំនិញបរាជ័យ</value>
+  </data>
+  <data name="Stock transfer item cannot be empty." xml:space="preserve">
+    <value>សូមជ្រើសរើសទំនិញដើម្បើធ្វើការផ្ទេរចេញ។</value>
   </data>
 </root>

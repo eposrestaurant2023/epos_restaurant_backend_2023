@@ -185,7 +185,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
             if (model.active_purchase_order_products.Count() <= 0)
             {
-                toast.Add(lang["PO item cannot be empty."], MatToastType.Warning);
+                toast.Add(lang["Please select products to make purchase order"], MatToastType.Warning);
                 return;
             }
              
@@ -214,7 +214,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             }
             else
             {
-                toast.Add(resp.Content, MatToastType.Warning);
+                toast.Add(lang[resp.Content], MatToastType.Warning);
                 is_saving = false;
             }
         }

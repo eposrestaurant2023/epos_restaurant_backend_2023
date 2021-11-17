@@ -35,17 +35,17 @@
                 {
                     model = JsonSerializer.Deserialize<VendorModel>
                         (res.Content.ToString());
-                    title = $"Edit : {model.vendor_name}";
+                    title = $"{lang["Edit"]} : {model.vendor_name}";
                 }
                 else
                 {
-                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
                     is_loading = false;
                 }
             }
             else
             {
-                title = "Add New Vendor";
+                title = lang["Add New Vendor"];
             }
             is_loading = false;
         }
@@ -62,7 +62,7 @@
             if (res.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
-                toast.Add("Saving vendor successfully", MatToastType.Success);
+                toast.Add(lang["Saving vendor successfully"], MatToastType.Success);
                 await OnSave.InvokeAsync(model);
                 await is_openedChanged.InvokeAsync(false);
 
@@ -70,7 +70,7 @@
             else
             {
                 is_saving = false;
-                toast.Add(res.Content.ToString(), MatToastType.Warning);
+                toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
 
             }
             //testing

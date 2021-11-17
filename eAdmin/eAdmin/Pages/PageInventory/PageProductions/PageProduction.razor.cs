@@ -346,12 +346,12 @@ namespace eAdmin.Pages.PageInventory.PageProductions
         public async Task OnDelete(ProductionModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm(lang["Delete Production"], lang["Are you sure you want to delete this record?"]))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add(lang["Delete Production successfully"], MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MatToastType.Success);
                     if (models.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;

@@ -144,7 +144,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         public async Task OnDelete(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm(lang["Delete Product"], lang["Are you sure you want to delete this record?"]))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
@@ -163,7 +163,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         public async Task OnRestore(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Restore Ingredient Product", "Are you sure you want to restore this record?"))
+            if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 

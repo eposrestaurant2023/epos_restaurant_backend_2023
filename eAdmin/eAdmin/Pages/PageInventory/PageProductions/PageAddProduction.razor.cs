@@ -143,7 +143,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
 
             if (model.active_production_products.Count() <= 0)
             {
-                toast.Add(lang["production item cannot be empty."], MatToastType.Warning);
+                toast.Add(lang["Production item cannot be empty."], MatToastType.Warning);
                 return;
             }
 
@@ -170,7 +170,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             }
             else
             {
-                toast.Add(resp.Content, MatToastType.Warning);
+                toast.Add(lang[resp.Content], MatToastType.Warning);
                 is_saving = false;
             }
         }

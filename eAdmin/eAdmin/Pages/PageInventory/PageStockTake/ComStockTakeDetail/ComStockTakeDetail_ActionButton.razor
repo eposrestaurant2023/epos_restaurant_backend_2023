@@ -53,18 +53,18 @@
     async Task DeleteInvoice_Click()
     {
         is_loading = true;
-        if (await js.Confirm(lang["Delete Stock Take"], lang["Are you sure you want to delete this stock take?"], SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost($"stocktake/delete/{model.id}");
             if (resp.IsSuccess)
             {
                 model.is_deleted = !model.is_deleted;
                 await modelChanged.InvokeAsync(model);
-                toast.Add(lang["Delete stock take successfully."], MatToastType.Success);
+                toast.Add(lang["Delete record successfully."], MatToastType.Success);
             }
             else
             {
-                toast.Add(resp.Content, MatToastType.Warning);
+                toast.Add(lang[resp.Content], MatToastType.Warning);
             }
         }
 
@@ -76,7 +76,7 @@
 
 
         is_loading = true;
-        if (await js.Confirm(lang["Restore Stock Take"], lang["Are you sure you want to restore this stock take?"], SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost($"stocktake/delete/{model.id}");
             if (resp.IsSuccess)
@@ -84,11 +84,11 @@
 
                 model.is_deleted = !model.is_deleted;
                 await modelChanged.InvokeAsync(model);
-                toast.Add(lang["Restore stock take successfully."], MatToastType.Success);
+                toast.Add(lang["Restore record successfully."], MatToastType.Success);
             }
             else
             {
-                toast.Add(resp.Content, MatToastType.Warning);
+                toast.Add(lang[resp.Content], MatToastType.Warning);
             }
         }
 
@@ -99,7 +99,7 @@
     public async Task CancelMarkAsFulfilled()
     {
         is_loading = true;
-        if (await js.Confirm("Cancel Make As Fulfilled", "Are you sure you want to​ cancel make as fulfilled?"))
+        if (await js.Confirm(lang["Cancel Make As Fulfilled"], lang["Are you sure you want to​ cancel make as fulfilled?"]))
         {
 
             var resp = await http.ApiPost("stocktake/CancelMarkAsFulfilled/" + model.id);

@@ -224,7 +224,7 @@
         }
         else
         {
-            toast.Add("Error Loading Payment.", MatToastType.Warning);
+            toast.Add(lang["Load data fail."], MatToastType.Warning);
 
         }
     }
@@ -268,7 +268,7 @@
         }
         if (model.payment_type_id <= 0)
         {
-            toast.Add(lang["Payment amount cannot greater than po balance."], MatToastType.Warning);
+            toast.Add(lang["Payment amount cannot greater than balance."], MatToastType.Warning);
             is_saving = false;
             return;
         }
@@ -311,7 +311,7 @@
         }
         else
         {
-            toast.Add("Load data fail. Please try again.", MatToastType.Warning);
+            toast.Add(lang["Load data fail. Please try again."], MatToastType.Warning);
 
         }
 

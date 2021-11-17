@@ -346,12 +346,12 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         public async Task OnDelete(StockTakeModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Stock Take", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete Stock Take successfully", MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MatToastType.Success);
                     if (models.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
