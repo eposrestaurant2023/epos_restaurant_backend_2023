@@ -186,10 +186,9 @@
   <data name="Peroid Date" xml:space="preserve">
     <value>កាលបរិច្ឆេទ</value>
   </data>
-	<data name="Sale Date" xml:space="preserve">
+  <data name="Sale Date" xml:space="preserve">
     <value>កាលបរិច្ឆេទលក់</value>
   </data>
- 
   <data name="Receipt" xml:space="preserve">
     <value>បង្កាន់ដៃ</value>
   </data>
@@ -223,16 +222,16 @@
   <data name="Cashier Shift No" xml:space="preserve">
     <value>លេខវេនធ្វើការ</value>
   </data>
-	<data name="Open Product" xml:space="preserve">
+  <data name="Open Product" xml:space="preserve">
     <value>បើកទំនិញ</value>
   </data>
-	<data name="Allow Discount" xml:space="preserve">
+  <data name="Allow Discount" xml:space="preserve">
     <value>អនុញ្ញាតការបញ្ចុះតម្លៃ</value>
   </data>
-	<data name="Allow Free" xml:space="preserve">
+  <data name="Allow Free" xml:space="preserve">
     <value>អនុញ្ញាតឲ្យឥតគិតថ្លៃ</value>
   </data>
-	<data name="Allow Change Price" xml:space="preserve">
+  <data name="Allow Change Price" xml:space="preserve">
     <value>អនុញ្ញាតឲ្យប្តូរតម្លៃ</value>
   </data>
   <data name="Products Sold" xml:space="preserve">
@@ -256,7 +255,7 @@
   <data name="No comment yet." xml:space="preserve">
     <value>មិនមានទាន់មតិ</value>
   </data>
-	<data name="Delete product successfully" xml:space="preserve">
+  <data name="Delete product successfully" xml:space="preserve">
     <value>លុបទំនិញបានជោគជ័យ</value>
   </data>
   <data name="Delete comment successfully." xml:space="preserve">
@@ -280,7 +279,7 @@
   <data name="Delete payment" xml:space="preserve">
     <value>លុបការទូទាត់</value>
   </data>
-	<data name="Are you sure you want to restore this record?" xml:space="preserve">
+  <data name="Are you sure you want to restore this record?" xml:space="preserve">
     <value>តើអ្នកពិតជាចង់ទាញយកមែនទេ?</value>
   </data>
   <data name="Are you sure you want to delete this record?" xml:space="preserve">
@@ -427,7 +426,6 @@
   <data name="Currency Exchange Rate" xml:space="preserve">
     <value>អត្រាប្តូរប្រាក់</value>
   </data>
-
   <data name="Working Date" xml:space="preserve">
     <value>ថ្ញៃធ្វើការ</value>
   </data>
@@ -440,7 +438,7 @@
   <data name="Document #" xml:space="preserve">
     <value>លេខកូដ</value>
   </data>
-	<data name="Referance #" xml:space="preserve">
+  <data name="Referance #" xml:space="preserve">
     <value>លេខកូដយោង</value>
   </data>
   <data name="Customer Group" xml:space="preserve">
@@ -497,10 +495,10 @@
   <data name="Select Customer" xml:space="preserve">
     <value>សូមជ្រើសរើសអតិថិជន</value>
   </data>
-	<data name="Multiples" xml:space="preserve">
+  <data name="Multiples" xml:space="preserve">
     <value>ចំនួនមេគុណ</value>
   </data>
-	<data name="Unit (multiplier)" xml:space="preserve">
+  <data name="Unit (multiplier)" xml:space="preserve">
     <value>ឯកតា (មេគុណ)</value>
   </data>
   <data name="Unit" xml:space="preserve">
@@ -530,7 +528,7 @@
   <data name="Paid" xml:space="preserve">
     <value>បានបង់</value>
   </data>
-	<data name="Total" xml:space="preserve">
+  <data name="Total" xml:space="preserve">
     <value>សរុប</value>
   </data>
   <data name="Total Paid" xml:space="preserve">
@@ -590,25 +588,25 @@
   <data name="Description" xml:space="preserve">
     <value>ការពិពណ៌នា</value>
   </data>
-	<data name="Stock Location" xml:space="preserve">
+  <data name="Stock Location" xml:space="preserve">
     <value>ឃ្លាំង</value>
   </data>
-	<data name="Defualt Stock Location" xml:space="preserve">
+  <data name="Defualt Stock Location" xml:space="preserve">
     <value>Defualt ឃ្លាំង</value>
   </data>
-	<data name="Min QTY" xml:space="preserve">
+  <data name="Min QTY" xml:space="preserve">
     <value>ចំនួនតូចបំផុត</value>
   </data>
-	<data name="Max QTY" xml:space="preserve">
+  <data name="Max QTY" xml:space="preserve">
     <value>ចំនួនធំបំផុត</value>
   </data>
   <data name="QTY" xml:space="preserve">
     <value>ចំនួន</value>
   </data>
-	<data name="Product Tax" xml:space="preserve">
+  <data name="Product Tax" xml:space="preserve">
     <value>ពន្ធទំនិញ</value>
   </data>
-	<data name="Product Prices" xml:space="preserve">
+  <data name="Product Prices" xml:space="preserve">
     <value>តម្លៃទំនិញ</value>
   </data>
   <data name="Price" xml:space="preserve">
@@ -632,31 +630,31 @@
   <data name="Hourly Sale" xml:space="preserve">
     <value>ការលក់ ម៉ោង/ថ្ងៃ</value>
   </data>
-	<data name="New Ingredient" xml:space="preserve">
+  <data name="New Ingredient" xml:space="preserve">
     <value>បង្កើតគ្រឿងផ្សំថ្មី</value>
   </data>
   <data name="Ingredient" xml:space="preserve">
     <value>គ្រឿងផ្សំ</value>
   </data>
-	<data name="All Ingredient" xml:space="preserve">
+  <data name="All Ingredient" xml:space="preserve">
     <value>គ្រឿងផ្សំទាំងអស់</value>
   </data>
-	<data name="Active Ingredient" xml:space="preserve">
+  <data name="Active Ingredient" xml:space="preserve">
     <value>គ្រឿងផ្សំសកម្ម</value>
   </data>
-		<data name="Inactive Ingredient" xml:space="preserve">
+  <data name="Inactive Ingredient" xml:space="preserve">
     <value>គ្រឿងផ្សំអសកម្ម</value>
   </data>
-	<data name="Deleted Ingredient" xml:space="preserve">
+  <data name="Deleted Ingredient" xml:space="preserve">
     <value>គ្រឿងផ្សំដែលបានលុប</value>
   </data>
-	<data name="Category" xml:space="preserve">
+  <data name="Category" xml:space="preserve">
     <value>ប្រភេទ</value>
   </data>
-	<data name="Quality" xml:space="preserve">
+  <data name="Quality" xml:space="preserve">
     <value>ចំនួន</value>
   </data>
-	<data name="Edit Ingredient Category" xml:space="preserve">
+  <data name="Edit Ingredient Category" xml:space="preserve">
     <value>កែប្រែប្រភេទគ្រឿងផ្សំ</value>
   </data>
   <data name="Ingredient Category" xml:space="preserve">
@@ -665,8 +663,7 @@
   <data name="Login" xml:space="preserve">
     <value>ចូលប្រព័ន្ធ</value>
   </data>
-	 
-	<data name="Menu Product" xml:space="preserve">
+  <data name="Menu Product" xml:space="preserve">
     <value>ម៉ឺនុយទំនិញ</value>
   </data>
   <data name="Menu" xml:space="preserve">
@@ -696,14 +693,13 @@
   <data name="Product Category" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផល</value>
   </data>
-	
-	<data name="There is no menu assigned for this product." xml:space="preserve">
+  <data name="There is no menu assigned for this product." xml:space="preserve">
     <value>មិនទាន់មានម៉ឺនុយបញ្ជូលសម្រាប់ទំនិញនេះ</value>
   </data>
-	<data name="This category was assigned to product." xml:space="preserve">
+  <data name="This category was assigned to product." xml:space="preserve">
     <value>ប្រភេទ​ផលិតផលនេះបានបញ្ជូលទៅក្នុង​ផលិតផល</value>
   </data>
-	<data name="Product Category Cannot Empty" xml:space="preserve">
+  <data name="Product Category Cannot Empty" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផលមិនអាចទទេរ</value>
   </data>
   <data name="Product Category En" xml:space="preserve">
@@ -721,16 +717,16 @@
   <data name="Purchase Order" xml:space="preserve">
     <value>បញ្ជា​រ​ទិញ</value>
   </data>
-	  <data name="Deleted Purchase Order" xml:space="preserve">
+  <data name="Deleted Purchase Order" xml:space="preserve">
     <value>បញ្ជា​រ​ទិញដែលបានលុប</value>
   </data>
-		  <data name="Partially Paid Purchase Order" xml:space="preserve">
+  <data name="Partially Paid Purchase Order" xml:space="preserve">
     <value>បញ្ជា​រ​ទិញបានបង់មួយចំនួន</value>
   </data>
-	  <data name="Paid Purchase Order" xml:space="preserve">
+  <data name="Paid Purchase Order" xml:space="preserve">
     <value>បញ្ជា​រ​ទិញបានបង់</value>
   </data>
-	 <data name="Unpaid Purchase Order" xml:space="preserve">
+  <data name="Unpaid Purchase Order" xml:space="preserve">
     <value>បញ្ជា​រ​ទិញមិនបានបង់</value>
   </data>
   <data name="Receipt List" xml:space="preserve">
@@ -760,7 +756,7 @@
   <data name="Name Kh" xml:space="preserve">
     <value>ឈ្មោះជាភាសាខ្មែរ</value>
   </data>
-	<data name="Name En(Kh)" xml:space="preserve">
+  <data name="Name En(Kh)" xml:space="preserve">
     <value>ឈ្មោះជាភាសាអង់គ្លេស(ភាសាខ្មែរ)</value>
   </data>
   <data name="Name En" xml:space="preserve">
@@ -820,11 +816,9 @@
   <data name="Table Group &amp; Table" xml:space="preserve">
     <value>ក្រុមតុនិង​តុ</value>
   </data>
-	<data name="There is no product price." xml:space="preserve">
+  <data name="There is no product price." xml:space="preserve">
     <value>គ្មានទិន្នន័យតម្លៃទំនិញ</value>
   </data>
-
-	
   <data name="There's no record in the system" xml:space="preserve">
     <value>គ្មានទិន្នន័យក្នុងប្រព័ន្ធ</value>
   </data>
@@ -837,10 +831,10 @@
   <data name="Top Sale Product" xml:space="preserve">
     <value>ផលិតផលដែលលក់ដាច់ជាងគេ</value>
   </data>
-	<data name="Total Cost" xml:space="preserve">
+  <data name="Total Cost" xml:space="preserve">
     <value>ថ្លៃដើមសរុប</value>
   </data>
-	<data name="Cost" xml:space="preserve">
+  <data name="Cost" xml:space="preserve">
     <value>ថ្លៃដើម</value>
   </data>
   <data name="Unit of Measurement (UoM)" xml:space="preserve">
@@ -858,19 +852,19 @@
   <data name="Vendor" xml:space="preserve">
     <value>អ្នកផ្គត់ផ្គង់</value>
   </data>
-	<data name="Different" xml:space="preserve">
+  <data name="Different" xml:space="preserve">
     <value>ខុសគ្នា</value>
   </data>
-	<data name="There's no quantity changed" xml:space="preserve">
+  <data name="There's no quantity changed" xml:space="preserve">
     <value>មិនមានចំនួនសម្រាប់ប្ដូរ</value>
   </data>
   <data name="Quantity" xml:space="preserve">
     <value>ចំនួន</value>
   </data>
-	<data name="Old Quantity" xml:space="preserve">
+  <data name="Old Quantity" xml:space="preserve">
     <value>ចំនួនចាស់</value>
   </data>
-	<data name="Quantity On Hand" xml:space="preserve">
+  <data name="Quantity On Hand" xml:space="preserve">
     <value>ចំនួននៅក្នុងដៃ</value>
   </data>
   <data name="Total Quantity" xml:space="preserve">
@@ -882,7 +876,7 @@
   <data name="Sale Sub Total" xml:space="preserve">
     <value>ការលក់សរុបរង</value>
   </data>
-	  <data name="Total Item Discount" xml:space="preserve">
+  <data name="Total Item Discount" xml:space="preserve">
     <value>Item សរុបដែលការបញ្ចុះតម្លៃ</value>
   </data>
   <data name="Total Discount" xml:space="preserve">
@@ -912,16 +906,16 @@
   <data name="Grand Total" xml:space="preserve">
     <value>តំលៃ​បូក​សរុប</value>
   </data>
-	<data name="All Vendor Group" xml:space="preserve">
+  <data name="All Vendor Group" xml:space="preserve">
     <value>ក្រុមអ្នកផ្គត់ផ្គង់ទាំងអស់</value>
   </data>
-	<data name="Active Vendor Group" xml:space="preserve">
+  <data name="Active Vendor Group" xml:space="preserve">
     <value>ក្រុមអ្នកផ្គត់ផ្គង់សកម្ម</value>
   </data>
-	<data name="Inactive Vendor Group" xml:space="preserve">
+  <data name="Inactive Vendor Group" xml:space="preserve">
     <value>ក្រុមអ្នកផ្គត់ផ្គង់អសកម្ម</value>
   </data>
-	<data name="Deleted Vendor Group" xml:space="preserve">
+  <data name="Deleted Vendor Group" xml:space="preserve">
     <value>ក្រុមអ្នកផ្គត់ផ្គង់ដែលបានលុប</value>
   </data>
   <data name="Vendor Group" xml:space="preserve">
@@ -996,20 +990,19 @@
   <data name="Deleted" xml:space="preserve">
     <value>បានលុប</value>
   </data>
-	<data name="Recipe" xml:space="preserve">
+  <data name="Recipe" xml:space="preserve">
     <value>រូបមន្ត</value>
   </data>
-	<data name="General Information" xml:space="preserve">
+  <data name="General Information" xml:space="preserve">
     <value>ព័ត៌មានទូទៅ</value>
   </data>
-	
-	<data name="Product Detail" xml:space="preserve">
+  <data name="Product Detail" xml:space="preserve">
     <value>ព័ត៌មានទំនិញលម្អិត</value>
   </data>
-	<data name="Restore product" xml:space="preserve">
+  <data name="Restore product" xml:space="preserve">
     <value>ទាញយកទំនិញ</value>
   </data>
-	<data name="Restore product successfully" xml:space="preserve">
+  <data name="Restore product successfully" xml:space="preserve">
     <value>ទាញយកទំនិញបានជោគជ័យ</value>
   </data>
   <data name="Restore" xml:space="preserve">
@@ -1030,31 +1023,31 @@
   <data name="Search / Add Modifier" xml:space="preserve">
     <value>ស្វែងរក / បញ្ជូល Modifier</value>
   </data>
-	<data name="Add Products" xml:space="preserve">
+  <data name="Add Products" xml:space="preserve">
     <value>បញ្ជូលទំនិញ</value>
   </data>
-	<data name="All Products" xml:space="preserve">
+  <data name="All Products" xml:space="preserve">
     <value>ទំនិញទាំងអស់</value>
   </data>
-	<data name="Recently Added Products" xml:space="preserve">
+  <data name="Recently Added Products" xml:space="preserve">
     <value>ទំនិញដែលបានបញ្ជូលថ្មីៗ</value>
   </data>
-	<data name="Active Products" xml:space="preserve">
+  <data name="Active Products" xml:space="preserve">
     <value>ទំនិញសកម្ម</value>
   </data>
-	<data name="Inactive Products" xml:space="preserve">
+  <data name="Inactive Products" xml:space="preserve">
     <value>ទំនិញអសកម្ម</value>
   </data>
-	<data name="Composite Products" xml:space="preserve">
+  <data name="Composite Products" xml:space="preserve">
     <value>Composite​ ទំនិញ</value>
   </data>
-	<data name="All Production History" xml:space="preserve">
+  <data name="All Production History" xml:space="preserve">
     <value>ប្រវត្តិផលិតកម្ម​ទាំងអស់</value>
   </data>
-	<data name="Production Products" xml:space="preserve">
+  <data name="Production Products" xml:space="preserve">
     <value>ផលិតកម្ម​ទំនិញ</value>
   </data>
-	<data name="Deleted Products" xml:space="preserve">
+  <data name="Deleted Products" xml:space="preserve">
     <value>​ទំនិញដែលបានលុប</value>
   </data>
   <data name="Filter Products" xml:space="preserve">
@@ -1186,7 +1179,7 @@
   <data name="Branch" xml:space="preserve">
     <value>សាខា</value>
   </data>
-	  <data name="Due Date" xml:space="preserve">
+  <data name="Due Date" xml:space="preserve">
     <value>ថ្ងៃកំណត់</value>
   </data>
   <data name="PO Date" xml:space="preserve">
@@ -1201,25 +1194,25 @@
   <data name="Modifier Group" xml:space="preserve">
     <value>ក្រុម Modifier</value>
   </data>
-	<data name="Active Modifier" xml:space="preserve">
+  <data name="Active Modifier" xml:space="preserve">
     <value>Modifier សកម្ម</value>
   </data>
-	<data name="Active Modifier Group" xml:space="preserve">
+  <data name="Active Modifier Group" xml:space="preserve">
     <value>ក្រុម Modifierសកម្ម</value>
   </data>
-	<data name="Recently Added Modifier" xml:space="preserve">
+  <data name="Recently Added Modifier" xml:space="preserve">
     <value>Modifierដែលបង្កើតហើយថ្មីៗ</value>
   </data>
-	<data name="Inactive Modifier" xml:space="preserve">
+  <data name="Inactive Modifier" xml:space="preserve">
     <value>Modifierអសកម្ម</value>
   </data>
-	<data name="Inactive Modifier Group" xml:space="preserve">
+  <data name="Inactive Modifier Group" xml:space="preserve">
     <value>ក្រុម Modifierអសកម្ម</value>
   </data>
-	<data name="Deleted Modifier" xml:space="preserve">
+  <data name="Deleted Modifier" xml:space="preserve">
     <value>Modifierបានលុប</value>
   </data>
-	<data name="Deleted Modifier Group" xml:space="preserve">
+  <data name="Deleted Modifier Group" xml:space="preserve">
     <value>ក្រុម Modifierបានលុប</value>
   </data>
   <data name="New PO" xml:space="preserve">
@@ -1234,7 +1227,7 @@
   <data name="New Purchase Order" xml:space="preserve">
     <value>បញ្ជូលបញ្ជាទិញថ្មី</value>
   </data>
-	<data name="All Stock Stransfer History" xml:space="preserve">
+  <data name="All Stock Stransfer History" xml:space="preserve">
     <value>ប្រវត្តិការផ្ទេរទំនិញទាំងអស់</value>
   </data>
   <data name="New Stock Stransfer" xml:space="preserve">
@@ -1246,7 +1239,7 @@
   <data name="New Stock Take" xml:space="preserve">
     <value>បញ្ជូលការយកទំនិញប្រើប្រាស់ថ្មី</value>
   </data>
-	<data name="Add New Vendor Group" xml:space="preserve">
+  <data name="Add New Vendor Group" xml:space="preserve">
     <value>បញ្ជូលក្រុមអ្នកផ្គត់ផ្គង់ថ្មី</value>
   </data>
   <data name="New Vendor" xml:space="preserve">
@@ -1270,7 +1263,7 @@
   <data name="All Modifier Group" xml:space="preserve">
     <value>ក្រុម Modifier ទាំងអស់</value>
   </data>
-	<data name="All Modifier" xml:space="preserve">
+  <data name="All Modifier" xml:space="preserve">
     <value>Modifier ទាំងអស់</value>
   </data>
   <data name="Balance cannot be lower then zero" xml:space="preserve">
@@ -1285,7 +1278,7 @@
   <data name="Customer Code already exist!" xml:space="preserve">
     <value>លេខកូដអតិថិជនមានរួចហើយ</value>
   </data>
-	<data name="Delete Product" xml:space="preserve">
+  <data name="Delete Product" xml:space="preserve">
     <value>លុបទំនិញ</value>
   </data>
   <data name="Delete Production" xml:space="preserve">
@@ -1312,7 +1305,7 @@
   <data name="From Business Branch" xml:space="preserve">
     <value>ពីសាខា</value>
   </data>
-	<data name="From Stock" xml:space="preserve">
+  <data name="From Stock" xml:space="preserve">
     <value>ពីឃ្លាំង</value>
   </data>
   <data name="From Stock Location" xml:space="preserve">
@@ -1387,10 +1380,10 @@
   <data name="Product Group Kh" xml:space="preserve">
     <value>កូដក្រុមទំនិញជាភាសាខ្មែរ</value>
   </data>
-	  <data name="All Production" xml:space="preserve">
+  <data name="All Production" xml:space="preserve">
     <value>ផលិតកម្មទាំងអស់</value>
   </data>
-	<data name="Deleted Production" xml:space="preserve">
+  <data name="Deleted Production" xml:space="preserve">
     <value>ផលិតកម្មដែលបានលុប</value>
   </data>
   <data name="Production" xml:space="preserve">
@@ -1453,7 +1446,7 @@
   <data name="Smaller than Reference" xml:space="preserve">
     <value>តូចជាងឯកតា</value>
   </data>
-	<data name="Stock Adjustment" xml:space="preserve">
+  <data name="Stock Adjustment" xml:space="preserve">
     <value>ទំនិញកែប្រែ</value>
   </data>
   <data name="Stock Take Date" xml:space="preserve">
@@ -1462,28 +1455,28 @@
   <data name="Stock Take Information" xml:space="preserve">
     <value>ពត៌មានយកទំនិញប្រើប្រាស់</value>
   </data>
-	<data name="Inventory Information" xml:space="preserve">
+  <data name="Inventory Information" xml:space="preserve">
     <value>ពត៌មានអំពីសារពើភ័ណ្ឌ</value>
   </data>
-	<data name="All Inventory Transation" xml:space="preserve">
+  <data name="All Inventory Transation" xml:space="preserve">
     <value>ប្រតិបត្តិការសារពើភ័ណ្ឌទាំងអស់</value>
   </data>
-	<data name="All Inventory Transation History" xml:space="preserve">
+  <data name="All Inventory Transation History" xml:space="preserve">
     <value>ប្រវត្តិប្រតិបត្តិការសារពើភ័ណ្ឌទាំងអស់</value>
   </data>
-	<data name="Inventory Transaction" xml:space="preserve">
+  <data name="Inventory Transaction" xml:space="preserve">
     <value>ប្រតិបត្តិការសារពើភ័ណ្ឌ</value>
   </data>
-	<data name="All Stock Take History" xml:space="preserve">
+  <data name="All Stock Take History" xml:space="preserve">
     <value>ប្រវត្តិបញ្ជូលទំនិញទាំងអស់</value>
   </data>
-	<data name="Stock Take" xml:space="preserve">
+  <data name="Stock Take" xml:space="preserve">
     <value>បញ្ជូលទំនិញ</value>
   </data>
   <data name="Stock take item cannot be empty." xml:space="preserve">
     <value>សូមបញ្ជូលទំនិញ។</value>
   </data>
-	<data name="Stock Transfer" xml:space="preserve">
+  <data name="Stock Transfer" xml:space="preserve">
     <value>ថ្ផ្ទេរទំនិញ</value>
   </data>
   <data name="Stock Transfer Date" xml:space="preserve">
@@ -1501,7 +1494,7 @@
   <data name="To Business Branch" xml:space="preserve">
     <value>ទៅសាខា</value>
   </data>
-	<data name="To Stock" xml:space="preserve">
+  <data name="To Stock" xml:space="preserve">
     <value>ទៅឃ្លាំង</value>
   </data>
   <data name="To Stock Location" xml:space="preserve">
@@ -1561,7 +1554,7 @@
   <data name="Months" xml:space="preserve">
     <value>ខែ</value>
   </data>
-	<data name="has been remove from this menu" xml:space="preserve">
+  <data name="has been remove from this menu" xml:space="preserve">
     <value>បានប្តូរពីម៉ឺនុយនេះ</value>
   </data>
   <data name="Move to" xml:space="preserve">
@@ -1642,40 +1635,40 @@
   <data name="Select Price Rule" xml:space="preserve">
     <value>ជ្រើសរើសប្រភេទតម្លៃ</value>
   </data>
-	<data name="Company Name" xml:space="preserve">
+  <data name="Company Name" xml:space="preserve">
     <value>ឈ្មោះ​ក្រុម​ហ៊ុន    </value>
   </data>
-	<data name="Active Vendor" xml:space="preserve">
+  <data name="Active Vendor" xml:space="preserve">
     <value>អ្នកផ្គត់ផ្គង់សកម្ម</value>
   </data>
-	<data name="Deleted Vendor" xml:space="preserve">
+  <data name="Deleted Vendor" xml:space="preserve">
     <value>អ្នកផ្គត់ផ្គង់បានលុប</value>
   </data>
-	<data name="Inactive Vendor" xml:space="preserve">
+  <data name="Inactive Vendor" xml:space="preserve">
     <value>អ្នកផ្គត់ផ្គង់អសកម្ម</value>
   </data>
-	<data name="Overview" xml:space="preserve">
-    <value>ទិដ្ឋភាពទូទៅ</value>
+  <data name="Overview" xml:space="preserve">
+    <value>ព័ត៌មានទូទៅ</value>
   </data>
-	<data name="Mobile Phone" xml:space="preserve">
+  <data name="Mobile Phone" xml:space="preserve">
     <value>ទូរស័ព្ទចល័ត</value>
   </data>
-	<data name="Office Phone" xml:space="preserve">
+  <data name="Office Phone" xml:space="preserve">
     <value>ទូរស័ព្ទការិយាល័យ</value>
   </data>
   <data name="Select Product Category" xml:space="preserve">
     <value>ជ្រើសរើសប្រភេទទំនិញ</value>
   </data>
-	<data name="Categories" xml:space="preserve">
+  <data name="Categories" xml:space="preserve">
     <value>ប្រភេទ</value>
   </data>
-	<data name="All Category" xml:space="preserve">
+  <data name="All Category" xml:space="preserve">
     <value>ប្រភេទទាំងអស់</value>
   </data>
-	<data name="All Product Category" xml:space="preserve">
+  <data name="All Product Category" xml:space="preserve">
     <value>ប្រភេទទំនិញទាំងអស់</value>
   </data>
-	<data name="All Product Group" xml:space="preserve">
+  <data name="All Product Group" xml:space="preserve">
     <value>ក្រុមទំនិញទាំងអស់</value>
   </data>
   <data name="Select Product Group" xml:space="preserve">
@@ -1750,7 +1743,7 @@
   <data name="Discount Type" xml:space="preserve">
     <value>ប្រភេទបញ្ចុះតម្លៃ</value>
   </data>
-	  <data name="PO Discount" xml:space="preserve">
+  <data name="PO Discount" xml:space="preserve">
     <value>បញ្ជាទិញបញ្ចុះតម្លៃ</value>
   </data>
   <data name="Discount Value" xml:space="preserve">
@@ -1792,17 +1785,14 @@
   <data name="of" xml:space="preserve">
     <value>នៃ</value>
   </data>
-	<data name="Other information" xml:space="preserve">
+  <data name="Other information" xml:space="preserve">
     <value>ព័ត៌មាន​ផ្សេងៗ</value>
   </data>
-	  <data name="Ingredient Product Information" xml:space="preserve">
+  <data name="Ingredient Product Information" xml:space="preserve">
     <value>ព័ត៌មាន​អំពីគ្រឿងផ្សំ</value>
   </data>
   <data name="Product Information" xml:space="preserve">
     <value>ព័ត៌មាន​អំពីទំនិញ</value>
-  </data>
-  <data name="Overview" xml:space="preserve">
-    <value>ព័ត៌មានទូទៅ</value>
   </data>
   <data name="Phone 1" xml:space="preserve">
     <value>លេខទូរសព្ទ 1</value>
@@ -1873,13 +1863,13 @@
   <data name="Yearly Sale" xml:space="preserve">
     <value>សរុបលក់ប្រចាំឆ្នាំ</value>
   </data>
-		<data name="Products" xml:space="preserve">
+  <data name="Products" xml:space="preserve">
     <value>ទំនិញ</value>
   </data>
-	<data name="Association Products" xml:space="preserve">
+  <data name="Association Products" xml:space="preserve">
     <value>ទំនិញដែលពាក់ព័ន្ធ</value>
   </data>
-	<data name="Associate Products &amp; Modifiers" xml:space="preserve">
+  <data name="Associate Products &amp; Modifiers" xml:space="preserve">
     <value>ទំនិញដែលពាក់ព័ន្ធ និង​ Modifiers</value>
   </data>
   <data name="Product Category &amp; Group" xml:space="preserve">
@@ -1900,7 +1890,7 @@
   <data name="Add Sub Menu" xml:space="preserve">
     <value>បន្ថែមម៉ឺនុយកូនថ្មី</value>
   </data>
-	<data name="Asign Products" xml:space="preserve">
+  <data name="Asign Products" xml:space="preserve">
     <value>ដាក់ទំនិញចូលម៉ឺនុយ</value>
   </data>
   <data name="Back" xml:space="preserve">
@@ -2076,5 +2066,53 @@
   </data>
   <data name="Stock transfer item cannot be empty." xml:space="preserve">
     <value>សូមជ្រើសរើសទំនិញដើម្បើធ្វើការផ្ទេរចេញ។</value>
+  </data>
+  <data name="Check system feature complete" xml:space="preserve">
+    <value>ពិនិត្យមុខងារប្រព័ន្ធរួចរាល់</value>
+  </data>
+  <data name="Delete data fail" xml:space="preserve">
+    <value>លុបទិន្នន័យបរាជ័យ</value>
+  </data>
+  <data name="Delete record fail" xml:space="preserve">
+    <value>លុបទិន្នន័យបរាជ័យ</value>
+  </data>
+  <data name="Delete record fail." xml:space="preserve">
+    <value>លុបទិន្នន័យបរាជ័យ</value>
+  </data>
+  <data name="Discount code cannot empty" xml:space="preserve">
+    <value>សូមបញ្ជូលលេខកូដបញ្ចុះតម្លៃ</value>
+  </data>
+  <data name="Incorrect file extension" xml:space="preserve">
+    <value>ប្រភេទឯកសារមិនត្រឹមត្រូវ</value>
+  </data>
+  <data name="Password is too short or empty" xml:space="preserve">
+    <value>សូមបញ្ជូលលេខសម្ងាត់យ៉ាងតិច 4 តួអក្សរ</value>
+  </data>
+  <data name="Please enter valid Min and Max number" xml:space="preserve">
+    <value>សូមបញ្ជូលលេខ Min និង Max អោយបានត្រឹមត្រូវ</value>
+  </data>
+  <data name="Please select user type" xml:space="preserve">
+    <value>សូមជ្រើសរើសប្រភេទសិទ្ធប្រើប្រាស់</value>
+  </data>
+  <data name="This user is already exist" xml:space="preserve">
+    <value>ឈ្មោះអ្នកប្រើប្រាស់នេះមាននៅក្នុងប្រព័ន្ធរួចហើយ</value>
+  </data>
+  <data name="You can delete this group. It is already in used." xml:space="preserve">
+    <value>អ្នកមិនអាចលុបក្រុមទំនិញនេះបានទេ។ វាត្រូវបានប្រើប្រាស់រួចហើយ។</value>
+  </data>
+  <data name="You cannot delete current login user" xml:space="preserve">
+    <value>អ្នកមិនអាចលុបអ្នកប្រើប្រាស់ដែលកំពុងចូលប្រើប្រាស់ប្រព័ន្ធបានទេ</value>
+  </data>
+  <data name="You cannot disable current login user." xml:space="preserve">
+    <value>អ្នកមិនអាចបិទអ្នកប្រើប្រាស់ដែលកំពុងចូលប្រើប្រាស់ប្រព័ន្ធបានទេ</value>
+  </data>
+  <data name="You cannot update status of this record" xml:space="preserve">
+    <value>អ្នកមិនអាចកែប្រែស្ថានភាពទិន្នន័យនេះបានទេ</value>
+  </data>
+  <data name="You have to logout after change username or password." xml:space="preserve">
+    <value>អ្នកត្រូវតែចាកចេញពីប្រព័ន្ធបន្ទាប់ពីផ្លាស់ប្តូរ ឈ្មោះប្រើប្រាស់ ឬលេខសម្ងាត់។</value>
+  </data>
+  <data name="Your cannot remove the default record" xml:space="preserve">
+    <value>អ្នកមិនអាចលុប default record បានទេ</value>
   </data>
 </root>

@@ -185,7 +185,7 @@
         var res = await http.ApiPost("Currency/save", save_model);
         if (res.IsSuccess)
         {
-            toast.Add("Save sucessfully", MatToastType.Success);
+            toast.Add(lang["Save sucessfully"], MatToastType.Success);
             nav.NavigateTo("currency");
 
         }

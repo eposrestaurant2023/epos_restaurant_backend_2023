@@ -129,7 +129,7 @@
         var resp = await http.ApiPost($"BusinessBranchPriceRule/status/{p.business_branch_id}/{p.price_rule_id}");
         if (resp.IsSuccess)
         {
-            toast.Add("Change status successfully", MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MatToastType.Success);
         }
     }
 
@@ -149,13 +149,13 @@
     async Task OnDelete(BusinessBranchPriceRule p)
     {
         p.is_loading = true;
-        if (await js.Confirm("Delete Price Rule", "Are you sure you want to delete this record?"))
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
         {
             var resp = await http.ApiPost($"BusinessBranchPriceRule/delete/{p.business_branch_id}/{p.price_rule_id}");
             if (resp.IsSuccess)
             {
                 await LoadData();
-                toast.Add("Delete Price Rule successfully", MatToastType.Success);
+                toast.Add(lang["Delete record successfully"], MatToastType.Success);
             }
             else {
                 toast.Add(resp.Content.ToString(), MatToastType.Warning);
@@ -168,7 +168,7 @@
     {
         if (p.is_default)
         {
-            toast.Add("Can not Change Is Default. ", MatToastType.Warning);
+            toast.Add(lang["Your cannot remove the default"], MatToastType.Warning);
         }
         else
         {
@@ -176,7 +176,7 @@
             if (resp.IsSuccess)
             {
                 await LoadData();
-                toast.Add("Change Is Default successfully", MatToastType.Success);
+                toast.Add(lang["Update data successfully"], MatToastType.Success);
             }
         }
 

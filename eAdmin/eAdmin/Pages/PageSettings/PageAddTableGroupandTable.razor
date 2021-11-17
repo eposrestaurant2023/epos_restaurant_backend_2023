@@ -172,7 +172,7 @@
     {
         if (model.outlet_id == Guid.Empty)
         {
-            toast.Add("Please select outlet", MatToastType.Warning);
+            toast.Add(lang["Please select outlet"], MatToastType.Warning);
             is_saving = false;
             return;
         }
@@ -189,7 +189,7 @@
             {
                 obj = JsonSerializer.Deserialize<TableGroupModel>(res.Content.ToString());
 
-                toast.Add("Saving successfully", MatToastType.Success);
+                toast.Add(lang["Saving successfully"], MatToastType.Success);
                 nav.NavigateTo($"tablegroupandtable");
             }
             else
@@ -207,7 +207,7 @@
     {
         if (min > max)
         {
-            toast.Add("Please enter valid Min and Max number", MatToastType.Warning);
+            toast.Add(lang["Please enter valid Min and Max number"], MatToastType.Warning);
             return;
         }
         while (min <= max)

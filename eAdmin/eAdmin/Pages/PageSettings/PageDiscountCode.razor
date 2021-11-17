@@ -147,7 +147,7 @@
                 {
                     if (string.IsNullOrEmpty(discount.discount_code))
                     {
-                        toast.Add("Discount code cannot empty", MatToastType.Warning);
+                        toast.Add(lang["Discount code cannot empty"], MatToastType.Warning);
                         is_saving = false;
                         return;
                     }
@@ -158,14 +158,14 @@
         if (resp.IsSuccess)
         {
 
-            toast.Add("Save Discount Codes successfully", MatToastType.Success);
+            toast.Add(lang["Save successfully"], MatToastType.Success);
 
             await LoadData();
         }
         else
         {
 
-            toast.Add("Save Discount Codes Fail", MatToastType.Warning);
+            toast.Add(lang["Delete record successfully."], MatToastType.Warning);
         }
         is_saving = false;
     }

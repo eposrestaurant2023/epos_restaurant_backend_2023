@@ -112,7 +112,7 @@
             if (post.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<RoleModel>(post.Content.ToString());
-                toast.Add("Save Successfully!", MatToastType.Success);
+                toast.Add(lang["Save Successfully"], MatToastType.Success);
                 nav.NavigateTo($"role/edit/permission/{model.id}");
             }
             else
@@ -122,7 +122,7 @@
         }
         else
         {
-            toast.Add("Please choose Business branch.",MatToastType.Warning) ;
+            toast.Add(lang["Please choose business branch"],MatToastType.Warning);
         }
 
         is_saving = false;
