@@ -81,7 +81,7 @@ namespace eAdmin.Pages.PageCustomers
             {
                 model = JsonSerializer.Deserialize<CustomerGroupModel>(resp.Content.ToString());
             }
-            ModalTitle = "Edit:" + model.customer_group_name_en;
+            ModalTitle = lang["Edit"] + ":" + model.customer_group_name_en;
             ShowModal = true;
             is_loading_data = false;
         }
@@ -98,7 +98,7 @@ namespace eAdmin.Pages.PageCustomers
             {
                 model = JsonSerializer.Deserialize<CustomerGroupModel>(resp.Content.ToString());
             }
-            ModalTitle = "Clone : " + model.customer_group_name_en;
+            ModalTitle = lang["Clone"] + ":" + model.customer_group_name_en;
             ShowModal = true;
             is_loading_data = false;
         }
@@ -177,9 +177,9 @@ namespace eAdmin.Pages.PageCustomers
         public async Task OnDeleteRestore(CustomerGroupModel p,bool is_delete = true)
         {
             p.is_loading = true;
-            string conf_title = $"{(is_delete?"Delete":"Restore")} Customer Group";
-            string conf_message =  $"({p.customer_group_name_en}), Are you sure to {(is_delete? "delete":"restore")}?";
-            string toast_msg =$"Record ({p.customer_group_name_en}) was {(is_delete?"deleted":"restored")}";   
+            string conf_title = $"{(is_delete?lang["Delete"] :lang["Restore"])} {lang["Customer Group"]}";
+            string conf_message =  $"({p.customer_group_name_en}), {lang["Are you sure to"]} {(is_delete? lang["Delete"] :lang["Restore"])}?";
+            string toast_msg =$"{lang["Record"]} ({p.customer_group_name_en}) {lang["Was"]} {(is_delete?lang["Deleted"] :lang["Restored"])}";   
             if (await js.Confirm(conf_title, conf_message))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
