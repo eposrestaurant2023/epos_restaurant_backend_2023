@@ -175,7 +175,7 @@ namespace eAdmin.Pages.PageCustomers
         public async Task OnRestore(CustomerModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm(lang["Restore Recored"], "Are you sure you want to restore this record?"))
+            if (await js.Confirm(lang["Restore Recored"], lang["Are you sure you want to restore this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -187,7 +187,7 @@ namespace eAdmin.Pages.PageCustomers
                     }
                     await LoadData();
                 }
-                toast.Add("Restore customer successfully", MatBlazor.MatToastType.Success);
+                toast.Add(lang["Restore record successfully"], MatBlazor.MatToastType.Success);
             }
             p.is_loading = false;
         }

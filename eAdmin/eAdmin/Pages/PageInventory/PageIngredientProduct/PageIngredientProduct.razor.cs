@@ -175,7 +175,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                     }
                     await LoadData();
                 }
-                toast.Add("Restore record successfully", MatBlazor.MatToastType.Success);
+                toast.Add(lang["Restore record successfully"], MatBlazor.MatToastType.Success);
             }
             p.is_loading = false;
         }

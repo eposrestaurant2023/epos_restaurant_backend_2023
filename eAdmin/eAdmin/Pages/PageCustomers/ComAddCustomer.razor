@@ -70,7 +70,7 @@
             if (res.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                toast.Add("Saving successfully", MatToastType.Success);
+                toast.Add(lang["Saving successfully"], MatToastType.Success);
                 await OnSave.InvokeAsync(model);
                 await is_openedChanged.InvokeAsync(false);
 

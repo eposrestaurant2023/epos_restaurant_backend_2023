@@ -107,7 +107,7 @@
             {
                 model.is_fulfilled = !model.is_fulfilled;
                 await modelChanged.InvokeAsync(model);
-                toast.Add("Cancel Mark as fulfilled successfully", MatToastType.Success);
+                toast.Add(lang["Cancel Mark as fulfilled successfully"], MatToastType.Success);
             }
         }
         is_loading = false;

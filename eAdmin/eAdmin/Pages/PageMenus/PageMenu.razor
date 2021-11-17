@@ -123,7 +123,7 @@
 
         if (resp.IsSuccess)
         {
-            toast.Add("Save Menu Successfully.", MatToastType.Success);
+            toast.Add(lang["Save Successfully"], MatToastType.Success);
             await LoadData();
             if (menus.Count() > 0)
             {
@@ -135,7 +135,7 @@
         }
         else
         {
-            toast.Add("Save Menu fail.", MatToastType.Warning);
+            toast.Add(lang["Save record fail."], MatToastType.Warning);
         }
         is_saving = false;
     }
