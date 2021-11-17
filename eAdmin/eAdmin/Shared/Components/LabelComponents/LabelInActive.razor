@@ -1,8 +1,9 @@
-﻿@if (is_visible)
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_visible)
 {
     if (is_loading)
     {
-      <label class="uk-label inactive"> <Spinner /></label>
+        <label class="uk-label inactive"> <Spinner /></label>
     }
     else
     {
@@ -10,7 +11,7 @@
 
         if (roles == "")
         {
-<span class="uk-label inactive @ClassName" @onclick="@OnClick"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" />@text </span>
+            <span class="uk-label inactive @ClassName" @onclick="@OnClick"><Icon icon="@IconName" is_visible="@(!string.IsNullOrEmpty(IconName))" />@text </span>
         }
         else
         {

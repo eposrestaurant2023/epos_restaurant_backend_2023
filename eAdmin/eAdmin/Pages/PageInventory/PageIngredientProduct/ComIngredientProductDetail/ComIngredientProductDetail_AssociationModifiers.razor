@@ -13,14 +13,14 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate><span>Association Modifiers</span></HeaderTemplate>
+                    <HeaderTemplate><span>@lang["Association Modifiers"]</span></HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight> 
+            <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" OnFillterClick="@FilterClick">
-                    @*<SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]"/>
-                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />*@
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
+                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
                 </ComSearch>
             </HeaderRight>
         </PageHeader>
@@ -39,7 +39,7 @@
                     ClassName="uk-table-small uk-table-striped uk-table-hover"
                     ScrollClass="uk-overflow-auto">
                 <TableHeader>
-                    @HeaderTemplate("modifier/modifier_name", lang["Name En (Name Kh)"], "col-auto")
+                    @HeaderTemplate("modifier/modifier_name", lang["Name En(Kh)"], "col-auto")
                     <ThRight>
                         @lang["Status"]
                     </ThRight>

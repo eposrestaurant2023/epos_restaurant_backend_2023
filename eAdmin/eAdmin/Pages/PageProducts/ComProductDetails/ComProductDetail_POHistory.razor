@@ -68,7 +68,7 @@
                             </ComAuthorize>
                         </td>
                         <td>
-                            <div>@p.purchase_order?.business_branch?.business_branch_name_en</div>
+                            <div>@(gv.current_language.language_id == "km-Kh" ? p.purchase_order?.business_branch?.business_branch_name_kh : p.purchase_order?.business_branch?.business_branch_name_en )</div>
                             <div class="sub-info-row-table">@p.purchase_order?.stock_location?.stock_location_name</div>
                             
                         </td>
