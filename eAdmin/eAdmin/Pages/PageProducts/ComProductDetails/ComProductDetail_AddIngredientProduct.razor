@@ -194,7 +194,7 @@
         }
         else
         {
-            toast.Add("Invalid Defualt Ingredient Category", MatToastType.Success);
+            toast.Add(lang["Invalid deault ingredient category"], MatToastType.Success);
             return;
         }
         save_model.product_ingredients.Where(r=>r.ingredient.id > 0).ToList().ForEach(r => r.ingredient = null);
@@ -204,14 +204,14 @@
         if (resp.IsSuccess)
         {
             save_model = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());
-            toast.Add("Save ingredient successfully", MatToastType.Success);
+            toast.Add(lang["Save successfully"], MatToastType.Success);
             await is_openChanged.InvokeAsync(false);
             await Save_Click.InvokeAsync(save_model);
         }
         else
         {
 
-            toast.Add("Save ingredient fail", MatToastType.Warning);
+            toast.Add(lang["Save data fail"], MatToastType.Warning);
         }
         is_saving = false;
 
