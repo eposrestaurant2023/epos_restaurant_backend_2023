@@ -109,7 +109,7 @@ else
         // where don't add group item
         if (!modifier_group.modifier_group_items.Where(r=>r.is_deleted == false).Any())
         {
-            toast.Add("Please add modifier section", MatBlazor.MatToastType.Warning);
+            toast.Add(lang["Please add modifier section"], MatBlazor.MatToastType.Warning);
             is_saving = false;
             return;
         }
@@ -120,7 +120,7 @@ else
             {
                 if (!i.children.Where(r=>r.is_deleted == false).Any())
                 {
-                    toast.Add($"Please add modifier into {i.section_name} section.", MatBlazor.MatToastType.Warning);
+                    toast.Add($"{lang["Please add modifier to"]} {i.section_name}.", MatBlazor.MatToastType.Warning);
                     is_saving = false;
                     return;
                 }

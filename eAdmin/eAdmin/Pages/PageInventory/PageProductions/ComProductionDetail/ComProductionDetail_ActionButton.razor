@@ -98,7 +98,7 @@
     public async Task CancelMarkAsFulfilled()
     {
         is_loading = true;
-        if (await js.Confirm("Cancel Make As Fulfilled", "Are you sure you want to​ cancel make as fulfilled?"))
+        if (await js.Confirm(lang["Cancel Make As Fulfilled"], lang["Are you sure you want to​ cancel make as fulfilled?"]))
         {
 
             var resp = await http.ApiPost("Production/CancelMarkAsFulfilled/" + model.id);
@@ -106,7 +106,7 @@
             {
                 model.is_fulfilled = !model.is_fulfilled;
                 await modelChanged.InvokeAsync(model);
-                toast.Add("Cancel Mark as fulfilled successfully", MatToastType.Success);
+                toast.Add(lang["Cancel Mark as fulfilled successfully"], MatToastType.Success);
             }
         }
         is_loading = false;

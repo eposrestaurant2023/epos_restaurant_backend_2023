@@ -163,7 +163,7 @@
             {
                 obj = JsonSerializer.Deserialize<ProductGroupModel>(res.Content.ToString());
 
-                toast.Add("Saving successfully", MatToastType.Success);
+                toast.Add(lang["Saving successfully"], MatToastType.Success);
                 nav.NavigateTo($"productcategory");
             }
             else

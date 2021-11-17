@@ -63,12 +63,12 @@ namespace eAdmin.Pages.PageVendors
         public async Task OnDelete(VendorModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("vendor Customer", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete vendor successfully", MatBlazor.MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MatBlazor.MatToastType.Success);
                     await LoadData();
                 }
             }
@@ -78,7 +78,7 @@ namespace eAdmin.Pages.PageVendors
         public async Task OnRestore(VendorModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Restore Vendor", "Are you sure you want to restore this record?"))
+            if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 
@@ -86,7 +86,7 @@ namespace eAdmin.Pages.PageVendors
                 {
                     await LoadData();
                 }
-                toast.Add("Restore Vendor successfully", MatBlazor.MatToastType.Success);
+                toast.Add(lang["Restore record successfully"], MatBlazor.MatToastType.Success);
             }
             p.is_loading = false;
         }
@@ -111,7 +111,7 @@ namespace eAdmin.Pages.PageVendors
             var resp = await http.ApiPost(controller_api + "/save", vendor);
             if (resp.IsSuccess)
             {
-                toast.Add("Change status successfully", MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MatToastType.Success);
                 await LoadData();
             }
         }

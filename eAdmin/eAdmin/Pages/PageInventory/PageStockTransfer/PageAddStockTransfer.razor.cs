@@ -140,7 +140,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
 
             if (model.from_business_branch_id == Guid.Empty)
             {
-                toast.Add("Please select from business branch.", MatToastType.Warning);
+                toast.Add(lang["Please select from business branch."], MatToastType.Warning);
                 return;
             }
             if (model.from_stock_location_id == Guid.Empty)
