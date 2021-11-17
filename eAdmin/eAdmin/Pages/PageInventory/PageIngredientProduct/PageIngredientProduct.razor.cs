@@ -131,7 +131,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             var resp = await http.ApiPost(controller_api + "/ChangeStatus/"+product.id);
             if (resp.IsSuccess)
             {
-                toast.Add("Change status successfully", MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MatToastType.Success);
                 if (products.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
@@ -144,12 +144,12 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
         public async Task OnDelete(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Ingredient Product", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Product"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete Ingredient Product successfully", MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MatToastType.Success);
                     if (products.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -175,7 +175,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                     }
                     await LoadData();
                 }
-                toast.Add("Restore ingredient product successfully", MatBlazor.MatToastType.Success);
+                toast.Add("Restore record successfully", MatBlazor.MatToastType.Success);
             }
             p.is_loading = false;
         }

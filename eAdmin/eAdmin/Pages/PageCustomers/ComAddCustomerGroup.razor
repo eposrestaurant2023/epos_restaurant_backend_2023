@@ -37,7 +37,7 @@
             
             }
 
-            toast.Add("Save Successfully", MatToastType.Success);
+            toast.Add(lang["Save Successfully"], MatToastType.Success);
             await Save_Click.InvokeAsync(model);
             await is_openChanged.InvokeAsync(false);
         }

@@ -236,18 +236,18 @@
                 nav.NavigateTo("config/done");
             }else
             {
-                toast.Add(lang["Confirm data fail. Please try again"], MatToastType.Warning);
+                toast.Add(lang["Confirm data fail. Please try again."], MatToastType.Warning);
             }
 
         }else
         {
             if (resp_projct.status_code == 503)
             {
-                toast.Add(lang["Cannot connect to eSoftix Server. Please contact your system administrator"], MatToastType.Warning);
+                toast.Add(lang["Cannot connect to ePOS Server. Please contact your system administrator."], MatToastType.Warning);
             }
             else {
 
-                toast.Add(lang["Confirm data fail. Please try again"], MatToastType.Warning);
+                toast.Add(lang["Confirm data fail. Please try again."], MatToastType.Warning);
             }
 
         }

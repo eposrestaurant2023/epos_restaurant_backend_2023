@@ -143,7 +143,7 @@ namespace eAdmin.Pages.PageCustomers
             var resp = await http.ApiPost(controller_api + "/save", customer);
             if (resp.IsSuccess)
             {
-                toast.Add("Change status successfully", MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MatToastType.Success);
                 if (customers.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
@@ -156,12 +156,12 @@ namespace eAdmin.Pages.PageCustomers
         public async Task OnDelete(CustomerModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Customer", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete customer successfully", MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MatToastType.Success);
                     if (customers.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -175,7 +175,7 @@ namespace eAdmin.Pages.PageCustomers
         public async Task OnRestore(CustomerModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Restore Customer", "Are you sure you want to restore this record?"))
+            if (await js.Confirm(lang["Restore Recored"], "Are you sure you want to restore this record?"))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
 

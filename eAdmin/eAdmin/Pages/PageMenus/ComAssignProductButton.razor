@@ -1,10 +1,8 @@
-﻿ 
-<Button OnClick="@OnClick">Asign Products</Button>
+﻿@inject IStringLocalizer<Resource> lang
+<Button OnClick="@OnClick">@lang["Asign Products"]</Button>
 
 @code {
 
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
-
-  
 
 }

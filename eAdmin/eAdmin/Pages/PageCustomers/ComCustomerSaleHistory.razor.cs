@@ -281,12 +281,12 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
         public async Task OnDelete(SaleModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm("Delete Sale", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add("Delete sale successfully", MatToastType.Success);
+                    toast.Add("Delete record successfully", MatToastType.Success);
                     if (models.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;

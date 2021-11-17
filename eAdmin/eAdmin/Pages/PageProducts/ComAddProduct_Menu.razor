@@ -1,5 +1,5 @@
 ﻿@inject IStringLocalizer<Resource> lang
-<UIContainerBox Title="Menus">
+<UIContainerBox Title="@lang["Menus"]">
     @if (gv.business_branch_by_role.Count() == 1)
     {
         <ComAddProduct_RenderMenu business_branch_id="@gv.bussiness_branches.FirstOrDefault().id" OnMenuSelected="@OnMenuSelected"    selected_menus="@model.product_menus" />
