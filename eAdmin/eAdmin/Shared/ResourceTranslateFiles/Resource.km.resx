@@ -327,8 +327,8 @@
   <data name="Please select a payment type." xml:space="preserve">
     <value>សូមជ្រើសរើសប្រភេទការទូទាត់</value>
   </data>
-	<data name="Note" xml:space="preserve">
-    <value>កំណត់ចំណាំ</value>
+  <data name="Note" xml:space="preserve">
+    <value>ចំណាំ</value>
   </data>
   <data name="Notes" xml:space="preserve">
     <value>កំណត់ចំណាំ</value>
@@ -441,7 +441,7 @@
   <data name="Total Amount" xml:space="preserve">
     <value>ទឹកប្រាក់សរុប</value>
   </data>
-	<data name="Change status successfully" xml:space="preserve">
+  <data name="Change status successfully" xml:space="preserve">
     <value>ប្ដូរស្ថានភាពបានជោគជ័យ</value>
   </data>
   <data name="Status" xml:space="preserve">
@@ -633,31 +633,31 @@
   <data name="Active Customer" xml:space="preserve">
     <value>អតិថិជនសកម្ម</value>
   </data>
-	<data name="Active Customer Group" xml:space="preserve">
+  <data name="Active Customer Group" xml:space="preserve">
     <value>ក្រុមអតិថិជនសកម្ម</value>
   </data>
   <data name="Inactive Customer" xml:space="preserve">
     <value>អតិថិជនអសកម្ម</value>
   </data>
-	<data name="Inactive Customer Group" xml:space="preserve">
+  <data name="Inactive Customer Group" xml:space="preserve">
     <value>ក្រុមអតិថិជនអសកម្ម</value>
   </data>
   <data name="Customer Credit" xml:space="preserve">
     <value>អតិថិជនជំពាក់</value>
   </data>
-	<data name="Deleted Customer Group" xml:space="preserve">
+  <data name="Deleted Customer Group" xml:space="preserve">
     <value>ក្រុមអតិថិជនដែលបានលុប</value>
   </data>
-	<data name="Name Kh" xml:space="preserve">
+  <data name="Name Kh" xml:space="preserve">
     <value>ឈ្មោះជាភាសាខ្មែរ</value>
   </data>
-	<data name="Name En" xml:space="preserve">
+  <data name="Name En" xml:space="preserve">
     <value>ឈ្មោះជាភាសាអង់គ្លេស</value>
   </data>
   <data name="Deleted Customer" xml:space="preserve">
     <value>អតិថិជនដែលបានលុប</value>
   </data>
-	<data name="Recently Added Customer Groups" xml:space="preserve">
+  <data name="Recently Added Customer Groups" xml:space="preserve">
     <value>ក្រុមអតិថិជនបង្កើតហើយថ្មីៗ</value>
   </data>
   <data name="Recently Added Customer" xml:space="preserve">
@@ -843,7 +843,7 @@
   <data name="Delete" xml:space="preserve">
     <value>លុប</value>
   </data>
-	<data name="Deleted" xml:space="preserve">
+  <data name="Deleted" xml:space="preserve">
     <value>បានលុប</value>
   </data>
   <data name="Restore" xml:space="preserve">
@@ -1020,7 +1020,7 @@
   <data name="New Purchase Order" xml:space="preserve">
     <value>បញ្ជូលបញ្ជាទិញថ្មី</value>
   </data>
-	<data name="New Stock Stransfer" xml:space="preserve">
+  <data name="New Stock Stransfer" xml:space="preserve">
     <value>បញ្ជូលការផ្ទេរទំនិញថ្មី</value>
   </data>
   <data name="New Customer Group" xml:space="preserve">
@@ -1068,13 +1068,13 @@
   <data name="Delete Production Successfully" xml:space="preserve">
     <value>លុបផលិតកម្មបានជោគជ័យ</value>
   </data>
-	<data name="Record" xml:space="preserve">
+  <data name="Record" xml:space="preserve">
     <value>ទិន្នន័យ</value>
   </data>
-	<data name="Are you sure to" xml:space="preserve">
+  <data name="Are you sure to" xml:space="preserve">
     <value>តើអ្នកពិតជាចង់</value>
   </data>
-	<data name="Was" xml:space="preserve">
+  <data name="Was" xml:space="preserve">
     <value>បាន</value>
   </data>
   <data name="Delete Record" xml:space="preserve">
@@ -1194,7 +1194,7 @@
   <data name="Save successfully." xml:space="preserve">
     <value>រក្សាទុកជោគជ័យ</value>
   </data>
-	<data name="Save successfully" xml:space="preserve">
+  <data name="Save successfully" xml:space="preserve">
     <value>រក្សាទុកជោគជ័យ</value>
   </data>
   <data name="Saving successfully" xml:space="preserve">
@@ -1476,9 +1476,6 @@
   <data name="Not Set" xml:space="preserve">
     <value>មិនកំណត់</value>
   </data>
-  <data name="Note" xml:space="preserve">
-    <value>ចំណាំ</value>
-  </data>
   <data name="of" xml:space="preserve">
     <value>នៃ</value>
   </data>
@@ -1529,5 +1526,11 @@
   </data>
   <data name="Yearly Sale" xml:space="preserve">
     <value>សរុបលក់ប្រចាំឆ្នាំ</value>
+  </data>
+  <data name="Product Category &amp; Group" xml:space="preserve">
+    <value>ប្រភេទ​ផលិតផល និងក្រុម</value>
+  </data>
+	<data name="New Category &amp; Group" xml:space="preserve">
+    <value>ប្រភេទ​ផលិតផល និងក្រុមថ្មី</value>
   </data>
 </root>
