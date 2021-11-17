@@ -235,7 +235,7 @@ namespace eAdmin.Pages.PageProducts
             }
             if (save_model.product_portions.Count() == 0)
             {
-                toast.Add(lang["Please add product protion."], MatToastType.Warning);
+                toast.Add(lang["Please add product portion"], MatToastType.Warning);
                 is_saving = false;
                 return;
             }
@@ -246,7 +246,7 @@ namespace eAdmin.Pages.PageProducts
             {
                 if (!gv.units.Where(r => r.unit_category_id == model.unit_category_id && r.id == pp.unit_id).Any())
                 {
-                    toast.Add("Please select unit in Product Portion Price", MatToastType.Warning);
+                    toast.Add(lang["Please select unit in Product Portion Price"], MatToastType.Warning);
                     is_saving = false;
                     return;
                 }
