@@ -10,7 +10,7 @@
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
@@ -20,7 +20,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <Button icon="add" OnClick="@OnOpenModel">New</Button>
+                <Button icon="add" OnClick="@OnOpenModel">@lang["Add New Vendor Group"]</Button>
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
@@ -43,7 +43,7 @@
                        EmptyText="There is no record.">
                 <TableHeader>
                     <ThAuto>@lang["Name_Kh"] </ThAuto>
-                    <Th>@lang["Action"]</Th>
+                    <Th>@lang["Status"]</Th>
                     <Th></Th>
                 </TableHeader>
                 <RowTemplate Context="p">
@@ -68,8 +68,8 @@
     </PageContainer>
 
     <EditFormContext model="@vendor_group" Save_Click="@Save_Click" Cancel_Click="@(()=>ShowModal=false)" modal_width="800px" is_opened="@ShowModal" title="@ModalTitle" is_submitting="is_saving">
-        <TextInput label="Vendor name En" @bind-text="@vendor_group.vendor_group_name_en" />
-        <TextInput label="Vendor name Kh" @bind-text="@vendor_group.vendor_group_name_kh" />
+        <TextInput label="Name En" @bind-text="@vendor_group.vendor_group_name_en" />
+        <TextInput label="Name Kh" @bind-text="@vendor_group.vendor_group_name_kh" />
         <SelectStatus @bind-selected_value="@vendor_group.status" label="Status"/>
     </EditFormContext>
 
@@ -118,7 +118,7 @@
         state = await GetState(StateKey);
         if (state.page_title == "")
         {
-            state.page_title = "Vendor Group";
+            state.page_title = lang["Vendor Group"];
             var default_view = gv.GetDefaultModuleView("page_vendor_group");
             if (default_view != null)
             {
@@ -193,7 +193,7 @@
         if (get_result.IsSuccess)
         {
             vendor_group = JsonSerializer.Deserialize<VendorGroupModel>(get_result.Content.ToString());
-            ModalTitle = "Edit" + ": " + vendor_group.vendor_group_name_en;
+            ModalTitle = lang["Edit"] + ": " + vendor_group.vendor_group_name_en;
 
         }
         is_loading_data = false;

@@ -11,12 +11,12 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @model.product_group_en
+                       @lang["Ingredient Category"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"ingredientcategory/edit/{model.id}"))" />
+                <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"ingredientcategory/edit/{model.id}"))" />
             </HeaderRight>
         </PageHeader>
             <PageBody>
@@ -26,7 +26,7 @@
                             <div class="uk-panel">
                                 <div class="uk-float-left">
                                     <span>
-                                        @model.product_group_en
+                                        @(gv.current_language.language_id =="km-KH"? model.product_group_kh: model.product_group_en)
                                     </span>
                                 </div>
                             </div>
@@ -35,8 +35,8 @@
                         <div>
                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
-                                    <Th>@lang["Product Category Name en"]</Th>
-                                    <Th>@lang["Product Category Name en"]</Th>
+                                    <Th>@lang["Name En"]</Th>
+                                    <Th>@lang["Name Kh"]</Th>
                                     <ThCenter>@lang["Status"]</ThCenter>
                                 </tr>
 
@@ -60,7 +60,7 @@
     }
     else
     {
-        <PageNotFound Title="Ingredient Category Error" Content="Cannot get ingredient category error !!!"/>
+        <PageNotFound Title="@lang["Ingredient Category Error"]" Content="@lang["Cannot get ingredient category error !"]"/>
     }
 }
 

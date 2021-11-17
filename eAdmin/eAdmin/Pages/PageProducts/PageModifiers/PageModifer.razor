@@ -10,13 +10,13 @@
 }
 @if (!is_loading)
 {
-    <Title Value="Modifier Management"></Title>
+    <Title Value="@lang["Modifier"]"></Title>
     <PageContainer roles="@gv.GetRole("modifier_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
@@ -42,7 +42,7 @@
                        Items="@modifiers"
                        ShowCounter="true">
                     <TableHeader>
-                        @HeaderTemplate("modifier_name", "Name", "col-auto")
+                        @HeaderTemplate("modifier_name", lang["Name"], "col-auto")
                         <ThCenter>@lang["Status"]</ThCenter>
                         <th></th>
                     </TableHeader>

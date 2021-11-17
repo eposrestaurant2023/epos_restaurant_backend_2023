@@ -1,7 +1,7 @@
 ﻿@inherits PageCore;
 
 <Loading is_loading="@(is_loading || is_loading_data)"/>
-<Modal IsSimpleMode="false" IsOpened="@is_open" IsOpenedChanged="@(()=>CancelClick())"   Title="Please select a product"   custom_class_body="model-overflow-hidden" ModalWidth="800px">
+<Modal IsSimpleMode="false" IsOpened="@is_open" IsOpenedChanged="@(()=>CancelClick())"   Title="@lang["Please select product"]"   custom_class_body="model-overflow-hidden" ModalWidth="800px">
     <ModalBody ClassName="model-overflow-with-footer">
             <Grid ClassName="uk-grid-divider uk-grid-small">
                 <Column>
@@ -10,8 +10,8 @@
                         <Button custom_class="btn-search-filter-product" type="button" icon="filter_list" title="@lang["Filter Products"]" />
                         <div uk-dropdown="mode: click; pos: bottom-right">
                             <div class="uk-navbar-dropdown-grid uk-child-width-expand mega-dropdown filter-select-product" uk-grid>
-                                <PageFilter use_list="false" title="Categories">
-                                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="All Categories" is_ingredient_category="false" />
+                                <PageFilter use_list="false" title="@lang["Categories"]">
+                                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Category"]" is_ingredient_category="false" />
                                 </PageFilter>
                             </div>
                             <div class="uk-text-right" style="padding: 0px 14px 14px 14px">

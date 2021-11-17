@@ -6,7 +6,7 @@
         <div class="uk-flex uk-flex-between uk-margin-small-bottom" style="align-items: baseline;">
             <div>
                 <h3 class="title uk-margin-remove">
-                    @b.business_branch_name_en
+                    @(gv.current_language.language_id =="km-KH"? b.business_branch_name_kh: b.business_branch_name_en)
                 </h3>
             </div>
             <div>
@@ -86,7 +86,7 @@
 
         if (m.id > 0)
         {
-            if (await js.Confirm("Delete Menu", "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Menu"], lang["Are you sure you want to delete this record?"]))
             {
                 m.is_deleted = true;
             }
