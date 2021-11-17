@@ -11,13 +11,13 @@
 
 @if (!is_loading)
 {
-    <Title Value="@lang["Stock Take"]"></Title>
+    <Title Value="@lang["Stock Stransfer"]"></Title>
     <PageContainer roles="@gv.GetRole("stock_transfer_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
@@ -31,7 +31,7 @@
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <div class="uk-form-controls control-advince-filter-group">
-                        <label class="uk-form-label uk-text-bold">From Stock</label>
+                        <label class="uk-form-label uk-text-bold">@lang["From Stock"]</label>
                         <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                         <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
                     </div>
@@ -60,9 +60,9 @@
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
-                        @HeaderTemplate("stock_transfer_date", "Date", "uk-text-center")
-                        @HeaderTemplate("document_number", "Document#", "uk-text-center")
-                        @HeaderTemplate("referance_number", "Referance#", "uk-text-center")
+                        @HeaderTemplate("stock_transfer_date", lang["Date"], "uk-text-center")
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")
                         <ThAuto>
                             <div>@lang["From Business Branch"]</div>
                             <div class="sub-header-table">@lang["Warehouse"]</div>

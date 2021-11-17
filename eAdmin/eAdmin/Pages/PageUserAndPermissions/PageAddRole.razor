@@ -6,13 +6,13 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="@((id > 0)? "Edit Role" : "New Role")"></Title>
+    <Title Value="@((id > 0)? lang["Edit Role"] : lang["New Role"])"></Title>
     <PageContainer roles="@gv.GetRole($"{(id > 0 ? "role_edit" : "role_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        <span>@((id > 0)? "Edit Role" : "New Role")</span>
+                        <span>@((id > 0)? lang["Edit Role"] : lang["New Role"])</span>
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -24,16 +24,16 @@
             <PageBody>
              
                 <UIGridCenter>
-                    <UIContainerBox Title="Role">
-                        <TextInput label="Role Name" @bind-text="@model.role_name">
+                    <UIContainerBox Title="@lang["Role"]">
+                        <TextInput label="@lang["Name"]" @bind-text="@model.role_name">
                             <ValidationMessage For="@(()=>model.role_name)" />
                         </TextInput>
-                        <TextInput type="textarea" label="Description" @bind-text="@model.description" />
+                        <TextInput type="textarea" label="@lang["Description"]" @bind-text="@model.description" />
                     </UIContainerBox>
-                    <UIContainerBox Title="Businesses Branches">
+                    <UIContainerBox Title="@lang["Businesses Branches"]">
                         @foreach (var b in businesses)
                         {
-                            <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
+                            <div><ComInputCheckBox @bind-value="@b.is_selected" label="@(gv.current_language.language_id =="km-KH"?b.business_branch_name_kh:b.business_branch_name_en)" label_inline="true" /></div>
                         }
                     </UIContainerBox>
                 </UIGridCenter>                        

@@ -19,17 +19,17 @@
         </HeaderLeft>
         <HeaderRight ClassName="uk-flex-top">
             <div class="uk-text-right">
-                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["STOCK TRANSFER"]</h2>
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["Stock Transfer"]</h2>
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
                     <AuthorizeView Roles="@gv.GetRole("stock_transfer_view")">
-                        <span>SF# @model.document_number</span>
+                        <span>@lang["SF#"] @model.document_number</span>
                     </AuthorizeView>
                     }
                     else
                     {
-                        <span>SF# @model.document_number</span>
+                <span>@lang["SF#"] @model.document_number</span>
                     }
 
                 </div>

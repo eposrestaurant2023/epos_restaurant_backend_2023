@@ -16,7 +16,7 @@
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
@@ -45,7 +45,7 @@
                         <ThCenter>@lang["Image"]</ThCenter> 
                         @HeaderTemplate("user_code", lang["Code"], "uk-text-center")
                         @HeaderTemplate("full_name", lang["Full Name"], "uk-width-auto uk-text-left")
-                        <Th OnClick="@(async () => await OrderBy("username"))" OrderBy="@(state.pager.order_by == "username")" OrderByType="@state.pager.order_by_type">User Name</Th>
+                        <Th OnClick="@(async () => await OrderBy("username"))" OrderBy="@(state.pager.order_by == "username")" OrderByType="@state.pager.order_by_type">@lang["User Name"]</Th>
                         @HeaderTemplate("role/role_name", lang["User Type"], "uk-width-auto uk-text-left")
                         <ThCenter>@lang["Phone Number"]</ThCenter>
                         <Th>@lang["Email"]</Th>
@@ -154,7 +154,7 @@
         state = await GetState(StateKey);
         if (state.page_title == "")
         {
-            state.page_title = $"All User";
+            state.page_title = lang["All User"];
             var default_view = gv.GetDefaultModuleView("page_user");
             if (default_view != null)
             {
@@ -230,7 +230,7 @@
             user.password = EncryptProvider.Base64Decrypt(_user.password);
             old_username = user.username;
         }
-        title = "Edit : " + user.username;
+        title = lang["Edit"]+ ":" + user.username;
         is_dialog_open = true;
         is_loading_data = false;
     }
@@ -243,7 +243,7 @@
         }
 
         user = new UserModel();
-        title = "New User";
+        title = lang["New User"];
         is_dialog_open = true;
     }
     async Task SaveUser_Click(UserModel user)

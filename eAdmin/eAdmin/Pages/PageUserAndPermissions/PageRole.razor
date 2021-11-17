@@ -12,17 +12,17 @@
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
-                            <ModuleView sub_title="Product Category" module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
+                            <ModuleView sub_title="Role" module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("role_add")" url="role/new" custom_class="button-large">New User Type</AddButton>
+                <AddButton roles="@gv.GetRole("role_add")" url="role/new" custom_class="button-large">@lang["​Add New Role"]</AddButton>
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
                 <RefreshButton OnClick="@(()=>LoadData(""))" />
             </HeaderRight>
@@ -128,7 +128,7 @@
         if (state.page_title == "")
         {
             state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
-            state.page_title = $"All Role";
+            state.page_title = lang["All Role"];
             var default_view = gv.GetDefaultModuleView("page_role");
             if (default_view != null)
             {
@@ -232,7 +232,7 @@
     void AddNew()
     {
         is_open = true;
-        ModalTitle = $"New Role";
+        ModalTitle = lang["New Role"];
     }
 
     async Task OnToogleStatus(RoleModel p)

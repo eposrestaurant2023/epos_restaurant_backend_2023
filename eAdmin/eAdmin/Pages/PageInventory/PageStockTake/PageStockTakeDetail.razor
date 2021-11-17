@@ -9,7 +9,7 @@
 
 @if (!is_loading && is_error == false)
 {
-    <Title Value="@($"Stock Take: {model.document_number}")"></Title>
+    <Title Value="@($"{lang["Stock Take"]}: {model.document_number}")"></Title>
 
     <PageContainer roles="@gv.GetRole("stock_take_management")">
         <PageHeader>
@@ -85,7 +85,7 @@
 
 @if (is_error)
 {
-    <Error title="Stock Take Detail">
+    <Error title="@lang["Stock Take Detail"]">
         @error_text
     </Error>
 }
