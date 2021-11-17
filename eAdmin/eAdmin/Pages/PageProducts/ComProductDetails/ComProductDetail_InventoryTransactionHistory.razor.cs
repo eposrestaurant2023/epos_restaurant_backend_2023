@@ -48,7 +48,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             var default_view = gv.GetDefaultModuleView("page_purchase_order");
             if (default_view != null)
             {
-                state.page_title = default_view.title;
+                state.page_title = lang[default_view.title];
             }
 
             if (state.filters.Where(r => r.key == "product_id").Count() == 0)

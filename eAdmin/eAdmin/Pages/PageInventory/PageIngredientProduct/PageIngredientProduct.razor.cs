@@ -48,7 +48,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
                 var default_view = gv.GetDefaultModuleView("page_ingredient_product");
                 if (default_view != null)
                 {
-                    state.page_title = default_view.title;
+                    state.page_title = lang[default_view.title];
                     state.filters = default_view.filters;
                 }
             }

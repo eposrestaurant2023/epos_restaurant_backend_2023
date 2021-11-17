@@ -41,9 +41,9 @@
                    ClassName="uk-table-small uk-table-striped uk-table-hover"
                    ScrollClass="uk-overflow-auto">
                 <TableHeader>
-                    @HeaderTemplate("sale/working_date", "Working Date", "uk-text-center")
-                    @HeaderTemplate("sale/document_number", "Document#", "uk-text-center")
-                    @HeaderTemplate("product/product_name_en", "Product Name", "col-auto") 
+                    @HeaderTemplate("sale/working_date", lang["Date"], "uk-text-center")
+                    @HeaderTemplate("sale/document_number", lang["Sale_Document_No"], "uk-text-center")
+                    @HeaderTemplate("product/product_name_en", lang["Product Name"], "col-auto") 
                     <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto>
                     <ThCenter>@lang["Quantity"]</ThCenter>
                     <ThRight>@lang["Price"]</ThRight>
@@ -51,8 +51,8 @@
                     <ThRight>@lang["Tax"]</ThRight>
                     <ThRight>@lang["Amount"]</ThRight>
                     <ThCenter>@lang["Created Date"]</ThCenter>
-                    <th>@lang["Created By"]</th>
-                    <th>Status</th>
+                    <th>@lang["Created by"]</th>
+                    <th>@lang["Status"]</th>
                     <th class="uk-width-auto"></th>
                 </TableHeader>
                 <RowTemplate Context="p">

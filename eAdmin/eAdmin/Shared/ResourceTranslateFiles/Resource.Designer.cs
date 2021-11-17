@@ -178,6 +178,15 @@ namespace eAdmin.Shared.ResourceTranslateFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document #.
+        /// </summary>
+        public static string Sale_Document_No {
+            get {
+                return ResourceManager.GetString("Sale_Document_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stock Take Date.
         /// </summary>
         public static string stock_take_date {

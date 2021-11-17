@@ -10,7 +10,7 @@
 }
 @if (!is_loading)
 {
-    <Title Value="User Management"></Title>
+    <Title Value="@lang["User Management"]"></Title>
     <PageContainer roles="@gv.GetRole("user_account")">
         <PageHeader>
             <HeaderLeft>
@@ -19,7 +19,7 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_user")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>

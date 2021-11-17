@@ -550,7 +550,7 @@
     <value>ការពិពណ៌នា</value>
   </data>
   <data name="QTY" xml:space="preserve">
-    <value>បរិមាណ</value>
+    <value>ចំនួន</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>តម្លៃ</value>
@@ -712,10 +712,10 @@
     <value>អ្នកផ្គត់ផ្គង់</value>
   </data>
   <data name="Quantity" xml:space="preserve">
-    <value>បរិមាណ</value>
+    <value>ចំនួន</value>
   </data>
   <data name="Total Quantity" xml:space="preserve">
-    <value>បរិមាណសរុប</value>
+    <value>ចំនួនសរុប</value>
   </data>
   <data name="Sub Total" xml:space="preserve">
     <value>សរុបរង</value>
@@ -1401,6 +1401,12 @@
   <data name="Customer_Name_kh" xml:space="preserve">
     <value>ឈ្មោះ (Kh)</value>
   </data>
+  <data name="Discount Type" xml:space="preserve">
+    <value>ប្រភេទបញ្ចុះតម្លៃ</value>
+  </data>
+  <data name="Discount Value" xml:space="preserve">
+    <value>តម្លៃនៃបញ្ចុះតម្លៃ</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>អ៊ីម៉ែល</value>
   </data>
@@ -1461,6 +1467,15 @@
   <data name="Photo" xml:space="preserve">
     <value>រូបថត</value>
   </data>
+  <data name="Product Category Name En" xml:space="preserve">
+    <value>ប្រភេទទំនិញ En</value>
+  </data>
+  <data name="Product Category Name Kh" xml:space="preserve">
+    <value>ប្រភេទទំនិញ Kh</value>
+  </data>
+  <data name="Product Name" xml:space="preserve">
+    <value>ឈ្មោះទំនិញ</value>
+  </data>
   <data name="Sale Payment History" xml:space="preserve">
     <value>ប្រវត្តិបង់ប្រាក់</value>
   </data>
@@ -1469,6 +1484,9 @@
   </data>
   <data name="sale_and_new" xml:space="preserve">
     <value>រក្សាទុក និងបញ្ជូលថ្មី</value>
+  </data>
+  <data name="Sale_Document_No" xml:space="preserve">
+    <value>លេខបង្កាន់ដៃ</value>
   </data>
   <data name="Select Customer Group" xml:space="preserve">
     <value>ជ្រើសរើសក្រុមអតិថិជន</value>
@@ -1479,11 +1497,26 @@
   <data name="Social Media Information" xml:space="preserve">
     <value>ព័ត៌មានបណ្ដាញផ្សព្វផ្សាយសង្គម</value>
   </data>
+  <data name="Station Name" xml:space="preserve">
+    <value>ម៉ាស៊ីនគិតប្រាក់</value>
+  </data>
+  <data name="There is no station" xml:space="preserve">
+    <value>គ្មានម៉ាស៊ីនគិតប្រាក់</value>
+  </data>
+  <data name="Time (s)" xml:space="preserve">
+    <value>ម៉ោង</value>
+  </data>
   <data name="Total Receivable" xml:space="preserve">
     <value>សរុបប្រាក់ជំពាក់</value>
   </data>
   <data name="Total Sale" xml:space="preserve">
     <value>សរុបប្រាក់លក់</value>
+  </data>
+  <data name="User Management" xml:space="preserve">
+    <value>គ្រប់គ្រងអ្នកប្រើប្រាស់</value>
+  </data>
+  <data name="User Type Name" xml:space="preserve">
+    <value>តួនាទីអ្នកប្រើប្រាស់</value>
   </data>
   <data name="Yearly Sale" xml:space="preserve">
     <value>សរុបលក់ប្រចាំឆ្នាំ</value>

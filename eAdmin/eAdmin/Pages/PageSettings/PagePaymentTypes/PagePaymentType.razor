@@ -31,10 +31,10 @@
                         <div>
                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
-                                    <Th>Image</Th>
-                                    <ThAuto>Payment Type</ThAuto>
-                                    <ThAuto>Group</ThAuto>
-                                    <ThCenter>Status</ThCenter>
+                                    <Th>@lang["Image"]</Th>
+                                    <ThAuto>@lang["Payment Type"]</ThAuto>
+                                    <ThAuto>@lang["Group"]</ThAuto>
+                                    <ThCenter>@lang["Status"]</ThCenter>
                                     <Th></Th>
                                 </tr>
                                     @foreach (var s in payment_types)
@@ -159,7 +159,7 @@
             var default_view = gv.GetDefaultModuleView("page_payment_type");
             if (default_view != null)
             {
-                state.page_title = default_view.title;
+                state.page_title = lang[default_view.title];
                 state.filters = default_view.filters;
             }
         }

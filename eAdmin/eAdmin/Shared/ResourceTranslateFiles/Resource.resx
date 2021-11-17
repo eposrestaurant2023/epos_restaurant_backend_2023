@@ -156,6 +156,9 @@
   <data name="sale_and_new" xml:space="preserve">
     <value>Save &amp; New</value>
   </data>
+  <data name="Sale_Document_No" xml:space="preserve">
+    <value>Document #</value>
+  </data>
   <data name="stock_take_date" xml:space="preserve">
     <value>Stock Take Date</value>
   </data>

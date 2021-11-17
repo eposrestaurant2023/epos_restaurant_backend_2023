@@ -15,7 +15,7 @@
                         @state.page_title
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView sub_title="Product Category" module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
@@ -39,9 +39,9 @@
                    OnPageChange="@ChangePager"
                    isLoading="@is_loading_data">
                 <TableHeader>
-                    <ThAuto OnClick="@(async () => await OrderBy("role_name"))" OrderBy="@(state.pager.order_by == "role_name")" OrderByType="@state.pager.order_by_type" ClassName="cp">User Type Name</ThAuto>
-                    <ThAuto OnClick="@(async () => await OrderBy("description"))" OrderBy="@(state.pager.order_by == "description")" OrderByType="@state.pager.order_by_type" ClassName="cp">Description</ThAuto>
-                    <Th  OrderByType="@state.pager.order_by_type">Status</Th>
+                    <ThAuto OnClick="@(async () => await OrderBy("role_name"))" OrderBy="@(state.pager.order_by == "role_name")" OrderByType="@state.pager.order_by_type" ClassName="cp">@lang["User Type Name"]</ThAuto>
+                    <ThAuto OnClick="@(async () => await OrderBy("description"))" OrderBy="@(state.pager.order_by == "description")" OrderByType="@state.pager.order_by_type" ClassName="cp">@lang["Description"]</ThAuto>
+                    <Th  OrderByType="@state.pager.order_by_type">@lang["Status"]</Th>
                     <Th ClassName="col-action"></Th>
                 </TableHeader>
                 <RowTemplate Context="r">
@@ -133,7 +133,7 @@
             if (default_view != null)
             {
 
-                state.page_title = default_view.title;
+                state.page_title = lang[default_view.title];
                 state.filters = default_view.filters;
             }
         }

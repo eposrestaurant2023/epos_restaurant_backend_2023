@@ -36,10 +36,10 @@
                                 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
 
                                     <tr>
-                                        <ThAuto>Discound Type</ThAuto>
-                                        <ThAuto>Discound Code</ThAuto>
-                                        <ThAuto>Discound Code Value</ThAuto>
-                                        <ThCenter>Status</ThCenter>
+                                        <ThAuto>@lang["Discount Type"]</ThAuto>
+                                        <ThAuto>@lang["Discount Code"]</ThAuto>
+                                        <ThAuto>@lang["Discount Value"]</ThAuto>
+                                        <ThCenter>@lang["Status"]</ThCenter>
                                         <Th></Th>
                                     </tr>
                                     @foreach (var d in b.discount_codes.Where(r => r.is_deleted == false))
