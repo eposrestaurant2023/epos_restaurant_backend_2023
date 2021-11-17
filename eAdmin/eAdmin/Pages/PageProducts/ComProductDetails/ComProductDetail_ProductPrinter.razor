@@ -11,15 +11,16 @@
         {
             @foreach (var p in printers)
             {
-            <span class="uk-label" style="margin-right:5px;background:#33a9a9;">@p.printer.printer_name (@p.printer.business_branch.business_branch_name_en)</span>
+            <span class="uk-label" style="margin-right:5px;background:#33a9a9;">@p.printer.printer_name (@(gv.current_language.language_id == "km-KH"? p.printer.business_branch.business_branch_name_kh: p.printer.business_branch.business_branch_name_en))</span>
             }
         }else
         {
-            <p>@lang["There is no printer for this product."]</p>
+            <p>@lang["There's no record in the system"]</p>
         }
     }
 </UIContainerBox>
 @code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
     public List<ProductPrinterModel> printers { get; set; }
     [Parameter] public int product_id { get; set; }
 

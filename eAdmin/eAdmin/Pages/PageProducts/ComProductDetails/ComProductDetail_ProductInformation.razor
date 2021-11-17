@@ -4,15 +4,15 @@
         <ContentLeft>
             <table>
                 <tr>
-                    <th>@lang["Product Code"]</th>
+                    <th>@lang["Code"]</th>
                     <td>@model.product_code</td>
                 </tr>
                 <tr>
-                    <th>@lang["Product (En)"]</th>
+                    <th>@lang["Name En"]</th>
                     <td>@model.product_name_en</td>
                 </tr>
                 <tr>
-                    <th>@lang["Product (Kh)"]</th>
+                    <th>@lang["Name Kh"]</th>
                     <td>@model.product_name_kh</td>
                 </tr>
                 <tr>
@@ -109,7 +109,7 @@
             @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
         </div>
     }
-    <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+    <div>@lang["Last Modified By"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
 </div>
 
 @code {

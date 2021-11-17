@@ -25,10 +25,10 @@
                 <UIGridCenter>
                     <UIContainerBox Title="@lang["Product Group"]">
                         <TextInput @bind-text="@model.product_group_code" label="@lang["Product Group Code"]" is_read_only="@model.is_built_in" />
-                        <TextInput @bind-text="@model.product_group_en" label="@lang["Product Group Name En"]" is_read_only="@model.is_built_in">
+                        <TextInput @bind-text="@model.product_group_en" label="@lang["Product Group En"]" is_read_only="@model.is_built_in">
                             <ValidationMessage For="@(() => model.product_group_en )" />
                         </TextInput>
-                        <TextInput @bind-text="@model.product_group_en" label="@lang["Product Group Name Kh"]" is_read_only="@model.is_built_in" />
+                        <TextInput @bind-text="@model.product_group_en" label="@lang["Product Group Kh"]" is_read_only="@model.is_built_in" />
                         <SelectStatus @bind-selected_value="@model.status" />
 
                     </UIContainerBox>
@@ -36,8 +36,8 @@
                         <div class="uk-overflow-auto">
                             <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
                                 <tr>
-                                    <ThAuto>@lang["Category Name En"]</ThAuto>
-                                    <ThAuto>@lang["Category Name Kh"]</ThAuto>
+                                    <ThAuto>@lang["Product Category En"]</ThAuto>
+                                    <ThAuto>@lang["Product Category Kh"]</ThAuto>
                                     <ThCenter>@lang["Status"]</ThCenter>
                                     <th></th>
                                 </tr>
@@ -45,8 +45,8 @@
                                     @foreach (var s in model.product_categories.Where(r => r.is_deleted == false).ToList())
                                     {
                                         <tr>
-                                            <td><TextInput label="" placeholder="@lang["Product Category Name En"]" @bind-text="@s.product_category_en" /></td>
-                                            <td><TextInput label="" placeholder="@lang["Product Category Name Kh"]" @bind-text="@s.product_category_kh" /></td>
+                                            <td><TextInput label="" placeholder="@lang["Product Category En"]" @bind-text="@s.product_category_en" /></td>
+                                            <td><TextInput label="" placeholder="@lang["Product Category Kh"]" @bind-text="@s.product_category_kh" /></td>
                                             <TdCenter>
                                                 <LabelActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@s.status" />
                                                 <LabelInActive OnClick="@(()=>ChangeProductCategoryStatus(s))" is_visible="@(!s.status)" />
@@ -140,7 +140,7 @@
 
             if (save_product_group.product_categories.Where(r=>r.is_deleted == false).Any() == false)
             {
-                toast.Add(lang["Category cannot empty"], MatBlazor.MatToastType.Warning);
+                toast.Add(lang["Product Category Cannot Empty"], MatBlazor.MatToastType.Warning);
                 is_saving = false;
                 return;
             }

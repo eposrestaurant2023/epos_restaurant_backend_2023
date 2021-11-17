@@ -16,7 +16,7 @@
                 @foreach (var p in stock_location_products.OrderByDescending(r => r.stock_location_id).ToList())
                 {
                 <tr>
-                    <td>@p.stock_location?.business_branch?.business_branch_name_en</td>
+                    <td>@(gv.current_language.language_id == "km-KH" ? p.stock_location?.business_branch?.business_branch_name_kh : p.stock_location?.business_branch?.business_branch_name_en)</td>
                     <td>
                         <div>
                             @p.stock_location.stock_location_name
@@ -114,7 +114,7 @@
             stock_location_products.ForEach(r => r.quantity = r.adjust_quantity);
             await stock_location_productsChanged.InvokeAsync(stock_location_products);
 
-            toast.Add(lang["Saved Successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully."], MatToastType.Success);
         }
         else
         {

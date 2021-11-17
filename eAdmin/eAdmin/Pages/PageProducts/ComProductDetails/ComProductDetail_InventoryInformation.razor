@@ -19,7 +19,7 @@
                 <ThCenter>@lang["Max QTY"]</ThCenter>
             </TableHeader>
             <RowTemplate Context="p">
-                <td>@p.stock_location?.business_branch?.business_branch_name_en</td>
+                <td>@(gv.current_language.language_id == "km-KH" ?p.stock_location?.business_branch?.business_branch_name_kh: p.stock_location?.business_branch?.business_branch_name_en)</td>
                 <td>
                     <div>
                         @p.stock_location?.stock_location_name

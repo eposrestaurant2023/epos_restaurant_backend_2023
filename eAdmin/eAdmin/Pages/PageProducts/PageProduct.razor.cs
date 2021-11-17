@@ -46,7 +46,7 @@ namespace eAdmin.Pages.PageProducts
             state = await GetState(StateKey);
             if (state.page_title == "")
             {
-                state.page_title = "Products";
+                state.page_title = lang["Products"];
                 var default_view = gv.GetDefaultModuleView("page_product");
                 if (default_view != null)
                 {
@@ -152,7 +152,7 @@ namespace eAdmin.Pages.PageProducts
         public async Task OnDelete(ProductModel p)
         {
             p.is_loading = true;
-            if (await js.Confirm(lang["Delete Product"], "Are you sure you want to delete this record?"))
+            if (await js.Confirm(lang["Delete Product"], lang["Are you sure you want to delete this record?"]))
             {
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)

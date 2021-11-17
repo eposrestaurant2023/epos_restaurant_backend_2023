@@ -1,4 +1,5 @@
 ﻿@inject IHttpService http;
+@inject IStringLocalizer<Resource> lang
 @if (is_loading)
 {
     <Spinner />
@@ -52,7 +53,7 @@ else
                         <th></th>
                         <td>
                             <div class="uk-text-large">000</div>
-                            <div class="uk-text-small uk-text-italic">@LangName["Credit Balance"]</div>
+                            <div class="uk-text-small uk-text-italic">@lang["Credit Balance"]</div>
                         </td>
                     </tr>
                 </table>

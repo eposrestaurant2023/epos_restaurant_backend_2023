@@ -2,13 +2,13 @@
 @inject IStringLocalizer<Resource> lang
 <div class="defualt-stock-location">
     <Spacing Number="15" />
-    <div class="uk-text-bold uk-margin-small-bottom">Defualt Stock Location</div>
+    <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
     <Tab>
         <TabHeader>
             @foreach (var b in gv.business_branch_by_role)
             {
                 if(gv.business_branch_has_inventory(b.id.ToString())){
-                     <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                     <TabHeaderItem>@(gv.current_language.language_id == "km-KH"?b.business_branch_name_kh : b.business_branch_name_en)</TabHeaderItem>
                 }
                
             }
@@ -20,8 +20,8 @@
                 <TabItem>
                     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                         <tr>
-                            <ThAuto>Station</ThAuto>
-                            <th>Stock location</th>
+                            <ThAuto>@lang["Station"]</ThAuto>
+                            <th>@lang["Stock location"]</th>
                         </tr>
                         @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
                         {
@@ -30,7 +30,7 @@
                                 @if (d.station != null)
                                 {
                                     <tr>
-                                        <td>@d.station?.station_name_en</td>
+                                        <td>@(gv.current_language.language_id == "km-KH"?d.station?.station_name_kh : d.station?.station_name_en)</td>
                                         <td>
                                             @d.stock_location?.stock_location_name
                                         </td>
@@ -45,7 +45,7 @@
                                     <div class="uk-text-center">
                                         <Icon icon="search" />
                                         <br />
-                                        <p>There is no station</p>
+                                        <p>@lang["There is no station"]</p>
                                     </div>
                                 </td>
                             </tr>

@@ -1,6 +1,7 @@
-﻿@if (is_visible)
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_visible)
 {
-    <label class="uk-label label-inventory text-center @ClassName" style="background:@Background;color:@Color">@Text</label>
+    <label class="uk-label label-inventory text-center @ClassName" style="background:@Background;color:@Color">@lang[Text]</label>
 }
 
 @code{
@@ -8,6 +9,6 @@
     [Parameter] public string ClassName { get; set; }
     [Parameter] public string Background { get; set; } = "#1e87f0";
     [Parameter] public string Color { get; set; } = "#fff";
-    [Parameter] public string Text { get; set; } = "Inventory"; 
+    [Parameter] public string Text { get; set; } = "Inventory";
 
 }

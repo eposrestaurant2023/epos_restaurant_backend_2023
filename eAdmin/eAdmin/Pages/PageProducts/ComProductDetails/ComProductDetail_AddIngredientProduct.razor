@@ -9,7 +9,7 @@
     <hr/> 
     <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
         <tr>
-            <ThAuto>@lang["Item Name"]</ThAuto>
+            <ThAuto>@lang["Name"]</ThAuto>
             <ThCenter>@lang["Quantity"]</ThCenter>
             @if (is_search_all_product) {  
             <ThCenter>@lang["Portion"]</ThCenter>
@@ -38,7 +38,7 @@
         {
             <TdCenter>
                 <select value="@p.ingredient_portion_id" @onchange="@((ui) => OnPortionChanged(p, (string)ui.Value))" class="uk-select uk-form-small" style="min-width:80px;">
-                    <option value="0">Select Portion</option>
+                    <option value="0">@lang["Select Portion"]</option>
                     @foreach (var pt in p.ingredient.product_portions)
                     {
                         <option value="@pt.id">@pt.portion_name</option>
@@ -64,7 +64,7 @@
     <tfoot>
         <tr>
             <td>
-                Total
+                @lang["Total"]
             </td>
             <TdCenter>
                 @product_portion.product_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)

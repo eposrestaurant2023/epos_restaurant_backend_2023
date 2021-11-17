@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http ;
 @inject IStringLocalizer<Resource> lang
-<UIContainerBox Title="Product Tax" Icon="attach_money">
+<UIContainerBox Title="@lang["Product Tax"]" Icon="attach_money">
     @if (is_loading)
     {
         <Spinner />
@@ -12,7 +12,7 @@
             <TabHeader>
                 @foreach (var b in gv.business_branch_by_role)
                 {
-                    <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
+                    <TabHeaderItem>@(gv.current_language.language_id == "km-KH"? b.business_branch_name_kh : b.business_branch_name_en)</TabHeaderItem>
                 }
             </TabHeader>
             <TabBody>
