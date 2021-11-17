@@ -852,9 +852,7 @@
 	<data name="Password" xml:space="preserve">
     <value>លេខសម្ងាត់​</value>
   </data>
-	 <data name="Password" xml:space="preserve">
-    <value>លេខសម្ងាត់​</value>
-  </data>
+	  
 	 <data name="Account" xml:space="preserve">
     <value>គណនី​</value>
   </data>
@@ -867,9 +865,7 @@
 	  <data name="User Name" xml:space="preserve">
     <value>ឈ្មោះអ្នកប្រើប្រាស់</value>
   </data>
-	<data name="User Name" xml:space="preserve">
-    <value>ឈ្មោះអ្នកប្រើប្រាស់</value>
-  </data>
+	 
   <data name="User Setup" xml:space="preserve">
     <value>អ្នកប្រើប្រាស់</value>
   </data>
@@ -1509,17 +1505,18 @@
   <data name="All Stock Take History" xml:space="preserve">
     <value>ប្រវត្តិបញ្ជូលទំនិញទាំងអស់</value>
   </data>
-  <data name="Stock Take" xml:space="preserve">
+	<data name="Stock Take" xml:space="preserve">
     <value>បញ្ជូលទំនិញ</value>
+	  </data>
 	<data name="All Stock Take" xml:space="preserve">
+		
+		
     <value>បញ្ជូលទំនិញទាំងអស់</value>
   </data>
 		<data name="Deleted Stock Take" xml:space="preserve">
     <value>បញ្ជូលទំនិញបានលុប</value>
   </data>
-		<data name="Deleted Stock Take" xml:space="preserve">
-    <value>បញ្ជូលទំនិញបានលុប</value>
-  </data>
+		 
 		<data name="ST#" xml:space="preserve">
     <value>លេខបញ្ជូលទំនិញ</value>
   </data>
@@ -1728,10 +1725,7 @@
   <data name="Select Price Rule" xml:space="preserve">
     <value>ជ្រើសរើសប្រភេទតម្លៃ</value>
   </data>
-  <data name="Company Name" xml:space="preserve">
-    <value>ឈ្មោះ​ក្រុម​ហ៊ុន    </value>
-  </data>
-  <data name="Active Vendor" xml:space="preserve">
+  
 		<data name="Company Name" xml:space="preserve">
     <value>ឈ្មោះ​ក្រុម​ហ៊ុន    </value>
   </data>
@@ -1904,12 +1898,13 @@
     <value>ព័ត៌មាន​ផ្សេងៗ</value>
   </data>
   <data name="Ingredient Product Information" xml:space="preserve">
+	     <value>ព័ត៌មានគ្រឿងផ្សំ</value>
+	   </data>
 		  <data name="Stock Transfer Information" xml:space="preserve">
     <value>ព័ត៌មានការផ្ទេរទំនិញ</value>
+			 
   </data>
-	  <data name="Ingredient Product Information" xml:space="preserve">
-    <value>ព័ត៌មាន​អំពីគ្រឿងផ្សំ</value>
-  </data>
+	   
   <data name="Product Information" xml:space="preserve">
     <value>ព័ត៌មាន​អំពីទំនិញ</value>
   </data>
