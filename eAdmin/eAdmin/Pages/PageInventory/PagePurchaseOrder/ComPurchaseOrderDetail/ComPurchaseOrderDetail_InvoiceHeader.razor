@@ -32,7 +32,7 @@
         </HeaderLeft>
         <HeaderRight ClassName="uk-flex-top">
             <div class="uk-text-right">
-                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["Purcase Order"]</h2>
+                <h2 class="uk-text-uppercase uk-margin-small-bottom">@lang["Purchase Orders"]</h2>
                 <div class="uk-margin-small-bottom">
                     @if (is_view_detail)
                     {
@@ -60,32 +60,32 @@
                 <div class="invoice-header-title">@lang["PO Information"]</div>
                 <table class="invoice_header_description">
                     <tr>
-                        <td>PO Date:</td>
+                        <td>@lang["PO Date"]:</td>
                         <td>@po.purchase_date.ToString(gv.date_format)</td>
                     </tr>
 
                     @if (po.due_date != null)
                     {
                         <tr>
-                            <td>Due Date:</td>
+                            <td>@lang["Due Date"]:</td>
                             <td>@string.Format(gv.date_format, po.due_date)</td>
                         </tr>
                     }
                     <tr>
-                        <td>Referance #:</td>
+                        <td>@lang["Referance #"]:</td>
                         <td>@po.reference_number</td>
                     </tr>
                     @if (po.business_branch != null)
                     {
                         <tr>
-                            <td>Branch:</td>
+                            <td>@lang["Branch"]:</td>
                             <td>@po.business_branch?.business_branch_name_en</td>
                         </tr>
                     }
                     @if (po.stock_location != null)
                     {
                         <tr>
-                            <td>Stock Location:</td>
+                            <td>@lang["Stock Location"]:</td>
                             <td>@po.stock_location?.stock_location_name</td>
                         </tr>
                     }

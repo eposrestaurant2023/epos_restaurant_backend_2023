@@ -1,16 +1,16 @@
 ﻿@inject IHttpService http;
 @inject NavigationManager nav;
-
+@inject IStringLocalizer<Resource> lang
 <div uk-grid class="uk-grid-small">
     <div class="uk-width uk-margin-remove-top">
         @if (po.vendor != null)
         {
-            <div class="sub_title font-sm">Vendor</div>
+            <div class="sub_title font-sm">@lang["Vendor"]</div>
             <div>
                 <div class="uk-flex">
                     <div style="margin-right:4px;">
                         <Image ImageUrl="@http.ImageUrl(po.vendor?.photo)" PopupImageUrl="@http.ImageUrl(po.vendor?.photo)" IsLightBox="true" IsBackgroundImage="true" Width="40px" Height="40px" />
-                        <Spacing Number="5"/>
+                        <Spacing Number="5" />
                     </div>
                     <div style="margin-right:4px;">
                         <div>
@@ -19,7 +19,7 @@
                             <LabelActive is_visible="@(po.vendor.status && !po.vendor.is_deleted)" />
                             <LabelDeleted is_visible="@po.vendor.is_deleted" />
                         </div>
-                    
+
                         <Com is_visible="po.vendor?.office_phone !=null && po.vendor?.mobile_phone !=null">
                             <div>
                                 <Icon icon="phone" />
@@ -41,8 +41,8 @@
             <br />
         }
 
-         </div>
     </div>
+</div>
 
 
 

@@ -31,7 +31,7 @@
         <div class="box cp" style="background:#000;color:#fff;">
             <div>
                 <div style="text-align: center; align-items: center; padding-top: 47px;">
-                    @m.product.product_name_en
+                    @(gv.current_language.language_id == "km-KH"? m.product.product_name_kh :m.product.product_category_en)
                 </div>
             </div>
         </div>
@@ -41,9 +41,9 @@
     @if (deleted_product_menu != null && show_undo_delete == true)
     {
         <MatSnackbar @bind-IsOpen="@show_undo_delete" Leading="true">
-            <MatSnackbarContent>Product @deleted_product_menu.product.product_name_kh  has been remove from this menu @menu.menu_name_en.</MatSnackbarContent>
+            <MatSnackbarContent>@lang["Product"] @(gv.current_language.language_id == "km-KH"? deleted_product_menu.product.product_name_kh : deleted_product_menu.product.product_category_en)  @lang["has been remove from this menu"] @menu.menu_name_en.</MatSnackbarContent>
             <MatSnackbarActions>
-                <MatButton Raised="true" OnClick="@UndoDelete">Undo</MatButton>
+                <MatButton Raised="true" OnClick="@UndoDelete">@lang["Undo"]</MatButton>
             </MatSnackbarActions>
         </MatSnackbar>
     }

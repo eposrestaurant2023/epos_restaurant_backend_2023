@@ -23,7 +23,7 @@
 
                 @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category && r.product_group_id == (product_group_id == 0 ? r.product_group_id : product_group_id)))
                 {
-                    <option value="@p.id">@p.product_category_en</option>
+                    <option value="@p.id">@(gv.current_language.language_id == "km-KH"? p.product_category_kh: p.product_category_en)</option>
                 }
 
             </select>
@@ -38,7 +38,7 @@
 
                 @foreach (var p in gv.product_categories.Where(r => r.is_deleted == false && r.is_ingredient_category == is_ingredient_category && r.product_group_id == (product_group_id == 0 ? r.product_group_id : product_group_id)))
                 {
-                    <option value="@p.id">@p.product_category_en</option>
+            <option value="@p.id">@(gv.current_language.language_id == "km-KH"? p.product_category_kh: p.product_category_en)</option>
                 }
             </select>
         }

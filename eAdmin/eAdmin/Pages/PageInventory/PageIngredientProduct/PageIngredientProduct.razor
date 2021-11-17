@@ -17,7 +17,7 @@
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
@@ -27,9 +27,9 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("ingredient_add")" OnClick="@(()=>nav.NavigateTo("ingredient/new"))">New Ingredient</AddButton>
+                <AddButton roles="@gv.GetRole("ingredient_add")" OnClick="@(()=>nav.NavigateTo("ingredient/new"))">@lang["New Ingredient"]</AddButton>
                 <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="All Product Category" is_ingredient_category="false" />
+                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" is_ingredient_category="false" />
                 </ComSearch>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
@@ -51,8 +51,8 @@
                     <TableHeader>
                         <ThCenter>@lang["Image"]</ThCenter>
                         @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-                        @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
-                        @HeaderTemplate("product_category/product_category_en", "Category")
+                        @HeaderTemplate("product_name_en", lang["Name En(Kh)"], "col-auto")
+                        @HeaderTemplate("product_category/product_category_en", lang["Category"])
                         <ThCenter>@lang["Unit"]</ThCenter>
                         <ThCenter>@lang["Quantity"]</ThCenter>
                         <ThRight>@lang["Cost"]</ThRight>

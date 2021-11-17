@@ -105,7 +105,7 @@
         if (res.IsSuccess)
         {
             model = JsonSerializer.Deserialize<MenuModel>(res.Content.ToString());
-            toast.Add(lang["Save Menu Successfully."],MatToastType.Success);
+            toast.Add(lang["Save Successfully."],MatToastType.Success);
             await menuChanged.InvokeAsync(model);
             model = new MenuModel();
             is_opened = false;

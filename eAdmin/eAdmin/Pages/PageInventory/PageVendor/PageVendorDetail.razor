@@ -32,11 +32,11 @@
         <PageBody>
             <Tab ClassName="control-header-tab">
                 <TabHeader>
-                    <TabHeaderItem>Overview</TabHeaderItem>
+                    <TabHeaderItem>@lang["Overview"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>purchase_history_tab_click=true)">@lang["Purchase History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>purchase_product_history_tab_click = true)">@lang["Purchase Product History"]</TabHeaderItem>
                     <TabHeaderItem OnClick="@(()=>purchase_payment_history_tab_click = true)">@lang["Purchase Payment History"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">@lang["Comments and history"]</TabHeaderItem>
+                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
                 <TabBody>
                     <TabItem>
@@ -52,11 +52,11 @@
                                     <ContentLeft>
                                         <table>
                                             <tr>
-                                                <th>@lang["Vendor Name"]</th>
+                                                <th>@lang["Name"]</th>
                                                 <td>@model.vendor_name</td>
                                             </tr>
                                             <tr>
-                                                <th>@lang["Company"]</th>
+                                                <th>@lang["Company Name"]</th>
                                                 <td>@model.company_name</td>
                                             </tr>
                                             <tr>
@@ -111,7 +111,7 @@
                                     @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
                                 </div>
                             }
-                            <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+                            <div>@lang["Last modified By"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
                         </div>
                     </TabItem>
                    

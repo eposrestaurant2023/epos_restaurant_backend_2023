@@ -1,13 +1,13 @@
 ﻿@inject IStringLocalizer<Resource> lang
 
 <tr>
-    <td colspan="6" class="uk-text-right">Total Quantity</td>
+    <td colspan="6" class="uk-text-right">@lang["Total Quantity"]</td>
     <td class="uk-text-right bg_hightlight">
         @po.active_purchase_order_products.Sum(r => r.quantity).ToString(gv.quantity_format)
     </td>
 </tr>
 <tr>
-    <td colspan="6" class="uk-text-right">Sub Total</td>
+    <td colspan="6" class="uk-text-right">@lang["Sub Total"]</td>
     <td class="uk-text-right bg_hightlight">
         @po.sub_total.ToString(gv.currency_format)
     </td>
@@ -17,7 +17,7 @@
 @if (po.po_product_discount_amount > 0)
 {
     <tr>
-        <td colspan="6" class="uk-text-right">Total Item Discount</td>
+        <td colspan="6" class="uk-text-right">@lang["Total Item Discount"]</td>
         <td class="uk-text-right bg_hightlight">@po.po_product_discount_amount.ToString(gv.currency_format)</td>
     </tr>
 }
@@ -25,7 +25,7 @@
 @if (po.discount > 0)
 {
     <tr>
-        <td colspan="6" class="uk-text-right">PO Discount @(po.discount_type == "Percent" ? ("(" + (po.discount / 100).ToString("0.####")) + ")" : "")</td>
+        <td colspan="6" class="uk-text-right">@lang["PO Discount"] @(po.discount_type == "Percent" ? ("(" + (po.discount / 100).ToString("0.####")) + ")" : "")</td>
         <td class="uk-text-right bg_hightlight">
 
             <span>
@@ -38,7 +38,7 @@
 @if (po.total_discount > 0)
 {
     <tr>
-        <td colspan="6" class="uk-text-right">Total Discount</td>
+        <td colspan="6" class="uk-text-right">@lang["Total Discount"]</td>
         <td class="uk-text-right bg_hightlight">
             @po.grand_total_discount.ToString(gv.currency_format)
         </td>
@@ -48,7 +48,7 @@
 @if (po.total_amount > 0)
 {
     <tr>
-        <td colspan="6" class="uk-text-right">Grand Total</td>
+        <td colspan="6" class="uk-text-right">@lang["Grand Total"]</td>
         <td class="uk-text-right bg_hightlight">
             @po.total_amount.ToString(gv.currency_format)
         </td>
@@ -57,7 +57,7 @@
 @if (po.paid_amount > 0)
 {
     <tr>
-        <td colspan="6" class="uk-text-right">Total Paid</td>
+        <td colspan="6" class="uk-text-right">@lang["Total Paid"]</td>
         <td class="uk-text-right bg_hightlight">
             <div class="uk-inline">
                 <a> @po.paid_amount.ToString(gv.currency_format)</a>
@@ -65,10 +65,10 @@
                     @foreach (var p in po.purchase_order_payments.Where(r => !r.is_deleted))
                     {
                         <div class="items-hr">
-                            <ComItemInfo title="Date" content="@(p.payment_date.ToString(gv.date_format))" />
-                            <ComItemInfo title="Payment Type" content="@p.payment_type?.payment_type_name_en" />
-                            <ComItemInfo title="Paid" content="@p.payment_amount.ToString(gv.currency_format)" />
-                            <ComItemInfo title="By" content="@($"{p.created_by} {lang["On_Date"]}  {p.created_date.ToString(gv.date_time_format)}")" />
+                            <ComItemInfo title="@lang["Date"]" content="@(p.payment_date.ToString(gv.date_format))" />
+                            <ComItemInfo title="@lang["Payment Type"]" content="@p.payment_type?.payment_type_name_en" />
+                            <ComItemInfo title="@lang["Paid"]" content="@p.payment_amount.ToString(gv.currency_format)" />
+                            <ComItemInfo title="@lang["by"]" content="@($"{p.created_by} {lang["On_Date"]}  {p.created_date.ToString(gv.date_time_format)}")" />
                         </div>
                     }
                 </DropDown>
@@ -82,7 +82,7 @@
 @if (po.paid_amount > 0)
 {
     <tr>
-        <td colspan="6" class="uk-text-right">Balance Due</td>
+        <td colspan="6" class="uk-text-right">@lang["Balance Due"]</td>
         <td class="uk-text-right bg_hightlight">
             @po.balance.ToString(gv.currency_format)
         </td>
