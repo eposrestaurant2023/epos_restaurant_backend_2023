@@ -120,11 +120,26 @@
   <data name="Address_and_Note" xml:space="preserve">
     <value>Adress &amp; Note</value>
   </data>
+  <data name="Area_Chart" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="Bar_Chart" xml:space="preserve">
+    <value>Bar</value>
+  </data>
+  <data name="Customer_Name_En" xml:space="preserve">
+    <value>Customer (En)</value>
+  </data>
+  <data name="Customer_Name_Kh" xml:space="preserve">
+    <value>Customer (Kh)</value>
+  </data>
   <data name="helloworld" xml:space="preserve">
     <value>HELLO</value>
   </data>
   <data name="help_and_support" xml:space="preserve">
     <value>Help and Support</value>
+  </data>
+  <data name="Line_Chart" xml:space="preserve">
+    <value>Line</value>
   </data>
   <data name="Name_En" xml:space="preserve">
     <value>Name (En)</value>

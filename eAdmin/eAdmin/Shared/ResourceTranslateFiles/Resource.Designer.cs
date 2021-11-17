@@ -70,6 +70,42 @@ namespace eAdmin.Shared.ResourceTranslateFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Area.
+        /// </summary>
+        public static string Area_Chart {
+            get {
+                return ResourceManager.GetString("Area_Chart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bar.
+        /// </summary>
+        public static string Bar_Chart {
+            get {
+                return ResourceManager.GetString("Bar_Chart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer (En).
+        /// </summary>
+        public static string Customer_Name_En {
+            get {
+                return ResourceManager.GetString("Customer_Name_En", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer (Kh).
+        /// </summary>
+        public static string Customer_Name_Kh {
+            get {
+                return ResourceManager.GetString("Customer_Name_Kh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HELLO.
         /// </summary>
         public static string helloworld {
@@ -84,6 +120,15 @@ namespace eAdmin.Shared.ResourceTranslateFiles {
         public static string help_and_support {
             get {
                 return ResourceManager.GetString("help_and_support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        public static string Line_Chart {
+            get {
+                return ResourceManager.GetString("Line_Chart", resourceCulture);
             }
         }
         

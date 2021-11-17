@@ -640,7 +640,7 @@
     <value>អតិថិជនបង្កើតហើយថ្មីៗ</value>
   </data>
   <data name="All Receipt" xml:space="preserve">
-    <value>ទាំងអស់វិក័យបត្រ័</value>
+    <value>វិក័យបត្រ័ទាំងអស់</value>
   </data>
   <data name="Deleted Receipt" xml:space="preserve">
     <value>វិក័យបត្រ័ដែលបានលុប</value>
@@ -1368,14 +1368,38 @@
   <data name="Address_and_Note" xml:space="preserve">
     <value>អាសយដ្ឋាន &amp; ចំណាំ</value>
   </data>
+  <data name="Area_Chart" xml:space="preserve">
+    <value>តំបន់</value>
+  </data>
+  <data name="Bar_Chart" xml:space="preserve">
+    <value>សសរ</value>
+  </data>
   <data name="Change Exchange Rate" xml:space="preserve">
     <value>អាត្រាប្តូរប្រាក់សម្រាប់ប្រាក់អាប់</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>ខេត្ត/ក្រុង</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>មតិ</value>
   </data>
   <data name="Company" xml:space="preserve">
     <value>ក្រុមហ៊ុន</value>
   </data>
+  <data name="Credit Balance" xml:space="preserve">
+    <value>ទឹកប្រាក់ជំពាក់</value>
+  </data>
+  <data name="Customer Code" xml:space="preserve">
+    <value>លេខកូដអតិថិជន</value>
+  </data>
   <data name="Customer Photo" xml:space="preserve">
     <value>រូបថត</value>
+  </data>
+  <data name="Customer_Name_En" xml:space="preserve">
+    <value>ឈ្មោះ (En)</value>
+  </data>
+  <data name="Customer_Name_kh" xml:space="preserve">
+    <value>ឈ្មោះ (Kh)</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>អ៊ីម៉ែល</value>
@@ -1386,11 +1410,20 @@
   <data name="Female" xml:space="preserve">
     <value>ស្រី</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>ក្រុម</value>
+  </data>
   <data name="Inventory" xml:space="preserve">
     <value>សារពើភ័ណ្ឌ</value>
   </data>
+  <data name="Line_Chart" xml:space="preserve">
+    <value>បន្ទាត់</value>
+  </data>
   <data name="Male" xml:space="preserve">
     <value>ប្រុស</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>ផ្សេងៗ</value>
   </data>
   <data name="Name_En" xml:space="preserve">
     <value>ឈ្មោះ(En)</value>
@@ -1410,6 +1443,9 @@
   <data name="Other information" xml:space="preserve">
     <value>ព័ត៌មាន​ផ្សេងៗ</value>
   </data>
+  <data name="Overview" xml:space="preserve">
+    <value>ព័ត៌មានទូទៅ</value>
+  </data>
   <data name="Phone 1" xml:space="preserve">
     <value>លេខទូរសព្ទ 1</value>
   </data>
@@ -1425,8 +1461,17 @@
   <data name="Photo" xml:space="preserve">
     <value>រូបថត</value>
   </data>
+  <data name="Sale Payment History" xml:space="preserve">
+    <value>ប្រវត្តិបង់ប្រាក់</value>
+  </data>
+  <data name="Sale Product History" xml:space="preserve">
+    <value>ប្រវត្តិទិញទំនិញ</value>
+  </data>
   <data name="sale_and_new" xml:space="preserve">
     <value>រក្សាទុក និងបញ្ជូលថ្មី</value>
+  </data>
+  <data name="Select Customer Group" xml:space="preserve">
+    <value>ជ្រើសរើសក្រុមអតិថិជន</value>
   </data>
   <data name="Showing" xml:space="preserve">
     <value>បង្ហាញ</value>
@@ -1436,5 +1481,11 @@
   </data>
   <data name="Total Receivable" xml:space="preserve">
     <value>សរុបប្រាក់ជំពាក់</value>
+  </data>
+  <data name="Total Sale" xml:space="preserve">
+    <value>សរុបប្រាក់លក់</value>
+  </data>
+  <data name="Yearly Sale" xml:space="preserve">
+    <value>សរុបលក់ប្រចាំឆ្នាំ</value>
   </data>
 </root>
