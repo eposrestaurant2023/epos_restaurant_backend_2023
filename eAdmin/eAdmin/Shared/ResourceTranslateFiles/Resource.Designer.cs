@@ -61,6 +61,15 @@ namespace eAdmin.Shared.ResourceTranslateFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adress &amp; Note.
+        /// </summary>
+        public static string Address_and_Note {
+            get {
+                return ResourceManager.GetString("Address_and_Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HELLO.
         /// </summary>
         public static string helloworld {
@@ -79,6 +88,24 @@ namespace eAdmin.Shared.ResourceTranslateFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name (En).
+        /// </summary>
+        public static string Name_En {
+            get {
+                return ResourceManager.GetString("Name_En", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name (Kh).
+        /// </summary>
+        public static string Name_Kh {
+            get {
+                return ResourceManager.GetString("Name_Kh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to On.
         /// </summary>
         public static string On_Date {
@@ -93,6 +120,15 @@ namespace eAdmin.Shared.ResourceTranslateFiles {
         public static string On_Hour {
             get {
                 return ResourceManager.GetString("On_Hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save &amp; New.
+        /// </summary>
+        public static string sale_and_new {
+            get {
+                return ResourceManager.GetString("sale_and_new", resourceCulture);
             }
         }
         

@@ -8,14 +8,14 @@
 <UIContainerBox>
     <TextInput label="@lang["Code"]" text="@model.customer_code" is_read_only="true">
     </TextInput>
-    <TextInput label="@lang["Name (EN)"]" @bind-text="@model.customer_name_en">
+    <TextInput label="@lang["Name_En"]" @bind-text="@model.customer_name_en">
         <ValidationMessage For="@(() => model.customer_name_en)" />
     </TextInput>
-    <TextInput label="@lang["Name (KH)"]" @bind-text="@model.customer_name_kh" />
+    <TextInput label="@lang["Name_Kh"]" @bind-text="@model.customer_name_kh" />
     <TextInput label="@lang["Phone 1"]" @bind-text="@model.phone_1" />
     <TextInput label="@lang["Phone 2"]" @bind-text="@model.phone_2" />
     <SelectCustomerGroup @bind-selected_value="model.customer_group_id" show_empty="true" empty_text="@lang["Select Customer Group"]">
-        <ValidationMessage For="@(()=>model.customer_group_id)"/>
+        <ValidationMessage For="@(()=>model.customer_group_id)">hello</ValidationMessage>
     </SelectCustomerGroup>
     <SelectGender @bind-selected_value="model.gender" />     
     <SelectStatus @bind-selected_value="@model.status" />
@@ -37,7 +37,7 @@
     <TextInput label="@lang["Email"]" @bind-text="@model.email" /> 
 </UIContainerBox> 
 
-<UIContainerBox Title="@lang["Address & Note"]">
+<UIContainerBox Title="@lang["Address_and_Note"]">
     <Tab>
         <TabHeader>
             <TabHeaderItem>@lang["Address"]</TabHeaderItem>

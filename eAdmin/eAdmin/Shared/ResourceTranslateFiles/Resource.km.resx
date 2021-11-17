@@ -1362,4 +1362,79 @@
   <data name="Vendors" xml:space="preserve">
     <value>អ្នកផ្គត់ផ្គង់</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>អាសយដ្ឋាន</value>
+  </data>
+  <data name="Address_and_Note" xml:space="preserve">
+    <value>អាសយដ្ឋាន &amp; ចំណាំ</value>
+  </data>
+  <data name="Change Exchange Rate" xml:space="preserve">
+    <value>អាត្រាប្តូរប្រាក់សម្រាប់ប្រាក់អាប់</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>ក្រុមហ៊ុន</value>
+  </data>
+  <data name="Customer Photo" xml:space="preserve">
+    <value>រូបថត</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>អ៊ីម៉ែល</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>អ៊ីម៉ែល</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>ស្រី</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>សារពើភ័ណ្ឌ</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>ប្រុស</value>
+  </data>
+  <data name="Name_En" xml:space="preserve">
+    <value>ឈ្មោះ(En)</value>
+  </data>
+  <data name="Name_Kh" xml:space="preserve">
+    <value>ឈ្មោះ(Kh)</value>
+  </data>
+  <data name="Not Set" xml:space="preserve">
+    <value>មិនកំណត់</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>ចំណាំ</value>
+  </data>
+  <data name="of" xml:space="preserve">
+    <value>នៃ</value>
+  </data>
+  <data name="Other information" xml:space="preserve">
+    <value>ព័ត៌មាន​ផ្សេងៗ</value>
+  </data>
+  <data name="Phone 1" xml:space="preserve">
+    <value>លេខទូរសព្ទ 1</value>
+  </data>
+  <data name="Phone 2" xml:space="preserve">
+    <value>លេខទូរសព្ទ 2</value>
+  </data>
+  <data name="Phone No" xml:space="preserve">
+    <value>លេខទូរសព្ទ</value>
+  </data>
+  <data name="Phone Number" xml:space="preserve">
+    <value>លេខទូរសព្ទ</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>រូបថត</value>
+  </data>
+  <data name="sale_and_new" xml:space="preserve">
+    <value>រក្សាទុក និងបញ្ជូលថ្មី</value>
+  </data>
+  <data name="Showing" xml:space="preserve">
+    <value>បង្ហាញ</value>
+  </data>
+  <data name="Social Media Information" xml:space="preserve">
+    <value>ព័ត៌មានបណ្ដាញផ្សព្វផ្សាយសង្គម</value>
+  </data>
+  <data name="Total Receivable" xml:space="preserve">
+    <value>សរុបប្រាក់ជំពាក់</value>
+  </data>
 </root>

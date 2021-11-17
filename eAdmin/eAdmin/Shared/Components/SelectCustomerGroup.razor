@@ -5,7 +5,7 @@
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="0">@lang[empty_text]</option>
+                <option value="0">@empty_text</option>
             }
             @foreach (var p in gv.customer_groups.Where(r => r.status && !r.is_deleted))
             {

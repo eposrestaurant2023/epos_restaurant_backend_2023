@@ -117,17 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address_and_Note" xml:space="preserve">
+    <value>Adress &amp; Note</value>
+  </data>
   <data name="helloworld" xml:space="preserve">
     <value>HELLO</value>
   </data>
   <data name="help_and_support" xml:space="preserve">
     <value>Help and Support</value>
   </data>
+  <data name="Name_En" xml:space="preserve">
+    <value>Name (En)</value>
+  </data>
+  <data name="Name_Kh" xml:space="preserve">
+    <value>Name (Kh)</value>
+  </data>
   <data name="On_Date" xml:space="preserve">
     <value>On</value>
   </data>
   <data name="On_Hour" xml:space="preserve">
     <value>On</value>
+  </data>
+  <data name="sale_and_new" xml:space="preserve">
+    <value>Save &amp; New</value>
   </data>
   <data name="stock_take_date" xml:space="preserve">
     <value>Stock Take Date</value>

@@ -1,11 +1,11 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 <div class="uk-margin-small">
-    <label class="uk-form-label" for="@id">Gender</label>
+    <label class="uk-form-label" for="@id">@lang["Gender"]</label>
     <div class="uk-form-controls">
         <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small" style="width:@Width">
-            <option value="Not Set">Not Set</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+            <option value="Not Set">@lang["Not Set"]</option>
+            <option value="Male">@lang["Male"]</option>
+            <option value="Female">@lang["Female"]</option>
         </select>
     </div>
 </div>
