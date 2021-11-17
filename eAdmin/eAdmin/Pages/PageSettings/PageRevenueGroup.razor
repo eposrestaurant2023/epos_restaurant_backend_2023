@@ -24,9 +24,9 @@
                 <UIContainerBox Title="@lang["Revenue Group"]">
                         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
-                                <Th>Revenue Group EN</Th>
-                                <Th>Revenue Group KH</Th>
-                                <ThCenter>Sort Order</ThCenter>
+                                <Th>@lang["Revenue Group EN"]</Th>
+                                <Th>@lang["Revenue Group KH"]</Th>
+                                <ThCenter>"@lang["Sort Order"]</ThCenter>
                                 <Th></Th>
                             </tr>
                             @foreach (var b in models.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order))
