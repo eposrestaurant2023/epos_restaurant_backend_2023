@@ -123,7 +123,7 @@
         var post = await http.ApiPost("Currency/save/multiple", models);
         if (post.IsSuccess)
         {
-            toast.Add(lang["Save Successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MatToastType.Success);
             await LoadData();
         }
         else

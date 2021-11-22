@@ -1,0 +1,20 @@
+﻿
+<MudCard Elevation="0" Square="true" Class="@Class" Style="@Style">
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudAvatar Image="@(gv.image_base_url + gv.current_login_user.photo)" />
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body2">@gv.current_login_user.full_name</MudText>
+            <MudText Typo="Typo.caption">@gv.current_login_user.role.role_name</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+</MudCard>
+
+@code { 
+
+
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    [Parameter] public string Class { get; set; }
+    [Parameter] public string Style { get; set; } }

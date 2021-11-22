@@ -1,16 +1,16 @@
-﻿@using eModels 
+﻿@using eModels
 @using Microsoft.JSInterop;
 @inject IJSRuntime js
-@inject IMatToaster toast
+@inject ISnackbar toast
 @inject IHttpService http
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
-  
+
 <EditFormContext Cancel_Click="Cancel_click" model="user" is_opened="is_dialog_open" title="@modal_title" Save_Click="@SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
 
     <FileUpload @bind-ImageUrl="@user.photo" />
     <Spacing Number="10" />
-    <TextInput is_read_only="true" label="@lang["User Code"]" @bind-text="@user.user_code"/>
+    <TextInput is_read_only="true" label="@lang["User Code"]" @bind-text="@user.user_code" />
     <TextInput label="@lang["Full Name"]" @bind-text="@user.full_name">
         <ValidationMessage For="@(() => user.full_name)" />
     </TextInput>
@@ -74,13 +74,13 @@
         {
             if (user.status == false)
             {
-                toast.Add(lang["You cannot disable current login user."], MatToastType.Warning);
+                toast.Add(lang["You cannot disable current login user."],Severity.Warning);
                 return;
             }
 
             if (new_password.Length > 0 && new_password.Length < 2)
             {
-                toast.Add(lang["Password is too short or empty"], MatBlazor.MatToastType.Success);
+                toast.Add(lang["Password is too short or empty"], Severity.Success);
                 user.is_loading = false;
                 return;
             }
@@ -104,7 +104,7 @@
         if (res.IsSuccess)
         {
             var u = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
-            toast.Add(lang["Save Successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], Severity.Success);
             is_dialog_open = false;
             if (!string.IsNullOrEmpty(new_password))
             {
@@ -120,7 +120,7 @@
         }
         else
         {
-            toast.Add(res.Content.ToString(), MatToastType.Warning);
+            toast.Add(res.Content.ToString(),Severity.Warning);
         }
         user.is_loading = false;
     }
