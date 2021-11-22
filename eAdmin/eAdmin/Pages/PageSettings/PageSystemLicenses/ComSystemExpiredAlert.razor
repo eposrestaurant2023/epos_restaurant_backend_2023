@@ -2,88 +2,90 @@
 @inject IStringLocalizer<Resource> lang
 @inject IHttpService http
 @inject IMatToaster toast
- 
-<Loading  is_loading="@is_loading_data" />
- 
+
+<Loading is_loading="@is_loading_data" />
+
 @if (!is_loading)
 {
-<ComAlert type="warning" show_close="false" ClassName="uk-margin-remove-bottom">
-    @if (models.Count >0)
+    @if (models.Count > 0)
     {
-    <Grid ClassName="uk-grid-small uk-flex-middle">
-        <div class="uk-width-auto">
-            <Icon icon="help" size="50px" icon_color="#faa05a" />
-        </div>
-        <Column ClassName="uk-width-expand">
-            <h5 class="uk-text-bold uk-margin-remove-bottom">
-                @lang["System Expired Alert"]
-            </h5>
-            @foreach (var d in models.Where(r => r.total_day_expired == 0))
-            {
-                <div>@lang["Cashier Station "]​ : @d.station_name_en @lang["is expired today."]</div>
+        <div style="padding: 15px;">
+            <ComAlert type="warning" show_close="false" ClassName="uk-margin-remove-bottom">
+                <Grid ClassName="uk-grid-small uk-flex-middle">
+                    <div class="uk-width-auto">
+                        <Icon icon="help" size="50px" icon_color="#faa05a" />
+                    </div>
+                    <Column ClassName="uk-width-expand">
+                        <h5 class="uk-text-bold uk-margin-remove-bottom">
+                            @lang["System Expired Alert"]
+                        </h5>
+                        @foreach (var d in models.Where(r => r.total_day_expired == 0))
+                        {
+                            <div>@lang["Cashier Station "]​ : @d.station_name_en @lang["is expired today."]</div>
 
 
+                        }
+                        @foreach (var d in models.Where(r => r.total_day_expired != 0))
+                        {
+
+
+                            if (d.total_day_expired > 0)
+                            {
+                                <div>@lang["Cashier Station "] :  @d.station_name_en @lang["will be expired on"] @(d.expired_date.ToString(gv.date_format)) (@d.total_day_expired days) </div>
+                            }
+                            else
+                            {
+                                <div>@lang["Cashier Station "] : @d.station_name_en @lang["is expired."] @(d.expired_date.ToString(gv.date_format)) (@d.total_day_expired days)</div>
+                            }
+
+                        }
+                    </Column>
+                    <Column ClassName="uk-width-auto">
+                        <Button OnClick="@OnCheckSystemFeature">@lang["Check System License"]</Button>
+                    </Column>
+                </Grid>
+            </ComAlert>
+            </div>
             }
-            @foreach (var d in models.Where(r => r.total_day_expired != 0))
-            {
-
-
-                if (d.total_day_expired > 0)
-                {
-                    <div>@lang["Cashier Station "] :  @d.station_name_en @lang["will be expired on"] @(d.expired_date.ToString(gv.date_format)) (@d.total_day_expired days) </div>
-                }
-                else
-                {
-                    <div>@lang["Cashier Station "] : @d.station_name_en @lang["is expired."] @(d.expired_date.ToString(gv.date_format)) (@d.total_day_expired days)</div>
-                }
-
             }
-        </Column>
-        <Column ClassName="uk-width-auto">
-            <Button OnClick="@OnCheckSystemFeature">@lang["Check System License"]</Button>
-        </Column>
-    </Grid>
-    }
-</ComAlert>
-    }
 
-    @code {
-        [CascadingParameter] public GlobalVariableModel gv { get; set; }
-        List<StationExpiredAlertModel> models = new List<StationExpiredAlertModel>();
-        bool is_loading = false;
-        bool is_loading_data = false;
+            @code {
+                [CascadingParameter] public GlobalVariableModel gv { get; set; }
+                List<StationExpiredAlertModel> models = new List<StationExpiredAlertModel>();
+                bool is_loading = false;
+                bool is_loading_data = false;
 protected override async Task OnInitializedAsync()
-    {
-        is_loading = true;
-        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_expired_station_alert", procedure_parameter = $"'{gv.current_login_user.username}'" });
-        if (resp.IsSuccess)
         {
-            models = JsonSerializer.Deserialize<List<StationExpiredAlertModel>>(resp.Content.ToString());
+            is_loading = true;
+            var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_expired_station_alert", procedure_parameter = $"'{gv.current_login_user.username}'" });
+            if (resp.IsSuccess)
+            {
+                models = JsonSerializer.Deserialize<List<StationExpiredAlertModel>>(resp.Content.ToString());
 
+            }
+
+            is_loading = false;
         }
 
-        is_loading = false;
-    }
 
-
-    async Task OnCheckSystemFeature()
-    {
-        is_loading_data = true;
-        var resp = await http.ApiGet("eSoftixBackend/CheckSystemFeatures");
-        if (resp.IsSuccess)
+        async Task OnCheckSystemFeature()
         {
-            toast.Add(lang["Check system feature complete"], MatBlazor.MatToastType.Success);
-            await OnInitializedAsync();
+            is_loading_data = true;
+            var resp = await http.ApiGet("eSoftixBackend/CheckSystemFeatures");
+            if (resp.IsSuccess)
+            {
+                toast.Add(lang["Check system feature complete"], MatBlazor.MatToastType.Success);
+                await OnInitializedAsync();
+            }
+            is_loading_data = false;
         }
-        is_loading_data = false;
-    }
 
-    public class StationExpiredAlertModel
-    {
-        public string station_name_en { get; set; }
-        public string station_name_kh { get; set; }
-        public DateTime expired_date { get; set; }
-        public int total_day_expired { get; set; }
+        public class StationExpiredAlertModel
+        {
+            public string station_name_en { get; set; }
+            public string station_name_kh { get; set; }
+            public DateTime expired_date { get; set; }
+            public int total_day_expired { get; set; }
 
-    }
-    }
+        }
+            }
