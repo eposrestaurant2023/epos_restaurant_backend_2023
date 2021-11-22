@@ -10,8 +10,8 @@
         <input class="uk-search-input" @bind="@search_text" type="search" placeholder="@placeholder" @ref="txt_search" @bind:event="oninput" />
         @if (show_advance_filter)
         {
-            <span class="input-addon-right" uk-toggle="@($"target: #{advance_filter_id}")">
-                <Icon icon="tune" />
+            <span class="input-addon-right">
+                <Icon icon="tune" OnClick="@(()=>IsOpened=true)" />
             </span>
         }
 
@@ -19,9 +19,17 @@
 </EditForm>
 @if (show_advance_filter)
 {
-    <FilterFly Id="@advance_filter_id" OnSearch="@OnFillterClick">
+
+    <MudDrawer @bind-Open="@IsOpened" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6">@lang["Filter"]</MudText>
+        </MudDrawerHeader>
+
         @ChildContent
-    </FilterFly>
+        <div class="filter-footer uk-flex uk-flex-right">
+            <button class="btn-search-filter" type="submit" @onclick="@OnSearch"><LineIcon IconName="la-filter" />@lang["Search"]</button>
+        </div>
+    </MudDrawer>
 }
 
 @code{
@@ -34,10 +42,15 @@
     [Parameter] public string FrmClass { get; set; } = "";
     [Parameter] public string advance_filter_id { get; set; } = "advance_filter" + string.Format("{0:yyyy_MM_dd_HH_mm_ss}", DateTime.Now);
     [Parameter] public bool show_advance_filter { get; set; } = true;
+
+
     [Parameter] public EventCallback OnFillterClick { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    bool IsOpened = false;
+
     private ElementReference txt_search;
- 
+
 
     public Dictionary<string, object> searchFormAttributes { get; set; } = new Dictionary<string, object>()
 {
@@ -70,6 +83,12 @@
         {
             await js.InvokeVoidAsync("JsFunctions.focusElement", txt_search);
         }
+    }
+
+    async Task OnSearch()
+    {
+        IsOpened = false;
+        await OnFillterClick.InvokeAsync();
     }
 
 }
