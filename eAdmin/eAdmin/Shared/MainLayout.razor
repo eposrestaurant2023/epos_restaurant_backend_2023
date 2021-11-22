@@ -21,22 +21,23 @@
                                 <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
                             </MudHidden>
                             <MudHidden Breakpoint="Breakpoint.Xs">
-                                <MudText Color="MudBlazor.Color.Inherit"  Typo="Typo.h6" Class="ml-4">ePOS Back Office</MudText>
+                                <MudText Color="MudBlazor.Color.Inherit" Typo="Typo.h6" Class="ml-4">ePOS Back Office</MudText>
                             </MudHidden>
-                           
+
                             <MudSpacer />
                             <GlobalSearch />
                             <MudSpacer />
-                            <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.AttachMoney"  Title="@lang["Exchange Rate"]"  OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))" ></MudIconButton>
+                            <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.AttachMoney" Title="@lang["Exchange Rate"]" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))"></MudIconButton>
 
-                          
+
                             @if (is_spinner)
                             {
-                                <Spinner />
+                            <Spinner />
                             }
                             else
                             {
-                                <RefreshButton OnClick="@(async () => await LoadData())" />
+                            <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.Refresh" Title="@lang["Refresh"]" OnClick="@(async () => await LoadData())"></MudIconButton>
+                             
                             }
                             <ComQuickAddMenu />
                             <LoginDisplay />

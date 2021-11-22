@@ -1,8 +1,6 @@
 ﻿@if (is_loading)
 {
-    <div class="loader">
-        <div class="loaderBar"></div>
-    </div>
+   <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true"   />
 }
 @code{
     [Parameter] public bool is_loading { get; set; } = false;
