@@ -3,8 +3,6 @@
 <MudThemeProvider Theme="MyCustomTheme"  />
 <MudDialogProvider />
 <MudSnackbarProvider />
-
-
 <AuthorizeView>
     <Authorized>
         @if (!IsLoading)
@@ -12,46 +10,47 @@
             <CascadingValue Value="gv">
                 @if (!string.IsNullOrEmpty(gv.project_id))
                 {
-                    <MudLayout>
-                        <MudAppBar Elevation="25">
-                            <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                                <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" Size="Size.Large" />
-                            </MudHidden>
-                            <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                                <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-                            </MudHidden>
-                            <MudHidden Breakpoint="Breakpoint.Xs">
-                                <MudText Color="MudBlazor.Color.Inherit" Typo="Typo.h6" Class="ml-4">ePOS Back Office</MudText>
-                            </MudHidden>
+                <MudLayout>
+                    <MudAppBar Elevation="25">
+                        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                            <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" Size="Size.Large" />
+                        </MudHidden>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                        </MudHidden>
+                        <MudHidden Breakpoint="Breakpoint.Xs">
+                            <MudText Color="MudBlazor.Color.Inherit" Typo="Typo.h6" Class="ml-4">ePOS Back Office</MudText>
+                        </MudHidden>
 
-                            <MudSpacer />
-                            <GlobalSearch />
-                            <MudSpacer />
-                            <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.AttachMoney" Title="@lang["Exchange Rate"]" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))"></MudIconButton>
+                        <MudSpacer />
+                        <GlobalSearch />
+                        <MudSpacer />
+                        <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.AttachMoney" Title="@lang["Exchange Rate"]" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))"></MudIconButton>
 
 
-                            @if (is_spinner)
-                            {
+                        @if (is_spinner)
+                        {
                             <Spinner />
-                            }
-                            else
-                            {
+                        }
+                        else
+                        {
                             <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.Refresh" Title="@lang["Refresh"]" OnClick="@(async () => await LoadData())"></MudIconButton>
-                             
-                            }
-                            <ComQuickAddMenu />
-                            <LoginDisplay />
-                        </MudAppBar>
-                        <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
-                            <NavMenu />
-                        </MudDrawer>
-                        <MudMainContent>
-                          
-                                <ComSystemExpiredAlert />
-                                @Body
-                            
-                        </MudMainContent>
-                    </MudLayout>
+
+                        }
+                        <ComQuickAddMenu />
+                        <LoginDisplay />
+                    </MudAppBar>
+                    <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always" Breakpoint="Breakpoint.SmAndDown">
+                        <NavMenu />
+                    </MudDrawer>
+                    <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always" Breakpoint="Breakpoint.SmAndUp" Width="14%">
+                        <NavMenu />
+                    </MudDrawer>
+                    <MudMainContent>
+                        <ComSystemExpiredAlert />
+                        @Body
+                    </MudMainContent>
+                </MudLayout>
 
                 }
                 else

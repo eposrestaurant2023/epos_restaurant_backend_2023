@@ -20,18 +20,17 @@
         @if (gv.business_branch_by_role.Count() > 1)
         {
         <MudTabs>
- 
             <MudTabPanel OnClick="@(async () => await LoadData(gv.business_branch_ids_filter_1))" Text="@lang["All Branches"]" Class="py-4">
+                <Spacing Number="10" />
                 <ComDashboard business_branch_id="@gv.business_branch_ids_filter_1" />
             </MudTabPanel>
             @foreach (var b in gv.business_branch_by_role)
             {
 
         <MudTabPanel OnClick="@(async () => await LoadData(b.id.ToString()))" Text="@b.business_branch_name_en" Class="py-4">
+            <Spacing Number="10" />
             <ComDashboard business_branch_id="@b.id.ToString()" />
         </MudTabPanel>
-
-
             }
         </MudTabs>
         }

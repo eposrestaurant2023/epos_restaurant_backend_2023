@@ -2,7 +2,6 @@
 @page "/role/edit/{id:int}"
 @inject IJSRuntime js
 @inherits PageCore;
-
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
@@ -22,7 +21,6 @@
         <EditForm Model="@model" OnValidSubmit="@SaveRole_Click" @attributes="@formAttributes">
             <DataAnnotationsValidator />
             <PageBody>
-             
                 <UIGridCenter>
                     <UIContainerBox Title="@lang["Role"]">
                         <TextInput label="@lang["Name"]" @bind-text="@model.role_name">
