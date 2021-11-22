@@ -1,20 +1,16 @@
-﻿@inject NavigationManager nav;
+﻿
 @inject IStringLocalizer<Resource> lang
-<Icon icon="add_circle_outline" title="@lang["Quick Add"]" className="topMainIcon" />
-<div class="uk-navbar-dropdown wrp-top-quick-add-possition header_new_general" uk-drop="mode: click" id="main_header_drop">
-    <div class="uk-dropdown-grid uk-child-width-1-1 wrp-top-quick-add" uk-grid>
-        <div>
-            <ul class="uk-nav uk-dropdown-nav uk-text-left  uk-list uk-list-divider">
-                <li class="uk-nav-header"><Icon icon="add" />@lang["Quick Add"]</li>
-                <li><a href="product/new" uk-toggle="target: #main_header_drop">@lang["New Product"]</a></li>
-                <li><a href="customer/new" uk-toggle="target: #main_header_drop">@lang["New Customer"]</a></li>
-                <li><a href="vendor/new" uk-toggle="target: #main_header_drop">@lang["New Vendor"]</a></li>
-                <li><a href="purchaseorder/new" uk-toggle="target: #main_header_drop">@lang["New Purchase Order"]</a></li>
-                <li><a href="stocktransfer/new" uk-toggle="target: #main_header_drop">@lang["New Stock Transfer"]</a></li>
-                <li><a href="stocktake/new" uk-toggle="target: #main_header_drop">@lang["New Stock Take"]</a></li>
-                <li><a href="production/new" uk-toggle="target: #main_header_drop">@lang["New Production"]</a></li>
 
-            </ul>
-        </div>
-    </div>
-</div>
+
+<MudMenu Icon="@Icons.Material.Outlined.Add" Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4"  Color="MudBlazor.Color.Inherit" >
+    <MudText Typo="Typo.h6" Class="ma-4">@lang["Quick Add"]</MudText>
+    <MudDivider Class="mb-2" />
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="product/new">@lang["New Product"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="customer/new">@lang["New Customer"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="vendor/new">@lang["New Vendor"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="purchaseorder/new">@lang["New Purchase Order"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="stocktransfer/new">@lang["New Stock Transfer"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="stocktake/new">@lang["New Stock Take"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="production/new">@lang["New Production"]</MudMenuItem>
+</MudMenu>
+

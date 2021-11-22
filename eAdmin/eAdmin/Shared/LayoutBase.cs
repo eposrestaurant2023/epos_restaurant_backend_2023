@@ -33,8 +33,7 @@ namespace eAdmin.Shared
         public GlobalVariableModel gv = new GlobalVariableModel();
 
         public bool is_dialog_open { get; set; } = false;
-        public bool is_menu_open { get; set; } = true;
-
+ 
      
         public string image_base_url
         {
@@ -50,7 +49,8 @@ namespace eAdmin.Shared
         protected override async Task OnInitializedAsync()
         {
             IsLoading = true;
-           
+        
+
             var authState = await authenticationStateTask;
             var user = authState.User;
             if (user?.Identity != null)
@@ -145,17 +145,11 @@ namespace eAdmin.Shared
                
             }
 
-            string showhidemenustate = await localStorage.GetItemAsync<string>("showhidemenu");
-
-            if (String.IsNullOrEmpty(showhidemenustate))
-            {
-                showhidemenustate = "1";
-            }
-            is_menu_open = showhidemenustate == "1";
+           
+            
             var lang = await GetCurrentLanguage();
             gv.current_language = lang;
-            Console.WriteLine(lang.language_id);
-            Console.WriteLine(gv.current_language.language_id);
+            gv.image_base_url = config["BaseUrl"] + "upload/";
             IsLoading = false;
         }
         public async Task<LanguageModel> GetCurrentLanguage()

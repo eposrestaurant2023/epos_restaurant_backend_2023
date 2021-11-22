@@ -19,25 +19,24 @@
     <PageBody>
         @if (gv.business_branch_by_role.Count() > 1)
         {
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem OnClick="@(async()=>await LoadData(gv.business_branch_ids_filter_1))">@lang["All Branches"]</TabHeaderItem>
-                    @foreach (var b in gv.business_branch_by_role)
-                    {
-                        <TabHeaderItem OnClick="@(async()=>await LoadData(b.id.ToString()))">
-                            @(gv.current_language?.language_id == "km-KH" ?b.business_branch_name_kh:b.business_branch_name_en)
-                        </TabHeaderItem>
-                    }
-                </TabHeader>
+        <MudTabs>
+ 
+            <MudTabPanel OnClick="@(async () => await LoadData(gv.business_branch_ids_filter_1))" Text="@lang["All Branches"]" Class="py-4">
+                <ComDashboard business_branch_id="@gv.business_branch_ids_filter_1" />
+            </MudTabPanel>
+            @foreach (var b in gv.business_branch_by_role)
+            {
+
+        <MudTabPanel OnClick="@(async () => await LoadData(b.id.ToString()))" Text="@b.business_branch_name_en" Class="py-4">
+            <ComDashboard business_branch_id="@b.id.ToString()" />
+        </MudTabPanel>
 
 
-            </Tab>
+            }
+        </MudTabs>
         }
-        @if (!is_loading)
-        {
-            <Spacing Number="20" />
-            <ComDashboard business_branch_id="@business_branch_id" />
-        }
+ 
+        
     </PageBody>
 
 </PageContainer>

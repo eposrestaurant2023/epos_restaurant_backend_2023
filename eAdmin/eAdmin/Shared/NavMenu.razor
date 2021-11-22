@@ -1,48 +1,43 @@
 ﻿@inject IStringLocalizer<Resource> lang
-<div class="top-row uk-padding-remove-left uk-text-center navbar navbar-dark uk-visible@l">
-    <a class="navbar-brand uk-width-1-1" href="">ePOSRestaurant</a>
-</div>
-<div class="main_nav @NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="uk-nav-default uk-nav-parent-icon flex-column" uk-nav>
+<CurrentLoginUserCard Style="background-color: var(--mud-palette-drawer-background);color: var(--mud-palette-drawer-text);" />
+<MudDivider Class="mb-4" />
 
-        @foreach (var d in gv.MainMenu().ToList())
-        {
-            if (gv.SubMenu(d.id).Count() > 0)
-            {
-                <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@lang[d.note]">
-                    @foreach (var sub in gv.SubMenu(d.id))
+                    @foreach (var d in gv.MainMenu().ToList())
                     {
-                        <SubMenuItem roles="@sub.roles" url="@sub.url">@lang[sub.note]</SubMenuItem>
+                        if (gv.SubMenu(d.id).Count() > 0)
+                        {
+                            <ParentMenuItem roles="@d.roles" icon="@d.icon" parent_menu_text="@lang[d.note]">
+                                @foreach (var sub in gv.SubMenu(d.id))
+                                {
+                                    <SubMenuItem roles="@sub.roles" url="@sub.url">@lang[sub.note]</SubMenuItem>
+                                }
+                            </ParentMenuItem>
+                        }
+                        else
+                        {
+                            if (d.url == "/")
+                            {
+                                <MenuItemDynamic IconName="@d.icon" Match="NavLinkMatch.All">@lang[d.note]</MenuItemDynamic>
+                            }
+                            else
+                            {
+                                <MenuItemDynamic IconName="@d.icon" MenuUrl="@d.url">@lang[d.note]</MenuItemDynamic>
+                            }
+
+                        }
+
                     }
-                </ParentMenuItem>
-            }
-            else
-            {
-                if (d.url == "/")
+
+
+
+            @code {
+                [CascadingParameter] public GlobalVariableModel gv { get; set; }
+                bool collapseNavMenu = true;
+
+                string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+                void ToggleNavMenu()
                 {
-                     <MenuItemDynamic IconName="@d.icon" Match="NavLinkMatch.All">@lang[d.note]</MenuItemDynamic>
+                    collapseNavMenu = !collapseNavMenu;
                 }
-                else
-                {
-                    <MenuItemDynamic IconName="@d.icon" MenuUrl="@d.url">@lang[d.note]</MenuItemDynamic>
-                }
-
             }
-
-        }
-    </ul>
-</div>
-
-
-
-@code {
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    bool collapseNavMenu = true;
-
-    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}

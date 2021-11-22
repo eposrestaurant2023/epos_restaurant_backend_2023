@@ -1,19 +1,12 @@
 ﻿@if (roles == "")
 {
-    <li class="nav-item px-3">
-        <NavLink class="nav-link" href="@url">
-            <i class="material-icons">keyboard_arrow_right</i><span class="sidemenu_title">@ChildContent</span>
-        </NavLink>
-    </li>
+<MudNavLink Href="@url" Icon="@Icons.Material.Outlined.KeyboardArrowRight">@ChildContent</MudNavLink>
+   
 }
 else
 {
     <AuthorizeView Roles="@roles">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="@url">
-                <i class="material-icons">keyboard_arrow_right</i><span class="sidemenu_title">@ChildContent</span>
-            </NavLink>
-        </li>
+        <MudNavLink Href="@url" Icon="@Icons.Material.Outlined.KeyboardArrowRight">@ChildContent</MudNavLink>
     </AuthorizeView>
 }
 

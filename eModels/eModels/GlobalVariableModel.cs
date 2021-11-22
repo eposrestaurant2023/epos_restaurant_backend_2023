@@ -19,8 +19,7 @@ namespace eModels
         public List<VendorModel> vendors { get; set; }
         public List<VendorGroupModel> vendor_groups { get; set; }
         public List<UnitModel> units { get; set; }
-
-
+        public string image_base_url { get; set; }
         public List<CountryModel> countries { get; set; }
 
 
@@ -466,6 +465,8 @@ namespace eModels
 
             return false;
         }
+
+
 
     }
 

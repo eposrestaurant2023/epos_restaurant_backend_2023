@@ -1,3 +1,23 @@
 ﻿@inject IStringLocalizer<Resource> lang
-<LinkButton url="auth/logout" Class_Name="btn-logout" background="none">@lang["Logout"]</LinkButton>
+<MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
+    <ActivatorContent>
+        <MudAvatar Image="@(gv.image_base_url + gv.current_login_user.photo)" />
+    </ActivatorContent>
+    <ChildContent>
+        <CurrentLoginUserCard />
+        <MudDivider Class="mb-2" />
+        <MudListItem Text="@lang["Manage your account"]" Icon="@Icons.Material.Outlined.Person" OnClick="@(()=>is_view_profile=true)" />
+        <MudListItem Text="@lang["help_and_support"]" Icon="@Icons.Material.Outlined.HelpOutline" Href="@gv.settings.Where(r => r.id == 7).Select(r => r.setting_title).FirstOrDefault()" />
+        <MudListItem Text="@lang["Logout"]" Icon="@Icons.Material.Outlined.Login" Href="auth/logout" />
+    </ChildContent>
+</MudMenu> 
 
+@if (is_view_profile)
+{
+    <ComManageUser @bind-model="@gv.current_login_user" is_dialog_open="is_view_profile" Cancel_click="@(()=>is_view_profile=false)" Save_User_click="@(() => is_view_profile = false)" />
+}
+
+@code {
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    bool is_view_profile; 
+}

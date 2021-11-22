@@ -1,27 +1,18 @@
 ﻿@if (roles == "")
 {
-    <li class="uk-parent">
-        <a class="nav-link">
-        <i class="material-icons">@icon</i><span class="sidemenu_title">@parent_menu_text</span>
-        </a>
-        <ul class="uk-nav-sub">
-            @ChildContent
-        </ul>
-    </li>
+    <MudNavGroup Title="@parent_menu_text" Icon="@icon" HideExpandIcon="false">
+        @ChildContent
+     </MudNavGroup>
 
-}
-else
-{
-    <AuthorizeView Roles="@roles">
-        <li class="uk-parent">
-            <a class="nav-link"><i class="material-icons">@icon</i><span class="sidemenu_title">@parent_menu_text</span></a>
-            <ul class="uk-nav-sub">
+    }
+    else
+    {
+        <AuthorizeView Roles="@roles">
+            <MudNavGroup Title="@parent_menu_text" Icon="@icon" HideExpandIcon="false">
                 @ChildContent
-            </ul>
-        </li>
-
-    </AuthorizeView>
-}
+            </MudNavGroup>
+        </AuthorizeView>
+    }
 
 
 @code{
