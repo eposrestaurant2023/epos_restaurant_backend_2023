@@ -51,7 +51,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
             }
             else
             { 
-                toast.Add(lang["Load data fail. Please try again."], MatToastType.Warning);
+                toast.Add(lang["Load data fail. Please try again."], MudBlazor.Severity.Warning);
 
                 is_loading_data = false;
             }

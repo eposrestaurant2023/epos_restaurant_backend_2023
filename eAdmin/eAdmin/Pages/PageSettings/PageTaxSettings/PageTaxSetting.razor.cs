@@ -39,19 +39,19 @@ namespace eAdmin.Pages.PageSettings.PageTaxSettings
             if (string.IsNullOrEmpty(tax_rule.tax_1_name) || string.IsNullOrEmpty(tax_rule.tax_2_name) || string.IsNullOrEmpty(tax_rule.tax_1_name))
             {
 
-                toast.Add(lang["Please enter tax rule name"], MatToastType.Warning);
+                toast.Add(lang["Please enter tax rule name"], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
             var resp = await http.ApiPost("setting/taxrule/save", tax_rule);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save tax rule successfully"], MatToastType.Success);
+                toast.Add(lang["Save tax rule successfully"], MudBlazor.Severity.Success);
             }
             else
             {
 
-                toast.Add(lang["Save tax rule Fail"], MatToastType.Warning);
+                toast.Add(lang["Save tax rule Fail"], MudBlazor.Severity.Warning);
             }
             is_saving = false;
         }
@@ -63,12 +63,12 @@ namespace eAdmin.Pages.PageSettings.PageTaxSettings
             var resp = await http.ApiPost("station/save/multiple", stations);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save tax rule station successfully"], MatToastType.Success);
+                toast.Add(lang["Save tax rule station successfully"], MudBlazor.Severity.Success);
             }
             else
             {
 
-                toast.Add(lang["Save tax rule station fail"], MatToastType.Warning);
+                toast.Add(lang["Save tax rule station fail"], MudBlazor.Severity.Warning);
             }
             is_saving = false;
         }

@@ -101,11 +101,11 @@
         var re = await http.ApiPost("save/setting/multiple", settings);
         if (re.IsSuccess)
         {
-            toast.Add(lang["Save Setting successfully"], MatToastType.Success);
+            toast.Add(lang["Save Setting successfully"], MudBlazor.Severity.Success);
         }
         else
         {
-            toast.Add(lang["Save Setting fail"], MatToastType.Warning);
+            toast.Add(lang["Save Setting fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

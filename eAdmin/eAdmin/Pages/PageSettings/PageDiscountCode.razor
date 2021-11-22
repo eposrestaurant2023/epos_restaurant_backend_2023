@@ -147,7 +147,7 @@
                 {
                     if (string.IsNullOrEmpty(discount.discount_code))
                     {
-                        toast.Add(lang["Discount code cannot empty"], MatToastType.Warning);
+                        toast.Add(lang["Discount code cannot empty"], MudBlazor.Severity.Warning);
                         is_saving = false;
                         return;
                     }
@@ -158,14 +158,14 @@
         if (resp.IsSuccess)
         {
 
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
 
             await LoadData();
         }
         else
         {
 
-            toast.Add(lang["Delete record successfully."], MatToastType.Warning);
+            toast.Add(lang["Delete record successfully."], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

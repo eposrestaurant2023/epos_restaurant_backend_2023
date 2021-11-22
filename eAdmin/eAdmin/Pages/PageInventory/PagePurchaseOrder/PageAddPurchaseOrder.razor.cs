@@ -167,31 +167,31 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
   
             if (model.vendor_id == 0)
             {
-                toast.Add(lang["Please select vendor."], MatToastType.Warning);
+                toast.Add(lang["Please select vendor."], MudBlazor.Severity.Warning);
                 return;
             }
 
             if (model.business_branch_id == Guid.Empty)
             {
-                toast.Add(lang["Please select business branch."], MatToastType.Warning);
+                toast.Add(lang["Please select business branch."], MudBlazor.Severity.Warning);
                 return;
             }
 
             if (model.stock_location_id == Guid.Empty)
             {
-                toast.Add(lang["Please select stock location."], MatToastType.Warning);
+                toast.Add(lang["Please select stock location."], MudBlazor.Severity.Warning);
                 return;
             }
 
             if (model.active_purchase_order_products.Count() <= 0)
             {
-                toast.Add(lang["Please select products to make purchase order"], MatToastType.Warning);
+                toast.Add(lang["Please select products to make purchase order"], MudBlazor.Severity.Warning);
                 return;
             }
              
             if (model.balance < 0)
             {
-                toast.Add(lang["Balance cannot be lower then zero."], MatToastType.Warning);
+                toast.Add(lang["Balance cannot be lower then zero."], MudBlazor.Severity.Warning);
                 return;
             }
             
@@ -208,13 +208,13 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             var resp = await http.ApiPost("PurchaseOrder/save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save successfully."], MatToastType.Success);
+                toast.Add(lang["Save successfully."], MudBlazor.Severity.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
                 nav.NavigateTo($"purchaseorder/{_model.id}");
             }
             else
             {
-                toast.Add(lang[resp.Content], MatToastType.Warning);
+                toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
                 is_saving = false;
             }
         }

@@ -219,11 +219,11 @@
             await LoadData();
             is_open = false;
             role = new RoleModel();
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
         }
         else
         {
-            toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
         }
         is_saving = false;
         is_loading_data = false;
@@ -252,7 +252,7 @@
     {
         if (gv.current_login_user.role.role_name == r.role_name)
         {
-            toast.Add(lang["You cannot update status of this record"],MatToastType.Warning);
+            toast.Add(lang["You cannot update status of this record"],MudBlazor.Severity.Warning);
             return;
         }
         var resp = await http.ApiPost(controller_api + "/status/" + r.id);
@@ -266,7 +266,7 @@
                 await LoadData();
             }
 
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
 
         }
     }
@@ -289,7 +289,7 @@
 
                 await LoadData();
             }
-            toast.Add(lang["Delete record successfully"], MatToastType.Success);
+            toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
 
         }
 
@@ -313,7 +313,7 @@
                 }
                 await LoadData();
             }
-            toast.Add(lang["Restore record successfully"], MatToastType.Success);
+            toast.Add(lang["Restore record successfully"], MudBlazor.Severity.Success);
 
         }
         p.is_loading = false;

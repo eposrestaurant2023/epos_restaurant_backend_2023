@@ -14,6 +14,7 @@ using NETCore.Encrypt;
 using System.Text.Json;
 using Microsoft.Extensions.Localization;
 using eAdmin.Shared.ResourceTranslateFiles;
+using MudBlazor;
 
 namespace eAdmin.Pages
 {
@@ -22,7 +23,7 @@ namespace eAdmin.Pages
     {
         [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
-        [Inject] protected IMatToaster toast { get; set; }
+        [Inject] protected ISnackbar toast { get; set; }
         [Inject] protected IConfiguration config { get; set; }
         [Inject] protected IJSRuntime js { get; set; }
         [Inject] protected IHttpService http { get; set; }

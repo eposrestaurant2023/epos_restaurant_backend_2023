@@ -187,7 +187,7 @@ namespace eAdmin.Pages.PageProducts
 
             if (string.IsNullOrEmpty(model.revenue_group_name))
             {
-                toast.Add(lang["Please select revenue group name"], MatToastType.Warning);
+                toast.Add(lang["Please select revenue group name"], MudBlazor.Severity.Warning);
                 return;
 
             }
@@ -204,7 +204,7 @@ namespace eAdmin.Pages.PageProducts
 
             if (save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).Any())
             {
-                toast.Add($"{save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).FirstOrDefault().business_branch?.business_branch_name_en} cannot empty default stock location", MatBlazor.MatToastType.Warning);
+                toast.Add($"{save_model.default_stock_location_products.Where(r=>r.stock_location_id == Guid.Empty).FirstOrDefault().business_branch?.business_branch_name_en} cannot empty default stock location", MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
@@ -212,7 +212,7 @@ namespace eAdmin.Pages.PageProducts
             {
                 if (!m.children.Where(r => r.is_deleted == false).Any())
                 {
-                    toast.Add($"{m.section_name} has no modifier.", MatBlazor.MatToastType.Warning);
+                    toast.Add($"{m.section_name} has no modifier.", MudBlazor.Severity.Warning);
                     is_saving = false;
                     return;
                 }
@@ -221,7 +221,7 @@ namespace eAdmin.Pages.PageProducts
                 {
                     if (string.IsNullOrEmpty(child.modifier.modifier_name))
                     {
-                        toast.Add($"{m.section_name} has empty modifier name.", MatBlazor.MatToastType.Warning);
+                        toast.Add($"{m.section_name} has empty modifier name.", MudBlazor.Severity.Warning);
                         is_saving = false;
                         return;
                     }
@@ -229,13 +229,13 @@ namespace eAdmin.Pages.PageProducts
             }
             if (save_model.unit_id == 0)
             {
-                toast.Add(lang["Please select unit."], MatToastType.Warning);
+                toast.Add(lang["Please select unit."], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
             if (save_model.product_portions.Count() == 0)
             {
-                toast.Add(lang["Please add product portion"], MatToastType.Warning);
+                toast.Add(lang["Please add product portion"], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
@@ -246,7 +246,7 @@ namespace eAdmin.Pages.PageProducts
             {
                 if (!gv.units.Where(r => r.unit_category_id == model.unit_category_id && r.id == pp.unit_id).Any())
                 {
-                    toast.Add(lang["Please select unit in Product Portion Price"], MatToastType.Warning);
+                    toast.Add(lang["Please select unit in Product Portion Price"], MudBlazor.Severity.Warning);
                     is_saving = false;
                     return;
                 }
@@ -272,7 +272,7 @@ namespace eAdmin.Pages.PageProducts
 
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save product successfully"], MatToastType.Success);
+                toast.Add(lang["Save product successfully"], MudBlazor.Severity.Success);
                 
                     save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
                     nav.NavigateTo($"product/{save_model.id}"); 
@@ -280,7 +280,7 @@ namespace eAdmin.Pages.PageProducts
             }
             else
             {
-                toast.Add(lang[resp.Content.ToString()], MatToastType.Warning);
+                toast.Add(lang[resp.Content.ToString()], MudBlazor.Severity.Warning);
             }
             is_saving = false;
         }

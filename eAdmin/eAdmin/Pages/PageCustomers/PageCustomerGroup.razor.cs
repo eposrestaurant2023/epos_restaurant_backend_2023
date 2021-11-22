@@ -165,7 +165,7 @@ namespace eAdmin.Pages.PageCustomers
             var resp = await http.ApiPost(controller_api + "/save", customerGroup);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Change status successfully"], MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
                 if (customer_groups.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
@@ -185,7 +185,7 @@ namespace eAdmin.Pages.PageCustomers
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add(toast_msg, MatToastType.Success);
+                    toast.Add(toast_msg, MudBlazor.Severity.Success);
                     if (customer_groups.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1 ;

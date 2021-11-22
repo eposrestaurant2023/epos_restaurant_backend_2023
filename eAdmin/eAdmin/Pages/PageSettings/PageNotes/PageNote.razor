@@ -1,6 +1,6 @@
 ﻿@page "/setting/note"
 @inject IHttpService http;
-@inject IMatToaster toast;
+@inject ISnackbar toast;
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
@@ -93,7 +93,7 @@
         else
         {
 
-            toast.Add(lang["Load data fail"], MatToastType.Warning);
+            toast.Add(lang["Load data fail"], MudBlazor.Severity.Warning);
         }
     }
 
@@ -114,12 +114,12 @@
         var resp = await http.ApiPost("BusinessBranch/save/multiple", branches);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             await LoadData();
         }
         else
         {
-            toast.Add(lang["Save record fail"], MatToastType.Warning);
+            toast.Add(lang["Save record fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

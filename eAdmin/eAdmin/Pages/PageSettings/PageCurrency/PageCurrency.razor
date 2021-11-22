@@ -131,10 +131,10 @@
             if (resp.IsSuccess)
             {
                 c.is_deleted = true;
-                toast.Add(lang["Delete record successfully"], MatToastType.Success);
+                toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
             }else
             {
-                toast.Add(lang["Delete record fail"], MatToastType.Warning);
+                toast.Add(lang["Delete record fail"], MudBlazor.Severity.Warning);
             }
             is_loading_data = false;
             c.is_deleting = false;
@@ -154,13 +154,13 @@
             if (resp.IsSuccess)
             {
 
-                toast.Add(lang["Mark as main currency successfully"], MatToastType.Success);
+                toast.Add(lang["Mark as main currency successfully"], MudBlazor.Severity.Success);
 
                 await LoadData();
 
             }else
             {
-                toast.Add(lang["Mark as main currency fail"], MatToastType.Warning);
+                toast.Add(lang["Mark as main currency fail"], MudBlazor.Severity.Warning);
             }
             is_loading_data = false;
             c.is_deleting = false;

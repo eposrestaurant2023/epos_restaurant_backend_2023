@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-@inject IMatToaster toast
+@inject ISnackbar toast
 @inject IStringLocalizer<Resource> lang
 <EditFormContext is_cancel="true" is_save="true" model="@model" is_opened="@is_opened" title="@title" Cancel_Click="@OnCancel" Save_Click="@Save_Click" is_submitting="@is_saving" modal_width="700px">
 
@@ -105,7 +105,7 @@
         if (res.IsSuccess)
         {
             model = JsonSerializer.Deserialize<MenuModel>(res.Content.ToString());
-            toast.Add(lang["Save successfully."],MatToastType.Success);
+            toast.Add(lang["Save successfully."],Severity.Success);
             await menuChanged.InvokeAsync(model);
             model = new MenuModel();
             is_opened = false;

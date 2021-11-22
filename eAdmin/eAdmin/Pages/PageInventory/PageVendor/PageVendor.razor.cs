@@ -145,7 +145,7 @@ namespace eAdmin.Pages.PageCustomers
             var resp = await http.ApiPost(controller_api + "/save", vendor);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Change status successfully"], MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
                 if (Vendor.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
@@ -163,7 +163,7 @@ namespace eAdmin.Pages.PageCustomers
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add(lang["Delete vendor successfully"], MatToastType.Success);
+                    toast.Add(lang["Delete vendor successfully"], MudBlazor.Severity.Success);
                     if (Vendor.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -189,7 +189,7 @@ namespace eAdmin.Pages.PageCustomers
                     }
                     await LoadData();
                 }
-                toast.Add(lang["Restore vendor successfully"], MatBlazor.MatToastType.Success);
+                toast.Add(lang["Restore vendor successfully"], MudBlazor.Severity.Success);
             }
             p.is_loading = false;
         }

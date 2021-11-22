@@ -77,7 +77,7 @@
         else
         {
 
-            toast.Add(lang["Loading sale type fail."], MatToastType.Warning);
+            toast.Add(lang["Loading sale type fail."], MudBlazor.Severity.Warning);
         }
 
 
@@ -94,7 +94,7 @@
         if(branches.SelectMany(r=>r.sale_types).Where(r=>r.is_deleted==false && string.IsNullOrEmpty(r.sale_type_name)).Any())
         {
 
-            toast.Add(lang["Please enter sale type name"], MatToastType.Warning);
+            toast.Add(lang["Please enter sale type name"], MudBlazor.Severity.Warning);
             return;
         }
 
@@ -104,14 +104,14 @@
         if (resp.IsSuccess)
         {
 
-            toast.Add(lang["Save sale type successfully"], MatToastType.Success);
+            toast.Add(lang["Save sale type successfully"], MudBlazor.Severity.Success);
 
             await LoadData();
         }
         else
         {
 
-            toast.Add(lang["Save sale type fail"], MatToastType.Warning);
+            toast.Add(lang["Save sale type fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

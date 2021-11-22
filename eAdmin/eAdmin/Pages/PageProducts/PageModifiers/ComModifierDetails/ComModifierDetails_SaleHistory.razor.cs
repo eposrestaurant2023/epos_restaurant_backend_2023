@@ -296,7 +296,7 @@ namespace eAdmin.Pages.PageProducts.PageModifiers
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add(lang["Delete Record"], MatToastType.Success);
+                    toast.Add(lang["Delete Record"], MudBlazor.Severity.Success);
                     if (models.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;

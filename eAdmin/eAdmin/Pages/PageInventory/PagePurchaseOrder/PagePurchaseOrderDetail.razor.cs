@@ -120,11 +120,11 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 if (resp.IsSuccess)
                 {
                     await LoadData();
-                    toast.Add(lang["Delete record successfully"], MatBlazor.MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
                 }
                 else
                 {
-                    toast.Add(lang[resp.Content.ToString()], MatBlazor.MatToastType.Warning);
+                    toast.Add(lang[resp.Content.ToString()], MudBlazor.Severity.Warning);
                 }
             }
             is_loading_data = false;
@@ -156,7 +156,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                 if (resp.IsSuccess)
                 {
                     await LoadData();
-                    toast.Add(lang["Mark as fulfilled successfully"], MatToastType.Success);
+                    toast.Add(lang["Mark as fulfilled successfully"], MudBlazor.Severity.Success);
                 }
             }
 

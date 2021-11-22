@@ -144,12 +144,12 @@ else
         var resp = await http.ApiPost(controller_api + "/status/" + u.id);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Change status successfully"], MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
             await LoadData();
         }
         else
         {
-            toast.Add(resp.Content.ToString(), MatToastType.Danger);
+            toast.Add(resp.Content.ToString(), MudBlazor.Severity.Error);
 
         }
         u.is_loading = false;
@@ -164,11 +164,11 @@ else
             if (resp.IsSuccess)
             {
                 await LoadData();
-                toast.Add(lang["Restore modifier group successfully"], MatToastType.Success);
+                toast.Add(lang["Restore modifier group successfully"], MudBlazor.Severity.Success);
             }
             else
             {
-                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
             }
         }
         p.is_loading = false;
@@ -185,7 +185,7 @@ else
             {
                 await LoadData();
             }
-            toast.Add(lang["Delete modifier group successfully"], MatToastType.Success);
+            toast.Add(lang["Delete modifier group successfully"], MudBlazor.Severity.Success);
         }
         p.is_loading = false;
     }

@@ -102,7 +102,7 @@
         var resp = await http.ApiPost($"{ControllerApi}/Save", b);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Change status successfully"], MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
         }
 
         b.is_change_status = false;
@@ -171,7 +171,7 @@
             d.product_categories.ForEach(r => r.is_ingredient_category = true);
             if (d.product_categories.Where(r=> string.IsNullOrEmpty(r.product_category_en) && string.IsNullOrEmpty(r.product_category_kh)).Any())
             {
-                toast.Add(lang["Please enter product category name."], MatToastType.Warning);
+                toast.Add(lang["Please enter product category name."], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
@@ -182,13 +182,13 @@
             {
                 obj = JsonSerializer.Deserialize<ProductGroupModel>(res.Content.ToString());
 
-                toast.Add(lang["Saving successfully"], MatToastType.Success);
+                toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                 nav.NavigateTo($"ingredientcategory");
             }
             else
             {
                 is_saving = false;
-                toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
+                toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
             }
         }
     }

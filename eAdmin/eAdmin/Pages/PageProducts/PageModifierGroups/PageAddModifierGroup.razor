@@ -109,7 +109,7 @@ else
         // where don't add group item
         if (!modifier_group.modifier_group_items.Where(r=>r.is_deleted == false).Any())
         {
-            toast.Add(lang["Please add modifier section"], MatBlazor.MatToastType.Warning);
+            toast.Add(lang["Please add modifier section"], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }
@@ -120,7 +120,7 @@ else
             {
                 if (!i.children.Where(r=>r.is_deleted == false).Any())
                 {
-                    toast.Add($"{lang["Please add modifier to"]} {i.section_name}.", MatBlazor.MatToastType.Warning);
+                    toast.Add($"{lang["Please add modifier to"]} {i.section_name}.", MudBlazor.Severity.Warning);
                     is_saving = false;
                     return;
                 }
@@ -131,7 +131,7 @@ else
         // where section name empty
         if (modifier_group.modifier_group_items.Where(r=>r.is_deleted == false && string.IsNullOrEmpty(r.section_name)).Any())
         {
-            toast.Add(lang["Section name cannot empty."], MatBlazor.MatToastType.Warning);
+            toast.Add(lang["Section name cannot empty."], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }
@@ -140,7 +140,7 @@ else
         {
             if (string.IsNullOrEmpty(child.modifier.modifier_name))
             {
-                toast.Add(lang["Modifier name cannot empty."], MatBlazor.MatToastType.Warning);
+                toast.Add(lang["Modifier name cannot empty."], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
@@ -152,7 +152,7 @@ else
         var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Save Modifier Group successfully"], MatToastType.Success);
+            toast.Add(lang["Save Modifier Group successfully"], MudBlazor.Severity.Success);
             save_model = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
             if (is_save_and_new)
             {
@@ -168,7 +168,7 @@ else
             }
         }
         else {
-            toast.Add(lang["Save modifier group fail."], MatToastType.Warning);
+            toast.Add(lang["Save modifier group fail."], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

@@ -54,7 +54,7 @@
 
         if (u.role_id==0)
         {
-            toast.Add(lang["Please select user type"], MatToastType.Warning);
+            toast.Add(lang["Please select user type"], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }
@@ -65,7 +65,7 @@
             var result = await http.ApiPost("user/save");
             if (result.IsSuccess)
             {
-                toast.Add(lang["Update data successfully"], MatToastType.Success);
+                toast.Add(lang["Update data successfully"], MudBlazor.Severity.Success);
                 u = JsonSerializer.Deserialize<UserModel>(result.Content.ToString());
             }
 
@@ -73,7 +73,7 @@
         }
         else
         {
-            toast.Add(lang["This user is already exist"], MatToastType.Warning);
+            toast.Add(lang["This user is already exist"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
 

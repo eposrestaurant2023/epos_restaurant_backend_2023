@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http
 @inject IStringLocalizer<Resource> lang
-@inject IMatToaster toast
+@inject ISnackbar toast
 <EditFormContext model="@stock_location_products" is_save="true" is_cancel="true" Save_Click="@OnSaveClick" Cancel_Click="@(()=>OnCancelClick())" modal_width="800px" is_opened="@is_opened" title="@lang["Stock Adjustment"]" is_submitting="is_saving">
     <Com is_visible="@stock_location_products.Any()">
         <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
@@ -93,7 +93,7 @@
         is_saving = true;
 
         if (! stock_location_products.Where(r => r.quantity != r.adjust_quantity).Any()){
-            toast.Add(lang["There's no quantity changed"], MatToastType.Warning);
+            toast.Add(lang["There's no quantity changed"], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }
@@ -114,12 +114,12 @@
             stock_location_products.ForEach(r => r.quantity = r.adjust_quantity);
             await stock_location_productsChanged.InvokeAsync(stock_location_products);
 
-            toast.Add(lang["Save successfully."], MatToastType.Success);
+            toast.Add(lang["Save successfully."], MudBlazor.Severity.Success);
         }
         else
         {
 
-            toast.Add(resp.Content.ToString(), MatToastType.Warning);
+            toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

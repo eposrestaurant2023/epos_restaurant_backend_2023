@@ -50,7 +50,7 @@ namespace eAdmin.Pages.PageProducts
             var resp = await http.ApiPost($"Product/UpdateProductPrice/{pp.id}/{price}");
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Update price successfully"], MatToastType.Success);
+                toast.Add(lang["Update price successfully"], MudBlazor.Severity.Success);
             }
             is_loading_data = false;
         }

@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using MatBlazor;
 using MudBlazor.Services;
 using eAdmin.Shared.Extensions;
+ 
+using MudBlazor;
 
 namespace eAdmin
 {
@@ -33,15 +35,23 @@ namespace eAdmin
                 return new HttpClient() { BaseAddress = apiUrl };
             });
 
-            builder.Services.AddMatToaster(config =>
+            builder.Services.AddMudServices(config =>
             {
-                config.Position = MatToastPosition.TopCenter;
-                config.PreventDuplicates = false;
-                config.NewestOnTop = true;
-                config.ShowCloseButton = false;
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopCenter;
+
+                config.SnackbarConfiguration.PreventDuplicates = false;
+                config.SnackbarConfiguration.NewestOnTop = false;
+                config.SnackbarConfiguration.ShowCloseIcon = true;
+                config.SnackbarConfiguration.VisibleStateDuration = 5000;
+                config.SnackbarConfiguration.HideTransitionDuration = 500;
+                config.SnackbarConfiguration.ShowTransitionDuration = 500;
+                config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
             });
+
+
+
             builder.Services.AddMatBlazor();
-            builder.Services.AddMudServices();
+    
 
 
             builder.Services.AddBlazoredLocalStorage();

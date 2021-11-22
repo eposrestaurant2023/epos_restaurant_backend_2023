@@ -1,7 +1,7 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject NavigationManager nav;
 @inject IHttpService http;
-@inject IMatToaster toast;
+@inject ISnackbar toast;
 <EditForm Model="model" OnValidSubmit="CheckProject">
     <DataAnnotationsValidator />
     <h2>@lang["Enter Project ID"]</h2>
@@ -83,7 +83,7 @@
             {
                 Message = lang["Cannot connect to ePOS Server. Please contact your system administrator."];
 
-                toast.Add(Message, MatToastType.Warning);
+                toast.Add(Message, MudBlazor.Severity.Warning);
             }
             else
             {

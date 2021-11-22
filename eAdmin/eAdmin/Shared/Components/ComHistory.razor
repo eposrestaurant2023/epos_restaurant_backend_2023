@@ -159,7 +159,7 @@
                 h = JsonSerializer.Deserialize<HistoryModel>(resp.Content);
                 await OnSave.InvokeAsync(h);
                 await LoadData();
-                toast.Add(lang["Add comment successfully."], MatToastType.Success);
+                toast.Add(lang["Add comment successfully."], MudBlazor.Severity.Success);
             }
 
             description = "";
@@ -178,11 +178,11 @@
                 if (resp.IsSuccess)
                 {
                     await OnUpdate.InvokeAsync(h);
-                    toast.Add(lang["Update comment successfully."], MatToastType.Success);
+                    toast.Add(lang["Update comment successfully."], MudBlazor.Severity.Success);
                 }
                 else
                 {
-                    toast.Add($"Fail save comment. {resp.Content}", MatToastType.Warning);
+                    toast.Add($"Fail save comment. {resp.Content}", MudBlazor.Severity.Warning);
                 }
             }
             h.is_editing = false;
@@ -207,7 +207,7 @@
                 }
                 await LoadData();
                 await OnDelete.InvokeAsync(h);
-                toast.Add(lang["Delete comment successfully."], MatToastType.Success);
+                toast.Add(lang["Delete comment successfully."], MudBlazor.Severity.Success);
             }
 
         }

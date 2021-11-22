@@ -128,34 +128,34 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         {
             if (model.to_business_branch_id == Guid.Empty)
             {
-                toast.Add(lang["Please select to business branch."], MatToastType.Warning);
+                toast.Add(lang["Please select to business branch."], MudBlazor.Severity.Warning);
                 return;
             }
              
             if (model.to_stock_location_id == Guid.Empty)
             {
-                toast.Add(lang["Please select to stock location."], MatToastType.Warning);
+                toast.Add(lang["Please select to stock location."], MudBlazor.Severity.Warning);
                 return;
             }
 
             if (model.from_business_branch_id == Guid.Empty)
             {
-                toast.Add(lang["Please select from business branch."], MatToastType.Warning);
+                toast.Add(lang["Please select from business branch."], MudBlazor.Severity.Warning);
                 return;
             }
             if (model.from_stock_location_id == Guid.Empty)
             {
-                toast.Add(lang["Please select from stock location."], MatToastType.Warning);
+                toast.Add(lang["Please select from stock location."], MudBlazor.Severity.Warning);
                 return;
             }
             if (model.from_stock_location_id == model.to_stock_location_id)
             {
-                toast.Add(lang["Cannot transfer to same stock location."], MatToastType.Warning);
+                toast.Add(lang["Cannot transfer to same stock location."], MudBlazor.Severity.Warning);
                 return;
             }
             if (model.active_stock_transfer_products.Count() <= 0)
             {
-                toast.Add(lang["Stock transfer item cannot be empty."], MatToastType.Warning);
+                toast.Add(lang["Stock transfer item cannot be empty."], MudBlazor.Severity.Warning);
                 return;
             }
             
@@ -169,13 +169,13 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             var resp = await http.ApiPost("StockTransfer/save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save successfully."], MatToastType.Success);
+                toast.Add(lang["Save successfully."], MudBlazor.Severity.Success);
                 var _model = JsonSerializer.Deserialize<PurchaseOrderModel>(resp.Content.ToString());
                 nav.NavigateTo($"stocktransfer/{_model.id}");
             }
             else
             {
-                toast.Add(lang[resp.Content], MatToastType.Warning);
+                toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
                 is_saving = false;
             }
         }

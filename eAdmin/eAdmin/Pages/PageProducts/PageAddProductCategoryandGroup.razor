@@ -140,7 +140,7 @@
 
             if (save_product_group.product_categories.Where(r=>r.is_deleted == false).Any() == false)
             {
-                toast.Add(lang["Product Category Cannot Empty"], MatBlazor.MatToastType.Warning);
+                toast.Add(lang["Product Category Cannot Empty"], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
@@ -150,7 +150,7 @@
                 {
                     if (save_product_group.product_categories.Where(r=>r.is_deleted == false && r.status == true).Any())
                     {
-                        toast.Add(lang["Cannot change status to inactive"], MatBlazor.MatToastType.Warning);
+                        toast.Add(lang["Cannot change status to inactive"], MudBlazor.Severity.Warning);
                         is_saving = false;
                         return;
                     }
@@ -163,13 +163,13 @@
             {
                 obj = JsonSerializer.Deserialize<ProductGroupModel>(res.Content.ToString());
 
-                toast.Add(lang["Saving successfully"], MatToastType.Success);
+                toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                 nav.NavigateTo($"productcategory");
             }
             else
             {
                 is_saving = false;
-                toast.Add(res.Content.ToString(), MatToastType.Warning);
+                toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
             }
 
             is_saving = false;
@@ -199,7 +199,7 @@
         {
             if (s.products.Any())
             {
-                toast.Add(lang["This category was assigned to product."], MatBlazor.MatToastType.Warning);
+                toast.Add(lang["This category was assigned to product."], MudBlazor.Severity.Warning);
             }
             else
             {
@@ -219,7 +219,7 @@
         {
             if (s.products.Any())
             {
-                toast.Add(lang["This category was assigned to product."], MatBlazor.MatToastType.Warning);
+                toast.Add(lang["This category was assigned to product."], MudBlazor.Severity.Warning);
             }
             else
             {

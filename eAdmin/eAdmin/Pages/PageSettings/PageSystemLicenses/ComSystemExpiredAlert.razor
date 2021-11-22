@@ -1,7 +1,7 @@
 ﻿
 @inject IStringLocalizer<Resource> lang
 @inject IHttpService http
-@inject IMatToaster toast
+@inject ISnackbar toast
 
 <Loading is_loading="@is_loading_data" />
 
@@ -74,7 +74,7 @@ protected override async Task OnInitializedAsync()
             var resp = await http.ApiGet("eSoftixBackend/CheckSystemFeatures");
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Check system feature complete"], MatBlazor.MatToastType.Success);
+                toast.Add(lang["Check system feature complete"], MudBlazor.Severity.Success);
                 await OnInitializedAsync();
             }
             is_loading_data = false;

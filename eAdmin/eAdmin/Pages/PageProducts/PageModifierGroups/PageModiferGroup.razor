@@ -1,6 +1,6 @@
 ﻿@page "/modifiergroup";
 @inherits PageCore
-@inject IMatToaster Toaster
+ 
 @using eModels;
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
@@ -164,7 +164,7 @@
         var resp = await http.ApiPost(controller_api + "/status/" + u.id);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Change status successfully"], MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
             if (modifer_groups.Count() == 1 && state.pager.current_page > 1)
             {
                 state.pager.current_page = state.pager.current_page - 1;
@@ -173,7 +173,7 @@
         }
         else
         {
-            toast.Add(resp.Content.ToString(), MatToastType.Danger);
+            toast.Add(resp.Content.ToString(), MudBlazor.Severity.Error);
 
         }
         u.is_loading = false;
@@ -192,11 +192,11 @@
                     state.pager.current_page = state.pager.current_page - 1;
                 }
                 await LoadData();
-                toast.Add(lang["Restore Successfully"], MatToastType.Success);
+                toast.Add(lang["Restore Successfully"], MudBlazor.Severity.Success);
             }
             else
             {
-                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
             }
         }
         p.is_loading = false;
@@ -215,7 +215,7 @@
                 {
                     state.pager.current_page = state.pager.current_page - 1;
                 }
-                toast.Add(lang["Delete modifier group successfully"], MatToastType.Success);
+                toast.Add(lang["Delete modifier group successfully"], MudBlazor.Severity.Success);
                 await LoadData();
             }
         }
@@ -272,13 +272,13 @@
         if (res.IsSuccess)
         {
             var u = JsonSerializer.Deserialize<ModifierGroupModel>(res.Content.ToString());
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             await LoadData();
             is_dialog_open = false;
         }
         else
         {
-            toast.Add(res.Content.ToString(), MatToastType.Warning);
+            toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
         }
         modifier.is_loading = false;
     }

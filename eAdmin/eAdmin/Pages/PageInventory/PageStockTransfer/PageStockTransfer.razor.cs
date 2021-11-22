@@ -493,7 +493,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add(lang["Delete record successfully"], MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
                     if (models.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;

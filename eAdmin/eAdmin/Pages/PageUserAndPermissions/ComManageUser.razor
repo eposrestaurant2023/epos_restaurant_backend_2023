@@ -80,7 +80,7 @@
 
             if (new_password.Length > 0 && new_password.Length < 2)
             {
-                toast.Add(lang["Password is too short or empty"], Severity.Success);
+                toast.Add(lang["Password is too short or empty"], MudBlazor.Severity.Success);
                 user.is_loading = false;
                 return;
             }
@@ -104,7 +104,7 @@
         if (res.IsSuccess)
         {
             var u = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
-            toast.Add(lang["Save successfully"], Severity.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             is_dialog_open = false;
             if (!string.IsNullOrEmpty(new_password))
             {

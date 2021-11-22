@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-@inject IMatToaster toast
+@inject ISnackbar toast
 @inject IJSRuntime js
 @inject IStringLocalizer<Resource> lang
 @if (!is_loading)
@@ -94,12 +94,12 @@
             var resp = await http.ApiPost("PurchaseOrderPayment/delete/" + p.id);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Delete record successfully"], MatToastType.Success);
+                toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
                 await on_reload.InvokeAsync(true);
             }
             else
             {
-                toast.Add(lang[resp.Content.ToString()], MatToastType.Warning);
+                toast.Add(lang[resp.Content.ToString()], MudBlazor.Severity.Warning);
             }
         }
     }

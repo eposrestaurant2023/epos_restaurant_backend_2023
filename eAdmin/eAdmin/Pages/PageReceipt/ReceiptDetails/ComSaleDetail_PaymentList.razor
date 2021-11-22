@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-@inject IMatToaster toast
+@inject ISnackbar toast
 @inject IJSRuntime js
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@is_loading" />
@@ -94,12 +94,12 @@
             if (resp.IsSuccess)
             {
                 await OnReload();
-                toast.Add(lang["Delete payment successfully"], MatToastType.Success);
+                toast.Add(lang["Delete payment successfully"], MudBlazor.Severity.Success);
                 await on_reload.InvokeAsync(true);
             }
             else
             {
-                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
             }
         }
         p.is_deleting = false;

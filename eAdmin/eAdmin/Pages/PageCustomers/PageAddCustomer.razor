@@ -91,7 +91,7 @@
                     }
                     else
                     {
-                        toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
+                        toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
                     }
                 }
                 else
@@ -110,7 +110,7 @@
                     }
                     else
                     {
-                        toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
+                        toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
                     }
                 }
             }
@@ -163,7 +163,7 @@
             }
             if (!model.customer_business_branchs.Any())
             {
-                toast.Add(lang["Please select business branches"],MatToastType.Warning);
+                toast.Add(lang["Please select business branches"],MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
@@ -175,12 +175,12 @@
             {
                 if (res.Content.ToString() == "Customer Code already exist!")
                 {
-                    toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
+                    toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
                 }
                 else
                 {
                     model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                    toast.Add(lang["Saving successfully"], MatToastType.Success);
+                    toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                     if (is_save_and_new)
                     {
                         model = new CustomerModel();
@@ -206,12 +206,12 @@
                     is_customer_exist = true;
                     existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
 
-                    toast.Add(lang[existing_customer_info.message], MatToastType.Warning);
+                    toast.Add(lang[existing_customer_info.message], MudBlazor.Severity.Warning);
 
                 }
                 else
                 {
-                    toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
+                    toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
                 }
 
             }

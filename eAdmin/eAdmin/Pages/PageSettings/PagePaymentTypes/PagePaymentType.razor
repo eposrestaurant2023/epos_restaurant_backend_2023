@@ -205,7 +205,7 @@
         var resp = await http.ApiPost($"BusinessBranch/Save", b);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Change status successfully"], MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
         }
         b.is_change_status = false;
     }
@@ -234,7 +234,7 @@
             {
                 await LoadData();
             }
-            toast.Add(lang["Delete record successfully"], MatToastType.Success);
+            toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
         }
         p.is_loading = false;
     }
@@ -249,7 +249,7 @@
             {
                 await LoadData();
             }
-            toast.Add(lang["Restore record successfully"], MatToastType.Success);
+            toast.Add(lang["Restore record successfully"], MudBlazor.Severity.Success);
         }
         p.is_loading = false;
     }
@@ -273,7 +273,7 @@
         var resp = await http.ApiPost($"PaymentType/status/{p.id}");
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Change status successfully"], MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
             await LoadData();
         }
     }

@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-@inject IMatToaster toast
+@inject ISnackbar toast
 @inject IStringLocalizer<Resource> lang
 
 <Loading is_loading="@is_saving"/>
@@ -137,12 +137,12 @@
     {
         if (value.is_composite_product)
         {
-            toast.Add(lang["You cannot a composite product to a composite product."], MatToastType.Warning);
+            toast.Add(lang["You cannot a composite product to a composite product."], MudBlazor.Severity.Warning);
             return;
         }
         if(product_portion.product_id == value.id)
         {
-            toast.Add(lang["You cannot select current product as composite item."], MatToastType.Warning);
+            toast.Add(lang["You cannot select current product as composite item."], MudBlazor.Severity.Warning);
             return;
         }
 
@@ -194,7 +194,7 @@
         }
         else
         {
-            toast.Add(lang["Invalid deault ingredient category"], MatToastType.Success);
+            toast.Add(lang["Invalid deault ingredient category"], MudBlazor.Severity.Success);
             return;
         }
         save_model.product_ingredients.Where(r=>r.ingredient.id > 0).ToList().ForEach(r => r.ingredient = null);
@@ -204,14 +204,14 @@
         if (resp.IsSuccess)
         {
             save_model = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             await is_openChanged.InvokeAsync(false);
             await Save_Click.InvokeAsync(save_model);
         }
         else
         {
 
-            toast.Add(lang["Save record fail"], MatToastType.Warning);
+            toast.Add(lang["Save record fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
 

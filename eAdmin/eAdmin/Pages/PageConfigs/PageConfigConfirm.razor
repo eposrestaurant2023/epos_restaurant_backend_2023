@@ -4,7 +4,7 @@
 @inject NavigationManager nav;
 @inject IStringLocalizer<Resource> lang
 
-@inject IMatToaster toast;
+@inject ISnackbar toast;
 
 <Loading is_loading="@is_loading"/>
  
@@ -185,7 +185,7 @@
         if (!model.business_branches.Any())
         {
 
-            toast.Add(lang["This project does not have business branch."], MatToastType.Warning);
+            toast.Add(lang["This project does not have business branch."], MudBlazor.Severity.Warning);
             is_saving= false;
             return;
         }
@@ -193,7 +193,7 @@
             foreach(var b in model.business_branches)
             {
                 if (!b.outlets.Any()) {
-                    toast.Add($"{b.business_branch_name_en} {lang["does not have outlet."]}", MatToastType.Warning);
+                    toast.Add($"{b.business_branch_name_en} {lang["does not have outlet."]}", MudBlazor.Severity.Warning);
                     is_saving = false;
                     return;
                 }
@@ -201,7 +201,7 @@
                 {
                     if (!o.stations.Any())
                     {
-                        toast.Add($"{o.outlet_name_en} {lang["does not have station."]}", MatToastType.Warning);
+                        toast.Add($"{o.outlet_name_en} {lang["does not have station."]}", MudBlazor.Severity.Warning);
                         is_saving = false;
                         return;
                     }
@@ -211,7 +211,7 @@
                 {
                     if (b.stock_locations.Count() == 0)
                     {
-                         toast.Add($"{b.business_branch_name_en} {lang["does not have stock location."]}", MatToastType.Warning);
+                         toast.Add($"{b.business_branch_name_en} {lang["does not have stock location."]}", MudBlazor.Severity.Warning);
                         is_saving = false;
                         return;
                     }
@@ -232,22 +232,22 @@
             if (resp.IsSuccess)
             {
 
-                toast.Add(lang["Update data successfully."], MatToastType.Success);
+                toast.Add(lang["Update data successfully."], MudBlazor.Severity.Success);
                 nav.NavigateTo("config/done");
             }else
             {
-                toast.Add(lang["Confirm data fail. Please try again."], MatToastType.Warning);
+                toast.Add(lang["Confirm data fail. Please try again."], MudBlazor.Severity.Warning);
             }
 
         }else
         {
             if (resp_projct.status_code == 503)
             {
-                toast.Add(lang["Cannot connect to ePOS Server. Please contact your system administrator."], MatToastType.Warning);
+                toast.Add(lang["Cannot connect to ePOS Server. Please contact your system administrator."], MudBlazor.Severity.Warning);
             }
             else {
 
-                toast.Add(lang["Confirm data fail. Please try again."], MatToastType.Warning);
+                toast.Add(lang["Confirm data fail. Please try again."], MudBlazor.Severity.Warning);
             }
 
         }

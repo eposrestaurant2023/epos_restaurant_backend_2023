@@ -125,12 +125,12 @@
         });
         if (post.IsSuccess)
         {
-            toast.Add(lang["Saved successfully"], MatBlazor.MatToastType.Success);
+            toast.Add(lang["Saved successfully"], MudBlazor.Severity.Success);
           
         }
         else
         {
-            toast.Add(lang["Save data fail."], MatBlazor.MatToastType.Warning);
+            toast.Add(lang["Save data fail."], MudBlazor.Severity.Warning);
         }
 
         is_saving = false;

@@ -123,7 +123,7 @@
 
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             await LoadData();
             if (menus.Count() > 0)
             {
@@ -135,7 +135,7 @@
         }
         else
         {
-            toast.Add(lang["Save record fail."], MatToastType.Warning);
+            toast.Add(lang["Save record fail."], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

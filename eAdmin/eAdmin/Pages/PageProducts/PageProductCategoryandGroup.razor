@@ -136,7 +136,7 @@
             // validate category available
             if (p.product_categories.Where(r=>r.products.Count() > 0).Any())
             {
-                toast.Add(lang["You can delete this group. It is already in used."], MatBlazor.MatToastType.Warning);
+                toast.Add(lang["You can delete this group. It is already in used."], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
@@ -146,13 +146,13 @@
                 var res = await http.ApiPost($"ProductGroup/delete", p);
                 if (res.IsSuccess)
                 {
-                    toast.Add(lang["Delete record successfully"], MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
                     await LoadData();
                 }
                 else
                 {
                     is_saving = false;
-                    toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
+                    toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
                 }
             }
             is_saving = false;

@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-@inject IMatToaster toast
+@inject ISnackbar toast
 @inject IStringLocalizer<Resource> lang
 
 <EditFormContext Save_Click="@SaveSetting_Click" Cancel_Click="Cancel_click" model="@bus_branch_settings" is_opened="is_dialog_open" title="@title" is_submitting="setting.is_saving" modal_width="800px">
@@ -44,7 +44,7 @@
         var post = await http.ApiPost("BusinessBranchSetting/Save/multiple", bus_branch_settings);
         if (post.IsSuccess)
         {
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             is_dialog_open = false;
             await Save_Click.InvokeAsync();
             bus_branch_settings = new List<BusinessBranchSettingModel>();

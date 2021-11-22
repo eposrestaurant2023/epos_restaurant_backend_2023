@@ -165,13 +165,13 @@
         var res = await http.ApiPost("VendorGroup/save", vendor_group);
         if (res.IsSuccess)
         {
-            toast.Add(lang["Save sucessfully"], MatToastType.Success);
+            toast.Add(lang["Save sucessfully"], MudBlazor.Severity.Success);
 
             await LoadData();
         }
         else
         {
-            toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
+            toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
         }
 
         ShowModal = false;
@@ -212,7 +212,7 @@
             {
                 await LoadData();
             }
-            toast.Add(lang["Delete record successfully"], MatToastType.Success);
+            toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
 
         }
 
@@ -280,7 +280,7 @@
         var resp = await http.ApiPost(controller_api + "/save", vendorGroup);
         if (resp.IsSuccess)
         {
-            toast.Add("Change status successfully", MatToastType.Success);
+            toast.Add("Change status successfully", MudBlazor.Severity.Success);
             if (models.Count() == 1 && state.pager.current_page > 1)
             {
                 state.pager.current_page = state.pager.current_page - 1;
@@ -312,7 +312,7 @@
             var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
             if (resp.IsSuccess)
             {
-                toast.Add(toast_msg, MatToastType.Success);
+                toast.Add(toast_msg, MudBlazor.Severity.Success);
                 if (models.Count() == 1 && state.pager.current_page > 0)
                 {
                     state.pager.current_page = state.pager.current_page - 1;

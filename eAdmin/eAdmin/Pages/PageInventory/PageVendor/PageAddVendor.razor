@@ -180,7 +180,7 @@
             {
                 var v = JsonSerializer.Deserialize<VendorModel>(res.Content.ToString());
 
-                toast.Add(lang["Saving successfully"], MatToastType.Success);
+                toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                 if (is_save_and_new)
                 {
                     model = new VendorModel();
@@ -195,7 +195,7 @@
             }
             else
             {
-                toast.Add(res.Content.ToString(), MatToastType.Warning);
+                toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
             }
             is_saving = false;
         }

@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http;
-@inject IMatToaster toast;
+@inject ISnackbar toast;
 @inject IStringLocalizer<Resource> lang
 
 <Com is_visible="IsVisible">
@@ -73,7 +73,7 @@
         }
         else
         {
-            toast.Add(lang["Load data fail. Please try again."], MatToastType.Warning);
+            toast.Add(lang["Load data fail. Please try again."], MudBlazor.Severity.Warning);
 
         }
 

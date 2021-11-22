@@ -124,7 +124,7 @@
 
         if(save_models.Where(r=>r.exchange_rate ==0 || r.change_exchange_rate == 0  ).Any())
         {
-            toast.Add(lang["Please enter exchange rate"], MatToastType.Warning);
+            toast.Add(lang["Please enter exchange rate"], MudBlazor.Severity.Warning);
             return;
         }
 
@@ -135,12 +135,12 @@
         var resp = await http.ApiPost("BusinessBranchCurrency/save/multiple", save_models);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Save exchange rate successfully"], MatToastType.Success);
+            toast.Add(lang["Save exchange rate successfully"], MudBlazor.Severity.Success);
 
         }
         else
         {
-            toast.Add(lang["Save exchange rate Fail"], MatToastType.Warning);
+            toast.Add(lang["Save exchange rate Fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

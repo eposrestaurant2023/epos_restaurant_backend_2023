@@ -1,6 +1,6 @@
 ﻿@inject IHttpService http
 @inject IJSRuntime js
-@inject IMatToaster toast
+@inject ISnackbar toast
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
 
@@ -70,11 +70,11 @@
             {
                 po.is_deleted = !po.is_deleted;
                 await poChanged.InvokeAsync(po);
-                toast.Add(lang["Delete record  successfully."], MatToastType.Success);
+                toast.Add(lang["Delete record  successfully."], MudBlazor.Severity.Success);
             }
             else
             {
-                toast.Add(lang[resp.Content], MatToastType.Warning);
+                toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
             }
         }
 
@@ -94,11 +94,11 @@
 
                 po.is_deleted = !po.is_deleted;
                 await poChanged.InvokeAsync(po);
-                toast.Add(lang["Restore record successfully."], MatToastType.Success);
+                toast.Add(lang["Restore record successfully."], MudBlazor.Severity.Success);
             }
             else
             {
-                toast.Add(lang[resp.Content], MatToastType.Warning);
+                toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
             }
         }
 
@@ -116,7 +116,7 @@
             {
                 po.is_fulfilled = !po.is_fulfilled;
                 await poChanged.InvokeAsync(po);
-                toast.Add(lang["Cancel Mark as fulfilled successfully"], MatToastType.Success);
+                toast.Add(lang["Cancel Mark as fulfilled successfully"], MudBlazor.Severity.Success);
             }
         }
         is_loading = false;

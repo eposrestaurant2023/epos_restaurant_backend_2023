@@ -190,7 +190,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             var resp = await http.ApiPost("Product/Save", save_model);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save successfully"], MatToastType.Success);
+                toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
                 if (is_save_and_new)
                 {
                     model = new ProductModel();
@@ -223,7 +223,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             }
             else
             {
-                toast.Add(lang[$"{resp.Content.ToString()}"], MatToastType.Warning);
+                toast.Add(lang[$"{resp.Content.ToString()}"], MudBlazor.Severity.Warning);
             }
             is_saving = false;
 

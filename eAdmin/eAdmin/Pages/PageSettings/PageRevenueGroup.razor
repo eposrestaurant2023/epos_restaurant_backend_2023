@@ -79,7 +79,7 @@
         else
         {
 
-            toast.Add(lang["Loading Revenue Group fail."], MatToastType.Warning);
+            toast.Add(lang["Loading Revenue Group fail."], MudBlazor.Severity.Warning);
         }
 
 
@@ -110,7 +110,7 @@
         if (models.Where(r => r.is_deleted == false && string.IsNullOrEmpty(r.revenue_group_name_en)).Any())
         {
 
-            toast.Add(lang["Please enter revenue group name"], MatToastType.Warning);
+            toast.Add(lang["Please enter revenue group name"], MudBlazor.Severity.Warning);
             return;
 
         }
@@ -121,14 +121,14 @@
         if (resp.IsSuccess)
         {
 
-            toast.Add(lang["Save revenue group successfully"], MatToastType.Success);
+            toast.Add(lang["Save revenue group successfully"], MudBlazor.Severity.Success);
 
             await LoadData();
         }
         else
         {
 
-            toast.Add(lang["Save Revenue Group fail"], MatToastType.Warning);
+            toast.Add(lang["Save Revenue Group fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

@@ -185,7 +185,7 @@
             var resp = await http.ApiPost("Product/delete/" + id);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Delete product successfully"], MatToastType.Success);
+                toast.Add(lang["Delete product successfully"], MudBlazor.Severity.Success);
                 model.is_deleted = true;
 
             }
@@ -203,7 +203,7 @@
             var resp = await http.ApiPost("Product/delete/" + id);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Restore product successfully"], MatToastType.Success);
+                toast.Add(lang["Restore product successfully"], MudBlazor.Severity.Success);
                 model.is_deleted = false;
 
             }
@@ -218,7 +218,7 @@
         var resp = await http.ApiPost("Product/ChangeStatus/" + id);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Change status successfully"], MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
             model.status = !model.status;
 
         }

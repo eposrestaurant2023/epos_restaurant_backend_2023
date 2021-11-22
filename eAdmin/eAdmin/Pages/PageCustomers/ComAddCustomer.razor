@@ -47,7 +47,7 @@
                 }
                 else
                 {
-                    toast.Add(res.Content.ToString(), MatToastType.Warning);
+                    toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
                     is_loading = false;
                 }
             }
@@ -70,7 +70,7 @@
             if (res.IsSuccess)
             {
                 model = JsonSerializer.Deserialize<CustomerModel>(res.Content.ToString());
-                toast.Add(lang["Saving successfully"], MatToastType.Success);
+                toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                 await OnSave.InvokeAsync(model);
                 await is_openedChanged.InvokeAsync(false);
 
@@ -83,12 +83,12 @@
                 {
                     is_customer_exist = true;
                     existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
-                    toast.Add(lang[existing_customer_info.message], MatToastType.Warning);
+                    toast.Add(lang[existing_customer_info.message], MudBlazor.Severity.Warning);
 
                 }
                 else
                 {
-                    toast.Add(lang[res.Content.ToString()], MatToastType.Warning);
+                    toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
                 }
 
             }

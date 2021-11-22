@@ -13,6 +13,7 @@ using eAdmin.Services;
 using eModels;
 using Microsoft.AspNetCore.Components;
 using Blazored.LocalStorage;
+using MudBlazor;
 
 
 
@@ -27,7 +28,7 @@ namespace eAdmin.Shared
         [Inject] protected ILocalStorageService localStorage { get; set; }
         [Inject] protected IHttpService http { get; set; }
         [Inject] protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-        [Inject] protected IMatToaster toast { get; set; }
+        [Inject] protected ISnackbar toast { get; set; }
         [Inject] protected IConfiguration config { get; set; }
 
         public GlobalVariableModel gv = new GlobalVariableModel();

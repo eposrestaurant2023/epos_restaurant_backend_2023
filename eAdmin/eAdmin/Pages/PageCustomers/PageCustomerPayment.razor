@@ -300,7 +300,7 @@
         is_saving = true;
         if (!customer_payments.Any())
         {
-            toast.Add(lang["There is no payment record."], MatToastType.Warning);
+            toast.Add(lang["There is no payment record."], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }
@@ -309,7 +309,7 @@
         {
             if (p.sale.balance < p.sale_payment.payment_amount)
             {
-                toast.Add(lang["Payment amount cannot greater than Balance Amount."], MatToastType.Warning);
+                toast.Add(lang["Payment amount cannot greater than Balance Amount."], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }
@@ -325,12 +325,12 @@
         var post = await http.ApiPost("SalePayment/save/multiple", data_save);
         if (post.IsSuccess)
         {
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             nav.NavigateTo($"customer/{customer_id}");
         }
         else
         {
-            toast.Add(lang[post.Content.ToString()], MatToastType.Warning);
+            toast.Add(lang[post.Content.ToString()], MudBlazor.Severity.Warning);
         }
 
         is_saving = false;

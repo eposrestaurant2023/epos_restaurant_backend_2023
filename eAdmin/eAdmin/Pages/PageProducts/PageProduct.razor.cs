@@ -139,7 +139,7 @@ namespace eAdmin.Pages.PageProducts
             var resp = await http.ApiPost(controller_api + "/ChangeStatus/"+product.id);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Change status successfully"], MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
                 if (products.Count() == 1 && state.pager.current_page > 1)
                 {
                     state.pager.current_page = state.pager.current_page - 1;
@@ -157,7 +157,7 @@ namespace eAdmin.Pages.PageProducts
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add(lang["Delete product successfully"], MatToastType.Success);
+                    toast.Add(lang["Delete product successfully"], MudBlazor.Severity.Success);
                     if (products.Count() == 1 && state.pager.current_page > 0)
                     {
                         state.pager.current_page = state.pager.current_page - 1;
@@ -183,7 +183,7 @@ namespace eAdmin.Pages.PageProducts
                     }
                     await LoadData();
                 }
-                toast.Add(lang["Restore product successfully"], MatBlazor.MatToastType.Success);
+                toast.Add(lang["Restore product successfully"], MudBlazor.Severity.Success);
                 
             }
             p.is_loading = false;

@@ -165,13 +165,13 @@
     {
         if(string.IsNullOrEmpty( currency.currency_name_en) || string.IsNullOrEmpty(currency.currency_name_kh))
         {
-            toast.Add(lang["Please enter currency name"], MatToastType.Warning);
+            toast.Add(lang["Please enter currency name"], MudBlazor.Severity.Warning);
             return;
         }
 
         if(!currency.business_branch_currencies.Where(r=>r.is_deleted==false && r.is_selected==true).Any())
         {
-            toast.Add(lang["Please select business branch"], MatToastType.Warning);
+            toast.Add(lang["Please select business branch"], MudBlazor.Severity.Warning);
             return;
         }
 
@@ -185,13 +185,13 @@
         var res = await http.ApiPost("Currency/save", save_model);
         if (res.IsSuccess)
         {
-            toast.Add(lang["Save sucessfully"], MatToastType.Success);
+            toast.Add(lang["Save sucessfully"], MudBlazor.Severity.Success);
             nav.NavigateTo("currency");
 
         }
         else
         {
-            toast.Add(res.Content.ToString(), MatToastType.Warning);
+            toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

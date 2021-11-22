@@ -92,7 +92,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
                 if (resp.IsSuccess)
                 {
                     await LoadData();
-                    toast.Add(lang["Mark as fulfilled successfully"], MatToastType.Success);
+                    toast.Add(lang["Mark as fulfilled successfully"], MudBlazor.Severity.Success);
                 }
             }
 

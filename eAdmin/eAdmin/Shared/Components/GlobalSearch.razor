@@ -1,4 +1,4 @@
-﻿@inject IMatToaster toast;
+﻿@inject ISnackbar toast;
 @inject IHttpService http;
 @inject IJSRuntime js ;
 @inject NavigationManager nav;
@@ -18,7 +18,7 @@
         if (keyword.Trim().Length < 3)
         {
             await js.InvokeVoidAsync("JsFunctions.focusElement", txt_search);
-            toast.Add(lang["Please enter keywords 3 or more characters"], MatToastType.Warning);
+            toast.Add(lang["Please enter keywords 3 or more characters"], MudBlazor.Severity.Warning);
             return;
         }
         else

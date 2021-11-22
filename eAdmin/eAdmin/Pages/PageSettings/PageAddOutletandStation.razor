@@ -123,7 +123,7 @@
         var resp = await http.ApiPost($"{ControllerApi}/Save", b);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Change status successfully"], MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
         }
 
         b.is_change_status = false;
@@ -223,13 +223,13 @@
             {
                 obj = JsonSerializer.Deserialize<OutletModel>(res.Content.ToString());
 
-                toast.Add(lang["Saving successfully"], MatToastType.Success);
+                toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                 nav.NavigateTo($"outletstation");
             }
             else
             {
                 is_saving = false;
-                toast.Add(res.Content.ToString(), MatToastType.Warning);
+                toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
             }
         }
     }

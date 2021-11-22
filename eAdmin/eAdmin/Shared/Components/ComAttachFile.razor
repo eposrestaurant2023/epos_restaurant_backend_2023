@@ -181,7 +181,7 @@
         List<string> accept_extension = new List<string>(new string[] { ".jpg", ".png", ".jpeg", ".xls", ".xlsx", ".cvs", ".docx", ".pdf" });
         if (!accept_extension.Contains(file_extension))
         {
-            toast.Add(lang["Incorrect file extension"], MatToastType.Warning);
+            toast.Add(lang["Incorrect file extension"], MudBlazor.Severity.Warning);
             is_loading = false;
             return;
         }
@@ -201,12 +201,12 @@
             var resp = await http.ApiPost($"AttachFiles/save", file);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save successfully"], MatToastType.Success);
+                toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
                 await OnUploadAttachFile.InvokeAsync(JsonSerializer.Deserialize<AttachFilesModel>(resp.Content.ToString()));
             }
             else
             {
-                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
             }
         }
         is_loading = false;
@@ -223,12 +223,12 @@
             var resp = await http.ApiPost($"AttachFiles/save", f);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save successfully"], MatToastType.Success);
+                toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
 
             }
             else
             {
-                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
             }
             await OnEditAttachFile.InvokeAsync(JsonSerializer.Deserialize<AttachFilesModel>(resp.Content.ToString()));
         }
@@ -250,11 +250,11 @@
             var resp = await http.ApiPost($"AttachFiles/delete/{f.id}");
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Delete record successfully"], MatToastType.Success);
+                toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
             }
             else
             {
-                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
             }
             await OnDeleteAttachFile.InvokeAsync(JsonSerializer.Deserialize<AttachFilesModel>(resp.Content.ToString()));
 

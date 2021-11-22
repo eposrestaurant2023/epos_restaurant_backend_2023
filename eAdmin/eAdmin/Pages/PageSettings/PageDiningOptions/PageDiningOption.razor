@@ -1,6 +1,6 @@
 ﻿@page "/setting/diningoption"
 @inject IHttpService http;
-@inject IMatToaster toast;
+@inject ISnackbar toast;
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
@@ -81,7 +81,7 @@
         }
         else
         {
-            toast.Add(lang["Loading sale type fail."], MatToastType.Warning);
+            toast.Add(lang["Loading sale type fail."], MudBlazor.Severity.Warning);
         }
 
 
@@ -101,14 +101,14 @@
     {
         if (branches.SelectMany(r => r.sale_types).Where(r => r.is_deleted == false && r.sale_type_name == null).Any())
         {
-            toast.Add(lang["Please enter sale type name"], MatToastType.Warning);
+            toast.Add(lang["Please enter sale type name"], MudBlazor.Severity.Warning);
             return;
         }
 
         if (branches.SelectMany(r => r.sale_types).Where(r => r.is_deleted == false && r.sale_type_name.Trim() == "").Any())
         {
 
-            toast.Add(lang["Please enter sale type name"], MatToastType.Warning);
+            toast.Add(lang["Please enter sale type name"], MudBlazor.Severity.Warning);
             return;
         }
 
@@ -118,14 +118,14 @@
         if (resp.IsSuccess)
         {
 
-            toast.Add(lang["Save Sale Type successfully"], MatToastType.Success);
+            toast.Add(lang["Save Sale Type successfully"], MudBlazor.Severity.Success);
 
             await LoadData();
         }
         else
         {
 
-            toast.Add(lang["Save Sale Type Fail"], MatToastType.Warning);
+            toast.Add(lang["Save Sale Type Fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

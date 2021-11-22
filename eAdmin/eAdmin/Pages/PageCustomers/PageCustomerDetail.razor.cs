@@ -68,7 +68,7 @@ namespace eAdmin.Pages.PageCustomers
                 var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
                 if (resp.IsSuccess)
                 {
-                    toast.Add(lang["Delete record successfully"], MatBlazor.MatToastType.Success);
+                    toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
                     await LoadData();
                 }
             }
@@ -86,7 +86,7 @@ namespace eAdmin.Pages.PageCustomers
                 {
                     await LoadData();
                 }
-                toast.Add(lang["Restore record successfully"], MatBlazor.MatToastType.Success);
+                toast.Add(lang["Restore record successfully"], MudBlazor.Severity.Success);
             }
             p.is_loading = false;
         }
@@ -111,7 +111,7 @@ namespace eAdmin.Pages.PageCustomers
             var resp = await http.ApiPost(controller_api + "/save", customer);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Change status successfully"], MatToastType.Success);
+                toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
                 await LoadData();
             }
         }

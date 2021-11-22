@@ -1,6 +1,6 @@
 ﻿@page "/user";
 @inherits PageCore
-@inject IMatToaster Toaster
+ 
 @using eModels;
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
@@ -254,13 +254,13 @@
         {
             if (user.status == false)
             {
-                toast.Add(lang["You cannot disable current login user."], MatToastType.Warning);
+                toast.Add(lang["You cannot disable current login user."], MudBlazor.Severity.Warning);
                 return;
             }
 
             if (new_password.Length > 0 && new_password.Length < 2)
             {
-                Toaster.Add(lang["Password is too short or empty"], MatToastType.Warning);
+                toast.Add(lang["Password is too short or empty"], MudBlazor.Severity.Warning);
                 user.is_loading = false;
                 return;
             }
@@ -284,13 +284,13 @@
         if (res.IsSuccess)
         {
             var u = JsonSerializer.Deserialize<UserModel>(res.Content.ToString());
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             await LoadData();
             is_dialog_open = false;
         }
         else
         {
-            toast.Add(res.Content.ToString(), MatToastType.Warning);
+            toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
         }
         user.is_loading = false;
     }
@@ -299,7 +299,7 @@
     {
         if (u.id == gv.current_login_user.id)
         {
-            toast.Add(lang["You cannot disable current login user."], MatToastType.Warning);
+            toast.Add(lang["You cannot disable current login user."], MudBlazor.Severity.Warning);
             return;
         }
 
@@ -307,7 +307,7 @@
         var resp = await http.ApiPost(controller_api + "/status/" + u.id);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Change status successfully"], MatToastType.Success);
+            toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
             if (users_list.Count() == 1 && state.pager.current_page > 1)
             {
                 state.pager.current_page = state.pager.current_page - 1;
@@ -317,7 +317,7 @@
         }
         else
         {
-            toast.Add(resp.Content.ToString(), MatToastType.Danger);
+            toast.Add(resp.Content.ToString(), MudBlazor.Severity.Error);
 
         }
         u.is_loading = true;
@@ -338,11 +338,11 @@
                     state.pager.current_page = state.pager.current_page - 1;
                 }
                 await LoadData();
-                toast.Add(lang["Restore record successfully"], MatToastType.Success);
+                toast.Add(lang["Restore record successfully"], MudBlazor.Severity.Success);
             }
             else
             {
-                toast.Add(resp.Content.ToString(), MatToastType.Warning);
+                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
             }
 
 
@@ -355,7 +355,7 @@
     {
         if (p.id == gv.current_login_user.id)
         {
-            toast.Add(lang["You cannot delete current login user"], MatToastType.Warning);
+            toast.Add(lang["You cannot delete current login user"], MudBlazor.Severity.Warning);
             return;
         }
 
@@ -374,7 +374,7 @@
 
                 await LoadData();
             }
-            toast.Add(lang["Delete record successfully"], MatToastType.Success);
+            toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
 
         }
 

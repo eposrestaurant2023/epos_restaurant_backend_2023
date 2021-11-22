@@ -1,5 +1,5 @@
 ﻿@inject IHttpService http
-@inject IMatToaster toast
+@inject ISnackbar toast
 @inject IStringLocalizer<Resource> lang
 <Modal IsSimpleMode="false" Title="@lang["Sale Payment"]" OnClosed="@(()=>ToogleModal(false))" @bind-IsOpened="@is_opened"  ModalWidth="800px">
     <ModalBody>
@@ -215,7 +215,7 @@
         }
         else
         {
-            toast.Add(lang["Load data fail. Please try again."], MatToastType.Warning);
+            toast.Add(lang["Load data fail. Please try again."], MudBlazor.Severity.Warning);
         }
     }
     async Task LoadPayment()
@@ -229,7 +229,7 @@
         }
         else
         {
-            toast.Add(lang["Load data fail. Please try again."], MatToastType.Warning);
+            toast.Add(lang["Load data fail. Please try again."], MudBlazor.Severity.Warning);
 
         }
     }
@@ -244,7 +244,7 @@
         }
         else
         {
-            toast.Add(lang["Load data fail. Please try again."], MatToastType.Warning);
+            toast.Add(lang["Load data fail. Please try again."], MudBlazor.Severity.Warning);
 
         }
     }
@@ -278,20 +278,20 @@
 
         if (model.payment_amount <= 0)
         {
-            toast.Add(lang["Please enter payment amount."], MatToastType.Warning);
+            toast.Add(lang["Please enter payment amount."], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }
 
         if (total_base_payment_amount > sale_balance)
         {
-            toast.Add(lang["Payment amount cannot greater than balance."], MatToastType.Warning);
+            toast.Add(lang["Payment amount cannot greater than balance."], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }
         if(model.payment_type_id <= 0)
         {
-            toast.Add(lang["Please select a payment type."], MatToastType.Warning);
+            toast.Add(lang["Please select a payment type."], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }
@@ -306,12 +306,12 @@
         {
             await OnSave.InvokeAsync(true);
             model = new SalePaymentModel();
-            toast.Add(lang["Save successfully"], MatToastType.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
         }
         else
         {
             await OnSave.InvokeAsync(false);
-            toast.Add(lang["Cannot add payment."], MatToastType.Warning);
+            toast.Add(lang["Cannot add payment."], MudBlazor.Severity.Warning);
             is_saving = false;
             return;
         }

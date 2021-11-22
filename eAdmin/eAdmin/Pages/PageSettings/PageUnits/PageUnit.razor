@@ -1,6 +1,6 @@
 ﻿@page "/setting/unit"
 @inject IHttpService http;
-@inject IMatToaster toast;
+@inject ISnackbar toast;
 @inject IStringLocalizer<Resource> lang
 <Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
@@ -78,7 +78,7 @@
         }
         else
         {
-            toast.Add(lang["Loading unit fail."], MatToastType.Warning);
+            toast.Add(lang["Loading unit fail."], MudBlazor.Severity.Warning);
         }
     }
 
@@ -91,7 +91,7 @@
     {
         if (unit_categories.SelectMany(r => r.units).Where(r => r.is_deleted == false && string.IsNullOrWhiteSpace(r.unit_name)).Any())
         {
-            toast.Add(lang["Please enter unit name"], MatToastType.Warning);
+            toast.Add(lang["Please enter unit name"], MudBlazor.Severity.Warning);
             return;
         }
 
@@ -100,14 +100,14 @@
         {
             if (c.units.Where(r => r.is_deleted == false && r.type_name == "Reference").Count() == 0)
             {
-                toast.Add(lang["Unit category must have at lease 1 Reference type"], MatToastType.Warning);
+                toast.Add(lang["Unit category must have at lease 1 Reference type"], MudBlazor.Severity.Warning);
 
                 return;
 
             }
             if (c.units.Where(r => r.is_deleted == false && r.type_name == "Reference").Count() > 1)
             {
-                toast.Add(lang["Unit category must have only 1 Reference type"], MatToastType.Warning);
+                toast.Add(lang["Unit category must have only 1 Reference type"], MudBlazor.Severity.Warning);
 
                 return;
 
@@ -121,12 +121,12 @@
         var resp = await http.ApiPost("UnitCategory/save/multiple", unit_categories);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Save Unit successfully"], MatToastType.Success);
+            toast.Add(lang["Save Unit successfully"], MudBlazor.Severity.Success);
             await LoadData();
         }
         else
         {
-            toast.Add(lang["Save Unit Fail"], MatToastType.Warning);
+            toast.Add(lang["Save Unit Fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

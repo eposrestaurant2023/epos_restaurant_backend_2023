@@ -1,7 +1,7 @@
 ﻿@page "/systemlicense"
 @inject IStringLocalizer<Resource> lang
 @inject IHttpService http
-@inject IMatToaster toast
+@inject ISnackbar toast
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
@@ -75,7 +75,7 @@
         var resp = await http.ApiGet("eSoftixBackend/CheckSystemFeatures");
         if (resp.IsSuccess)
         {
-            toast.Add("Check system feature complete", MatBlazor.MatToastType.Success);
+            toast.Add("Check system feature complete", MudBlazor.Severity.Success);
             await OnInitializedAsync();
         }
         is_loading = false;
