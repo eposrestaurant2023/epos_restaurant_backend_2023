@@ -19,7 +19,8 @@ namespace eAdmin.Pages.PageCustomers
         public bool is_comment_loaded,is_show_check_in,show_member_ship_tab,show_payment;
         public bool sale_history_tab_click, sale_product_history_tab_click, payment_history_tab_click;
         List<HistoryModel> histories = new List<HistoryModel>();
-
+        List<AttachFilesModel> files = new List<AttachFilesModel>();
+        public bool IsOpened = false;
         public string api_query
         {
             get
