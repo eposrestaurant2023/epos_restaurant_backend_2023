@@ -1279,6 +1279,7 @@ a, a:hover {
     width: auto;
 }
 .search-default {
+    width:400px;
     background-color: rgba(255,255,255,.15);
     margin-bottom: 5px;
     height: 42px;
@@ -4984,8 +4985,6 @@ h1.wrp-expense-total span.total-expense-amount{
         width: auto;
     }
 
- 
-
     .xs_navbar_menu {
         color: #fff;
         height: 48px;
@@ -4993,6 +4992,14 @@ h1.wrp-expense-total span.total-expense-amount{
     .main {
         margin-left: 0px;
         overflow: auto;
+    }
+
+    .search-default {
+        width: 180px;
+        background-color: rgba(255,255,255,.15);
+        margin-bottom: 5px;
+        height: 42px;
+        border-radius: var(--mud-default-borderradius);
     }
 }
 
