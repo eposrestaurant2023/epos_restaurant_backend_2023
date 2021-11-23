@@ -952,6 +952,7 @@ a, .btn-link {
     padding: 0px 10px !important;
     cursor: pointer;
     margin-right: 2px;
+    margin-left:2px;
     vertical-align: middle;
     -webkit-font-smoothing: antialiased;
     -moz-transition: .2s all;
