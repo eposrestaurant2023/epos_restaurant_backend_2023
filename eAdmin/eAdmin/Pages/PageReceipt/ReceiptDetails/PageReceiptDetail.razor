@@ -82,11 +82,7 @@
             <div class="spacing40"></div>
         </PageBody>
     </PageContainer>
-    @if (is_open_print)
-    {
-
-        <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="190" Title="@lang["Sale Receipt"]" report_parameters="@($"id={id}")" />
-    }
+   
 }
 
 @if (is_error)

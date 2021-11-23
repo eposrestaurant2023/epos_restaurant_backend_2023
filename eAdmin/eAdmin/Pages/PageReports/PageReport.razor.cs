@@ -1,4 +1,5 @@
 ﻿using eModels;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace eAdmin.Pages.PageReports
     public class PageReportModel: PageCore
     {
         public bool IsOpenedReport { get; set; } = false;
+        public bool IsMenuReportOpened { get; set; } = false;
+
         public List<PermissionOptionModel> main_report_list = new List<PermissionOptionModel>();
         public string keyword { get; set; } = "";
         public PermissionOptionModel report { get; set; } = new PermissionOptionModel();
@@ -47,8 +50,16 @@ namespace eAdmin.Pages.PageReports
                 report = _report;
                 is_loading_data = false;
             }
+            IsMenuReportOpened = false;
 
 
+
+        }
+        
+        public void OnViewFullscreenReport()
+        {
+            var parameters = new DialogParameters { ["parent_id"] = report.parent_id, ["report_id"] = report.id, ["gv"] = gv };
+            Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Reports"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
 
         }
     }

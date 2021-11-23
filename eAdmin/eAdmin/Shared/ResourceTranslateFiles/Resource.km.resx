@@ -2235,4 +2235,7 @@
   <data name="Save successfully" xml:space="preserve">
     <value>រក្សាទុកជោគជ័យ</value>
   </data>
+  <data name="Reports" xml:space="preserve">
+    <value>របាយការណ៍</value>
+  </data>
 </root>
