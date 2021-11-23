@@ -1,4 +1,5 @@
-﻿@if (is_inline)
+﻿@inject IStringLocalizer<Resource> lang
+@if (is_inline)
 {
     @if (is_loading)
     {
@@ -10,34 +11,78 @@
     }
 }
 else
-{ 
-<ComModal @bind-IsOpened="@IsOpened" Close_Click="@OnCloseClick" ModalWidth="100%" isFullModal="full_modal" Title="@Title" is_ModelFullscreen="true">
-    <div uk-grid>
-        <div class="uk-width-1-6">
-            <div>
-                <ul class="list-category">
-                    @foreach (var r in Reports)
-                    {
-                        <AuthorizeView roles="@gv.GetRole(r.option_name)">
-                            @if (r.id == model.id)
-                            {
-                                <li class="selected sub-report-item">
-                                    <div><Icon icon="keyboard_arrow_right" className="uk-margin-right-small" />@r.report_title</div>
-                                </li>
-                            }
-                            else
-                            {
-                                <li @onclick="@(()=>PreviewReport_Click(r))" class="sub-report-item">
-                                    <div><Icon icon="keyboard_arrow_right" className="uk-margin-right-small" />@r.report_title</div>
-                                </li>
-                            }
-                        </AuthorizeView>
-                    }
-                </ul>
-            </div>
-        </div>
-        <div class="uk-width-5-6 uk-padding-remove">
-            <div class="modal-content">
+{
+    <MudGrid>
+        <MudItem xs="12" md="3">
+            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <MudPaper Elevation="4" Class="pa-2">
+
+                    <MudList Clickable="true">
+
+
+                        @foreach (var r in Reports)
+                        {
+                            <AuthorizeView roles="@gv.GetRole(r.option_name)">
+
+
+                                @if (r.id == model.id)
+                                {
+
+
+                                    <MudListItem Text="@r.report_title" Icon="@Icons.Material.Filled.KeyboardArrowRight" />
+                                    <MudDivider />
+                                }
+                                else
+                                {
+                                    <MudListItem Text="@r.report_title" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@(() => PreviewReport_Click(r))" />
+                                    <MudDivider />
+
+                                }
+                            </AuthorizeView>
+                        }
+                    </MudList>
+
+
+                </MudPaper>
+            </MudHidden>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <MudToolBar>
+                    <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" OnClick="@(()=>IsMenuReportOpened=!IsMenuReportOpened)" />
+                    <MudText Typo="Typo.h5">@Title</MudText>
+                </MudToolBar>
+                <MudDrawer @bind-Open="@IsMenuReportOpened" Elevation="1" Variant="@DrawerVariant.Temporary">
+                    <MudDrawerHeader>
+                        <MudText Typo="Typo.h6">@lang["Reports"]</MudText>
+                    </MudDrawerHeader>
+                    <MudList Clickable="true">
+
+
+                        @foreach (var r in Reports)
+                        {
+                            <AuthorizeView roles="@gv.GetRole(r.option_name)">
+
+
+                                @if (r.id == model.id)
+                                {
+
+
+                                    <MudListItem Text="@r.report_title" Icon="@Icons.Material.Filled.KeyboardArrowRight" />
+                                    <MudDivider />
+                                }
+                                else
+                                {
+                                    <MudListItem Text="@r.report_title" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@(() => PreviewReport_Click(r))" />
+                                    <MudDivider />
+
+                                }
+                            </AuthorizeView>
+                        }
+                    </MudList>
+                </MudDrawer>
+            </MudHidden>
+        </MudItem>
+        <MudItem xs="12" md="9">
+            <MudPaper Height="100vh">
                 @if (is_loading)
                 {
                     <Spinner />
@@ -46,23 +91,25 @@ else
                 {
                     <iframe style="overflow:hidden;height:100%;width:100%" height="100%" width="100%" src="@url" />
                 }
-            </div>
-        </div>
-    </div>
+            </MudPaper>
+        </MudItem>
 
-</ComModal>
+    </MudGrid>
+ 
+
 }
-    
 
-    @code {
-        [CascadingParameter] public GlobalVariableModel gv { get; set; }
-public List<PermissionOptionModel> Reports
+
+@code {
+    [Parameter] public GlobalVariableModel gv { get; set; }
+    public List<PermissionOptionModel> Reports
     {
         get
         {
             return gv.permission_options.Where(r => r.parent_id == parent_id).OrderBy(r => r.sort_order).ToList();
         }
     }
+
     [Parameter] public PermissionOptionModel model { get; set; } = new PermissionOptionModel();
     [Parameter] public Boolean IsOpened { get; set; } = false;
     [Parameter] public EventCallback<Boolean> IsOpenedChanged { get; set; }
@@ -74,9 +121,10 @@ public List<PermissionOptionModel> Reports
     [Parameter] public int report_id { get; set; } = 0;
     [Parameter] public bool is_print { get; set; } = false;
 
-    bool is_loading = false;
+    bool is_loading = false, IsMenuReportOpened=false;
     string url = "";
     int old_report_id = 0;
+    bool is_open_menu = true;
 
 
     protected override async Task OnParametersSetAsync()
@@ -99,7 +147,7 @@ public List<PermissionOptionModel> Reports
     async Task PreviewReport_Click(PermissionOptionModel report)
     {
         model = report;
-        Title = "Report" + " - " + report.report_title;
+        Title = lang["Report"] + " - " + report.report_title;
         if (report != null)
         {
             is_loading = true;
@@ -113,7 +161,9 @@ public List<PermissionOptionModel> Reports
                 url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&{report_parameters}&printed_by={gv.current_login_user.username}&report_url={model.option_name}";
             }
 
+            IsMenuReportOpened = false;
             is_loading = false;
+
         }
 
     }
@@ -127,4 +177,4 @@ public List<PermissionOptionModel> Reports
 
 
 
-    }
+}
