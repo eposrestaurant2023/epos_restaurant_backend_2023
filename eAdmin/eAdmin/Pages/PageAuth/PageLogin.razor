@@ -87,10 +87,10 @@
         {
             server_config = JsonSerializer.Deserialize<ServerConfigModel>(resp.Content.ToString());
 
-            if(string.IsNullOrEmpty(server_config.project_id) || server_config.server_id!=server_config.hardware_server_id)
-            {
-              nav.NavigateTo("config");
-            }
+            //if(string.IsNullOrEmpty(server_config.project_id) || server_config.server_id!=server_config.hardware_server_id)
+            //{
+            //  nav.NavigateTo("config");
+            //}
 
         }
         is_loading = false;
@@ -113,7 +113,7 @@
         var resp = await http.ApiPost("user/auth/login", model);
         if (resp.IsSuccess)
         {
-            
+
             UserModel user = JsonSerializer.Deserialize<UserModel>
             (resp.Content.ToString());
             if (user != null)

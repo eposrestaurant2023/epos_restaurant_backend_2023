@@ -2,6 +2,7 @@
 @page "/sale/{id:guid}"
 @inherits ComSaleDetailBase
 
+
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @if (!is_loading && is_error == false)
@@ -94,3 +95,4 @@
         @error_text
     </Error>
 }
+

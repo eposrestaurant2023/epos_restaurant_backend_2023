@@ -25,6 +25,8 @@ namespace eAdmin.Pages
 
         [Inject] protected ISnackbar toast { get; set; }
         [Inject] protected IConfiguration config { get; set; }
+        [Inject] protected IDialogService Dialog { get; set; }
+         
         [Inject] protected IJSRuntime js { get; set; }
         [Inject] protected IHttpService http { get; set; }
         [Inject] protected ILocalStorageService localStorage { get; set; }

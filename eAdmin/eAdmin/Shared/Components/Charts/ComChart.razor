@@ -1,4 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
+
+@show_label
 @if (chart_data != null)
 {
     if (chart_data.Count() > 0)
@@ -11,7 +13,7 @@
                 {
                     <ApexSeries TItem="ApexChartDataModel"
                                 Items="@_s.data"
-                                Name="@lang[$"{_s.title}"]"
+                                Name="@lang[_s.title]"
                                 XValue="@(e => e.label)"
                                 YAggregate="@(e => e.Sum(e => e.value))"
                                 Stroke="@(new SeriesStroke() { Color = _s.color,Width=1})"
@@ -27,11 +29,13 @@
                 {
                     <ApexSeries TItem="ApexChartDataModel"
                                 Items="@_s.data"
-                                Name="@lang[$"{_s.title}"]"
+                                Name="@lang[_s.title]"
                                 XValue="@(e => e.label)"
+                                
                                 YAggregate="@(e => e.Sum(e => e.value))"
                                 Stroke="@(new SeriesStroke() { Color = _s.color,Width=1})"
-                                ShowDataLabels="@show_label" />
+                                ShowDataLabels="@show_label" 
+                                />
                 }
             </ApexChart>
         }
@@ -51,6 +55,7 @@
         var options = new ApexCharts.ApexChartOptions<ApexChartDataModel>();
         
         options.Chart = new Chart { Stacked = stacked };
+       
         return options;
     }
 

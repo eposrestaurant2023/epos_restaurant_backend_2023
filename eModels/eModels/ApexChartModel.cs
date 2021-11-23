@@ -23,5 +23,6 @@ namespace eModels
     {
         public string label { get; set; }
         public decimal value { get; set; }
+        public double chart_value { get { return Convert.ToDouble(value); } }
     }
 }

@@ -6,6 +6,7 @@ using eAdmin.JSHelpers;
 using MatBlazor;
 using System;
 using System.Security.Cryptography;
+using MudBlazor;
 
 namespace eAdmin.Pages.PageReceipt.ReceiptDetails
 {
@@ -95,8 +96,13 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         }
 
         public void PrintReceipt()
-        {
-            is_open_print = true;
+        { 
+
+                var parameters = new DialogParameters { ["parent_id"] = 190,["report_parameters"]= $"id ={ id}"};
+
+                Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Sale Receipt"], parameters);
+                
+             
         }
     }
 
