@@ -3,113 +3,138 @@
 @inject ISnackbar toast
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
+@inject IDialogService Dialog 
 
 <Loading is_loading="@is_loading" />
-<ButtonGroup>
-    <Button title="@lang["Print"]" icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click" />
-    <Button roles="@gv.GetRole("production_edit")" OnClick="@(()=>nav.NavigateTo($"production/edit/{model.id}"))" icon="edit" title="@lang["Edit"]" is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
-</ButtonGroup>
-
-<ComAttachFileButton RoleAdd="@gv.GetRole("production_add")"
-                     RoleEdit="@gv.GetRole("production_edit")"
-                     RoleDelete="@gv.GetRole("production_delete")"
-                     ApiFilter="@($"production_id eq {model.id} ")"
-                     File="@file"
-                     IsVisible="@(!model.is_deleted)" />
-
-<AddButton roles="@gv.GetRole("production_add")" url="production/new">@lang["New Production"]</AddButton>
-<MoreButton is_loading="@model.is_loading">
-    <MoreButtonItem roles="@gv.GetRole("production_add")" icon="file_copy" url="@($"production/clone/{model.id}")">@lang["Clone Production"]</MoreButtonItem>
-    <MoreButtonItem roles="@gv.GetRole("production_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Production"]</MoreButtonItem>
-    <MoreButtonItem roles="@gv.GetRole("production_delete")" icon="clear" is_visible="@model.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
-</MoreButton>
-
-@if (is_open_print)
-{
-    <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="237" Title="@lang["Production Receipt"]" report_parameters="@($"id={model.id}")" />
-}
-
-@code {
-
-    [Parameter] public ProductionModel model { get; set; }
-    [Parameter] public EventCallback<ProductionModel> modelChanged { get; set; }
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    AttachFilesModel file = new AttachFilesModel();
-    bool is_loading;
-    bool is_loading_data;
-    protected override void OnInitialized()
-    {
-        file.production_id = model.id;
-    }
+ 
+<MudHidden Breakpoint="Breakpoint.SmAndDown">
 
 
-    bool is_open_print = false;
+    <ButtonGroup>
+        <Button title="@lang["Print"]" icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click" />
+        <Button roles="@gv.GetRole("production_edit")" OnClick="@(()=>nav.NavigateTo($"production/edit/{model.id}"))" icon="edit" title="@lang["Edit"]" is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
+    </ButtonGroup>
+</MudHidden>
+    <ComAttachFileButton RoleAdd="@gv.GetRole("production_add")"
+                         RoleEdit="@gv.GetRole("production_edit")"
+                         RoleDelete="@gv.GetRole("production_delete")"
+                         ApiFilter="@($"production_id eq {model.id} ")"
+                         File="@file"
+                         IsVisible="@(!model.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
+    <MudHidden Breakpoint="Breakpoint.SmAndDown">
 
-    void Print_Click()
-    {
+        <AddButton roles="@gv.GetRole("production_add")" url="production/new">@lang["New Production"]</AddButton>
+    </MudHidden>
+        <RefreshButton OnClick="@OnRefresh" />
+        <MoreButton is_loading="@model.is_loading">
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <MoreButtonItem roles="@gv.GetRole("production_add")" icon="add" url="@($"production/new")">@lang["New Production"]</MoreButtonItem>
+            </MudHidden>
+            <MoreButtonItem roles="@gv.GetRole("production_add")" icon="file_copy" url="@($"production/clone/{model.id}")">@lang["Clone Production"]</MoreButtonItem>
+            <MoreButtonItem roles="@gv.GetRole("production_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Production"]</MoreButtonItem>
+            <MoreButtonItem roles="@gv.GetRole("production_delete")" icon="clear" is_visible="@model.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
 
-        is_open_print = true;
-    }
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <MudDivider />
+                <MoreButtonItem  icon="print"  is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click">@lang["Print"]</MoreButtonItem>
 
-    async Task DeleteInvoice_Click()
-    {
-        is_loading = true;
-        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
-        {
-            var resp = await http.ApiPost($"production/delete/{model.id}");
-            if (resp.IsSuccess)
+                <ComAttachFileButton RoleAdd="@gv.GetRole("production_add")"
+                                     RoleEdit="@gv.GetRole("production_edit")"
+                                     RoleDelete="@gv.GetRole("production_delete")"
+                                     ApiFilter="@($"production_id eq {model.id} ")"
+                                     File="@file"
+                                     IsVisible="@(!model.is_deleted)"
+                                     IsIconButton="false"
+                                     OnOpenAttachFile="@(()=>is_open_attach_file=!is_open_attach_file)" />
+            </MudHidden>
+        </MoreButton>
+
+
+
+        @code {
+
+            [Parameter] public ProductionModel model { get; set; }
+            [Parameter] public EventCallback<ProductionModel> modelChanged { get; set; }
+            [Parameter] public EventCallback OnRefresh { get; set; }
+            [CascadingParameter] public GlobalVariableModel gv { get; set; }
+            AttachFilesModel file = new AttachFilesModel();
+            bool is_loading;
+            bool is_loading_data, is_open_attach_file;
+            protected override void OnInitialized()
             {
-                model.is_deleted = !model.is_deleted;
-                await modelChanged.InvokeAsync(model);
-                toast.Add(lang["Delete record successfully."], MudBlazor.Severity.Success);
+                file.production_id = model.id;
             }
-            else
+
+
+
+
+            void Print_Click()
             {
-                toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
+
+
+                var parameters = new DialogParameters { ["parent_id"] = 237, ["report_parameters"] = $"id={ model.id}", ["gv"] = gv };
+                Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Production Receipt"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
+            }
+
+            async Task DeleteInvoice_Click()
+            {
+                is_loading = true;
+                if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
+                {
+                    var resp = await http.ApiPost($"production/delete/{model.id}");
+                    if (resp.IsSuccess)
+                    {
+                        model.is_deleted = !model.is_deleted;
+                        await modelChanged.InvokeAsync(model);
+                        toast.Add(lang["Delete record successfully."], MudBlazor.Severity.Success);
+                    }
+                    else
+                    {
+                        toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
+                    }
+                }
+
+                is_loading = false;
+
+            }
+            async Task RestoreInvoice_Click()
+            {
+
+
+                is_loading = true;
+                if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"], SweetAlertMessageType.question))
+                {
+                    var resp = await http.ApiPost($"production/delete/{model.id}");
+                    if (resp.IsSuccess)
+                    {
+
+                        model.is_deleted = !model.is_deleted;
+                        await modelChanged.InvokeAsync(model);
+                        toast.Add(lang["Restore record successfully."], MudBlazor.Severity.Success);
+                    }
+                    else
+                    {
+                        toast.Add(resp.Content, MudBlazor.Severity.Warning);
+                    }
+                }
+
+                is_loading = false;
+            }
+            public async Task CancelMarkAsFulfilled()
+            {
+                is_loading = true;
+                if (await js.Confirm(lang["Cancel Make As Fulfilled"], lang["Are you sure you want to​ cancel make as fulfilled?"]))
+                {
+
+                    var resp = await http.ApiPost("Production/CancelMarkAsFulfilled/" + model.id);
+                    if (resp.IsSuccess)
+                    {
+                        model.is_fulfilled = !model.is_fulfilled;
+                        await modelChanged.InvokeAsync(model);
+                        toast.Add(lang["Cancel Mark as fulfilled successfully"], MudBlazor.Severity.Success);
+                    }
+                }
+                is_loading = false;
+
             }
         }
-
-        is_loading = false;
-
-    }
-    async Task RestoreInvoice_Click()
-    {
-
-
-        is_loading = true;
-        if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"], SweetAlertMessageType.question))
-        {
-            var resp = await http.ApiPost($"production/delete/{model.id}");
-            if (resp.IsSuccess)
-            {
-
-                model.is_deleted = !model.is_deleted;
-                await modelChanged.InvokeAsync(model);
-                toast.Add(lang["Restore record successfully."], MudBlazor.Severity.Success);
-            }
-            else
-            {
-                toast.Add(resp.Content, MudBlazor.Severity.Warning);
-            }
-        }
-
-        is_loading = false;
-    }
-    public async Task CancelMarkAsFulfilled()
-    {
-        is_loading = true;
-        if (await js.Confirm(lang["Cancel Make As Fulfilled"], lang["Are you sure you want to​ cancel make as fulfilled?"]))
-        {
-
-            var resp = await http.ApiPost("Production/CancelMarkAsFulfilled/" + model.id);
-            if (resp.IsSuccess)
-            {
-                model.is_fulfilled = !model.is_fulfilled;
-                await modelChanged.InvokeAsync(model);
-                toast.Add(lang["Cancel Mark as fulfilled successfully"], MudBlazor.Severity.Success);
-            }
-        }
-        is_loading = false;
-
-    }
-}

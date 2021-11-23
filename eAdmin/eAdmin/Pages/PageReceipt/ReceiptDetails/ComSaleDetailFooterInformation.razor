@@ -12,7 +12,7 @@
     {
         <div>@lang["Deleted by"] @sale.deleted_by @lang["On_Date"] @string.Format(sale.deleted_date.ToString(), gv.date_time_format)</div>
     }
-    <div>@lang["Last Modified By"] @sale.last_modified_by @lang["On_Date"] @string.Format(sale.last_modified_date.ToString(), gv.date_time_format)</div>
+    <div>@lang["Last modified by"] @sale.last_modified_by @lang["On_Date"] @string.Format(sale.last_modified_date.ToString(), gv.date_time_format)</div>
 </div>
 @code {
     [Parameter] public SaleModel sale { get; set; }
