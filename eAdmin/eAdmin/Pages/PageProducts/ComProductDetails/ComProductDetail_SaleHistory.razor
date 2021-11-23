@@ -54,8 +54,6 @@
                         <ThRight>@lang["Tax"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
-                        <ThCenter>@lang["Last Modified Date"]</ThCenter>
-                        <th>@lang["Last Modified By"]</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -89,12 +87,7 @@
                         <TdRight>
                             @p.sale?.balance.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>
-                            @(Convert.ToDateTime(p.sale?.last_modified_date).ToString(gv.date_time_format))
-                        </TdCenter>
-                        <td>
-                            @p.sale?.last_modified_by
-                        </td>
+                       
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.sale_id}"))" />
                         </TdCenter>

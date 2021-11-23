@@ -480,10 +480,10 @@
   <data name="Status" xml:space="preserve">
     <value>ស្ថានភាព</value>
   </data>
-  <data name="Last Modified Date" xml:space="preserve">
+  <data name="Last modified date" xml:space="preserve">
     <value>ថ្ងៃនៃការកែប្រែចុងក្រោយ</value>
   </data>
-  <data name="Last Modified By" xml:space="preserve">
+  <data name="Last modified by" xml:space="preserve">
     <value>អ្នកកែប្រែចុងក្រោយដោយ</value>
   </data>
   <data name="Created by" xml:space="preserve">
@@ -2249,5 +2249,23 @@
   </data>
   <data name="Overdue" xml:space="preserve">
     <value>លើសថ្ងៃ</value>
+  </data>
+  <data name="You can mark this transansaction as Fulfilled" xml:space="preserve">
+    <value>អ្នកអាចបញ្ចប់ និងបិទប្រតិបត្តិការនេះ</value>
+  </data>
+  <data name="You can mark this transansaction as Fulfilled." xml:space="preserve">
+    <value>អ្នកអាចបញ្ចប់ និងបិទប្រតិបត្តិការនេះ។</value>
+  </data>
+  <data name="Portion" xml:space="preserve">
+    <value>ទំហំ</value>
+  </data>
+  <data name="Last modified" xml:space="preserve">
+    <value>កែប្រែចុងក្រោយ</value>
+  </data>
+  <data name="Cancel Mark as Fulfilled" xml:space="preserve">
+    <value>លុប Mark as Fulfilled</value>
+  </data>
+  <data name="Clone Production" xml:space="preserve">
+    <value>ចម្លង</value>
   </data>
 </root>
