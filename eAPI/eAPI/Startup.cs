@@ -161,7 +161,7 @@ namespace eAPI
             odataBuilder.EntitySet<PaymentTypeModel>("PaymentType");
             odataBuilder.EntitySet<AttachFilesModel>("AttachFiles");
             odataBuilder.EntitySet<SettingModel>("Setting");
-            odataBuilder.EntitySet<HistoryModel>("History");
+        
             odataBuilder.EntitySet<CountryModel>("Country");
             odataBuilder.EntitySet<BusinessBranchModel>("BusinessBranch");
             odataBuilder.EntitySet<BusinessInformationModel>("BusinessInformation");
@@ -183,7 +183,7 @@ namespace eAPI
             odataBuilder.EntitySet<ModifierModel>("Modifier");
             odataBuilder.EntitySet<ModifierGroupModel>("ModifierGroup");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
-            odataBuilder.EntitySet<HistoryModel>("History");                          
+           odataBuilder.EntitySet<HistoryModel>("History");                          
             odataBuilder.EntitySet<ConfigDataModel>("ConfigData");
             odataBuilder.EntitySet<ProductMenuModel>("ProductMenu");
             odataBuilder.EntitySet<BusinessBranchProductPriceModel>("BusinessBranchProductPrice");
