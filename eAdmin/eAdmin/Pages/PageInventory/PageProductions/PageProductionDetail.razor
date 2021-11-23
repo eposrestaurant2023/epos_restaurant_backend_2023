@@ -21,9 +21,9 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight>
+            <HeaderRight ShowBackButton="false">
                 
-                <ComProductionDetail_ActionButton @bind-model="@model" />
+                <ComProductionDetail_ActionButton @bind-model="@model" OnRefresh="@OnRefresh"  />
             </HeaderRight>
         </PageHeader>
         <PageBody>

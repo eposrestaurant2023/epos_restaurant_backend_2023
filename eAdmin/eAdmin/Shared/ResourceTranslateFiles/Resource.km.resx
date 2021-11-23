@@ -2268,4 +2268,10 @@
   <data name="Clone Production" xml:space="preserve">
     <value>ចម្លង</value>
   </data>
+  <data name="Attach File" xml:space="preserve">
+    <value>ភ្ជាប់ ឯកសារ</value>
+  </data>
+  <data name="Attach Files" xml:space="preserve">
+    <value>ភ្ជាប់ ឯកសារ</value>
+  </data>
 </root>

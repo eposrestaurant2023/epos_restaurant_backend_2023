@@ -3,31 +3,53 @@
 @inject IStringLocalizer<Resource> lang
 
 <Com is_visible="IsVisible">
-    @if (is_loading)
+    @if (is_loading && IsIconButton)
     {
-        <Button class_name="uk-button uk-button-primary"><Spinner /></Button>
-    }
-    else
-    {
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            <Button class_name="uk-button uk-button-primary"><Spinner /></Button>
+            </MudHidden>
+            }
+            else
+            {
+            if (IsIconButton)
+            {
+            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <Button icon="attach_file" title="Attach File" OnClick="@(()=>IsOpened=true)">(@files.Where(r => r.is_deleted == false).Count())</Button>
+            </MudHidden>
 
-        <Button icon="attach_file" title="Attach File" uk_toggle="@($"#{IdToggle}")">(@files.Where(r => r.is_deleted == false).Count())</Button>
+            <MudDrawer Width="350px" Open="@IsOpened" OpenChanged="@DrawerOpened" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+                <MudDrawerHeader Class="d-flex align-center">
+                    <MudText Typo="Typo.h6">@lang["Attach Files"]</MudText>
+                </MudDrawerHeader>
+                <MudDivider />
+                <div style="padding: 10px 20px; text-align: left;">
+                    <ComAttachFile RoleAdd="@RoleAdd"
+                                   RoleEdit="@RoleEdit"
+                                   RoleDelete="@RoleDelete"
+                                   AttachFiles="@files"
+                                   file="@File"
+                                   OnUploadAttachFile="@UploadAttachFile_Click"
+                                   OnDeleteAttachFile="@DeleteAttachFile_Click"
+                                   IsVisible="@IsVisible"
+                                   IsReadOnly="@IsReadOnly" />
+                </div>
 
-        <div id="@IdToggle" uk-offcanvas="flip: true; overlay: true">
-            <div class="uk-offcanvas-bar">
-                <button class="uk-offcanvas-close" type="button" uk-close></button>
-                <ComAttachFile RoleAdd="@RoleAdd"
-                               RoleEdit="@RoleEdit"
-                               RoleDelete="@RoleDelete"
-                               AttachFiles="@files"
-                               file="@File"
-                               OnUploadAttachFile="@UploadAttachFile_Click"
-                               OnDeleteAttachFile="@DeleteAttachFile_Click"
-                               IsVisible="@IsVisible"
-                               IsReadOnly="@IsReadOnly" />
-            </div>
-        </div>
-    }
-</Com>
+            </MudDrawer>
+            }
+            else
+            {
+
+             <MoreButtonItem icon="attach_file" OnClick="@OnOpenAttachFile">@lang["Attach Files"] ((@files.Where(r => r.is_deleted == false).Count())</MoreButtonItem>
+
+
+            }
+
+
+            }
+
+
+
+    </Com>
 
 
 
@@ -38,12 +60,19 @@
     [Parameter] public string RoleDelete { get; set; }
     [Parameter] public bool IsVisible { get; set; } = true;
     [Parameter] public bool IsReadOnly { get; set; } = false;
+    [Parameter] public bool IsIconButton { get; set; } = true;
+    [Parameter] public bool IsOpened { get; set; }
+    [Parameter] public EventCallback<bool> IsOpenedChanged { get; set; }
     [Parameter] public string IdToggle { get; set; } = "attach-file";
     [Parameter] public AttachFilesModel File { get; set; }
     [Parameter] public EventCallback<AttachFilesModel> OnUplopadFile { get; set; }
     [Parameter] public EventCallback<AttachFilesModel> OnDeleteFile { get; set; }
+    [Parameter] public EventCallback OnOpenAttachFile { get; set; }
     [Parameter] public string ApiFilter { get; set; } = "";
     List<AttachFilesModel> files = new List<AttachFilesModel>();
+
+
+
 
     public string api_url
     {
@@ -101,6 +130,11 @@
             files.Add(file);
             OnUplopadFile.InvokeAsync(file);
         }
+    }
+
+    async Task DrawerOpened(bool is_opened)
+    {
+        await IsOpenedChanged.InvokeAsync(is_opened);
     }
 
 }
