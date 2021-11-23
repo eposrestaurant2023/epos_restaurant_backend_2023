@@ -16,28 +16,26 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true">
-                <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"customer/edit/{model.id}"))" is_visible="@(!model.is_deleted)"/>
+            <HeaderRight>
                 <ComAttachFileButton RoleAdd="@gv.GetRole("customer_add")"
                                      RoleEdit="@gv.GetRole("customer_edit")"
                                      RoleDelete="@gv.GetRole("customer_delete")"
                                      ApiFilter="@($"customer_id eq {id} ")"
                                      File="@(new AttachFilesModel() { customer_id = Guid.Parse(id) })"
-                                     IsVisible="@(!model.is_deleted)"/>
-                 
-                <SplitButton OnClick="@(()=>nav.NavigateTo("customer/new"))" main_button_text="@lang["New"]">
-                    <SplitButtonItem roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">@lang["New Customer"]</SplitButtonItem>
-                    <SplitButtonItem roles="@gv.GetRole("customer_add")" url="@($"payment/customer/{id}")">@lang["Add Payment"]</SplitButtonItem>
-                </SplitButton>
+                                     IsVisible="@(!model.is_deleted)" />
+                <RefreshButton OnClick="@LoadData" />
                 <MoreButton is_loading="@model.is_loading">
                     <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Inactive"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Active"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@(() => OnDelete(model))">@lang["Delete"]</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="edit" is_visible="@(!model.is_deleted)" OnClick="@(()=>nav.NavigateTo($"customer/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
                     <MoreButtonItem roles="@gv.GetRole("customer_restore")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@(() => OnRestore(model))">@lang["Restore"]</MoreButtonItem>
-                     
+                    <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="add" OnClick="@(()=>nav.NavigateTo("customer/new"))">@lang["New Customer"]</MoreButtonItem>
+                    <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="add" url="@($"payment/customer/{id}")">@lang["Add Payment"]</MoreButtonItem>
+
                 </MoreButton>
-                <RefreshButton OnClick="@LoadData" />
+
             </HeaderRight>
         </PageHeader>
         <PageBody>

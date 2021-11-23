@@ -4773,9 +4773,12 @@ i.icolor-6 {
     padding-right: 15px;
     margin-right: 15px;
 }
-.correct-location-dropdown { 
-    right: 51px !important;
-    top: 36.9062px !important;
+.Cus_Drowdowncorrect-location-dropdown .mud-popover{
+ right:10px;
+}
+.Cus_Drowdowncorrect-location-dropdown svg {
+    font-size: 24px;
+    color: #333333;
 }
 .currect-possition-dropdown {
     left: auto !important;
