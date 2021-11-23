@@ -1,24 +1,20 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @if (isVisible)
 {
-    <button class="uk-button uk-button-primary button-large">
-        @lang["More"]
-        <Icon icon="arrow_drop_down" />
-    </button>
-
-    @if (!is_loading)
-    {
-        <div uk-drop="mode: click;" class="@ClassName">
-            <ul class="uk-nav uk-dropdown-nav uk-list uk-list-divider font_size_i">
+    <MudButtonGroup Color="MudBlazor.Color.Primary" Variant="Variant.Text">
+        @if (!is_loading)
+        {
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Direction="Direction.Bottom" OffsetY="true" Class="@("Cus_Drowdown" + ClassName)">
                 @ChildContent
-            </ul>
-        </div>
-    }
+            </MudMenu>
+       
+        }
+     </MudButtonGroup>
 }
-@code{
+    @code{
 
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string ClassName { get; set; } = "correct-location-dropdown";
-    [Parameter] public bool is_loading { get; set; }
-    [Parameter] public bool isVisible { get; set; } = true;
-}
+        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public string ClassName { get; set; } = "correct-location-dropdown";
+        [Parameter] public bool is_loading { get; set; }
+        [Parameter] public bool isVisible { get; set; } = true;
+    }
