@@ -2238,4 +2238,16 @@
   <data name="Reports" xml:space="preserve">
     <value>របាយការណ៍</value>
   </data>
+  <data name="What Next?" xml:space="preserve">
+    <value>បន្ទាប់?</value>
+  </data>
+  <data name="You can mark this purchase order as Fulfilled" xml:space="preserve">
+    <value>អ្នកអាចបញ្ចប់ និងបិទការបញ្ជាទិញនេះ</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>ព្រាង</value>
+  </data>
+  <data name="Overdue" xml:space="preserve">
+    <value>លើសថ្ងៃ</value>
+  </data>
 </root>

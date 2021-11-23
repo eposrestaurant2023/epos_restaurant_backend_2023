@@ -1,19 +1,19 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 @if (model.is_deleted)
 {
-    <div class="ribbon ribbon-left"><span class="deleted">Deleted</span></div>
+    <div class="ribbon ribbon-left"><span class="deleted">@lang["Deleted"]</span></div>
 }
 else
-{ 
+{
     @if (model.is_fulfilled)
     {
         <div class="ribbon ribbon-left"><span class="fulfilled">Fulfilled</span></div>
     }
     else
-    { 
-        <div class="ribbon ribbon-left"><span class="draft">Draft</span></div>
-    } 
- 
+    {
+        <div class="ribbon ribbon-left"><span class="draft">@lang["Draft"]</span></div>
+    }
+
 }
 @code{
     [Parameter] public ProductionModel model { get; set; }

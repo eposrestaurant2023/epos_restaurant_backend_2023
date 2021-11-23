@@ -3,6 +3,7 @@
 @inject ISnackbar toast
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
+@inject   IDialogService Dialog
 
 <Loading is_loading="@is_loading" />
 <ButtonGroup>
@@ -27,41 +28,39 @@
     <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="clear" is_visible="@po.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
 </MoreButton>
 
-@if (is_open_print)
-{
-
-    <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="194" Title="@lang["Purcase Order Receipt"]" report_parameters="@($"id={po.id}")" />
-}
 
 @code {
-    [Parameter] public PurchaseOrderModel po { get; set; }
-    [Parameter] public EventCallback<PurchaseOrderModel> poChanged { get; set; }
-    [Parameter] public EventCallback<MouseEventArgs> OnAddPayment { get; set; }
+[Parameter] public PurchaseOrderModel po { get; set; }
+[Parameter] public EventCallback<PurchaseOrderModel> poChanged { get; set; }
+[Parameter] public EventCallback<MouseEventArgs> OnAddPayment { get; set; }
 
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+[CascadingParameter] public GlobalVariableModel gv { get; set; }
 
-    AttachFilesModel file = new AttachFilesModel();
-    bool is_loading;
+AttachFilesModel file = new AttachFilesModel();
+bool is_loading;
 
 
-    protected override void OnInitialized()
-    {
+protected override void OnInitialized()
+{
 
         if (po.vendor_id > 0) file.vendor_id = po.vendor_id;
         file.purchase_order_id = po.id;
-    }
+}
 
 
-    bool is_open_print = false;
 
-    void Print_Click()
-    {
 
-        is_open_print = true;
-    }
+void Print_Click()
+{
 
-    async Task DeleteInvoice_Click()
-    {
+
+        var parameters = new DialogParameters { ["parent_id"] = 194, ["report_parameters"] = $"id={po.id}", ["gv"] = gv };
+        Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Purcase Order Receipt"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
+
+}
+
+async Task DeleteInvoice_Click()
+{
         is_loading = true;
         if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
         {
@@ -80,9 +79,9 @@
 
         is_loading = false;
 
-    }
-    async Task RestoreInvoice_Click()
-    {
+}
+async Task RestoreInvoice_Click()
+{
 
 
         is_loading = true;
@@ -103,10 +102,10 @@
         }
 
         is_loading = false;
-    }
+}
 
-    public async Task CancelMarkAsFulfilled()
-    {
+public async Task CancelMarkAsFulfilled()
+{
         is_loading = true;
         if (await js.Confirm(lang["Cancel Make As Fulfilled"], lang["Are you sure you want to​ cancel make as fulfilled?"]))
         {
@@ -121,5 +120,5 @@
         }
         is_loading = false;
 
-    }
+}
 }
