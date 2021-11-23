@@ -61,6 +61,7 @@ namespace eAPIClient
         public DbSet<CashDrawerAmountModel> CashDrawerAmounts { get; set; }
 
         public DbSet<StoreProcedureResultModel> StoreProcedureResults { get; set; }
+        public DbSet<HistoryModel> Histories{ get; set; }
 
 
     }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text.Json;
 using System.Threading.Tasks;
-using eModels;
+using eAPIClient;
+using eAPIClient.Models;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
 
-namespace eAPI.Controllers
+namespace eAPIClient.Controllers
 {
     [ApiController]
     [Authorize]
@@ -70,20 +70,7 @@ namespace eAPI.Controllers
 
         }
 
-
-
-
-        [HttpPost]
-        [Route("delete/{id}")]
-        public async Task<ActionResult<HistoryModel>> DeleteRecord(int id) //Delete
-        {
-            var u = await db.Histories.FindAsync(id);
-            u.is_deleted = !u.is_deleted;
-
-            db.Histories.Update(u);
-            await db.SaveChangesAsync();
-            return Ok(u);
-        }
+         
     }
 
 }

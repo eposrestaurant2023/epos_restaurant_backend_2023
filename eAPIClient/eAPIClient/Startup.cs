@@ -121,6 +121,7 @@ namespace eAPIClient
             odataBuilder.EntitySet<SaleProductModel>("SaleProduct");
             odataBuilder.EntitySet<SaleProductModifierModel>("SaleProductModifier");
             odataBuilder.EntitySet<CashDrawerAmountModel>("CashDrawerAmount");
+            odataBuilder.EntitySet<HistoryModel>("History");
             return odataBuilder.GetEdmModel();
         }
     }
