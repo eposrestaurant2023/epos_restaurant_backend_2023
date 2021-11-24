@@ -37,7 +37,7 @@
                                 </TableHeader>
                                 <RowTemplate Context="p">
                                     <TdCenter>
-                                        @p.currency_name_en
+                                        @(gv.current_language.language_id == "km-KH" ? p.currency_name_kh:p.currency_name_en)
                                         @if (p.id == old_base_currency)
                                         {
                                             <div class="sub-info-row-table">@lang["Base Currency"]</div>

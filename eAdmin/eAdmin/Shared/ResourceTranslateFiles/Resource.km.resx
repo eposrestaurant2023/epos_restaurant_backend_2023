@@ -507,11 +507,20 @@
   <data name="Multiples" xml:space="preserve">
     <value>ចំនួនមេគុណ</value>
   </data>
+	<data name="Multiplier" xml:space="preserve">
+    <value>ចំនួនមេគុណ</value>
+  </data>
   <data name="Unit (multiplier)" xml:space="preserve">
     <value>ឯកតា (មេគុណ)</value>
   </data>
+	<data name="Add Unit" xml:space="preserve">
+    <value>បង្កើតឯកតាថ្មី</value>
+  </data>
   <data name="Unit" xml:space="preserve">
     <value>ឯកតា</value>
+  </data>
+	<data name="Unit Type" xml:space="preserve">
+    <value>ប្រភេទឯកតា</value>
   </data>
   <data name="Closed by" xml:space="preserve">
     <value>បិទដោយ</value>
@@ -821,6 +830,9 @@
   </data>
   <data name="Table #" xml:space="preserve">
     <value>លេខ​តុ</value>
+  </data>
+	<data name="Table Group Name​" xml:space="preserve">
+    <value>ឈ្មោះក្រុមតុ</value>
   </data>
   <data name="Table Group &amp; Table" xml:space="preserve">
     <value>ក្រុមតុនិង​តុ</value>
@@ -1208,6 +1220,9 @@
   </data>
   <data name="Use Table" xml:space="preserve">
     <value>ប្រើប្រាស់តុ</value>
+  </data>
+	<data name="Table Name" xml:space="preserve">
+    <value>ឈ្មោះតុ</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>សាខា</value>
