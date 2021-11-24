@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using eAPIClient;
 using eAPIClient.Models;
+using eAPIClient.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,16 @@ namespace eAPIClient.Controllers
     public class HistoryController : ODataController
     {
 
+         
         private readonly ApplicationDbContext db;
-        public HistoryController(ApplicationDbContext _db)
+        private readonly AppService app;
+        public HistoryController(ApplicationDbContext _db, AppService _app)
         {
             db = _db;
+            app = _app;
         }
+
+
 
 
 
@@ -64,7 +70,7 @@ namespace eAPIClient.Controllers
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
+            app.sendSyncRequest();
             return Ok(u);
 
 
