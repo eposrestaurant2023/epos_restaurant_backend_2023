@@ -110,6 +110,8 @@ namespace eShareModel
 
         public string deleted_note { get; set; }
         public string old_table_name { get; set; }
+
+        public string pos_invoice { get; set; }
         public bool is_synced { get; set; } = false;
 
 
