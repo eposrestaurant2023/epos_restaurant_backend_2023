@@ -8,8 +8,6 @@
 <Loading is_loading="@is_loading" />
  
 <MudHidden Breakpoint="Breakpoint.SmAndDown">
-
-
     <ButtonGroup>
         <Button title="@lang["Print"]" icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click" />
         <Button roles="@gv.GetRole("production_edit")" OnClick="@(()=>nav.NavigateTo($"production/edit/{model.id}"))" icon="edit" title="@lang["Edit"]" is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
@@ -37,7 +35,6 @@
             <MudHidden Breakpoint="Breakpoint.MdAndUp">
                 <MudDivider />
                 <MoreButtonItem  icon="print"  is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click">@lang["Print"]</MoreButtonItem>
-
                 <ComAttachFileButton RoleAdd="@gv.GetRole("production_add")"
                                      RoleEdit="@gv.GetRole("production_edit")"
                                      RoleDelete="@gv.GetRole("production_delete")"
