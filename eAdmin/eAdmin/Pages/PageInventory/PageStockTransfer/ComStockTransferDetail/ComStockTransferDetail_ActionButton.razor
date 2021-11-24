@@ -3,33 +3,46 @@
 @inject ISnackbar toast
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
+@inject IDialogService Dialog
 
 <Loading is_loading="@is_loading" />
-<ButtonGroup>
-    <Button title="Print" icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click" />
-    <Button roles="@gv.GetRole("stock_transfer_edit")" OnClick="@(()=>nav.NavigateTo($"stocktransfer/edit/{model.id}"))" icon="edit" title=@lang["Edit"] is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
-</ButtonGroup>
-
+<MudHidden Breakpoint="Breakpoint.SmAndDown">
+    <ButtonGroup>
+        <Button title="Print" icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click" />
+        <Button roles="@gv.GetRole("stock_transfer_edit")" OnClick="@(()=>nav.NavigateTo($"stocktransfer/edit/{model.id}"))" icon="edit" title=@lang["Edit"] is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
+    </ButtonGroup>
+</MudHidden>
 <ComAttachFileButton RoleAdd="@gv.GetRole("stock_transfer_add")"
                      RoleEdit="@gv.GetRole("stock_transfer_edit")"
                      RoleDelete="@gv.GetRole("stock_transfer_delete")"
                      ApiFilter="@($"stock_transfer_id eq {model.id} ")"
                      File="@file"
-                     IsVisible="@(!model.is_deleted)" />
-
-<AddButton roles="@gv.GetRole("stock_transfer_add")" url="stocktransfer/new">@lang["New Stock Transfer"]</AddButton>
+                     IsVisible="@(!model.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
+<MudHidden Breakpoint="Breakpoint.SmAndDown">
+    <AddButton roles="@gv.GetRole("stock_transfer_add")" url="stocktransfer/new">@lang["New Stock Transfer"]</AddButton>
+</MudHidden>
+<RefreshButton OnClick="@OnRefresh" />
 <MoreButton is_loading="@model.is_loading">
-    <MoreButtonItem roles="@gv.GetRole("stock_transfer_add")" icon="file_copy" url="@($"stocktake/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MoreButtonItem roles="@gv.GetRole("stock_transfer_add")" icon="add" url="stocktransfer/new">@lang["New Stock Transfer"]</MoreButtonItem>
+        <MoreButtonItem is_visible="@(!model.is_deleted && !model.is_fulfilled)" roles="@gv.GetRole("stock_transfer_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"stocktransfer/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
+    </MudHidden>
+    <MoreButtonItem roles="@gv.GetRole("stock_transfer_add")" icon="file_copy" url="@($"stocktransfer/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("stock_transfer_delete")" icon="delete" is_visible="@model.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete"]</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("stock_transfer_delete")" icon="clear" is_visible="@model.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudDivider />
+        <MoreButtonItem icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="@Print_Click">@lang["Print"]</MoreButtonItem>
+        <ComAttachFileButton RoleAdd="@gv.GetRole("stock_transfer_add")"
+                             RoleEdit="@gv.GetRole("stock_transfer_edit")"
+                             RoleDelete="@gv.GetRole("stock_transfer_delete")"
+                             ApiFilter="@($"stock_transfer_id eq {model.id} ")"
+                             File="@file"
+                             IsVisible="@(!model.is_deleted)"
+                             IsIconButton="false"
+                             OnOpenAttachFile="@(()=>is_open_attach_file =!is_open_attach_file)" />
+    </MudHidden>
 </MoreButton>
-
-
-
-@if (is_open_print)
-{
-    <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="200" Title="@lang["Stock Transfer Receipt"]" report_parameters="@($"id={model.id}")" />
-}
 
 
 
@@ -37,26 +50,25 @@
     [Parameter] public StockTransferModel model { get; set; }
     [Parameter] public EventCallback<StockTransferModel> modelChanged { get; set; }
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    [Parameter] public EventCallback OnRefresh { get; set; }
     AttachFilesModel file = new AttachFilesModel();
     bool is_loading;
+    bool is_open_attach_file;
     protected override void OnInitialized()
     {
         file.stock_transfer_id = model.id;
     }
 
-
-    bool is_open_print = false;
-
     void Print_Click()
     {
-
-        is_open_print = true;
+        var parameters = new DialogParameters { ["parent_id"] = 200, ["report_parameters"] = $"id={ model.id}", ["gv"] = gv };
+        Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Stock Transfer Receipt"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
     }
 
     async Task DeleteInvoice_Click()
     {
         is_loading = true;
-        if (await js.Confirm(lang["Delete Record"],lang[ "Are you sure you want to delete this record?"], SweetAlertMessageType.question))
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
         {
             var resp = await http.ApiPost($"stocktransfer/delete/{model.id}");
             if (resp.IsSuccess)

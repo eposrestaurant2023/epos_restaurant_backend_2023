@@ -95,15 +95,15 @@ namespace ePOSPrintingService
                     switch (action.action)
                     {
                         case "print_request_bill":
-                            ReceiptListModel invoice = Program.ReceiptLists.Where(r => r.ReceiptName == action.receipt_name).FirstOrDefault();
+                            ReceiptListModel invoice = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintIvoice(action.sale_id, invoice, Program.CashierPrinter);
                             break;
                         case "print_receipt":
-                            ReceiptListModel receipt = Program.ReceiptLists.Where(r => r.ReceiptName == action.receipt_name).FirstOrDefault();
+                            ReceiptListModel receipt = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintReceipt(action.sale_id, receipt, Program.CashierPrinter);
                             break;
                         case "reprint_receipt":
-                            ReceiptListModel reprint_receipt = Program.ReceiptLists.Where(r => r.ReceiptName == action.receipt_name).FirstOrDefault();
+                            ReceiptListModel reprint_receipt = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintReceipt(action.sale_id, reprint_receipt, Program.CashierPrinter, true);
                             break;
                         case "print_to_kitchen":

@@ -26,10 +26,10 @@
             @foreach (var b in gv.business_branch_by_role)
             {
 
-        <MudTabPanel OnClick="@(async () => await LoadData(b.id.ToString()))" Text="@b.business_branch_name_en" Class="py-2">
-            <Spacing Number="10" />
-            <ComDashboard business_branch_id="@b.id.ToString()" />
-        </MudTabPanel>
+                <MudTabPanel OnClick="@(async () => await LoadData(b.id.ToString()))" Text="@b.business_branch_name_en" Class="py-2">
+                    <Spacing Number="10" />
+                    <ComDashboard business_branch_id="@b.id.ToString()" />
+                </MudTabPanel>
             }
         </MudTabs>
         }

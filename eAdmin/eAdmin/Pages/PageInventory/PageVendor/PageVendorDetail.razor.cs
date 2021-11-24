@@ -15,6 +15,7 @@ namespace eAdmin.Pages.PageVendors
         public VendorModel model { get; set; }
         public bool ShowModal = false;
         public string ModalTitle = "";
+        public bool is_open_attach_file;
         public bool is_comment_loaded, is_show_check_in, show_member_ship_tab;
         public bool purchase_history_tab_click, purchase_product_history_tab_click, payment_history_tab_click, purchase_payment_history_tab_click;
         string controller_api = "Vendor";

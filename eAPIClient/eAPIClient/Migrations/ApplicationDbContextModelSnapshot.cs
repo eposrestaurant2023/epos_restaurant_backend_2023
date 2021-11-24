@@ -1588,9 +1588,8 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("kitchen_group_sort_order")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
+                    b.Property<int?>("kitchen_group_sort_order")
+                        .HasColumnType("int");
 
                     b.Property<string>("modifier_items")
                         .HasColumnType("nvarchar(max)")

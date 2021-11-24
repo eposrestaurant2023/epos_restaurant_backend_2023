@@ -86,7 +86,7 @@
                                                                     <td>@d.table_group_name_en</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>@lang["Outlet Name"]</th>
+                                                                    <th>@lang["Outlet"]</th>
                                                                     <td>@d.outlet?.outlet_name_en</td>
                                                                 </tr>
                                                             </table>
@@ -95,13 +95,13 @@
                                                     <hr />
                                                     <ComAccordion>
                                                         <Header>
-                                                            Table
+                                                            @lang["Table"]
                                                         </Header>
                                                         <Content>
                                                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                                                 <tr>
-                                                                    <ThAuto>Table Name</ThAuto>
-                                                                    <th>Price Rule</th>
+                                                                    <ThAuto>@lang["Table​ Name"]</ThAuto>
+                                                                    <th>@lang["Price Rule"]</th>
                                                                 </tr>
                                                                 @foreach (var s in d.tables)
                                                                 {
@@ -125,7 +125,7 @@
             }
             else
             {
-                <ComEmptyTemplate empty="There is no table group." />
+                <ComEmptyTemplate empty="@lang["There is no table group."]" />
             }
         </PageBody>
     </PageContainer>
