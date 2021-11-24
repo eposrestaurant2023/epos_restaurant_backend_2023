@@ -2274,4 +2274,28 @@
   <data name="Attach Files" xml:space="preserve">
     <value>ភ្ជាប់ ឯកសារ</value>
   </data>
+  <data name="Invoice File Name" xml:space="preserve">
+    <value>ឈ្មោះវិក័យបត្រ័</value>
+  </data>
+  <data name="Receipt File Name" xml:space="preserve">
+    <value>ឈ្មោះបង្កាន់ដៃ</value>
+  </data>
+  <data name="Receipt Name" xml:space="preserve">
+    <value>ឈ្មោះឯកសារ</value>
+  </data>
+  <data name="Add New POS Invoice" xml:space="preserve">
+    <value>បញ្ជូលវិក្កយបត្រ POS ថ្មី</value>
+  </data>
+  <data name="Please enter POS invoice information" xml:space="preserve">
+    <value>សូមបញ្ចូលព័ត៌មានវិក្កយបត្រ POS</value>
+  </data>
+  <data name="Save data fail" xml:space="preserve">
+    <value>រក្សាទុកបរាជ័យ</value>
+  </data>
+  <data name="Save data successfully" xml:space="preserve">
+    <value>រក្សាទុកជោគជ័យ</value>
+  </data>
+  <data name="Save data successfully." xml:space="preserve">
+    <value>រក្សាទុកជោគជ័យ</value>
+  </data>
 </root>
