@@ -30,7 +30,7 @@ namespace eAPIClient
                 property.SetCollation("Khmer_100_BIN");
             }
 
-            builder.Entity<StoreProcedureResultModel>().HasNoKey();
+            builder.Entity<StoreProcedureResultModel>().HasNoKey().ToView("store_procedure_result");
 
         }
 
