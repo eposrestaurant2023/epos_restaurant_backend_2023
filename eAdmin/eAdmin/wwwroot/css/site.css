@@ -1626,7 +1626,7 @@ button.shipping {
 .wrp-action-form {
     position: fixed;
     bottom: 0;
-    margin: 0 0 0 -15px;
+    margin: 0 0 0 -140px;
     box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
     background-color: #fff;
     z-index: 8;
@@ -3547,8 +3547,19 @@ button.verified {
     list-style: none;
     padding: 0px 15px;
 }
-
-
+.btn-off-canvas-save {
+    color: #12344d !important;
+    background: #f3f5f7;
+    border: 1px solid #cfd7df !important;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+.btn-off-canvas-cancel {
+    border: 1px solid #f19ead !important;
+    background-image: linear-gradient(to bottom,#ff98ab,#f0506e);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
 .sidebar .navbar {
     display: flex;
     padding-left: 45px;

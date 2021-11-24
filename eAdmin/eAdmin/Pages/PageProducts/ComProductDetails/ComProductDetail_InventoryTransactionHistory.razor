@@ -1,7 +1,5 @@
 ﻿@inherits InventoryTransactionProductDetailHistoryBase
 <Loading is_loading="@(is_loading || is_loading_data)" />
-
-
 @if (!is_loading)
 {
     <PageContainer is_container="false">
@@ -24,7 +22,7 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+          <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
           <Com is_visible="@(models != null)">
                 <Table Items="@models"
                        PerPage="@state.pager.per_page"

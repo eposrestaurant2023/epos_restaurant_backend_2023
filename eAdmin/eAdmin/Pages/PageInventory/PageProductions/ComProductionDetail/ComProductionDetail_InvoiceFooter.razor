@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<Resource> lang
 <tr>
-    <td colspan="5" class="uk-text-right">@lang["Total Quantity"]</td>
+    <td colspan="6" class="uk-text-right">@lang["Total Quantity"]</td>
     <td class="uk-text-right bg_hightlight">
         @model.active_production_products.Sum(r => r.quantity).ToString(gv.quantity_format)
     </td>
@@ -8,7 +8,7 @@
 @if (model.total_amount > 0)
 {
     <tr>
-        <td colspan="5" class="uk-text-right">@lang["Total Amount"]</td>
+        <td colspan="6" class="uk-text-right">@lang["Total Amount"]</td>
         <td class="uk-text-right bg_hightlight">
             @model.total_amount.ToString(gv.currency_format)
         </td>
