@@ -93,6 +93,11 @@ namespace eModels
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
 
+        public string station_name { get; set; }
+        public string outlet_name { get; set; }
+        public string business_branch_name { get; set; }
+
+        public string table_name { get; set; }
 
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211124080917_sps")]
+    partial class sps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -495,10 +497,6 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<string>("business_branch_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("created_by")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -534,23 +532,11 @@ namespace eAPIClient.Migrations
                     b.Property<Guid?>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("outlet_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
                     b.Property<Guid?>("sale_id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("station_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("table_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("title")
                         .HasColumnType("nvarchar(max)")

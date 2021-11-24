@@ -34,7 +34,7 @@ namespace eAPIClient.Models
         public string product_name_en { get; set; }
         public string product_name_kh { get; set; }
         public string kitchen_group_name { get; set; }
-        public string kitchen_group_sort_order { get; set; }
+        public int? kitchen_group_sort_order { get; set; }
         public string note { get; set; }
         public string unit { get; set; }
         public string portion_name { get; set; }

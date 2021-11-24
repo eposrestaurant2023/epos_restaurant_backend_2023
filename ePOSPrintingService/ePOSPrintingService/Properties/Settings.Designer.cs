@@ -93,7 +93,7 @@ namespace ePOSPrintingService.Properties {
     {
         ""ReceiptName"": ""Invoice Kh"",
         ""ReceiptFileName"": ""rpt_receipt_kh"",
-        ""InvoiceFileName"": ""rpt_inoice_kh"",
+        ""InvoiceFileName"": ""rpt_invoice_kh"",
         ""number_invoice_copies"": 2,
         ""number_receipt_copies"": 1,
         ""PageWidth"": 2.85,

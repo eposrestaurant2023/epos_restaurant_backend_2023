@@ -269,6 +269,16 @@ namespace eModels
         public int role_id { get; set; }
     }
 
+    public class ReceiptListModel
+    {
+
+
+        public string receipt_name { get; set; }
+        public string invoice_file_name { get; set; }
+        public string receipt_file_name { get; set; }
+        public int sort_order { get; set; } 
+        public bool is_build_in { get; set; } 
+    }
 
 
 }

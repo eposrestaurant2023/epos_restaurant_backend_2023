@@ -60,5 +60,16 @@ namespace eAPIClient.Models
 
         public bool is_synced { get; set; }
 
+        public string station_name { get; set; }
+        public string outlet_name { get; set; }
+        public string business_branch_name { get; set; }
+
+        public string table_name { get; set; }
+
+
+
+
+
+
     }
 }
