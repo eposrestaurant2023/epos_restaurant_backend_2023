@@ -273,8 +273,11 @@
   <data name="Add comment successfully." xml:space="preserve">
     <value>បញ្ជូលការទូទាត់បានជោគជ័យ</value>
   </data>
-  <data name="Delete Comment" xml:space="preserve">
+	<data name="Delete Comment" xml:space="preserve">
     <value>លុបមតិ</value>
+  </data>
+  <data name="Delete Item" xml:space="preserve">
+    <value>លុប Item</value>
   </data>
   <data name="Delete payment" xml:space="preserve">
     <value>លុបការទូទាត់</value>
@@ -501,8 +504,14 @@
   <data name="Select Sale Type" xml:space="preserve">
     <value>សូមជ្រើសរើសប្រភេទនៃការលក់</value>
   </data>
-  <data name="Select Customer" xml:space="preserve">
+	<data name="Select Customer" xml:space="preserve">
     <value>សូមជ្រើសរើសអតិថិជន</value>
+  </data>
+  <data name="Select Product" xml:space="preserve">
+    <value>សូមជ្រើសរើសផលិតផល</value>
+  </data>
+	<data name="Select Products" xml:space="preserve">
+    <value>សូមជ្រើសរើសផលិតផល</value>
   </data>
   <data name="Multiples" xml:space="preserve">
     <value>ចំនួនមេគុណ</value>
@@ -518,6 +527,9 @@
   </data>
   <data name="Unit" xml:space="preserve">
     <value>ឯកតា</value>
+  </data>
+	<data name="Unit Category" xml:space="preserve">
+    <value>ប្រភេទឯកតា</value>
   </data>
 	<data name="Unit Type" xml:space="preserve">
     <value>ប្រភេទឯកតា</value>
@@ -831,7 +843,7 @@
   <data name="Table #" xml:space="preserve">
     <value>លេខ​តុ</value>
   </data>
-	<data name="Table Group Name​" xml:space="preserve">
+	<data name="Table Group Name" xml:space="preserve">
     <value>ឈ្មោះក្រុមតុ</value>
   </data>
   <data name="Table Group &amp; Table" xml:space="preserve">
@@ -1036,7 +1048,7 @@
     <value>បានលុប</value>
   </data>
   <data name="Recipe" xml:space="preserve">
-    <value>រូបមន្ត</value>
+    <value>គ្រឿងផ្សំ</value>
   </data>
   <data name="General Information" xml:space="preserve">
     <value>ព័ត៌មានទូទៅ</value>
@@ -1285,7 +1297,7 @@
     <value>បញ្ជូលក្រុមរថយន្តថ្មី</value>
   </data>
   <data name="New Stock Take" xml:space="preserve">
-    <value>បញ្ជូលការយកទំនិញប្រើប្រាស់ថ្មី</value>
+    <value>បញ្ជូលការដកទំនិញប្រើប្រាស់ថ្មី</value>
   </data>
   <data name="Add New Vendor Group" xml:space="preserve">
     <value>បញ្ជូលក្រុមអ្នកផ្គត់ផ្គង់ថ្មី</value>
@@ -1498,10 +1510,10 @@
     <value>ទំនិញកែប្រែ</value>
   </data>
   <data name="Stock Take Date" xml:space="preserve">
-    <value>ថ្ងៃយកទំនិញ</value>
+    <value>ថ្ងៃដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="Stock Take Information" xml:space="preserve">
-    <value>ពត៌មានយកទំនិញប្រើប្រាស់</value>
+    <value>ពត៌មានដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="Inventory Information" xml:space="preserve">
     <value>ពត៌មានអំពីសារពើភ័ណ្ឌ</value>
@@ -1516,43 +1528,43 @@
     <value>ប្រតិបត្តិការសារពើភ័ណ្ឌ</value>
   </data>
   <data name="All Stock Take History" xml:space="preserve">
-    <value>ប្រវត្តិបញ្ជូលទំនិញទាំងអស់</value>
+    <value>ប្រវត្តិដកទំនិញប្រើប្រាស់ទាំងអស់</value>
   </data>
   <data name="Stock Take" xml:space="preserve">
-    <value>បញ្ជូលទំនិញ</value>
+    <value>ដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="All Stock Take" xml:space="preserve">
-    <value>បញ្ជូលទំនិញទាំងអស់</value>
+    <value>ដកទំនិញប្រើប្រាស់ទាំងអស់</value>
   </data>
   <data name="Deleted Stock Take" xml:space="preserve">
-    <value>បញ្ជូលទំនិញបានលុប</value>
+    <value>ដកទំនិញប្រើប្រាស់បានលុប</value>
   </data>
   <data name="ST#" xml:space="preserve">
     <value>លេខបញ្ជូលទំនិញ</value>
   </data>
   <data name="Stock Take#" xml:space="preserve">
-    <value>លេខបញ្ជូលទំនិញ</value>
+    <value>លេខដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="Stock take item cannot be empty." xml:space="preserve">
     <value>សូមបញ្ជូលទំនិញ។</value>
   </data>
   <data name="Stock Transfer" xml:space="preserve">
-    <value>ថ្ផ្ទេរទំនិញ</value>
+    <value>ផ្ទេរទំនិញ</value>
   </data>
   <data name="Stock Transfer#" xml:space="preserve">
-    <value>លេខថ្ផ្ទេរទំនិញ</value>
+    <value>លេខផ្ទេរទំនិញ</value>
   </data>
   <data name="SF Date" xml:space="preserve">
-    <value>ថ្ងៃថ្ផ្ទេរទំនិញ</value>
+    <value>ថ្ងៃផ្ទេរទំនិញ</value>
   </data>
   <data name="SF#" xml:space="preserve">
-    <value>លេខថ្ផ្ទេរទំនិញ</value>
+    <value>លេខផ្ទេរទំនិញ</value>
   </data>
   <data name="All Stock Transfer" xml:space="preserve">
     <value>ថ្ផ្ទេរទំនិញទាំងអស់</value>
   </data>
   <data name="Deleted Stock Transfer" xml:space="preserve">
-    <value>ថ្ផ្ទេរទំនិញដែលបានលុប</value>
+    <value>ផ្ទេរទំនិញដែលបានលុប</value>
   </data>
   <data name="Stock Transfer Date" xml:space="preserve">
     <value>ថ្ងៃផ្ទេរទំនិញ</value>

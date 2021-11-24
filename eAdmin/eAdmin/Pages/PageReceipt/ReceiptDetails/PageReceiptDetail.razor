@@ -20,8 +20,15 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="print" OnClick="@PrintReceipt"></Button>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Button icon="print" OnClick="@PrintReceipt"></Button>
+                </MudHidden>
                 <RefreshButton OnClick="@LoadData" />
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <MoreButton>
+                        <MoreButtonItem icon="print" OnClick="@PrintReceipt">@lang["Print"]</MoreButtonItem>
+                    </MoreButton>
+                </MudHidden>
             </HeaderRight>
         </PageHeader>
         <PageBody>

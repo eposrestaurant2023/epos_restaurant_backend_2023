@@ -16,7 +16,7 @@
             <TableHeader>
                 <ThCenter>@lang["Image"]</ThCenter>
                 <ThCenter>@lang["Code"]</ThCenter>
-                <ThAuto> @lang["Detail"]</ThAuto>
+                <ThAuto> @lang["Description"]</ThAuto>
                 <ThCenter>@lang["Quantity"]</ThCenter>
                 <ThAuto>@lang["Portion"] (@lang["Unit"])</ThAuto>
                 <ThRight>@lang["Price"]</ThRight>
@@ -50,7 +50,7 @@
         }
         else
         {
-            if (await js.Confirm("Delete Item", "Are you sure to delete this record?"))
+            if (await js.Confirm(lang["Delete Item"], lang["Are you sure you want to delete this record?"]))
             {
                 sp.is_deleted = true;
             }

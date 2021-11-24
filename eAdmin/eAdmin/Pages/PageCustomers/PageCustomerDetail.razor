@@ -21,14 +21,12 @@
                     <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"customer/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
                     <SplitButton OnClick="@(()=>nav.NavigateTo("customer/new"))" main_button_text="@lang["New"]">
                         <SplitButtonItem roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">@lang["New Customer"]</SplitButtonItem>
-                        <SplitButtonItem roles="@gv.GetRole("customer_add")" url="@($"payment/customer/{id}")">@lang["Add Payment"]</SplitButtonItem>
                     </SplitButton>
                 </MudHidden>
                 <RefreshButton OnClick="@LoadData" />
                 <MoreButton is_loading="@model.is_loading">
                     <MudHidden Breakpoint="Breakpoint.MdAndUp">
                         <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="customer/new">@lang["New Customer"]</MoreButtonItem>
-                        <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"payment/customer/{id}")">@lang["Add Payment"]</MoreButtonItem>
                         <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"customer/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
                     </MudHidden>
                     <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
