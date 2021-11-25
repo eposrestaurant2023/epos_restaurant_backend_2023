@@ -16,6 +16,7 @@
 		<PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
 		<PackageReference Include="Blazored.SessionStorage" Version="1.0.13" />
 		<PackageReference Include="Blazored.Typeahead" Version="4.5.1" />
+		<PackageReference Include="DeviceDetector.NET" Version="4.3.0" />
 		<PackageReference Include="MatBlazor" Version="2.8.0" />
 		<PackageReference Include="Blazor-ApexCharts" Version="0.4.0-alpha" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.2" />

@@ -50,7 +50,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+        
+        var userAgent = Request.Headers["User-Agent"];
+        var result = DeviceDetectorNET.DeviceDetector.GetInfoFromUserAgent(userAgent);
 
+        var output = result.Success ? result.ToString().Replace(Environment.NewLine, "<br />") : "Unknown";
         await LoadData();
     }
 
