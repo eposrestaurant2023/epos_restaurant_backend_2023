@@ -26,13 +26,15 @@
                     {
                         <ComAuthorize roles="@gv.GetRole("sale_view")">
                             <span>
-                                @lang["INV #"]
-                                @sale.document_number
-                            </span>
-                            <br />
-                            <span>
-                                @lang["Sale #"]
-                                @sale.sale_number
+                               @if(sale.document_number == "New")
+                               {
+                                   @sale.sale_number
+                               }
+                               else
+                               {
+                                   @sale.document_number
+                               }
+
                             </span>
                         </ComAuthorize>
                     }

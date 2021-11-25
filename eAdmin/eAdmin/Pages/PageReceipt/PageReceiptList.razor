@@ -99,8 +99,17 @@
                         <TdCenter>
                             <div>
                                 <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
-                                    <span>@p.document_number</span><br />
-                                    <span uk-tooltip="@lang["Sale Number"]">@p.sale_number</span>
+                                    <span>
+                                        @if (p.document_number == "New")
+                                        {
+                                        @p.sale_number
+                                        }
+                                        else
+                                        {
+                                        @p.document_number
+                                        }
+
+                                    </span>
                                 </ComAuthorize>
                             </div>
                         </TdCenter>
