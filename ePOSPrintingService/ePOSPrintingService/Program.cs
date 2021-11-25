@@ -314,8 +314,8 @@ namespace ePOSPrintingService
 
 
                 }
-                //update print status 
-                // ExecuteSql(string.Format("exec sp_update_print_to_kitchen_status '{0}'", sale_id));
+               // update print status
+                 ExecuteSql(string.Format("exec sp_update_print_to_kitchen_status '{0}'", sale_id));
 
                 IsPrintSuccess = true;
 
@@ -346,6 +346,8 @@ namespace ePOSPrintingService
                  );
 
             Print(printer_name, copies);
+
+        
         }
 
         public static void PrintIvoice(string sale_id, ReceiptListModel receipt, string printer_name, int copies)

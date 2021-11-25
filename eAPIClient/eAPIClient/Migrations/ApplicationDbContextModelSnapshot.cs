@@ -819,6 +819,9 @@ namespace eAPIClient.Migrations
                     b.Property<int>("id")
                         .HasColumnType("int");
 
+                    b.Property<int>("group_item_type_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("ip_address")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
