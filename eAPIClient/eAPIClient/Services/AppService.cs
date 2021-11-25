@@ -84,6 +84,17 @@ namespace eAPIClient.Services
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
             System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt"));
         }
+        public void sendPrintRequest(PrintRequestModel model)
+        {
+
+            string path = config.GetValue<string>("print_request_path"); ;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+            System.IO.File.WriteAllText(Path.Combine(path, $"{Guid.NewGuid()}.json"),JsonSerializer.Serialize(model));
+        }
 
     }
 }
