@@ -152,7 +152,7 @@ else
         var resp = await http.ApiPost("ModifierGroup/Save", save_model);
         if (resp.IsSuccess)
         {
-            toast.Add(lang["Save Modifier Group successfully"], MudBlazor.Severity.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             save_model = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());
             if (is_save_and_new)
             {
@@ -168,7 +168,7 @@ else
             }
         }
         else {
-            toast.Add(lang["Save modifier group fail."], MudBlazor.Severity.Warning);
+            toast.Add(lang["Save data fail."], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }
