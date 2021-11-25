@@ -19,8 +19,7 @@
 
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="@lang["Business Information"]">
-                      
+                    <UIContainerBox is_show_edit_button="true" Title="@lang["Business Information"]" OnEditClick="@(()=>OnEditBusinessInfor(model.id))">
                             <UISummaryBox ImageUrl="@model.company_logo" ShowImage="true">
                                 <ContentLeft>
                                     <table>
@@ -131,6 +130,7 @@
                 </UIGridCenter>
             </PageBody>
     </PageContainer>
+    <ComEditBussinessInfor model="@model" @bind-is_open="@ShowModel_Business_Infor" Save_Click="OnSaveBusinessInfor" modal_title="@ModalTitle" />
 }
 
 @code{
@@ -176,4 +176,25 @@
         is_loading_data = false;
 
     }
+
+    public async Task OnSaveBusinessInfor()
+    {
+        await LoadData();
+        ShowModel_Business_Infor = false;
+        model = new BusinessInformationModel();
+    }
+
+    public async Task OnEditBusinessInfor(Guid id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet("BusinessInformation" + $"({id})");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<BusinessInformationModel>(resp.Content.ToString());
+        }
+        ModalTitle = lang["Edit"] + ":" + model.company_name;
+        ShowModel_Business_Infor = true;
+        is_loading_data = false;
+    }
+
 }
