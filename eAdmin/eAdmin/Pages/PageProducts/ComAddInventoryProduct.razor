@@ -111,8 +111,8 @@
                             <TabItem>
                                 <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                     <tr>
-                                        <ThAuto>Station</ThAuto>
-                                        <th>Stock location</th>
+                                        <ThAuto>@lang["Station"]</ThAuto>
+                                        <th>@lang["Stock location"]</th>
                                     </tr>
                                     @if (model.default_stock_location_products != null ? model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any() : false)
                                     {
@@ -136,7 +136,7 @@
                                                 <div class="uk-text-center">
                                                     <Icon icon="search" />
                                                     <br />
-                                                    <p>There is no station</p>
+                                                    <p>@lang["There is no station"]</p>
                                                 </div>
                                             </td>
                                         </tr>

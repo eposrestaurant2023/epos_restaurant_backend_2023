@@ -67,6 +67,9 @@ namespace ePOSClientSyncService
                         case "sale":
                              _query = $"Sync/SyncSale?saleId={r["id"].ToString()}";
                             break;
+                        case "history":
+                            _query = $"Sync/SyncHistory?historyId={r["id"].ToString()}";
+                            break;
                         default:
                             break;
                     }
