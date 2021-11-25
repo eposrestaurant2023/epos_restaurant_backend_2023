@@ -348,7 +348,7 @@ namespace ePOSPrintingService
             Print(printer_name, copies);
         }
 
-        public static void PrintIvoice(string sale_id, ReceiptListModel receipt, string printer_name)
+        public static void PrintIvoice(string sale_id, ReceiptListModel receipt, string printer_name, int copies)
         {
             try
             {
@@ -401,7 +401,7 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(printer_name, receipt.number_invoice_copies);
+                Print(printer_name, Convert.ToInt16(copies));
 
                 IsPrintSuccess = true;
             }
@@ -412,7 +412,7 @@ namespace ePOSPrintingService
             };
         }
 
-        public static void PrintReceipt(string sale_id, ReceiptListModel receipt, string printer_name, bool is_reprint = false)
+        public static void PrintReceipt(string sale_id, ReceiptListModel receipt, string printer_name, int copies, bool is_reprint = false)
         {
             try
             {
@@ -476,7 +476,7 @@ namespace ePOSPrintingService
                      receipt.MarginRight,
                      receipt.MarginBottom
                      );
-                Print(printer_name, receipt.number_receipt_copies);
+                Print(printer_name, Convert.ToInt16(copies));
 
                 IsPrintSuccess = true;
             }
