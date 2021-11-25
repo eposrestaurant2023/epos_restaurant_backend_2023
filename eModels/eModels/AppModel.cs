@@ -274,10 +274,14 @@ namespace eModels
 
 
         public string receipt_name { get; set; }
+        public string description { get; set; }
         public string invoice_file_name { get; set; }
+        public int number_of_invoice_copies { get; set; } = 1;
+        public int number_of_receipt_copies { get; set; } = 1;
         public string receipt_file_name { get; set; }
         public int sort_order { get; set; } 
         public bool is_build_in { get; set; } 
+
     }
 
 
