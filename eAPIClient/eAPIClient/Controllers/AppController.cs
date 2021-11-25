@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using eAPIClient.Models;
+using eAPIClient.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,15 +19,20 @@ namespace eAPIClient.Controllers
     [Route("api")]      
     public class AppController : ODataController
     {                
-        public IConfiguration config { get; }    
+        
+        public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
-        public AppController(ApplicationDbContext _db, IConfiguration _config)
+        private readonly AppService app;
+
+        public AppController(ApplicationDbContext _db, AppService _app, IConfiguration configuration)
         {
             db = _db;
-            config = _config;
+            app = _app;
+            config = configuration;
         }
 
-        
+
+
 
         [HttpGet("isClientAPIWork")]
         [EnableQuery(MaxExpansionDepth = 0)]             
@@ -48,6 +54,15 @@ namespace eAPIClient.Controllers
             }
             return BadRequest();
 
+        }
+
+
+        [HttpPost]
+        [Route("PrintRequest")]
+        public ActionResult<string> PrintRequest([FromBody] PrintRequestModel f)
+        {
+            app.sendPrintRequest(f);
+            return Ok();
         }
 
 

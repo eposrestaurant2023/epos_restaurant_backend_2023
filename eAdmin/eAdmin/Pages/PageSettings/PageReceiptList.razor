@@ -34,8 +34,9 @@
                                     <thead>
                                         <tr>
                                             <Th>@lang["Receipt Name"]</Th>
-                                            <Th>@lang["Invoice File Name"]</Th>
-                                            <Th>@lang["Receipt File Name"]</Th>
+                                            <Th>@lang["Description"]</Th>
+                                            <Th>@lang["Invoice File Name"] <br /> @lang["Invoice Copies"] </Th>
+                                            <Th>@lang["Receipt File Name"]<br /> @lang["Receipt Copies"]</Th>
                                             <ThCenter>@lang["Sort Order"]</ThCenter>
                                             <ThCenter></ThCenter>
                                         </tr>
@@ -49,13 +50,22 @@
                                                     <TextInput @bind-text="@d.receipt_name" placeholder="@lang["Receipt Name"]" label="" />
                                                 </td>
                                                 <td>
-                                                    <TextInput @bind-text="@d.invoice_file_name" placeholder="@lang["Invoice File Name"]" label="" />
+                                                    <TextInput @bind-text="@d.description" placeholder="@lang["Description"]" label="" />
+                                                </td>
+
+                                                <td>
+                                                    <TextInput @bind-text="@d.invoice_file_name" placeholder="@lang["Invoice File Name"]" label="" /><br/>
+                                                    <Spacing Number="4"/>
+                                                    <NumberInputInt @bind-text="@d.number_of_invoice_copies" placeholder="@lang["Invoice Copies"]" label="" />
                                                 </td>
                                                 <td>
-                                                    <TextInput @bind-text="@d.receipt_file_name" placeholder="@lang["Receipt File Name"]" label="" />
+                                                    <TextInput @bind-text="@d.receipt_file_name" placeholder="@lang["Receipt File Name"]" label="" /><br />
+                                                    <Spacing Number="4" />
+                                                    <NumberInputInt @bind-text="@d.number_of_receipt_copies" placeholder="@lang["Receipt Copies"]" label="" />
                                                 </td>
                                                 <td>
                                                     <NumberInputInt @bind-text="@d.sort_order" placeholder="@lang["Sort Order"]" label="" />
+
                                                 </td>
                                                 <td>
                                                     <Icon icon="delete" OnClick="@(()=>b.receipt_lists.Remove(d))" is_visible="@(!d.is_build_in)" />
@@ -142,13 +152,17 @@
 
     async Task Save_Click()
     {
-        if (branches.SelectMany(r => r.receipt_lists).Where(r =>  string.IsNullOrEmpty(r.receipt_name) || string.IsNullOrEmpty(r.receipt_file_name) || string.IsNullOrEmpty(r.invoice_file_name)).Any())
+        if (branches.SelectMany(r => r.receipt_lists).Where(r => string.IsNullOrEmpty(r.description) ||  string.IsNullOrEmpty(r.receipt_name) || string.IsNullOrEmpty(r.receipt_file_name) || string.IsNullOrEmpty(r.invoice_file_name)).Any())
         {
             toast.Add(lang["Please enter POS invoice information"], MudBlazor.Severity.Warning);
             return;
         }
 
-
+        branches.SelectMany(r => r.receipt_lists).ToList().ForEach(r =>
+        {
+            r.number_of_invoice_copies = (r.number_of_invoice_copies == 0 ? 1 : r.number_of_invoice_copies);
+            r.number_of_receipt_copies = (r.number_of_receipt_copies == 0 ? 1 : r.number_of_receipt_copies);
+        });
 
         is_saving = true;
         foreach(var b in bussiness_branch_settings)
@@ -166,7 +180,7 @@
 
             toast.Add(lang["Save data successfully"], MudBlazor.Severity.Success);
 
-            
+
         }
         else
         {

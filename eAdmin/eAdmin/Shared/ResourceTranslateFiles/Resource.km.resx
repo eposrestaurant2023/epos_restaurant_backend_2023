@@ -273,7 +273,7 @@
   <data name="Add comment successfully." xml:space="preserve">
     <value>បញ្ជូលការទូទាត់បានជោគជ័យ</value>
   </data>
-	<data name="Delete Comment" xml:space="preserve">
+  <data name="Delete Comment" xml:space="preserve">
     <value>លុបមតិ</value>
   </data>
   <data name="Delete Item" xml:space="preserve">
@@ -504,34 +504,34 @@
   <data name="Select Sale Type" xml:space="preserve">
     <value>សូមជ្រើសរើសប្រភេទនៃការលក់</value>
   </data>
-	<data name="Select Customer" xml:space="preserve">
+  <data name="Select Customer" xml:space="preserve">
     <value>សូមជ្រើសរើសអតិថិជន</value>
   </data>
   <data name="Select Product" xml:space="preserve">
     <value>សូមជ្រើសរើសផលិតផល</value>
   </data>
-	<data name="Select Products" xml:space="preserve">
+  <data name="Select Products" xml:space="preserve">
     <value>សូមជ្រើសរើសផលិតផល</value>
   </data>
   <data name="Multiples" xml:space="preserve">
     <value>ចំនួនមេគុណ</value>
   </data>
-	<data name="Multiplier" xml:space="preserve">
+  <data name="Multiplier" xml:space="preserve">
     <value>ចំនួនមេគុណ</value>
   </data>
   <data name="Unit (multiplier)" xml:space="preserve">
     <value>ឯកតា (មេគុណ)</value>
   </data>
-	<data name="Add Unit" xml:space="preserve">
+  <data name="Add Unit" xml:space="preserve">
     <value>បង្កើតឯកតាថ្មី</value>
   </data>
   <data name="Unit" xml:space="preserve">
     <value>ឯកតា</value>
   </data>
-	<data name="Unit Category" xml:space="preserve">
+  <data name="Unit Category" xml:space="preserve">
     <value>ប្រភេទឯកតា</value>
   </data>
-	<data name="Unit Type" xml:space="preserve">
+  <data name="Unit Type" xml:space="preserve">
     <value>ប្រភេទឯកតា</value>
   </data>
   <data name="Closed by" xml:space="preserve">
@@ -843,7 +843,7 @@
   <data name="Table #" xml:space="preserve">
     <value>លេខ​តុ</value>
   </data>
-	<data name="Table Group Name" xml:space="preserve">
+  <data name="Table Group Name" xml:space="preserve">
     <value>ឈ្មោះក្រុមតុ</value>
   </data>
   <data name="Table Group &amp; Table" xml:space="preserve">
@@ -1233,7 +1233,7 @@
   <data name="Use Table" xml:space="preserve">
     <value>ប្រើប្រាស់តុ</value>
   </data>
-	<data name="Table Name" xml:space="preserve">
+  <data name="Table Name" xml:space="preserve">
     <value>ឈ្មោះតុ</value>
   </data>
   <data name="Branch" xml:space="preserve">
@@ -2324,5 +2324,17 @@
   </data>
   <data name="Save data successfully." xml:space="preserve">
     <value>រក្សាទុកជោគជ័យ</value>
+  </data>
+  <data name="Invoice Copies" xml:space="preserve">
+    <value>ចំនួនវិក្កបត្រ</value>
+  </data>
+  <data name="POS Invoices" xml:space="preserve">
+    <value>វិក្កយបត្រ POS</value>
+  </data>
+  <data name="POS Receipts" xml:space="preserve">
+    <value>បង្កាន់ដៃ POS</value>
+  </data>
+  <data name="Receipt Copies" xml:space="preserve">
+    <value>ចំនួនបង្កាន់ដៃ</value>
   </data>
 </root>
