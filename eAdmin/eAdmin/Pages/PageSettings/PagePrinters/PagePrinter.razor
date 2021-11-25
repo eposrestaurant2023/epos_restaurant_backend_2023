@@ -116,14 +116,14 @@
         if (resp.IsSuccess)
         {
 
-            toast.Add(lang["Save Printer successfully"], MudBlazor.Severity.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
 
             await LoadData();
         }
         else
         {
 
-            toast.Add(lang["Save Printer Fail"], MudBlazor.Severity.Warning);
+            toast.Add(lang["Save data fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

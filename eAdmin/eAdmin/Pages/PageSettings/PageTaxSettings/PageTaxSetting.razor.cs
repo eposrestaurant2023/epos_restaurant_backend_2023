@@ -46,12 +46,12 @@ namespace eAdmin.Pages.PageSettings.PageTaxSettings
             var resp = await http.ApiPost("setting/taxrule/save", tax_rule);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save tax rule successfully"], MudBlazor.Severity.Success);
+                toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             }
             else
             {
 
-                toast.Add(lang["Save tax rule Fail"], MudBlazor.Severity.Warning);
+                toast.Add(lang["Save data fail"], MudBlazor.Severity.Warning);
             }
             is_saving = false;
         }
@@ -63,12 +63,12 @@ namespace eAdmin.Pages.PageSettings.PageTaxSettings
             var resp = await http.ApiPost("station/save/multiple", stations);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save tax rule station successfully"], MudBlazor.Severity.Success);
+                toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             }
             else
             {
 
-                toast.Add(lang["Save tax rule station fail"], MudBlazor.Severity.Warning);
+                toast.Add(lang["Save data fail"], MudBlazor.Severity.Warning);
             }
             is_saving = false;
         }

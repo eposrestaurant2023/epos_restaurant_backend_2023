@@ -272,7 +272,7 @@ namespace eAdmin.Pages.PageProducts
 
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save product successfully"], MudBlazor.Severity.Success);
+                toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
                 
                     save_model = JsonSerializer.Deserialize<ProductModel>(resp.Content.ToString());
                     nav.NavigateTo($"product/{save_model.id}"); 
