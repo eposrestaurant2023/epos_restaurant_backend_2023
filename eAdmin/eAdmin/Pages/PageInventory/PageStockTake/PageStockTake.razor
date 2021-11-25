@@ -26,15 +26,25 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("stock_take_add")" url="stocktake/new">@lang["New Stock Take"]</AddButton>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <FilterDateRange @bind-dates="@state.date_range" />
-                    <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
-                    <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
-                </ComSearch>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                        <FilterDateRange @bind-dates="@state.date_range" />
+                        <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                        <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                    </ComSearch>
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <FilterDateRange @bind-dates="@state.date_range" />
+                    <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                    <SelectStockLocationMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_stock_location="@state.multi_select_id_2" stock_location_id="@((val)=>state.multi_select_value_2=val)" />
+                </ComSearch>
+                <Spacing Number="4" />
+            </MudHidden>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
@@ -47,11 +57,11 @@
                        ShowPager="true"
                        ShowCounter="true"
                        ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto" >
+                       ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         @HeaderTemplate("stock_take_date", lang["Stock Take Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
-                        @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")  
+                        @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")
                         <ThAuto>
                             <div>@lang["Business Branch"]</div>
                             <div class="sub-header-table">@lang["Warehouse"]</div>
@@ -76,7 +86,7 @@
                         <TdCenter>@p.total_quantity.ToString(gv.quantity_format)</TdCenter>
                         <TdRight>
                             @p.total_amount.ToString(gv.main_currency_format)
-                        </TdRight>  
+                        </TdRight>
                         <TdRight>
                             <ComStockTakeStatus model="@p" />
                         </TdRight>

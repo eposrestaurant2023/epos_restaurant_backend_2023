@@ -25,7 +25,15 @@
                     @if (is_view_detail)
                     {
                         <ComAuthorize roles="@gv.GetRole("sale_view")">
-                            <span>@lang["INV #"] @sale.document_number</span>
+                            <span>
+                                @lang["INV #"]
+                                @sale.document_number
+                            </span>
+                            <br />
+                            <span>
+                                @lang["Sale #"]
+                                @sale.sale_number
+                            </span>
                         </ComAuthorize>
                     }
                     else

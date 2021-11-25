@@ -22,11 +22,17 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@AddNew" custom_class="button-create">@lang["New Customer Group"]</AddButton>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <Spacing Number="4" />
+            </MudHidden>
             <Com is_visible="@(customer_groups != null)">
                 <Table Items="@customer_groups"
                        PerPage="@state.pager.per_page"

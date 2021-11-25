@@ -99,20 +99,14 @@
                         <TdCenter>
                             <div>
                                 <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
-                                    @if (p.document_number == "New")
-                                        {
-                                        @p.sale_number
-                                        }
-                                        else
-                                        {
-                                        @p.document_number
-                                        }
+                                    <span>@p.document_number</span><br />
+                                    <span uk-tooltip="@lang["Sale Number"]">@p.sale_number</span>
                                 </ComAuthorize>
                             </div>
                         </TdCenter>
                         <td>
 
-                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
+                            <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
                             <div>

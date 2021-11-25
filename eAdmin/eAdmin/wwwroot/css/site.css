@@ -2000,7 +2000,7 @@ h3.title.heading {
 
 .uk-overlay {
     background: rgba(189, 189, 189, 0.65);
-    z-index: 9999;
+    z-index: 1200;
     color:#000;
 }
 .uk-overlay-default {

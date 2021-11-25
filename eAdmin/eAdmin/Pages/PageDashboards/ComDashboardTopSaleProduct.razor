@@ -26,9 +26,9 @@
             <td>
                 <ComProfileInfo url="@($"product/{p.id}")" photo="@p.photo" role="@("product_management")">@p.product_name_en (@p.product_code)</ComProfileInfo>
             </td>
-            <td>
+            <ThCenter>
                 @p.quantity.ToString(gv.quantity_format)
-            </td> 
+            </ThCenter> 
             <TdRight>
                 @p.amount.ToString(gv.main_currency_format)
             </TdRight>

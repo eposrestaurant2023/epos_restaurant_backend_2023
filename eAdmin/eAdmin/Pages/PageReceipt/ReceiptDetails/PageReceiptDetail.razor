@@ -35,7 +35,10 @@
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["Invoice"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
+                    @if(sale.sale_status.status_name !="Open Order" && sale.sale_status.status_name != "Hold Order")
+                    {
+                        <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
+                    }
                     <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
 
@@ -70,11 +73,14 @@
                         </ComPage>
                     </TabItem>
                     <TabItem>
-                        @if (is_show_payment_history)
+                        @if (sale.sale_status.status_name != "Open Order" && sale.sale_status.status_name != "Hold Order")
                         {
-                            <ComSaleDetail_PaymentList sale_id="@sale.id" on_reload="LoadData" />
-                        }
-                    </TabItem>
+                            @if (is_show_payment_history)
+                            {
+                                <ComSaleDetail_PaymentList sale_id="@sale.id" on_reload="LoadData" />
+                            }
+                         }
+                        </TabItem>
                     <TabItem>
                         @if (is_show_comment)
                         {

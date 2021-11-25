@@ -28,13 +28,21 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("ingredient_add")" OnClick="@(()=>nav.NavigateTo("ingredient/new"))">@lang["New Ingredient"]</AddButton>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" is_ingredient_category="false" />
-                </ComSearch>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                        <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" is_ingredient_category="false" />
+                    </ComSearch>
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" is_ingredient_category="false" />
+                </ComSearch>
+                <Spacing Number="4" />
+            </MudHidden>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(products != null)">
                 <Table Items="@products"
@@ -75,8 +83,8 @@
                                 <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_en @(!string.IsNullOrEmpty(p.product_name_kh)?$"({p.product_name_kh})":"")</ComAuthorize>
                                 <div><LabelMenuProduct is_visible="@p.is_menu_product" /></div>
                             </div>
-                            
-                        </td> 
+
+                        </td>
                         <td>@p.product_category?.product_category_en</td>
                         <TdCenter>@p.unit?.unit_name</TdCenter>
                         <TdCenter>

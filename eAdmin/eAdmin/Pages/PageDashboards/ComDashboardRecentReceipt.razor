@@ -38,7 +38,17 @@
                 </Column>
             </TdCenter>
             <td>
-                <a href="@($"receiptlist/sale/{p.id}")">@p.document_number</a> <br />
+                <a href="@($"receiptlist/sale/{p.id}")">
+                    @if (p.document_number == "New")
+                    {
+                        @p.sale_number
+                    }
+                    else
+                    {
+                        @p.document_number
+                    }
+
+                </a> <br />
                 <ComSaleStatus sale="p"/>
             </td>
             <td>

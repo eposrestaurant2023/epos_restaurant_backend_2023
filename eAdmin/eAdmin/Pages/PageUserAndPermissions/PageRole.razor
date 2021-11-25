@@ -6,7 +6,7 @@
  
 @if (!is_loading)
 {
-    <Title Value="Role & Permission"/>
+    <Title Value="@lang["Role & Permission"]"/>
     <PageContainer roles="@gv.GetRole("role_manager")">
         <PageHeader>
             <HeaderLeft>
@@ -16,18 +16,24 @@
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
-                            <ModuleView sub_title="Role" module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
+                            <ModuleView sub_title="@lang["Role"]" module_views="@gv.GetModuleView("page_role")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("role_add")" url="role/new" custom_class="button-large">@lang["​Add New Role"]</AddButton>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                </MudHidden>
                 <RefreshButton OnClick="@(()=>LoadData(""))" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" is_fullwidth="true"/>
+                <Spacing Number="4" />
+            </MudHidden>
             <Table Items="@roles_list"
                    PerPage="@state.pager.per_page"
                    TotalItem="@TotalRecord"
@@ -41,20 +47,21 @@
                 <TableHeader>
                     <ThAuto OnClick="@(async () => await OrderBy("role_name"))" OrderBy="@(state.pager.order_by == "role_name")" OrderByType="@state.pager.order_by_type" ClassName="cp">@lang["User Type Name"]</ThAuto>
                     <ThAuto OnClick="@(async () => await OrderBy("description"))" OrderBy="@(state.pager.order_by == "description")" OrderByType="@state.pager.order_by_type" ClassName="cp">@lang["Description"]</ThAuto>
-                    <Th  OrderByType="@state.pager.order_by_type">@lang["Status"]</Th>
+                    <Th OrderByType="@state.pager.order_by_type">@lang["Status"]</Th>
                     <Th ClassName="col-action"></Th>
                 </TableHeader>
                 <RowTemplate Context="r">
                     <td>
                         @if (!r.is_buildin)
-                        {
-                        <ComAuthorize OnClick="@(() => nav.NavigateTo($"role/edit/{r.id}"))" roles="@gv.GetRole("role_edit")">
-                            @r.role_name
-                        </ComAuthorize>
-                        }else
-                        {
+                            {
+                            <ComAuthorize OnClick="@(() => nav.NavigateTo($"role/edit/{r.id}"))" roles="@gv.GetRole("role_edit")">
+                                @r.role_name
+                            </ComAuthorize>
+                            }
+                            else
+                            {
                             <span>@r.role_name</span>
-                        }
+                            }
                     </td>
                     <td>@r.description</td>
                     <td>
@@ -65,13 +72,14 @@
                     <td>
                         <ComTableActions is_loading="@(r.is_loading)" is_visible="@(!r.is_buildin)">
                             <TableActionItem roles="@gv.GetRole("role_edit")" icon="edit" OnClick="@(() => nav.NavigateTo($"role/edit/{r.id}"))" is_visible="@(r.status && !r.is_deleted)">
-                                @lang["Edit"]</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("role_set_permission")" icon="lock" url="@($"/role/edit/permission/{r.id}")" is_visible="@(r.status && !r.is_deleted)">@lang["Set Permission"]</TableActionItem>
-                                                        <TableActionItem roles="@gv.GetRole("role_edit")" icon="highlight_off" is_visible="@(r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">@lang["Inactive"]</TableActionItem>
-                                                        <TableActionItem roles="@gv.GetRole("role_edit")" icon="check" is_visible="@(!r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">@lang["Active"]</TableActionItem>
-                                                        <TableActionItem roles="@gv.GetRole("role_delete")" icon="delete" is_visible="@(!r.is_deleted)" OnClick="(()=>OnDelete(r))">@lang["Delete"]</TableActionItem>
-                                                        <TableActionItem roles="@gv.GetRole("role_restore")" icon="refresh" is_visible="@(r.is_deleted)" OnClick="(()=>OnRestore(r))">@lang["Restore"]</TableActionItem>
-</ComTableActions>
+                                @lang["Edit"]
+                            </TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_set_permission")" icon="lock" url="@($"role/edit/permission/{r.id}")" is_visible="@(r.status && !r.is_deleted)">@lang["Set Permission"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="highlight_off" is_visible="@(r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">@lang["Inactive"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_edit")" icon="check" is_visible="@(!r.status && !r.is_deleted)" OnClick="@(()=>OnToogleStatus(r))">@lang["Active"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_delete")" icon="delete" is_visible="@(!r.is_deleted)" OnClick="(()=>OnDelete(r))">@lang["Delete"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("role_restore")" icon="refresh" is_visible="@(r.is_deleted)" OnClick="(()=>OnRestore(r))">@lang["Restore"]</TableActionItem>
+                        </ComTableActions>
                     </td>
                 </RowTemplate>
             </Table>

@@ -27,11 +27,17 @@
             </HeaderLeft>
             <HeaderRight>
                 <AddButton roles="@gv.GetRole("modifier_add")" OnClick="@(()=> nav.NavigateTo("modifier/new"))">@lang["New"]</AddButton>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                </MudHidden>
                 <RefreshButton OnClick="@OnInitializedAsync" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword", "")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <Spacing Number="4"/>
+            </MudHidden>
             <div class="cus_overflow-auto">
                 <Table ShowPager="true"
                        TotalItem="TotalItem"
@@ -48,21 +54,21 @@
                     </TableHeader>
                     <RowTemplate Context="m">
                         <td>
-                            <ComAuthorize roles="@gv.GetRole("modifier_view")" OnClick="@(()=>nav.NavigateTo($"modifier/{m.id}"))" >
+                            <ComAuthorize roles="@gv.GetRole("modifier_view")" OnClick="@(()=>nav.NavigateTo($"modifier/{m.id}"))">
                                 @m.modifier_name
                             </ComAuthorize>
                         </td>
                         <TdCenter>
                             @if (!m.is_loading)
-                            {
+                                {
                                 <LabelActive is_visible="@(m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
                                 <LabelInActive is_visible="@(!m.status && !m.is_deleted)" OnClick="@(() => OnChangeStatus(m))" roles="@gv.GetRole("modifier_edit")" is_loading="@m.is_change_status" />
                                 <LabelDeleted is_visible="@(m.is_deleted)" />
-                            }
-                            else
-                            {
+                                }
+                                else
+                                {
                                 <Spinner />
-                            }
+                                }
                         </TdCenter>
                         <TdCenter>
                             <ComTableActions is_loading="@(m.is_loading)">
