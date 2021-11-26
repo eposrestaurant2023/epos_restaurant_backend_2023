@@ -7,11 +7,10 @@
     @<Th OnClick="@(async () => await OrderBy(field_name))" OrderBy="@(state.pager.order_by == field_name)" OrderByType="@state.pager.order_by_type" ClassName="@($"cp {ClassName}")"> @display_name</Th>;
 }
 
-
+<Title Value="@lang["Stock Stransfer"]"></Title>
 
 @if (!is_loading)
 {
-    <Title Value="@lang["Stock Stransfer"]"></Title>
     <PageContainer roles="@gv.GetRole("stock_transfer_management")">
         <PageHeader>
             <HeaderLeft>

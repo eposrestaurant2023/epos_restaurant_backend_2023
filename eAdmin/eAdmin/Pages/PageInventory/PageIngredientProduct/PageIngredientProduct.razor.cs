@@ -44,7 +44,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct
             state = await GetState(StateKey);
             if (state.page_title == "")
             {
-                state.page_title = "Ingredient Product";
+                state.page_title = lang["Ingredient Product"];
                 var default_view = gv.GetDefaultModuleView("page_ingredient_product");
                 if (default_view != null)
                 {
