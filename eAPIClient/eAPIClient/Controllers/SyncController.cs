@@ -100,40 +100,6 @@ namespace eAPIClient.Controllers
             }
         }
 
-
-        [HttpGet("SyncHistory")]
-        [AllowAnonymous]
-        public async Task<ActionResult> SyncHistory(Guid historyId)
-        {
-            try
-            {
-                var _mnodelData = db.Histories.Where(r => r.id == historyId)
-                     .AsNoTrackingWithIdentityResolution();
-                if (_mnodelData.Count() > 0)
-                {
-                    var _model = _mnodelData.FirstOrDefault();
-                    _model.is_synced = true;
-                    var _syncResp = await http.ApiPost("History/Save", _model);
-                    if (!_syncResp.IsSuccess)
-                    {
-                        return BadRequest();
-                    }
-                    db.Histories.Update(_model);
-                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                    return Ok();
-                }
-                else
-                {
-                    return NotFound();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-            }
-        }
-
         [HttpGet("SyncCashierShift")]
         [AllowAnonymous]
         public async Task<ActionResult> SyncCashierShiftGet(Guid id)
@@ -401,7 +367,7 @@ namespace eAPIClient.Controllers
             url = url + "menu/is_deleted eq false  and ";
             url = url + "menu/status eq true ";
             url = url + "and product/is_deleted eq false and ";
-            url = url + "product/status eq true and ";
+            url = url + "product/status eq true and product/is_menu_product eq true and ";
             url = url + $"menu/business_branch_id eq {business_branch_id}";
 
             var resp = await http.ApiGetOData(url);
