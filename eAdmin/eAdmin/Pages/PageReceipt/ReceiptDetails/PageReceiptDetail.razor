@@ -14,7 +14,16 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Receipt #"] @sale.document_number
+                        @lang["Receipt #"]
+                        @if (sale.document_number == "New")
+                        {
+                            @sale.sale_number
+                        }
+                        else
+                        {
+                            @sale.document_number
+                        }
+
                         <ComSaleStatus sale="@sale" />
                     </HeaderTemplate>
                 </PageTitle>
