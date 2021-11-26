@@ -15,6 +15,7 @@ using Microsoft.Reporting.WinForms;
 using Newtonsoft.Json;
 using ePOSPrintingService.Models;
 using System.Reflection;
+using ePOSPrintingService.ReportDataModel;
 
 namespace ePOSPrintingService
 {
@@ -547,6 +548,68 @@ namespace ePOSPrintingService
             }
             //Update Is Label Print
             ExecuteSql(string.Format("update tbl_sale_product_kitchen_printer_queue set is_printed_label = 1 where sale_id ={0} and coalesce(is_printed_label,0) = 0 ;", sale_id));
+        }
+
+        public static void PrintCloseWorkingDay(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by="")
+        {
+            try
+            {
+
+
+                DataTable report_data = new DataTable();
+                string sql = string.Format("exec sp_get_close_working_data_for_print '{0}'", working_day_id);
+                report_data = ExecuteToDataTable(sql);
+
+
+
+                LocalReport report = new LocalReport();
+
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
+
+              
+
+                //Working day info
+                DataTable working_day_data = new DataTable();
+                List<WorkingDayModel> working_day = new List<WorkingDayModel>();
+                working_day = JsonConvert.DeserializeObject<List<WorkingDayModel>>(report_data.Rows[0]["working_day_info"].ToString());
+                working_day_data = CreateDataTable(working_day);
+                
+                //Working day summaryu data
+                DataTable working_day_summary_data = new DataTable();
+                List<CloseWorkingDaySummaryDataModel> working_day_summary = new List<CloseWorkingDaySummaryDataModel>();
+                working_day_summary = JsonConvert.DeserializeObject<List<CloseWorkingDaySummaryDataModel>>(report_data.Rows[0]["working_day_data"].ToString());
+                working_day_summary_data = CreateDataTable(working_day_summary);
+
+
+
+                //Setting data
+                DataTable setting_data = new DataTable();
+                List<SettingModel> settings = new List<SettingModel>();
+                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.Rows[0]["setting_data"].ToString());
+                settings.ForEach(r => r.printed_by = printed_by);
+                setting_data = CreateDataTable(settings);
+ 
+                report.DataSources.Add(new ReportDataSource("WorkingDay", working_day_data));
+                report.DataSources.Add(new ReportDataSource("Setting", setting_data));
+                report.DataSources.Add(new ReportDataSource("CloseWorkingDayData", working_day_summary_data));
+
+                Export(report,
+                     receipt.PageWidth,
+                     receipt.PageHeight,
+                     receipt.MarginTop,
+                     receipt.MarginLeft,
+                     receipt.MarginRight,
+                     receipt.MarginBottom
+                     );
+                Print(printer_name,1);
+
+                IsPrintSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                WriteToFile(ex.Message + ex.ToString());
+                IsPrintSuccess = false;
+            };
         }
 
         public static void ExportPrintLabel(LocalReport report)

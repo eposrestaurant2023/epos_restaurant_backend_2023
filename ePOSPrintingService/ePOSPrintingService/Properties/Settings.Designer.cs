@@ -115,6 +115,16 @@ namespace ePOSPrintingService.Properties {
         ""MarginRight"": 0,
         ""MarginBottom"": 0,
         ""MarginLeft"": 0
+    },
+ {
+        ""ReceiptName"": ""Close Working Day"",
+        ""ReceiptFileName"": ""rpt_close_working_day"",
+        ""PageWidth"": 2.85,
+        ""PageHeight"": 11,
+        ""MarginTop"": 0,
+        ""MarginRight"": 0,
+        ""MarginBottom"": 0,
+        ""MarginLeft"": 0
     }
 ]")]
         public string ReceiptSettings {
