@@ -3,7 +3,7 @@
 {
     @foreach (var l in customer_business_branchs)
     {
-        <label class="uk-label text-center" style="background: #1e87f0;color: #fff;margin-right:5px;" uk-tooltip="@lang["Business Branch"]">@l.business_branch.business_branch_name_en</label>
+        <label class="uk-label text-center" style="background: #1e87f0;color: #fff;margin-right:5px;" uk-tooltip="@lang["Business Branch"]">@l.business_branch?.business_branch_name_en</label>
     }
 }
 

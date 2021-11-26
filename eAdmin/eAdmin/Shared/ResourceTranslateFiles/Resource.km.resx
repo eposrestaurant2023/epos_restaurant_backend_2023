@@ -762,6 +762,9 @@
   <data name="Receipt List" xml:space="preserve">
     <value>វិក័យបត្រ័លក់</value>
   </data>
+	<data name="Customers" xml:space="preserve">
+    <value>អតិថិជន</value>
+  </data>
   <data name="All Customer" xml:space="preserve">
     <value>អតិថិជនទាំងអស់</value>
   </data>

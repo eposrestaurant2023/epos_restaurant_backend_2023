@@ -8,7 +8,7 @@
 {
 
     <h3 class="title-search">
-       @lang[" Receipt List"]
+       @lang["Receipt List"]
     </h3>
     <hr />
     <Table Items="@sale"
@@ -24,36 +24,96 @@
            ScrollClass="uk-overflow-auto"
            EmptyText="There is no record.">
         <TableHeader>
-            @HeaderTemplate("document_number",lang["Document#"], "uk-text-center")
-            @HeaderTemplate("customer/customer_name", lang["Customer"], "col-auto")
-            @HeaderTemplate("business_branch/business_branch_name_en", lang["Business Branch"])
-            @HeaderTemplate("outlet/outlet_name_en", lang["Outlet"])
+            @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
+            @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+            @HeaderTemplate("customer/customer_name_en", lang["Customer"], "col-auto")
+            <ThAuto>
+                <div>@lang["Business Branch"]</div>
+                <div class="sub-header-table">@lang["Outlet"]</div>
+                <div class="sub-header-table">@lang["Station"]</div>
+            </ThAuto>
+            <ThCenter>@lang["Sale Type"]</ThCenter>
+            <ThCenter>@lang["Table #"]</ThCenter>
+
             <ThRight>@lang["Total Amount"]</ThRight>
+            <ThRight>@lang["Discount"]</ThRight>
+            <ThRight>@lang["Tax"]</ThRight>
             <ThRight>@lang["Paid Amount"]</ThRight>
             <ThRight>@lang["Balance"]</ThRight>
+            <ThRight>@lang["Status"]</ThRight>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
             <TdCenter>
-                <div><a href="@("receiptlist/{p.id}")">@p.document_number</a></div>
+                @p.working_date.ToString(gv.date_format)
+            </TdCenter>
+            <TdCenter>
+                <div>
+                    <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
+                        <span>
+                            @if (p.document_number == "New")
+                                {
+                                @p.sale_number
+                                }
+                                else
+                                {
+                                @p.document_number
+                                }
+
+                        </span>
+                    </ComAuthorize>
+                </div>
             </TdCenter>
             <td>
-                <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo">@p.customer?.customer_code_name</ComProfileInfo>
+
+                <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
             </td>
             <td>
-                @p.business_branch?.business_branch_name_en
+                <div>
+                    @(gv.current_language?.language_id == "km-KH" ?p.business_branch?.business_branch_name_kh : p.business_branch?.business_branch_name_en)
+                </div>
+                <div class="sub-info-row-table">
+                    @(gv.current_language?.language_id == "km-KH" ?p.outlet?.outlet_name_kh : p.outlet?.outlet_name_en)
+                </div>
+                <div class="sub-info-row-table">
+                    @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
+                </div>
             </td>
-            <td>
-                @p.outlet?.outlet_name_en
-            </td>
+            <TdCenter>
+                <div>
+                    @lang[p.sale_type]
+                </div>
+            </TdCenter>
+            <TdCenter>
+                <div>
+
+                    @p.table_name
+                </div>
+            </TdCenter>
             <TdRight>
                 @p.total_amount.ToString(gv.main_currency_format)
+            </TdRight>
+            <TdRight>
+                @p.total_discount_amount.ToString(gv.main_currency_format)
+            </TdRight>
+            <TdRight>
+                @p.total_tax_amount.ToString(gv.main_currency_format)
             </TdRight>
             <TdRight>
                 @p.paid_amount.ToString(gv.main_currency_format)
             </TdRight>
             <TdRight>
                 @p.balance.ToString(gv.main_currency_format)
+            </TdRight>
+            <TdRight>
+                <Label ClassName="label-sale-status" Background="@p?.sale_status?.background" Color="@p?.sale_status?.foreground">@lang[p?.sale_status?.status_name]</Label>
+                <LabelPartiallyPaid is_visible="@(p.is_partially_paid && !p.is_deleted)" />
+                <LabelPaid is_visible="@(p.is_paid && !p.is_deleted)" />
+                <LabelUnpaid is_visible="@(!p.is_deleted && !p.is_paid && (p.total_amount > 0) && (p.balance == p.total_amount) && (p?.sale_status?.status_name != "Open Order"))" />
+                <LabelDeleted is_visible="@p.is_deleted" />
+                <Com is_visible="@(!string.IsNullOrEmpty(p.discount_code))">
+                    <Label Background="#f48024" Color="#fff" TextTooltip="@lang["Free Of Charge"]" is_visible="@(p.discount_code.ToLower() == "foc")">@lang["FOC"]</Label>
+                </Com>
             </TdRight>
             <TdCenter>
                 <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
@@ -81,8 +141,8 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string query = "$select=id,document_number,balance,paid_amount";
-            query = query + "&$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)";
+            string query = "$select=id,discount_code,is_paid,is_partially_paid,is_deleted,sale_number,station_name_en,station_name_kh,working_day_number,working_date,document_number,balance,paid_amount,total_discount_amount,total_tax_amount,total_amount,table_name,sale_type";
+            query = query + "&$expand=customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh),sale_status";
             string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters);
         }

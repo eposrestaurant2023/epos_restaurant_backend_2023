@@ -27,13 +27,13 @@
         <TableHeader>
             <ThCenter>@lang["Image"]</ThCenter>
             @HeaderTemplate("vendor_code", lang["Code"], "uk-text-center")
-            @HeaderTemplate("vendor_name", lang["Vendor Name"], "uk-text-left")
+            @HeaderTemplate("vendor_name", lang["Name"], "uk-text-left")
             @HeaderTemplate("company_name", lang["Company Name"], "uk-text-left")
             @HeaderTemplate("vendor_group_name_en", lang["Vendor Group"], "uk-text-left")
             @HeaderTemplate("mobile_phone", lang["Mobile Phone"], "uk-text-center")
             @HeaderTemplate("office_phone", lang["Office Phone"], "uk-text-center")
-            @HeaderTemplate("total_payable", lang["Total Payable"], "uk-text-right")
-            @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
+            @HeaderTemplate("total_payable", lang["Balance"], "uk-text-right")
+            <ThCenter>@lang["Status"]</ThCenter>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
@@ -62,17 +62,16 @@
                 @p.office_phone
             </TdCenter>
             <TdRight>
-                00
+                @p.total_payable.ToString(gv.currency_format)
             </TdRight>
             <TdCenter>
                 <LabelDeleted is_visible="@p.is_deleted" />
-                <LabelActive is_visible="@(!p.is_deleted && p.status)" roles="@gv.GetRole("vendor_edit")" is_loading="@p.is_change_status" />
-                <LabelInActive is_visible="@(!p.is_deleted && !p.status)" roles="@gv.GetRole("vendor_edit")" is_loading="@p.is_change_status" />
+                <LabelActive is_visible="@(!p.is_deleted && p.status)" roles="@gv.GetRole("vendor_edit")" is_loading="@p.is_loading" />
+                <LabelInActive is_visible="@(!p.is_deleted && !p.status)" roles="@gv.GetRole("vendor_edit")" is_loading="@p.is_loading" />
             </TdCenter>
-            <TdActions is_loading="@p.is_loading">
-                <TableActionItem roles="@gv.GetRole("vendor_view")" icon="visibility" is_visible="@(!p.is_deleted)" url="@($"vendor/{p.id}")">@lang["View"]</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("vendor_edit")" icon="edit" is_visible="@(!p.is_deleted)"  url="@($"vendor/edit/{p.id}")">@lang["Edit"]</TableActionItem>
-            </TdActions>
+            <TdCenter>
+                <Icon icon="visibility" roles="@gv.GetRole("vendor_view")" url="@($"vendor/{p.id}")"/>
+            </TdCenter>
         </RowTemplate>
     </Table>
 
@@ -96,8 +95,8 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string query = "$select=id,vendor_code,vendor_name,photo,company_name,office_phone,mobile_phone,email_address,address";
-            query = query + "&$expand=vendor_group($select= id,vendor_group_name_en,vendor_group_name_kh),province($select=id,province_name),";
+            string query = "$select=id,total_payable,status,is_deleted,vendor_code,vendor_name,photo,company_name,office_phone,mobile_phone,email_address,address";
+            query = query + "&$expand=vendor_group($select=id,vendor_group_name_en,vendor_group_name_kh),province($select=id,province_name),";
             string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters);
         }

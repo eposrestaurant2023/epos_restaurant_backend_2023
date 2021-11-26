@@ -33,7 +33,7 @@ namespace eShareModel
         public string customer_name_kh { get; set; }
 
 
-        public string gender { get; set; }
+        public string gender { get; set; } = "Not Set";
 
 
         public string email { get; set; }
