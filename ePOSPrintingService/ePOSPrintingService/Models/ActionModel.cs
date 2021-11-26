@@ -8,9 +8,12 @@ namespace ePOSPrintingService.Models
 {
     class ActionModel
     {
+
+        public string id { get; set; }
         public string action { get; set; }
         public string sale_id { get; set; }
         public string receipt_name { get; set; }
+        public string printed_by{ get; set; }
         public int copies { get; set; } = 1;
 
     }

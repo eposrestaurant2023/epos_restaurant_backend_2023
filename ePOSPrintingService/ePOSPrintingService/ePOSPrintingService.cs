@@ -110,6 +110,10 @@ namespace ePOSPrintingService
 
                             Program.PrintKitchenOrder(action.sale_id);
                             break;
+                        case "print_close_working_day":
+                            ReceiptListModel close_working_day_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseWorkingDay(action.id, close_working_day_report, Program.CashierPrinter,action.printed_by);
+                            break;
 
 
                         default:

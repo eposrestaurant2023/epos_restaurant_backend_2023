@@ -1238,9 +1238,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSMobileOrderService</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SaleModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSMobileOrderService.SaleModel, ePOSMobileOrderService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SaleProduct">
@@ -1345,15 +1345,19 @@
           <DataField>station_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="total_quantity">
+          <DataField>total_quantity</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
         <Field Name="unit">
           <DataField>unit</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSMobileOrderService</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SaleProductPrintQueueModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSMobileOrderService.SaleProductPrintQueueModel, ePOSMobileOrderService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleProductPrintQueueModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

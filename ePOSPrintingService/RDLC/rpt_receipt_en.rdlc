@@ -2611,9 +2611,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSMobileOrderService</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SaleModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSMobileOrderService.SaleModel, ePOSMobileOrderService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SaleProduct">
@@ -2700,9 +2700,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSMobileOrderService</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SaleProductModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSMobileOrderService.SaleProductModel, ePOSMobileOrderService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleProductModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="GrandTotal">
@@ -2753,9 +2753,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSMobileOrderService</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>GrandTotalModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSMobileOrderService.GrandTotalModel, ePOSMobileOrderService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.GrandTotalModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="Setting">
@@ -2796,6 +2796,10 @@
           <DataField>phone_2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="printed_by">
+          <DataField>printed_by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="tax_1_name">
           <DataField>tax_1_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2818,9 +2822,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSMobileOrderService</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SettingModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSMobileOrderService.SettingModel, ePOSMobileOrderService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SettingModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SalePayment">
@@ -2851,9 +2855,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSMobileOrderService</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SalePaymentModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSMobileOrderService.SalePaymentModel, ePOSMobileOrderService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SalePaymentModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

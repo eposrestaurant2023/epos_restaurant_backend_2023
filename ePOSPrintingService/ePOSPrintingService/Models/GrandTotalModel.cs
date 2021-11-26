@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ePOSPrintingService
+namespace ePOSPrintingService.ReportDataModel
 {
     public class GrandTotalModel
     {
