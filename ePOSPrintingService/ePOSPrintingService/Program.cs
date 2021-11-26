@@ -287,6 +287,7 @@ namespace ePOSPrintingService
                 //loop to printer for print to document
                 foreach (var p in sale_products.Select(r => new { r.printer_name, r.group_item_type_id }).Distinct().ToList())
                 {
+                    sale_products.ForEach(r => r.total_quantity = r.quantity);
 
                     switch (p.group_item_type_id)
                     {
@@ -303,7 +304,20 @@ namespace ePOSPrintingService
                         case 3:
                             foreach (var d in sale_products.Where(r => r.printer_name == p.printer_name))
                             {
-                                ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), (Int16)d.quantity);
+                                int copy = (int)Math.Floor(d.quantity);
+                                if (copy > 0)
+                                {
+                                    ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), (Int16)copy);
+                                }
+
+                                if(d.quantity - copy>0)
+                                {
+                                    sale_products.ForEach(r => { r.group_item_type_id = 1; r.quantity = d.quantity - copy; });
+                                    ProcessPrintKitchenOrder(p.printer_name, receipt, sale_data, CreateDataTable(sale_products.Where(r => r.id == d.id)), 1);
+                                }
+
+                                 
+                                
                             }
                             break;
                         default:
