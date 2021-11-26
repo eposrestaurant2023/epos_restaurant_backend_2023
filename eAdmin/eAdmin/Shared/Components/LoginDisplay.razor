@@ -1,4 +1,5 @@
-﻿@inject IStringLocalizer<Resource> lang
+﻿@inject NavigationManager nav
+@inject IStringLocalizer<Resource> lang
 <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
     <ActivatorContent>
         <MudAvatar Image="@(gv.image_base_url + gv.current_login_user.photo)" />
@@ -8,9 +9,10 @@
         <MudDivider Class="mb-2" />
         <MudListItem Text="@lang["Manage your account"]" Icon="@Icons.Material.Outlined.Person" OnClick="@(()=>is_view_profile=true)" />
         <MudListItem Text="@lang["help_and_support"]" Icon="@Icons.Material.Outlined.HelpOutline" Href="@gv.settings.Where(r => r.id == 7).Select(r => r.setting_title).FirstOrDefault()" />
+        <MudListItem Text="@lang["System License"]" Icon="@Icons.Material.Filled.RemoveFromQueue" OnClick="@(()=>nav.NavigateTo("systemlicense"))" />
         <MudListItem Text="@lang["Logout"]" Icon="@Icons.Material.Outlined.Login" Href="auth/logout" />
     </ChildContent>
-</MudMenu> 
+</MudMenu>
 
 @if (is_view_profile)
 {
@@ -19,5 +21,5 @@
 
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    bool is_view_profile; 
+    bool is_view_profile;
 }
