@@ -87,7 +87,7 @@
                                 <LabelProductionProduct is_visible="@p.is_production_product" />
                             </div>
                         </td>
-                        <td> @(gv.current_language?.language_id == "km-KH" ?p.product_category.product_category_kh: p.product_category.product_category_kh)</td>
+                        <td>@p.product_category.product_category_en</td>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)
                         </TdCenter>

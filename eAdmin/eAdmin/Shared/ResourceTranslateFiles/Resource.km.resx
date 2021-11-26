@@ -627,6 +627,12 @@
   <data name="Min QTY" xml:space="preserve">
     <value>ចំនួនតូចបំផុត</value>
   </data>
+	<data name="Min" xml:space="preserve">
+    <value>តូចបំផុត</value>
+  </data>
+	<data name="Max" xml:space="preserve">
+    <value>ធំបំផុត</value>
+  </data>
   <data name="Max QTY" xml:space="preserve">
     <value>ចំនួនធំបំផុត</value>
   </data>
@@ -651,11 +657,11 @@
   <data name="Dashboard" xml:space="preserve">
     <value>ទំព័រដើម</value>
   </data>
-  <data name="Discount Code" xml:space="preserve">
+	<data name="Discount Code" xml:space="preserve">
     <value>លេខ​កូដ​បញ្ចុះតម្លៃ</value>
   </data>
-  <data name="helloworld" xml:space="preserve">
-    <value>សួស្តី!</value>
+  <data name="Add Discount Code" xml:space="preserve">
+    <value>បង្កើតលេខ​កូដ​បញ្ចុះតម្លៃថ្មី</value>
   </data>
   <data name="Hourly Sale" xml:space="preserve">
     <value>ការលក់ ម៉ោង/ថ្ងៃ</value>
@@ -710,6 +716,18 @@
   </data>
   <data name="Payment Type" xml:space="preserve">
     <value>ប្រភេទការទូទាត់</value>
+  </data>
+	<data name="All Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់ទាំងអស់</value>
+  </data>
+	<data name="Active Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់សកម្ម</value>
+  </data>
+	<data name="Inactive Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់អសកម្ម</value>
+  </data>
+	<data name="Deleted Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់បានលុប</value>
   </data>
   <data name="Pending Orders" xml:space="preserve">
     <value>ការបញ្ជាទិញមិនទាន់បិទ</value>
@@ -834,17 +852,38 @@
   <data name="Sale Type" xml:space="preserve">
     <value>ប្រភេទលក់</value>
   </data>
+	<data name="Sale" xml:space="preserve">
+    <value>ការលក់</value>
+  </data>
   <data name="Sale Type Summary" xml:space="preserve">
     <value>សង្ខេបប្រភេទលក់</value>
   </data>
   <data name="Setting" xml:space="preserve">
     <value>ការកំណត់</value>
   </data>
+	<data name="Settings" xml:space="preserve">
+    <value>ការកំណត់</value>
+  </data>
   <data name="Summary Invoice" xml:space="preserve">
     <value>សង្ខេបការបញ្ជាទិញ</value>
   </data>
-  <data name="Table #" xml:space="preserve">
+	<data name="Table​ Name" xml:space="preserve">
+    <value>​ឈ្មោះតុ</value>
+  </data>
+	<data name="Table" xml:space="preserve">
+    <value>​តុ</value>
+  </data>
+	<data name="Table #" xml:space="preserve">
     <value>លេខ​តុ</value>
+  </data>
+  <data name="Add Table" xml:space="preserve">
+    <value>បង្កើត​តុថ្មី</value>
+  </data>
+	<data name="Table Information" xml:space="preserve">
+    <value>ព័ត៌មានតុ</value>
+  </data>
+	<data name="Table Group Information" xml:space="preserve">
+    <value>ព័ត៌មានក្រុមតុ</value>
   </data>
   <data name="Table Group Name" xml:space="preserve">
     <value>ឈ្មោះក្រុមតុ</value>
@@ -1188,6 +1227,9 @@
   <data name="Is Order Use Table" xml:space="preserve">
     <value>ប្រើប្រាស់តុ</value>
   </data>
+	<data name="Order Use Table" xml:space="preserve">
+    <value>ប្រើប្រាស់តុ</value>
+  </data>
   <data name="PO" xml:space="preserve">
     <value>បញ្ជាទិញ</value>
   </data>
@@ -1232,6 +1274,9 @@
   </data>
   <data name="Sale Type Name" xml:space="preserve">
     <value>ប្រភេទលក់</value>
+  </data>
+	<data name="Add Sale Type" xml:space="preserve">
+    <value>បង្កើតប្រភេទលក់ថ្មី</value>
   </data>
   <data name="Use Table" xml:space="preserve">
     <value>ប្រើប្រាស់តុ</value>

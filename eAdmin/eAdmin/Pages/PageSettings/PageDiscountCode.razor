@@ -4,13 +4,13 @@
 <Loading is_loading="@(is_loading || is_saving)" />
 @if (!is_loading)
 {
-    <Title Value="Discount Code"></Title>
+    <Title Value="@lang["Discount Code"]"></Title>
     <PageContainer roles="@gv.GetRole("discount_code")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        Discount Code
+                       @lang["Discount Code"]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -66,7 +66,7 @@
                                 </table>
                                 <hr />
                                 <div class="uk-text-right">
-                                    <Button OnClick="@(()=>AddDiscount(b))">Add Discount Code</Button>
+                                    <Button OnClick="@(()=>AddDiscount(b))">@lang["Add Discount Code"]</Button>
                                 </div>
                             </Content>
                         </ComAccordion>
