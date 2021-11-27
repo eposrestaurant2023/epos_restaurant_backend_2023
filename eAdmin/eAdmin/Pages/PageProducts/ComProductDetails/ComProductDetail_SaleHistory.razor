@@ -61,7 +61,19 @@
                             @p.sale?.working_date.ToString(gv.date_format)
                         </TdCenter>
                         <TdCenter>
-                            <div><a href="@($"receiptlist/sale/{p.sale.id}")">@p.sale?.document_number</a></div>
+                            <div>
+                            ​​​     <a href="@($"receiptlist/sale/{p.sale.id}")">
+                                        @if (p.sale.document_number == "New")
+                                            {
+                                            @p.sale.sale_number
+                                            }
+                                            else
+                                            {
+                                            @p.sale?.document_number
+                                            }
+
+                                    </a>
+                            </div>
                         </TdCenter>
                         <td>
                             <ComProfileInfo url="@($"customer/{p.sale.customer_id}")" photo="@p.sale.customer?.photo" role="customer_management">@p.sale?.customer?.customer_code_name</ComProfileInfo>

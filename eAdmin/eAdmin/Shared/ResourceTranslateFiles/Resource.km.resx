@@ -123,6 +123,9 @@
   <data name="Business Information" xml:space="preserve">
     <value>ព័ត៌មានអាជីវកម្ម</value>
   </data>
+	<data name="Cashier Notes" xml:space="preserve">
+    <value>អ្នកគិតលុយ(កំណត់ចំណាំ)</value>
+  </data>
   <data name="Cashier Note" xml:space="preserve">
     <value>អ្នកគិតលុយ(កំណត់ចំណាំ)</value>
   </data>
@@ -1264,7 +1267,7 @@
     <value>បញ្ជាទិញ</value>
   </data>
   <data name="Purchase Payment History" xml:space="preserve">
-    <value>ប្រវត្តិបញ្ជាទិញ</value>
+    <value>ប្រវត្តិការទូទាត់</value>
   </data>
   <data name="Purchase Product History" xml:space="preserve">
     <value>ប្រវត្តិទំនិញបញ្ជាទិញ</value>
@@ -2024,6 +2027,9 @@
   </data>
   <data name="Showing" xml:space="preserve">
     <value>បង្ហាញ</value>
+  </data>
+	<data name="Branch Information" xml:space="preserve">
+    <value>ព័ត៌មានសាខាអាជីវកម្ម</value>
   </data>
   <data name="Social Media Information" xml:space="preserve">
     <value>ព័ត៌មានបណ្ដាញផ្សព្វផ្សាយសង្គម</value>
