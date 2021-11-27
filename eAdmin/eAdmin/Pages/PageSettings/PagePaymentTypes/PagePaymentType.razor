@@ -11,17 +11,17 @@
             <HeaderLeft>
                 <PageTitle>
                     <HeaderTemplate>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                     <FilterTemplate>
-                        <PageFilter title="Status">
+                        <PageFilter title="@lang["Status"]">
                             <ModuleView module_views="@gv.GetModuleView("page_payment_type")" OnClick="@ViewClick" />
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <LinkButton url="paymenttype/new" roles="@gv.GetRole("payment_type_add")" icon="add" background="uk-button-primary" Class_Name="button-large">New</LinkButton>
+                <LinkButton url="paymenttype/new" roles="@gv.GetRole("payment_type_add")" icon="add" background="uk-button-primary" Class_Name="button-large">@lang["Add New"]</LinkButton>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
@@ -155,7 +155,7 @@
         state = await GetState(StateKey);
         if (state.page_title == "")
         {
-            state.page_title = "Payment Type";
+            state.page_title = lang["Payment Type"];
             var default_view = gv.GetDefaultModuleView("page_payment_type");
             if (default_view != null)
             {

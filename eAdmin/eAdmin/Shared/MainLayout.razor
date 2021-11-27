@@ -44,7 +44,9 @@
                                 <LoginDisplay />
                         </MudAppBar>
                         <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
-                            <NavMenu />
+                            <div style="padding-bottom: 20px;">
+                                <NavMenu />
+                            </div>
                         </MudDrawer>
                         <MudMainContent>
                                 <ComSystemExpiredAlert />
@@ -88,6 +90,7 @@
             Primary = Colors.Blue.Default,
             Secondary = Colors.Green.Accent4,
             AppbarBackground = Colors.Red.Default,
+           
             
         },
 

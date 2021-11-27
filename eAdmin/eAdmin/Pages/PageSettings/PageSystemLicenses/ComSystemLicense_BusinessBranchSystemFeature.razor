@@ -6,7 +6,7 @@
 
 @if (models != null)
 {
-    foreach (var f in models)
+    foreach (var f in models.Where(r=>r.status == true))
     {
 
 <Grid ClassName="uk-grid-small uk-flex-small">
@@ -21,7 +21,6 @@
         }
         else
         {
-            <Icon icon="toggle_off" icon_color="#cecece" size="32px" />
         }
     </div>
     <div class="uk-width-1-1 uk-margin-remove">

@@ -57,7 +57,19 @@
                     <RowTemplate Context="p">
                         <TdCenter>@p.working_date.ToString(gv.date_format)</TdCenter>
                         <TdCenter>
-                            <div><a href="receiptlist/sale/@p.id">@p.document_number</a></div>
+                            <div>
+                                <a href="receiptlist/sale/@p.id">
+                                    @if (p.document_number == "New")
+                                    {
+                                        @p.sale_number
+                                    }
+                                    else
+                                    {
+                                    @p.document_number
+                                    }
+
+                                </a>
+                            </div>
                         </TdCenter>
                         <td> 
                             <div>

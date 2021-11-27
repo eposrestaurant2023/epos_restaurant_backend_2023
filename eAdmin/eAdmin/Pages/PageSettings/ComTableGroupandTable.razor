@@ -12,9 +12,9 @@
                 </PageTitle>
             </HeaderLeft>
             @if (business_branch.outlets.Any()) {
-            <HeaderRight>
-                <LinkButton url="@($"tablegroupandtable/{business_branch.id}/new")" icon="add" background="uk-button-primary">New</LinkButton>
-            </HeaderRight>
+                <HeaderRight>
+                    <LinkButton url="@($"tablegroupandtable/{business_branch.id}/new")" icon="add" background="uk-button-primary">@lang["Add New"]</LinkButton>
+                </HeaderRight>
             }
         </PageHeader>
 
@@ -55,7 +55,7 @@
                                                             </span>
                                                         </div>
                                                         <div class="uk-float-right">
-                                                            <div>
+                                                            <div class="uk-flex uk-flex-middle">
                                                                 <div>
                                                                     <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
                                                                     <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
