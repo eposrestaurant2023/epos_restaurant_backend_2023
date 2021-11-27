@@ -129,6 +129,10 @@ namespace eAPIClient.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("business_branch_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid>("cash_drawer_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -499,6 +503,9 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<Guid?>("cashier_shift_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("created_by")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -562,6 +569,9 @@ namespace eAPIClient.Migrations
                     b.Property<string>("url")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<Guid?>("working_day_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("id");
 
@@ -1887,6 +1897,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
+
+                    b.Property<int>("total_cashier_shifts")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("working_date")
                         .HasColumnType("date");

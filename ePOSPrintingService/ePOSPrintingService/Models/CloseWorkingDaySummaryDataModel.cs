@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ePOSPrintingService.ReportDataModel
+namespace ePOSPrintingServiceReportModel
 {
     public class CloseWorkingDaySummaryDataModel
     {
@@ -13,4 +13,13 @@ namespace ePOSPrintingService.ReportDataModel
         public string value{ get; set; }
         public int sort_order { get; set; }
     }
+
+    public class CloseCashierShiftSummaryDataModel
+    {
+        public string group { get; set; }
+        public string title { get; set; }
+        public string value { get; set; }
+        public int sort_order { get; set; }
+    }
+
 }

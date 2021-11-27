@@ -23,6 +23,9 @@ namespace eAPIClient.Models
 
         }
 
+        public Guid? working_day_id { get; set; }
+        public Guid? cashier_shift_id { get; set; }
+
         public string title { get; set; }
 
 

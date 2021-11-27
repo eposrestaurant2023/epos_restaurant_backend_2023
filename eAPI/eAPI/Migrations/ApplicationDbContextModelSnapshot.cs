@@ -561,6 +561,10 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("business_branch_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid>("cash_drawer_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -5656,6 +5660,9 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
+
+                    b.Property<int>("total_cashier_shifts")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("working_date")
                         .HasColumnType("date");

@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace ePOSPrintingService.ReportDataModel
+namespace ePOSPrintingServiceReportModel
 {
     public class SaleProductPrintQueueModel
     {

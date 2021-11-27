@@ -11,6 +11,7 @@ namespace eShareModel
         public Guid opened_station_id { get; set; }
 
 
+        public string business_branch_name { get; set; }
         public string outlet_name_en { get; set; }
         public string outlet_name_kh { get; set; }
 

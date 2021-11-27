@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ePOSPrintingService.ReportDataModel
+namespace ePOSPrintingServiceReportModel
 {
    public  class SaleProductModel
     {
+        public int product_category_id { get; set; }
+        public int product_group_id { get; set; }
         public int product_id { get; set; }
+        public string revenue_group_name { get; set; }
         public string product_name_en { get; set; }
         public string product_name_kh { get; set; }
         public string product_group_en { get; set; }

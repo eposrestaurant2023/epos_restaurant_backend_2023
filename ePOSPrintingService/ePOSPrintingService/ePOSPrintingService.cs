@@ -110,9 +110,21 @@ namespace ePOSPrintingService
 
                             Program.PrintKitchenOrder(action.sale_id);
                             break;
-                        case "print_close_working_day":
+                        case "print_close_working_day_summary":
                             ReceiptListModel close_working_day_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintCloseWorkingDay(action.id, close_working_day_report, Program.CashierPrinter,action.printed_by);
+                            break;  
+                        case "print_close_working_day_sale_product":
+                            ReceiptListModel close_working_day_sale_product_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseWorkingDaySaleProduct(action.id, close_working_day_sale_product_report, Program.CashierPrinter,action.printed_by);
+                            break;
+                        case "print_close_working_day_sale_transaction":
+                            ReceiptListModel close_working_day_sale_transaction_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseWorkingDaySaleTransaction(action.id, close_working_day_sale_transaction_report, Program.CashierPrinter,action.printed_by);
+                            break; 
+                        case "print_close_cashier_shift_summary":
+                            ReceiptListModel close_cashift_shift_summary_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseCashierShiftSummary(action.id, close_cashift_shift_summary_report, Program.CashierPrinter,action.printed_by);
                             break;
 
 
@@ -122,7 +134,9 @@ namespace ePOSPrintingService
                     }
                 }
 
+                System.Threading.Thread.Sleep(250);
 
+                File.Delete(e.FullPath);
 
             }
             catch (Exception ex)

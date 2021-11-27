@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="eSoftixSecurity.cs" />
     <Compile Include="Models\ActionModel.cs" />
+    <Compile Include="Models\CashierShiftModel.cs" />
     <Compile Include="Models\CloseWorkingDaySummaryDataModel.cs" />
     <Compile Include="Models\GrandTotalModel.cs" />
     <Compile Include="Models\LabelPageSetupModel.cs" />
@@ -86,14 +87,16 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\ePOSPrintingService.ReportDataModel.CloseWorkingDaySummaryDataModel.datasource" />
-    <None Include="Properties\DataSources\ePOSPrintingService.ReportDataModel.GrandTotalModel.datasource" />
-    <None Include="Properties\DataSources\ePOSPrintingService.ReportDataModel.SaleModel.datasource" />
-    <None Include="Properties\DataSources\ePOSPrintingService.ReportDataModel.SalePaymentModel.datasource" />
-    <None Include="Properties\DataSources\ePOSPrintingService.ReportDataModel.SaleProductModel.datasource" />
-    <None Include="Properties\DataSources\ePOSPrintingService.ReportDataModel.SaleProductPrintQueueModel.datasource" />
-    <None Include="Properties\DataSources\ePOSPrintingService.ReportDataModel.SettingModel.datasource" />
-    <None Include="Properties\DataSources\ePOSPrintingService.ReportDataModel.WorkingDayModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CashierShiftModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CloseCashierShiftSummaryDataModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CloseWorkingDaySummaryDataModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.GrandTotalModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SaleModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SalePaymentModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SaleProductModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SaleProductPrintQueueModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SettingModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.WorkingDayModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
