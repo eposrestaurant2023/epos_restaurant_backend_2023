@@ -32,6 +32,7 @@ namespace ePOSPrintingServiceReportModel
         public string closed_station_name_kh { get; set; }
         public string opened_station_name_en { get; set; }
         public string opened_station_name_kh { get; set; }
+        public string business_branch_name { get; set; }
         public string outlet_name_en { get; set; }
         public string outlet_name_kh { get; set; }
         public string working_date { get; set; }

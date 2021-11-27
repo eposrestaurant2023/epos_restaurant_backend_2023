@@ -504,6 +504,70 @@ namespace ePOSPrintingService
             };
         }
 
+        public static void PrintDeletedOrder(string sale_id, ReceiptListModel receipt, string printer_name)
+        {
+            try
+            {
+
+
+
+                DataTable receipt_data = new DataTable();
+                string sql = string.Format("exec sp_get_deleted_sale_data_for_print_bill '{0}'", sale_id);
+                receipt_data = ExecuteToDataTable(sql);
+
+
+                LocalReport report = new LocalReport();
+
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.InvoiceFileName);
+
+                //sale data
+                DataTable sale_data = new DataTable();
+                List<SaleModel> sales = new List<SaleModel>();
+                sales = JsonConvert.DeserializeObject<List<SaleModel>>(receipt_data.Rows[0]["sale_data"].ToString());
+                sale_data = CreateDataTable(sales);
+                //sale_product_data
+                DataTable sale_product_data = new DataTable();
+                List<SaleProductModel> sale_products = new List<SaleProductModel>();
+                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(receipt_data.Rows[0]["sale_product_data"].ToString());
+                sale_product_data = CreateDataTable(sale_products);
+
+
+                //Grand total data
+                DataTable grand_total_data = new DataTable();
+                List<GrandTotalModel> grand_totals = new List<GrandTotalModel>();
+                grand_totals = JsonConvert.DeserializeObject<List<GrandTotalModel>>(receipt_data.Rows[0]["grand_total_data"].ToString());
+                grand_total_data = CreateDataTable(grand_totals);
+
+                //Setting data
+                DataTable setting_data = new DataTable();
+                List<SettingModel> settings = new List<SettingModel>();
+                settings = JsonConvert.DeserializeObject<List<SettingModel>>(receipt_data.Rows[0]["setting_data"].ToString());
+                setting_data = CreateDataTable(settings);
+
+                report.DataSources.Add(new ReportDataSource("Sale", sale_data));
+                report.DataSources.Add(new ReportDataSource("SaleProduct", sale_product_data));
+                report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
+                report.DataSources.Add(new ReportDataSource("Setting", setting_data));
+
+                Export(report,
+                     receipt.PageWidth,
+                     receipt.PageHeight,
+                     receipt.MarginTop,
+                     receipt.MarginLeft,
+                     receipt.MarginRight,
+                     receipt.MarginBottom
+                     );
+                Print(printer_name,1);
+
+                IsPrintSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                WriteToFile(ex.Message + ex.ToString());
+                IsPrintSuccess = false;
+            };
+        }
+
 
         public static void PrintSaleProductToLabelPrinter(int sale_id, DataTable data, string is_paid)
         {
@@ -808,6 +872,146 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("CloseCashierShiftData", cashier_shift_summary_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
 
+                Export(report,
+                     receipt.PageWidth,
+                     receipt.PageHeight,
+                     receipt.MarginTop,
+                     receipt.MarginLeft,
+                     receipt.MarginRight,
+                     receipt.MarginBottom
+                     );
+                Print(printer_name, 1);
+
+                IsPrintSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                WriteToFile(ex.Message + ex.ToString());
+                IsPrintSuccess = false;
+            };
+        }
+
+
+
+        public static void PrintCloseCashierShiftSaleTransaction(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "")
+        {
+            try
+            {
+
+
+                DataTable report_data = new DataTable();
+                string sql = string.Format("exec  [sp_get_close_cashier_shift_sale_transaction_for_print] '{0}'", cashier_shift_id);
+                report_data = ExecuteToDataTable(sql);
+
+
+
+                LocalReport report = new LocalReport();
+
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
+
+
+
+                //cashier shift info
+                DataTable cashier_shift_data = new DataTable();
+                List<CashierShiftModel> cashier_shift = new List<CashierShiftModel>();
+                cashier_shift = JsonConvert.DeserializeObject<List<CashierShiftModel>>(report_data.Rows[0]["cashier_shift_info"].ToString());
+                cashier_shift_data = CreateDataTable(cashier_shift);
+
+               
+                //Close sale data data
+                DataTable close_sale_data = new DataTable();
+                List<SaleModel> close_sales = new List<SaleModel>();
+                close_sales = JsonConvert.DeserializeObject<List<SaleModel>>(report_data.Rows[0]["sale_data"].ToString());
+                close_sale_data = CreateDataTable(close_sales);
+
+
+
+                //Setting data
+                DataTable setting_data = new DataTable();
+                List<SettingModel> settings = new List<SettingModel>();
+                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.Rows[0]["setting_data"].ToString());
+                settings.ForEach(r => r.printed_by = printed_by);
+                setting_data = CreateDataTable(settings);
+
+                report.DataSources.Add(new ReportDataSource("CashierShiftData", cashier_shift_data));
+                report.DataSources.Add(new ReportDataSource("Setting", setting_data));
+                report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
+
+                Export(report,
+                     receipt.PageWidth,
+                     receipt.PageHeight,
+                     receipt.MarginTop,
+                     receipt.MarginLeft,
+                     receipt.MarginRight,
+                     receipt.MarginBottom
+                     );
+                Print(printer_name, 1);
+
+                IsPrintSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                WriteToFile(ex.Message + ex.ToString());
+                IsPrintSuccess = false;
+            };
+        }
+
+
+
+        public static void PrintCloseCashierShiftSaleProduct(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "")
+        {
+            try
+            {
+
+
+                DataTable report_data = new DataTable();
+                string sql = string.Format("exec  [sp_get_close_cashier_shift_sale_product_data_for_print] '{0}'", cashier_shift_id);
+                report_data = ExecuteToDataTable(sql);
+
+
+
+                LocalReport report = new LocalReport();
+
+                report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
+
+
+
+                //cashier shift info
+                DataTable cashier_shift_data = new DataTable();
+                List<CashierShiftModel> cashier_shift = new List<CashierShiftModel>();
+                cashier_shift = JsonConvert.DeserializeObject<List<CashierShiftModel>>(report_data.Rows[0]["cashier_shift_info"].ToString());
+                cashier_shift_data = CreateDataTable(cashier_shift);
+
+              
+
+                //Setting data
+                DataTable setting_data = new DataTable();
+                List<SettingModel> settings = new List<SettingModel>();
+                settings = JsonConvert.DeserializeObject<List<SettingModel>>(report_data.Rows[0]["setting_data"].ToString());
+                settings.ForEach(r => r.printed_by = printed_by);
+                setting_data = CreateDataTable(settings);
+
+                //Sale Product Data
+                DataTable sale_product_data = new DataTable();
+                List<SaleProductModel> sale_products = new List<SaleProductModel>();
+                sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(report_data.Rows[0]["sale_product_data"].ToString());
+                sale_product_data = CreateDataTable(sale_products);
+
+                //FOC Sale Product Data
+                DataTable foc_sale_product_data = new DataTable();
+                List<SaleProductModel> foc_sale_products = new List<SaleProductModel>();
+                foc_sale_products = JsonConvert.DeserializeObject<List<SaleProductModel>>(report_data.Rows[0]["foc_sale_product_data"].ToString());
+                foc_sale_product_data = CreateDataTable(foc_sale_products);
+
+
+
+                report.DataSources.Add(new ReportDataSource("CashierShiftData", cashier_shift_data));
+                report.DataSources.Add(new ReportDataSource("Setting", setting_data));
+         
+                report.DataSources.Add(new ReportDataSource("SaleProductData", sale_product_data));
+                report.DataSources.Add(new ReportDataSource("FOCSaleProductData", foc_sale_product_data));
+
+             
                 Export(report,
                      receipt.PageWidth,
                      receipt.PageHeight,

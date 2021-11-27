@@ -104,8 +104,19 @@ namespace ePOSPrintingService.Properties {
             "   \"MarginLeft\": 0\r\n    },\r\n {\r\n        \"ReceiptName\": \"Close Cashier Shift Summ" +
             "ary\",\r\n        \"ReceiptFileName\": \"rpt_close_cashier_shift_summary\",\r\n        \"P" +
             "ageWidth\": 2.85,\r\n        \"PageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n        \"M" +
-            "arginRight\": 0,\r\n        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    }\r\n\r\n\r" +
-            "\n]")]
+            "arginRight\": 0,\r\n        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    }\r\n,\r\n" +
+            " {\r\n        \"ReceiptName\": \"Close Cashier Shift Sale Transaction\",\r\n        \"Rec" +
+            "eiptFileName\": \"rpt_close_cashier_shift_sale_transaction\",\r\n        \"PageWidth\":" +
+            " 2.85,\r\n        \"PageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n        \"MarginRight" +
+            "\": 0,\r\n        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    }\r\n,\r\n {\r\n      " +
+            "  \"ReceiptName\": \"Close Cashier Shift Sale Product\",\r\n        \"ReceiptFileName\":" +
+            " \"rpt_close_cashier_shift_sale_product\",\r\n        \"PageWidth\": 2.85,\r\n        \"P" +
+            "ageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n        \"MarginRight\": 0,\r\n        \"Ma" +
+            "rginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    }\r\n,\r\n {\r\n        \"ReceiptName\": \"" +
+            "Deleted Sale Order\",\r\n        \"InvoiceFileName\": \"rpt_deleted_invoice\",\r\n       " +
+            " \"PageWidth\": 2.85,\r\n        \"PageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n       " +
+            " \"MarginRight\": 0,\r\n        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    }\r\n" +
+            "\r\n\r\n]")]
         public string ReceiptSettings {
             get {
                 return ((string)(this["ReceiptSettings"]));

@@ -102,6 +102,10 @@ namespace ePOSPrintingService
                             ReceiptListModel receipt = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintReceipt(action.sale_id, receipt, Program.CashierPrinter, action.copies);
                             break;
+                        case "print_deleted_sale_order":
+                            ReceiptListModel deleted_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintDeletedOrder(action.sale_id, deleted_report, Program.CashierPrinter);
+                            break;
                         case "reprint_receipt":
                             ReceiptListModel reprint_receipt = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintReceipt(action.sale_id, reprint_receipt, Program.CashierPrinter, action.copies, true);
@@ -125,6 +129,14 @@ namespace ePOSPrintingService
                         case "print_close_cashier_shift_summary":
                             ReceiptListModel close_cashift_shift_summary_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintCloseCashierShiftSummary(action.id, close_cashift_shift_summary_report, Program.CashierPrinter,action.printed_by);
+                            break;
+                        case "print_close_cashier_shift_sale_transaction":
+                            ReceiptListModel close_cashift_shift_sale_transaction_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseCashierShiftSaleTransaction(action.id, close_cashift_shift_sale_transaction_report, Program.CashierPrinter,action.printed_by);
+                            break;
+                        case "print_close_cashier_shift_sale_product":
+                            ReceiptListModel close_cashift_shift_sale_product_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseCashierShiftSaleProduct(action.id, close_cashift_shift_sale_product_report, Program.CashierPrinter,action.printed_by);
                             break;
 
 
