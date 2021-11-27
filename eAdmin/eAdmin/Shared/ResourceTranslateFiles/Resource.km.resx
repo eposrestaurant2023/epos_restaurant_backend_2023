@@ -1329,6 +1329,9 @@
   <data name="New PO" xml:space="preserve">
     <value>បញ្ជូលបញ្ជាទិញថ្មី</value>
   </data>
+	<data name="Edit Product" xml:space="preserve">
+    <value>កែប្រែទំនិញ</value>
+  </data>
   <data name="New Product" xml:space="preserve">
     <value>បញ្ជូលទំនិញថ្មី</value>
   </data>
@@ -1980,6 +1983,12 @@
   <data name="Ingredient Product Information" xml:space="preserve">
     <value>ព័ត៌មានគ្រឿងផ្សំ</value>
   </data>
+	<data name="Inventory / Ingredient Product" xml:space="preserve">
+    <value>សារពើភ័ណ្ឌ/គ្រឿងផ្សំ</value>
+  </data>
+	<data name="Inventory / Production Product" xml:space="preserve">
+    <value>សារពើភ័ណ្ឌ/ផលិតកម្ម​ទំនិញ</value>
+  </data>
   <data name="Stock Transfer Information" xml:space="preserve">
     <value>ព័ត៌មានការផ្ទេរទំនិញ</value>
   </data>
@@ -2149,6 +2158,9 @@
     <value>សូមបញ្ជូលឈ្មោះប្រភេទទំនិញ។</value>
   </data>
   <data name="Please select menu" xml:space="preserve">
+    <value>សូមជ្រើសរើសម៉ឺនុយ</value>
+  </data>
+	<data name="Selected Menus" xml:space="preserve">
     <value>សូមជ្រើសរើសម៉ឺនុយ</value>
   </data>
   <data name="Please choose Business branch." xml:space="preserve">
