@@ -733,7 +733,7 @@
     <value>ប្រភេទការទូទាត់បានលុប</value>
   </data>
   <data name="Pending Orders" xml:space="preserve">
-    <value>ការបញ្ជាទិញមិនទាន់បិទ</value>
+    <value>បញ្ជាទិញមិនទាន់បិទ</value>
   </data>
   <data name="Price Rule" xml:space="preserve">
     <value>ប្រភេទតម្លៃ</value>
@@ -1024,7 +1024,7 @@
     <value>ក្រុមអ្នកផ្គត់ផ្គង់</value>
   </data>
   <data name="Void Orders" xml:space="preserve">
-    <value>ការបញ្ជាទិញដែលបានលុប</value>
+    <value>បញ្ជាទិញដែលបានលុប</value>
   </data>
   <data name="welcome" xml:space="preserve">
     <value>សូមស្វាគមន៍</value>
