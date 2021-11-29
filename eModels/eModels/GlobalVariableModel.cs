@@ -21,6 +21,7 @@ namespace eModels
         public List<UnitModel> units { get; set; }
         public string image_base_url { get; set; }
         public List<CountryModel> countries { get; set; }
+        public List<SaleTypeModel> sale_types{ get; set; }
 
 
         public List<SettingModel> settings { get; set; }

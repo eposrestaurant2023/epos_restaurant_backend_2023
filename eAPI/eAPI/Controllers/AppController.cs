@@ -63,6 +63,7 @@ namespace eAPI.Controllers
             gv.system_features = db.system_features.ToList();
             gv.business_branch_system_features= db.BusinessBranchSystemFeatures.ToList();
             gv.revenue_groups= db.RevenueGroups.ToList();
+            gv.sale_types= db.SaleTypes.ToList();
 
             return Ok(gv);
         }
