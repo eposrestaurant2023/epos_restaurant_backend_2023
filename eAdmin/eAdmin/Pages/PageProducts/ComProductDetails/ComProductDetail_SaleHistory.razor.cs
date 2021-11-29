@@ -22,7 +22,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             get
             {
 
-                return "XCUSTOMERSALEPRODUCTdmRGrRwdzVOID201545AEj" + gv.current_login_user.id; //Storage and Session Key  
+                return "XCUSTOMERSALEPRODUCTdmRGrRwdzVOID201545AEj" + gv.current_login_user.id + product_id.ToString(); //Storage and Session Key  
             }
         }
         string controller_api = "SaleProduct";

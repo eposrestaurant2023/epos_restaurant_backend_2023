@@ -1,6 +1,11 @@
 ﻿
 @inherits PageCore;
 <EditFormContext Cancel_Click="@onCancelClick" model="@model" is_opened="is_open" title="@modal_title" Save_Click="SavePaymentTerm_Click" is_submitting="@is_saving" modal_width="800px">
+    <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
+        <UIFlexCenter>
+            <FileUpload @bind-ImageUrl="@model.logo" />
+        </UIFlexCenter>
+    </UIContainerBox>
     <TextInput label="@lang["Name"]" @bind-text="@model.business_branch_name_en">
         <ValidationMessage For="@(()=>model.business_branch_name_en)" />
     </TextInput>

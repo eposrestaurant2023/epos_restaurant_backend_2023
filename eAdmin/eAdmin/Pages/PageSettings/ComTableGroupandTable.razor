@@ -12,9 +12,16 @@
                 </PageTitle>
             </HeaderLeft>
             @if (business_branch.outlets.Any()) {
-                <HeaderRight>
-                    <LinkButton url="@($"tablegroupandtable/{business_branch.id}/new")" icon="add" background="uk-button-primary">@lang["Add New"]</LinkButton>
-                </HeaderRight>
+        <HeaderRight>
+            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <LinkButton url="@($"tablegroupandtable/{business_branch.id}/new")" icon="add" background="uk-button-primary">@lang["Add New"]</LinkButton>
+            </MudHidden>
+
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <LinkButton url="@($"tablegroupandtable/{business_branch.id}/new")" icon="add" background="uk-button-primary"></LinkButton>
+            </MudHidden>
+          
+        </HeaderRight>
             }
         </PageHeader>
 

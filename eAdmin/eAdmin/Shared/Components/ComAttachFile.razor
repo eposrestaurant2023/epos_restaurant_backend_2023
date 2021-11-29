@@ -8,16 +8,16 @@
 <Loading is_loading="is_loading" />
 <Column is_visible="@(!IsReadOnly)">
     <div class="title">
-        Upload Files  <span uk-icon="chevron-left"></span> 4Mb
+        @lang["Upload Files"]  <span uk-icon="chevron-left"></span> 4Mb
     </div>
     <br/>
     <div class="uk-text-left">
-        <div>Accept (jpg, png, pdf, docx, xlsx)</div>
+        <div>@lang["Accept"] (jpg, png, pdf, docx, xlsx)</div>
         <AuthorizeView Roles="@RoleAdd">
             @if (IsVisible)
             {
                 <div class="wrp_input_attach_file">
-                    <label uk-title="Upload File" class="label-btn-file-upload">
+                    <label uk-title="@lang["Upload File"]" class="label-btn-file-upload">
                         <MatFileUpload OnChange="HandleSelection" Style="display: none;" />
                         <span class="upload-profile-icon">
                             <Icon icon="attach_file" />
@@ -100,9 +100,9 @@
 
                             <EditForm Model="@f" class="form" OnValidSubmit="@(() => SaveAttachFile_Click(f))">
                                 <div class="wrp-upload-edit-inputs">
-                                    <TextInput @bind-text="@f.file_title" placeholder="File title" />
+                                    <TextInput @bind-text="@f.file_title" placeholder="@lang["File title"]" />
                                     <Spacing Number="5" />
-                                    <TextInput @bind-text="@f.note" placeholder="File Description" />
+                                    <TextInput @bind-text="@f.note" placeholder="@lang["File Description"]" />
                                 </div>
 
                                 <div>
@@ -113,8 +113,8 @@
                                     else
                                     {
                                         <Spacing Number="5" />
-                                        <button class="btn-off-canvas-save" type="submit">Save</button>
-                                        <button class="btn-off-canvas-cancel" @onclick="@(() => f.is_editing = false)" type="button">Cancel</button>
+                                        <button class="btn-off-canvas-save" type="submit">@lang["Save"]</button>
+                                        <button class="btn-off-canvas-cancel" @onclick="@(() => f.is_editing = false)" type="button">@lang["Cancel"]</button>
 
                                     }
 
@@ -135,7 +135,7 @@
     else
     {
         <div class="uk-text-center text-muted">
-            <Icon icon="image" /> No files or images
+            <Icon icon="image" /> @lang["No files or images"]
         </div>
     }
 </div>
@@ -192,7 +192,7 @@
 
             string _new_image = guid + uploaded_file.Name;
             // get the status
-            status_message = "The file " + uploaded_file.Name + " was uploaded";
+            status_message = lang["The file"] + uploaded_file.Name + lang["was uploaded"];
             file.file_name = _new_image;
             file.file_title = uploaded_file.Name;
             file.file_type = uploaded_file.Type;

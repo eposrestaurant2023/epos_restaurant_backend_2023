@@ -20,7 +20,12 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <Button icon="add" OnClick="@OnOpenModel">@lang["Add New Vendor Group"]</Button>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Button icon="add" OnClick="@OnOpenModel">@lang["Add New Vendor Group"]</Button>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <Button icon="add" OnClick="@OnOpenModel"></Button>
+                </MudHidden>
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
                     <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
 

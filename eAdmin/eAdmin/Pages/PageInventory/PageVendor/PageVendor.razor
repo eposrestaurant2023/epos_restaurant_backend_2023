@@ -27,10 +27,14 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))">@lang["New Vendor"]</AddButton>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))">@lang["New Vendor"]</AddButton>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))"></AddButton>
+                </MudHidden>
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
                     <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
-
                 </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>

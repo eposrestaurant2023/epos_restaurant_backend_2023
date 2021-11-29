@@ -22,7 +22,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             get
             {
 
-                return "STOSTOCKTAKEProdyctsaledmRGrRwd5021D20154coN" + gv.current_login_user.id; //Storage and Session Key  
+                return "STOSTOCKTAKEProdyctsaledmRGrRwd5021D20154coN" + gv.current_login_user.id + product_id.ToString(); //Storage and Session Key  
             }
         }
         public string ControllerApi

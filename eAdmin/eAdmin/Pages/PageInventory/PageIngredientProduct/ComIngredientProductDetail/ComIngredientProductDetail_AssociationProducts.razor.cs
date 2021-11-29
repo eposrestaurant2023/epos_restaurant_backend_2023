@@ -26,7 +26,7 @@ namespace eAdmin.Pages.PageInventory.PageIngredientProduct.ComIngredientProductD
             get
             {
 
-                return "INGRE84567Gs252sd45KJssASSOciate21" + gv.current_login_user.id; //Storage and Session Key  
+                return "INGRE84567Gs252sd45KJssASSOciate21" + gv.current_login_user.id + ingredient_id.ToString(); //Storage and Session Key  
             }
         }
 

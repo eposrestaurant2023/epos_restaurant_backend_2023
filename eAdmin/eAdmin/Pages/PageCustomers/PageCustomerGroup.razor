@@ -21,7 +21,14 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@AddNew" custom_class="button-create">@lang["New Customer Group"]</AddButton>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@AddNew">@lang["New Customer Group"]</AddButton>
+
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("customer_group_add")" OnClick="@AddNew"></AddButton>
+
+                </MudHidden>
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
                     <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
                 </MudHidden>

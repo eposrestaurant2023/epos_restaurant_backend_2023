@@ -23,7 +23,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             get
             {
 
-                return "STOMERPRODUCTsaledmRGrRwdzVOID20154coN" + gv.current_login_user.id; //Storage and Session Key  
+                return "STOMERPRODUCTsaledmRGrRwdzVOID20154coN" + gv.current_login_user.id + customer_id.ToString(); //Storage and Session Key  
             }
         }
         public string ControllerApi
