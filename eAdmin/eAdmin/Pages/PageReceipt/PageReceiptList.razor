@@ -72,23 +72,28 @@
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
-                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+                        @HeaderTemplate("document_number", lang["Document #"], "uk-text-left")
+                        <Th>
+                            <div>@lang["Working Day #"]</div>
+                            <div class="sub-header-table">@lang["Shift #"]</div>
+
+                        </Th>
                         @HeaderTemplate("customer/customer_name_en", lang["Customer"], "col-auto")
                         <ThAuto>
                             <div>@lang["Business Branch"]</div>
                             <div class="sub-header-table">@lang["Outlet"]</div>
                             <div class="sub-header-table">@lang["Station"]</div>
                         </ThAuto>
-                        <ThCenter>@lang["Sale Type"]</ThCenter>
+                      
                         <ThCenter>@lang["Table #"]</ThCenter>
 
                         <ThRight>@lang["Total Amount"]</ThRight>
-                        <ThRight>@lang["Discount"]</ThRight>    
-                        <ThRight>@lang["Tax"]</ThRight>    
+                        <ThRight>@lang["Discount"]</ThRight>
+                        <ThRight>@lang["Tax"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
-                        
-                        <ThRight>@lang["Status"]</ThRight>
+
+                       
 
                         <th class="uk-width-auto"></th>
                     </TableHeader>
@@ -101,21 +106,28 @@
                                 <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
                                     <span>
                                         @if (p.document_number == "New")
-                                        {
-                                        @p.sale_number
-                                        }
-                                        else
-                                        {
-                                        @p.document_number
-                                        }
+                                            {
+                                            @p.sale_number
+                                            }
+                                            else
+                                            {
+                                            @p.document_number
+                                            }
 
                                     </span>
                                 </ComAuthorize>
                             </div>
+                            <ComSaleStatus sale="@p" />
+                        </TdCenter>
+                        <TdCenter>
+                            <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
+                            <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />
+
                         </TdCenter>
                         <td>
 
                             <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
+                            <LabelSaleType Text="@p.sale_type" />
                         </td>
                         <td>
                             <div>
@@ -128,14 +140,10 @@
                                 @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
                             </div>
                         </td>
+                        
                         <TdCenter>
                             <div>
-                                @lang[p.sale_type]
-                            </div>
-                        </TdCenter>
-                        <TdCenter>
-                            <div>
-                               
+
                                 @p.table_name
                             </div>
                         </TdCenter>
@@ -154,10 +162,7 @@
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
-                       
-                        <TdRight>
-                            <ComSaleStatus sale="@p" />
-                        </TdRight>
+
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
                         </TdCenter>
