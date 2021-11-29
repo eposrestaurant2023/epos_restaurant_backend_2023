@@ -72,6 +72,11 @@ namespace eModels
         public virtual StockTransferModel stock_transfer { get; set; }
 
 
+        public Guid? inventory_check_id { get; set; }
+        [ForeignKey("inventory_check_id")]
+        public virtual InventoryCheckModel inventory_check { get; set; }
+
+
         public string document_number { get; set; } = "";
         public string module { get; set; } = "";
         public string url { get; set; } = "";

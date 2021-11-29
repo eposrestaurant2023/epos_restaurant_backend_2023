@@ -1,0 +1,72 @@
+﻿@page "/inventorycheck/{id:guid}";
+@inherits PageInventoryCheckDetailBase
+
+@if (is_loading_data || is_loading)
+{
+    <Loading is_loading="@( is_loading_data || is_loading_data)" />
+
+}
+
+@if (!is_loading && is_error == false)
+{
+    <Title Value="@($"{lang["Inventory Checked"]}: {model.document_number}")"></Title>
+
+    <PageContainer roles="@gv.GetRole("inventory_check_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Inventory Check #"] @model.document_number
+                        <ComInventoryCheckStatus model="@model" />
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+
+                @*<ComStockTakeDetail_ActionButton @bind-model="@model" />*@
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <MudTabs PanelClass="pa-4">
+                <MudTabPanel Text="@lang["Inventory Check Information"]" >
+                    <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
+                    <UIGridCenter>
+                        <MudExpansionPanels>
+                            <MudExpansionPanel Text="@lang["General Information"]">
+                                @JsonSerializer.Serialize(model)
+                            </MudExpansionPanel>
+
+                        </MudExpansionPanels>
+
+                        <Spacing Number="4"/>
+                        <ComInventoryCheckProducts id="@id"/>
+                    </UIGridCenter>
+                   
+
+
+                </MudTabPanel>
+                <MudTabPanel Text="@lang["Comment and History"]"  OnClick="@ShowComment">
+                    @if (is_show_comment)
+                    {
+                        <ComHistory RoleAdd="@gv.GetRole("inventory_check_add")"
+                                    RoleDelete="@gv.GetRole("sinventory_check_delete")"
+                                    RoleEdit="@gv.GetRole("inventory_check_edit")"
+                                    ApiFilter="@($"inventory_check_id eq {id}")"
+                                    history="@history" />
+
+                    }
+                </MudTabPanel>
+            </MudTabs>
+           
+            <div class="spacing40"></div>
+        </PageBody>
+    </PageContainer>
+
+}
+
+@if (is_error)
+{
+    <Error title="@lang["Inventory Check Detail"]">
+        @error_text
+    </Error>
+}

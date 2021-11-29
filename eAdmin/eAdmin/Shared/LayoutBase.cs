@@ -34,8 +34,34 @@ namespace eAdmin.Shared
         public GlobalVariableModel gv = new GlobalVariableModel();
 
         public bool is_dialog_open { get; set; } = false;
- 
-     
+
+        public bool _drawerOpen = true;
+
+       public void DrawerToggle()
+        {
+            _drawerOpen = true ;
+        }
+
+
+
+        public MudTheme MyCustomTheme = new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                Primary = Colors.Blue.Default,
+                Secondary = Colors.Green.Accent4,
+                AppbarBackground = Colors.Red.Default,
+
+
+            },
+
+            LayoutProperties = new LayoutProperties()
+            {
+                DrawerWidthLeft = "243px",
+                DrawerWidthRight = "500px"
+            }
+        };
+
         public string image_base_url
         {
             get

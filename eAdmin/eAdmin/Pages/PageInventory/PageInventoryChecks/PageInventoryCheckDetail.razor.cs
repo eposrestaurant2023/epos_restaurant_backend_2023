@@ -6,11 +6,11 @@ using eAdmin.JSHelpers;
 using MatBlazor;
 using System;
 
-namespace eAdmin.Pages.PageInventory.PageProductions
+namespace eAdmin.Pages.PageInventory.PageInventoryChecks
 {
-    public class PageProductionDetailBase : PageCore
+    public class PageInventoryCheckDetailBase:PageCore
     {
-        [Parameter] public int id { get; set; }
+        [Parameter] public Guid id { get; set; }
 
         public bool is_open_print, is_show_comment;
         public HistoryModel history { get; set; } = new HistoryModel();
@@ -19,44 +19,49 @@ namespace eAdmin.Pages.PageInventory.PageProductions
         {
             get
             {
-                string url = $"Production({id})?";
-                url = url + "$expand=production_products($expand=product,product_portion),";  
+                string url = $"InventoryCheck({id})?";
+                url = url + "$expand=";
                 url = url + "business_branch,";
                 url = url + "stock_location";
                 return url;
             }
         }
 
-        public ProductionModel model { get; set; } = new ProductionModel();
+        public InventoryCheckModel model { get; set; } = new InventoryCheckModel();
 
 
         protected override async Task OnInitializedAsync()
-        {   
-                await LoadData(); 
-            
+        {
+            if (!is_error)
+            {
+                await LoadData();
+            }
 
-            if ((model == null || model.id == 0) || is_error)
+            if ((model == null || model.id == Guid.Empty) || is_error)
             {
                 is_error = true;
 
-                error_text = "This production does not exist";
+                error_text = "This inventory check does not exist";
             }
             else
             {
-                history.production_id = id;
-            } 
+                history.inventory_check_id = id;
+            }
         }
 
         public async Task LoadData()
         {
-            is_loading_data = true;
+            is_loading = true;
             var resp = await http.ApiGet(api_url);
             if (resp.IsSuccess)
             {
-                model = JsonSerializer.Deserialize<ProductionModel>(resp.Content.ToString());
+                model = JsonSerializer.Deserialize<InventoryCheckModel>(resp.Content.ToString());
             }
-            
-            is_loading_data = false;
+            else
+            {
+                is_loading_data = false;
+            }
+            is_loading = false;
         }
         public void ShowComment()
         {
@@ -64,8 +69,8 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             {
                 is_show_comment = true;
             }
-        } 
- 
+        }
+
 
         public async Task OnRefresh()
         {
@@ -80,7 +85,7 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             is_loading_data = true;
             if (await js.Confirm(lang["Make As Fulfilled"], lang["Are you sure you want to make as fulfilled?"]))
             {
-                var resp = await http.ApiPost("Production/MarkAsFulfilled/" + model.id);
+                var resp = await http.ApiPost("InventoryCheck/MarkAsFulfilled/" + model.id);
                 if (resp.IsSuccess)
                 {
                     await LoadData();
@@ -91,8 +96,8 @@ namespace eAdmin.Pages.PageInventory.PageProductions
             is_loading_data = false;
         }
 
-       
-
     }
 
 }
+
+ 

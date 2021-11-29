@@ -8,58 +8,59 @@
     <Authorized>
         @if (!IsLoading)
         {
-            <CascadingValue Value="gv">
-                @if (!string.IsNullOrEmpty(gv.project_id))
-                {
-                    <MudLayout>
-                        <MudAppBar Elevation="25">
-                            <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                               <Image ImageUrl="images/ePOS-Restlogo1231.svg" Width="100px"/>
-                            </MudHidden>
-                            <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                                <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /> 
-                            </MudHidden>
-                            <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                                <MudText Style="color:#FFFFFF" Typo="Typo.h6" Class="ml-4">ePOS Back Office</MudText>
-                            </MudHidden>
+        <CascadingValue Value="gv">
+            @if (!string.IsNullOrEmpty(gv.project_id))
+            {
+            <MudLayout>
+                <MudAppBar Elevation="25">
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <Image ImageUrl="images/ePOS-Restlogo1231.svg" Width="100px" />
+                    </MudHidden>
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                    </MudHidden>
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <MudText Style="color:#FFFFFF" Typo="Typo.h6" Class="ml-4">ePOS Back Office</MudText>
+                    </MudHidden>
 
-                            <MudSpacer />
-                            <GlobalSearch />
-                            <MudSpacer />
-                            <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                                <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.AttachMoney" Title="@lang["Exchange Rate"]" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))"></MudIconButton>
+                    <MudSpacer />
+                    <GlobalSearch />
+                    <MudSpacer />
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.AttachMoney" Title="@lang["Exchange Rate"]" OnClick="@(()=>nav.NavigateTo("currencyexchangerate"))"></MudIconButton>
 
 
-                                @if (is_spinner)
-                                {
-                                    <Spinner />
-                                }
-                                else
-                                {
-                                    <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.Refresh" Title="@lang["Refresh"]" OnClick="@(async () => await LoadData())"></MudIconButton>
+                        @if (is_spinner)
+                        {
+                            <Spinner />
+                        }
+                        else
+                        {
+                            <MudIconButton Color="MudBlazor.Color.Inherit" Icon="@Icons.Material.Filled.Refresh" Title="@lang["Refresh"]" OnClick="@(async () => await LoadData())"></MudIconButton>
 
-                                }
-                                <ComQuickAddMenu />
-                                </MudHidden>
-                                <LoginDisplay />
-                        </MudAppBar>
-                        <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
-                            <div style="padding-bottom: 20px;">
-                                <NavMenu />
-                            </div>
-                        </MudDrawer>
-                        <MudMainContent>
-                                <ComSystemExpiredAlert />
-                                @Body
-                        </MudMainContent>
-                    </MudLayout>
+                        }
+                        <ComQuickAddMenu />
+                    </MudHidden>
+                    <LoginDisplay />
+                </MudAppBar>
+                <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
+                    <div style="padding-bottom: 20px;">
+                        <NavMenu />
+                    </div>
+                </MudDrawer>
+                <MudMainContent>
+                    <ComSystemExpiredAlert />
+                    @Body
+                </MudMainContent>
 
-                }
-                else
-                {
-                    <Redirect url="login" />
-                }
-            </CascadingValue>
+            </MudLayout>
+               
+            }
+            else
+            {
+                <Redirect url="login" />
+            }
+        </CascadingValue>
         }
     </Authorized>
     <NotAuthorized>
@@ -67,37 +68,4 @@
     </NotAuthorized>
 </AuthorizeView>
 
-
-@code { 
-
-
-    public bool _drawerOpen = true;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
-
-    protected override void OnInitialized()
-    {
-        StateHasChanged();
-    }
-
-    MudTheme MyCustomTheme = new MudTheme()
-    {
-        Palette = new Palette()
-        {
-            Primary = Colors.Blue.Default,
-            Secondary = Colors.Green.Accent4,
-            AppbarBackground = Colors.Red.Default,
-           
-            
-        },
-
-        LayoutProperties = new LayoutProperties()
-        {
-            DrawerWidthLeft = "243px",
-            DrawerWidthRight = "500px"
-        }
-    };
-    }
+ 

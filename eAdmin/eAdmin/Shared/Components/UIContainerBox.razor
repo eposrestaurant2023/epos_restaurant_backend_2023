@@ -4,7 +4,7 @@
         <Column is_visible="@(!string.IsNullOrEmpty(Title))" ClassName="title-header">
             <div class="uk-panel">
                 <div class="uk-float-left">
-                    <Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@Title</span>
+                    <Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@lang[Title]</span>
                 </div>
                 <div class="uk-float-right"> 
                     @if (is_show_edit_button)
