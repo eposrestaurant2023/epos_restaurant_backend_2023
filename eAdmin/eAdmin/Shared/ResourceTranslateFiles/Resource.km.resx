@@ -618,6 +618,21 @@
   <data name="Image" xml:space="preserve">
     <value>រូបភាព</value>
   </data>
+​​​<data name="Upload Files" xml:space="preserve">
+    <value>បញ្ជូលឯកសារ</value>
+  </data>
+	​​​<data name="Accept" xml:space="preserve">
+    <value>ទទួលយក</value>
+  </data>
+	  <data name="File title" xml:space="preserve">
+    <value>ឈ្មោះ​ឯកសារ</value>
+  </data>
+	 <data name="File Description" xml:space="preserve">
+    <value>ពិពណ៌នា​ឯកសារ</value>
+  </data>
+  <data name="No files or images" xml:space="preserve">
+    <value>មិនទាន់មាន​ឯកសារនិង​ រូបភាព</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>ការពិពណ៌នា</value>
   </data>

@@ -1,5 +1,5 @@
 ﻿@inherits PageCore;
-<BlazoredTypeahead SearchMethod="Search" @bind-Value="@selected" Placeholder="@placeholder" ShowDropDownOnFocus="true">
+<BlazoredTypeahead SearchMethod="Search" @bind-Value="@selected" Placeholder="@lang[placeholder]" ShowDropDownOnFocus="true">
     <SelectedTemplate>
         <Grid ClassName="uk-grid-small">
             <Column ClassName="uk-width-auto">
@@ -27,7 +27,7 @@
 
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string placeholder { get; set; } = "Select Vendor";
+    [Parameter] public string placeholder { get; set; } = "Please select vendor";
     [Parameter] public VendorModel vendor { get; set; }
     [Parameter] public EventCallback<VendorModel> vendorChanged { get; set; }
     [Parameter] public EventCallback<int> vendor_idChanged { get; set; }

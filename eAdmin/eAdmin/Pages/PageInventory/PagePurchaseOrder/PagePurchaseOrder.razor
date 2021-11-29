@@ -27,7 +27,15 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New PO"]</AddButton>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New PO"]</AddButton>
+
+                </MudHidden>
+
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new"></AddButton>
+
+                </MudHidden>
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
                     <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                         <FilterDateRange @bind-dates="@state.date_range" />

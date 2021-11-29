@@ -27,7 +27,14 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("product_add")" OnClick="@(()=>nav.NavigateTo("product/new"))">@lang["New Product"]</AddButton>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("product_add")" OnClick="@(()=>nav.NavigateTo("product/new"))">@lang["New Product"]</AddButton>
+
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("product_add")" OnClick="@(()=>nav.NavigateTo("product/new"))"></AddButton>
+
+                </MudHidden>
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
                     <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                         <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />

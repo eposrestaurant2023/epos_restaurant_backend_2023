@@ -21,7 +21,15 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <LinkButton url="paymenttype/new" roles="@gv.GetRole("payment_type_add")" icon="add" background="uk-button-primary" Class_Name="button-large">@lang["Add New"]</LinkButton>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <LinkButton url="paymenttype/new" roles="@gv.GetRole("payment_type_add")" icon="add" background="uk-button-primary">@lang["Add New"]</LinkButton>
+
+                </MudHidden>
+
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <LinkButton url="paymenttype/new" roles="@gv.GetRole("payment_type_add")" icon="add" background="uk-button-primary"></LinkButton>
+
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>

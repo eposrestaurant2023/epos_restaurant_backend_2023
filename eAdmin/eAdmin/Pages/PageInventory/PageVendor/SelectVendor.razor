@@ -1,8 +1,8 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 @inherits SelectvendorBase
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
-<Modal IsSimpleMode="false" Title="Select Vendor" @bind-IsOpened="@is_open" OnClosed="@onCloseClick" ModalWidth="800px">
+<Modal IsSimpleMode="false" Title="@lang["Please select vendor"]" @bind-IsOpened="@is_open" OnClosed="@onCloseClick" ModalWidth="800px">
     <ModalBody>
         <ComSearch place_holder="@keyword" KeywordChanged="@OnSearch" show_advance_filter="false" />
         <Spacing Number="10" />
@@ -17,7 +17,7 @@
                ShowCounter="true"
                ClassName="uk-table-small uk-table-striped uk-table-hover not-view-table"
                ScrollClass="uk-overflow-auto"
-               EmptyText="There is no record.">
+               EmptyText="@lang["There is no record."]">
             <TableHeader>
                 <ThCenter>@lang["Image"]</ThCenter>
                 <ThAuto>@lang["Name_KH"]</ThAuto>
@@ -33,7 +33,7 @@
                 <td>@m.mobile_phone</td>
                 <td>@m.company_name</td>
                 <td>
-                    <Button OnClick="@(()=>SelectVendorClick(m))">Select</Button>
+                    <Button OnClick="@(()=>SelectVendorClick(m))">@lang["Select"]</Button>
                 </td>
             </RowTemplate>
         </Table>

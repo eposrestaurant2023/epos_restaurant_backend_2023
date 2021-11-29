@@ -1,12 +1,12 @@
 ﻿@inject IHttpService http
-
+@inject IStringLocalizer<Resource> lang
 <div class="selected-vendor">
     <div class="wrp-sale-vendor">
         <div class="wrp-header">
             <div class="uk-margin-small">
                 <h3 class="title uk-display-inline-block">
                     <Icon icon="person" />
-                    <span class="title">vendor</span>
+                    <span class="title">@lang["Vendor"]</span>
                 </h3>
                 <Spacing Number="10" />
                 <div class="uk-button-group box-select-typeahead uk-width-1-1">
@@ -20,18 +20,18 @@
                             </div>
                         </Com>
                         <Com is_visible="@(vendor?.vendor_display_name is null)">
-                            <VendorTypeahead vendor="@vendor" vendorChanged="@OnSelectVendor"/>
+                            <VendorTypeahead vendor="@vendor" vendorChanged="@OnSelectVendor" />
                         </Com>
                     </div>
-                    <Button icon="search" OnClick="@(() => is_open = true)" is_visible="@(vendor_id == 0)" custom_class="btn-typeahead-action"/>
-                    <Button icon="clear" OnClick="@ClearVendor" is_visible="@(vendor_id > 0 || vendor != null)" class_name="danger" custom_class="btn-typeahead-action"/>
-                    <Button icon="add" OnClick="@OpenVendorModal" roles="@gv.GetRole("vendor_add")" is_visible="@(vendor_id == 0 && vendor == null)" custom_class="btn-typeahead-action"/>
+                    <Button icon="search" OnClick="@(() => is_open = true)" is_visible="@(vendor_id == 0)" custom_class="btn-typeahead-action" />
+                    <Button icon="clear" OnClick="@ClearVendor" is_visible="@(vendor_id > 0 || vendor != null)" class_name="danger" custom_class="btn-typeahead-action" />
+                    <Button icon="add" OnClick="@OpenVendorModal" roles="@gv.GetRole("vendor_add")" is_visible="@(vendor_id == 0 && vendor == null)" custom_class="btn-typeahead-action" />
                 </div>
             </div>
         </div>
     </div>
 </div>
- 
+
 <Com is_visible="@is_open">
     <SelectVendor @bind-is_open="@is_open" vendor="@vendor" vendorChanged="@onVendorChanged" />
 </Com>
@@ -39,9 +39,9 @@
 <Com is_visible="is_open_add_vendor">
     <ComAddVendor id=" vendor_id" OnSave="@onVendorChanged" @bind-is_opened="is_open_add_vendor" />
 </Com>
- 
+
 @code{
-    
+
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public VendorModel vendor { get; set; }
     [Parameter] public EventCallback<VendorModel> vendorChanged { get; set; }
@@ -57,13 +57,13 @@
         await vendorChanged.InvokeAsync(cm);
         is_open_add_vendor = false;
     }
-     
+
     async Task OnSelectVendor(VendorModel _vendor)
     {
         vendor_id = _vendor.id;
         vendor = _vendor;
-        await vendor_idChanged.InvokeAsync(vendor.id); 
-        await vendorChanged.InvokeAsync(vendor); 
+        await vendor_idChanged.InvokeAsync(vendor.id);
+        await vendorChanged.InvokeAsync(vendor);
         is_open_add_vendor = false;
     }
     void OpenVendorModal()

@@ -24,7 +24,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             get
             {
 
-                return "XCUSTOMERsaledmRGrRwdzVOID201545AEj" + gv.current_login_user.id; //Storage and Session Key  
+                return "XCUSTOMERsaledmRGrRwdzVOID201545AEj" + gv.current_login_user.id + customer_id.ToString(); //Storage and Session Key  
             }
         }
         public string ControllerApi
@@ -33,7 +33,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
             {
                 if (state.pager.order_by == "id")
                 {
-                    state.pager.order_by = "working_date";
+                    state.pager.order_by = "sale_number";
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";

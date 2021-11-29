@@ -21,7 +21,7 @@ namespace eAdmin.Pages.PageProducts.ComProductDetails
             get
             {
 
-                return "PRODUCTIONPRODUCTrodyctsaledmRGrRwd5021D20154coN" + gv.current_login_user.id; //Storage and Session Key  
+                return "PRODUCTIONPRODUCTrodyctsaledmRGrRwd5021D20154coN" + gv.current_login_user.id + product_id.ToString(); //Storage and Session Key  
             }
         }
         public string ControllerApi

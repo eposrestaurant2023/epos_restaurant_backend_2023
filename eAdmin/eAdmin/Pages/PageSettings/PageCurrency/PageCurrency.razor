@@ -17,7 +17,15 @@
             </HeaderLeft>
             <HeaderRight>
                 <LinkButton url="currencyexchangerate" icon="attach_money" background="uk-button-primary" Class_Name="button-large">@lang["Update Exchange Rate"]</LinkButton>
-                <LinkButton url="currency/new" icon="add" background="uk-button-primary" Class_Name="button-large">@lang["New"]</LinkButton>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <LinkButton url="currency/new" icon="add" background="uk-button-primary">@lang["New"]</LinkButton>
+
+                </MudHidden>
+
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <LinkButton url="currency/new" icon="add" background="uk-button-primary"></LinkButton>
+
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
@@ -36,7 +44,7 @@
                             </div>
                         </div>
                         <hr />
-                        <div>
+                        <div class="uk-overflow-auto table-scroll">
                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
                                     <Th>@lang["Name En"]</Th>
