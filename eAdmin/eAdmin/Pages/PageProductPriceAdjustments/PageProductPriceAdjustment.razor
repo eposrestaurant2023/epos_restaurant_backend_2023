@@ -17,13 +17,16 @@
                     </PageTitle>
                 </HeaderLeft>
                 <HeaderRight ShowBackButton="true">
-                    <ComSearch @bind-Keyword="@keyword" show_advance_filter="false">
-
-                    </ComSearch>
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" />
+                    </MudHidden>
                     <RefreshButton OnClick="@(async()=>await LoadData())"/>
                 </HeaderRight>
             </PageHeader>
-       
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <ComSearch @bind-Keyword="@keyword" show_advance_filter="false" is_fullwidth="true"/>
+                    <Spacing Number="4" />
+                </MudHidden>
                 <PageBody>
                  
                     <UIGridCenter>

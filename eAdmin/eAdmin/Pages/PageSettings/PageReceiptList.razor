@@ -1,0 +1,197 @@
+﻿@page "/setting/posinvoice"
+@inject IHttpService http;
+@inject ISnackbar toast;
+@inject IStringLocalizer<Resource> lang
+<Loading is_loading="@(is_loading || is_saving)" />
+@if (!is_loading)
+{
+
+    <Title Value="@lang["POS Invoices"]"></Title>
+    <PageContainer roles="@gv.GetRole("pos_invoice")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["POS Invoices"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight ShowBackButton="true">
+                <RefreshButton OnClick="@OnInitializedAsync" />
+            </HeaderRight>
+        </PageHeader>
+
+        <PageBody>
+            <UIGridCenter>
+                @if (branches.Any())
+                {
+
+                    @foreach (var b in branches)
+                    {
+                        <MudExpansionPanels Class="mb-4">
+                            <MudExpansionPanel Text="@b.business_branch_name_en">
+                                <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                                    <thead>
+                                        <tr>
+                                            <Th>@lang["Receipt Name"]</Th>
+                                            <Th>@lang["Description"]</Th>
+                                            <Th>@lang["Invoice File Name"] <br /> @lang["Invoice Copies"] </Th>
+                                            <Th>@lang["Receipt File Name"]<br /> @lang["Receipt Copies"]</Th>
+                                            <ThCenter>@lang["Sort Order"]</ThCenter>
+                                            <ThCenter></ThCenter>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var d in b.receipt_lists.OrderBy(r => r.sort_order))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <TextInput @bind-text="@d.receipt_name" placeholder="@lang["Receipt Name"]" label="" />
+                                                </td>
+                                                <td>
+                                                    <TextInput @bind-text="@d.description" placeholder="@lang["Description"]" label="" />
+                                                </td>
+
+                                                <td>
+                                                    <TextInput @bind-text="@d.invoice_file_name" placeholder="@lang["Invoice File Name"]" label="" /><br/>
+                                                    <Spacing Number="4"/>
+                                                    <NumberInputInt @bind-text="@d.number_of_invoice_copies" placeholder="@lang["Invoice Copies"]" label="" />
+                                                </td>
+                                                <td>
+                                                    <TextInput @bind-text="@d.receipt_file_name" placeholder="@lang["Receipt File Name"]" label="" /><br />
+                                                    <Spacing Number="4" />
+                                                    <NumberInputInt @bind-text="@d.number_of_receipt_copies" placeholder="@lang["Receipt Copies"]" label="" />
+                                                </td>
+                                                <td>
+                                                    <NumberInputInt class_name="uk-text-centre" @bind-text="@d.sort_order" placeholder="@lang["Sort Order"]" label="" />
+
+                                                </td>
+                                                <td>
+                                                    <Icon icon="delete" OnClick="@(()=>b.receipt_lists.Remove(d))" is_visible="@(!d.is_build_in)" />
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                                <MudDivider Class="mb-2" />
+
+                                <div class="uk-text-right">
+                                    <Button OnClick="@(()=>Add(b))">@lang["Add New POS Invoice"]</Button>
+                                </div>
+                            </MudExpansionPanel>
+
+                        </MudExpansionPanels>
+
+                    }
+
+                }
+                else
+                {
+                    <ComAlert type="warning">@lang["There is no business branch"]</ComAlert>
+                }
+            </UIGridCenter>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" is_show_cancel_back="false" is_show_save_action="true" OnSave="@Save_Click" />
+            </FooterCenter>
+        </PageFooter>
+    </PageContainer>
+}
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+
+    List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
+
+
+
+    List<BusinessBranchSettingModel> bussiness_branch_settings =new List<BusinessBranchSettingModel>();
+    bool is_loading, is_saving;
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(JsonSerializer.Serialize(gv.business_branch_by_role));
+
+        await LoadData();
+        is_loading = false;
+    }
+
+
+
+    async Task LoadData()
+    {
+
+        var resp = await http.ApiGetOData("BusinessBranchSetting?$filter=setting_id eq 18");
+        if (resp.IsSuccess)
+        {
+            bussiness_branch_settings = JsonSerializer.Deserialize<List<BusinessBranchSettingModel>>(resp.Content.ToString());
+            foreach(var b in branches)
+            {
+                b.receipt_lists = JsonSerializer.Deserialize<List<ReceiptListModel>>(bussiness_branch_settings.Where(r=>r.business_branch_id==b.id).FirstOrDefault().setting_value);
+
+            }
+        }
+        else
+        {
+            toast.Add(lang["Loading data fail."], MudBlazor.Severity.Warning);
+        }
+
+
+    }
+
+
+
+    void Add(BusinessBranchModel b)
+    {
+        b.receipt_lists.Add(new ReceiptListModel() { sort_order = b.receipt_lists.Count + 1 });
+    }
+
+    async Task Save_Click()
+    {
+        if (branches.SelectMany(r => r.receipt_lists).Where(r => string.IsNullOrEmpty(r.description) ||  string.IsNullOrEmpty(r.receipt_name) || string.IsNullOrEmpty(r.receipt_file_name) || string.IsNullOrEmpty(r.invoice_file_name)).Any())
+        {
+            toast.Add(lang["Please enter POS invoice information"], MudBlazor.Severity.Warning);
+            return;
+        }
+
+        branches.SelectMany(r => r.receipt_lists).ToList().ForEach(r =>
+        {
+            r.number_of_invoice_copies = (r.number_of_invoice_copies == 0 ? 1 : r.number_of_invoice_copies);
+            r.number_of_receipt_copies = (r.number_of_receipt_copies == 0 ? 1 : r.number_of_receipt_copies);
+        });
+
+        is_saving = true;
+        foreach(var b in bussiness_branch_settings)
+        {
+            if(branches.Where(r=>r.id == b.business_branch_id).Any())
+            {
+                b.setting_value = JsonSerializer.Serialize(branches.Where(r => r.id == b.business_branch_id).FirstOrDefault().receipt_lists);
+            }
+
+        }
+
+        var resp = await http.ApiPost("BusinessBranchSetting/save/multiple",bussiness_branch_settings);
+        if (resp.IsSuccess)
+        {
+
+            toast.Add(lang["Save data successfully"], MudBlazor.Severity.Success);
+
+
+        }
+        else
+        {
+
+            toast.Add(lang["Save data fail"], MudBlazor.Severity.Warning);
+        }
+        is_saving = false;
+    }
+
+
+
+
+
+}

@@ -1,7 +1,7 @@
 ﻿@inherits PageCore;
 
 <Loading is_loading="@(is_loading || is_loading_data)"/>
-<Modal IsSimpleMode="false" IsOpened="@is_open" IsOpenedChanged="@(()=>CancelClick())"   Title="Please select a product" isFullModal="uk-modal-container" custom_class_body="model-overflow-hidden">
+<Modal IsSimpleMode="false" IsOpened="@is_open" IsOpenedChanged="@(()=>CancelClick())"   Title="@lang["Please select a product"]" isFullModal="uk-modal-container" custom_class_body="model-overflow-hidden">
     <ModalBody ClassName="model-overflow-with-footer">
             <Grid ClassName="uk-grid-divider uk-grid-small">
                 <Column ClassName="uk-width-3-5">
@@ -10,8 +10,8 @@
                         <Button custom_class="btn-search-filter-product" type="button" icon="filter_list" title="@lang["Filter Products"]" />
                         <div uk-dropdown="mode: click; pos: bottom-right">
                             <div class="uk-navbar-dropdown-grid uk-child-width-expand mega-dropdown filter-select-product" uk-grid>
-                                <PageFilter use_list="false" title="Categories">
-                                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="All Categories" />
+                                <PageFilter use_list="false" title="@lang["Categories"]">
+                                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Categories"]" />
                                 </PageFilter>
                             </div>
                             <div class="uk-text-right" style="padding: 0px 14px 14px 14px">
@@ -31,13 +31,13 @@
                                Items="@product_list.ToList()"
                                isLoading="is_loading"
                                ShowPaging="false"
-                               EmptyText="There are no product found"
+                               EmptyText="@lang["There are no product found"]"
                                CustomClass="tbl-slt-product tbl-header-vertical-top">
                             <TableHeader>
-                                <ThCenter>Image</ThCenter> 
-                                <ThAuto>Product</ThAuto>
-                                <ThRight>Cost</ThRight> 
-                                <ThCenter>Unit</ThCenter>
+                                <ThCenter>@lang["Image"]</ThCenter> 
+                                <ThAuto>@lang["Product"]</ThAuto>
+                                <ThRight>@lang["Cost"]</ThRight> 
+                                <ThCenter>@lang["Unit"]</ThCenter>
                                 <th></th>
                             </TableHeader>
                             <RowTemplate Context="c">
@@ -58,8 +58,8 @@
                                 <TdRight>@c.cost.ToString(gv.currency_format)</TdRight> 
                                 <TdCenter>@c.unit?.unit_name</TdCenter> 
                                 <TdCenter>
-                                    <button uk-tooltip="Select product" class="uk-button uk-button-primary uk-button-small" @onclick="@(() => ChooseProduct_Click(c))" style="width:120px;">
-                                        Select <Icon icon="arrow_right_alt" />
+                                    <button uk-tooltip="@lang["Select product"]" class="uk-button uk-button-primary uk-button-small" @onclick="@(() => ChooseProduct_Click(c))" style="width:120px;">
+                                        @lang["Select"] <Icon icon="arrow_right_alt" />
                                     </button>
                                 </TdCenter>
                             </RowTemplate>
@@ -75,20 +75,20 @@
                             <Table PerPage="@pg.per_page"
                                    Items="@selected_products"
                                    ShowPaging="false"
-                                   EmptyText="There are no product found"
+                                   EmptyText="@lang["There are no product found"]"
                                    CustomClass="tbl-slt-product uk-margin-remove">
                                 <TableHeader>
-                                    <ThCenter>Image</ThCenter>
-                                    <ThAuto>Product</ThAuto>
-                                    <ThRight>Cost</ThRight>
-                                    <ThCenter>Quantity</ThCenter>
+                                    <ThCenter>@lang["Image"]</ThCenter>
+                                    <ThAuto>@lang["Product"]</ThAuto>
+                                    <ThRight>@lang["Cost"]</ThRight>
+                                    <ThCenter>@lang["Quantity"]</ThCenter>
                                     @if (isProduction)
                                     {
-                                        <ThAuto>Portion (Unit)</ThAuto>
+                                        <ThAuto>@lang["Portion (Unit)"]</ThAuto>
                                     }
                                     else
                                     {
-                                        <ThCenter>Unit</ThCenter>
+                                        <ThCenter>@lang["Unit"]</ThCenter>
                                     }
 
                                     <th></th>
@@ -155,12 +155,12 @@
                         <div class="btn-comfirm-box">
                             @if (is_saving)
                             {
-                                <Button type="button" line_icon="la-check" custom_class="btn-confirm">Confirm <Spinner/></Button>
+                                <Button type="button" line_icon="la-check" custom_class="btn-confirm">@lang["Confirm"]<Spinner/></Button>
                             }
                             else
                             {
-                                <Button OnClick="@ConfirmSelectProduct" type="button" line_icon="la-check" custom_class="btn-confirm">Confirm</Button>
-                                <Button OnClick="@CancelClick" icon="reply" class_name="danger">Cancel</Button>
+                                <Button OnClick="@ConfirmSelectProduct" type="button" line_icon="la-check" custom_class="btn-confirm">@lang["Confirm"]</Button>
+                                <Button OnClick="@CancelClick" icon="reply" class_name="danger">@lang["Cancel"]</Button>
                             }
                         </div>
                     </FlexItem>

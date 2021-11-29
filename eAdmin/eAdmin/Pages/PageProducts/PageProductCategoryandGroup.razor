@@ -15,7 +15,14 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <LinkButton roles="@gv.GetRole("product_group_category_add")" url="productcategory/new" icon="add" background="uk-button-primary" Class_Name="button-create button-large">@lang["New Category & Group"]</LinkButton>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("product_group_category_add")" url="productcategory/new">@lang["New Category & Group"]</AddButton>
+
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("product_group_category_add")" url="productcategory/new"></AddButton>
+
+                </MudHidden>
             </HeaderRight>
         </PageHeader>
             <PageBody>

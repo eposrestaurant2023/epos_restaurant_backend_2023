@@ -38,7 +38,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
                     state.pager.order_by_type = "desc";
                 }
                 string url = $"{controller_api}?";
-                url += $"$expand=vendor($select=id,vendor_code,vendor_name,photo,company_name),business_branch($select=business_branch_name_en),stock_location($select=stock_location_name)";
+                url += $"$expand=vendor($select=id,vendor_code,vendor_name,photo,company_name),business_branch($select=id,business_branch_name_en),stock_location($select=id,stock_location_name)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
                 return url + GetFilter(state.filters);  
@@ -231,7 +231,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             }
 
             // filter stock location
-            if (state.multi_select_value_2 != null)
+            if (state.multi_select_value_2 != null && state.multi_select_id_2.Any())
             {
                 string value = "";
                 foreach (var x in state.multi_select_value_2)

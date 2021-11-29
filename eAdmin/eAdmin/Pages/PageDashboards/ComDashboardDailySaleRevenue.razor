@@ -58,7 +58,7 @@
             chart = new List<ApexChartModel>();
             foreach (var d in temp)
             {
-                List<ApexChartDataModel> a = data.Where(r => r.business_branch_id == d.business_branch_id).Select(r => new ApexChartDataModel() { label = r.day.ToString("00"), value = Convert.ToDecimal(r.total_amount) }).ToList();
+                List<ApexChartDataModel> a = data.Where(r => r.business_branch_id == d.business_branch_id).Select(r => new ApexChartDataModel() { label = r.day.ToString("00"), value = Convert.ToDecimal(r.total_amount.ToString("0.########")) }).ToList();
                 chart.Add(new ApexChartModel()
                 {
                     color = d.color,

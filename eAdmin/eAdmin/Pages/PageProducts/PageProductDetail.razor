@@ -17,25 +17,44 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true">
-                <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"product/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+            <HeaderRight>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ButtonGroup>
+                        <Button roles="@gv.GetRole("product_edit")" OnClick="@(()=>nav.NavigateTo($"product/edit/{model.id}"))" icon="edit" title="@lang["Edit"]" is_visible="@(!model.is_deleted)" />
+                    </ButtonGroup>
+                </MudHidden>
                 <ComAttachFileButton RoleAdd="@gv.GetRole("product_add")"
                                      RoleEdit="@gv.GetRole("product_edit")"
                                      RoleDelete="@gv.GetRole("product_delete")"
                                      ApiFilter="@($"product_id eq {id} ")"
                                      File="@(new AttachFilesModel() { product_id =  id })"
-                                     IsVisible="@(!model.is_deleted)" />
-
-                <AddButton url="product/new" roles="@gv.GetRole("product_add")">@lang["New Product"]</AddButton>
-
-                <MoreButton is_loading="@(model.is_loading ||model.is_change_status || model.is_deleting || model.is_restoring)">
-                    <MoreButtonItem roles="@gv.GetRole("product_add")" icon="file_copy" url="@($"product/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="OnChangeStatus">@lang["Inactive"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="OnChangeStatus">@lang["Active"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@OnDelete">@lang["Delete"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@OnRestore">@lang["Restore"]</MoreButtonItem>
-                </MoreButton>
-                <RefreshButton OnClick="@LoadData" />
+                                     IsVisible="@(!model.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("product_add")" url="product/new">@lang["New Product"]</AddButton>
+                </MudHidden>
+                    <RefreshButton OnClick="@LoadData" />
+                    <MoreButton is_loading="@(model.is_loading ||model.is_change_status || model.is_deleting || model.is_restoring)">
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                            <MoreButtonItem roles="@gv.GetRole("product_add")" icon="add" url="product/new">@lang["New Product"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="edit" is_visible="@(!model.is_deleted)" OnClick="@(()=>nav.NavigateTo($"product/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
+                        </MudHidden>
+                            <MoreButtonItem roles="@gv.GetRole("product_add")" icon="file_copy" url="@($"product/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="OnChangeStatus">@lang["Inactive"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="OnChangeStatus">@lang["Active"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("product_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@OnDelete">@lang["Delete"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("product_edit")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@OnRestore">@lang["Restore"]</MoreButtonItem>
+                            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                                <MudDivider />
+                                <ComAttachFileButton RoleAdd="@gv.GetRole("product_add")"
+                                                     RoleEdit="@gv.GetRole("product_edit")"
+                                                     RoleDelete="@gv.GetRole("product_delete")"
+                                                     ApiFilter="@($"product_id eq {id} ")"
+                                                     File="@(new AttachFilesModel() { product_id =  id })"
+                                                     IsVisible="@(!model.is_deleted)"
+                                                     IsIconButton="false"
+                                                     OnOpenAttachFile="@(()=>is_open_attach_file=!is_open_attach_file)" />
+                            </MudHidden>
+                    </MoreButton>
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -138,7 +157,7 @@
     [Parameter] public int id { get; set; }
     public ProductModel model { get; set; }
     bool show_production, show_comment_tab, show_recipe_tab,show_composite_product_tab, show_purchase_history, show_sale_history, show_stock_stransfer, show_stock_take, show_inventory_strasation, show_association_products;
-
+    bool is_open_attach_file;
     public string api_url
     {
         get

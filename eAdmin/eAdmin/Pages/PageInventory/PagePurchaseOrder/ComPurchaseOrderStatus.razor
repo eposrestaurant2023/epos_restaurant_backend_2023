@@ -1,20 +1,21 @@
-﻿<Com is_visible="is_visible">
+﻿@inject IStringLocalizer<Resource> lang
+<Com is_visible="is_visible">
 
     @if (po.is_over_due && !po.is_deleted)
     {
-        <span class="uk-label overdue">Overdue (@System.Math.Floor(@DateTime.Now.Subtract(po.due_date.Value).TotalDays))</span>
+        <span class="uk-label overdue">@lang["Overdue"] (@System.Math.Floor(@DateTime.Now.Subtract(po.due_date.Value).TotalDays))</span>
     }
 
 
     @if (po.is_partially_paid && !po.is_deleted)
     {
-        <LabelPartiallyPaid/>
+        <LabelPartiallyPaid />
     }
 
 
     @if (po.is_paid && !po.is_deleted)
     {
-        <LabelPaid/>
+        <LabelPaid />
     }
 
     <LabelUnpaid is_visible="@(!po.is_deleted && !po.is_paid && (po.total_amount > 0) && (po.balance == po.total_amount))" />
@@ -23,11 +24,11 @@
         @if (po.is_fulfilled)
         {
             <span class="uk-label fulfilled">Fulfilled</span>
-            
+
         }
         else
         {
-            <span class="uk-label draft">Draft</span>
+            <span class="uk-label draft">@lang["Draft"]</span>
         }
     }
 

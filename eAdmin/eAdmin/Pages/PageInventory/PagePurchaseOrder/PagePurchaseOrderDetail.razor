@@ -35,7 +35,7 @@
 
                 <TabBody>
                     <TabItem roles="@gv.GetRole("purchase_order_management")">
-                        <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled)" OnClick="@MarkAsFulfilled" message="You can mark this purchase order as Fulfilled" />
+                        <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled)" OnClick="@MarkAsFulfilled" message="@(lang["You can mark this purchase order as Fulfilled"])" />
                         <ComPage>
                             <ComPurchaseOrderDetail_InvoiceHeader po="@model" />
                             <Spacing Number="20" />
@@ -44,7 +44,7 @@
                                     <tr>
                                         <th>@lang["No"]</th>
                                         <ThCenter>@lang["Image"]</ThCenter>
-                                        <th class="col-auto">@lang["Item"]</th>
+                                        <th class="col-auto">@lang["Description"]</th>
                                         <th class="uk-text-center">@lang["QTY"]</th>
                                         <th class="uk-text-right">@lang["Price"]</th>
                                         <th class="uk-text-right">@lang["Dis."]</th>

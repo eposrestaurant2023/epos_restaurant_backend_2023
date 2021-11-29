@@ -7,9 +7,9 @@
 @if (Stock_Transfer.Count() > 0)
 {
 
-    <h3 class="title-search">
-        Stock Transfer
-    </h3>
+<h3 class="title-search">
+    @lang["Stock Transfer"]
+</h3>
     <hr />
     <Table Items="@Stock_Transfer"
            PerPage="@state.pager.per_page"
@@ -23,11 +23,18 @@
            ClassName="uk-table-small uk-table-striped uk-table-hover"
            ScrollClass="uk-overflow-auto">
         <TableHeader>
-            @HeaderTemplate("stock_transfer_date",lang["Stock Transfer Date"], "uk-text-center")
-            @HeaderTemplate("document_number", lang["Document#"], "uk-text-center")
-            @HeaderTemplate("referance_number", lang["Referance#"], "uk-text-center")
-            @HeaderTemplate("from_stock_location/stock_location_name", lang["From Stock Location (Business Branch)"], "col-auto")
-            @HeaderTemplate("to_stock_location/stock_location_name", lang["To Stock Location (Business Branch)"], "col-auto")
+            @HeaderTemplate("stock_transfer_date", lang["Date"], "uk-text-center")
+            @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
+            @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")
+            <ThAuto>
+                <div>@lang["From Business Branch"]</div>
+                <div class="sub-header-table">@lang["Warehouse"]</div>
+            </ThAuto>
+            <ThAuto>
+                <div>@lang["To Business Branch"]</div>
+                <div class="sub-header-table">@lang["Warehouse"]</div>
+            </ThAuto>
+            <ThCenter>@lang["Total Quantity"]</ThCenter>
             <ThRight>@lang["Total Amount"]</ThRight>
             <ThRight>@lang["Status"]</ThRight>
             <th class="uk-width-auto"></th>
@@ -41,21 +48,25 @@
             </TdCenter>
             <TdCenter>@p.reference_number</TdCenter>
             <td>
-                @p.from_stock_location?.stock_location_name (@p.from_business_branch?.business_branch_name_en)
+                <div>@p.from_business_branch?.business_branch_name_en</div>
+                <div class="sub-info-row-table">@p.from_stock_location?.stock_location_name</div>
             </td>
             <td>
-                @p.to_stock_location?.stock_location_name (@p.to_business_branch?.business_branch_name_en)
+                <div>@p.to_business_branch?.business_branch_name_en</div>
+                <div class="sub-info-row-table">@p.to_stock_location?.stock_location_name</div>
             </td>
+            <TdCenter>
+                @p.total_quantity.ToString(gv.quantity_format)
+            </TdCenter>
             <TdRight>
                 @p.total_amount.ToString(gv.main_currency_format)
             </TdRight>
             <TdRight>
                 <ComStockTransferStatus model="@p" />
             </TdRight>
-            <TdActions is_loading="@p.is_loading">
-                <TableActionItem roles="@gv.GetRole("stock_transfer_management")" icon="visibility" url="@($"stocktransfer/{p.id}")">@lang["View"]</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("stock_transfer_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"stocktransfer/edit/{p.id}")">@lang["Edit"]</TableActionItem>
-            </TdActions>
+            <TdCenter>
+                <Icon icon="visibility" roles="@gv.GetRole("stock_transfer_management")" url="@($"stocktransfer/{p.id}")"/>
+            </TdCenter>
         </RowTemplate>
     </Table>
 
@@ -79,8 +90,8 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string query = "$select=id,stock_transfer_date,reference_number,document_number,total_amount,is_fulfilled";
-            query = query + "&$expand=to_business_branch($select=business_branch_name_en),to_stock_location($select=stock_location_name),from_business_branch($select=business_branch_name_en),from_stock_location($select=stock_location_name)";
+            string query = "$select=id,total_quantity,stock_transfer_date,reference_number,document_number,total_amount,is_fulfilled,is_deleted";
+            query = query + "&$expand=to_business_branch($select=id,business_branch_name_en),to_stock_location($select=id,stock_location_name),from_business_branch($select=id,business_branch_name_en),from_stock_location($select=id,stock_location_name)";
             string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters);
         }

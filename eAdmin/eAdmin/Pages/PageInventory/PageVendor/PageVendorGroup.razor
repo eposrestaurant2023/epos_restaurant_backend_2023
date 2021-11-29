@@ -20,27 +20,37 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <Button icon="add" OnClick="@OnOpenModel">@lang["Add New Vendor Group"]</Button>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Button icon="add" OnClick="@OnOpenModel">@lang["Add New Vendor Group"]</Button>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <Button icon="add" OnClick="@OnOpenModel"></Button>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
 
-           
-            <Table 
-                     PerPage="@state.pager.per_page"
-                       TotalItem="@TotalRecord"
-                      Items="@models"
-                       CurrentPage="@state.pager.current_page"
-                       OnPagerChange="@SelectChange"
-                       OnPageChange="@ChangePager"
-                       isLoading="@is_loading_data"
-                       ShowPager="true"
-                       ShowCounter="true"
-                       ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto"
-                       EmptyText="There is no record.">
+                <Spacing Number="4" />
+            </MudHidden>
+            <Table PerPage="@state.pager.per_page"
+                   TotalItem="@TotalRecord"
+                   Items="@models"
+                   CurrentPage="@state.pager.current_page"
+                   OnPagerChange="@SelectChange"
+                   OnPageChange="@ChangePager"
+                   isLoading="@is_loading_data"
+                   ShowPager="true"
+                   ShowCounter="true"
+                   ClassName="uk-table-small uk-table-striped uk-table-hover"
+                   ScrollClass="uk-overflow-auto"
+                   EmptyText="There is no record.">
                 <TableHeader>
                     <ThAuto>@lang["Name_Kh"] </ThAuto>
                     <Th>@lang["Status"]</Th>
@@ -51,19 +61,20 @@
                     <td>
                         <LabelActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@(!p.is_deleted && p.status)" is_loading="@p.is_change_status" />
                         <LabelInActive OnClick="(()=>OnToogleStatusLabel(p))" is_visible="@(!p.status && !p.is_deleted)" is_loading="@p.is_change_status" />
-                        <LabelDeleted is_visible="@p.is_deleted"/>
+                        <LabelDeleted is_visible="@p.is_deleted" />
                     </td>
                     <TdActions>
                         <TableActionItem roles="@gv.GetRole("vendor_group_edit")" OnClick="@(()=>OnEdit(p.id))" icon="edit" is_visible="@(!p.is_deleted)">
-                            @lang["Edit"]</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("vendor_group_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">@lang["Delete"]</TableActionItem>
-                                                <TableActionItem roles="@gv.GetRole("vendor_group_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">@lang["Restore"]</TableActionItem>
-</TdActions>
+                            @lang["Edit"]
+                        </TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDeleteRestore(p))">@lang["Delete"]</TableActionItem>
+                        <TableActionItem roles="@gv.GetRole("vendor_group_restore")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnDeleteRestore(p,false))">@lang["Restore"]</TableActionItem>
+                    </TdActions>
                 </RowTemplate>
             </Table>
-            
+
         </PageBody>
     </PageContainer>
 

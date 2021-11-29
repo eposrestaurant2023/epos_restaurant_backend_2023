@@ -1,11 +1,12 @@
-﻿<UIContainerBox Title="Product Tax">
+﻿@inject IStringLocalizer<Resource> lang
+<UIContainerBox Title="@lang["Product Tax"]">
     @if (is_loading)
     {
         <Spinner />
     }
     else
     {
-     
+
         <Tab>
             <TabHeader>
                 @foreach (var b in gv.business_branch_by_role)
@@ -14,17 +15,17 @@
                 }
             </TabHeader>
             <TabBody>
-                
+
                 @foreach (var b in gv.business_branch_by_role)
                 {
-                <TabItem>
-                    @foreach (var p in model.product_taxes.Where(r => r.business_branch_id == b.id))
-                    {
-                        <SelectRatePercentage label="@(tax_rule.tax_1_name)" product_tax="p" tax_number="1" product_taxChanged="@(()=>ValueChanged(p))" />
-                        <SelectRatePercentage label="@(tax_rule.tax_2_name)" product_tax="p" tax_number="2" product_taxChanged="@(()=>ValueChanged(p))" />
-                        <SelectRatePercentage label="@(tax_rule.tax_3_name)" product_tax="p" tax_number="3" product_taxChanged="@(()=>ValueChanged(p))" />
-                    }
-                </TabItem>
+                    <TabItem>
+                        @foreach (var p in model.product_taxes.Where(r => r.business_branch_id == b.id))
+                        {
+                            <SelectRatePercentage label="@(tax_rule.tax_1_name)" product_tax="p" tax_number="1" product_taxChanged="@(()=>ValueChanged(p))" />
+                            <SelectRatePercentage label="@(tax_rule.tax_2_name)" product_tax="p" tax_number="2" product_taxChanged="@(()=>ValueChanged(p))" />
+                            <SelectRatePercentage label="@(tax_rule.tax_3_name)" product_tax="p" tax_number="3" product_taxChanged="@(()=>ValueChanged(p))" />
+                        }
+                    </TabItem>
                 }
             </TabBody>
         </Tab>
@@ -46,7 +47,7 @@
     }
 
     async Task ValueChanged(ProductTaxModel p)
-    { 
+    {
         await modelChanged.InvokeAsync(model);
     }
 }

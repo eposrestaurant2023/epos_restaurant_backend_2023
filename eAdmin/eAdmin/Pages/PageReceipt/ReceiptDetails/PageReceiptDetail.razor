@@ -14,21 +14,40 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Receipt #"] @sale.document_number
+                        @lang["Receipt #"]
+                        @if (sale.document_number == "New")
+                        {
+                            @sale.sale_number
+                        }
+                        else
+                        {
+                            @sale.document_number
+                        }
+
                         <ComSaleStatus sale="@sale" />
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="print" OnClick="@PrintReceipt"></Button>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Button icon="print" OnClick="@PrintReceipt"></Button>
+                </MudHidden>
                 <RefreshButton OnClick="@LoadData" />
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <MoreButton>
+                        <MoreButtonItem icon="print" OnClick="@PrintReceipt">@lang["Print"]</MoreButtonItem>
+                    </MoreButton>
+                </MudHidden>
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <Tab>
                 <TabHeader>
                     <TabHeaderItem>@lang["Invoice"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
+                    @if(sale.sale_status.status_name !="Open Order" && sale.sale_status.status_name != "Hold Order")
+                    {
+                        <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
+                    }
                     <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
                 </TabHeader>
 
@@ -63,11 +82,14 @@
                         </ComPage>
                     </TabItem>
                     <TabItem>
-                        @if (is_show_payment_history)
+                        @if (sale.sale_status.status_name != "Open Order" && sale.sale_status.status_name != "Hold Order")
                         {
-                            <ComSaleDetail_PaymentList sale_id="@sale.id" on_reload="LoadData" />
-                        }
-                    </TabItem>
+                            @if (is_show_payment_history)
+                            {
+                                <ComSaleDetail_PaymentList sale_id="@sale.id" on_reload="LoadData" />
+                            }
+                         }
+                        </TabItem>
                     <TabItem>
                         @if (is_show_comment)
                         {
@@ -82,11 +104,7 @@
             <div class="spacing40"></div>
         </PageBody>
     </PageContainer>
-    @if (is_open_print)
-    {
-
-        <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="190" Title="@lang["Sale Receipt"]" report_parameters="@($"id={id}")" />
-    }
+   
 }
 
 @if (is_error)

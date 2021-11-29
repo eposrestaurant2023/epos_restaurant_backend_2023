@@ -1,7 +1,7 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http;
 
-<UIContainerBox Title="Product Prices" Icon="monetization_on" is_show_add_button="true" OnAddClick="@AddProductPortion">
+<UIContainerBox Title="@lang["Product Prices"]" Icon="monetization_on" is_show_add_button="true" OnAddClick="@AddProductPortion">
     @if (is_loading)
     {
         <Spinner is_template_spinning="true" />

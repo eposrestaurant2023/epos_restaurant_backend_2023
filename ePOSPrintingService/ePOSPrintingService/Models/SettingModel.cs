@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ePOSPrintingService
+namespace ePOSPrintingServiceReportModel
 {
     public class SettingModel
     {
@@ -21,5 +21,8 @@ namespace ePOSPrintingService
         public string website { get; set; }
         public string wifi_password { get; set; }
         public string currency_format { get; set; }
+        public string printed_by { get; set; }
+        public bool close_working_day_summary_include_sale_transaction { get; set; } = false;
+        public bool close_cashier_shift_summary_include_sale_transaction { get; set; } = false;
     }
 }

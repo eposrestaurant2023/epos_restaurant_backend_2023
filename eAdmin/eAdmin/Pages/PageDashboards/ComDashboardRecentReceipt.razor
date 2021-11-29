@@ -11,15 +11,20 @@
            ClassName="uk-table-small uk-table-striped uk-table-hover"
            ScrollClass="uk-overflow-auto" >
         <TableHeader>
-            <ThCenter>@lang["Working Date"]</ThCenter>
-            <ThCenter>@lang["Closed Date"]</ThCenter>
+            <ThCenter>@lang["Date"]</ThCenter>
             <Th>@lang["Document #"]</Th>
+            <Th>
+                <div>@lang["Working Day #"]</div>
+                <div class="sub-header-table">@lang["Shift #"]</div>
+             
+            </Th>
             <ThAuto>@lang["Customer"]</ThAuto>
             <ThAuto>
                 <div>@lang["Business Branch"]</div>
                 <div class="sub-header-table">@lang["Outlet"]</div>
                 <div class="sub-header-table">@lang["Station"]</div>
             </ThAuto>
+            <ThCenter>@lang["Table"]</ThCenter>
             <ThRight>@lang["Total Amount"]</ThRight>
             <ThRight>@lang["Discount"]</ThRight>
             <ThRight>@lang["Tax"]</ThRight>
@@ -29,25 +34,40 @@
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
-            <TdCenter>
-               <a href="@($"workingday/{p.working_day_id}")">@p.working_date.ToString(gv.date_format)</a>
-            </TdCenter>
+
             <TdCenter>
                 <Column is_visible="@(p.closed_date != null)">
                     @p.closed_date.Value.ToString(gv.date_format)
                 </Column>
             </TdCenter>
+
             <td>
-                <a href="@($"receiptlist/sale/{p.id}")">@p.document_number</a> <br />
-                <ComSaleStatus sale="p"/>
+                <a href="@($"receiptlist/sale/{p.id}")">
+                    @if (p.document_number == "New")
+                    {
+                        @p.sale_number
+                    }
+                    else
+                    {
+                        @p.document_number
+                    }
+
+                </a> <br />
+                <ComSaleStatus sale="p" />
             </td>
+            <TdCenter>
+                <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
+                <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />
+
+            </TdCenter>
             <td>
                 <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
+                <LabelSaleType Text="@p.sale_type" />
             </td>
             <td>
                 <div>
                     @(gv.current_language?.language_id == "km-KH" ?p.business_branch?.business_branch_name_kh : p.business_branch?.business_branch_name_en)
-                   
+
                 </div>
                 <div class="sub-info-row-table">
                     @(gv.current_language?.language_id == "km-KH" ?p.outlet?.outlet_name_kh : p.outlet?.outlet_name_en)
@@ -56,6 +76,7 @@
                     @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
                 </div>
             </td>
+            <TdCenter>@p.table_name</TdCenter>
             <TdRight>
                 @p.total_amount.ToString(gv.main_currency_format)
             </TdRight>
@@ -71,7 +92,7 @@
             <TdRight>
                 @p.balance.ToString(gv.main_currency_format)
             </TdRight>
-           
+
             <TdCenter>
                 <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
             </TdCenter>
@@ -98,7 +119,7 @@
             }
             filter_business_branch_ids = filter_business_branch_ids.Remove(filter_business_branch_ids.LastIndexOf(" or ")).TrimEnd();
             filter_business_branch_ids += ")";
-            var resp = await http.ApiGetOData($"sale?$expand=sale_status,customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)&$filter=is_deleted eq false {filter_business_branch_ids}&$top=10&$orderby=working_date desc");
+            var resp = await http.ApiGetOData($"sale?$expand=sale_status,customer($select=id,customer_name_en,customer_name_kh,customer_code,photo),outlet($select=id,outlet_name_en,outlet_name_kh),business_branch($select=business_branch_name_en,business_branch_name_kh)&$filter=is_deleted eq false {filter_business_branch_ids}&$top=10&$orderby=sale_number desc");
             if (resp.IsSuccess)
             {
                 models = JsonSerializer.Deserialize<List<SaleModel>>(resp.Content.ToString());

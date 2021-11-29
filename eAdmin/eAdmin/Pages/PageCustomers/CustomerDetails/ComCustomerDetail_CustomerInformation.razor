@@ -1,103 +1,98 @@
-﻿@inject IHttpService http
-@inject NavigationManager nav
-@inject IStringLocalizer<Resource> lang
- 
-        <UIGridCenter>
-            <UISummaryBox ImageUrl="@model.photo">
-                <ContentLeft>
-                    <table>
-                        <tr>
-                            <th>@lang["Customer Code"]</th>
-                            <td>@model.customer_code</td>
-                        </tr>
-                        <tr>
-                            <th>@lang["Customer_Name_En"]</th>
-                            <td>@model.customer_name_en</td>
-                        </tr>
-                        <tr>
-                            <th>@lang["Customer_Name_kh"]</th>
-                            <td>@model.customer_name_kh</td>
-                        </tr>
-                        <tr>
-                            <th>@lang["Group"]</th>
-                            <td>@model.customer_group?.customer_group_name_en</td>
-                        </tr>
-                    </table>
-                    <LabelCustomerBusinessBranchs customer_business_branchs="@model.customer_business_branchs" />
-                </ContentLeft>
-                <ContentRight>
-                    <table>
-                        <tr>
-                            <th>@lang["Gender"]</th>
-                            <td>@lang[model.gender]</td>
-                        </tr>
-                        <tr>
-                            <th>@lang["City"]</th>
-                            <td>@model.address</td>
-                        </tr>
-                        <tr>
-                            <th>@lang["Phone Number"]</th>
-                            <td>@model.phone_1</td>
-                        </tr>
-                    </table>
-                </ContentRight>
-            </UISummaryBox>
+﻿@inherits PageCore;
+<UIGridCenter>
+    <UISummaryBox ImageUrl="@model.photo">
+        <ContentLeft>
+            <table>
+                <tr>
+                    <th>@lang["Customer Code"]</th>
+                    <td>@model.customer_code</td>
+                </tr>
+                <tr>
+                    <th>@lang["Customer_Name_En"]</th>
+                    <td>@model.customer_name_en</td>
+                </tr>
+                <tr>
+                    <th>@lang["Customer_Name_kh"]</th>
+                    <td>@model.customer_name_kh</td>
+                </tr>
+                <tr>
+                    <th>@lang["Group"]</th>
+                    <td>@model.customer_group?.customer_group_name_en</td>
+                </tr>
+            </table>
+            <LabelCustomerBusinessBranchs customer_business_branchs="@model.customer_business_branchs" />
+        </ContentLeft>
+        <ContentRight>
+            <table>
+                <tr>
+                    <th>@lang["Gender"]</th>
+                    <td>@lang[model.gender]</td>
+                </tr>
+                <tr>
+                    <th>@lang["City"]</th>
+                    <td>@model.address</td>
+                </tr>
+                <tr>
+                    <th>@lang["Phone Number"]</th>
+                    <td>@model.phone_1</td>
+                </tr>
+            </table>
+        </ContentRight>
+    </UISummaryBox>
 
-            <UIContainerBox Title="KPI">
-                <ComCustomerKPI data="@kpi" />
-            </UIContainerBox>
-            <ComCustomerDetail_YearlySaleBarchart customer_id="@(model.id.ToString())" />
-            <UIContainerBox Title="@lang["Social Media Information"]">
-                <ListTable>
-                    <ListTableItem ItemTitle="@lang["Email"]">@model.email</ListTableItem>
-                </ListTable>
-            </UIContainerBox>
-            <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
-                <div class="text-area">
-                    @model.note
-                </div>
-            </UIContainerBox>
-            <UIContainerBox Title="@lang["Address"]" is_visible="@(!string.IsNullOrEmpty(model.address))">
-                @model.address
-            </UIContainerBox> 
-        </UIGridCenter> 
-        <div class="invoice_footer_description">
-            <div>
-                @lang["Created by"] @model.created_by @lang["On_Date"] @model.created_date.ToString(gv.date_time_format)
-            </div>
-            @if (model.is_deleted)
-            {
-                <div>
-                    @lang["Deleted by"] @model.deleted_by @lang["On_Date"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
-                </div>
-            }
-            <div>@lang["Last modified by"] @model.last_modified_by @lang["On_Date"] @model.last_modified_date</div>
+    <UIContainerBox Title="KPI">
+        <ComCustomerKPI data="@kpi" />
+    </UIContainerBox>
+    <ComCustomerDetail_YearlySaleBarchart customer_id="@(model.id.ToString())" />
+    <UIContainerBox Title="@lang["Social Media Information"]">
+        <ListTable>
+            <ListTableItem ItemTitle="@lang["Email"]">@model.email</ListTableItem>
+        </ListTable>
+    </UIContainerBox>
+    <UIContainerBox Title="@lang["Note"]" is_visible="@(!string.IsNullOrEmpty(model.note))">
+        <div class="text-area">
+            @model.note
         </div>
-    @code {
+    </UIContainerBox>
+    <UIContainerBox Title="@lang["Address"]" is_visible="@(!string.IsNullOrEmpty(model.address))">
+        @model.address
+    </UIContainerBox>
+</UIGridCenter>
+<div class="invoice_footer_description">
+    <div>
+        @lang["Created by"] @model.created_by @lang["On_Date"] @model.created_date.ToString(gv.date_time_format)
+    </div>
+    @if (model.is_deleted)
+    {
+        <div>
+            @lang["Deleted by"] @model.deleted_by @lang["On_Date"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
+        </div>
+    }
+    <div>@lang["Last modified by"] @model.last_modified_by @lang["On_Date"] @model.last_modified_date</div>
+</div>
+@code {
 
-        [Parameter] public CustomerModel model { get; set; }
+    [Parameter] public CustomerModel model { get; set; }
 
-        [Parameter] public List<BusinessBranchModel> business_branches { get; set; } = new List<BusinessBranchModel>();
+    [Parameter] public List<BusinessBranchModel> business_branches { get; set; } = new List<BusinessBranchModel>();
 
-        [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    CustomerKPIModel kpi = new CustomerKPIModel();
 
-        CustomerKPIModel kpi = new CustomerKPIModel();
-
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
+    {
+        var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_customer_kpi_json", procedure_parameter = $"'{model.id}'" });
+        if (resp.IsSuccess)
         {
-            var resp = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_get_customer_kpi_json", procedure_parameter = $"'{model.id}'" });
-            if (resp.IsSuccess)
+            var data = JsonSerializer.Deserialize<List<CustomerKPIModel>>(resp.Content.ToString());
+            if (data.Any())
             {
-                var data = JsonSerializer.Deserialize<List<CustomerKPIModel>>(resp.Content.ToString());
-                if (data.Any())
-                {
-                    kpi = data.FirstOrDefault();
-                }
-                else
-                {
-                    kpi = new CustomerKPIModel();
-                }
+                kpi = data.FirstOrDefault();
+            }
+            else
+            {
+                kpi = new CustomerKPIModel();
             }
         }
     }
+}
 

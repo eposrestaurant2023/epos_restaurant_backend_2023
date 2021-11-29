@@ -1,13 +1,16 @@
-﻿<Com is_visible="is_visible">
+﻿@inject IStringLocalizer<Resource> lang
+<Com is_visible="is_visible">
     @if (!model.is_deleted)
     {
         if (model.is_fulfilled)
         {
             <span class="uk-label fulfilled">Fulfilled</span>
-        }else{
-            <span class="uk-label draft">Draft</span>
         }
-    } 
+        else
+        {
+<span class="uk-label draft">@lang["Draft"]</span>
+        }
+    }
     <LabelDeleted is_visible="@(model.is_deleted)" />
 </Com>
 

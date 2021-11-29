@@ -10,7 +10,7 @@ namespace eModels
 {
 
     [Table("tbl_history")]
-    public class HistoryModel : CoreModel
+    public class HistoryModel : CoreGUIDModel
     {
         public HistoryModel()
         {
@@ -51,9 +51,7 @@ namespace eModels
         [ForeignKey("production_id")]
         public virtual ProductionModel production { get; set; }
 
-        //public Guid? purchase_order_payment_id { get; set; }
-        //[ForeignKey("purchase_order_payment_id")]
-        //public virtual PurchaseOrderPaymentModel purchase_order_payment { get; set; }
+
 
         public Guid? sale_payment_id { get; set; }
         [ForeignKey("sale_payment_id")]
@@ -61,18 +59,18 @@ namespace eModels
 
         public int? vendor_id { get; set; }
         [ForeignKey("vendor_id")]
-        public virtual VendorModel vendor { get; set; } 
-        
+        public virtual VendorModel vendor { get; set; }
+
         public Guid? sale_id { get; set; }
         [ForeignKey("sale_id")]
-        public virtual SaleModel sale { get; set; }       
+        public virtual SaleModel sale { get; set; }
         public int? stock_take_id { get; set; }
         [ForeignKey("stock_take_id")]
         public virtual StockTakeModel stock_take { get; set; }
         public int? stock_transfer_id { get; set; }
         [ForeignKey("stock_transfer_id")]
         public virtual StockTransferModel stock_transfer { get; set; }
-         
+
 
         public string document_number { get; set; } = "";
         public string module { get; set; } = "";
@@ -95,6 +93,11 @@ namespace eModels
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
 
+        public string station_name { get; set; }
+        public string outlet_name { get; set; }
+        public string business_branch_name { get; set; }
+
+        public string table_name { get; set; }
 
     }
 }

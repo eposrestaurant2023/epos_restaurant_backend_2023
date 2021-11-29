@@ -1,0 +1,70 @@
+﻿@inject IStringLocalizer<Resource> lang
+<ComPanel>
+    <input type="text" class="uk-input uk-form-small" placeholder="@lang["Search"]" @bind="@keyword" @bind:event="oninput" />
+    @if (keyword == "")
+    {
+        @foreach (var r in main_report_list.OrderBy(r => r.sort_order))
+        {
+            <ComAuth roles="@gv.GetRole(r.option_name)">
+                @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)
+                {
+                    <ul uk-accordion>
+                        <li style="margin-top: 10px !important;" class="report-header">
+                            <a class="uk-accordion-title" href="#" style="background:transparent !important;padding:0px !important;">@r.report_title</a>
+                            <div class="uk-accordion-content" style="padding:0px !important;">
+                                @foreach (var p in gv.permission_options.Where(u => u.parent_id == r.id && u.report_title.Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList().OrderBy(r => r.sort_order))
+                                {
+                                    <AuthorizeView Roles="@gv.GetRole(p.option_name)">
+                                        <div class="report-content-item" @onclick="@(() => ViewReportClick(p))" uk-tooltip="@p.report_title">
+                                            <Icon icon="chevron_right" /> @p.report_title
+                                        </div>
+                                    </AuthorizeView>
+                                }
+                            </div>
+                        </li>
+                    </ul>
+                }
+            </ComAuth>
+        }
+    }
+    else
+    {
+        foreach (var r in main_report_list)
+        {
+            <ComAuth roles="@gv.GetRole(r.option_name)">
+                @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)
+                {
+
+                    @foreach (var p in gv.permission_options.Where(u => u.parent_id == r.id && u.report_title.Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList().OrderBy(r => r.sort_order))
+                    {
+                        <AuthorizeView Roles="@gv.GetRole(p.option_name)">
+                            <div class="report-content-item" @onclick="@(()=>ViewReportClick(p))" uk-tooltip="@p.report_title">
+                                <Icon icon="chevron_right" /> @p.report_title
+                                <div class="category_report">@r.note</div>
+                            </div>
+                        </AuthorizeView>
+                    }
+
+
+                }
+            </ComAuth>
+        }
+    }
+</ComPanel>
+@code{
+    [Parameter]
+    public List<PermissionOptionModel> main_report_list { get; set; }
+    [Parameter]
+    public GlobalVariableModel gv { get; set; }
+
+    [Parameter]
+    public EventCallback<PermissionOptionModel> OnViewReport { get; set; }
+
+    string keyword = "";
+
+    async Task ViewReportClick(PermissionOptionModel p)
+    {
+        await OnViewReport.InvokeAsync(p);
+    }
+
+}

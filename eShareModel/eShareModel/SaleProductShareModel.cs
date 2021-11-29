@@ -27,7 +27,6 @@ namespace eShareModel
         public string seat_number { get; set; }
         
 
-        public bool is_free { get; set; } = false; 
 
         public int product_id { get; set; }
         public string product_code { get; set; } = "";
@@ -43,10 +42,13 @@ namespace eShareModel
                 }
             }
         }
-        public string product_name_kh { get; set; } = "";    
+        public string product_name_kh { get; set; } = "";
+        public bool is_free { get; set; } = false;
 
         public bool is_inventory_product { get; set; } = false;
-        public bool is_allow_discount { get; set; } = true;    
+        public bool is_allow_discount { get; set; } = true;
+        public bool is_allow_change_price { get; set; } = true;
+        public bool is_allow_free { get; set; } = true;
         public int portion_id { get; set; }
         public string portion_name { get; set; }
 

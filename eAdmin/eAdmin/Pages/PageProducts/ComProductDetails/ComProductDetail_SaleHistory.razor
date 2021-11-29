@@ -19,14 +19,23 @@
             </HeaderLeft>
             <HeaderRight> 
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                        <FilterDateRange @bind-dates="@state.date_range" />
+                        <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                        <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
+                    </ComSearch>
+                </MudHidden>
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                 </ComSearch>
-            </HeaderRight>
-        </PageHeader>
-        <PageBody>
+            </MudHidden>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
@@ -54,8 +63,6 @@
                         <ThRight>@lang["Tax"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
-                        <ThCenter>@lang["Last Modified Date"]</ThCenter>
-                        <th>@lang["Last Modified By"]</th>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -63,7 +70,19 @@
                             @p.sale?.working_date.ToString(gv.date_format)
                         </TdCenter>
                         <TdCenter>
-                            <div><a href="@($"receiptlist/sale/{p.sale.id}")">@p.sale?.document_number</a></div>
+                            <div>
+                            ​​​     <a href="@($"receiptlist/sale/{p.sale.id}")">
+                                        @if (p.sale.document_number == "New")
+                                            {
+                                            @p.sale.sale_number
+                                            }
+                                            else
+                                            {
+                                            @p.sale?.document_number
+                                            }
+
+                                    </a>
+                            </div>
                         </TdCenter>
                         <td>
                             <ComProfileInfo url="@($"customer/{p.sale.customer_id}")" photo="@p.sale.customer?.photo" role="customer_management">@p.sale?.customer?.customer_code_name</ComProfileInfo>
@@ -89,12 +108,7 @@
                         <TdRight>
                             @p.sale?.balance.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>
-                            @(Convert.ToDateTime(p.sale?.last_modified_date).ToString(gv.date_time_format))
-                        </TdCenter>
-                        <td>
-                            @p.sale?.last_modified_by
-                        </td>
+                       
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.sale_id}"))" />
                         </TdCenter>

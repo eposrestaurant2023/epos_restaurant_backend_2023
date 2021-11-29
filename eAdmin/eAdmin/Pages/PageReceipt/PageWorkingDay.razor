@@ -19,98 +19,111 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                        <FilterDateRange @bind-dates="@state.date_range" />
+                        <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
+                        <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
+                    </ComSearch>
+                </MudHidden>
+                    <RefreshButton OnClick="@(async()=>await LoadData())" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick" is_fullwidth="true">
                     <FilterDateRange @bind-dates="@state.date_range" />
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                 </ComSearch>
-                <RefreshButton OnClick="@(async()=>await LoadData())" />
-            </HeaderRight>
-        </PageHeader>
-        <PageBody>
-            <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
+                <Spacing Number="4"/>
+            </MudHidden>
+                <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
 
-            <Com is_visible="@(models != null)">
-                <Table Items="@models"
-                       PerPage="@state.pager.per_page"
-                       TotalItem="@TotalRecord"
-                       CurrentPage="@state.pager.current_page"
-                       OnPagerChange="@SelectChange"
-                       OnPageChange="@ChangePager"
-                       isLoading="@is_loading_data"
-                       ShowPager="true"
-                       ShowCounter="true"
-                       ClassName="uk-table-small uk-table-striped uk-table-hover"
-                       ScrollClass="uk-overflow-auto">
-                    <TableHeader>
-                        @HeaderTemplate("working_date", lang["Working Date"], "uk-text-center")
-                        @HeaderTemplate("working_day_number", lang["Working Day Number"], "uk-text-center")
+                <Com is_visible="@(models != null)">
+                    <Table Items="@models"
+                           PerPage="@state.pager.per_page"
+                           TotalItem="@TotalRecord"
+                           CurrentPage="@state.pager.current_page"
+                           OnPagerChange="@SelectChange"
+                           OnPageChange="@ChangePager"
+                           isLoading="@is_loading_data"
+                           ShowPager="true"
+                           ShowCounter="true"
+                           ClassName="uk-table-small uk-table-striped uk-table-hover"
+                           ScrollClass="uk-overflow-auto">
+                        <TableHeader>
+                            @HeaderTemplate("working_date", lang["Working Date"], "uk-text-center")
+                            @HeaderTemplate("working_day_number", lang["Working Day Number"], "uk-text-center")
 
-                        @HeaderTemplate("cash_drawer_name", lang["Cash Drawer"])
-                        @HeaderTemplate("outlet_name_en", lang["Outlet"])
+                            @HeaderTemplate("cash_drawer_name", lang["Cash Drawer"])
+                            @HeaderTemplate("outlet_name_en", lang["Outlet"])
 
-                        <Th>
-                           @lang["Opened Station"] 
-                            <br/>
-                           @lang["Close Station"] 
-                        </Th>
-                        @HeaderTemplate("closed_by", lang["Closed by"])
-                        @HeaderTemplate("closed_date", lang["Closed Date"], "uk-text-center")
-                        @HeaderTemplate("created_by", lang["Created by"], "col-center")
-                        @HeaderTemplate("created_date", lang["Created Date"], "uk-text-center")
+                            <Th>
+                                @lang["Opened Station"]
+                                <br />
+                                @lang["Close Station"]
+                            </Th>
+                            @HeaderTemplate("closed_by", lang["Closed by"])
+                            @HeaderTemplate("closed_date", lang["Closed Date"], "uk-text-center")
+                            @HeaderTemplate("created_by", lang["Created by"], "col-center")
+                            @HeaderTemplate("created_date", lang["Created Date"], "uk-text-center")
 
-                        <ThCenter>@lang["Status"]</ThCenter>
-                        <th class="uk-width-auto"></th>
-                    </TableHeader>
-                    <RowTemplate Context="p">
-                        <TdCenter>
+                            <ThCenter>@lang["Status"]</ThCenter>
+                            <th class="uk-width-auto"></th>
+                        </TableHeader>
+                        <RowTemplate Context="p">
+                            <TdCenter>
                                 @p.working_date.ToString(gv.date_format)
-                        </TdCenter>
-                        <TdCenter>
-                            <ComAuthorize roles="@gv.GetRole("working_day_management")" url="@($"workingday/{p.id}")">
-                                @p.working_day_number
-                            </ComAuthorize>
-                        </TdCenter>
-                        <td>
-                            @p.cash_drawer_name
-                        </td>
-                        <td>
-                            @(gv.current_language?.language_id == "km-KH" ?p.outlet_name_kh:p.outlet_name_en)
-                        </td>
-                        <td>
-                            @(gv.current_language?.language_id == "km-KH" ?p.opended_station_name_kh:p.opended_station_name_en)
-                            <br />
-                            @(gv.current_language?.language_id == "km-KH" ?p.closed_station_name_kh:p.closed_station_name_en)
-                        </td>
-                        
-                        <td>
-                            @p.closed_by
-                        </td>
-                        <TdCenter>
-                            @Convert.ToDateTime(p.closed_date).ToString(gv.date_time_format)
-                        </TdCenter>
-                        <td>
-                            @p.created_by
-                        </td>
-                        <TdCenter>
-                            @Convert.ToDateTime(p.created_date).ToString(gv.date_time_format)
-                        </TdCenter>
-                        <TdCenter>
-                            @if (p.is_closed)
+                            </TdCenter>
+                            <TdCenter>
+                                <ComAuthorize roles="@gv.GetRole("working_day_management")" url="@($"workingday/{p.id}")">
+                                    @p.working_day_number
+                                </ComAuthorize>
+                            </TdCenter>
+                            <td>
+                                @p.cash_drawer_name
+                            </td>
+                            <td>
+                                @(gv.current_language?.language_id == "km-KH" ?p.outlet_name_kh:p.outlet_name_en)
+                            </td>
+                            <td>
+                                @(gv.current_language?.language_id == "km-KH" ?p.opended_station_name_kh:p.opended_station_name_en)
+                                <br />
+                                @(gv.current_language?.language_id == "km-KH" ?p.closed_station_name_kh:p.closed_station_name_en)
+                            </td>
+
+                            <td>
+                                @p.closed_by
+                            </td>
+                            <TdCenter>
+                                @if (!p.is_closed)
                                 {
-                                <LabelInActive text="@lang["Closed"]" />
+                                  @Convert.ToDateTime(p.closed_date).ToString(gv.date_time_format)
                                 }
-                                else
-                                {
-                                <Label Text="@lang["Opened"]" />
-                                }
-                        </TdCenter>
-                        <TdCenter>
-                            <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"workingday/{p.id}"))" />
-                        </TdCenter>
-                    </RowTemplate>
-                </Table>
-            </Com>
+                            </TdCenter>
+                            <td>
+                                @p.created_by
+                            </td>
+                            <TdCenter>
+                                @Convert.ToDateTime(p.created_date).ToString(gv.date_time_format)
+                            </TdCenter>
+                            <TdCenter>
+                                @if (p.is_closed)
+                                    {
+                                    <LabelInActive text="@lang["Closed"]" />
+                                    }
+                                    else
+                                    {
+                                    <Label Text="@lang["Opened"]" />
+                                    }
+                            </TdCenter>
+                            <TdCenter>
+                                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"workingday/{p.id}"))" />
+                            </TdCenter>
+                        </RowTemplate>
+                    </Table>
+                </Com>
         </PageBody>
     </PageContainer>
 }

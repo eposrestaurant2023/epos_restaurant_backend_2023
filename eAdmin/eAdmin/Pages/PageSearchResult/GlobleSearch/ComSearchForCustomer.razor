@@ -9,7 +9,7 @@
 {
 
     <h3 class="title-search">
-        Customers
+        @lang["Customers"]
     </h3>
     <hr />
     <Table Items="@customer_List"
@@ -25,26 +25,28 @@
            ScrollClass="uk-overflow-auto"
            EmptyText="There is no record.">
         <TableHeader>
-            <ThCenter>Image</ThCenter>
+            <ThCenter>@lang["Image"]</ThCenter>
             @HeaderTemplate("customer_code", lang["Code"], "uk-text-center")
-            @HeaderTemplate("customer_name_en", lang["Name_Kh"], "col-auto")
+            @HeaderTemplate("customer_name_en", lang["Name Kh"], "col-auto")
             @HeaderTemplate("phone_1", lang["Phone"], "uk-text-center")
             @HeaderTemplate("gender", lang["Gender"], "uk-text-center")
-            @HeaderTemplate("total_receivable", lang["Total Receivable"], "uk-text-right")
-            @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
+            @HeaderTemplate("total_receivable", lang["Total Paid"], "uk-text-right")
+            <ThCenter>@lang["Status"]</ThCenter>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
             <TdCenter>
-                <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="false" IsBackgroundImage="false" Width="50px" Height="50px" />
+                <Image ImageUrl="@http.ImageUrl(p.photo)" PopupImageUrl="@http.ImageUrl(p.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
             </TdCenter>
             <TdCenter>
                 <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"customer/{p.id}")">@p.customer_code</ComAuthorize>
+
             </TdCenter>
             <td>
                 <div>
                     <ComAuthorize roles="@gv.GetRole("customer_management")" url="@($"customer/{p.id}")">@p.customer_name_en (@p.customer_name_kh)</ComAuthorize>
                 </div>
+                <LabelCustomerBusinessBranchs customer_business_branchs="@p.customer_business_branchs" />
             </td>
 
             <TdCenter>
@@ -54,18 +56,16 @@
                 @p.gender
             </td>
             <TdRight>
-                00 (set fix)
+                @p.total_receivable.ToString(gv.currency_format)
             </TdRight>
             <TdCenter>
                 <LabelDeleted is_visible="@p.is_deleted" />
-                <LabelActive is_visible="@(!p.is_deleted && p.status)"  roles="@gv.GetRole("customer_edit")" is_loading="@p.is_change_status" />
-                <LabelInActive is_visible="@(!p.is_deleted && !p.status)"  roles="@gv.GetRole("customer_edit")" is_loading="@p.is_change_status" />
+                <LabelActive is_visible="@(!p.is_deleted && p.status)"  roles="@gv.GetRole("customer_edit")" is_loading="@p.is_loading" />
+                <LabelInActive is_visible="@(!p.is_deleted && !p.status)" roles="@gv.GetRole("customer_edit")" is_loading="@p.is_loading" text="@lang["Inactive"]" />
             </TdCenter>
-            <TdActions is_loading="@p.is_loading">
-                <TableActionItem roles="@gv.GetRole("customer_management")" url="@($"customer/{p.id}")" icon="search">@lang["View"]</TableActionItem>
-                    <TableActionItem roles="@gv.GetRole("customer_edit")" url="@($"customer/edit/{p.id}")" icon="edit" is_visible="@(!p.is_deleted)">@lang["Edit"]</TableActionItem>
-                    <TableActionItem roles="@gv.GetRole("customer_add")" url="@($"customer/clone/{p.id}")" icon="copy">@lang["Clone"]</TableActionItem>
-            </TdActions>
+            <TdCenter>
+                <Icon icon="visibility" url="@($"customer/{p.id}")"/>
+            </TdCenter>
         </RowTemplate>
     </Table>
 
@@ -89,8 +89,8 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string query = "$select=id,customer_code,customer_name_en,customer_name_kh,gender,email,address,phone_1,phone_2,photo,status ";
-            query = query + "&$expand=customer_group($select= id,customer_group_name_en,customer_group_name_kh),";
+            string query = "$select=id,total_receivable,is_deleted,customer_code,customer_name_en,customer_name_kh,gender,email,address,phone_1,phone_2,photo,status ";
+            query = query + "&$expand=customer_business_branchs($expand=business_branch($select=id,business_branch_name_en))";
             string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters);
         }

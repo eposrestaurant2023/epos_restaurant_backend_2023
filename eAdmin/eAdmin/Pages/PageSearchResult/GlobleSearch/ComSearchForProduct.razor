@@ -8,7 +8,7 @@
 @if (products.Count() > 0)
 {
     <h3 class="title-search">
-        Product
+        @lang["Products"]
     </h3>
     <hr />
     <Table Items="@products"
@@ -25,10 +25,11 @@
         <TableHeader>
             <ThCenter>@lang["Image"]</ThCenter>
             @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-            @HeaderTemplate("product_name_en", lang["Name_En"], "col-auto")
-            @HeaderTemplate("product_name_kh", lang["Name_Kh"], "col-auto")
+            @HeaderTemplate("product_name_en", lang["Name En(Kh)"], "col-auto")
             @HeaderTemplate("product_category/product_category_en", lang["Category"])
             <ThCenter>@lang["Quality"]</ThCenter>
+            <th>@lang["Unit"]</th>
+            <ThRight>@lang["Cost"]</ThRight>
             <ThRight>@lang["Price"]</ThRight>
             <ThRight>
                 @lang["Status"]
@@ -43,15 +44,24 @@
                 <a href="@($"product/{p.id}")">@p.product_code</a>
             </TdCenter>
             <td>
-                <a href="@($"product/{p.id}")">@p.product_name_en</a>
+                <a href="@($"product/{p.id}")">@p.product_name_en @(!string.IsNullOrEmpty(p.product_name_kh)? $"({p.product_name_kh})":"")</a>
+                <div>
+                    <LabelIngredient is_visible="@p.is_ingredient_product" />
+                    <LabelInventory is_visible="@p.is_inventory_product" />
+                    <LabelCompositeMenu is_visible="@p.is_composite_product" />
+                    <LabelProductionProduct is_visible="@p.is_production_product" />
+                </div>
             </td>
-            <td>
-                <a href="@($"product/{p.id}")">@p.product_name_kh</a>
-            </td>
-            <td>@p.product_category?.product_category_en</td>
+            <td> @(gv.current_language?.language_id == "km-KH" ?p.product_category.product_category_kh: p.product_category.product_category_kh)</td>
             <TdCenter>
                 @p.quantity.ToString(gv.quantity_format)
             </TdCenter>
+            <td>
+                @p.unit?.unit_name
+            </td>
+            <TdRight>
+                @p.cost.ToString(gv.currency_format)
+            </TdRight>
             <TdRight>
                 @if (p.min_price == p.max_price)
                     {
@@ -64,17 +74,13 @@
             </TdRight>
             <TdRight>
                 <LabelDeleted is_visible="@p.is_deleted" />
-                <LabelActive is_visible="@(!p.is_deleted && p.status)"  roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
+                <LabelActive is_visible="@(!p.is_deleted && p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
                 <LabelInActive is_visible="@(!p.is_deleted && !p.status)"  roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
-                <Label Background="#FF5733" Color="#fff" is_visible="@p.is_low_inventory">Low Stock</Label>
-                <Label Background="#FA2C00" Color="#fff" is_visible="@p.is_out_of_stock">Out Of Stock</Label>
-                <Label Background="#6495ED" Color="#fff" is_visible="@p.is_over_stock">Over Stock</Label>
+                <LabelProductInventoryStatus product="@p" is_product_model="true" />
             </TdRight>
-            <TdActions is_loading="@p.is_loading">
-                <TableActionItem icon="visibility" is_visible="@(!p.is_deleted)" url="@($"product/{p.id}")">@lang["View"]</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("product_edit")" icon="edit" is_visible="@(!p.is_deleted)" url="@($"product/edit/{p.id}")">@lang["Edit"]</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("product_add")" icon="file_copy" url="@($"product/clone/{p.id}")">@lang["Clone"]</TableActionItem>
-            </TdActions>
+            <TdCenter>
+                <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"product/{p.id}"))" />
+            </TdCenter>
         </RowTemplate>
     </Table>
 
@@ -98,8 +104,8 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string query = "$select=id,is_out_of_stock,is_low_inventory,is_over_stock,quantity,product_code,product_name_en,product_name_kh,photo,cost,status";
-            query = query + "&$expand=product_category($select= id,product_category_en,product_category_kh),";
+            string query = "$select=id,is_deleted,min_price,max_price,is_production_product,is_composite_product,is_inventory_product,is_out_of_stock,is_low_inventory,is_over_stock,quantity,product_code,product_name_en,product_name_kh,photo,cost,status,is_ingredient_product";
+            query = query + "&$expand=unit($select=unit_name,id),product_category($select= id,product_category_en,product_category_kh),";
             string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters) + " and is_menu_product eq true";
         }

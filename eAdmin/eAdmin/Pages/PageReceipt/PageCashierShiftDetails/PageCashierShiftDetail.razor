@@ -14,8 +14,15 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button icon="print" title="@lang["Print"]" OnClick="@OnPrint" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Button icon="print" title="@lang["Print"]" OnClick="@OnPrint" />
+                </MudHidden>
                 <RefreshButton OnClick="@LoadData" />
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <MoreButton>
+                        <MoreButtonItem OnClick="@OnPrint" icon="print">@lang["Print"]</MoreButtonItem>
+                    </MoreButton>
+                </MudHidden>
             </HeaderRight>
         </PageHeader>
         <PageBody>

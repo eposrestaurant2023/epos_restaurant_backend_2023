@@ -27,15 +27,30 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("product_add")" OnClick="@(()=>nav.NavigateTo("product/new"))">@lang["New Product"]</AddButton>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
-                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
-                </ComSearch>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("product_add")" OnClick="@(()=>nav.NavigateTo("product/new"))">@lang["New Product"]</AddButton>
+
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("product_add")" OnClick="@(()=>nav.NavigateTo("product/new"))"></AddButton>
+
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                        <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
+                        <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
+                    </ComSearch>
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
+                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
+                </ComSearch>
+            </MudHidden>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(products != null)">
                 <Table Items="@products"
@@ -79,7 +94,7 @@
                                 <LabelProductionProduct is_visible="@p.is_production_product" />
                             </div>
                         </td>
-                        <td> @(gv.current_language?.language_id == "km-KH" ?p.product_category.product_category_kh: p.product_category.product_category_kh)</td>
+                        <td>@p.product_category.product_category_en</td>
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)
                         </TdCenter>

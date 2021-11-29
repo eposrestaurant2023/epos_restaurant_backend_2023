@@ -38,8 +38,7 @@
                         <ThRight>@lang["Tax"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
-                        <ThCenter>@lang["Last Modified Date"]</ThCenter>
-                        <th>@lang["Last Modified By"]</th>
+                        
                         <ThRight>@lang["Status"]</ThRight>
 
                         <th class="uk-width-auto"></th>
@@ -102,12 +101,7 @@
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
-                        <TdCenter>
-                            @(Convert.ToDateTime(p.last_modified_date).ToString(gv.date_time_format))
-                        </TdCenter>
-                        <td>
-                            @p.last_modified_by
-                        </td>
+                    
                         <TdRight>
                             <ComSaleStatus sale="@p" />
                         </TdRight>

@@ -952,6 +952,7 @@ a, .btn-link {
     padding: 0px 10px !important;
     cursor: pointer;
     margin-right: 2px;
+    margin-left:2px;
     vertical-align: middle;
     -webkit-font-smoothing: antialiased;
     -moz-transition: .2s all;
@@ -1279,6 +1280,7 @@ a, a:hover {
     width: auto;
 }
 .search-default {
+    width:400px;
     background-color: rgba(255,255,255,.15);
     margin-bottom: 5px;
     height: 42px;
@@ -1624,7 +1626,7 @@ button.shipping {
 .wrp-action-form {
     position: fixed;
     bottom: 0;
-    margin: 0 0 0 -15px;
+    margin: 0 0 0 -140px;
     box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
     background-color: #fff;
     z-index: 8;
@@ -1998,7 +2000,7 @@ h3.title.heading {
 
 .uk-overlay {
     background: rgba(189, 189, 189, 0.65);
-    z-index: 9;
+    z-index: 1200;
     color:#000;
 }
 .uk-overlay-default {
@@ -3545,8 +3547,19 @@ button.verified {
     list-style: none;
     padding: 0px 15px;
 }
-
-
+.btn-off-canvas-save {
+    color: #12344d !important;
+    background: #f3f5f7;
+    border: 1px solid #cfd7df !important;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+.btn-off-canvas-cancel {
+    border: 1px solid #f19ead !important;
+    background-image: linear-gradient(to bottom,#ff98ab,#f0506e);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
 .sidebar .navbar {
     display: flex;
     padding-left: 45px;
@@ -3992,7 +4005,7 @@ body {
     overflow: hidden;
 }
 .page_containter {
-    height: 100vh;
+    height: calc(100vh - 100px);
     padding: 15px;
     margin-top: 0;
     overflow: auto;
@@ -4772,9 +4785,12 @@ i.icolor-6 {
     padding-right: 15px;
     margin-right: 15px;
 }
-.correct-location-dropdown { 
-    right: 51px !important;
-    top: 36.9062px !important;
+.Cus_Drowdowncorrect-location-dropdown .mud-popover{
+ right:10px;
+}
+.Cus_Drowdowncorrect-location-dropdown svg {
+    font-size: 24px;
+    color: #333333;
 }
 .currect-possition-dropdown {
     left: auto !important;
@@ -4984,8 +5000,6 @@ h1.wrp-expense-total span.total-expense-amount{
         width: auto;
     }
 
- 
-
     .xs_navbar_menu {
         color: #fff;
         height: 48px;
@@ -4993,6 +5007,18 @@ h1.wrp-expense-total span.total-expense-amount{
     .main {
         margin-left: 0px;
         overflow: auto;
+    }
+    .search-default {
+        width: 180px;
+        background-color: rgba(255,255,255,.15);
+        margin-bottom: 5px;
+        height: 42px;
+        border-radius: var(--mud-default-borderradius);
+    }
+    .bg_business_rootmenu {
+        padding: 15px;
+        border-radius: 4px;
+        border: none !important;
     }
 }
 

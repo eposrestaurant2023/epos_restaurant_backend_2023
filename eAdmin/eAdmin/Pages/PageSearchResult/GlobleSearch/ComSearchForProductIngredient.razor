@@ -9,7 +9,7 @@
 {
 
     <h3 class="title-search">
-        @lang["Product Ingredient"]
+        @lang["Ingredient"]
     </h3>
     <hr />
     <Table Items="@products"
@@ -26,10 +26,10 @@
         <TableHeader>
             <ThCenter>@lang["Image"]</ThCenter>
             @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-            @HeaderTemplate("product_name_en", lang["Name_En"], "col-auto")
-            @HeaderTemplate("product_name_kh", lang["Name_Kh"], "col-auto")
+            @HeaderTemplate("product_name_en", lang["Name En(Kh)"], "col-auto")
             @HeaderTemplate("product_category/product_category_en", lang["Category"])
-            <ThCenter>@lang["Quality"]</ThCenter>
+            <ThCenter>@lang["Unit"]</ThCenter>
+            <ThCenter>@lang["Quantity"]</ThCenter>
             <ThRight>@lang["Cost"]</ThRight>
             <ThRight>
                 @lang["Status"]
@@ -44,21 +44,16 @@
                 <div>
                     <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_code</ComAuthorize>
                 </div>
-                @foreach (var m in p.product_menus)
-                    {
-                    <Label Background="#46C7C7" Color="#fff">
-                        @m.menu?.menu_name_en
-                    </Label>
-                    }
-
             </TdCenter>
             <td>
-                <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_en</ComAuthorize>
-            </td>
-            <td>
-                <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_kh</ComAuthorize>
+                <div>
+                    <ComAuthorize roles="@gv.GetRole("ingredient_view")" url="@($"ingredient/{p.id}")">@p.product_name_en @(!string.IsNullOrEmpty(p.product_name_kh)?$"({p.product_name_kh})":"")</ComAuthorize>
+                    <div><LabelMenuProduct is_visible="@p.is_menu_product" /></div>
+                </div>
+
             </td>
             <td>@p.product_category?.product_category_en</td>
+            <TdCenter>@p.unit?.unit_name</TdCenter>
             <TdCenter>
                 @p.quantity.ToString(gv.quantity_format)
             </TdCenter>
@@ -67,17 +62,13 @@
             </TdRight>
             <TdRight>
                 <LabelDeleted is_visible="@p.is_deleted" />
-                <LabelActive is_visible="@(!p.is_deleted && p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
-                <LabelInActive is_visible="@(!p.is_deleted && !p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_change_status" />
-                <Label Background="#FF5733" Color="#fff" is_visible="@p.is_low_inventory">Low Stock</Label>
-                <Label Background="#FA2C00" Color="#fff" is_visible="@p.is_out_of_stock">Out Of Stock</Label>
-                <Label Background="#6495ED" Color="#fff" is_visible="@p.is_over_stock">Over Stock</Label>
+                <LabelActive is_visible="@(!p.is_deleted && p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_loading" />
+                <LabelInActive is_visible="@(!p.is_deleted && !p.status)" roles="@gv.GetRole("product_edit")" is_loading="@p.is_loading" />
+                <LabelProductInventoryStatus product="@p" is_product_model="true" />
             </TdRight>
-            <TdActions is_loading="@p.is_loading">
-                <TableActionItem icon="visibility" is_visible="@(!p.is_deleted)" url="@($"product/{p.id}")">@lang["View"]</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("ingredient_edit")" icon="edit" is_visible="@(!p.is_deleted)" url="@($"product/edit/{p.id}")">@lang["Edit"]</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("ingredient_add")" icon="file_copy" url="@($"product/clone/{p.id}")">@lang["Clone"]</TableActionItem>
-            </TdActions>
+            <TdCenter>
+                <Icon icon="visibility" url="@($"product/{p.id}")"/>
+            </TdCenter>
         </RowTemplate>
     </Table>
 
@@ -102,7 +93,7 @@
                 state.pager.order_by_type = "desc";
             }
             string query = "$select=id,is_out_of_stock,is_low_inventory,is_over_stock,product_name_en,product_name_kh,product_code,status,is_deleted,cost,quantity,photo";
-            query = query + "&$expand=product_category($select= id,product_category_en,product_category_kh),product_menus($expand=menu($select=id,menu_name_en))";
+            query = query + "&$expand=unit($select=unit_name,id),product_category($select= id,product_category_en,product_category_kh),product_menus($expand=menu($select=id,menu_name_en))";
             string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters) + " and is_ingredient_product eq true";
         }

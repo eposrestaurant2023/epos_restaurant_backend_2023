@@ -1,7 +1,7 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
 <UIContainerBox Title="@lang["System Feature"]">
-    @foreach (var d in models)
+    @foreach (var d in models.Where(r=>r.status != false))
     {
         <ComFeatureList title="@d.feature_name" description="@d.feature_description" status="@d.status" />
     }

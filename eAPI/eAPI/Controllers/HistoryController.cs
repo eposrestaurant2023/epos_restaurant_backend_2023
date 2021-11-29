@@ -32,16 +32,16 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         public IQueryable<HistoryModel> Get(string keyword = "")
         {
-           
-                return db.Histories;
-            
+
+            return db.Histories;
+
         }
 
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("getsingle")]
-        public async Task<SingleResult<HistoryModel>> Get([FromODataUri] int key)
+        public async Task<SingleResult<HistoryModel>> Get([FromODataUri] Guid key)
         {
             return await Task.Factory.StartNew(() => SingleResult.Create<HistoryModel>(db.Histories.Where(r => r.id == key).AsQueryable()));
         }
@@ -51,18 +51,18 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] HistoryModel u)
         {
 
-            
-            if (u.id == 0)
+
+            if (u.id == Guid.Empty)
             {
 
                 db.Histories.Add(u);
             }
             else
             {
-                
+
                 db.Histories.Update(u);
             }
-            
+
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             return Ok(u);
@@ -70,7 +70,7 @@ namespace eAPI.Controllers
 
         }
 
-      
+
 
 
         [HttpPost]
@@ -79,7 +79,7 @@ namespace eAPI.Controllers
         {
             var u = await db.Histories.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-            
+
             db.Histories.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);

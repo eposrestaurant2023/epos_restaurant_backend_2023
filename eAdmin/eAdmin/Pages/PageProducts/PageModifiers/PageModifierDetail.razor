@@ -20,22 +20,43 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button roles="@gv.GetRole("modifier_edit")" icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifier/edit/{modifier.id}"))" is_visible="@(!modifier.is_deleted)" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Button roles="@gv.GetRole("modifier_edit")" icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifier/edit/{modifier.id}"))" is_visible="@(!modifier.is_deleted)" />
+                </MudHidden>
                 <ComAttachFileButton RoleAdd="@gv.GetRole("modifier_add")"
                                      RoleEdit="@gv.GetRole("modifier_edit")"
                                      RoleDelete="@gv.GetRole("modifier_delete")"
                                      ApiFilter="@($"modifier_id eq {id} ")"
                                      File="@(new AttachFilesModel() { modifier_id =  new Guid(id) })"
-                                     IsVisible="@(!modifier.is_deleted)" />
-                <AddButton url="modifier/new" roles="@gv.GetRole("modifier_add")">New Modifier</AddButton>
-                <MoreButton is_loading="@(modifier.is_loading ||modifier.is_change_status || modifier.is_deleting || modifier.is_restoring)">
-                    <MoreButtonItem roles="@gv.GetRole("modifier_add")" icon="file_copy" url="@($"modifier/clone/{modifier.id}")">@lang["Clone"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="highlight_off" is_visible="@(!modifier.is_deleted && modifier.status)" OnClick="@(()=>OnChangeStatus(modifier))">@lang["Inactive"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="check" is_visible="@(!modifier.is_deleted && !modifier.status)" OnClick="@(()=>OnChangeStatus(modifier))">@lang["Active"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("modifier_delete")" icon="delete" is_visible="@(!modifier.is_deleted)" OnClick="@(()=>OnDelete(modifier))">@lang["Delete"]</MoreButtonItem>
-                    <MoreButtonItem roles="@gv.GetRole("modifier_restore")" icon="refresh" is_visible="@(modifier.is_deleted)" OnClick="@(()=>OnRestore(modifier))">@lang["Restore"]</MoreButtonItem>
-                </MoreButton>
-                <RefreshButton OnClick="@LoadData" />
+                                     IsVisible="@(!modifier.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <AddButton url="modifier/new" roles="@gv.GetRole("modifier_add")">@lang["New Modifier"]</AddButton>
+                    </MudHidden>
+                    <RefreshButton OnClick="@LoadData" />
+                    <MoreButton is_loading="@(modifier.is_loading ||modifier.is_change_status || modifier.is_deleting || modifier.is_restoring)">
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                            <MoreButtonItem roles="@gv.GetRole("modifier_add")" icon="add" url="modifier/new">@lang["New Modifier"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"modifier/edit/{modifier.id}"))">@lang["Edit"]</MoreButtonItem>
+                        </MudHidden>
+                            <MoreButtonItem roles="@gv.GetRole("modifier_add")" icon="file_copy" url="@($"modifier/clone/{modifier.id}")">@lang["Clone"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="highlight_off" is_visible="@(!modifier.is_deleted && modifier.status)" OnClick="@(()=>OnChangeStatus(modifier))">@lang["Inactive"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="check" is_visible="@(!modifier.is_deleted && !modifier.status)" OnClick="@(()=>OnChangeStatus(modifier))">@lang["Active"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("modifier_delete")" icon="delete" is_visible="@(!modifier.is_deleted)" OnClick="@(()=>OnDelete(modifier))">@lang["Delete"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("modifier_restore")" icon="refresh" is_visible="@(modifier.is_deleted)" OnClick="@(()=>OnRestore(modifier))">@lang["Restore"]</MoreButtonItem>
+                            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                                <MudDivider />
+                                <ComAttachFileButton RoleAdd="@gv.GetRole("modifier_add")"
+                                                     RoleEdit="@gv.GetRole("modifier_edit")"
+                                                     RoleDelete="@gv.GetRole("modifier_delete")"
+                                                     ApiFilter="@($"modifier_id eq {id} ")"
+                                                     File="@(new AttachFilesModel() { modifier_id =  new Guid(id) })"
+                                                     IsVisible="@(!modifier.is_deleted)"
+                                                     IsIconButton="false"
+                                                     OnOpenAttachFile="@(()=>is_open_attach_file=!is_open_attach_file)" />
+
+                            </MudHidden>
+                    </MoreButton>
+
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -49,10 +70,10 @@
                 <TabBody>
                     <TabItem>
                         <UIGridCenter>
-                            <UIContainerBox Title="@lang["Information"]">
+                            <UIContainerBox Title="@lang["General Information"]">
                                 <table>
                                     <tr>
-                                        <th>@lang["Modifier Name"]</th>
+                                        <th>@lang["Name"] :</th>
                                         <td>@modifier.modifier_name</td>
                                     </tr>
                                 </table>
@@ -119,6 +140,7 @@ else
     bool is_save_and_new = false;
     bool show_sale_history = false;
     bool show_comment_tab = false;
+    bool is_open_attach_file;
     bool show_associate_product = false;
     protected override async Task OnInitializedAsync()
     {

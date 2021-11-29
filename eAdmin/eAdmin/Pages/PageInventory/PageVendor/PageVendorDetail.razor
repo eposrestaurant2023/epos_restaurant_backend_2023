@@ -19,14 +19,43 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"vendor/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+                </MudHidden>
                 <ComAttachFileButton RoleAdd="@gv.GetRole("vendor_add")"
                                      RoleEdit="@gv.GetRole("vendor_edit")"
                                      RoleDelete="@gv.GetRole("vendor_delete")"
                                      ApiFilter="@($"vendor_id eq {id} ")"
                                      File="@(new AttachFilesModel() { vendor_id = id })"
-                                     IsVisible="@(!model.is_deleted)" />
-                <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"vendor/edit/{model.id}"))" is_visible="@(!model.is_deleted)" />
+                                     IsVisible="@(!model.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))">@lang["New Vendor"]</AddButton>
+                </MudHidden>
                 <RefreshButton OnClick="@LoadData" />
+                <MoreButton>
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                        <MoreButtonItem roles="@gv.GetRole("vendor_add")" icon="add" url="vendor/new">@lang["New Vendor"]</MoreButtonItem>
+
+                        <MoreButtonItem roles="@gv.GetRole("vendor_edit")" icon="edit" is_visible="@(!model.is_deleted)" OnClick="@(()=>OnEdit(model.id))">@lang["Edit"]</MoreButtonItem>
+                    </MudHidden>
+                        <MoreButtonItem roles="@gv.GetRole("vendor_edit")" icon="highlight_off" is_visible="@(model.status && !model.is_deleted)" OnClick="@(()=>OnToogleStatus(model))">@lang["Inactive"]</MoreButtonItem>
+                        <MoreButtonItem roles="@gv.GetRole("vendor_edit")" icon="check" is_visible="@(!model.status && !model.is_deleted)" OnClick="@(() => OnToogleStatus(model))">@lang["Active"]</MoreButtonItem>
+                        <MoreButtonItem roles="@gv.GetRole("vendor_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@(() => OnDelete(model))">@lang["Delete"]</MoreButtonItem>
+                        <MoreButtonItem roles="@gv.GetRole("vendor_restore")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@(()=>OnRestore(model))">@lang["Restore"]</MoreButtonItem>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                            <MudDivider />
+                            <ComAttachFileButton RoleAdd="@gv.GetRole("vendor_add")"
+                                                 RoleEdit="@gv.GetRole("vendor_edit")"
+                                                 RoleDelete="@gv.GetRole("vendor_delete")"
+                                                 ApiFilter="@($"vendor_id eq {id} ")"
+                                                 File="@(new AttachFilesModel() { vendor_id = id })"
+                                                 IsVisible="@(!model.is_deleted)"
+                                                 IsIconButton="false"
+                                                 OnOpenAttachFile="@(()=>is_open_attach_file=!is_open_attach_file)" />
+                        </MudHidden>
+                </MoreButton>
+
+
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -111,7 +140,7 @@
                                     @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
                                 </div>
                             }
-                            <div>@lang["Last modified By"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
+                            <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
                         </div>
                     </TabItem>
                    

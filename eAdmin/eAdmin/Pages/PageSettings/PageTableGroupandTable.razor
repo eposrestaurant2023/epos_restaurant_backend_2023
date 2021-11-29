@@ -1,15 +1,16 @@
-﻿@page "/tablegroupandtable"
-<Title Value="Table Group & Table"></Title>
+﻿@inject IStringLocalizer<Resource> lang
+@page "/tablegroupandtable"
+<Title Value="@lang["Table Group & Table"]"></Title>
 <PageContainer roles="@gv.GetRole("table_group_table")">
     <PageHeader>
         <HeaderLeft>
             <PageTitle ShowFilter="false">
                 <HeaderTemplate>
-                    Table Group & Table
+                    @lang["Table Group & Table"]
                 </HeaderTemplate>
             </PageTitle>
         </HeaderLeft>
-        <HeaderRight ShowBackButton="true">
+        <HeaderRight>
         </HeaderRight>
     </PageHeader>
 
@@ -19,20 +20,20 @@
                 @foreach (var b in gv.business_branch_by_role)
                 {
                     <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
-                } 
+                }
             </TabHeader>
             <TabBody>
                 @foreach (var b in gv.business_branch_by_role)
                 {
-                <TabItem>
-                    <ComTableGroupandTable business_branch="b"/>
-                </TabItem>
+                    <TabItem>
+                        <ComTableGroupandTable business_branch="b" />
+                    </TabItem>
                 }
             </TabBody>
         </Tab>
     </PageBody>
 </PageContainer>
- 
+
 
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }

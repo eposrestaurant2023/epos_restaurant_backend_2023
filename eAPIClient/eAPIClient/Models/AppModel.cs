@@ -171,6 +171,16 @@ namespace eAPIClient.Models
        
     }
 
+    public class PrintRequestModel
+    {
+        public string action { get; set; }
+        public Guid sale_id { get; set; }
+        public Guid id { get; set; }
+        public string receipt_name { get; set; }
+        public int copies { get; set; }
+         
+    }
+
 
 
 }

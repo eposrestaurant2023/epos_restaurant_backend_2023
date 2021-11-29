@@ -21,9 +21,9 @@
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
-            <HeaderRight ShowBackButton="true">
+            <HeaderRight ShowBackButton="false">
                 
-                <ComProductionDetail_ActionButton @bind-model="@model" />
+                <ComProductionDetail_ActionButton @bind-model="@model" OnRefresh="@OnRefresh"  />
             </HeaderRight>
         </PageHeader>
         <PageBody>
@@ -44,7 +44,7 @@
                                     <tr>
                                         <th>@lang["No"]</th>
                                         <ThCenter>@lang["Image"]</ThCenter>
-                                        <th class="col-auto">@lang["Item"]</th>
+                                        <th class="col-auto">@lang["Description"]</th>
                                         <th class="uk-text-center">@lang["QTY"]</th>
                                         <th class="uk-text-center">@lang["Portion"]</th>
                                         <th class="uk-text-right">@lang["Price"]</th>

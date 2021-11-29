@@ -19,68 +19,66 @@
 
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="@lang["Business Information"]">
-                      
-                            <UISummaryBox ImageUrl="@model.company_logo" ShowImage="true">
-                                <ContentLeft>
-                                    <table>
-                                        <tr>
-                                            <th>@lang["Company Name"]</th>
-                                            <td>@model.company_name</td>
-                                        </tr>
-                                        <tr>
-                                            <th>@lang["Company Name KH"]</th>
-                                            <td>@model.company_name_kh</td>
-                                        </tr>
-                                        <tr>
-                                            <th>@lang["Mobile Phone"]</th>
-                                            <td>@model.mobile_phone</td>
-                                        </tr>
-                                        <tr>
-                                            <th>@lang["Office Phone"]</th>
-                                            <td>@model.office_phone</td>
-                                        </tr>
-                                    </table>
-                                </ContentLeft>
-                                <ContentRight>
-                                    <table>
-                                        <tr>
-                                            <th>@lang["Contact Name"]</th>
-                                            <td>@model.contact_name</td>
-                                        </tr>
-                                        <tr>
-                                            <th>@lang["Contact Phone"]</th>
-                                            <td>@model.contact_phone_number</td>
-                                        </tr>
-                                        <tr>
-                                            <th>@lang["Contact Office Phone"]</th>
-                                            <td>@model.contact_office_number</td>
-                                        </tr>
+                    <UIContainerBox is_show_edit_button="true" Title="@lang["Business Information"]" OnEditClick="@(()=>OnEditBusinessInfor(model.id))">
+                        <UISummaryBox ImageUrl="@model.company_logo" ShowImage="true">
+                            <ContentLeft>
+                                <table>
+                                    <tr>
+                                        <th>@lang["Company Name"]</th>
+                                        <td>@model.company_name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@lang["Company Name KH"]</th>
+                                        <td>@model.company_name_kh</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@lang["Mobile Phone"]</th>
+                                        <td>@model.mobile_phone</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@lang["Office Phone"]</th>
+                                        <td>@model.office_phone</td>
+                                    </tr>
+                                </table>
+                            </ContentLeft>
+                            <ContentRight>
+                                <table>
+                                    <tr>
+                                        <th>@lang["Contact Name"]</th>
+                                        <td>@model.contact_name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@lang["Contact Phone"]</th>
+                                        <td>@model.contact_phone_number</td>
+                                    </tr>
+                                    <tr>
+                                        <th>@lang["Contact Office Phone"]</th>
+                                        <td>@model.contact_office_number</td>
+                                    </tr>
 
-                                        <tr>
-                                            <th>@lang["Office Email"]</th>
-                                            <td>
-                                                @model.email
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <th>@lang["Office Email"]</th>
+                                        <td>
+                                            @model.email
+                                        </td>
+                                    </tr>
 
-                                        <tr>
-                                            <th>@lang["Contact Email"]</th>
-                                            <td>
-                                                @model.contact_email
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </ContentRight>
-                            </UISummaryBox>
+                                    <tr>
+                                        <th>@lang["Contact Email"]</th>
+                                        <td>
+                                            @model.contact_email
+                                        </td>
+                                    </tr>
+                                </table>
+                            </ContentRight>
+                        </UISummaryBox>
                     </UIContainerBox>
 
                     @*business branch*@
-                    <UIContainerBox Title="@lang["Business Information"]">
-                        @foreach (var d in models)
-                        {
+                    @foreach (var d in models)
+                    {
+                        <UIContainerBox Title="@d.business_branch_name_en" is_show_edit_button="true" OnEditClick="@(()=>OnEdit(d.id))">
                             <UISummaryBox ImageUrl="@d.logo" ShowImage="true">
-
                                 <ContentLeft>
                                     <table>
                                         <tr>
@@ -100,10 +98,10 @@
                                             <td>@d.phone_2</td>
                                         </tr>
                                     </table>
-                                <div>
-                                    <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" />
-                                    <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                </div>
+                                    <div>
+                                        <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" />
+                                        <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                    </div>
                                 </ContentLeft>
                                 <ContentRight>
                                     <table>
@@ -126,11 +124,15 @@
                                     </table>
                                 </ContentRight>
                             </UISummaryBox>
-                        }
-                    </UIContainerBox>
-                </UIGridCenter>
+                           
+                        </UIContainerBox>
+                    }
+                    </UIGridCenter>
+                   
             </PageBody>
     </PageContainer>
+    <ComEditBussinessInfor model="@model" @bind-is_open="@ShowModel_Business_Infor" Save_Click="OnSaveBusinessInfor" modal_title="@ModalTitle" />
+    <ComEditBussinesBranch model="@business_brnach" @bind-is_open="ShowModal" Save_Click="OnSave" modal_title="@ModalTitle"/>
 }
 
 @code{
@@ -176,4 +178,45 @@
         is_loading_data = false;
 
     }
+
+    public void OnSaveBusinessInfor(BusinessInformationModel bussines_infor)
+    {
+        gv.business_info = bussines_infor;
+        model = bussines_infor;
+        ShowModel_Business_Infor = false;
+    }
+
+    public async Task OnEditBusinessInfor(Guid id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet("BusinessInformation" + $"({id})");
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<BusinessInformationModel>(resp.Content.ToString());
+        }
+        ModalTitle = lang["Edit"] + ":" + model.company_name;
+        ShowModel_Business_Infor = true;
+        is_loading_data = false;
+    }
+
+
+    public async Task OnSave()
+    {
+        await LoadData();
+        ShowModal = false;
+        business_brnach = new BusinessBranchModel();
+    }
+    public async Task OnEdit(Guid id)
+    {
+        is_loading_data = true;
+        var resp = await http.ApiGet(ControllerApi + $"({id})");
+        if (resp.IsSuccess)
+        {
+            business_brnach = JsonSerializer.Deserialize<BusinessBranchModel>(resp.Content.ToString());
+        }
+        ModalTitle = lang["Edit"] + ":" + business_brnach.business_branch_name_en;
+        ShowModal = true;
+        is_loading_data = false;
+    }
+
 }

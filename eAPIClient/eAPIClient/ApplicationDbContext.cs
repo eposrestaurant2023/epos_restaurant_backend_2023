@@ -30,7 +30,7 @@ namespace eAPIClient
                 property.SetCollation("Khmer_100_BIN");
             }
 
-            builder.Entity<StoreProcedureResultModel>().HasNoKey();
+            builder.Entity<StoreProcedureResultModel>().HasNoKey().ToView("store_procedure_result");
 
         }
 
@@ -61,6 +61,7 @@ namespace eAPIClient
         public DbSet<CashDrawerAmountModel> CashDrawerAmounts { get; set; }
 
         public DbSet<StoreProcedureResultModel> StoreProcedureResults { get; set; }
+        public DbSet<HistoryModel> Histories{ get; set; }
 
 
     }

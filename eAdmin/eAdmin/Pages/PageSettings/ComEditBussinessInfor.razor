@@ -1,0 +1,56 @@
+﻿@inherits PageCore;
+<EditFormContext Cancel_Click="@onCancelClick" model="@model" is_opened="is_open" title="@modal_title" Save_Click="BussinessInfor_Click" is_submitting="@is_saving" modal_width="800px">
+
+    <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
+        <UIFlexCenter>
+            <FileUpload @bind-ImageUrl="@model.company_logo" />
+        </UIFlexCenter>
+    </UIContainerBox>
+    <TextInput label="@lang["Company Name"]" @bind-text="@model.company_name">
+        <ValidationMessage For="@(()=>model.company_name)" />
+    </TextInput>
+    <TextInput label="@lang["Name Kh"]" @bind-text="@model.company_name_kh">
+        <ValidationMessage For="@(()=>model.company_name_kh)" />
+    </TextInput>
+    <TextInput label="@lang["Mobile Phone"]" @bind-text="@model.mobile_phone" />
+    <TextInput label="@lang["Office Phone"]" @bind-text="@model.office_phone" />
+    <TextInput label="@lang["Contact Name"]" @bind-text="@model.contact_name" />
+    <TextInput label="@lang["Contact Phone"]" @bind-text="@model.contact_phone_number" />
+    <TextInput label="@lang["Contact Office Phone"]" @bind-text="@model.contact_office_number" />
+    <TextInput label="@lang["Email"]" @bind-text="@model.email" />
+    <TextInput label="@lang["Contact Email"]" @bind-text="@model.contact_email" />
+</EditFormContext>
+
+@code{
+    [Parameter] public string modal_title { get; set; }
+    [Parameter] public BusinessInformationModel model { get; set; } = new BusinessInformationModel();
+    [Parameter] public bool is_open { get; set; }
+    [Parameter] public EventCallback<bool> is_openChanged { get; set; }
+    [Parameter] public EventCallback<BusinessInformationModel> Save_Click { get; set; }
+
+    async Task onCancelClick()
+    {
+        await is_openChanged.InvokeAsync(false);
+    }
+
+    async Task BussinessInfor_Click()
+    {
+        is_saving = true;
+        var res = await http.ApiPost("BusinessInformation/save", model);
+        if (res.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<BusinessInformationModel>(res.Content.ToString());
+            var resp = await http.ApiGet("GlobalVariable?$expand=bussiness_branches");
+            if (resp.IsSuccess)
+            {
+                var data = JsonSerializer.Deserialize<GlobalVariableModel>(resp.Content.ToString());
+                 
+            }
+
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
+            await Save_Click.InvokeAsync(model);
+            await is_openChanged.InvokeAsync(false);
+        }
+        is_saving = false;
+    }
+}

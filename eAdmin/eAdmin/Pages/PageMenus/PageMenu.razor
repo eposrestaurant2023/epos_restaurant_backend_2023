@@ -10,6 +10,9 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => IsMenuOpened=!IsMenuOpened)" />
+                        </MudHidden>
                         @lang["Menu"]
                     </HeaderTemplate>
                 </PageTitle>
@@ -20,14 +23,21 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudDrawer @bind-Open="@IsMenuOpened" Elevation="1" Variant="@DrawerVariant.Temporary">
+                <MudDrawerHeader>
+                    <MudText Class="d-flex align-center" Typo="Typo.h6">@lang["Menu"]</MudText>
+                </MudDrawerHeader>
+                <MudDivider />
+                <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.is_deleted == false).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id" @bind-keyword="@keyword" OnEditMenu="@OnEditMenu" OnAddRootMenu="@AddRootMenu" />
+            </MudDrawer>
             <Grid ClassName="uk-grid-small">
-                <Column ClassName="uk-width-1-5">
-                    <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.is_deleted == false).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id" @bind-keyword="@keyword" OnEditMenu="@OnEditMenu" OnAddRootMenu="@AddRootMenu" />
-                </Column>
-                <Column ClassName="uk-width-4-5">
-
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <Column ClassName="uk-width-1-5@m uk-width-1-1@s">
+                        <ComBusinessBranhRootMenu @bind-business_id="@business_id" menus="@menus.Where(r=>r.is_deleted == false).ToList()" @bind-menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-parent_menu_id="@parent_menu_id" @bind-keyword="@keyword" OnEditMenu="@OnEditMenu" OnAddRootMenu="@AddRootMenu" />
+                    </Column>
+                </MudHidden>
+                <Column ClassName="uk-width-4-5@m uk-width-1-1@s">
                     <ComMainMenu @bind-menu_move="@menu" business_branch_id="@business_id" menus="@menus" root_menu_id="@root_menu_id" @bind-current_menu_id="@current_menu_id" @bind-keyword="@keyword" />
-
                 </Column>
             </Grid>
         </PageBody>
@@ -51,7 +61,7 @@
     int parent_menu_id;
     int current_menu_id;
     bool show_add_menu;
-
+    bool IsMenuOpened;
     Guid business_id = Guid.NewGuid();
 
 

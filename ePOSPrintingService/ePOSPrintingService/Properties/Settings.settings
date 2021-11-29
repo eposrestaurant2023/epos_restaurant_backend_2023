@@ -32,7 +32,7 @@
     {
         "ReceiptName": "Invoice Kh",
         "ReceiptFileName": "rpt_receipt_kh",
-        "InvoiceFileName": "rpt_inoice_kh",
+        "InvoiceFileName": "rpt_invoice_kh",
         "number_invoice_copies": 2,
         "number_receipt_copies": 1,
         "PageWidth": 2.85,
@@ -54,7 +54,83 @@
         "MarginRight": 0,
         "MarginBottom": 0,
         "MarginLeft": 0
+    },
+ {
+        "ReceiptName": "Close Working Day",
+        "ReceiptFileName": "rpt_close_working_day_summary",
+        "PageWidth": 2.85,
+        "PageHeight": 11,
+        "MarginTop": 0,
+        "MarginRight": 0,
+        "MarginBottom": 0,
+        "MarginLeft": 0
+    },
+ {
+        "ReceiptName": "Close Working Day Sale Product",
+        "ReceiptFileName": "rpt_close_working_day_sale_product",
+        "PageWidth": 2.85,
+        "PageHeight": 11,
+        "MarginTop": 0,
+        "MarginRight": 0,
+        "MarginBottom": 0,
+        "MarginLeft": 0
     }
+,
+ {
+        "ReceiptName": "Close Working Day Sale Transaction",
+        "ReceiptFileName": "rpt_close_working_day_sale_transaction",
+        "PageWidth": 2.85,
+        "PageHeight": 11,
+        "MarginTop": 0,
+        "MarginRight": 0,
+        "MarginBottom": 0,
+        "MarginLeft": 0
+    },
+ {
+        "ReceiptName": "Close Cashier Shift Summary",
+        "ReceiptFileName": "rpt_close_cashier_shift_summary",
+        "PageWidth": 2.85,
+        "PageHeight": 11,
+        "MarginTop": 0,
+        "MarginRight": 0,
+        "MarginBottom": 0,
+        "MarginLeft": 0
+    }
+,
+ {
+        "ReceiptName": "Close Cashier Shift Sale Transaction",
+        "ReceiptFileName": "rpt_close_cashier_shift_sale_transaction",
+        "PageWidth": 2.85,
+        "PageHeight": 11,
+        "MarginTop": 0,
+        "MarginRight": 0,
+        "MarginBottom": 0,
+        "MarginLeft": 0
+    }
+,
+ {
+        "ReceiptName": "Close Cashier Shift Sale Product",
+        "ReceiptFileName": "rpt_close_cashier_shift_sale_product",
+        "PageWidth": 2.85,
+        "PageHeight": 11,
+        "MarginTop": 0,
+        "MarginRight": 0,
+        "MarginBottom": 0,
+        "MarginLeft": 0
+    }
+,
+ {
+        "ReceiptName": "Deleted Sale Order",
+        "InvoiceFileName": "rpt_deleted_invoice",
+        "PageWidth": 2.85,
+        "PageHeight": 11,
+        "MarginTop": 0,
+        "MarginRight": 0,
+        "MarginBottom": 0,
+        "MarginLeft": 0
+    }
+
+
 ]</Value>
     </Setting>
     <Setting Name="CashierPrinter" Type="System.String" Scope="User">

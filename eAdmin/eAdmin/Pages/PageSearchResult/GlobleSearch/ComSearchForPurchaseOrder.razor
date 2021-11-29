@@ -24,15 +24,18 @@
            ClassName="uk-table-small uk-table-striped uk-table-hover"
            ScrollClass="uk-overflow-auto">
         <TableHeader>
-            @HeaderTemplate("purchase_date", lang["PO Date"], "uk-text-center")
+            @HeaderTemplate("purchase_date", lang["Date"], "uk-text-center")
             @HeaderTemplate("document_number", lang["Document #"], "uk-text-center")
             @HeaderTemplate("referance_number", lang["Referance #"], "uk-text-center")
             @HeaderTemplate("vendor/vendor_name", lang["Vendor"], "col-auto")
-            @HeaderTemplate("stock_location/stock_location_name", lang["Stock Location (Business Branch)"])
+            <ThAuto>
+                <div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Warehouse"]</div>
+            </ThAuto>
+            <ThCenter>@lang["Total Quantity"]</ThCenter>
             <ThRight>@lang["Total Amount"]</ThRight>
             <ThRight>@lang["Paid Amount"]</ThRight>
             <ThRight>@lang["Balance"]</ThRight>
-            <ThCenter>@lang["Status"]</ThCenter>
+            <ThRight>@lang["Status"]</ThRight>
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
@@ -49,9 +52,10 @@
                 </ComAuthorize>
             </td>
             <td>
-                @p.stock_location?.stock_location_name (@p.business_branch?.business_branch_name_en)
+                <div>@p.business_branch?.business_branch_name_en</div>
+                <div class="sub-info-row-table">@p.stock_location?.stock_location_name</div>
             </td>
-
+            <TdCenter>@p.total_quantity.ToString(gv.quantity_format)</TdCenter>
             <TdRight>
                 @p.total_amount.ToString(gv.main_currency_format)
             </TdRight>
@@ -63,13 +67,10 @@
             </TdRight>
             <TdRight>
                 <ComPurchaseOrderStatus po="@p" />
-                <LabelDeleted is_visible="@(p.is_deleted)" />
             </TdRight>
-            <TdActions is_loading="@p.is_loading">
-                <TableActionItem roles="@gv.GetRole("purchase_order_management")" icon="visibility" url="@($"purchaseorder/{p.id}")">@lang["View"]</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" is_visible="@(p.can_edit && !p.is_fulfilled)" url="@($"purchaseorder/edit/{p.id}")">@lang["Edit"]</TableActionItem>
-                <TableActionItem roles="@gv.GetRole("purchase_order_edit")" icon="file_copy" url="@($"purchaseorder/clone/{p.id}")">@lang["Clone"]</TableActionItem>
-            </TdActions>
+            <TdCenter>
+                <Icon icon="visibility" roles="@gv.GetRole("purchase_order_management")" url="@($"purchaseorder/{p.id}")"/>
+            </TdCenter>
         </RowTemplate>
     </Table>
 
@@ -93,7 +94,7 @@
                 state.pager.order_by = "id";
                 state.pager.order_by_type = "desc";
             }
-            string query = "$select=id,document_number,purchase_date,reference_number,balance,paid_amount,status,is_paid,is_fulfilled,total_amount,is_partially_paid";
+            string query = "$select=id,is_over_due,is_deleted,total_quantity,document_number,vendor_id,purchase_date,reference_number,balance,paid_amount,status,is_paid,is_fulfilled,total_amount,is_partially_paid";
             query = query + "&$expand=vendor($select=id,vendor_code,vendor_name,photo,company_name),business_branch($select=business_branch_name_en),stock_location($select=stock_location_name)";
             string url = $"{api_controller}?{query}&keyword={keyword}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
             return url + GetFilter(state.filters);

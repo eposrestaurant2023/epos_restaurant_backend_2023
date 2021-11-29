@@ -123,6 +123,9 @@
   <data name="Business Information" xml:space="preserve">
     <value>ព័ត៌មានអាជីវកម្ម</value>
   </data>
+	<data name="Cashier Notes" xml:space="preserve">
+    <value>អ្នកគិតលុយ(កំណត់ចំណាំ)</value>
+  </data>
   <data name="Cashier Note" xml:space="preserve">
     <value>អ្នកគិតលុយ(កំណត់ចំណាំ)</value>
   </data>
@@ -275,6 +278,9 @@
   </data>
   <data name="Delete Comment" xml:space="preserve">
     <value>លុបមតិ</value>
+  </data>
+  <data name="Delete Item" xml:space="preserve">
+    <value>លុប Item</value>
   </data>
   <data name="Delete payment" xml:space="preserve">
     <value>លុបការទូទាត់</value>
@@ -480,10 +486,10 @@
   <data name="Status" xml:space="preserve">
     <value>ស្ថានភាព</value>
   </data>
-  <data name="Last Modified Date" xml:space="preserve">
+  <data name="Last modified date" xml:space="preserve">
     <value>ថ្ងៃនៃការកែប្រែចុងក្រោយ</value>
   </data>
-  <data name="Last Modified By" xml:space="preserve">
+  <data name="Last modified by" xml:space="preserve">
     <value>អ្នកកែប្រែចុងក្រោយដោយ</value>
   </data>
   <data name="Created by" xml:space="preserve">
@@ -504,14 +510,32 @@
   <data name="Select Customer" xml:space="preserve">
     <value>សូមជ្រើសរើសអតិថិជន</value>
   </data>
+  <data name="Select Product" xml:space="preserve">
+    <value>សូមជ្រើសរើសផលិតផល</value>
+  </data>
+  <data name="Select Products" xml:space="preserve">
+    <value>សូមជ្រើសរើសផលិតផល</value>
+  </data>
   <data name="Multiples" xml:space="preserve">
+    <value>ចំនួនមេគុណ</value>
+  </data>
+  <data name="Multiplier" xml:space="preserve">
     <value>ចំនួនមេគុណ</value>
   </data>
   <data name="Unit (multiplier)" xml:space="preserve">
     <value>ឯកតា (មេគុណ)</value>
   </data>
+  <data name="Add Unit" xml:space="preserve">
+    <value>បង្កើតឯកតាថ្មី</value>
+  </data>
   <data name="Unit" xml:space="preserve">
     <value>ឯកតា</value>
+  </data>
+  <data name="Unit Category" xml:space="preserve">
+    <value>ប្រភេទឯកតា</value>
+  </data>
+  <data name="Unit Type" xml:space="preserve">
+    <value>ប្រភេទឯកតា</value>
   </data>
   <data name="Closed by" xml:space="preserve">
     <value>បិទដោយ</value>
@@ -594,6 +618,21 @@
   <data name="Image" xml:space="preserve">
     <value>រូបភាព</value>
   </data>
+​​​<data name="Upload Files" xml:space="preserve">
+    <value>បញ្ជូលឯកសារ</value>
+  </data>
+	​​​<data name="Accept" xml:space="preserve">
+    <value>ទទួលយក</value>
+  </data>
+	  <data name="File title" xml:space="preserve">
+    <value>ឈ្មោះ​ឯកសារ</value>
+  </data>
+	 <data name="File Description" xml:space="preserve">
+    <value>ពិពណ៌នា​ឯកសារ</value>
+  </data>
+  <data name="No files or images" xml:space="preserve">
+    <value>មិនទាន់មាន​ឯកសារនិង​ រូបភាព</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>ការពិពណ៌នា</value>
   </data>
@@ -605,6 +644,12 @@
   </data>
   <data name="Min QTY" xml:space="preserve">
     <value>ចំនួនតូចបំផុត</value>
+  </data>
+	<data name="Min" xml:space="preserve">
+    <value>តូចបំផុត</value>
+  </data>
+	<data name="Max" xml:space="preserve">
+    <value>ធំបំផុត</value>
   </data>
   <data name="Max QTY" xml:space="preserve">
     <value>ចំនួនធំបំផុត</value>
@@ -630,11 +675,11 @@
   <data name="Dashboard" xml:space="preserve">
     <value>ទំព័រដើម</value>
   </data>
-  <data name="Discount Code" xml:space="preserve">
+	<data name="Discount Code" xml:space="preserve">
     <value>លេខ​កូដ​បញ្ចុះតម្លៃ</value>
   </data>
-  <data name="helloworld" xml:space="preserve">
-    <value>សួស្តី!</value>
+  <data name="Add Discount Code" xml:space="preserve">
+    <value>បង្កើតលេខ​កូដ​បញ្ចុះតម្លៃថ្មី</value>
   </data>
   <data name="Hourly Sale" xml:space="preserve">
     <value>ការលក់ ម៉ោង/ថ្ងៃ</value>
@@ -690,8 +735,20 @@
   <data name="Payment Type" xml:space="preserve">
     <value>ប្រភេទការទូទាត់</value>
   </data>
+	<data name="All Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់ទាំងអស់</value>
+  </data>
+	<data name="Active Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់សកម្ម</value>
+  </data>
+	<data name="Inactive Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់អសកម្ម</value>
+  </data>
+	<data name="Deleted Payment Type" xml:space="preserve">
+    <value>ប្រភេទការទូទាត់បានលុប</value>
+  </data>
   <data name="Pending Orders" xml:space="preserve">
-    <value>ការបញ្ជាទិញមិនទាន់បិទ</value>
+    <value>បញ្ជាទិញមិនទាន់បិទ</value>
   </data>
   <data name="Price Rule" xml:space="preserve">
     <value>ប្រភេទតម្លៃ</value>
@@ -740,6 +797,9 @@
   </data>
   <data name="Receipt List" xml:space="preserve">
     <value>វិក័យបត្រ័លក់</value>
+  </data>
+	<data name="Customers" xml:space="preserve">
+    <value>អតិថិជន</value>
   </data>
   <data name="All Customer" xml:space="preserve">
     <value>អតិថិជនទាំងអស់</value>
@@ -810,17 +870,41 @@
   <data name="Sale Type" xml:space="preserve">
     <value>ប្រភេទលក់</value>
   </data>
+	<data name="Sale" xml:space="preserve">
+    <value>ការលក់</value>
+  </data>
   <data name="Sale Type Summary" xml:space="preserve">
     <value>សង្ខេបប្រភេទលក់</value>
   </data>
   <data name="Setting" xml:space="preserve">
     <value>ការកំណត់</value>
   </data>
+	<data name="Settings" xml:space="preserve">
+    <value>ការកំណត់</value>
+  </data>
   <data name="Summary Invoice" xml:space="preserve">
     <value>សង្ខេបការបញ្ជាទិញ</value>
   </data>
-  <data name="Table #" xml:space="preserve">
+	<data name="Table​ Name" xml:space="preserve">
+    <value>​ឈ្មោះតុ</value>
+  </data>
+	<data name="Table" xml:space="preserve">
+    <value>​តុ</value>
+  </data>
+	<data name="Table #" xml:space="preserve">
     <value>លេខ​តុ</value>
+  </data>
+  <data name="Add Table" xml:space="preserve">
+    <value>បង្កើត​តុថ្មី</value>
+  </data>
+	<data name="Table Information" xml:space="preserve">
+    <value>ព័ត៌មានតុ</value>
+  </data>
+	<data name="Table Group Information" xml:space="preserve">
+    <value>ព័ត៌មានក្រុមតុ</value>
+  </data>
+  <data name="Table Group Name" xml:space="preserve">
+    <value>ឈ្មោះក្រុមតុ</value>
   </data>
   <data name="Table Group &amp; Table" xml:space="preserve">
     <value>ក្រុមតុនិង​តុ</value>
@@ -955,7 +1039,7 @@
     <value>ក្រុមអ្នកផ្គត់ផ្គង់</value>
   </data>
   <data name="Void Orders" xml:space="preserve">
-    <value>ការបញ្ជាទិញដែលបានលុប</value>
+    <value>បញ្ជាទិញដែលបានលុប</value>
   </data>
   <data name="welcome" xml:space="preserve">
     <value>សូមស្វាគមន៍</value>
@@ -1024,7 +1108,7 @@
     <value>បានលុប</value>
   </data>
   <data name="Recipe" xml:space="preserve">
-    <value>រូបមន្ត</value>
+    <value>គ្រឿងផ្សំ</value>
   </data>
   <data name="General Information" xml:space="preserve">
     <value>ព័ត៌មានទូទៅ</value>
@@ -1161,6 +1245,9 @@
   <data name="Is Order Use Table" xml:space="preserve">
     <value>ប្រើប្រាស់តុ</value>
   </data>
+	<data name="Order Use Table" xml:space="preserve">
+    <value>ប្រើប្រាស់តុ</value>
+  </data>
   <data name="PO" xml:space="preserve">
     <value>បញ្ជាទិញ</value>
   </data>
@@ -1195,7 +1282,7 @@
     <value>បញ្ជាទិញ</value>
   </data>
   <data name="Purchase Payment History" xml:space="preserve">
-    <value>ប្រវត្តិបញ្ជាទិញ</value>
+    <value>ប្រវត្តិការទូទាត់</value>
   </data>
   <data name="Purchase Product History" xml:space="preserve">
     <value>ប្រវត្តិទំនិញបញ្ជាទិញ</value>
@@ -1206,8 +1293,14 @@
   <data name="Sale Type Name" xml:space="preserve">
     <value>ប្រភេទលក់</value>
   </data>
+	<data name="Add Sale Type" xml:space="preserve">
+    <value>បង្កើតប្រភេទលក់ថ្មី</value>
+  </data>
   <data name="Use Table" xml:space="preserve">
     <value>ប្រើប្រាស់តុ</value>
+  </data>
+  <data name="Table Name" xml:space="preserve">
+    <value>ឈ្មោះតុ</value>
   </data>
   <data name="Branch" xml:space="preserve">
     <value>សាខា</value>
@@ -1251,6 +1344,9 @@
   <data name="New PO" xml:space="preserve">
     <value>បញ្ជូលបញ្ជាទិញថ្មី</value>
   </data>
+	<data name="Edit Product" xml:space="preserve">
+    <value>កែប្រែទំនិញ</value>
+  </data>
   <data name="New Product" xml:space="preserve">
     <value>បញ្ជូលទំនិញថ្មី</value>
   </data>
@@ -1270,7 +1366,7 @@
     <value>បញ្ជូលក្រុមរថយន្តថ្មី</value>
   </data>
   <data name="New Stock Take" xml:space="preserve">
-    <value>បញ្ជូលការយកទំនិញប្រើប្រាស់ថ្មី</value>
+    <value>បញ្ជូលការដកទំនិញប្រើប្រាស់ថ្មី</value>
   </data>
   <data name="Add New Vendor Group" xml:space="preserve">
     <value>បញ្ជូលក្រុមអ្នកផ្គត់ផ្គង់ថ្មី</value>
@@ -1483,10 +1579,10 @@
     <value>ទំនិញកែប្រែ</value>
   </data>
   <data name="Stock Take Date" xml:space="preserve">
-    <value>ថ្ងៃយកទំនិញ</value>
+    <value>ថ្ងៃដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="Stock Take Information" xml:space="preserve">
-    <value>ពត៌មានយកទំនិញប្រើប្រាស់</value>
+    <value>ពត៌មានដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="Inventory Information" xml:space="preserve">
     <value>ពត៌មានអំពីសារពើភ័ណ្ឌ</value>
@@ -1501,43 +1597,43 @@
     <value>ប្រតិបត្តិការសារពើភ័ណ្ឌ</value>
   </data>
   <data name="All Stock Take History" xml:space="preserve">
-    <value>ប្រវត្តិបញ្ជូលទំនិញទាំងអស់</value>
+    <value>ប្រវត្តិដកទំនិញប្រើប្រាស់ទាំងអស់</value>
   </data>
   <data name="Stock Take" xml:space="preserve">
-    <value>បញ្ជូលទំនិញ</value>
+    <value>ដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="All Stock Take" xml:space="preserve">
-    <value>បញ្ជូលទំនិញទាំងអស់</value>
+    <value>ដកទំនិញប្រើប្រាស់ទាំងអស់</value>
   </data>
   <data name="Deleted Stock Take" xml:space="preserve">
-    <value>បញ្ជូលទំនិញបានលុប</value>
+    <value>ដកទំនិញប្រើប្រាស់បានលុប</value>
   </data>
   <data name="ST#" xml:space="preserve">
     <value>លេខបញ្ជូលទំនិញ</value>
   </data>
   <data name="Stock Take#" xml:space="preserve">
-    <value>លេខបញ្ជូលទំនិញ</value>
+    <value>លេខដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="Stock take item cannot be empty." xml:space="preserve">
     <value>សូមបញ្ជូលទំនិញ។</value>
   </data>
   <data name="Stock Transfer" xml:space="preserve">
-    <value>ថ្ផ្ទេរទំនិញ</value>
+    <value>ផ្ទេរទំនិញ</value>
   </data>
   <data name="Stock Transfer#" xml:space="preserve">
-    <value>លេខថ្ផ្ទេរទំនិញ</value>
+    <value>លេខផ្ទេរទំនិញ</value>
   </data>
   <data name="SF Date" xml:space="preserve">
-    <value>ថ្ងៃថ្ផ្ទេរទំនិញ</value>
+    <value>ថ្ងៃផ្ទេរទំនិញ</value>
   </data>
   <data name="SF#" xml:space="preserve">
-    <value>លេខថ្ផ្ទេរទំនិញ</value>
+    <value>លេខផ្ទេរទំនិញ</value>
   </data>
   <data name="All Stock Transfer" xml:space="preserve">
     <value>ថ្ផ្ទេរទំនិញទាំងអស់</value>
   </data>
   <data name="Deleted Stock Transfer" xml:space="preserve">
-    <value>ថ្ផ្ទេរទំនិញដែលបានលុប</value>
+    <value>ផ្ទេរទំនិញដែលបានលុប</value>
   </data>
   <data name="Stock Transfer Date" xml:space="preserve">
     <value>ថ្ងៃផ្ទេរទំនិញ</value>
@@ -1902,6 +1998,12 @@
   <data name="Ingredient Product Information" xml:space="preserve">
     <value>ព័ត៌មានគ្រឿងផ្សំ</value>
   </data>
+	<data name="Inventory / Ingredient Product" xml:space="preserve">
+    <value>សារពើភ័ណ្ឌ/គ្រឿងផ្សំ</value>
+  </data>
+	<data name="Inventory / Production Product" xml:space="preserve">
+    <value>សារពើភ័ណ្ឌ/ផលិតកម្ម​ទំនិញ</value>
+  </data>
   <data name="Stock Transfer Information" xml:space="preserve">
     <value>ព័ត៌មានការផ្ទេរទំនិញ</value>
   </data>
@@ -1949,6 +2051,9 @@
   </data>
   <data name="Showing" xml:space="preserve">
     <value>បង្ហាញ</value>
+  </data>
+	<data name="Branch Information" xml:space="preserve">
+    <value>ព័ត៌មានសាខាអាជីវកម្ម</value>
   </data>
   <data name="Social Media Information" xml:space="preserve">
     <value>ព័ត៌មានបណ្ដាញផ្សព្វផ្សាយសង្គម</value>
@@ -2068,6 +2173,9 @@
     <value>សូមបញ្ជូលឈ្មោះប្រភេទទំនិញ។</value>
   </data>
   <data name="Please select menu" xml:space="preserve">
+    <value>សូមជ្រើសរើសម៉ឺនុយ</value>
+  </data>
+	<data name="Selected Menus" xml:space="preserve">
     <value>សូមជ្រើសរើសម៉ឺនុយ</value>
   </data>
   <data name="Please choose Business branch." xml:space="preserve">
@@ -2234,5 +2342,80 @@
   </data>
   <data name="Save successfully" xml:space="preserve">
     <value>រក្សាទុកជោគជ័យ</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>របាយការណ៍</value>
+  </data>
+  <data name="What Next?" xml:space="preserve">
+    <value>បន្ទាប់?</value>
+  </data>
+  <data name="You can mark this purchase order as Fulfilled" xml:space="preserve">
+    <value>អ្នកអាចបញ្ចប់ និងបិទការបញ្ជាទិញនេះ</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>ព្រាង</value>
+  </data>
+  <data name="Overdue" xml:space="preserve">
+    <value>លើសថ្ងៃ</value>
+  </data>
+  <data name="You can mark this transansaction as Fulfilled" xml:space="preserve">
+    <value>អ្នកអាចបញ្ចប់ និងបិទប្រតិបត្តិការនេះ</value>
+  </data>
+  <data name="You can mark this transansaction as Fulfilled." xml:space="preserve">
+    <value>អ្នកអាចបញ្ចប់ និងបិទប្រតិបត្តិការនេះ។</value>
+  </data>
+  <data name="Portion" xml:space="preserve">
+    <value>ទំហំ</value>
+  </data>
+  <data name="Last modified" xml:space="preserve">
+    <value>កែប្រែចុងក្រោយ</value>
+  </data>
+  <data name="Cancel Mark as Fulfilled" xml:space="preserve">
+    <value>លុប Mark as Fulfilled</value>
+  </data>
+  <data name="Clone Production" xml:space="preserve">
+    <value>ចម្លង</value>
+  </data>
+  <data name="Attach File" xml:space="preserve">
+    <value>ភ្ជាប់ ឯកសារ</value>
+  </data>
+  <data name="Attach Files" xml:space="preserve">
+    <value>ភ្ជាប់ ឯកសារ</value>
+  </data>
+  <data name="Invoice File Name" xml:space="preserve">
+    <value>ឈ្មោះវិក័យបត្រ័</value>
+  </data>
+  <data name="Receipt File Name" xml:space="preserve">
+    <value>ឈ្មោះបង្កាន់ដៃ</value>
+  </data>
+  <data name="Receipt Name" xml:space="preserve">
+    <value>ឈ្មោះឯកសារ</value>
+  </data>
+  <data name="Add New POS Invoice" xml:space="preserve">
+    <value>បញ្ជូលវិក្កយបត្រ POS ថ្មី</value>
+  </data>
+  <data name="Please enter POS invoice information" xml:space="preserve">
+    <value>សូមបញ្ចូលព័ត៌មានវិក្កយបត្រ POS</value>
+  </data>
+  <data name="Save data fail" xml:space="preserve">
+    <value>រក្សាទុកបរាជ័យ</value>
+  </data>
+  <data name="Save data successfully" xml:space="preserve">
+    <value>រក្សាទុកជោគជ័យ</value>
+  </data>
+  <data name="Save data successfully." xml:space="preserve">
+    <value>រក្សាទុកជោគជ័យ</value>
+  </data>
+  <data name="Invoice Copies" xml:space="preserve">
+    <value>ចំនួនវិក្កបត្រ</value>
+  </data>
+  <data name="POS Invoices" xml:space="preserve">
+    <value>វិក្កយបត្រ POS</value>
+  </data>
+  <data name="POS Receipts" xml:space="preserve">
+    <value>បង្កាន់ដៃ POS</value>
+  </data>
+  <data name="Receipt Copies" xml:space="preserve">
+    <value>ចំនួនបង្កាន់ដៃ</value>
   </data>
 </root>

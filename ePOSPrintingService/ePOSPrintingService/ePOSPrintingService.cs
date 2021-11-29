@@ -95,20 +95,48 @@ namespace ePOSPrintingService
                     switch (action.action)
                     {
                         case "print_request_bill":
-                            ReceiptListModel invoice = Program.ReceiptLists.Where(r => r.ReceiptName == action.receipt_name).FirstOrDefault();
-                            Program.PrintIvoice(action.sale_id, invoice, Program.CashierPrinter);
+                            ReceiptListModel invoice = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintIvoice(action.sale_id, invoice, Program.CashierPrinter, action.copies);
                             break;
                         case "print_receipt":
-                            ReceiptListModel receipt = Program.ReceiptLists.Where(r => r.ReceiptName == action.receipt_name).FirstOrDefault();
-                            Program.PrintReceipt(action.sale_id, receipt, Program.CashierPrinter);
+                            ReceiptListModel receipt = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintReceipt(action.sale_id, receipt, Program.CashierPrinter, action.copies);
+                            break;
+                        case "print_deleted_sale_order":
+                            ReceiptListModel deleted_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintDeletedOrder(action.sale_id, deleted_report, Program.CashierPrinter);
                             break;
                         case "reprint_receipt":
-                            ReceiptListModel reprint_receipt = Program.ReceiptLists.Where(r => r.ReceiptName == action.receipt_name).FirstOrDefault();
-                            Program.PrintReceipt(action.sale_id, reprint_receipt, Program.CashierPrinter, true);
+                            ReceiptListModel reprint_receipt = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintReceipt(action.sale_id, reprint_receipt, Program.CashierPrinter, action.copies, true);
                             break;
                         case "print_to_kitchen":
 
                             Program.PrintKitchenOrder(action.sale_id);
+                            break;
+                        case "print_close_working_day_summary":
+                            ReceiptListModel close_working_day_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseWorkingDay(action.id, close_working_day_report, Program.CashierPrinter,action.printed_by);
+                            break;  
+                        case "print_close_working_day_sale_product":
+                            ReceiptListModel close_working_day_sale_product_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseWorkingDaySaleProduct(action.id, close_working_day_sale_product_report, Program.CashierPrinter,action.printed_by);
+                            break;
+                        case "print_close_working_day_sale_transaction":
+                            ReceiptListModel close_working_day_sale_transaction_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseWorkingDaySaleTransaction(action.id, close_working_day_sale_transaction_report, Program.CashierPrinter,action.printed_by);
+                            break; 
+                        case "print_close_cashier_shift_summary":
+                            ReceiptListModel close_cashift_shift_summary_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseCashierShiftSummary(action.id, close_cashift_shift_summary_report, Program.CashierPrinter,action.printed_by);
+                            break;
+                        case "print_close_cashier_shift_sale_transaction":
+                            ReceiptListModel close_cashift_shift_sale_transaction_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseCashierShiftSaleTransaction(action.id, close_cashift_shift_sale_transaction_report, Program.CashierPrinter,action.printed_by);
+                            break;
+                        case "print_close_cashier_shift_sale_product":
+                            ReceiptListModel close_cashift_shift_sale_product_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintCloseCashierShiftSaleProduct(action.id, close_cashift_shift_sale_product_report, Program.CashierPrinter,action.printed_by);
                             break;
 
 
@@ -118,7 +146,9 @@ namespace ePOSPrintingService
                     }
                 }
 
+                System.Threading.Thread.Sleep(250);
 
+                File.Delete(e.FullPath);
 
             }
             catch (Exception ex)

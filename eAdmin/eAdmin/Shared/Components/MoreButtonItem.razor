@@ -2,42 +2,41 @@
 {
     @if (roles == "")
     {
-        <li>
-            @if (!string.IsNullOrWhiteSpace(url))
-            {
-                <a href="@url">
-                    <Icon icon="@icon" className="@icon" />
-                    @ChildContent
-                </a>
-            }
-            else
-            {
-                <a @onclick="@OnClick" class="uk-drop-close">
-                    <Icon icon="@icon" className="@icon" />
-                    @ChildContent
-                </a>
-            }
-        </li>
+
+
+        @if (!string.IsNullOrWhiteSpace(url))
+        {
+            <MudMenuItem Link="@url">
+                <Icon icon="@icon" className="@icon" />
+                @ChildContent
+            </MudMenuItem>
+        }
+        else
+        {
+            <MudMenuItem OnClick="@OnClick" >
+                <Icon icon="@icon" className="@icon" />
+                @ChildContent
+            </MudMenuItem>
+        }
+
     }
     else
     {
         <AuthorizeView Roles="@roles">
-            <li>
-                @if (!string.IsNullOrWhiteSpace(url))
-                {
-                    <a href="@url">
-                        <Icon icon="@icon" className="@icon" />
-                        @ChildContent
-                    </a>
-                }
-                else
-                {
-                    <a @onclick="@OnClick" class="uk-drop-close">
-                        <Icon icon="@icon" className="@icon" />
-                        @ChildContent
-                    </a>
-                }
-            </li>
+            @if (!string.IsNullOrWhiteSpace(url))
+            {
+                <MudMenuItem Link="@url">
+                    <Icon icon="@icon" className="@icon" />
+                    @ChildContent
+                </MudMenuItem>
+            }
+            else
+            {
+                <MudMenuItem OnClick="@OnClick">
+                    <Icon icon="@icon" className="@icon" />
+                    @ChildContent
+                </MudMenuItem>
+            }
         </AuthorizeView>
     }
 

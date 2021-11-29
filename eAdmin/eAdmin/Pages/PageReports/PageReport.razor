@@ -5,12 +5,15 @@
 
 @if (!is_loading)
 {
-    <Title Value="@lang["Report"]" />
+    <Title Value="@lang["Reports"]" />
     <PageContainer roles="@gv.GetRole("report_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => IsMenuReportOpened=!IsMenuReportOpened)" />
+                        </MudHidden>
                         @state.page_title
                     </HeaderTemplate>
                 </PageTitle>
@@ -18,88 +21,48 @@
             <HeaderRight ShowBackButton="true" />
         </PageHeader>
         <PageBody>
+            <MudDrawer @bind-Open="@IsMenuReportOpened" Elevation="1" Variant="@DrawerVariant.Temporary">
+                <MudDrawerHeader>
+                    <MudText Class="d-flex align-center" Typo="Typo.h6">@lang["Reports"]</MudText>
+                </MudDrawerHeader>
+                <MudDivider />
+                <ComReportNavMenu main_report_list="@main_report_list" gv="gv" OnViewReport="@ViewReportClick" />
+
+            </MudDrawer>
             <div uk-grid class="uk-grid-small" uk-height-match="target: > div > .uk-card">
-                <div class="uk-width-1-5@m uk-width-1-1@s">
-                    <ComPanel>
-                        <input type="text" class="uk-input uk-form-small" placeholder="@lang["Search"]" @bind="@keyword" @bind:event="oninput" />
-                        @if (keyword == "")
-                        {
-                            @foreach (var r in main_report_list.OrderBy(r=>r.sort_order))
-                            {
-                                <ComAuth roles="@gv.GetRole(r.option_name)">
-                                    @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)
-                                    {
-                                        <ul uk-accordion>
-                                            <li style="margin-top: 10px !important;" class="report-header">
-                                                <a class="uk-accordion-title" href="#" style="background:transparent !important;padding:0px !important;">@r.report_title</a>
-                                                <div class="uk-accordion-content" style="padding:0px !important;">
-                                                    @foreach (var p in gv.permission_options.Where(u => u.parent_id == r.id && u.report_title.Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList().OrderBy(r => r.sort_order))
-                                                    {
-                                                        <AuthorizeView Roles="@gv.GetRole(p.option_name)">
-                                                            <div class="report-content-item" @onclick="@(() => ViewReportClick(p))" uk-tooltip="@p.report_title">
-                                                                <Icon icon="chevron_right" /> @p.report_title
-                                                            </div>
-                                                        </AuthorizeView>
-                                                    }
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    }
-                                </ComAuth>
-                            }
-                        }
-                        else
-                        {
-                            foreach (var r in main_report_list)
-                            {
-                                <ComAuth roles="@gv.GetRole(r.option_name)">
-                                    @if (gv.permission_options.Where(u => u.parent_id == r.id).Count() > 0)
-                                    {
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <div class="uk-width-1-5@m uk-width-1-1@s">
+                        <ComReportNavMenu main_report_list="@main_report_list" gv="gv" OnViewReport="@ViewReportClick" />
+                    </div>
+                </MudHidden>
+                    <div class="uk-width-4-5@m uk-width-1-1@s">
+                        <ComPanel>
+                            <div class="report-model">
+                                <div class="content">
+                                    <div class="modal-header">
+                                        <div class="modal-title">@report_title</div>
 
-                                        @foreach (var p in gv.permission_options.Where(u => u.parent_id == r.id && u.report_title.Trim().ToLower().Contains(keyword.Trim().ToLower())).ToList().OrderBy(r => r.sort_order))
+                                        <Icon is_visible="@(report.id>0)" icon="fullscreen" className="uk-modal-close-default" OnClick="@OnViewFullscreenReport" />
+                                    </div>
+                                    <div class="modal-content">
+                                        @if (report != null && report.id > 0)
                                         {
-                                            <AuthorizeView Roles="@gv.GetRole(p.option_name)">
-                                                <div class="report-content-item" @onclick="@(()=>ViewReportClick(p))" uk-tooltip="@p.report_title">
-                                                    <Icon icon="chevron_right" /> @p.report_title
-                                                    <div class="category_report">@r.note</div>
-                                                </div>
-                                            </AuthorizeView>
+                                            if (is_loading_data)
+                                            {
+                                                <Spinner />
+                                            }
+                                            else
+                                            {
+                                                <ComPreviewReport model="@report" report_id="@report.id" is_inline="true" parent_id="@(Convert.ToInt32(report.parent_id))" IsOpened="IsOpenedReport" OnClose="@(()=>IsOpenedReport=false)" gv="@gv" />
+                                            }
                                         }
 
-
-                                    }
-                                </ComAuth>
-                            }
-                        }
-                    </ComPanel>
-                </div>
-                <div class="uk-width-4-5@m uk-width-1-1@s">
-                    <ComPanel>
-                        <div class="report-model">
-                            <div class="content">
-                                <div class="modal-header">
-                                    <div class="modal-title">@report_title</div>
-                                    <Icon icon="fullscreen" className="uk-modal-close-default" OnClick="@(()=>IsOpenedReport=report.id>0)" />
-                                </div>
-                                <div class="modal-content">
-                                    @if (report != null && report.id > 0)
-                                    {
-                                        if (is_loading_data)
-                                        {
-                                            <Spinner />
-                                        }
-                                        else
-                                        {
-                                            <ComPreviewReport model="@report" report_id="@report.id" is_inline="true" parent_id="@(Convert.ToInt32(report.parent_id))" IsOpened="IsOpenedReport" OnClose="@(()=>IsOpenedReport=false)" />
-                                        }
-                                    }
+                                    </div>
 
                                 </div>
-
                             </div>
-                        </div>
-                    </ComPanel>
-                </div>
+                        </ComPanel>
+                    </div>
             </div>
 
         </PageBody>

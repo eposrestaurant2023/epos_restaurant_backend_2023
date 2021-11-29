@@ -5,7 +5,7 @@
 
 @if (!is_loading)
 {
-    <Title Value="General Setting"></Title>
+    <Title Value="@lang["General Setting"]"></Title>
     <PageContainer roles="@gv.GetRole("general_setting_management")">
         <PageHeader>
             <HeaderLeft>
@@ -17,13 +17,21 @@
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <ComSearch place_holder="@keyword" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@keyword" KeywordChanged="@OnSearch" show_advance_filter="false" />
+
+                </MudHidden>
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@keyword" KeywordChanged="@OnSearch" show_advance_filter="false" />
+
+                <Spacing Number="4" />
+            </MudHidden>
             <Tab>
                 <TabHeader>
-                    <TabHeaderItem >@lang["General Setting"]</TabHeaderItem>
+                    <TabHeaderItem>@lang["General Setting"]</TabHeaderItem>
                     @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
                     {
                         <TabHeaderItem>@bs.business_branch_name_en</TabHeaderItem>
@@ -32,18 +40,18 @@
                 <TabBody>
                     <TabItem>
                         <UIGridCenter>
-                            <ComSetting business_branch_id="@(Guid.Empty)" settings="@GetSettings"/>
+                            <ComSetting business_branch_id="@(Guid.Empty)" settings="@GetSettings" />
                         </UIGridCenter>
                     </TabItem>
-                    
-                        @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
-                        {
-                            <TabItem>
-                                <UIGridCenter>
-                                    <ComSetting business_branch_id="@bs.id" settings="@GetSettings" />
-                                </UIGridCenter>
-                            </TabItem>                        
-                        }
+
+                    @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
+                    {
+                        <TabItem>
+                            <UIGridCenter>
+                                <ComSetting business_branch_id="@bs.id" settings="@GetSettings" />
+                            </UIGridCenter>
+                        </TabItem>
+                    }
                 </TabBody>
             </Tab>
         </PageBody>
@@ -101,11 +109,11 @@
         var re = await http.ApiPost("save/setting/multiple", settings);
         if (re.IsSuccess)
         {
-            toast.Add(lang["Save Setting successfully"], MudBlazor.Severity.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
         }
         else
         {
-            toast.Add(lang["Save Setting fail"], MudBlazor.Severity.Warning);
+            toast.Add(lang["Save data fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

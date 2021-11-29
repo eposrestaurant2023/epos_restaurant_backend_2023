@@ -3,41 +3,62 @@
 @inject ISnackbar toast
 @inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
+@inject IDialogService Dialog
 
 <Loading is_loading="@is_loading" />
-<ButtonGroup>
-    <Button title="Print" icon="print" is_visible="@(po.is_deleted == false && po.status == true)" OnClick="Print_Click" />
-    <Button roles="@gv.GetRole("purchase_order_edit")" OnClick="@(()=>nav.NavigateTo($"purchaseorder/edit/{po.id}"))" icon="edit" title="@lang["Edit"]" is_visible="@(po.can_edit && !po.is_fulfilled)" />
-    <Button roles="@gv.GetRole("purchase_order_add_payment")" icon="payment" title="@lang["Add Payment"]" is_visible="@(po.is_deleted == false && po.status == true && po.balance > 0)" OnClick="@OnAddPayment">
-        (@po.purchase_order_payments.Where(r => !r.is_deleted).Count())
-    </Button>
-</ButtonGroup>
 
+<MudHidden Breakpoint="Breakpoint.SmAndDown">
+    <ButtonGroup>
+        <Button title="Print" icon="print" is_visible="@(po.is_deleted == false && po.status == true)" OnClick="Print_Click" />
+        <Button roles="@gv.GetRole("purchase_order_edit")" OnClick="@(()=>nav.NavigateTo($"purchaseorder/edit/{po.id}"))" icon="edit" title="@lang["Edit"]" is_visible="@(po.can_edit && !po.is_fulfilled)" />
+        <Button roles="@gv.GetRole("purchase_order_add_payment")" icon="payment" title="@lang["Add Payment"]" is_visible="@(po.is_deleted == false && po.status == true && po.balance > 0)" OnClick="@OnAddPayment">
+            (@po.purchase_order_payments.Where(r => !r.is_deleted).Count())
+        </Button>
+    </ButtonGroup>
+</MudHidden>
 <ComAttachFileButton RoleAdd="@gv.GetRole("purchase_order_add")"
                      RoleEdit="@gv.GetRole("purchase_order_edit")"
                      RoleDelete="@gv.GetRole("purchase_order_delete")"
                      ApiFilter="@($"purchase_order_id eq {po.id} ")"
                      File="@file"
-                     IsVisible="@(!po.is_deleted)" />
+                     IsVisible="@(!po.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
 
-<AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New PO"]</AddButton>
+<MudHidden Breakpoint="Breakpoint.SmAndDown">
+    <AddButton roles="@gv.GetRole("purchase_order_add")" url="purchaseorder/new">@lang["New PO"]</AddButton>
+</MudHidden>
+<RefreshButton OnClick="@OnRefresh" />
 <MoreButton is_loading="@po.is_loading">
-    <MoreButtonItem roles="@gv.GetRole("purchase_order_add")" icon="file_copy" url="@($"purchaseorder/clone/{po.id}")">@lang["Clone Purchase Order"]</MoreButtonItem>
-    <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@po.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete Purchase Order"]</MoreButtonItem>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MoreButtonItem roles="@gv.GetRole("purchase_order_add")" icon="add" url="purchaseorder/new">@lang["New PO"]</MoreButtonItem>
+        <MoreButtonItem roles="@gv.GetRole("purchase_order_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"purchaseorder/edit/{po.id}"))" is_visible="@(po.can_edit && !po.is_fulfilled)">@lang["Edit"]</MoreButtonItem>
+        <MoreButtonItem roles="@gv.GetRole("purchase_order_add_payment")" icon="payment" is_visible="@(po.is_deleted == false && po.status == true && po.balance > 0)" OnClick="@OnAddPayment">@lang["Edit"]</MoreButtonItem>
+
+    </MudHidden>
+    <MoreButtonItem roles="@gv.GetRole("purchase_order_add")" icon="file_copy" url="@($"purchaseorder/clone/{po.id}")">@lang["Clone"]</MoreButtonItem>
+    <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="delete" is_visible="@po.can_delete" OnClick="@DeleteInvoice_Click">@lang["Delete"]</MoreButtonItem>
     <MoreButtonItem roles="@gv.GetRole("purchase_order_delete")" icon="clear" is_visible="@po.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MudDivider />
+        <MoreButtonItem is_visible="@(po.is_deleted == false && po.status == true)" OnClick="@Print_Click" icon="print">@lang["Print"]</MoreButtonItem>
+        <ComAttachFileButton RoleAdd="@gv.GetRole("purchase_order_add")"
+                             RoleEdit="@gv.GetRole("purchase_order_edit")"
+                             RoleDelete="@gv.GetRole("purchase_order_delete")"
+                             ApiFilter="@($"purchase_order_id eq {po.id} ")"
+                             File="@file"
+                             IsVisible="@(!po.is_deleted)"
+                             IsIconButton="false"
+                             OnOpenAttachFile="@(()=>is_open_attach_file =! is_open_attach_file)" />
+
+    </MudHidden>
 </MoreButton>
 
-@if (is_open_print)
-{
-
-    <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="194" Title="@lang["Purcase Order Receipt"]" report_parameters="@($"id={po.id}")" />
-}
 
 @code {
     [Parameter] public PurchaseOrderModel po { get; set; }
+    [Parameter] public EventCallback OnRefresh { get; set; }
     [Parameter] public EventCallback<PurchaseOrderModel> poChanged { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnAddPayment { get; set; }
-
+    bool is_open_attach_file;
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
 
     AttachFilesModel file = new AttachFilesModel();
@@ -52,12 +73,15 @@
     }
 
 
-    bool is_open_print = false;
+
 
     void Print_Click()
     {
 
-        is_open_print = true;
+
+        var parameters = new DialogParameters { ["parent_id"] = 194, ["report_parameters"] = $"id={po.id}", ["gv"] = gv };
+        Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Purcase Order Receipt"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
+
     }
 
     async Task DeleteInvoice_Click()

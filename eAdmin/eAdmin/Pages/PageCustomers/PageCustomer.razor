@@ -27,14 +27,27 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">@lang["New Customer"]</AddButton>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="@lang["All Customer Group"]" />
-                </ComSearch>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))">@lang["New Customer"]</AddButton>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("customer_add")" OnClick="@(()=>nav.NavigateTo("customer/new"))"></AddButton>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                        <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="@lang["All Customer Group"]" />
+                    </ComSearch>
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick" is_fullwidth="true">
+                        <SelectCustomerGroup @bind-customer_group="@state.customer_group" show_empty="true" empty_text="@lang["All Customer Group"]" />
+                    </ComSearch>
+                <Spacing Number="4"/>
+            </MudHidden>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
   
             <Com is_visible="@(customers != null)">
@@ -52,11 +65,11 @@
                     <TableHeader>
                         <ThCenter>@lang["Image"]</ThCenter>
                         @HeaderTemplate("customer_code", lang["Code"], "uk-text-center")
-                        @HeaderTemplate("customer_name_en", lang["Name_KH"], "col-auto")
+                        @HeaderTemplate("customer_name_en", lang["Name Kh"], "col-auto")
                         @HeaderTemplate("phone_1", lang["Phone"], "uk-text-center")
                         @HeaderTemplate("gender", lang["Gender"], "uk-text-center")
                         @HeaderTemplate("total_receivable", lang["Total Paid"], "uk-text-right")
-                        @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
+                         <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">

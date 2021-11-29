@@ -27,14 +27,24 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
-                <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))">@lang["New Vendor"]</AddButton>
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false">
-
-                </ComSearch>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))">@lang["New Vendor"]</AddButton>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("vendor_add")" OnClick="@(()=>nav.NavigateTo("vendor/new"))"></AddButton>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+                </MudHidden>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="false" />
+
+                <Spacing Number="4" />
+            </MudHidden>
             <Com is_visible="@(Vendor != null)">
                 <Table Items="@Vendor"
                        PerPage="@state.pager.per_page"
@@ -49,7 +59,7 @@
                        ScrollClass="uk-overflow-auto"
                        EmptyText="There is no record.">
                     <TableHeader>
-                        <ThCenter>Image</ThCenter>
+                        <ThCenter>@lang["Image"]</ThCenter>
                         @HeaderTemplate("vendor_code", lang["Code"], "uk-text-center")
                         @HeaderTemplate("vendor_name", lang["Name"], "uk-text-left")
                         @HeaderTemplate("company_name", lang["Company Name"], "uk-text-left")
@@ -57,7 +67,7 @@
                         @HeaderTemplate("mobile_phone", lang["Mobile Phone"], "uk-text-center")
                         @HeaderTemplate("office_phone", lang["Office Phone"], "uk-text-center")
                         @HeaderTemplate("total_payable", lang["Balance"], "uk-text-right")
-                        @HeaderTemplate("status", lang["Status"], "uk-width-auto uk-text-center")
+                       <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">

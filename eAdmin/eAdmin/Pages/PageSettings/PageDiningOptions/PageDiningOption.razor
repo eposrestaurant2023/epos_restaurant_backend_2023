@@ -35,7 +35,7 @@
                                 <ComDiningOption sale_types="@b.sale_types" sale_typeChanged="@OnDeleted" />
                                 <hr />
                                 <div class="uk-text-right">
-                                    <Button OnClick="@(()=>Add(b))">@lang["Add Sale Types"]</Button>
+                                    <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
                                 </div>
                             </Content>
                         </ComAccordion>
@@ -118,14 +118,14 @@
         if (resp.IsSuccess)
         {
 
-            toast.Add(lang["Save Sale Type successfully"], MudBlazor.Severity.Success);
+            toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
 
             await LoadData();
         }
         else
         {
 
-            toast.Add(lang["Save Sale Type Fail"], MudBlazor.Severity.Warning);
+            toast.Add(lang["Save data fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
     }

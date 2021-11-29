@@ -3,7 +3,7 @@
 
     @if (models.Any())
     {
-        foreach (var b in models)
+        foreach (var b in models.Where(r=>r.status == true))
         {
             <ComAccordion>
                 <Header>
@@ -63,13 +63,13 @@
                         }
                     </Grid>
 
-                    <h5 class="uk-text-bold uk-margin-small-bottom">Warehouse</h5>
+                    <h5 class="uk-text-bold uk-margin-small-bottom">@lang["Warehouse"]</h5>
                     <Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
                         @foreach (var s in b.stock_locations)
                         {
                             <div>
                                 <div class="ui-box-outline uk-padding-small">
-                                    <h4 class="uk-margin-remove">@s.stock_location_name <Label is_visible="@(s.is_default)">Default</Label> </h4>
+                                    <h4 class="uk-margin-remove">@s.stock_location_name <Label is_visible="@(s.is_default)">@lang["Default"]</Label> </h4>
                                 </div>
                             </div>
                         }

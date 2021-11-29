@@ -1,12 +1,12 @@
-﻿
+﻿@inject IStringLocalizer<Resource> lang
 @foreach (var s in settings.Where(r => r.status == true && r.is_public == false).Select(r => r.group_name).Distinct())
 {
-    <UIContainerBox Title="@s.ToString()">
+    <UIContainerBox Title="@lang[s.ToString()]">
         @foreach (var d in settings.Where(r => r.group_name == s.ToString() && r.is_public == false && r.status == true).OrderBy(r => r.sort_order))
         {
             if (d.input_type == "checkbox")
             {
-               <ComInputCheckBox label="@d.setting_title" value="@(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault(),val))" label_inline="true"/>
+                <ComInputCheckBox label="@d.setting_title" value="@(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault(),val))" label_inline="true" />
             }
             else if (d.input_type == "select")
             {
@@ -33,7 +33,7 @@
 @code {
     [Parameter] public List<SettingModel> settings { get; set; }
     [Parameter] public Guid business_branch_id { get; set; }
-    void UpdateCheckBoxSetting(BusinessBranchSettingModel s , bool is_selected)
+    void UpdateCheckBoxSetting(BusinessBranchSettingModel s, bool is_selected)
     {
         if (is_selected)
         {

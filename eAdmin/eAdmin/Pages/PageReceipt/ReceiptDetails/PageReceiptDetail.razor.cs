@@ -7,6 +7,7 @@ using MatBlazor;
 using System;
 using System.Security.Cryptography;
 using MudBlazor;
+using System.Linq;
 
 namespace eAdmin.Pages.PageReceipt.ReceiptDetails
 {
@@ -96,13 +97,10 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         }
 
         public void PrintReceipt()
-        { 
+        {
 
-                var parameters = new DialogParameters { ["parent_id"] = 190,["report_parameters"]= $"id ={ id}"};
-
-                Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Sale Receipt"], parameters);
-                
-             
+            var parameters = new DialogParameters { ["parent_id"] = 190, ["report_parameters"] = $"id={ id}", ["gv"] = gv};
+             Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Sale Receipt"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
         }
     }
 

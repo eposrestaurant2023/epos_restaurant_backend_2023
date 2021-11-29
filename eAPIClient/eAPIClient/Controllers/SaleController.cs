@@ -131,6 +131,23 @@ namespace eAPIClient.Controllers
             {
                 return BadRequest(new BadRequestModel() { message = _ex.Message }) ;
             }
-        } 
+        }
+
+        [HttpPost]
+        [Route("CancelPrintBill/{id}")]
+        public async Task<ActionResult> CancelPrintBill(Guid id)
+        {
+            var _sale = db.Sales.Where(r => r.id == id);
+            if (_sale.Any())
+            {
+                _sale.FirstOrDefault().status_id = 1;
+                _sale.FirstOrDefault().is_print_invoice = false;
+                db.Sales.Update(_sale.FirstOrDefault());
+                await db.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
+
     } 
 }

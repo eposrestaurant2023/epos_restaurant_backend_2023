@@ -1,11 +1,7 @@
 ﻿<div class="uk-width-expand uk-text-right @ClassName">
-    @ChildContent
-
-    @if (ShowBackButton)
-    {
-    <a class="uk-button btn-page-close" onclick="history.go(-1);"><Icon icon="reply"/></a>
-    }
-
+    <div class="uk-flex uk-flex-middle uk-flex-right">
+        @ChildContent
+    </div>
 </div>
 
 @code{

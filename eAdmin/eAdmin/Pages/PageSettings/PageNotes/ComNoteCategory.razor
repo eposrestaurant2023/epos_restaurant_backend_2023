@@ -1,13 +1,14 @@
-﻿<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+﻿@inject IStringLocalizer<Resource> lang
+<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover ">
     <tr>
-        <ThAuto>Note</ThAuto>
+        <ThAuto>@lang["Note"]</ThAuto>
         <th></th>
     </tr>
-    @foreach(var n in notes.Where(r=>r.is_deleted==false))
+    @foreach (var n in notes.Where(r => r.is_deleted == false))
     {
         <tr>
             <td>
-                <TextInput @bind-text="@n.note" placeholder="Note" label="" />
+                <TextInput @bind-text="@n.note" placeholder="@lang["Note"]" label="@lang["Note"]"/>
             </td>
             <td>
                 <Icon icon="delete" OnClick="@(()=>Delete(n))" />
@@ -18,13 +19,15 @@
 
 
 @code {
-    [Parameter] public List<NoteModel> notes { get;set;}
+    [Parameter] public List<NoteModel> notes { get; set; }
 
     void Delete(NoteModel n)
     {
-        if (n.id != Guid.Empty) {
+        if (n.id != Guid.Empty)
+        {
             n.is_deleted = true;
-        }else
+        }
+        else
         {
             notes.Remove(n);
         }

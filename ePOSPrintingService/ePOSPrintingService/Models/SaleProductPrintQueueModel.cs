@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace ePOSPrintingService
+namespace ePOSPrintingServiceReportModel
 {
     public class SaleProductPrintQueueModel
     {
@@ -17,6 +17,7 @@ namespace ePOSPrintingService
         public string unit { get; set; }
         public string portion_name { get; set; }
         public double quantity { get; set; }
+        public double total_quantity { get; set; }
         public double price { get; set; }
         public bool is_printed { get; set; }
         public string created_by { get; set; }

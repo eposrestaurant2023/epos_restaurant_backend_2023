@@ -62,6 +62,8 @@ namespace eAPIClient.Controllers
                     db.CashierShifts.Update(u);
                 }
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                db.Database.ExecuteSqlRaw($"exec sp_update_cashier_shift_information '{u.id}'");
+
                 //Update Document
                 await app.UpdateDocument(_doc);
                 app.sendSyncRequest();

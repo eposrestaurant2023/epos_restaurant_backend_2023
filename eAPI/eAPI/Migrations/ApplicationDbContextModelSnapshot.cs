@@ -561,6 +561,10 @@ namespace eAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("business_branch_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<Guid>("cash_drawer_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -1119,16 +1123,19 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.HistoryModel", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("PurchaseOrderPaymentModelid")
                         .HasColumnType("int");
 
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(19,8)");
+
+                    b.Property<string>("business_branch_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
@@ -1188,6 +1195,10 @@ namespace eAPI.Migrations
                     b.Property<Guid?>("outlet_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("outlet_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<int?>("product_id")
                         .HasColumnType("int");
 
@@ -1203,6 +1214,10 @@ namespace eAPI.Migrations
                     b.Property<Guid?>("sale_payment_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("station_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<bool>("status")
                         .HasColumnType("bit");
 
@@ -1211,6 +1226,10 @@ namespace eAPI.Migrations
 
                     b.Property<int?>("stock_transfer_id")
                         .HasColumnType("int");
+
+                    b.Property<string>("table_name")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("title")
                         .HasColumnType("nvarchar(max)")
@@ -3723,6 +3742,10 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<string>("pos_invoice")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
                     b.Property<double>("rounding_amount")
                         .HasColumnType("float");
 
@@ -3997,7 +4020,13 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
+                    b.Property<bool>("is_allow_change_price")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("is_allow_discount")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("is_allow_free")
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_deleted")
@@ -5631,6 +5660,9 @@ namespace eAPI.Migrations
 
                     b.Property<bool>("status")
                         .HasColumnType("bit");
+
+                    b.Property<int>("total_cashier_shifts")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("working_date")
                         .HasColumnType("date");

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ePOSPrintingService
+namespace ePOSPrintingServiceReportModel
 {
    public class SaleModel
     {
@@ -113,6 +113,7 @@ namespace ePOSPrintingService
  
         public string deleted_by { get; set; }
         public DateTime? deleted_date { get; set; }
+        public string deleted_note { get; set; }
 
         public bool status { get; set; } = true;
         public bool is_reprint_receipt { get; set; } = false;

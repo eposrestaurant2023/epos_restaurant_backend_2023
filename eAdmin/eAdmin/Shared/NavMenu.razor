@@ -32,12 +32,5 @@
 
             @code {
                 [CascadingParameter] public GlobalVariableModel gv { get; set; }
-                bool collapseNavMenu = true;
-
-                string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-                void ToggleNavMenu()
-                {
-                    collapseNavMenu = !collapseNavMenu;
-                }
+                
             }

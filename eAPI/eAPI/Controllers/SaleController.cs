@@ -39,6 +39,7 @@ namespace eAPI.Controllers
                               EF.Functions.Like(
                                   (
                                      (r.document_number ?? " ") +
+                                     (r.sale_number ?? " ") +
                                      (r.customer.customer_name_en ?? " ") +
                                      (r.customer.customer_code ?? " ") +
                                      (r.customer.phone_1 ?? " ") +

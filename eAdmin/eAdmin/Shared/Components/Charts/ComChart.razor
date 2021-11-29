@@ -1,6 +1,5 @@
 ﻿@inject IStringLocalizer<Resource> lang
 
-@show_label
 @if (chart_data != null)
 {
     if (chart_data.Count() > 0)
@@ -31,7 +30,6 @@
                                 Items="@_s.data"
                                 Name="@lang[_s.title]"
                                 XValue="@(e => e.label)"
-                                
                                 YAggregate="@(e => e.Sum(e => e.value))"
                                 Stroke="@(new SeriesStroke() { Color = _s.color,Width=1})"
                                 ShowDataLabels="@show_label" 
