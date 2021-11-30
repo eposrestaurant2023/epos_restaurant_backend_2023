@@ -117,7 +117,7 @@
                                     </span>
                                 </ComAuthorize>
                             </div>
-                            <ComSaleStatus sale="@p" />
+                            <ComSaleStatus sale="@p"/>
                         </TdCenter>
                         <TdCenter>
                             <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
@@ -127,7 +127,6 @@
                         <td>
 
                             <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
-                            <LabelSaleType Text="@p.sale_type" />
                         </td>
                         <td>
                             <div>

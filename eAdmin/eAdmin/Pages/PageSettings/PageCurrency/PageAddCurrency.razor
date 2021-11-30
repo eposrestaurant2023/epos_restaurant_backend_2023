@@ -6,7 +6,7 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading && !is_error)
 {
-    <Title Value="@page_title"></Title>
+    <Title Value="@lang[page_title]"></Title>
     <PageContainer roles="@gv.GetRole($"{(id > 0 ? "currency_edit" : "currency_add")}")">
         <PageHeader>
             <HeaderLeft>
@@ -24,10 +24,10 @@
                 <UIGridCenter>
                   
                     <UIContainerBox Title="@lang["Currency"]">
-                        <TextInput label="@lang["Name EN"]" @bind-text="@currency.currency_name_en">
+                        <TextInput label="@lang["Name En"]" @bind-text="@currency.currency_name_en">
                             <ValidationMessage For="@(()=>currency.currency_name_en)" />
                         </TextInput>
-                        <TextInput label="@lang["Name KH"]" @bind-text="@currency.currency_name_kh">
+                        <TextInput label="@lang["Name Kh"]" @bind-text="@currency.currency_name_kh">
                         </TextInput>
                         <TextInput label="@lang["Format"]" @bind-text="@currency.currency_format"/>
                         <TextInput label="@lang["Report Format"]" @bind-text="@currency.report_format"/>
@@ -39,7 +39,7 @@
                         <SelectStatus @bind-selected_value="@currency.status" />
 
                     </UIContainerBox>
-                    <UIContainerBox Title="@lang["Businesses Branches"]">
+                    <UIContainerBox Title="@lang["Business Branches"]">
                         @if (currency.business_branch_currencies != null)
                         {
                             foreach (var b in currency.business_branch_currencies)

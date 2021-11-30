@@ -30,52 +30,54 @@
                     {
                         <MudExpansionPanels Class="mb-4">
                             <MudExpansionPanel Text="@b.business_branch_name_en">
-                                <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
-                                    <thead>
-                                        <tr>
-                                            <Th>@lang["Receipt Name"]</Th>
-                                            <Th>@lang["Description"]</Th>
-                                            <Th>@lang["Invoice File Name"] <br /> @lang["Invoice Copies"] </Th>
-                                            <Th>@lang["Receipt File Name"]<br /> @lang["Receipt Copies"]</Th>
-                                            <ThCenter>@lang["Sort Order"]</ThCenter>
-                                            <ThCenter></ThCenter>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach (var d in b.receipt_lists.OrderBy(r => r.sort_order))
-                                        {
+                                <div class="uk-overflow-auto table-scroll">
+                                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    <TextInput @bind-text="@d.receipt_name" placeholder="@lang["Receipt Name"]" label="" />
-                                                </td>
-                                                <td>
-                                                    <TextInput @bind-text="@d.description" placeholder="@lang["Description"]" label="" />
-                                                </td>
-
-                                                <td>
-                                                    <TextInput @bind-text="@d.invoice_file_name" placeholder="@lang["Invoice File Name"]" label="" /><br/>
-                                                    <Spacing Number="4"/>
-                                                    <NumberInputInt @bind-text="@d.number_of_invoice_copies" placeholder="@lang["Invoice Copies"]" label="" />
-                                                </td>
-                                                <td>
-                                                    <TextInput @bind-text="@d.receipt_file_name" placeholder="@lang["Receipt File Name"]" label="" /><br />
-                                                    <Spacing Number="4" />
-                                                    <NumberInputInt @bind-text="@d.number_of_receipt_copies" placeholder="@lang["Receipt Copies"]" label="" />
-                                                </td>
-                                                <td>
-                                                    <NumberInputInt class_name="uk-text-centre" @bind-text="@d.sort_order" placeholder="@lang["Sort Order"]" label="" />
-
-                                                </td>
-                                                <td>
-                                                    <Icon icon="delete" OnClick="@(()=>b.receipt_lists.Remove(d))" is_visible="@(!d.is_build_in)" />
-                                                </td>
+                                                <Th>@lang["Receipt Name"]</Th>
+                                                <Th>@lang["Description"]</Th>
+                                                <Th>@lang["Invoice File Name"] <br /> @lang["Invoice Copies"] </Th>
+                                                <Th>@lang["Receipt File Name"]<br /> @lang["Receipt Copies"]</Th>
+                                                <ThCenter>@lang["Sort Order"]</ThCenter>
+                                                <ThCenter></ThCenter>
                                             </tr>
-                                        }
+                                        </thead>
+                                        <tbody>
 
-                                    </tbody>
-                                </table>
-                                <MudDivider Class="mb-2" />
+                                            @foreach (var d in b.receipt_lists.OrderBy(r => r.sort_order))
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <TextInput @bind-text="@d.receipt_name" placeholder="@lang["Receipt Name"]" label="" />
+                                                    </td>
+                                                    <td>
+                                                        <TextInput @bind-text="@d.description" placeholder="@lang["Description"]" label="" />
+                                                    </td>
+
+                                                    <td>
+                                                        <TextInput @bind-text="@d.invoice_file_name" placeholder="@lang["Invoice File Name"]" label="" /><br />
+                                                        <Spacing Number="4" />
+                                                        <NumberInputInt @bind-text="@d.number_of_invoice_copies" placeholder="@lang["Invoice Copies"]" label="" />
+                                                    </td>
+                                                    <td>
+                                                        <TextInput @bind-text="@d.receipt_file_name" placeholder="@lang["Receipt File Name"]" label="" /><br />
+                                                        <Spacing Number="4" />
+                                                        <NumberInputInt @bind-text="@d.number_of_receipt_copies" placeholder="@lang["Receipt Copies"]" label="" />
+                                                    </td>
+                                                    <td>
+                                                        <NumberInputInt class_name="uk-text-centre" @bind-text="@d.sort_order" placeholder="@lang["Sort Order"]" label="" />
+
+                                                    </td>
+                                                    <td>
+                                                        <Icon icon="delete" OnClick="@(()=>b.receipt_lists.Remove(d))" is_visible="@(!d.is_build_in)" />
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                    <MudDivider Class="mb-2" />
 
                                 <div class="uk-text-right">
                                     <Button OnClick="@(()=>Add(b))">@lang["Add New POS Invoice"]</Button>

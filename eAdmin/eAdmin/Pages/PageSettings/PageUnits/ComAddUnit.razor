@@ -1,45 +1,47 @@
 ﻿@inject ISnackbar toast;
 @inject IStringLocalizer<Resource> lang
-<table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-    <tr>
-        <Th>@lang["Unit"]</Th>
-        <ThAuto>@lang["Unit Type"]</ThAuto>
-        <ThCenter>@lang["Multiplier"]</ThCenter>
-        <ThCenter>@lang["Sort Order"]</ThCenter>
-        <Th></Th>
-    </tr>
-    @foreach (var p in units.OrderBy(r => r.sort_order).Where(r => r.is_deleted == false))
-    {
-        <tr>
-            <td><TextInput is_read_only="@p.is_built_in" @bind-text="@p.unit_name" placeholder="@lang["Unit"]" width="120px" /></td>
-            <td>
-                <SelectUnitTypeName is_read_only="@p.is_built_in" @bind-selected_value="@p.type_name" is_horizontal="false" />
-            </td>
-            <TdCenter><NumberInput is_read_only="@p.is_built_in" @bind-text="@p.multiplier" placeholder="@lang["Multiplier"]" /></TdCenter>
-            <TdCenter><NumberInputInt is_read_only="@p.is_built_in" @bind-text="@p.sort_order" placeholder="@lang["Sort Order"]" /></TdCenter>
-            <TdCenter>
-                <Icon is_visible="@(!p.is_built_in)" icon="delete" OnClick="@(()=>DeletePrinter(p))" />
-            </TdCenter>
-        </tr>
-    }
-</table>
+    <div class="uk-overflow-auto table-scroll">
+        <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+            <tr>
+                <Th>@lang["Unit"]</Th>
+                <ThAuto>@lang["Unit Type"]</ThAuto>
+                <ThCenter>@lang["Multiplier"]</ThCenter>
+                <ThCenter>@lang["Sort Order"]</ThCenter>
+                <Th></Th>
+            </tr>
+            @foreach (var p in units.OrderBy(r => r.sort_order).Where(r => r.is_deleted == false))
+            {
+                <tr>
+                    <td><TextInput is_read_only="@p.is_built_in" @bind-text="@p.unit_name" placeholder="@lang["Unit"]" width="120px" /></td>
+                    <td>
+                        <SelectUnitTypeName is_read_only="@p.is_built_in" @bind-selected_value="@p.type_name" is_horizontal="false" />
+                    </td>
+                    <TdCenter><NumberInput is_read_only="@p.is_built_in" @bind-text="@p.multiplier" placeholder="@lang["Multiplier"]" /></TdCenter>
+                    <TdCenter><NumberInputInt is_read_only="@p.is_built_in" @bind-text="@p.sort_order" placeholder="@lang["Sort Order"]" /></TdCenter>
+                    <TdCenter>
+                        <Icon is_visible="@(!p.is_built_in)" icon="delete" OnClick="@(()=>DeletePrinter(p))" />
+                    </TdCenter>
+                </tr>
+            }
+        </table>
+    </div>
 
-@code {
+    @code {
 
-    [Parameter] public List<UnitModel> units { get; set; }
+        [Parameter] public List<UnitModel> units { get; set; }
 
-    UnitModel unit = new UnitModel();
+        UnitModel unit = new UnitModel();
 
-    void DeletePrinter(UnitModel p)
-    {
-        if (p.id == 0)
+        void DeletePrinter(UnitModel p)
         {
-            units.Remove(p);
+            if (p.id == 0)
+            {
+                units.Remove(p);
+            }
+            else
+            {
+                p.is_deleted = true;
+            }
         }
-        else
-        {
-            p.is_deleted = true;
-        }
-    }
 
-}
+    }

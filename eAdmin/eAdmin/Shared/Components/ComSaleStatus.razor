@@ -9,6 +9,7 @@
     <Com is_visible="@(!string.IsNullOrEmpty(sale.discount_code))">
         <Label Background="#f48024" Color="#fff" TextTooltip="@lang["Free Of Charge"]" is_visible="@(sale.discount_code.ToLower() == "foc")">@lang["FOC"]</Label>
     </Com>
+    <LabelSaleType Text="@sale.sale_type"/>
 </Com>
 
 @code{

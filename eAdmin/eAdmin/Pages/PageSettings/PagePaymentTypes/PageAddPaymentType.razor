@@ -6,7 +6,7 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="@page_title"></Title>
+    <Title Value="@lang[page_title]"></Title>
     <PageContainer roles="@gv.GetRole($"{(id > 0 ? "payment_type_edit" : "payment_type_add")}")">
         <PageHeader>
             <HeaderLeft>
@@ -15,11 +15,11 @@
                         <span>
                             @if (clone_id > 0)
                             {
-                                @("Clone : " + model.payment_type_name_en)
+                                @(lang["Clone"] + ":" + model.payment_type_name_en)
                             }
                             else
                             {
-                                @(id > 0 ? $"Edit : {model.payment_type_name_en}" : "New Payment Type")
+                                @(id > 0 ? $"{lang["Edit"]} : {model.payment_type_name_en}" : "New Payment Type")
                             }
                         </span>
                     </HeaderTemplate>
@@ -31,18 +31,18 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="Payment Type">
-                        <TextInput @bind-text="@model.payment_type_name_en" label="Payment Type Name En">
+                    <UIContainerBox Title="@lang["Payment Type"]">
+                        <TextInput @bind-text="@model.payment_type_name_en" label="@lang["Name En"]">
                             <ValidationMessage For="@(() => model.payment_type_name_en )" />
                         </TextInput>
-                        <TextInput @bind-text="@model.payment_type_name_kh" label="Payment Type kh" />
-                        <NumberInputInt @bind-text="@model.sort_order" label="Sort Order" width="100%" />
-                        <TextInput label="Note" @bind-text="@model.note" type="textarea" />
-                        <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="Select Currency" label="Currency">
+                        <TextInput @bind-text="@model.payment_type_name_kh" label="@lang["Name Kh"]" />
+                        <NumberInputInt @bind-text="@model.sort_order" label="@lang["Sort Order"]" width="100%" />
+                        <TextInput label="@lang["Note"]" @bind-text="@model.note" type="textarea" />
+                        <SelectCurrency show_empty="true" @bind-selected_value="@model.currency_id" empty_text="@lang["Select Currency"]" label="@lang["Currency"]">
                             <ValidationMessage For="@(() => model.currency_id)" />
                         </SelectCurrency>
                         <ComSelectPaymentTypeGroup @bind-selected_value="@model.payment_type_group"/>
-                        <ComInputCheckBox label="FOC" @bind-value="@model.is_foc"/>
+                        <ComInputCheckBox label="@lang["FOC"]" @bind-value="@model.is_foc"/>
                         <SelectStatus @bind-selected_value="@model.status" />
 
 
@@ -68,9 +68,9 @@
                                 }
 
                         </table>
-                        <Button OnClick="@AddNewRoom">Add New Room</Button>
+                        <Button OnClick="@AddNewRoom">@lang["Add New Room"]</Button>
                     </UIContainerBox>
-                    <UIContainerBox Title="Business Branches">
+                    <UIContainerBox Title="@lang["Business Branches"]">
                         @foreach (var b in business_branches)
                         {
                             <div><ComInputCheckBox @bind-value="@b.is_selected" label="@b.business_branch_name_en" label_inline="true" /></div>
@@ -117,16 +117,16 @@
         await LoadBusinessBranch();
         if(clone_id > 0)
         {
-            page_title = "Clone : " + model.payment_type_name_en;
+            page_title = lang["Clone"] + ":" + model.payment_type_name_en;
         }
         else
         {
             if (id > 0)
             {
-                page_title = $"Edit: { model.payment_type_name_en}";
+                page_title = $"{lang["Edit"]}: { model.payment_type_name_en}";
             }
             else{
-                page_title = "New Payment Type";
+                page_title = lang["New Payment Type"];
             }
         }
         is_loading = false;
@@ -212,7 +212,7 @@
 
     void AddNewRoom()
     {
-        room_list.Add(new RoomListModel() { room_number = "Room " + (room_list.Count() + 1).ToString() });
+        room_list.Add(new RoomListModel() { room_number = lang["Room"] + (room_list.Count() + 1).ToString() });
     }
 
     public class RoomListModel

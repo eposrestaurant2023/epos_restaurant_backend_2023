@@ -24,11 +24,13 @@
         </TableHeader>
         <RowTemplate Context="p">
             <td>
-                <ComProfileInfo url="@($"product/{p.id}")" photo="@p.photo" role="@("product_management")">@p.product_name_en (@p.product_code)</ComProfileInfo>
+                <ComProfileInfo url="@($"product/{p.id}")" photo="@p.photo" role="@("product_management")">
+                @p.product_name_en @if (!string.IsNullOrEmpty(p.product_code)) { <span>(@p.product_code)</span> } 
+                </ComProfileInfo>
             </td>
-            <ThCenter>
+            <TdCenter>
                 @p.quantity.ToString(gv.quantity_format)
-            </ThCenter> 
+            </TdCenter> 
             <TdRight>
                 @p.amount.ToString(gv.main_currency_format)
             </TdRight>

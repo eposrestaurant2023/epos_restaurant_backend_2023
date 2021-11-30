@@ -25,7 +25,7 @@ namespace eModels
         public bool is_build_in { get; set; }
 
         public string sale_type_name { get; set; }
-        public string color { get; set; } = String.Format("#{0:X6}", new Random().Next(0x1000000));
+        public string color { get; set; } 
         public bool is_order_use_table { get; set; } = true;
         public bool is_deleted { get; set; } = false;
         public int sort_order { get; set; }

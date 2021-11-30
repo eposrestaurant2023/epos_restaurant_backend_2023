@@ -4431,7 +4431,7 @@ textarea.uk-input{
     display: inline-block;
 }
 table.set-verticle-middle tr td{
-    vertical-align:middle ;
+    vertical-align:top ;
 }
 table.set-verticle-bottom tr td {
     vertical-align: bottom;

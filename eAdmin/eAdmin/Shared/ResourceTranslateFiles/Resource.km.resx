@@ -153,6 +153,9 @@
   <data name="Close Orders" xml:space="preserve">
     <value>បិទការបញ្ជាទិញ</value>
   </data>
+	<data name="New Currency" xml:space="preserve">
+    <value>បង្កើតរូបិយប័ណ្ណថ្មី</value>
+  </data>
   <data name="Currency" xml:space="preserve">
     <value>រូបិយប័ណ្ណ</value>
   </data>
@@ -462,7 +465,10 @@
   <data name="New Customer" xml:space="preserve">
     <value>បង្កើតអតិថិជន</value>
   </data>
-  <data name="Business Branch" xml:space="preserve">
+	<data name="Business Branch" xml:space="preserve">
+    <value>សាខាអាជីវកម្ម</value>
+  </data>
+  <data name="Business Branches" xml:space="preserve">
     <value>សាខាអាជីវកម្ម</value>
   </data>
   <data name="Business Branch Kh" xml:space="preserve">
@@ -732,6 +738,9 @@
   <data name="MTD Sale Revenue" xml:space="preserve">
     <value>ប្រាក់ចំណូលក្នុងខែនេះ</value>
   </data>
+	<data name="Payment Type Group" xml:space="preserve">
+    <value>ក្រុមប្រភេទការទូទាត់</value>
+  </data>
   <data name="Payment Type" xml:space="preserve">
     <value>ប្រភេទការទូទាត់</value>
   </data>
@@ -869,6 +878,9 @@
   </data>
   <data name="Sale Type" xml:space="preserve">
     <value>ប្រភេទលក់</value>
+  </data>
+	<data name="Sale Number" xml:space="preserve">
+    <value>លេខកូដការលក់</value>
   </data>
 	<data name="Sale" xml:space="preserve">
     <value>ការលក់</value>
@@ -1073,6 +1085,9 @@
   </data>
   <data name="Sale Product" xml:space="preserve">
     <value>ផលិតផលលក់</value>
+  </data>
+	<data name="All Sale Product" xml:space="preserve">
+    <value>ផលិតផលលក់ទាំងអស់</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>ឈ្មោះ</value>
@@ -1458,6 +1473,9 @@
   <data name="New" xml:space="preserve">
     <value>បញ្ជូលថ្មី</value>
   </data>
+	<data name="Select Payment Type Group" xml:space="preserve">
+    <value>សូមជ្រើសរើសក្រុមប្រភេទការទូទាត់</value>
+  </data>
   <data name="Please Select" xml:space="preserve">
     <value>សូមជ្រើសរើស</value>
   </data>
@@ -1806,8 +1824,11 @@
   <data name="Select Country" xml:space="preserve">
     <value>ជ្រើសរើសប្រទេស</value>
   </data>
-  <data name="Select Currency" xml:space="preserve">
+	<data name="Select Currency" xml:space="preserve">
     <value>ជ្រើសរើសរូបិយប័ណ្ណ</value>
+  </data>
+  <data name="Please enter currency name" xml:space="preserve">
+    <value>សូមបញ្ជូលឈ្មោះរូបិយប័ណ្ណ</value>
   </data>
   <data name="Select Date" xml:space="preserve">
     <value>ជ្រើសរើសកាលបរិច្ឆេទ</value>

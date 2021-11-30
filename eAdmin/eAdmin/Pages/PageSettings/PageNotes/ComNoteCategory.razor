@@ -1,35 +1,36 @@
 ﻿@inject IStringLocalizer<Resource> lang
-<table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover ">
-    <tr>
-        <ThAuto>@lang["Note"]</ThAuto>
-        <th></th>
-    </tr>
-    @foreach (var n in notes.Where(r => r.is_deleted == false))
-    {
-        <tr>
-            <td>
-                <TextInput @bind-text="@n.note" placeholder="@lang["Note"]" label="@lang["Note"]"/>
-            </td>
-            <td>
-                <Icon icon="delete" OnClick="@(()=>Delete(n))" />
-            </td>
-        </tr>
-    }
-</table>
+    <div class="uk-overflow-auto table-scroll">
+        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover ">
+            <tr>
+                <ThAuto>@lang["Note"]</ThAuto>
+                <th></th>
+            </tr>
+            @foreach (var n in notes.Where(r => r.is_deleted == false))
+            {
+                <tr>
+                    <td>
+                        <TextInput @bind-text="@n.note" placeholder="@lang["Note"]" label=""/>
+                    </td>
+                    <td>
+                        <Icon icon="delete" OnClick="@(()=>Delete(n))" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 
+    @code {
+        [Parameter] public List<NoteModel> notes { get; set; }
 
-@code {
-    [Parameter] public List<NoteModel> notes { get; set; }
-
-    void Delete(NoteModel n)
-    {
-        if (n.id != Guid.Empty)
+        void Delete(NoteModel n)
         {
-            n.is_deleted = true;
-        }
-        else
-        {
-            notes.Remove(n);
+            if (n.id != Guid.Empty)
+            {
+                n.is_deleted = true;
+            }
+            else
+            {
+                notes.Remove(n);
+            }
         }
     }
-}
