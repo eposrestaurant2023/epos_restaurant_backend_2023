@@ -33,37 +33,39 @@
                                 @b.business_branch_name_en
                             </Header>
                             <Content>
-                                <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                <div class="uk-overflow-auto table-scroll">
+                                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
 
-                                    <tr>
-                                        <ThAuto>@lang["Discount Type"]</ThAuto>
-                                        <ThAuto>@lang["Discount Code"]</ThAuto>
-                                        <ThAuto>@lang["Discount Value"]</ThAuto>
-                                        <ThCenter>@lang["Status"]</ThCenter>
-                                        <Th></Th>
-                                    </tr>
-                                    @foreach (var d in b.discount_codes.Where(r => r.is_deleted == false))
-                                    {
                                         <tr>
-                                            <td>
-                                                <SelectDiscountType @bind-selected_value="@d.discount_type"/>
-                                            </td>
-                                            <td>
-                                                @if (d.discount_type != "Amount")
-                                                {
-                                                    <TextInput @bind-text="@d.discount_code" placeholder="Discount Code"/>
-                                                }
-
-                                            </td>
-                                            <td><NumberInput @bind-text="@d.discount_value" label="" placeholder="Discount Value" /></td>
-                                            <TdCenter>
-                                                <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                                <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                            </TdCenter>
-                                            <td> <Icon OnClick="@(() => OnDelete(b,d))" icon="delete" /></td>
+                                            <ThAuto>@lang["Discount Type"]</ThAuto>
+                                            <ThAuto>@lang["Discount Code"]</ThAuto>
+                                            <ThAuto>@lang["Discount Value"]</ThAuto>
+                                            <ThCenter>@lang["Status"]</ThCenter>
+                                            <Th></Th>
                                         </tr>
-                                    }
-                                </table>
+                                        @foreach (var d in b.discount_codes.Where(r => r.is_deleted == false))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <SelectDiscountType @bind-selected_value="@d.discount_type" />
+                                                </td>
+                                                <td>
+                                                    @if (d.discount_type != "Amount")
+                                                    {
+                                                        <TextInput @bind-text="@d.discount_code" placeholder="Discount Code" />
+                                                    }
+
+                                                </td>
+                                                <td><NumberInput @bind-text="@d.discount_value" label="" placeholder="Discount Value" /></td>
+                                                <TdCenter>
+                                                    <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                                    <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                                </TdCenter>
+                                                <td> <Icon OnClick="@(() => OnDelete(b,d))" icon="delete" /></td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
                                 <hr />
                                 <div class="uk-text-right">
                                     <Button OnClick="@(()=>AddDiscount(b))">@lang["Add Discount Code"]</Button>

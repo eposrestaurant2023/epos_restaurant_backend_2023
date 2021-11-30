@@ -12,7 +12,8 @@
            ScrollClass="uk-overflow-auto" >
         <TableHeader>
             <ThCenter>@lang["Date"]</ThCenter>
-            <Th>@lang["Document #"]</Th>
+            <ThCenter>@lang["Document #"]</ThCenter>
+            <ThCenter>@lang["Sale Number"]</ThCenter>
             <Th>
                 <div>@lang["Working Day #"]</div>
                 <div class="sub-header-table">@lang["Shift #"]</div>
@@ -30,18 +31,17 @@
             <ThRight>@lang["Tax"]</ThRight>
             <ThRight>@lang["Paid Amount"]</ThRight>
             <ThRight>@lang["Balance"]</ThRight>
-           
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
 
             <TdCenter>
                 <Column is_visible="@(p.closed_date != null)">
-                    @p.closed_date.Value.ToString(gv.date_format)
+                    @p.working_date.ToString(gv.date_format)
                 </Column>
             </TdCenter>
 
-            <td>
+            <TdCenter>
                 <a href="@($"receiptlist/sale/{p.id}")">
                     @if (p.document_number == "New")
                     {
@@ -54,7 +54,10 @@
 
                 </a> <br />
                 <ComSaleStatus sale="p" />
-            </td>
+            </TdCenter>
+            <TdCenter>
+                @p.sale_number
+            </TdCenter>
             <TdCenter>
                 <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
                 <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />
@@ -62,7 +65,6 @@
             </TdCenter>
             <td>
                 <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
-                <LabelSaleType Text="@p.sale_type" />
             </td>
             <td>
                 <div>

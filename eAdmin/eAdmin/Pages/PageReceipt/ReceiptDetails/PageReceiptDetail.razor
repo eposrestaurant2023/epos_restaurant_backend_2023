@@ -32,7 +32,7 @@
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
                     <Button icon="print" OnClick="@PrintReceipt"></Button>
                 </MudHidden>
-                <RefreshButton OnClick="@LoadData" />
+                <RefreshButton OnClick="@OnRefresh" />
                 <MudHidden Breakpoint="Breakpoint.MdAndUp">
                     <MoreButton>
                         <MoreButtonItem icon="print" OnClick="@PrintReceipt">@lang["Print"]</MoreButtonItem>
@@ -55,12 +55,12 @@
                     <TabItem>
                         <ComPage>
                             <ComSaleDetailInvoiceHeader sale="@sale" />
-                            <Spacing Number="20" />
+                            <Spacing Number="20"/>
                             <div class="invoice-sub-title">@lang["Products Sold"]</div>
                             <table class="view_table uk-table uk-table-small uk-table-divider table-bordered table-invoice uk-margin-remove">
                                 <thead>
                                     <tr>
-                                        <th>@lang["No"]</th>
+                                        <ThCenter>@lang["No"]</ThCenter>
                                         <ThCenter>@lang["Image"]</ThCenter>
                                         <th class="col-auto">@lang["Description"]</th>
                                         <th class="uk-text-center">@lang["QTY"]</th>

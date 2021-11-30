@@ -6,11 +6,8 @@
 
 @code{
     [CascadingParameter] public GlobalVariableModel gv{ get; set; }
-
-
     [Parameter] public string Color { get; set; } = "#FFF";
     [Parameter] public string Text { get; set; } = "";
-
     public SaleTypeModel SaleType { get {
             var data = gv.sale_types.Where(r => r.sale_type_name == Text);
             if (data.Any()) {

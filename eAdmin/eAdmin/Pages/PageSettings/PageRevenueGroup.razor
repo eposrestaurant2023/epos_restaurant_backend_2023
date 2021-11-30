@@ -22,6 +22,7 @@
         <PageBody>
             <UIGridCenter>
                 <UIContainerBox Title="@lang["Revenue Group"]">
+                    <div class="uk-overflow-auto table-scroll">
                         <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
                                 <Th>@lang["Name En"]</Th>
@@ -29,7 +30,7 @@
                                 <ThCenter>"@lang["Sort Order"]</ThCenter>
                                 <Th></Th>
                             </tr>
-                            @foreach (var b in models.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order))
+                            @foreach (var b in models.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
                             {
                                 <tr>
                                     <td><TextInput @bind-text="@b.revenue_group_name_en" placeholder="Revenue Group en" /></td>
@@ -44,6 +45,7 @@
                                 </tr>
                             }
                         </table>
+                    </div>
                         <Button OnClick="@(()=>Add())">@lang["Add Revenue Group"]</Button>
                 </UIContainerBox>
             </UIGridCenter>
