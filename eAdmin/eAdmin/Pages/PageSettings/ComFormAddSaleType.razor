@@ -1,0 +1,38 @@
+﻿@inject IStringLocalizer<Resource> lang
+@if (sale_type != null)
+{
+    <td>
+        <TextInput @bind-text="@sale_type.sale_type_name" placeholder="@lang["Sale Type Name"]" />
+    </td>
+    <TdCenter>
+        <TextInput type="color" text="@sale_type.color" textChanged="OnColorChganged"/>
+    </TdCenter>
+    <TdCenter>
+        <ComInputCheckBox label_inline="true" @bind-value="@sale_type.is_order_use_table" />
+    </TdCenter>
+    <TdCenter>
+        <NumberInputInt class_name="uk-text-center" placeholder="@lang["Sort Order"]" @bind-text="@sale_type.sort_order" />
+    </TdCenter>
+    <TdCenter>
+        <Icon icon="delete" OnClick="@(() => OnDeleteSaleType(sale_type))" is_visible="@(!sale_type.is_build_in)" />
+    </TdCenter>
+}
+
+
+@code{
+    [Parameter] public SaleTypeModel sale_type { get; set; }
+    [Parameter] public EventCallback<SaleTypeModel> sale_typeChanged { get; set; }
+    [Parameter] public EventCallback<SaleTypeModel> colorChanged { get; set; }
+    [Parameter] public EventCallback<SaleTypeModel> Ondelete { get; set; }
+
+    async Task OnDeleteSaleType(SaleTypeModel _sale_type)
+    {
+        await Ondelete.InvokeAsync(sale_type);
+    }
+
+    async Task OnColorChganged(string _color)
+    {
+        sale_type.color = _color;
+        await colorChanged.InvokeAsync(sale_type);
+    }
+} 

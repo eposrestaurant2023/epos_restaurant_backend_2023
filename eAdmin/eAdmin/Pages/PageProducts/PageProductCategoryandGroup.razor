@@ -23,6 +23,7 @@
                     <AddButton roles="@gv.GetRole("product_group_category_add")" url="productcategory/new"></AddButton>
 
                 </MudHidden>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
             <PageBody>
@@ -112,7 +113,7 @@
 
     async Task LoadData(string api_url = "")
     {
-
+        is_loading = true;
         is_loading_data = true;
 
         if (string.IsNullOrEmpty(api_url))
@@ -131,8 +132,9 @@
 
         }
         is_loading_data = false;
-
+        is_loading = false;
     }
+
 
     async Task Deleted(ProductGroupModel p)
     {

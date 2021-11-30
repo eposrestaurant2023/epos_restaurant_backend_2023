@@ -132,9 +132,10 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
 
         public async Task OnRefresh()
         {
-            is_loading_data = true;
+            is_loading = true;
             await LoadData();
-            is_loading_data = false;
+            is_loading = false;
+            
         }   
         public async Task OnSavePayment(bool is_saving)
         {

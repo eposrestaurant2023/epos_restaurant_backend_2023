@@ -30,7 +30,7 @@
                                  @b.business_branch_name_en
                              </Header>
                              <Content> 
-                                 <ComAddSaleTypes sale_types="@b.sale_types"/>
+                                 <ComAddSaleTypes sale_types="@b.sale_types" ColorSelected="OnSelectedColor"/>
                                  <hr />
                                  <div class="uk-text-right">
                                      <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
@@ -56,7 +56,7 @@
 
 @code{
     List<BusinessBranchModel> branches = new List<BusinessBranchModel>();
-     
+
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
@@ -114,6 +114,21 @@
             toast.Add(lang["Save sale type fail"], MudBlazor.Severity.Warning);
         }
         is_saving = false;
+    }
+
+    void OnSelectedColor(SaleTypeModel _sale_type)
+    {
+        branches.Select(x =>
+        {
+            x.sale_types.Where(r=>r.sale_type_name == _sale_type.sale_type_name)
+                .Select(r => 
+                { 
+                    r.color = _sale_type.color; 
+                    return r; 
+                }).ToList();
+            
+            return x;
+        }).ToList();
     }
 
 }

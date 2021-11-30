@@ -2,11 +2,11 @@
 @inherits PagePurchaseOrderDetailBase
 
 
-<Loading is_loading="@( is_loading_data || is_loading_data)" />
+<Loading is_loading="@( is_loading || is_loading_data)" />
 
 
 
-@if (!is_loading && is_error == false)
+@if (!is_loading)
 {
     <Title Value="@($"{lang["Purchase Order #"]} : {model.document_number}")"></Title>
 
@@ -22,7 +22,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <ComPurchaseOrderDetail_ActionButton @bind-po="@model" OnAddPayment="@(()=>is_add_payment=true)" />
+                <ComPurchaseOrderDetail_ActionButton @bind-po="@model" OnAddPayment="@(()=>is_add_payment=true)" OnRefresh="@OnRefresh"/>
             </HeaderRight>
         </PageHeader>
         <PageBody>
