@@ -11,5 +11,6 @@ namespace eShareModel
         public string data { get; set; }
         public string config_type { get; set; }
         public string note { get; set; }
+        public bool is_local_setting { get; set; }
     }
 }

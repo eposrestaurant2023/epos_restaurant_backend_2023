@@ -23,12 +23,13 @@ namespace eAPIClient.Controllers
         public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
         private readonly AppService app;
-
-        public AppController(ApplicationDbContext _db, AppService _app, IConfiguration configuration)
+        private readonly IHttpService http;
+        public AppController(ApplicationDbContext _db, AppService _app, IConfiguration configuration, IHttpService _http )
         {
             db = _db;
             app = _app;
             config = configuration;
+            http = _http;
         }
 
 
@@ -71,6 +72,7 @@ namespace eAPIClient.Controllers
         public ActionResult<string> BackupDatabase()
         {
             db.Database.ExecuteSqlRaw("exec sp_backup_database");
+            http.ApiPost("BackupDatabase");
             return Ok();
         }
 
@@ -85,6 +87,34 @@ namespace eAPIClient.Controllers
             {          
                 return Ok(false);
             }
+
+            return Ok(true);
+        }
+
+         
+
+        [HttpPost]
+        [Route("SaveWifiPassword/{password}")]
+        public ActionResult<bool> SaveWifiPassword(string password)
+        {
+            var data = db.ConfigDatas.Where(r => r.config_type == "wifi");
+            ConfigDataModel d = new ConfigDataModel();
+            if (data.Any())
+            {
+                d = data.FirstOrDefault();
+                d.data = password;
+                db.ConfigDatas.Update(d);
+            }else
+            {
+                d.config_type = "wifi";
+                d.data = password;
+                d.id = Guid.NewGuid();
+                d.is_local_setting = true;
+                db.ConfigDatas.Add(d);
+
+            }
+            db.SaveChanges();
+
 
             return Ok(true);
         }

@@ -291,7 +291,7 @@ namespace eAPIClient.Controllers
             }
 
 
-            string _deleteQuery = string.Format("delete tbl_config_data;");
+            string _deleteQuery = string.Format("delete tbl_config_data where is_local_setting=0; ");
             db.Database.ExecuteSqlRaw(_deleteQuery);
             db.ConfigDatas.AddRange(config_datas);     
             await db.SaveChangesAsync();

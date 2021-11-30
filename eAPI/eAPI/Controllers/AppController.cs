@@ -371,5 +371,15 @@ namespace eAPI.Controllers
             return Ok();
         }
 
+
+        [HttpPost]
+        [Route("BackupDatabase")]
+        public ActionResult<string> BackupDatabase()
+        {
+            db.Database.ExecuteSqlRaw("exec sp_backup_database");
+            return Ok();
+        }
+
+
     }
 }
