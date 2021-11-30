@@ -66,6 +66,15 @@ namespace eAPIClient.Controllers
         }
 
 
+        [HttpPost]
+        [Route("BackupDatabase")]
+        public ActionResult<string> BackupDatabase()
+        {
+            db.Database.ExecuteSqlRaw("exec sp_backup_database");
+            return Ok();
+        }
+
+
         [HttpGet("CurrentBusinessBranch")]
         [EnableQuery(MaxExpansionDepth = 0)]
         public ActionResult<bool> CurrentBusinessBranchId(string businessBranchId)
