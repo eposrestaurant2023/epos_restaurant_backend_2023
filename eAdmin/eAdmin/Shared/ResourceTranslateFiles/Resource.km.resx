@@ -987,6 +987,9 @@
   <data name="There's no quantity changed" xml:space="preserve">
     <value>មិនមានចំនួនសម្រាប់ប្ដូរ</value>
   </data>
+	<data name="Term &amp; Conditions" xml:space="preserve">
+    <value>លក្ខខណ្ឌ</value>
+  </data>
   <data name="Quantity" xml:space="preserve">
     <value>ចំនួន</value>
   </data>
@@ -1266,6 +1269,9 @@
   <data name="PO" xml:space="preserve">
     <value>បញ្ជាទិញ</value>
   </data>
+	<data name="PO Products" xml:space="preserve">
+    <value>បញ្ជាទិញទំនិញ</value>
+  </data>
   <data name="PO #" xml:space="preserve">
     <value>លេខបញ្ជាទិញ</value>
   </data>
@@ -1367,6 +1373,9 @@
   </data>
   <data name="New Production" xml:space="preserve">
     <value>បញ្ជូលការផលិតថ្មី</value>
+  </data>
+	<data name="Edit Purchase Order" xml:space="preserve">
+    <value>កែប្រែបញ្ជាទិញ</value>
   </data>
   <data name="New Purchase Order" xml:space="preserve">
     <value>បញ្ជូលបញ្ជាទិញថ្មី</value>

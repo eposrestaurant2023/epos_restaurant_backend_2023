@@ -125,8 +125,8 @@
 
                         </TdCenter>
                         <td>
-
                             <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
+                            <LabelSaleType Text="@p.sale_type" />
                         </td>
                         <td>
                             <div>

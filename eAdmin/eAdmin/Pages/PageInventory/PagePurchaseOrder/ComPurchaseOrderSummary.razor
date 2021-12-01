@@ -1,16 +1,17 @@
-﻿<Grid ClassName="uk-grid-small">
+﻿@inject IStringLocalizer<Resource> lang
+<Grid ClassName="uk-grid-small">
     <div class="uk-width-2-3@s">
         <Tab>
             <TabHeader>
-                <TabHeaderItem class_name="uk-padding-remove">PO Note</TabHeaderItem>
-                <TabHeaderItem>Term & Conditions</TabHeaderItem>
+                <TabHeaderItem class_name="uk-padding-remove">@lang["Note"]</TabHeaderItem>
+                <TabHeaderItem>@lang["Term & Conditions"]</TabHeaderItem>
             </TabHeader>
             <TabBody>
                 <TabItem>
-                    <TextInput type="textarea" @bind-text="@model.purchase_order_note" placeholder="PO Note..."/>
+                    <TextInput type="textarea" @bind-text="@model.purchase_order_note" placeholder="@lang["Note"]"/>
                 </TabItem>
                 <TabItem>
-                    <TextInput type="textarea" @bind-text="@model.term_conditions" placeholder="Term & Conditions" />
+                    <TextInput type="textarea" @bind-text="@model.term_conditions" placeholder="@lang["Term & Conditions"]" />
                 </TabItem>
             </TabBody>
         </Tab>
@@ -19,14 +20,14 @@
         <div class="wrp-sub-total uk-form-horizontal">
             <div class="uk-width-1-1">
                 <div class="uk-grid-small" uk-grid>
-                    <div class="uk-width-expand" uk-leader>Sub Total</div>
+                    <div class="uk-width-expand" uk-leader>@lang["Sub Total"]</div>
                     <div>@model.sub_total.ToString(gv.main_currency_format)</div>
                 </div>
                 @if (model.po_product_discount_amount > 0)
                 {
                     <hr />
                     <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Total Item Discount</div>
+                        <div class="uk-width-expand" uk-leader>@lang["Total Item Discount"]</div>
                         <div>@model.po_product_discount_amount.ToString(gv.main_currency_format)</div>
                     </div>
                 }
@@ -34,13 +35,13 @@
                 {
                     <hr />
                     <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Discountable Amount</div>
+                        <div class="uk-width-expand" uk-leader>@lang["Discountable Amount"]</div>
                         <div>@model.discountable_amount.ToString(gv.main_currency_format)</div>
                     </div>
-                    <hr />
+                    <hr />  
                     <UkFlex class_name="uk-width-1-1">
                         <FlexItem class_name="uk-text-left">
-                            Discount
+                            @lang["Discount"]
                         </FlexItem>
                         <FlexItem class_name="uk-margin-left-auto">
                             <UkFlex>
@@ -68,7 +69,7 @@
                 {
                     <hr />
                     <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Total Discount</div>
+                        <div class="uk-width-expand" uk-leader>@lang["Total Discount"]</div>
                         <div>@model.grand_total_discount.ToString(gv.main_currency_format)</div>
                     </div>
                 }
@@ -77,12 +78,12 @@
                 {
                     <hr />
                     <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Total Amount</div>
+                        <div class="uk-width-expand" uk-leader>@lang["Total Amount"]</div>
                         <div>@model.total_amount.ToString(gv.main_currency_format)</div>
                     </div>
                     <hr />
                     <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Total Payment</div>
+                        <div class="uk-width-expand" uk-leader>@lang["Total Payment"]</div>
                         <div><a @onclick="@OnTotalPaymentClick">@model.paid_amount.ToString(gv.main_currency_format)</a></div>
                     </div>
                 }
@@ -91,7 +92,7 @@
                 {
                     <hr />
                     <div class="uk-grid-small" uk-grid>
-                        <div class="uk-width-expand" uk-leader>Balance</div>
+                        <div class="uk-width-expand" uk-leader>"@lang["Balance"]</div>
                         <div>@model.balance.ToString(gv.main_currency_format)</div>
                     </div>
                 }

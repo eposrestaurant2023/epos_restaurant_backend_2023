@@ -84,11 +84,6 @@
             </Tab>
         </PageBody>
     </PageContainer>
-    @if (is_open_print)
-    {
-
-        <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="50" report_id="231" Title="@lang["Working Day Detail"]" report_parameters="@($"id={id}")" />
-    }
 }
 @if (is_error)
 {

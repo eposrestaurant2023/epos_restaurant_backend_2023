@@ -25,7 +25,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            title = (id > 0 ? "Edit Purchase Order" : "New Purchase Order");
+            title = (id > 0 ? lang["Edit Purchase Order"] : lang["New Purchase Order"]);
 
             // when vendor of this PO Deleted/Inactive
             await LoadValidateVendor();
@@ -46,7 +46,7 @@ namespace eAdmin.Pages.PageInventory.PagePurchaseOrder
             if (model.is_fulfilled)
             {
                 is_error = true;
-                error_text = "This purchase order is already fulfilled";
+                error_text = lang["This purchase order is already fulfilled"];
             }
             is_loading = false;
         }
