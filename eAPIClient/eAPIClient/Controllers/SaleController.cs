@@ -62,37 +62,40 @@ namespace eAPIClient.Controllers
             {
                 //chekc if working is null and system is dont have shift mananement
                 //then auto create working day and shift then app to sale model
-                WorkingDayModel working_day = new WorkingDayModel();
-                if (model.working_day_id == null && !app.IsSystemHasFeature("SHIFT_MGR"))
+                if (!app.IsSystemHasFeature("SHIFT_MGR"))
                 {
-
-
-                      working_day = await GetWorkingDayInfo(model);
-                    if (working_day != null)
+                    WorkingDayModel working_day = new WorkingDayModel();
+                    if (model.working_day_id == null)
                     {
-                        if (working_day.id != Guid.Empty)
+
+
+                        working_day = await GetWorkingDayInfo(model);
+                        if (working_day != null)
                         {
-                            model.working_day_id = working_day.id;
+                            if (working_day.id != Guid.Empty)
+                            {
+                                model.working_day_id = working_day.id;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    return BadRequest(new BadRequestModel() { message = "please_start_working_day" });
-                }
-                //check cashier shift 
-
-                if (model.cashier_shift_id == null && !app.IsSystemHasFeature("SHIFT_MGR"))
-                {
-                    var cashier_shift = await GetCashierShiftInfo(model);
-                    if (cashier_shift != null)
+                    else
                     {
-                        model.cashier_shift_id = cashier_shift.id;
+                        return BadRequest(new BadRequestModel() { message = "please_start_working_day" });
                     }
-                }
-                else
-                {
-                    return BadRequest(new BadRequestModel() { message = "please_start_cashier_shift" });
+                    //check cashier shift 
+
+                    if (model.cashier_shift_id == null)
+                    {
+                        var cashier_shift = await GetCashierShiftInfo(model);
+                        if (cashier_shift != null)
+                        {
+                            model.cashier_shift_id = cashier_shift.id;
+                        }
+                    }
+                    else
+                    {
+                        return BadRequest(new BadRequestModel() { message = "please_start_cashier_shift" });
+                    }
                 }
                 //end checking working day and cashier shift
 
