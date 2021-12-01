@@ -8,7 +8,7 @@ namespace eAPIClient.Models
     [Table("tbl_working_day")]
     public class WorkingDayModel   : WorkingDayShareModel
     {
-        WorkingDayModel()
+        public WorkingDayModel()
         {
             cashier_shifts = new List<CashierShiftModel>();
             cash_drawer_amounts = new List<CashDrawerAmountModel>();

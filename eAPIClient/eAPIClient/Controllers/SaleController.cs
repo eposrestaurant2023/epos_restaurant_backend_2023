@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using eAPIClient.Models;
 using eAPIClient.Services;
@@ -59,6 +60,42 @@ namespace eAPIClient.Controllers
         {
             try
             {
+                //chekc if working is null and system is dont have shift mananement
+                //then auto create working day and shift then app to sale model
+                WorkingDayModel working_day = new WorkingDayModel();
+                if (model.working_day_id == null && !app.IsSystemHasFeature("SHIFT_MGR"))
+                {
+
+
+                      working_day = await GetWorkingDayInfo(model);
+                    if (working_day != null)
+                    {
+                        if (working_day.id != Guid.Empty)
+                        {
+                            model.working_day_id = working_day.id;
+                        }
+                    }
+                }
+                else
+                {
+                    return BadRequest(new BadRequestModel() { message = "please_start_working_day" });
+                }
+                //check cashier shift 
+
+                if (model.cashier_shift_id == null && !app.IsSystemHasFeature("SHIFT_MGR"))
+                {
+                    var cashier_shift = await GetCashierShiftInfo(model);
+                    if (cashier_shift != null)
+                    {
+                        model.cashier_shift_id = cashier_shift.id;
+                    }
+                }
+                else
+                {
+                    return BadRequest(new BadRequestModel() { message = "please_start_cashier_shift" });
+                }
+                //end checking working day and cashier shift
+
                 model.is_synced = false;
                 DocumentNumberModel _saleNumber = new DocumentNumberModel();
                 bool is_new = true;
@@ -122,7 +159,7 @@ namespace eAPIClient.Controllers
                 }
                 catch(Exception ex)
                 {
-                    //
+                    string message = ex.Message;
                 }
 
                 return Ok(model);
@@ -133,10 +170,93 @@ namespace eAPIClient.Controllers
             }
         }
 
+
+        async Task<WorkingDayModel> GetWorkingDayInfo(SaleModel model)
+        {
+
+            WorkingDayModel working_day = new WorkingDayModel();
+            working_day.cash_drawer_id = model.cash_drawer_id;
+            working_day.cash_drawer_name = model.cash_drawer_name;
+            working_day.business_branch_id = model.business_branch_id;
+            var b = app.GetBusinessBranch();
+            if (b != null)
+            {
+                working_day.business_branch_name_en = b.business_branch_name_en;
+                working_day.business_branch_name_kh = b.business_branch_name_kh;
+            }
+            working_day.created_by = model.created_by;
+            working_day.created_date = DateTime.Now;
+            working_day.outlet_id = model.outlet_id;
+            var outlet = app.GetOutletInfo(model.outlet_id);
+            if (outlet != null) {
+                working_day.outlet_name_en = outlet.outlet_name_en;
+                working_day.outlet_name_kh = outlet.outlet_name_kh;
+            }
+            
+            working_day.working_date = DateTime.Now;
+            working_day.opened_station_id = model.station_id;
+            var station = app.GetStationInfo(model.station_id);
+            if(station != null)
+            {
+                working_day.opended_station_name_en = station.station_name_en;
+                working_day.opended_station_name_kh = station.station_name_kh;
+                working_day.closed_station_name_en= station.station_name_en;
+                working_day.closed_station_name_kh= station.station_name_kh;
+
+            }
+
+            working_day.closed_station_id = model.station_id;
+           
+            working_day = await app.GetWorkingDayInfor(working_day, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return working_day;
+
+        }
+        async Task<CashierShiftModel> GetCashierShiftInfo(SaleModel model)
+        {
+
+            CashierShiftModel cashier_shift = new CashierShiftModel();
+            cashier_shift.cash_drawer_id = model.cash_drawer_id;
+            cashier_shift.cash_drawer_name = model.cash_drawer_name;
+            cashier_shift.working_day_id = model.working_day_id;
+            cashier_shift.created_by = model.created_by;
+            cashier_shift.created_date = DateTime.Now;
+            cashier_shift.outlet_id = model.outlet_id;
+            var b = app.GetBusinessBranch();
+            if (b != null)
+            {
+                cashier_shift.business_branch_name = b.business_branch_name_en;
+                
+            }
+            var outlet = app.GetOutletInfo(model.outlet_id);
+            if (outlet != null) {
+                cashier_shift.outlet_name_en = outlet.outlet_name_en;
+                cashier_shift.outlet_name_kh = outlet.outlet_name_kh;
+            }
+            
+            cashier_shift.working_date = DateTime.Now;
+            cashier_shift.opened_station_id = model.station_id;
+            var station = app.GetStationInfo(model.station_id);
+            if(station != null)
+            {
+                cashier_shift.opened_station_name_en = station.station_name_en;
+                cashier_shift.opened_station_name_kh = station.station_name_kh;
+                cashier_shift.closed_station_name_en= station.station_name_en;
+                cashier_shift.closed_station_name_kh= station.station_name_kh;
+
+            }
+            cashier_shift.shift_name = "Daily Shift";
+            cashier_shift.closed_station_id = model.station_id;
+           
+            cashier_shift = await app.GetCashierShiftInfo(cashier_shift, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return cashier_shift;
+
+        }
+
+
         [HttpPost]
         [Route("CancelPrintBill/{id}")]
-        public async Task<ActionResult> CancelPrintBill(Guid id)
-        {
+                public async Task<ActionResult> CancelPrintBill(Guid id)
+                {
             var _sale = db.Sales.Where(r => r.id == id);
             if (_sale.Any())
             {

@@ -32,8 +32,9 @@ namespace eShareModel
         public Guid cash_drawer_id { get; set; }
         public string cash_drawer_name { get; set; }
 
-        public int total_cashier_shifts { get; set; }
-        public bool is_synced { get; set; }
+        public int total_cashier_shifts { get; set; } = 0;
+        public bool is_synced { get; set; } = false;
+        
 
     }
 }
