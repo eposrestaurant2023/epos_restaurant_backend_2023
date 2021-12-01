@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using eAPIClient.Controllers;
 using eAPIClient.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -72,6 +75,83 @@ namespace eAPIClient.Services
             }
             return new List<UserModel>();
         }
+        public   bool  IsSystemHasFeature(string feature_code)
+        {
+
+            
+            var config = db.ConfigDatas.Where(r=>r.config_type=="system_feature" ).FirstOrDefault();
+            if (config != null)
+            {
+                List<SystemFeatureModel> system_features= JsonSerializer.Deserialize<List<SystemFeatureModel>>(config.data);
+
+                if (system_features.Where(r => r.feature_code == feature_code).Any()){
+                    return true;
+                }
+
+            }
+
+            return false;
+        }
+
+        public  List< OutletModel> AllOutlets()
+        {
+
+
+            var config = db.ConfigDatas.Where(r => r.config_type == "outlet_config").FirstOrDefault();
+            if (config != null)
+            {
+                List<OutletModel> outlets = JsonSerializer.Deserialize<List<OutletModel>>(config.data);
+
+                return outlets;
+
+            }
+
+            return new List<OutletModel>();
+        }
+        public BusinessBranchModel GetBusinessBranch()
+        {
+
+            var config = db.ConfigDatas.Where(r => r.config_type == "business_branch").FirstOrDefault();
+            if (config != null)
+            {
+                var data  = JsonSerializer.Deserialize<List<BusinessBranchModel>>(config.data);
+                if (data.Any())
+                {
+                    return data.FirstOrDefault();
+
+                }
+
+            }
+            return null;
+
+
+        }
+          public OutletModel GetOutletInfo(Guid id)
+        {
+
+            var data = AllOutlets().Where(r => r.id == id);
+            if (data.Any())
+            {
+                return data.FirstOrDefault();
+            }
+            return null;
+
+
+        }
+
+        public StationModel GetStationInfo(Guid id)
+        {
+
+            var data = AllOutlets().ToList().SelectMany(r => r.stations).ToList();
+            if (data.Any())
+            {
+                return data.Where(r => r.id == id).FirstOrDefault();
+            }
+            return null;
+            
+        
+        }
+
 
         public void sendSyncRequest()
         {
@@ -95,6 +175,90 @@ namespace eAPIClient.Services
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
             System.IO.File.WriteAllText(Path.Combine(path, $"{Guid.NewGuid()}.json"),JsonSerializer.Serialize(model));
         }
+
+        public async Task<WorkingDayModel> GetWorkingDayInfor(WorkingDayModel model, int UserID)
+        {
+
+            DocumentNumberModel doc = new DocumentNumberModel();
+            var data = db.WorkingDays.Where(r => r.cash_drawer_id == model.cash_drawer_id && r.is_closed == false);
+            if (data.Any())
+            {
+                 var  d = data.FirstOrDefault();
+                if (d.working_date == DateTime.Now.Date)
+                {
+                    return d;
+                }else
+                {
+                    d.is_closed = true;
+                    d.is_synced = false;
+                    db.WorkingDays.Update(d);
+
+                }
+            }
+             
+
+
+            doc = GetDocument("WorkingDayNum", model.cash_drawer_id.ToString());
+            model.working_day_number = GetDocumentFormat(doc);
+            db.WorkingDays.Add(model);
+             
+
+            //Update Document Number
+            if (doc.id == 0)
+            {
+                await UpdateDocument(doc);
+            }
+            await SaveChange.SaveAsync(db, UserID);
+
+            sendSyncRequest();
+
+            return model;
+        }
+
+        public async Task<CashierShiftModel> GetCashierShiftInfo(CashierShiftModel model, int UserID)
+        {
+
+            DocumentNumberModel doc = new DocumentNumberModel();
+            var data = db.CashierShifts.Where(r => r.cash_drawer_id == model.cash_drawer_id && r.is_closed == false);
+            if (data.Any())
+            {
+                var d = data.FirstOrDefault();
+                if (d.working_date == DateTime.Now.Date)
+                {
+                    return d;
+                }
+                else
+                {
+                    d.is_closed = true;
+                    db.CashierShifts.Update(d);
+
+                }
+            }
+            else
+            {
+
+                doc = GetDocument("CashierShiftNum", model.cash_drawer_id.ToString());
+                model.cashier_shift_number = GetDocumentFormat(doc);
+                db.CashierShifts.Add(model);
+
+            }
+
+
+          
+            await SaveChange.SaveAsync(db, UserID);
+            //Update Document Number
+            if (doc.id == 0)
+            {
+                await UpdateDocument(doc);
+            }
+
+            db.Database.ExecuteSqlRaw($"exec sp_update_cashier_shift_information '{model.id}'");
+
+            sendSyncRequest();
+
+            return model;
+        }
+
 
     }
 }

@@ -24,7 +24,7 @@ namespace eShareModel
         public string opened_station_name_kh { get; set; }
 
         public string cashier_shift_number { get; set; } = "";
-        public Guid working_day_id { get; set; }
+        public Guid? working_day_id { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime working_date { get; set; }
