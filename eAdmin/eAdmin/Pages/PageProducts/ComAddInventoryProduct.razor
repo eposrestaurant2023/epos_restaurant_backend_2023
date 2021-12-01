@@ -218,13 +218,13 @@
         {
 
             is_inventory_product = true;
-            //if (!model.stock_location_products.Any())
-            //{
-            //    foreach (var d in gv.stock_locations)
-            //    {
-            //        model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
-            //    }
-            //}
+            if (!model.stock_location_products.Any())
+            {
+                foreach (var d in gv.stock_locations)
+               {
+                   model.stock_location_products.Add(new StockLocationProductModel() { stock_location_id = d.id, stock_location = d });
+               }
+            }
 
 
 
@@ -289,7 +289,7 @@
         if (model.id > 0)
         {
             is_loading = true;
-            string api_url = $"StockLocationProduct?$expand=stock_location&$filter=is_deleted eq false and product_id eq {model.id}";
+            string api_url = $"StockLocationProduct?$expand=stock_location&$filter=is_deleted eq false and stock_location/is_deleted eq false and product_id eq {model.id}";
             var resp = await http.ApiGetOData(api_url);
             if (resp.IsSuccess)
             {

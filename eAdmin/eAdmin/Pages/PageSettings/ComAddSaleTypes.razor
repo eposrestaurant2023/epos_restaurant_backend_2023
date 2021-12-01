@@ -12,19 +12,7 @@
             @foreach (var p in sale_types.Where(r => r.is_deleted == false))
             {
                 <tr>
-                    <td><TextInput @bind-text="@p.sale_type_name" placeholder="@lang["Sale Type Name"]" /></td>
-                    <TdCenter>
-                        <TextInput type="color" @bind-text="@p.color"/>
-                    </TdCenter>
-                    <TdCenter>
-                        <ComInputCheckBox label_inline="true" @bind-value="@p.is_order_use_table" />
-                    </TdCenter>
-                    <TdCenter>
-                        <NumberInputInt class_name="uk-text-center" placeholder="@lang["Sort Order"]" @bind-text="@p.sort_order" />
-                    </TdCenter>
-                    <TdCenter>
-                        <Icon icon="delete" OnClick="@(()=>Delete(p))" is_visible="@(!p.is_build_in)" />
-                    </TdCenter>
+                    <ComFormAddSaleType sale_type="p" colorChanged="OnColorChanged"/>
 
                 </tr>
             }
@@ -32,22 +20,29 @@
 
         </table>
     </div>
-    @code {
+@code {
 
-        [Parameter] public List<SaleTypeModel> sale_types { get; set; }
+    [Parameter] public List<SaleTypeModel> sale_types { get; set; }
+    [Parameter] public EventCallback<SaleTypeModel> ColorSelected { get; set; }
 
-        SaleTypeModel sale_type = new SaleTypeModel();
+    SaleTypeModel sale_type = new SaleTypeModel();
 
-        void Delete(SaleTypeModel p)
+    void Delete(SaleTypeModel p)
+    {
+        if (p.id == Guid.Empty)
         {
-            if (p.id == Guid.Empty)
-            {
-                sale_types.Remove(p);
-            }
-            else
-            {
-                p.is_deleted = true;
-            }
+            sale_types.Remove(p);
         }
+        else
+        {
+            p.is_deleted = true;
+        }
+    }
+
+    async Task OnColorChanged(SaleTypeModel p)
+    {
+        await ColorSelected.InvokeAsync(p);
+
+    }
 
     }

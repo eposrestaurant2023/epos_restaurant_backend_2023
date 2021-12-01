@@ -3,7 +3,7 @@
 
 @if (is_loading_data || is_loading)
 {
-    <Loading is_loading="@( is_loading_data || is_loading_data)" />
+    <Loading is_loading="@( is_loading || is_loading_data)" />
 
 }
 
@@ -23,7 +23,7 @@
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
                 
-                <ComStockTakeDetail_ActionButton @bind-model="@model" />
+                <ComStockTakeDetail_ActionButton @bind-model="@model" OnRefresh="@OnRefresh"/>
             </HeaderRight>
         </PageHeader>
         <PageBody>

@@ -69,9 +69,9 @@ namespace eAdmin.Pages.PageInventory.PageProductions
 
         public async Task OnRefresh()
         {
-            is_loading_data = true;
+            is_loading = true;
             await LoadData();
-            is_loading_data = false;
+            is_loading = false;
         }
 
 

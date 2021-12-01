@@ -12,7 +12,7 @@
     
     Example:
     
-    ... ado.net/XML headers & schema ...
+    ... ado.net/XML headers & schema ..
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
@@ -208,10 +208,10 @@
     <value>លុបទាំងអស់</value>
   </data>
   <data name="Invoice Information" xml:space="preserve">
-    <value>ព័ត៌មានវិក័យបត្រ័</value>
+    <value>ព័ត៌មានវិក្កយបត្រ</value>
   </data>
   <data name="Invoice Date" xml:space="preserve">
-    <value>កាលបរិច្ឆេទវិក័យបត្រ័</value>
+    <value>កាលបរិច្ឆេទវិក្កយបត្រ</value>
   </data>
   <data name="Working Day No" xml:space="preserve">
     <value>លេខថ្ងៃធ្វើការ</value>
@@ -244,7 +244,7 @@
     <value>ផលិតផលលក់</value>
   </data>
   <data name="Invoice" xml:space="preserve">
-    <value>វិក័យបត្រ័</value>
+    <value>វិក្កយបត្រ</value>
   </data>
   <data name="Payment" xml:space="preserve">
     <value>ការទូទាត់</value>
@@ -334,7 +334,7 @@
     <value>សាច់ប្រាក់ចេញ</value>
   </data>
   <data name="Cannot add payment for this sale invoice." xml:space="preserve">
-    <value>មិនអាចបញ្ជូលការទូទាត់សម្រាប់វិក័យបត្រ័នេះ</value>
+    <value>មិនអាចបញ្ជូលការទូទាត់សម្រាប់វិក្កយបត្រនេះ</value>
   </data>
   <data name="Cannot add payment." xml:space="preserve">
     <value>មិនអាចបញ្ជូលការទូទាត់</value>
@@ -805,7 +805,7 @@
     <value>បញ្ជា​រ​ទិញមិនបានបង់</value>
   </data>
   <data name="Receipt List" xml:space="preserve">
-    <value>វិក័យបត្រ័លក់</value>
+    <value>វិក្កយបត្រលក់</value>
   </data>
 	<data name="Customers" xml:space="preserve">
     <value>អតិថិជន</value>
@@ -850,28 +850,28 @@
     <value>អតិថិជនបង្កើតហើយថ្មីៗ</value>
   </data>
   <data name="All Receipt" xml:space="preserve">
-    <value>វិក័យបត្រ័ទាំងអស់</value>
+    <value>វិក្កយបត្រទាំងអស់</value>
   </data>
   <data name="Deleted Receipt" xml:space="preserve">
-    <value>វិក័យបត្រ័ដែលបានលុប</value>
+    <value>វិក្កយបត្រដែលបានលុប</value>
   </data>
   <data name="Paid Receipt" xml:space="preserve">
-    <value>វិក័យបត្រ័ដែលបានបង់</value>
+    <value>វិក្កយបត្រដែលបានបង់</value>
   </data>
   <data name="Unpaid Receipt" xml:space="preserve">
-    <value>វិក័យបត្រ័ដែលមិនបានបង់</value>
+    <value>វិក្កយបត្រដែលមិនបានបង់</value>
   </data>
   <data name="Partially Paid Receipt" xml:space="preserve">
-    <value>វិក័យបត្រ័ដែលបានបង់ដោយផ្នែក</value>
+    <value>វិក្កយបត្រដែលបានបង់ដោយផ្នែក</value>
   </data>
   <data name="System Expired Alert" xml:space="preserve">
     <value>ការជូនដំណឹងប្រព័ន្ធផុតកំណត់</value>
   </data>
   <data name="FOC Receipt" xml:space="preserve">
-    <value>FOC វិក័យបត្រ័</value>
+    <value>FOC វិក្កយបត្រ</value>
   </data>
   <data name="Recent Receipt" xml:space="preserve">
-    <value>វិកយប័ត្របានគិតលុយហើយថ្មីៗ</value>
+    <value>វិក្កយបត្របានគិតលុយហើយថ្មីៗ</value>
   </data>
   <data name="Report" xml:space="preserve">
     <value>របាយការណ៍</value>
@@ -1069,13 +1069,13 @@
     <value>វេន</value>
   </data>
   <data name="Sale Receipt" xml:space="preserve">
-    <value>វិក័យបត្រ័លក់</value>
+    <value>វិក្កយបត្រលក់</value>
   </data>
   <data name="FOC Sale Receipt" xml:space="preserve">
-    <value>FOC វិក័យបត្រ័លក់</value>
+    <value>FOC វិក្កយបត្រលក់</value>
   </data>
   <data name="Deleted Sale Receipt" xml:space="preserve">
-    <value>វិក័យបត្រ័លក់ដែលបានលក់</value>
+    <value>វិក្កយបត្រលក់ដែលបានលក់</value>
   </data>
   <data name="Summary By Revenue Group" xml:space="preserve">
     <value>សង្ខេបតាមក្រុមនៃប្រាក់ចំណូល</value>
@@ -2404,7 +2404,7 @@
     <value>ភ្ជាប់ ឯកសារ</value>
   </data>
   <data name="Invoice File Name" xml:space="preserve">
-    <value>ឈ្មោះវិក័យបត្រ័</value>
+    <value>ឈ្មោះវិក្កយបត្រ</value>
   </data>
   <data name="Receipt File Name" xml:space="preserve">
     <value>ឈ្មោះបង្កាន់ដៃ</value>
@@ -2428,7 +2428,7 @@
     <value>រក្សាទុកជោគជ័យ</value>
   </data>
   <data name="Invoice Copies" xml:space="preserve">
-    <value>ចំនួនវិក្កបត្រ</value>
+    <value>ចំនួនវិក្កយបត្រ</value>
   </data>
   <data name="POS Invoices" xml:space="preserve">
     <value>វិក្កយបត្រ POS</value>

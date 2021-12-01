@@ -5,7 +5,7 @@
 @if (!is_loading)
 {
     if(model != null){
-    <Title Value="@model.product_group_en"></Title>
+    <Title Value="@lang["Ingredient Category"]"></Title>
     <PageContainer roles="@gv.GetRole("product_category_group_management")">
         <PageHeader>
             <HeaderLeft>
@@ -17,6 +17,7 @@
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
                 <Button icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"ingredientcategory/edit/{model.id}"))" />
+                <RefreshButton OnClick="@(async()=>await LoadData())"/>
             </HeaderRight>
         </PageHeader>
             <PageBody>
@@ -79,7 +80,7 @@
 
     async Task LoadData(string api_url = "")
     {
-
+        is_loading = true;
         is_loading_data = true;
 
         if (string.IsNullOrEmpty(api_url))
@@ -94,6 +95,6 @@
             model = JsonSerializer.Deserialize<List<ProductGroupModel>>(resp.Content.ToString()).FirstOrDefault();
         }
         is_loading_data = false;
-
+        is_loading = false;
     }
 }

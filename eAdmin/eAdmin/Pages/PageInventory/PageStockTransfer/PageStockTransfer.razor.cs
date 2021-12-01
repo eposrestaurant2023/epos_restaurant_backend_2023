@@ -167,7 +167,13 @@ namespace eAdmin.Pages.PageInventory.PageStockTransfer
             state.pager.current_page = 1;
             await LoadData();
         }
+        public async Task OnRefresh()
+        {
+            is_loading = true;
+            await LoadData();
+            is_loading = false;
 
+        }
         public async Task AddNew()
         {
             await Task.Delay(100);
