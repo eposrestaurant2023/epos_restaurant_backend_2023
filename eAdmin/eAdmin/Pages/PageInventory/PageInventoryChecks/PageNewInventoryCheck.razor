@@ -5,39 +5,37 @@
 
 <Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 <Com is_visible="@(!is_loading && !is_error)">
-    <Title Value="@title"></Title>
+    <Title Value="@lang[title]"></Title>
     <PageContainer>
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @title
+                        @lang[title]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true" />
         </PageHeader>
         <PageBody>
-
             <UIGridCenter>
-            <UIContainerBox Title="Inventory Check Date">
+            <UIContainerBox Title="@lang["Inventory Check Date"]">
                 <h3>@model.end_date.ToString(gv.date_time_format)</h3>
             </UIContainerBox>
-                <UIContainerBox Title="Inventory Check Information">
-                    <TextInput label="Document Number" text="@model.document_number" is_read_only="true" />
-                        <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" label="@lang["Referance Number"]" />
-                       
-
-                        <SelectInventoryCheckType @bind-selected_value="@model.inventory_check_type" label="@lang["Inventory Check Type"]" />
+                <UIContainerBox Title="@lang["Inventory Check Information"]">
+                    <TextInput label="@lang["Document #"]" text="@model.document_number" is_read_only="true" />
+                    <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance #"]" label="@lang["Referance #"]" />
+                    <SelectInventoryCheckType @bind-selected_value="@model.inventory_check_type" label="@lang["Inventory Check Type"]" />
                 </UIContainerBox>
-                <UIContainerBox Title="Warehouse">
-                    <SelectBusinessBranchByRole  show_empty="true" label="Business Branch" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
+                <UIContainerBox Title="@lang["Warehouse"]">
+                    <SelectBusinessBranchByRole  show_empty="true" label="@lang["Business Branch"]" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
                     @if (!is_selecting_business_branch)
                     {
                         <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" label="@lang["Warehouse"]" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="@model.stock_location_id" />
                     }
                     else
                     {
+                    <div class="uk-form-horizontal">
                         <div class="uk-margin-small">
                             <label class="uk-form-label"><Icon icon="layers" size="16px" /> @lang["Stock Location"]</label>
                             <div class="uk-form-controls">
@@ -46,6 +44,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     }
                 </UIContainerBox>
 

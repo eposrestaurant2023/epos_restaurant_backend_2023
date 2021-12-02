@@ -1,65 +1,67 @@
 ﻿@inject IStringLocalizer<Resource> lang
-<div class="uk-margin-small">
-    @if (!string.IsNullOrEmpty(label))
-    {
-        <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @lang[label]</label>
-    }
-
-    <div class="@(!string.IsNullOrEmpty(label) ? "uk-form-controls" : "")">
-        <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
-            @if (show_empty)
+    <div class="uk-form-horizontal">
+        <div class="uk-margin-small">
+            @if (!string.IsNullOrEmpty(label))
             {
-                <option value="@Guid.Empty">@lang[empty_text]</option>
-            }
-            @foreach (var p in gv.stock_locations.Where(r => r.business_branch_id == business_branch_id))
-            {
-                <option value="@p.id">@p.stock_location_name (@p.business_branch?.business_branch_name_en)</option>
+                <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @lang[label]</label>
             }
 
-        </select>
-        @ChildContent
+            <div class="@(!string.IsNullOrEmpty(label) ? "uk-form-controls" : "")">
+                <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
+                    @if (show_empty)
+                    {
+                        <option value="@Guid.Empty">@lang[empty_text]</option>
+                    }
+                    @foreach (var p in gv.stock_locations.Where(r => r.business_branch_id == business_branch_id))
+                    {
+                        <option value="@p.id">@p.stock_location_name (@p.business_branch?.business_branch_name_en)</option>
+                    }
+
+                </select>
+                @ChildContent
+            </div>
+        </div>
     </div>
-</div>
 
-@code{
-    [CascadingParameter] public GlobalVariableModel gv { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string label { get; set; } = "Stock Location";
-    [Parameter] public string icon { get; set; }
-    [Parameter] public bool show_empty { get; set; } = false;
-    [Parameter] public string empty_text { get; set; } = "Select Stock Location";
+    @code{
+        [CascadingParameter] public GlobalVariableModel gv { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public string label { get; set; } = "Stock Location";
+        [Parameter] public string icon { get; set; }
+        [Parameter] public bool show_empty { get; set; } = false;
+        [Parameter] public string empty_text { get; set; } = "Select Stock Location";
 
-    [Parameter] public string width { get; set; } = "100%";
-    [Parameter] public Guid selected_value { get; set; }
-    [Parameter] public Guid business_branch_id { get; set; }
-    [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
+        [Parameter] public string width { get; set; } = "100%";
+        [Parameter] public Guid selected_value { get; set; }
+        [Parameter] public Guid business_branch_id { get; set; }
+        [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
 
-    [Parameter] public StockLocationModel stock_location { get; set; }
-    [Parameter] public EventCallback<StockLocationModel> stock_locationChanged { get; set; }
+        [Parameter] public StockLocationModel stock_location { get; set; }
+        [Parameter] public EventCallback<StockLocationModel> stock_locationChanged { get; set; }
 
-    public Guid SelectedValue
-    {
-        get
+        public Guid SelectedValue
         {
-            return stock_location == null ? selected_value : stock_location.id;
+            get
+            {
+                return stock_location == null ? selected_value : stock_location.id;
+            }
         }
+
+        Guid id = Guid.NewGuid();
+
+        private async Task SelectedValueChange(string n)
+        {
+            selected_value = Guid.Parse(n);
+            await selected_valueChanged.InvokeAsync(selected_value);
+            if (selected_value == Guid.Empty)
+            {
+                await stock_locationChanged.InvokeAsync(new StockLocationModel());
+            }
+            else
+            {
+                await stock_locationChanged.InvokeAsync(gv.stock_locations.Where(r => r.id == selected_value).FirstOrDefault());
+            }
+
+        }
+
     }
-
-    Guid id = Guid.NewGuid();
-
-    private async Task SelectedValueChange(string n)
-    {
-        selected_value = Guid.Parse(n);
-        await selected_valueChanged.InvokeAsync(selected_value);
-        if (selected_value == Guid.Empty)
-        {
-            await stock_locationChanged.InvokeAsync(new StockLocationModel());
-        }
-        else
-        {
-            await stock_locationChanged.InvokeAsync(gv.stock_locations.Where(r => r.id == selected_value).FirstOrDefault());
-        }
-
-    }
-
-}

@@ -525,6 +525,9 @@
   <data name="Filter by Date" xml:space="preserve">
     <value>ច្រោះទិន្នន័យតាមកាលបរិច្ឆេទ</value>
   </data>
+	<data name="Type" xml:space="preserve">
+    <value>ប្រភេទ</value>
+  </data>
   <data name="Select Sale Type" xml:space="preserve">
     <value>សូមជ្រើសរើសប្រភេទនៃការលក់</value>
   </data>
@@ -774,6 +777,9 @@
 	<data name="Payment Type Group" xml:space="preserve">
     <value>ក្រុមប្រភេទការទូទាត់</value>
   </data>
+	<data name="New Payment Type" xml:space="preserve">
+    <value>បង្កើតប្រភេទការទូទាត់ថ្មី</value>
+  </data>
   <data name="Payment Type" xml:space="preserve">
     <value>ប្រភេទការទូទាត់</value>
   </data>
@@ -984,11 +990,65 @@
   <data name="Account" xml:space="preserve">
     <value>គណនី​</value>
   </data>
+	<data name="Inventory Check Type" xml:space="preserve">
+    <value>ប្រភេទពិនិត្យសារពើភ័ណ្ឌ</value>
+  </data>
+	<data name="New Inventory Check" xml:space="preserve">
+    <value>បង្កើតពិនិត្យសារពើភ័ណ្ឌថ្មី</value>
+  </data>
+	<data name="Inventory Check Information" xml:space="preserve">
+    <value>ព័ត៌មានអំពីពិនិត្យសារពើភ័ណ្ឌ</value>
+  </data>
+	<data name="Inventory Check Date" xml:space="preserve">
+    <value>ថ្ងៃពិនិត្យសារពើភ័ណ្ឌ</value>
+  </data>
+  <data name="Inventory Check #" xml:space="preserve">
+    <value>លេខពិនិត្យសារពើភ័ណ្ឌ</value>
+  </data>
+	<data name="Inventory Checked" xml:space="preserve">
+    <value>បានពិនិត្យសារពើភ័ណ្ឌ</value>
+  </data>
+	<data name="Inventory Check" xml:space="preserve">
+    <value>ពិនិត្យសារពើភ័ណ្ឌ</value>
+  </data>
+	<data name="All Inventory Checks" xml:space="preserve">
+    <value>ពិនិត្យសារពើភ័ណ្ឌទាំងអស់</value>
+  </data>
+	<data name="Deleted Inventory Checks" xml:space="preserve">
+    <value>ពិនិត្យសារពើភ័ណ្ឌដែលបានលុប</value>
+  </data>
+	<data name="Draft Inventory Checks" xml:space="preserve">
+    <value>ពិនិត្យសារពើភ័ណ្ឌដែលបានព្រាង</value>
+  </data>
+	<data name="Fulfilled Inventory Checks" xml:space="preserve">
+    <value>Fulfilled ពិនិត្យសារពើភ័ណ្ឌ</value>
+  </data>
+	<data name="Full" xml:space="preserve">
+    <value>ទាំងអស់</value>
+  </data>
+	<data name="Partially Check" xml:space="preserve">
+    <value>ពិនិត្យមួយចំនួន</value>
+  </data>
+	<data name="Full Check" xml:space="preserve">
+    <value>ពិនិត្យទាំងអស់</value>
+  </data>
+	<data name="Full Inventory Checks" xml:space="preserve">
+    <value>ពិនិត្យសារពើភ័ណ្ឌទាំងអស់</value>
+  </data>
+	<data name="Partially Inventory Checks" xml:space="preserve">
+    <value>ពិនិត្យសារពើភ័ណ្ឌមួយចំនួន</value>
+  </data>
   <data name="User Account" xml:space="preserve">
     <value>គណនី​អ្នកប្រើប្រាស់</value>
   </data>
   <data name="Full Name" xml:space="preserve">
     <value>ឈ្មោះ​ពេញ</value>
+  </data>
+	<data name="New User" xml:space="preserve">
+    <value>បង្កើតប្រើប្រាស់ថ្មី</value>
+  </data>
+	<data name="New User" xml:space="preserve">
+    <value>បង្កើតប្រើប្រាស់ថ្មី</value>
   </data>
   <data name="User Name" xml:space="preserve">
     <value>ឈ្មោះអ្នកប្រើប្រាស់</value>
@@ -1358,6 +1418,12 @@
   </data>
   <data name="Branch" xml:space="preserve">
     <value>សាខា</value>
+  </data>
+	<data name="End Date" xml:space="preserve">
+    <value>ថ្ងៃបញ្ជប់</value>
+  </data>
+	<data name="Start Date" xml:space="preserve">
+    <value>ថ្ងៃចាប់ផ្ដើម</value>
   </data>
   <data name="Due Date" xml:space="preserve">
     <value>ថ្ងៃកំណត់</value>
