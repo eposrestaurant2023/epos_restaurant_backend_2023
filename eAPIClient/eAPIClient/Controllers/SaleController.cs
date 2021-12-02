@@ -64,8 +64,9 @@ namespace eAPIClient.Controllers
                 //then auto create working day and shift then app to sale model
                 if (!app.IsSystemHasFeature("SHIFT_MGR"))
                 {
+
                     WorkingDayModel working_day = new WorkingDayModel();
-                    if (model.working_day_id == null)
+                    if (!app.IsWorkingDayExist(model.working_day_id))
                     {
 
 
@@ -76,26 +77,62 @@ namespace eAPIClient.Controllers
                             {
                                 model.working_day_id = working_day.id;
                             }
+                        }else
+                        {
+                            return BadRequest(new BadRequestModel() { message = "please_start_working_day" });
                         }
                     }
-                    else
-                    {
-                        return BadRequest(new BadRequestModel() { message = "please_start_working_day" });
-                    }
-                    //check cashier shift 
 
-                    if (model.cashier_shift_id == null)
+                    if ((model.is_closed ?? false ) && model.closed_working_day_id == null)
                     {
-                        var cashier_shift = await GetCashierShiftInfo(model);
-                        if (cashier_shift != null)
+
+                        if(working_day == null || working_day.id == Guid.Empty) working_day = await GetWorkingDayInfo(model);
+                        if (working_day != null)
+                        {
+                            if (working_day.id != Guid.Empty)
+                            {
+                                model.closed_working_day_id = working_day.id;
+                            }
+                        }
+                        else
+                        {
+                            return BadRequest(new BadRequestModel() { message = "please_start_working_day" });
+                        }
+                    }
+
+
+                    //check cashier shift 
+                    CashierShiftModel cashier_shift = new CashierShiftModel();
+                    if  (!app.IsCashierShiftExist( model.cashier_shift_id ))
+                    {
+                          cashier_shift = await GetCashierShiftInfo(model);
+                        if (cashier_shift != null && cashier_shift.id != Guid.Empty )
                         {
                             model.cashier_shift_id = cashier_shift.id;
                         }
+                        else
+                        {
+                            return BadRequest(new BadRequestModel() { message = "please_start_cashier_shift" });
+                        }
                     }
-                    else
+
+                    if ((model.is_closed ?? false) && model.closed_cashier_shift_id == null)
                     {
-                        return BadRequest(new BadRequestModel() { message = "please_start_cashier_shift" });
+
+                        if (cashier_shift == null || cashier_shift.id ==Guid.Empty) cashier_shift = await GetCashierShiftInfo(model);
+                        if (cashier_shift != null)
+                        {
+                            if (cashier_shift.id != Guid.Empty)
+                            {
+                                model.closed_cashier_shift_id = cashier_shift.id;
+                            }
+                        }
+                        else
+                        {
+                            return BadRequest(new BadRequestModel() { message = "please_start_working_day" });
+                        }
                     }
+
                 }
                 //end checking working day and cashier shift
 

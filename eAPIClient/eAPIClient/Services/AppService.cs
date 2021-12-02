@@ -215,6 +215,26 @@ namespace eAPIClient.Services
             return model;
         }
 
+        public  bool  IsWorkingDayExist(Guid? id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+            var data = db.WorkingDays.Where(r => r.id == id);
+            return data.Any();
+        }
+        public  bool  IsCashierShiftExist(Guid? id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+            var data = db.CashierShifts.Where(r => r.id == id);
+            return data.Any();
+        }
+
+
         public async Task<CashierShiftModel> GetCashierShiftInfo(CashierShiftModel model, int UserID)
         {
 
