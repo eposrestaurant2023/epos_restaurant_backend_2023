@@ -216,10 +216,16 @@
   <data name="Working Day No" xml:space="preserve">
     <value>លេខថ្ងៃធ្វើការ</value>
   </data>
+	<data name="Working Day #" xml:space="preserve">
+    <value>លេខថ្ងៃធ្វើការ</value>
+  </data>
   <data name="Working Day Number" xml:space="preserve">
     <value>លេខថ្ងៃធ្វើការ</value>
   </data>
-  <data name="Cashier Shift Number" xml:space="preserve">
+	<data name="Cashier Shift Number" xml:space="preserve">
+    <value>លេខវេនធ្វើការ</value>
+  </data>
+  <data name="Shift #" xml:space="preserve">
     <value>លេខវេនធ្វើការ</value>
   </data>
   <data name="Cash Drawer" xml:space="preserve">
@@ -305,6 +311,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>យល់ព្រម</value>
+  </data>
+	<data name="Save &amp; New" xml:space="preserve">
+    <value>យល់ព្រម និងបង្កើតថ្មី</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>មិនយល់ព្រម</value>
@@ -450,6 +459,9 @@
   <data name="Referance #" xml:space="preserve">
     <value>លេខកូដយោង</value>
   </data>
+	<data name="Referance Number" xml:space="preserve">
+    <value>លេខកូដយោង</value>
+  </data>
   <data name="Customer Group" xml:space="preserve">
     <value>ក្រុមអតិថិជន</value>
   </data>
@@ -467,6 +479,9 @@
   </data>
 	<data name="Business Branch" xml:space="preserve">
     <value>សាខាអាជីវកម្ម</value>
+  </data>
+	<data name="Business Branch (Outlet)" xml:space="preserve">
+    <value>សាខាអាជីវកម្ម(ទីតាំង)</value>
   </data>
   <data name="Business Branches" xml:space="preserve">
     <value>សាខាអាជីវកម្ម</value>
@@ -536,6 +551,9 @@
   </data>
   <data name="Unit" xml:space="preserve">
     <value>ឯកតា</value>
+  </data>
+	<data name="Category Modifier" xml:space="preserve">
+    <value>ប្រភេទModifier</value>
   </data>
   <data name="Unit Category" xml:space="preserve">
     <value>ប្រភេទឯកតា</value>
@@ -678,6 +696,15 @@
   <data name="Daily Sale Revenue" xml:space="preserve">
     <value>ចំណូលពីការលក់ប្រចាំថ្ងៃ</value>
   </data>
+	<data name="Select" xml:space="preserve">
+    <value>សូមជ្រើសរើស</value>
+  </data>
+	<data name="Select Provinces" xml:space="preserve">
+    <value>សូមជ្រើសរើសខេត្ត</value>
+  </data>
+	<data name="Province" xml:space="preserve">
+    <value>ខេត្ត</value>
+  </data>
   <data name="Dashboard" xml:space="preserve">
     <value>ទំព័រដើម</value>
   </data>
@@ -690,8 +717,14 @@
   <data name="Hourly Sale" xml:space="preserve">
     <value>ការលក់ ម៉ោង/ថ្ងៃ</value>
   </data>
+	<data name="Ingredient Product" xml:space="preserve">
+    <value>គ្រឿងផ្សំទំនិញ</value>
+  </data>
   <data name="New Ingredient" xml:space="preserve">
     <value>បង្កើតគ្រឿងផ្សំថ្មី</value>
+  </data>
+	<data name="Ingredient Name" xml:space="preserve">
+    <value>ឈ្មោះគ្រឿងផ្សំ</value>
   </data>
   <data name="Ingredient" xml:space="preserve">
     <value>គ្រឿងផ្សំ</value>
@@ -1338,6 +1371,12 @@
   <data name="Warehouse" xml:space="preserve">
     <value>ឃ្លាំង</value>
   </data>
+	<data name="Add New Modifier" xml:space="preserve">
+    <value>បង្កើតModifier​ថ្មី</value>
+  </data>
+	<data name="Add New Modifier Group" xml:space="preserve">
+    <value>បង្កើតក្រុម Modifier​ថ្មី</value>
+  </data>
   <data name="Modifier Group" xml:space="preserve">
     <value>ក្រុម Modifier</value>
   </data>
@@ -1383,11 +1422,17 @@
   <data name="All Stock Stransfer History" xml:space="preserve">
     <value>ប្រវត្តិការផ្ទេរទំនិញទាំងអស់</value>
   </data>
+	<data name="Stock Transfer Products" xml:space="preserve">
+    <value>ការផ្ទេរទំនិញ</value>
+  </data>
   <data name="New Stock Transfer" xml:space="preserve">
     <value>បញ្ជូលការផ្ទេរទំនិញថ្មី</value>
   </data>
   <data name="New Customer Group" xml:space="preserve">
     <value>បញ្ជូលក្រុមរថយន្តថ្មី</value>
+  </data>
+	<data name="Stock Take Products" xml:space="preserve">
+    <value>ការដកទំនិញប្រើប្រាស់</value>
   </data>
   <data name="New Stock Take" xml:space="preserve">
     <value>បញ្ជូលការដកទំនិញប្រើប្រាស់ថ្មី</value>
@@ -1484,6 +1529,21 @@
   </data>
 	<data name="Select Payment Type Group" xml:space="preserve">
     <value>សូមជ្រើសរើសក្រុមប្រភេទការទូទាត់</value>
+  </data>
+	<data name="Modifier Name" xml:space="preserve">
+    <value>ឈ្មោះ​Modifier</value>
+  </data>
+	<data name="Modifier name cannot empty." xml:space="preserve">
+    <value>ឈ្មោះ​Modifierមិនអាចទទេ</value>
+  </data>
+	<data name="Section name cannot empty." xml:space="preserve">
+    <value>ឈ្មោះផ្នែកមិនអាចទទេ</value>
+  </data>
+	<data name="Please add modifier section" xml:space="preserve">
+    <value>សូមបញ្ជូលផ្នែក​ modifier</value>
+  </data>
+	<data name="Please add modifier to" xml:space="preserve">
+    <value>សូមបញ្ជូលmodifier ទៅ</value>
   </data>
   <data name="Please Select" xml:space="preserve">
     <value>សូមជ្រើសរើស</value>
@@ -1890,6 +1950,9 @@
   <data name="Select Product Category" xml:space="preserve">
     <value>ជ្រើសរើសប្រភេទទំនិញ</value>
   </data>
+	  <data name="Product Categories" xml:space="preserve">
+    <value>ប្រភេទទំនិញ</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>ប្រភេទ</value>
   </data>
@@ -1934,6 +1997,9 @@
   </data>
   <data name="Address" xml:space="preserve">
     <value>អាសយដ្ឋាន</value>
+  </data>
+	<data name="Address &amp; Note" xml:space="preserve">
+    <value>អាសយដ្ឋាន និង ចំណាំ</value>
   </data>
   <data name="Address_and_Note" xml:space="preserve">
     <value>អាសយដ្ឋាន &amp; ចំណាំ</value>
@@ -2115,16 +2181,34 @@
   <data name="Products" xml:space="preserve">
     <value>ទំនិញ</value>
   </data>
+	<data name="Association Modifiers" xml:space="preserve">
+    <value>Modifiersដែលពាក់ព័ន្ធ</value>
+  </data>
   <data name="Association Products" xml:space="preserve">
+    <value>ទំនិញដែលពាក់ព័ន្ធ</value>
+  </data>
+	<data name="Associate Product" xml:space="preserve">
     <value>ទំនិញដែលពាក់ព័ន្ធ</value>
   </data>
   <data name="Associate Products &amp; Modifiers" xml:space="preserve">
     <value>ទំនិញដែលពាក់ព័ន្ធ និង​ Modifiers</value>
   </data>
+	<data name="Modifier Section" xml:space="preserve">
+    <value>ផ្នែកModifier</value>
+  </data>
+	<data name="Add Section" xml:space="preserve">
+    <value>បង្កើតផ្នែកថ្មី</value>
+  </data>
+	<data name="Section Name" xml:space="preserve">
+    <value>ឈ្មោះផ្នែក</value>
+  </data> 
   <data name="Product Category &amp; Group" xml:space="preserve">
     <value>ប្រភេទ​ផលិតផល និងក្រុម</value>
   </data>
   <data name="New Category &amp; Group" xml:space="preserve">
+    <value>បង្កើតប្រភេទ​ផលិតផល និងក្រុម</value>
+  </data>
+	<data name="New Product Category &amp; Group" xml:space="preserve">
     <value>បង្កើតប្រភេទ​ផលិតផល និងក្រុម</value>
   </data>
   <data name="Edit Product Category &amp; Group" xml:space="preserve">
@@ -2205,6 +2289,9 @@
   <data name="Please select menu" xml:space="preserve">
     <value>សូមជ្រើសរើសម៉ឺនុយ</value>
   </data>
+	<data name="Selected Products" xml:space="preserve">
+    <value>ទំនិញដែលបានជ្រើសរើស</value>
+  </data>
 	<data name="Selected Menus" xml:space="preserve">
     <value>សូមជ្រើសរើសម៉ឺនុយ</value>
   </data>
@@ -2231,6 +2318,9 @@
   </data>
   <data name="Text Color" xml:space="preserve">
     <value>ពណ៌អក្សរ</value>
+  </data>
+	<data name="There are no product found" xml:space="preserve">
+    <value>គ្មានទិន្នន័យ​</value>
   </data>
   <data name="There is no payment record" xml:space="preserve">
     <value>គ្មានទិន្នន័យ​</value>

@@ -25,16 +25,16 @@
             </UIContainerBox>
                 <UIContainerBox Title="Inventory Check Information">
                     <TextInput label="Document Number" text="@model.document_number" is_read_only="true" />
-                        <TextInput @bind-text="@model.reference_number" placeholder="Referance Number" label="Reference Number" />
+                        <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance Number"]" label="@lang["Referance Number"]" />
                        
 
-                        <SelectInventoryCheckType @bind-selected_value="@model.inventory_check_type" label="Inventory Check Type" />
+                        <SelectInventoryCheckType @bind-selected_value="@model.inventory_check_type" label="@lang["Inventory Check Type"]" />
                 </UIContainerBox>
                 <UIContainerBox Title="Warehouse">
                     <SelectBusinessBranchByRole  show_empty="true" label="Business Branch" selected_valueChanged="@OnBusinessBranchSeletedChange" selected_value="model.business_branch_id" />
                     @if (!is_selecting_business_branch)
                     {
-                        <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" label="Warehouse" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="@model.stock_location_id" />
+                        <SelectStockLocation business_branch_id="@model.business_branch_id" show_empty="true" label="@lang["Warehouse"]" selected_valueChanged="@OnStockLocationSeletedChange" selected_value="@model.stock_location_id" />
                     }
                     else
                     {
@@ -49,7 +49,7 @@
                     }
                 </UIContainerBox>
 
-                <UIContainerBox Title="Product Category" is_visible="@(model.inventory_check_type=="Full")">
+                <UIContainerBox Title="@lang["Product Category"]" is_visible="@(model.inventory_check_type=="Full")">
                     <MudTreeView Items="product_category_tree" CanSelect="true" @bind-SelectedValues="SelectedProductCategory" CanActivate="true" >
                         <ItemTemplate>
                             <MudTreeViewItem @bind-Expanded="@context.is_expand" Items="@context.tree_items" Value="@context" @bind-Selected="@context.is_selected"
@@ -58,8 +58,8 @@
                     </MudTreeView>
 
                 </UIContainerBox>
-                <UIContainerBox Title="Note">
-                    <textarea class="uk-textarea  uk-text-left" placeholder="Note" @bind="model.note" rows="2">@model.note</textarea>
+                <UIContainerBox Title="@lang["Note"]">
+                    <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
                 </UIContainerBox>
             </UIGridCenter>
              

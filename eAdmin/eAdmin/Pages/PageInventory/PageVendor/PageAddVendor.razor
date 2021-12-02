@@ -32,7 +32,7 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="@lang["Vendor Photo"]" ClassName="uk-text-center">
+                    <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
                         <UIFlexCenter>
                             <FileUpload @bind-ImageUrl="@model.photo" />
                         </UIFlexCenter>
@@ -51,7 +51,7 @@
                             </ValidationTemplate>
                         </SelectInt>
 
-                        <TextInput label="@lang["Vendor Name"]" @bind-text="@model.vendor_name">
+                        <TextInput label="@lang["Name"]" @bind-text="@model.vendor_name">
                             <ValidationMessage For="@(() => model.vendor_name)" />
                         </TextInput>
                         <TextInput label="@lang["Company Name"]" @bind-text="@model.company_name" />
@@ -73,10 +73,10 @@
                                 </TabHeader>
                                 <TabBody>
                                     <TabItem>
-                                        <textarea class="uk-textarea  uk-text-left" placeholder="Address" @bind="model.address" rows="2">@model.address</textarea>
+                                        <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Address"]" @bind="model.address" rows="2">@model.address</textarea>
                                     </TabItem>
                                     <TabItem>
-                                        <textarea class="uk-textarea  uk-text-left" placeholder="Note" @bind="model.note" rows="2">@model.note</textarea>
+                                        <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
                                     </TabItem>
                                 </TabBody>
                             </Tab>

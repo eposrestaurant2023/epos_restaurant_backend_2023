@@ -6,7 +6,7 @@
 <div class="new_sale_sticky_top">
     <div class="uk-inline uk-form-width-1-1">
         <input class="uk-search-input uk-input sale_barcode_scanner" type="search" placeholder="@placeholder" @ref="txt_search" @onkeypress="OnKeypress" @bind="@keyword" @bind:event="oninput" />
-        <a uk-tooltip="Select products" class="uk-form-icon uk-form-icon-flip icon-select-sale-product" @onclick="@(()=> { is_selected_product = true; keyword = ""; })"><span uk-icon="icon: list" class="uk-margin-small-right"></span>@lang["Select Product"]</a>
+        <a uk-tooltip="@lang["Select products"]" class="uk-form-icon uk-form-icon-flip icon-select-sale-product" @onclick="@(()=> { is_selected_product = true; keyword = ""; })"><span uk-icon="icon: list" class="uk-margin-small-right"></span>@lang["Select Product"]</a>
     </div>
 </div>
 <Com is_visible="is_selected_product">

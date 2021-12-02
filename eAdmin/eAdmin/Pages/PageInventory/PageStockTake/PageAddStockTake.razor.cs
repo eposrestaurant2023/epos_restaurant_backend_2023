@@ -24,7 +24,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         protected override async Task OnInitializedAsync()
         {
             is_loading = true;
-            title = (id > 0 ? "Edit Stock Take" : "New Stock Take");
+            title = (id > 0 ? lang["Edit Stock Take"] : lang["New Stock Take"]);
 
             if (!is_error)
             { 
@@ -42,7 +42,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
             if (model.is_fulfilled)
             {
                 is_error = true;
-                error_text = "This Stock Take is already fulfilled";
+                error_text = lang["This Stock Take is already fulfilled"];
             }
             is_loading = false;
 

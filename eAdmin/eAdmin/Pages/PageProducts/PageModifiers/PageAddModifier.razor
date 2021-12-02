@@ -8,13 +8,13 @@
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="@title"></Title>
+    <Title Value="@lang[title]"></Title>
     <PageContainer roles="@gv.GetRole($"{(!string.IsNullOrEmpty(id) ? "modifier_edit" : "modifier_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @title
+                        @lang[title]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
@@ -32,7 +32,7 @@
                     </UIContainerBox>
                 </UIGridCenter>
                 <UIGridCenter>
-                    <UIContainerBox Title="INGREDIENT">
+                    <UIContainerBox Title="@lang["Ingredient"]">
                         <eAdmin.Pages.PageProducts.PageModifiers.ComAddIngredient model="@modifier"/>
                     </UIContainerBox>
                 </UIGridCenter>
@@ -79,7 +79,7 @@ else
             }
             if (!string.IsNullOrEmpty(clone_id))
             {
-                title = $"Clone : {modifier.modifier_name}";
+                title = $"{lang["Clone"]} : {modifier.modifier_name}";
                 modifier.id = Guid.Empty;
                 modifier.is_deleted = false;
                 modifier.status = true;
@@ -88,7 +88,7 @@ else
             }
             else
             {
-                title = $"Edit : {modifier.modifier_name}";
+                title = $"{lang["Edit"]} : {modifier.modifier_name}";
             }
         }
         else
