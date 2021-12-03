@@ -156,11 +156,9 @@
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ProductModel model { get; set; }
-
     [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
     [Parameter] public bool is_ingredient { get; set; } = false;
     [Parameter] public bool is_production_product { get; set; } = false;
-
     List<StockLocationProductModel> stock_locatin_products = new List<StockLocationProductModel>();
 
     bool is_loading;

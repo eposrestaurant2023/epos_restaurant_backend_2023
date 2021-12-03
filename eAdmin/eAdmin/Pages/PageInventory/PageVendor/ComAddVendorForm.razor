@@ -1,18 +1,18 @@
 ﻿@inherits PageCore
-<UIContainerBox Title="Vendor Photo" ClassName="uk-text-center">
+<UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
     <UIFlexCenter>
         <FileUpload @bind-ImageUrl="@model.photo" />
     </UIFlexCenter>
 </UIContainerBox>
 
 <UIContainerBox>
-    <TextInput label="Vendor Code" @bind-text="@model.vendor_code" is_read_only="@model.is_auto_generate_vendor_code">
+    <TextInput label="@lang["Code"]" @bind-text="@model.vendor_code" is_read_only="@model.is_auto_generate_vendor_code">
         <ValidationMessage For="@(()=>model.vendor_code)" />
     </TextInput>
 
-    <ComInputCheckBox is_read_only="@(model.id > 0)" @bind-value="@model.is_auto_generate_vendor_code" label="Auto generate vendor code" />
+    <ComInputCheckBox is_read_only="@(model.id > 0)" @bind-value="@model.is_auto_generate_vendor_code" label="@lang["Auto generate"]" />
 
-    <TextInput label="Vendor Name" @bind-text="@model.vendor_name">
+    <TextInput label="@lang["Name"]" @bind-text="@model.vendor_name">
         <ValidationMessage For="@(() => model.vendor_name)" />
     </TextInput>
 
@@ -20,35 +20,35 @@
         <ValidationMessage For="@(()=>model.vendor_group_id)" />
     </SelectVendorGroup>
 
-    <TextInput label="Company Name" @bind-text="@model.company_name" />
+    <TextInput label="@lang["Company Name"]" @bind-text="@model.company_name" />
     
     <SelectProvince @bind-selected_value="@model.province_id" show_empty="true">
         <ValidationMessage For="@(()=>model.province_id)" /> 
     </SelectProvince>
 
-    <TextInput label="Email" @bind-text="@model.email_address" />
+    <TextInput label="@lang["Email"]" @bind-text="@model.email_address" />
 
-    <TextInput label="Office Phone" @bind-text="@model.office_phone" />
+    <TextInput label="@lang["Office Phone"]" @bind-text="@model.office_phone" />
 
-    <TextInput label="Mobile Phone" @bind-text="@model.mobile_phone" />
+    <TextInput label="@lang["Mobile Phone"]" @bind-text="@model.mobile_phone" />
      
 
     <SelectStatus @bind-selected_value="@model.status" />
 
 </UIContainerBox>
 
-<UIContainerBox Title="Address & Note">
+<UIContainerBox Title="@lang["Address & Note"]">
     <Tab>
         <TabHeader>
-            <TabHeaderItem>Address</TabHeaderItem>
-            <TabHeaderItem>Note</TabHeaderItem>
+            <TabHeaderItem>@lang["Address"]</TabHeaderItem>
+            <TabHeaderItem>@lang["Note"]</TabHeaderItem>
         </TabHeader>
         <TabBody>
             <TabItem>
-                <textarea class="uk-textarea  uk-text-left" placeholder="Address" @bind="model.address" rows="2">@model.address</textarea>
+                <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Address"]" @bind="model.address" rows="2">@model.address</textarea>
             </TabItem>
             <TabItem>
-                <textarea class="uk-textarea  uk-text-left" placeholder="Note" @bind="model.note" rows="2">@model.note</textarea>
+                <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
             </TabItem>
         </TabBody>
     </Tab>

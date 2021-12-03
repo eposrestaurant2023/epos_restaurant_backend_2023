@@ -1,11 +1,14 @@
-﻿using eAdmin.JSHelpers;
-using eModels;
-using MatBlazor;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
+using System.Text.Json;
+using eModels;
+using eAdmin.JSHelpers;
+using MatBlazor;
 using System;
+using System.Security.Cryptography;
+using MudBlazor;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace eAdmin.Pages.PageReceipt.PageWorkingDayDetails
 {
@@ -59,7 +62,8 @@ namespace eAdmin.Pages.PageReceipt.PageWorkingDayDetails
         }
         public void OnPrint()
         {
-            is_open_print = true;
+            var parameters = new DialogParameters { ["parent_id"] = 50, ["report_parameters"] = $"id={ id}", ["gv"] = gv };
+            Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Working Day"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
         }
         public async Task OnRefresh()
         {

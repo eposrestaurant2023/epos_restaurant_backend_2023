@@ -1,15 +1,22 @@
 ﻿@inject IStringLocalizer<Resource> lang
-<div class="uk-form-controls">
-    <span>@lang[label]</span>
-    <select value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width: 100px;">
-        <option value="Full">@lang["Full Check"]</option>
-        <option value="Partial">@lang["Partially Check"]</option>
-    </select>
-    @ChildContent
-</div>
+<div class="uk-form-horizontal">
+    <div class="uk-margin-small">
+        <label class="uk-form-label">@lang[label]</label>
+        <div class="uk-form-controls">
+            <select value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+                <option value="Full">@lang["Full Check"]</option>
+                <option value="Partial">@lang["Partially Check"]</option>
+            </select>
+            @ChildContent
+        </div>
+       
+    </div>
+
+    </div>
 @code{
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Parameter] public string selected_value { get; set; } = "Full";
+    [Parameter] public string width { get; set; } = "100%";
     [Parameter] public string label { get; set; } = "Inventory Check Type";
     [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
     public string SelectedValue

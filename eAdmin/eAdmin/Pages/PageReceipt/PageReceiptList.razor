@@ -76,7 +76,6 @@
                         <Th>
                             <div>@lang["Working Day #"]</div>
                             <div class="sub-header-table">@lang["Shift #"]</div>
-
                         </Th>
                         @HeaderTemplate("customer/customer_name_en", lang["Customer"], "col-auto")
                         <ThAuto>
@@ -84,17 +83,12 @@
                             <div class="sub-header-table">@lang["Outlet"]</div>
                             <div class="sub-header-table">@lang["Station"]</div>
                         </ThAuto>
-                      
                         <ThCenter>@lang["Table #"]</ThCenter>
-
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Discount"]</ThRight>
                         <ThRight>@lang["Tax"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
-
-                       
-
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -125,8 +119,8 @@
 
                         </TdCenter>
                         <td>
-
                             <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
+                            <LabelSaleType Text="@p.sale_type" />
                         </td>
                         <td>
                             <div>

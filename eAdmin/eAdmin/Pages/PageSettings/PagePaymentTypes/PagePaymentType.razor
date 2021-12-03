@@ -5,7 +5,7 @@
 
 @if (!is_loading)
 {
-    <Title Value="@state.page_title"></Title>
+    <Title Value="@lang[state.page_title]"></Title>
     <PageContainer roles="@gv.GetRole("payment_type_management")">
         <PageHeader>
             <HeaderLeft>
@@ -15,7 +15,7 @@
                     </HeaderTemplate>
                     <FilterTemplate>
                         <PageFilter title="@lang["Status"]">
-                            <ModuleView module_views="@gv.GetModuleView("page_payment_type")" OnClick="@ViewClick" />
+                            <ModuleView module_views="@gv.GetModuleView("page_payment_type")" OnClick="@ViewClick"/>
                         </PageFilter>
                     </FilterTemplate>
                 </PageTitle>

@@ -6,7 +6,7 @@
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="Modifier Detail"></Title>
+    <Title Value="@lang["Modifier Detail"]"></Title>
     <PageContainer roles="@gv.GetRole("modifier_view")">
         <PageHeader>
             <HeaderLeft>
@@ -30,7 +30,7 @@
                                      File="@(new AttachFilesModel() { modifier_id =  new Guid(id) })"
                                      IsVisible="@(!modifier.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
                     <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                        <AddButton url="modifier/new" roles="@gv.GetRole("modifier_add")">@lang["New Modifier"]</AddButton>
+                        <AddButton url="modifier/new" roles="@gv.GetRole("modifier_add")">@lang["New"]</AddButton>
                     </MudHidden>
                     <RefreshButton OnClick="@LoadData" />
                     <MoreButton is_loading="@(modifier.is_loading ||modifier.is_change_status || modifier.is_deleting || modifier.is_restoring)">

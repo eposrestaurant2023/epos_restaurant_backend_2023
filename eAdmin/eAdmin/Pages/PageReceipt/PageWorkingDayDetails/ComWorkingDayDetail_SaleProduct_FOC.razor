@@ -1,7 +1,7 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
 
-<UIContainerBox Title="@Title">
+<UIContainerBox Title="@lang[Title]">
     @if (!is_loading)
     {
         <div class="csh-sale-pro-list">
@@ -37,7 +37,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
+                                <TdRight ClassName="uk-text-bold">@lang["Grand Total"]</TdRight>
                                 <TdCenter ClassName="uk-text-bold">@summary_by_revenue_group.Sum(r => r.qty).ToString(gv.quantity_format)</TdCenter>
                                 <TdRight ClassName="uk-text-bold">@summary_by_revenue_group.Sum(r => r.amount).ToString(gv.main_currency_format)</TdRight>
                             </tr>
@@ -91,7 +91,7 @@
                                     foreach (var gt in models.Where(r => r.product_category_en == g.ToString()).Select(r => r.product_category_en).Distinct().ToList())
                                     {
                                         <tr>
-                                            <TdRight ClassName="uk-text-bold">Total - @gt.ToString()</TdRight>
+                                            <TdRight ClassName="uk-text-bold">@lang["Total"] - @gt.ToString()</TdRight>
                                             <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
                                             <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
                                         </tr>
@@ -101,7 +101,7 @@
                                 @foreach (var tc in models.Where(r => r.product_group_en == c).Select(r => r.product_group_en).Distinct().ToList())
                                 {
                                     <tr>
-                                        <TdRight ClassName="uk-text-bold">Total - @c.ToString()</TdRight>
+                                        <TdRight ClassName="uk-text-bold">@lang["Total"] - @c.ToString()</TdRight>
                                         <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == tc.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
                                         <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == tc.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdCenter>
                                     </tr>
@@ -112,7 +112,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <TdRight ClassName="uk-text-bold">Grand Total</TdRight>
+                                <TdRight ClassName="uk-text-bold">@lang["Grand Total"]</TdRight>
                                 <TdCenter ClassName="uk-text-bold">@models.Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
                                 <TdRight ClassName="uk-text-bold">@models.Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
                             </tr>

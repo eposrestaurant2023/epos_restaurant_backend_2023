@@ -5,8 +5,8 @@
 @if (!string.IsNullOrEmpty(label))
 {
     <div class="@(is_horizontal?"uk-form-horizontal":"")">
-        <div class="uk-margin-small">
-            <label class="uk-form-label" for="@id"><Icon is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" icon="@icon" /> @lang[label]</label>
+        <div class="uk-margin-small"> 
+           <label class="uk-form-label" for="@id"><Icon is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" icon="@icon" /> @lang[label]</label>
             <div class="uk-form-controls">
                 @if (type == "text")
                 {

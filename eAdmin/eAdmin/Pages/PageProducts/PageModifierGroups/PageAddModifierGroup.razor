@@ -7,13 +7,13 @@
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="@title"></Title>
+    <Title Value="@lang[title]"></Title>
     <PageContainer roles="@gv.GetRole($"{(id != Guid.Empty.ToString() ? "modifier_group_edit" : "modifier_group_add")}")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @title
+                        @lang[title]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>

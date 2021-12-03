@@ -75,7 +75,6 @@
                             <ComCashierShiftDetail_SaleProduct Title="@lang["Sale Product"]" IsFree="false" CashierShiftId="@id" />
                             <ComCashierShiftDetail_SaleProduct_FOC IsRevenueGroup="true" Title="@lang["Summary By Revenue Group"]" CashierShiftId="@id" />
                             <ComCashierShiftDetail_SaleProduct_FOC Title="@lang["FOC"]" CashierShiftId="@id" />
-
                             <ComCashierShiftDetail_SaleProduct Title="@lang["Free Product"]" IsFree="true" CashierShiftId="@id" />
                         </UIGridCenter>
                         }
@@ -84,11 +83,6 @@
             </Tab>
         </PageBody>
     </PageContainer>
-    @if (is_open_print)
-    {
-
-        <ComPreviewReport @bind-IsOpened="@is_open_print" parent_id="243" Title="@lang["Cashier Shift"]" report_parameters="@($"id={id}")" />
-    }
 }
 @if (is_error)
 {

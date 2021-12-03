@@ -26,7 +26,7 @@
             <DataAnnotationsValidator />
             <PageBody>
                <UIGridCenter>
-                    <UIContainerBox Title="@lang["Product Photo"]" ClassName="uk-text-center">
+                    <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
                         <UIFlexCenter>
                             <FileUpload @bind-ImageUrl="@model.photo" />
                         </UIFlexCenter>
@@ -34,10 +34,10 @@
                     <UIContainerBox>
                         <TextInput label="@lang["Code"]" text="@model.product_code">
                         </TextInput>
-                        <TextInput label="@lang["Product Name(EN)"]" @bind-text="@model.product_name_en">
+                        <TextInput label="@lang["Name En"]" @bind-text="@model.product_name_en">
                             <ValidationMessage For="@(() => model.product_name_en)" />
                         </TextInput>
-                        <TextInput label="@lang["Product Name(KH)"]" @bind-text="@model.product_name_kh" />
+                        <TextInput label="@lang["Name Kh"]" @bind-text="@model.product_name_kh" />
 
                         <SelectProductCategory @bind-selected_value="@model.product_category_id" show_empty="true" is_ingredient_category="true">
                             <ValidationMessage For="@(()=>model.product_category_id)" />

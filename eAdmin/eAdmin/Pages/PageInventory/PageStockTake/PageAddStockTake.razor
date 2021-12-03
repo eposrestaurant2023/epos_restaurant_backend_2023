@@ -6,13 +6,13 @@
 
 <Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 <Com is_visible="@(!is_loading && !is_error)">
-    <Title Value="@title"></Title>
+    <Title Value="@lang[title]"></Title>
     <PageContainer>
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @title
+                        @lang[title]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>

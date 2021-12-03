@@ -34,11 +34,8 @@
             <th class="uk-width-auto"></th>
         </TableHeader>
         <RowTemplate Context="p">
-
-            <TdCenter>
-                <Column is_visible="@(p.closed_date != null)">
-                    @p.working_date.ToString(gv.date_format)
-                </Column>
+            <TdCenter>​
+                @p.working_date.ToString(gv.date_format)
             </TdCenter>
 
             <TdCenter>
@@ -65,6 +62,7 @@
             </TdCenter>
             <td>
                 <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
+                <LabelSaleType Text="@p.sale_type" />
             </td>
             <td>
                 <div>
@@ -94,7 +92,6 @@
             <TdRight>
                 @p.balance.ToString(gv.main_currency_format)
             </TdRight>
-
             <TdCenter>
                 <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
             </TdCenter>

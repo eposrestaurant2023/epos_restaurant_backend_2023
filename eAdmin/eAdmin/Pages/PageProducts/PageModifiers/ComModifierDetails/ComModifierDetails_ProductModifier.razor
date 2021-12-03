@@ -14,18 +14,26 @@
         <PageHeader is_subpage="true">
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
-                    <HeaderTemplate><span>Association Products</span></HeaderTemplate>
+                    <HeaderTemplate><span>@lang["Association Products"]</span></HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight>
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
-                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
-                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
-                </ComSearch>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                        <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
+                        <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
+                    </ComSearch>
+                </MudHidden>
             </HeaderRight>
         </PageHeader>
         <PageBody>
+            <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                <ComSearch is_fullwidth="true" place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
+                    <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" empty_text="@lang["All Product Group"]" />
+                    <SelectProductCategory @bind-product_category="@state.product_category" show_empty="true" empty_text="@lang["All Product Category"]" />
+                </ComSearch>
+            </MudHidden>
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Table Items="@models"
                    PerPage="@state.pager.per_page"
@@ -41,9 +49,9 @@
                 <TableHeader>
                     <ThCenter>@lang["Image"]</ThCenter>
                     @HeaderTemplate("product_code", lang["Code"], "uk-text-center")
-                    @HeaderTemplate("product_name_en", lang["Name En (Name Kh)"], "col-auto")
+                    @HeaderTemplate("product_name_en", lang["Name En(Kh)"], "col-auto")
                     @HeaderTemplate("product_category/product_category_en", lang["Category"])
-                    <ThCenter>@lang["Quanlity"]</ThCenter>
+                    <ThCenter>@lang["Quantity"]</ThCenter>
                     <ThRight>@lang["Price"]</ThRight>
                     <ThRight>
                         @lang["Status"]

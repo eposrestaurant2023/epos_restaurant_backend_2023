@@ -1,79 +1,80 @@
 ﻿@inject IHttpService http
 @inject ISnackbar toast
+@inject IStringLocalizer<Resource> lang
 <Loading is_loading="@is_saving" />
-    <IngredientProductTypeahead product="@product" productChanged="@OnSelected" placeholder="Select Ingredient"/>
-    <hr />
-    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-        <tr>
-            <ThAuto>Ingredient Name</ThAuto>
-            <ThCenter>Quantity</ThCenter>
-            <ThCenter>Unit</ThCenter>
-            <ThRight>Cost </ThRight>
-            <ThRight>Total</ThRight>
-            <ThCenter></ThCenter>
-        </tr>
-        @if (model.modifier_ingredients.Where(r => r.is_deleted == false).Any())
-        {
-            foreach (var p in model.modifier_ingredients.Where(r => r.is_deleted == false))
-            {
-                <tr>
-                    <td>
-                        @p.ingredient?.product_display_name
-                    </td>
-                    <TdCenter>
-                        <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
-                    </TdCenter>
-                    <TdCenter>
-                        <SelectUnit unit_category_id="@p.unit.unit_category_id" @bind-selected_value="@p.unit_id" label="" width="auto" />
-                    </TdCenter>
-                    <TdRight>
-                        <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
-                    </TdRight>
-                    <TdRight>
-                        @p.total_cost.ToString(gv.currency_format)
-                    </TdRight>
-                    <TdRight>
-                        <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))" />
-                    </TdRight>
-                </tr>
-            }
-            <tfoot>
-                <tr>
-                    <td>
-                        Total
-                    </td>
-                    <TdCenter>
-                        @model.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
-                    </TdCenter>
-                    <TdCenter>
-                    </TdCenter>
-                    <TdRight>
-                    </TdRight>
-                    <TdRight>
-                        @model.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.cost).ToString(gv.currency_format)
-                    </TdRight>
-                    <TdRight>
-
-                    </TdRight>
-                </tr>
-            </tfoot>
-        }
-        else
+<IngredientProductTypeahead product="@product" productChanged="@OnSelected" placeholder="Select Ingredient" />
+<hr />
+<table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+    <tr>
+        <ThAuto>@lang["Name"]</ThAuto>
+        <ThCenter>@lang["Quantity"]</ThCenter>
+        <ThCenter>@lang["Unit"]</ThCenter>
+        <ThRight>@lang["Cost"]</ThRight>
+        <ThRight>@lang["Total"]</ThRight>
+        <ThCenter></ThCenter>
+    </tr>
+    @if (model.modifier_ingredients.Where(r => r.is_deleted == false).Any())
+    {
+        foreach (var p in model.modifier_ingredients.Where(r => r.is_deleted == false))
         {
             <tr>
-                <td colspan="6">
-                    <ComEmptyTemplate padding_top_bottom="25px" />
+                <td>
+                    @p.ingredient?.product_display_name
                 </td>
+                <TdCenter>
+                    <NumberInput @bind-text="@p.quantity" class_name="uk-text-center" />
+                </TdCenter>
+                <TdCenter>
+                    <SelectUnit unit_category_id="@p.unit.unit_category_id" @bind-selected_value="@p.unit_id" label="" width="auto" />
+                </TdCenter>
+                <TdRight>
+                    <NumberInput @bind-text="@p.cost" class_name="uk-text-right" width="90px" />
+                </TdRight>
+                <TdRight>
+                    @p.total_cost.ToString(gv.currency_format)
+                </TdRight>
+                <TdRight>
+                    <Icon icon="delete" OnClick="@(()=>OnDeleteClick(p))" />
+                </TdRight>
             </tr>
         }
-    </table>
+        <tfoot>
+            <tr>
+                <td>
+                    @lang["Total"]
+                </td>
+                <TdCenter>
+                    @model.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.quantity).ToString(gv.quantity_format)
+                </TdCenter>
+                <TdCenter>
+                </TdCenter>
+                <TdRight>
+                </TdRight>
+                <TdRight>
+                    @model.modifier_ingredients.Where(r => r.is_deleted == false).Sum(r => r.cost).ToString(gv.currency_format)
+                </TdRight>
+                <TdRight>
+
+                </TdRight>
+            </tr>
+        </tfoot>
+    }
+    else
+    {
+        <tr>
+            <td colspan="6">
+                <ComEmptyTemplate padding_top_bottom="25px" />
+            </td>
+        </tr>
+    }
+</table>
 
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public ModifierModel model { get; set; }
     [Parameter] public bool is_open { get; set; }
     [Parameter] public EventCallback<bool> is_openChanged { get; set; }
-     
+
     public ProductModel product { get; set; }
     bool is_saving;
     void OnSelected(ProductModel value)
@@ -89,10 +90,10 @@
             if (value.unit == null) value.unit = gv.units.Where(r => r.id == 1).FirstOrDefault();
             value.product_category_id = gv.product_categories.Where(r => r.is_defualt == true).FirstOrDefault().id;
             model.modifier_ingredients.Add(new ModifierIngredientModel() { ingredient = value, ingredient_id = value.id, unit = value.unit, unit_id = value.unit_id, cost = value.cost });
-           
+
         }
         value = null;
-    } 
+    }
 
 
     void OnDeleteClick(ModifierIngredientModel p)
