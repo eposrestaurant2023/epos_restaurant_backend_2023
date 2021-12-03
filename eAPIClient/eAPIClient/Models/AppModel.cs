@@ -186,25 +186,25 @@ namespace eAPIClient.Models
         public string feature_code { get; set; }
     } public class BusinessBranchModel
     {
-        
-            public Guid id { get; set; }
-            public string business_branch_name_en { get; set; }
-            public string business_branch_name_kh { get; set; }
-            public string address_en { get; set; }
-            public string address_kh { get; set; }
-            public string phone_1 { get; set; }
-            public string phone_2 { get; set; }
-            public string email { get; set; }
-            public string website { get; set; }
-            public string logo { get; set; }
-            public string contact_name { get; set; }
-        
+
+        public Guid id { get; set; }
+        public string business_branch_name_en { get; set; }
+        public string business_branch_name_kh { get; set; }
+        public string address_en { get; set; }
+        public string address_kh { get; set; }
+        public string phone_1 { get; set; }
+        public string phone_2 { get; set; }
+        public string email { get; set; }
+        public string website { get; set; }
+        public string logo { get; set; }
+        public string contact_name { get; set; }
+
 
     }
 
 
 
-    public class OutletModel{
+    public class OutletModel {
 
         public Guid id { get; set; }
         public string outlet_name_en { get; set; }
@@ -213,7 +213,7 @@ namespace eAPIClient.Models
         public List<StationModel> stations { get; set; }
     }
 
-    public class StationModel{
+    public class StationModel {
 
         public Guid id { get; set; }
         public string station_name_en { get; set; }
@@ -221,7 +221,10 @@ namespace eAPIClient.Models
 
     }
 
-
+    public class CheckWorkingModel {
+        public WorkingDayModel working_day { get; set; }
+        public CashierShiftModel cashier_shift { get; set; }
+    }
 
 
 }

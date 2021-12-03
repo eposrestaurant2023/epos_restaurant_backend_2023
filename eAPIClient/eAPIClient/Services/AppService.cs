@@ -200,6 +200,7 @@ namespace eAPIClient.Services
 
             doc = GetDocument("WorkingDayNum", model.cash_drawer_id.ToString());
             model.working_day_number = GetDocumentFormat(doc);
+            model.working_date = DateTime.Now;
             db.WorkingDays.Add(model);
              
 
@@ -254,14 +255,14 @@ namespace eAPIClient.Services
 
                 }
             }
-            else
-            {
+             
 
-                doc = GetDocument("CashierShiftNum", model.cash_drawer_id.ToString());
-                model.cashier_shift_number = GetDocumentFormat(doc);
-                db.CashierShifts.Add(model);
+            doc = GetDocument("CashierShiftNum", model.cash_drawer_id.ToString());
+            model.cashier_shift_number = GetDocumentFormat(doc);
+            model.working_date = DateTime.Now;
+            db.CashierShifts.Add(model);
 
-            }
+            
 
 
           

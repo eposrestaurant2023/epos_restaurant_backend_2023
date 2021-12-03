@@ -182,10 +182,12 @@ namespace eAPIClient.Controllers
                 {
                     var _sale = _saleData.FirstOrDefault();
                     _sale.is_synced = true;
+                    
                     var _syncResp = await http.ApiPost("Sale/Save",_sale);
                     if (!_syncResp.IsSuccess)
                     {
-                        return BadRequest();
+                        return Ok(_sale);
+                       // return BadRequest();
                     }
                     db.Sales.Update(_sale);
                     await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));

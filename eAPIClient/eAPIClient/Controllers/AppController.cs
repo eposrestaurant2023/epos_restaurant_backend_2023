@@ -120,6 +120,24 @@ namespace eAPIClient.Controllers
         }
 
 
+         [HttpPost]
+        [Route("CheckWorkingDay")]
+        public async Task <ActionResult<CheckWorkingModel>> CheckWorkingDay([FromBody] CheckWorkingModel model)
+        {
+            model.working_day = await app.GetWorkingDayInfor(model.working_day, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            
+            model.cashier_shift.working_day_id = model.working_day.id;
+
+            model.cashier_shift = await app.GetCashierShiftInfo(model.cashier_shift, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+
+            return Ok(model);
+        }
+
+
+        
+
 
 
 
