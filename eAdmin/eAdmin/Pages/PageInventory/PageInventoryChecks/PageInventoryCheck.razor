@@ -86,7 +86,6 @@
                             <div>@p.business_branch?.business_branch_name_en</div>
                             <div class="sub-info-row-table">@p.stock_location?.stock_location_name</div>
                         </td>
-                        
                         <TdRight>
                             @p.total_cost.ToString(gv.main_currency_format)
                         </TdRight>
@@ -96,7 +95,6 @@
                         <TdActions is_loading="@p.is_loading">
                             <TableActionItem roles="@gv.GetRole("inventory_check_management")" icon="visibility" url="@($"inventorycheck/{p.id}")">@lang["View"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("inventory_check_edit")" icon="edit" is_visible="@(!p.is_deleted && !p.is_fulfilled)" url="@($"inventorycheck/edit/{p.id}")">@lang["Edit"]</TableActionItem>
-                            
                             <TableActionItem roles="@gv.GetRole("inventory_check_delete")" icon="delete" is_visible="@(!p.is_deleted && !p.is_fulfilled)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
                         </TdActions>
                     </RowTemplate>

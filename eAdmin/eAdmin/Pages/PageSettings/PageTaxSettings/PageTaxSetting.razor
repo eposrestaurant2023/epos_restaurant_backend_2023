@@ -18,18 +18,10 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab ClassName="control-header-tab">
-                <TabHeader>
-                    <TabHeaderItem OnClick="@(()=> { show_tax_rule = true; })">@lang["Tax Rule Setting"]</TabHeaderItem>
-                    @foreach (var b in gv.business_branch_by_role)
+            <MudTabs PanelClass="pa-6">
+                <MudTabPanel OnClick="@(()=> { show_tax_rule = true; })" Text="@lang["Tax Rule Setting"]">
+                    @if (tax_rule != null)
                     {
-                        <TabHeaderItem OnClick="@(()=> { show_tax_rule = false; })">@b.business_branch_name_en</TabHeaderItem>
-                    }
-                </TabHeader>
-                <TabBody>
-                    <TabItem>
-                        @if (tax_rule != null)
-                        {
                         <UIGridCenter>
                             <UIContainerBox Title="@($"Tax 1 :{tax_rule.tax_1_name}")">
                                 <TextInput @bind-text="@tax_rule.tax_1_name" label="Tax 1 Name" is_horizontal="true">
@@ -50,53 +42,51 @@
                                 </TextInput>
                             </UIContainerBox>
                         </UIGridCenter>
-                        }
-                    </TabItem>
-                    
+                    }
+                </MudTabPanel>
+                @foreach (var b in gv.business_branch_by_role)
+                {
                     @if (stations.Any())
                     {
-                        @foreach (var b in gv.business_branch_by_role)
+            <MudTabPanel OnClick="@(() => { show_tax_rule = false; })" Text="@b.business_branch_name_en">
+                @if (b.outlets.Any())
+                {
+                    @foreach (var o in b.outlets)
+                    {
+                        if (stations.Where(r => r.outlet_id == o.id).Any())
                         {
-                        <TabItem>
-                            @if (b.outlets.Any())
+                            foreach (var s in stations.Where(r => r.outlet_id == o.id).ToList())
                             {
-                                @foreach (var o in b.outlets)
-                                {
-                                    if (stations.Where(r => r.outlet_id == o.id).Any())
-                                    {
-                                        foreach (var s in stations.Where(r => r.outlet_id == o.id).ToList()) { 
-                                        <UIGridCenter>
-                                            <UIContainerBox Title="@s.station_name_en">
-                                                <NumberInput @bind-text="@s.tax_1_rate" label="@($"{tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
-                                                <NumberInput @bind-text="@s.tax_1_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
-                                                <Spacing Number="8" />
-                                                <hr />
-                                                <Spacing Number="8" />
-                                                <NumberInput @bind-text="@s.tax_2_rate" label="@($"{tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
-                                                <NumberInput @bind-text="@s.tax_2_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
-                                                <Spacing Number="8" />
-                                                <hr />
-                                                <Spacing Number="8" />
-                                                <NumberInput @bind-text="@s.tax_3_rate" label="@($"{tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
-                                                <NumberInput @bind-text="@s.tax_3_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100"/>
+                                <UIGridCenter>
+                                    <UIContainerBox Title="@s.station_name_en">
+                                        <NumberInput @bind-text="@s.tax_1_rate" label="@($"{tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                        <NumberInput @bind-text="@s.tax_1_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_1_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                        <Spacing Number="8" />
+                                        <hr />
+                                        <Spacing Number="8" />
+                                        <NumberInput @bind-text="@s.tax_2_rate" label="@($"{tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                        <NumberInput @bind-text="@s.tax_2_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_2_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                        <Spacing Number="8" />
+                                        <hr />
+                                        <Spacing Number="8" />
+                                        <NumberInput @bind-text="@s.tax_3_rate" label="@($"{tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
+                                        <NumberInput @bind-text="@s.tax_3_taxable_rate" label="@($"Percentage of sale price for calculate {tax_rule.tax_3_name} : ")" is_horizontal="true" placeholder="Value 0 to 100" />
 
-                                            </UIContainerBox>
-                                        </UIGridCenter>
-                                        }
-                                    }
+                                    </UIContainerBox>
+                                </UIGridCenter>
+                            }
+                        }
 
-                                }
-                            }
-                            else
-                            {
-                                <ComEmptyTemplate empty="There is no outlet." />
-                            }
-                        </TabItem>
+                    }
+                }
+                else
+                {
+                    <ComEmptyTemplate empty="There is no outlet." />
+                }
+            </MudTabPanel>
                         }
                     }
-                    
-                </TabBody>
-            </Tab>
+                </MudTabs>
         </PageBody>
         <PageFooter>
             <FooterCenter>

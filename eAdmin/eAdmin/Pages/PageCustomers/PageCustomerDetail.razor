@@ -26,7 +26,7 @@
                 <RefreshButton OnClick="@LoadData" />
                 <MoreButton is_loading="@model.is_loading">
                     <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                        <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="customer/new">@lang["New Customer"]</MoreButtonItem>
+                        <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="add" url="customer/new">@lang["New Customer"]</MoreButtonItem>
                         <MoreButtonItem roles="@gv.GetRole("customer_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"customer/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
                     </MudHidden>
                     <MoreButtonItem roles="@gv.GetRole("customer_add")" icon="file_copy" url="@($"customer/clone/{model.id}")">@lang["Clone"]</MoreButtonItem>
@@ -39,48 +39,39 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab ClassName="control-header-tab">
-                <TabHeader>
-                    <TabHeaderItem roles="@gv.GetRole("customer_management")">@lang["Overview"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_history_tab_click=true)"> @lang["Sale History"]</TabHeaderItem>
-                     <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)"> @lang["Sale Product History"]</TabHeaderItem>
-                     <TabHeaderItem OnClick="@(()=>show_payment = true)"> @lang["Sale Payment History"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=> is_comment_loaded = true)">@lang["Comments"]</TabHeaderItem>
-                </TabHeader>
-                <TabBody>
-                    <TabItem>
-                        <ComCustomerDetail_CustomerInformation model="@model"/>
-                    </TabItem>
-                    <TabItem>
-                        @if (sale_history_tab_click)
-                        {
-                            <ComCustomerSaleHistory customer_id="@Guid.Parse(id)" />
-                        }
-                    </TabItem>
-                    <TabItem>
-                        @if (sale_product_history_tab_click)
-                        { 
-                            <ComCustomerSaleProductHistory customer_id="@Guid.Parse(id)" />
-                        }
-                    </TabItem>
-                    <TabItem>
-                        @if(show_payment)
-                        {
-                        <ComCustomerPaymentHistory customer_id="@Guid.Parse(id)"/>
-                        }
-                    </TabItem>
-                    <TabItem>
-                        <Com is_visible="@is_comment_loaded">
-                            <ComHistory RoleAdd="@gv.GetRole("customer_add")"
-                                            RoleDelete="@gv.GetRole("customer_delete")"
-                                            RoleEdit="@gv.GetRole("customer_edit")"
-                                            ApiFilter="@($"customer_id eq {id}")"
-                                            history="@(new HistoryModel() { customer_id = Guid.Parse(id)})"
-                                            OnSave="@SaveComment" />
-                        </Com>
-                    </TabItem>
-                </TabBody>
-            </Tab>
+            <MudTabs PanelClass="pa-6">
+                    <MudTabPanel Text="@lang["Overview"]">
+                        <ComCustomerDetail_CustomerInformation model="@model" />
+                    </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>sale_history_tab_click=true)" Text="@lang["Sale History"]">
+                    @if (sale_history_tab_click)
+                    {
+                        <ComCustomerSaleHistory customer_id="@Guid.Parse(id)" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>sale_product_history_tab_click = true)" Text="@lang["Sale Product History"]">
+                    @if (sale_product_history_tab_click)
+                    {
+                        <ComCustomerSaleProductHistory customer_id="@Guid.Parse(id)" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>show_payment = true)" Text="@lang["Sale Payment History"]">
+                    @if (show_payment)
+                    {
+                        <ComCustomerPaymentHistory customer_id="@Guid.Parse(id)" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=> is_comment_loaded = true)" Text="@lang["Comments"]">
+                    <Com is_visible="@is_comment_loaded">
+                        <ComHistory RoleAdd="@gv.GetRole("customer_add")"
+                                    RoleDelete="@gv.GetRole("customer_delete")"
+                                    RoleEdit="@gv.GetRole("customer_edit")"
+                                    ApiFilter="@($"customer_id eq {id}")"
+                                    history="@(new HistoryModel() { customer_id = Guid.Parse(id)})"
+                                    OnSave="@SaveComment" />
+                    </Com>
+                </MudTabPanel>
+            </MudTabs>
         </PageBody>
     </PageContainer>
 

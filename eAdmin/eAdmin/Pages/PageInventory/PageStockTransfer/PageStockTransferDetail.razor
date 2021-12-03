@@ -25,57 +25,48 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem>@lang["Stock Transfer Information"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
-                </TabHeader>
+            <MudTabs PanelClass="pa-6">
+                <MudTabPanel Text="@lang["Stock Transfer Information"]">
+                    <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
+                    <ComPage>
+                        <ComStockTransferDetail_InvoiceHeader model="@model" />
+                        <Spacing Number="20" />
+                        <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>@lang["No"]</th>
+                                    <ThCenter>@lang["Image"]</ThCenter>
+                                    <th class="col-auto">@lang["Description"]</th>
+                                    <th class="uk-text-center">@lang["QTY"]</th>
+                                    <th class="uk-text-right">@lang["Unit"]</th>
+                                    <th class="uk-text-right">@lang["Price"]</th>
+                                    <th class="uk-text-right">@lang["Amount"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ComStockTransferDetail_InvoiceBody model="@model" />
+                            </tbody>
+                            <tfoot>
+                                <ComStockTransferDetail_InvoiceFooter model="@model" />
+                            </tfoot>
+                        </table>
+                        <Spacing Number="20" />
+                        <ComStockTransferDetail_Note model="@model" />
+                        <ComStockTransferDetail_FooterInformation model="@model" />
+                    </ComPage>
+                </MudTabPanel>
+                <MudTabPanel OnClick="@ShowComment" Text="@lang["Comment and History"]">
+                    @if (is_show_comment)
+                    {
+                        <ComHistory RoleAdd="@gv.GetRole("stock_transfer_add")"
+                                    RoleDelete="@gv.GetRole("stock_transfer_delete")"
+                                    RoleEdit="@gv.GetRole("stock_transfer_edit")"
+                                    ApiFilter="@($"stock_transfer_id eq {id}")"
+                                    history="@history" />
 
-                <TabBody>
-                    <TabItem>
-                        <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled && !model.is_deleted)" OnClick="@MarkAsFulfilled" />
-                        <ComPage>
-                            <ComStockTransferDetail_InvoiceHeader model="@model"/>
-                            <Spacing Number="20" />
-                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>@lang["No"]</th>
-                                        <ThCenter>@lang["Image"]</ThCenter>
-                                        <th class="col-auto">@lang["Description"]</th>
-                                        <th class="uk-text-center">@lang["QTY"]</th>
-                                        <th class="uk-text-right">@lang["Unit"]</th>
-                                        <th class="uk-text-right">@lang["Price"]</th>
-                                        <th class="uk-text-right">@lang["Amount"]</th>
-                                    </tr>
-                                </thead>
-                                <tbody> 
-                                    <ComStockTransferDetail_InvoiceBody model="@model"/>
-                                </tbody>
-                                <tfoot> 
-                                    <ComStockTransferDetail_InvoiceFooter model="@model"/>
-                                </tfoot>
-                            </table>
-                            <Spacing Number="20" />
-                            <ComStockTransferDetail_Note model="@model"/>
-                            <ComStockTransferDetail_FooterInformation model="@model"/>
-                        </ComPage>
-                    </TabItem>
-                    <TabItem>
-                        @if (is_show_comment)
-                        {
-                            <ComHistory RoleAdd="@gv.GetRole("stock_transfer_add")"
-                                        RoleDelete="@gv.GetRole("stock_transfer_delete")"
-                                        RoleEdit="@gv.GetRole("stock_transfer_edit")"
-                                        ApiFilter="@($"stock_transfer_id eq {id}")"
-                                        history="@history" />
-                                        
-                        }
-
-                    </TabItem>
-
-                </TabBody>
-            </Tab>
+                    }
+                </MudTabPanel>
+            </MudTabs>
             <div class="spacing40"></div>
         </PageBody>
     </PageContainer>

@@ -15,22 +15,14 @@
     </PageHeader>
 
     <PageBody>
-        <Tab>
-            <TabHeader>
+        <MudTabs>
                 @foreach (var b in gv.business_branch_by_role)
                 {
-                    <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
-                }
-            </TabHeader>
-            <TabBody>
-                @foreach (var b in gv.business_branch_by_role)
-                {
-                    <TabItem>
+                    <MudTabPanel Text="@b.business_branch_name_en">
                         <ComTableGroupandTable business_branch="b" />
-                    </TabItem>
+                    </MudTabPanel>
                 }
-            </TabBody>
-        </Tab>
+        </MudTabs>
     </PageBody>
 </PageContainer>
 

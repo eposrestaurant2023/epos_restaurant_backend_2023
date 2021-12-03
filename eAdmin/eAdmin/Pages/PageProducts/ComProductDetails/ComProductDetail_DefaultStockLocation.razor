@@ -18,39 +18,41 @@
             {
                  if(gv.business_branch_has_inventory(b.id.ToString())){
                 <TabItem>
-                    <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                        <tr>
-                            <ThAuto>@lang["Station"]</ThAuto>
-                            <th>@lang["Stock location"]</th>
-                        </tr>
-                        @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
-                        {
-                            @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).ToList())
+                    <div class="uk-overflow-auto">
+                        <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                            <tr>
+                                <ThAuto>@lang["Station"]</ThAuto>
+                                <th>@lang["Stock location"]</th>
+                            </tr>
+                            @if (model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any())
                             {
-                                @if (d.station != null)
+                                @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).ToList())
                                 {
-                                    <tr>
-                                        <td>@(gv.current_language.language_id == "km-KH"?d.station?.station_name_kh : d.station?.station_name_en)</td>
-                                        <td>
-                                            @d.stock_location?.stock_location_name
-                                        </td>
-                                    </tr>
+                                    @if (d.station != null)
+                                    {
+                                        <tr>
+                                            <td>@(gv.current_language.language_id == "km-KH"?d.station?.station_name_kh : d.station?.station_name_en)</td>
+                                            <td>
+                                                @d.stock_location?.stock_location_name
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="3">
-                                    <div class="uk-text-center">
-                                        <Icon icon="search" />
-                                        <br />
-                                        <p>@lang["There is no station"]</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </table>
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="uk-text-center">
+                                            <Icon icon="search" />
+                                            <br />
+                                            <p>@lang["There is no station"]</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
                 </TabItem>
             }
             }

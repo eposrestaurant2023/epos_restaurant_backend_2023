@@ -58,92 +58,94 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@(!model.is_composite_product  && !model.is_ingredient_product && gv.project_has_advance_inventory)" OnClick="@(()=>show_recipe_tab=true)">@lang["Recipe"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@(model.is_composite_product && gv.project_has_advance_inventory)" OnClick="@(()=>show_composite_product_tab=true)">@lang["Composite Items"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@model.is_ingredient_product" OnClick="@(()=>show_association_products = true)">@lang["Associate Products & Modifiers"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="(()=>show_sale_history = true)">@lang["Sale History"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_purchase_history = true)">@lang["Purchase History"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_stock_stransfer = true)">@lang["Stock Transfer"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_stock_take = true)">@lang["Stock Take"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@gv.project_has_advance_inventory" OnClick="(()=>show_production = true)">@lang["Production"]</TabHeaderItem>
-                    <TabHeaderItem is_visible="@(model.is_inventory_product && gv.project_has_advance_inventory)" OnClick="(()=>show_inventory_strasation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
-                </TabHeader>
-                <TabBody>
-                    <TabItem>
-                        <ComProductDetail_ProductInformation model="@model" />
-                    </TabItem>
-                    <TabItem is_visible="@(!model.is_composite_product  &&  !model.is_ingredient_product && gv.project_has_advance_inventory)">
+            <MudTabs PanelClass="pa-6">
+                <MudTabPanel Text="@lang["General Information"]">
+                    <ComProductDetail_ProductInformation model="@model" />
+                </MudTabPanel>
+                <Com is_visible="@(!model.is_composite_product  && !model.is_ingredient_product && gv.project_has_advance_inventory)">
+                    <MudTabPanel OnClick="@(()=>show_recipe_tab=true)" Text="@lang["Recipe"]">
                         <Com is_visible="@show_recipe_tab">
                             <ComProductDetail_ProductPortionIngredient product_id="@model.id" is_product_deleted="@model.is_deleted" />
                         </Com>
-                    </TabItem>
-                    <TabItem is_visible="@(model.is_composite_product && gv.project_has_advance_inventory)">
+                    </MudTabPanel>
+                </Com>
+                <Com is_visible="@(model.is_composite_product && gv.project_has_advance_inventory)">
+                    <MudTabPanel OnClick="@(()=>show_composite_product_tab=true)" Text="@lang["Composite Items"]">
                         <Com is_visible="@show_composite_product_tab">
-                            <ComProductDetail_ProductPortionCompositeItems product_id="@model.id" is_product_deleted="@model.is_deleted"  />
+                            <ComProductDetail_ProductPortionCompositeItems product_id="@model.id" is_product_deleted="@model.is_deleted" />
                         </Com>
-                    </TabItem>
-                    <TabItem is_visible="@model.is_ingredient_product">
+                    </MudTabPanel>
+
+                </Com>
+                <Com is_visible="@model.is_ingredient_product">
+                    <MudTabPanel OnClick="@(()=>show_association_products = true)" Text="@lang["Associate Products & Modifiers"]">
                         @if (show_association_products)
                         {
                             <ComIngredientProductDetail_AssociationProductsAndModifiers ingredient_id="@model.id" />
                         }
-                    </TabItem>
-                    <TabItem>
-                        @if (show_sale_history)
-                        {
-                            <ComProductDetail_SaleHistory product_id="@id" />
-                        }
-                    </TabItem>
-                    <TabItem is_visible="@gv.project_has_advance_inventory">
+                    </MudTabPanel>
+                </Com>
+                <MudTabPanel OnClick="@(()=>show_sale_history = true)" Text="@lang["Sale History"]">
+                    @if (show_sale_history)
+                    {
+                        <ComProductDetail_SaleHistory product_id="@id" />
+                    }
+                </MudTabPanel>
+                <Com is_visible="@gv.project_has_advance_inventory">
+                    <MudTabPanel OnClick="@(()=>show_purchase_history = true)" Text="@lang["Purchase History"]">
                         @if (show_purchase_history)
                         {
                             <ComProductDetail_POHistory product_id="@id" />
                         }
-                    </TabItem>
-                    <TabItem is_visible="@gv.project_has_advance_inventory">
+                    </MudTabPanel>
+                </Com>
+                <Com is_visible="@gv.project_has_advance_inventory">
+                    <MudTabPanel OnClick="@(()=>show_stock_stransfer = true)" Text="@lang["Stock Transfer"]">
                         @if (show_stock_stransfer)
                         {
                             <ComProductDetail_StockTransferHistory product_id="@id" />
                         }
-                    </TabItem>
-                    <TabItem is_visible="@gv.project_has_advance_inventory">
+                    </MudTabPanel>
+                </Com>
+                <Com is_visible="@gv.project_has_advance_inventory">
+                    <MudTabPanel OnClick="@(()=>show_stock_take = true)" Text="@lang["Stock Take"]">
                         @if (show_stock_take)
                         {
                             <ComProductDetail_StockTakeHistory product_id="@id" />
                         }
-                    </TabItem>
-                    <TabItem is_visible="@gv.project_has_advance_inventory">
+                    </MudTabPanel>
+                </Com>
+                <Com is_visible="@gv.project_has_advance_inventory">
+                    <MudTabPanel OnClick="@(()=>show_production = true)" Text="@lang["Production"]">
                         @if (show_production)
                         {
-                        <ComProductDetail_ProductionHistory product_id="@id"/>
+                            <ComProductDetail_ProductionHistory product_id="@id" />
                         }
-                    </TabItem>
-                    <TabItem is_visible="@(model.is_inventory_product && gv.project_has_advance_inventory)">
+                    </MudTabPanel>
+                </Com>
+                <Com is_visible="@(model.is_inventory_product && gv.project_has_advance_inventory)">
+                    <MudTabPanel OnClick="@(()=>show_inventory_strasation = true)" Text="@lang["Inventory Transaction"]">
                         @if (show_inventory_strasation)
                         {
                             <ComProductDetail_InventoryTransactionHistory product_id="@id" />
                         }
-                    </TabItem>
-                    <TabItem>
-                        @if (show_comment_tab)
-                        {
-                           
-                                    <ComHistory RoleAdd="@gv.GetRole("product_add")"
-                                                RoleDelete="@gv.GetRole("product_delete")"
-                                                RoleEdit="@gv.GetRole("product_add")"
-                                                ApiFilter="@($"product_id eq {id}")"
-                                                history="@(new HistoryModel() { product_id = id})" />
-                              
-                        }
-                    </TabItem>
+                    </MudTabPanel>
+                </Com>
+              
+                <MudTabPanel OnClick="@(()=>show_comment_tab=true)" Text="@lang["Comment and History"]">
+                    @if (show_comment_tab)
+                    {
 
-                </TabBody>
-            </Tab>
+                        <ComHistory RoleAdd="@gv.GetRole("product_add")"
+                                    RoleDelete="@gv.GetRole("product_delete")"
+                                    RoleEdit="@gv.GetRole("product_add")"
+                                    ApiFilter="@($"product_id eq {id}")"
+                                    history="@(new HistoryModel() { product_id = id})" />
 
+                    }
+                </MudTabPanel>
+
+            </MudTabs>
         </PageBody>
     </PageContainer>
 }
