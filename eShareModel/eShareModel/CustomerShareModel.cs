@@ -55,5 +55,7 @@ namespace eShareModel
         public DateTime date_of_birth { get; set; }   = DateTime.Now.AddYears(-18);
 
         public string note { get; set; }
+        public bool is_synced { get; set; } = false;
+
     }
 }
