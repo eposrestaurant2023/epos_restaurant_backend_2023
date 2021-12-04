@@ -22,11 +22,11 @@ namespace eAdmin.Pages.PageReports
             {
                 if (report != null && report.id > 0)
                 {
-                    return "Report - " + report.report_title;
+                    return lang["Report"] + "-" + report.report_title;
                 }
                 else
                 {
-                    return "Report";
+                    return lang["Report"];
                 }
             }
 

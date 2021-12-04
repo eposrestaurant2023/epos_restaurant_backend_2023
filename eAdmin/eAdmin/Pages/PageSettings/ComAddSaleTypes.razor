@@ -12,7 +12,7 @@
             @foreach (var p in sale_types.Where(r => r.is_deleted == false))
             {
                 <tr>
-                    <ComFormAddSaleType sale_type="p" colorChanged="OnColorChanged"/>
+                    <ComFormAddSaleType sale_type="p" colorChanged="OnColorChanged" Ondelete="@(()=>Delete(p))"/>
 
                 </tr>
             }

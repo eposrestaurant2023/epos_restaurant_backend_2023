@@ -6,7 +6,7 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="Outlet & Station"></Title>
+    <Title Value="@lang["New Price Rule"]"></Title>
     <PageContainer roles="@gv.GetRole($"{(id > 0 ? "price_rule_edit" : "price_rule_add")}")">
         <PageHeader>
             <HeaderLeft>
@@ -15,11 +15,11 @@
                         <span>
                             @if (clone_id > 0)
                             {
-                                @("Clone : " + price.price_name)
+                                @(lang["Clone"] + " : " + price.price_name)
                             }
                             else
                             {
-                                @(id>0? $"Edit : {price.price_name}" : "New Price Rule")
+                                @(id>0? $"{lang["Edit"]} : {price.price_name}" : lang["New Price Rule"])
                             }
                         </span>
                     </HeaderTemplate>
@@ -31,12 +31,11 @@
             <DataAnnotationsValidator />
             <PageBody>
                 <UIGridCenter>
-                    <UIContainerBox Title="Price Rule">
-                        <TextInput label="Name" @bind-text="@price.price_name">
+                    <UIContainerBox Title="@lang["Price Rule"]">
+                        <TextInput label="@lang["Name"]" @bind-text="@price.price_name">
                             <ValidationMessage For="@(()=>price.price_name)" />
                         </TextInput>
                         <SelectStatus @bind-selected_value="@price.status" />
-                        
                     </UIContainerBox>
                     <UIContainerBox Title="@lang["Branches"]">
                         @foreach (var b in business_branches)
