@@ -35,5 +35,7 @@ namespace eAPIClient.Models
 
         public String payment_data { get; set; }
 
+     
+
     }
 }

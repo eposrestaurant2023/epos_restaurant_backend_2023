@@ -48,24 +48,18 @@ namespace eAPI.Controllers
 
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] HistoryModel u)
+        public async Task<ActionResult<string>> Save([FromBody] HistoryModel model)
         {
 
 
-            if (u.id == Guid.Empty)
-            {
+            
+            db.Histories.Add(model);
+            
+            await db.SaveChangesAsync();
 
-                db.Histories.Add(u);
-            }
-            else
-            {
 
-                db.Histories.Update(u);
-            }
-
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
-            return Ok(u);
+             
+            return Ok(model);
 
 
         }

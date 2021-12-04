@@ -168,6 +168,43 @@ namespace eAPIClient.Controllers
 
 
 
+
+        [HttpGet("SyncHistory")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncHistory(Guid id)
+        {
+            try
+            {
+                var _modelData = db.Histories.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_modelData.Count() > 0)
+                {
+                    var _model = _modelData.FirstOrDefault();
+                  
+                    _model.is_synced = true;
+                    var _syncResp = await http.ApiPost("History/Save", _model);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    db.Histories.Update(_model);
+                    db.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+
+
         [HttpGet("SyncSale")]
         [AllowAnonymous]
         public async Task<ActionResult> SyncSaleGet(Guid saleId)
