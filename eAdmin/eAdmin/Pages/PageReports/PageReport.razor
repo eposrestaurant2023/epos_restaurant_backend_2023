@@ -14,7 +14,7 @@
                         <MudHidden Breakpoint="Breakpoint.MdAndUp">
                             <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => IsMenuReportOpened=!IsMenuReportOpened)" />
                         </MudHidden>
-                        @state.page_title
+                        @lang[state.page_title]
                     </HeaderTemplate>
                 </PageTitle>
             </HeaderLeft>

@@ -35,7 +35,7 @@
                     <RefreshButton OnClick="@LoadData" />
                     <MoreButton is_loading="@(modifier.is_loading ||modifier.is_change_status || modifier.is_deleting || modifier.is_restoring)">
                         <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                            <MoreButtonItem roles="@gv.GetRole("modifier_add")" icon="add" url="modifier/new">@lang["New Modifier"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("modifier_add")" icon="add" url="modifier/new">@lang["New"]</MoreButtonItem>
                             <MoreButtonItem roles="@gv.GetRole("modifier_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"modifier/edit/{modifier.id}"))">@lang["Edit"]</MoreButtonItem>
                         </MudHidden>
                             <MoreButtonItem roles="@gv.GetRole("modifier_add")" icon="file_copy" url="@($"modifier/clone/{modifier.id}")">@lang["Clone"]</MoreButtonItem>

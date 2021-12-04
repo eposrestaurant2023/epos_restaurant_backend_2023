@@ -1,7 +1,8 @@
-﻿<table class="@ClassName @ClassWidth list-table">
-    @ChildContent
-</table>
-
+﻿<div class="uk-overflow-auto table-scroll">
+    <table class="@ClassName @ClassWidth list-table">
+        @ChildContent
+    </table>
+</div>
 @code{
     [Parameter] public string ClassName { get; set; }
     [Parameter] public string ClassWidth { get; set; } = "uk-width-1-2";

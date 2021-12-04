@@ -25,22 +25,14 @@
 
     <Spacing Number="20" />
     <ComPanel Title="">
-        <Tab>
-            <TabHeader>
-                <TabHeaderItem>@lang["Recent Receipt"]</TabHeaderItem>
-                <TabHeaderItem>@lang["Top Sale Product"]</TabHeaderItem>
-
-            </TabHeader>
-            <TabBody>
-                <TabItem>
-                    <ComDashboardRecentReceipt business_branch_id="@business_branch_id"/>
-                </TabItem>
-                <TabItem>
-                    <ComDashboardTopSaleProduct business_branch_id="@business_branch_id"/>
-                </TabItem>
-
-            </TabBody>
-        </Tab>
+        <MudTabs PanelClass="pa-6">
+            <MudTabPanel Text="@lang["Recent Receipt"]">
+                <ComDashboardRecentReceipt business_branch_id="@business_branch_id" />
+            </MudTabPanel>
+            <MudTabPanel Text="@lang["Top Sale Product"]">
+                <ComDashboardTopSaleProduct business_branch_id="@business_branch_id" />
+            </MudTabPanel>
+        </MudTabs>
     </ComPanel>
 }
 @code{

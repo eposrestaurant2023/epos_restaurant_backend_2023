@@ -318,6 +318,9 @@
   <data name="Cancel" xml:space="preserve">
     <value>មិនយល់ព្រម</value>
   </data>
+	<data name="Reference Number" xml:space="preserve">
+    <value>លេខយោង</value>
+  </data>
   <data name="Reference #" xml:space="preserve">
     <value>លេខយោង</value>
   </data>
@@ -482,6 +485,9 @@
   </data>
 	<data name="Business Branch (Outlet)" xml:space="preserve">
     <value>សាខាអាជីវកម្ម(ទីតាំង)</value>
+  </data>
+	<data name="Branches" xml:space="preserve">
+    <value>សាខា</value>
   </data>
   <data name="Business Branches" xml:space="preserve">
     <value>សាខាអាជីវកម្ម</value>
@@ -803,6 +809,9 @@
   </data>
   <data name="Pending Orders" xml:space="preserve">
     <value>បញ្ជាទិញមិនទាន់បិទ</value>
+  </data>
+	<data name="New Price Rule" xml:space="preserve">
+    <value>បង្កើតប្រភេទតម្លៃថ្មី</value>
   </data>
   <data name="Price Rule" xml:space="preserve">
     <value>ប្រភេទតម្លៃ</value>
