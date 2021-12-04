@@ -235,5 +235,24 @@ namespace eAPIClient.Controllers
             return Ok();
         }
 
-    } 
+
+        [HttpPost]
+        [Route("PrintRequestBill/{id}")]
+        public async Task<ActionResult> PrintRequestBill(Guid id)
+        {
+            var _sale = db.Sales.Where(r => r.id == id);
+            if (_sale.Any())
+            {
+                SaleModel s = _sale.FirstOrDefault();
+                s.status_id = 3;
+                s.is_print_invoice = true;
+                db.Sales.Update(s);
+                await db.SaveChangesAsync();
+            }
+            return Ok();
+        }
+
+
+
+    }
 }
