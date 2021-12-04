@@ -33,5 +33,7 @@ namespace eAPIClient.Models
         public List<SalePaymentModel> sale_payments { get; set; }
         public List<SaleProductModel> sale_products { get; set; }
 
+        public String payment_data { get; set; }
+
     }
 }
