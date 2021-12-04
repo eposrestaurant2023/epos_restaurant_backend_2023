@@ -60,67 +60,58 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem>@lang["Overview"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_associate_product=true)">@lang["Associate Product"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_sale_history=true)">@lang["Sale History"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
-                </TabHeader>
-                <TabBody>
-                    <TabItem>
-                        <UIGridCenter>
-                            <UIContainerBox Title="@lang["General Information"]">
-                                <table>
-                                    <tr>
-                                        <th>@lang["Name"] :</th>
-                                        <td>@modifier.modifier_name</td>
-                                    </tr>
-                                </table>
-                            </UIContainerBox>
-                        </UIGridCenter>
-                        <UIGridCenter>
-                            <ComModifierDetails_Ingredient modifier="@modifier" />
-                        </UIGridCenter>
+            <MudTabs PanelClass="pa-6">
+                <MudTabPanel Text="@lang["Overview"]">
+                    <UIGridCenter>
+                        <UIContainerBox Title="@lang["General Information"]">
+                            <table>
+                                <tr>
+                                    <th>@lang["Name"] :</th>
+                                    <td>@modifier.modifier_name</td>
+                                </tr>
+                            </table>
+                        </UIContainerBox>
+                    </UIGridCenter>
+                    <UIGridCenter>
+                        <ComModifierDetails_Ingredient modifier="@modifier" />
+                    </UIGridCenter>
 
-                        <div class="spacing30"></div>
-                        <div class="invoice_footer_description">
-                            <div>
-                                @lang["Created by"] @modifier.created_by @lang["on"] @modifier.created_date.ToString(gv.date_time_format)
-                            </div>
-
-                            @if (modifier.is_deleted)
-                            {
-                                <div>@lang["Deleted by"] @modifier.deleted_by @lang["on"] @modifier.deleted_date</div>
-                            }
-                            <div>@lang["Last modified by"] @modifier.last_modified_by @lang["on"] @modifier.last_modified_date</div>
+                    <div class="spacing30"></div>
+                    <div class="invoice_footer_description">
+                        <div>
+                            @lang["Created by"] @modifier.created_by @lang["on"] @modifier.created_date.ToString(gv.date_time_format)
                         </div>
-                    </TabItem>
-                    <TabItem>
-                        @if (show_associate_product)
+
+                        @if (modifier.is_deleted)
                         {
-                            <ComModifierDetails_ProductModifier id="@modifier.id"/>
+                            <div>@lang["Deleted by"] @modifier.deleted_by @lang["on"] @modifier.deleted_date</div>
                         }
-                    </TabItem>
-                    @*============comment===========*@
-                    <TabItem>
-                        @if (show_sale_history)
-                        {
-                            <ComModifierDetails_SaleHistory product_modifier_id="@(id.ToString())"/>
-                        }
-                    </TabItem>
-                    <TabItem>
-                        @if (show_comment_tab)
-                        {
-                              <ComHistory RoleAdd="@gv.GetRole("modifier_add")"
-                                                RoleDelete="@gv.GetRole("modifier_delete")"
-                                                RoleEdit="@gv.GetRole("modifier_edit")"
-                                                ApiFilter="@($"modifier_id eq {id}")"
-                                                history="@(new HistoryModel() { modifier_id = new Guid(id)})" />
-                        }
-                    </TabItem>
-                </TabBody>
-            </Tab>
+                        <div>@lang["Last modified by"] @modifier.last_modified_by @lang["on"] @modifier.last_modified_date</div>
+                    </div>
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>show_associate_product=true)" Text="@lang["Associate Product"]">
+                    @if (show_associate_product)
+                    {
+                        <ComModifierDetails_ProductModifier id="@modifier.id" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>show_sale_history=true)" Text="@lang["Sale History"]">
+                    @if (show_sale_history)
+                    {
+                        <ComModifierDetails_SaleHistory product_modifier_id="@(id.ToString())" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>show_comment_tab=true)" Text="@lang["Comment and History"]">
+                    @if (show_comment_tab)
+                    {
+                        <ComHistory RoleAdd="@gv.GetRole("modifier_add")"
+                                    RoleDelete="@gv.GetRole("modifier_delete")"
+                                    RoleEdit="@gv.GetRole("modifier_edit")"
+                                    ApiFilter="@($"modifier_id eq {id}")"
+                                    history="@(new HistoryModel() { modifier_id = new Guid(id)})" />
+                    }
+                </MudTabPanel>
+            </MudTabs>
         </PageBody>
     </PageContainer>
 }

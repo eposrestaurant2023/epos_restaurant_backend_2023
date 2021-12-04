@@ -768,6 +768,12 @@
   <data name="Menu Setup" xml:space="preserve">
     <value>ម៉ឺនុយ</value>
   </data>
+	<data name="MTD Visit" xml:space="preserve">
+    <value>មកហាងក្នុងខែនេះ</value>
+  </data>
+  <data name="MTD Sale Amount" xml:space="preserve">
+    <value>ចំនួនទឹកប្រាក់លក់ក្នុងខែនេះ</value>
+  </data>
   <data name="MTD Sale Quantity" xml:space="preserve">
     <value>ចំនួនលក់ក្នុងខែនេះ</value>
   </data>
@@ -948,7 +954,10 @@
   <data name="Add Table" xml:space="preserve">
     <value>បង្កើត​តុថ្មី</value>
   </data>
-	<data name="Table Information" xml:space="preserve">
+	<data name="Preview" xml:space="preserve">
+    <value>មើលលម្អិត</value>
+  </data>
+  <data name="Table Information" xml:space="preserve">
     <value>ព័ត៌មានតុ</value>
   </data>
 	<data name="Table Group Information" xml:space="preserve">
@@ -1089,6 +1098,9 @@
   <data name="Old Quantity" xml:space="preserve">
     <value>ចំនួនចាស់</value>
   </data>
+	<data name="QTY on Hand" xml:space="preserve">
+    <value>ចំនួននៅក្នុងដៃ</value>
+  </data>
   <data name="Quantity On Hand" xml:space="preserve">
     <value>ចំនួននៅក្នុងដៃ</value>
   </data>
@@ -1101,11 +1113,14 @@
   <data name="Sale Sub Total" xml:space="preserve">
     <value>ការលក់សរុបរង</value>
   </data>
+	<data name="Sale Discount" xml:space="preserve">
+    <value>បញ្ចុះតម្លៃវិក្កយបត្រ</value>
+  </data>
   <data name="Total Item Discount" xml:space="preserve">
-    <value>Item សរុបដែលការបញ្ចុះតម្លៃ</value>
+    <value>បញ្ចុះតម្លៃទំនិញ</value>
   </data>
   <data name="Total Discount" xml:space="preserve">
-    <value>ការបញ្ចុះតម្លៃសរុប</value>
+    <value>បញ្ចុះតម្លៃសរុប</value>
   </data>
   <data name="Total FOC Sale Amount" xml:space="preserve">
     <value>ចំនួននៃការលក់FOCសរុប</value>

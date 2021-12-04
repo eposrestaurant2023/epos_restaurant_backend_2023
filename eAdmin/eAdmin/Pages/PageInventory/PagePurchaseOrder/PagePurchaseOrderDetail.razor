@@ -26,15 +26,8 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem roles="@gv.GetRole("purchase_order_management")">@lang["Purchase Order"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
-                </TabHeader>
-
-                <TabBody>
-                    <TabItem roles="@gv.GetRole("purchase_order_management")">
+            <MudTabs PanelClass="pa-6">
+                    <MudTabPanel Text="@lang["Purchase Order"]">
                         <ComMarkInvoiceFulfilled is_visible="@(!model.is_fulfilled)" OnClick="@MarkAsFulfilled" message="@(lang["You can mark this purchase order as Fulfilled"])" />
                         <ComPage>
                             <ComPurchaseOrderDetail_InvoiceHeader po="@model" />
@@ -62,29 +55,25 @@
                             <ComPurchaseOrderDetail_PONote po="@model" />
                             <ComPurchaseOrderDetail_FooterInformation po="@model" />
                         </ComPage>
-                    </TabItem>
+                    </MudTabPanel>
+                <MudTabPanel OnClick="@ShowPaymentHistory" Text="@lang["Payment"]">
+                    @if (is_show_payment_history)
+                    {
+                        <ComPurchaseOrderDetail_PaymentList po="@model" on_reload="LoadData" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@ShowComment" Text="@lang["Comment and History"]">
+                    @if (is_show_comment)
+                    {
+                        <ComHistory RoleAdd="@gv.GetRole("purchase_order_add")"
+                                    RoleDelete="@gv.GetRole("purchase_order_delete")"
+                                    RoleEdit="@gv.GetRole("purchase_order_edit")"
+                                    ApiFilter="@($"purchase_order_id  eq {id}")"
+                                    history="@history" />
 
-                    <TabItem>
-                        @if (is_show_payment_history)
-                        {
-                            <ComPurchaseOrderDetail_PaymentList po="@model" on_reload="LoadData" />
-                        }
-                    </TabItem>
-                    <TabItem>
-                        @if (is_show_comment)
-                        {
-                            <ComHistory RoleAdd="@gv.GetRole("purchase_order_add")"
-                                        RoleDelete="@gv.GetRole("purchase_order_delete")"
-                                        RoleEdit="@gv.GetRole("purchase_order_edit")"
-                                        ApiFilter="@($"purchase_order_id  eq {id}")"
-                                        history="@history" />
-
-                        }
-
-                    </TabItem>
-
-                </TabBody>
-            </Tab>
+                    }
+                </MudTabPanel>
+            </MudTabs>
             <div class="spacing40"></div>
         </PageBody>
     </PageContainer>

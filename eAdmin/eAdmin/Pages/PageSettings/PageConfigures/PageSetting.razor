@@ -29,31 +29,21 @@
 
                 <Spacing Number="4" />
             </MudHidden>
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem>@lang["General Setting"]</TabHeaderItem>
-                    @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
-                    {
-                        <TabHeaderItem>@bs.business_branch_name_en</TabHeaderItem>
-                    }
-                </TabHeader>
-                <TabBody>
-                    <TabItem>
+            <MudTabs PanelClass="pa-6">
+                <MudTabPanel Text="@lang["General Setting"]">
+                    <UIGridCenter>
+                        <ComSetting business_branch_id="@(Guid.Empty)" settings="@GetSettings" />
+                    </UIGridCenter>
+                </MudTabPanel>
+                @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
+                {
+                    <MudTabPanel Text="@bs.business_branch_name_en">
                         <UIGridCenter>
-                            <ComSetting business_branch_id="@(Guid.Empty)" settings="@GetSettings" />
+                            <ComSetting business_branch_id="@bs.id" settings="@GetSettings" />
                         </UIGridCenter>
-                    </TabItem>
-
-                    @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
-                    {
-                        <TabItem>
-                            <UIGridCenter>
-                                <ComSetting business_branch_id="@bs.id" settings="@GetSettings" />
-                            </UIGridCenter>
-                        </TabItem>
-                    }
-                </TabBody>
-            </Tab>
+                    </MudTabPanel>
+                }
+                </MudTabs>
         </PageBody>
         <PageFooter>
             <FooterCenter>

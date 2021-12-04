@@ -31,7 +31,9 @@
                 <span>@sp.sale_product_discount_amount.ToString(gv.currency_format)</span>
             }
         </td>
-        <td class="uk-text-right">@sp.total_amount.ToString(gv.currency_format)</td>
+        <td class="uk-text-right">
+            @((sp.sub_total - sp.sale_product_discount_amount).ToString(gv.currency_format))
+        </td>
     </tr>
 
 }

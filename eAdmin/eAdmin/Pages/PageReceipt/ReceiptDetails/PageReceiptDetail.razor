@@ -42,67 +42,55 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem>@lang["Invoice"]</TabHeaderItem>
-                    @if(sale.sale_status.status_name !="Open Order" && sale.sale_status.status_name != "Hold Order")
-                    {
-                        <TabHeaderItem OnClick="@ShowPaymentHistory">@lang["Payment"]</TabHeaderItem>
-                    }
-                    <TabHeaderItem OnClick="@ShowComment">@lang["Comment and History"]</TabHeaderItem>
-                </TabHeader>
-
-                <TabBody>
-                    <TabItem>
-                        <ComPage>
-                            <ComSaleDetailInvoiceHeader sale="@sale" />
-                            <Spacing Number="20"/>
-                            <div class="invoice-sub-title">@lang["Products Sold"]</div>
-                            <table class="view_table uk-table uk-table-small uk-table-divider table-bordered table-invoice uk-margin-remove">
-                                <thead>
-                                    <tr>
-                                        <ThCenter>@lang["No"]</ThCenter>
-                                        <ThCenter>@lang["Image"]</ThCenter>
-                                        <th class="col-auto">@lang["Description"]</th>
-                                        <th class="uk-text-center">@lang["QTY"]</th>
-                                        <th class="uk-text-center">@lang["Unit"]</th>
-                                        <th class="uk-text-right">@lang["Price"]</th>
-                                        <th class="uk-text-right">@lang["Dis."]</th>
-                                        <th class="uk-text-right">@lang["Amount"]</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <ComSaleDetailInvoiceBody sale="@sale" />
-                                </tbody>
-                                <tfoot>
-                                    <ComSaleDetailInvoiceFooter sale="@sale" />
-                                </tfoot>
-                            </table>
-                            <Spacing Number="15" />
-                            <ComSaleDetailFooterInformation sale="@sale" />
-                        </ComPage>
-                    </TabItem>
-                    <TabItem>
-                        @if (sale.sale_status.status_name != "Open Order" && sale.sale_status.status_name != "Hold Order")
-                        {
+            <MudTabs PanelClass="pa-6">
+                <MudTabPanel Text="@lang["Invoice"]" Class="py-2">
+                    <ComPage>
+                        <ComSaleDetailInvoiceHeader sale="@sale" />
+                        <Spacing Number="20" />
+                        <div class="invoice-sub-title">@lang["Products Sold"]</div>
+                        <table class="view_table uk-table uk-table-small uk-table-divider table-bordered table-invoice uk-margin-remove">
+                            <thead>
+                                <tr>
+                                    <ThCenter>@lang["No"]</ThCenter>
+                                    <ThCenter>@lang["Image"]</ThCenter>
+                                    <th class="col-auto">@lang["Description"]</th>
+                                    <th class="uk-text-center">@lang["QTY"]</th>
+                                    <th class="uk-text-center">@lang["Unit"]</th>
+                                    <th class="uk-text-right">@lang["Price"]</th>
+                                    <th class="uk-text-right">@lang["Dis."]</th>
+                                    <th class="uk-text-right">@lang["Amount"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ComSaleDetailInvoiceBody sale="@sale" />
+                            </tbody>
+                            <tfoot>
+                                <ComSaleDetailInvoiceFooter sale="@sale" />
+                            </tfoot>
+                        </table>
+                        <Spacing Number="15" />
+                        <ComSaleDetailFooterInformation sale="@sale" />
+                    </ComPage>
+                </MudTabPanel>
+                @if (sale.sale_status.status_name != "Open Order" && sale.sale_status.status_name != "Hold Order")
+                {
+                    <MudTabPanel Text="@lang["Payment"]" OnClick="@ShowPaymentHistory">
                             @if (is_show_payment_history)
                             {
                                 <ComSaleDetail_PaymentList sale_id="@sale.id" on_reload="LoadData" />
                             }
-                         }
-                        </TabItem>
-                    <TabItem>
-                        @if (is_show_comment)
-                        {
-                            <ComHistory ApiFilter="@($"sale_id  eq {id}")"
-                                        history="@history" />
-                        }
+                    </MudTabPanel>
+                }
+            <MudTabPanel OnClick="@ShowComment" Text="@lang["Comment and History"]">
+                @if (is_show_comment)
+                {
+                    <ComHistory ApiFilter="@($"sale_id  eq {id}")"
+                                history="@history" />
+                }
+            </MudTabPanel>
+        </MudTabs>
 
-                    </TabItem>
-
-                </TabBody>
-            </Tab>
-            <div class="spacing40"></div>
+                <div class="spacing40"></div>
         </PageBody>
     </PageContainer>
    

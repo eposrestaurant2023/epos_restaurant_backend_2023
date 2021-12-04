@@ -1,0 +1,137 @@
+﻿@inject IHttpService http
+@inject IJSRuntime js
+@inject ISnackbar toast
+@inject NavigationManager nav
+@inject IStringLocalizer<Resource> lang
+@inject IDialogService Dialog
+
+<Loading is_loading="@is_loading" />
+
+<MudHidden Breakpoint="Breakpoint.SmAndDown">
+    <ButtonGroup>
+        <Button title="@lang["Print"]" icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click" />
+        <Button roles="@gv.GetRole("inventory_check_edit")" OnClick="@(()=>nav.NavigateTo($"inventorycheck/edit/{model.id}"))" icon="edit" title="@lang["Edit"]" is_visible="@(!model.is_deleted && !model.is_fulfilled)" />
+    </ButtonGroup>
+</MudHidden>
+<ComAttachFileButton RoleAdd="@gv.GetRole("inventory_check_add")"
+                     RoleEdit="@gv.GetRole("inventory_check_edit")"
+                     RoleDelete="@gv.GetRole("inventory_check_delete")"
+                     ApiFilter="@($"inventory_check_id eq {model.id} ")"
+                     File="@file"
+                     IsVisible="@(!model.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
+<MudHidden Breakpoint="Breakpoint.SmAndDown">
+    <AddButton roles="@gv.GetRole("inventory_check_add")" url="inventorycheck/new">@lang["New Inventory Check"]</AddButton>
+</MudHidden>
+<RefreshButton OnClick="@OnRefresh" />
+<MoreButton is_loading="@model.is_loading">
+    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        <MoreButtonItem roles="@gv.GetRole("inventory_check_add")" icon="add" url="inventorycheck/new">@lang["New Inventory Check"]</MoreButtonItem>
+        <MoreButtonItem roles="@gv.GetRole("inventory_check_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"inventorycheck/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
+
+    </MudHidden>
+        <MoreButtonItem roles="@gv.GetRole("inventory_check_delete")" icon="delete" OnClick="@DeleteInvoice_Click">@lang["Delete"]</MoreButtonItem>
+        <MoreButtonItem roles="@gv.GetRole("inventory_check_delete")" icon="clear" is_visible="@model.is_fulfilled" OnClick="@CancelMarkAsFulfilled">@lang["Cancel Mark as Fulfilled"]</MoreButtonItem>
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MudDivider />
+            <MoreButtonItem icon="print" is_visible="@(model.is_deleted == false && model.status == true)" OnClick="Print_Click">@lang["Print"]</MoreButtonItem>
+            <ComAttachFileButton RoleAdd="@gv.GetRole("inventory_check_add")"
+                                 RoleEdit="@gv.GetRole("inventory_check_edit")"
+                                 RoleDelete="@gv.GetRole("inventory_check_delete")"
+                                 ApiFilter="@($"inventory_check_id eq {model.id} ")"
+                                 File="@file"
+                                 IsVisible="@(!model.is_deleted)"
+                                 IsIconButton="false"
+                                 OnOpenAttachFile="@(()=>is_open_attach_file =!is_open_attach_file)" />
+
+
+        </MudHidden>
+</MoreButton>
+
+
+@code {
+
+    [Parameter] public InventoryCheckModel model { get; set; }
+    [Parameter] public EventCallback<InventoryCheckModel> modelChanged { get; set; }
+    [Parameter] public EventCallback OnRefresh { get; set; }
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+    AttachFilesModel file = new AttachFilesModel();
+    bool is_open_attach_file;
+    bool is_loading;
+    protected override void OnInitialized()
+    {
+        file.inventory_check_id = model.id;
+    }
+
+
+    void Print_Click()
+    {
+
+        var parameters = new DialogParameters { ["parent_id"] = 341, ["report_parameters"] = $"id={ model.id}", ["gv"] = gv };
+        Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Inventory Check"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
+    }
+
+    async Task DeleteInvoice_Click()
+    {
+        is_loading = true;
+        if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"], SweetAlertMessageType.question))
+        {
+            var resp = await http.ApiPost($"inventorycheck/delete/{model.id}");
+            if (resp.IsSuccess)
+            {
+                model.is_deleted = !model.is_deleted;
+                await modelChanged.InvokeAsync(model);
+                toast.Add(lang["Delete record successfully."], MudBlazor.Severity.Success);
+            }
+            else
+            {
+                toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
+            }
+        }
+
+        is_loading = false;
+
+    }
+    async Task RestoreInvoice_Click()
+    {
+
+
+        is_loading = true;
+        if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"], SweetAlertMessageType.question))
+        {
+            var resp = await http.ApiPost($"inventorycheck/delete/{model.id}");
+            if (resp.IsSuccess)
+            {
+
+                model.is_deleted = !model.is_deleted;
+                await modelChanged.InvokeAsync(model);
+                toast.Add(lang["Restore record successfully."], MudBlazor.Severity.Success);
+            }
+            else
+            {
+                toast.Add(lang[resp.Content], MudBlazor.Severity.Warning);
+            }
+        }
+
+        is_loading = false;
+    }
+
+
+    public async Task CancelMarkAsFulfilled()
+    {
+        is_loading = true;
+        if (await js.Confirm(lang["Cancel Make As Fulfilled"], lang["Are you sure you want to​ cancel make as fulfilled?"]))
+        {
+
+            var resp = await http.ApiPost("inventorycheck/CancelMarkAsFulfilled/" + model.id);
+            if (resp.IsSuccess)
+            {
+                model.is_fulfilled = !model.is_fulfilled;
+                await modelChanged.InvokeAsync(model);
+                toast.Add(lang["Cancel Mark as fulfilled successfully"], MudBlazor.Severity.Success);
+            }
+        }
+        is_loading = false;
+
+    }
+
+}

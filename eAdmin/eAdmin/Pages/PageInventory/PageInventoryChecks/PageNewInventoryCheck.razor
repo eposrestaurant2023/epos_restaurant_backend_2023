@@ -1,8 +1,6 @@
 ﻿@page "/inventorycheck/new"
 @page "/inventorycheck/edit/{id:int}"
-
 @inherits PageNewInventoryCheckBase
-
 <Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 <Com is_visible="@(!is_loading && !is_error)">
     <Title Value="@lang[title]"></Title>
@@ -19,9 +17,13 @@
         </PageHeader>
         <PageBody>
             <UIGridCenter>
-            <UIContainerBox Title="@lang["Inventory Check Date"]">
-                <h3>@model.end_date.ToString(gv.date_time_format)</h3>
-            </UIContainerBox>
+                <UIContainerBox Title="@lang["Inventory Check Date"]">
+                    <ComAlert type="primary">
+                        <div class="uk-padding">
+                            <h4 class="uk-margin-remove uk-text-center">@model.end_date.ToString(gv.date_time_format)</h4>
+                        </div>
+                    </ComAlert>
+                </UIContainerBox>
                 <UIContainerBox Title="@lang["Inventory Check Information"]">
                     <TextInput label="@lang["Document #"]" text="@model.document_number" is_read_only="true" />
                     <TextInput @bind-text="@model.reference_number" placeholder="@lang["Referance #"]" label="@lang["Referance #"]" />
@@ -47,7 +49,6 @@
                     </div>
                     }
                 </UIContainerBox>
-
                 <UIContainerBox Title="@lang["Product Category"]" is_visible="@(model.inventory_check_type=="Full")">
                     <MudTreeView Items="product_category_tree" CanSelect="true" @bind-SelectedValues="SelectedProductCategory" CanActivate="true" >
                         <ItemTemplate>
@@ -55,19 +56,16 @@
                                                Text="@context.title"  />
                         </ItemTemplate>
                     </MudTreeView>
-
                 </UIContainerBox>
                 <UIContainerBox Title="@lang["Note"]">
                     <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
                 </UIContainerBox>
             </UIGridCenter>
-             
         </PageBody>
         <PageFooter>
             <FooterCenter>
                 <ComSavingFormButton is_loading="@is_saving"  OnSave="OnSaveClick" is_show_save_action="true" />
             </FooterCenter>
-           
         </PageFooter>
     </PageContainer>
 </Com>

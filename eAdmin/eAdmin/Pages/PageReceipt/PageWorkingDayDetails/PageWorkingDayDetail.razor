@@ -26,61 +26,54 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab ClassName="control-header-tab">
-                <TabHeader>
-                    <TabHeaderItem>@lang["Working Day Information"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>receipt_tab_click = true)"> @lang["Sale Receipt"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>sale_product_history_tab_click = true)"> @lang["Sale Product"]</TabHeaderItem>
-                </TabHeader>
-                <TabBody>
-                    <TabItem>
-                        <ComWorkingDayDetail_Information model="@model" />
-                        @foreach (var d in list_summaries.Select(r => r.group).Distinct())
-                        {
-                            <UIGridCenter>
-                                <UIContainerBox Title="@lang[d.ToString()]">
-                                    <ListTable ClassWidth="uk-width-1-1">
-                                        @foreach (var t in list_summaries.Where(r => r.group == d.ToString()))
+            <MudTabs PanelClass="pa-6">
+                <MudTabPanel Text="@lang["Working Day Information"]">
+                    <ComWorkingDayDetail_Information model="@model" />
+                    @foreach (var d in list_summaries.Select(r => r.group).Distinct())
+                    {
+                        <UIGridCenter>
+                            <UIContainerBox Title="@lang[d.ToString()]">
+                                <ListTable ClassWidth="uk-width-1-1">
+                                    @foreach (var t in list_summaries.Where(r => r.group == d.ToString()))
+                                    {
+                                        if (t.title == "separator")
                                         {
-                                            if (t.title == "separator")
-                                            {
-                                                <td colspan="3">
-                                                    <hr/>
-                                                </td>
-                                                
-                                            }
-                                            else
-                                            {
-                                                <ListTableItem ItemTitle="@lang[t.title]" IsBetweenValue="true">@t.value</ListTableItem>
-                                            }
+                                            <td colspan="3">
+                                                <hr />
+                                            </td>
 
                                         }
-                                    </ListTable>
-                                </UIContainerBox>
-                            </UIGridCenter>
-                        }
-                    </TabItem>
-                    <TabItem>
-                        @if (receipt_tab_click)
-                        {
-                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="YuuXCAshierWokignDAYDEl97FALse" Title="@lang["Sale Receipt"]" IsDeletedReceipt="false" />
-                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="REceCAshWokignxxDAYiptDFOC8TRUE" Title="@lang["FOC Sale Receipt"]" IsDeletedReceipt="false" IsFocReceipt="true" />
-                            <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="REceCAshWokignxxDAYiptDEl978TRUE" Title="@lang["Deleted Sale Receipt"]" IsDeletedReceipt="true" />
-                        }
-                    </TabItem>
-                    <TabItem>
-                        @if (sale_product_history_tab_click)
-                        {
+                                        else
+                                        {
+                                            <ListTableItem ItemTitle="@lang[t.title]" IsBetweenValue="true">@t.value</ListTableItem>
+                                        }
+
+                                    }
+                                </ListTable>
+                            </UIContainerBox>
+                        </UIGridCenter>
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>receipt_tab_click = true)" Text="@lang["Sale Receipt"]">
+                    @if (receipt_tab_click)
+                    {
+                        <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="YuuXCAshierWokignDAYDEl97FALse" Title="@lang["Sale Receipt"]" IsDeletedReceipt="false" />
+                        <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="REceCAshWokignxxDAYiptDFOC8TRUE" Title="@lang["FOC Sale Receipt"]" IsDeletedReceipt="false" IsFocReceipt="true" />
+                        <ComCashierShiftDetail_ReceiptList WorkingDayId="@id" StateKey="REceCAshWokignxxDAYiptDEl978TRUE" Title="@lang["Deleted Sale Receipt"]" IsDeletedReceipt="true" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>sale_product_history_tab_click = true)" Text="@lang["Sale Product"]">
+                    @if (sale_product_history_tab_click)
+                    {
                         <UIGridCenter>
                             <ComCashierShiftDetail_SaleProduct Title="@lang["Sale Product"]" IsFree="false" WorkingDayId="@id" />
                             <ComWorkingDayDetail_SaleProduct_FOC IsRevenueGroup="true" Title="@lang["Summary By Revenue Group"]" WorkingDayId="@id" />
                             <ComWorkingDayDetail_SaleProduct_FOC Title="@lang["FOC"]" WorkingDayId="@id" />
                             <ComCashierShiftDetail_SaleProduct Title="@lang["Free Product"]" IsFree="true" WorkingDayId="@id" />
                         </UIGridCenter>
-                        }
-                    </TabItem>
-                </TabBody>
-            </Tab>
+                    }
+                </MudTabPanel>
+            </MudTabs>
         </PageBody>
     </PageContainer>
 }

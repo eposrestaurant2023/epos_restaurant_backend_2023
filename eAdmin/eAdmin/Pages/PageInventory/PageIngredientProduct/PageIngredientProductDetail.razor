@@ -60,46 +60,35 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
-            <Tab>
-                <TabHeader>
-                    <TabHeaderItem>@lang["General Information"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_association_products = true)">@lang["Associate Products & Modifiers"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_inventory_transation = true)">@lang["Inventory Transaction"]</TabHeaderItem>
-                    <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment and History"]</TabHeaderItem>
-                </TabHeader>
-                <TabBody>
-                    <TabItem>
-                        <ComIngredientProductDetail_Formation model="@model"/>
-                    </TabItem>
-                    <TabItem>
-                        @if (show_association_products)
-                        {
-                            <ComIngredientProductDetail_AssociationProductsAndModifiers ingredient_id="@model.id"/>
-                        }
-                        
-                    </TabItem>
-                    <TabItem>
-                        @if (show_inventory_transation)
-                        {
-                            <ComProductDetail_InventoryTransactionHistory product_id="@model.id" />
-                        }
-                    </TabItem>
-                    <TabItem>
-                        @if (show_comment_tab)
-                        {
-  <ComHistory RoleAdd="@gv.GetRole("ingredient_add")"
-                                            RoleDelete="@gv.GetRole("ingredient_delete")"
-                                            RoleEdit="@gv.GetRole("ingredient_add")"
-                                            ApiFilter="@($"product_id eq {id}")"
-                                            history="@(new HistoryModel() { product_id = id})" />
-                               
-                            
-                        }
-                    </TabItem>
+            <MudTabs PanelClass="pa-6">
+                <MudTabPanel Text="@lang["General Information"]">
+                    <ComIngredientProductDetail_Formation model="@model" />
+                </MudTabPanel>
+                <MudTabPanel Text="@lang["Associate Products & Modifiers"]" OnClick="@(()=>show_association_products = true)">
+                    @if (show_association_products)
+                    {
+                        <ComIngredientProductDetail_AssociationProductsAndModifiers ingredient_id="@model.id" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel Text="@lang["Inventory Transaction"]" OnClick="@(()=>show_inventory_transation = true)">
+                    @if (show_inventory_transation)
+                    {
+                        <ComProductDetail_InventoryTransactionHistory product_id="@model.id" />
+                    }
+                </MudTabPanel>
+                <MudTabPanel OnClick="@(()=>show_comment_tab=true)" Text="@lang["Comment and History"]">
+                    @if (show_comment_tab)
+                    {
+                        <ComHistory RoleAdd="@gv.GetRole("ingredient_add")"
+                                    RoleDelete="@gv.GetRole("ingredient_delete")"
+                                    RoleEdit="@gv.GetRole("ingredient_add")"
+                                    ApiFilter="@($"product_id eq {id}")"
+                                    history="@(new HistoryModel() { product_id = id})" />
 
-                </TabBody>
-            </Tab>
-             
+
+                    }
+                </MudTabPanel>
+            </MudTabs>
         </PageBody>
     </PageContainer>
 }

@@ -28,107 +28,93 @@
         <PageBody>
             @if (business_branch.outlets.Any())
             {
-                <Tab>
-                    <TabHeader>
-                        @foreach (var o in business_branch.outlets)
+                <MudTabs PanelClass="pa-6">
+                    @foreach (var o in business_branch.outlets)
+                    {
+                        if (models.Where(r => r.outlet_id == o.id).Any())
                         {
-                            if (models.Where(r => r.outlet_id == o.id).Any())
+                            @foreach (var d in models.Where(r => r.outlet_id == o.id).ToList())
                             {
-                                @foreach (var t in models.Where(r => r.outlet_id == o.id).ToList())
-                                {
-                                    <TabHeaderItem>@t.table_group_name_en</TabHeaderItem>
-                                }
-                            }
-                        }
-                    </TabHeader>
-                    <TabBody>
-                        @foreach (var o in business_branch.outlets)
-                        {
-                            if (models.Where(r => r.outlet_id == o.id).Any())
-                            {
-                                @foreach (var d in models.Where(r => r.outlet_id == o.id).ToList())
-                                {
-                                    <TabItem>
-                                        <UIGridCenter>
-                                            <div class="container-layout">
-                                                <div class="title-header">
-                                                    <div class="uk-panel">
-                                                        <div class="uk-float-left">
-                                                            <span>
-                                                                @d.table_group_name_en
-                                                            </span>
-                                                            <span>
-                                                                <label class="uk-label activ"><Icon icon="home" />@d.outlet?.outlet_name_en</label>
-                                                            </span>
+                    <MudTabPanel Text="@d.table_group_name_en">
+                        <UIGridCenter>
+                            <div class="container-layout">
+                                <div class="title-header">
+                                    <div class="uk-panel">
+                                        <div class="uk-float-left">
+                                            <span>
+                                                @d.table_group_name_en
+                                            </span>
+                                            <span>
+                                                <label class="uk-label activ"><Icon icon="home" />@d.outlet?.outlet_name_en</label>
+                                            </span>
+                                        </div>
+                                        <div class="uk-float-right">
+                                            <div class="uk-flex uk-flex-middle">
+                                                <div>
+                                                    <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
+                                                    <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
+                                                </div>
+                                                <div>
+                                                    <div class="uk-flex uk-flex-inline">
+                                                        <div style="margin-right:5px;">
+                                                            <Icon icon="delete" OnClick="@(() => click_delete(d))" />
                                                         </div>
-                                                        <div class="uk-float-right">
-                                                            <div class="uk-flex uk-flex-middle">
-                                                                <div>
-                                                                    <LabelActive OnClick="@(() => Activebutton(d))" is_visible="@d.status" is_loading="@d.is_change_status" />
-                                                                    <LabelInActive OnClick="@(() => Activebutton(d))" is_visible="@(!d.status)" is_loading="@d.is_change_status" />
-                                                                </div>
-                                                                <div>
-                                                                    <div class="uk-flex uk-flex-inline">
-                                                                        <div style="margin-right:5px;">
-                                                                            <Icon icon="delete" OnClick="@(() => click_delete(d))" />
-                                                                        </div>
-                                                                        <div>
-                                                                            <a href="@($"tablegroupandtable/edit/{d.id}")">
-                                                                                <Icon icon="edit" />
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                        <div>
+                                                            <a href="@($"tablegroupandtable/edit/{d.id}")">
+                                                                <Icon icon="edit" />
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr />
-                                                <div>
-                                                    <UISummaryBox ImageUrl="@d.photo">
-                                                        <ContentLeft>
-                                                            <table>
-                                                                <tr>
-                                                                    <th>@lang["Table Group Name"]</th>
-                                                                    <td>@d.table_group_name_en</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>@lang["Outlet"]</th>
-                                                                    <td>@d.outlet?.outlet_name_en</td>
-                                                                </tr>
-                                                            </table>
-                                                        </ContentLeft>
-                                                    </UISummaryBox>
-                                                    <hr />
-                                                    <ComAccordion>
-                                                        <Header>
-                                                            @lang["Table"]
-                                                        </Header>
-                                                        <Content>
-                                                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                                                <tr>
-                                                                    <ThAuto>@lang["Table​ Name"]</ThAuto>
-                                                                    <th>@lang["Price Rule"]</th>
-                                                                </tr>
-                                                                @foreach (var s in d.tables)
-                                                                {
-                                                                    <tr>
-                                                                        <td>@s.table_name</td>
-                                                                        <td>@s.price_rule?.price_name</td>
-                                                                    </tr>
-                                                                }
-                                                            </table>
-                                                        </Content>
-                                                    </ComAccordion>
-                                                </div>
                                             </div>
-                                        </UIGridCenter>
-                                    </TabItem>
-                                }
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div>
+                                    <UISummaryBox ImageUrl="@d.photo">
+                                        <ContentLeft>
+                                            <table>
+                                                <tr>
+                                                    <th>@lang["Table Group Name"]</th>
+                                                    <td>@d.table_group_name_en</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>@lang["Outlet"]</th>
+                                                    <td>@d.outlet?.outlet_name_en</td>
+                                                </tr>
+                                            </table>
+                                        </ContentLeft>
+                                    </UISummaryBox>
+                                    <hr />
+                                    <ComAccordion>
+                                        <Header>
+                                            @lang["Table"]
+                                        </Header>
+                                        <Content>
+                                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                                <tr>
+                                                    <ThAuto>@lang["Table​ Name"]</ThAuto>
+                                                    <th>@lang["Price Rule"]</th>
+                                                </tr>
+                                                @foreach (var s in d.tables)
+                                                {
+                                                    <tr>
+                                                        <td>@s.table_name</td>
+                                                        <td>@s.price_rule?.price_name</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </Content>
+                                    </ComAccordion>
+                                </div>
+                            </div>
+                        </UIGridCenter>
+                    </MudTabPanel>
                             }
                         }
-                    </TabBody>
-                </Tab>
+                    }
+                </MudTabs>
             }
             else
             {
