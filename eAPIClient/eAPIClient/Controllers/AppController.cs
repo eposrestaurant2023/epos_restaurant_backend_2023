@@ -66,6 +66,14 @@ namespace eAPIClient.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("SendSyncRequest")]
+        public ActionResult<string> SendSyncRequest()
+        {
+            app.sendSyncRequest();
+            return Ok();
+        }
+
 
         [HttpPost]
         [Route("BackupDatabase")]

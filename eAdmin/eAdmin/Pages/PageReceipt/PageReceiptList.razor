@@ -95,24 +95,20 @@
                         <TdCenter>
                             @p.working_date.ToString(gv.date_format)
                         </TdCenter>
-                        <TdCenter>
+                        <td>
                             <div>
                                 <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
                                     <span>
-                                        @if (p.document_number == "New")
-                                            {
-                                            @p.sale_number
-                                            }
-                                            else
-                                            {
-                                            @p.document_number
-                                            }
-
+                                        @p.document_number
+                                    </span>
+                                    <br />
+                                    <span>
+                                        @p.sale_number
                                     </span>
                                 </ComAuthorize>
                             </div>
-                            <ComSaleStatus sale="@p"/>
-                        </TdCenter>
+                            <ComSaleStatus sale="@p" />
+                        </td>
                         <TdCenter>
                             <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
                             <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />

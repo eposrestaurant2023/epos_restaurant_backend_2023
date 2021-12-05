@@ -28,7 +28,7 @@
                         </TextInput>
                         <TextInput type="textarea" label="@lang["Description"]" @bind-text="@model.description" />
                     </UIContainerBox>
-                    <UIContainerBox Title="@lang["Businesses Branches"]">
+                    <UIContainerBox Title="@lang["Business Branches"]">
                         @foreach (var b in businesses)
                         {
                             <div><ComInputCheckBox @bind-value="@b.is_selected" label="@(gv.current_language.language_id =="km-KH"?b.business_branch_name_kh:b.business_branch_name_en)" label_inline="true" /></div>

@@ -14,6 +14,7 @@ namespace eAPIClient.Models
         {
             sale_payments = new List<SalePaymentModel>();
             sale_products = new List<SaleProductModel>();
+            histories = new List<HistoryModel>();
         }
 
         [ForeignKey("customer_id")]
@@ -35,7 +36,7 @@ namespace eAPIClient.Models
 
         public String payment_data { get; set; }
 
-     
+        public List<HistoryModel> histories { get; set; }
 
     }
 }
