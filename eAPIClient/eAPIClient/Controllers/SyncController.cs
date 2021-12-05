@@ -25,12 +25,18 @@ namespace eAPIClient.Controllers
         private readonly ApplicationDbContext db;
         private readonly IHttpService http;
         private readonly IConfiguration config;
-        public SyncController(ApplicationDbContext _db, IHttpService _http, IConfiguration _config)
+        private readonly AppService app;
+        public SyncController(ApplicationDbContext _db, IHttpService _http, IConfiguration _config, AppService _app)
         {
             db = _db;
             http = _http;
             config = _config;
+            app = _app;
         }
+
+    
+     
+       
 
         [HttpPost("Sale")] 
         [AllowAnonymous]
@@ -181,14 +187,15 @@ namespace eAPIClient.Controllers
                 {
                     var _model = _modelData.FirstOrDefault();
                   
-                    _model.is_synced = true;
-                    var _syncResp = await http.ApiPost("History/Save", _model);
-                    if (!_syncResp.IsSuccess)
-                    {
-                        return BadRequest();
-                    }
-                    db.Histories.Update(_model);
-                    db.SaveChanges();
+                    //_model.is_synced = true;
+                    //var _syncResp = await http.ApiPost("History/Save", _model);
+                    //if (!_syncResp.IsSuccess)
+                    //{
+                    //    return BadRequest();
+                    //}
+                    //db.Histories.Update(_model);
+                    //db.SaveChanges();
+                    app.sendHistoryAlertTelegram(_model);
                     return Ok();
                 }
                 else

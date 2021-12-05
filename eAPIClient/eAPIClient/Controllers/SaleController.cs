@@ -235,6 +235,14 @@ namespace eAPIClient.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("CancelPrintBillAll/{table_id}")]
+        public    ActionResult CancelPrintBillAll(int table_id)
+        {
+            db.Database.ExecuteSqlRaw("exec sp_cancel_print_bill_by_table " + table_id);
+
+            return Ok();
+        }
 
         [HttpPost]
         [Route("PrintRequestBill/{id}")]

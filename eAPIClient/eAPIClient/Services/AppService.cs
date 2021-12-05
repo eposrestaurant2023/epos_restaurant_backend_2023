@@ -18,10 +18,12 @@ namespace eAPIClient.Services
     {
         public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
-        public AppService(ApplicationDbContext _db, IConfiguration _config)
+        private readonly IHttpService http;
+        public AppService(ApplicationDbContext _db, IConfiguration _config, IHttpService _http)
         {
             db = _db;
             config = _config;
+            http = _http;
         }          
              
 
@@ -164,6 +166,7 @@ namespace eAPIClient.Services
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
             System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt"));
         }
+
         public void sendPrintRequest(PrintRequestModel model)
         {
 
@@ -174,6 +177,20 @@ namespace eAPIClient.Services
             }
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
             System.IO.File.WriteAllText(Path.Combine(path, $"{Guid.NewGuid()}.json"),JsonSerializer.Serialize(model));
+        }
+        public void sendHistoryAlertTelegram(HistoryModel model)
+        {
+
+            string messaage =$"{model.title}%0a{model.description}";
+            if(!string.IsNullOrEmpty(model.note))
+            {
+                messaage = messaage + $"%0aNote: {model.note}";
+            }
+            messaage = messaage + $"%0a-------------------------";
+            messaage = messaage + $"%0aBy: {model.created_by} on {model.created_date.ToString("dd/MM/yyyy hh:mm:ss tt")} ";
+
+
+            http.SendTelegram(messaage);
         }
 
         public async Task<WorkingDayModel> GetWorkingDayInfor(WorkingDayModel model, int UserID)
