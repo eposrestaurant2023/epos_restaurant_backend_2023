@@ -187,14 +187,14 @@ namespace eAPIClient.Controllers
                 {
                     var _model = _modelData.FirstOrDefault();
                   
-                    //_model.is_synced = true;
-                    //var _syncResp = await http.ApiPost("History/Save", _model);
-                    //if (!_syncResp.IsSuccess)
-                    //{
-                    //    return BadRequest();
-                    //}
-                    //db.Histories.Update(_model);
-                    //db.SaveChanges();
+                    _model.is_synced = true;
+                    var _syncResp = await http.ApiPost("History/Save", _model);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+                    }
+                    db.Histories.Update(_model);
+                    db.SaveChanges();
                     app.sendHistoryAlertTelegram(_model);
                     return Ok();
                 }
