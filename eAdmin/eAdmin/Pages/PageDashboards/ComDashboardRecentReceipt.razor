@@ -12,12 +12,10 @@
            ScrollClass="uk-overflow-auto" >
         <TableHeader>
             <ThCenter>@lang["Date"]</ThCenter>
-            <ThCenter>@lang["Document #"]</ThCenter>
-            <ThCenter>@lang["Sale Number"]</ThCenter>
+            <Th>@lang["Document #"]</Th>
             <Th>
                 <div>@lang["Working Day #"]</div>
                 <div class="sub-header-table">@lang["Shift #"]</div>
-             
             </Th>
             <ThAuto>@lang["Customer"]</ThAuto>
             <ThAuto>
@@ -37,24 +35,14 @@
             <TdCenter>​
                 @p.working_date.ToString(gv.date_format)
             </TdCenter>
-
-            <TdCenter>
-                <a href="@($"receiptlist/sale/{p.id}")">
-                    @if (p.document_number == "New")
-                    {
-                        @p.sale_number
-                    }
-                    else
-                    {
-                        @p.document_number
-                    }
-
-                </a> <br />
+            <td>
+                <div>
+                    <span>@p.document_number</span>
+                    <br />
+                    <span>@p.sale_number</span>
+                </div>
                 <ComSaleStatus sale="p" />
-            </TdCenter>
-            <TdCenter>
-                @p.sale_number
-            </TdCenter>
+            </td>
             <TdCenter>
                 <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
                 <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />

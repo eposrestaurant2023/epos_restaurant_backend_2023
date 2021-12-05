@@ -47,8 +47,9 @@ namespace eAPIClient.Models
           
 
         public Guid? sale_id { get; set; }
-      
-        
+        public SaleModel sale { get; set; }
+
+
 
         public string document_number { get; set; } = "";
         public string module { get; set; } = "";
