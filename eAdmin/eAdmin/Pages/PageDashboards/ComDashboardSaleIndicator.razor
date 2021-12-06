@@ -26,7 +26,7 @@
             }
         </div>
 
-        <label style="font-size:12px;">@lang["Void Orders"] ((@data.total_deleted_order.ToString(gv.quantity_format)/@data.total_order.ToString(gv.quantity_format))*100)</label>
+        <label style="font-size:12px;">@lang["Void Orders"] (@data.total_deleted_order.ToString(gv.quantity_format)/@data.total_order.ToString(gv.quantity_format))</label>
         <div class="progress_bar">
             @if (data.total_order == 0 || data.total_deleted_order == 0)
             {
