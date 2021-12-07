@@ -1548,6 +1548,9 @@
   <data name="Add New Vendor Group" xml:space="preserve">
     <value>បញ្ជូលក្រុមអ្នកផ្គត់ផ្គង់ថ្មី</value>
   </data>
+	<data name="Edit Vendor" xml:space="preserve">
+    <value>កែប្រែអ្នកផ្គត់ផ្គង់</value>
+  </data>
   <data name="New Vendor" xml:space="preserve">
     <value>បញ្ជូលអ្នកផ្គត់ផ្គង់ថ្មី</value>
   </data>

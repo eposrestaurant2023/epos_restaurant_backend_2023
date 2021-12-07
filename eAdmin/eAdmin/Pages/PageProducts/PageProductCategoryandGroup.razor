@@ -26,73 +26,75 @@
                 <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
-            <PageBody>
-                <UIGridCenter>
-                    <Tab>
-                        <div>
-                            <ViewEmptyTemplate is_view="@(models.Any())" is_box_empty="true">
-                                @foreach (var d in models.ToList())
-                                {
-                                    <div class=" container-layout">
-                                        <div class="title-header">
-                                            <div class="uk-panel">
-                                                <div class="uk-float-left">
-                                                    <span>
-                                                        @(gv.current_language?.language_id == "km-KH" ?d.product_group_kh:d.product_group_en)
-                                                    </span>
-                                                </div>
-                                                <Column ClassName="uk-float-right">
-                                                    <div> 
-                                                            <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("product_group_category_edit")"/>
-                                                            <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("product_group_category_edit")"/>
-
-                                                            <span>
-                                                                <Icon icon="edit" url="@($"productcategory/edit/{d.id}")" roles="@gv.GetRole("product_group_category_edit")"/> 
-                                                            </span>
-                                                            
-                                                            <span>
-                                                                <Icon icon="delete" OnClick="@(()=>Deleted(d))" roles="@gv.GetRole("product_group_category_delete")" is_visible="@(!d.is_built_in)"/> 
-                                                            </span> 
-
-                                                    </div>
-                                                </Column>
+        <PageBody>
+            <UIGridCenter>
+                <Tab>
+                    <div>
+                        <ViewEmptyTemplate is_view="@(models.Any())" is_box_empty="true">
+                            @foreach (var d in models.ToList())
+                            {
+                                <div class="container-layout">
+                                    <div class="title-header">
+                                        <div class="uk-panel">
+                                            <div class="uk-float-left">
+                                                <span>
+                                                    @(gv.current_language?.language_id == "km-KH" ?d.product_group_kh:d.product_group_en)
+                                                </span>
                                             </div>
-                                        </div>
+                                            <Column ClassName="uk-float-right">
+                                                <div>
+                                                    <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("product_group_category_edit")" />
+                                                    <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("product_group_category_edit")" />
 
-                                        <hr />
-                                        <div>
-                                            <Tab>
-                                                <div class="uk-overflow-auto table-scroll">
-                                                    <table class="uk-table cus_hearder_table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                                        <tr>
-                                                            <Th>@lang["Product Category En"]</Th>
-                                                            <Th>@lang["Product Category Kh"]</Th>
-                                                            <ThCenter>@lang["Status"]</ThCenter> 
-                                                        </tr>
-                                                        <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="6">
-                                                            @foreach (var s in d.product_categories)
-                                                            {
-                                                                <tr>
-                                                                    <td>@s.product_category_en</td>
-                                                                    <td>@s.product_category_kh </td>
-                                                                    <TdCenter>
-                                                                            <LabelActive is_visible="@s.status" is_loading="@s.is_change_status" />
-                                                                            <LabelInActive is_visible="@(!s.status)" is_loading="@s.is_change_status" />
-                                                                    </TdCenter>
-                                                                </tr>
-                                                            }
-                                                        </ViewEmptyTemplate>
-                                                    </table>
+                                                    <span>
+                                                        <Icon icon="edit" url="@($"productcategory/edit/{d.id}")" roles="@gv.GetRole("product_group_category_edit")" />
+                                                    </span>
+
+                                                    <span>
+                                                        <Icon icon="delete" OnClick="@(()=>Deleted(d))" roles="@gv.GetRole("product_group_category_delete")" is_visible="@(!d.is_built_in)" />
+                                                    </span>
+
                                                 </div>
-                                            </Tab>
-                                        </div> 
+                                            </Column>
+                                        </div>
                                     </div>
-                                }
-                                </ViewEmptyTemplate>
-                            </div>
-                        </Tab>
-                </UIGridCenter>
-            </PageBody>
+
+                                    <hr />
+                                    <div>
+                                        <Tab>
+                                            <div class="uk-overflow-auto table-scroll">
+                                                <table class="uk-table cus_hearder_table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                                    <tr>
+                                                        <Th>@lang["Product Category En"]</Th>
+                                                        <Th>@lang["Product Category Kh"]</Th>
+                                                        <ThCenter>@lang["Status"]</ThCenter>
+                                                    </tr>
+                                                    <ViewEmptyTemplate is_view="@d.product_categories.Any()" colspan="6">
+                                                        @foreach (var s in d.product_categories)
+                                                        {
+                                                            <tr>
+                                                                <td>@s.product_category_en</td>
+                                                                <td>@s.product_category_kh </td>
+                                                                <TdCenter>
+                                                                    <LabelActive is_visible="@s.status" is_loading="@s.is_change_status" />
+                                                                    <LabelInActive is_visible="@(!s.status)" is_loading="@s.is_change_status" />
+                                                                </TdCenter>
+                                                            </tr>
+                                                        }
+                                                    </ViewEmptyTemplate>
+                                                </table>
+                                            </div>
+                                        </Tab>
+                                    </div>
+                                </div>
+                            }
+                           
+                        </ViewEmptyTemplate>
+                    </div>
+                </Tab>
+            </UIGridCenter>
+            
+        </PageBody>
     </PageContainer>
 }
 
@@ -100,16 +102,12 @@
     List<ProductGroupModel> models = new List<ProductGroupModel>();
     List<ProductCategoryModel> product_category = new List<ProductCategoryModel>();
     string ControllerApi = "ProductGroup";
-
-
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
         await LoadData();
         is_loading = false;
     }
-
-
 
     async Task LoadData(string api_url = "")
     {

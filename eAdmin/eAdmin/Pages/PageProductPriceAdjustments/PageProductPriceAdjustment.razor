@@ -33,7 +33,7 @@
                         <MudExpansionPanels  MultiExpansion="true">
                             @foreach (var c in model.categories)
                             {
-                                if (c.product.Where(r => r.total_product_portion > 0 && r.p_name.Contains(keyword)).Any())
+                                if (c.product.Where(r => r.total_product_portion > 0 && r.p_name.Trim().ToLower().Contains(keyword.Trim().ToLower())).Any())
                                 {
 
                                     <MudExpansionPanel Class="mb-4" Text="@($"{c.product_category_en} ({@c.product.Where(r => r.total_product_portion > 0 && r.p_name.Trim().ToLower().Contains(keyword.Trim().ToLower())).Count()})")" >
@@ -50,7 +50,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (var p in c.product.Where(r => r.p_name.Contains(keyword)))
+                                                    @foreach (var p in c.product.Where(r => r.p_name.Trim().ToLower().Contains(keyword.Trim().ToLower())))
                                                     {
                                                         if (p.product_portion.Count() > 1)
                                                         {
