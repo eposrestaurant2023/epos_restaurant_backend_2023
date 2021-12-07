@@ -8,14 +8,14 @@
 
 @if (!is_loading)
 {
-    <Title Value="@($"{lang["Purchase Order #"]} : {model.document_number}")"></Title>
+    <Title Value="@($"{lang["Purchase Order #"]} {model.document_number}")"></Title>
 
     <PageContainer roles="@gv.GetRole("purchase_order_management")">
         <PageHeader>
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @lang["Purchase Order #"] : @model.document_number
+                        @lang["Purchase Order #"] @model.document_number
                         <LabelDeleted is_visible="@model.is_deleted" />
                         <ComPurchaseOrderStatus po="@model" />
                     </HeaderTemplate>

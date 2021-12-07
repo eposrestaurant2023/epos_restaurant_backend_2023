@@ -14,15 +14,16 @@
             <HeaderLeft>
                 <PageTitle ShowFilter="false">
                     <HeaderTemplate>
-                        @if (sale.document_number == "New")
-                        {
-                            @sale.sale_number
-                        }
-                        else
-                        {
-                            @sale.document_number
-                        }
-
+                        <span style="margin-right:5px;">
+                            @if (sale.document_number == "New")
+                            {
+                                @sale.sale_number
+                            }
+                            else
+                            {
+                                @sale.document_number
+                            }
+                        </span>
                         <ComSaleStatus sale="@sale" />
                         <LabelSaleType Text="@sale.sale_type" />
                     </HeaderTemplate>

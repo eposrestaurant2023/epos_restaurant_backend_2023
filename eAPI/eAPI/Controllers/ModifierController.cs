@@ -30,12 +30,14 @@ namespace eAPI.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         public IQueryable<ModifierModel> Get(string keyword = "")
         {
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrWhiteSpace(keyword))
             {
-                return db.Modifiers.Where(r =>
-                (
-                (r.modifier_name ?? "") 
-                ).ToLower().Trim().Contains(keyword.ToLower().Trim()));
+                var c = from r in db.Modifiers
+                        where EF.Functions.Like((
+                            (r.modifier_name ?? "") 
+                    ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        select r;
+                return c.AsQueryable();
             }
             else
             {

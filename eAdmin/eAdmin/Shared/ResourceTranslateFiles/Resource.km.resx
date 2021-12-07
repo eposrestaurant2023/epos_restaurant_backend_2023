@@ -1197,6 +1197,24 @@
   <data name="Deleted Sale Receipt" xml:space="preserve">
     <value>វិក្កយបត្រលក់ដែលបានលក់</value>
   </data>
+	<data name="Payment Berakdown" xml:space="preserve">
+    <value>បំបែកការទូទាត់</value>
+  </data>
+	<data name="Payment Berakdown" xml:space="preserve">
+    <value>បំបែកការទូទាត់</value>
+  </data>
+	<data name="Alcohol" xml:space="preserve">
+    <value>គ្រឿងស្រវឹង</value>
+  </data>
+	<data name="Food" xml:space="preserve">
+    <value>អាហារ</value>
+  </data>
+	<data name="Drink" xml:space="preserve">
+    <value>ភេសជ្ជៈ</value>
+  </data>
+	<data name="Sale By Revenue Group" xml:space="preserve">
+    <value>ចំនួនលក់តាមក្រុមនៃប្រាក់ចំណូល</value>
+  </data>
   <data name="Summary By Revenue Group" xml:space="preserve">
     <value>សង្ខេបតាមក្រុមនៃប្រាក់ចំណូល</value>
   </data>

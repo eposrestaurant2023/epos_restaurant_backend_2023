@@ -22,7 +22,7 @@
                             {
                             <tr>
                                 <td class="uk-padding-remove-bottom">
-                                    <div class="uk-text-uppercase uk-text-bold">@c.revenue_group_name.ToString()</div>
+                                    <div class="uk-text-uppercase uk-text-bold">@lang[c.revenue_group_name.ToString()]</div>
                                 </td>
 
                                 <TdCenter ClassName="uk-padding-remove-bottom">
@@ -67,7 +67,7 @@
                             {
                                 <tr>
                                     <td colspan="3" class="uk-padding-remove-bottom">
-                                        <div class="uk-text-uppercase uk-text-bold">@c.ToString()</div>
+                                        <div class="uk-text-uppercase uk-text-bold">@lang[c.ToString()]</div>
                                     </td>
                                 </tr>
                                 @foreach (var g in models.Where(r => r.product_group_en == c.ToString()).Select(r => r.product_category_en).Distinct().ToList())
