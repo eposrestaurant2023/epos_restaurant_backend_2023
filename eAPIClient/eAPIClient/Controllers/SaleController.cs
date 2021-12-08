@@ -60,7 +60,14 @@ namespace eAPIClient.Controllers
         {
             try
             {
-                 
+
+                //check if cashift is opened 
+                var check_shift_opened = db.CashierShifts.Where(r => r.cash_drawer_id == model.closed_cash_drawer_id && r.is_closed == false && r.id == model.closed_cashier_shift_id );
+                if (!check_shift_opened.Any())
+                {
+                    return BadRequest(new BadRequestModel { message = "please_start_cashier_shift" });
+                }
+                
 
                 model.is_synced = false;
                 DocumentNumberModel _saleNumber = new DocumentNumberModel();
@@ -76,17 +83,40 @@ namespace eAPIClient.Controllers
                 {
                     _saleNumber = app.GetDocument("SaleNum", model.cash_drawer_id.ToString());
                     model.sale_number = _saleNumber.id > 0 ? app.GetDocumentFormat(_saleNumber) : "New";
-                    model.sale_products.ForEach(sp =>
+
+                    
+                    
+                    //check sale product and change entry state 
+
+                    model.sale_products.ForEach(_sp =>
                     {
-                        if (sp.sale_product_print_queues != null)
+                       
+                        if (_sp.sale_product_print_queues != null)
                         {
-                            sp.sale_product_print_queues.ForEach(_spq =>
+                            _sp.sale_product_print_queues.ForEach(_spq =>
                             {
                                 _spq.sale_number = model.sale_number;
                             });
                         }
+
                     });
-                    db.Sales.Add(model);
+
+
+                    if (model.sale_products.Where(r => r.id != Guid.Empty && r.is_deleted == false ).Any())
+                    {
+                        List<SaleProductModel> temp_sale_products = model.sale_products;
+                        model.sale_products = null;
+                        db.Sales.Add(model);
+                        await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                        model.sale_products = temp_sale_products;
+                    }
+                    else
+                    {
+                        db.Sales.Add(model);
+                    }
+                    
+
+                   
                     is_new = !(model.is_closed ?? false);
                 }
                 else
@@ -119,20 +149,15 @@ namespace eAPIClient.Controllers
 
                 //for anyupdate that related to sale if have
                 db.Database.ExecuteSqlRaw($"exec sp_update_sale_infomation '{model.id}'");   
-                try
-                {         
+                        
                     app.sendSyncRequest();
-                }
-                catch(Exception ex)
-                {
-                    string message = ex.Message;
-                }
+               
 
                 return Ok(model);
             }
             catch (Exception _ex)
             {
-                return BadRequest(new BadRequestModel() { message = _ex.Message }) ;
+                return BadRequest(new BadRequestModel() { message = "save_data_fail_please_try_again." }) ;
             }
         }
 

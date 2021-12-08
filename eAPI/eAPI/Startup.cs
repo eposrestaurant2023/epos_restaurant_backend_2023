@@ -174,6 +174,7 @@ namespace eAPI
             odataBuilder.EntitySet<ProductGroupModel>("ProductGroup");
             odataBuilder.EntitySet<ProductModel>("Product");
             odataBuilder.EntitySet<NoteModel>("Note");
+            odataBuilder.EntitySet<CategoryNoteModel>("CategoryNote");
             odataBuilder.EntitySet<PriceRuleModel>("PriceRule");
             odataBuilder.EntitySet<SaleModel>("Sale");
             odataBuilder.EntitySet<ProductPrinterModel>("ProductPrinter");

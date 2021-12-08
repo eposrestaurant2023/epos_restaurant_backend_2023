@@ -11,6 +11,7 @@ namespace eShareModel
     {
         [Range(1,int.MaxValue,ErrorMessage ="Please select a customer group.")]
         public int customer_group_id { get; set; }
+        public string customer_group_name { get; set; }
 
         public string customer_code { get; set; }
 
