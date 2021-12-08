@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211207071425_modifyhistory")]
+    partial class modifyhistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,6 +304,60 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_config_data");
                 });
 
+            modelBuilder.Entity("eAPIClient.Models.CustomerGroupModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("created_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("created_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("customer_group_name_en")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("customer_group_name_kh")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("deleted_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime?>("deleted_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("is_deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("last_modified_by")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<DateTime>("last_modified_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_customer_group");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.CustomerModel", b =>
                 {
                     b.Property<Guid>("id")
@@ -329,10 +385,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<int>("customer_group_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("customer_group_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<string>("customer_name_en")
                         .IsRequired()
@@ -405,6 +457,8 @@ namespace eAPIClient.Migrations
                         .HasColumnType("decimal(19,8)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("customer_group_id");
 
                     b.ToTable("tbl_customer");
                 });
@@ -1893,6 +1947,17 @@ namespace eAPIClient.Migrations
                     b.Navigation("working_day");
                 });
 
+            modelBuilder.Entity("eAPIClient.Models.CustomerModel", b =>
+                {
+                    b.HasOne("eAPIClient.Models.CustomerGroupModel", "customer_group")
+                        .WithMany("customers")
+                        .HasForeignKey("customer_group_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("customer_group");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.HistoryModel", b =>
                 {
                     b.HasOne("eAPIClient.Models.SaleModel", "sale")
@@ -2043,6 +2108,11 @@ namespace eAPIClient.Migrations
                         .IsRequired();
 
                     b.Navigation("sale_product");
+                });
+
+            modelBuilder.Entity("eAPIClient.Models.CustomerGroupModel", b =>
+                {
+                    b.Navigation("customers");
                 });
 
             modelBuilder.Entity("eAPIClient.Models.MenuModel", b =>

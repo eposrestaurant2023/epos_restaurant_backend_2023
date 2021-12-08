@@ -14,8 +14,9 @@
             <ThCenter>@lang["Date"]</ThCenter>
             <Th>@lang["Document #"]</Th>
             <Th>
-                <div>@lang["Working Day #"]</div>
-                <div class="sub-header-table">@lang["Shift #"]</div>
+               
+                    <div>@lang["Working Day #"]</div>
+                    <div class="sub-header-table">@lang["Shift #"]</div>
             </Th>
             <ThAuto>@lang["Customer"]</ThAuto>
             <ThAuto>
@@ -37,9 +38,11 @@
             </TdCenter>
             <td>
                 <div>
-                    <span>@p.document_number</span>
-                    <br />
-                    <span>@p.sale_number</span>
+                    <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
+                        <span>@p.document_number</span>
+                        <br />
+                        <span>@p.sale_number</span>
+                    </ComAuthorize>
                 </div>
                 <ComSaleStatus sale="p" />
             </td>

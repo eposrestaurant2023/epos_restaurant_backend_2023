@@ -39,7 +39,7 @@ namespace eAPIClient.Models
         public Guid? outlet_id { get; set; }
 
         public Guid? customer_id { get; set; }
-        [ForeignKey("customer_id")]
+
        
      
         public int? product_id { get; set; }
@@ -47,8 +47,11 @@ namespace eAPIClient.Models
           
 
         public Guid? sale_id { get; set; }
-        public SaleModel sale { get; set; }
 
+
+        [ForeignKey("sale_id")]
+        public SaleModel sale { get; set; }
+        
 
 
         public string document_number { get; set; } = "";
