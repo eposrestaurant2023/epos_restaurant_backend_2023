@@ -36,6 +36,8 @@ namespace eAPIClient.Models
 
         public String payment_data { get; set; }
 
+
+        public string sale_product_data { get; set; }
         public List<HistoryModel> histories { get; set; }
 
     }
