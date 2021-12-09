@@ -122,6 +122,7 @@ namespace eAPIClient.Controllers
                     if (!_syncResp.IsSuccess)
                     {
                         return BadRequest();
+                      
                     }
                     db.CashierShifts.Update(_model);
                     await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -138,6 +139,42 @@ namespace eAPIClient.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("SyncCustomer")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncCustomer(Guid id)
+        {
+            try
+            {
+                var _modelData = db.Customers.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_modelData.Count() > 0)
+                {
+                    var _model = _modelData.FirstOrDefault();
+                    _model.is_synced = true;
+                    var _syncResp = await http.ApiPost("Customer/Save", _model);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return Ok(_model);
+                        return BadRequest();
+                   
+                    }
+                    db.Customers.Update(_model);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
 
         [HttpGet("SyncCashDrawerAmount")]
         [AllowAnonymous]
@@ -248,6 +285,8 @@ namespace eAPIClient.Controllers
                 return BadRequest();
             } 
         } 
+
+
         [HttpPost("GetRemoteData")]    
         [AllowAnonymous]
         public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool isFirstSetup=false)
@@ -478,8 +517,8 @@ namespace eAPIClient.Controllers
         async Task GetNote(string business_branch_id) 
         {
             is_get_remote_data_success = false;
-            string _query = $"Note/Category?$select=id,category_note_name_en,category_note_name_kh,is_multiple_select&$expand=notes($filter=is_deleted eq false and business_branch_id eq {business_branch_id})";
-            var resp = await http.ApiGet(_query);
+            string _query = $"CategoryNote?$select=id,category_note_name_en,category_note_name_kh,is_multiple_select&$expand=notes($filter=is_deleted eq false and business_branch_id eq {business_branch_id})";
+            var resp = await http.ApiGetOData(_query);
             if (resp.IsSuccess)
             {
                 is_get_remote_data_success = true;

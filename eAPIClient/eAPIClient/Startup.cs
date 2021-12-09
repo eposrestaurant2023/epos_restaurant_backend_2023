@@ -14,6 +14,8 @@ using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using eAPIClient.Models;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace eAPIClient
 {
@@ -49,6 +51,7 @@ namespace eAPIClient
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
             });
+
     
             services.AddMvc();
             services.AddOData();
@@ -86,6 +89,16 @@ namespace eAPIClient
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+              Path.Combine(env.ContentRootPath, "uploads")),
+                RequestPath = "/uploads"
+            });
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -114,7 +127,7 @@ namespace eAPIClient
             odataBuilder.EntitySet<CashierShiftModel>("CashierShift");
             odataBuilder.EntitySet<ShiftModel>("Shift");
             odataBuilder.EntitySet<CustomerModel>("Customer");
-            odataBuilder.EntitySet<CustomerGroupModel>("CustomerGroup");
+            
             odataBuilder.EntitySet<ConfigDataModel>("ConfigData");                 
             odataBuilder.EntitySet<SaleModel>("Sale"); 
             odataBuilder.EntitySet<NoteModel>("Note");

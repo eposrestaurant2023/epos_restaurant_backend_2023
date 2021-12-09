@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211208083444_update_customer_gorup")]
+    partial class update_customer_gorup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -505,6 +507,9 @@ namespace eAPIClient.Migrations
                     b.Property<Guid?>("sale_id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("saleid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("station_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -529,7 +534,7 @@ namespace eAPIClient.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("sale_id");
+                    b.HasIndex("saleid");
 
                     b.ToTable("tbl_history");
                 });
@@ -1897,7 +1902,7 @@ namespace eAPIClient.Migrations
                 {
                     b.HasOne("eAPIClient.Models.SaleModel", "sale")
                         .WithMany("histories")
-                        .HasForeignKey("sale_id");
+                        .HasForeignKey("saleid");
 
                     b.Navigation("sale");
                 });

@@ -191,6 +191,7 @@ namespace eAPIClient.Services
 
 
             http.SendTelegram(messaage);
+            System.Threading.Thread.Sleep(1000);
         }
 
         public async Task<WorkingDayModel> GetWorkingDayInfor(WorkingDayModel model, int UserID)
