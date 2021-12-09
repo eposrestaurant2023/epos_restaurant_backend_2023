@@ -69,106 +69,76 @@ namespace eAPI.Controllers
         {
 
             bool is_new = true;
+
             p.customer_name_kh = string.IsNullOrEmpty(p.customer_name_kh) ? p.customer_name_en : p.customer_name_kh;
-            var dup = db.Customers.Where(r => r.customer_code == p.customer_code);
-            //check validation customer duplicate 
+            var modelCheck = db.Customers.Where(r => r.id == p.id).AsNoTracking().Include(r => r.customer_business_branchs).AsNoTracking();
+            var old_customer = modelCheck.FirstOrDefault();
 
-            //check if customer name is duplicate 
-            if (1==2)
+            if (p.customer_code.ToLower() == "new" || p.customer_code == "")
             {
-                List<CustomerModel> check_data = db.Customers.Where(r => r.customer_name_en.Trim().ToLower() == p.customer_name_kh.Trim().ToLower() && r.id != p.id).Include(r => r.customer_group).ToList();
-                if (check_data.Any())
-                {
-                    //return error code 401 for Customer name (En) is already exists.
-                    return StatusCode(401, new ApiResponseModel() { message = $"Customer name En ({p.customer_name_en}) is duplicate with other customer.", customers = check_data.ToList() });
-                }
-                //chekc customer name kh
-                check_data = db.Customers.Where(r => r.customer_name_kh.Trim().ToLower() == p.customer_name_en.Trim().ToLower() && r.id != p.id).Include(r => r.customer_group).ToList();
-                if (check_data.Any())
-                {
-                    //return error code 401 for Customer name (En) is already exists.
-                    return StatusCode(401, new ApiResponseModel() { message = $"Customer name en ({p.customer_name_en}) is duplicate with other customer.", customers = check_data.ToList() });
-                }
-                //check customer name kh from model
-                check_data = db.Customers.Where(r => r.customer_name_kh.Trim().ToLower() == p.customer_name_kh.Trim().ToLower() && r.id != p.id).Include(r => r.customer_group).ToList();
-                if (check_data.Any())
-                {
-                    //return error code 401 for Customer name (En) is already exists.
-                    return StatusCode(401, new ApiResponseModel() { message = $"Customer name kh ({p.customer_name_en}) is duplicate with other customer.", customers = check_data.ToList() });
-                }
-                //chekc customer name kh
-                check_data = db.Customers.Where(r => r.customer_name_kh.Trim().ToLower() == p.customer_name_en.Trim().ToLower() && r.id != p.id).Include(r => r.customer_group).ToList();
-                if (check_data.Any())
-                {
-                    //return error code 401 for Customer name (En) is already exists.
-                    return StatusCode(401, new ApiResponseModel() { message = $"Customer name kh ({p.customer_name_en}) is duplicate with other customer.", customers = check_data.ToList() });
-                }
-
-                //====================
-                //check phone number 
-                if ((p.phone_1 ?? "") != "")
-                {
-                    check_data = db.Customers.Where(r =>
-                    (
-                        (r.phone_1 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() == (p.phone_1 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() ||
-                        (r.phone_2 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() == (p.phone_1 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower()
-
-                    ) &&
-
-                    r.id != p.id
-                    ).Include(r => r.customer_group).ToList();
-                    if (check_data.Any())
-                    {
-                        return StatusCode(401, new ApiResponseModel() { message = $"Phone Number is duplicate other customer.", customers = check_data.ToList() });
-                    }
-                }
-
-                if ((p.phone_1 ?? "") != "")
-                {
-                    check_data = db.Customers.Where(r =>
-                    (
-                        (r.phone_1 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() == (p.phone_2 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() ||
-                        (r.phone_2 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower() == (p.phone_2 ?? "").Replace(" ", "").Replace("-", "").Trim().ToLower()
-                    ) &&
-
-                    r.id != p.id
-                    ).Include(r => r.customer_group).ToList();
-                    if (check_data.Any())
-                    {
-                        return StatusCode(401, new ApiResponseModel() { message = $"Phone Number is duplicate other customer.", customers = check_data.ToList() });
-                    }
-                }
-
-            }
-            
-            if (p.id == new Guid())
-            {
-                if (dup.Count() > 0)
-                {
-                    return StatusCode(301, "Customer Code already exist!");
-                }
-                is_new = true;
                 string document_number = await app.GetDocumentNumber(19);
                 p.customer_code = document_number;
+                is_new = true;
+            }
+
+            if (old_customer == null)
+            {
                 db.Customers.Add(p);
+
+
             }
             else
             {
-                //var sss = JsonSerializer.Serialize(db.Database.ExecuteSqlRaw($"delete tbl_customer_business_branch where customer_id = {p.id}"));
-                db.Database.ExecuteSqlRaw($"delete tbl_customer_business_branch where customer_id = '{p.id}'");                
-                db.CustomerBusinessBranches.AddRange(p.customer_business_branchs);
+
+                var d = modelCheck.FirstOrDefault();
+
 
                 db.Customers.Update(p);
             }
 
-
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            if (is_new)
+            if (p.customer_business_branchs != null && p.customer_business_branchs.Any())
             {
-                await app.SaveDocumentNumber(19);
+                db.Database.ExecuteSqlRaw($"delete tbl_customer_business_branch where customer_id = '{p.id}'");
+                db.CustomerBusinessBranches.AddRange(p.customer_business_branchs);
+            }
+            else
+            {
+                if (p.business_branch_id != null)
+                {
+                    if (old_customer != null)
+                    {
+                        if (!old_customer.customer_business_branchs.Where(r => r.business_branch_id == p.business_branch_id).Any())
+                        {
+                            if (!p.customer_business_branchs.Where(r => r.business_branch_id == p.business_branch_id).Any())
+                            {
+                                p.customer_business_branchs.Add(new CustomerBusinessBranchModel() { business_branch_id = p.business_branch_id ?? Guid.Empty });
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        p.customer_business_branchs.Add(new CustomerBusinessBranchModel() { business_branch_id = p.business_branch_id ?? Guid.Empty });
+                    }
+
+                }
             }
 
-            return Ok(p);
+            try
+            {
+
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                if (is_new)
+                {
+                    await app.SaveDocumentNumber(19);
+                }
+
+                return Ok(p);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost]

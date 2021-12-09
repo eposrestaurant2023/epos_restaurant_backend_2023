@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using eAPIClient;
 using eAPIClient.Models;
+using eAPIClient.Services;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,12 @@ namespace eAPIClient.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public CustomerController(ApplicationDbContext _db)
+        private readonly AppService app;
+
+        public CustomerController(ApplicationDbContext _db, AppService _app)
         {
             db = _db;
+            app = _app;
         }
 
 
@@ -61,7 +65,9 @@ namespace eAPIClient.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] CustomerModel u)
         {
-         
+
+            u.is_synced = false;
+
             if (u.id == Guid.Empty)
             {
                 db.Customers.Add(u);
@@ -72,6 +78,9 @@ namespace eAPIClient.Controllers
             }
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+            app.sendSyncRequest();
+
             return Ok(u);
         }
 

@@ -16,8 +16,13 @@ namespace eModels
             customer_business_branchs = new List<CustomerBusinessBranchModel>();
         }
 
-       
-      
+
+        public Guid? business_branch_id { get; set; }
+
+
+        public string customer_group_name { get; set; }
+
+
         [ForeignKey("customer_group_id")]
         public CustomerGroupModel customer_group { get; set; }    
         public List<CustomerBusinessBranchModel> customer_business_branchs { get; set; }
