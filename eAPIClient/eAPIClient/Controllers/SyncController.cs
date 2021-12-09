@@ -155,10 +155,14 @@ namespace eAPIClient.Controllers
                     var _syncResp = await http.ApiPost("Customer/Save", _model);
                     if (!_syncResp.IsSuccess)
                     {
-                        return Ok(_model);
+                        
                         return BadRequest();
                    
                     }
+
+                    CustomerModel resp_customer = JsonSerializer.Deserialize<CustomerModel>(_syncResp.Content);
+                    _model.customer_code = resp_customer.customer_code;
+
                     db.Customers.Update(_model);
                     await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                     return Ok();
