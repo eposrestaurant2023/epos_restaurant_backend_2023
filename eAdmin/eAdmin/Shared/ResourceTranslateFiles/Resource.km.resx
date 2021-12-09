@@ -1137,6 +1137,15 @@
   <data name="Total Payment" xml:space="preserve">
     <value>ការទូទាត់សរុប</value>
   </data>
+	<data name="Dollar" xml:space="preserve">
+    <value>ដុល្លារ</value>
+  </data>
+	<data name="Riel" xml:space="preserve">
+    <value>រៀល</value>
+  </data>
+	<data name="Bath" xml:space="preserve">
+    <value>បាត</value>
+  </data>
   <data name="Total payment (Dollar)" xml:space="preserve">
     <value>ការទូទាត់សរុប (ដុល្លារ)</value>
   </data>
@@ -2097,6 +2106,9 @@
   <data name="There is no business branch. Please enter business branch first." xml:space="preserve">
     <value>មិនទាន់មានព័ត៌មានសាខាក្រុមហ៊ុន។ </value>
   </data>
+  <data name="Update currency" xml:space="preserve">
+    <value>រូបិយប័ណ្ណ</value>
+  </data>
   <data name="Update Exchange Rate" xml:space="preserve">
     <value>កែប្រែអាត្រាប្ដូរប្រាក់</value>
   </data>
@@ -2447,6 +2459,9 @@
   </data>
   <data name="Add New Vendor" xml:space="preserve">
     <value>បញ្ជូលអ្នកផ្គត់ផ្គង់ថ្មី</value>
+  </data>
+	<data name="Are you sure you want to mark this currency as main currency?" xml:space="preserve">
+    <value>តើអ្នកពិតជាចង់ mark this currency as main currency មែនទេ?</value>
   </data>
   <data name="Are you sure you want to make as fulfilled?" xml:space="preserve">
     <value>តើអ្នកពិតជាចង់ mark as fulfilled មែនទេ?</value>

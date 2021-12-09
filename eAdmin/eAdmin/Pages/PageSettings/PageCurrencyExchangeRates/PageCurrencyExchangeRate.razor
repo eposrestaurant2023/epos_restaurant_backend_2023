@@ -26,7 +26,7 @@
                 {
                     <UISummaryBox Title="@(r.business_branch_name_en)" ShowImage="false" IsFullContent="true">
                         <ContentFull>
-                            <div class="uk-grid-margin-small-bottom">@lang["Base Currency"] : <span class="uk-text-bold">@base_currency.currency_name_en</span></div>
+                            <div class="uk-grid-margin-small-bottom">@lang["Base Currency"] : <span class="uk-text-bold">@lang[base_currency.currency_name_en]</span></div>
 
                             @if (models.Any())
                             {
@@ -34,14 +34,14 @@
                                    <hr/>
                                 foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id &&  m.currency.is_base_exchange_currency == false).OrderByDescending(r => r.currency.is_main).ToList())
                                 {
-                                    <ExchangeRateInput value="@(Convert.ToDecimal(b.exchange_rate_input))" valueChanged="@((value)=>RateChange( r.id, b,Convert.ToDouble( value)))" label="@($"{base_exchange_currency.currency_name_en} => {b.currency?.currency_name_en}")" />
+                                    <ExchangeRateInput value="@(Convert.ToDecimal(b.exchange_rate_input))" valueChanged="@((value)=>RateChange( r.id, b,Convert.ToDouble( value)))" label="@($"{lang[base_exchange_currency.currency_name_en]} => {lang[b.currency?.currency_name_en]}")" />
                                 }
                               
                                 <h5>@lang["Change Exchange Rate"]</h5>
                                   <hr/>
                                 @foreach (BusinessBranchCurrencyModel b in models.Where(m => m.business_branch_id == r.id &&  m.currency.is_base_exchange_currency == false).OrderByDescending(r => r.currency.is_main).ToList())
                                 { 
-                                    <ExchangeRateInput value="@(Convert.ToDecimal(b.change_exchange_rate_input))" valueChanged="@((value)=>Change_RateChange( r.id, b, Convert.ToDouble(value)))" label="@($"{base_exchange_currency.currency_name_en} => {b.currency?.currency_name_en}")"  />
+                                    <ExchangeRateInput value="@(Convert.ToDecimal(b.change_exchange_rate_input))" valueChanged="@((value)=>Change_RateChange( r.id, b, Convert.ToDouble(value)))" label="@($"{lang[base_exchange_currency.currency_name_en]} => {lang[b.currency?.currency_name_en]}")"  />
                                 }
                             }
                             <Spacing Number="16" />
