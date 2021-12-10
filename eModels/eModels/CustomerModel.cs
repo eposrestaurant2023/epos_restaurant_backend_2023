@@ -20,7 +20,7 @@ namespace eModels
         public Guid? business_branch_id { get; set; }
 
 
-        public string customer_group_name { get; set; }
+  
 
 
         [ForeignKey("customer_group_id")]
