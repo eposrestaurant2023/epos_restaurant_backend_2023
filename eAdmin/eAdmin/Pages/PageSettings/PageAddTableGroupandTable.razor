@@ -36,7 +36,6 @@
                             <ValidationMessage For="@(() => model.outlet_id)" />
                         </SelectOutlet>
                         <ComInputCheckBox @bind-value="@model.status" label="@lang["Status"]" />
-
                     </UIContainerBox>
                     <UIContainerBox Title="@lang["Table Information"]">
                         <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
@@ -45,6 +44,14 @@
                             </div>
                             <div>
                                 <NumberInputInt label="@lang["Max"]" @bind-text="@max" placeholder="@lang["Max"]" />
+                            </div>
+                        </div>
+                        <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
+                            <div>
+                                <NumberInputDouble label="@lang["Width"]" @bind-text="@width" />
+                            </div>
+                            <div>
+                                <NumberInputDouble label="@lang["Height"]" @bind-text="@height" />
                             </div>
                         </div>
                         <div class="uk-child-width-1-2 uk-grid-small" uk-grid>
@@ -59,40 +66,58 @@
                         <div class="uk-width-1">
                             <Button type="button" OnClick="@Add_Table">@lang["Add Table"]</Button>
                         </div>
-                        <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                            <tr>
-                                <ThAuto>@lang["Table #"]</ThAuto>
-                                <th>@lang["Price Rule"]</th>
-                                <Th></Th>
-                            </tr>
-                            <tr>
-                                <ThAuto>@lang["Apply All"]</ThAuto>
-                                <th>
-                                    <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
-                                </th>
-                                <th></th>
-                            </tr>
-                            @foreach (var s in model.tables.Where(r => r.is_deleted == false).ToList())
-                            {
-
+                        <Spacing Number="10" />
+                        <div class="uk-overflow-auto table-scroll">
+                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                 <tr>
-                                    <td>
-                                        <TextInput label="" @bind-text="@s.table_name" />
-                                    </td>
-                                    <td>
-                                        <SelectPriceRule @bind-selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
-                                    </td>
-                                    <td>
-                                        <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
-                                    </td>
+                                    <ThAuto>@lang["Table #"]</ThAuto>
+                                    <ThCenter width="100px">@lang["Width"]</ThCenter>
+                                    <ThCenter width="100px">@lang["Height"]</ThCenter>
+                                    <th>@lang["Shape"]</th>
+                                    <th>@lang["Price Rule"]</th>
+                                    <Th></Th>
                                 </tr>
-                            }
-                        </table>
+                                <tr>
+                                    <ThAuto>@lang["Apply All"]</ThAuto>
+                                    <ThCenter>
+                                    </ThCenter>
+                                    <ThCenter>
+                                    </ThCenter>
+                                    <th>
+                                        <SelectShape @bind-selected_value="@shape"/>
+                                    </th>
+                                    <th>
+                                        <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                @foreach (var s in model.tables.Where(r => r.is_deleted == false).ToList())
+                                {
 
-
+                                    <tr>
+                                        <td>
+                                            <TextInput label="" @bind-text="@s.table_name" />
+                                        </td>
+                                        <TdCenter>
+                                            <NumberInputDouble @bind-text="@s.width" />
+                                        </TdCenter>
+                                        <TdCenter>
+                                            <NumberInputDouble @bind-text="@s.height" />
+                                        </TdCenter>
+                                        <td>
+                                            <SelectShape @bind-selected_value="@s.shape" />
+                                        </td>
+                                        <td>
+                                            <SelectPriceRule selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
+                                        </td>
+                                        <td>
+                                            <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
                     </UIContainerBox>
-
-
                 </UIGridCenter>
             </PageBody>
             <PageFooter>
@@ -109,19 +134,16 @@
     [Parameter] public int id { get; set; } = 0;
     [Parameter] public string business_branch_id { get; set; }
     TableGroupModel model = new TableGroupModel();
-
     BusinessBranchModel business_branch { get; set; }
     string prefix = "T";
     string number_format = "00";
     int min = 1;
+    double width = 60, height = 60;
     int max = 10;
     Guid outlet_id = Guid.Empty;
 
     string ControllerApi = "TableGroup";
     bool ShowModel = false;
-
-
-
     private int? _price_rule;
 
     public int? price_rule
@@ -131,6 +153,18 @@
         {
             _price_rule = value;
             model.tables.ForEach(r => r.price_rule_id = _price_rule);
+        }
+    }
+
+    private string? _shape = "Rectangle";
+
+    public string? shape
+    {
+        get { return _shape; }
+        set
+        {
+            _shape = value;
+            model.tables.ForEach(r => r.shape = _shape);
         }
     }
 
@@ -155,7 +189,7 @@
         string api_url = ControllerApi;
         api_url = api_url + $"({id})?";
         api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
-        api_url = api_url + "tables($select = id,table_name,height,width,position_x_percent,position_y_percent,price_rule_id;$filter= is_deleted  eq false)";
+        api_url = api_url + "tables($select = id,table_name,height,width,position_x_percent,shape,position_y_percent,price_rule_id;$filter= is_deleted  eq false)";
 
 
         var resp = await http.ApiGet(api_url);
@@ -214,8 +248,10 @@
         {
             model.tables.Add(new TableModel()
             {
-                table_name = prefix + min.ToString(number_format)
-
+                table_name = prefix + min.ToString(number_format),
+                width = width,
+                height = height,
+                shape = shape
             });
             min = min + 1;
         }
@@ -232,4 +268,6 @@
             s.is_deleted = true;
         }
     }
+
+
 }

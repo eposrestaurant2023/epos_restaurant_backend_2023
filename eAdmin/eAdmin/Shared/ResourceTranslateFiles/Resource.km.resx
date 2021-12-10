@@ -1137,6 +1137,24 @@
   <data name="Total Payment" xml:space="preserve">
     <value>ការទូទាត់សរុប</value>
   </data>
+	<data name="Height" xml:space="preserve">
+    <value>កម្ពស់</value>
+  </data>
+	<data name="Width" xml:space="preserve">
+    <value>ទទឹង</value>
+  </data>
+	<data name="Circle" xml:space="preserve">
+    <value>រង្វង់</value>
+  </data>
+	<data name="Rectangle" xml:space="preserve">
+    <value>ចតុកោណ</value>
+  </data>
+	<data name="Shape" xml:space="preserve">
+    <value>រូបរាងតុ</value>
+  </data>
+	<data name="Table Shape" xml:space="preserve">
+    <value>រូបរាងតុ</value>
+  </data>
 	<data name="Dollar" xml:space="preserve">
     <value>ដុល្លារ</value>
   </data>
