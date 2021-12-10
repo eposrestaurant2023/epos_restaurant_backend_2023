@@ -84,7 +84,7 @@
                                     <ThCenter>
                                     </ThCenter>
                                     <th>
-                                        <SelectShape @bind-selected_value="@shape" />
+                                        <SelectShape @bind-selected_value="@shape"/>
                                     </th>
                                     <th>
                                         <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
@@ -156,7 +156,7 @@
         }
     }
 
-    private string? _shape;
+    private string? _shape = "Rectangle";
 
     public string? shape
     {

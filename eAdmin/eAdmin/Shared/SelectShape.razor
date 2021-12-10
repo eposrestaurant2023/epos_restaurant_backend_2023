@@ -2,10 +2,8 @@
 @inject IStringLocalizer<Resource> lang
 
 <select style="width:150px" id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small">
-   
-    <option value="">@lang[empty_text]</option>
-    <option value="Circle">@lang["Circle"]</option>
     <option value="Rectangle">@lang["Rectangle"]</option>
+    <option value="Circle">@lang["Circle"]</option>
 </select>
 
 @code{
