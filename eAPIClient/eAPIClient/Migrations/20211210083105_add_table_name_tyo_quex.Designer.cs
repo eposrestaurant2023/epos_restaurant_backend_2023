@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211210083105_add_table_name_tyo_quex")]
+    partial class add_table_name_tyo_quex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1679,9 +1681,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("allow_send_to_printer")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("allow_send_to_printer_when_change_sale_type")
                         .HasColumnType("bit");
 
                     b.Property<bool>("allow_send_to_printer_when_change_table")

@@ -19,6 +19,8 @@ namespace eShareModel
         public int submited_status_id { get; set; }      
         public bool allow_send_to_printer_when_change_table { get; set; }     
         public bool allow_send_to_printer_when_merge_table { get; set; }
+        public bool allow_send_to_printer_when_change_sale_type { get; set; }
+
 
         public string note { get; set; }
 

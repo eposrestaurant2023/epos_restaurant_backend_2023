@@ -67,7 +67,19 @@ namespace eAPIClient.Controllers
                 {
                     return BadRequest(new BadRequestModel { message = "please_start_cashier_shift" });
                 }
-                
+
+                var check_sale_closed = db.Sales.Where(r => r.id==model.id && (r.is_closed??false) ==true);
+                if (model.id != Guid.Empty)
+                {
+                    if (check_sale_closed.Any())
+                    {
+                        return BadRequest(new BadRequestModel { message = "this_order_is_closed" });
+                    }
+                }
+               
+
+
+
 
                 model.is_synced = false;
                 DocumentNumberModel _saleNumber = new DocumentNumberModel();

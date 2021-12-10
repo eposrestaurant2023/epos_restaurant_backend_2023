@@ -25,6 +25,7 @@ namespace eModels
         public double height { get; set; } = 60;
         public double width { get; set; } = 60;
         public string shape { get; set; } 
+        public int sort_order { get; set; } 
 
 
 
