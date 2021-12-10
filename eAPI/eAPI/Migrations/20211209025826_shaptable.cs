@@ -13,12 +13,6 @@ namespace eAPI.Migrations
                 nullable: true,
                 collation: "Khmer_100_BIN");
 
-            migrationBuilder.AddColumn<string>(
-                name: "customer_group_name",
-                table: "tbl_customer",
-                type: "nvarchar(max)",
-                nullable: true,
-                collation: "Khmer_100_BIN");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

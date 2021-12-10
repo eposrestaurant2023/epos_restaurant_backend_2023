@@ -95,12 +95,18 @@
                                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                                 <tr>
                                                     <ThAuto>@lang["Table​ Name"]</ThAuto>
+                                                    <ThCenter>@lang["Width"]</ThCenter>
+                                                    <ThCenter>@lang["Height"]</ThCenter>
+                                                    <th>@lang["Shape"]</th>
                                                     <th>@lang["Price Rule"]</th>
                                                 </tr>
                                                 @foreach (var s in d.tables)
                                                 {
                                                     <tr>
                                                         <td>@s.table_name</td>
+                                                        <TdCenter>@s.width</TdCenter>
+                                                        <TdCenter>@s.height</TdCenter>
+                                                        <td>@lang[s.shape]</td>
                                                         <td>@s.price_rule?.price_name</td>
                                                     </tr>
                                                 }
@@ -147,7 +153,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,height,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
+            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,height,shape,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
         }
 
         var resp = await http.ApiGetOData(api_url);

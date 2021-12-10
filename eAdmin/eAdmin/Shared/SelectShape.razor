@@ -1,0 +1,28 @@
+﻿
+@inject IStringLocalizer<Resource> lang
+
+<select style="width:150px" id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-width-medium uk-form-small">
+   
+    <option value="">@lang[empty_text]</option>
+    <option value="Circle">@lang["Circle"]</option>
+    <option value="Rectangle">@lang["Rectangle"]</option>
+</select>
+
+@code{
+
+    [Parameter] public string selected_value { get; set; }
+    [Parameter] public string label { get; set; } = "";
+    [Parameter] public bool show_empty_select { get; set; } = false;
+    [Parameter] public string empty_text { get; set; } = "Please Select";
+
+    [Parameter] public EventCallback<String> selected_valueChanged { get; set; }
+
+    Guid id = Guid.NewGuid();
+    private async Task SelectedValueChange(string n)
+    {
+        selected_value = n;
+        await selected_valueChanged.InvokeAsync(selected_value);
+    }
+}
+
+
