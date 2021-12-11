@@ -56,7 +56,7 @@ namespace eAPIClient.Controllers
                
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] SaleModel model)
+        public async Task<ActionResult<string>> Save([FromBody] SaleModel model,bool is_edit =true)
         {
             try
             {
@@ -67,13 +67,16 @@ namespace eAPIClient.Controllers
                 {
                     return BadRequest(new BadRequestModel { message = "please_start_cashier_shift" });
                 }
-
-                var check_sale_closed = db.Sales.Where(r => r.id==model.id && (r.is_closed??false) ==true);
-                if (model.id != Guid.Empty)
+                if (!is_edit)
                 {
-                    if (check_sale_closed.Any())
+                    //check if bill is already close
+                    var check_sale_closed = db.Sales.Where(r => r.id == model.id && (r.is_closed ?? false) == true);
+                    if (model.id != Guid.Empty)
                     {
-                        return BadRequest(new BadRequestModel { message = "this_order_is_closed" });
+                        if (check_sale_closed.Any())
+                        {
+                            return BadRequest(new BadRequestModel { message = "this_order_is_closed" });
+                        }
                     }
                 }
                
@@ -214,6 +217,7 @@ namespace eAPIClient.Controllers
             return working_day;
 
         }
+
         async Task<CashierShiftModel> GetCashierShiftInfo(SaleModel model)
         {
 
@@ -279,7 +283,9 @@ namespace eAPIClient.Controllers
             db.Database.ExecuteSqlRaw("exec sp_cancel_print_bill_by_table " + table_id);
 
             return Ok();
-        }
+        } 
+        
+       
 
         [HttpPost]
         [Route("PrintRequestBill/{id}")]
