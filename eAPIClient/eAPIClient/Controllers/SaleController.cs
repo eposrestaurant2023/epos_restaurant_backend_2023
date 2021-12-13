@@ -56,7 +56,7 @@ namespace eAPIClient.Controllers
                
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] SaleModel model,bool is_edit =true)
+        public async Task<ActionResult<string>> Save([FromBody] SaleModel model,bool is_edit =false)
         {
             try
             {

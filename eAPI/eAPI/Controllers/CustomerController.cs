@@ -65,7 +65,7 @@ namespace eAPI.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] CustomerModel p, bool allow_duplicate_name = false)
+        public async Task<ActionResult<string>> Save([FromBody] CustomerModel p, bool allow_duplicate_name = false,bool is_synch_from_client=false)
         {
 
             bool is_new = true;
@@ -128,6 +128,18 @@ namespace eAPI.Controllers
             {
 
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+                db.Database.ExecuteSqlRaw($"exec sp_update_customer_information '{p.id}'");
+                if (is_synch_from_client)
+                {
+                    db.Database.ExecuteSqlRaw($"exec sp_update_sync_status '{p.id}','{p.last_update_business_branch_id}'");
+                }else
+                {
+                    db.Database.ExecuteSqlRaw($"exec sp_update_sync_status '{p.id}',''");
+                }
+
+                
+
                 if (is_new)
                 {
                     await app.SaveDocumentNumber(19);

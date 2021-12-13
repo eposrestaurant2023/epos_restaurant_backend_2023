@@ -226,5 +226,18 @@ namespace eAPIClient.Models
         public CashierShiftModel cashier_shift { get; set; }
     }
 
+    public class CustomerBusinessBranchModel
+    {
+        public Guid customer_id { get; set; }
+        public CustomerModel customer { get; set; }
+         
+
+        public Guid business_branch_id { get; set; }
+      
+
+        public bool is_synced { get; set; }
+    }
+
+
 
 }

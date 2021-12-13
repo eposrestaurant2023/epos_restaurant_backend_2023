@@ -165,6 +165,17 @@ namespace eAPIClient.Services
             }
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
             System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt"));
+        } 
+        public void sendSyncRemoteDataRequest()
+        {
+
+            string path = config.GetValue<string>("sync_request_part"); ;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
+            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.bat"));
         }
 
         public void sendPrintRequest(PrintRequestModel model)

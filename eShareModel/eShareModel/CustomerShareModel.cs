@@ -58,5 +58,7 @@ namespace eShareModel
         public string note { get; set; }
         public bool is_synced { get; set; } = false;
 
+        public Guid? last_update_business_branch_id { get; set; }
+
     }
 }
