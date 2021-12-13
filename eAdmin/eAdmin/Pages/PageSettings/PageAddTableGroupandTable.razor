@@ -75,6 +75,7 @@
                                     <ThCenter width="100px">@lang["Height"]</ThCenter>
                                     <th>@lang["Shape"]</th>
                                     <th>@lang["Price Rule"]</th>
+                                    <ThCenter>@lang["Sort Order"]</ThCenter>
                                     <Th></Th>
                                 </tr>
                                 <tr>
@@ -89,6 +90,7 @@
                                     <th>
                                         <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
                                     </th>
+                                    <Th></Th>
                                     <th></th>
                                 </tr>
                                 @foreach (var s in model.tables.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order).ToList())
@@ -110,6 +112,9 @@
                                         <td>
                                             <SelectPriceRule selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="150px" />
                                         </td>
+                                        <TdCenter>
+                                            <NumberInputInt @bind-text="@s.sort_order"/>
+                                        </TdCenter>
                                         <td>
                                             <Icon icon="delete" OnClick="@(()=>Delete_Table(s))" />
                                         </td>
@@ -140,6 +145,7 @@
     string prefix = "T";
     string number_format = "00";
     int min = 1;
+    int sort_order;
     double width = 60, height = 60;
     int max = 10;
     Guid outlet_id = Guid.Empty;
@@ -191,7 +197,7 @@
         string api_url = ControllerApi;
         api_url = api_url + $"({id})?";
         api_url = api_url + "$expand=outlet($select=id,outlet_name_en,outlet_name_kh,business_branch_id;$expand=business_branch($select=id,business_branch_name_en,business_branch_name_kh);$filter= is_deleted  eq false),";
-        api_url = api_url + "tables($select = id,table_name,height,width,position_x_percent,shape,position_y_percent,price_rule_id;$filter= is_deleted  eq false)";
+        api_url = api_url + "tables($select = id,sort_order,table_name,height,width,position_x_percent,shape,position_y_percent,price_rule_id;$filter= is_deleted  eq false;$orderby=sort_order desc)";
 
 
         var resp = await http.ApiGet(api_url);
@@ -255,7 +261,8 @@
                 table_name = prefix + min.ToString(number_format),
                 width = width,
                 height = height,
-                shape = shape
+                shape = shape,
+                sort_order = model.tables.Count() +1
             });
             min = min + 1;
         }
