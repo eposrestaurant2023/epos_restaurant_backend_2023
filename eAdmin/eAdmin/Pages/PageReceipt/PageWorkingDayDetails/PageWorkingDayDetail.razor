@@ -29,40 +29,51 @@
             <MudTabs PanelClass="pa-6">
                 <MudTabPanel Text="@lang["Working Day Information"]">
                     <ComWorkingDayDetail_Information model="@model" />
-                    @foreach (var d in list_summaries.Select(r => r.group).Distinct())
+                    @if (list_summaries != null)
                     {
-                    <UIGridCenter>
+                        @foreach (var d in list_summaries.Select(r => r.group).Distinct())
+                        {
+                <UIGridCenter>
+                    @if (!string.IsNullOrEmpty(d.ToString()))
+                    {
                         <UIContainerBox Title="@lang[d.ToString()]">
                             <ListTable ClassWidth="uk-width-1-1">
                                 @foreach (var t in list_summaries.Where(r => r.group == d.ToString()))
+                                {
+                                    if (t.title == "separator")
                                     {
-                                        if (t.title == "separator")
-                                        {
-                                <td colspan="3">
-                                    <hr />
-                                </td>
+                                        <td colspan="3">
+                                            <hr />
+                                        </td>
 
-                                        }
-                                        else
+                                    }
+                                    else
+                                    {
+                                        @if (!string.IsNullOrEmpty(t.title))
                                         {
-                                <ListTableItem ItemTitle="@lang[t.title]" IsBetweenValue="true">@t.value</ListTableItem>
+                                            <ListTableItem ItemTitle="@lang[t.title]" IsBetweenValue="true">@t.value</ListTableItem>
                                         }
 
                                     }
+
+                                }
                             </ListTable>
                         </UIContainerBox>
-                    </UIGridCenter>
+                    }
+
+                </UIGridCenter>
+                        }
                     }
                     <div class="invoice_footer_description">
                         <div>
                             @lang["Created by"] @model.created_by @lang["on"] @model.created_date.ToString(gv.date_time_format)
                         </div>
                         @if (model.is_deleted)
-    {
-                        <div>
-                            @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
-                        </div>
-    }
+                        {
+                            <div>
+                                @lang["Deleted by"] @model.deleted_by @lang["on"] @(model.deleted_date != null? model.deleted_date.Value.ToString(gv.date_time_format):"")
+                            </div>
+                        }
                         <div>@lang["Last modified by"] @model.last_modified_by @lang["on"] @model.last_modified_date</div>
                     </div>
                 </MudTabPanel>
