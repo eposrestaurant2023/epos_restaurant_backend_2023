@@ -98,7 +98,9 @@
                                                     <ThCenter>@lang["Width"]</ThCenter>
                                                     <ThCenter>@lang["Height"]</ThCenter>
                                                     <th>@lang["Shape"]</th>
+                                                    <ThCenter>@lang["Sort Order"]</ThCenter>
                                                     <th>@lang["Price Rule"]</th>
+
                                                 </tr>
                                                 @foreach (var s in d.tables)
                                                 {
@@ -112,6 +114,9 @@
                                                                 @s.shape
                                                             }
                                                         </td>
+                                                        <TdCenter>
+                                                            @s.sort_order
+                                                        </TdCenter>
                                                         <td>@s.price_rule?.price_name</td>
                                                     </tr>
                                                 }
@@ -158,7 +163,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,height,shape,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
+            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,sort_order,height,shape,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false;$orderby=sort_order desc),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
         }
 
         var resp = await http.ApiGetOData(api_url);
