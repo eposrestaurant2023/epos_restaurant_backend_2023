@@ -93,7 +93,7 @@
                                     <Th></Th>
                                     <th></th>
                                 </tr>
-                                @foreach (var s in model.tables.Where(r => r.is_deleted == false).ToList())
+                                @foreach (var s in model.tables.Where(r => r.is_deleted == false).OrderBy(r=>r.sort_order).ToList())
                                 {
 
                                     <tr>
@@ -121,6 +121,8 @@
                                     </tr>
                                 }
                             </table>
+                            <Spacing Number="4"/>
+                            <Button OnClick="@AddNewTable">@lang["Add Table"]</Button>
                         </div>
                     </UIContainerBox>
                 </UIGridCenter>
@@ -186,7 +188,7 @@
         {
             business_branch = gv.bussiness_branches.Where(r => r.id == Guid.Parse(business_branch_id)).FirstOrDefault();
         }
-        is_loading = false;
+    is_loading = false;
     }
 
     async Task LoadData()
@@ -217,17 +219,19 @@
             return;
         }
 
-        TableGroupModel d = model;
+        
         if (!is_saving)
         {
             is_saving = true;
-            Object obj = new Object();
-            d.outlet = null;
-            TableGroupModel save_table_group = JsonSerializer.Deserialize<TableGroupModel>(JsonSerializer.Serialize(d));
+             TableGroupModel save_table_group = JsonSerializer.Deserialize<TableGroupModel>(JsonSerializer.Serialize(model));
+            
+          
+            save_table_group.outlet = null;
+            save_table_group.tables.ForEach(r => r.price_rule_id = null);
             var res = await http.ApiPost($"{ControllerApi}/save", save_table_group);
             if (res.IsSuccess)
             {
-                obj = JsonSerializer.Deserialize<TableGroupModel>(res.Content.ToString());
+                 
 
                 toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
                 nav.NavigateTo($"tablegroupandtable");
@@ -262,6 +266,15 @@
             });
             min = min + 1;
         }
+    }
+
+    void AddNewTable(){
+         model.tables.Add(new TableModel()
+            {
+                table_name = (model.tables.Where(r=>r.is_deleted==false).Count()+ 1).ToString("00"),
+               
+              sort_order = model.tables.Where(r=>r.is_deleted==false).Count()+ 1
+            });
     }
 
     void Delete_Table(TableModel s)

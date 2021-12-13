@@ -61,6 +61,18 @@ namespace eAPI.Controllers
 
             return SingleResult.Create(s);
         }
+
+
+        [HttpPost]
+        [Route("status/{id}")]
+        public async Task<ActionResult<CustomerModel>> UpdateStatus(Guid id)
+        {
+            var d = await db.Customers.FindAsync(id);
+            d.status = !d.status;
+            db.Customers.Update(d);
+            await db.SaveChangesAsync();
+            return Ok(d);
+        }
     }
 
 }

@@ -152,10 +152,10 @@ namespace eAPIClient.Controllers
                 {
                     var _model = _modelData.FirstOrDefault();
                     _model.is_synced = true;
-                    var _syncResp = await http.ApiPost("Customer/Save", _model);
+                    var _syncResp = await http.ApiPost("Customer/Save?is_synch_from_client=true", _model);
                     if (!_syncResp.IsSuccess)
                     {
-                        
+                        return Ok(_model);
                         return BadRequest();
                    
                     }
@@ -288,7 +288,82 @@ namespace eAPIClient.Controllers
             {
                 return BadRequest();
             } 
-        } 
+        }
+
+
+        [HttpGet("SyncRemoteData")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncRemoteData(Guid business_branch_id)
+        {
+            try
+            {
+                //1. Sync Customer 
+                await SyncRemoteCustomer(business_branch_id);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new BadRequestModel() { message = ex.Message });
+            }
+        }
+
+
+
+        async Task SyncRemoteCustomer(Guid business_branch_id)
+        {
+            List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
+            string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {business_branch_id}";
+            var resp = await http.ApiGetOData(query);
+            if (resp.IsSuccess)
+            {
+                data = JsonSerializer.Deserialize<List<CustomerBusinessBranchModel>>(resp.Content.ToString());
+                if (data.Any())
+                {
+                    foreach(var b in data)
+                    {
+                        if (SaveRemoteCustomerToLocalCustomer(b.customer))
+                        {
+                            
+
+                            b.customer = null;
+                            b.is_synced = true;
+                            await http.ApiPost("CustomerBusinessBranch/Save", b);
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+        bool SaveRemoteCustomerToLocalCustomer(CustomerModel model)
+        {
+            try
+            {
+                var _modelCheck = db.Customers.Where(r => r.id == model.id).AsNoTracking();
+                if (_modelCheck.Count() > 0)
+                {
+                    db.Customers.Update(model);
+                }
+                else
+                {
+                    db.Customers.Add(model);
+                }
+
+                db.SaveChanges();
+
+                return true;
+                
+            }
+            catch (Exception ex)
+            {
+                var _ex = ex;
+                
+            }
+            return false;
+        }
+
 
 
         [HttpPost("GetRemoteData")]    

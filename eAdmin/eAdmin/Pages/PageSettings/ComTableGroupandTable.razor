@@ -102,7 +102,7 @@
                                                     <th>@lang["Price Rule"]</th>
 
                                                 </tr>
-                                                @foreach (var s in d.tables)
+                                                @foreach (var s in d.tables.OrderBy(r=>r.sort_order))
                                                 {
                                                     <tr>
                                                         <td>@s.table_name</td>

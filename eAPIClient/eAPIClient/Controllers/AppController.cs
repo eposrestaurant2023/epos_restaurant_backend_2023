@@ -72,6 +72,14 @@ namespace eAPIClient.Controllers
         {
             app.sendSyncRequest();
             return Ok();
+        }  
+        
+        [HttpPost]
+        [Route("SendSyncRemoteDataRequest")]
+        public ActionResult<string> SendSyncRemoteDataRequest()
+        {
+            app.sendSyncRemoteDataRequest();
+            return Ok();
         }
 
 

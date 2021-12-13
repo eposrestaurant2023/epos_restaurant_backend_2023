@@ -13,6 +13,8 @@ namespace eModels
 
         public Guid business_branch_id { get; set; }
         [ForeignKey("business_branch_id")]
-        public BusinessBranchModel business_branch { get; set; }       
+        public BusinessBranchModel business_branch { get; set; }
+
+        public bool is_synced { get; set; }
     }
 }
