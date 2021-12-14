@@ -1,4 +1,4 @@
-﻿@page "/cashiershift/{id}"
+﻿ @page "/cashiershift/{id}"
 @inherits PageCahsierShiftDetails
 <Loading is_loading="@(is_loading || is_loading_data)" />
 @if (!is_loading && !is_error)
@@ -45,7 +45,11 @@
                                         }
                                         else
                                         {
-                                            <ListTableItem ItemTitle="@lang[t.title]" IsBetweenValue="true">@t.value</ListTableItem>
+                                            @if (!string.IsNullOrEmpty(t.title))
+                                            {
+                                                <ListTableItem ItemTitle="@lang[t.title]" IsBetweenValue="true">@t.value</ListTableItem>
+                                            }
+
                                         }
 
                                     }

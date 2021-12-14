@@ -26,7 +26,13 @@
             <table>
                 <tr>
                     <th>@lang["Gender"]</th>
-                    <td>@lang[model.gender]</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(model.gender))
+                        {
+                            @lang[model.gender]
+                        }
+
+                    </td>
                 </tr>
                 <tr>
                     <th>@lang["City"]</th>

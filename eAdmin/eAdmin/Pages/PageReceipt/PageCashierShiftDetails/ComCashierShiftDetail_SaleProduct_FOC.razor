@@ -22,7 +22,13 @@
                             {
                             <tr>
                                 <td class="uk-padding-remove-bottom">
-                                    <div class="uk-text-uppercase uk-text-bold">@c.revenue_group_name.ToString()</div>
+                                    <div class="uk-text-uppercase uk-text-bold">
+
+                                        @if (!string.IsNullOrEmpty(c.revenue_group_name))
+                                        {
+                                            @c.revenue_group_name.ToString()
+                                        }
+                                        </div>
                                 </td>
 
                                 <TdCenter ClassName="uk-padding-remove-bottom">
@@ -62,54 +68,72 @@
                 {
                     @if (models.Any())
                     {
-                        <tbody>
-                            @foreach (var c in models.Select(r => r.product_group_en).Distinct().ToList())
-                            {
-                                <tr>
-                                    <td colspan="3" class="uk-padding-remove-bottom">
-                                        <div class="uk-text-uppercase uk-text-bold">@c.ToString()</div>
-                                    </td>
-                                </tr>
-                                @foreach (var g in models.Where(r => r.product_group_en == c.ToString()).Select(r => r.product_category_en).Distinct().ToList())
+            <tbody>
+                @foreach (var c in models.Select(r => r.product_group_en).Distinct().ToList())
+                {
+                <tr>
+                    <td colspan="3" class="uk-padding-remove-bottom">
+                        <div class="uk-text-uppercase uk-text-bold">
+                            @if (!string.IsNullOrEmpty(c))
                                 {
-                                    <tr>
-                                        <td colspan="3" class="uk-padding-remove-bottom uk-padding-remove-top">
-                                            <div class="uk-margin-small-left uk-text-bold">@g.ToString()</div>
-                                        </td>
-                                    </tr>
-                                    @foreach (var p in models.Where(r => r.product_category_en == g.ToString()).ToList())
-                                    {
-                                        <tr>
-                                            <td>
-                                                <div class="uk-margin-small-left">@p.product_name_en</div>
-                                            </td>
-                                            <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
-                                            <TdRight>@p.total_amount.ToString(gv.main_currency_format)</TdRight>
-                                        </tr>
-
-                                    }
-                                    foreach (var gt in models.Where(r => r.product_category_en == g.ToString()).Select(r => r.product_category_en).Distinct().ToList())
-                                    {
-                                        <tr>
-                                            <TdRight ClassName="uk-text-bold">@lang["Total"] - @gt.ToString()</TdRight>
-                                            <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                                            <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
-                                        </tr>
-                                    }
-
+                                 @c.ToString()
                                 }
-                                @foreach (var tc in models.Where(r => r.product_group_en == c).Select(r => r.product_group_en).Distinct().ToList())
-                                {
-                                    <tr>
-                                        <TdRight ClassName="uk-text-bold">@lang["Total"] - @c.ToString()</TdRight>
-                                        <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == tc.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
-                                        <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == tc.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdCenter>
-                                    </tr>
-
-
-                                }
+                        </div>
+                    </td>
+                </tr>
+                @foreach (var g in models.Where(r => r.product_group_en == c.ToString()).Select(r => r.product_category_en).Distinct().ToList())
+                    {
+                <tr>
+                    <td colspan="3" class="uk-padding-remove-bottom uk-padding-remove-top">
+                        <div class="uk-margin-small-left uk-text-bold">
+                            @if(!string.IsNullOrEmpty(c)){
+                            @g.ToString()
                             }
-                        </tbody>
+
+
+                        </div>
+                    </td>
+                </tr>
+                @if(models.Where(r => r.product_category_en == g.ToString()) != null)
+                {
+                @foreach (var p in models.Where(r => r.product_category_en == g.ToString()).ToList())
+                    {
+                @if(p !=null){
+                <tr>
+                    <td>
+                        <div class="uk-margin-small-left">@p.product_name_en</div>
+                    </td>
+                    <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
+                    <TdRight>@p.total_amount.ToString(gv.main_currency_format)</TdRight>
+                </tr>
+                        }
+
+                    }
+                }
+
+
+                            foreach (var gt in models.Where(r => r.product_category_en == g.ToString()).Select(r => r.product_category_en).Distinct().ToList())
+                            {
+                <tr>
+                    <TdRight ClassName="uk-text-bold">@lang["Total"] - @gt.ToString()</TdRight>
+                    <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                    <TdRight ClassName="uk-text-bold">@models.Where(r => r.product_category_en == g.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdRight>
+                </tr>
+                            }
+                @foreach (var tc in models.Where(r => r.product_group_en == c).Select(r => r.product_group_en).Distinct().ToList())
+                        {
+                <tr>
+                    <TdRight ClassName="uk-text-bold">@lang["Total"] - @c.ToString()</TdRight>
+                    <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == tc.ToString()).Sum(r => r.quantity).ToString(gv.quantity_format)</TdCenter>
+                    <TdCenter ClassName="uk-text-bold">@models.Where(r => r.product_group_en == tc.ToString()).Sum(r => r.total_amount).ToString(gv.main_currency_format)</TdCenter>
+                </tr>
+
+
+                        }
+                    }
+
+                }
+            </tbody>
                         <tfoot>
                             <tr>
                                 <TdRight ClassName="uk-text-bold">@lang["Grand Total"]</TdRight>
