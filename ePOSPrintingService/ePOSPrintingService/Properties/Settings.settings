@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ePOSPrintingService.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DBConnection" Type="System.String" Scope="User">
-      <Value Profile="(Default)">yqvCU6H7jCxODH8z49Lq1DgjjsUjy+CGLHCPbk5dc2ans4lapfIy7YC/1k7slsjwEep3Ba9dKaGyMDB5c2xe5tC9Anp2K/s8azqJiPMytqghMI2swRsRHvrfbqmmWsfg/FSnHdrXacyQwtwJEsZTJyDbzsZhVnfLpg+rmpIPEvR9KP9/h9Viwke488+Qdb9z</Value>
-    </Setting>
     <Setting Name="FileWatcherPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\deleteme\</Value>
     </Setting>
@@ -154,6 +151,9 @@
     "image_path":"C:\\www\\host\\restaurant_client_api\\uploads\\telegram_images\\",
     "image_url":"http://customer.esoftix.com:9597/restaurant_client_api/uploads/telegram_images/"
 }</Value>
+    </Setting>
+    <Setting Name="DBConnection" Type="System.String" Scope="User">
+      <Value Profile="(Default)">yqvCU6H7jCxODH8z49Lq1DgjjsUjy+CGLHCPbk5dc2ans4lapfIy7YC/1k7slsjwEep3Ba9dKaGyMDB5c2xe5tC9Anp2K/s8azqJiPMytqghMI2swRsRHvrfbqmmWsfg/FSnHdrXacyQwtwJEsZTJyDbzsZhVnfLpg+rmpIPEvR9KP9/h9Viwke488+Qdb9z</Value>
     </Setting>
   </Settings>
 </SettingsFile>
