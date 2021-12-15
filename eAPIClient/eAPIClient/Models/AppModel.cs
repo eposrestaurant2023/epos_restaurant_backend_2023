@@ -239,5 +239,11 @@ namespace eAPIClient.Models
     }
 
 
+    public class DynamicModel
+    {
+        public string transaction_type { get; set; }
+        public string id { get; set; }
+    }
+
 
 }

@@ -38,6 +38,21 @@ namespace eAPIClient.Controllers
      
        
 
+        [HttpGet("GetDataForSynchronize")] 
+        [AllowAnonymous]
+        public ActionResult<List<DynamicModel>> GetDataForSynchronize()
+        {
+            var d = db.StoreProcedureResults.FromSqlRaw("exec sp_get_data_for_synchronize 'json'").ToList().FirstOrDefault();
+            if (d != null)
+            {
+                string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
+                var data = JsonSerializer.Deserialize<List<DynamicModel>>(r);
+                return Ok(data);
+            }
+            return   Ok(new List<DynamicModel>()) ;
+        } 
+
+        
         [HttpPost("Sale")] 
         [AllowAnonymous]
         public async Task<ActionResult> SyncSale(Guid saleId)
