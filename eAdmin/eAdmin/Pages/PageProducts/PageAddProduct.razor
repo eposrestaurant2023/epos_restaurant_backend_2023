@@ -26,85 +26,77 @@
             <EditForm Model="@model" OnValidSubmit="@(()=>Save_Click())" @attributes="@formAttributes">
                 <DataAnnotationsValidator />
                 <PageBody>
-                    
-                    <Tab>
-                        <TabHeader>
-                            <TabHeaderItem>
-                                @lang["Product Information"] 
-                            </TabHeaderItem>
-                            <TabHeaderItem>
-                                @lang["Modifired"]
-                            </TabHeaderItem>
-                            <TabHeaderItem is_visible="@gv.enable_tax_feature">
-                                @lang["Product Tax"]
-                            </TabHeaderItem>
-                        </TabHeader>
-                        <TabBody>
-                            <TabItem>
-                                <UIGridCenter>
-                                    <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
-                                        <UIFlexCenter>
-                                            <FileUpload @bind-ImageUrl="@model.photo" />
-                                        </UIFlexCenter>
-                                    </UIContainerBox>
-                                    <UIContainerBox>
-                                        <TextInput label="@lang["Code"]" @bind-text="@model.product_code">
-                                        </TextInput>
-                                        <TextInput label="@lang["Name En"]" @bind-text="@model.product_name_en">
-                                            <ValidationMessage For="@(() => model.product_name_en)" />
-                                        </TextInput>
-                                        <TextInput label="@lang["Name Kh"]" @bind-text="@model.product_name_kh" />
-                                        <SelectProductGroup selected_value="@model.product_group_id" selected_valueChanged="@ProductGroupChanged" show_empty="true" empty_text="Please select group" />
-                                        <SelectProductCategory @bind-selected_value="@model.product_category_id" product_group_id="@model.product_group_id" show_empty="true" is_ingredient_category="false">
-                                            <ValidationMessage For="@(()=>model.product_category_id)" />
-                                        </SelectProductCategory>
-                                        <SelectRevenueGroup @bind-selected_value="@model.revenue_group_name" show_empty="true" />
-                                        <SelectKitchenGroupNullable @bind-selected_value="@model.kitchen_group_id" show_empty="true" />
-                                        <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@model.unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
+                    <MudTabs PanelClass="pa-6">
+                        <MudTabPanel Text="@lang["Product Information"]">
+                            <UIGridCenter>
+                                <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
+                                    <UIFlexCenter>
+                                        <FileUpload @bind-ImageUrl="@model.photo" />
+                                    </UIFlexCenter>
+                                </UIContainerBox>
+                                <UIContainerBox>
+                                    <TextInput label="@lang["Code"]" @bind-text="@model.product_code">
+                                    </TextInput>
+                                    <TextInput label="@lang["Name En"]" @bind-text="@model.product_name_en">
+                                        <ValidationMessage For="@(() => model.product_name_en)" />
+                                    </TextInput>
+                                    <TextInput label="@lang["Name Kh"]" @bind-text="@model.product_name_kh" />
+                                    <SelectProductGroup selected_value="@model.product_group_id" selected_valueChanged="@ProductGroupChanged" show_empty="true" empty_text="Please select group" />
+                                    <SelectProductCategory @bind-selected_value="@model.product_category_id" product_group_id="@model.product_group_id" show_empty="true" is_ingredient_category="false">
+                                        <ValidationMessage For="@(()=>model.product_category_id)" />
+                                    </SelectProductCategory>
+                                    <SelectRevenueGroup @bind-selected_value="@model.revenue_group_name" show_empty="true" />
+                                    <SelectKitchenGroupNullable @bind-selected_value="@model.kitchen_group_id" show_empty="true" />
+                                    <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@model.unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
 
-                                        <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@model.unit_category_id" is_select_unit_category="true" show_empty="false">
-                                            <ValidationMessage For="@(()=>model.unit_id)" />
-                                        </SelectUnit>
-                                        <ComInputCheckBox @bind-value="@model.is_allow_discount" label="@lang["Allow Discount"]" />
-                                        <ComInputCheckBox @bind-value="@model.is_allow_free" label="@lang["Allow Free"]" />
-                                        <ComInputCheckBox @bind-value="@model.is_allow_change_price" label="@lang["Allow Change Price"]" />
-                                        <ComInputCheckBox @bind-value="@model.is_open_product" label="@lang["Is Opened Product"]" />
-                                        @if (!model.is_ingredient_product)
-                                        {
-                                            <ComInputCheckBox @bind-value="@model.is_composite_product" label="@lang["Is Composite Menu"]" />
-                                            
-                                        }
-                                        <SelectStatus @bind-selected_value="@model.status" />
-                                    </UIContainerBox>
-                                    <UIContainerBox Title="@lang["Purchase Information"]">
-                                        <NumberInput label="@lang["Cost"]" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
-                                        <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
-                                    </UIContainerBox>
-                                    @if(gv.project_has_inventory){ 
-                                        <ComAddInventoryProduct @bind-model="@model" />
+                                    <SelectUnit is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit"]" @bind-selected_value="@model.unit_id" @bind-unit="@model.unit" unit_category_id="@model.unit_category_id" is_select_unit_category="true" show_empty="false">
+                                        <ValidationMessage For="@(()=>model.unit_id)" />
+                                    </SelectUnit>
+                                    <ComInputCheckBox @bind-value="@model.is_allow_discount" label="@lang["Allow Discount"]" />
+                                    <ComInputCheckBox @bind-value="@model.is_allow_free" label="@lang["Allow Free"]" />
+                                    <ComInputCheckBox @bind-value="@model.is_allow_change_price" label="@lang["Allow Change Price"]" />
+                                    <ComInputCheckBox @bind-value="@model.is_open_product" label="@lang["Is Opened Product"]" />
+                                    @if (!model.is_ingredient_product)
+                                    {
+                                        <ComInputCheckBox @bind-value="@model.is_composite_product" label="@lang["Is Composite Menu"]" />
+
                                     }
-                                    <ComAddProduct_Portion @bind-model="@model" />
-                                    @if(gv.system_feature_status("KOT")){  
-                                        <ComAddProduct_Printer @bind-model="@model" />
-                                    }
-                                    <ComAddProduct_Menu @bind-model="@model" />
-                                    <UIContainerBox Title="@lang["Note"]">
-                                        <TextInput label="" placeholder="@($"{lang["Note"]}...")" @bind-text="@model.note" type="textarea" row="2" />
-                                    </UIContainerBox>
-                                </UIGridCenter>
-                            </TabItem>
-                            <TabItem>
+                                    <SelectStatus @bind-selected_value="@model.status" />
+                                </UIContainerBox>
+                                <UIContainerBox Title="@lang["Purchase Information"]">
+                                    <NumberInput label="@lang["Cost"]" class_name="uk-input uk-form-small" @bind-text="@model.cost" text_format="@gv.currency_format" />
+                                    <SelectVendorTypeaheadForm @bind-vendor="model.vendor" vendor_id="@(model.vendor_id == null ? 0:Convert.ToInt32(model.vendor_id))" vendor_idChanged="@((val)=>model.vendor_id=(val==0?null:val))" />
+                                </UIContainerBox>
+                                @if (gv.project_has_inventory)
+                                {
+                                    <ComAddInventoryProduct @bind-model="@model" />
+                                }
+                                <ComAddProduct_Portion @bind-model="@model" />
+                                @if (gv.system_feature_status("KOT"))
+                                {
+                                    <ComAddProduct_Printer @bind-model="@model" />
+                                }
+                                <ComAddProduct_Menu @bind-model="@model" />
+                                <UIContainerBox Title="@lang["Note"]">
+                                    <TextInput label="" placeholder="@($"{lang["Note"]}...")" @bind-text="@model.note" type="textarea" row="2" />
+                                </UIContainerBox>
+                            </UIGridCenter>
+                        </MudTabPanel>
+                        <MudTabPanel Text="@lang["Modifired"]">
+                            <UIGridCenter>
+                                <ComAddProduct_Modifier @bind-model="@model" />
+                            </UIGridCenter>
+                        </MudTabPanel>
+                        @if (@gv.enable_tax_feature)
+                        {
+                            <MudTabPanel Text="@lang["Product Tax"]">
                                 <UIGridCenter>
-                                    <ComAddProduct_Modifier @bind-model="@model"/>
+                                  <ComAddProduct_ProductTax model="@model" />
                                 </UIGridCenter>
-                            </TabItem>
-                            <TabItem is_visible="@gv.enable_tax_feature">
-                                <UIGridCenter>
-                                    <ComAddProduct_ProductTax model="@model"/>
-                                </UIGridCenter>
-                            </TabItem>
-                        </TabBody>
-                    </Tab>
+                            </MudTabPanel>
+                        }
+
+                    </MudTabs>
                 </PageBody>
                 <PageFooter>
                     <FooterCenter>
