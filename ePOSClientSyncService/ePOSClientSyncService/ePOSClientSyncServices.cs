@@ -42,7 +42,7 @@ namespace ePOSClientSyncService
 
 
 
-            var watcherRemoteData = new FileSystemWatcher(@"C:\epossync\");
+            var watcherRemoteData = new FileSystemWatcher(Properties.Settings.Default.file_watcher_path);
 
             watcherRemoteData.NotifyFilter = NotifyFilters.Attributes
                                  | NotifyFilters.CreationTime
