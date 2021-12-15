@@ -662,10 +662,18 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>INVOICE</Value>
+                              <Value>WAITING #:  </Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
-                                <FontSize>11pt</FontSize>
+                                <FontSize>12pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!sale_number.Value</Value>
+                              <Style>
+                                <FontFamily>arial</FontFamily>
+                                <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -698,32 +706,31 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="sale_id">
+                    <Textbox Name="Textbox13">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>No : </Value>
+                              <Value>Date : </Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!sale_number.Value</Value>
+                              <Value>=format(Fields!working_date.Value, "dd/MM/yyyy")</Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>sale_id</rd:DefaultName>
+                      <rd:DefaultName>Textbox10</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -787,21 +794,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox10">
-                      <CanGrow>true</CanGrow>
+                    <Textbox Name="Textbox8">
+                      <CanShrink>true</CanShrink>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Date : </Value>
+                              <Value>Customer: </Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
+                              <Value>=Fields!customer_name.Value</Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -811,7 +818,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -874,46 +881,6 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox4">
-                      <CanShrink>true</CanShrink>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Customer: </Value>
-                              <Style>
-                                <FontFamily>arial</FontFamily>
-                                <FontSize>9pt</FontSize>
-                              </Style>
-                            </TextRun>
-                            <TextRun>
-                              <Value>=Fields!customer_name.Value</Value>
-                              <Style>
-                                <FontFamily>arial</FontFamily>
-                                <FontSize>9pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox4</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Width>0.25pt</Width>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>1pt</PaddingTop>
-                        <PaddingBottom>1pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
                     <Textbox Name="Textbox12">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -936,11 +903,46 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox19">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>arial</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox19</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>

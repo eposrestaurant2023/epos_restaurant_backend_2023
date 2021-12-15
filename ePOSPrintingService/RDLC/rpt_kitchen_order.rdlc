@@ -24,6 +24,24 @@
               <TextAlign>Center</TextAlign>
             </Style>
           </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!sale_type.Value, "Sale")</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Kh System</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                  <Color>#000000</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>0.005in</Top>
@@ -570,6 +588,20 @@
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
+                            <TextRun>
+                              <Value xml:space="preserve"> </Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!sale_product_status_note.Value</Value>
+                              <Style>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
@@ -631,6 +663,152 @@
             </TablixRow>
             <TablixRow>
               <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="old_table_name">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>***Change table </Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!old_table_name.Value</Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value> to </Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!table_name.Value</Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>***</Value>
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>old_table_name</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontStyle>Italic</FontStyle>
+                                <FontFamily>Kh System</FontFamily>
+                                <FontSize>8.5pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.22222in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -898,6 +1076,11 @@
               <Group Name="Details" />
               <TablixMembers>
                 <TablixMember />
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=Fields!old_table_name.Value=Fields!table_name.Value</Hidden>
+                  </Visibility>
+                </TablixMember>
                 <TablixMember />
                 <TablixMember>
                   <Visibility>
@@ -914,7 +1097,7 @@
         <DataSetName>SaleProduct</DataSetName>
         <Top>1.26333in</Top>
         <Left>0.04042in</Left>
-        <Height>1.21875in</Height>
+        <Height>1.44097in</Height>
         <Width>2.69792in</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -924,7 +1107,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.57583in</Height>
+    <Height>2.73208in</Height>
     <Style />
   </Body>
   <Width>2.74875in</Width>
@@ -1238,9 +1421,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SaleModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SaleProduct">
@@ -1288,6 +1471,10 @@
         <Field Name="note">
           <DataField>note</DataField>
           <rd:TypeName>System.Object</rd:TypeName>
+        </Field>
+        <Field Name="old_table_name">
+          <DataField>old_table_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="outlet_name">
           <DataField>outlet_name</DataField>
@@ -1345,6 +1532,10 @@
           <DataField>station_name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="table_name">
+          <DataField>table_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="total_quantity">
           <DataField>total_quantity</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
@@ -1355,9 +1546,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SaleProductPrintQueueModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleProductPrintQueueModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleProductPrintQueueModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

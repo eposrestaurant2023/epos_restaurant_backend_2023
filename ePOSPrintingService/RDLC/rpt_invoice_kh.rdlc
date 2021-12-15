@@ -662,7 +662,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>INVOICE</Value>
+                              <Value>INVOICE KH</Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>11pt</FontSize>

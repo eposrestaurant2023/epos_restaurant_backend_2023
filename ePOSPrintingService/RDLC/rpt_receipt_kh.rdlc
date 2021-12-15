@@ -506,7 +506,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>2.88519in</Top>
+        <Top>3.32269in</Top>
         <Left>0.00626in</Left>
         <Height>1.13542in</Height>
         <Width>2.77083in</Width>
@@ -662,7 +662,15 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>INVOICE</Value>
+                              <Value>RECEIPT KH #</Value>
+                              <Style>
+                                <FontFamily>arial</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!document_number.Value</Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>11pt</FontSize>
@@ -676,6 +684,49 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.22917in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="is_reprint_receipt">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>RECEIPT COPY kh</Value>
+                              <Style>
+                                <FontFamily>arial</FontFamily>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>is_reprint_receipt</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -921,14 +972,14 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Cashier : </Value>
+                              <Value>Closed: </Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!created_by.Value</Value>
+                              <Value>=format(Fields!closed_date.Value, "HH:mm tt")</Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -940,7 +991,87 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.20833in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontFamily>arial</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="closed_by">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Cashier: </Value>
+                              <Style>
+                                <FontFamily>arial</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!closed_by.Value</Value>
+                              <Style>
+                                <FontFamily>arial</FontFamily>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>closed_by</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -967,6 +1098,12 @@
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!is_reprint_receipt.Value=False</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -975,7 +1112,7 @@
         <DataSetName>Sale</DataSetName>
         <Top>0.69973in</Top>
         <Left>0.01249in</Left>
-        <Height>0.98408in</Height>
+        <Height>1.42158in</Height>
         <Width>2.77084in</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -1680,7 +1817,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>1.74352in</Top>
+        <Top>2.18102in</Top>
         <Left>0.00626in</Left>
         <Height>1.04168in</Height>
         <Width>2.77708in</Width>
@@ -1692,7 +1829,7 @@
         </Style>
       </Tablix>
       <Line Name="Line1">
-        <Top>2.83727in</Top>
+        <Top>3.27477in</Top>
         <Left>2.77416in</Left>
         <Height>0in</Height>
         <Width>-2.76584in</Width>
@@ -1705,7 +1842,7 @@
         </Style>
       </Line>
       <Line Name="Line2">
-        <Top>2.86389in</Top>
+        <Top>3.30139in</Top>
         <Left>2.76999in</Left>
         <Height>0in</Height>
         <Width>-2.76582in</Width>
@@ -1831,7 +1968,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>GrandTotal</DataSetName>
-        <Top>4.05083in</Top>
+        <Top>4.48833in</Top>
         <Left>0.01249in</Left>
         <Height>0.25in</Height>
         <Width>2.76043in</Width>
@@ -1955,7 +2092,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>4.3595in</Top>
+        <Top>5.3345in</Top>
         <Left>0.00832in</Left>
         <Height>0.40625in</Height>
         <Width>2.76167in</Width>
@@ -1966,8 +2103,201 @@
           </Border>
         </Style>
       </Tablix>
+      <Tablix Name="Tablix9">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.58113in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.1793in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox61">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!payment_type_name_en.Value</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox60</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="total_amount2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=format(Fields!payment_amount.Value, Fields!format.Value)</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>total_amount1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox15">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Change</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=format(first(Fields!change_amount.Value),First(Fields!currency_format.Value, "Setting"))</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                          <Width>0.25pt</Width>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="Details2" />
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Sum(Fields!change_amount.Value, "SalePayment")=0</Hidden>
+              </Visibility>
+              <KeepWithGroup>Before</KeepWithGroup>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>SalePayment</DataSetName>
+        <Top>4.80163in</Top>
+        <Height>0.5in</Height>
+        <Width>2.76043in</Width>
+        <ZIndex>8</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
     </ReportItems>
-    <Height>4.76575in</Height>
+    <Height>5.74075in</Height>
     <Style />
   </Body>
   <Width>2.78334in</Width>
@@ -1980,18 +2310,18 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="ePOSPrintingServiceReportModel">
+    <DataSource Name="ePOSMobileOrderService">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>19a847f5-9136-4283-a0ec-dab0e2930ad8</rd:DataSourceID>
+      <rd:DataSourceID>c4c63d3f-eb1e-483c-850b-ca0301d213a3</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="Sale">
       <Query>
-        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
+        <DataSourceName>ePOSMobileOrderService</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2281,14 +2611,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SaleModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SaleProduct">
       <Query>
-        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
+        <DataSourceName>ePOSMobileOrderService</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2316,10 +2646,6 @@
           <DataField>product_category_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="product_category_id">
-          <DataField>product_category_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="product_category_kh">
           <DataField>product_category_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2327,10 +2653,6 @@
         <Field Name="product_group_en">
           <DataField>product_group_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="product_group_id">
-          <DataField>product_group_id</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="product_group_kh">
           <DataField>product_group_kh</DataField>
@@ -2351,10 +2673,6 @@
         <Field Name="quantity">
           <DataField>quantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
-        </Field>
-        <Field Name="revenue_group_name">
-          <DataField>revenue_group_name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="sale_product_discount_amount">
           <DataField>sale_product_discount_amount</DataField>
@@ -2382,14 +2700,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SaleProductModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleProductModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleProductModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="GrandTotal">
       <Query>
-        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
+        <DataSourceName>ePOSMobileOrderService</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2435,14 +2753,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>GrandTotalModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.GrandTotalModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.GrandTotalModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="Setting">
       <Query>
-        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
+        <DataSourceName>ePOSMobileOrderService</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2453,14 +2771,6 @@
         <Field Name="address_kh">
           <DataField>address_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="close_cashier_shift_summary_include_sale_transaction">
-          <DataField>close_cashier_shift_summary_include_sale_transaction</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
-        </Field>
-        <Field Name="close_working_day_summary_include_sale_transaction">
-          <DataField>close_working_day_summary_include_sale_transaction</DataField>
-          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="company_name_en">
           <DataField>company_name_en</DataField>
@@ -2512,9 +2822,42 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
         <rd:TableName>SettingModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SettingModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SettingModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="SalePayment">
+      <Query>
+        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="change_amount">
+          <DataField>change_amount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="format">
+          <DataField>format</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="payment_amount">
+          <DataField>payment_amount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="payment_type_name_en">
+          <DataField>payment_type_name_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="payment_type_name_kh">
+          <DataField>payment_type_name_kh</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:TableName>SalePaymentModel</rd:TableName>
+        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SalePaymentModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
