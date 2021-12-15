@@ -1980,18 +1980,18 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="ePOSMobileOrderService">
+    <DataSource Name="ePOSPrintingServiceReportModel">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>c4c63d3f-eb1e-483c-850b-ca0301d213a3</rd:DataSourceID>
+      <rd:DataSourceID>19a847f5-9136-4283-a0ec-dab0e2930ad8</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="Sale">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2281,14 +2281,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SaleModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SaleProduct">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2316,6 +2316,10 @@
           <DataField>product_category_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="product_category_id">
+          <DataField>product_category_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="product_category_kh">
           <DataField>product_category_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2323,6 +2327,10 @@
         <Field Name="product_group_en">
           <DataField>product_group_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="product_group_id">
+          <DataField>product_group_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="product_group_kh">
           <DataField>product_group_kh</DataField>
@@ -2343,6 +2351,10 @@
         <Field Name="quantity">
           <DataField>quantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="revenue_group_name">
+          <DataField>revenue_group_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="sale_product_discount_amount">
           <DataField>sale_product_discount_amount</DataField>
@@ -2370,14 +2382,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SaleProductModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleProductModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleProductModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="GrandTotal">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2423,14 +2435,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>GrandTotalModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.GrandTotalModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.GrandTotalModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="Setting">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2441,6 +2453,14 @@
         <Field Name="address_kh">
           <DataField>address_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="close_cashier_shift_summary_include_sale_transaction">
+          <DataField>close_cashier_shift_summary_include_sale_transaction</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="close_working_day_summary_include_sale_transaction">
+          <DataField>close_working_day_summary_include_sale_transaction</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="company_name_en">
           <DataField>company_name_en</DataField>
@@ -2492,9 +2512,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SettingModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SettingModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SettingModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

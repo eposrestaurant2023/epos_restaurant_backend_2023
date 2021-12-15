@@ -83,14 +83,15 @@
     {
         is_loading = true;
         var resp = await http.ApiGet("ServerConfig");
+        Console.WriteLine(resp.Content);
         if (resp.IsSuccess)
         {
             server_config = JsonSerializer.Deserialize<ServerConfigModel>(resp.Content.ToString());
 
-            //if(string.IsNullOrEmpty(server_config.project_id) || server_config.server_id!=server_config.hardware_server_id)
-            //{
-            //  nav.NavigateTo("config");
-            //}
+            if (string.IsNullOrEmpty(server_config.project_id) || server_config.server_id != server_config.hardware_server_id)
+            {
+                nav.NavigateTo("config");
+            }
 
         }
         is_loading = false;

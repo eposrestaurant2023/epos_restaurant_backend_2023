@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.ServiceProcess;
- 
+using System.Threading;
 
 namespace ePOSPrintingService
 {
@@ -138,6 +138,14 @@ namespace ePOSPrintingService
                             ReceiptListModel close_cashift_shift_sale_product_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
                             Program.PrintCloseCashierShiftSaleProduct(action.id, close_cashift_shift_sale_product_report, Program.CashierPrinter,action.printed_by);
                             break;
+                        case "print_waiting_order":
+                            ReceiptListModel waiting_order = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
+                            Program.PrintWaitingOrder(action.sale_id, waiting_order, Program.CashierPrinter, action.copies);
+                            break; 
+                        case "print_wifi_password":
+                           
+                            Program.PrintWifiPassword();
+                            break;
 
 
                         default:
@@ -156,6 +164,14 @@ namespace ePOSPrintingService
                 Program.WriteToFile(ex.Message);
             }
         }
+
+        public Thread ThreadStart(Action action)
+        {
+            Thread thread = new Thread(() => { action(); });
+            thread.Start();
+            return thread;
+        }
+
 
 
     }

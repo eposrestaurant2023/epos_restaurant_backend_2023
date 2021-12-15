@@ -91,12 +91,12 @@ namespace eAPIClient
             app.UseAuthorization();
 
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-              Path.Combine(env.ContentRootPath, "uploads")),
-                RequestPath = "/uploads"
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //  Path.Combine(env.ContentRootPath, "uploads")),
+            //    RequestPath = "/uploads"
+            //});
 
 
             app.UseEndpoints(endpoints =>
@@ -117,6 +117,7 @@ namespace eAPIClient
             var odataBuilder = new ODataConventionModelBuilder();
             odataBuilder.EntitySet<UserModel>("User");
             odataBuilder.EntitySet<AppModel>("Sync");
+            odataBuilder.EntitySet<AppModel>("Printing");
             odataBuilder.EntitySet<MenuModel>("Menu");
             odataBuilder.EntitySet<ProductModel>("Product");
             odataBuilder.EntitySet<ProductPrinterModel>("ProductPrinter");
