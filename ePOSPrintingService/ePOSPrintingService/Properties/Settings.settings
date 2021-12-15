@@ -129,12 +129,31 @@
         "MarginBottom": 0,
         "MarginLeft": 0
     }
-
+,
+{
+        "ReceiptName": "Waiting Order",
+        "InvoiceFileName": "rpt_waiting_order",
+        "PageWidth": 2.85,
+        "PageHeight": 11,
+        "MarginTop": 0,
+        "MarginRight": 0,
+        "MarginBottom": 0,
+        "MarginLeft": 0
+    }
 
 ]</Value>
     </Setting>
     <Setting Name="CashierPrinter" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cashier Printer</Value>
+    </Setting>
+    <Setting Name="telegram" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{
+    "telegram_alert_url": "https://api.telegram.org/",
+    "telegram_alert_token": "593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw",
+    "telegram_chat_id": "-545894511",
+    "image_path":"C:\\www\\host\\restaurant_client_api\\uploads\\telegram_images\\",
+    "image_url":"http://customer.esoftix.com:9597/restaurant_client_api/uploads/telegram_images/"
+}</Value>
     </Setting>
   </Settings>
 </SettingsFile>
