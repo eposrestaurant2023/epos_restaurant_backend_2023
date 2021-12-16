@@ -27,7 +27,7 @@
                             <tr>
                                 <Th>@lang["Name En"]</Th>
                                 <Th>@lang["Name Kh"]</Th>
-                                <ThCenter>"@lang["Sort Order"]</ThCenter>
+                                <ThCenter>@lang["Sort Order"]</ThCenter>
                                 <Th></Th>
                             </tr>
                             @foreach (var b in models.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
