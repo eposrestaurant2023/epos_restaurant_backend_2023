@@ -499,7 +499,7 @@ namespace eAPIClient.Controllers
             List < ProductModel > _products = new List<ProductModel>();
 
             is_get_remote_data_success = false;
-            string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section,sort_order";
+            string _select_product_modifier = "$select=id,parent_id,product_id,modifier_name,price,section_name,is_required,is_multiple_select,is_section,sort_order,modifier_id";
 
             string url = $"product?$select=revenue_group_name,product_group_id,product_tax_value,product_category_id,product_category_en,product_category_kh,id,is_open_product,";
             url += "product_code,product_name_en,product_name_kh,photo,note,is_allow_discount,is_allow_change_price,is_allow_free,is_open_product,is_inventory_product,kitchen_group_name,kitchen_group_sort_order";
