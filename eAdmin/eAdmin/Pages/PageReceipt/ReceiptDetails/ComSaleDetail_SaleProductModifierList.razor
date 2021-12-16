@@ -4,7 +4,7 @@
         @foreach (var spm in sale_product_modifiers)
         {
             <li class="uk-margin-remove">
-                <ComAuthorize roles="@gv.GetRole("modifier_management")" url="@($"modifier/{spm.id}")">
+                <ComAuthorize roles="@gv.GetRole("modifier_management")" url="@($"product_modifier/{spm.product_modifier_id}")">
                     @spm.modifier_name (@spm.price.ToString(gv.main_currency_format))
                 </ComAuthorize>
             </li>

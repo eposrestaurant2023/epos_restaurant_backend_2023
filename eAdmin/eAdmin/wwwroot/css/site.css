@@ -1322,6 +1322,12 @@ a, a:hover {
     color: #fff;
 }
 
+    .bg_kpi.bg_today_Order_mtd {
+        background: #651fd6;
+    }
+    .bg_kpi.bg_today_order {
+        background: #27bbc2;
+    }
     .bg_kpi.bg_today_amount {
         background: #f79743;
     }
