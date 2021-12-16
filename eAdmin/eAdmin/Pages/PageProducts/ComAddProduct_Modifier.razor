@@ -29,7 +29,7 @@ else
                             <ThCenter>@lang["Sort Order"]</ThCenter>
                             <ThCenter></ThCenter>
                         </tr>
-                        @foreach (var pm in s.children.Where(r => r.is_deleted == false && r.is_section == false).OrderBy(r => r.sort_order))
+                        @foreach (var pm in s.children.Where(r => r.is_deleted == false && r.is_section == false))
                         {
                             <tr>
                                 <td>
@@ -160,7 +160,7 @@ async Task LoadData()
 if (model.id > 0)
 {
     is_loading = true;
-    string api_url = $"ProductModifier?$expand=children($expand=modifier;$filter=is_deleted eq false)&$filter=is_deleted eq false and product_id eq {model.id}";
+    string api_url = $"ProductModifier?$expand=children($expand=modifier;$filter=is_deleted eq false;$orderby=sort_order desc)&$filter=is_deleted eq false and product_id eq {model.id}";
     var resp = await http.ApiGetOData(api_url);
     if (resp.IsSuccess)
     {
