@@ -21,7 +21,7 @@ namespace eAdmin.Pages.PageReceipt.ReceiptDetails
         public string api_url { get {
                 string url = $"sale({id})?";
                 url = url + "$expand=customer,sale_status,";
-                url = url + "sale_products($expand=product,sale_product_modifiers($select=id,product_modifier_id,modifier_name,price)),";
+                url = url + "sale_products($expand=product,sale_product_modifiers($select=id,modifier_id,product_modifier_id,modifier_name,price)),";
                 url = url + "sale_payments($expand=payment_type),";
                 url = url + "business_branch";
                 return url;
