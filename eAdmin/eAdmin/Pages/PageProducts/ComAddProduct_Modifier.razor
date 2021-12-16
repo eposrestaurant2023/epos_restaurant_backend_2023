@@ -11,49 +11,55 @@ else
     {
         foreach (var s in model.product_modifiers.Where(r => r.is_section == true && r.is_deleted == false))
         {
-        <UIContainerBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(() => DeleteSection(s))">
-            <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
-            <NumberInputInt @bind-text="@s.sort_order" label="@lang["Sort Order"]" />
-            <ComInputCheckBox @bind-value="@s.is_required" label="@lang["Is Required"]" />
-            <ComInputCheckBox @bind-value="@s.is_multiple_select" label="@lang["Allow Multiple Select"]" />
-            <hr />
-            <ModifierTypeahead modifier="@modifier" modifierChanged="@((val) => OnSelectModifer(s, val))" />
-            <hr />
-            <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                <tr>
-                    <ThAuto>@lang["Name"]</ThAuto>
-                    <ThRight>@lang["Price"]</ThRight>
-                    <ThCenter>@lang["Sort Order"]</ThCenter>
-                    <ThCenter></ThCenter>
-                </tr>
-                @foreach (var pm in s.children.Where(r => r.is_deleted == false && r.is_section == false).OrderBy(r => r.sort_order))
-                {
-                    <tr>
-                        <td>
-                            @if (pm.id == Guid.Empty)
-                            {
-                                <TextInput @bind-text="@pm.modifier.modifier_name"/>
-                            }
-                            else
-                            {
-                                @pm.modifier.modifier_name
-                            }
+            
+        <MudExpansionPanels MultiExpansion="true">
+            <MudExpansionPanel Class="mb-4" Text="@s.section_name">
+                <UIContainerBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(() => DeleteSection(s))">
+                    <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
+                    <NumberInputInt @bind-text="@s.sort_order" label="@lang["Sort Order"]" />
+                    <ComInputCheckBox @bind-value="@s.is_required" label="@lang["Is Required"]" />
+                    <ComInputCheckBox @bind-value="@s.is_multiple_select" label="@lang["Allow Multiple Select"]" />
+                    <hr />
+                    <ModifierTypeahead modifier="@modifier" modifierChanged="@((val) => OnSelectModifer(s, val))" />
+                    <hr />
+                    <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                        <tr>
+                            <ThAuto>@lang["Name"]</ThAuto>
+                            <ThRight>@lang["Price"]</ThRight>
+                            <ThCenter>@lang["Sort Order"]</ThCenter>
+                            <ThCenter></ThCenter>
+                        </tr>
+                        @foreach (var pm in s.children.Where(r => r.is_deleted == false && r.is_section == false).OrderBy(r => r.sort_order))
+                        {
+                            <tr>
+                                <td>
+                                    @if (pm.id == Guid.Empty)
+                                    {
+                                        <TextInput @bind-text="@pm.modifier.modifier_name" />
+                                    }
+                                    else
+                                    {
+                                        @pm.modifier.modifier_name
+                                    }
 
-                        </td>
-                        <TdCenter>
-                            <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-right" />
-                        </TdCenter>
-                        <TdCenter>
-                            <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="80px" class_name="uk-text-center" />
-                        </TdCenter>
-                        <TdCenter>
-                            <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children, pm))" is_visible="@(pm.modifier_group_id == Guid.Empty)" />
-                        </TdCenter>
-                    </tr>
-                }
-            </table>
-        </UIContainerBox>
-        }
+                                </td>
+                                <TdCenter>
+                                    <NumberInput placeholder="@lang["Price"]" @bind-text="@pm.price" width="100px" class_name="uk-text-right" />
+                                </TdCenter>
+                                <TdCenter>
+                                    <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="80px" class_name="uk-text-center" />
+                                </TdCenter>
+                                <TdCenter>
+                                    <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children, pm))" is_visible="@(pm.modifier_group_id == Guid.Empty)" />
+                                </TdCenter>
+                            </tr>
+                        }
+                    </table>
+                </UIContainerBox>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+
+    }
     <hr />
     <div class="uk-text-right">
         <Button OnClick="@AddSection">@lang["Add Section"]</Button>
@@ -68,103 +74,103 @@ else
         </div>
     </ComEmptyTemplate>
     }
-    <Spacing Number="15"/>
+    <Spacing Number="15" />
     <UIContainerBox Title="@lang["Category Modifier"]">
         <ViewEmptyTemplate is_view="@(model.product_category_id > 0)" empty="@lang["Please select product category to view modifier group by category."]">
             <ComProductDetail_TableViewModifierGroupByProductCategory product_category_id="@model.product_category_id" is_show_table="true" />
         </ViewEmptyTemplate>
     </UIContainerBox>
 
+    }
+    @code{
+        [Parameter] public ProductModel model { get; set; }
+        [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
+private ModifierModel _modifier;
+
+List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
+
+
+bool is_loading;
+
+protected override async Task OnInitializedAsync()
+{
+await LoadData();
 }
-@code{
-    [Parameter] public ProductModel model { get; set; }
-    [Parameter] public EventCallback<ProductModel> modelChanged { get; set; }
-    private ModifierModel _modifier;
-
-    List<ProductModifierModel> product_modifiers = new List<ProductModifierModel>();
 
 
-    bool is_loading;
+public ModifierModel modifier
+{
+get { return _modifier; }
+set
+{
 
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadData();
-    }
-
-
-    public ModifierModel modifier
-    {
-        get { return _modifier; }
-        set
-        {
-
-            _modifier = value;
-        }
-    }
-
-    void OnSelectModifer(ProductModifierModel parent, ModifierModel child)
-    {
-
-        if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower() == child.modifier_name.ToLower().Trim()).Any())
-        {
-            parent.children.Add(new ProductModifierModel() { modifier = child, modifier_id = child.id });
-        }
-        modifier = null;
-    }
-
-
-    void DeleteModifier(List<ProductModifierModel> child_pm ,ProductModifierModel pm)
-    {
-        if (pm.id != Guid.Empty)
-        {
-            pm.is_deleted = true;
-        }
-        else
-        {
-            //model.product_modifiers.Remove(pm);
-            child_pm.Remove(pm);
-        }
-    }
-
-    void AddSection()
-    {
-        model.product_modifiers.Add(new ProductModifierModel()
-        {
-            section_name = lang["Section Name"],
-            is_section = true
-
-        });
-    }
-
-    void DeleteSection(ProductModifierModel pm)
-    {
-        if (pm.id != Guid.Empty)
-        {
-            pm.is_deleted = true;
-        }
-        else
-        {
-            model.product_modifiers.Remove(pm);
-        }
-    }
-
-    async Task LoadData()
-    {
-
-        if (model.id > 0)
-        {
-            is_loading = true;
-            string api_url = $"ProductModifier?$expand=children($expand=modifier;$filter=is_deleted eq false)&$filter=is_deleted eq false and product_id eq {model.id}";
-            var resp = await http.ApiGetOData(api_url);
-            if (resp.IsSuccess)
-            {
-                product_modifiers = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
-                model.product_modifiers = product_modifiers;
-
-                await modelChanged.InvokeAsync(model);
-            }
-            is_loading = false;
-        }
-    }
-
+    _modifier = value;
 }
+}
+
+void OnSelectModifer(ProductModifierModel parent, ModifierModel child)
+{
+
+if (!parent.children.Where(r => r.is_deleted == false && r.modifier.modifier_name.Trim().ToLower() == child.modifier_name.ToLower().Trim()).Any())
+{
+    parent.children.Add(new ProductModifierModel() { modifier = child, modifier_id = child.id });
+}
+modifier = null;
+}
+
+
+void DeleteModifier(List<ProductModifierModel> child_pm, ProductModifierModel pm)
+{
+if (pm.id != Guid.Empty)
+{
+    pm.is_deleted = true;
+}
+else
+{
+    //model.product_modifiers.Remove(pm);
+    child_pm.Remove(pm);
+}
+}
+
+void AddSection()
+{
+model.product_modifiers.Add(new ProductModifierModel()
+{
+    section_name = lang["Section Name"],
+    is_section = true
+
+});
+}
+
+void DeleteSection(ProductModifierModel pm)
+{
+if (pm.id != Guid.Empty)
+{
+    pm.is_deleted = true;
+}
+else
+{
+    model.product_modifiers.Remove(pm);
+}
+}
+
+async Task LoadData()
+{
+
+if (model.id > 0)
+{
+    is_loading = true;
+    string api_url = $"ProductModifier?$expand=children($expand=modifier;$filter=is_deleted eq false)&$filter=is_deleted eq false and product_id eq {model.id}";
+    var resp = await http.ApiGetOData(api_url);
+    if (resp.IsSuccess)
+    {
+        product_modifiers = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());
+        model.product_modifiers = product_modifiers;
+
+        await modelChanged.InvokeAsync(model);
+    }
+    is_loading = false;
+}
+}
+
+    }
