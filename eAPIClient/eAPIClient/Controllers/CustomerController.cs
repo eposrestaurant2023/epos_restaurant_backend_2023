@@ -87,7 +87,7 @@ namespace eAPIClient.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<CustomerModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<CustomerModel>> DeleteRecord(Guid id) //Delete
         {
             var u = await db.Customers.FindAsync(id);
             u.is_deleted = !u.is_deleted;

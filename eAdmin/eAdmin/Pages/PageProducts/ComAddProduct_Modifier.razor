@@ -9,7 +9,7 @@ else
 {
     if (model.product_modifiers.Where(r => r.is_section && r.is_deleted == false).Any())
     {
-        foreach (var s in model.product_modifiers.Where(r => r.is_section == true && r.is_deleted == false))
+        foreach (var s in model.product_modifiers.Where(r => r.is_section == true && r.is_deleted == false).OrderBy(r=>r.sort_order))
         {
             
         <MudExpansionPanels MultiExpansion="true">

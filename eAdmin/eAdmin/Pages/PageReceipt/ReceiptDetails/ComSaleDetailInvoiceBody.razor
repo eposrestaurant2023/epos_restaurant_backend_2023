@@ -10,13 +10,13 @@
         </TdCenter>
         <td class="cust_wirth_space">
             <ComAuthorize roles="@gv.GetRole("product_management")" OnClick="@(()=>nav.NavigateTo($"product/{sp.product_id}"))">
-                <div>@sp.product?.product_display_name</div>
+                <div>@sp.product_display_name <br /> @sp.product_name_kh</div>
             </ComAuthorize>
             <ComSaleDetail_SaleProductMoreInformation sale_product="@sp"/>
         </td>
         <TdCenter>@sp.quantity.ToString(gv.quantity_format)</TdCenter>
         <TdCenter>@sp.unit</TdCenter>
-        <td class="uk-text-right">@sp.price.ToString(gv.currency_format)</td>
+        <td class="uk-text-right">@sp.total_price.ToString(gv.currency_format)</td>
         <td class="uk-text-right">
             @if (sp.sale_product_discount_value <= 0)
             {

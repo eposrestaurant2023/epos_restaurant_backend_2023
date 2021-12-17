@@ -259,14 +259,14 @@ namespace eModels
         {
             get
             {
-                return "#,###,##0.00##";
+                return get_currency().currency_format;
             }
         }
         public string currency_format
         {
             get
             {
-                return "#,###,##0.00##";
+                return get_currency().currency_format;
             }
         }
 
