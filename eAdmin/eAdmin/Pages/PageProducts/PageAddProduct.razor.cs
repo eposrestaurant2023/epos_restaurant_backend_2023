@@ -240,8 +240,14 @@ namespace eAdmin.Pages.PageProducts
                 return;
             }
 
+            save_model.product_portions.Where(r => r.portion_name == "" && r.is_deleted == true).ToList().ForEach(r => r.portion_name = "Normal");
 
-
+            if (save_model.product_portions.Where(r => r.portion_name == "" && r.is_deleted ==false).Any())
+            {
+                toast.Add(lang["Please enter portion Name"], MudBlazor.Severity.Warning);
+                is_saving = false;
+                return;
+            }
             foreach (var pp in model.product_portions.Where(r => r.is_deleted == false))
             {
                 if (!gv.units.Where(r => r.unit_category_id == model.unit_category_id && r.id == pp.unit_id).Any())
