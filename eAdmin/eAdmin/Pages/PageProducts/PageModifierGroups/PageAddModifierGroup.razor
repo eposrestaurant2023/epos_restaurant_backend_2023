@@ -76,7 +76,7 @@ else
         {
             if (!string.IsNullOrEmpty(id))
             {
-                var resp = await http.ApiGet($"{controller_api}({(id != Guid.Empty.ToString() ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
+                var resp = await http.ApiGet($"{controller_api}({(id != Guid.Empty.ToString() ? id : clone_id)})?$expand=modifier_group_items($expand=children($expand=modifier;$orderby=sort_order desc);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
                 if (resp.IsSuccess)
                 {
                     modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());

@@ -17,7 +17,7 @@
     {
         is_loading = true;
         if(product.id > 0){
-            var resp = await http.ApiGetOData($"ProductModifier?$expand=children($expand=modifier($select=id,modifier_group_id,modifier_name);$filter=is_deleted eq false)&$filter=product_id eq {product.id} and is_deleted eq false and status eq true");
+            var resp = await http.ApiGetOData($"ProductModifier?$expand=children($expand=modifier($select=id,modifier_group_id,modifier_name);$orderby=sort_order desc;$filter=is_deleted eq false)&$filter=product_id eq {product.id} and is_deleted eq false and status eq true");
             if (resp.IsSuccess)
             {
                 models = JsonSerializer.Deserialize<List<ProductModifierModel>>(resp.Content.ToString());

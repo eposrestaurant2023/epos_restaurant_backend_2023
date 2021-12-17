@@ -50,7 +50,7 @@ else
                                     <NumberInputInt placeholder="@lang["Sort Order"]" @bind-text="@pm.sort_order" width="80px" class_name="uk-text-center" />
                                 </TdCenter>
                                 <TdCenter>
-                                    <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children, pm))" is_visible="@(pm.modifier_group_id == Guid.Empty)" />
+                                    <Icon icon="delete" OnClick="@(() => DeleteModifier(s.children, pm))"/>
                                 </TdCenter>
                             </tr>
                         }

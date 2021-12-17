@@ -2,7 +2,7 @@
 <UIContainerBox Title="@lang["Modifier Section"]">
     @if (modifer_group.modifier_group_items.Where(r => r.is_section == true && r.is_deleted == false).Any())
     {
-        foreach (var s in modifer_group.modifier_group_items.Where(r => r.is_section == true && r.is_deleted == false).OrderBy(r => r.sort_order))
+        foreach (var s in modifer_group.modifier_group_items.Where(r => r.is_section == true && r.is_deleted == false))
         {
             <UIBox Title="@s.section_name" is_show_delete_button="true" OnDeleteClick="@(()=>DeleteModifierSection(s))">
                 <TextInput @bind-text="@s.section_name" label="@lang["Section Name"]" />
@@ -20,7 +20,7 @@
                         <ThCenter></ThCenter>
                     </tr>
                     <ViewEmptyTemplate is_view="@s.children.Where(r => r.is_deleted == false).Any()" colspan="4">
-                        @foreach (var m in s.children.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
+                        @foreach (var m in s.children.Where(r => r.is_deleted == false))
                         {
                             <tr>
                                 <td>
