@@ -147,13 +147,15 @@ namespace eAPIClient.Models
         [ForeignKey("product_id")]
         public virtual ProductModel product { get; set; }
         public string modifier_name { get; set; }
+        public Guid? modifier_id { get; set; }
         public decimal price { get; set; } = 0;  
 
         public List<ProductModifierModel> children { get; set; }        
         public string section_name { get; set; }    
         public bool is_required { get; set; }
         public bool is_multiple_select { get; set; }     
-        public bool is_section { get; set; } = false;     
+        public bool is_section { get; set; } = false;
+        public int sort_order { get; set; } = 0;
 
     }
     

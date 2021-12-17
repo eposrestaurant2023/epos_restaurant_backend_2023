@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211216103215_bew9933")]
+    partial class bew9933
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1531,7 +1533,7 @@ namespace eAPIClient.Migrations
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("modifier_id")
+                    b.Property<Guid>("modifier_id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("modifier_name")
