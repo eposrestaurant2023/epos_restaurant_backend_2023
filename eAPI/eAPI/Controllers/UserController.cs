@@ -100,11 +100,11 @@ namespace eAPI.Controllers
 
             if (u.id == 0)
             {
-                var user = db.Users.Where(r => r.user_code == u.user_code && r.is_deleted == false);
-                if (user.Count() > 0)
-                {
-                    return StatusCode(301, $"User Code {u.user_code} is already exists.");
-                }
+                //var user = db.Users.Where(r => r.user_code == u.user_code && r.is_deleted == false);
+                //if (user.Count() > 0)
+                //{
+                //    return StatusCode(301, $"User Code {u.user_code} is already exists.");
+                //}
                 db.Users.Add(u);
             }
             else

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace eShareModel
 {
@@ -43,6 +45,16 @@ namespace eShareModel
             }
         }
         public string product_name_kh { get; set; } = "";
+
+        [NotMapped, JsonIgnore]
+        public string product_display_name
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(product_code) ? "" : (product_code + " - ")) + "" + product_name_en;
+            }
+        }
+
         public bool is_free { get; set; } = false;
 
         public bool is_inventory_product { get; set; } = false;
@@ -65,6 +77,11 @@ namespace eShareModel
         public decimal profit { get; set; }
         public decimal reqular_price { get; set; }
         public decimal price { get; set; }
+
+        [NotMapped, JsonIgnore]
+        public decimal total_price { get {
+                return price + total_modifier_amount;
+            } }
 
         public decimal total_modifier_amount { get; set; }
 

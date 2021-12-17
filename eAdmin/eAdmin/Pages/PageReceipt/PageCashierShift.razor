@@ -100,7 +100,10 @@
                             @p.closed_by
                         </td>
                         <TdCenter>
-                            @Convert.ToDateTime(p.closed_date).ToString(gv.date_time_format)
+                            @if(p.is_closed){
+                                <span>@Convert.ToDateTime(p.closed_date).ToString(gv.date_time_format)</span>
+                            }
+                            
                         </TdCenter>
                         <td>
                             @p.created_by

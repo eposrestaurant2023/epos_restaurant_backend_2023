@@ -64,7 +64,7 @@
             toast.Add(lang["Please enter password"], MudBlazor.Severity.Warning);
             return;
         }
-        if (user.password.Length < 4)
+        if (user.password.Length < 1)
         {
             toast.Add(lang["Password is too short"], MudBlazor.Severity.Warning);
             return;

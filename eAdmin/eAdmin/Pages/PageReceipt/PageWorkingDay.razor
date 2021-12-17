@@ -97,7 +97,7 @@
                                 @p.closed_by
                             </td>
                             <TdCenter>
-                                @if (!p.is_closed)
+                                @if (p.is_closed)
                                 {
                                   @Convert.ToDateTime(p.closed_date).ToString(gv.date_time_format)
                                 }
