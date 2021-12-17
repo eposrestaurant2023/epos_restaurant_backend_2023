@@ -29,6 +29,8 @@ namespace ePOSPrintingServiceReportModel
         public int printer_port { get; set; }
         public string station_name { get; set; }
         public string sale_product_status_note { get; set; }
+        public string table_name { get; set; }
+        public string old_table_name{ get; set; }
         public int group_item_type_id { get; set; }
         public bool is_free { get; set; }
     }

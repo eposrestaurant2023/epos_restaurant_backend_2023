@@ -4464,6 +4464,9 @@ namespace eAPI.Migrations
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("modifier_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("modifier_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");

@@ -81,8 +81,10 @@
                                 <tr>
                                     <ThAuto>@lang["Apply All"]</ThAuto>
                                     <ThCenter>
+                                        <NumberInputDouble @bind-text="@width" />
                                     </ThCenter>
                                     <ThCenter>
+                                        <NumberInputDouble @bind-text="@height" />
                                     </ThCenter>
                                     <th>
                                         <SelectShape @bind-selected_value="@shape"/>
@@ -146,14 +148,35 @@
     string number_format = "00";
     int min = 1;
     int sort_order;
-    double width = 60, height = 60;
     int max = 10;
     Guid outlet_id = Guid.Empty;
 
     string ControllerApi = "TableGroup";
     bool ShowModel = false;
-    private int? _price_rule;
 
+    private double _height = 60;
+    public double height
+    {
+        get { return _height; }
+        set
+        {
+            _height = value;
+            model.tables.ForEach(r => r.height = _height);
+        }
+    }
+
+    private double _width = 60;
+    public double width
+    {
+        get { return _width; }
+        set
+        {
+            _width = value;
+            model.tables.ForEach(r => r.width = _width);
+        }
+    }
+
+    private int? _price_rule;
     public int? price_rule
     {
         get { return _price_rule; }

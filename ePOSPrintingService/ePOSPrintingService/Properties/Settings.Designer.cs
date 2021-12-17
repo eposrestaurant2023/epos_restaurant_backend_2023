@@ -25,20 +25,6 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("yqvCU6H7jCxODH8z49Lq1DgjjsUjy+CGLHCPbk5dc2ans4lapfIy7YC/1k7slsjwEep3Ba9dKaGyMDB5c" +
-            "2xe5tC9Anp2K/s8azqJiPMytqghMI2swRsRHvrfbqmmWsfg/FSnHdrXacyQwtwJEsZTJyDbzsZhVnfLp" +
-            "g+rmpIPEvR9KP9/h9Viwke488+Qdb9z")]
-        public string DBConnection {
-            get {
-                return ((string)(this["DBConnection"]));
-            }
-            set {
-                this["DBConnection"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\deleteme\\")]
         public string FileWatcherPath {
             get {
@@ -116,7 +102,10 @@ namespace ePOSPrintingService.Properties {
             "Deleted Sale Order\",\r\n        \"InvoiceFileName\": \"rpt_deleted_invoice\",\r\n       " +
             " \"PageWidth\": 2.85,\r\n        \"PageHeight\": 11,\r\n        \"MarginTop\": 0,\r\n       " +
             " \"MarginRight\": 0,\r\n        \"MarginBottom\": 0,\r\n        \"MarginLeft\": 0\r\n    }\r\n" +
-            "\r\n\r\n]")]
+            ",\r\n{\r\n        \"ReceiptName\": \"Waiting Order\",\r\n        \"InvoiceFileName\": \"rpt_w" +
+            "aiting_order\",\r\n        \"PageWidth\": 2.85,\r\n        \"PageHeight\": 11,\r\n        \"" +
+            "MarginTop\": 0,\r\n        \"MarginRight\": 0,\r\n        \"MarginBottom\": 0,\r\n        \"" +
+            "MarginLeft\": 0\r\n    }\r\n\r\n]")]
         public string ReceiptSettings {
             get {
                 return ((string)(this["ReceiptSettings"]));
@@ -135,6 +124,36 @@ namespace ePOSPrintingService.Properties {
             }
             set {
                 this["CashierPrinter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"{
+    ""telegram_alert_url"": ""https://api.telegram.org/"",
+    ""telegram_alert_token"": ""593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw"",
+    ""telegram_chat_id"": ""-545894511"",
+    ""image_path"":""C:\\www\\host\\restaurant_client_api\\uploads\\telegram_images\\"",
+    ""image_url"":""http://customer.esoftix.com:9597/restaurant_client_api/uploads/telegram_images/""
+}")]
+        public string telegram {
+            get {
+                return ((string)(this["telegram"]));
+            }
+            set {
+                this["telegram"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://customer.esoftix.com:9597/restaurant_client_api/api/")]
+        public string api_url {
+            get {
+                return ((string)(this["api_url"]));
+            }
+            set {
+                this["api_url"] = value;
             }
         }
     }

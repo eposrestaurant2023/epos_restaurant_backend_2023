@@ -186,6 +186,7 @@ namespace eAPI.Controllers
                 string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
                 return r;
             }
+
             return BadRequest();
 
         }

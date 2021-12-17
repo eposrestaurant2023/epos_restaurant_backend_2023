@@ -708,6 +708,9 @@ namespace eAPIClient.Migrations
                     b.Property<bool>("is_section")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("modifier_id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("modifier_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -724,6 +727,9 @@ namespace eAPIClient.Migrations
                     b.Property<string>("section_name")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
+
+                    b.Property<int>("sort_order")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -1524,6 +1530,9 @@ namespace eAPIClient.Migrations
 
                     b.Property<DateTime>("last_modified_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("modifier_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("modifier_name")
                         .HasColumnType("nvarchar(max)")

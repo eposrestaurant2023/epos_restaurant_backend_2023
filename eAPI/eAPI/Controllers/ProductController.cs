@@ -156,6 +156,10 @@ namespace eAPI.Controllers
                 u.unit = null;
                 db.Products.Update(u);
             } 
+
+
+
+
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
             if (u.is_inventory_product)
             {

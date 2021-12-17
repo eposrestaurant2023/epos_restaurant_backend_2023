@@ -1322,6 +1322,12 @@ a, a:hover {
     color: #fff;
 }
 
+    .bg_kpi.bg_today_Order_mtd {
+        background: #651fd6;
+    }
+    .bg_kpi.bg_today_order {
+        background: #27bbc2;
+    }
     .bg_kpi.bg_today_amount {
         background: #f79743;
     }
@@ -4005,7 +4011,7 @@ body {
     overflow: hidden;
 }
 .page_containter {
-    height: calc(100vh - 160px);
+    height: calc(100vh - 300px);
     padding: 15px;
     margin-top: 0;
     overflow: auto;

@@ -202,6 +202,7 @@ namespace eModels
         public decimal total_active_order { get; set; }
         public decimal total_closed_order { get; set; }
         public decimal total_order { get; set; }
+        public int mtd_order { get; set; }
         public decimal total_deleted_order { get; set; }
     }
 

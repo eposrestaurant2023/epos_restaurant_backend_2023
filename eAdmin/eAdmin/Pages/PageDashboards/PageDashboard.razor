@@ -19,6 +19,7 @@
             </HeaderRight>
         </PageHeader>
         <PageBody>
+          
             @if (gv.business_branch_by_role.Count() > 1)
             {
                 <MudTabs PanelClass="pa-6">
@@ -35,6 +36,13 @@
                         </MudTabPanel>
                     }
                 </MudTabs>
+        }else
+            {
+                if (gv.business_branch_by_role.Any())
+                {
+                    <ComDashboard business_branch_id="@gv.business_branch_by_role.FirstOrDefault().id.ToString()" />
+                }
+                 
             }
 
 

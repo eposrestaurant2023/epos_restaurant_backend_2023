@@ -72,7 +72,7 @@
                         <ComSaleDetailFooterInformation sale="@sale" />
                     </ComPage>
                 </MudTabPanel>
-                @if (sale.sale_status.status_name != "Open Order" && sale.sale_status.status_name != "Hold Order")
+                @*@if (sale.sale_status.status_name != "Open Order" && sale.sale_status.status_name != "Hold Order")
                 {
                     <MudTabPanel Text="@lang["Payment"]" OnClick="@ShowPaymentHistory">
                             @if (is_show_payment_history)
@@ -80,7 +80,7 @@
                                 <ComSaleDetail_PaymentList sale_id="@sale.id" on_reload="LoadData" />
                             }
                     </MudTabPanel>
-                }
+                }*@
             <MudTabPanel OnClick="@ShowComment" Text="@lang["Comment and History"]">
                 @if (is_show_comment)
                 {
