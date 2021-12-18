@@ -35,10 +35,10 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     state.pager.order_by = "created_date";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?";
-                url += $"$expand=purchase_order($expand=business_branch,stock_location,vendor)";
+                string url = $"{controller_api}?$select=id,unit,created_by,created_date,is_deleted,quantity,sub_total,total_discount,total_amount,cost,discount,discount_type,total_amount,purchase_order_id&";
+                url += $"$expand=purchase_order($select=id,balance,document_number,is_over_due,is_partially_paid,is_paid,reference_number,vendor_id,purchase_date;$expand=business_branch($select=id,business_branch_name_kh,business_branch_name_en),stock_location($select=id,stock_location_name),vendor($select=id,photo,vendor_code,vendor_name))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
-
+                Console.WriteLine(url);
                 return url + GetFilter(state.filters);  
             }
         }
@@ -312,6 +312,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
 
         public async Task OnSearch(string keyword)
         {
+            Console.WriteLine(keyword);
             state.pager = new PagerModel();
             SetFilterValue2(state.filters, "keyword", keyword);
             await LoadData();

@@ -39,57 +39,49 @@
             </HeaderRight>
         </PageHeader>
             <PageBody>
-                <Tab>
-                    <TabHeader>
-                        <TabHeaderItem>@lang["Overview"]</TabHeaderItem>
-                        <TabHeaderItem OnClick="@(()=>show_comment_tab=true)">@lang["Comment"]</TabHeaderItem>
-                    </TabHeader>
-                    <TabBody>
-                        <TabItem>
-                            <UIGridCenter>
-                                <UIContainerBox Title="@lang["Information"]">
-                                    <table>
-                                        <tr>
-                                            <th>@lang["Name En"]</th>
-                                            <td>@modifier_group.modifier_group_name_en</td>
-                                        </tr>
-                                        @if (!string.IsNullOrEmpty(modifier_group.modifier_group_name_kh))
+                <MudTabs PanelClass="pa-6">
+                    <MudTabPanel Text="@lang["Overview"]">
+                        <UIGridCenter>
+                            <UIContainerBox Title="@lang["Information"]">
+                                <table>
+                                    <tr>
+                                        <th>@lang["Name En"]</th>
+                                        <td>@modifier_group.modifier_group_name_en</td>
+                                    </tr>
+                                    @if (!string.IsNullOrEmpty(modifier_group.modifier_group_name_kh))
                                         {
-                                            <tr>
-                                                <th>@lang["Name Kh"]</th>
-                                                <td>@modifier_group.modifier_group_name_kh</td>
-                                            </tr>
+                                    <tr>
+                                        <th>@lang["Name Kh"]</th>
+                                        <td>@modifier_group.modifier_group_name_kh</td>
+                                    </tr>
                                         }
-                                    </table>
-                                </UIContainerBox>
-                            </UIGridCenter>
-                            <UIGridCenter>
-                                @*===========modifier group item=========*@
-                                <ComModifierGroupDetail_Modifier modifier_group="@modifier_group"/>
-                            </UIGridCenter>
-                            <UIGridCenter>
-                                @*===========modifier group product category=========*@
-                                <ComModifierGroup_ProductCategory modifier_group_id="@Guid.Parse(id)" product_groups="@product_groups" />
-                            </UIGridCenter>
-                        </TabItem>
-                        @*============comment===========*@
-                    <TabItem>
+                                </table>
+                            </UIContainerBox>
+                        </UIGridCenter>
+                        <UIGridCenter>
+                            @*===========modifier group item=========*@
+                            <ComModifierGroupDetail_Modifier modifier_group="@modifier_group" />
+                        </UIGridCenter>
+                        <UIGridCenter>
+                            @*===========modifier group product category=========*@
+                            <ComModifierGroup_ProductCategory modifier_group_id="@Guid.Parse(id)" product_groups="@product_groups" />
+                        </UIGridCenter>
+                    </MudTabPanel>
+                    <MudTabPanel Text="@lang["Comment"]" OnClick="@(()=>show_comment_tab=true)">
                         @if (show_comment_tab)
                         {
-                            <UIGridCenter>
-                                <UIContainerBox Title="@lang["Comment and History"]">
-                                    <ComHistory RoleAdd="@gv.GetRole("modifier_group_add")"
-                                                RoleDelete="@gv.GetRole("modifier_group_delete")"
-                                                RoleEdit="@gv.GetRole("modifier_group_edit")"
-                                                ApiFilter="@($"modifier_group_id eq {id}")"
-                                                history="@(new HistoryModel() { modifier_group_id = Guid.Parse(id)})" />
-                                </UIContainerBox>
-                            </UIGridCenter>
+                        <UIGridCenter>
+                            <UIContainerBox Title="@lang["Comment and History"]">
+                                <ComHistory RoleAdd="@gv.GetRole("modifier_group_add")"
+                                            RoleDelete="@gv.GetRole("modifier_group_delete")"
+                                            RoleEdit="@gv.GetRole("modifier_group_edit")"
+                                            ApiFilter="@($"modifier_group_id eq {id}")"
+                                            history="@(new HistoryModel() { modifier_group_id = Guid.Parse(id)})" />
+                            </UIContainerBox>
+                        </UIGridCenter>
                         }
-                    </TabItem>
-                    </TabBody>
-                </Tab>
-                
+                    </MudTabPanel>
+                </MudTabs>
             </PageBody>
     </PageContainer>
 }
@@ -121,7 +113,7 @@ else
     {
         is_loading = true;
 
-        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_group_items($expand=children($expand=modifier);$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
+        var resp = await http.ApiGet($"{controller_api}({id})?$expand=modifier_group_items($expand=children($expand=modifier);$orderby=sort_order desc;$filter=is_deleted eq false),modifier_group_product_categories($filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             modifier_group = JsonSerializer.Deserialize<ModifierGroupModel>(resp.Content.ToString());

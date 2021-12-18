@@ -22,7 +22,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
             get
             {
 
-                return "STOSTOCKSFTANProdyctsaledmRGrRwd5021D20154coN" + gv.current_login_user.id; //Storage and Session Key  
+                return "STOSTOCKSFTANProdyctsaledmRGrRwd5021D20154coN" + gv.current_login_user.id + product_id.ToString(); //Storage and Session Key  
             }
         }
         public string ControllerApi
@@ -34,7 +34,7 @@ namespace eAdmin.Pages.PageInventory.PageVendor.ComVendorDetail
                     state.pager.order_by = "id";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?";
+                string url = $"{controller_api}?$select=id,created_by,created_date,quantity,unit,stock_transfer_id,cost,sub_total&";
                 url += $"$expand=stock_transfer($select=id,from_business_branch_id,from_stock_location_id,to_business_branch_id,to_stock_location_id,document_number,stock_transfer_date,reference_number,is_fulfilled;$expand=from_business_branch($select=id,business_branch_name_en,business_branch_name_kh),to_business_branch($select=id,business_branch_name_en,business_branch_name_kh),from_stock_location,to_stock_location)";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 

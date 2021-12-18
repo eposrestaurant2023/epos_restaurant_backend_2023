@@ -5,19 +5,14 @@
     {
         <span class="uk-label overdue">@lang["Overdue"] (@System.Math.Floor(@DateTime.Now.Subtract(po.due_date.Value).TotalDays))</span>
     }
-
-
     @if (po.is_partially_paid && !po.is_deleted)
     {
         <LabelPartiallyPaid />
     }
-
-
     @if (po.is_paid && !po.is_deleted)
     {
         <LabelPaid />
     }
-
     <LabelUnpaid is_visible="@(!po.is_deleted && !po.is_paid && (po.total_amount > 0) && (po.balance == po.total_amount))" />
     @if (po.is_deleted == false)
     {

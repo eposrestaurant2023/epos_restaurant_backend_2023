@@ -60,8 +60,9 @@
                             <div class="sub-header-table">@lang["Warehouse"]</div>
                        </ThAuto>
                         <ThCenter>@lang["Quantity"]</ThCenter>
-                        <ThRight>@lang["Cost"]</ThRight>
-                        <ThRight> @lang["Grand Total"]</ThRight>
+                        <ThCenter>@lang["Unit"]</ThCenter>
+                        <ThRight> @lang["Price"]</ThRight>
+                        <ThRight> @lang["Amount"]</ThRight>
                         <ThCenter>@lang["Created Date"]</ThCenter>
                         <Th>@lang["Created by"]</Th>
                         <ThCenter>@lang["Status"]</ThCenter>
@@ -86,11 +87,14 @@
                         <TdCenter>
                             @p.quantity.ToString(gv.quantity_format)
                         </TdCenter>
+                        <TdCenter>
+                            @p.unit
+                        </TdCenter>
                         <TdRight>
                             @p.cost.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.grand_total.ToString(gv.main_currency_format)
+                            @p.total_amount.ToString(gv.main_currency_format)
                         </TdRight>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>

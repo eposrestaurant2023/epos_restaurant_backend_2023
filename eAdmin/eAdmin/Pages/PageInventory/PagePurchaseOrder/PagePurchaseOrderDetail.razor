@@ -1,11 +1,6 @@
 ﻿@page "/purchaseorder/{id:int}";
 @inherits PagePurchaseOrderDetailBase
-
-
 <Loading is_loading="@( is_loading || is_loading_data)" />
-
-
-
 @if (!is_loading)
 {
     <Title Value="@($"{lang["Purchase Order #"]} {model.document_number}")"></Title>

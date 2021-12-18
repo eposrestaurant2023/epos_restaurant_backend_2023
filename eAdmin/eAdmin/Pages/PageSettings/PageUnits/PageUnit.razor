@@ -69,7 +69,7 @@
 
     async Task LoadData()
     {
-        var resp = await http.ApiGetOData($"UnitCategory?$expand=units($filter=is_deleted eq false)");
+        var resp = await http.ApiGetOData($"UnitCategory?$expand=units($filter=is_deleted eq false;$orderby=sort_order desc)");
         if (resp.IsSuccess)
         {
             unit_categories = JsonSerializer.Deserialize<List<UnitCategoryModel>>(resp.Content.ToString());
