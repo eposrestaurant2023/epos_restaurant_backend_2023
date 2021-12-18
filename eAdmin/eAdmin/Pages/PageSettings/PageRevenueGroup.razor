@@ -30,11 +30,11 @@
                                 <ThCenter>@lang["Sort Order"]</ThCenter>
                                 <Th></Th>
                             </tr>
-                            @foreach (var b in models.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
+                            @foreach (var b in models.Where(r => r.is_deleted == false))
                             {
                                 <tr>
-                                    <td><TextInput @bind-text="@b.revenue_group_name_en" placeholder="Revenue Group en" /></td>
-                                    <td><TextInput @bind-text="@b.revenue_group_name_kh" placeholder="Revenue Group kh" /></td>
+                                    <td><TextInput @bind-text="@b.revenue_group_name_en" placeholder="@lang["Revenue Group en"]" /></td>
+                                    <td><TextInput @bind-text="@b.revenue_group_name_kh" placeholder="@lang["Revenue Group kh"]" /></td>
                                     <TdCenter>
                                         <NumberInputInt @bind-text="@b.sort_order" />
                                     </TdCenter>
@@ -72,7 +72,7 @@
     async Task LoadData()
     {
 
-        var resp = await http.ApiGetOData("RevenueGroup");
+        var resp = await http.ApiGetOData("RevenueGroup?$orderby=sort_order desc");
         if (resp.IsSuccess)
         {
             models = JsonSerializer.Deserialize<List<RevenueGroupModel>>(resp.Content.ToString());

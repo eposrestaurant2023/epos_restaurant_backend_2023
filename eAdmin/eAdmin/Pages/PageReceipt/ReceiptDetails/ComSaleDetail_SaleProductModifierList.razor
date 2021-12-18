@@ -1,6 +1,6 @@
 ﻿@if (sale_product_modifiers.Any())
 {
-    <ol class="order-list uk-margin-remove">
+    <ul class="order-list uk-margin-remove">
         @foreach (var spm in sale_product_modifiers)
         {
             <li class="uk-margin-remove">
@@ -9,7 +9,7 @@
                 </ComAuthorize>
             </li>
         }
-    </ol>
+    </ul>
 }
 
 @code {

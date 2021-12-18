@@ -69,7 +69,7 @@
     async Task LoadData()
     {
 
-        var resp = await http.ApiGetOData("BusinessBranch?$expand=sale_types($filter=is_deleted eq false)&$filter=is_deleted eq false");
+        var resp = await http.ApiGetOData("BusinessBranch?$expand=sale_types($filter=is_deleted eq false;$orderby=sort_order desc)&$filter=is_deleted eq false");
         if (resp.IsSuccess)
         {
             branches = JsonSerializer.Deserialize<List<BusinessBranchModel>>(resp.Content.ToString());

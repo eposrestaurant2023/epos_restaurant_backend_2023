@@ -216,7 +216,6 @@ namespace eAdmin.Pages.PageProducts
                     is_saving = false;
                     return;
                 }
-
                 foreach (var child in m.children)
                 {
                     if (string.IsNullOrEmpty(child.modifier.modifier_name))
@@ -244,7 +243,7 @@ namespace eAdmin.Pages.PageProducts
 
             if (save_model.product_portions.Where(r => r.portion_name == "" && r.is_deleted ==false).Any())
             {
-                toast.Add(lang["Please enter portion Name"], MudBlazor.Severity.Warning);
+                toast.Add(lang["Please enter portion name"], MudBlazor.Severity.Warning);
                 is_saving = false;
                 return;
             }

@@ -58,9 +58,11 @@
                             <div>@lang["Business Branch"]</div>
                             <div class="sub-header-table">@lang["Warehouse"]</div>
                         </ThAuto>
-                        <ThRight> @lang["Total Amount"]</ThRight>
-                        <ThRight> @lang["Paid Amount"]</ThRight>
-                        <ThRight> @lang["Balance"]</ThRight>
+                        <ThCenter> @lang["Quantity"]</ThCenter>
+                        <ThCenter> @lang["Unit"]</ThCenter>
+                        <ThRight> @lang["Price"]</ThRight>
+                        <ThRight> @lang["Discount"]</ThRight>
+                        <ThRight> @lang["Amount"]</ThRight>
                         <ThCenter>@lang["Created Date"]</ThCenter>
                         <Th>@lang["Created by"]</Th>
                         <ThRight> @lang["Status"]</ThRight>
@@ -80,16 +82,32 @@
                         <td>
                             <div>@(gv.current_language.language_id == "km-Kh" ? p.purchase_order?.business_branch?.business_branch_name_kh : p.purchase_order?.business_branch?.business_branch_name_en )</div>
                             <div class="sub-info-row-table">@p.purchase_order?.stock_location?.stock_location_name</div>
-                            
                         </td>
+                        <TdCenter>
+                            @p.quantity.ToString(gv.quantity_format)
+                        </TdCenter>
+                        <TdCenter>
+                            @p.unit
+                        </TdCenter>
                         <TdRight>
-                            @p.purchase_order?.total_amount.ToString(gv.main_currency_format)
+                            @p.cost.ToString(gv.currency_format)
                         </TdRight>
                         <TdRight>
-                            @p.purchase_order?.paid_amount.ToString(gv.main_currency_format)
+                            @if (p.discount <= 0)
+                                {
+                                <span>-</span>
+                                }
+                                else if (p.discount_type == "Percent")
+                                {
+                                <span>@((p.discount / 100).ToString("00.## %"))</span>
+                                }
+                                else
+                                {
+                                <span>@p.discount.ToString(gv.currency_format)</span>
+                                }
                         </TdRight>
                         <TdRight>
-                            @p.purchase_order?.balance.ToString(gv.main_currency_format)
+                            @p.total_amount.ToString(gv.currency_format)
                         </TdRight>
                         <TdCenter>@p.created_date.ToString(gv.date_time_format)</TdCenter>
                         <td>@p.created_by</td>

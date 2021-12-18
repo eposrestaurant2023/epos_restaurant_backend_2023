@@ -26,6 +26,28 @@ namespace eAPI.Controllers
             db = _db;
         }
 
+        [HttpGet]
+        [EnableQuery(MaxExpansionDepth = 1000, MaxNodeCount=2000)]
+        public IQueryable<PurchaseOrderProductModel> Get(string keyword = "")
+        {
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return (from r in db.PurchaseOrderProducts
+                        where
+                              EF.Functions.Like(
+                                  (
+                                     (r.purchase_order.document_number ?? " ") +
+                                     (r.purchase_order.vendor.vendor_name ?? " ")
+                                  ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                        select r);
+
+            }
+            else
+            {
+                return db.PurchaseOrderProducts.AsQueryable();
+            }
+        }
+
 
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]

@@ -80,7 +80,10 @@
                             <div>@lang["To Business Branch"]</div>
                             <div class="sub-header-table">@lang["Warehouse"]</div>
                         </ThAuto>
-                        <ThRight>@lang["Total Amount"]</ThRight>
+                        <ThCenter>@lang["Quantity"]</ThCenter>
+                        <ThCenter>@lang["Unit"]</ThCenter>
+                        <ThRight>@lang["Price"]</ThRight>
+                        <ThRight>@lang["Amount"]</ThRight>
                         <ThCenter>@lang["Created Date"]</ThCenter>
                         <Th>@lang["Created by"]</Th>
                         <ThRight>@lang["Status"]</ThRight>
@@ -106,14 +109,15 @@
                                 @p.stock_transfer?.to_stock_location?.stock_location_name
                             </div>
                         </td>
-                        <TdRight>
-                            @p.stock_transfer?.total_amount.ToString(gv.main_currency_format)
-                        </TdRight>
+                        <TdCenter>@p.quantity.ToString(gv.quantity_format)</TdCenter>
+                        <TdCenter>@p.unit</TdCenter>
+                        <TdRight>@p.cost.ToString(gv.currency_format)</TdRight>
+                        <TdRight>@p.total_amount.ToString(gv.currency_format)</TdRight>
                         <TdCenter>
-                            @p.stock_transfer?.created_date.ToString(gv.date_time_format)
+                            @p.created_date.ToString(gv.date_time_format)
                         </TdCenter>
                         <td>
-                            @p.stock_transfer?.created_by
+                            @p.created_by
                         </td>
                         <TdRight>
                             <ComStockTransferStatus model="@p.stock_transfer" />

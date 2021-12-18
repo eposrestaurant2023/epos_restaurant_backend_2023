@@ -28,8 +28,7 @@ namespace eAPI.Controllers
         }
 
         [HttpGet]
-        [EnableQuery(MaxExpansionDepth = 8)]
-
+        [EnableQuery(MaxExpansionDepth = 10,MaxNodeCount =200)]
         public IQueryable<StockTransferModel> Get(string keyword = "")
         {
             if (!string.IsNullOrEmpty(keyword))

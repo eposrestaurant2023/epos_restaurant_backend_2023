@@ -9,7 +9,7 @@
                 <ThCenter>@lang["Sort Order"]</ThCenter>
                 <Th></Th>
             </tr>
-            @foreach (var p in units.OrderBy(r => r.sort_order).Where(r => r.is_deleted == false))
+            @foreach (var p in units.Where(r => r.is_deleted == false))
             {
                 <tr>
                     <td><TextInput is_read_only="@p.is_built_in" @bind-text="@p.unit_name" placeholder="@lang["Unit"]" width="120px" /></td>
