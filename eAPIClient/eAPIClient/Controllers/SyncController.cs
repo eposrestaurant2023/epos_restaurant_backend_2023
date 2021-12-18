@@ -472,7 +472,7 @@ namespace eAPIClient.Controllers
 
             string _deleteQuery = string.Format("delete tbl_config_data where is_local_setting=0; ");
             db.Database.ExecuteSqlRaw(_deleteQuery);
-            db.ConfigDatas.AddRange(config_datas);     
+            db.ConfigDatas.AddRange(config_datas.Where(r=>r.is_local_setting==false));     
             await db.SaveChangesAsync();
             //
 
@@ -576,7 +576,7 @@ namespace eAPIClient.Controllers
         async Task<List<ConfigDataModel>> GetConfigData(string business_branch_id)
         {
             is_get_remote_data_success = false;
-            string url = "Configdata?$select=id,data,config_type,note";
+            string url = "Configdata?$select=id,data,config_type,note,is_local_setting";
             url = url + $"&$filter=business_branch_id eq {business_branch_id}";  
             var resp = await http.ApiGetOData(url);
             if (resp.IsSuccess)

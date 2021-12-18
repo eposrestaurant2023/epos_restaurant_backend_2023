@@ -19,7 +19,7 @@ namespace eModels
 
         [MaxLength(50)]
         public string table_name { get; set; }
-
+        public string sale_type { get; set; } = "Dine in";
         public double position_x_percent { get; set; }
         public double position_y_percent { get; set; }
         public double height { get; set; } = 60;

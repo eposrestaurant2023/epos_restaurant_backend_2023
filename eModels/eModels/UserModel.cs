@@ -29,7 +29,7 @@ namespace eModels
         public string password { get; set; } = "";
 
         [Required]
-        [StringLength(1, ErrorMessage = "Enter 2 didit only.")]
+      
         public string user_code { get; set; }
         public string pin_code { get; set; }
         public string email { get; set; }
