@@ -54,6 +54,8 @@ namespace eShareModel
 
         public string note { get; set; }
 
+        public bool is_synced { get; set; } = false;
+
 
 
     }
