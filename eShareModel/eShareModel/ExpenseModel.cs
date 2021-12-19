@@ -30,6 +30,8 @@ namespace eShareModel
         
         public string cash_drawer_name { get; set; }
 
+        public string reference_number { get; set; }
+
         [Column(TypeName = "date")]
         public DateTime expense_date { get; set; } = DateTime.Now;
         public string expense_by { get; set; }
@@ -43,7 +45,8 @@ namespace eShareModel
         public int paymen_type_id { get; set; }
         public string paymen_type { get; set; }
         public int currency_id { get; set; }
-        public int currency_name { get; set; }
+        public string currency_name { get; set; }
+        public string currency_symbol{ get; set; }
         public string currency_format { get; set; }
 
 
