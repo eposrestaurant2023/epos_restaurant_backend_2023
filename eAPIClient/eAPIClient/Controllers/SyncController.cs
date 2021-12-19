@@ -155,6 +155,41 @@ namespace eAPIClient.Controllers
             }
         }
 
+        [HttpGet("SyncExpense")]
+        [AllowAnonymous]
+        public async Task<ActionResult> SyncExpense(Guid id)
+        {
+            try
+            {
+                var _modelData = db.Expenses.Where(r => r.id == id)
+                     .AsNoTrackingWithIdentityResolution();
+                if (_modelData.Count() > 0)
+                {
+                    var _model = _modelData.FirstOrDefault();
+                    _model.is_synced = true;
+                    var _syncResp = await http.ApiPost("Expense/SyncSave", _model);
+                    if (!_syncResp.IsSuccess)
+                    {
+                        return BadRequest();
+
+                    }
+                    db.Expenses.Update(_model);
+                    await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+
         [HttpGet("SyncCustomer")]
         [AllowAnonymous]
         public async Task<ActionResult> SyncCustomer(Guid id)
@@ -494,6 +529,7 @@ namespace eAPIClient.Controllers
             } 
             return new List<MenuModel>();
         }
+
         async Task<List<ProductModel>> GetRemoteProduct(string business_branch_id)
         {
             List < ProductModel > _products = new List<ProductModel>();

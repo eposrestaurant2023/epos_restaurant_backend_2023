@@ -68,6 +68,31 @@ namespace eAPI.Controllers
             return Ok(u);
         }
 
+        [HttpPost("SyncSave")]
+        public async Task<ActionResult<string>> SyncSave([FromBody] eShareModel.ExpenseModel model)
+        {
+            try
+            {
+                var _modelCheck = db.Expenses.Where(r => r.id == model.id).AsNoTracking();
+                if (_modelCheck.Count() > 0)
+                {
+                    db.Expenses.Update(model);
+                }
+                else
+                {
+                    db.Expenses.Add(model);
+                }
+
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var _ex = ex;
+                return BadRequest();
+            }
+        }
+
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
         public SingleResult<eShareModel.ExpenseModel> Get([FromODataUri] Guid key)

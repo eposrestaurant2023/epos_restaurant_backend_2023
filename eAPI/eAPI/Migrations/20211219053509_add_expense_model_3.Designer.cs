@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211219053509_add_expense_model_3")]
+    partial class add_expense_model_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -6078,10 +6080,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<string>("currency_symbol")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -7426,7 +7424,7 @@ namespace eAPI.Migrations
             modelBuilder.Entity("eShareModel.ExpenseItemModel", b =>
                 {
                     b.HasOne("eShareModel.ExpenseCategoryModel", "expense_category")
-                        .WithMany("expense_items")
+                        .WithMany()
                         .HasForeignKey("expense_category_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -7706,11 +7704,6 @@ namespace eAPI.Migrations
                     b.Navigation("cash_drawer_amounts");
 
                     b.Navigation("cashier_shifts");
-                });
-
-            modelBuilder.Entity("eShareModel.ExpenseCategoryModel", b =>
-                {
-                    b.Navigation("expense_items");
                 });
 #pragma warning restore 612, 618
         }
