@@ -1,0 +1,216 @@
+﻿@page "/expensescategory/new"
+@page "/expensescategory/edit/{id}"
+@inherits PageCore;
+@using eShareModel;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="@title"></Title>
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @title
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderLeft></HeaderLeft>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+
+                <UIGridCenter>
+                    <UIContainerBox Title="@lang["Expenses Category"]">
+                        <TextInput @bind-text="@model.expense_category_name" label="@lang["Expenses Category"]" />
+                        <NumberInputInt @bind-text="@model.sort_order" label="@lang["Sort Order"]" />
+                        <SelectStatus @bind-selected_value="@model.status" />
+
+                    </UIContainerBox>
+
+                    <UIContainerBox Title="@lang["Expenses Item"]" is_show_add_button="true" OnAddClick="@(()=>AddExpensesItem())">
+                        <div class="uk-overflow-auto">
+                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
+                                <tr>
+                                    <ThAuto>@lang["Expenses Item"]</ThAuto>
+                                    <ThCenter>@lang["Sort Order"]</ThCenter>
+                                    <ThCenter>@lang["Status"]</ThCenter>
+                                    <th></th>
+                                </tr>
+                                <ViewEmptyTemplate is_view="model.expense_items.Any()" colspan="4">
+                                    @foreach (var s in model.expense_items.Where(r => r.is_deleted == false).ToList())
+                                    {
+                                        <tr>
+                                            <td><TextInput label="" placeholder="@lang["Expenses Item"]" @bind-text="@s.expense_item_name" /></td>
+                                            <TdCenter>
+                                                <NumberInputInt label="" @bind-text="@s.sort_order" />
+                                            </TdCenter>
+                                            <TdCenter>
+                                                <LabelActive OnClick="@(()=>ChangeExpensesItemStatus(s))" is_visible="@s.status" />
+                                                <LabelInActive OnClick="@(()=>ChangeExpensesItemStatus(s))" is_visible="@(!s.status)" />
+                                            </TdCenter>
+                                            <td>
+                                                <Icon icon="delete" OnClick="@(()=>DeleteExpensesItem(s))" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </ViewEmptyTemplate>
+                            </table>
+                        </div>
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+                <PageFooter>
+                    <FooterCenter>
+                        <ComSavingFormButton is_loading="@is_saving" cancel_url="expensescategory" />
+                    </FooterCenter>
+                </PageFooter>
+        </EditForm>
+       
+    </PageContainer>
+}
+
+@code{
+    [Parameter] public string id { get; set; }
+    ExpenseCategoryModel model = new ExpenseCategoryModel();
+    List<ExpenseCategoryModel> expenses_catecory = new List<ExpenseCategoryModel>();
+    string ControllerApi = "ExpenseCategory";
+    public string api_url
+    {
+        get
+        {
+            string query = ControllerApi;
+            query = query + $"({id})";
+            query = query + "?$expand=expense_items";
+
+            return query;
+
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData()
+    {
+
+        is_loading_data = true;
+        if (id != "" && id != null)
+        {
+            var resp = await http.ApiGet(api_url);
+            if (resp.IsSuccess)
+            {
+
+                model = JsonSerializer.Deserialize<ExpenseCategoryModel>(resp.Content.ToString());
+
+            }
+        }
+
+        is_loading_data = false;
+
+    }
+
+    void OnclickExpensesCategory(ExpenseItemModel st)
+    {
+        model.expense_items.Add(st);
+    }
+
+    async Task Save_Click(EditContext editContext)
+    {
+        ExpenseCategoryModel d = model;
+        if (!is_saving)
+        {
+            is_saving = true;
+            Object obj = new Object();
+            ExpenseCategoryModel save_expenses_category = JsonSerializer.Deserialize<ExpenseCategoryModel>(JsonSerializer.Serialize(d));
+
+            if(save_expenses_category.expense_items.Where(r=>r.expense_item_name == "" && r.is_deleted == false).Any())
+            {
+                toast.Add(lang["Expenses Item Cannot Empty"], MudBlazor.Severity.Warning);
+                is_saving = false;
+                return;
+            }
+
+            if (save_expenses_category.expense_items.Where(r => r.is_deleted == false).Any() == false)
+            {
+                toast.Add(lang["Expenses Category Cannot Empty"], MudBlazor.Severity.Warning);
+                is_saving = false;
+                return;
+            }
+            else
+            {
+                if (save_expenses_category.status == false)
+                {
+                    if (save_expenses_category.expense_items.Where(r => r.is_deleted == false && r.status == true).Any())
+                    {
+                        toast.Add(lang["Cannot change status to inactive"], MudBlazor.Severity.Warning);
+                        is_saving = false;
+                        return;
+                    }
+                }
+            }
+
+            var res = await http.ApiPost($"{ControllerApi}/save", save_expenses_category);
+            if (res.IsSuccess)
+            {
+                obj = JsonSerializer.Deserialize<ExpenseCategoryModel>(res.Content.ToString());
+
+                toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
+                nav.NavigateTo($"expensescategory");
+            }
+            else
+            {
+                is_saving = false;
+                toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
+            }
+
+            is_saving = false;
+        }
+    }
+
+
+    void AddExpensesItem()
+    {
+        model.expense_items.Add(new ExpenseItemModel()
+        {
+            expense_item_name = "Expenses Item " + (model.expense_items.Count() + 1),
+            status = true
+
+        });
+
+    }
+
+    void DeleteExpensesItem(ExpenseItemModel s)
+    {
+        if (s.id == Guid.Empty)
+        {
+            model.expense_items.Remove(s);
+        }
+        else
+        {
+            s.is_deleted = true;
+        }
+
+
+    }
+
+    void ChangeExpensesItemStatus(ExpenseItemModel s)
+    {
+        if (s.id == Guid.Empty)
+        {
+            s.status = !s.status;
+        }
+        else
+        {
+            s.status = !s.status;
+        }
+
+
+    }
+
+}

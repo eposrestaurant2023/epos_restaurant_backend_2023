@@ -34,6 +34,8 @@ namespace eModels
         public List<StockTransferModel> stock_stransfer { get; set; }
 
         public List<ProductGroupModel> product_groups { get; set; }
+        public List<eShareModel.ExpenseItemModel> expenses_items { get; set; }
+        public List<eShareModel.ExpenseCategoryModel> expeneses_categories { get; set; }
         public List<ProductCategoryModel> product_categories { get; set; }
         public List<RevenueGroupModel> revenue_groups { get; set; }
         public List<CustomerGroupModel> customer_groups { get; set; }

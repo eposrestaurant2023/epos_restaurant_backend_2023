@@ -66,7 +66,6 @@ namespace eAPI.Controllers
         {
             var u = await db.ProductCategories.FindAsync(id);
             u.is_deleted = !u.is_deleted;
-
             db.ProductCategories.Update(u);
             await db.SaveChangesAsync();
             return Ok(u);

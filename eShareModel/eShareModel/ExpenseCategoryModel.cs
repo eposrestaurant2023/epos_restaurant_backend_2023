@@ -10,8 +10,13 @@ namespace eShareModel
     [Table("tbl_expense_category")]
     public class ExpenseCategoryModel : CoreGUIDModel
     {
+        public ExpenseCategoryModel()
+        {
+            expense_items = new List<ExpenseItemModel>();
+        }
         public string expense_category_name { get; set; }
         public int sort_order { get; set; }
+        public List<ExpenseItemModel> expense_items { get; set; }
     }
 
    [Table("tbl_expense_item")]
