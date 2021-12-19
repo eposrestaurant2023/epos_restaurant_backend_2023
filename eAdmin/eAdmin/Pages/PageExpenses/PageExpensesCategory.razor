@@ -1,0 +1,160 @@
+﻿@page "/expensescategory"
+@inject IJSRuntime js
+@inherits PageCore;
+@using eShareModel;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+    <Title Value="@lang["Expenses Category"]"></Title>
+    <PageContainer roles="@gv.GetRole("expenses_category_management")">
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle ShowFilter="false">
+                    <HeaderTemplate>
+                        @lang["Expenses Category"]
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("expenses_category_add")" url="expensescategory/new">@lang["New Expenses Category"]</AddButton>
+
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("expenses_category_add")" url="expensescategory/new"></AddButton>
+
+                </MudHidden>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
+            </HeaderRight>
+        </PageHeader>
+        <PageBody>
+            <UIGridCenter>
+                <Tab>
+                    <div>
+                        <ViewEmptyTemplate is_view="@(models.Any())" is_box_empty="true">
+                            @foreach (var d in models.ToList())
+                            {
+                                <div class="container-layout">
+                                    <div class="title-header">
+                                        <div class="uk-panel">
+                                            <div class="uk-float-left">
+                                                <span>
+                                                    @d.expense_category_name
+                                                </span>
+                                            </div>
+                                            <Column ClassName="uk-float-right">
+                                                <div>
+                                                    <LabelActive is_visible="@d.status" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("expenses_category_edit")" />
+                                                    <LabelInActive is_visible="@(!d.status)" is_loading="@d.is_change_status" ClassName="cp" roles="@gv.GetRole("expenses_category_edit")" />
+                                                    <span>
+                                                        <Icon icon="edit" url="@($"expensescategory/edit/{d.id}")" roles="@gv.GetRole("expenses_category_edit")" />
+                                                    </span>
+
+                                                    <span>
+                                                        <Icon icon="delete" OnClick="@(()=>Deleted(d))" roles="@gv.GetRole("expenses_category_delete")" />
+                                                    </span>
+
+                                                </div>
+                                            </Column>
+                                        </div>
+                                    </div>
+
+                                    <hr />
+                                    <div>
+                                        <Tab>
+                                            <div class="uk-overflow-auto table-scroll">
+                                                <table class="uk-table cus_hearder_table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                                    <tr>
+                                                        <Th>@lang["Expense item"]</Th>
+                                                        <ThCenter>@lang["Sort Order"]</ThCenter>
+                                                        <ThCenter>@lang["Status"]</ThCenter>
+                                                    </tr>
+                                                    <ViewEmptyTemplate is_view="@d.expense_items.Any()" colspan="6">
+                                                        @foreach (var s in d.expense_items.Where(r=>r.is_deleted == false))
+                                                        {
+                                                        <tr>
+                                                            <td>@s.expense_item_name</td>
+                                                            <TdCenter>
+                                                                <NumberInputInt @bind-text="@s.sort_order" is_read_only="true" width="100px" class_name="uk-text-center" />
+                                                            </TdCenter>
+                                                            <TdCenter>
+                                                                <LabelActive is_visible="@s.status" is_loading="@s.is_change_status" />
+                                                                <LabelInActive is_visible="@(!s.status)" is_loading="@s.is_change_status" />
+                                                            </TdCenter>
+                                                        </tr>
+                                                        }
+                                                    </ViewEmptyTemplate>
+                                                </table>
+                                            </div>
+                                        </Tab>
+                                    </div>
+                                </div>
+                            }
+
+                        </ViewEmptyTemplate>
+                    </div>
+                </Tab>
+            </UIGridCenter>
+
+        </PageBody>
+    </PageContainer>
+}
+
+@code{
+    List<ExpenseCategoryModel> models = new List<ExpenseCategoryModel>();
+    List<ExpenseItemModel> expenses_items = new List<ExpenseItemModel>();
+    string ControllerApi = "ExpenseCategory";
+    protected override async Task OnInitializedAsync()
+    {
+        is_loading = true;
+        await LoadData();
+        is_loading = false;
+    }
+
+    async Task LoadData(string api_url = "")
+    {
+        is_loading = true;
+        is_loading_data = true;
+
+        if (string.IsNullOrEmpty(api_url))
+        {
+
+            api_url = $"{ControllerApi}?$expand=expense_items($filter=is_deleted eq false;$orderby=sort_order desc)&$filter=is_deleted eq false&$orderby=sort_order desc";
+        }
+
+        var resp = await http.ApiGetOData(api_url);
+        if (resp.IsSuccess)
+        {
+
+            models = JsonSerializer.Deserialize<List<ExpenseCategoryModel>>(resp.Content.ToString());
+            gv.expeneses_categories = models;
+            gv.expenses_items = models.SelectMany(r => r.expense_items).ToList();
+        }
+        is_loading_data = false;
+        is_loading = false;
+    }
+
+
+    async Task Deleted(ExpenseCategoryModel p)
+    {
+        if (!is_saving)
+        {
+            is_saving = true;
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
+            {
+                var res = await http.ApiPost($"ExpenseCategory/delete/{p.id}");
+                if (res.IsSuccess)
+                {
+                    toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
+                    await LoadData();
+                }
+                else
+                {
+                    is_saving = false;
+                    toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
+                }
+            }
+            is_saving = false;
+        }
+    }
+}

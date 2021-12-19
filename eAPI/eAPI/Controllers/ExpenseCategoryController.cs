@@ -78,7 +78,7 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<eShareModel.ExpenseCategoryModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<eShareModel.ExpenseCategoryModel>> DeleteRecord(Guid id) //Delete
         {
             var u = await db.ExpenseCategories.FindAsync(id);
             u.is_deleted = !u.is_deleted;

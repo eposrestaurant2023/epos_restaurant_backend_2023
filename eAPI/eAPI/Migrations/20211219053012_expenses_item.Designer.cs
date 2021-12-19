@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211219053012_expenses_item")]
+    partial class expenses_item
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -6074,13 +6076,8 @@ namespace eAPI.Migrations
                     b.Property<int>("currency_id")
                         .HasColumnType("int");
 
-                    b.Property<string>("currency_name")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
-
-                    b.Property<string>("currency_symbol")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
+                    b.Property<int>("currency_name")
+                        .HasColumnType("int");
 
                     b.Property<string>("deleted_by")
                         .HasMaxLength(100)
@@ -6145,10 +6142,6 @@ namespace eAPI.Migrations
 
                     b.Property<int>("paymen_type_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("reference_number")
-                        .HasColumnType("nvarchar(max)")
-                        .UseCollation("Khmer_100_BIN");
 
                     b.Property<Guid?>("station_id")
                         .HasColumnType("uniqueidentifier");
