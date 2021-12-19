@@ -1,0 +1,42 @@
+﻿@inject IStringLocalizer<Resource> lang
+<div class="uk-margin-small">
+    <label class="uk-form-label" for="@id">@lang[label]</label>
+    <div class="uk-form-controls">
+        <select id="@id" value="@selected_value" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
+            @if (show_empty)
+            {
+                <option value="">@lang[empty_text]</option>
+            }
+            @foreach (var d in saletypes)
+            {
+                <option value="@d.sale_type_name">@d.sale_type_name</option>
+            }
+        </select>
+        @ChildContent
+    </div>
+</div>
+
+@code{
+
+    [Parameter] public List<SaleTypeModel> saletypes { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string label { get; set; } = "Sale Type";
+    [Parameter] public bool show_empty { get; set; } = true;
+    [Parameter] public string empty_text { get; set; } = "Select Sale Type";
+
+    [Parameter] public string width { get; set; } = "100%";
+    [Parameter] public string selected_value { get; set; } = "Dine in";
+    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
+
+
+
+    Guid id = Guid.NewGuid();
+
+    private async Task SelectedValueChange(string n)
+    {
+
+        await selected_valueChanged.InvokeAsync(n);
+
+    }
+
+}

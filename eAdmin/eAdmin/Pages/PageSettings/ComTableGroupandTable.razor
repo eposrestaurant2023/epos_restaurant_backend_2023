@@ -98,6 +98,7 @@
                                                     <ThCenter>@lang["Width"]</ThCenter>
                                                     <ThCenter>@lang["Height"]</ThCenter>
                                                     <th>@lang["Shape"]</th>
+                                                    <th>@lang["Sale Type"]</th>
                                                     <ThCenter>@lang["Sort Order"]</ThCenter>
                                                     <th>@lang["Price Rule"]</th>
 
@@ -114,6 +115,7 @@
                                                                 @s.shape
                                                             }
                                                         </td>
+                                                        <td>@s.sale_type</td>
                                                         <TdCenter>
                                                             @s.sort_order
                                                         </TdCenter>
@@ -163,7 +165,7 @@
         if (string.IsNullOrEmpty(api_url))
         {
 
-            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,sort_order,height,shape,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false;$orderby=sort_order desc),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
+            api_url = $"{ControllerApi}?$expand=tables($expand=price_rule;$select=table_name,sale_type,sort_order,height,shape,width,position_x_percent,position_y_percent,id;$filter= is_deleted eq false;$orderby=sort_order desc),outlet($select=id,outlet_name_en,outlet_name_kh;$filter= is_deleted  eq false)";
         }
 
         var resp = await http.ApiGetOData(api_url);
