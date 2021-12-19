@@ -10,24 +10,20 @@
 
     <FileUpload @bind-ImageUrl="@user.photo" />
     <Spacing Number="10" />
-    <TextInput is_read_only="true" label="@lang["User Code"]" @bind-text="@user.user_code" />
     <TextInput label="@lang["Full Name"]" @bind-text="@user.full_name">
         <ValidationMessage For="@(() => user.full_name)" />
     </TextInput>
-
     <TextInput label="@lang["User Name"]" text="@user.username" is_read_only="true" />
-
-    <TextInput label="@lang["Email"]" @bind-text="@user.email" />
-    <TextInput label="@lang["Phone Number"]" @bind-text="@user.phone_1" />
-
     <TextInput label="@lang["Password"]" type="password" @bind-text="@new_password">
         <ValidationMessage For="@(()=>user.password)" />
     </TextInput>
-
+    <TextInput is_read_only="true" label="@lang["Code"]" @bind-text="@user.user_code" />
     @if (user.is_allow_front_end_login)
     {
         <TextInput label="@lang["Pin Code"]" @bind-text="@user.pin_code" />
     }
+    <TextInput label="@lang["Email"]" @bind-text="@user.email" />
+    <TextInput label="@lang["Phone Number"]" @bind-text="@user.phone_1" />
 </EditFormContext>
 
 @code{

@@ -1,6 +1,5 @@
 ﻿@using eModels;
 @inherits PageCore
-
 <EditFormContext Cancel_Click="Cancel_click" model="@user" is_opened="is_dialog_open" title="@modal_title" Save_Click="@SaveUser_Click" is_submitting="user.is_loading" modal_width="800px">
     <UIContainerBox Title="@lang["Photo"]" ClassName="uk-text-center">
         <UIFlexCenter>
@@ -16,24 +15,24 @@
     </UIContainerBox>
     
     <UIContainerBox Title="@lang["Account"]">
-        <TextInput label="@lang["Code"]" @bind-text="@(user.user_code)">
-            <ValidationMessage For="@(()=>user.user_code)" />
-        </TextInput>
-
         <TextInput label="@lang["User Name"]" @bind-text="@user.username">
             <ValidationMessage For="@(() => user.username)" />
         </TextInput>
         <TextInput label="@lang["Password"]" type="password" @bind-text="@user.password">
             <ValidationMessage For="@(()=>user.password)" />
         </TextInput>
-        <SelectRole label="@lang["Role Name"]" show_empty="true" @bind-selected_value="@user.role_id">
-            <ValidationMessage For="@(()=>user.role_id)" />
-        </SelectRole>
-        <ComInputCheckBox label="@lang["Is Allow Front End Login"]" @bind-value="user.is_allow_front_end_login" />
+        <TextInput label="@lang["Code"]" @bind-text="@(user.user_code)">
+            <ValidationMessage For="@(()=>user.user_code)" />
+        </TextInput>
         @if (user.is_allow_front_end_login)
         {
             <TextInput label="@lang["Pin Code"]" @bind-text="@user.pin_code" />
         }
+        <SelectRole label="@lang["Role Name"]" show_empty="true" @bind-selected_value="@user.role_id">
+            <ValidationMessage For="@(()=>user.role_id)" />
+        </SelectRole>
+        <ComInputCheckBox label="@lang["Is Allow Front End Login"]" @bind-value="user.is_allow_front_end_login" />
+
         <ComInputCheckBox label="@lang["Is Allow Back End Login"]" @bind-value="user.is_allow_backend_login" />
 
         <SelectStatus label="@lang["Status"]" @bind-selected_value="@user.status" />

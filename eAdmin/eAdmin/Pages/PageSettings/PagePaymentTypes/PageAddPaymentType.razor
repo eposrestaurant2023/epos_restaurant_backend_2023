@@ -43,9 +43,8 @@
                         </SelectCurrency>
                         <ComSelectPaymentTypeGroup @bind-selected_value="@model.payment_type_group"/>
                         <ComInputCheckBox label="@lang["FOC"]" @bind-value="@model.is_foc"/>
+                        <ComInputCheckBox label="@lang["Is single payment"]" @bind-value="@model.is_single_payment"/>
                         <SelectStatus @bind-selected_value="@model.status" />
-
-
                     </UIContainerBox>
                     <UIContainerBox Title="@lang["Rooms"]" is_visible="@(model.payment_type_group=="Pay to Room")" is_show_add_button="true" OnAddClick="@AddNewRoom">
                         <table class="uk-table cus_hearder_table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">

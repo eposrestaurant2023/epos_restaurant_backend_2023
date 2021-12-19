@@ -8,6 +8,8 @@
             <ListTableItem ItemTitle="@lang["Shift"]" IsBetweenValue="true">@model.shift_name</ListTableItem>
             <ListTableItem ItemTitle="@lang["Opened"]" IsBetweenValue="true">@model.created_date.ToString(gv.date_time_format)</ListTableItem>
             <ListTableItem ItemTitle="@lang["Opened by"]" IsBetweenValue="true">@model.created_by</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Closed"]" IsBetweenValue="true">@(model.closed_date != null ? model.closed_date.Value.ToString(gv.date_time_format) : "")</ListTableItem>
+            <ListTableItem ItemTitle="@lang["Closed by"]" IsBetweenValue="true">@model.closed_by</ListTableItem>
         </ListTable>
     </UIContainerBox>
 </UIGridCenter>
