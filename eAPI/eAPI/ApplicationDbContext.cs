@@ -170,6 +170,9 @@ namespace eAPI
         public DbSet<RevenueGroupModel> RevenueGroups{ get; set; }
         public DbSet<InventoryCheckModel> InventoryChecks { get; set; }
         public DbSet<InventoryCheckProductModel> InventoryCheckProduts { get; set; }
+        public DbSet<ExpenseCategoryModel> ExpenseCategories{ get; set; }
+        public DbSet<ExpenseItemModel> ExpenseItems{ get; set; }
+        public DbSet<ExpenseModel> Expenses{ get; set; }
        
     }
 

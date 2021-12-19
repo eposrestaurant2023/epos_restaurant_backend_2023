@@ -36,6 +36,9 @@ namespace eAPI.Controllers
         [HttpPost("save")]
         public async Task<ActionResult<string>> Save([FromBody] PaymentTypeModel u)
         {            
+            
+            u.is_credit = u.payment_type_group == "On Account";
+            
             if (u.id == 0)
             {
                 db.PaymentTypes.Add(u);
