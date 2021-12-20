@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using eShareModel;
 using System.Threading.Tasks;
 
 namespace eModels
@@ -65,9 +66,13 @@ namespace eModels
 
 
         public CustomerModel customer { get; set; } = new CustomerModel();
+        public ExpenseCategoryModel expense_category { get; set; } = new ExpenseCategoryModel();
+        public ExpenseItemModel expense_item { get; set; } = new ExpenseItemModel();
+
         public StockLocationModel stockLocation { get; set; } = new StockLocationModel();
         public BusinessBranchModel business_branch { get; set; } = new BusinessBranchModel();
         public OutletModel outlet { get; set; } = new OutletModel();
+        public StationModel station { get; set; } = new StationModel();
         public ProductGroupModel product_group { get; set; } = new ProductGroupModel();
         public HashSet<string> multi_select_id_1 { get; set; } = new HashSet<string>();
         public List<string> multi_select_value_1 { get; set; } = new List<string>();
@@ -206,6 +211,10 @@ namespace eModels
         public int vendor_id { get; set; }
         public int sale_id { get; set; }
         public int customer_id { get; set; }
+
+        public Guid station_id { get; set; }
+        public Guid expense_category_id { get; set; }
+        public Guid expense_item_id { get; set; }
         public int position_id { get; set; }
         public int outlet_id { get; set; }
         public int purchase_id { get; set; }

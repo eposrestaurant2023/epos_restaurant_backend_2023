@@ -94,22 +94,22 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
-            if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
-            {
-                //Outlet Filter
-                state.filters.Add(new FilterModel()
-                {
-                    key = "outlet_id",
-                    value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
-                    filter_title = lang["Outlet"],
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
-                    is_clear_all = true,
-                    will_remove = true,
-                    is_show_on_infor = false
-                });
-            }
+            //if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
+            //{
+            //    //Outlet Filter
+            //    state.filters.Add(new FilterModel()
+            //    {
+            //        key = "outlet_id",
+            //        value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
+            //        filter_title = lang["Outlet"],
+            //        filter_operator = "multiple",
+            //        state_property_name = "list_selected_values",
+            //        filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
+            //        is_clear_all = true,
+            //        will_remove = true,
+            //        is_show_on_infor = false
+            //    });
+            //}
 
             if (string.IsNullOrEmpty(api_url))
             {
@@ -254,21 +254,35 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
-            //// customer
-            //if (state.customer != null)
-            //{
-            //    state.filters.Add(new FilterModel()
-            //    {
-            //        key = "customer_id",
-            //        value1 = state.customer.id.ToString(),
-            //        filter_title = lang["Customer"],
-            //        state_property_name = "customer",
-            //        filter_info_text = state.customer.customer_code_name,
-            //        is_clear_all = true,
-            //        will_remove = true
-            //    });
-            //}
-             
+            //// Expense Category
+            if (state.expense_category != null)
+            {
+                state.filters.Add(new FilterModel()
+            {
+                    key = "expense_category_id",
+                    value1 = state.expense_category.id.ToString(),
+                   filter_title = lang["Expense Category"],
+                   state_property_name = "expense category",
+                   filter_info_text = state.expense_category.expense_category_name,
+                    is_clear_all = true,
+                  will_remove = true
+                });
+            }
+
+            //// Expense Category
+            if (state.expense_item != null)
+            {
+                state.filters.Add(new FilterModel()
+                {
+                    key = "expense_item_id",
+                    value1 = state.expense_item.id.ToString(),
+                    filter_title = lang["Expense Item"],
+                    state_property_name = "expense item",
+                    filter_info_text = state.expense_item.expense_item_name,
+                    is_clear_all = true,
+                    will_remove = true
+                });
+            }
 
             state.pager.current_page = 1;
             await LoadData();
@@ -319,8 +333,21 @@ namespace eAdmin.Pages.PageReceipt
                     state.multi_select_id_2.Clear();
                     state.multi_select_value_2.Clear();
                 }
-                
 
+
+                // clear filter expense category
+                if (k == "expense_category_id" && state.multi_select_id_2 != null)
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
+
+                // clear filter expense item
+                if (k == "expense_item_id" && state.multi_select_id_2 != null)
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
                 state.filters.RemoveAll(r => r.key == k);
             }
 
@@ -351,7 +378,18 @@ namespace eAdmin.Pages.PageReceipt
                     state.multi_select_value_2.Clear();
                 }
 
-               
+                // clear filter expense category
+                if (f.key == "expense_category_id")
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
+                // clear filter expense item
+                if (f.key == "expense_item_id")
+                {
+                    state.multi_select_id_2.Clear();
+                    state.multi_select_value_2.Clear();
+                }
 
                 RemoveFilter(state, f.state_property_name);
             }
@@ -362,6 +400,76 @@ namespace eAdmin.Pages.PageReceipt
             await LoadData();
             is_loading = false;
         }
+
+        public async Task OnToogleStatus(ExpenseModel p)
+        {
+            p.is_loading = true;
+            await SaveStatus(p);
+            p.is_loading = false;
+        }
+        public async Task OnToogleStatusLabel(ExpenseModel p)
+        {
+            p.is_change_status = true;
+            await SaveStatus(p);
+            p.is_change_status = false;
+        }
+        public async Task SaveStatus(ExpenseModel p)
+        {
+            var expense = new ExpenseModel();
+            expense = p;
+            expense.status = !expense.status;
+            var resp = await http.ApiPost(controller_api + "/save", expense);
+            if (resp.IsSuccess)
+            {
+                toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
+                if (models.Count() == 1 && state.pager.current_page > 1)
+                {
+                    state.pager.current_page = state.pager.current_page - 1;
+                }
+
+                await LoadData();
+            }
+        }
+
+        public async Task OnDelete(ExpenseModel p)
+        {
+            p.is_loading = true;
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
+            {
+                var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+                if (resp.IsSuccess)
+                {
+                    toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
+                    if (models.Count() == 1 && state.pager.current_page > 0)
+                    {
+                        state.pager.current_page = state.pager.current_page - 1;
+                    }
+                    await LoadData();
+                }
+            }
+            p.is_loading = false;
+        }
+
+        public async Task OnRestore(ExpenseModel p)
+        {
+            p.is_loading = true;
+            if (await js.Confirm(lang["Restore Recored"], lang["Are you sure you want to restore this record?"]))
+            {
+                var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+
+                if (resp.IsSuccess)
+                {
+                    if (models.Count() == 1 && state.pager.current_page > 1)
+                    {
+                        state.pager.current_page = state.pager.current_page - 1;
+                    }
+                    await LoadData();
+                }
+                toast.Add(lang["Restore record successfully"], MudBlazor.Severity.Success);
+            }
+            p.is_loading = false;
+        }
+
 
     }
 }

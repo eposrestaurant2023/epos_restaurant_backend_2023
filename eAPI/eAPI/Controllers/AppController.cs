@@ -64,6 +64,9 @@ namespace eAPI.Controllers
             gv.business_branch_system_features= db.BusinessBranchSystemFeatures.ToList();
             gv.revenue_groups= db.RevenueGroups.ToList();
             gv.sale_types= db.SaleTypes.ToList();
+            gv.expeneses_categories= db.ExpenseCategories.ToList();
+            gv.expenses_items= db.ExpenseItems.ToList();
+            gv.stations= db.Stations.ToList();
 
             return Ok(gv);
         }

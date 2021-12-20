@@ -31,6 +31,7 @@ namespace eModels
         public List<StockLocationModel> stock_locations { get; set; }
         public List<InventoryTransactionTypeModel> inventory_transaction_type { get; set; }
         public List<OutletModel> outlets { get; set; }
+        public List<StationModel> stations { get; set; }
         public List<StockTransferModel> stock_stransfer { get; set; }
 
         public List<ProductGroupModel> product_groups { get; set; }

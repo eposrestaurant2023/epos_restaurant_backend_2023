@@ -1,0 +1,62 @@
+﻿@using eShareModel
+@page "/expenses/{id}"
+@inherits PageCore
+<Loading is_loading="@(is_loading || is_loading_data)" />
+@if (!is_loading && !is_error)
+{
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                <PageTitle>
+                    <HeaderTemplate>
+                        @model.id
+                    </HeaderTemplate>
+                </PageTitle>
+            </HeaderLeft>
+            <HeaderRight></HeaderRight>
+        </PageHeader>
+        <PageBody>
+
+        </PageBody>
+    </PageContainer>
+}
+
+@code {
+        [Parameter] public string id { get; set; }
+public ExpenseModel model { get; set; }
+    string controller_api = "Expense";
+    public string api_query
+    {
+        get
+        {
+            string query = $"{controller_api}({id})";
+            return query;
+        }
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        is_loading = true;
+        await LoadData();
+
+        is_loading = false;
+    }
+
+    public async Task LoadData()
+    {
+        is_loading = true;
+        var resp = await http.ApiGet(api_query);
+        if (resp.IsSuccess)
+        {
+            model = JsonSerializer.Deserialize<ExpenseModel>(resp.Content.ToString());
+        }
+        else
+        {
+            is_error = true;
+        }
+
+        is_loading = false;
+    }
+
+    }
