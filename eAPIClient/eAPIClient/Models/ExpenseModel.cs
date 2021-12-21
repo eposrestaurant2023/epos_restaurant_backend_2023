@@ -9,5 +9,10 @@ namespace eAPIClient.Models
     [Table("tbl_expense")]
     public class ExpenseModel:eShareModel.ExpenseShareModel
     {
+        public ExpenseModel()
+        {
+            histories = new List<HistoryModel>();
+        }
+        public List<HistoryModel> histories { get; set; }
     }
 }

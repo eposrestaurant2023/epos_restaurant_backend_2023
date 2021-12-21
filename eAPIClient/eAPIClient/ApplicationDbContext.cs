@@ -63,7 +63,7 @@ namespace eAPIClient
         public DbSet<StoreProcedureResultModel> StoreProcedureResults { get; set; }
         public DbSet<HistoryModel> Histories{ get; set; }
 
-        public DbSet<eShareModel.ExpenseModel> Expenses { get; set; }
+        public DbSet<ExpenseModel> Expenses { get; set; }
 
 
     }

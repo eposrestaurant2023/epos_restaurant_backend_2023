@@ -51,7 +51,14 @@ namespace eAPIClient.Models
 
         [ForeignKey("sale_id")]
         public SaleModel sale { get; set; }
+
+          public Guid? expense_id { get; set; }
+
+
+        [ForeignKey("expense_id")]
+        public ExpenseModel expense { get; set; }
         
+
 
 
         public string document_number { get; set; } = "";

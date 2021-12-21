@@ -26,7 +26,7 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [AllowAnonymous]
-        public IQueryable<eShareModel.ExpenseModel> Get(string keyword)
+        public IQueryable<ExpenseModel> Get(string keyword)
         {
             if ((keyword??"") == "")
             {
@@ -55,15 +55,15 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("getsingle")]
-        public async Task<SingleResult<eShareModel.ExpenseModel>> GetQuery([FromODataUri] Guid key)
+        public async Task<SingleResult<ExpenseModel>> GetQuery([FromODataUri] Guid key)
         {
-            return await Task.Factory.StartNew(() => SingleResult.Create<eShareModel.ExpenseModel>(db.Expenses.Where(r => r.id == key).AsQueryable()));
+            return await Task.Factory.StartNew(() => SingleResult.Create<ExpenseModel>(db.Expenses.Where(r => r.id == key).AsQueryable()));
         }
 
         
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] eShareModel.ExpenseModel u)
+        public async Task<ActionResult<string>> Save([FromBody] ExpenseModel u)
         {
             u.is_synced = false;
             if (u.id == Guid.Empty)
@@ -80,7 +80,7 @@ namespace eAPIClient.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<eShareModel.ExpenseModel> Get([FromODataUri] Guid key)
+        public SingleResult<ExpenseModel> Get([FromODataUri] Guid key)
         {
             var s = db.Expenses.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(s);
@@ -88,7 +88,7 @@ namespace eAPIClient.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<eShareModel.ExpenseModel>> DeleteRecord(int id) //Delete
+        public async Task<ActionResult<ExpenseModel>> DeleteRecord(int id) //Delete
         {
             var u = await db.Expenses.FindAsync(id);
             u.is_deleted = !u.is_deleted;
