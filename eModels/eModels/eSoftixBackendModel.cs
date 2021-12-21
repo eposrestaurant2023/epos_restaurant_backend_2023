@@ -143,6 +143,7 @@ namespace eSoftixBackend
          public string station_name_en { get; set; }
          public string station_name_kh { get; set; }
         public bool is_already_config { get; set; } = false;
+        public bool is_order_station { get; set; } = false;
         public bool is_full_license { get; set; }
         [Column(TypeName = "date")]
         public DateTime expired_date { get; set; }

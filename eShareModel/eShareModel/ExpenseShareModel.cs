@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace eShareModel
 {
-    [Table("tbl_expense")]
-  public  class ExpenseModel:CoreGUIDModel
+   
+  public  class ExpenseShareModel : CoreGUIDModel
     {
-        public ExpenseModel()
+        public ExpenseShareModel()
         {
           
         }

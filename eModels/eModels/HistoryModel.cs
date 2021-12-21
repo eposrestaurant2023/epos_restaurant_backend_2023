@@ -59,7 +59,10 @@ namespace eModels
 
         public int? vendor_id { get; set; }
         [ForeignKey("vendor_id")]
-        public virtual VendorModel vendor { get; set; }
+        public virtual VendorModel vendor { get; set; }   
+        public Guid? expense_id{ get; set; }
+        [ForeignKey("expense_id")]
+        public virtual ExpenseModel expense { get; set; }
 
         public Guid? sale_id { get; set; }
         [ForeignKey("sale_id")]

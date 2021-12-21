@@ -222,7 +222,7 @@ namespace eAPI
             odataBuilder.EntitySet<InventoryCheckModel>("InventoryCheck");
             odataBuilder.EntitySet<eShareModel.ExpenseCategoryModel>("ExpenseCategory");
             odataBuilder.EntitySet< eShareModel.ExpenseItemModel> ("ExpenseItem");
-            odataBuilder.EntitySet<eShareModel.ExpenseModel>("Expense");
+            odataBuilder.EntitySet<ExpenseModel>("Expense");
 
             odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");
             var business_branch_system_features = odataBuilder.EntitySet<BusinessBranchSystemFeatureModel>("BusinessBranchSystemFeature");

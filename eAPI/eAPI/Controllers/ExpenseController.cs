@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
-
 namespace eAPI.Controllers
 {
     [ApiController]
@@ -31,7 +30,7 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [AllowAnonymous]
-        public IQueryable<eShareModel.ExpenseModel> Get()
+        public IQueryable<ExpenseModel> Get()
         {
             return db.Expenses;
 
@@ -40,21 +39,21 @@ namespace eAPI.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [Route("getsingle")]
-        public async Task<SingleResult<eShareModel.ExpenseModel>> GetQuery([FromODataUri] Guid key)
+        public async Task<SingleResult<ExpenseModel>> GetQuery([FromODataUri] Guid key)
         {
-            return await Task.Factory.StartNew(() => SingleResult.Create<eShareModel.ExpenseModel>(db.Expenses.Where(r => r.id == key).AsQueryable()));
+            return await Task.Factory.StartNew(() => SingleResult.Create<ExpenseModel>(db.Expenses.Where(r => r.id == key).AsQueryable()));
         }
 
         [HttpGet("category")]
         [EnableQuery(MaxExpansionDepth = 8)]
-        public IQueryable<eShareModel.ExpenseModel> GetCategoryNote()
+        public IQueryable<ExpenseModel> GetCategoryNote()
         {
             return db.Expenses;
         }
 
 
         [HttpPost("save")]
-        public async Task<ActionResult<string>> Save([FromBody] eShareModel.ExpenseModel u)
+        public async Task<ActionResult<string>> Save([FromBody] ExpenseModel u)
         {
             if (u.id == Guid.Empty)
             {
@@ -69,7 +68,7 @@ namespace eAPI.Controllers
         }
 
         [HttpPost("SyncSave")]
-        public async Task<ActionResult<string>> SyncSave([FromBody] eShareModel.ExpenseModel model)
+        public async Task<ActionResult<string>> SyncSave([FromBody] ExpenseModel model)
         {
             try
             {
@@ -95,7 +94,7 @@ namespace eAPI.Controllers
 
         [HttpGet("find")]
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<eShareModel.ExpenseModel> Get([FromODataUri] Guid key)
+        public SingleResult<ExpenseModel> Get([FromODataUri] Guid key)
         {
             var s = db.Expenses.Where(r => r.id == key).AsQueryable();
             return SingleResult.Create(s);
@@ -103,7 +102,7 @@ namespace eAPI.Controllers
 
         [HttpPost]
         [Route("delete/{id}")]
-        public async Task<ActionResult<eShareModel.ExpenseModel>> DeleteRecord(Guid id) //Delete
+        public async Task<ActionResult<ExpenseModel>> DeleteRecord(Guid id) //Delete
         {
             var u = await db.Expenses.FindAsync(id);
             u.is_deleted = !u.is_deleted;

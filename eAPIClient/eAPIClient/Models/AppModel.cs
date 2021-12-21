@@ -219,6 +219,7 @@ namespace eAPIClient.Models
         public string station_name_en { get; set; }
         public string station_name_kh { get; set; }
 
+
     }
 
     public class CheckWorkingModel {

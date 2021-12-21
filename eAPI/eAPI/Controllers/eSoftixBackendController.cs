@@ -363,6 +363,7 @@ namespace eAPI.Controllers
             local.outlet_id = remote.outlet_id;
             local.is_full_license = remote.is_full_license;
             local.expired_date = remote.expired_date;
+            local.is_order_station = remote.is_order_station;
         }
 
         void MapCashDrawerField(eSoftixBackend.CashDrawerModel remote, eShareModel.CashDrawerModel local)

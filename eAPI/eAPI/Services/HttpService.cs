@@ -44,6 +44,7 @@ namespace eAPI.Services
             http.DefaultRequestHeaders.Add("ContentType", "application/json");
            
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:MN[D8beAt:AWeW5");
+            //var plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"esoftix:123456");
             string val = System.Convert.ToBase64String(plainTextBytes);
             http.DefaultRequestHeaders.Remove("Authorization");
             http.DefaultRequestHeaders.Add("Authorization", "Basic " + val);
