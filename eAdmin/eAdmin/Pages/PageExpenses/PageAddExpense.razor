@@ -19,16 +19,15 @@
         <PageBody>
             <UIGridCenter>
                 <UIContainerBox Title="@lang["Expenses Information"]">
-                    <TextInput @bind-text="@model.expense_by" label="@lang["Expense by"]"/>
-                    <DateInput @bind-value="@model.expense_date" label="@lang["Expense Date"]"/>
-                    <SelectExpenseCategory expensecategoryChanged="@ExpenseCategoryChange" selected_value="@model.expense_category_id" show_empty="true" label="@lang["Expense Category"]"/>
-                    <SelectExpenseItem expense_itemChanged="@ExpenseItemChange" selected_value="@model.expense_item_id" expense_category_id="@model.expense_category_id" show_empty="true" label="@lang["Expense Item"]"/>
-                    <SelectPaymentType payment_typeChanged="@PaymentTypeChange" selected_value="@model.paymen_type_id" show_empty="true" label="@lang["Payment Type"]"/>
-                    <NumberInput @bind-text="@model.amount" label="@lang["Amount"]"/>
-                    <SelectStatus @bind-selected_value="@model.status"/>
-                </UIContainerBox>
-                <UIContainerBox Title="@lang["Branch Information"]">
-                    <SelectBusinessBranch show_empty="true" label="@lang["Business Branch"]" business_branchChanged="@BussinessBranchChanged"  selected_value="@model.business_branch_id"/>
+                    <TextInput @bind-text="@model.reference_number" label="@lang["Reference Number"]" />
+                    <SelectExpenseCategory expensecategoryChanged="@ExpenseCategoryChange" selected_value="@model.expense_category_id" show_empty="true" label="@lang["Expense Category"]" />
+                    <SelectExpenseItem expense_itemChanged="@ExpenseItemChange" selected_value="@model.expense_item_id" expense_category_id="@model.expense_category_id" show_empty="true" label="@lang["Expense Item"]" />
+                    <DateInput @bind-value="@model.expense_date" label="@lang["Expense Date"]" />
+                    <TextInput @bind-text="@model.expense_by" label="@lang["Expense by"]" />
+                    <NumberInput @bind-text="@model.amount" label="@lang["Amount"]" />
+                    <SelectPaymentType payment_typeChanged="@PaymentTypeChange" selected_value="@model.paymen_type_id" show_empty="true" label="@lang["Payment Type"]" />
+                    <SelectBusinessBranch show_empty="true" label="@lang["Business Branch"]" business_branchChanged="@BussinessBranchChanged" selected_value="@model.business_branch_id" />
+                    <SelectStatus @bind-selected_value="@model.status" />
                 </UIContainerBox>
             </UIGridCenter>
         </PageBody>
@@ -81,7 +80,7 @@
             }
             else
             {
-                title = lang["Add New Customer"];
+                title = lang["Add New Expense"];
             }
             is_loading = false;
         }
@@ -117,14 +116,14 @@
         {
             is_saving = true;
             ExpenseModel d = model;
-            Object obj = new Object();
+            
             ExpenseModel save_expenses = JsonSerializer.Deserialize<ExpenseModel>(JsonSerializer.Serialize(d));
             var res = await http.ApiPost($"{ControllerApi}/save", save_expenses);
             if (res.IsSuccess)
             {
-                obj = JsonSerializer.Deserialize<ExpenseModel>(res.Content.ToString());
+                var obj = JsonSerializer.Deserialize<ExpenseModel>(res.Content.ToString());
                 toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
-                nav.NavigateTo($"expenses/{d.id}");
+                nav.NavigateTo($"expenses/{obj.id}");
             }
             else
             {

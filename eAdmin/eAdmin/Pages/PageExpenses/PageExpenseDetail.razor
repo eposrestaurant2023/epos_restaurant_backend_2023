@@ -1,62 +1,173 @@
 ﻿@using eShareModel
 @page "/expenses/{id}"
 @inherits PageCore
-<Loading is_loading="@(is_loading || is_loading_data)" />
-@if (!is_loading && !is_error)
-{
-    <PageContainer>
-        <PageHeader>
-            <HeaderLeft>
-                <PageTitle>
-                    <HeaderTemplate>
-                        @model.id
-                    </HeaderTemplate>
-                </PageTitle>
-            </HeaderLeft>
-            <HeaderRight></HeaderRight>
-        </PageHeader>
-        <PageBody>
+    <Loading is_loading="@(is_loading || is_loading_data)" />
+    @if (!is_loading && !is_error)
+    {
+        <PageContainer>
+            <PageHeader>
+                <HeaderLeft>
+                    <PageTitle ShowFilter="false">
+                        <HeaderTemplate>
+                            @model.expense_by
+                        </HeaderTemplate>
+                    </PageTitle>
+                </HeaderLeft>
+                <HeaderRight>
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <Button icon="print" OnClick="@PrintReceipt"></Button>
+                    </MudHidden>
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <AddButton roles="@gv.GetRole("expenses_add")" OnClick="@(()=>nav.NavigateTo("expenses/new"))">@lang["New Expenses"]</AddButton>
+                    </MudHidden>
+                    <RefreshButton OnClick="@LoadData" />
+                    <MoreButton is_loading="@model.is_loading">
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                            <MoreButtonItem roles="@gv.GetRole("expenses_add")" icon="add" url="expenses/new">@lang["NNew Expenses"]</MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"expenses/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
+                        </MudHidden>
+                        <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Inactive"]</MoreButtonItem>
+                        <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Active"]</MoreButtonItem>
+                        <MoreButtonItem roles="@gv.GetRole("expenses_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@(() => OnDelete(model))">@lang["Delete"]</MoreButtonItem>
+                        <MoreButtonItem roles="@gv.GetRole("expenses_delete")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@(() => OnRestore(model))">@lang["Restore"]</MoreButtonItem>
+                        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                            <MudDivider />
+                            <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="print" OnClick="@PrintReceipt"> </MoreButtonItem>
+                        </MudHidden>
+                    </MoreButton>
+                </HeaderRight>
+            </PageHeader>
+            <PageBody>
+                <UIGridCenter>
+                    <MudTabs PanelClass="pa-6">
+                        <MudTabPanel Text="@lang["Expense Information"]">
+                            <UIContainerBox Title="@lang["Expense Information"]" is_deleted="@model.is_deleted" is_active="@(model.status == true && model.is_deleted==false)" is_inactive="@(model.status == false && model.is_deleted==false)">
+                                <ListTable ClassWidth="uk-width-1-1">
+                                    <ListTableItem ItemTitle="@lang["Expense reference"]" IsBetweenValue="true">@model.reference_number</ListTableItem>
+                                    <ListTableItem ItemTitle="@lang["Expense Category"]" IsBetweenValue="true">@model.expense_category_name</ListTableItem>
+                                    <ListTableItem ItemTitle="@lang["Expense Item"]" IsBetweenValue="true">@model.expense_item_name</ListTableItem>
+                                    <ListTableItem ItemTitle="@lang["Expense Date"]" IsBetweenValue="true">@model.expense_date.ToString(gv.date_format)</ListTableItem>
+                                    <ListTableItem ItemTitle="@lang["Expense by"]" IsBetweenValue="true"> @model.expense_by </ListTableItem>
+                                    <ListTableItem ItemTitle="@lang["Amount"]" IsBetweenValue="true">@model.amount.ToString(gv.currency_format)</ListTableItem>
+                                    <ListTableItem ItemTitle="@lang["Payment Type"]" IsBetweenValue="true">@model.paymen_type</ListTableItem>
+                                    <ListTableItem ItemTitle="@lang["Business Branch"]" IsBetweenValue="true">
+                                        @model.business_branch_name
+                                    </ListTableItem>
+                                </ListTable>
+                            </UIContainerBox>
+                        </MudTabPanel>
+                        <MudTabPanel OnClick="@(()=> is_comment_loaded = true)" Text="@lang["Comments"]">
+                            <Com is_visible="@is_comment_loaded">
+                                <div>
+                                    @lang["Comment"]
+                                </div>
+                            </Com>
+                        </MudTabPanel>
+                    </MudTabs>
+                </UIGridCenter>
+            </PageBody>
+        </PageContainer>
+    }
 
-        </PageBody>
-    </PageContainer>
-}
-
-@code {
+    @code {
         [Parameter] public string id { get; set; }
-public ExpenseModel model { get; set; }
-    string controller_api = "Expense";
-    public string api_query
-    {
-        get
+        public ExpenseModel model { get; set; }
+        bool is_comment_loaded;
+        string controller_api = "Expense";
+        public string api_query
         {
-            string query = $"{controller_api}({id})";
-            return query;
-        }
-    }
-
-
-    protected override async Task OnParametersSetAsync()
-    {
-        is_loading = true;
-        await LoadData();
-
-        is_loading = false;
-    }
-
-    public async Task LoadData()
-    {
-        is_loading = true;
-        var resp = await http.ApiGet(api_query);
-        if (resp.IsSuccess)
-        {
-            model = JsonSerializer.Deserialize<ExpenseModel>(resp.Content.ToString());
-        }
-        else
-        {
-            is_error = true;
+            get
+            {
+                string query = $"{controller_api}({id})";
+                return query;
+            }
         }
 
-        is_loading = false;
-    }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            is_loading = true;
+            await LoadData();
+
+            is_loading = false;
+        }
+
+        public async Task LoadData()
+        {
+            is_loading = true;
+            var resp = await http.ApiGet(api_query);
+            if (resp.IsSuccess)
+            {
+                model = JsonSerializer.Deserialize<ExpenseModel>(resp.Content.ToString());
+            }
+            else
+            {
+                is_error = true;
+            }
+
+            is_loading = false;
+        }
+
+
+        public async Task OnToogleStatus(ExpenseModel p)
+        {
+            p.is_loading = true;
+            await SaveStatus(p);
+            p.is_loading = false;
+        }
+
+        public async Task SaveStatus(ExpenseModel p)
+        {
+            is_loading = true;
+            var expense = new ExpenseModel();
+            expense = p;
+            expense.status = !expense.status;
+            string d = JsonSerializer.Serialize(expense);
+            var resp = await http.ApiPost(controller_api + "/save", expense);
+            if (resp.IsSuccess)
+            {
+                toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
+                await LoadData();
+            }
+            is_loading = true;
+        }
+
+        public async Task OnDelete(ExpenseModel p)
+        {
+            p.is_loading = true;
+            if (await js.Confirm(lang["Delete Record"], lang["Are you sure you want to delete this record?"]))
+            {
+                var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+                if (resp.IsSuccess)
+                {
+                    toast.Add(lang["Delete record successfully"], MudBlazor.Severity.Success);
+                    await LoadData();
+                }
+            }
+            p.is_loading = false;
+        }
+
+        public async Task OnRestore(ExpenseModel p)
+        {
+            p.is_loading = true;
+            if (await js.Confirm(lang["Restore Record"], lang["Are you sure you want to restore this record?"]))
+            {
+                var resp = await http.ApiPost(controller_api + "/delete/" + p.id);
+
+                if (resp.IsSuccess)
+                {
+                    await LoadData();
+                }
+                toast.Add(lang["Restore record successfully"], MudBlazor.Severity.Success);
+            }
+            p.is_loading = false;
+        }
+
+        public void PrintReceipt()
+        {
+
+            var parameters = new DialogParameters { ["parent_id"] = 269, ["report_parameters"] = $"id={ id}", ["gv"] = gv };
+            Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Expense Report"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
+        }
 
     }
