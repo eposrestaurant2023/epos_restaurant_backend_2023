@@ -28,6 +28,7 @@
                     <SelectPaymentType payment_typeChanged="@PaymentTypeChange" selected_value="@model.paymen_type_id" show_empty="true" label="@lang["Payment Type"]" />
                     <SelectBusinessBranch show_empty="true" label="@lang["Business Branch"]" business_branchChanged="@BussinessBranchChanged" selected_value="@model.business_branch_id" />
                     <SelectStatus @bind-selected_value="@model.status" />
+                    <TextInput @bind-text="@model.note" type="textare" label="@lang["Note"]"/>
                 </UIContainerBox>
             </UIGridCenter>
         </PageBody>

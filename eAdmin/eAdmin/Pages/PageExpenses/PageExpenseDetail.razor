@@ -38,33 +38,36 @@
                 </HeaderRight>
             </PageHeader>
             <PageBody>
-                <UIGridCenter>
+               
                     <MudTabs PanelClass="pa-6">
                         <MudTabPanel Text="@lang["Expense Information"]">
-                            <UIContainerBox Title="@lang["Expense Information"]" is_deleted="@model.is_deleted" is_active="@(model.status == true && model.is_deleted==false)" is_inactive="@(model.status == false && model.is_deleted==false)">
-                                <ListTable ClassWidth="uk-width-1-1">
-                                    <ListTableItem ItemTitle="@lang["Expense reference"]" IsBetweenValue="true">@model.reference_number</ListTableItem>
-                                    <ListTableItem ItemTitle="@lang["Expense Category"]" IsBetweenValue="true">@model.expense_category_name</ListTableItem>
-                                    <ListTableItem ItemTitle="@lang["Expense Item"]" IsBetweenValue="true">@model.expense_item_name</ListTableItem>
-                                    <ListTableItem ItemTitle="@lang["Expense Date"]" IsBetweenValue="true">@model.expense_date.ToString(gv.date_format)</ListTableItem>
-                                    <ListTableItem ItemTitle="@lang["Expense by"]" IsBetweenValue="true"> @model.expense_by </ListTableItem>
-                                    <ListTableItem ItemTitle="@lang["Amount"]" IsBetweenValue="true">@model.amount.ToString(gv.currency_format)</ListTableItem>
-                                    <ListTableItem ItemTitle="@lang["Payment Type"]" IsBetweenValue="true">@model.paymen_type</ListTableItem>
-                                    <ListTableItem ItemTitle="@lang["Business Branch"]" IsBetweenValue="true">
-                                        @model.business_branch_name
-                                    </ListTableItem>
-                                </ListTable>
-                            </UIContainerBox>
+                            <UIGridCenter>
+                                <UIContainerBox Title="@lang["Expense Information"]" is_deleted="@model.is_deleted" is_active="@(model.status == true && model.is_deleted==false)" is_inactive="@(model.status == false && model.is_deleted==false)">
+                                    <ListTable ClassWidth="uk-width-1-1">
+                                        <ListTableItem ItemTitle="@lang["Reference number"]" IsBetweenValue="true">@model.reference_number</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Expense Category"]" IsBetweenValue="true">@model.expense_category_name</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Expense Item"]" IsBetweenValue="true">@model.expense_item_name</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Expense Date"]" IsBetweenValue="true">@model.expense_date.ToString(gv.date_format)</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Expense by"]" IsBetweenValue="true"> @model.expense_by </ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Amount"]" IsBetweenValue="true">@model.amount.ToString(gv.currency_format)</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Payment Type"]" IsBetweenValue="true">@model.paymen_type</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Business Branch"]" IsBetweenValue="true">
+                                            @model.business_branch_name
+                                        </ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Note"]" IsBetweenValue="true">@model.note</ListTableItem>
+                                    </ListTable>
+                                </UIContainerBox>
+                                </UIGridCenter>
                         </MudTabPanel>
                         <MudTabPanel OnClick="@(()=> is_comment_loaded = true)" Text="@lang["Comments"]">
-                            <Com is_visible="@is_comment_loaded">
-                                <div>
-                                    @lang["Comment"]
-                                </div>
-                            </Com>
+                            <UIGridCenter>
+                                <Com is_visible="@is_comment_loaded">
+                                    <ComHistory ApiFilter="@($"expense_id  eq {id}")"
+                                                history="@history" />
+                                </Com>
+                            </UIGridCenter>
                         </MudTabPanel>
                     </MudTabs>
-                </UIGridCenter>
             </PageBody>
         </PageContainer>
     }
@@ -72,6 +75,7 @@
     @code {
         [Parameter] public string id { get; set; }
         public ExpenseModel model { get; set; }
+        public HistoryModel history { get; set; } = new HistoryModel();
         bool is_comment_loaded;
         string controller_api = "Expense";
         public string api_query

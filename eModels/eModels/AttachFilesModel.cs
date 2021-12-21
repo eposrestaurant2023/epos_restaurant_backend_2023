@@ -55,8 +55,6 @@ namespace eModels
         public int? stock_transfer_id { get; set; }
         [ForeignKey("stock_transfer_id")]
         public StockTransferModel stock_transfer { get; set; }
-
-
         public Guid? modifier_id { get; set; }
         [ForeignKey("modifier_id")]
         public ModifierModel modifier { get; set; }
