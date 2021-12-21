@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211221033520_aded_revenue_group_id_to_tbl_product")]
+    partial class aded_revenue_group_id_to_tbl_product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1188,9 +1190,6 @@ namespace eAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid?>("expense_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("inventory_check_id")
                         .HasColumnType("uniqueidentifier");
 
@@ -1283,8 +1282,6 @@ namespace eAPI.Migrations
                     b.HasIndex("PurchaseOrderPaymentModelid");
 
                     b.HasIndex("customer_id");
-
-                    b.HasIndex("expense_id");
 
                     b.HasIndex("inventory_check_id");
 
@@ -4729,9 +4726,6 @@ namespace eAPI.Migrations
                     b.Property<bool>("is_full_license")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("is_order_station")
-                        .HasColumnType("bit");
-
                     b.Property<string>("last_modified_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -6488,10 +6482,6 @@ namespace eAPI.Migrations
                         .WithMany()
                         .HasForeignKey("customer_id");
 
-                    b.HasOne("eShareModel.ExpenseModel", "expense")
-                        .WithMany()
-                        .HasForeignKey("expense_id");
-
                     b.HasOne("eModels.InventoryCheckModel", "inventory_check")
                         .WithMany("histories")
                         .HasForeignKey("inventory_check_id");
@@ -6541,8 +6531,6 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
-
-                    b.Navigation("expense");
 
                     b.Navigation("inventory_check");
 

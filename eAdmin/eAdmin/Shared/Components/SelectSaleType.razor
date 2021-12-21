@@ -88,7 +88,7 @@ else
     [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
     List<SaleTypeModel> sale_types = new List<SaleTypeModel>();
     List<string> sale_type_names = new List<string>();
-    bool is_loading = false;
+  
 
     public string SelectedValue
     {
@@ -103,15 +103,14 @@ else
 
 
     protected override async Task OnInitializedAsync()
-    {
-        is_loading = true;
+    { 
         var resp = await http.ApiGetOData("SaleType");
         if (resp.IsSuccess)
         {
             sale_types = JsonSerializer.Deserialize<List<SaleTypeModel>>(resp.Content.ToString());
             sale_type_names = sale_types.Select(r => r.sale_type_name).Distinct().ToList();
         }
-        is_loading = false;
+      
     }
 
 

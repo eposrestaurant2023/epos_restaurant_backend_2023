@@ -64,6 +64,11 @@ namespace eAPI.Controllers
         [Route("delete/{id}")]
         public async Task<ActionResult<bool>> DeleteRecord(int id) //Delete
         {
+            //check if currency already use by any payment type then now allow to delete 
+            var p = db.PaymentTypes.Where(r => r.currency_id == id && r.is_deleted == false).AsNoTracking();
+            if (p.Any()) {
+                return StatusCode(301, "This currency is being used in payment type");
+            }
             var data =   db.Currencies.Where(r => r.id == id).Include(r => r.business_branch_currencies).ToList();
 
             if (data.Any())
