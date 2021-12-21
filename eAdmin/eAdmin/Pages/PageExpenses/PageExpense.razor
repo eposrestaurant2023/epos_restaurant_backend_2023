@@ -86,6 +86,7 @@
                         <Th>@lang["Currency Name"]</Th>
                         <ThRight>@lang["Exchange Rate"]</ThRight>
                         <ThRight>@lang["Amount"]</ThRight>
+                        <ThAuto>@lang["Note"]</ThAuto>
                         <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
@@ -120,6 +121,9 @@
                         <td>@p.currency_name</td>
                         <TdRight>@p.exchange_rate.ToString(gv.currency_format)</TdRight>
                         <TdRight>@p.amount.ToString(gv.currency_format)</TdRight>
+                        <td>
+                            @p.note
+                        </td>
                         <TdCenter>
                             <LabelActive is_visible="@(p.status == true)" />
                             <LabelInActive is_visible="@(p.status == false)" />

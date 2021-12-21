@@ -88,7 +88,9 @@ namespace eModels
         [ForeignKey("user_id")]
         public UserModel user { get; set; }
 
-
+        public Guid? expense_id { get; set; }
+        [ForeignKey("expense_id")]
+        public ExpenseModel expense { get; set; }
 
         public Guid? modifier_id { get; set; }
         [ForeignKey("modifier_id")]
