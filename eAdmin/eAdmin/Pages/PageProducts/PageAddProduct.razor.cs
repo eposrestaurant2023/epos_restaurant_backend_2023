@@ -297,5 +297,10 @@ namespace eAdmin.Pages.PageProducts
             model.product_group_id = id;
         }
 
+        public  void RevenueGroupChange(RevenueGroupModel v)
+        {
+            model.revenue_group_id = v.id;
+            model.revenue_group_name = v.revenue_group_name_en;
+        }
     }
 }

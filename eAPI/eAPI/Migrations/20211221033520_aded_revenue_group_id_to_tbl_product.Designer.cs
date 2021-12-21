@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPI;
 
 namespace eAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211221033520_aded_revenue_group_id_to_tbl_product")]
+    partial class aded_revenue_group_id_to_tbl_product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4722,9 +4724,6 @@ namespace eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("is_full_license")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("is_order_station")
                         .HasColumnType("bit");
 
                     b.Property<string>("last_modified_by")

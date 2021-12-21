@@ -52,7 +52,6 @@ namespace eAPIClient.Controllers
                                      ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
                            select r;
 
-
                 return data;
 
             }

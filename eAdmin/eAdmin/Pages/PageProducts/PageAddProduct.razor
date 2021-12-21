@@ -45,7 +45,8 @@
                                     <SelectProductCategory @bind-selected_value="@model.product_category_id" product_group_id="@model.product_group_id" show_empty="true" is_ingredient_category="false">
                                         <ValidationMessage For="@(()=>model.product_category_id)" />
                                     </SelectProductCategory>
-                                    <SelectRevenueGroup @bind-selected_value="@model.revenue_group_name" show_empty="true" />
+                                    <SelectRevenueGroup selected_valueChanged="@RevenueGroupChange" selected_value="@(model.revenue_group_id??Guid.Empty)" show_empty="true" />
+
                                     <SelectKitchenGroupNullable @bind-selected_value="@model.kitchen_group_id" show_empty="true" />
                                     <SelectUnitCategory is_ready_only="@model.is_product_has_inventory_transaction" label="@lang["Unit Category"]" selected_value="@model.unit_category_id" selected_valueChanged="@onUnitCategoryChange" show_empty="false" />
 

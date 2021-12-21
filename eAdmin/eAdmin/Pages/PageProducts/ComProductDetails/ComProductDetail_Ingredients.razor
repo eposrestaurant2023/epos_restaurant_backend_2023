@@ -89,7 +89,7 @@
     [Parameter] public bool is_product_deleted { get; set; }
     [Parameter] public bool is_search_all_product { get; set; } = false;
 
-    bool is_loading, show_modal;
+    bool  show_modal;
 
     public bool can_add
     {
@@ -129,7 +129,7 @@
 
     public async Task LoadData()
     {
-        is_loading = true;
+        
 
 
         var resp = await http.ApiGet($"ProductPortion({product_portion.id})?$expand=product_ingredients($expand=ingredient($select=id,is_inventory_product,product_code,product_name_en,product_name_kh,is_ingredient_product,is_menu_product),unit($select=id,unit_name,unit_category_id);$filter=is_deleted eq false)");
@@ -138,7 +138,7 @@
             product_portion = JsonSerializer.Deserialize<ProductPortionModel>(resp.Content.ToString());
         }
 
-        is_loading = false;
+      
     }
 
 

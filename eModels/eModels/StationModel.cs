@@ -123,5 +123,8 @@ namespace eModels
                 _tax_3_rate = value / 100;
             }
         }
+
+
+        public bool is_order_station { get; set; }
     }
 }

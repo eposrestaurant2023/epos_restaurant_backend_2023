@@ -65,11 +65,11 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public int product_id { get; set; }
     ProductModel model = new ProductModel();
-    bool is_loading;
+  
     protected override async Task OnInitializedAsync()
     {
 
-        is_loading = true;
+      
         if (product_id > 0)
         {
             var resp = await http.ApiGet($"Product({product_id})?$select=id&$expand=default_stock_location_products($expand=stock_location($select=stock_location_name)," +
@@ -81,6 +81,6 @@
             }
         }
 
-        is_loading = false;
+     
     }
 }

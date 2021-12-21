@@ -6,6 +6,7 @@ using eAPIClient.Models;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace eAPIClient.Controllers
 {
@@ -25,9 +26,29 @@ namespace eAPIClient.Controllers
         [HttpGet]
         [EnableQuery(MaxExpansionDepth = 8)]
         [AllowAnonymous]
-        public IQueryable<eShareModel.ExpenseModel> Get()
+        public IQueryable<eShareModel.ExpenseModel> Get(string keyword)
         {
-            return db.Expenses;
+            if ((keyword??"") == "")
+            {
+                return db.Expenses;
+            }else
+            {
+                
+                var data = from r in db.Expenses
+                           where
+                                 EF.Functions.Like(
+                                     (
+                                        (r.reference_number ?? " ") +
+                        (r.expense_item_name ?? " ") +
+                        (r.expense_by ?? " ") +
+                        (r.note ?? " ")
+                                     ).ToLower().Trim(), $"%{keyword}%".ToLower().Trim())
+                           select r;
+
+
+                return data;
+            }
+            
 
         }
 

@@ -9,12 +9,12 @@
 
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small" style="width:@width">
             @if (show_empty)
-            {
-                <option value="">@lang[empty_text]</option>
+            { 
+                <option value="@(Guid.Empty)">@lang[empty_text]</option>
             }
             @foreach (var p in gv.revenue_groups.Where(r => r.is_deleted == false).OrderBy(r => r.sort_order))
             {
-                <option value="@p.revenue_group_name_en">@p.revenue_group_name_en</option>
+                <option value="@p.id">@p.revenue_group_name_en</option>
             }
 
         </select>
@@ -31,39 +31,35 @@
     [Parameter] public string empty_text { get; set; } = "Select Revenue Group";
 
     [Parameter] public string width { get; set; } = "100%";
-    [Parameter] public string selected_value { get; set; } = "";
-    [Parameter] public EventCallback<string> selected_valueChanged { get; set; }
+    [Parameter] public Guid selected_value { get; set; } 
+    [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
 
     [Parameter] public RevenueGroupModel revenue_group { get; set; }
     [Parameter] public EventCallback<RevenueGroupModel> revenue_groupChanged { get; set; }
 
-    public string SelectedValue
-    {
-        get
+       public Guid SelectedValue
         {
-            return revenue_group == null ? (selected_value ?? "") : revenue_group.revenue_group_name_en;
-        }
-    }
-
-    Guid id = Guid.NewGuid();
-
-    private async Task SelectedValueChange(string n)
-    {
-        selected_value = n;
-        await selected_valueChanged.InvokeAsync(selected_value);
-        if (selected_value == "")
-        {
-            await revenue_groupChanged.InvokeAsync(new RevenueGroupModel());
-        }
-        else
-        {
-            if (gv.revenue_groups.Where(r => r.revenue_group_name_en == selected_value).FirstOrDefault() != null)
+            get
             {
-                await revenue_groupChanged.InvokeAsync(gv.revenue_groups.Where(r => r.revenue_group_name_en == selected_value).FirstOrDefault());
+                return revenue_group == null ? selected_value : revenue_group.id;
+            }
+        }
+
+        Guid id = Guid.NewGuid();
+
+        private async Task SelectedValueChange(string n)
+        {
+            selected_value = Guid.Parse(n);
+            await selected_valueChanged.InvokeAsync(selected_value);
+            if (selected_value == Guid.Empty)
+            {
+                await revenue_groupChanged.InvokeAsync(new RevenueGroupModel());
+            }
+            else
+            {
+                await revenue_groupChanged.InvokeAsync(gv.revenue_groups.Where(r => r.id == selected_value).FirstOrDefault());
             }
 
         }
-
-    }
 
 }

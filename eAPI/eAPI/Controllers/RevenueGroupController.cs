@@ -50,6 +50,8 @@ namespace eAPI.Controllers
 
             db.UpdateRange(entity);
             db.SaveChanges();
+
+            db.Database.ExecuteSqlRaw("exec sp_update_revenue_group_to_product");
         }
 
     }

@@ -1071,9 +1071,7 @@
 	<data name="New User" xml:space="preserve">
     <value>បង្កើតប្រើប្រាស់ថ្មី</value>
   </data>
-	<data name="New User" xml:space="preserve">
-    <value>បង្កើតប្រើប្រាស់ថ្មី</value>
-  </data>
+	 
   <data name="User Name" xml:space="preserve">
     <value>ឈ្មោះអ្នកប្រើប្រាស់</value>
   </data>
@@ -1233,9 +1231,7 @@
 	<data name="Payment Berakdown" xml:space="preserve">
     <value>បំបែកការទូទាត់</value>
   </data>
-	<data name="Payment Berakdown" xml:space="preserve">
-    <value>បំបែកការទូទាត់</value>
-  </data>
+	 
 	<data name="Alcohol" xml:space="preserve">
     <value>គ្រឿងស្រវឹង</value>
   </data>
