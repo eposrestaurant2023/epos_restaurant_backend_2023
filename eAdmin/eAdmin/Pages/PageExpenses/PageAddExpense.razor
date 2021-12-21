@@ -1,0 +1,138 @@
+﻿@page "/expenses/new"
+@page "/expenses/edit/{id}"
+@inherits PageCore;
+@using eShareModel;
+<Loading is_loading="@is_loading" />
+@if (!is_loading)
+{
+<PageContainer>
+    <PageHeader>
+        <HeaderLeft>
+            @title
+        </HeaderLeft>
+        <HeaderRight>
+
+        </HeaderRight>
+    </PageHeader>
+    <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
+        <DataAnnotationsValidator />
+        <PageBody>
+            <UIGridCenter>
+                <UIContainerBox Title="@lang["Expenses Information"]">
+                    <TextInput @bind-text="@model.reference_number" label="@lang["Reference Number"]" />
+                    <SelectExpenseCategory expensecategoryChanged="@ExpenseCategoryChange" selected_value="@model.expense_category_id" show_empty="true" label="@lang["Expense Category"]" />
+                    <SelectExpenseItem expense_itemChanged="@ExpenseItemChange" selected_value="@model.expense_item_id" expense_category_id="@model.expense_category_id" show_empty="true" label="@lang["Expense Item"]" />
+                    <DateInput @bind-value="@model.expense_date" label="@lang["Expense Date"]" />
+                    <TextInput @bind-text="@model.expense_by" label="@lang["Expense by"]" />
+                    <NumberInput @bind-text="@model.amount" label="@lang["Amount"]" />
+                    <SelectPaymentType payment_typeChanged="@PaymentTypeChange" selected_value="@model.paymen_type_id" show_empty="true" label="@lang["Payment Type"]" />
+                    <SelectBusinessBranch show_empty="true" label="@lang["Business Branch"]" business_branchChanged="@BussinessBranchChanged" selected_value="@model.business_branch_id" />
+                    <SelectStatus @bind-selected_value="@model.status" />
+                </UIContainerBox>
+            </UIGridCenter>
+        </PageBody>
+        <PageFooter>
+            <FooterCenter>
+                <ComSavingFormButton is_loading="@is_saving" cancel_url="expenses" />
+            </FooterCenter>
+        </PageFooter>
+    </EditForm>
+</PageContainer>
+}
+
+@code {
+    [Parameter] public string id { get; set; }
+    ExpenseModel model = new ExpenseModel();
+    string ControllerApi = "Expense";
+    public string api_url
+    {
+        get
+        {
+            string query = ControllerApi;
+            query = query + $"({id})";
+            return query;
+
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!is_loading)
+        {
+            is_loading = true;
+
+            if ((id != "" && id != null))
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var res = await http.ApiGet(api_url);
+                    if (res.IsSuccess)
+                    {
+                        model = JsonSerializer.Deserialize<ExpenseModel>(res.Content.ToString());
+                        title = $"{lang["Edit"]} : {model.expense_by}";
+                    }
+                    else
+                    {
+                        toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
+                    }
+                }
+
+            }
+            else
+            {
+                title = lang["Add New Expense"];
+            }
+            is_loading = false;
+        }
+    }
+
+    void BussinessBranchChanged(BusinessBranchModel b)
+    {
+        model.business_branch_id = b.id;
+        model.business_branch_name = b.business_branch_name_en;
+    }
+
+    void PaymentTypeChange(PaymentTypeModel p)
+    {
+        model.paymen_type_id = p.id;
+        model.paymen_type = p.payment_type_name_en;
+    }
+
+
+    void ExpenseCategoryChange(ExpenseCategoryModel ec)
+    {
+        model.expense_category_id = ec.id;
+        model.expense_category_name = ec.expense_category_name;
+    }
+    void ExpenseItemChange(ExpenseItemModel ei)
+    {
+        model.expense_item_id = ei.id;
+        model.expense_item_name = ei.expense_item_name;
+    }
+
+    async Task Save_Click(EditContext editContext)
+    {
+        if (!is_saving)
+        {
+            is_saving = true;
+            ExpenseModel d = model;
+            
+            ExpenseModel save_expenses = JsonSerializer.Deserialize<ExpenseModel>(JsonSerializer.Serialize(d));
+            var res = await http.ApiPost($"{ControllerApi}/save", save_expenses);
+            if (res.IsSuccess)
+            {
+                var obj = JsonSerializer.Deserialize<ExpenseModel>(res.Content.ToString());
+                toast.Add(lang["Saving successfully"], MudBlazor.Severity.Success);
+                nav.NavigateTo($"expenses/{obj.id}");
+            }
+            else
+            {
+                is_saving = false;
+                toast.Add(res.Content.ToString(), MudBlazor.Severity.Warning);
+            }
+
+            is_saving = false;
+        }
+    }
+}
+}

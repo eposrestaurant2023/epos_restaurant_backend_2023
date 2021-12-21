@@ -26,29 +26,35 @@
             </HeaderLeft>
             <HeaderRight>
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                    <AddButton roles="@gv.GetRole("expenses_add")" OnClick="@(()=>nav.NavigateTo("expenses/new"))">@lang["New Expenses"]</AddButton>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                    <AddButton roles="@gv.GetRole("expenses_add")" OnClick="@(()=>nav.NavigateTo("expenses/new"))"></AddButton>
+                </MudHidden>
+                <MudHidden Breakpoint="Breakpoint.SmAndDown">
                     <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                         <FilterDateRange @bind-dates="@state.date_range" />
-                      
                         <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                         <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
-                      
+                        <SelectExpenseCategory @bind-expensecategory="@state.expense_category" show_empty="true" empty_text="@lang["Select expense category"]" />
+                        <SelectExpenseItem @bind-expense_item="@state.expense_item" expense_category_id="@state.expense_category.id" show_empty="true" empty_text="@lang["Select expense item"]" />
                     </ComSearch>
-                    </MudHidden>
-                    <RefreshButton OnClick="@(async()=>await LoadData())" />
+                </MudHidden>
+                <RefreshButton OnClick="@(async()=>await LoadData())" />
             </HeaderRight>
         </PageHeader>
         <PageBody>
             <MudHidden Breakpoint="Breakpoint.MdAndUp">
-                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick" is_fullwidth="true" >
+                <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick" is_fullwidth="true">
                     <FilterDateRange @bind-dates="@state.date_range" />
-                   
                     <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                     <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
-                    
+                    <SelectExpenseCategory @bind-expensecategory="@state.expense_category" show_empty="true" empty_text="@lang["Select expense category"]" />
+                    <SelectExpenseItem @bind-expense_item="@state.expense_item" expense_category_id="@state.expense_category.id" show_empty="true" empty_text="@lang["Select expense item"]" />
+
                 </ComSearch>
                 <Spacing Number="4"/>
             </MudHidden>
-
             <FilterInfo filters="@state.filters" OnRemoveFilterClick="@RemoveFilter" OnRemoveAllFilterClick="@RemoveAllFilter" />
             <Com is_visible="@(models != null)">
                 <Table Items="@models"
@@ -64,14 +70,68 @@
                        ScrollClass="uk-overflow-auto">
                     <TableHeader>
                         @HeaderTemplate("expense_date", lang["Date"], "uk-text-center")
-                        
+                        <Th>@lang["Expense by"]</Th>
+                        <ThCenter>
+                            <div>@lang["Working Day #"]</div>
+                            <div class="sub-header-table">@lang["Shift #"]</div>
+                        </ThCenter>
+                        <ThAuto>
+                            <div>@lang["Business Branch"]</div>
+                            <div class="sub-header-table">@lang["Outlet"]</div>
+                            <div class="sub-header-table">@lang["Station"]</div>
+                        </ThAuto>
+                        <Th>@lang["Expense Category"]</Th>
+                        <Th>@lang["Expense Item"]</Th>
+                        <Th>@lang["Paymen Type"]</Th>
+                        <Th>@lang["Currency Name"]</Th>
+                        <ThRight>@lang["Exchange Rate"]</ThRight>
+                        <ThRight>@lang["Amount"]</ThRight>
+                        <ThCenter>@lang["Status"]</ThCenter>
+                        <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
                         <TdCenter>
-                            @p.expense_date.ToString(gv.date_format)
+                            <ComAuthorize roles="@gv.GetRole("expenses_management")" url="@($"expenses/{p.id}")">
+                                @p.expense_date.ToString(gv.date_format)
+                            </ComAuthorize>
                         </TdCenter>
-                         
- 
+                        <td>
+                            @p.expense_by
+                        </td>
+                        <TdCenter>
+                            <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
+                            <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />
+
+                        </TdCenter>
+                        <td>
+                            <div>
+                                @p.business_branch_name
+                            </div>
+                            <div class="sub-info-row-table">
+                                @p.outlet_name
+                            </div>
+                            <div class="sub-info-row-table">
+                                @p.station_name
+                            </div>
+                        </td>
+                        <td>@p.expense_category_name</td>
+                        <td>@p.expense_item_name</td>
+                        <td>@p.paymen_type</td>
+                        <td>@p.currency_name</td>
+                        <TdRight>@p.exchange_rate.ToString(gv.currency_format)</TdRight>
+                        <TdRight>@p.amount.ToString(gv.currency_format)</TdRight>
+                        <TdCenter>
+                            <LabelActive is_visible="@(p.status == true)" />
+                            <LabelInActive is_visible="@(p.status == false)" />
+                        </TdCenter>
+                        <TdActions is_loading="@p.is_loading">
+                            <TableActionItem roles="@gv.GetRole("expenses_management")" icon="visibility" url="@($"expenses/{p.id}")">@lang["View"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("expenses_edit")" icon="edit" is_visible="@(!p.is_deleted)" url="@($"expenses/edit/{p.id}")">@lang["Edit"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("expenses_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("expenses_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("expenses_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
+                            <TableActionItem roles="@gv.GetRole("expenses_delete")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">@lang["Restore"]</TableActionItem>
+                        </TdActions>
                     </RowTemplate>
                 </Table>
             </Com>

@@ -7,6 +7,18 @@
                     <Icon icon="@Icon" is_visible="!string.IsNullOrEmpty(Icon)" /><span>@lang[Title]</span>
                 </div>
                 <div class="uk-float-right"> 
+                    @if(is_deleted == true)
+                    {
+                        <LabelDeleted is_visible="@(is_deleted == true)"/>
+                    }
+                    @if (is_active == true)
+                    {
+                        <LabelActive/>
+                    }
+                    @if(is_inactive == true)
+                    {
+                        <LabelInActive/>
+                    }
                     @if (is_show_edit_button)
                     {
                         <Icon icon="edit" title="@lang["Edit Item"]" OnClick="@OnEditClick" />
@@ -49,7 +61,10 @@
     [Parameter] public string Icon { get; set; } = "";
     [Parameter] public string IconRight { get; set; } = "";
     [Parameter] public bool is_visible { get; set; } = true;
-    [Parameter] public bool is_status { get; set; } = true;
+    [Parameter] public bool is_status { get; set; } = false;
+    [Parameter] public bool is_deleted { get; set; } = false;
+    [Parameter] public bool is_active { get; set; } = false;
+    [Parameter] public bool is_inactive { get; set; } = false;
     [Parameter] public bool is_show_add_button { get; set; } = false;
     [Parameter] public bool is_show_edit_button { get; set; } = false;
     [Parameter] public bool is_show_delete_button { get; set; } = false;

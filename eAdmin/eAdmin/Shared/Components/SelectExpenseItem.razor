@@ -1,4 +1,5 @@
-﻿@inject IStringLocalizer<Resource> lang
+﻿@using eShareModel;
+@inject IStringLocalizer<Resource> lang
 <div class="uk-margin-small">
     <label class="uk-form-label" for="@id"><Icon icon="@icon" is_visible="@(!string.IsNullOrEmpty(icon))" size="16px" /> @lang[label]</label>
     <div class="uk-form-controls">
@@ -7,18 +8,18 @@
             {
                 <option value="@Guid.Empty">@lang[empty_text]</option>
             }
-            @if (business_branch_id == Guid.Empty)
+            @if (expense_category_id == Guid.Empty)
             {
-                @foreach (var p in gv.outlets)
+                @foreach (var p in gv.expenses_items.Where(r=>r.is_deleted == false))
                 {
-                    <option value="@p.id">@p.outlet_name_en</option>
+                    <option value="@p.id">@p.expense_item_name</option>
                 }
             }
             else
             {
-                @foreach (var p in gv.outlets.Where(r => r.business_branch_id == business_branch_id).ToList())
+                @foreach (var p in gv.expenses_items.Where(r => r.expense_category_id == expense_category_id && r.is_deleted == false).ToList())
                 {
-                    <option value="@p.id">@p.outlet_name_en</option>
+                    <option value="@p.id">@p.expense_item_name</option>
                 }
             }
 
@@ -30,25 +31,25 @@
 @code{
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string label { get; set; } = "Outlet";
-    [Parameter] public Guid business_branch_id { get; set; } = Guid.Empty;
+    [Parameter] public string label { get; set; } = "Expense Item";
+    [Parameter] public Guid expense_category_id { get; set; } = Guid.Empty;
     [Parameter] public string icon { get; set; }
     [Parameter] public bool show_empty { get; set; } = false;
-    [Parameter] public string empty_text { get; set; } = "Select Outlet";
+    [Parameter] public string empty_text { get; set; } = "Select Expense Item";
 
     [Parameter] public string width { get; set; } = "100%";
-    [Parameter] public Guid? selected_value { get; set; }
-    [Parameter] public EventCallback<Guid?> selected_valueChanged { get; set; }
+    [Parameter] public Guid selected_value { get; set; }
+    [Parameter] public EventCallback<Guid> selected_valueChanged { get; set; }
 
-    [Parameter] public OutletModel outlet { get; set; }
-    [Parameter] public EventCallback<OutletModel> outletChanged { get; set; }
+    [Parameter] public ExpenseItemModel expense_item { get; set; }
+    [Parameter] public EventCallback<ExpenseItemModel> expense_itemChanged { get; set; }
 
 
-    public Guid? SelectedValue
+    public Guid SelectedValue
     {
         get
         {
-            return outlet == null ? selected_value : outlet.id;
+            return expense_item == null ? selected_value : expense_item.id;
         }
     }
 
@@ -62,11 +63,11 @@
 
         if (selected_value == Guid.Empty)
         {
-            await outletChanged.InvokeAsync(new OutletModel());
+            await expense_itemChanged.InvokeAsync(new ExpenseItemModel());
         }
         else
         {
-            await outletChanged.InvokeAsync(gv.outlets.Where(r => r.id == selected_value).FirstOrDefault());
+            await expense_itemChanged.InvokeAsync(gv.expenses_items.Where(r => r.id == selected_value).FirstOrDefault());
         }
 
     }

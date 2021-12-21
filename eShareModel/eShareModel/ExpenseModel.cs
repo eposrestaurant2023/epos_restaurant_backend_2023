@@ -10,6 +10,10 @@ namespace eShareModel
     [Table("tbl_expense")]
   public  class ExpenseModel:CoreGUIDModel
     {
+        public ExpenseModel()
+        {
+          
+        }
         public Guid business_branch_id { get; set; }
         public string business_branch_name { get; set; }
         public Guid? outlet_id { get; set; }
@@ -48,18 +52,12 @@ namespace eShareModel
         public string currency_name { get; set; }
         public string currency_symbol{ get; set; }
         public string currency_format { get; set; }
-
-
         public decimal amount { get; set; }
         public double exchange_rate { get; set; }
 
         public decimal base_currency_amount{ get; set; }
-
         public string note { get; set; }
-
         public bool is_synced { get; set; } = false;
-
-
 
     }
 }

@@ -26,6 +26,7 @@ namespace eModels
         public CashDrawerModel cash_drawer { get; set; }
         public string cash_drawer_name { get; set; }
 
+        public bool is_order_station { get; set; }
 
 
         private string _station_name_en;

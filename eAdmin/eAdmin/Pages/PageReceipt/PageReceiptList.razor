@@ -73,10 +73,10 @@
                     <TableHeader>
                         @HeaderTemplate("working_date", lang["Date"], "uk-text-center")
                         @HeaderTemplate("document_number", lang["Document #"], "uk-text-left")
-                        <Th>
+                        <ThCenter>
                             <div>@lang["Working Day #"]</div>
                             <div class="sub-header-table">@lang["Shift #"]</div>
-                        </Th>
+                        </ThCenter>
                         @HeaderTemplate("customer/customer_name_en", lang["Customer"], "col-auto")
                         <ThAuto>
                             <div>@lang["Business Branch"]</div>
@@ -151,7 +151,6 @@
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
-
                         <TdCenter>
                             <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/sale/{p.id}"))" />
                         </TdCenter>
