@@ -26,9 +26,6 @@ namespace eAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid?>("ExpenseModelid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("created_by")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -47,6 +44,9 @@ namespace eAPI.Migrations
 
                     b.Property<DateTime?>("deleted_date")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("expense_id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("file_extension")
                         .HasColumnType("nvarchar(max)")
@@ -117,9 +117,9 @@ namespace eAPI.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("ExpenseModelid");
-
                     b.HasIndex("customer_id");
+
+                    b.HasIndex("expense_id");
 
                     b.HasIndex("inventory_check_id");
 
@@ -6190,13 +6190,13 @@ namespace eAPI.Migrations
 
             modelBuilder.Entity("eModels.AttachFilesModel", b =>
                 {
-                    b.HasOne("eModels.ExpenseModel", null)
-                        .WithMany("attach_files")
-                        .HasForeignKey("ExpenseModelid");
-
                     b.HasOne("eModels.CustomerModel", "customer")
                         .WithMany()
                         .HasForeignKey("customer_id");
+
+                    b.HasOne("eModels.ExpenseModel", "expense")
+                        .WithMany("attach_files")
+                        .HasForeignKey("expense_id");
 
                     b.HasOne("eModels.InventoryCheckModel", "inventory_check")
                         .WithMany()
@@ -6235,6 +6235,8 @@ namespace eAPI.Migrations
                         .HasForeignKey("vendor_id");
 
                     b.Navigation("customer");
+
+                    b.Navigation("expense");
 
                     b.Navigation("inventory_check");
 

@@ -62,6 +62,9 @@ namespace eModels
         public Guid? modifier_group_id { get; set; }
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }
+        public Guid? expense_id { get; set; }
+        [ForeignKey("expense_id")]
+        public ExpenseModel expense{ get; set; }
 
     }
 
