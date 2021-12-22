@@ -234,9 +234,6 @@
   <data name="Cashier Shift No" xml:space="preserve">
     <value>លេខវេនធ្វើការ</value>
   </data>
-  <data name="Open Product" xml:space="preserve">
-    <value>បើកទំនិញ</value>
-  </data>
   <data name="Allow Discount" xml:space="preserve">
     <value>អនុញ្ញាតការបញ្ចុះតម្លៃ</value>
   </data>
@@ -1068,7 +1065,6 @@
   <data name="Full Name" xml:space="preserve">
     <value>ឈ្មោះ​ពេញ</value>
   </data>
- 
   <data name="New User" xml:space="preserve">
     <value>បង្កើតប្រើប្រាស់ថ្មី</value>
   </data>
@@ -1228,10 +1224,9 @@
   <data name="Deleted Sale Receipt" xml:space="preserve">
     <value>វិក្កយបត្រលក់ដែលបានលក់</value>
   </data>
-	<data name="Payment Berakdown" xml:space="preserve">
+  <data name="Payment Berakdown" xml:space="preserve">
     <value>បំបែកការទូទាត់</value>
   </data>
-	 
   <data name="Alcohol" xml:space="preserve">
     <value>គ្រឿងស្រវឹង</value>
   </data>
@@ -2746,5 +2741,62 @@
   </data>
   <data name="Select Payment Type" xml:space="preserve">
     <value>សូមជ្រើសរើសប្រភេទចំណាយ</value>
+  </data>
+  <data name="ABA Dollar" xml:space="preserve">
+    <value>ABA ដុល្លារ</value>
+  </data>
+  <data name="ABA Riel" xml:space="preserve">
+    <value>ABA រៀល</value>
+  </data>
+  <data name="Cash Bath" xml:space="preserve">
+    <value>សាច់ប្រាក់បាត</value>
+  </data>
+  <data name="Cash Dollar" xml:space="preserve">
+    <value>សាច់ប្រាក់ដុល្លារ</value>
+  </data>
+  <data name="Cash Expense(Riel)" xml:space="preserve">
+    <value>ចំណាយជាសាច់ប្រាក់​(រៀល)</value>
+  </data>
+  <data name="Cash Riel" xml:space="preserve">
+    <value>សាច់ប្រាក់រៀល</value>
+  </data>
+  <data name="Cash Sale (Riel)" xml:space="preserve">
+    <value>លក់ជាសាច់ប្រាក់ (រៀល)</value>
+  </data>
+  <data name="Closed Amount (Baht)" xml:space="preserve">
+    <value>ប្រាក់បិទបញ្ជី បាត</value>
+  </data>
+  <data name="Closed Amount (Dollar)" xml:space="preserve">
+    <value>ប្រាក់បិទបញ្ជី ដុល្លារ</value>
+  </data>
+  <data name="Closed Amount (Riel)" xml:space="preserve">
+    <value>ប្រាក់បិទបញ្ជី រៀល</value>
+  </data>
+  <data name="Expected Cash (Riel)" xml:space="preserve">
+    <value>បានចំណាយជាសាច់ប្រាក់​(រៀល)</value>
+  </data>
+  <data name="EXPENSE SUMMARY" xml:space="preserve">
+    <value>សង្ខេបការចំណាយ</value>
+  </data>
+  <data name="Starting Amount (Baht)" xml:space="preserve">
+    <value>ចំនួនទឹកប្រាក់ចាប់ផ្ដើម (បាត)</value>
+  </data>
+  <data name="Total Closed Amount (Bath)" xml:space="preserve">
+    <value>ប្រាក់បិទបញ្ជីសរុប បាត</value>
+  </data>
+  <data name="Total Closed Amount (Dollar)" xml:space="preserve">
+    <value>ប្រាក់បិទបញ្ជីសរុប ដុល្លារ</value>
+  </data>
+  <data name="Total Closed Amount (Riel)" xml:space="preserve">
+    <value>ប្រាក់បិទបញ្ជីសរុប រៀល</value>
+  </data>
+  <data name="Total Expense" xml:space="preserve">
+    <value>ការចំណាយសរុប</value>
+  </data>
+  <data name="Total payment (Bath)" xml:space="preserve">
+    <value>ការទូទាត់សរុប​(បាត)</value>
+  </data>
+  <data name="Total payment (Riel)" xml:space="preserve">
+    <value>ការទូទាត់សរុប​(រៀល)</value>
   </data>
 </root>
