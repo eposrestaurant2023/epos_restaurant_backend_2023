@@ -50,9 +50,6 @@ namespace eModels
         public int? production_id { get; set; }
         [ForeignKey("production_id")]
         public virtual ProductionModel production { get; set; }
-
-
-
         public Guid? sale_payment_id { get; set; }
         [ForeignKey("sale_payment_id")]
         public virtual SalePaymentModel sale_payment { get; set; }
