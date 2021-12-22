@@ -57,6 +57,8 @@ namespace eShareModel
 
         public decimal base_currency_amount{ get; set; }
         public string note { get; set; }
+
+        public string deleted_note { get; set; }
         public bool is_synced { get; set; } = false;
 
     }
