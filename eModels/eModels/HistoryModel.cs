@@ -56,7 +56,6 @@ namespace eModels
         public Guid? sale_payment_id { get; set; }
         [ForeignKey("sale_payment_id")]
         public virtual SalePaymentModel sale_payment { get; set; }
-
         public int? vendor_id { get; set; }
         [ForeignKey("vendor_id")]
         public virtual VendorModel vendor { get; set; }   
@@ -73,8 +72,6 @@ namespace eModels
         public int? stock_transfer_id { get; set; }
         [ForeignKey("stock_transfer_id")]
         public virtual StockTransferModel stock_transfer { get; set; }
-
-
         public Guid? inventory_check_id { get; set; }
         [ForeignKey("inventory_check_id")]
         public virtual InventoryCheckModel inventory_check { get; set; }
@@ -96,7 +93,6 @@ namespace eModels
         public Guid? modifier_id { get; set; }
         [ForeignKey("modifier_id")]
         public ModifierModel modifier { get; set; }
-
         public Guid? modifier_group_id { get; set; }
         [ForeignKey("modifier_group_id")]
         public ModifierGroupModel modifier_group { get; set; }

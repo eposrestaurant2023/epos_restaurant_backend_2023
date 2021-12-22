@@ -17,6 +17,12 @@
                     <MudHidden Breakpoint="Breakpoint.SmAndDown">
                         <Button icon="print" OnClick="@PrintReceipt"></Button>
                     </MudHidden>
+                    <ComAttachFileButton RoleAdd="@gv.GetRole("expenses_add")"
+                                         RoleEdit="@gv.GetRole("expenses_edit")"
+                                         RoleDelete="@gv.GetRole("expenses_delete")"
+                                         ApiFilter="@($"expense_id eq {id} ")"
+                                         File="@(new AttachFilesModel() { expense_id = Guid.Parse(id)})"
+                                         IsVisible="@(!model.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
                     <MudHidden Breakpoint="Breakpoint.SmAndDown">
                         <AddButton roles="@gv.GetRole("expenses_add")" OnClick="@(()=>nav.NavigateTo("expenses/new"))">@lang["New Expenses"]</AddButton>
                     </MudHidden>
@@ -33,12 +39,19 @@
                         <MudHidden Breakpoint="Breakpoint.MdAndUp">
                             <MudDivider />
                             <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="print" OnClick="@PrintReceipt"> </MoreButtonItem>
+                            <ComAttachFileButton RoleAdd="@gv.GetRole("expenses_add")"
+                                                 RoleEdit="@gv.GetRole("expenses_edit")"
+                                                 RoleDelete="@gv.GetRole("expenses_delete")"
+                                                 ApiFilter="@($"expense_id eq {id} ")"
+                                                 File="@(new AttachFilesModel() { expense_id = Guid.Parse(id)})"
+                                                 IsVisible="@(!model.is_deleted)"
+                                                 IsIconButton="false"
+                                                 OnOpenAttachFile="@(()=>is_open_attach_file=!is_open_attach_file)" />
                         </MudHidden>
                     </MoreButton>
                 </HeaderRight>
             </PageHeader>
             <PageBody>
-               
                     <MudTabs PanelClass="pa-6">
                         <MudTabPanel Text="@lang["Expense Information"]">
                             <UIGridCenter>
@@ -77,6 +90,7 @@
         public ExpenseModel model { get; set; }
         public HistoryModel history { get; set; } = new HistoryModel();
         bool is_comment_loaded;
+        bool is_open_attach_file;
         string controller_api = "Expense";
         public string api_query
         {
