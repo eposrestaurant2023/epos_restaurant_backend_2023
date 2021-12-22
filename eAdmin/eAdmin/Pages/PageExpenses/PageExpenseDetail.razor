@@ -38,7 +38,9 @@
                         <MoreButtonItem roles="@gv.GetRole("expenses_delete")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@(() => OnRestore(model))">@lang["Restore"]</MoreButtonItem>
                         <MudHidden Breakpoint="Breakpoint.MdAndUp">
                             <MudDivider />
-                            <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="print" OnClick="@PrintReceipt"> </MoreButtonItem>
+                            <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="print" OnClick="@PrintReceipt">
+                                @lang["Print"]
+                            </MoreButtonItem>
                             <ComAttachFileButton RoleAdd="@gv.GetRole("expenses_add")"
                                                  RoleEdit="@gv.GetRole("expenses_edit")"
                                                  RoleDelete="@gv.GetRole("expenses_delete")"
@@ -75,8 +77,11 @@
                         <MudTabPanel OnClick="@(()=> is_comment_loaded = true)" Text="@lang["Comments"]">
                             <UIGridCenter>
                                 <Com is_visible="@is_comment_loaded">
-                                    <ComHistory ApiFilter="@($"expense_id  eq {id}")"
-                                                history="@history" />
+                                    <ComHistory RoleAdd="@gv.GetRole("expenses_add")"
+                                                RoleDelete="@gv.GetRole("expenses_delete")"
+                                                RoleEdit="@gv.GetRole("expenses_add")"
+                                                ApiFilter="@($"expense_id eq {id}")"
+                                                history="@(new HistoryModel() { expense_id = Guid.Parse(id)})" />
                                 </Com>
                             </UIGridCenter>
                         </MudTabPanel>

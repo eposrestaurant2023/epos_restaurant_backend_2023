@@ -1,31 +1,37 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @foreach (var s in settings.Where(r => r.status == true && r.is_public == false).Select(r => r.group_name).Distinct())
 {
-    <UIContainerBox Title="@lang[s.ToString()]">
-        @foreach (var d in settings.Where(r => r.group_name == s.ToString() && r.is_public == false && r.status == true).OrderBy(r => r.sort_order))
-        {
-            if (d.input_type == "checkbox")
+    <UIContainerBox Title="@lang[s?.ToString()]">
+        @if (settings.Any()) {
+            @foreach (var d in settings.Where(r => r.group_name == s.ToString() && r.is_public == false && r.status == true).OrderBy(r => r.sort_order))
             {
-                <ComInputCheckBox label="@d.setting_title" value="@(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault(),val))" label_inline="true" />
-            }
-            else if (d.input_type == "select")
-            {
-                <div class="uk-margin-small">
-                    <label class="uk-form-label">@d.setting_title</label>
-                    <div class="uk-form-controls">
-                        <select @bind="@d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value" class="uk-select  uk-form-small">
+                @if (!string.IsNullOrEmpty(d.input_type)) { 
+                if (d.input_type == "checkbox")
+                {
+                        @if (d.business_branch_settings.Where(r => r.business_branch_id == business_branch_id).Any()) {
+                              <ComInputCheckBox label="@d.setting_title" value="@(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value=="1")" valueChanged="@((val)=>UpdateCheckBoxSetting(d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault(),val))" label_inline="true" />
+                        }
+                    }
+                    else if (d.input_type == "select")
+                    {
+                    <div class="uk-margin-small">
+                        <label class="uk-form-label">@d.setting_title</label>
+                        <div class="uk-form-controls">
+                            <select @bind="@d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value" class="uk-select  uk-form-small">
 
-                            @foreach (string item in d.setting_option.Split(','))
-                            {
-                                <option value="@item">@item</option>
-                            }
-                        </select>
+                                @foreach (string item in d.setting_option.Split(','))
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                        </div>
                     </div>
-                </div>
-            }
-            else
-            {
-                <TextInput type="@d.input_type" label="@d.setting_title" @bind-text="@d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value" />
+                }
+                else
+                {
+                    <TextInput type="@d.input_type" label="@d.setting_title" @bind-text="@d.business_branch_settings.Where(r=>r.business_branch_id==business_branch_id).FirstOrDefault().setting_value" />
+                    }
+                }
             }
         }
     </UIContainerBox>

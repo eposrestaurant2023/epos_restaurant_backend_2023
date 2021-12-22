@@ -34,7 +34,6 @@
             </ThAuto>
             <ThCenter>@lang["Sale Type"]</ThCenter>
             <ThCenter>@lang["Table #"]</ThCenter>
-
             <ThRight>@lang["Total Amount"]</ThRight>
             <ThRight>@lang["Discount"]</ThRight>
             <ThRight>@lang["Tax"]</ThRight>
@@ -47,26 +46,28 @@
             <TdCenter>
                 @p.working_date.ToString(gv.date_format)
             </TdCenter>
-            <TdCenter>
+            <td>
                 <div>
                     <ComAuthorize roles="@gv.GetRole("receipt_list_management")" url="@($"receiptlist/sale/{p.id}")">
                         <span>
-                            @if (p.document_number == "New")
-                                {
-                                @p.sale_number
-                                }
-                                else
-                                {
-                                @p.document_number
-                                }
-
+                            @p.document_number
+                        </span>
+                        <br />
+                        <span>
+                            @p.sale_number
                         </span>
                     </ComAuthorize>
                 </div>
+                <ComSaleStatus sale="@p" />
+            </td>
+            <TdCenter>
+                <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
+                <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />
+
             </TdCenter>
             <td>
-
                 <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
+                <LabelSaleType Text="@p.sale_type" />
             </td>
             <td>
                 <div>
@@ -79,14 +80,9 @@
                     @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
                 </div>
             </td>
-            <TdCenter>
-                <div>
-                    @lang[p.sale_type]
-                </div>
-            </TdCenter>
-            <TdCenter>
-                <div>
 
+            <TdCenter>
+                <div>
                     @p.table_name
                 </div>
             </TdCenter>
@@ -104,16 +100,6 @@
             </TdRight>
             <TdRight>
                 @p.balance.ToString(gv.main_currency_format)
-            </TdRight>
-            <TdRight>
-                <Label ClassName="label-sale-status" Background="@p?.sale_status?.background" Color="@p?.sale_status?.foreground">@lang[p?.sale_status?.status_name]</Label>
-                <LabelPartiallyPaid is_visible="@(p.is_partially_paid && !p.is_deleted)" />
-                <LabelPaid is_visible="@(p.is_paid && !p.is_deleted)" />
-                <LabelUnpaid is_visible="@(!p.is_deleted && !p.is_paid && (p.total_amount > 0) && (p.balance == p.total_amount) && (p?.sale_status?.status_name != "Open Order"))" />
-                <LabelDeleted is_visible="@p.is_deleted" />
-                <Com is_visible="@(!string.IsNullOrEmpty(p.discount_code))">
-                    <Label Background="#f48024" Color="#fff" TextTooltip="@lang["Free Of Charge"]" is_visible="@(p.discount_code.ToLower() == "foc")">@lang["FOC"]</Label>
-                </Com>
             </TdRight>
             <TdCenter>
                 <Icon icon="visibility" OnClick="@(()=>nav.NavigateTo($"receiptlist/{p.id}"))" />
@@ -154,7 +140,6 @@
         state.pager.per_page = 10;
         state.filters.Add(new FilterModel() { key = "is_deleted", value1 = "false" });
         await LoadData();
-
         is_loading = false;
     }
 
@@ -209,7 +194,6 @@
     {
         is_loading_data = true;
         state.pager.current_page = _page;
-
         await LoadData();
         is_loading_data = false;
     }

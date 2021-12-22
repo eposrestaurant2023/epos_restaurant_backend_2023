@@ -37,7 +37,7 @@
                 </MudTabPanel>
                 @foreach (var bs in gv.business_branch_by_role.Where(r => r.is_deleted == false))
                 {
-                    <MudTabPanel Text="@bs.business_branch_name_en">
+                    <MudTabPanel Text="@bs?.business_branch_name_en">
                         <UIGridCenter>
                             <ComSetting business_branch_id="@bs.id" settings="@GetSettings" />
                         </UIGridCenter>

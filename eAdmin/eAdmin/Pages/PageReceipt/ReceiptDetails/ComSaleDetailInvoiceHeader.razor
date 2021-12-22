@@ -6,7 +6,7 @@
             <div>
                 @if (state.pager.show_logo)
                 {
-                    <img src="@http.ImageUrl(gv.business_info.company_logo)" class="uk-image" style="width:100px;" />
+                    <img src="@http.ImageUrl(sale.business_branch.logo)" class="uk-image" style="width:100px;" />
                 }
                 <div class="uk-text-top">
                     <div class="font-xxl"> @(gv.current_language?.language_id == "km-KH" ?sale.business_branch?.business_branch_name_kh:sale.business_branch?.business_branch_name_en)</div>
