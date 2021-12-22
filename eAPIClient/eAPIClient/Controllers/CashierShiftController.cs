@@ -66,6 +66,22 @@ namespace eAPIClient.Controllers
 
                 //Update Document
                 await app.UpdateDocument(_doc);
+                if (u.is_closed)
+                {
+                    if(app.GetSettinValue(46) != null)
+                    {
+                        if (app.GetSettinValue(46) == "Close cashier shift")
+                        {
+                            DocumentNumberModel _waitingNumber = new DocumentNumberModel();
+
+                            _waitingNumber = app.GetDocument("WaitingNum", u.cash_drawer_id.ToString());
+                            _waitingNumber.counter = 0;
+                            await app.UpdateDocument(_waitingNumber);
+                        }
+                    }
+                  
+
+                }
                 app.sendSyncRequest();
                 return Ok(u);
             }

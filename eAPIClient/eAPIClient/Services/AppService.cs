@@ -110,6 +110,8 @@ namespace eAPIClient.Services
 
             return new List<OutletModel>();
         }
+
+
         public BusinessBranchModel GetBusinessBranch()
         {
 
@@ -128,7 +130,38 @@ namespace eAPIClient.Services
 
 
         }
-          public OutletModel GetOutletInfo(Guid id)
+        public String GetSettinValue(int id)
+        {
+            var settings = GetSetting().ToList();
+            var data = settings.Where(r=>r.id == id);
+            if (data.Any())
+            {
+                return data.FirstOrDefault().setting_value;
+            }
+            return null;
+
+
+        }
+          public List<SettingModel> GetSetting()
+        {
+
+            var config = db.ConfigDatas.Where(r => r.config_type == "setting").FirstOrDefault();
+            if (config != null)
+            {
+                var data = JsonSerializer.Deserialize<List<SettingModel>>(config.data);
+                if (data.Any())
+                {
+                    return data;
+
+                }
+
+            }
+            return new List<SettingModel>();
+
+
+        }  
+        
+        public OutletModel GetOutletInfo(Guid id)
         {
 
             var data = AllOutlets().Where(r => r.id == id);

@@ -86,6 +86,8 @@ namespace eAPIClient.Controllers
 
                 model.is_synced = false;
                 DocumentNumberModel _saleNumber = new DocumentNumberModel();
+                DocumentNumberModel _waitingNumber = new DocumentNumberModel();
+                
                 bool is_new = true;
                 model.customer = null;
                 model.is_foc = false;
@@ -97,7 +99,12 @@ namespace eAPIClient.Controllers
                 if (model.id == Guid.Empty)
                 {
                     _saleNumber = app.GetDocument("SaleNum", model.cash_drawer_id.ToString());
-                    model.sale_number = _saleNumber.id > 0 ? app.GetDocumentFormat(_saleNumber) : "New";
+                    model.sale_number = _saleNumber.id > 0 ? app.GetDocumentFormat(_saleNumber) : "New";  
+                    //waiting numbvewr
+                    _waitingNumber = app.GetDocument("WaitingNum", model.cash_drawer_id.ToString());
+                  
+                    await app.UpdateDocument(_waitingNumber);
+                    model.waiting_number = _waitingNumber.id > 0 ? app.GetDocumentFormat(_waitingNumber) : "New";
 
                     
                     
@@ -149,6 +156,7 @@ namespace eAPIClient.Controllers
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 //Update Document
                 await app.UpdateDocument(_saleNumber);
+                await app.UpdateDocument(_waitingNumber);
                 if (!is_new)
                 {
                     if (model.is_closed == true && (model.document_number == "New" || model.document_number == ""))
@@ -156,6 +164,7 @@ namespace eAPIClient.Controllers
                         DocumentNumberModel _saleDoc = new DocumentNumberModel();
                         _saleDoc = app.GetDocument("SaleDoc", model.closed_cash_drawer_id.ToString());
                         model.document_number = _saleDoc.id > 0 ? app.GetDocumentFormat(_saleDoc) : "New";
+
                         await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                         await app.UpdateDocument(_saleDoc);
                     }

@@ -259,4 +259,11 @@ namespace eAPIClient.Models
     }
 
 
+    public class SettingModel
+    {
+        
+        public int id { get; set; }
+        public string setting_value { get; set; }
+    }
+
 }

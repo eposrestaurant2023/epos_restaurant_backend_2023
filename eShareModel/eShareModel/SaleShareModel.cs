@@ -7,6 +7,7 @@ namespace eShareModel
     public class SaleShareModel : CoreGUIDModel
     {
         public string sale_number { get; set; }
+        public string waiting_number { get; set; }
 
         public Guid outlet_id { get; set; }
  

@@ -63,6 +63,25 @@ namespace eAPIClient.Controllers
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 //Update Document Number
                 await app.UpdateDocument(_doc);
+
+                if (u.is_closed)
+                {
+                    var setting_value = app.GetSettinValue(46);
+                    if (setting_value != null)
+                    {
+                        if (app.GetSettinValue(46) == "Close working day")
+                        {
+                            DocumentNumberModel _waitingNumber = new DocumentNumberModel();
+
+                            _waitingNumber = app.GetDocument("WaitingNum", u.cash_drawer_id.ToString());
+                            _waitingNumber.counter = 0;
+                            await app.UpdateDocument(_waitingNumber);
+                        }
+                    }
+
+
+                }
+
                 app.sendSyncRequest();
                 return Ok(u);
             }catch(Exception _ex)
