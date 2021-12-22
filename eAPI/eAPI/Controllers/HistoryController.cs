@@ -54,8 +54,10 @@ namespace eAPI.Controllers
 
             
             db.Histories.Add(model);
+
+
             
-            await db.SaveChangesAsync();
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
 
              

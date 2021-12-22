@@ -13,6 +13,7 @@ namespace eModels
     {
         public ExpenseModel()
         {
+
             histories = new List<HistoryModel>();
             attach_files = new List<AttachFilesModel>();
         }

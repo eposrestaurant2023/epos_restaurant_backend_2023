@@ -31,7 +31,7 @@
                             <ValidationMessage For="@(() => model.table_group_name_en )" />
                         </TextInput>
                         <TextInput @bind-text="@model.table_group_name_kh" label="@lang["Name Kh"]" />
-                        <SelectOutlet show_empty="true" @bind-selected_value="@model.outlet_id" @bind-outlet="@model.outlet" business_branch_id="@business_branch.id">
+                        <SelectOutlet show_empty="true" selected_valueChanged="@OnOutletChanged" @bind-outlet="@model.outlet" business_branch_id="@business_branch.id">
                             <ValidationMessage For="@(() => model.outlet_id)" />
                         </SelectOutlet>
                         <ComInputCheckBox @bind-value="@model.status" label="@lang["Status"]" />
@@ -334,5 +334,8 @@
         }
     }
 
+    void OnOutletChanged(Guid? id){
+        model.outlet_id = id ?? Guid.Empty;
+    }
 
 }
