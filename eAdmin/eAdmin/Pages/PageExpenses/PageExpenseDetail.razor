@@ -17,6 +17,12 @@
                     <MudHidden Breakpoint="Breakpoint.SmAndDown">
                         <Button icon="print" OnClick="@PrintReceipt"></Button>
                     </MudHidden>
+                    <ComAttachFileButton RoleAdd="@gv.GetRole("expenses_add")"
+                                         RoleEdit="@gv.GetRole("expenses_edit")"
+                                         RoleDelete="@gv.GetRole("expenses_delete")"
+                                         ApiFilter="@($"expense_id eq {id} ")"
+                                         File="@(new AttachFilesModel() { expense_id = Guid.Parse(id)})"
+                                         IsVisible="@(!model.is_deleted)" @bind-IsOpened="@is_open_attach_file" />
                     <MudHidden Breakpoint="Breakpoint.SmAndDown">
                         <AddButton roles="@gv.GetRole("expenses_add")" OnClick="@(()=>nav.NavigateTo("expenses/new"))">@lang["New Expenses"]</AddButton>
                     </MudHidden>
@@ -33,18 +39,25 @@
                         <MudHidden Breakpoint="Breakpoint.MdAndUp">
                             <MudDivider />
                             <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="print" OnClick="@PrintReceipt"> </MoreButtonItem>
+                            <ComAttachFileButton RoleAdd="@gv.GetRole("expenses_add")"
+                                                 RoleEdit="@gv.GetRole("expenses_edit")"
+                                                 RoleDelete="@gv.GetRole("expenses_delete")"
+                                                 ApiFilter="@($"expense_id eq {id} ")"
+                                                 File="@(new AttachFilesModel() { expense_id = Guid.Parse(id)})"
+                                                 IsVisible="@(!model.is_deleted)"
+                                                 IsIconButton="false"
+                                                 OnOpenAttachFile="@(()=>is_open_attach_file=!is_open_attach_file)" />
                         </MudHidden>
-                    </MoreButton>
+                    </MoreButton> 
                 </HeaderRight>
             </PageHeader>
             <PageBody>
-               
                     <MudTabs PanelClass="pa-6">
                         <MudTabPanel Text="@lang["Expense Information"]">
                             <UIGridCenter>
                                 <UIContainerBox Title="@lang["Expense Information"]" is_deleted="@model.is_deleted" is_active="@(model.status == true && model.is_deleted==false)" is_inactive="@(model.status == false && model.is_deleted==false)">
                                     <ListTable ClassWidth="uk-width-1-1">
-                                        <ListTableItem ItemTitle="@lang["Reference number"]" IsBetweenValue="true">@model.reference_number</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Reference Number"]" IsBetweenValue="true">@model.reference_number</ListTableItem>
                                         <ListTableItem ItemTitle="@lang["Expense Category"]" IsBetweenValue="true">@model.expense_category_name</ListTableItem>
                                         <ListTableItem ItemTitle="@lang["Expense Item"]" IsBetweenValue="true">@model.expense_item_name</ListTableItem>
                                         <ListTableItem ItemTitle="@lang["Expense Date"]" IsBetweenValue="true">@model.expense_date.ToString(gv.date_format)</ListTableItem>
@@ -77,6 +90,7 @@
         public ExpenseModel model { get; set; }
         public HistoryModel history { get; set; } = new HistoryModel();
         bool is_comment_loaded;
+        bool is_open_attach_file;
         string controller_api = "Expense";
         public string api_query
         {

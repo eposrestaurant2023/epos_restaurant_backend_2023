@@ -2,15 +2,23 @@
 @inject IStringLocalizer<Resource> lang
 
 
-<MudMenu Icon="@Icons.Material.Outlined.Add" Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4"  Color="MudBlazor.Color.Inherit" >
+<MudMenu Icon="@Icons.Material.Outlined.Add" Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4" Color="MudBlazor.Color.Inherit">
     <MudText Typo="Typo.h6" Class="ma-4">@lang["Quick Add"]</MudText>
     <MudDivider Class="mb-2" />
-    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="product/new">@lang["New Product"]</MudMenuItem>
-    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="customer/new">@lang["New Customer"]</MudMenuItem>
-    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="vendor/new">@lang["New Vendor"]</MudMenuItem>
-    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="purchaseorder/new">@lang["New Purchase Order"]</MudMenuItem>
-    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="stocktransfer/new">@lang["New Stock Transfer"]</MudMenuItem>
-    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="stocktake/new">@lang["New Stock Take"]</MudMenuItem>
-    <MudMenuItem Icon="@Icons.Material.Outlined.Add"  Link="production/new">@lang["New Production"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add" Link="product/new">@lang["New Product"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add" Link="customer/new">@lang["New Customer"]</MudMenuItem>
+    <MudMenuItem Icon="@Icons.Material.Outlined.Add" Link="vendor/new">@lang["New Vendor"]</MudMenuItem>
+    @if (gv.project_has_advance_inventory || gv.project_has_inventory)
+    {
+        <MudMenuItem Icon="@Icons.Material.Outlined.Add" Link="purchaseorder/new">@lang["New Vendor"]</MudMenuItem>
+        <MudMenuItem Icon="@Icons.Material.Outlined.Add" Link="stocktransfer/new">@lang["New Stock Transfer"]</MudMenuItem>
+        <MudMenuItem Icon="@Icons.Material.Outlined.Add" Link="stocktake/new">@lang["New Stock Take"]</MudMenuItem>
+        <MudMenuItem Icon="@Icons.Material.Outlined.Add" Link="production/new">@lang["New Production"]</MudMenuItem>
+    }
+
 </MudMenu>
+
+@code{
+    [CascadingParameter] public GlobalVariableModel gv { get; set; }
+}
 
