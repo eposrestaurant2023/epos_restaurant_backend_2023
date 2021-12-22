@@ -48,7 +48,7 @@
                                                  IsIconButton="false"
                                                  OnOpenAttachFile="@(()=>is_open_attach_file=!is_open_attach_file)" />
                         </MudHidden>
-                    </MoreButton>
+                    </MoreButton> 
                 </HeaderRight>
             </PageHeader>
             <PageBody>
@@ -57,7 +57,7 @@
                             <UIGridCenter>
                                 <UIContainerBox Title="@lang["Expense Information"]" is_deleted="@model.is_deleted" is_active="@(model.status == true && model.is_deleted==false)" is_inactive="@(model.status == false && model.is_deleted==false)">
                                     <ListTable ClassWidth="uk-width-1-1">
-                                        <ListTableItem ItemTitle="@lang["Reference number"]" IsBetweenValue="true">@model.reference_number</ListTableItem>
+                                        <ListTableItem ItemTitle="@lang["Reference Number"]" IsBetweenValue="true">@model.reference_number</ListTableItem>
                                         <ListTableItem ItemTitle="@lang["Expense Category"]" IsBetweenValue="true">@model.expense_category_name</ListTableItem>
                                         <ListTableItem ItemTitle="@lang["Expense Item"]" IsBetweenValue="true">@model.expense_item_name</ListTableItem>
                                         <ListTableItem ItemTitle="@lang["Expense Date"]" IsBetweenValue="true">@model.expense_date.ToString(gv.date_format)</ListTableItem>

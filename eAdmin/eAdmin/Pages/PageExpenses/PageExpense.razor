@@ -82,7 +82,7 @@
                         </ThAuto>
                         <Th>@lang["Expense Category"]</Th>
                         <Th>@lang["Expense Item"]</Th>
-                        <Th>@lang["Paymen Type"]</Th>
+                        <Th>@lang["Payment Type"]</Th>
                         <Th>@lang["Currency Name"]</Th>
                         <ThRight>@lang["Exchange Rate"]</ThRight>
                         <ThRight>@lang["Amount"]</ThRight>
@@ -122,7 +122,7 @@
                         <TdRight>@p.exchange_rate.ToString(gv.currency_format)</TdRight>
                         <TdRight>@p.amount.ToString(gv.currency_format)</TdRight>
                         <td>
-                            @p.note
+                            <TextOverflow Text="@p.note"/>
                         </td>
                         <TdCenter>
                             <LabelActive is_visible="@(p.status == true)" />
