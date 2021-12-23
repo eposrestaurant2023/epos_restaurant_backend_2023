@@ -4,7 +4,7 @@
 @foreach (var sp in model.active_stock_transfer_products)
 {
     <tr>
-        <td>@(model.active_stock_transfer_products.IndexOf(sp) + 1 )</td>
+        <TdCenter>@(model.active_stock_transfer_products.IndexOf(sp) + 1 )</TdCenter>
         <TdCenter>
             <Image ImageUrl="@http.ImageUrl(sp.product.photo)" data-caption="@sp.product?.product_display_name" PopupImageUrl="@http.ImageUrl(sp.product.photo)" IsLightBox="true" IsBackgroundImage="true" Width="50px" Height="50px" />
         </TdCenter>

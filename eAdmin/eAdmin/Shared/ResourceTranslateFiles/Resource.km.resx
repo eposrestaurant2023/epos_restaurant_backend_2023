@@ -2799,4 +2799,13 @@
   <data name="Total payment (Riel)" xml:space="preserve">
     <value>ការទូទាត់សរុប​(រៀល)</value>
   </data>
+  <data name="Acleda Dollar" xml:space="preserve">
+    <value>Acleda ដុល្លារ</value>
+  </data>
+  <data name="Acleda Riel" xml:space="preserve">
+    <value>Acleda រៀល</value>
+  </data>
+  <data name="Please click button below to add section." xml:space="preserve">
+    <value>សូមចុចលើប៊ូតុងខាងក្រោមដើម្បីបញ្ជូល Section</value>
+  </data>
 </root>

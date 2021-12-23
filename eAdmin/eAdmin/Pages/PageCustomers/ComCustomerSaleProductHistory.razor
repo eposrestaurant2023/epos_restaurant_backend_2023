@@ -33,7 +33,7 @@
             <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick" is_fullwidth="true">
                 <FilterDateRange @bind-dates="@state.date_range" />
                 <SelectProductGroup @bind-product_group="@state.product_group" show_empty="true" />
-                <SelectProductCategory show_empty="true" @bind-product_category="@state.product_category" />
+                <SelectProductCategory product_group_id="@state.product_group.id" show_empty="true" @bind-product_category="@state.product_category" />
                 <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
                 <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
             </ComSearch>
@@ -53,7 +53,7 @@
                    ScrollClass="uk-overflow-auto">
                 <TableHeader>
                     @HeaderTemplate("sale/working_date", lang["Date"], "uk-text-center")
-                    @HeaderTemplate("sale/document_number", lang["Sale_Document_No"], "uk-text-center")
+                    @HeaderTemplate("sale/document_number", lang["Sale_Document_No"])
                     @HeaderTemplate("product/product_name_en", lang["Product Name"], "col-auto") 
                     <ThAuto><div>@lang["Business Branch"]</div><div class="sub-header-table">@lang["Outlet"]</div></ThAuto>
                     <ThCenter>@lang["Quantity"]</ThCenter>
@@ -70,10 +70,10 @@
                     <TdCenter>
                         @p.sale.working_date.ToString(gv.date_format)
                     </TdCenter>
-                    <TdCenter>
+                    <td>
                         <div><a href="receiptlist/sale/@p.sale_id">@p.sale?.document_number</a></div>
-                        <div>@p.sale.working_day_number @p.sale.cashier_shift_number</div>
-                    </TdCenter>
+                        <div><span uk-tooltip="@lang["Working day number"]">@p.sale.working_day_number</span> <span uk-tooltip="Cashier shift number">@p.sale.cashier_shift_number</span></div>
+                    </td>
                     <td>
                         <ComProfileInfo url="@($"product/{p.product_id}")" photo="@p.product?.photo" role="product_management">@p.product?.product_display_name</ComProfileInfo>
                         <div>

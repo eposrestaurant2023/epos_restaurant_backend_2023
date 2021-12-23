@@ -36,7 +36,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                     state.pager.order_by = "sale_number";
                     state.pager.order_by_type = "desc";
                 }
-                string url = $"{controller_api}?";
+                string url = $"{controller_api}?$select=sale_number,id,working_date,document_number,total_amount,business_branch_id,outlet_id,paid_amount,balance&";
                 url += $"$expand=sale_status,outlet($select=id,outlet_name_en,outlet_name_kh;$expand=business_branch($select=business_branch_name_en,business_branch_name_kh))";
                 url += $"&keyword={GetFilterValue2(state.filters, "keyword", "").ToString()}&$count=true&$top={state.pager.per_page}&$skip={state.pager.per_page * (state.pager.current_page - 1)}&$orderby={state.pager.order_by} {state.pager.order_by_type}";
 
@@ -145,7 +145,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 state.filters.Add(
                     new FilterModel()
                     {
-                        key = "sale_date",
+                        key = "working_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
                         filter_title = lang["Sale Date"],
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " +state.date_range.end_date.ToString(gv.date_format),
@@ -159,7 +159,7 @@ namespace eAdmin.Pages.PageCustomers.CustomerDetails
                 //end date
                 state.filters.Add(new FilterModel()
                 {
-                    key = "sale_date",
+                    key = "working_date",
                     value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.end_date),
                     is_clear_all = true,
                     filter_operator = "Le",

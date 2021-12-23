@@ -32,15 +32,12 @@
                         </ThAuto>
                         <ThCenter>@lang["Sale Type"]</ThCenter>
                         <th>@lang["Table #"]</th>
-
                         <ThRight>@lang["Total Amount"]</ThRight>
                         <ThRight>@lang["Discount"]</ThRight>
                         <ThRight>@lang["Tax"]</ThRight>
                         <ThRight>@lang["Paid Amount"]</ThRight>
                         <ThRight>@lang["Balance"]</ThRight>
-                        
                         <ThRight>@lang["Status"]</ThRight>
-
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -62,7 +59,6 @@
                             </div>
                         </TdCenter>
                         <td>
-
                             <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="customer_management" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
                         </td>
                         <td>
@@ -101,7 +97,6 @@
                         <TdRight>
                             @p.balance.ToString(gv.main_currency_format)
                         </TdRight>
-                    
                         <TdRight>
                             <ComSaleStatus sale="@p" />
                         </TdRight>
