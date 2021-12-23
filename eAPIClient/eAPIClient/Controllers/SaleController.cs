@@ -69,13 +69,40 @@ namespace eAPIClient.Controllers
                 }
                 if (!is_edit)
                 {
-                    //check if bill is already close
-                    var check_sale_closed = db.Sales.Where(r => r.id == model.id && (r.is_closed ?? false) == true);
+
+                   
+                    var check_sale_closed = db.Sales.Where(r => r.id == model.id).AsNoTracking();
+
+                  
+
                     if (model.id != Guid.Empty)
                     {
                         if (check_sale_closed.Any())
                         {
-                            return BadRequest(new BadRequestModel { message = "this_order_is_closed" });
+                            //check if bill is already print
+
+                            if ((model.is_closed ?? false) == false && (check_sale_closed.FirstOrDefault().is_print_invoice) == true)
+                            {
+                                return BadRequest(new BadRequestModel { message = "this_order_is_print" });
+                            }
+
+                            //check bill alredy print
+                            //user payment with new item order
+
+                            if ((model.is_closed ?? false) == true && (check_sale_closed.FirstOrDefault().is_print_invoice) == true)
+                            {
+                                if (model.sale_products.Where(r => r.id == Guid.Empty).Any() || check_sale_closed.FirstOrDefault().total_amount != model.total_amount || check_sale_closed.FirstOrDefault().total_quantity != model.total_quantity)
+                                {
+                                    return BadRequest(new BadRequestModel { message = "this_order_is_print" });
+                                }
+                            }
+
+
+                                //check if bill is already close
+                                if ((check_sale_closed.FirstOrDefault().is_closed ?? false) == true)
+                            {
+                                return BadRequest(new BadRequestModel { message = "this_order_is_closed" });
+                            }
                         }
                     }
                 }
