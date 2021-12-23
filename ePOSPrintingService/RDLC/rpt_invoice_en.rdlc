@@ -108,7 +108,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=iif(Fields!sale_discount_type.Value = "Amount" , ""," " &amp; format((Fields!sale_discount_value.Value/100),"0 %"))</Value>
+                              <Value>=iif(Fields!sale_discount_type.Value = "Amount" , ""," " &amp; format(Fields!sale_discount_value.Value,"0 %"))</Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>

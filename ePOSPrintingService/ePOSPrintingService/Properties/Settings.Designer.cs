@@ -25,6 +25,20 @@ namespace ePOSPrintingService.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("yqvCU6H7jCxODH8z49Lq1DgjjsUjy+CGLHCPbk5dc2ans4lapfIy7YC/1k7slsjwEep3Ba9dKaGyMDB5c" +
+            "2xe5tC9Anp2K/s8azqJiPMytqghMI2swRsRHvrfbqmmWsfg/FSnHdrXacyQwtwJEsZTJyDbzsZhVnfLp" +
+            "g+rmpIPEvR9KP9/h9Viwke488+Qdb9z")]
+        public string DBConnection {
+            get {
+                return ((string)(this["DBConnection"]));
+            }
+            set {
+                this["DBConnection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\deleteme\\")]
         public string FileWatcherPath {
             get {

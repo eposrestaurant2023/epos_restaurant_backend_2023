@@ -11,14 +11,14 @@ using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using Microsoft.Reporting.WinForms; 
+using Microsoft.Reporting.WinForms;
+using Newtonsoft.Json;
 using ePOSPrintingService.Models;
 using System.Reflection;
 using ePOSPrintingServiceReportModel;
-using System.ComponentModel;       
-using System.Threading;
-using Newtonsoft.Json;
+using System.ComponentModel;
 using RestSharp;
+using System.Threading;
 
 namespace ePOSPrintingService
 {
