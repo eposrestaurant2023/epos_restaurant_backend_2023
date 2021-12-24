@@ -25,8 +25,7 @@ namespace ePOSPrintingService.Models
         public string telegram_alert_url { get; set; }
         public string telegram_alert_token { get; set; }
         public string telegram_chat_id { get; set; }
-        public string image_path { get; set; }
-        public string image_url { get; set; }
+        public string image_path { get; set; }  
 
        
 }
