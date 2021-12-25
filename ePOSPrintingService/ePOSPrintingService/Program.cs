@@ -11,14 +11,14 @@ using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using Microsoft.Reporting.WinForms; 
+using Microsoft.Reporting.WinForms;
+using Newtonsoft.Json;
 using ePOSPrintingService.Models;
 using System.Reflection;
 using ePOSPrintingServiceReportModel;
-using System.ComponentModel;       
-using System.Threading;
-using Newtonsoft.Json;
+using System.ComponentModel;
 using RestSharp;
+using System.Threading;
 
 namespace ePOSPrintingService
 {
@@ -195,10 +195,12 @@ namespace ePOSPrintingService
                 stream.Position = 0;
         }
         public static void SendTelegramAlert(LocalReport report, string caption )
-        {       
-            string deviceInfo = "";
-            deviceInfo =
-            @"<DeviceInfo>
+        {
+            try
+            {
+                string deviceInfo = "";
+                deviceInfo =
+                @"<DeviceInfo>
                 <OutputFormat>bmp</OutputFormat>
                 <PageWidth>5in</PageWidth>
                 <PageHeight>20in</PageHeight>
@@ -208,46 +210,45 @@ namespace ePOSPrintingService
                 <MarginBottom>0in</MarginBottom>
             </DeviceInfo>";
 
-            Warning[] warnings;
-            string[] streamIds;
-            string mimeType = string.Empty;
-            string encoding = string.Empty;
-            string extension = string.Empty;
+                Warning[] warnings;
+                string[] streamIds;
+                string mimeType = string.Empty;
+                string encoding = string.Empty;
+                string extension = string.Empty;
 
-            m_streams = new List<Stream>();
+                m_streams = new List<Stream>();
 
-            Byte[] mybytes = report.Render("Image", deviceInfo, out mimeType, out encoding, out extension, out streamIds, out warnings);
-            TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
+                Byte[] mybytes = report.Render("Image", deviceInfo, out mimeType, out encoding, out extension, out streamIds, out warnings);
+                TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
 
-             
-            string image_path = CropImage((Bitmap)tc.ConvertFrom(mybytes));
-            if (image_path != "")
-            {
 
-                string url = $"{telegram_setting.telegram_alert_url}bot{telegram_setting.telegram_alert_token}/sendPhoto?chat_id={telegram_setting.telegram_chat_id}&photo={telegram_setting.image_url}{image_path}&caption={caption}";
-
-                var client = new RestClient(telegram_setting.telegram_alert_url +"bot" + telegram_setting.telegram_alert_token);
-                var request = new RestRequest("sendPhoto", Method.POST)
+                string image_path = CropImage((Bitmap)tc.ConvertFrom(mybytes));
+                if (image_path != "")
                 {
-                    RequestFormat = DataFormat.Json,
-                    AlwaysMultipartFormData = true
-                };
-                request.AddFile("photo",$"{telegram_setting.image_path}{image_path}");
-                request.AddQueryParameter("chat_id", telegram_setting.telegram_chat_id);
-                request.AddQueryParameter("caption", caption);
-                try
-                {
-                    var response = client.Post(request);
-                    File.Delete($"{ telegram_setting.image_path}{ image_path}");
-                }
-                catch(Exception ex)
-                {
-                    string msg = ex.Message;
+                    var client = new RestClient(telegram_setting.telegram_alert_url + "bot" + telegram_setting.telegram_alert_token);
+                    var request = new RestRequest("sendPhoto", Method.POST)
+                    {
+                        RequestFormat = DataFormat.Json,
+                        AlwaysMultipartFormData = true
+                    };
+                    request.AddFile("photo", $"{telegram_setting.image_path}{image_path}");
+                    request.AddQueryParameter("chat_id", telegram_setting.telegram_chat_id);
+                    request.AddQueryParameter("caption", caption);
+                    try
+                    {
+                        var response = client.Post(request);
+                        File.Delete($"{ telegram_setting.image_path}{ image_path}");
+                    }
+                    catch (Exception ex)
+                    {
+                        string msg = ex.Message;
+                    }
                 }
             }
-
-
-
+            catch(Exception ex)
+            {
+                WriteToFile(ex.Message);
+            }
         }
         private static void PrintPage(object sender, PrintPageEventArgs ev)
         {

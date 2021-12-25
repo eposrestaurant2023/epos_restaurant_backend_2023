@@ -10,6 +10,7 @@ namespace ePOSPrintingServiceReportModel
     {
         public Guid id { get; set; }
         public string sale_number { get; set; }
+        public string waiting_number { get; set; }
 
         public Guid outlet_id { get; set; }
         public Guid station_id { get; set; }

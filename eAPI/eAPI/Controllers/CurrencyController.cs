@@ -139,6 +139,9 @@ namespace eAPI.Controllers
             try
             {
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+                db.Database.ExecuteSqlRaw("exec sp_update_exchange_base_currency_exchange_rate");
+
                 return Ok(u);
             }
             catch (Exception e)

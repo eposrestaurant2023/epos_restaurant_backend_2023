@@ -133,8 +133,7 @@ namespace ePOSPrintingService.Properties {
     ""telegram_alert_url"": ""https://api.telegram.org/"",
     ""telegram_alert_token"": ""593655431:AAH6x4ncKNsxwj2wlaV2WPS4iIB0O2qRPmw"",
     ""telegram_chat_id"": ""-545894511"",
-    ""image_path"":""C:\\www\\host\\restaurant_client_api\\uploads\\telegram_images\\"",
-    ""image_url"":""http://customer.esoftix.com:9597/restaurant_client_api/uploads/telegram_images/""
+    ""image_path"":""C:\\www\\host\\restaurant_client_api\\uploads\\telegram_images\\""
 }")]
         public string telegram {
             get {

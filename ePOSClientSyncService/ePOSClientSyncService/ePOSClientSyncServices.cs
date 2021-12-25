@@ -103,6 +103,9 @@ namespace ePOSClientSyncService
                                 break;
                             case "customer":
                                 _query = $"Sync/SyncCustomer?id={r.id.ToString()}";
+                                break; 
+                            case "expense":
+                                _query = $"Sync/SyncExpense?id={r.id.ToString()}";
                                 break;
                             default:
                                 break;
