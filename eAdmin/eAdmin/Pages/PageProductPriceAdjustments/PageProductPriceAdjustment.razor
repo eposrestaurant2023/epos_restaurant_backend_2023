@@ -28,7 +28,6 @@
                     <Spacing Number="4" />
                 </MudHidden>
                 <PageBody>
-                 
                     <UIGridCenter>
                         <MudExpansionPanels  MultiExpansion="true">
                             @foreach (var c in model.categories)
@@ -67,7 +66,7 @@
                                                                     <td>
                                                                         @if (p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).Any())
                                                                         {
-                                                                            <NumberInput text="@p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).FirstOrDefault().price" textChanged="@((n) => OnPriceChanged(p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).FirstOrDefault(), n))" />
+                                                                            <NumberInput text="@p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).FirstOrDefault().price" textChanged="@((n) => OnPriceChanged(p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).FirstOrDefault(), n))" width="100px"/>
                                                                         }
                                                                     </td>
                                                                 }
@@ -86,7 +85,7 @@
                                                                         <td>
                                                                             @if (pp.product_price.Where(r => r.pr_id == pr.id).Any())
                                                                             {
-                                                                                <NumberInput text="@pp.product_price.Where(r => r.pr_id == pr.id).FirstOrDefault().price" textChanged="@((n) => OnPriceChanged(pp.product_price.Where(r => r.pp_id == pp.id && r.pr_id == pr.id).FirstOrDefault(), n))" />
+                                                                                <NumberInput text="@pp.product_price.Where(r => r.pr_id == pr.id).FirstOrDefault().price" textChanged="@((n) => OnPriceChanged(pp.product_price.Where(r => r.pp_id == pp.id && r.pr_id == pr.id).FirstOrDefault(), n))" width="100px"/>
                                                                             }
                                                                         </td>
                                                                     }
@@ -113,7 +112,7 @@
 
                                                                         @if (p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).Any())
                                                                         {
-                                                                            <NumberInput text="@p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).FirstOrDefault().price" textChanged="@((n) => OnPriceChanged(p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).FirstOrDefault(), n))" />
+                                                                            <NumberInput text="@p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).FirstOrDefault().price" textChanged="@((n) => OnPriceChanged(p.product_portion.FirstOrDefault().product_price.Where(r => r.pr_id == pr.id).FirstOrDefault(), n))" width="100px"/>
 
                                                                         }
 

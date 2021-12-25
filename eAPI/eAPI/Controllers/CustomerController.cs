@@ -19,7 +19,7 @@ namespace eAPI.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class CustomerController : ODataController
+    public class CustomerController : ControllerBase
     {
 
         private readonly ApplicationDbContext db;
@@ -74,7 +74,7 @@ namespace eAPI.Controllers
             var modelCheck = db.Customers.Where(r => r.id == p.id).AsNoTracking().Include(r => r.customer_business_branchs).AsNoTracking();
             var old_customer = modelCheck.FirstOrDefault();
 
-            if (p.customer_code.ToLower() == "new" || p.customer_code == "")
+            if ((p.customer_code??"").ToLower() == "new" || p.customer_code == "")
             {
                 string document_number = await app.GetDocumentNumber(19);
                 p.customer_code = document_number;
@@ -147,9 +147,10 @@ namespace eAPI.Controllers
 
                 return Ok(p);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                var message = new ApiResponseModel(e.Message,new List<CustomerModel>(),new List<VendorModel>());
+                return BadRequest(message);
             }
         }
 

@@ -6,7 +6,6 @@
 }
 @if (sale.Count() > 0)
 {
-
     <h3 class="title-search">
        @lang["Receipt List"]
     </h3>
@@ -63,7 +62,6 @@
             <TdCenter>
                 <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
                 <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />
-
             </TdCenter>
             <td>
                 <ComProfileInfo url="@($"customer/{p.customer_id}")" photo="@p.customer?.photo" role="@gv.GetRole("customer_management")" is_null="@(p.customer == null)" default_profile="General Customer">@p.customer?.customer_code_name</ComProfileInfo>
@@ -80,7 +78,6 @@
                     @(gv.current_language?.language_id == "km-KH" ?p.station_name_kh : p.station_name_en)
                 </div>
             </td>
-
             <TdCenter>
                 <div>
                     @p.table_name

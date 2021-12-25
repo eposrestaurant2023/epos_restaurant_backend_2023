@@ -266,7 +266,7 @@ where
                   <TextRun>
                     <Value>=First(Fields!company_name.Value, "company_infor")</Value>
                     <Style>
-                      <FontFamily>Arial</FontFamily>
+                      <FontFamily>Kh System</FontFamily>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -305,6 +305,7 @@ where
                   <TextRun>
                     <Value>=First(Fields!address_en.Value, "stock_transfer_data")</Value>
                     <Style>
+                      <FontFamily>Kh System</FontFamily>
                       <FontSize>11pt</FontSize>
                     </Style>
                   </TextRun>
@@ -643,6 +644,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!from_business_branch_name.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -753,6 +755,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!from_stock_location_name.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -971,6 +974,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!to_business_branch_name.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1080,6 +1084,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!to_stock_location_name.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -2319,6 +2324,7 @@ where
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2339,7 +2345,6 @@ where
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0cm</Top>
               <Left>0.58208cm</Left>
               <Height>0.1875in</Height>
               <Width>4.1312in</Width>
@@ -2390,7 +2395,6 @@ where
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>0cm</Top>
               <Left>4.42981in</Left>
               <Height>0.1875in</Height>
               <Width>2.83019in</Width>

@@ -420,7 +420,7 @@
                                 <TextRun>
                                   <Value>=Fields!business_branch_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -500,7 +500,7 @@
                                 <TextRun>
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -580,7 +580,7 @@
                                 <TextRun>
                                   <Value>=Fields!cash_drawer_name.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -740,7 +740,7 @@
                                 <TextRun>
                                   <Value>=Fields!created_by.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1086,7 +1086,7 @@
                   <TextRun>
                     <Value>=First(Fields!business_branch_name_en.Value, "WorkingDayInfo")</Value>
                     <Style>
-                      <FontFamily>Arial</FontFamily>
+                      <FontFamily>Kh System</FontFamily>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -1126,6 +1126,7 @@
                   <TextRun>
                     <Value>=First(Fields!address_en.Value, "WorkingDayInfo")</Value>
                     <Style>
+                      <FontFamily>Kh System</FontFamily>
                       <FontSize>11pt</FontSize>
                     </Style>
                   </TextRun>
@@ -1263,6 +1264,7 @@
                                 <TextRun>
                                   <Value>=Fields!title.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1517,6 +1519,7 @@
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>

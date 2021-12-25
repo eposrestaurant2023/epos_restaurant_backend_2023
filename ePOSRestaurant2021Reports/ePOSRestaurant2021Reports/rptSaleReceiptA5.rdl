@@ -2824,7 +2824,9 @@ declare
                   </TextRun>
                   <TextRun>
                     <Value>=First(Fields!address_en.Value, "sale_data")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>Kh System</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
@@ -2978,6 +2980,7 @@ declare
                                 <TextRun>
                                   <Value>=Fields!sale_type.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -3085,6 +3088,7 @@ declare
                                 <TextRun>
                                   <Value>=Fields!customer_name.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -3410,7 +3414,7 @@ declare
                                 <TextRun>
                                   <Value>=Fields!business_branch_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -3519,6 +3523,7 @@ declare
                                 <TextRun>
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -3627,6 +3632,7 @@ declare
                                 <TextRun>
                                   <Value>=Fields!station_name_en.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -3893,7 +3899,7 @@ declare
                                 <TextRun>
                                   <Value>=Fields!payment_type_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -4216,6 +4222,7 @@ declare
                                 <TextRun>
                                   <Value>=Fields!product_group_en.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>

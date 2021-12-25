@@ -66,6 +66,13 @@ namespace eAdmin.Pages.PageReceipt.PageCashierShiftDetails
             Dialog.Show<eAdmin.Shared.Components.ComPreviewReport>(lang["Cashier Shift"], parameters, new DialogOptions() { FullScreen = true, CloseButton = true });
         }
 
-        
+        public async Task OnRefresh()
+        {
+            is_loading = true;
+            await GetCloseCashierShiftSummary();
+            await LoadData();
+            is_loading = false;
+        }
+
     }
 }

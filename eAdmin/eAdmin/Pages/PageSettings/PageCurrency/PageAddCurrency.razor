@@ -34,10 +34,10 @@
                         <TextInput label="@lang["Symbol"]" @bind-text="@currency.symbol"/>
                         <ComInputCheckBox @bind-value="@currency.is_prefix_symbol" label="@lang["Use prefix symbol"]" />
                         <ComInputCheckBox @bind-value="@currency.is_show_in_bill" label="@lang["Show in Receipt Total"]" />
+                        <ComInputCheckBox @bind-value="@currency.is_main" label="@lang["Is main currency"]"/>
+                        <ComInputCheckBox @bind-value="@currency.is_base_exchange_currency" label="@lang["Is base exchange currency"]"/>
                         <NumberInputInt label="@lang["Sort Order"]" @bind-text="@currency.sort" />
-                        
                         <SelectStatus @bind-selected_value="@currency.status" />
-
                     </UIContainerBox>
                     <UIContainerBox Title="@lang["Business Branches"]">
                         @if (currency.business_branch_currencies != null)

@@ -1792,6 +1792,7 @@ declare
                                 <TextRun>
                                   <Value>=format(Fields!quantity.Value,First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
