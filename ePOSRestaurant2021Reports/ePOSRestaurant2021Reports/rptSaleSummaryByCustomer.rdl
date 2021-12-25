@@ -106,7 +106,6 @@
           </QueryParameter>
         </QueryParameters>
         <CommandText>
-
 select 
 	coalesce(s.customer_code,'') as customer_code,
 	coalesce(s.customer_name,'Not Set') as customer_name,
@@ -124,11 +123,12 @@ where
 	s.is_foc = 0 and 
 	working_date between @start_date and @end_date and 
 	cast(s.business_branch_id as nvarchar(50)) = iif(@business_branch_id='', cast(s.business_branch_id as nvarchar(50)),@business_branch_id) and 
-	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id) 
+	cast(s.outlet_id as nvarchar(50)) = iif(@outlet_id='', cast(s.outlet_id as nvarchar(50)),@outlet_id)  and 
+	s.is_closed = 1 and 
+	s.is_deleted = 0 
 group by
 	s.customer_code,
 	s.customer_name
-	  
 	  </CommandText>
       </Query>
       <Fields>
@@ -280,10 +280,10 @@ group by
                   <Width>0.4152in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.33333in</Width>
+                  <Width>1.1875in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.93473in</Width>
+                  <Width>0.69515in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.53615in</Width>
@@ -301,10 +301,10 @@ group by
                   <Width>0.53766in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.88141in</Width>
+                  <Width>1.01683in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.67306in</Width>
+                  <Width>0.92224in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1504,7 +1504,7 @@ group by
             <DataSetName>Sale</DataSetName>
             <Top>0.075in</Top>
             <Height>0.72917in</Height>
-            <Width>7.36792in</Width>
+            <Width>7.36709in</Width>
             <Style>
               <Border>
                 <Style>None</Style>

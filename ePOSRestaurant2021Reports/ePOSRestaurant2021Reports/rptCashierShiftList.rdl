@@ -105,7 +105,8 @@
             <Value>=Parameters!outlet_id.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
+        <CommandText> 
+ 
 if object_id('tempdb..#tbl') is not null drop table #tbl
 select 
 	a.id,
@@ -166,11 +167,26 @@ update t
 		t.total_discount_amount = s.total_discount,
 		t.total_tax_amount = s.total_tax_amount,
 		t.total_sale_amount = s.total_amount,
-		t.sub_total = s.sub_total,
-		t.difference_amount = t.close_amount - s.total_amount
+		t.sub_total = s.sub_total 
 from #tbl t 
 	inner join #tbl_sale s on s.closed_cashier_shift_id = t.id 
 
+
+--get differ
+ 
+
+;with a as(
+	select 
+		a.cashier_shift_id,
+		sum(a.base_currency_amount) as amount
+	from tbl_cash_drawer_amount a
+	inner join #tbl t on t.id = a.cashier_shift_id
+	where
+		a.transaction_type_name = 'Differential Amount'
+	group by
+		a.cashier_shift_id
+)
+update t set t.difference_amount = a.amount  from #tbl t inner join a on a.cashier_shift_id = t.id
 
 select 
 	*
@@ -1136,26 +1152,6 @@ from #tbl </CommandText>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>cashier_shift_number</rd:DefaultName>
-                          <ActionInfo>
-                            <Actions>
-                              <Action>
-                                <Drillthrough>
-                                  <ReportName>rptSaleReceiptA4</ReportName>
-                                  <Parameters>
-                                    <Parameter Name="id">
-                                      <Value>=Fields!id.Value</Value>
-                                    </Parameter>
-                                    <Parameter Name="printed_by">
-                                      <Value>=Parameters!printed_by.Value</Value>
-                                    </Parameter>
-                                    <Parameter Name="report_url">
-                                      <Value>=Parameters!report_url.Value</Value>
-                                    </Parameter>
-                                  </Parameters>
-                                </Drillthrough>
-                              </Action>
-                            </Actions>
-                          </ActionInfo>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1167,6 +1163,7 @@ from #tbl </CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>

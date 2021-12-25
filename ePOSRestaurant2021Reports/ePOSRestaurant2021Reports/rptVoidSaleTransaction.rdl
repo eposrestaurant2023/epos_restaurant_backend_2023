@@ -113,6 +113,7 @@
         </QueryParameters>
         <CommandText>
 
+if object_id('tempdb..#tbl') is not null drop table #tbl
 select 
 	s.id,
 	sale_number,
@@ -133,6 +134,7 @@ select
 	s.deleted_date,
 	s.deleted_note,
 	s.customer_name
+	into #tbl
 from tbl_sale s 
 	inner join	dbo.fn_get_business_branch_by_role(@printed_by) b on b.id = s.business_branch_id
 	left join tbl_customer c on c.id = s.customer_id
@@ -145,7 +147,32 @@ where
 	coalesce(c.customer_group_id,0) = iif(@customer_group_id= 0,coalesce(c.customer_group_id,0),@customer_group_id)  
 	 
 order by
-	document_number</CommandText>
+	document_number
+
+;with a as(
+	select 
+		sp.sale_id,
+		sum(sp.quantity) as quantity,
+		sum((sp.price+sp.total_modifier_amount)*sp.quantity ) as sub_total,
+		sum(sp.total_discount_amount) as discount,
+		sum(sp.total_tax_amount) as tax,
+		sum(sp.total_amount) as total_amount
+	from tbl_sale_product sp
+	inner join #tbl t on t.id = sp.sale_id
+	group by
+		sp.sale_id
+)
+update t
+	set
+		t.total_quantity = a.quantity,
+		t.sub_total = a.sub_total,
+		t.total_discount_amount = a.discount,
+		t.total_tax_amount = a.tax,
+		t.total_amount = a.total_amount 
+from #tbl t inner join a on a.sale_id = t.id;
+
+
+select * from #tbl </CommandText>
       </Query>
       <Fields>
         <Field Name="id">
@@ -1027,7 +1054,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif(Fields!document_number.Value="",Fields!sale_number.Value,Fields!document_number.Value)</Value>
+                                  <Value>=iif(Fields!document_number.Value="New",Fields!sale_number.Value,Fields!document_number.Value)</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1118,7 +1145,7 @@ order by
                                 <TextRun>
                                   <Value>=Fields!business_branch_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1153,7 +1180,7 @@ order by
                                 <TextRun>
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1396,7 +1423,7 @@ order by
                                 <TextRun>
                                   <Value>=Fields!deleted_by.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1466,7 +1493,7 @@ order by
                                 <TextRun>
                                   <Value>=Fields!deleted_note.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>

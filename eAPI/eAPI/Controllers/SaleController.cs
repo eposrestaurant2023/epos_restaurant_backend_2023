@@ -126,7 +126,14 @@ namespace eAPI.Controllers
 
                   foreach(var sp in   model.sale_products.Where(r=>r.id != Guid.Empty))
                     {
-                        db.Entry(sp).State = EntityState.Modified;
+                        db.Entry(sp).State = EntityState.Added;
+                        var _old_sale_product = db.SaleProducts.Where(r => r.id == sp.id).AsNoTracking();
+                        if (_old_sale_product.Any())
+                        {
+                            db.Entry(sp).State = EntityState.Modified;
+                        }
+
+                       
                     }
 
                     db.Sales.Add(model);
