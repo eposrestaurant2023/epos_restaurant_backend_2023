@@ -61,7 +61,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> Save([FromBody] MenuModel u)
         {
 
-           
+            u.product_menus = null;
             u.parent = null;
            
             if (u.id == 0)
@@ -89,7 +89,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult> SaveMultiple([FromBody] List<MenuModel> menus)
         {
 
-            string xx = JsonSerializer.Serialize(menus);
+          
             menus.SelectMany(r => r.product_menus).ToList().ForEach(r => r.product = null);
 
             db.Menus.UpdateRange(menus);
