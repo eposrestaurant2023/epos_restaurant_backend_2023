@@ -14,8 +14,8 @@ namespace eAdmin.Pages.PageProducts.PageModifiers
     public class ComModifierDetailSaleHistoryBase : PageCore
     { 
         [Parameter] public string product_modifier_id { get; set; }
-        public List<SaleProductModifierModel> models = new List<SaleProductModifierModel>();
-        public SaleProductModifierModel model = new SaleProductModifierModel(); 
+        public List<SaleProductModifierModel> models = new();
+        public SaleProductModifierModel model = new(); 
         public int TotalRecord = 0; 
 
         string controller_api = "SaleProductModifier";

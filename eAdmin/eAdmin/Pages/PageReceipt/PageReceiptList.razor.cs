@@ -13,8 +13,8 @@ namespace eAdmin.Pages.PageReceipt
 {
     public class ComSaleBase : PageCore
     {
-        public List<SaleModel> models = new List<SaleModel>();
-        public SaleModel model = new SaleModel();
+        public List<SaleModel> models = new();
+        public SaleModel model = new();
         public int TotalRecord = 0; 
         string controller_api = "sale";
         public string StateKey

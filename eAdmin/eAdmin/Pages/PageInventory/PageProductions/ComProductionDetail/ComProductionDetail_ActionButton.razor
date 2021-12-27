@@ -56,7 +56,7 @@
             [CascadingParameter] public GlobalVariableModel gv { get; set; }
             AttachFilesModel file = new AttachFilesModel();
             bool is_loading;
-            bool is_loading_data, is_open_attach_file;
+            bool  is_open_attach_file;
             protected override void OnInitialized()
             {
                 file.production_id = model.id;

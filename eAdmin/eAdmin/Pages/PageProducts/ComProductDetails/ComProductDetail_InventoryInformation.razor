@@ -59,7 +59,7 @@
     [Parameter] public bool product_deleted { get; set; }
     [Parameter] public bool is_ingredient { get; set; } = false;
     List<StockLocationProductModel> models = new List<StockLocationProductModel>();
-    bool is_loading, is_saving, ShowModal;
+    bool is_loading, ShowModal;
 
 
     protected override async Task OnInitializedAsync()

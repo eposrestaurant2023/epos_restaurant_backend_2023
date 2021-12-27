@@ -1,11 +1,11 @@
 ﻿@page "/expensescategory"
-@inject IJSRuntime js
+
 @inherits PageCore;
 @using eShareModel;
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="@lang["Expenses Category"]"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang["Expenses Category"]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole("expenses_category_management")">
         <PageHeader>
             <HeaderLeft>

@@ -38,15 +38,7 @@
     }
 </div>
     }
-    @if (deleted_product_menu != null && show_undo_delete == true)
-    {
-        <MatSnackbar @bind-IsOpen="@show_undo_delete" Leading="true">
-            <MatSnackbarContent>@lang["Product"] @(gv.current_language.language_id == "km-KH"? deleted_product_menu.product.product_name_kh : deleted_product_menu.product.product_category_en)  @lang["has been remove from this menu"] @menu.menu_name_en.</MatSnackbarContent>
-            <MatSnackbarActions>
-                <MatButton Raised="true" OnClick="@UndoDelete">@lang["Undo"]</MatButton>
-            </MatSnackbarActions>
-        </MatSnackbar>
-    }
+   
 }
 
 
@@ -57,20 +49,31 @@
 
     ProductMenuModel deleted_product_menu = new ProductMenuModel();
 
-    bool show_undo_delete = false;
 
     void RemoveProduct(ProductMenuModel deleted_item)
     {
         deleted_product_menu = deleted_item;
-        show_undo_delete = true;
+      
         deleted_item.is_deleted = true;
         menu_ = menu;
         menu_Changed.InvokeAsync(menu_);
+        toast.Add($"{lang["Product"]} {(gv.current_language.language_id == "km-KH"? deleted_product_menu.product.product_name_kh : deleted_product_menu.product.product_category_en)}  {lang["has been remove from this menu"]} {menu.menu_name_en}.", Severity.Normal, config =>
+        {
+            config.Action = lang["Undo"];
+            config.ActionColor = MudBlazor.Color.Primary;
+            config.Onclick = snackbar =>
+            {
+                UndoDelete();
+                StateHasChanged();
+                return Task.CompletedTask;
+            };
+        });
+
     }
 
     void UndoDelete()
     {
         deleted_product_menu.is_deleted = false;
-        show_undo_delete = false;
+      
     }
 }

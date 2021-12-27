@@ -168,7 +168,7 @@ namespace eAdmin.Pages.PageInventory.PageStockTake
         }
 
 
-        public async Task OnStockLocationSeletedChange(Guid _id)
+        public void OnStockLocationSeletedChange(Guid _id)
         {
             model.stock_location_id = _id;
         }

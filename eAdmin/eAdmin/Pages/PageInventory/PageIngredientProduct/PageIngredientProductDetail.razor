@@ -4,7 +4,7 @@
 @inject ISnackbar toast
 @inject IJSRuntime js
 @inject IStringLocalizer<Resource> lang
-<Loading is_loading="@(is_loading || is_loading_data)" />
+<Loading is_loading="@(is_loading)" />
 @if (!is_loading)
 {
 
@@ -98,7 +98,7 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     public ProductModel model { get; set; }
     bool is_open_attach_file;
-    bool is_loading, is_loading_data,show_comment_tab,show_association_products,show_inventory_transation;
+    bool is_loading,show_comment_tab,show_association_products,show_inventory_transation;
 
     public string api_url { get {
             string url = $"Product({id})";

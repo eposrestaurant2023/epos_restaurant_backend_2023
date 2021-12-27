@@ -37,7 +37,7 @@
     [Parameter] public EventCallback<MouseEventArgs> Cancel_click { get; set; }
     [Parameter] public EventCallback<UserModel> modelChanged { get; set; }
     [Parameter] public UserModel model { get; set; }
-    bool is_loading;
+
 
     public string modal_title
     {
@@ -56,11 +56,10 @@
 
     protected override void OnInitialized()
     {
-        is_loading = true;
-
+         
         user = JsonSerializer.Deserialize<UserModel>(JsonSerializer.Serialize(model));
         old_username = user.username;
-        is_loading = false;
+       
     }
     async Task SaveUser_Click()
     {

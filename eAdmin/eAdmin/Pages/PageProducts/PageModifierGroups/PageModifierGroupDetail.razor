@@ -1,12 +1,11 @@
 ﻿@page "/modifiergroup/{id}"
 @inherits PageCore
-@inject IStringLocalizer<Resource> lang
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="@lang["Modifier Group Detail"]"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang["Modifier Group Detail"]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole("modifier_group_view")">
         <PageHeader>
             <HeaderLeft>
@@ -20,7 +19,7 @@
                 </PageTitle>
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
-                <Button roles="@gv.GetRole("modifier_group_edit")" icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"modifiergroup/edit/{modifier_group.id}"))" is_visible="@(!modifier_group.is_deleted)" />
+                <eAdmin.Shared.Components.Button roles="@gv.GetRole("modifier_group_edit")" icon="edit" title="@lang["Edit"]" OnClick="@(()=>nav.NavigateTo($"modifiergroup/edit/{modifier_group.id}"))" is_visible="@(!modifier_group.is_deleted)" />
                 <ComAttachFileButton RoleAdd="@gv.GetRole("modifier_group_add")"
                                      RoleEdit="@gv.GetRole("modifier_group_edit")"
                                      RoleDelete="@gv.GetRole("modifier_group_delete")"
@@ -100,7 +99,7 @@ else
     ModifierGroupModel modifier_group = new ModifierGroupModel();
     List<ProductGroupModel> product_groups = new List<ProductGroupModel>();
    
-    bool is_save_and_new = false;
+
     bool show_comment_tab = false;
     protected override async Task OnInitializedAsync()
     {

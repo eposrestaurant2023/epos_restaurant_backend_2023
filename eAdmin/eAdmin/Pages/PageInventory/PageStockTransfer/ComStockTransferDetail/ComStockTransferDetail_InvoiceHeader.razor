@@ -1,5 +1,5 @@
 ﻿@inherits PageCore;
-@inject IStringLocalizer<Resource> lang
+
 <ComStockTransferDetail_RibbonStatus model="model" />
     <div class="btn_show_logo" @onclick="@ShowHideLogo">@(state.pager.show_logo ? lang["Hide Logo"] : lang["Show Logo"]) <span uk-icon="icon: image; ratio: 0.8;"></span></div>
     <PageHeader is_subpage="true">
