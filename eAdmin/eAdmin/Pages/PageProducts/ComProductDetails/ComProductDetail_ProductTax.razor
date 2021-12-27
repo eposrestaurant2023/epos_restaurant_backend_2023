@@ -7,10 +7,28 @@
     }
     else
     {
-        <MudTabs PanelClass="pa-6">
+        @if (gv.business_branch_by_role.Count() > 1)
+        {
+            <MudTabs PanelClass="pa-6">
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                    <MudTabPanel Text="@(gv.current_language.language_id == "km-KH"? b.business_branch_name_kh : b.business_branch_name_en)">
+                        <ListTable>
+                            @if (product_taxes.Where(r => r.business_branch_id == b.id).Any())
+                            {
+                                <ListTableItem ItemTitle="@tax_rule.tax_1_name">@ProductTax(product_taxes.Where(r => r.business_branch_id == b.id).FirstOrDefault().tax_1_rate)</ListTableItem>
+                                <ListTableItem ItemTitle="@tax_rule.tax_2_name">@ProductTax(product_taxes.Where(r => r.business_branch_id == b.id).FirstOrDefault().tax_2_rate)</ListTableItem>
+                                <ListTableItem ItemTitle="@tax_rule.tax_3_name">@ProductTax(product_taxes.Where(r => r.business_branch_id == b.id).FirstOrDefault().tax_3_rate)</ListTableItem>
+                            }
+                        </ListTable>
+                    </MudTabPanel>
+                }
+            </MudTabs>
+        }
+        else
+        {
             @foreach (var b in gv.business_branch_by_role)
             {
-            <MudTabPanel Text="@(gv.current_language.language_id == "km-KH"? b.business_branch_name_kh : b.business_branch_name_en)">
                 <ListTable>
                     @if (product_taxes.Where(r => r.business_branch_id == b.id).Any())
                     {
@@ -19,11 +37,10 @@
                         <ListTableItem ItemTitle="@tax_rule.tax_3_name">@ProductTax(product_taxes.Where(r => r.business_branch_id == b.id).FirstOrDefault().tax_3_rate)</ListTableItem>
                     }
                 </ListTable>
-            </MudTabPanel>
+               }
             }
-        </MudTabs>
-    }
-</UIContainerBox>
+        }
+    </UIContainerBox>
 <Spacing Number="10" />
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
