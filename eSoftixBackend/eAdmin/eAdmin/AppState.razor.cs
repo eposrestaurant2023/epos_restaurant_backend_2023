@@ -200,12 +200,21 @@ namespace eAdmin
             api_url = api_url + "project_types,";
             api_url = api_url + "currencies,";
             api_url = api_url + "roles";
-
-            GetResponse res = await http.ApiGet(api_url);
-            if (res.IsSuccess)
+            Console.WriteLine(api_url);
+            try
             {
-                gv = JsonSerializer.Deserialize<GlobalVariableModel>(res.Content.ToString()); 
+                GetResponse res = await http.ApiGet(api_url);
+                if (res.IsSuccess)
+                {
+                    gv = JsonSerializer.Deserialize<GlobalVariableModel>(res.Content.ToString());
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+            
 
         }
 
