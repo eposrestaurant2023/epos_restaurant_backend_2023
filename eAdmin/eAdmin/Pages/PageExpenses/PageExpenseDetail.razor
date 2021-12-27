@@ -32,8 +32,6 @@
                             <MoreButtonItem roles="@gv.GetRole("expenses_add")" icon="add" url="expenses/new">@lang["NNew Expenses"]</MoreButtonItem>
                             <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="edit" OnClick="@(()=>nav.NavigateTo($"expenses/edit/{model.id}"))">@lang["Edit"]</MoreButtonItem>
                         </MudHidden>
-                        <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="highlight_off" is_visible="@(!model.is_deleted && model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Inactive"]</MoreButtonItem>
-                        <MoreButtonItem roles="@gv.GetRole("expenses_edit")" icon="check" is_visible="@(!model.is_deleted && !model.status)" OnClick="@(() => OnToogleStatus(model))">@lang["Active"]</MoreButtonItem>
                         <MoreButtonItem roles="@gv.GetRole("expenses_delete")" icon="delete" is_visible="@(!model.is_deleted)" OnClick="@(() => OnDelete(model))">@lang["Delete"]</MoreButtonItem>
                         <MoreButtonItem roles="@gv.GetRole("expenses_delete")" icon="refresh" is_visible="@(model.is_deleted)" OnClick="@(() => OnRestore(model))">@lang["Restore"]</MoreButtonItem>
                         <MudHidden Breakpoint="Breakpoint.MdAndUp">
@@ -57,7 +55,7 @@
                     <MudTabs PanelClass="pa-6">
                         <MudTabPanel Text="@lang["Expense Information"]">
                             <UIGridCenter>
-                                <UIContainerBox Title="@lang["Expense Information"]" is_deleted="@model.is_deleted" is_active="@(model.status == true && model.is_deleted==false)" is_inactive="@(model.status == false && model.is_deleted==false)">
+                                <UIContainerBox Title="@lang["Expense Information"]" is_deleted="@model.is_deleted">
                                     <ListTable ClassWidth="uk-width-1-1">
                                         <ListTableItem ItemTitle="@lang["Reference Number"]" IsBetweenValue="true">@model.reference_number</ListTableItem>
                                         <ListTableItem ItemTitle="@lang["Expense Category"]" IsBetweenValue="true">@model.expense_category_name</ListTableItem>

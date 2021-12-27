@@ -1649,7 +1649,7 @@ order by
                                 <TextRun>
                                   <Value>=Fields!deleted_by.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -2511,6 +2511,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!business_branch_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2523,6 +2524,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!outlet_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2535,6 +2537,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!customer_group_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2547,6 +2550,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!customer_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2559,6 +2563,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!product_group_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2571,6 +2576,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!product_category_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2621,6 +2627,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>

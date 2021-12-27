@@ -795,7 +795,7 @@ order by
                                 <TextRun>
                                   <Value>=Fields!stock_location_name.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1170,7 +1170,7 @@ order by
             <DataSetName>StockTake</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.24833in</Width>
+            <Width>7.24832in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1197,6 +1197,7 @@ order by
                     <TextRun>
                       <Value>=First(Fields!company_name.Value, "CompanyInfo")</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                       </Style>
@@ -1229,6 +1230,7 @@ order by
                     <TextRun>
                       <Value>=First(Fields!report_title.Value, "report_name")</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>11pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1281,6 +1283,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!business_branch_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1293,6 +1296,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!stock_location_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1343,6 +1347,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>

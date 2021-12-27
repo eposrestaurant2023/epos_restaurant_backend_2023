@@ -1455,6 +1455,7 @@ group by
                     <TextRun>
                       <Value>=First(Fields!company_name.Value, "CompanyInfo")</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                       </Style>
@@ -1487,6 +1488,7 @@ group by
                     <TextRun>
                       <Value>=First(Fields!report_title.Value, "report_name")</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>11pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1551,6 +1553,7 @@ group by
                     <TextRun>
                       <Value>=Parameters!business_branch_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1563,6 +1566,7 @@ group by
                     <TextRun>
                       <Value>=Parameters!outlet_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1575,6 +1579,7 @@ group by
                     <TextRun>
                       <Value>=Parameters!customer_group_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1587,6 +1592,7 @@ group by
                     <TextRun>
                       <Value>=Parameters!customer_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1637,6 +1643,7 @@ group by
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>

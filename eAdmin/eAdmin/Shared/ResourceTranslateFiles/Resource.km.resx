@@ -2169,10 +2169,10 @@
   <data name="Customer Photo" xml:space="preserve">
     <value>រូបថត</value>
   </data>
-  <data name="Customer_Name_En" xml:space="preserve">
+  <data name="Customer Name En" xml:space="preserve">
     <value>ឈ្មោះ (En)</value>
   </data>
-  <data name="Customer_Name_kh" xml:space="preserve">
+  <data name="Customer Name Kh" xml:space="preserve">
     <value>ឈ្មោះ (Kh)</value>
   </data>
   <data name="Discount Type" xml:space="preserve">
@@ -2804,6 +2804,9 @@
   </data>
   <data name="Acleda Riel" xml:space="preserve">
     <value>Acleda រៀល</value>
+  </data>
+  <data name="Apply All" xml:space="preserve">
+    <value>បញ្ជូលទាំងអស់</value>
   </data>
   <data name="Please click button below to add section." xml:space="preserve">
     <value>សូមចុចលើប៊ូតុងខាងក្រោមដើម្បីបញ្ជូល Section</value>

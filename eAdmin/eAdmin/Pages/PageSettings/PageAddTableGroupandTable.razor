@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div>
-                            <SelectSaleType label="@lang["Sale Type"]" @bind-selected_value="@sale_type"/>
+                            <SelectSaleType show_empty="true" label="@lang["Sale Type"]" @bind-selected_value="@sale_type"/>
                         </div>
                         <Spacing Number="10" />
                         <div class="uk-width-1">
@@ -96,7 +96,7 @@
                                         <SelectPriceRule @bind-selected_value="@price_rule" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                     </th>
                                     <Th>
-                                        <SelectSaleType @bind-selected_value="@sale_type" width="100px" is_horizontal="false" is_inline="true"/>
+                                        <SelectSaleType @bind-selected_value="@sale_type" show_empty="true" width="100px" is_horizontal="false" is_inline="true"/>
                                     </Th>
                                     <Th></Th>
                                     <th></th>
@@ -121,7 +121,7 @@
                                             <SelectPriceRule selected_value="@s.price_rule_id" outlet="@model.outlet" is_inline="true" show_empty="true" width="100px" />
                                         </td>
                                         <td>
-                                            <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true"/>
+                                            <SelectSaleType @bind-selected_value="@s.sale_type" is_horizontal="false" width="50px" is_inline="true" show_empty="true"/>
                                         </td>
                                         <TdCenter>
                                             <NumberInputInt @bind-text="@s.sort_order"/>
@@ -196,7 +196,7 @@
         }
     }
 
-    private string? _sale_type = "Dine in";
+    private string? _sale_type;
 
     public string? sale_type
     {

@@ -50,7 +50,7 @@ namespace eShareModel
 
         [MaxLength(100)]
         public string deleted_by { get; set; }
-        public DateTime? deleted_date { get; set; }
+        public DateTime? deleted_date { get; set; } = DateTime.Now;
 
         public bool status { get; set; } = true;
     

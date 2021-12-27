@@ -1273,7 +1273,7 @@ order by
             <DataSetName>StockTransfer</DataSetName>
             <Top>0.02778in</Top>
             <Height>0.72917in</Height>
-            <Width>7.25875in</Width>
+            <Width>7.25874in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1384,6 +1384,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!from_business_branch_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1396,6 +1397,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!from_stock_location_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1408,6 +1410,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!to_business_branch_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1420,6 +1423,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!to_stock_location_id.Label</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1476,6 +1480,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>Kh System</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>

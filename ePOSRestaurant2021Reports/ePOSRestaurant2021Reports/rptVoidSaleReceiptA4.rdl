@@ -860,6 +860,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!table_name.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1188,6 +1189,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!closed_by.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1923,7 +1925,7 @@ where
                   <TextRun>
                     <Value>=First(Fields!company_name.Value, "company_infor")</Value>
                     <Style>
-                      <FontFamily>Arial</FontFamily>
+                      <FontFamily>Kh System</FontFamily>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -2270,6 +2272,7 @@ where
                   <TextRun>
                     <Value>=First(Fields!address_en.Value, "sale_data")</Value>
                     <Style>
+                      <FontFamily>Kh System</FontFamily>
                       <FontSize>11pt</FontSize>
                     </Style>
                   </TextRun>
@@ -2461,6 +2464,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!sale_type.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Normal</FontWeight>
                                   </Style>
@@ -2568,6 +2572,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!customer_name.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -2893,7 +2898,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!business_branch_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -3002,6 +3007,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -3110,6 +3116,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!station_name_en.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>9pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -3249,6 +3256,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!product_group_en.Value</Value>
                                   <Style>
+                                    <FontFamily>Kh System</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>

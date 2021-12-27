@@ -62,7 +62,7 @@
     CustomerModel model = new CustomerModel();
     List<BusinessBranchModel> business_branches = new List<BusinessBranchModel>();
 
-    ApiResponseModel existing_customer_info= new  ApiResponseModel();
+    ApiResponseModel existing_customer_info= new  ApiResponseModel("");
     bool is_save_and_new , is_save_and_order;
 
     public string api_url
@@ -150,12 +150,15 @@
 
             //save customer business branchs
             model.customer_business_branchs.Clear();
+            model.business_branch_id = null;
+            model.last_update_business_branch_id = null;
             foreach (var a in business_branches.ToList())
             {
                 if (a.is_selected)
                 {
                     model.customer_business_branchs.Add(new CustomerBusinessBranchModel()
                     {
+
                         business_branch_id = a.id,
                         customer_id = model.id
                     });
@@ -204,7 +207,6 @@
                 {
                     is_customer_exist = true;
                     existing_customer_info = JsonSerializer.Deserialize<ApiResponseModel>(res.Content.ToString());
-
                     toast.Add(lang[existing_customer_info.message], MudBlazor.Severity.Warning);
 
                 }

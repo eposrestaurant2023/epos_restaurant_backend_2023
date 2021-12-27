@@ -1,5 +1,7 @@
 ﻿@inject NavigationManager nav
 @inject IStringLocalizer<Resource> lang
+@inject IHttpService http
+@inject ISnackbar toast
 <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
     <ActivatorContent>
         <MudAvatar Image="@(gv.image_base_url + gv.current_login_user.photo)" />
@@ -10,7 +12,7 @@
         <MudMenuItem Icon="@Icons.Material.Outlined.Person" OnClick="@(()=>is_view_profile=true)">@lang["Manage your account"]</MudMenuItem>
         <MudMenuItem Icon="@Icons.Material.Outlined.HelpOutline" Href="@gv.settings.Where(r => r.id == 7).Select(r => r.setting_title).FirstOrDefault()">@lang["help_and_support"]</MudMenuItem>
         <MudMenuItem Icon="@Icons.Material.Filled.RemoveFromQueue" OnClick="@(()=>nav.NavigateTo("systemlicense"))">@lang["System License"]</MudMenuItem>
-        <MudMenuItem Icon="@Icons.Material.Filled.PartyMode" Href="http://localhost:7072/api/BackupDatabase">@lang["Backup Database"]</MudMenuItem>
+        <MudMenuItem Icon="@Icons.Material.Filled.PartyMode" OnClick="@OnBackupClick">@lang["Backup Database"]</MudMenuItem>
         <MudMenuItem Icon="@Icons.Material.Outlined.Login" Href="auth/logout">@lang["Logout"]</MudMenuItem>
     </ChildContent>
 </MudMenu>
@@ -23,4 +25,14 @@
 @code {
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     bool is_view_profile;
+
+    async Task OnBackupClick()
+    {
+        var resp = await http.ApiPost("BackupDatabase");
+        if (resp.IsSuccess)
+        {
+            toast.Add(lang["Backup Database successfully"], MudBlazor.Severity.Success);
+        }
+    }
+
 }

@@ -6,7 +6,7 @@
 <form @onsubmit:preventDefault="true" @onsubmit="Search">
     <div class="uk-search uk-search-default search-default">
         <span uk-search-icon class="uk-icon uk-search-icon"></span>
-        <input @bind-value="@keyword" class="uk-search-input search-field" type="search" placeholder="@lang["Search"]" @ref="@txt_search" style="border:none !important"/>
+        <input @bind-value="@(keyword)" class="uk-search-input search-field" type="search" placeholder="@lang["Search"]" @ref="@txt_search" style="border:none !important"/>
     </div>
 </form>
 @code{
@@ -23,7 +23,7 @@
         }
         else
         {
-            nav.NavigateTo($"search/{keyword}");
+            nav.NavigateTo($"search/{keyword.Trim()}");
 
         }
         await js.InvokeVoidAsync("JsFunctions.focusElement", txt_search);

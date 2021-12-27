@@ -87,7 +87,6 @@
                         <ThRight>@lang["Exchange Rate"]</ThRight>
                         <ThRight>@lang["Amount"]</ThRight>
                         <ThAuto>@lang["Note"]</ThAuto>
-                        <ThCenter>@lang["Status"]</ThCenter>
                         <th class="uk-width-auto"></th>
                     </TableHeader>
                     <RowTemplate Context="p">
@@ -102,7 +101,6 @@
                         <TdCenter>
                             <a href="@($"workingday/{p.working_day_id}")">@p.working_day_number</a><br />
                             <a href="@($"cashiershift/{p.cashier_shift_id}")">@p.cashier_shift_number</a><br />
-
                         </TdCenter>
                         <td>
                             <div>
@@ -124,15 +122,9 @@
                         <td>
                             <TextOverflow Text="@p.note"/>
                         </td>
-                        <TdCenter>
-                            <LabelActive is_visible="@(p.status == true)" />
-                            <LabelInActive is_visible="@(p.status == false)" />
-                        </TdCenter>
                         <TdActions is_loading="@p.is_loading">
                             <TableActionItem roles="@gv.GetRole("expenses_management")" icon="visibility" url="@($"expenses/{p.id}")">@lang["View"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("expenses_edit")" icon="edit" is_visible="@(!p.is_deleted)" url="@($"expenses/edit/{p.id}")">@lang["Edit"]</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("expenses_edit")" icon="highlight_off" is_visible="@(p.status && !p.is_deleted)" OnClick="@(()=>OnToogleStatus(p))">@lang["Inactive"]</TableActionItem>
-                            <TableActionItem roles="@gv.GetRole("expenses_edit")" icon="check" is_visible="@(!p.status && !p.is_deleted)" OnClick="@(() => OnToogleStatus(p))">@lang["Active"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("expenses_delete")" icon="delete" is_visible="@(!p.is_deleted)" OnClick="@(() => OnDelete(p))">@lang["Delete"]</TableActionItem>
                             <TableActionItem roles="@gv.GetRole("expenses_delete")" icon="refresh" is_visible="@(p.is_deleted)" OnClick="@(()=>OnRestore(p))">@lang["Restore"]</TableActionItem>
                         </TdActions>
