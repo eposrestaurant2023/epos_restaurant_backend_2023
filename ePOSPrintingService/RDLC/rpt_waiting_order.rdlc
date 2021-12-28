@@ -2053,6 +2053,10 @@
           <DataField>deleted_date</DataField>
           <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+        <Field Name="deleted_note">
+          <DataField>deleted_note</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="discount_code">
           <DataField>discount_code</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2268,6 +2272,10 @@
         <Field Name="total_tax_amount">
           <DataField>total_tax_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="waiting_number">
+          <DataField>waiting_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="working_date">
           <DataField>working_date</DataField>

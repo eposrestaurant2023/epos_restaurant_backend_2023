@@ -733,13 +733,8 @@ namespace ePOSPrintingService
         public static void PrintReceipt(string sale_id, ReceiptListModel receipt, string printer_name, int copies, bool is_reprint = false)
         {
             try
-            {
-
-
-
-
-                DynamicDataModel receipt_data = new DynamicDataModel();
-
+            { 
+                DynamicDataModel receipt_data = new DynamicDataModel(); 
                 var data = GetApiData($"sp_get_sale_data_for_print_bill", $"'{sale_id}','json'");
                 if (data.Any())
                 {
@@ -748,10 +743,7 @@ namespace ePOSPrintingService
                 {
                     return;
                 }
-
-
-                    LocalReport report = new LocalReport();
-
+                LocalReport report = new LocalReport();
                 report.ReportPath = string.Format(@"{0}\RDLC\{1}.rdlc", AppDomain.CurrentDomain.BaseDirectory, receipt.ReceiptFileName);
 
                 //sale data
@@ -774,11 +766,21 @@ namespace ePOSPrintingService
                 grand_total_data = CreateDataTable(grand_totals);
 
 
-                //Grand total data
+                //sale payment data
                 DataTable sale_payment_data = new DataTable();
                 List<SalePaymentModel> sale_payments = new List<SalePaymentModel>();
                 sale_payments = JsonConvert.DeserializeObject<List<SalePaymentModel>>(receipt_data.sale_payment_data);
                 sale_payment_data = CreateDataTable(sale_payments);
+
+                //sale payment change data
+                DataTable sale_payment_change_data = new DataTable();
+                List<SalePaymentChangeModel> sale_payment_change_list= new List<SalePaymentChangeModel>();
+                if (receipt_data.sale_payment_change_data != null)
+                {
+                    sale_payment_change_list = JsonConvert.DeserializeObject<List<SalePaymentChangeModel>>(receipt_data.sale_payment_change_data);
+                }
+                
+                sale_payment_change_data = CreateDataTable(sale_payment_change_list);
 
 
 
@@ -793,6 +795,7 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("GrandTotal", grand_total_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("SalePayment", sale_payment_data));
+                report.DataSources.Add(new ReportDataSource("SalePaymentChange", sale_payment_change_data));
 
                 Export(report,
                      receipt.PageWidth,
