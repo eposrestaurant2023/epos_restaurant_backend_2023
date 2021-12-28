@@ -1,12 +1,11 @@
 ﻿@page "/modifier/{id}"
 @inherits PageCore
-@inject IStringLocalizer<Resource> lang
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="@lang["Modifier Detail"]"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang["Modifier Detail"]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole("modifier_view")">
         <PageHeader>
             <HeaderLeft>
@@ -21,7 +20,7 @@
             </HeaderLeft>
             <HeaderRight ShowBackButton="true">
                 <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                    <Button roles="@gv.GetRole("modifier_edit")" icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifier/edit/{modifier.id}"))" is_visible="@(!modifier.is_deleted)" />
+                    <eAdmin.Shared.Components.Button roles="@gv.GetRole("modifier_edit")" icon="edit" title="Edit" OnClick="@(()=>nav.NavigateTo($"modifier/edit/{modifier.id}"))" is_visible="@(!modifier.is_deleted)" />
                 </MudHidden>
                 <ComAttachFileButton RoleAdd="@gv.GetRole("modifier_add")"
                                      RoleEdit="@gv.GetRole("modifier_edit")"
@@ -128,7 +127,7 @@ else
     [Parameter] public string id { get; set; }
     string controller_api = "Modifier";
     ModifierModel modifier = new ModifierModel();
-    bool is_save_and_new = false;
+
     bool show_sale_history = false;
     bool show_comment_tab = false;
     bool is_open_attach_file;

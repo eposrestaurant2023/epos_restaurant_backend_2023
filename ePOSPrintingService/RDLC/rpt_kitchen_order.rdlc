@@ -2,62 +2,6 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
-      <Textbox Name="Textbox1">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Captain Order</Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontFamily>Kh System</FontFamily>
-                  <FontSize>11pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>=First(Fields!sale_type.Value, "Sale")</Value>
-                <Style>
-                  <FontStyle>Normal</FontStyle>
-                  <FontFamily>Kh System</FontFamily>
-                  <FontSize>11pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>None</TextDecoration>
-                  <Color>#000000</Color>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Center</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>0.005in</Top>
-        <Left>0.05083in</Left>
-        <Height>0.27083in</Height>
-        <Width>2.67708in</Width>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Tablix Name="Tablix1">
         <TablixBody>
           <TablixColumns>
@@ -81,7 +25,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Check #: </Value>
+                              <Value>លេខរៀង: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -122,7 +66,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Table: </Value>
+                              <Value>តុ: </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
@@ -170,7 +114,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Order By : </Value>
+                              <Value>កុម្មងដោយ : </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -211,14 +155,14 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Date : </Value>
+                              <Value>កាលបរិច្ឆេទ : </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=format(First(Fields!created_date.Value, "SaleProduct"),"dd-MMM-yyyy")</Value>
+                              <Value>=format(First(Fields!created_date.Value, "SaleProduct"),"dd-MM-yyyy")</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -252,21 +196,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox12">
+                    <Textbox Name="Textbox14">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Guest# : </Value>
+                              <Value>បោះពុម្ព : </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=Fields!guest_cover.Value</Value>
+                              <Value>=First(Fields!printer_name.Value, "SaleProduct")</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -276,7 +220,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <rd:DefaultName>Textbox14</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -300,7 +244,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Time : </Value>
+                              <Value>ម៉ោង : </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
@@ -341,31 +285,33 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox14">
+                    <Textbox Name="Textbox10">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Printer : </Value>
+                              <Value>ភ្ញៀវ : </Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=First(Fields!printer_name.Value, "SaleProduct")</Value>
+                              <Value>=Fields!guest_cover.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>7.5pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox14</rd:DefaultName>
+                      <rd:DefaultName>Textbox9</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -431,15 +377,18 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!guest_cover.Value=0</Hidden>
+              </Visibility>
+            </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Sale</DataSetName>
-        <Top>0.31611in</Top>
+        <Top>0.06611in</Top>
         <Left>0.05083in</Left>
         <Height>0.89583in</Height>
         <Width>2.6875in</Width>
-        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -451,13 +400,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.16667in</Width>
+              <Width>0.03125in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.14583in</Width>
+              <Width>1.74999in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.38542in</Width>
+              <Width>0.91667in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -473,10 +422,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Description</Value>
+                              <Value>ទំនិញ</Value>
                               <Style>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -486,11 +435,15 @@
                       <rd:DefaultName>Textbox30</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>Silver</Color>
-                          <Style>None</Style>
+                          <Style>Solid</Style>
                           <Width>0.25pt</Width>
                         </Border>
-                        <BackgroundColor>Black</BackgroundColor>
+                        <BottomBorder>
+                          <Width>0.25pt</Width>
+                        </BottomBorder>
+                        <RightBorder>
+                          <Style>None</Style>
+                        </RightBorder>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -511,10 +464,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>QTY</Value>
+                              <Value>ចំនួន</Value>
                               <Style>
+                                <FontFamily>Kh System</FontFamily>
                                 <FontWeight>Bold</FontWeight>
-                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -526,11 +479,15 @@
                       <rd:DefaultName>Textbox18</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>Silver</Color>
-                          <Style>None</Style>
+                          <Style>Solid</Style>
                           <Width>0.25pt</Width>
                         </Border>
-                        <BackgroundColor>Black</BackgroundColor>
+                        <BottomBorder>
+                          <Width>0.25pt</Width>
+                        </BottomBorder>
+                        <LeftBorder>
+                          <Style>None</Style>
+                        </LeftBorder>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -554,7 +511,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!product_name_en.Value</Value>
+                              <Value>=Fields!product_name_kh.Value</Value>
                               <Style>
                                 <FontFamily>Kh System</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -708,7 +665,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>***Change table </Value>
+                              <Value>**ប្ដូរតុ</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -933,7 +890,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Note: </Value>
+                              <Value>ចំណាំ: </Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -985,7 +942,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Total Quantity</Value>
+                              <Value>ចំនួនសរុប</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontFamily>Kh System</FontFamily>
@@ -1081,7 +1038,11 @@
                     <Hidden>=Fields!old_table_name.Value=Fields!table_name.Value</Hidden>
                   </Visibility>
                 </TablixMember>
-                <TablixMember />
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=Fields!modifier_items.Value=""</Hidden>
+                  </Visibility>
+                </TablixMember>
                 <TablixMember>
                   <Visibility>
                     <Hidden>=Fields!note.Value =""</Hidden>
@@ -1095,11 +1056,11 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>SaleProduct</DataSetName>
-        <Top>1.26333in</Top>
+        <Top>1.01333in</Top>
         <Left>0.04042in</Left>
         <Height>1.44097in</Height>
-        <Width>2.69792in</Width>
-        <ZIndex>2</ZIndex>
+        <Width>2.69791in</Width>
+        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1107,7 +1068,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.73208in</Height>
+    <Height>2.47166in</Height>
     <Style />
   </Body>
   <Width>2.74875in</Width>

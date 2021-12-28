@@ -2,13 +2,13 @@
 @page "/modifier/edit/{id}"
 @page "/modifier/clone/{clone_id}"
 @inherits PageCore
-@inject IStringLocalizer<Resource> lang
+ 
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="@lang[title]"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang[title]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole($"{(!string.IsNullOrEmpty(id) ? "modifier_edit" : "modifier_add")}")">
         <PageHeader>
             <HeaderLeft>

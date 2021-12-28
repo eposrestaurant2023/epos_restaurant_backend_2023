@@ -3,7 +3,7 @@
 @inherits PageNewInventoryCheckBase
 <Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 <Com is_visible="@(!is_loading && !is_error)">
-    <Title Value="@lang[title]"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang[title]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer>
         <PageHeader>
             <HeaderLeft>

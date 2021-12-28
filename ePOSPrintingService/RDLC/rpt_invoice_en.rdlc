@@ -108,7 +108,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=iif(Fields!sale_discount_type.Value = "Amount" , ""," " &amp; format(Fields!sale_discount_value.Value,"0 %"))</Value>
+                              <Value>=iif(Fields!sale_discount_type.Value = "Amount" , ""," " &amp; format((Fields!sale_discount_value.Value/100),"0 %"))</Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2051,6 +2051,10 @@
           <DataField>deleted_date</DataField>
           <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+        <Field Name="deleted_note">
+          <DataField>deleted_note</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="discount_code">
           <DataField>discount_code</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2266,6 +2270,10 @@
         <Field Name="total_tax_amount">
           <DataField>total_tax_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="waiting_number">
+          <DataField>waiting_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="working_date">
           <DataField>working_date</DataField>

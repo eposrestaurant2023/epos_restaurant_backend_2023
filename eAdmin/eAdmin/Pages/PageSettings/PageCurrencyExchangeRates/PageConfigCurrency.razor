@@ -1,12 +1,12 @@
 ﻿@page "/configcurrency"
 @inherits PageCore
-@inject IStringLocalizer<Resource> lang
+
 
 <Loading is_loading="@(is_loading || is_loading_data || is_saving)" />
 
 @if (!is_loading)
 {
-    <Title Value="@(lang["Config Currency"])"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@(lang["Config Currency"])"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole("config_currency_management")">
         <PageHeader>
             <HeaderLeft>

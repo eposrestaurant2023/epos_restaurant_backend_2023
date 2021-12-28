@@ -30,19 +30,19 @@
     string Message = "";
     bool IsShowMessage = false;
     bool IsSpinning = false;
-    bool is_loading = false;
+
     string server_id = "";
     protected override async Task OnInitializedAsync()
     {
 
-        is_loading = true;
+        
         var resp = await http.ApiGet("ServerID");
         if (resp.IsSuccess)
         {
             server_id = resp.Content.ToString();
         }
 
-        is_loading = false;
+       
 
     }
 

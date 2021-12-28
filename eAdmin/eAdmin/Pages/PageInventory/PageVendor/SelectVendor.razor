@@ -1,4 +1,4 @@
-﻿@inject IStringLocalizer<Resource> lang
+﻿
 @inherits SelectvendorBase
 
 <Loading is_loading="@(is_loading || is_loading_data)" />
@@ -33,7 +33,7 @@
                 <td>@m.mobile_phone</td>
                 <td>@m.company_name</td>
                 <td>
-                    <Button OnClick="@(()=>SelectVendorClick(m))">@lang["Select"]</Button>
+                    <eAdmin.Shared.Components.Button OnClick="@(()=>SelectVendorClick(m))">@lang["Select"]</eAdmin.Shared.Components.Button>
                 </td>
             </RowTemplate>
         </Table>

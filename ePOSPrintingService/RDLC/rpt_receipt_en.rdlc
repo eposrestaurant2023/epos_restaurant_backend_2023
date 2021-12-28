@@ -108,7 +108,7 @@
                               </Style>
                             </TextRun>
                             <TextRun>
-                              <Value>=iif(Fields!sale_discount_type.Value = "Amount" , ""," " &amp; format(Fields!sale_discount_value.Value,"0 %"))</Value>
+                              <Value>=iif(Fields!sale_discount_type.Value = "Amount" , ""," " &amp; format((Fields!sale_discount_value.Value/100),"0 %"))</Value>
                               <Style>
                                 <FontFamily>arial</FontFamily>
                                 <FontSize>9pt</FontSize>
@@ -2087,12 +2087,16 @@
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
           <TablixMembers>
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=Fields!wifi_password.Value=""</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Setting</DataSetName>
-        <Top>5.3345in</Top>
+        <Top>5.397in</Top>
         <Left>0.00832in</Left>
         <Height>0.40625in</Height>
         <Width>2.76167in</Width>
@@ -2189,19 +2193,68 @@
                 </TablixCell>
               </TablixCells>
             </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="Details2" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>SalePayment</DataSetName>
+        <Top>4.80163in</Top>
+        <Height>0.25in</Height>
+        <Width>2.76043in</Width>
+        <ZIndex>8</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+      <Tablix Name="Tablix10">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.58113in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.1793in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
             <TablixRow>
               <Height>0.25in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox15">
+                    <Textbox Name="Textbox62">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Change</Value>
+                              <Value>Change (</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>=Fields!name_en.Value</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                            <TextRun>
+                              <Value>)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -2212,7 +2265,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <rd:DefaultName>Textbox60</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2229,14 +2282,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox17">
+                    <Textbox Name="total_amount3">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=format(first(Fields!change_amount.Value),First(Fields!currency_format.Value, "Setting"))</Value>
+                              <Value>=format(Fields!change_amount.Value, Fields!format.Value)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -2247,7 +2300,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox17</rd:DefaultName>
+                      <rd:DefaultName>total_amount1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -2275,29 +2328,41 @@
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
-              <Group Name="Details2" />
-            </TablixMember>
-            <TablixMember>
-              <Visibility>
-                <Hidden>=Sum(Fields!change_amount.Value, "SalePayment")=0</Hidden>
-              </Visibility>
-              <KeepWithGroup>Before</KeepWithGroup>
+              <Group Name="Details3" />
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>SalePayment</DataSetName>
-        <Top>4.80163in</Top>
-        <Height>0.5in</Height>
+        <DataSetName>SalePaymentChange</DataSetName>
+        <Top>5.09769in</Top>
+        <Height>0.25in</Height>
         <Width>2.76043in</Width>
-        <ZIndex>8</ZIndex>
+        <ZIndex>9</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
+            <Width>0.25pt</Width>
           </Border>
+          <TopBorder>
+            <Style>Solid</Style>
+          </TopBorder>
         </Style>
       </Tablix>
+      <Line Name="Line3">
+        <Top>5.39769in</Top>
+        <Left>2.77458in</Left>
+        <Height>0in</Height>
+        <Width>-2.76582in</Width>
+        <ZIndex>10</ZIndex>
+        <Style>
+          <Border>
+            <Color>DimGray</Color>
+            <Style>Solid</Style>
+            <Width>0.25pt</Width>
+          </Border>
+        </Style>
+      </Line>
     </ReportItems>
-    <Height>5.74075in</Height>
+    <Height>5.80325in</Height>
     <Style />
   </Body>
   <Width>2.78334in</Width>
@@ -2310,18 +2375,18 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="ePOSMobileOrderService">
+    <DataSource Name="ePOSPrintingServiceReportModel">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>c4c63d3f-eb1e-483c-850b-ca0301d213a3</rd:DataSourceID>
+      <rd:DataSourceID>428792ed-f9c5-4754-9299-a650a74f0901</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="Sale">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2380,6 +2445,10 @@
         <Field Name="deleted_date">
           <DataField>deleted_date</DataField>
           <rd:TypeName>System.Nullable`1[[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="deleted_note">
+          <DataField>deleted_note</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="discount_code">
           <DataField>discount_code</DataField>
@@ -2597,6 +2666,10 @@
           <DataField>total_tax_amount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="waiting_number">
+          <DataField>waiting_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="working_date">
           <DataField>working_date</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
@@ -2611,14 +2684,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SaleModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SaleProduct">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2646,6 +2719,10 @@
           <DataField>product_category_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="product_category_id">
+          <DataField>product_category_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
         <Field Name="product_category_kh">
           <DataField>product_category_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2653,6 +2730,10 @@
         <Field Name="product_group_en">
           <DataField>product_group_en</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="product_group_id">
+          <DataField>product_group_id</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="product_group_kh">
           <DataField>product_group_kh</DataField>
@@ -2673,6 +2754,10 @@
         <Field Name="quantity">
           <DataField>quantity</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="revenue_group_name">
+          <DataField>revenue_group_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="sale_product_discount_amount">
           <DataField>sale_product_discount_amount</DataField>
@@ -2700,14 +2785,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SaleProductModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SaleProductModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SaleProductModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="GrandTotal">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2753,14 +2838,14 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>GrandTotalModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.GrandTotalModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.GrandTotalModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="Setting">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -2771,6 +2856,14 @@
         <Field Name="address_kh">
           <DataField>address_kh</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="close_cashier_shift_summary_include_sale_transaction">
+          <DataField>close_cashier_shift_summary_include_sale_transaction</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="close_working_day_summary_include_sale_transaction">
+          <DataField>close_working_day_summary_include_sale_transaction</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
         </Field>
         <Field Name="company_name_en">
           <DataField>company_name_en</DataField>
@@ -2822,21 +2915,17 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SettingModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SettingModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SettingModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="SalePayment">
       <Query>
-        <DataSourceName>ePOSMobileOrderService</DataSourceName>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="change_amount">
-          <DataField>change_amount</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
-        </Field>
         <Field Name="format">
           <DataField>format</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -2855,9 +2944,38 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ePOSPrintingService.ReportDataModel</rd:DataSetName>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
         <rd:TableName>SalePaymentModel</rd:TableName>
-        <rd:ObjectDataSourceType>ePOSPrintingService.ReportDataModel.SalePaymentModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SalePaymentModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="SalePaymentChange">
+      <Query>
+        <DataSourceName>ePOSPrintingServiceReportModel</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="change_amount">
+          <DataField>change_amount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="format">
+          <DataField>format</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="name_en">
+          <DataField>name_en</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="name_kh">
+          <DataField>name_kh</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>ePOSPrintingServiceReportModel</rd:DataSetName>
+        <rd:TableName>SalePaymentChangeModel</rd:TableName>
+        <rd:ObjectDataSourceType>ePOSPrintingServiceReportModel.SalePaymentChangeModel, ePOSPrintingService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

@@ -94,11 +94,11 @@
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
     List<SaleModel> models = new List<SaleModel>();
     string filter_business_branch_ids = "";
-    bool is_loading = false;
+
 
     protected override async Task OnInitializedAsync()
     {
-        is_loading = true;
+         
         if (!string.IsNullOrEmpty(business_branch_id))
         {
             filter_business_branch_ids = " and (";
@@ -115,7 +115,7 @@
             }
         }
 
-        is_loading = true;
+        
     }
 
 }

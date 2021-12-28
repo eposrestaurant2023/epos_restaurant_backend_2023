@@ -1,6 +1,6 @@
 ﻿@page "/role/new"
 @page "/role/edit/{id:int}"
-@inject IJSRuntime js
+
 @inherits PageCore;
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
@@ -51,7 +51,7 @@
     List<PermissionOptionModel> permissionoption = new List<PermissionOptionModel>();
     List<BusinessBranchModel> businesses = new List<BusinessBranchModel>();
     RoleModel model = new RoleModel();
-    string ControllerApi = "Role";
+
 
     protected override async Task OnInitializedAsync()
     {
