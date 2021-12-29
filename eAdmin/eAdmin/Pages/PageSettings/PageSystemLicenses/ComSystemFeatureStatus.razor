@@ -10,10 +10,13 @@ else if (is_full_license)
 }
 else
 {
-    if (expired_date > DateTime.Now)
+    if (expired_date >= DateTime.Now)
     {
         @*@gv.date_format*@
-       <label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">@expired_date.ToString("dd-MM-yyyy") (@Math.Ceiling(((DateTime)expired_date - DateTime.Now).TotalDays))</label>
+       <label class="uk-label uk-label-date text-center" uk-tooltip="Expired Date">
+            @expired_date.ToString("dd-MM-yyyy")
+            (@Math.Ceiling(((DateTime)expired_date - DateTime.Now).TotalDays +1))
+       </label>
     }
     else
     {

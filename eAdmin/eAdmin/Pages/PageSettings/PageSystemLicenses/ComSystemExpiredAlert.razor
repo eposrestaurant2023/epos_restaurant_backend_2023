@@ -31,11 +31,11 @@
                     
                         if (d.total_day_expired > 0)
                         {
-                            <div>@lang["Cashier Station "] :  @d.station_name_en @lang["will be expired on"] @(d.expired_date.ToString(gv.date_format)) (@d.total_day_expired days) </div>
+                            <div>@lang["Cashier Station "] :  @d.station_name_en @lang["will be expired on"] @(d.expired_date.ToString(gv.date_format)) (@(d.total_day_expired) days) </div>
                         }
                         else
                         {
-                            <div>@lang["Cashier Station "] : @d.station_name_en @lang["is expired."] @(d.expired_date.ToString(gv.date_format)) (@d.total_day_expired days)</div>
+                            <div>@lang["Cashier Station "] : @d.station_name_en @lang["is expired."] @(d.expired_date.ToString(gv.date_format)) (@(d.total_day_expired) days)</div>
                         }
                     
 
