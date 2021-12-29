@@ -1,11 +1,11 @@
 ﻿@page "/businessinformation"
-@inject IJSRuntime js
+
 @inherits PageCore
 
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-    <Title Value="@lang["Business Information"]"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang["Business Information"]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole("business_information")">
         <PageHeader>
             <HeaderLeft>

@@ -70,7 +70,7 @@
                 <TdCenter>
                     <MudText Typo="Typo.body1">@(Convert.ToDateTime(s.expired_date).ToString(gv.date_format)) 
                         <MudChip Color="MudBlazor.Color.Warning" Label="true" Size="Size.Small">
-                            @((int)(Convert.ToDateTime(s.expired_date) - DateTime.Now).TotalDays)
+                            (@Math.Ceiling(((DateTime)s.expired_date - DateTime.Now).TotalDays))
                        </MudChip>
                    </MudText>
                 </TdCenter>

@@ -8,6 +8,9 @@
                 <SelectStationType @bind-selected_value="@(model.station_type)" variant="Variant.Text"/>
                 <SelectCashDrawer businness_branch_id="@business_branch_id" @bind-selected_value="@(model.cash_drawer_id)" variant="Variant.Text" @bind-cash_drawer="@model.cash_drawer"/>
                 <MudCheckBox  @bind-Checked="@model.is_order_station" Label="Is order Station" />
+                <div>
+                     <MudCheckBox  @bind-Checked="@model.is_ready_config" Label="Is ready config"/>
+                </div>
                 <MudTextField T="string" @bind-Value="@(model.hardware_detail)" Label="Hardware detail" Lines="3"/>
                 <MudTextField T="string" @bind-Value="@(model.note)" Label="Note" Lines="3"/>
 

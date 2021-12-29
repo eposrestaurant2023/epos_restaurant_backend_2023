@@ -7,7 +7,7 @@
 
 @if (!is_loading && !is_error)
 {
-    <Title Value="@lang[title]"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang[title]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole($"{(id != Guid.Empty.ToString() ? "modifier_group_edit" : "modifier_group_add")}")">
         <PageHeader>
             <HeaderLeft>

@@ -7,21 +7,36 @@
     else
     {
 
-        <MudTabs PanelClass="pa-6">
+        @if (gv.business_branch_by_role.Count() > 1)
+        {
+            <MudTabs PanelClass="pa-6">
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                    <MudTabPanel Text="@b.business_branch_name_en">
+                        @foreach (var p in model.product_taxes.Where(r => r.business_branch_id == b.id))
+                        {
+                            <SelectRatePercentage @bind-selected_value="@(p.tax_1_rate)" label="@(tax_rule.tax_1_name)" product_tax="p" tax_number="1" product_taxChanged="@(()=>ValueChanged(p))" />
+                            <SelectRatePercentage @bind-selected_value="@(p.tax_2_rate)" label="@(tax_rule.tax_2_name)" product_tax="p" tax_number="2" product_taxChanged="@(()=>ValueChanged(p))" />
+                            <SelectRatePercentage @bind-selected_value="@(p.tax_3_rate)" label="@(tax_rule.tax_3_name)" product_tax="p" tax_number="3" product_taxChanged="@(()=>ValueChanged(p))" />
+                        }
+                    </MudTabPanel>
+                }
+            </MudTabs>
+        }
+        else
+        {
             @foreach (var b in gv.business_branch_by_role)
             {
-            <MudTabPanel Text="@b.business_branch_name_en">
                 @foreach (var p in model.product_taxes.Where(r => r.business_branch_id == b.id))
                 {
-                    <SelectRatePercentage label="@(tax_rule.tax_1_name)" product_tax="p" tax_number="1" product_taxChanged="@(()=>ValueChanged(p))" />
-                    <SelectRatePercentage label="@(tax_rule.tax_2_name)" product_tax="p" tax_number="2" product_taxChanged="@(()=>ValueChanged(p))" />
-                    <SelectRatePercentage label="@(tax_rule.tax_3_name)" product_tax="p" tax_number="3" product_taxChanged="@(()=>ValueChanged(p))" />
+                    <SelectRatePercentage @bind-selected_value="@(p.tax_1_rate)" label="@(tax_rule.tax_1_name)" product_tax="p" tax_number="1" product_taxChanged="@(() => ValueChanged(p))" />
+                    <SelectRatePercentage @bind-selected_value="@(p.tax_2_rate)" label="@(tax_rule.tax_2_name)" product_tax="p" tax_number="2" product_taxChanged="@(() => ValueChanged(p))" />
+                    <SelectRatePercentage @bind-selected_value="@(p.tax_3_rate)" label="@(tax_rule.tax_3_name)" product_tax="p" tax_number="3" product_taxChanged="@(() => ValueChanged(p))" />
                 }
-            </MudTabPanel>
+                }
             }
-        </MudTabs>
-    }
-</UIContainerBox>
+        }
+    </UIContainerBox>
 @code {
 
     [CascadingParameter] public GlobalVariableModel gv { get; set; }
@@ -41,4 +56,5 @@
     {
         await modelChanged.InvokeAsync(model);
     }
+
 }

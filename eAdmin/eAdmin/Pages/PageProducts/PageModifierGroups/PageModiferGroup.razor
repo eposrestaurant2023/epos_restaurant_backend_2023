@@ -10,7 +10,7 @@
 }
 @if (!is_loading)
 {
-    <Title Value="@lang["Modifier Group"]"></Title>
+    <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang["Modifier Group"]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole("modifier_group_management")">
         <PageHeader>
             <HeaderLeft>
@@ -94,7 +94,7 @@
     [Parameter] public string status { get; set; }
     List<ModifierGroupModel> modifer_groups = new List<ModifierGroupModel>();
     int TotalItem;
-    bool is_dialog_open;
+
     string controller_api = "ModifierGroup";
     public string StateKey
     {
@@ -289,7 +289,7 @@
             var u = JsonSerializer.Deserialize<ModifierGroupModel>(res.Content.ToString());
             toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
             await LoadData();
-            is_dialog_open = false;
+             
         }
         else
         {

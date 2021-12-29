@@ -1,6 +1,6 @@
 ﻿@inject IJSRuntime js
 
-<MatDialog IsOpen="ShowCamara" CanBeClosed="false" RefBack="@newref">
+<MatDialog IsOpen="ShowCamara" CanBeClosed="false">
     <ModalBody>
         <div style="text-transform: uppercase; font-weight: 600;"><Icon icon="photo_camera" /><span>Capture Image</span></div>
         <hr />
@@ -21,7 +21,7 @@
 @code{
     string CapturedImageUrl = "";
     bool showImageCapture;
-    ForwardRef newref;
+   
     [Parameter] public string guid { get; set; } = "id_capturing_image";
     [Parameter] public bool ShowCamara { get; set; } = true;
     [Parameter] public EventCallback<bool> ShowCamaraChanged { get; set; }
