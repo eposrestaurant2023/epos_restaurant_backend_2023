@@ -13,9 +13,12 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "api",
+      "applicationUrl": "http://localhost:5000",
+      "dotnetRunMessages": "true",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+
     },
     "eAPI": {
       "commandName": "Project",

@@ -214,7 +214,6 @@
             {
                 toast.Add(lang["Delete product successfully"], MudBlazor.Severity.Success);
                 model.is_deleted = true;
-
             }
         }
 
@@ -232,22 +231,18 @@
             {
                 toast.Add(lang["Restore product successfully"], MudBlazor.Severity.Success);
                 model.is_deleted = false;
-
             }
         }
         model.is_restoring = false;
     }
     async Task OnChangeStatus()
     {
-
         model.is_change_status = true;
-
         var resp = await http.ApiPost("Product/ChangeStatus/" + id);
         if (resp.IsSuccess)
         {
             toast.Add(lang["Change status successfully"], MudBlazor.Severity.Success);
             model.status = !model.status;
-
         }
         model.is_change_status = false;
     }
