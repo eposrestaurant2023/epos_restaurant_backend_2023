@@ -13,7 +13,8 @@ namespace eAPIClient.Services
     {
         Task<GetOdataResponse> ApiGetOData(string url);
         Task<GetResponse> ApiGet(string url);
-        Task<GetResponse> SendTelegram (string message);
+        Task<GetResponse> SendTelegram (string message); 
+        
         Task<PostReponse> ApiPost(string url, object obj = null);
 
         

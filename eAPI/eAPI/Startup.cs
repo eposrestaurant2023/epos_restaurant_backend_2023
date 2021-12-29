@@ -23,6 +23,7 @@ using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNet.OData.Routing.Conventions;
 using System.Web.Http;
 using System.Net.Http;
+using eAPI.ScheduleTasks;
 
 namespace eAPI
 {
@@ -39,7 +40,7 @@ namespace eAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+           
             services.AddControllers();
 
             services.AddCors(options =>
@@ -61,13 +62,14 @@ namespace eAPI
 
             services.AddMvc();
             services.AddOData();
-
+        
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
             services.AddScoped<AppService>();
+            services.AddScoped<BackendSyncService>();
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped(x => {
@@ -75,7 +77,10 @@ namespace eAPI
                 return new HttpClient();
             });
             services.AddScoped<IHttpService, HttpService>();
-           
+
+
+            services.AddSingleton<IHostedService, EposRestaurantTask>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,7 +90,6 @@ namespace eAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseCors(x => x
               .AllowAnyOrigin()
               .AllowAnyMethod()
