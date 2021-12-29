@@ -416,7 +416,7 @@ namespace eAPIClient.Controllers
 
 
 
-        [HttpPost("GetRemoteData")]    
+        [HttpPost("GetRemoteData")]
         [AllowAnonymous]
         public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool isFirstSetup=false)
         {
