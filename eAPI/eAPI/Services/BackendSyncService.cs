@@ -126,54 +126,81 @@ namespace eAPI.Services
 
         public async Task<bool> CheckSystemFeatures()
         {
-            //get project 
-            string project_id = db.Settings.Where(r => r.id == 57).AsNoTracking().FirstOrDefault().setting_value;
-
-            string api_url = $"project({project_id})?";
-            api_url = api_url + $"$expand=customer,";
-            api_url = api_url + $"project_system_features($expand=system_feature),";
-            api_url = api_url + $"business_branches($expand=business_branch_system_features,cash_drawers($filter=is_deleted eq false),stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)";
-
-
-
-            var resp = await http.eSoftixApiGet(api_url);
-            if (resp.IsSuccess)
+            try
             {
-                project = JsonSerializer.Deserialize<eSoftixBackend.ProjectModel>(resp.Content.ToString());
+                string project_id = db.Settings.Where(r => r.id == 57).AsNoTracking().FirstOrDefault().setting_value;
 
-                //check branch
-                CheckBranch();
-
-                //Check Outlet 
-                CheckOutlet();
-
-                //check sttion
-                CheckStation();
-
-                //check cash drawer
-                CheckCashDrawer();
+                string api_url = $"project({project_id})?";
+                api_url = api_url + $"$expand=customer,";
+                api_url = api_url + $"project_system_features($expand=system_feature),";
+                api_url = api_url + $"business_branches($expand=business_branch_system_features,cash_drawers($filter=is_deleted eq false),stock_locations,outlets($expand=stations($filter=is_deleted eq false);$filter=is_deleted eq false);$filter=is_deleted eq false)";
 
 
-                CheckStockLocation();
 
-                //check customer
-                CheckCustomer();
+                var resp = await http.eSoftixApiGet(api_url);
+                if (resp.IsSuccess)
+                {
+                    project = JsonSerializer.Deserialize<eSoftixBackend.ProjectModel>(resp.Content.ToString());
 
-                //check system feature
-                CheckProjectFeature();
+                    //check branch
+                    CheckBranch();
+
+                    //Check Outlet 
+                    CheckOutlet();
+
+                    //check sttion
+                    CheckStation();
+
+                    //check cash drawer
+                    CheckCashDrawer();
 
 
-                //chekc business branch featture 
-                CheckBusinessBranchSystemFeature();
+                    CheckStockLocation();
+
+                    //check customer
+                    CheckCustomer();
+
+                    //check system feature
+                    CheckProjectFeature();
 
 
-                db.Database.ExecuteSqlRaw("exec sp_update_system_after_synchronize_with_esoftix_backend");
+                    //chekc business branch featture 
+                    CheckBusinessBranchSystemFeature();
 
-                return true;
+
+                    db.Database.ExecuteSqlRaw("exec sp_update_system_after_synchronize_with_esoftix_backend");
+
+                    var message = $"{project.project_name}";
+                    message = message + "%0aCheck System License Successfully";
+
+                    await http.SendTelegram(message);
+
+                    return true;
+                }
+                else
+                {
+                    var message = $"{project.project_name}";
+                    message = message + "%0a Check System License";
+                    message = message + "%0a";
+                    message = message + $"Backend Server Down";
+                    await http.SendTelegram(message);
+                }
+
+
+             
             }
-
-
+            catch (Exception e)
+            {
+                var message = $"{project.project_name}";
+                 message = message + "%0a Check System License";
+                 message = message + "%0a" ;
+                 message = message + $"{e.Message}" ;
+                message = message + "%0a-----------------------";
+                message = message + $"%0a {e.ToString()}";
+                await http.SendTelegram(message);
+            }
             return false;
+
         }
 
         void CheckBranch()
