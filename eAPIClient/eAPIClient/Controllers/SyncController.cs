@@ -103,7 +103,7 @@ namespace eAPIClient.Controllers
                     var _syncResp = await http.ApiPost("WorkingDay/Save", _workingDay);
                     if (!_syncResp.IsSuccess)
                     {
-                        return BadRequest();
+                        return BadRequest(_workingDay);
                     }
                     db.WorkingDays.Update(_workingDay);
                     await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -136,7 +136,7 @@ namespace eAPIClient.Controllers
                     var _syncResp = await http.ApiPost("CashierShift/Save", _model);
                     if (!_syncResp.IsSuccess)
                     {
-                        return BadRequest();
+                        return BadRequest(_model);
                       
                     }
                     db.CashierShifts.Update(_model);
