@@ -364,7 +364,7 @@ namespace eAPI.Services
             local.id = remote.id;
             local.station_name_en = remote.station_name_en;
             local.station_name_kh = remote.station_name_kh;
-            //local.is_already_config = remote.is_already_config;
+            local.is_already_config = remote.is_already_config;
             local.cash_drawer_id = remote.cash_drawer_id;
             local.cash_drawer_name = !string.IsNullOrEmpty(remote.cash_drawer_name) ? remote.cash_drawer_name : esoftix_cash_drawers.Where(r => r.id == remote.cash_drawer_id).FirstOrDefault()?.cash_drawer_name;
             local.created_by = remote.created_by;
