@@ -83,6 +83,26 @@ namespace eAPI.Controllers
             {
                 return NotFound();
             }
+        }  
+        
+        [HttpPost("UpdateFromClient")]
+        [AllowAnonymous]
+        public async Task<ActionResult<string>> UpdateFromClient([FromBody]StationModel model)
+        {
+            try
+            {
+                var s = db.Stations.Find(model.id);
+                s.is_order_station = model.is_order_station;
+                s.is_already_config = model.is_already_config;
+                db.Stations.Update(s);
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                db.Database.ExecuteSqlRaw($"exec sp_update_station_information '{model.id}'");
+                return Ok(s);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
 
