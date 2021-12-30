@@ -87,11 +87,8 @@
                                         </ContentLeft>
                                     </UISummaryBox>
                                     <hr />
-                                    <ComAccordion>
-                                        <Header>
-                                            @lang["Table"]
-                                        </Header>
-                                        <Content>
+                                    <MudExpansionPanels MultiExpansion="true">
+                                        <MudExpansionPanel Class="mb-2" Text="@lang["Table"]">
                                             <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                                 <tr>
                                                     <ThAuto>@lang["Table​ Name"]</ThAuto>
@@ -123,8 +120,8 @@
                                                     </tr>
                                                 }
                                             </table>
-                                        </Content>
-                                    </ComAccordion>
+                                        </MudExpansionPanel>
+                                    </MudExpansionPanels>
                                 </div>
                             </div>
                         </UIGridCenter>

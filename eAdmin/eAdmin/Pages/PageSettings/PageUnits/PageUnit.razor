@@ -26,26 +26,24 @@
                 {
                     @foreach (var b in unit_categories)
                     {
-                        <ComAccordion>
-                            <Header>
-                                @b.category_name
-                            </Header>
-                            <Content>
+
+                        <MudExpansionPanels MultiExpansion="true">
+                            <MudExpansionPanel Class="mb-2" Text="@b.category_name">
                                 <ComAddUnit units="@b.units" />
                                 <hr />
                                 <div class="uk-text-right">
                                     <Button OnClick="@(()=>AddUnit(b))">@lang["Add Unit"]</Button>
                                 </div>
-                            </Content>
-                        </ComAccordion>
-
-                    }
-                }
-                else
-                {
-                   <ComAlert type="warning">@lang["There is no unit. Please enter unit first."]</ComAlert>
-                }
-            </UIGridCenter>
+                            </MudExpansionPanel>
+                        </MudExpansionPanels>
+                          
+                            }
+                            }
+                            else
+                            {
+                            <ComAlert type="warning">@lang["There is no unit. Please enter unit first."]</ComAlert>
+                            }
+                    </UIGridCenter>
         </PageBody>
         <PageFooter>
             <FooterCenter>

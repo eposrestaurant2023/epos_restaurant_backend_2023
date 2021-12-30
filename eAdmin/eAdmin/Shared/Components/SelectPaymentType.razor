@@ -10,7 +10,7 @@
                     <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
                         @if (show_empty)
                         {
-                            <option value="0">@empty_text</option>
+                            <option value="0">@lang[empty_text]</option>
                         }
                         @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted && r.payment_type_group != "On Account" && r.payment_type_group != "FOC"))
                         {
@@ -30,7 +30,7 @@
                 <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
                     @if (show_empty)
                     {
-                        <option value="0">@empty_text</option>
+                        <option value="0">@lang[empty_text]</option>
                     }
                     @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted && r.payment_type_group != "On Account" && r.payment_type_group != "FOC"))
                     {
@@ -49,7 +49,7 @@ else
         <select id="@id" value="@SelectedValue" @onchange="@((ui) => SelectedValueChange((string)ui.Value))" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
             @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted))
             {
@@ -62,7 +62,7 @@ else
         <select id="@id" value="@SelectedValue" class="uk-select uk-form-small @width">
             @if (show_empty)
             {
-                <option value="0">@empty_text</option>
+                <option value="0">@lang[empty_text]</option>
             }
             @foreach (var p in gv.payment_types.Where(r => r.status && !r.is_deleted))
             {

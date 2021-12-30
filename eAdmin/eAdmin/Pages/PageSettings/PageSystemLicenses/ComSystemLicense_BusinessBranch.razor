@@ -7,88 +7,84 @@
     {
         foreach (var b in models.Where(r => r.status == true))
         {
-            <ComAccordion>
-                <Header>
-                    <h5 class="uk-margin-remove-bottom uk-text-bold">@b.business_branch_name_en</h5>
-                </Header>
-                <Content>
-
-                    <ComSystemLicense_BusinessBranchSystemFeature business_branch_id="@(b.id.ToString())" />
-
-                    <h5 class="uk-text-bold uk-margin-small-bottom">@lang["Outlet"]</h5>
-                    <Grid ClassName="uk-grid-small uk-child-width-1-1@m uk-grid-match">
-                        @foreach (var o in b.outlets)
-                        {
-                            <div>
-                                <div class="ui-box-outline uk-padding">
-                                    <h4 class="uk-margin-small-bottom">@o.outlet_name_en</h4>
-                                    <div class="uk-padding-small-left">
-                                        <table class="uk-table uk-table-small uk-margin-remove">
-                                            <thead>
+          
+    <MudExpansionPanels MultiExpansion="true">
+        <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
+            <ComSystemLicense_BusinessBranchSystemFeature business_branch_id="@(b.id.ToString())" />
+            <h5 class="uk-text-bold uk-margin-small-bottom">@lang["Outlet"]</h5>
+            <Grid ClassName="uk-grid-small uk-child-width-1-1@m uk-grid-match">
+                @foreach (var o in b.outlets)
+                {
+                    <div>
+                        <div class="ui-box-outline uk-padding">
+                            <h4 class="uk-margin-small-bottom">@o.outlet_name_en</h4>
+                            <div class="uk-padding-small-left">
+                                <table class="uk-table uk-table-small uk-margin-remove">
+                                    <thead>
+                                        <tr>
+                                            <th>@lang["Station Name"]</th>
+                                            <th>@lang["Cash Drawer"]</th>
+                                            <ThCenter>@lang["Status"]</ThCenter>
+                                            <ThCenter></ThCenter>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (o.stations.Any())
+                                        {
+                                            foreach (var s in o.stations)
+                                            {
                                                 <tr>
-                                                    <th>@lang["Station Name"]</th>
-                                                    <th>@lang["Cash Drawer"]</th>
-                                                    <ThCenter>@lang["Status"]</ThCenter>
-                                                    <ThCenter></ThCenter>
+                                                    <td>
+                                                        @s.station_name_en
+                                                        <div>
+                                                            <Label is_visible="@(s.is_order_station == false)" Text="@lang["Cashier station"]" Background="#6f8f2c" />
+                                                            <Label is_visible="@(s.is_order_station == true)" Text="@lang["Order station"]" Background="#651fd6" />
+                                                        </div>
+                                                    </td>
+                                                    <td>@s.cash_drawer_name</td>
+                                                    <TdCenter>
+                                                        <ComSystemFeatureStatus is_deleted="@s.is_deleted" is_full_license="@s.is_full_license" expired_date="@s.expired_date" />
+                                                    </TdCenter>
+                                                    <TdActions is_loading="@s.is_loading">
+                                                        <TableActionItem icon="highlight_off" OnClick="@(()=>OnToogleMakeOrderStation(s))" is_visible="@(s.is_order_station == false)">@lang["Make as order station"]</TableActionItem>
+                                                        <TableActionItem icon="highlight_off" OnClick="@(()=>OnToogleMakeOrderStation(s))" is_visible="@(s.is_order_station == true)">@lang["Make as cashier station"]</TableActionItem>
+                                                    </TdActions>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (o.stations.Any())
-                                                {
-                                                    foreach (var s in o.stations)
-                                                    {
-                                                        <tr>
-                                                            <td>
-                                                            @s.station_name_en
-                                                                <div>
-                                                                    <Label is_visible="@(s.is_order_station == false)" Text="@lang["Cashier station"]" Background="#6f8f2c" />
-                                                                    <Label is_visible="@(s.is_order_station == true)" Text="@lang["Order station"]" Background="#651fd6" />
-                                                                </div>
-                                                            </td>
-                                                            <td>@s.cash_drawer_name</td>
-                                                            <TdCenter>
-                                                                <ComSystemFeatureStatus is_deleted="@s.is_deleted" is_full_license="@s.is_full_license" expired_date="@s.expired_date" />
-                                                            </TdCenter>
-                                                            <TdActions is_loading="@s.is_loading">
-                                                                <TableActionItem icon="highlight_off" OnClick="@(()=>OnToogleMakeOrderStation(s))" is_visible="@(s.is_order_station == false)">@lang["Make as order station"]</TableActionItem>
-                                                                <TableActionItem icon="check" OnClick="@(()=>OnToogleMakeOrderStation(s))" is_visible="@(s.is_order_station == true)">@lang["Make as cashier station"]</TableActionItem>
-                                                            </TdActions>
-                                                        </tr>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <div class="uk-text-center">
-                                                                <Icon icon="search" />
-                                                                <br />
-                                                                <p>@lang["There is no station"]</p>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="uk-text-center">
+                                                        <Icon icon="search" />
+                                                        <br />
+                                                        <p>@lang["There is no station"]</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
-                        }
-                    </Grid>
+                        </div>
+                    </div>
+                }
+            </Grid>
 
-                    <h5 class="uk-text-bold uk-margin-small-bottom">@lang["Warehouse"]</h5>
-                    <Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
-                        @foreach (var s in b.stock_locations)
-                        {
-                            <div>
-                                <div class="ui-box-outline uk-padding-small">
-                                    <h4 class="uk-margin-remove">@s.stock_location_name <Label is_visible="@(s.is_default)">@lang["Default"]</Label> </h4>
-                                </div>
-                            </div>
-                        }
-                    </Grid>
-                </Content>
-            </ComAccordion>
+            <h5 class="uk-text-bold uk-margin-small-bottom">@lang["Warehouse"]</h5>
+            <Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
+                @foreach (var s in b.stock_locations)
+                {
+                    <div>
+                        <div class="ui-box-outline uk-padding-small">
+                            <h4 class="uk-margin-remove">@s.stock_location_name <Label is_visible="@(s.is_default)">@lang["Default"]</Label> </h4>
+                        </div>
+                    </div>
+                }
+            </Grid>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
         }
     }
 
@@ -97,8 +93,6 @@
 @code {
     [Parameter] public List<BusinessBranchModel> models { get; set; }
     public StationModel model = new StationModel();
-
-
     public async Task OnToogleMakeOrderStation(StationModel p)
     {
         p.is_loading = true;

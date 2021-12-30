@@ -28,11 +28,9 @@
                 {
                     @foreach (var b in branches)
                     {
-                        <ComAccordion>
-                            <Header>
-                                @b.business_branch_name_en
-                            </Header>
-                            <Content>
+
+                        <MudExpansionPanels MultiExpansion="true">
+                            <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
                                 <div class="uk-overflow-auto table-scroll">
                                     <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
 
@@ -70,12 +68,12 @@
                                 <div class="uk-text-right">
                                     <Button OnClick="@(()=>AddDiscount(b))">@lang["Add Discount Code"]</Button>
                                 </div>
-                            </Content>
-                        </ComAccordion>
-                    }
-                }
+                            </MudExpansionPanel>
+                        </MudExpansionPanels>
+                                }
+                                }
 
-            </UIGridCenter>
+                    </UIGridCenter>
         </PageBody>
 
         <PageFooter>

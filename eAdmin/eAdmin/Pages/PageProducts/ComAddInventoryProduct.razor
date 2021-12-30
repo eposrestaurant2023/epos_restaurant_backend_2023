@@ -92,61 +92,50 @@
 
         <div class="defualt-stock-location">
             <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
-            <Tab>
-                <TabHeader>
-                    @foreach (var b in gv.business_branch_by_role)
-                    {
 
-                        if (gv.business_branch_has_inventory(b.id.ToString()))
-                        {
-                            <TabHeaderItem>@b.business_branch_name_en</TabHeaderItem>
-                        }
-                    }
-                </TabHeader>
-                <TabBody>
-                    @foreach (var b in gv.business_branch_by_role)
+            <MudTabs PanelClass="pa-6">
+                @foreach (var b in gv.business_branch_by_role)
+                {
+                    if (gv.business_branch_has_inventory(b.id.ToString()))
                     {
-                        if (gv.business_branch_has_inventory(b.id.ToString()))
-                        {
-                            <TabItem>
-                                <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                    <tr>
-                                        <ThAuto>@lang["Station"]</ThAuto>
-                                        <th>@lang["Stock Location"]</th>
-                                    </tr>
-                                    @if (model.default_stock_location_products != null ? model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any() : false)
+                        <MudTabPanel Text="@b.business_branch_name_en">
+                            <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
+                                <tr>
+                                    <ThAuto>@lang["Station"]</ThAuto>
+                                    <th>@lang["Stock Location"]</th>
+                                </tr>
+                                @if (model.default_stock_location_products != null ? model.default_stock_location_products.Where(r => r.business_branch_id == b.id).Any() : false)
+                                {
+                                    @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r => r.station.station_name_en).ToList())
                                     {
-                                        @foreach (var d in model.default_stock_location_products.Where(r => r.business_branch_id == b.id).OrderBy(r => r.station.station_name_en).ToList())
+                                        @if (d.station != null)
                                         {
-                                            @if (d.station != null)
-                                            {
-                                                <tr>
-                                                    <td>@d.station?.station_name_en</td>
-                                                    <td>
-                                                        <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="@lang["Select Defualt Stock Location"]" width="260px" />
-                                                    </td>
-                                                </tr>
-                                            }
+                                            <tr>
+                                                <td>@d.station?.station_name_en</td>
+                                                <td>
+                                                    <SelectStockLocation label="" show_empty="true" @bind-selected_value="@d.stock_location_id" business_branch_id="@b.id" empty_text="@lang["Select Defualt Stock Location"]" width="260px" />
+                                                </td>
+                                            </tr>
                                         }
                                     }
-                                    else
-                                    {
-                                        <tr>
-                                            <td colspan="3">
-                                                <div class="uk-text-center">
-                                                    <Icon icon="search" />
-                                                    <br />
-                                                    <p>@lang["There is no station"]</p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-                                </table>
-                            </TabItem>
-                        }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="uk-text-center">
+                                                <Icon icon="search" />
+                                                <br />
+                                                <p>@lang["There is no station"]</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </MudTabPanel>
                     }
-                </TabBody>
-            </Tab>
+                }
+            </MudTabs>
 
         </div>
 
