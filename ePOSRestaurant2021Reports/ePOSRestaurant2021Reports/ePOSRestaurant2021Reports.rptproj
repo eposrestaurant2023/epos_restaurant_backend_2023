@@ -54,6 +54,7 @@
     <DataSet Include="CompanyInfo.rsd" />
     <DataSet Include="CustomerGroupWithAll.rsd" />
     <DataSet Include="CustomerWithAll.rsd" />
+    <DataSet Include="LanguageCode.rsd" />
     <DataSet Include="Months.rsd" />
     <DataSet Include="Outlet.rsd" />
     <DataSet Include="OutletWithAll.rsd" />

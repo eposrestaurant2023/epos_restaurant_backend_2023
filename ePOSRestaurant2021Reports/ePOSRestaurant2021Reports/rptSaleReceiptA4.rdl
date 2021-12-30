@@ -542,6 +542,54 @@ declare
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="translate">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@lang">
+            <Value>=Parameters!lang.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>exec sp_get_translate_text @lang,'Type,Customer,Phone,Guest #,Business Branch,Outlet Name'</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Type">
+          <DataField>Type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Customer">
+          <DataField>Customer</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Phone">
+          <DataField>Phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Guest__">
+          <DataField>Guest #</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Business_Branch">
+          <DataField>Business Branch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Outlet_Name">
+          <DataField>Outlet Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="language">
+      <SharedDataSet>
+        <SharedDataSetReference>LanguageCode</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="language_code">
+          <DataField>language_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -3050,8 +3098,9 @@ declare
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Type</Value>
+                                  <Value>=First(Fields!Type.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3157,8 +3206,9 @@ declare
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Customer</Value>
+                                  <Value>=First(Fields!Customer.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3263,8 +3313,9 @@ declare
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Phone</Value>
+                                  <Value>=First(Fields!Phone.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3370,10 +3421,10 @@ declare
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Guest #</Value>
+                                  <Value>=First(Fields!Guest__.Value, "translate")</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
@@ -3480,10 +3531,10 @@ declare
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Business Branch</Value>
+                                  <Value>=First(Fields!Business_Branch.Value, "translate")</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
@@ -3590,9 +3641,10 @@ declare
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Outlet Name</Value>
+                                  <Value>=First(Fields!Outlet_Name.Value, "translate")</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
@@ -3701,6 +3753,7 @@ declare
                                   <Value>Station Name</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
@@ -4784,7 +4837,7 @@ declare
       <Width>7.26in</Width>
       <Page>
         <PageFooter>
-          <Height>0.74167in</Height>
+          <Height>0.35625in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -4906,15 +4959,21 @@ declare
     </ReportSection>
   </ReportSections>
   <ReportParameters>
-    <ReportParameter Name="id">
+    <ReportParameter Name="lang">
       <DataType>String</DataType>
       <DefaultValue>
         <Values>
-          <Value>f9cc5971-2721-4719-d750-08d9a8d3b8b4</Value>
+          <Value>en</Value>
         </Values>
       </DefaultValue>
-      <Prompt>id</Prompt>
-      <Hidden>true</Hidden>
+      <Prompt>Language</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>language</DataSetName>
+          <ValueField>language_code</ValueField>
+          <LabelField>language_code</LabelField>
+        </DataSetReference>
+      </ValidValues>
     </ReportParameter>
     <ReportParameter Name="printed_by">
       <DataType>String</DataType>
@@ -4938,6 +4997,16 @@ declare
       <Prompt>report_url</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
+    <ReportParameter Name="id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>f9cc5971-2721-4719-d750-08d9a8d3b8b4</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>id</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -4945,7 +5014,7 @@ declare
       <NumberOfRows>1</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
-          <ColumnIndex>0</ColumnIndex>
+          <ColumnIndex>3</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>id</ParameterName>
         </CellDefinition>
@@ -4958,6 +5027,11 @@ declare
           <ColumnIndex>2</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>report_url</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>lang</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

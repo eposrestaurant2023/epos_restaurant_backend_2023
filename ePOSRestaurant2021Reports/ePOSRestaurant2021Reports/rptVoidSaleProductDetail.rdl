@@ -473,6 +473,24 @@ order by
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="translate">
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <CommandText>select 
+'NO' as no,
+'Doc. #' as doc_number</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="no">
+          <DataField>no</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="doc_number">
+          <DataField>doc_number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -540,7 +558,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>No</Value>
+                                  <Value>=First(Fields!no.Value, "translate")</Value>
                                   <Style>
                                     <FontSize>8.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -579,7 +597,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Doc. #</Value>
+                                  <Value>=First(Fields!doc_number.Value, "translate")</Value>
                                   <Style>
                                     <FontSize>8.5pt</FontSize>
                                     <FontWeight>Bold</FontWeight>

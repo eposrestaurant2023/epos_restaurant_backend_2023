@@ -355,6 +355,58 @@ order by
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="LanguageCode">
+      <SharedDataSet>
+        <SharedDataSetReference>LanguageCode</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="language_code">
+          <DataField>language_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="translate">
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@lang">
+            <Value>=Parameters!lang.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>exec sp_get_translate_text @lang,'No,Doc. #,Date,Branch,Daily Sale Transaction,Outlet,Customer'</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="No">
+          <DataField>No</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Doc___">
+          <DataField>Doc. #</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Date">
+          <DataField>Date</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Branch">
+          <DataField>Branch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Daily_Sale_Transaction">
+          <DataField>Daily Sale Transaction</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Outlet">
+          <DataField>Outlet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Customer">
+          <DataField>Customer</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -419,8 +471,9 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>No</Value>
+                                  <Value>=First(Fields!No.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -458,8 +511,9 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Doc. #</Value>
+                                  <Value>=First(Fields!Doc___.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -497,8 +551,9 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Date</Value>
+                                  <Value>=First(Fields!Date.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -536,9 +591,9 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Branch</Value>
+                                  <Value>=First(Fields!Branch.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -576,9 +631,9 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Outlet</Value>
+                                  <Value>=First(Fields!Outlet.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -616,9 +671,9 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Customer</Value>
+                                  <Value>=First(Fields!Customer.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -656,7 +711,7 @@ order by
                                 <TextRun>
                                   <Value>QTY</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -696,7 +751,7 @@ order by
                                 <TextRun>
                                   <Value>Sub Total</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -736,7 +791,7 @@ order by
                                 <TextRun>
                                   <Value>Discount</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -776,7 +831,7 @@ order by
                                 <TextRun>
                                   <Value>Tax</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -816,7 +871,7 @@ order by
                                 <TextRun>
                                   <Value>Cost</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -856,7 +911,7 @@ order by
                                 <TextRun>
                                   <Value>Total Amount</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -896,7 +951,7 @@ order by
                                 <TextRun>
                                   <Value>Profit</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -936,7 +991,7 @@ order by
                                 <TextRun>
                                   <Value>User</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1404,7 +1459,6 @@ order by
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2139,8 +2193,9 @@ order by
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!report_title.Value, "report_name")</Value>
+                      <Value>=First(Fields!Daily_Sale_Transaction.Value, "translate")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>11pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2173,78 +2228,107 @@ order by
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Date: </Value>
+                      <Value>=First(Fields!Date.Value, "translate")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=format(Parameters!start_date.Value,"dd/MM/yyyy")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value> - </Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=format(Parameters!end_date.Value,"dd/MM/yyyy")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Branch: </Value>
+                      <Value> / </Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Branch.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!business_branch_id.Label</Value>
                       <Style>
-                        <FontFamily>Kh System</FontFamily>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value> / Outlet: </Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!outlet_id.Label</Value>
                       <Style>
-                        <FontFamily>Kh System</FontFamily>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value> / Group: </Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!customer_group_id.Label</Value>
                       <Style>
-                        <FontFamily>Kh System</FontFamily>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value> / Customer: </Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
                       <Value>=Parameters!customer_id.Label</Value>
                       <Style>
-                        <FontFamily>Kh System</FontFamily>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2253,7 +2337,7 @@ order by
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>0.54167in</Top>
+              <Top>0.53473in</Top>
               <Left>0.00083in</Left>
               <Height>0.20833in</Height>
               <Width>11.08in</Width>
@@ -2494,11 +2578,27 @@ order by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="lang">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>en</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Language</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>LanguageCode</DataSetName>
+          <ValueField>language_code</ValueField>
+          <LabelField>language_code</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>3</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>5</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2539,6 +2639,11 @@ order by
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>3</RowIndex>
           <ParameterName>customer_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
+          <ParameterName>lang</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
