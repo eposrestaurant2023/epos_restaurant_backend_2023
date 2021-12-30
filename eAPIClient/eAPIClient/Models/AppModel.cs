@@ -179,6 +179,7 @@ namespace eAPIClient.Models
         public string receipt_name { get; set; }
         public int copies { get; set; }
         public string printed_by { get; set; }
+        public string language { get; set; }
 
     }
 
@@ -258,6 +259,35 @@ namespace eAPIClient.Models
         public string foc_sale_product_data { get; set; }
         public string cashier_shift_info { get; set; }
         public string cashier_shift_data  { get; set; }
+
+
+        //translate report property
+        public string close_cashier_shift_report { get; set; }
+        public string close_cashier_shift_summary_report { get; set; }
+        public string working_day_no { get; set; }
+        public string shift_information { get; set; }
+        public string shift_no { get; set; }
+        public string sale_transaction { get; set; }
+        public string receipt_no { get; set; }
+        public string tbl_no { get; set; }
+        public string Time { get; set; }
+        public string QTY { get; set; }
+        public string Amt { get; set; }
+        public string By { get; set; }
+
+        public string close_working_day_summary_report { get; set; }
+        public string working_day_information { get; set; }
+        public string branch { get; set; }
+        public string outlet { get; set; }
+        public string cash_drawer_name { get; set; }
+        public string status { get; set; }
+        public string opened_date { get; set; }
+        public string opened_by { get; set; }
+        public string closed_date { get; set; }
+        public string closed_by { get; set; }
+        public string printed_by { get; set; }
+        public string printed_on { get; set; }
+
     }
 
 
