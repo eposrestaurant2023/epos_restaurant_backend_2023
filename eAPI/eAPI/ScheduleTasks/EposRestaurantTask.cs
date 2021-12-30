@@ -20,7 +20,7 @@ namespace eAPI.ScheduleTasks
 
         }
 
-        protected override string Schedule => "*/1 * * * *"; // */1mn  *h *DoM *M *DoW
+        protected override string Schedule => "*/59 * * * *"; // */1mn  *h *DoM *M *DoW
 
         public override async Task<Task> ProcessInScope(IServiceProvider scopeServiceProvider)
         {

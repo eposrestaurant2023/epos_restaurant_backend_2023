@@ -6,8 +6,6 @@
     }
     else
     {
-        
-
         <MudTabs PanelClass="pa-6">
             @foreach (var b in gv.business_branch_by_role)
             {
@@ -16,16 +14,13 @@
                 {
                     <h4>@lang["Selected Menus"]</h4>
                     <div class="box_select_menu">
-
                         @foreach (var m in model.product_menus.Where(r => r.is_deleted == false && r.menu.business_branch_id == b.id).OrderBy(o => o.menu.sort_order).ToList())
                         {
                             <div class="uk-flex uk-flex-inline uk-flex-between" style="width:100%;margin-bottom:10px;">
                                 <div>
                                     <Icon icon="check_box" />
-
                                     <span>@m.menu?.menu_path</span>
                                 </div>
-
                                 <div><Icon icon="delete" OnClick="@(() => OnDeleteMenu(m))" /></div>
                             </div>
                         }
@@ -38,9 +33,6 @@
         </MudTabs>
 
     }
-
-
-
 </UIContainerBox>
 @code {
 

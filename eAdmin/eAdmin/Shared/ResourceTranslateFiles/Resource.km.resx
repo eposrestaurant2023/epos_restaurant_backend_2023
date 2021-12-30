@@ -2811,4 +2811,22 @@
   <data name="Please click button below to add section." xml:space="preserve">
     <value>សូមចុចលើប៊ូតុងខាងក្រោមដើម្បីបញ្ជូល Section</value>
   </data>
+  <data name="Cashier station" xml:space="preserve">
+    <value>កុំព្យូទ័រគិតលុយ</value>
+  </data>
+  <data name="Make as cashier station" xml:space="preserve">
+    <value>ដាក់ជាកុំព្យូទ័ររគិតលុយ</value>
+  </data>
+  <data name="Make as cashier station successfully" xml:space="preserve">
+    <value>ដាក់ជាកុំព្យូទ័រគិតលុយបានជោគជ័យ</value>
+  </data>
+  <data name="Make as order station" xml:space="preserve">
+    <value>ដាក់ជាកុំព្យូទ័រកុម្មង់</value>
+  </data>
+  <data name="Make as order station successfully" xml:space="preserve">
+    <value>ដាក់ជាកុំព្យូទ័រកុម្មង់បានជោគជ័យ</value>
+  </data>
+  <data name="Order station" xml:space="preserve">
+    <value>កុំព្យូទ័រកុម្មង់</value>
+  </data>
 </root>

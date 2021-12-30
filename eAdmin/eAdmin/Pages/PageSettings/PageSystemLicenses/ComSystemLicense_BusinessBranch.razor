@@ -1,20 +1,22 @@
 ﻿@inject IStringLocalizer<Resource> lang
+@inject IHttpService http
+@inject ISnackbar toast
 <UIContainerBox Title="@lang["Branch Information"]">
 
     @if (models.Any())
     {
-        foreach (var b in models.Where(r=>r.status == true))
+        foreach (var b in models.Where(r => r.status == true))
         {
             <ComAccordion>
                 <Header>
                     <h5 class="uk-margin-remove-bottom uk-text-bold">@b.business_branch_name_en</h5>
                 </Header>
                 <Content>
-                   
-                        <ComSystemLicense_BusinessBranchSystemFeature business_branch_id="@(b.id.ToString())"/>
-                   
+
+                    <ComSystemLicense_BusinessBranchSystemFeature business_branch_id="@(b.id.ToString())" />
+
                     <h5 class="uk-text-bold uk-margin-small-bottom">@lang["Outlet"]</h5>
-                    <Grid ClassName="uk-grid-small uk-child-width-1-2@m uk-grid-match">
+                    <Grid ClassName="uk-grid-small uk-child-width-1-1@m uk-grid-match">
                         @foreach (var o in b.outlets)
                         {
                             <div>
@@ -26,7 +28,8 @@
                                                 <tr>
                                                     <th>@lang["Station Name"]</th>
                                                     <th>@lang["Cash Drawer"]</th>
-                                                    <ThRight>@lang["Status"]</ThRight>
+                                                    <ThCenter>@lang["Status"]</ThCenter>
+                                                    <ThCenter></ThCenter>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -35,16 +38,26 @@
                                                     foreach (var s in o.stations)
                                                     {
                                                         <tr>
-                                                            <td>@s.station_name_en</td>
+                                                            <td>
+                                                            @s.station_name_en
+                                                                <div>
+                                                                    <Label is_visible="@(s.is_order_station == false)" Text="@lang["Cashier station"]" Background="#6f8f2c" />
+                                                                    <Label is_visible="@(s.is_order_station == true)" Text="@lang["Order station"]" Background="#651fd6" />
+                                                                </div>
+                                                            </td>
                                                             <td>@s.cash_drawer_name</td>
-                                                            <TdRight>
+                                                            <TdCenter>
                                                                 <ComSystemFeatureStatus is_deleted="@s.is_deleted" is_full_license="@s.is_full_license" expired_date="@s.expired_date" />
-                                                            </TdRight>
+                                                            </TdCenter>
+                                                            <TdActions is_loading="@s.is_loading">
+                                                                <TableActionItem icon="highlight_off" OnClick="@(()=>OnToogleMakeOrderStation(s))" is_visible="@(s.is_order_station == false)">@lang["Make as order station"]</TableActionItem>
+                                                                <TableActionItem icon="check" OnClick="@(()=>OnToogleMakeOrderStation(s))" is_visible="@(s.is_order_station == true)">@lang["Make as cashier station"]</TableActionItem>
+                                                            </TdActions>
                                                         </tr>
                                                     }
                                                 }
                                                 else
-                                                { 
+                                                {
                                                     <tr>
                                                         <td colspan="2">
                                                             <div class="uk-text-center">
@@ -52,11 +65,11 @@
                                                                 <br />
                                                                 <p>@lang["There is no station"]</p>
                                                             </div>
-                                                        </td> 
+                                                        </td>
                                                     </tr>
                                                 }
-                                                </tbody>
-                                            </table>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -83,6 +96,35 @@
 
 @code {
     [Parameter] public List<BusinessBranchModel> models { get; set; }
+    public StationModel model = new StationModel();
 
 
+    public async Task OnToogleMakeOrderStation(StationModel p)
+    {
+        p.is_loading = true;
+        await SaveStatus(p);
+        p.is_loading = false;
+    }
+
+
+    public async Task SaveStatus(StationModel p)
+    {
+        
+        var station = new StationModel();
+        station = p;
+        station.is_order_station = !station.is_order_station;
+        var resp = await http.ApiPost("Station" + "/save", station);
+        if (resp.IsSuccess)
+        {
+            @if(station.is_order_station == true)
+            {
+                toast.Add(lang["Make as order station successfully"], MudBlazor.Severity.Success);
+            }
+            else
+            {
+                toast.Add(lang["Make as cashier station successfully"], MudBlazor.Severity.Success);
+            }
+
+        }
+    }
 }

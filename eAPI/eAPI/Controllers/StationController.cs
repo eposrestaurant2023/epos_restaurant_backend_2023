@@ -82,6 +82,7 @@ namespace eAPI.Controllers
                 db.Stations.Update(s);
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 await http.eSoftixApiPost($"station/UpdateFromClient",s);
+
                 return Ok(s);
             }
             catch

@@ -6392,18 +6392,39 @@ button.reconciled {
             font-style: italic;
             text-align: left;
         }
-
-    .wrp-product-item {
-        background: #d6e7ef;
-        padding: 15px;
-        border-radius: 5px;
-        user-select: none;
-        color: #2d5f77;
-        border: 1px solid #adc9d6;
-        cursor: pointer;
-        transition: .2s;
-        position: relative;
-    }
+.swal2-container {
+    display: -webkit-box;
+    display: flex;
+    position: fixed;
+    z-index: 2060 !important;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding: 0.625em;
+    overflow-x: hidden;
+    -webkit-transition: background-color .1s;
+    transition: background-color .1s;
+    -webkit-overflow-scrolling: touch;
+}
+.wrp-product-item {
+    background: #d6e7ef;
+    padding: 15px;
+    border-radius: 5px;
+    user-select: none;
+    color: #2d5f77;
+    border: 1px solid #adc9d6;
+    cursor: pointer;
+    transition: .2s;
+    position: relative;
+}
 
         .wrp-product-item:hover {
             background: #c5dbe6;
