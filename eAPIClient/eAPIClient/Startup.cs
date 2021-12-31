@@ -69,6 +69,7 @@ namespace eAPIClient
 
 
             services.AddScoped<AppService>();
+            services.AddScoped<HubConnectionService>();
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddHttpClient<IHttpService, HttpService>();

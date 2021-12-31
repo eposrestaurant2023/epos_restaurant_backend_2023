@@ -24,6 +24,7 @@ using Microsoft.AspNet.OData.Routing.Conventions;
 using System.Web.Http;
 using System.Net.Http;
 using eAPI.ScheduleTasks;
+using eAPI.Hubs;
 
 namespace eAPI
 {
@@ -59,7 +60,7 @@ namespace eAPI
                 options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
             });
 
-
+            services.AddSignalR();
             services.AddMvc();
             services.AddOData();
         
@@ -116,7 +117,7 @@ namespace eAPI
                 var conventions = defaultConventions.Except( defaultConventions.OfType<MetadataRoutingConvention>());
                 var route = endpoints.MapODataRoute( "api", "api", GetEdmModel(), pathHandler: new DefaultODataPathHandler(), routingConventions: conventions);
                 endpoints.EnableDependencyInjection();
-
+                endpoints.MapHub<ConnectionHub>("/connectionhub");
             });
 
         }
