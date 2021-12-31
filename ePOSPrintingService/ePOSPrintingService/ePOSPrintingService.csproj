@@ -126,6 +126,7 @@
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CashierShiftModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CloseCashierShiftSummaryDataModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.CloseWorkingDaySummaryDataModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.DynamicDataModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.GrandTotalModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SaleModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SalePaymentChangeModel.datasource" />
@@ -133,6 +134,7 @@
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SaleProductModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SaleProductPrintQueueModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.SettingModel.datasource" />
+    <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.TranslateCacheModel.datasource" />
     <None Include="Properties\DataSources\ePOSPrintingServiceReportModel.WorkingDayModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

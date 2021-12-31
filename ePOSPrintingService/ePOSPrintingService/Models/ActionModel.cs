@@ -15,6 +15,7 @@ namespace ePOSPrintingService.Models
         public string receipt_name { get; set; }
         public string printed_by{ get; set; }
         public int copies { get; set; } = 1;
+        public string language { get; set; } = "en";
 
     }
 }

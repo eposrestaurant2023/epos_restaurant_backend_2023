@@ -64,6 +64,12 @@ namespace ePOSPrintingService
                 telegram_setting = JsonConvert.DeserializeObject<TelegramSettingModel>(str_telegram_setting);
                 LabelPageSetup = JsonConvert.DeserializeObject<LabelPageSetupModel>(Properties.Settings.Default.LabelPageSetup.ToString());
 
+                translate_caches = new List<TranslateCacheModel>();
+
+               GetTranslateText("en");
+                 GetTranslateText("kh");
+
+             
                 isLoaded = true;
             }
             catch (Exception ex)
@@ -135,8 +141,9 @@ namespace ePOSPrintingService
         public static bool IsPrintSuccess { get; set; }
 
 
-        
-       
+        public static  List<TranslateCacheModel> translate_caches { get; set; } 
+
+
         public static DataTable CreateDataTable<T>(IEnumerable<T> list)
         {
             Type type = typeof(T);
@@ -943,7 +950,7 @@ namespace ePOSPrintingService
             ExecuteSQLSatement(string.Format("update tbl_sale_product_kitchen_printer_queue set is_printed_label = 1 where sale_id ={0} and coalesce(is_printed_label,0) = 0 ;", sale_id));
         }
 
-        public static void PrintCloseWorkingDay(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by="")
+        public static void PrintCloseWorkingDay(string working_day_id, ReceiptListModel receipt, string printer_name, string printed_by="",string language="en")
         {
             try
             {
@@ -954,7 +961,7 @@ namespace ePOSPrintingService
 
                 DynamicDataModel report_data = new DynamicDataModel();
 
-                var data = GetApiData($"sp_get_close_working_data_for_print", $"'{working_day_id}','json'");
+                var data = GetApiData($"sp_get_close_working_data_for_print", $"'{working_day_id}','json','{language}'");
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1004,6 +1011,7 @@ namespace ePOSPrintingService
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseWorkingDayData", working_day_summary_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
 
                 Export(report,
                      receipt.PageWidth,
@@ -1191,7 +1199,7 @@ namespace ePOSPrintingService
 
 
 
-        public static void PrintCloseCashierShiftSummary(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "")
+        public static void PrintCloseCashierShiftSummary(string cashier_shift_id, ReceiptListModel receipt, string printer_name, string printed_by = "", string language = "en")
         {
             try
             {
@@ -1201,7 +1209,8 @@ namespace ePOSPrintingService
 
                 DynamicDataModel report_data = new DynamicDataModel();
 
-                var data = GetApiData($"sp_get_close_cashier_shift_data_for_print", $"'{cashier_shift_id}','json'");
+                var data = GetApiData($"sp_get_close_cashier_shift_data_for_print", $"'{cashier_shift_id}','json','{language}'");
+
                 if (data.Any())
                 {
                     report_data = data.FirstOrDefault();
@@ -1248,10 +1257,17 @@ namespace ePOSPrintingService
                 settings.ForEach(r => r.printed_by = printed_by);
                 setting_data = CreateDataTable(settings);
 
+
+              
+             
+
+
+
                 report.DataSources.Add(new ReportDataSource("CashierShiftData",cashier_shift_data));
                 report.DataSources.Add(new ReportDataSource("Setting", setting_data));
                 report.DataSources.Add(new ReportDataSource("CloseCashierShiftData", cashier_shift_summary_data));
                 report.DataSources.Add(new ReportDataSource("CloseSaleData", close_sale_data));
+                report.DataSources.Add(new ReportDataSource("Translate", CreateDataTable(GetTranslateText(language))));
 
                 Export(report,
                      receipt.PageWidth,
@@ -1531,7 +1547,54 @@ namespace ePOSPrintingService
                 return new List<DynamicDataModel>();
 
             }
-        }  public  static void ExecuteSQLSatement(string sql)
+        }
+
+
+        public static List<DynamicDataModel> GetTranslateText(string language_code = "en")
+        {
+
+            try
+            {
+                if (translate_caches.Where(r => r.language_code == language_code).Any())
+                {
+                    return translate_caches.Where(r => r.language_code == language_code).FirstOrDefault().translate_data;
+                }
+                else
+                {
+
+                    var client = new RestClient(Properties.Settings.Default.api_url);
+
+                    var request = new RestRequest("Printing/GetPrintData");
+                    request.AddParameter("procedure_name", "sp_get_translate_text");
+                    request.AddParameter("parameters", $"'{language_code}','close_cashier_shift_summary_report,shift_information,working_day_no,shift_no,sale_transaction,receipt_no,tbl_no,Time,QTY,Amt,By,branch,outlet,status,close_working_day_summary_report,working_day_information,cash_drawer_name,opened_date,opened_by,closed_date,closed_by,printed_by,printed_on','json'");
+                    var response = client.Get(request);
+                    if (response.Content.ToString() != "")
+                    {
+                        var result = System.Text.Json.JsonSerializer.Deserialize<List<DynamicDataModel>>(response.Content);
+
+
+                        if (!translate_caches.Where(r => r.language_code == language_code).Any())
+                        {
+                            translate_caches.Add(new TranslateCacheModel() { language_code = language_code, translate_data = result });
+                        }
+                            return result;
+                    }
+
+                    return new List<DynamicDataModel>();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                return new List<DynamicDataModel>();
+
+            }
+        }
+
+
+
+        public static void ExecuteSQLSatement(string sql)
         {
 
             try

@@ -116,7 +116,7 @@ namespace ePOSPrintingService
                             break;
                         case "print_close_working_day_summary":
                             ReceiptListModel close_working_day_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                            Program.PrintCloseWorkingDay(action.id, close_working_day_report, Program.CashierPrinter,action.printed_by);
+                            Program.PrintCloseWorkingDay(action.id, close_working_day_report, Program.CashierPrinter,action.printed_by, action.language);
                             break;  
                         case "print_close_working_day_sale_product":
                             ReceiptListModel close_working_day_sale_product_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
@@ -128,7 +128,7 @@ namespace ePOSPrintingService
                             break; 
                         case "print_close_cashier_shift_summary":
                             ReceiptListModel close_cashift_shift_summary_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
-                            Program.PrintCloseCashierShiftSummary(action.id, close_cashift_shift_summary_report, Program.CashierPrinter,action.printed_by);
+                            Program.PrintCloseCashierShiftSummary(action.id, close_cashift_shift_summary_report, Program.CashierPrinter,action.printed_by, action.language);
                             break;
                         case "print_close_cashier_shift_sale_transaction":
                             ReceiptListModel close_cashift_shift_sale_transaction_report = Program.ReceiptLists.Where(r => r.ReceiptName.ToLower() == action.receipt_name.ToLower()).FirstOrDefault();
