@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using eAPI.Services;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
@@ -20,9 +21,11 @@ namespace eAPI.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public StationController(ApplicationDbContext _db)
+        private readonly IHttpService http;
+        public StationController(ApplicationDbContext _db, IHttpService _http)
         {
             db = _db;
+            http = _http;
         }
 
 
@@ -62,6 +65,7 @@ namespace eAPI.Controllers
             }
             
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await http.eSoftixApiPost($"station/UpdateFromClient",u);
             return Ok(u);
 
 
@@ -77,6 +81,8 @@ namespace eAPI.Controllers
                 s.is_already_config = is_already_config;  
                 db.Stations.Update(s);
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await http.eSoftixApiPost($"station/UpdateFromClient",s);
+
                 return Ok(s);
             }
             catch

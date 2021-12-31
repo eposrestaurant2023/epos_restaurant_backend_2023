@@ -301,6 +301,15 @@ namespace eAPI.Controllers
         }
 
 
+        [HttpGet("GetTranslateText")]
+        [AllowAnonymous]
+        public ActionResult<List<eShareModel.TranslateTextModel>> GetTranslateText()
+        {
+            return db.TranslateTexts.ToList();
+            
+        }
+
+
         [HttpPost]
         [Route("ConfirmBackendData")]
         public async Task< ActionResult<string>> ConfirmBackendData([FromBody] eSoftixBackend.ProjectModel p)

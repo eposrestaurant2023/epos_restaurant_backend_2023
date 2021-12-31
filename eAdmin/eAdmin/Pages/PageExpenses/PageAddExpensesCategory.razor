@@ -29,11 +29,11 @@
 
                     </UIContainerBox>
 
-                    <UIContainerBox Title="@lang["Expenses Item"]" is_show_add_button="true" OnAddClick="@(()=>AddExpensesItem())">
+                    <UIContainerBox Title="@lang["Expense Item"]" is_show_add_button="true" OnAddClick="@(()=>AddExpensesItem())">
                         <div class="uk-overflow-auto">
                             <table class="uk-table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover  ">
                                 <tr>
-                                    <ThAuto>@lang["Expenses Item"]</ThAuto>
+                                    <ThAuto>@lang["Expense Item"]</ThAuto>
                                     <ThCenter>@lang["Sort Order"]</ThCenter>
                                     <ThCenter>@lang["Status"]</ThCenter>
                                     <th></th>
@@ -92,6 +92,7 @@
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
+
         await LoadData();
         is_loading = false;
     }
@@ -109,6 +110,13 @@
                 model = JsonSerializer.Deserialize<ExpenseCategoryModel>(resp.Content.ToString());
 
             }
+
+            title = $"{lang["Edit"]} : {model.expense_category_name}";
+
+        }
+        else
+        {
+            title = "Add New Expenses Category";
         }
 
         is_loading_data = false;

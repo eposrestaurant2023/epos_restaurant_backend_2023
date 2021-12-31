@@ -38,20 +38,14 @@
 </UIContainerBox>
 
 <UIContainerBox Title="@lang["Address & Note"]">
-    <Tab>
-        <TabHeader>
-            <TabHeaderItem>@lang["Address"]</TabHeaderItem>
-            <TabHeaderItem>@lang["Note"]</TabHeaderItem>
-        </TabHeader>
-        <TabBody>
-            <TabItem>
-                <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Address"]" @bind="model.address" rows="2">@model.address</textarea>
-            </TabItem>
-            <TabItem>
-                <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
-            </TabItem>
-        </TabBody>
-    </Tab>
+    <MudTabs PanelClass="pa-6">
+        <MudTabPanel Text="@lang["Address"]">
+            <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Address"]" @bind="model.address" rows="2">@model.address</textarea>
+        </MudTabPanel>
+        <MudTabPanel Text="@lang["Note"]">
+            <textarea class="uk-textarea  uk-text-left" placeholder="@lang["Note"]" @bind="model.note" rows="2">@model.note</textarea>
+        </MudTabPanel>
+    </MudTabs>
 </UIContainerBox>
  
 

@@ -103,7 +103,7 @@ namespace eAPIClient.Controllers
                     var _syncResp = await http.ApiPost("WorkingDay/Save", _workingDay);
                     if (!_syncResp.IsSuccess)
                     {
-                        return BadRequest();
+                        return BadRequest(_workingDay);
                     }
                     db.WorkingDays.Update(_workingDay);
                     await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
@@ -136,7 +136,7 @@ namespace eAPIClient.Controllers
                     var _syncResp = await http.ApiPost("CashierShift/Save", _model);
                     if (!_syncResp.IsSuccess)
                     {
-                        return BadRequest();
+                        return BadRequest(_model);
                       
                     }
                     db.CashierShifts.Update(_model);
@@ -416,7 +416,7 @@ namespace eAPIClient.Controllers
 
 
 
-        [HttpPost("GetRemoteData")]    
+        [HttpPost("GetRemoteData")]
         [AllowAnonymous]
         public async Task<ActionResult<List<ConfigDataModel>>> GetRemoteData(bool isFirstSetup=false)
         {
@@ -507,7 +507,20 @@ namespace eAPIClient.Controllers
 
             string _deleteQuery = string.Format("delete tbl_config_data where is_local_setting=0; ");
             db.Database.ExecuteSqlRaw(_deleteQuery);
-            db.ConfigDatas.AddRange(config_datas.Where(r=>r.is_local_setting==false));     
+            db.ConfigDatas.AddRange(config_datas.Where(r=>r.is_local_setting==false));
+
+
+            //get remote translate text 
+
+            List<eShareModel.TranslateTextModel> translate_texts = await GetTranslateText();
+            if (translate_texts.Any())
+            {
+                db.Database.ExecuteSqlRaw("delete tbl_translate_text");
+                db.TranslateTexts.AddRange(translate_texts);
+            }
+
+
+
             await db.SaveChangesAsync();
             //
 
@@ -633,6 +646,17 @@ namespace eAPIClient.Controllers
                 return JsonSerializer.Deserialize<List<SaleStatusModel>>(resp.Content.ToString());
             }
             return new List<SaleStatusModel>();
+        }   
+        async Task<List<eShareModel.TranslateTextModel>> GetTranslateText()
+        {
+            is_get_remote_data_success = false;
+            var resp = await http.ApiGet("GetTranslateText");
+            if (resp.IsSuccess)
+            {
+                is_get_remote_data_success = true;
+                return JsonSerializer.Deserialize<List<eShareModel.TranslateTextModel>>(resp.Content.ToString());
+            }
+            return new List<eShareModel.TranslateTextModel>();
         }
 
         async Task<List<SaleProductStatusModel>> GetSaleProductStatus()

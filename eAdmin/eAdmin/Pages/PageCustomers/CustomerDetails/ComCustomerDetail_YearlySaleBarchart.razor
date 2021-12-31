@@ -26,8 +26,8 @@
 
     [Parameter] public string customer_id { get; set; }
     List<ApexChartModel> chart = new List<ApexChartModel>();
-    BarChartModel barchart_data;
-    bool is_loading, is_view_bar_chart = true;
+ 
+    bool is_loading;
     List<YearlySaleRevenueModel> data = new List<YearlySaleRevenueModel>();
     List<YearlySaleRevenueModel> temp = new List<YearlySaleRevenueModel>();
     ApexCharts.ChartType chart_type = ApexCharts.ChartType.Bar;

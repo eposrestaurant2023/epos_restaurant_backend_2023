@@ -25,26 +25,23 @@
                 {
                     @foreach (var b in branches)
                     {
-                         <ComAccordion>
-                             <Header>
-                                 @b.business_branch_name_en
-                             </Header>
-                             <Content> 
-                                 <ComAddSaleTypes sale_types="@b.sale_types" ColorSelected="OnSelectedColor"/>
-                                 <hr />
-                                 <div class="uk-text-right">
-                                     <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
-                                 </div>
-                             </Content>
-                         </ComAccordion>
-                    
-                    }
-                }
-                else
-                {
-                    <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
-                }
-            </UIGridCenter>
+                        <MudExpansionPanels MultiExpansion="true">
+                            <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
+                                <ComAddSaleTypes sale_types="@b.sale_types" ColorSelected="OnSelectedColor" />
+                                <hr />
+                                <div class="uk-text-right">
+                                    <Button OnClick="@(()=>Add(b))">@lang["Add Sale Type"]</Button>
+                                </div>
+                            </MudExpansionPanel>
+                        </MudExpansionPanels>
+
+                                }
+                                }
+                                else
+                                {
+                                <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
+                                }
+                    </UIGridCenter>
         </PageBody>
         <PageFooter>
             <FooterCenter>

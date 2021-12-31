@@ -29,27 +29,25 @@
                     {
                         if (gv.business_branch_has_feature(b.id.ToString(), "KOT"))
                         {
-                         <ComAccordion>
-                             <Header>
-                                 @b.business_branch_name_en
-                             </Header>
-                             <Content>
-                                 <ComPrinters printers="@b.printers" />
-                                 <hr />
-                                 <div class="uk-text-right">
-                                     <Button OnClick="@(() => AddPrinter(b))">@lang["Add Printer"]</Button>
-                                 </div>
-                             </Content>
-                         </ComAccordion>
-                            }
 
-                        }
-                    }
-                else
-                {
-                    <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
-                }
-            </UIGridCenter>
+                            <MudExpansionPanels MultiExpansion="true">
+                                <MudExpansionPanel Class="mb-2" Text="@b.business_branch_name_en">
+                                    <ComPrinters printers="@b.printers" />
+                                    <hr />
+                                    <div class="uk-text-right">
+                                        <Button OnClick="@(() => AddPrinter(b))">@lang["Add Printer"]</Button>
+                                    </div>
+                                </MudExpansionPanel>
+                            </MudExpansionPanels>
+                                }
+
+                                }
+                                }
+                                else
+                                {
+                                <ComAlert type="warning">@lang["There is no business branch. Please enter business branch first."]</ComAlert>
+                                }
+                        </UIGridCenter>
         </PageBody>
         <PageFooter>
             <FooterCenter>

@@ -28,7 +28,7 @@
                     <SelectPaymentType payment_typeChanged="@PaymentTypeChange" selected_value="@model.paymen_type_id" show_empty="true" label="@lang["Payment Type"]" />
                     <SelectBusinessBranch show_empty="true" label="@lang["Business Branch"]" business_branchChanged="@BussinessBranchChanged" selected_value="@model.business_branch_id" />
                     <SelectStatus @bind-selected_value="@model.status" />
-                    <TextInput @bind-text="@model.note" type="textare" label="@lang["Note"]"/>
+                    <TextInput @bind-text="@model.note" type="textarea" label="@lang["Note"]"/>
                 </UIContainerBox>
             </UIGridCenter>
         </PageBody>
@@ -70,12 +70,13 @@
                     if (res.IsSuccess)
                     {
                         model = JsonSerializer.Deserialize<ExpenseModel>(res.Content.ToString());
-                        title = $"{lang["Edit"]} : {model.expense_by}";
+
                     }
                     else
                     {
                         toast.Add(lang[res.Content.ToString()], MudBlazor.Severity.Warning);
                     }
+                    title = $"{lang["Edit"]} : {model.expense_by}";
                 }
 
             }
@@ -117,7 +118,7 @@
         {
             is_saving = true;
             ExpenseModel d = model;
-            
+
             ExpenseModel save_expenses = JsonSerializer.Deserialize<ExpenseModel>(JsonSerializer.Serialize(d));
             var res = await http.ApiPost($"{ControllerApi}/save", save_expenses);
             if (res.IsSuccess)

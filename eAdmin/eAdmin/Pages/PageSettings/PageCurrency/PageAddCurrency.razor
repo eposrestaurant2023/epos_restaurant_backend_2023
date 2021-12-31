@@ -1,7 +1,6 @@
 ﻿@page "/currency/new"
 @page "/currency/edit/{id:int}"
- 
-@inject IJSRuntime js
+
 @inherits PageCore;
 <Loading is_loading="@is_loading" />
 @if (!is_loading && !is_error)
@@ -71,7 +70,7 @@
 
     CurrencyModel currency = new CurrencyModel();
     List<BusinessBranchModel> businesses = new List<BusinessBranchModel>();
-    string ControllerApi = "Currency";
+
 
 
     public string page_title

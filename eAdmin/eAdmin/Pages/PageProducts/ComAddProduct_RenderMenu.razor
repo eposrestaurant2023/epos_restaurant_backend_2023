@@ -85,7 +85,7 @@
     }
     <hr />
 
-    <Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">@lang["Add New Root Menu"]</Button>
+    <eAdmin.Shared.Components.Button OnClick="@AddRootMenu" class_name="uk-button uk-button-default button-large ">@lang["Add New Root Menu"]</eAdmin.Shared.Components.Button>
 
 </div>
 
@@ -102,7 +102,7 @@
 
     [Parameter] public List<ProductMenuModel> selected_menus { get; set; } 
 
-    bool is_loading;
+  
 
     public int current_menu_id { get; set; }
     public int parent_menu_id { get; set; }
@@ -179,14 +179,14 @@
     protected override async Task OnInitializedAsync()
     {
 
-        is_loading = true;
+         
         var resp = await http.ApiGetOData($"Menu?$filter=business_branch_id eq {business_branch_id} and is_deleted eq false");
         if (resp.IsSuccess)
         {
             menus = JsonSerializer.Deserialize<List<MenuModel>>(resp.Content.ToString());
             SetMenuActive();
         }
-        is_loading = false;
+        
     }
 
     void SetMenuActive()

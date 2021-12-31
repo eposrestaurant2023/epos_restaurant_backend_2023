@@ -26,26 +26,23 @@
                 {
                     @foreach (var b in branches)
                     {
-                        <UIContainerBox Title="@b.business_branch_name_en">
-                            @foreach (var c in gv.category_notes.Where(r => r.status))
-                            {
-                                <ComAccordion>
-                                    <Header>
-                                        @c.category_note_name_en (@b.cashier_notes.Where(r => r.category_note_id == c.id && r.is_deleted == false).Count())
-                                    </Header>
-                                    <Content>
-                                        <ComNoteCategory notes="@b.cashier_notes.Where(r=>r.category_note_id==c.id).ToList()" />
-                                        <hr />
-                                        <div class="uk-text-right">
-                                            <Button OnClick="@(()=>AddNote(b,c))">@lang["Add New"]</Button>
-                                        </div>
-                                    </Content>
-                                </ComAccordion>
-                            }
+                <UIContainerBox Title="@b.business_branch_name_en">
+                    @foreach (var c in gv.category_notes.Where(r => r.status))
+                    {
+                        <MudExpansionPanels MultiExpansion="true">
+                            <MudExpansionPanel Class="mb-2" Text="@($"{c.category_note_name_en} ({(@b.cashier_notes.Where(r => r.category_note_id == c.id && r.is_deleted == false).Count())})")">
+                                <ComNoteCategory notes="@b.cashier_notes.Where(r=>r.category_note_id==c.id).ToList()" />
+                                <hr />
+                                <div class="uk-text-right">
+                                    <Button OnClick="@(()=>AddNote(b,c))">@lang["Add New"]</Button>
+                                </div>
+                            </MudExpansionPanel>
+                        </MudExpansionPanels>
+                                }
 
 
 
-                        </UIContainerBox>
+                    </UIContainerBox>
                     }
                 }
                 else

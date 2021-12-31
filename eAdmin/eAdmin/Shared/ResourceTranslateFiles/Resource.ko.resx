@@ -117,10 +117,895 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="helloworld" xml:space="preserve">
-    <value>헬로 월드</value>
-  </data>
-  <data name="welcome" xml:space="preserve">
-    <value>어서 오십시오</value>
-  </data>
+	<data name="# FOC Transaction" xml:space="preserve"><value># foc 거래</value></data>
+	<data name="Guest Cover" xml:space="preserve"><value>게스트 커버</value></data>
+	<data name="# Void Transaction" xml:space="preserve"><value># void 거래</value></data>
+	<data name="Close Orders" xml:space="preserve"><value>주문을 닫습니다</value></data>
+	<data name="New Currency" xml:space="preserve"><value>새로운 통화</value></data>
+	<data name="Currency" xml:space="preserve"><value>통화</value></data>
+	<data name="Today" xml:space="preserve"><value>오늘</value></data>
+	<data name="This Week" xml:space="preserve"><value>이번 주</value></data>
+	<data name="This Year" xml:space="preserve"><value>올해</value></data>
+	<data name="Last Week" xml:space="preserve"><value>지난주</value></data>
+	<data name="Last Year" xml:space="preserve"><value>작년</value></data>
+	<data name="Last Month" xml:space="preserve"><value>지난 달</value></data>
+	<data name="Month" xml:space="preserve"><value>월</value></data>
+	<data name="This Month" xml:space="preserve"><value>이번 달</value></data>
+	<data name="Month To Date" xml:space="preserve"><value>월까지의 월</value></data>
+	<data name="Custom" xml:space="preserve"><value>관습</value></data>
+	<data name="Peroid Date" xml:space="preserve"><value>pero1d 일자</value></data>
+	<data name="Sale Date" xml:space="preserve"><value>판매 날짜</value></data>
+	<data name="Receipt" xml:space="preserve"><value>영수증</value></data>
+	<data name="Receipt #" xml:space="preserve"><value>영수증 #</value></data>
+	<data name="Balance Due" xml:space="preserve"><value>차감 부족액</value></data>
+	<data name="Clear All" xml:space="preserve"><value>모두 지우기</value></data>
+	<data name="Invoice Information" xml:space="preserve"><value>송장 정보</value></data>
+	<data name="Invoice Date" xml:space="preserve"><value>송장 날짜</value></data>
+	<data name="Working Day No" xml:space="preserve"><value>근무일 번호</value></data>
+	<data name="Working Day #" xml:space="preserve"><value>일하는 날 #</value></data>
+	<data name="Working Day Number" xml:space="preserve"><value>근무일 번호</value></data>
+	<data name="Cashier Shift Number" xml:space="preserve"><value>계산원 교대 번호</value></data>
+	<data name="Shift #" xml:space="preserve"><value>옮기다 #</value></data>
+	<data name="Cash Drawer" xml:space="preserve"><value>현금 서랍</value></data>
+	<data name="Cashier Shift No" xml:space="preserve"><value>계산원 교대 번호</value></data>
+	<data name="Allow Discount" xml:space="preserve"><value>할인 허용</value></data>
+	<data name="Allow Free" xml:space="preserve"><value>무료로 허용하십시오</value></data>
+	<data name="Allow Change Price" xml:space="preserve"><value>가격 변경 허용</value></data>
+	<data name="Products Sold" xml:space="preserve"><value>제품 판매 제품</value></data>
+	<data name="Invoice" xml:space="preserve"><value>송장</value></data>
+	<data name="Payment" xml:space="preserve"><value>지불</value></data>
+	<data name="Sale Payment" xml:space="preserve"><value>판매</value></data>
+	<data name="Add Comment" xml:space="preserve"><value>코멘트 추가</value></data>
+	<data name="Comment" xml:space="preserve"><value>논평</value></data>
+	<data name="No comment yet." xml:space="preserve"><value>댓글 없음.</value></data>
+	<data name="Delete product successfully" xml:space="preserve"><value>제품을 성공적으로 삭제하십시오</value></data>
+	<data name="Delete comment successfully." xml:space="preserve"><value>주석을 삭제하십시오.</value></data>
+	<data name="Delete working day successfully" xml:space="preserve"><value>근무일을 성공적으로 삭제하십시오</value></data>
+	<data name="Delete working day" xml:space="preserve"><value>근무일 삭제</value></data>
+	<data name="Delete payment successfully" xml:space="preserve"><value>지불을 성공적으로 삭제하십시오</value></data>
+	<data name="Add comment successfully." xml:space="preserve"><value>댓글을 성공적으로 추가하십시오.</value></data>
+	<data name="Delete Comment" xml:space="preserve"><value>설명 삭제</value></data>
+	<data name="Delete Item" xml:space="preserve"><value>삭제 항목</value></data>
+	<data name="Delete payment" xml:space="preserve"><value>지불 삭제</value></data>
+	<data name="Are you sure you want to restore this record?" xml:space="preserve"><value>이 레코드를 복원 하시겠습니까?</value></data>
+	<data name="Are you sure you want to delete this record?" xml:space="preserve"><value>이 레코드를 삭제 하시겠습니까?</value></data>
+	<data name="Are you Sure want to delete this comment?" xml:space="preserve"><value>이 댓글을 삭제 하시겠습니까?</value></data>
+	<data name="Are you sure you want to delete this payment?" xml:space="preserve"><value>이 지불을 삭제 하시겠습니까?</value></data>
+	<data name="Update comment successfully." xml:space="preserve"><value>주석을 성공적으로 업데이트하십시오.</value></data>
+	<data name="Save" xml:space="preserve"><value>구하다</value></data>
+	<data name="Save &amp; New" xml:space="preserve"><value>저장 &amp; 신규</value></data>
+	<data name="Cancel" xml:space="preserve"><value>취소</value></data>
+	<data name="Reference Number" xml:space="preserve"><value>참조 번호</value></data>
+	<data name="Reference #" xml:space="preserve"><value>참조 #</value></data>
+	<data name="Payment Date" xml:space="preserve"><value>지불 날짜</value></data>
+	<data name="Payment Amount" xml:space="preserve"><value>결제 금액</value></data>
+	<data name="Close Amount" xml:space="preserve"><value>닫기 금액</value></data>
+	<data name="Cash Deposit" xml:space="preserve"><value>현금 예금</value></data>
+	<data name="Cash In" xml:space="preserve"><value>현금</value></data>
+	<data name="Cash In(Dollar)" xml:space="preserve"><value>현금으로 (달러)</value></data>
+	<data name="Cash Out" xml:space="preserve"><value>현금 인출</value></data>
+	<data name="Cannot add payment for this sale invoice." xml:space="preserve"><value>이 판매 송장에 대한 지불을 추가 할 수 없습니다.</value></data>
+	<data name="Cannot add payment." xml:space="preserve"><value>지불을 추가 할 수 없습니다.</value></data>
+	<data name="Total paid amount in base currency" xml:space="preserve"><value>기본 통화의 총 유료 금액</value></data>
+	<data name="Exchange Rate" xml:space="preserve"><value>환율</value></data>
+	<data name="Please enter payment amount." xml:space="preserve"><value>지불 금액을 입력하십시오.</value></data>
+	<data name="Payment amount cannot greater than balance." xml:space="preserve"><value>지불 금액은 잔액보다 크지 않습니다.</value></data>
+	<data name="Please select a payment type." xml:space="preserve"><value>지불 유형을 선택하십시오.</value></data>
+	<data name="Note" xml:space="preserve"><value>메모</value></data>
+	<data name="Notes" xml:space="preserve"><value>노트</value></data>
+	<data name="Enter note" xml:space="preserve"><value>참고를 입력하십시오</value></data>
+	<data name="Dine in" xml:space="preserve"><value>식사를하다</value></data>
+	<data name="Takeaway" xml:space="preserve"><value>테이크 아웃</value></data>
+	<data name="Outlet" xml:space="preserve"><value>콘센트</value></data>
+	<data name="Station" xml:space="preserve"><value>역</value></data>
+	<data name="Cashier Station" xml:space="preserve"><value>계산국</value></data>
+	<data name="is expired today." xml:space="preserve"><value>오늘 만료되었습니다.</value></data>
+	<data name="will be expired on" xml:space="preserve"><value>만료 될 것입니다</value></data>
+	<data name="Check System License" xml:space="preserve"><value>시스템 라이센스를 확인하십시오</value></data>
+	<data name="is expired" xml:space="preserve"><value>만료되었습니다</value></data>
+	<data name="Opened Station" xml:space="preserve"><value>열린 역</value></data>
+	<data name="Close Station" xml:space="preserve"><value>닫기 역</value></data>
+	<data name="Delivery" xml:space="preserve"><value>배달</value></data>
+	<data name="Sale Balance Amount" xml:space="preserve"><value>판매 균형 금액</value></data>
+	<data name="Starting Amount (Bath)" xml:space="preserve"><value>시작 금액 (목욕)</value></data>
+	<data name="Starting Amount (Dollar)" xml:space="preserve"><value>시작 금액 (달러)</value></data>
+	<data name="Starting Amount (Riel)" xml:space="preserve"><value>시작 금액 (RIEL)</value></data>
+	<data name="Total Starting Amount" xml:space="preserve"><value>총 시작 금액</value></data>
+	<data name="Cash Sale (Dollar)" xml:space="preserve"><value>현금 판매 (달러)</value></data>
+	<data name="Expected Cash (Dollar)" xml:space="preserve"><value>예상 현금 (달러)</value></data>
+	<data name="Sale Summary" xml:space="preserve"><value>판매 요약</value></data>
+	<data name="Service Charge" xml:space="preserve"><value>서비스 비용</value></data>
+	<data name="Payment History" xml:space="preserve"><value>지불 기록</value></data>
+	<data name="Comment and History" xml:space="preserve"><value>의견 및 역사</value></data>
+	<data name="Currency Exchange Rate" xml:space="preserve"><value>유통 환율</value></data>
+	<data name="Working Date" xml:space="preserve"><value>일자일 날짜</value></data>
+	<data name="Closed Date" xml:space="preserve"><value>닫힌 날짜</value></data>
+	<data name="Date" xml:space="preserve"><value>날짜</value></data>
+	<data name="Document #" xml:space="preserve"><value>문서 #</value></data>
+	<data name="Referance #" xml:space="preserve"><value>참조 #</value></data>
+	<data name="Referance Number" xml:space="preserve"><value>참조 번호</value></data>
+	<data name="Customer Group" xml:space="preserve"><value>고객 그룹</value></data>
+	<data name="All Customer Group" xml:space="preserve"><value>모든 고객 그룹</value></data>
+	<data name="Customer Setup" xml:space="preserve"><value>고객 설정</value></data>
+	<data name="Customer" xml:space="preserve"><value>고객</value></data>
+	<data name="New Customer" xml:space="preserve"><value>신규 고객</value></data>
+	<data name="Business Branch" xml:space="preserve"><value>비즈니스 지점</value></data>
+	<data name="Business Branch (Outlet)" xml:space="preserve"><value>비즈니스 지점 (콘센트)</value></data>
+	<data name="Branches" xml:space="preserve"><value>지사</value></data>
+	<data name="Business Branches" xml:space="preserve"><value>비즈니스 지점</value></data>
+	<data name="Business Branch Kh" xml:space="preserve"><value>비즈니스 지점 KH.</value></data>
+	<data name="Website" xml:space="preserve"><value>웹 사이트</value></data>
+	<data name="Business Branch En" xml:space="preserve"><value>비즈니스 지점 en.</value></data>
+	<data name="Total Amount" xml:space="preserve"><value>총액</value></data>
+	<data name="Change status successfully" xml:space="preserve"><value>상태를 성공적으로 변경하십시오</value></data>
+	<data name="Cannot change status to inactive" xml:space="preserve"><value>상태를 비활성 상태로 변경할 수 없습니다</value></data>
+	<data name="Status" xml:space="preserve"><value>상태</value></data>
+	<data name="Last modified date" xml:space="preserve"><value>마지막으로 수정 된 날짜</value></data>
+	<data name="Last modified by" xml:space="preserve"><value>마지막으로 수정되었습니다</value></data>
+	<data name="Created by" xml:space="preserve"><value>제작자들</value></data>
+	<data name="Created Date" xml:space="preserve"><value>생성 된 날짜</value></data>
+	<data name="by" xml:space="preserve"><value>~에 의해</value></data>
+	<data name="Filter by Date" xml:space="preserve"><value>날짜별로 필터링하십시오</value></data>
+	<data name="Type" xml:space="preserve"><value>유형</value></data>
+	<data name="Select Sale Type" xml:space="preserve"><value>판매 유형을 선택하십시오</value></data>
+	<data name="Select Customer" xml:space="preserve"><value>고객을 선택하십시오</value></data>
+	<data name="Select Product" xml:space="preserve"><value>제품을 선택하십시오</value></data>
+	<data name="Select Products" xml:space="preserve"><value>제품을 선택하십시오</value></data>
+	<data name="Multiples" xml:space="preserve"><value>배수</value></data>
+	<data name="Multiplier" xml:space="preserve"><value>승수</value></data>
+	<data name="Unit (multiplier)" xml:space="preserve"><value>유닛 (곱셈기)</value></data>
+	<data name="Add Unit" xml:space="preserve"><value>단위를 추가하십시오</value></data>
+	<data name="Unit" xml:space="preserve"><value>단위</value></data>
+	<data name="Category Modifier" xml:space="preserve"><value>카테고리 수정 자</value></data>
+	<data name="Unit Category" xml:space="preserve"><value>단위 범주</value></data>
+	<data name="Unit Type" xml:space="preserve"><value>단위 유형</value></data>
+	<data name="Closed by" xml:space="preserve"><value>폐쇄</value></data>
+	<data name="Closed" xml:space="preserve"><value>닫은</value></data>
+	<data name="on" xml:space="preserve"><value>켜짐</value></data>
+	<data name="Amount" xml:space="preserve"><value>양</value></data>
+	<data name="Discount" xml:space="preserve"><value>할인</value></data>
+	<data name="Tax" xml:space="preserve"><value>세</value></data>
+	<data name="Paid Amount" xml:space="preserve"><value>유료 금액</value></data>
+	<data name="Paid" xml:space="preserve"><value>유급의</value></data>
+	<data name="Total" xml:space="preserve"><value>총</value></data>
+	<data name="Total Paid" xml:space="preserve"><value>총 지불</value></data>
+	<data name="Open Order" xml:space="preserve"><value>열린 주문</value></data>
+	<data name="Opened" xml:space="preserve"><value>열린다</value></data>
+	<data name="Opened by" xml:space="preserve"><value>제작되었습니다</value></data>
+	<data name="Bill Request" xml:space="preserve"><value>청구서 요청</value></data>
+	<data name="Closed Order" xml:space="preserve"><value>닫힌 순서</value></data>
+	<data name="Void Order" xml:space="preserve"><value>무효 주문</value></data>
+	<data name="Void Order as Merge Table" xml:space="preserve"><value>병합 테이블로서 void 주문</value></data>
+	<data name="Void Order as Split" xml:space="preserve"><value>분할로서의 무효 주문</value></data>
+	<data name="Hold Order" xml:space="preserve"><value>주문을 보류하십시오</value></data>
+	<data name="Unpaid" xml:space="preserve"><value>무급 ...</value></data>
+	<data name="Top" xml:space="preserve"><value>맨 위</value></data>
+	<data name="Top By" xml:space="preserve"><value>맨 위로</value></data>
+	<data name="Partially Paid" xml:space="preserve"><value>부분적으로 유료</value></data>
+	<data name="Balance" xml:space="preserve"><value>균형</value></data>
+	<data name="NÂº" xml:space="preserve"><value>n º</value></data>
+	<data name="No" xml:space="preserve"><value>아니</value></data>
+	<data name="Image" xml:space="preserve"><value>영상</value></data>
+	<data name="Upload Files" xml:space="preserve"><value>파일 업로드하다</value></data>
+	<data name="Accept" xml:space="preserve"><value>수용하다</value></data>
+	<data name="File title" xml:space="preserve"><value>파일 제목</value></data>
+	<data name="File Description" xml:space="preserve"><value>파일 설명</value></data>
+	<data name="No files or images" xml:space="preserve"><value>파일이나 이미지가 없습니다</value></data>
+	<data name="Description" xml:space="preserve"><value>설명</value></data>
+	<data name="Stock Location" xml:space="preserve"><value>재고 위치</value></data>
+	<data name="Defualt Stock Location" xml:space="preserve"><value>exalualt 스톡 위치</value></data>
+	<data name="Min QTY" xml:space="preserve"><value>최소 수량</value></data>
+	<data name="Min" xml:space="preserve"><value>최소</value></data>
+	<data name="Max" xml:space="preserve"><value>최대</value></data>
+	<data name="Max QTY" xml:space="preserve"><value>최대 수량</value></data>
+	<data name="QTY" xml:space="preserve"><value>수량</value></data>
+	<data name="Product Tax" xml:space="preserve"><value>제품 세금</value></data>
+	<data name="Product Prices" xml:space="preserve"><value>제품 가격</value></data>
+	<data name="Price" xml:space="preserve"><value>가격</value></data>
+	<data name="Dis." xml:space="preserve"><value>...에 불과하다</value></data>
+	<data name="Daily Sale Revenue" xml:space="preserve"><value>일일 판매 수익</value></data>
+	<data name="Select" xml:space="preserve"><value>선택하다</value></data>
+	<data name="Select Provinces" xml:space="preserve"><value>지방을 선택하십시오</value></data>
+	<data name="Province" xml:space="preserve"><value>주</value></data>
+	<data name="Dashboard" xml:space="preserve"><value>계기반</value></data>
+	<data name="Discount Code" xml:space="preserve"><value>할인 코드</value></data>
+	<data name="Add Discount Code" xml:space="preserve"><value>할인 코드를 추가하십시오</value></data>
+	<data name="Hourly Sale" xml:space="preserve"><value>시간별 판매</value></data>
+	<data name="Ingredient Product" xml:space="preserve"><value>성분 제품</value></data>
+	<data name="New Ingredient" xml:space="preserve"><value>새로운 성분</value></data>
+	<data name="Ingredient Name" xml:space="preserve"><value>성분명</value></data>
+	<data name="Ingredient" xml:space="preserve"><value>재료</value></data>
+	<data name="All Ingredient" xml:space="preserve"><value>모든 성분</value></data>
+	<data name="Active Ingredient" xml:space="preserve"><value>활성 성분</value></data>
+	<data name="Inactive Ingredient" xml:space="preserve"><value>비활성 성분</value></data>
+	<data name="Deleted Ingredient" xml:space="preserve"><value>삭제 된 성분</value></data>
+	<data name="Category" xml:space="preserve"><value>범주</value></data>
+	<data name="Quality" xml:space="preserve"><value>품질</value></data>
+	<data name="Edit Ingredient Category" xml:space="preserve"><value>편집 성분 카테고리</value></data>
+	<data name="Ingredient Category" xml:space="preserve"><value>성분 카테고리</value></data>
+	<data name="Login" xml:space="preserve"><value>로그인</value></data>
+	<data name="Menu Product" xml:space="preserve"><value>메뉴 제품</value></data>
+	<data name="Menu" xml:space="preserve"><value>메뉴</value></data>
+	<data name="Menu Setup" xml:space="preserve"><value>메뉴 설정</value></data>
+	<data name="MTD Visit" xml:space="preserve"><value>MTD 방문</value></data>
+	<data name="MTD Sale Amount" xml:space="preserve"><value>MTD 판매 금액</value></data>
+	<data name="MTD Sale Quantity" xml:space="preserve"><value>MTD 판매 수량</value></data>
+	<data name="MTD Sale Revenue" xml:space="preserve"><value>MTD 판매 수익</value></data>
+	<data name="Payment Type Group" xml:space="preserve"><value>지불 유형 그룹</value></data>
+	<data name="New Payment Type" xml:space="preserve"><value>새로운 지불 유형</value></data>
+	<data name="Payment Type" xml:space="preserve"><value>지불 유형</value></data>
+	<data name="All Payment Type" xml:space="preserve"><value>모든 지불 유형</value></data>
+	<data name="Active Payment Type" xml:space="preserve"><value>활성 지불 유형</value></data>
+	<data name="Inactive Payment Type" xml:space="preserve"><value>비활성 지불 유형</value></data>
+	<data name="Deleted Payment Type" xml:space="preserve"><value>삭제 된 지불 유형</value></data>
+	<data name="Pending Orders" xml:space="preserve"><value>주문을 보류</value></data>
+	<data name="New Price Rule" xml:space="preserve"><value>새로운 가격 규칙</value></data>
+	<data name="Price Rule" xml:space="preserve"><value>가격 규칙</value></data>
+	<data name="Product" xml:space="preserve"><value>제품</value></data>
+	<data name="Product Category" xml:space="preserve"><value>제품 카테고리</value></data>
+	<data name="There is no menu assigned for this product." xml:space="preserve"><value>이 제품에 대해 메뉴가 지정되지 않았습니다.</value></data>
+	<data name="This category was assigned to product." xml:space="preserve"><value>이 카테고리는 제품에 할당되었습니다.</value></data>
+	<data name="Product Category Cannot Empty" xml:space="preserve"><value>제품 카테고리는 비 젖을 수 없습니다</value></data>
+	<data name="Product Category En" xml:space="preserve"><value>제품 카테고리 EN.</value></data>
+	<data name="Product Category Kh" xml:space="preserve"><value>제품 카테고리 KH.</value></data>
+	<data name="Product Price Adjustment" xml:space="preserve"><value>제품 가격 조정</value></data>
+	<data name="Product Setup" xml:space="preserve"><value>제품 설정</value></data>
+	<data name="Purchase Order" xml:space="preserve"><value>구매 주문</value></data>
+	<data name="Deleted Purchase Order" xml:space="preserve"><value>삭제 된 구매 주문</value></data>
+	<data name="Partially Paid Purchase Order" xml:space="preserve"><value>부분적으로 지불 구매 주문</value></data>
+	<data name="Paid Purchase Order" xml:space="preserve"><value>유료 구매 주문</value></data>
+	<data name="Unpaid Purchase Order" xml:space="preserve"><value>무급 구매 주문</value></data>
+	<data name="Receipt List" xml:space="preserve"><value>영수증 목록</value></data>
+	<data name="Customers" xml:space="preserve"><value>고객</value></data>
+	<data name="All Customer" xml:space="preserve"><value>모든 고객</value></data>
+	<data name="Active Customer" xml:space="preserve"><value>적극적인 고객</value></data>
+	<data name="Active Customer Group" xml:space="preserve"><value>활성 고객 그룹</value></data>
+	<data name="Inactive Customer" xml:space="preserve"><value>비활성 고객</value></data>
+	<data name="Inactive Customer Group" xml:space="preserve"><value>비활성 고객 그룹</value></data>
+	<data name="Customer Credit" xml:space="preserve"><value>고객 크레딧</value></data>
+	<data name="Deleted Customer Group" xml:space="preserve"><value>삭제 된 고객 그룹</value></data>
+	<data name="Name Kh" xml:space="preserve"><value>KH.</value></data>
+	<data name="Name En(Kh)" xml:space="preserve"><value>이름 en (kh)</value></data>
+	<data name="Name En" xml:space="preserve"><value>이름 en.</value></data>
+	<data name="Deleted Customer" xml:space="preserve"><value>삭제 된 고객</value></data>
+	<data name="Recently Added Customer Groups" xml:space="preserve"><value>최근에 고객 그룹을 추가했습니다</value></data>
+	<data name="Recently Added Customer" xml:space="preserve"><value>최근에 고객이 추가되었습니다</value></data>
+	<data name="All Receipt" xml:space="preserve"><value>모든 영수증</value></data>
+	<data name="Deleted Receipt" xml:space="preserve"><value>삭제 된 영수증</value></data>
+	<data name="Paid Receipt" xml:space="preserve"><value>지불 영수증</value></data>
+	<data name="Unpaid Receipt" xml:space="preserve"><value>무급 영수증</value></data>
+	<data name="Partially Paid Receipt" xml:space="preserve"><value>부분적으로 지불 한 영수증</value></data>
+	<data name="System Expired Alert" xml:space="preserve"><value>시스템이 만료되었습니다</value></data>
+	<data name="FOC Receipt" xml:space="preserve"><value>FOC 영수증</value></data>
+	<data name="Recent Receipt" xml:space="preserve"><value>최근 영수증</value></data>
+	<data name="Report" xml:space="preserve"><value>보고서</value></data>
+	<data name="Sale Type" xml:space="preserve"><value>판매 유형</value></data>
+	<data name="Sale Number" xml:space="preserve"><value>판매 번호</value></data>
+	<data name="Sale" xml:space="preserve"><value>판매</value></data>
+	<data name="Sale Type Summary" xml:space="preserve"><value>판매 유형 요약</value></data>
+	<data name="Setting" xml:space="preserve"><value>환경</value></data>
+	<data name="Settings" xml:space="preserve"><value>설정</value></data>
+	<data name="Summary Invoice" xml:space="preserve"><value>요약 송장</value></data>
+	<data name="Table Name" xml:space="preserve"><value>좌석 번호</value></data>
+	<data name="Table" xml:space="preserve"><value>테이블</value></data>
+	<data name="Table #" xml:space="preserve"><value>테이블 #</value></data>
+	<data name="Add Table" xml:space="preserve"><value>표를 추가하십시오</value></data>
+	<data name="Preview" xml:space="preserve"><value>시사</value></data>
+	<data name="Table Information" xml:space="preserve"><value>테이블 정보</value></data>
+	<data name="Table Group Information" xml:space="preserve"><value>테이블 그룹 정보</value></data>
+	<data name="Table Group Name" xml:space="preserve"><value>테이블 그룹 이름</value></data>
+	<data name="Table Group &amp; Table" xml:space="preserve"><value>테이블 그룹 및 표</value></data>
+	<data name="There is no product price." xml:space="preserve"><value>제품 가격이 없습니다.</value></data>
+	<data name="There's no record in the system" xml:space="preserve"><value>시스템에 기록이 없습니다</value></data>
+	<data name="Today Order" xml:space="preserve"><value>오늘 주문</value></data>
+	<data name="MTD Order" xml:space="preserve"><value>MTD 주문</value></data>
+	<data name="Today Sale Revenue" xml:space="preserve"><value>오늘 판매 수익</value></data>
+	<data name="Today Sale Quantity" xml:space="preserve"><value>오늘 판매 수량</value></data>
+	<data name="Top Sale Product" xml:space="preserve"><value>최고 판매 제품</value></data>
+	<data name="Total Cost" xml:space="preserve"><value>총 비용</value></data>
+	<data name="Cost" xml:space="preserve"><value>비용</value></data>
+	<data name="Unit of Measurement (UoM)" xml:space="preserve"><value>측정 단위 (UOM)</value></data>
+	<data name="Password" xml:space="preserve"><value>비밀번호</value></data>
+	<data name="Account" xml:space="preserve"><value>계정</value></data>
+	<data name="Inventory Check Type" xml:space="preserve"><value>재고 확인 유형</value></data>
+	<data name="New Inventory Check" xml:space="preserve"><value>새로운 인벤토리 수표</value></data>
+	<data name="Inventory Check Information" xml:space="preserve"><value>인벤토리 확인 정보</value></data>
+	<data name="Inventory Check Date" xml:space="preserve"><value>인벤토리 체크 일자</value></data>
+	<data name="Inventory Check #" xml:space="preserve"><value>재고 확인 #</value></data>
+	<data name="Inventory Checked" xml:space="preserve"><value>인벤토리 검사</value></data>
+	<data name="Inventory Check" xml:space="preserve"><value>재고 수표</value></data>
+	<data name="All Inventory Checks" xml:space="preserve"><value>모든 인벤토리 검사</value></data>
+	<data name="Deleted Inventory Checks" xml:space="preserve"><value>삭제 된 인벤토리 검사</value></data>
+	<data name="Draft Inventory Checks" xml:space="preserve"><value>인벤토리 검사 초안</value></data>
+	<data name="Fulfilled Inventory Checks" xml:space="preserve"><value>성취 된 재고 검사</value></data>
+	<data name="Full" xml:space="preserve"><value>가득한</value></data>
+	<data name="Partially Check" xml:space="preserve"><value>부분적으로 확인</value></data>
+	<data name="Full Check" xml:space="preserve"><value>전체 수표</value></data>
+	<data name="Full Inventory Checks" xml:space="preserve"><value>전체 재고 검사</value></data>
+	<data name="Partially Inventory Checks" xml:space="preserve"><value>부분적으로 인벤토리 검사</value></data>
+	<data name="User Account" xml:space="preserve"><value>사용자 계정</value></data>
+	<data name="Full Name" xml:space="preserve"><value>성명</value></data>
+	<data name="New User" xml:space="preserve"><value>새로운 사용자</value></data>
+	<data name="User Name" xml:space="preserve"><value>사용자 이름</value></data>
+	<data name="User Setup" xml:space="preserve"><value>사용자 설정</value></data>
+	<data name="Active User" xml:space="preserve"><value>활성 사용자</value></data>
+	<data name="Inactive User" xml:space="preserve"><value>비활성 사용자</value></data>
+	<data name="Deleted User" xml:space="preserve"><value>삭제 된 사용자</value></data>
+	<data name="All User" xml:space="preserve"><value>모든 사용자</value></data>
+	<data name="User Type" xml:space="preserve"><value>사용자 유형</value></data>
+	<data name="Vendor" xml:space="preserve"><value>공급 업체</value></data>
+	<data name="Different" xml:space="preserve"><value>다른</value></data>
+	<data name="There's no quantity changed" xml:space="preserve"><value>수량이 변경되지 않았습니다</value></data>
+	<data name="Term &amp; Conditions" xml:space="preserve"><value>기간 및 조건</value></data>
+	<data name="Quantity" xml:space="preserve"><value>수량</value></data>
+	<data name="Old Quantity" xml:space="preserve"><value>오래된 수량</value></data>
+	<data name="QTY on Hand" xml:space="preserve"><value>손에 qty.</value></data>
+	<data name="Quantity On Hand" xml:space="preserve"><value>손에 수량</value></data>
+	<data name="Total Quantity" xml:space="preserve"><value>총량</value></data>
+	<data name="Sub Total" xml:space="preserve"><value>총 합계</value></data>
+	<data name="Sale Sub Total" xml:space="preserve"><value>판매 Sub.</value></data>
+	<data name="Sale Discount" xml:space="preserve"><value>판매 할인</value></data>
+	<data name="Total Item Discount" xml:space="preserve"><value>총 품목 할인</value></data>
+	<data name="Total Discount" xml:space="preserve"><value>총 할인</value></data>
+	<data name="Total FOC Sale Amount" xml:space="preserve"><value>총 FOC 판매 금액</value></data>
+	<data name="Total Payment" xml:space="preserve"><value>총 지불</value></data>
+	<data name="Height" xml:space="preserve"><value>키</value></data>
+	<data name="Width" xml:space="preserve"><value>너비</value></data>
+	<data name="Circle" xml:space="preserve"><value>원</value></data>
+	<data name="Rectangle" xml:space="preserve"><value>직사각형</value></data>
+	<data name="Shape" xml:space="preserve"><value>모양</value></data>
+	<data name="Table Shape" xml:space="preserve"><value>테이블 모양</value></data>
+	<data name="Dollar" xml:space="preserve"><value>달러</value></data>
+	<data name="Riel" xml:space="preserve"><value>riel.</value></data>
+	<data name="Bath" xml:space="preserve"><value>욕조</value></data>
+	<data name="Total payment (Dollar)" xml:space="preserve"><value>총 지불 (달러)</value></data>
+	<data name="Different Amount (Over)" xml:space="preserve"><value>다른 금액 (이상)</value></data>
+	<data name="Different Amount (Short)" xml:space="preserve"><value>다른 금액 (짧은)</value></data>
+	<data name="Payment Breakdown" xml:space="preserve"><value>지불 고장</value></data>
+	<data name="Total Sale Revenue" xml:space="preserve"><value>총 판매 수익</value></data>
+	<data name="Grand Total" xml:space="preserve"><value>그랜드 총액</value></data>
+	<data name="All Vendor Group" xml:space="preserve"><value>모든 공급 업체 그룹</value></data>
+	<data name="Active Vendor Group" xml:space="preserve"><value>활성 공급 업체 그룹</value></data>
+	<data name="Inactive Vendor Group" xml:space="preserve"><value>비활성 공급 업체 그룹</value></data>
+	<data name="Deleted Vendor Group" xml:space="preserve"><value>삭제 된 공급 업체 그룹</value></data>
+	<data name="Vendor Group" xml:space="preserve"><value>공급 업체 그룹</value></data>
+	<data name="Void Orders" xml:space="preserve"><value>무효 주문</value></data>
+	<data name="welcome" xml:space="preserve"><value>환영하다</value></data>
+	<data name="Working Day" xml:space="preserve"><value>일하는 날</value></data>
+	<data name="Working Day Information" xml:space="preserve"><value>근무일 정보</value></data>
+	<data name="Cashier Shift Information" xml:space="preserve"><value>계산원 이동 정보</value></data>
+	<data name="Shift" xml:space="preserve"><value>옮기다</value></data>
+	<data name="Sale Receipt" xml:space="preserve"><value>판매 영수증</value></data>
+	<data name="FOC Sale Receipt" xml:space="preserve"><value>FOC SARE 영수증</value></data>
+	<data name="Deleted Sale Receipt" xml:space="preserve"><value>삭제 된 판매 영수증</value></data>
+	<data name="Payment Berakdown" xml:space="preserve"><value>지불 Berakdown.</value></data>
+	<data name="Alcohol" xml:space="preserve"><value>술</value></data>
+	<data name="Food" xml:space="preserve"><value>음식</value></data>
+	<data name="Drink" xml:space="preserve"><value>마시다</value></data>
+	<data name="Sale By Revenue Group" xml:space="preserve"><value>매출 그룹 별 판매</value></data>
+	<data name="Summary By Revenue Group" xml:space="preserve"><value>수익 그룹 별 요약</value></data>
+	<data name="Free Product" xml:space="preserve"><value>무료 제품</value></data>
+	<data name="Sale Product" xml:space="preserve"><value>판매 제품</value></data>
+	<data name="All Sale Product" xml:space="preserve"><value>모든 판매 제품</value></data>
+	<data name="Name" xml:space="preserve"><value>이름</value></data>
+	<data name="Name (Kh)" xml:space="preserve"><value>이름 (kh)</value></data>
+	<data name="Code" xml:space="preserve"><value>암호</value></data>
+	<data name="Phone" xml:space="preserve"><value>핸드폰</value></data>
+	<data name="Gender" xml:space="preserve"><value>성별</value></data>
+	<data name="View" xml:space="preserve"><value>보다</value></data>
+	<data name="Edit" xml:space="preserve"><value>편집하다</value></data>
+	<data name="Inactive" xml:space="preserve"><value>비활성으로</value></data>
+	<data name="Active" xml:space="preserve"><value>활동적인</value></data>
+	<data name="Delete" xml:space="preserve"><value>삭제</value></data>
+	<data name="Deleted" xml:space="preserve"><value>삭제됨</value></data>
+	<data name="Recipe" xml:space="preserve"><value>레시피</value></data>
+	<data name="General Information" xml:space="preserve"><value>일반 정보</value></data>
+	<data name="Product Detail" xml:space="preserve"><value>제품 상세 정보</value></data>
+	<data name="Restore product" xml:space="preserve"><value>제품 복원</value></data>
+	<data name="Restore product successfully" xml:space="preserve"><value>제품을 성공적으로 복원하십시오</value></data>
+	<data name="Restore" xml:space="preserve"><value>복원</value></data>
+	<data name="Clone" xml:space="preserve"><value>복제본</value></data>
+	<data name="Search" xml:space="preserve"><value>찾다</value></data>
+	<data name="Search For" xml:space="preserve"><value>찾기</value></data>
+	<data name="Select Modifier" xml:space="preserve"><value>수정자를 선택하십시오</value></data>
+	<data name="Search / Add Modifier" xml:space="preserve"><value>수정 자 추가 / 추가</value></data>
+	<data name="Add Products" xml:space="preserve"><value>제품 추가</value></data>
+	<data name="All Products" xml:space="preserve"><value>모든 생산품</value></data>
+	<data name="Recently Added Products" xml:space="preserve"><value>최근에 추가 된 제품을 추가했습니다</value></data>
+	<data name="Active Products" xml:space="preserve"><value>활성 제품</value></data>
+	<data name="Inactive Products" xml:space="preserve"><value>비활성 제품</value></data>
+	<data name="Composite Products" xml:space="preserve"><value>복합 제품</value></data>
+	<data name="All Production History" xml:space="preserve"><value>모든 생산 기록</value></data>
+	<data name="Production Products" xml:space="preserve"><value>생산 제품</value></data>
+	<data name="Deleted Products" xml:space="preserve"><value>삭제 된 제품</value></data>
+	<data name="Filter Products" xml:space="preserve"><value>필터 제품</value></data>
+	<data name="Filter" xml:space="preserve"><value>필터</value></data>
+	<data name="Hide Logo" xml:space="preserve"><value>로고 숨기기</value></data>
+	<data name="INV#" xml:space="preserve"><value>inv #</value></data>
+	<data name="Show Logo" xml:space="preserve"><value>로고를 보여줍니다</value></data>
+	<data name="INV #" xml:space="preserve"><value>inv #</value></data>
+	<data name="Set Permission" xml:space="preserve"><value>허가를 설정하십시오</value></data>
+	<data name="On_Hour" xml:space="preserve"><value>on_hour.</value></data>
+	<data name="On_Date" xml:space="preserve"><value>on_date.</value></data>
+	<data name="Delete by" xml:space="preserve"><value>삭제</value></data>
+	<data name="Deleted by" xml:space="preserve"><value>삭제되었습니다</value></data>
+	<data name="Order By" xml:space="preserve"><value>주문</value></data>
+	<data name="General Customer" xml:space="preserve"><value>일반 고객</value></data>
+	<data name="General Setting" xml:space="preserve"><value>일반 설정</value></data>
+	<data name="COMPOSITE" xml:space="preserve"><value>합성물</value></data>
+	<data name="COMPOSITE ITEM" xml:space="preserve"><value>복합 아이템</value></data>
+	<data name="COMPOSITE ITEMS" xml:space="preserve"><value>합성품</value></data>
+	<data name="You cannot add a composite product to a composite product." xml:space="preserve"><value>복합 제품에 복합 제품을 추가 할 수 없습니다.</value></data>
+	<data name="All Sale History" xml:space="preserve"><value>모든 판매 역사</value></data>
+	<data name="Sale History" xml:space="preserve"><value>판매 역사</value></data>
+	<data name="You cannot select current product as composite item." xml:space="preserve"><value>현재 제품을 복합 항목으로 선택할 수 없습니다.</value></data>
+	<data name="Add Payment" xml:space="preserve"><value>지불을 추가하십시오</value></data>
+	<data name="All Purchase Order" xml:space="preserve"><value>모든 구매 주문</value></data>
+	<data name="All Purchase Orders" xml:space="preserve"><value>모든 구매 주문</value></data>
+	<data name="Color" xml:space="preserve"><value>색상</value></data>
+	<data name="Is Order Use Table" xml:space="preserve"><value>주문 use 표</value></data>
+	<data name="Order Use Table" xml:space="preserve"><value>주문 표를 주문하십시오</value></data>
+	<data name="PO" xml:space="preserve"><value>포</value></data>
+	<data name="PO Products" xml:space="preserve"><value>PO 제품</value></data>
+	<data name="PO #" xml:space="preserve"><value>포 #</value></data>
+	<data name="PO Information" xml:space="preserve"><value>PO 정보</value></data>
+	<data name="PO#" xml:space="preserve"><value>포 #</value></data>
+	<data name="Purchase Date" xml:space="preserve"><value>구입 날짜</value></data>
+	<data name="Purchase History" xml:space="preserve"><value>구매 내역</value></data>
+	<data name="Purchase Information" xml:space="preserve"><value>구매 정보</value></data>
+	<data name="Purchase Order #" xml:space="preserve"><value>구매 주문 #</value></data>
+	<data name="Purchase Order Detail" xml:space="preserve"><value>구매 주문 세부 사항</value></data>
+	<data name="Purchase Order Histories" xml:space="preserve"><value>구매 주문 기록</value></data>
+	<data name="Purchase Orders" xml:space="preserve"><value>구매 주문</value></data>
+	<data name="Purchase Payment History" xml:space="preserve"><value>지불 기록을 구매하십시오</value></data>
+	<data name="Purchase Product History" xml:space="preserve"><value>제품 기록을 구입하십시오</value></data>
+	<data name="Purhase Order History" xml:space="preserve"><value>퓌레 주문 기록</value></data>
+	<data name="Sale Type Name" xml:space="preserve"><value>판매 유형 이름</value></data>
+	<data name="Add Sale Type" xml:space="preserve"><value>판매 유형 추가</value></data>
+	<data name="Use Table" xml:space="preserve"><value>표를 사용하십시오</value></data>
+	<data name="Table Name" xml:space="preserve"><value>표 이름</value></data>
+	<data name="Branch" xml:space="preserve"><value>나뭇 가지</value></data>
+	<data name="End Date" xml:space="preserve"><value>종료일</value></data>
+	<data name="Start Date" xml:space="preserve"><value>시작일 시작</value></data>
+	<data name="Due Date" xml:space="preserve"><value>마감일</value></data>
+	<data name="PO Date" xml:space="preserve"><value>PO Date</value></data>
+	<data name="Purchase Order Product" xml:space="preserve"><value>구매 주문 제품</value></data>
+	<data name="Warehouse" xml:space="preserve"><value>창고</value></data>
+	<data name="Add New Modifier" xml:space="preserve"><value>새로운 수정자를 추가하십시오</value></data>
+	<data name="Add New Modifier Group" xml:space="preserve"><value>새로운 수정 자 그룹 추가</value></data>
+	<data name="Modifier Group" xml:space="preserve"><value>수정 자 그룹</value></data>
+	<data name="Active Modifier" xml:space="preserve"><value>활성 수정 자</value></data>
+	<data name="Active Modifier Group" xml:space="preserve"><value>활성 수정 자 그룹</value></data>
+	<data name="Recently Added Modifier" xml:space="preserve"><value>최근에 추가 된 수정자를 추가했습니다</value></data>
+	<data name="Inactive Modifier" xml:space="preserve"><value>비활성 수정 자</value></data>
+	<data name="Inactive Modifier Group" xml:space="preserve"><value>비활성 수정 자 그룹</value></data>
+	<data name="Deleted Modifier" xml:space="preserve"><value>삭제 된 수정 자</value></data>
+	<data name="Deleted Modifier Group" xml:space="preserve"><value>삭제 된 수정 자 그룹</value></data>
+	<data name="New PO" xml:space="preserve"><value>새로운 포</value></data>
+	<data name="Edit Product" xml:space="preserve"><value>제품 편집</value></data>
+	<data name="New Product" xml:space="preserve"><value>신상품</value></data>
+	<data name="New Production" xml:space="preserve"><value>새로운 생산</value></data>
+	<data name="Edit Purchase Order" xml:space="preserve"><value>구매 주문 편집</value></data>
+	<data name="New Purchase Order" xml:space="preserve"><value>새로운 구매 주문</value></data>
+	<data name="All Stock Stransfer History" xml:space="preserve"><value>모든 주식 Stransfer 역사</value></data>
+	<data name="Stock Transfer Products" xml:space="preserve"><value>주식 송금 제품</value></data>
+	<data name="New Stock Transfer" xml:space="preserve"><value>새로운 주식 이전</value></data>
+	<data name="New Customer Group" xml:space="preserve"><value>새로운 고객 그룹</value></data>
+	<data name="Stock Take Products" xml:space="preserve"><value>주식 제품을 섭취합니다</value></data>
+	<data name="New Stock Take" xml:space="preserve"><value>새로운 주식 섭취</value></data>
+	<data name="Add New Vendor Group" xml:space="preserve"><value>새 공급 업체 그룹 추가</value></data>
+	<data name="Edit Vendor" xml:space="preserve"><value>벤더 편집</value></data>
+	<data name="New Vendor" xml:space="preserve"><value>새로운 벤더</value></data>
+	<data name="Quick Add" xml:space="preserve"><value>빠른 추가</value></data>
+	<data name="This project does not have business branch." xml:space="preserve"><value>이 프로젝트에는 비즈니스 지점이 없습니다.</value></data>
+	<data name="Add New" xml:space="preserve"><value>새로운 걸 더하다</value></data>
+	<data name="Add New Customer" xml:space="preserve"><value>새로운 고객을 추가하십시오</value></data>
+	<data name="Add New Production" xml:space="preserve"><value>새로운 생산을 추가하십시오</value></data>
+	<data name="All Modifier Group" xml:space="preserve"><value>모든 수정 자 그룹</value></data>
+	<data name="All Modifier" xml:space="preserve"><value>모든 수정 자</value></data>
+	<data name="Balance cannot be lower then zero" xml:space="preserve"><value>균형은 0을 낮을 수 없습니다</value></data>
+	<data name="Balance cannot be lower then zero." xml:space="preserve"><value>균형은 0을 낮게 할 수 없습니다.</value></data>
+	<data name="Bigger than Reference" xml:space="preserve"><value>참조보다 큰</value></data>
+	<data name="Customer Code already exist!" xml:space="preserve"><value>고객 코드가 이미 있습니다!</value></data>
+	<data name="Delete Product" xml:space="preserve"><value>제품 삭제</value></data>
+	<data name="Delete Production" xml:space="preserve"><value>생산 삭제</value></data>
+	<data name="Delete Production Successfully" xml:space="preserve"><value>생산을 성공적으로 삭제하십시오</value></data>
+	<data name="Record" xml:space="preserve"><value>기록</value></data>
+	<data name="Are you sure to" xml:space="preserve"><value>너는 확실하다</value></data>
+	<data name="Was" xml:space="preserve"><value>였다</value></data>
+	<data name="Delete Record" xml:space="preserve"><value>레코드 삭제</value></data>
+	<data name="Edit Production" xml:space="preserve"><value>생산 편집</value></data>
+	<data name="From Business Branch" xml:space="preserve"><value>비즈니스 지점에서</value></data>
+	<data name="From Stock" xml:space="preserve"><value>재고에서</value></data>
+	<data name="From Stock Location" xml:space="preserve"><value>재고 위치에서</value></data>
+	<data name="From Warehouse" xml:space="preserve"><value>창고에서</value></data>
+	<data name="help_and_support" xml:space="preserve"><value>HELP_AND_SUPPORT.</value></data>
+	<data name="Inventory Transaction Type" xml:space="preserve"><value>재고 거래 유형</value></data>
+	<data name="Logout" xml:space="preserve"><value>로그 아웃</value></data>
+	<data name="Manage your account" xml:space="preserve"><value>귀하의 계정 관리</value></data>
+	<data name="New" xml:space="preserve"><value>새로운</value></data>
+	<data name="Select Payment Type Group" xml:space="preserve"><value>지불 유형 그룹을 선택하십시오</value></data>
+	<data name="Modifier Name" xml:space="preserve"><value>수정 자 이름</value></data>
+	<data name="Modifier name cannot empty." xml:space="preserve"><value>수정 자 이름은 비 젖을 수 없습니다.</value></data>
+	<data name="Section name cannot empty." xml:space="preserve"><value>섹션 이름은 비 젖을 수 없습니다.</value></data>
+	<data name="Please add modifier section" xml:space="preserve"><value>수정 자 섹션을 추가하십시오</value></data>
+	<data name="Please add modifier to" xml:space="preserve"><value>수정자를 추가하십시오</value></data>
+	<data name="Please Select" xml:space="preserve"><value>선택 해주세요</value></data>
+	<data name="Please Select An Option" xml:space="preserve"><value>옵션을 선택하십시오</value></data>
+	<data name="Please select business branch" xml:space="preserve"><value>비즈니스 지점을 선택하십시오</value></data>
+	<data name="Please select business branch." xml:space="preserve"><value>비즈니스 지점을 선택하십시오.</value></data>
+	<data name="Please select business branches" xml:space="preserve"><value>비즈니스 지사를 선택하십시오</value></data>
+	<data name="Please select portion" xml:space="preserve"><value>부분을 ​​선택하십시오</value></data>
+	<data name="Please select portion." xml:space="preserve"><value>부분을 ​​선택하십시오.</value></data>
+	<data name="Please select stock location" xml:space="preserve"><value>주식 위치를 선택하십시오</value></data>
+	<data name="Please select stock location." xml:space="preserve"><value>주식 위치를 선택하십시오.</value></data>
+	<data name="Please select vendor" xml:space="preserve"><value>벤더를 선택하십시오</value></data>
+	<data name="Please select vendor." xml:space="preserve"><value>공급 업체를 선택하십시오.</value></data>
+	<data name="PO item cannot be empty" xml:space="preserve"><value>PO 품목은 비어있을 수 없습니다</value></data>
+	<data name="PO item cannot be empty." xml:space="preserve"><value>PO 항목은 비어있을 수 없습니다.</value></data>
+	<data name="Product Group" xml:space="preserve"><value>제품 그룹</value></data>
+	<data name="Product Group Code" xml:space="preserve"><value>제품 그룹 코드</value></data>
+	<data name="Product Group En" xml:space="preserve"><value>제품 그룹 en.</value></data>
+	<data name="Product Group Kh" xml:space="preserve"><value>제품 그룹 KH.</value></data>
+	<data name="All Production" xml:space="preserve"><value>모든 생산</value></data>
+	<data name="Deleted Production" xml:space="preserve"><value>삭제 된 생산</value></data>
+	<data name="Production" xml:space="preserve"><value>생산</value></data>
+	<data name="Production #" xml:space="preserve"><value>생산 #</value></data>
+	<data name="Production Date" xml:space="preserve"><value>생산 일자</value></data>
+	<data name="Production Information" xml:space="preserve"><value>생산 정보</value></data>
+	<data name="Production item cannot be empty" xml:space="preserve"><value>생산 품목은 비어있을 수 없습니다</value></data>
+	<data name="Production item cannot be empty." xml:space="preserve"><value>생산 항목은 비어있을 수 없습니다.</value></data>
+	<data name="Production#" xml:space="preserve"><value>생산#</value></data>
+	<data name="Purchase Order item cannot be empty" xml:space="preserve"><value>구매 주문 항목은 비어있을 수 없습니다</value></data>
+	<data name="Purchase Order item cannot be empty." xml:space="preserve"><value>구매 주문 항목은 비어있을 수 없습니다.</value></data>
+	<data name="Ref #" xml:space="preserve"><value>ref #</value></data>
+	<data name="Ref No" xml:space="preserve"><value>Ref No.</value></data>
+	<data name="Ref. #" xml:space="preserve"><value>심판 #</value></data>
+	<data name="Ref. No" xml:space="preserve"><value>심판 아니</value></data>
+	<data name="Reference#" xml:space="preserve"><value>참조#</value></data>
+	<data name="Save successfully." xml:space="preserve"><value>성공적으로 저장하십시오.</value></data>
+	<data name="Saving successfully" xml:space="preserve"><value>성공적으로 저장하십시오</value></data>
+	<data name="Select Outlet" xml:space="preserve"><value>콘센트를 선택하십시오</value></data>
+	<data name="Select Tax Rate Percentage" xml:space="preserve"><value>세율을 선택하십시오</value></data>
+	<data name="Select Unit" xml:space="preserve"><value>단위를 선택하십시오</value></data>
+	<data name="Smaller than Reference" xml:space="preserve"><value>참조보다 작다</value></data>
+	<data name="Stock Adjustment" xml:space="preserve"><value>주식 조정</value></data>
+	<data name="Stock Take Date" xml:space="preserve"><value>재고가 거래 할거야</value></data>
+	<data name="Stock Take Information" xml:space="preserve"><value>주식 정보를 얻으십시오</value></data>
+	<data name="Inventory Information" xml:space="preserve"><value>재고 정보</value></data>
+	<data name="All Inventory Transation" xml:space="preserve"><value>모든 인벤토리 전송</value></data>
+	<data name="All Inventory Transation History" xml:space="preserve"><value>모든 인벤토리 전이 기록</value></data>
+	<data name="Inventory Transaction" xml:space="preserve"><value>인벤토리 거래</value></data>
+	<data name="All Stock Take History" xml:space="preserve"><value>모든 주식은 역사를 착용합니다</value></data>
+	<data name="Stock Take" xml:space="preserve"><value>주식 섭취</value></data>
+	<data name="All Stock Take" xml:space="preserve"><value>모든 주식</value></data>
+	<data name="Deleted Stock Take" xml:space="preserve"><value>삭제 된 주식</value></data>
+	<data name="ST#" xml:space="preserve"><value>성#</value></data>
+	<data name="Stock Take#" xml:space="preserve"><value>재고 #</value></data>
+	<data name="Stock take item cannot be empty." xml:space="preserve"><value>주식 품목을 비울 수 없습니다.</value></data>
+	<data name="Stock Transfer" xml:space="preserve"><value>주식 양도</value></data>
+	<data name="Stock Transfer#" xml:space="preserve"><value>재고 이동 #</value></data>
+	<data name="SF Date" xml:space="preserve"><value>SF 날짜</value></data>
+	<data name="SF#" xml:space="preserve"><value>SF #</value></data>
+	<data name="All Stock Transfer" xml:space="preserve"><value>모든 주식 이전</value></data>
+	<data name="Deleted Stock Transfer" xml:space="preserve"><value>삭제 된 재고 이동</value></data>
+	<data name="Stock Transfer Date" xml:space="preserve"><value>재고 송금 일</value></data>
+	<data name="stock_take_date" xml:space="preserve"><value>stock_take_date.</value></data>
+	<data name="This production is already fulfilled" xml:space="preserve"><value>이 생산은 이미 충족되었습니다</value></data>
+	<data name="This production is already fulfilled." xml:space="preserve"><value>이 생산은 이미 충족되었습니다.</value></data>
+	<data name="To Business Branch" xml:space="preserve"><value>비즈니스 지점에</value></data>
+	<data name="To Stock" xml:space="preserve"><value>주식에</value></data>
+	<data name="To Stock Location" xml:space="preserve"><value>주식 장소에</value></data>
+	<data name="To Warehouse" xml:space="preserve"><value>창고에</value></data>
+	<data name="unit_reference" xml:space="preserve"><value>Unit_reference.</value></data>
+	<data name="All Branches" xml:space="preserve"><value>모든 지사</value></data>
+	<data name="Please enter keywords 3 or more characters" xml:space="preserve"><value>키워드 3 문자를 입력하십시오</value></data>
+	<data name="Add Printer" xml:space="preserve"><value>프린터 추가</value></data>
+	<data name="All Customers" xml:space="preserve"><value>모든 고객</value></data>
+	<data name="All Vendor" xml:space="preserve"><value>모든 공급 업체</value></data>
+	<data name="All Vendors" xml:space="preserve"><value>모든 공급 업체</value></data>
+	<data name="Base Currency" xml:space="preserve"><value>기본 통화</value></data>
+	<data name="Category Note" xml:space="preserve"><value>카테고리 노트</value></data>
+	<data name="Change Base Currency" xml:space="preserve"><value>기본 통화 변경</value></data>
+	<data name="Country" xml:space="preserve"><value>국가</value></data>
+	<data name="Credit Customer" xml:space="preserve"><value>신용 고객</value></data>
+	<data name="Credit Customers" xml:space="preserve"><value>신용 고객</value></data>
+	<data name="Group Item Type" xml:space="preserve"><value>그룹 항목 유형</value></data>
+	<data name="Kitchen Group" xml:space="preserve"><value>주방 그룹</value></data>
+	<data name="Load data fail. Please try again." xml:space="preserve"><value>로드 데이터가 실패합니다. 다시 시도하십시오.</value></data>
+	<data name="Months" xml:space="preserve"><value>개월</value></data>
+	<data name="has been remove from this menu" xml:space="preserve"><value>이 메뉴에서 제거되었습니다</value></data>
+	<data name="Move to" xml:space="preserve"><value>...로 이동하다</value></data>
+	<data name="Next 14 Days" xml:space="preserve"><value>다음 14 일</value></data>
+	<data name="Next week" xml:space="preserve"><value>다음주</value></data>
+	<data name="Please enter exchange rate" xml:space="preserve"><value>환율을 입력하십시오</value></data>
+	<data name="Please enter exchange rate." xml:space="preserve"><value>환율을 입력하십시오.</value></data>
+	<data name="Print cut by order" xml:space="preserve"><value>주문으로 잘라 인쇄</value></data>
+	<data name="Print cut by order line" xml:space="preserve"><value>주문 라인으로 잘라 인쇄</value></data>
+	<data name="Print cut by order quantity" xml:space="preserve"><value>주문 수량으로 인쇄하십시오</value></data>
+	<data name="Printer" xml:space="preserve"><value>인쇄기</value></data>
+	<data name="Printer Name" xml:space="preserve"><value>프린터 이름</value></data>
+	<data name="Printers" xml:space="preserve"><value>프린터</value></data>
+	<data name="Quick Select Date" xml:space="preserve"><value>빠른 선택 날짜</value></data>
+	<data name="Revenue Group" xml:space="preserve"><value>수익 그룹</value></data>
+	<data name="Add Revenue Group" xml:space="preserve"><value>수익 그룹 추가</value></data>
+	<data name="Revenue Group En" xml:space="preserve"><value>수익 그룹 en.</value></data>
+	<data name="Revenue Group Kh" xml:space="preserve"><value>수익 그룹 KH.</value></data>
+	<data name="Edit Role" xml:space="preserve"><value>역할 편집</value></data>
+	<data name="Add New Role" xml:space="preserve"><value>새 역할 추가</value></data>
+	<data name="New Role" xml:space="preserve"><value>새로운 역할</value></data>
+	<data name="Role Name" xml:space="preserve"><value>역할 이름</value></data>
+	<data name="Role" xml:space="preserve"><value>역할</value></data>
+	<data name="Active Role" xml:space="preserve"><value>적극적인 역할</value></data>
+	<data name="Inactive Role" xml:space="preserve"><value>비활성 역할</value></data>
+	<data name="Deleted Role" xml:space="preserve"><value>삭제 된 역할</value></data>
+	<data name="All Role" xml:space="preserve"><value>모든 역할</value></data>
+	<data name="Select Branch" xml:space="preserve"><value>분기를 선택하십시오</value></data>
+	<data name="Select Branches" xml:space="preserve"><value>분기를 선택하십시오</value></data>
+	<data name="Select Business Branch" xml:space="preserve"><value>비즈니스 지점을 선택하십시오</value></data>
+	<data name="Select Business Branches" xml:space="preserve"><value>비즈니스 브랜치를 선택하십시오</value></data>
+	<data name="Select Category Note" xml:space="preserve"><value>카테고리 노트를 선택하십시오</value></data>
+	<data name="Select Country" xml:space="preserve"><value>국가를 선택하십시오</value></data>
+	<data name="Select Currency" xml:space="preserve"><value>통화 선택</value></data>
+	<data name="Please enter currency name" xml:space="preserve"><value>통화 이름을 입력하십시오</value></data>
+	<data name="Select Date" xml:space="preserve"><value>날짜를 선택하십시오</value></data>
+	<data name="Select Inventory Transaction Type" xml:space="preserve"><value>인벤토리 트랜잭션 유형을 선택하십시오</value></data>
+	<data name="Select Kitchen Group" xml:space="preserve"><value>주방 그룹을 선택하십시오</value></data>
+	<data name="Select Portion" xml:space="preserve"><value>일부를 선택하십시오</value></data>
+	<data name="Select Price Rule" xml:space="preserve"><value>가격 규칙을 선택하십시오</value></data>
+	<data name="Company Name" xml:space="preserve"><value>회사 이름</value></data>
+	<data name="Contact Name" xml:space="preserve"><value>담당자 이름</value></data>
+	<data name="Contact Phone" xml:space="preserve"><value>연락 전화 번호</value></data>
+	<data name="Contact Office Phone" xml:space="preserve"><value>Office Phone에 문의하십시오</value></data>
+	<data name="Company Name KH" xml:space="preserve"><value>회사 이름 KH.</value></data>
+	<data name="Active Vendor" xml:space="preserve"><value>활성 공급 업체</value></data>
+	<data name="Deleted Vendor" xml:space="preserve"><value>삭제 된 공급 업체</value></data>
+	<data name="Inactive Vendor" xml:space="preserve"><value>비활성 공급 업체</value></data>
+	<data name="Overview" xml:space="preserve"><value>개요</value></data>
+	<data name="Mobile Phone" xml:space="preserve"><value>휴대 전화</value></data>
+	<data name="Office Phone" xml:space="preserve"><value>사무실 전화</value></data>
+	<data name="Select Product Category" xml:space="preserve"><value>제품 카테고리를 선택하십시오</value></data>
+	<data name="Product Categories" xml:space="preserve"><value>제품 카테고리</value></data>
+	<data name="Categories" xml:space="preserve"><value>카테고리</value></data>
+	<data name="All Category" xml:space="preserve"><value>모든 카테고리</value></data>
+	<data name="All Product Category" xml:space="preserve"><value>모든 제품 카테고리</value></data>
+	<data name="All Product Group" xml:space="preserve"><value>모든 제품 그룹</value></data>
+	<data name="Select Product Group" xml:space="preserve"><value>제품 그룹을 선택하십시오</value></data>
+	<data name="Select Revenue Group" xml:space="preserve"><value>수익 그룹을 선택하십시오</value></data>
+	<data name="Select Role" xml:space="preserve"><value>역할을 선택하십시오</value></data>
+	<data name="Select Stock Location" xml:space="preserve"><value>선택 위치를 선택하십시오</value></data>
+	<data name="Select Vendor" xml:space="preserve"><value>벤더를 선택하십시오</value></data>
+	<data name="Select Vendor Group" xml:space="preserve"><value>공급 업체 그룹을 선택하십시오</value></data>
+	<data name="There is no business branch. Please enter business branch first." xml:space="preserve"><value>비즈니스 지점이 없습니다. 먼저 비즈니스 지점을 입력하십시오.</value></data>
+	<data name="Update currency" xml:space="preserve"><value>통화 업데이트</value></data>
+	<data name="Update Exchange Rate" xml:space="preserve"><value>Exchange Rate을 업데이트하십시오</value></data>
+	<data name="Vendor Groups" xml:space="preserve"><value>공급 업체 그룹</value></data>
+	<data name="Vendors" xml:space="preserve"><value>벤더</value></data>
+	<data name="Address" xml:space="preserve"><value>주소</value></data>
+	<data name="Address &amp; Note" xml:space="preserve"><value>주소 및 주</value></data>
+	<data name="Address_and_Note" xml:space="preserve"><value>address_and_note.</value></data>
+	<data name="Area_Chart" xml:space="preserve"><value>area_chart.</value></data>
+	<data name="Bar_Chart" xml:space="preserve"><value>막대 차트</value></data>
+	<data name="Change Exchange Rate" xml:space="preserve"><value>환율 변경 비율</value></data>
+	<data name="City" xml:space="preserve"><value>도시</value></data>
+	<data name="Comments" xml:space="preserve"><value>코멘트</value></data>
+	<data name="Company" xml:space="preserve"><value>회사</value></data>
+	<data name="Credit Balance" xml:space="preserve"><value>신용 잔액</value></data>
+	<data name="Customer Code" xml:space="preserve"><value>고객 코드</value></data>
+	<data name="Customer Photo" xml:space="preserve"><value>고객 사진</value></data>
+	<data name="Customer Name En" xml:space="preserve"><value>고객 이름 en.</value></data>
+	<data name="Customer Name Kh" xml:space="preserve"><value>고객 이름 KH.</value></data>
+	<data name="Discount Type" xml:space="preserve"><value>할인 유형</value></data>
+	<data name="PO Discount" xml:space="preserve"><value>PO 할인</value></data>
+	<data name="Discount Value" xml:space="preserve"><value>할인 값</value></data>
+	<data name="Contact Email" xml:space="preserve"><value>이메일 연락처</value></data>
+	<data name="Office Email" xml:space="preserve"><value>사무실 이메일</value></data>
+	<data name="Email" xml:space="preserve"><value>이메일</value></data>
+	<data name="Email Address" xml:space="preserve"><value>이메일 주소</value></data>
+	<data name="Female" xml:space="preserve"><value>여자</value></data>
+	<data name="Group" xml:space="preserve"><value>그룹</value></data>
+	<data name="Inventory" xml:space="preserve"><value>목록</value></data>
+	<data name="Line_Chart" xml:space="preserve"><value>line_chart.</value></data>
+	<data name="Male" xml:space="preserve"><value>남성</value></data>
+	<data name="More" xml:space="preserve"><value>더</value></data>
+	<data name="Name_En" xml:space="preserve"><value>name_en.</value></data>
+	<data name="Name_Kh" xml:space="preserve"><value>이름 _kh.</value></data>
+	<data name="Not Set" xml:space="preserve"><value>설정되지 않았습니다</value></data>
+	<data name="of" xml:space="preserve"><value>의</value></data>
+	<data name="Other information" xml:space="preserve"><value>기타 정보</value></data>
+	<data name="Ingredient Product Information" xml:space="preserve"><value>성분 제품 정보</value></data>
+	<data name="Inventory / Ingredient Product" xml:space="preserve"><value>재고 / 성분 제품</value></data>
+	<data name="Inventory / Production Product" xml:space="preserve"><value>재고 / 생산 제품</value></data>
+	<data name="Stock Transfer Information" xml:space="preserve"><value>재고 이동 정보</value></data>
+	<data name="Product Information" xml:space="preserve"><value>제품 정보</value></data>
+	<data name="Phone 1" xml:space="preserve"><value>전화 1.</value></data>
+	<data name="Phone 2" xml:space="preserve"><value>전화 2.</value></data>
+	<data name="Phone No" xml:space="preserve"><value>전화 번호</value></data>
+	<data name="Phone Number" xml:space="preserve"><value>전화 번호</value></data>
+	<data name="Photo" xml:space="preserve"><value>사진</value></data>
+	<data name="Product Category Name En" xml:space="preserve"><value>제품 카테고리 이름 en.</value></data>
+	<data name="Product Category Name Kh" xml:space="preserve"><value>제품 카테고리 이름 KH.</value></data>
+	<data name="Product Name" xml:space="preserve"><value>상품명</value></data>
+	<data name="Sale Payment History" xml:space="preserve"><value>판매 기록</value></data>
+	<data name="Sale Product History" xml:space="preserve"><value>판매 제품 기록</value></data>
+	<data name="sale_and_new" xml:space="preserve"><value>sale_and_new.</value></data>
+	<data name="Sale_Document_No" xml:space="preserve"><value>sale_document_no.</value></data>
+	<data name="Select Customer Group" xml:space="preserve"><value>고객 그룹을 선택하십시오</value></data>
+	<data name="Showing" xml:space="preserve"><value>전시</value></data>
+	<data name="Branch Information" xml:space="preserve"><value>분기 정보</value></data>
+	<data name="Social Media Information" xml:space="preserve"><value>소셜 미디어 정보</value></data>
+	<data name="Station Name" xml:space="preserve"><value>역 이름</value></data>
+	<data name="There is no station" xml:space="preserve"><value>거기에는 역이 없습니다</value></data>
+	<data name="Time (s)" xml:space="preserve"><value>시간 (들)</value></data>
+	<data name="Total Receivable" xml:space="preserve"><value>총 채수 가능</value></data>
+	<data name="Total Sale" xml:space="preserve"><value>총 판매</value></data>
+	<data name="User Management" xml:space="preserve"><value>사용자 관리</value></data>
+	<data name="User Type Name" xml:space="preserve"><value>사용자 유형 이름</value></data>
+	<data name="Yearly Sale" xml:space="preserve"><value>매년 판매</value></data>
+	<data name="Products" xml:space="preserve"><value>제품</value></data>
+	<data name="Association Modifiers" xml:space="preserve"><value>협회 수정 자</value></data>
+	<data name="Association Products" xml:space="preserve"><value>협회 제품</value></data>
+	<data name="Associate Product" xml:space="preserve"><value>준회원 제품</value></data>
+	<data name="Associate Products &amp; Modifiers" xml:space="preserve"><value>Associate Products &amp; Modifiers.</value></data>
+	<data name="Modifier Section" xml:space="preserve"><value>수정 자 섹션</value></data>
+	<data name="Add Section" xml:space="preserve"><value>섹션을 추가하십시오</value></data>
+	<data name="Section Name" xml:space="preserve"><value>섹션 이름</value></data>
+	<data name="Product Category &amp; Group" xml:space="preserve"><value>제품 카테고리 &amp; 그룹</value></data>
+	<data name="New Category &amp; Group" xml:space="preserve"><value>새로운 카테고리 &amp; 그룹</value></data>
+	<data name="New Product Category &amp; Group" xml:space="preserve"><value>신제품 카테고리 및 그룹</value></data>
+	<data name="Edit Product Category &amp; Group" xml:space="preserve"><value>제품 범주 및 그룹 편집</value></data>
+	<data name="Add New Menu" xml:space="preserve"><value>새 메뉴 추가</value></data>
+	<data name="Add New Root Menu" xml:space="preserve"><value>새 루트 메뉴를 추가하십시오</value></data>
+	<data name="Add Sub Menu" xml:space="preserve"><value>하위 메뉴 추가</value></data>
+	<data name="Asign Products" xml:space="preserve"><value>Asign 제품</value></data>
+	<data name="Back" xml:space="preserve"><value>뒤</value></data>
+	<data name="Background Color" xml:space="preserve"><value>배경색</value></data>
+	<data name="Cannot connect to ePOS Server. Please contact your system administrator." xml:space="preserve"><value>EPOS 서버에 연결할 수 없습니다. 시스템 관리자에게 문의하십시오.</value></data>
+	<data name="Confirm data fail. Please try again" xml:space="preserve"><value>데이터를 확인하십시오. 다시 시도하십시오</value></data>
+	<data name="Confirm data fail. Please try again." xml:space="preserve"><value>데이터를 확인하십시오. 다시 시도하십시오.</value></data>
+	<data name="Delete record successfully" xml:space="preserve"><value>기록을 성공적으로 삭제하십시오</value></data>
+	<data name="Delete record successfully." xml:space="preserve"><value>레코드를 성공적으로 삭제하십시오.</value></data>
+	<data name="does not have outlet." xml:space="preserve"><value>콘센트가 없습니다.</value></data>
+	<data name="does not have station." xml:space="preserve"><value>스테이션이 없습니다.</value></data>
+	<data name="does not have stock location." xml:space="preserve"><value>재고 위치가 없습니다.</value></data>
+	<data name="Edit Menu" xml:space="preserve"><value>메뉴 편집</value></data>
+	<data name="Empty" xml:space="preserve"><value>비어있는</value></data>
+	<data name="Menu Information" xml:space="preserve"><value>메뉴 정보</value></data>
+	<data name="Menu Name (En)" xml:space="preserve"><value>메뉴 이름 (en)</value></data>
+	<data name="Menu Name (Kh)" xml:space="preserve"><value>메뉴 이름 (KH)</value></data>
+	<data name="Menus" xml:space="preserve"><value>메뉴</value></data>
+	<data name="Parent Menu" xml:space="preserve"><value>상위 메뉴</value></data>
+	<data name="Payment amount cannot greater than Balance Amount." xml:space="preserve"><value>지불 금액은 균형 금액보다 크지 않습니다.</value></data>
+	<data name="Please enter product category name" xml:space="preserve"><value>제품 범주 이름을 입력하십시오</value></data>
+	<data name="Please enter product category name." xml:space="preserve"><value>제품 범주 이름을 입력하십시오.</value></data>
+	<data name="Please select menu" xml:space="preserve"><value>메뉴를 선택하십시오</value></data>
+	<data name="Selected Products" xml:space="preserve"><value>선택한 제품</value></data>
+	<data name="Selected Menus" xml:space="preserve"><value>선택한 메뉴</value></data>
+	<data name="Please choose Business branch." xml:space="preserve"><value>비즈니스 지점을 선택하십시오.</value></data>
+	<data name="Restore record successfully" xml:space="preserve"><value>레코드를 성공적으로 복원하십시오</value></data>
+	<data name="Restore record successfully." xml:space="preserve"><value>레코드를 성공적으로 복원하십시오.</value></data>
+	<data name="Restore Recored" xml:space="preserve"><value>Restore Restored</value></data>
+	<data name="Root Menu" xml:space="preserve"><value>루트 메뉴</value></data>
+	<data name="Saving successfully." xml:space="preserve"><value>성공적으로 저장하십시오.</value></data>
+	<data name="Sort Order" xml:space="preserve"><value>정렬 순서</value></data>
+	<data name="Text Color" xml:space="preserve"><value>텍스트 색상</value></data>
+	<data name="There are no product found" xml:space="preserve"><value>제품이 없습니다</value></data>
+	<data name="There is no payment record" xml:space="preserve"><value>지불 기록이 없습니다</value></data>
+	<data name="There is no payment record." xml:space="preserve"><value>지불 기록이 없습니다.</value></data>
+	<data name="Update data successfully" xml:space="preserve"><value>데이터를 성공적으로 업데이트합니다</value></data>
+	<data name="Update data successfully." xml:space="preserve"><value>데이터를 성공적으로 업데이트하십시오.</value></data>
+	<data name="Add New Vendor" xml:space="preserve"><value>새로운 공급 업체 추가</value></data>
+	<data name="Are you sure you want to mark this currency as main currency?" xml:space="preserve"><value>이 통화를 주요 통화로 표시하고 싶습니까?</value></data>
+	<data name="Are you sure you want to make as fulfilled?" xml:space="preserve"><value>당신은 당신이 성취되도록하고 싶습니까?</value></data>
+	<data name="Are you sure you want toâ€‹ cancel make as fulfilled?" xml:space="preserve"><value>처리된 것으로 확인을 취소하시겠습니까?</value></data>
+	<data name="Cancel Make As Fulfilled" xml:space="preserve"><value>취소하기 완료</value></data>
+	<data name="Cancel Mark as fulfilled successfully" xml:space="preserve"><value>성공적으로 완성 된 마크를 취소하십시오</value></data>
+	<data name="Cancel Mark as fulfilled successfully." xml:space="preserve"><value>성공적으로 완성 된 마크를 취소하십시오.</value></data>
+	<data name="Cannot transfer to same stock location" xml:space="preserve"><value>같은 주식 위치로 옮길 수 없습니다</value></data>
+	<data name="Cannot transfer to same stock location." xml:space="preserve"><value>같은 주식 위치로 옮길 수 없습니다.</value></data>
+	<data name="Load data fail" xml:space="preserve"><value>데이터로드가 실패합니다</value></data>
+	<data name="Load data fail." xml:space="preserve"><value>로드 데이터가 실패합니다.</value></data>
+	<data name="Mark as fulfilled successfull." xml:space="preserve"><value>성공한 성공으로 표시됩니다.</value></data>
+	<data name="Mark as fulfilled successfully" xml:space="preserve"><value>성공적으로 충족 된 것으로 표시하십시오</value></data>
+	<data name="Please select from business branch" xml:space="preserve"><value>비즈니스 지점에서 선택하십시오</value></data>
+	<data name="Please select from business branch." xml:space="preserve"><value>비즈니스 지점에서 선택하십시오.</value></data>
+	<data name="Please select from stock location" xml:space="preserve"><value>재고 위치에서 선택하십시오</value></data>
+	<data name="Please select from stock location." xml:space="preserve"><value>재고 위치에서 선택하십시오.</value></data>
+	<data name="Please select product" xml:space="preserve"><value>제품을 선택하십시오</value></data>
+	<data name="Please select product." xml:space="preserve"><value>제품을 선택하십시오.</value></data>
+	<data name="Please select products to make purchase order" xml:space="preserve"><value>구매 주문을 위해 제품을 선택하십시오</value></data>
+	<data name="Please select to business branch" xml:space="preserve"><value>비즈니스 지점을 선택하십시오</value></data>
+	<data name="Please select to business branch." xml:space="preserve"><value>비즈니스 지점을 선택하십시오.</value></data>
+	<data name="Please select to stock location" xml:space="preserve"><value>주식 위치를 선택하십시오</value></data>
+	<data name="Please select to stock location." xml:space="preserve"><value>재고 위치를 선택하십시오.</value></data>
+	<data name="Save data fail." xml:space="preserve"><value>데이터 저장 실패.</value></data>
+	<data name="Search product fail" xml:space="preserve"><value>검색 제품 실패</value></data>
+	<data name="Stock transfer item cannot be empty." xml:space="preserve"><value>재고 전송 항목은 비어있을 수 없습니다.</value></data>
+	<data name="Check system feature complete" xml:space="preserve"><value>시스템 기능을 확인하십시오</value></data>
+	<data name="Delete data fail" xml:space="preserve"><value>데이터 삭제가 실패합니다</value></data>
+	<data name="Delete record fail" xml:space="preserve"><value>레코드 삭제 실패</value></data>
+	<data name="Delete record fail." xml:space="preserve"><value>레코드 삭제가 실패합니다.</value></data>
+	<data name="Discount code cannot empty" xml:space="preserve"><value>할인 코드가 비어있을 수 없습니다</value></data>
+	<data name="Incorrect file extension" xml:space="preserve"><value>잘못된 파일 확장자</value></data>
+	<data name="Password is too short or empty" xml:space="preserve"><value>암호가 너무 짧거나 비어 있습니다</value></data>
+	<data name="Please enter valid Min and Max number" xml:space="preserve"><value>유효한 최소 및 최대 번호를 입력하십시오</value></data>
+	<data name="Please select user type" xml:space="preserve"><value>사용자 유형을 선택하십시오</value></data>
+	<data name="This user is already exist" xml:space="preserve"><value>이 사용자는 이미 존재합니다</value></data>
+	<data name="You can delete this group. It is already in used." xml:space="preserve"><value>이 그룹을 삭제할 수 있습니다. 이미 사용되었습니다.</value></data>
+	<data name="You cannot delete current login user" xml:space="preserve"><value>현재 로그인 사용자는 삭제할 수 없습니다</value></data>
+	<data name="You cannot disable current login user." xml:space="preserve"><value>현재 로그인 사용자를 비활성화 할 수는 없습니다.</value></data>
+	<data name="You cannot update status of this record" xml:space="preserve"><value>이 레코드의 상태를 업데이트 할 수 없습니다</value></data>
+	<data name="You have to logout after change username or password." xml:space="preserve"><value>사용자 이름이나 암호를 변경 한 후에 로그 아웃해야합니다.</value></data>
+	<data name="Your cannot remove the default record" xml:space="preserve"><value>기본 레코드를 제거 할 수 없습니다</value></data>
+	<data name="Save successfully" xml:space="preserve"><value>성공적으로 저장하십시오</value></data>
+	<data name="Reports" xml:space="preserve"><value>보고서</value></data>
+	<data name="What Next?" xml:space="preserve"><value>다음은 무엇입니까?</value></data>
+	<data name="You can mark this purchase order as Fulfilled" xml:space="preserve"><value>이 구매 주문을 완료로 표시 할 수 있습니다</value></data>
+	<data name="Draft" xml:space="preserve"><value>초안</value></data>
+	<data name="Overdue" xml:space="preserve"><value>기한</value></data>
+	<data name="You can mark this transansaction as Fulfilled" xml:space="preserve"><value>이런 수송을 완성으로 표시 할 수 있습니다</value></data>
+	<data name="You can mark this transansaction as Fulfilled." xml:space="preserve"><value>이런 송환을 완성으로 표시 할 수 있습니다.</value></data>
+	<data name="Portion" xml:space="preserve"><value>부분</value></data>
+	<data name="Last modified" xml:space="preserve"><value>마지막으로 수정되었습니다</value></data>
+	<data name="Cancel Mark as Fulfilled" xml:space="preserve"><value>완성 된 마크를 취소하십시오</value></data>
+	<data name="Clone Production" xml:space="preserve"><value>복제 생산</value></data>
+	<data name="Attach File" xml:space="preserve"><value>파일을 첨부</value></data>
+	<data name="Attach Files" xml:space="preserve"><value>파일 첨부</value></data>
+	<data name="Invoice File Name" xml:space="preserve"><value>송장 파일 이름</value></data>
+	<data name="Receipt File Name" xml:space="preserve"><value>영수증 파일 이름</value></data>
+	<data name="Receipt Name" xml:space="preserve"><value>영수증 이름</value></data>
+	<data name="Add New POS Invoice" xml:space="preserve"><value>새 POS 송장을 추가하십시오</value></data>
+	<data name="Please enter POS invoice information" xml:space="preserve"><value>POS 송장 정보를 입력하십시오</value></data>
+	<data name="Save data fail" xml:space="preserve"><value>데이터 저장 실패</value></data>
+	<data name="Save data successfully" xml:space="preserve"><value>데이터를 성공적으로 저장하십시오</value></data>
+	<data name="Save data successfully." xml:space="preserve"><value>데이터를 성공적으로 저장하십시오.</value></data>
+	<data name="Invoice Copies" xml:space="preserve"><value>송장 사본</value></data>
+	<data name="POS Invoices" xml:space="preserve"><value>POS 송장</value></data>
+	<data name="POS Receipts" xml:space="preserve"><value>POS 영수증</value></data>
+	<data name="Receipt Copies" xml:space="preserve"><value>영수증 사본</value></data>
+	<data name="Active Expenses" xml:space="preserve"><value>활성 비용</value></data>
+	<data name="Add New Expense" xml:space="preserve"><value>새로운 비용을 추가하십시오</value></data>
+	<data name="All Expenses" xml:space="preserve"><value>모든 경비</value></data>
+	<data name="Currency Name" xml:space="preserve"><value>통화 이름</value></data>
+	<data name="Deleted Expenses" xml:space="preserve"><value>삭제 된 비용</value></data>
+	<data name="Edit Expense" xml:space="preserve"><value>비용 편집</value></data>
+	<data name="Edit Expense Category" xml:space="preserve"><value>비용 범주 편집</value></data>
+	<data name="Expense by" xml:space="preserve"><value>비용</value></data>
+	<data name="Expense Category" xml:space="preserve"><value>비용 카테고리</value></data>
+	<data name="Expense Date" xml:space="preserve"><value>비용 날짜</value></data>
+	<data name="Expense Information" xml:space="preserve"><value>비용 정보</value></data>
+	<data name="Expense Item" xml:space="preserve"><value>비용 항목</value></data>
+	<data name="Expenses" xml:space="preserve"><value>경비</value></data>
+	<data name="Expenses Category" xml:space="preserve"><value>비용 카테고리</value></data>
+	<data name="Inactive Expenses" xml:space="preserve"><value>비활성 비용</value></data>
+	<data name="New Expense Category" xml:space="preserve"><value>새로운 비용 카테고리</value></data>
+	<data name="New Expenses" xml:space="preserve"><value>새로운 경비</value></data>
+	<data name="New Expenses Category" xml:space="preserve"><value>새로운 비용 카테고리</value></data>
+	<data name="Select expense category" xml:space="preserve"><value>비용 범주를 선택하십시오</value></data>
+	<data name="Select expense item" xml:space="preserve"><value>비용을 선택하십시오</value></data>
+	<data name="Select Payment Type" xml:space="preserve"><value>지불 유형을 선택하십시오</value></data>
+	<data name="ABA Dollar" xml:space="preserve"><value>아바 달러</value></data>
+	<data name="ABA Riel" xml:space="preserve"><value>아바 리엘</value></data>
+	<data name="Cash Bath" xml:space="preserve"><value>현금 목욕탕</value></data>
+	<data name="Cash Dollar" xml:space="preserve"><value>현금 달러</value></data>
+	<data name="Cash Expense(Riel)" xml:space="preserve"><value>현금 비용 (riel)</value></data>
+	<data name="Cash Riel" xml:space="preserve"><value>현금 릴</value></data>
+	<data name="Cash Sale (Riel)" xml:space="preserve"><value>현금 판매 (리엘)</value></data>
+	<data name="Closed Amount (Baht)" xml:space="preserve"><value>폐쇄 금액 (바트)</value></data>
+	<data name="Closed Amount (Dollar)" xml:space="preserve"><value>폐쇄 금액 (달러)</value></data>
+	<data name="Closed Amount (Riel)" xml:space="preserve"><value>폐쇄 금액 (RIEL)</value></data>
+	<data name="Expected Cash (Riel)" xml:space="preserve"><value>예상 현금 (RIEL)</value></data>
+	<data name="EXPENSE SUMMARY" xml:space="preserve"><value>비용 요약</value></data>
+	<data name="Starting Amount (Baht)" xml:space="preserve"><value>시작 금액 (바트)</value></data>
+	<data name="Total Closed Amount (Bath)" xml:space="preserve"><value>총 폐쇄 금액 (목욕)</value></data>
+	<data name="Total Closed Amount (Dollar)" xml:space="preserve"><value>총 폐쇄 금액 (달러)</value></data>
+	<data name="Total Closed Amount (Riel)" xml:space="preserve"><value>총 폐쇄 금액 (RIEL)</value></data>
+	<data name="Total Expense" xml:space="preserve"><value>총 비용</value></data>
+	<data name="Total payment (Bath)" xml:space="preserve"><value>총 지불 (목욕)</value></data>
+	<data name="Total payment (Riel)" xml:space="preserve"><value>총 지불 (RIEL)</value></data>
+	<data name="Acleda Dollar" xml:space="preserve"><value>acleda 달러</value></data>
+	<data name="Acleda Riel" xml:space="preserve"><value>acleda riel.</value></data>
+	<data name="Apply All" xml:space="preserve"><value>모두 적용하십시오</value></data>
+	<data name="Please click button below to add section." xml:space="preserve"><value>섹션을 추가하려면 아래 버튼을 클릭하십시오.</value></data>
+
 </root>

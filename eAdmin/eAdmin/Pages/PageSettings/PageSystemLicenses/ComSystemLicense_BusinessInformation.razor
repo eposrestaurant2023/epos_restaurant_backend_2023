@@ -1,7 +1,7 @@
 ﻿@inject IStringLocalizer<Resource> lang
 @inject IHttpService http
 
-<UIContainerBox Title="@lang["This license is belong to"]">
+<UIContainerBox Title="@lang["This license belongs to"]">
     <UISummaryBox ImageUrl="@gv.business_info?.company_logo" ShowImage="true">
         <ContentLeft>
             <table>
@@ -30,7 +30,7 @@
                     <td>@gv.business_info?.contact_name</td>
                 </tr>
                 <tr>
-                    <th>@lang["Contact Phone Number"]</th>
+                    <th>@lang["Contact Phone"]</th>
                     <td>@gv.business_info?.contact_phone_number</td>
                 </tr>
                 <tr>

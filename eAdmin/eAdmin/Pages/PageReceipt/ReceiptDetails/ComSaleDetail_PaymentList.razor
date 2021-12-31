@@ -62,7 +62,7 @@
     [Parameter] public EventCallback<bool> on_reload { get; set; }
     public SaleModel sale { get; set; } = new SaleModel();
     Guid payment_id = Guid.Empty;
-    bool is_loading, is_add_payment, is_print;
+    bool is_loading, is_add_payment;
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;

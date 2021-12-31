@@ -3,30 +3,30 @@
 <UIContainerBox Title="@lang["Menus"]">
     @if (is_loading)
     {
-        <Spinner/>
+        <Spinner />
     }
     else
     {
-        if (product_menus.Count() == 0)
-        {
+        <div class="box_select_menu">
+            @if (product_menus.Count() == 0)
+            {
             <p>@lang["There is no menu assigned for this product."]</p>
-        }
-    <div class="box_select_menu"> 
-    @foreach (var pm in product_menus.OrderBy(r => r.menu.business_branch.business_branch_name_en))
-    {
-        <div class="uk-flex uk-flex-inline uk-flex-between" style="width:100%;margin-bottom:10px;"> 
-            <div>
-                <Icon icon="check_box" />
-                <span>
-                    @pm.menu.menu_path
-                </span>
-            </div>
-            <div>
-                <Label Background="#3b5a79" Color="#fff" TextTooltip="@lang["Business Branch"]">@(gv.current_language.language_id == "km-KH"? pm.menu.business_branch.business_branch_name_kh: pm.menu.business_branch.business_branch_name_en)</Label>
-            </div>
+            }
+            @foreach (var pm in product_menus.OrderBy(r => r.menu.business_branch.business_branch_name_en))
+            {
+                <div class="uk-flex uk-flex-inline uk-flex-between" style="width:100%;margin-bottom:10px;">
+                    <div>
+                        <Icon icon="check_box" />
+                        <span>
+                            @pm.menu.menu_path
+                        </span>
+                    </div>
+                    <div>
+                        <Label Background="#3b5a79" Color="#fff" TextTooltip="@lang["Business Branch"]">@(gv.current_language.language_id == "km-KH"? pm.menu.business_branch.business_branch_name_kh: pm.menu.business_branch.business_branch_name_en)</Label>
+                    </div>
+                </div>
+            }
         </div>
-    }
-    </div>
     }
 </UIContainerBox>
 @code{

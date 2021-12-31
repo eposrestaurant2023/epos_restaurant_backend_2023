@@ -2071,6 +2071,29 @@ namespace eAPIClient.Migrations
                     b.ToTable("tbl_working_day");
                 });
 
+            modelBuilder.Entity("eShareModel.TranslateTextModel", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("key")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("language_code")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.Property<string>("value")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Khmer_100_BIN");
+
+                    b.HasKey("id");
+
+                    b.ToTable("tbl_translate_text");
+                });
+
             modelBuilder.Entity("eAPIClient.Models.CashDrawerAmountModel", b =>
                 {
                     b.HasOne("eAPIClient.Models.WorkingDayModel", "working_day")

@@ -120,6 +120,9 @@
   <data name="All Branch" xml:space="preserve">
     <value>សាខាទាំងអស់</value>
   </data>
+  <data name="This license belongs to" xml:space="preserve">
+    <value>អាជ្ញាប័ណ្ណនេះជាកម្មសិទ្ធិរបស់</value>
+  </data>
   <data name="Business Information" xml:space="preserve">
     <value>ព័ត៌មានអាជីវកម្ម</value>
   </data>
@@ -381,11 +384,20 @@
   <data name="Outlet" xml:space="preserve">
     <value>ទីតាំង</value>
   </data>
+  <data name="Outlets" xml:space="preserve">
+    <value>ទីតាំង</value>
+  </data>
+  <data name="Stations" xml:space="preserve">
+    <value>កន្លែងលក់</value>
+  </data>
   <data name="Station" xml:space="preserve">
     <value>កន្លែងលក់</value>
   </data>
   <data name="Cashier Station " xml:space="preserve">
     <value>ម៉ាស៊ីនគិតលុយ</value>
+  </data>
+	<data name="is expired" xml:space="preserve">
+    <value>បានផុតកំណត់ថ្ងៃនេះ</value>
   </data>
   <data name="is expired today." xml:space="preserve">
     <value>និងផុតកំណត់ថ្ងៃនេះ</value>
@@ -1500,6 +1512,9 @@
   <data name="Purchase Order Product" xml:space="preserve">
     <value>ទំនិញបញ្ជាទិញ</value>
   </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>ឃ្លាំង</value>
+  </data>
   <data name="Warehouse" xml:space="preserve">
     <value>ឃ្លាំង</value>
   </data>
@@ -1786,7 +1801,7 @@
     <value>រក្សាទុកជោគជ័យ</value>
   </data>
   <data name="Select Outlet" xml:space="preserve">
-    <value>ជ្រើសរើសកន្លែងលក់</value>
+    <value>ជ្រើសរើសទីតាំង</value>
   </data>
   <data name="Select Tax Rate Percentage" xml:space="preserve">
     <value>ជ្រើសរើសពន្ធ(%)</value>
@@ -2715,6 +2730,9 @@
   <data name="Expense Item" xml:space="preserve">
     <value>ឈ្មោះចំណាយ</value>
   </data>
+  <data name="Expenses Information" xml:space="preserve">
+    <value>ព័ត៌មានអំពីចំណាយ</value>
+  </data>
   <data name="Expenses" xml:space="preserve">
     <value>ចំណាយ</value>
   </data>
@@ -2730,6 +2748,9 @@
   <data name="New Expenses" xml:space="preserve">
     <value>បង្កើតចំណាយថ្មី</value>
   </data>
+	<data name="Add New Expenses Category" xml:space="preserve">
+    <value>បង្កើតប្រភេទចំណាយថ្មី</value>
+  </data>
   <data name="New Expenses Category" xml:space="preserve">
     <value>បង្កើតប្រភេទចំណាយថ្មី</value>
   </data>
@@ -2740,7 +2761,7 @@
     <value>សូមជ្រើសរើសឈ្មោះចំណាយ</value>
   </data>
   <data name="Select Payment Type" xml:space="preserve">
-    <value>សូមជ្រើសរើសប្រភេទចំណាយ</value>
+    <value>សូមជ្រើសរើសប្រភេទការទូទាត់</value>
   </data>
   <data name="ABA Dollar" xml:space="preserve">
     <value>ABA ដុល្លារ</value>
@@ -2810,5 +2831,23 @@
   </data>
   <data name="Please click button below to add section." xml:space="preserve">
     <value>សូមចុចលើប៊ូតុងខាងក្រោមដើម្បីបញ្ជូល Section</value>
+  </data>
+  <data name="Cashier station" xml:space="preserve">
+    <value>កុំព្យូទ័រគិតលុយ</value>
+  </data>
+  <data name="Make as cashier station" xml:space="preserve">
+    <value>ដាក់ជាកុំព្យូទ័ររគិតលុយ</value>
+  </data>
+  <data name="Make as cashier station successfully" xml:space="preserve">
+    <value>ដាក់ជាកុំព្យូទ័រគិតលុយបានជោគជ័យ</value>
+  </data>
+  <data name="Make as order station" xml:space="preserve">
+    <value>ដាក់ជាកុំព្យូទ័រកុម្មង់</value>
+  </data>
+  <data name="Make as order station successfully" xml:space="preserve">
+    <value>ដាក់ជាកុំព្យូទ័រកុម្មង់បានជោគជ័យ</value>
+  </data>
+  <data name="Order station" xml:space="preserve">
+    <value>កុំព្យូទ័រកុម្មង់</value>
   </data>
 </root>

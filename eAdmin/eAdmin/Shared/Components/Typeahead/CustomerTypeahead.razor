@@ -1,25 +1,24 @@
-﻿@inject IStringLocalizer<Resource> lang
-@inherits PageCore;
+﻿@inherits PageCore;
 <BlazoredTypeahead SearchMethod="SearchCustomer" @bind-Value="@selected_customer" Placeholder="@lang[placeholder]" class="uk-form-small" ShowDropDownOnFocus="true">
     <SelectedTemplate>
-        <Grid ClassName="uk-grid-small">
+        <eAdmin.Shared.Components.Grid ClassName="uk-grid-small">
             <Column ClassName="uk-width-auto">
                 <Image ImageUrl="@(http.ImageUrl(context.photo))" PopupImageUrl="@(http.ImageUrl(context.photo))" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
             </Column>
             <Column ClassName="uk-width-expand color_text">
                 @context.customer_name_en
             </Column>
-        </Grid>
+        </eAdmin.Shared.Components.Grid>
     </SelectedTemplate>
     <ResultTemplate>
-        <Grid ClassName="uk-grid-small uk-grid-divider">
+        <eAdmin.Shared.Components.Grid ClassName="uk-grid-small uk-grid-divider">
             <Column ClassName="uk-width-auto">
                 <Image ImageUrl="@(http.ImageUrl(context.photo))" PopupImageUrl="@(http.ImageUrl(context.photo))" IsLightBox="true" IsBackgroundImage="true" Width="30px" Height="30px" />
             </Column>
             <Column ClassName="uk-width-expand Color_#ff">
                 @context.customer_name_en
             </Column>
-        </Grid>
+        </eAdmin.Shared.Components.Grid>
     </ResultTemplate>
 </BlazoredTypeahead>
 

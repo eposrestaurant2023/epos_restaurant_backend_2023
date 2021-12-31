@@ -3,7 +3,7 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-     <Title Value="@lang["Set Permission"]"></Title>
+     <Microsoft.AspNetCore.Components.Web.Extensions.Head.Title Value="@lang["Set Permission"]"></Microsoft.AspNetCore.Components.Web.Extensions.Head.Title>
     <PageContainer roles="@gv.GetRole($"{(role_id > 0 ? "role_edit" : "role_add")}")">
         <PageHeader>
             <HeaderLeft>
@@ -81,7 +81,7 @@
     public HashSet<PermissionModel> SelectedOptionReport { get; set; } = new HashSet<PermissionModel>();
     List<PermissionModel> permissions{ get; set; } = new List<PermissionModel>();
     RoleModel role = new RoleModel();
-    bool is_fronend, is_backend, is_report, view_report;
+
     protected override async Task OnInitializedAsync()
     {
         is_loading = true;
@@ -139,16 +139,15 @@
 
     public void showisbackend()
     {
-        is_fronend = false;
-        is_backend = true;
-        is_report = false;
+         
+         
+         
     }
 
     public void showisreport()
     {
-        is_fronend = false;
-        is_backend = false;
-        is_report = true;
+         
+          
     }
 
     public class PermissionModel

@@ -23,7 +23,7 @@
 
         <PageBody>
             <UIGridCenter>
-                <UIContainerBox Title="@lang["Business ID"]">
+                <UIContainerBox Title="@lang["Business Information"]">
                     <ComAlert type="primary">
                         <div class="uk-padding">
                             <h4 class="uk-margin-remove uk-text-center">@gv.project_id</h4>
@@ -31,17 +31,17 @@
                     </ComAlert>
                     <div class="uk-grid-small" uk-grid uk-height-match="target: > div > .bg_kpi">
                         <div class="uk-width-1-2 uk-width-1-4@m">
-                            <UIBoxKpi value="@models.Count().ToString()" title="Branches" />
+                            <UIBoxKpi value="@models.Count().ToString()" title="@lang["Branches"]" />
                         </div>
 
                         <div class="uk-width-1-2 uk-width-1-4@m">
-                            <UIBoxKpi value="@models.SelectMany(r=>r.stock_locations).Count().ToString()" title="Warehouses" />
+                            <UIBoxKpi value="@models.SelectMany(r=>r.stock_locations).Count().ToString()" title="@lang["Warehouses"]" />
                         </div>
                         <div class="uk-width-1-2 uk-width-1-4@m">
-                            <UIBoxKpi value="@models.SelectMany(r=>r.outlets).Count().ToString()" title="Outlets" />
+                            <UIBoxKpi value="@models.SelectMany(r=>r.outlets).Count().ToString()" title="@lang["Outlets"]" />
                         </div>
                         <div class="uk-width-1-2 uk-width-1-4@m">
-                            <UIBoxKpi value="@models.SelectMany(r=>r.outlets).SelectMany(x=>x.stations).Count().ToString()" title="Stations" />
+                            <UIBoxKpi value="@models.SelectMany(r=>r.outlets).SelectMany(x=>x.stations).Count().ToString()" title="@lang["Stations"]" />
                         </div>
                     </div>
                 </UIContainerBox>

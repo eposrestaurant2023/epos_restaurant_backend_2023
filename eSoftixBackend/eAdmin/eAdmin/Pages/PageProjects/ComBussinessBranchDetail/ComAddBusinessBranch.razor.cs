@@ -15,10 +15,7 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
         [Inject] ISnackbar toast { get; set; }
         bool is_saving;
 
-        protected override async Task OnInitializedAsync()
-        {
-          
-        }
+      
 
         public async Task Save_Click()
         {

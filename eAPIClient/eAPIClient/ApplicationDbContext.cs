@@ -64,6 +64,7 @@ namespace eAPIClient
         public DbSet<HistoryModel> Histories{ get; set; }
 
         public DbSet<ExpenseModel> Expenses { get; set; }
+        public DbSet<eShareModel.TranslateTextModel> TranslateTexts{ get; set; }
 
 
     }

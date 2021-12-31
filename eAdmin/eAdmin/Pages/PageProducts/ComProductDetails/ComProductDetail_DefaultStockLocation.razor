@@ -3,21 +3,12 @@
 <div class="defualt-stock-location">
     <Spacing Number="15" />
     <div class="uk-text-bold uk-margin-small-bottom">@lang["Defualt Stock Location"]</div>
-    <Tab>
-        <TabHeader>
-            @foreach (var b in gv.business_branch_by_role)
+    <MudTabs PanelClass="pa-6">
+        @foreach (var b in gv.business_branch_by_role)
+        {
+            if (gv.business_branch_has_inventory(b.id.ToString()))
             {
-                if(gv.business_branch_has_inventory(b.id.ToString())){
-                     <TabHeaderItem>@(gv.current_language.language_id == "km-KH"?b.business_branch_name_kh : b.business_branch_name_en)</TabHeaderItem>
-                }
-               
-            }
-        </TabHeader>
-        <TabBody>
-            @foreach (var b in gv.business_branch_by_role)
-            {
-                 if(gv.business_branch_has_inventory(b.id.ToString())){
-                <TabItem>
+                <MudTabPanel Text="@(gv.current_language.language_id == "km-KH"?b.business_branch_name_kh : b.business_branch_name_en)">
                     <div class="uk-overflow-auto">
                         <table class="uk-table view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                             <tr>
@@ -53,11 +44,10 @@
                             }
                         </table>
                     </div>
-                </TabItem>
+                </MudTabPanel>
             }
-            }
-        </TabBody>
-    </Tab>
+        }
+    </MudTabs>
 
 </div>
  
