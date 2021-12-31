@@ -374,7 +374,7 @@ order by
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Doc. #,Date,Branch,Daily Sale Transaction,Outlet,Customer'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Doc. #,Date,Branch,Daily Sale Transaction,Outlet,Customer,QTY,Discount,Tax,Cost,Total Amount,Profit,User,Sub Total,Printed by,on,of,Page,Group'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -403,6 +403,58 @@ order by
         </Field>
         <Field Name="Customer">
           <DataField>Customer</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Discount">
+          <DataField>Discount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Tax">
+          <DataField>Tax</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cost">
+          <DataField>Cost</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_Amount">
+          <DataField>Total Amount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Profit">
+          <DataField>Profit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="User">
+          <DataField>User</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Sub_Total">
+          <DataField>Sub Total</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Printed_by">
+          <DataField>Printed by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="on">
+          <DataField>on</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="of">
+          <DataField>of</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Page">
+          <DataField>Page</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Group">
+          <DataField>Group</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -709,7 +761,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -749,7 +801,15 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Sub Total</Value>
+                                  <Value>=First(Fields!Sub_Total.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>l</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -763,6 +823,7 @@ order by
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <ToolTip>=First(Fields!Sub_Total.Value, "translate")</ToolTip>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -789,7 +850,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Discount</Value>
+                                  <Value>=First(Fields!Discount.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -829,7 +890,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Tax</Value>
+                                  <Value>=First(Fields!Tax.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -869,7 +930,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Cost</Value>
+                                  <Value>=First(Fields!Cost.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -909,7 +970,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total Amount</Value>
+                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -949,7 +1010,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Profit</Value>
+                                  <Value>=First(Fields!Profit.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -989,7 +1050,7 @@ order by
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>User</Value>
+                                  <Value>=First(Fields!User.Value, "translate")</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
@@ -2291,7 +2352,21 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Outlet: </Value>
+                      <Value> /</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Outlet.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2305,7 +2380,21 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Group: </Value>
+                      <Value> / </Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Group.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2319,7 +2408,21 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Customer: </Value>
+                      <Value> / </Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Customer.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2371,7 +2474,14 @@ order by
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Printed by: </Value>
+                      <Value>=First(Fields!Printed_by.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2384,7 +2494,20 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> on </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!on.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2420,7 +2543,14 @@ order by
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Page </Value>
+                      <Value>=First(Fields!Page.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh System</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2432,7 +2562,20 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> of </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!of.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
