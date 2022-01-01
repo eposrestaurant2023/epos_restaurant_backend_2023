@@ -14,20 +14,20 @@ namespace eAPIClient
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json", optional: false)
-        .Build();
+        //    var config = new ConfigurationBuilder()
+        //.AddJsonFile("appsettings.json", optional: false)
+        //.Build();
 
-            string hub_connection = config.GetValue<string>("hub_connection");
+        //    string hub_connection = config.GetValue<string>("hub_connection");
 
-            HubConnection connection = new HubConnectionBuilder().WithUrl(hub_connection).Build();
-            await connection.StartAsync();
-            connection.Closed += async (s) =>
-             {
-                 await connection.StartAsync();
-             };
+        //    HubConnection connection = new HubConnectionBuilder().WithUrl(hub_connection).Build();
+        //    await connection.StartAsync();
+        //    connection.Closed += async (s) =>
+        //     {
+        //         await connection.StartAsync();
+        //     };
            
             CreateHostBuilder(args).Build().Run();
         }

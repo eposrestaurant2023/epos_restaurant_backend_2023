@@ -37,7 +37,7 @@ namespace eAPIClient.Controllers
                     entidad.created_by = string.IsNullOrEmpty(entidad.created_by) ? user.username : entidad.created_by;
 
 
-                    entidad.last_modified_by = entidad.created_by;
+                    entidad.last_modified_by = string.IsNullOrEmpty(entidad.last_modified_by) ? user.username : entidad.last_modified_by;
                     entidad.last_modified_date = DateTime.Now;
                 }
 
@@ -52,7 +52,7 @@ namespace eAPIClient.Controllers
                         entidad.deleted_by = string.IsNullOrEmpty(entidad.deleted_by) ? user.username : entidad.deleted_by;
                     }
 
-                    entidad.last_modified_by = user.username;
+                    entidad.last_modified_by = string.IsNullOrEmpty(entidad.last_modified_by) ? user.username : entidad.last_modified_by; 
                     entidad.last_modified_date = DateTime.Now;
                 }
 
@@ -118,7 +118,7 @@ namespace eAPIClient.Controllers
                     entidad.created_date = DateTime.Now;
                     entidad.created_by = string.IsNullOrEmpty(entidad.created_by) ? user.username : entidad.created_by;
 
-                    entidad.last_modified_by = user.full_name;
+                    entidad.last_modified_by = string.IsNullOrEmpty(entidad.last_modified_by) ? user.username : entidad.last_modified_by;
                     entidad.last_modified_date = DateTime.Now;
                 }
                 //on entity modified base on core 
@@ -132,7 +132,7 @@ namespace eAPIClient.Controllers
                         entidad.deleted_by = string.IsNullOrEmpty(entidad.deleted_by) ? user.username : entidad.deleted_by;
                     }
 
-                    entidad.last_modified_by = user.full_name;
+                    entidad.last_modified_by = string.IsNullOrEmpty(entidad.last_modified_by) ? user.username : entidad.last_modified_by;
                     entidad.last_modified_date = DateTime.Now;
                 }
 
