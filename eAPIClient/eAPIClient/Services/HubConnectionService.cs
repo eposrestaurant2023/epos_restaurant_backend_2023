@@ -27,31 +27,17 @@ namespace eAPIClient.Services
         }
         public static void Fetch()
         {
-            try
-            {
-                connection.On<CustomerModel>("Sync", m => {
-                    string path = @$"c:\deleteme\FileCreatedFromClient{Guid.NewGuid()}.json";
-                    using (FileStream fs = File.Create(path))
-                    {
-                        byte[] info = new UTF8Encoding(true).GetBytes(JsonSerializer.Serialize(m));
-                        // Add some information to the file.
-                        fs.Write(info, 0, info.Length);
-                    }
-                });
-            }
-            catch (Exception e)
-            {
+            
+            connection.On<CustomerModel>("Sync", m => {
                 string path = @$"c:\deleteme\FileCreatedFromClient{Guid.NewGuid()}.json";
                 using (FileStream fs = File.Create(path))
                 {
-                    byte[] info = new UTF8Encoding(true).GetBytes(e.Message);
+                    byte[] info = new UTF8Encoding(true).GetBytes(JsonSerializer.Serialize(m));
                     // Add some information to the file.
                     fs.Write(info, 0, info.Length);
                 }
-                throw;
-            }
-           
-
+            });
+            
         }
     }
 }

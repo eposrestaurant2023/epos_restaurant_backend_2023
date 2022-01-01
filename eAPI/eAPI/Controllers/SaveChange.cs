@@ -4,11 +4,14 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using eShareModel;
+using Microsoft.AspNetCore.SignalR;
+using eAPI.Hubs;
 
 namespace eAPI.Controllers
 {
     public static class SaveChange
-    {
+    { 
+
         public static async Task SaveAsync(ApplicationDbContext db, int user_id)
         {
             UserModel user = await db.Users.FindAsync(user_id);
