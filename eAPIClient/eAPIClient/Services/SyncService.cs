@@ -33,20 +33,29 @@ namespace eAPIClient.Services
             var prepare_sync_response = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" });
             if (prepare_sync_response.IsSuccess)
             {
-                List<ConfigDataModel> config_datas = await GetConfigData(business_branch_id);
-                string _deleteQuery = string.Format("delete tbl_config_data where is_local_setting=0; ");
-                db.Database.ExecuteSqlRaw(_deleteQuery);
-                db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
-                db.SaveChanges();
-                return true;
+                List<ConfigDataModel> config_datas = new();
+                string url = "Configdata?$select=id,data,config_type,note,is_local_setting";
+                url = url + $"&$filter=business_branch_id eq {business_branch_id}";
+                var resp = await http.ApiGetOData(url);
+                if (resp.IsSuccess)
+                {
+
+                    config_datas =  JsonSerializer.Deserialize<List<ConfigDataModel>>(resp.Content.ToString());
+                    string _deleteQuery = string.Format("delete tbl_config_data where is_local_setting=0; ");
+                    db.Database.ExecuteSqlRaw(_deleteQuery);
+                    db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
+                    db.SaveChanges();
+                }
+
+               
+                
             }
 
             return false;
 
         }
 
-       
-
+     
 
     }
 }
