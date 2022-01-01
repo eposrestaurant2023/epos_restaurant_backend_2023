@@ -5,11 +5,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eAPI.Services;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -23,10 +25,11 @@ namespace eAPI.Controllers
     {
 
         private readonly ApplicationDbContext db;
+        private readonly IHubContext<ConnectionHub> hub;
         private readonly AppService app;
-        public CustomerController(ApplicationDbContext _db, AppService _app)
+        public CustomerController(ApplicationDbContext _db, AppService _app, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             app = _app;
         }
 
@@ -127,7 +130,7 @@ namespace eAPI.Controllers
             try
             {
 
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
                 db.Database.ExecuteSqlRaw($"exec sp_update_customer_information '{p.id}'");
                 if (is_synch_from_client)
@@ -177,7 +180,7 @@ namespace eAPI.Controllers
 
             db.Database.ExecuteSqlRaw($"exec sp_update_customer_information_after_delete '{id}'");
 
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(u);
         }
     }

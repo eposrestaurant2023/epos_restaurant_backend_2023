@@ -4,10 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -19,9 +21,10 @@ namespace eAPI.Controllers
     public class UnitController : ODataController
     {
         private readonly ApplicationDbContext db;
-        public UnitController(ApplicationDbContext _db)
+        private readonly IHubContext<ConnectionHub> hub;
+        public UnitController(ApplicationDbContext _db,IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
         }
 
         [HttpGet]
@@ -42,7 +45,7 @@ namespace eAPI.Controllers
             { 
                 db.Units.Update(u);
             }            
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(u);
         }
 

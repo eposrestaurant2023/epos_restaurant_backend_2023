@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using NETCore.Encrypt;
 using System.Text.Json;
+using eAPI.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace eAPI.Controllers
 {
@@ -23,9 +25,10 @@ namespace eAPI.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly AppService app;
-        public SalePaymentController(ApplicationDbContext _db, AppService _app)
+        private readonly IHubContext<ConnectionHub> hub;
+        public SalePaymentController(ApplicationDbContext _db, AppService _app, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             app = _app;
         }        
 
@@ -100,7 +103,7 @@ namespace eAPI.Controllers
             }
             try
             {
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             }catch(Exception ex)
             {
                 var msg = ex.Message;
@@ -129,7 +132,7 @@ namespace eAPI.Controllers
                 }
 
                 db.SalePayments.UpdateRange(p);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
                 return Ok(p);
             }
             catch (Exception ex)
@@ -163,7 +166,7 @@ namespace eAPI.Controllers
                 p.histories.Add(h);
                 p.is_deleted = true;
                 db.SalePayments.Update(p);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
                 db.Database.ExecuteSqlRaw($"exec sp_update_sale_information '{ p.sale_id}'");
                 return Ok(h);

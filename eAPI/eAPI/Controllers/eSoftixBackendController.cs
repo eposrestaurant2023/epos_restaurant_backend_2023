@@ -1,8 +1,10 @@
 ﻿using DeviceId;
+using eAPI.Hubs;
 using eAPI.Services;
 using eModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -23,6 +25,7 @@ namespace eAPI.Controllers
         private readonly ApplicationDbContext db;
         private readonly IHttpService http;
         private readonly BackendSyncService backend;
+        private readonly IHubContext<ConnectionHub> hub;
 
 
         eSoftixBackend.ProjectModel project = new eSoftixBackend.ProjectModel();
@@ -30,9 +33,9 @@ namespace eAPI.Controllers
 
 
 
-        public eSoftixBackendController(ApplicationDbContext _db, IConfiguration configuration, IHttpService _http, BackendSyncService _backend)
+        public eSoftixBackendController(ApplicationDbContext _db, IConfiguration configuration, IHttpService _http, BackendSyncService _backend, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             Configuration = configuration;
             http = _http;
             backend = _backend;

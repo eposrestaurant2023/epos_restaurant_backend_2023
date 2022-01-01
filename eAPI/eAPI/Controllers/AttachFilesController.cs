@@ -1,9 +1,11 @@
 ﻿using eAPI;
 using eAPI.Controllers;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,9 +21,11 @@ namespace eAPI.Controllers
     public class AttachFilesController : ControllerBase
     {
         private readonly ApplicationDbContext db;
-        public AttachFilesController(ApplicationDbContext _db)
+        private readonly IHubContext<ConnectionHub> hub;
+        public AttachFilesController(ApplicationDbContext _db, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
+            hub = _hub;
         }
 
         [HttpGet]
@@ -45,7 +49,7 @@ namespace eAPI.Controllers
                 db.AttachFiles.Update(t);
             }
 
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(t);
         }
         [HttpPost]
@@ -55,7 +59,7 @@ namespace eAPI.Controllers
             var d = await db.AttachFiles.FindAsync(id);
             d.is_deleted = !d.is_deleted;
             db.AttachFiles.Update(d);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(d);
         }
     }

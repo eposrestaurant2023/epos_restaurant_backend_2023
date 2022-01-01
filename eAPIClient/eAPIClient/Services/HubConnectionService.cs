@@ -11,47 +11,29 @@ using System.Text.Json;
 
 namespace eAPIClient.Services
 {
-    public static class HubConnectionService
+    public class HubConnectionService
     {
-        public static HubConnection connection { get; set; }
+        public  HubConnection connection { get; set; }
 
-       public static async Task OnConnectToHub()
+       public  async Task OnConnectToHub()
         {
             var config = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", optional: false)
         .Build();
             string hub_connection = config.GetValue<string>("server_api_url");
-            connection = new HubConnectionBuilder().WithUrl($"{hub_connection}connectionhub").Build();
+            connection = new HubConnectionBuilder().WithUrl($"{hub_connection}hub").Build();
             await connection.StartAsync();
             Fetch();
         }
-        public static void Fetch()
+        public void Fetch()
         {
-            try
-            {
-                connection.On<CustomerModel>("Sync", m => {
-                    string path = @$"c:\deleteme\FileCreatedFromClient{Guid.NewGuid()}.json";
-                    using (FileStream fs = File.Create(path))
-                    {
-                        byte[] info = new UTF8Encoding(true).GetBytes(JsonSerializer.Serialize(m));
-                        // Add some information to the file.
-                        fs.Write(info, 0, info.Length);
-                    }
-                });
-            }
-            catch (Exception e)
-            {
-                string path = @$"c:\deleteme\FileCreatedFromClient{Guid.NewGuid()}.json";
-                using (FileStream fs = File.Create(path))
-                {
-                    byte[] info = new UTF8Encoding(true).GetBytes(e.Message);
-                    // Add some information to the file.
-                    fs.Write(info, 0, info.Length);
-                }
-                throw;
-            }
-           
-
+            
+            connection.On<string>("Sync", m => {
+                
+            });
+            
         }
+
+
     }
 }

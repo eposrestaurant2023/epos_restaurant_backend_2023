@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using NETCore.Encrypt;
 using System.Text.Json;
+using eAPI.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace eAPI.Controllers
 {
@@ -23,9 +25,10 @@ namespace eAPI.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly AppService app;
-        public PurchaseOrderPaymentController(ApplicationDbContext _db, AppService _app)
+        private readonly IHubContext<ConnectionHub> hub;
+        public PurchaseOrderPaymentController(ApplicationDbContext _db, AppService _app, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             app = _app;
         }        
 
@@ -104,7 +107,7 @@ namespace eAPI.Controllers
 
             try
             {
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
                 string _query_update = $"exec sp_update_purchase_order_payment {p.purchase_order_id}";
                 db.Database.ExecuteSqlRaw(_query_update);
             }
@@ -128,7 +131,7 @@ namespace eAPI.Controllers
             PurchaseOrderModel s = db.PurchaseOrders.Find(p.purchase_order_id);
             p.is_deleted = true;
             db.PurchaseOrderPayments.Update(p);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
             db.Database.ExecuteSqlRaw("exec  sp_update_purchase_order_payment " + p.purchase_order_id);
             return Ok();

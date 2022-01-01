@@ -5,10 +5,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -22,9 +24,10 @@ namespace eAPI.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public PriceRuleController(ApplicationDbContext _db)
+        private readonly IHubContext<ConnectionHub> hub;
+        public PriceRuleController(ApplicationDbContext _db,IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
         }
 
         [HttpGet]
@@ -57,7 +60,7 @@ namespace eAPI.Controllers
                 db.BusinessBranchPriceRules.AddRange(u.business_branch_prices);
                 db.PriceRules.Update(u);
             }            
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             //generate product all product to have price rule id in tbl_product price
             db.Database.ExecuteSqlRaw($"exec sp_update_price_rule_information  {u.id},'{u.last_modified_by}'");
             return Ok(u);

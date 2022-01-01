@@ -1,4 +1,6 @@
-﻿using eModels;
+﻿using eAPI.Hubs;
+using eModels;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -14,12 +16,13 @@ namespace eAPI.Services
         public IConfiguration Configuration { get; }
         private readonly ApplicationDbContext db;
         private readonly IHttpService http;
+        private readonly IHubContext<ConnectionHub> hub;
 
         eSoftixBackend.ProjectModel project = new eSoftixBackend.ProjectModel();
 
-        public BackendSyncService(ApplicationDbContext _db, IConfiguration configuration, IHttpService _http)
+        public BackendSyncService(ApplicationDbContext _db, IConfiguration configuration, IHttpService _http, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             Configuration = configuration;
             http = _http;
         }
