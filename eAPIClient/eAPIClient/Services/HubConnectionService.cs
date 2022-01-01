@@ -13,6 +13,11 @@ namespace eAPIClient.Services
 {
     public class HubConnectionService
     {
+        private readonly IHttpService http;
+        public HubConnectionService(IHttpService _http)
+        {
+            http = _http;
+        }
         public  HubConnection connection { get; set; }
 
        public  async Task OnConnectToHub()
