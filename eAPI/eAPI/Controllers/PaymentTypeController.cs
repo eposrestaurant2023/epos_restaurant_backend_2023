@@ -4,10 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -21,9 +23,10 @@ namespace eAPI.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public PaymentTypeController(ApplicationDbContext _db)
+        private readonly IHubContext<ConnectionHub> hub;
+        public PaymentTypeController(ApplicationDbContext _db,IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
         }
 
         [HttpGet]
@@ -49,7 +52,7 @@ namespace eAPI.Controllers
                 db.BusinessBranchPaymentTypes.AddRange(u.business_branch_payment_types);
                 db.PaymentTypes.Update(u);
             }            
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(u);
         }
 

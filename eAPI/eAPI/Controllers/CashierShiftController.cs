@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;   
 using NETCore.Encrypt;
 using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
+using eAPI.Hubs;
 
 namespace eAPI.Controllers
 {
@@ -21,9 +23,10 @@ namespace eAPI.Controllers
     public class CashierShiftController : ODataController
     {
         private readonly ApplicationDbContext db;
-        public CashierShiftController(ApplicationDbContext _db)
+        private readonly IHubContext<ConnectionHub> hub;
+        public CashierShiftController(ApplicationDbContext _db,IHubContext<ConnectionHub> _hub)
         {
-            db = _db; 
+            db = _db;hub = _hub; 
         }        
 
         [HttpGet]

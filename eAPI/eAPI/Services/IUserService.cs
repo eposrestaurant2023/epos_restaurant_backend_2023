@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using eModels;
 using eAPI.Helpers;
-
+using Microsoft.AspNetCore.SignalR;
+using eAPI.Hubs;
 
 namespace eAPI.Services
 {

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -20,10 +22,11 @@ namespace eAPI.Controllers
     public class BusinessBranchController : ODataController
     {
 
+        private readonly IHubContext<ConnectionHub> hub;
         private readonly ApplicationDbContext db;
-        public BusinessBranchController(ApplicationDbContext _db)
+        public BusinessBranchController(ApplicationDbContext _db,IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
         }
 
 
@@ -50,7 +53,7 @@ namespace eAPI.Controllers
                 db.BusinessBranches.Update(u);
             }
             
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(u);
 
 
@@ -64,7 +67,7 @@ namespace eAPI.Controllers
             db.BusinessBranches.UpdateRange(branches);
 
 
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             return Ok(branches);

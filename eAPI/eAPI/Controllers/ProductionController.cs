@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eAPI.Services;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -19,10 +21,11 @@ namespace eAPI.Controllers
     public class ProductionController : ODataController
     {
         private readonly ApplicationDbContext db;
+        private readonly IHubContext<ConnectionHub> hub;
         private readonly AppService app;
-        public ProductionController(ApplicationDbContext _db, AppService _app)
+        public ProductionController(ApplicationDbContext _db, AppService _app, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             app = _app;
 
         }
@@ -97,7 +100,7 @@ namespace eAPI.Controllers
 
             try
             {
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
                 
                 
@@ -160,7 +163,7 @@ namespace eAPI.Controllers
 
             s.is_fulfilled = true;
             db.Productions.Update(s);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             // add to history
             db.Database.ExecuteSqlRaw($"exec sp_update_production_to_inventory_transaction {id}");
             return Ok();
@@ -176,7 +179,7 @@ namespace eAPI.Controllers
 
             s.is_fulfilled = false;
             db.Productions.Update(s);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             //add to history
             //db.Database.ExecuteSqlRaw($"exec sp_update_stock_take_inventory_transaction {id}");
             return Ok();

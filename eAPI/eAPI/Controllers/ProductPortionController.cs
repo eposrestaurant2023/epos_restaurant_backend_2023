@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -20,9 +22,10 @@ namespace eAPI.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public ProductPortionController(ApplicationDbContext _db)
+        private readonly IHubContext<ConnectionHub> hub;
+        public ProductPortionController(ApplicationDbContext _db,IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
         }
 
 
@@ -61,7 +64,7 @@ namespace eAPI.Controllers
                 db.ProductPortions.Update(u);
             }
             
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             db.Database.ExecuteSqlRaw("exec sp_update_product_ingredient_related " + u.product_id.ToString());
@@ -81,7 +84,7 @@ namespace eAPI.Controllers
             db.ProductPortions.UpdateRange(data);
 
 
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
             db.Database.ExecuteSqlRaw("exec sp_clear_deleted_record");
             return Ok(data);

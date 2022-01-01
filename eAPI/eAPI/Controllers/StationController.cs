@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eAPI.Services;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -22,9 +24,10 @@ namespace eAPI.Controllers
 
         private readonly ApplicationDbContext db;
         private readonly IHttpService http;
-        public StationController(ApplicationDbContext _db, IHttpService _http)
+        private readonly IHubContext<ConnectionHub> hub;
+        public StationController(ApplicationDbContext _db, IHttpService _http, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             http = _http;
         }
 
@@ -64,7 +67,7 @@ namespace eAPI.Controllers
                 db.Stations.Update(u);
             }
             
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             await http.eSoftixApiPost($"station/UpdateFromClient",u);
             return Ok(u);
 
@@ -80,7 +83,7 @@ namespace eAPI.Controllers
                 var s = db.Stations.Find(id);
                 s.is_already_config = is_already_config;  
                 db.Stations.Update(s);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
                 await http.eSoftixApiPost($"station/UpdateFromClient",s);
 
                 return Ok(s);
@@ -95,7 +98,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> SaveMultiple([FromBody] List<StationModel> stations)
         {
             db.Stations.UpdateRange(stations);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok();
         }
 

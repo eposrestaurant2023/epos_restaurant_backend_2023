@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eModels;
+using Microsoft.AspNetCore.SignalR;
 
 namespace eAPI.Services
 {

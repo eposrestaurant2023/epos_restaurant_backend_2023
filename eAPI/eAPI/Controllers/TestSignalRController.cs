@@ -17,7 +17,7 @@ namespace eAPI.Controllers
         public TestSignalRController(IHubContext<ConnectionHub> _hub, ApplicationDbContext _db)
         {
             hub = _hub;
-            db = _db;
+            db = _db;hub = _hub;
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromQuery] Guid id)

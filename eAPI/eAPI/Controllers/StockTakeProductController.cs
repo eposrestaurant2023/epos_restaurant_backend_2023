@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;   
 using NETCore.Encrypt;
 using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
+using eAPI.Hubs;
 
 namespace eAPI.Controllers
 {
@@ -22,9 +24,10 @@ namespace eAPI.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly AppService app;
-        public StockTakeProductController(ApplicationDbContext _db, AppService _app)
+        private readonly IHubContext<ConnectionHub> hub;
+        public StockTakeProductController(ApplicationDbContext _db, AppService _app, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             app = _app;
         }        
 
