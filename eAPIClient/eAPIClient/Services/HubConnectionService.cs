@@ -14,17 +14,16 @@ namespace eAPIClient.Services
     public class HubConnectionService
     {
         private readonly IHttpService http;
-        public HubConnectionService(IHttpService _http)
+        private readonly IConfiguration config;
+        public HubConnectionService(IHttpService _http, IConfiguration _conf)
         {
             http = _http;
+            config = _conf;
         }
         public  HubConnection connection { get; set; }
 
        public  async Task OnConnectToHub()
         {
-            var config = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json", optional: false)
-        .Build();
             string hub_connection = config.GetValue<string>("server_api_url");
             connection = new HubConnectionBuilder().WithUrl($"{hub_connection}hub").Build();
             await connection.StartAsync();
@@ -33,8 +32,14 @@ namespace eAPIClient.Services
         public void Fetch()
         {
             
-            connection.On<string>("Sync", m => {
-                
+            connection.On<string>("Sync", data => {
+                switch (data)
+                {
+                    case "setting":
+                            
+                    default:
+                        break;
+                }
             });
             
         }
