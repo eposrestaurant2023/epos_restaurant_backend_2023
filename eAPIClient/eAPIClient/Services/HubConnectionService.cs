@@ -12,34 +12,27 @@ using System.Text.Json;
 namespace eAPIClient.Services
 {
     public class HubConnectionService
-    {
-        private readonly IHttpService http;
-        private readonly IConfiguration config;
-        public HubConnectionService(IHttpService _http, IConfiguration _conf)
-        {
-            http = _http;
-            config = _conf;
-        }
+    { 
+         
         public  HubConnection connection { get; set; }
 
-       public  async Task OnConnectToHub()
+       public  async Task OnConnectToHub(string file_watcher_path)
         {
+            var config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false)
+        .Build();
             string hub_connection = config.GetValue<string>("server_api_url");
+
+            
             connection = new HubConnectionBuilder().WithUrl($"{hub_connection}hub").Build();
             await connection.StartAsync();
-            Fetch();
+            SyncData(file_watcher_path);
         }
-        public void Fetch()
+        public void SyncData(string path)
         {
             
             connection.On<string>("Sync", data => {
-                switch (data)
-                {
-                    case "setting":
-                            
-                    default:
-                        break;
-                }
+                System.IO.File.Create(Path.Combine(path, $"{data}_{Guid.NewGuid()}.txt"));
             });
             
         }
