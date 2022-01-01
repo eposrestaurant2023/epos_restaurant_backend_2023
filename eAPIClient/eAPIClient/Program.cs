@@ -1,3 +1,4 @@
+using eAPIClient.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
@@ -16,19 +17,7 @@ namespace eAPIClient
     {
         public static async Task Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json", optional: false)
-        .Build();
-
-            string hub_connection = config.GetValue<string>("hub_connection");
-
-            HubConnection connection = new HubConnectionBuilder().WithUrl(hub_connection).Build();
-            await connection.StartAsync();
-            connection.Closed += async (s) =>
-             {
-                 await connection.StartAsync();
-             };
-           
+            await HubConnectionService.OnConnectToHub();
             CreateHostBuilder(args).Build().Run();
         }
 

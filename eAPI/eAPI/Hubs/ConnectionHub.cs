@@ -11,7 +11,6 @@ namespace eAPI.Hubs
     {
         public override Task OnConnectedAsync()
         {
-            Debug.WriteLine(Context.ConnectionId);
             return base.OnConnectedAsync();
         }
     }
