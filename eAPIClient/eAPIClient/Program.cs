@@ -15,7 +15,7 @@ namespace eAPIClient
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             await HubConnectionService.OnConnectToHub();
             CreateHostBuilder(args).Build().Run();
