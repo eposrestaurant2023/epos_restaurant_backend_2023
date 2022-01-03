@@ -55,7 +55,7 @@
                        OnPagerChange="@OnPagerChange"
                        PerPage="@state.pager.per_page"
                        CurrentPage="@state.pager.current_page"
-                       Items="@users_list"
+                       Items="@(users_list.Where(r=>r.is_buildin == false).ToList())"
                        ShowCounter="true">
                     <TableHeader>
                         <ThCenter>@lang["Image"]</ThCenter>
@@ -107,7 +107,7 @@
                                 <TableActionItem roles="@gv.GetRole("user_edit")" icon="edit" @onclick="(() => EditUser_Click(user))" is_visible="@(user.status && !user.is_deleted)">@lang["Edit"]</TableActionItem>
                                 <TableActionItem icon="check" roles="@gv.GetRole("user_edit")" @onclick="(() => OnChangeStatus(user))" is_visible="@(!user.status && !user.is_deleted)">@lang["Active"]</TableActionItem>
                                 <TableActionItem icon="highlight_off" roles="@gv.GetRole("user_edit")" @onclick="(() => OnChangeStatus(user))" is_visible="@(user.status && !user.is_deleted)">@lang["Inactive"]</TableActionItem>
-                                <TableActionItem icon="delete" roles="@gv.GetRole("user_delete")" @onclick="(() => OnDelete(user))" is_visible="@(!user.is_deleted)">@lang["Delete"]"</TableActionItem>
+                                <TableActionItem icon="delete" roles="@gv.GetRole("user_delete")" @onclick="(() => OnDelete(user))" is_visible="@(!user.is_deleted)">@lang["Delete"]</TableActionItem>
                                 <TableActionItem icon="refresh" roles="@gv.GetRole("user_restore")" @onclick="(() => OnRestore(user))" is_visible="@(user.is_deleted)">@lang["Restore"]</TableActionItem>
                             </ComTableActions>
                         </TdCenter>

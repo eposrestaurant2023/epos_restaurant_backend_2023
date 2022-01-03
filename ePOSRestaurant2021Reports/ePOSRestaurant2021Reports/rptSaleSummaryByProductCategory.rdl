@@ -1630,6 +1630,7 @@ order by
             </TablixRowHierarchy>
             <DataSetName>SaleProduct</DataSetName>
             <Top>0.02778in</Top>
+            <Left>0.03012cm</Left>
             <Height>0.72917in</Height>
             <Width>7.25998in</Width>
             <Style>
@@ -1639,13 +1640,13 @@ order by
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>0.80903in</Height>
+        <Height>0.79862in</Height>
         <Style />
       </Body>
-      <Width>7.26083in</Width>
+      <Width>7.27269in</Width>
       <Page>
         <PageHeader>
-          <Height>0.8125in</Height>
+          <Height>1.1875in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1670,6 +1671,7 @@ order by
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>business_branch_name_en</rd:DefaultName>
+              <Left>0.03012cm</Left>
               <Height>0.25in</Height>
               <Width>7.26in</Width>
               <Style>
@@ -1703,7 +1705,7 @@ order by
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>0.27083in</Top>
-              <Left>0.00083in</Left>
+              <Left>0.01269in</Left>
               <Height>0.22917in</Height>
               <Width>7.26in</Width>
               <ZIndex>1</ZIndex>
@@ -1916,8 +1918,8 @@ order by
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>0.54167in</Top>
-              <Left>0.00083in</Left>
-              <Height>0.20833in</Height>
+              <Left>0.01269in</Left>
+              <Height>0.625in</Height>
               <Width>7.26in</Width>
               <ZIndex>2</ZIndex>
               <Style>
@@ -1938,7 +1940,7 @@ order by
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.28819in</Height>
+          <Height>0.24652in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1998,7 +2000,7 @@ order by
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0.06944in</Top>
+              <Top>0.02778in</Top>
               <Height>0.1875in</Height>
               <Width>4in</Width>
               <Style>
@@ -2068,7 +2070,7 @@ order by
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>0.06944in</Top>
+              <Top>0.02778in</Top>
               <Left>4.14583in</Left>
               <Height>0.1875in</Height>
               <Width>3.11417in</Width>
