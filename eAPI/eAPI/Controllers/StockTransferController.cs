@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eAPI.Services;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -20,9 +22,10 @@ namespace eAPI.Controllers
     {
         private readonly ApplicationDbContext db;
         private readonly AppService app;
-        public StockTransferController(ApplicationDbContext _db, AppService _app)
+        private readonly IHubContext<ConnectionHub> hub;
+        public StockTransferController(ApplicationDbContext _db, AppService _app, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             app = _app;
 
         }
@@ -74,7 +77,7 @@ namespace eAPI.Controllers
 
             AddHistory(p);
 
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(p);
         }
         void AddHistory(StockTransferModel s)
@@ -156,7 +159,7 @@ namespace eAPI.Controllers
             s.is_fulfilled = true;
             db.StockTransfers.Update(s);
 
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             // add to history
             db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_out_inventory_transaction {id}");
             db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_in_inventory_transaction {id}");
@@ -175,7 +178,7 @@ namespace eAPI.Controllers
 
             s.is_fulfilled = false;
             db.StockTransfers.Update(s);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             // add to history
             db.Database.ExecuteSqlRaw($"exec sp_update_stock_transfer_in_inventory_transaction {id}");
             return Ok();

@@ -1,8 +1,10 @@
 ﻿
 using eAPI;
+using eAPI.Hubs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +16,13 @@ namespace eAPI.Controllers
     public class UploadController : ControllerBase
     {
         private readonly ApplicationDbContext db;
+        private readonly IHubContext<ConnectionHub> hub;
 
         private readonly IWebHostEnvironment environment;
-        public UploadController(IWebHostEnvironment environment, ApplicationDbContext _db)
+        public UploadController(IWebHostEnvironment environment, ApplicationDbContext _db, IHubContext<ConnectionHub> _hub)
         {
             this.environment = environment;
-            db = _db;
+            db = _db;hub = _hub;
         }
 
 

@@ -1,9 +1,11 @@
 ﻿using eAPI;
 using eAPI.Controllers;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,9 +21,10 @@ namespace eAPI.Controllers
     public class ProductIngredientRelatedController : ControllerBase
     {
         private readonly ApplicationDbContext db;
-        public ProductIngredientRelatedController(ApplicationDbContext _db)
+        private readonly IHubContext<ConnectionHub> hub;
+        public ProductIngredientRelatedController(ApplicationDbContext _db,IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
         }
 
         [HttpGet]

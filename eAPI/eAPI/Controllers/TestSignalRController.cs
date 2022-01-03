@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace eAPI.Controllers
 {
@@ -12,14 +13,17 @@ namespace eAPI.Controllers
     public class TestSignalRController:ControllerBase
     {
         private readonly IHubContext<ConnectionHub> hub;
-        public TestSignalRController(IHubContext<ConnectionHub> _hub)
+        private readonly ApplicationDbContext db;
+        public TestSignalRController(IHubContext<ConnectionHub> _hub, ApplicationDbContext _db)
         {
             hub = _hub;
+            db = _db;hub = _hub;
         }
         [HttpPost]
-        public async Task<IActionResult> Post([FromQuery] string  title)
+        public async Task<IActionResult> Post([FromQuery] Guid id)
         {
-            await hub.Clients.All.SendAsync("connectionhub",$"create file content <{title}> from Api Admin");
+           var a = await db.Customers.FindAsync(id);
+            await hub.Clients.All.SendAsync("Sync", a);
             return Ok();
         }
     }

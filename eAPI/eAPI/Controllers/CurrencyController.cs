@@ -4,10 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NETCore.Encrypt;
 
@@ -21,9 +23,10 @@ namespace eAPI.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        public CurrencyController(ApplicationDbContext _db)
+        private readonly IHubContext<ConnectionHub> hub;
+        public CurrencyController(ApplicationDbContext _db,IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
         }
 
 
@@ -49,7 +52,7 @@ namespace eAPI.Controllers
             try
             {
                 db.Currencies.UpdateRange(c);
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
                 db.Database.ExecuteSqlRaw("exec sp_update_business_branch_currency");
                 return Ok(c);
             }
@@ -138,7 +141,7 @@ namespace eAPI.Controllers
 
             try
             {
-                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
  
                     db.Database.ExecuteSqlRaw("exec sp_update_exchange_base_currency_exchange_rate " + u.id);
                 

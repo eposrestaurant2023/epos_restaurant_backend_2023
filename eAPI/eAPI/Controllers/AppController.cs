@@ -1,8 +1,10 @@
 ﻿using DeviceId;
+using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -18,12 +20,14 @@ namespace eAPI.Controllers
 
     public class AppController : ControllerBase
     {
+        private readonly IHubContext<ConnectionHub> hub;
         public IConfiguration Configuration { get; }
         private readonly ApplicationDbContext db;
-        public AppController(ApplicationDbContext _db, IConfiguration configuration)
+        public AppController(ApplicationDbContext _db, IConfiguration configuration, IHubContext<ConnectionHub> _hub)
         {
-            db = _db;
+            db = _db;hub = _hub;
             Configuration = configuration;
+            hub = _hub;
         }
         
 
@@ -102,7 +106,7 @@ namespace eAPI.Controllers
             db.Database.ExecuteSqlRaw($"delete tbl_business_branch_setting where setting_id = {h.id}");
             db.BusinessBrachSettings.AddRange(h.business_branch_settings);
             db.Update(h);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return h;
         }
 
@@ -110,7 +114,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<string>> SaveMultiple([FromBody] List<SettingModel> Settings)
         {
             db.Settings.UpdateRange(Settings);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
 
             db.Database.ExecuteSqlRaw("exec sp_update_setting");
             return Ok(Settings);
@@ -124,7 +128,7 @@ namespace eAPI.Controllers
             string data = JsonSerializer.Serialize(value);
             record.setting_value = data;
             db.Settings.Update(record);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(record);
         }
 
@@ -132,7 +136,7 @@ namespace eAPI.Controllers
         public async Task<ActionResult<BusinessInformationModel>> Savecompany([FromBody] BusinessInformationModel company)
         {
             db.BusinessInformations.Update(company);
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
             return Ok(company);
 
         }
@@ -278,6 +282,7 @@ namespace eAPI.Controllers
                 deviceId == "xa3Nl4DGd-08vBN0lJ4_C2qPFxZ9YkW3WYCxpXhqIak" ||
                 deviceId == "kKyn93RkgIlEc_qVi9YUyONmU30U0bOfFWfW6yozYu8" ||
                 deviceId == "a5EVCN1u2QLiTFH9OuTQ6gneNoz7_9UVdRjSV__C9bk" ||
+                deviceId == "TlFv1IKgyj3JJf75n7_Yy9gR0dqktTCgLBxiRfH_jcg" ||
                 deviceId == "2jiw9Z5jOWQBKT-pjmInMSrayVo_iRYHD638lW9gIVU"
 
 

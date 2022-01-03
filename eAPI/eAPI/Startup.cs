@@ -117,7 +117,7 @@ namespace eAPI
                 var conventions = defaultConventions.Except( defaultConventions.OfType<MetadataRoutingConvention>());
                 var route = endpoints.MapODataRoute( "api", "api", GetEdmModel(), pathHandler: new DefaultODataPathHandler(), routingConventions: conventions);
                 endpoints.EnableDependencyInjection();
-                endpoints.MapHub<ConnectionHub>("/connectionhub");
+                endpoints.MapHub<ConnectionHub>("api/hub");
             });
 
         }
