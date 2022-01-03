@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eAPIClient;
 
 namespace eAPIClient.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220103084906_add_park_2")]
+    partial class add_park_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1133,9 +1135,6 @@ namespace eAPIClient.Migrations
                     b.Property<decimal>("paid_amount")
                         .HasColumnType("decimal(19,8)");
 
-                    b.Property<Guid?>("park_sale_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("payment_data")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
@@ -1147,9 +1146,6 @@ namespace eAPIClient.Migrations
                     b.Property<string>("pos_invoice")
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
-
-                    b.Property<Guid?>("redeem_park_sale_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("rounding_amount")
                         .HasColumnType("float");
@@ -1518,9 +1514,6 @@ namespace eAPIClient.Migrations
                         .HasColumnType("nvarchar(max)")
                         .UseCollation("Khmer_100_BIN");
 
-                    b.Property<Guid?>("park_sale_product_id")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("portion_id")
                         .HasColumnType("int");
 
@@ -1573,9 +1566,6 @@ namespace eAPIClient.Migrations
 
                     b.Property<decimal>("quantity")
                         .HasColumnType("decimal(19,8)");
-
-                    b.Property<Guid?>("redeem_sale_product_id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("reqular_price")
                         .HasColumnType("decimal(19,8)");
