@@ -121,8 +121,8 @@ namespace eShareModel
         //park
         public bool is_park { get; set; }
         public bool is_redeem_park { get; set; }
-        public int? park_sale_id { get; set; }
-        public int? redeem_park_sale_id { get; set; }
+        public Guid? park_sale_id { get; set; }
+        public Guid? redeem_park_sale_id { get; set; }
 
 
     }
