@@ -2393,7 +2393,7 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Type</Value>
+                                  <Value>Ty pe</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
