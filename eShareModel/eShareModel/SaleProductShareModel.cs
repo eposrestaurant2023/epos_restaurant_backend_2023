@@ -134,6 +134,14 @@ namespace eShareModel
 
         public string revenue_group_name { get; set; }
 
+
+        public bool is_park { get; set; }
+        public bool is_redeem_park { get; set; }
+        public int? park_sale_product_id { get; set; }
+        public int? redeem_sale_product_id { get; set; }
+        public string park_note { get; set; }
+        public DateTime? park_expired_date { get; set; }
+
     }
 
     public class SaleProductModifierShareModel : CoreGUIDModel

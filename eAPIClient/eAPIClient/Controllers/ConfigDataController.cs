@@ -50,7 +50,6 @@ namespace eAPIClient.Controllers
            
         }
         [HttpPost("Save")]
-        [Authorize]
         public async Task<ActionResult<ConfigDataModel>> POST([FromBody] ConfigDataModel model)
         {
             try

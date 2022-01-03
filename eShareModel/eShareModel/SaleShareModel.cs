@@ -118,5 +118,12 @@ namespace eShareModel
         public bool is_synced { get; set; } = false;
 
 
+        //park
+        public bool is_park { get; set; }
+        public bool is_redeem_park { get; set; }
+        public int? park_sale_id { get; set; }
+        public int? redeem_park_sale_id { get; set; }
+
+
     }
 }
