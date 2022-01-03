@@ -403,6 +403,134 @@ from #tbl
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="LanguageCode">
+      <SharedDataSet>
+        <SharedDataSetReference>LanguageCode</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="language_code">
+          <DataField>language_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="translate">
+      <Query>
+        <DataSourceName>ePOSRetail</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@lang">
+            <Value>=Parameters!lang.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>exec sp_get_translate_text @lang,'No,Date,Category,P.Code,Product name,QTY,Unit,Cost,Price,Branch,Warehouse,Group,Inventory Movement,Printed By,on,Page,of,Total,inventory_starting_balance,Production,QTY Receive,Stock Take,Transfer In,Transfer Out,QTY Sold,BOH'</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="No">
+          <DataField>No</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Date">
+          <DataField>Date</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Category">
+          <DataField>Category</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="P_Code">
+          <DataField>P.Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product_name">
+          <DataField>Product name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Unit">
+          <DataField>Unit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cost">
+          <DataField>Cost</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Price">
+          <DataField>Price</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Branch">
+          <DataField>Branch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Warehouse">
+          <DataField>Warehouse</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Group">
+          <DataField>Group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Inventory_Movement">
+          <DataField>Inventory Movement</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Printed_By">
+          <DataField>Printed By</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="on">
+          <DataField>on</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Page">
+          <DataField>Page</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="of">
+          <DataField>of</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total">
+          <DataField>Total</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="inventory_starting_balance">
+          <DataField>inventory_starting_balance</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Production">
+          <DataField>Production</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QTY_Receive">
+          <DataField>QTY Receive</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Stock_Take">
+          <DataField>Stock Take</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Transfer_In">
+          <DataField>Transfer In</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Transfer_Out">
+          <DataField>Transfer Out</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QTY_Sold">
+          <DataField>QTY Sold</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BOH">
+          <DataField>BOH</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -418,13 +546,13 @@ from #tbl
                   <Width>0.91385in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.82011in</Width>
+                  <Width>1.32011in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.54682in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.68469in</Width>
+                  <Width>0.83602in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.92262in</Width>
@@ -439,7 +567,7 @@ from #tbl
                   <Width>0.71594in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.6614in</Width>
+                  <Width>0.80723in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.66101in</Width>
@@ -448,7 +576,7 @@ from #tbl
                   <Width>0.72353in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.70552in</Width>
+                  <Width>0.90834in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.79064in</Width>
@@ -467,8 +595,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>No</Value>
+                                  <Value>=First(Fields!No.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -507,8 +636,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>P. Code</Value>
+                                  <Value>=First(Fields!P_Code.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -547,8 +677,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Product name</Value>
+                                  <Value>=First(Fields!Product_name.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -587,8 +718,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Unit</Value>
+                                  <Value>=First(Fields!Unit.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -627,22 +759,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Starting </Value>
+                                  <Value>=First(Fields!inventory_starting_balance.Value, "translate")</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Balance</Value>
-                                  <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -681,8 +800,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Production</Value>
+                                  <Value>=First(Fields!Production.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -721,8 +841,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -775,8 +896,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -829,22 +951,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>=First(Fields!QTY_Receive.Value, "translate")</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Receive</Value>
-                                  <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -883,8 +992,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Stock Take</Value>
+                                  <Value>=First(Fields!Stock_Take.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -923,21 +1033,15 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Transfer</Value>
+                                  <Value>=First(Fields!Transfer_In.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
                                 <TextRun>
-                                  <Value>In</Value>
+                                  <Value xml:space="preserve"> </Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -977,22 +1081,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Transfer</Value>
+                                  <Value>=First(Fields!Transfer_Out.Value, "translate")</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Out</Value>
-                                  <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1031,22 +1122,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY </Value>
+                                  <Value>=First(Fields!QTY_Sold.Value, "translate")</Value>
                                   <Style>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Center</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>Sold</Value>
-                                  <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1085,8 +1163,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>BOH</Value>
+                                  <Value>=First(Fields!BOH.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1627,8 +1706,9 @@ from #tbl
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total</Value>
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>Kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2134,7 +2214,7 @@ from #tbl
             <Top>0.0125in</Top>
             <Left>0.0125in</Left>
             <Height>0.81029in</Height>
-            <Width>10.98751in</Width>
+            <Width>10.98749in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -2228,7 +2308,22 @@ from #tbl
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Date : </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Date.Value, "translate")</Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
                         <FontSize>9pt</FontSize>
@@ -2238,11 +2333,27 @@ from #tbl
                       <Value>=format(Parameters!start_date.Value,"dd/MM/yyyy") &amp; "-" &amp; format(Parameters!end_date.Value,"dd/MM/yyyy")</Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
                         <FontSize>9pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Branch: </Value>
+                      <Value> /</Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Branch.Value, "translate")</Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
                         <FontSize>9pt</FontSize>
@@ -2252,11 +2363,27 @@ from #tbl
                       <Value>=Parameters!business_branch_id.Label</Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
                         <FontSize>9pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Warehouse: </Value>
+                      <Value> /</Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Warehouse.Value, "translate")</Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
                         <FontSize>9pt</FontSize>
@@ -2266,11 +2393,27 @@ from #tbl
                       <Value>=Parameters!stock_location_id.Label</Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
                         <FontSize>9pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Group: </Value>
+                      <Value> / </Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Group.Value, "translate")</Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
                         <FontSize>9pt</FontSize>
@@ -2280,11 +2423,27 @@ from #tbl
                       <Value>=Parameters!product_group_id.Label</Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
                         <FontSize>9pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Category: </Value>
+                      <Value> /</Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Category.Value, "translate")</Value>
+                      <Style>
+                        <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>9pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
                         <FontSize>9pt</FontSize>
@@ -2294,6 +2453,7 @@ from #tbl
                       <Value>=Parameters!product_category_id.Label</Value>
                       <Style>
                         <FontStyle>Italic</FontStyle>
+                        <FontFamily>Kh system</FontFamily>
                         <FontSize>9pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2350,7 +2510,14 @@ from #tbl
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Printed by: </Value>
+                      <Value>=First(Fields!Printed_By.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2358,11 +2525,25 @@ from #tbl
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> on </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!on.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2370,6 +2551,7 @@ from #tbl
                     <TextRun>
                       <Value>=format(now,"dd/MM/yyyy HH:mm:ss tt")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -2399,7 +2581,14 @@ from #tbl
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Page </Value>
+                      <Value>=First(Fields!Page.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>Kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2411,7 +2600,20 @@ from #tbl
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> of </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!of.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -2557,11 +2759,27 @@ from #tbl
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="lang">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>en</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Language</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>LanguageCode</DataSetName>
+          <ValueField>language_code</ValueField>
+          <LabelField>language_code</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>2</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfRows>5</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -2602,6 +2820,11 @@ from #tbl
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>stock_location_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>4</RowIndex>
+          <ParameterName>lang</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
