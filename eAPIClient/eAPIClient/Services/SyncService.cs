@@ -53,7 +53,7 @@ namespace eAPIClient.Services
             var prepare_sync_response = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" });
             if (prepare_sync_response.IsSuccess)
             {
-                List<ConfigDataModel> config_datas = new();
+                List<ConfigDataModel> config_datas = new List<ConfigDataModel>();
                 string url = "Configdata?$select=id,data,config_type,note,is_local_setting";
                 url = url + $"&$filter=business_branch_id eq {business_branch_id}";
                 var resp = await http.ApiGetOData(url);
