@@ -15,8 +15,8 @@ namespace eAPIClient.Services
 {
     public interface ISyncService
     {
-      
-        void OnCreated(object sender, FileSystemEventArgs e);
+
+        Task<bool> SyncSetting();
 
 
     }
@@ -32,23 +32,13 @@ namespace eAPIClient.Services
             http = _http;
         }
 
-        public  void  OnCreated(object sender, FileSystemEventArgs e)
-        {
-            switch (e.Name.Split("_")[0])
-            {
-                case "setting":
-                    SyncSetting();
-                    break;
-                default:
-                    break;
-            } 
-        }
-
+      
 
 
 
         public async Task<bool> SyncSetting()
         {
+          
             string business_branch_id = config.GetValue<string>("business_branch_id");
             var prepare_sync_response = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" });
             if (prepare_sync_response.IsSuccess)
@@ -61,18 +51,21 @@ namespace eAPIClient.Services
                 {
 
                     config_datas =  JsonSerializer.Deserialize<List<ConfigDataModel>>(resp.Content.ToString());
-                    string _deleteQuery = string.Format("delete tbl_config_data where is_local_setting=0; ");
+                    var old_config_data = db.ConfigDatas.Where(r => r.is_local_setting == false);
+                    db.ConfigDatas.RemoveRange(old_config_data);
+                    db.SaveChanges();
                     
-                        db.Database.ExecuteSqlRaw(_deleteQuery);
                     try
                     {
                         db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
                         db.SaveChanges();
+                   
                     }
                     catch(Exception ex)
                     {
                         string xx = ex.ToString();
                     }
+                    
                     return true;
                 }
 

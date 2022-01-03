@@ -25,13 +25,17 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="ncrontab" Version="3.3.1" />
 		<PackageReference Include="NETCore.Encrypt" Version="2.0.9" />
+		<PackageReference Include="Polly" Version="7.2.2" />
+		<PackageReference Include="Serilog" Version="2.10.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\eShareModel\eShareModel\eShareModel.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="log\" />
+	  <Folder Include="BackgroundServices\" />
 	  <Folder Include="uploads\telegram_images\" />
 	</ItemGroup>
 

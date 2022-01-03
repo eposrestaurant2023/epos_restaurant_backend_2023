@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Polly;
+using Serilog;
 
 namespace eAPIClient.Services
 {
@@ -15,28 +17,68 @@ namespace eAPIClient.Services
     { 
          
         public  HubConnection connection { get; set; }
-
-       public  async Task OnConnectToHub(string file_watcher_path)
+        private readonly ISyncService sync;
+        public HubConnectionService()
         {
+
+        }
+        public HubConnectionService(ISyncService sync)
+        {
+            this.sync = sync;
+        }
+       public  async Task OnConnectToHub()
+        {
+          
             var config = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", optional: false)
         .Build();
             string hub_connection = config.GetValue<string>("server_api_url");
 
             
-            connection = new HubConnectionBuilder().WithUrl($"{hub_connection}hub").Build();
-            await connection.StartAsync();
-            SyncData(file_watcher_path);
-        }
-        public void SyncData(string path)
-        {
+            connection = new HubConnectionBuilder().WithUrl($"{hub_connection}hub").WithAutomaticReconnect().Build();
             
-            connection.On<string>("Sync", data => {
-                System.IO.File.Create(Path.Combine(path, $"{data}_{Guid.NewGuid()}.txt"));
-            });
-            
+            await OpenSignalRConnection();
+
+        
+
+             SyncData();
         }
 
+
+        public async Task OpenSignalRConnection()
+        {
+            try
+            {
+                await connection.StartAsync();
+            }catch{
+                Log.Information("Connect to hub fail");
+            }
+        }
+         
+
+
+        public void  SyncData()
+        {
+            
+            connection.On<string>("Sync", async data => {
+                switch (data)
+                {
+                    case "setting":
+                        await sync.SyncSetting();
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+         
+
+
+            
+
+        }
+
+ 
 
     }
 }
