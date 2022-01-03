@@ -14,6 +14,7 @@ namespace eAPIClient.Services
         Task<GetOdataResponse> ApiGetOData(string url);
         Task<GetResponse> ApiGet(string url);
         Task<GetResponse> SendTelegram (string message); 
+        Task<GetResponse> SendBackendTelegram (string message); 
         
         Task<PostReponse> ApiPost(string url, object obj = null);
 
@@ -161,6 +162,28 @@ namespace eAPIClient.Services
             return new GetResponse(false, StatusCode);
 
         }
+
+        public async Task<GetResponse> SendBackendTelegram(string message)
+        {
+            HttpStatusCode StatusCode = new HttpStatusCode();
+            http.DefaultRequestHeaders.Add("ContentType", "application/json");
+
+            string token = _configuration.GetValue<string>("backEndTelegramConfig:access_token");
+            string chat_id = _configuration.GetValue<string>("backEndTelegramConfig:chat_id");
+            string url = $"{"https://api.telegram.org/bot"}{token}/sendMessage?chat_id={chat_id}&text={message.Replace("#", "")}";
+
+            var resp = await http.GetAsync(url);
+
+            StatusCode = resp.StatusCode;
+            if (resp.IsSuccessStatusCode)
+            {
+                var jsonString = await resp.Content.ReadAsStringAsync();
+                return new GetResponse(true, jsonString);
+            }
+            return new GetResponse(false, StatusCode);
+
+        }
+
     }
 
 }

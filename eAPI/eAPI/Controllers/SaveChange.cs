@@ -52,20 +52,10 @@ namespace eAPI.Controllers
             }
 
             await db.SaveChangesAsync();
-            foreach (var item in db.ChangeTracker.Entries() )
-            {
-                switch (item.Entity)
-                {
-                    case UserModel :
-                    case UnitModel:
-                        await hub.Clients.All.SendAsync("Sync", "setting");
-                        break;
-                    default:
-                        break;
-                }
-            }
-                
-            
+
+            SendUpdateToClient(db, hub);
+
+
         }
 
         public static void Save(ApplicationDbContext db, int user_id, IHubContext<ConnectionHub> hub)
@@ -96,6 +86,44 @@ namespace eAPI.Controllers
                 }
             }
             db.SaveChanges();
+            SendUpdateToClient(db, hub);
         }
+    
+    
+
+        static void SendUpdateToClient(ApplicationDbContext db, IHubContext<ConnectionHub> hub)
+        {
+            foreach (var item in db.ChangeTracker.Entries())
+            {
+                switch (item.Entity)
+                {
+                    case UserModel:
+                    case PermissionOptionModel:
+                    case CurrencyModel:
+                    case BusinessBranchModel:
+                    case BusinessBranchCurrencyModel:
+                    case UnitCategoryModel:
+                    case ExpenseCategoryModel:
+                    case SettingModel:
+                    case OutletModel:
+                    case StationModel:
+                    case TableGroupModel:
+                    case TableModel:
+                    case UnitModel:
+                    case ProductGroupModel:
+                    case PriceRuleModel:
+                    case DiscountCodeModel:
+                    case SystemFeatureModel:
+                    case SaleTypeModel:
+                    case CustomerGroupModel:
+                    case PaymentTypeModel:
+                        hub.Clients.All.SendAsync("Sync", "setting");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    
     }
 }

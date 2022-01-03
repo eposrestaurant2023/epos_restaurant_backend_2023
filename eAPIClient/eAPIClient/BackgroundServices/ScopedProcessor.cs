@@ -20,11 +20,10 @@ namespace eAPIClient.BackgroundServices
         }
         protected override async Task Process()
         {
-            using (var scope = _serviceScopeFactory.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                await ProcessInScope(scope.ServiceProvider);
-            }
+            var scope = _serviceScopeFactory.CreateScope();
+
+            await ProcessInScope(scope.ServiceProvider);
+
         }
 
         

@@ -18,22 +18,10 @@ namespace eAPIClient
     {
         public static async Task Main(string[] args)
         {
-           
             var builder = CreateHostBuilder(args);
             var host = builder.Build();
             host.Run();
-
-
-
-                
-
-         
-
-
-         
-           
-
-
+             
         }
  
 

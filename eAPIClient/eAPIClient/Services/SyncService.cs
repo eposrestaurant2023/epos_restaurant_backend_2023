@@ -39,6 +39,7 @@ namespace eAPIClient.Services
         public async Task<bool> SyncSetting()
         {
           
+            
             string business_branch_id = config.GetValue<string>("business_branch_id");
             var prepare_sync_response = await http.ApiPost("GetData", new FilterModel() { procedure_name = "sp_prepare_sync_config_data", procedure_parameter = $"'{business_branch_id}'" });
             if (prepare_sync_response.IsSuccess)
@@ -51,21 +52,31 @@ namespace eAPIClient.Services
                 {
 
                     config_datas =  JsonSerializer.Deserialize<List<ConfigDataModel>>(resp.Content.ToString());
-                    var old_config_data = db.ConfigDatas.Where(r => r.is_local_setting == false);
-                    db.ConfigDatas.RemoveRange(old_config_data);
-                    db.SaveChanges();
-                    
-                    try
+                    if (config_datas.Any())
                     {
-                        db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
-                        db.SaveChanges();
-                   
+                        //get branch info
+                        var b = JsonSerializer.Deserialize<List<BusinessBranchModel>>(config_datas.Where(r => r.config_type == "business_branch").FirstOrDefault().data).FirstOrDefault();
+                        try
+                        {
+                            var old_config_data = db.ConfigDatas.Where(r => r.is_local_setting == false);
+                            db.ConfigDatas.RemoveRange(old_config_data);
+                            db.SaveChanges();
+
+
+                            db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
+                            db.SaveChanges();
+
+                           http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully");
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            string message = ex.ToString();
+                            http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully%0a{ex.ToString()}");
+                        }
+
                     }
-                    catch(Exception ex)
-                    {
-                        string xx = ex.ToString();
-                    }
-                    
                     return true;
                 }
 
