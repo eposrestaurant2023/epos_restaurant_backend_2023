@@ -13,6 +13,7 @@ using eAPIClient.Models;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using System.Security.Claims;
+using Serilog;
 
 namespace eAPIClient.Controllers
 {
@@ -185,6 +186,7 @@ namespace eAPIClient.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(ex.ToString());
                 return BadRequest();
             }
         }

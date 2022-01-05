@@ -125,6 +125,11 @@ else
     string url = "";
     int old_report_id = 0;
 
+    
+    public string current_lang_code { get{
+            return (gv.current_language.language_id.Split('-')[1]).ToLower();
+    }}
+
 
 
     protected override async Task OnParametersSetAsync()
@@ -144,6 +149,8 @@ else
 
     }
 
+    
+
     async Task PreviewReport_Click(PermissionOptionModel report)
     {
         model = report;
@@ -154,11 +161,11 @@ else
             await Task.Delay(500);
             if (report_parameters == "")
             {
-                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&printed_by={gv.current_login_user.username}&report_url={model.option_name}";
+                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&printed_by={gv.current_login_user.username}&report_url={model.option_name}&lang={current_lang_code}";
             }
             else
             {
-                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&{report_parameters}&printed_by={gv.current_login_user.username}&report_url={model.option_name}";
+                url = $"{gv.report_url}/Pages/ReportViewer.aspx?/{gv.report_folder}/{report.option_name}&rs:Command=Render&rs:Embed=true&{report_parameters}&printed_by={gv.current_login_user.username}&report_url={model.option_name}&lang={current_lang_code}";
             }
 
             IsMenuReportOpened = false;

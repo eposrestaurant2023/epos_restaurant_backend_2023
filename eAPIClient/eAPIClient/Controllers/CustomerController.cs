@@ -23,11 +23,13 @@ namespace eAPIClient.Controllers
 
         private readonly ApplicationDbContext db;
         private readonly AppService app;
+        private readonly ISyncService sync;
 
-        public CustomerController(ApplicationDbContext _db, AppService _app)
+        public CustomerController(ApplicationDbContext _db, AppService _app,ISyncService sync)
         {
             db = _db;
             app = _app;
+            this.sync = sync;
         }
 
 
@@ -78,7 +80,7 @@ namespace eAPIClient.Controllers
 
             await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-            app.sendSyncRequest();
+            sync.sendSyncRequest();
 
             return Ok(u);
         }

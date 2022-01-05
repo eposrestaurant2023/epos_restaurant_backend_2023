@@ -22,11 +22,11 @@ namespace eAPIClient.Controllers
     {
 
         private readonly ApplicationDbContext db;
-        private readonly AppService app;
-        public CashDrawerAmountController(ApplicationDbContext _db, AppService _app)
+        private readonly ISyncService sync;
+        public CashDrawerAmountController(ApplicationDbContext _db, ISyncService _sync)
         {
             db = _db;
-            app = _app;
+            sync = _sync;
         }
 
 
@@ -54,7 +54,7 @@ namespace eAPIClient.Controllers
                     db.CashDrawerAmounts.Update(u);
                 }
                 await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                app.sendSyncRequest();
+                sync.sendSyncRequest();
                 return Ok(u);
             }
             catch (Exception _ex)
