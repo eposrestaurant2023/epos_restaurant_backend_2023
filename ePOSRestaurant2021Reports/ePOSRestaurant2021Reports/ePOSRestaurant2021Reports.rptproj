@@ -114,6 +114,7 @@
     <Report Include="rptStockTakeReceiptA4.rdl" />
     <Report Include="rptStockTransferList.rdl" />
     <Report Include="rptStockTransferProductDetail.rdl" />
+    <Report Include="rptStockTransferProductSummary.rdl" />
     <Report Include="rptStockTransferReceiptA4.rdl" />
     <Report Include="rptStockTransferReceiptA5.rdl" />
     <Report Include="rptVendorList.rdl" />

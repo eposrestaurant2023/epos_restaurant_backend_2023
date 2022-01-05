@@ -422,7 +422,7 @@ from #tbl
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Date,Category,P.Code,Product name,QTY,Unit,Cost,Price,Branch,Warehouse,Group,Inventory Movement,Printed By,on,Page,of,Total,inventory_starting_balance,Production,QTY Receive,Stock Take,Transfer In,Transfer Out,QTY Sold,BOH'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Date,Category,P.Code,Product name,QTY,Unit,Cost,Price,Branch,Warehouse,Group,Inventory Movement,Printed By,on,Page,of,Total,inventory_starting_balance,Production,QTY Receive,Stock Take,Transfer In,Transfer Out,QTY Sold,BOH,printed_by'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -527,6 +527,10 @@ from #tbl
         </Field>
         <Field Name="BOH">
           <DataField>BOH</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="printed_by">
+          <DataField>printed_by</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -2510,7 +2514,7 @@ from #tbl
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Printed_By.Value, "translate")</Value>
+                      <Value>=First(Fields!printed_by.Value, "translate")</Value>
                       <Style>
                         <FontFamily>Kh system</FontFamily>
                         <FontSize>8pt</FontSize>

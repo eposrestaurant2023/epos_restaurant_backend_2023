@@ -150,7 +150,7 @@ namespace eAdmin.Pages.PageReceipt
                     {
                         key = "expense_date",
                         value1 = string.Format("{0:yyyy-MM-dd}", state.date_range.start_date),
-                        filter_title = lang["Expense Date"],
+                        filter_title = lang["Working Date"],
                         filter_info_text = state.date_range.start_date.ToString(gv.date_format) + " - " + state.date_range.end_date.ToString(gv.date_format),
                         filter_operator = "Ge",
                         is_clear_all = true,
@@ -255,7 +255,7 @@ namespace eAdmin.Pages.PageReceipt
             }
 
             //// Expense Category
-            if (state.expense_category != null)
+            if (state.expense_category != null && state.expense_category.id != Guid.Empty)
             {
                 state.filters.Add(new FilterModel()
             {
@@ -270,7 +270,7 @@ namespace eAdmin.Pages.PageReceipt
             }
 
             //// Expense Category
-            if (state.expense_item != null)
+            if (state.expense_item != null && state.expense_item.id != Guid.Empty)
             {
                 state.filters.Add(new FilterModel()
                 {

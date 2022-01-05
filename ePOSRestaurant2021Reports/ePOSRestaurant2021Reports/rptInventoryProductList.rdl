@@ -398,7 +398,7 @@ if @option_id = 4 delete #tbl where quantity&gt;0;
             <Value>=Parameters!lang.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>exec sp_get_translate_text @lang,'No,Category,Code,Name,QTY,Unit,Cost,Price,Branch,Warehouse,Group,Inventory Product,Printed By,on,Page,of,Total'</CommandText>
+        <CommandText>exec sp_get_translate_text @lang,'No,Category,Code,Name,QTY,Unit,Cost,Price,Branch,Warehouse,Group,Inventory Product,printed_by,on,Page,of,Total'</CommandText>
       </Query>
       <Fields>
         <Field Name="No">
@@ -449,8 +449,8 @@ if @option_id = 4 delete #tbl where quantity&gt;0;
           <DataField>Inventory Product</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Printed_By">
-          <DataField>Printed By</DataField>
+        <Field Name="printed_by">
+          <DataField>printed_by</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="on">
@@ -1266,7 +1266,6 @@ if @option_id = 4 delete #tbl where quantity&gt;0;
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1611,8 +1610,9 @@ if @option_id = 4 delete #tbl where quantity&gt;0;
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!Printed_By.Value, "translate")</Value>
+                      <Value>=First(Fields!printed_by.Value, "translate")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1638,6 +1638,7 @@ if @option_id = 4 delete #tbl where quantity&gt;0;
                     <TextRun>
                       <Value>=First(Fields!on.Value, "translate")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
