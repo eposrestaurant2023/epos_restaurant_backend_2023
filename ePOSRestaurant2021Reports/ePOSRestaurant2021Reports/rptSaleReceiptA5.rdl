@@ -1569,7 +1569,7 @@ declare
             <Top>1.14336in</Top>
             <Left>2.34048in</Left>
             <Height>1.75in</Height>
-            <Width>2.87951in</Width>
+            <Width>2.8795in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -3887,7 +3887,7 @@ declare
             <DataSetName>sale_data</DataSetName>
             <Top>1.14336in</Top>
             <Height>1.75in</Height>
-            <Width>2.29566in</Width>
+            <Width>2.29567in</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -4909,7 +4909,6 @@ declare
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0cm</Top>
               <Height>0.1875in</Height>
               <Width>3.16103in</Width>
               <Style>
@@ -4979,7 +4978,6 @@ declare
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>0cm</Top>
               <Left>3.63214in</Left>
               <Height>0.1875in</Height>
               <Width>1.58786in</Width>
