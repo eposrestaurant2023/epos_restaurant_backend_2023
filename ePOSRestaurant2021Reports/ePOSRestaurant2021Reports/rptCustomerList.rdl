@@ -252,6 +252,90 @@ where
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="LanguageCode">
+      <SharedDataSet>
+        <SharedDataSetReference>LanguageCode</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="language_code">
+          <DataField>language_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="translate">
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@lang">
+            <Value>=Parameters!lang.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>exec sp_get_translate_text @lang,'No,Customer List,Code,Name,Group,Phone,DOB,Gender,Nationality,Receivable,on,Page,of,Printed by,Branch'</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="No">
+          <DataField>No</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Customer_List">
+          <DataField>Customer List</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Group">
+          <DataField>Group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Phone">
+          <DataField>Phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DOB">
+          <DataField>DOB</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Gender">
+          <DataField>Gender</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Nationality">
+          <DataField>Nationality</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Receivable">
+          <DataField>Receivable</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="on">
+          <DataField>on</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Page">
+          <DataField>Page</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="of">
+          <DataField>of</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Printed_by">
+          <DataField>Printed by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Branch">
+          <DataField>Branch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -301,8 +385,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>No</Value>
+                                  <Value>=First(Fields!No.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -340,8 +425,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Code</Value>
+                                  <Value>=First(Fields!Code.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -377,8 +463,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Name</Value>
+                                  <Value>=First(Fields!Name.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -414,9 +501,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Group Group</Value>
+                                  <Value>=First(Fields!Group.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -452,9 +539,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Phone</Value>
+                                  <Value>=First(Fields!Phone.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -492,9 +579,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>DOB</Value>
+                                  <Value>=First(Fields!DOB.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -532,9 +619,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Gender</Value>
+                                  <Value>=First(Fields!Gender.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -572,9 +659,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Nationality</Value>
+                                  <Value>=First(Fields!Nationality.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -612,24 +699,9 @@ where
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Recievable</Value>
+                                  <Value>=First(Fields!Receivable.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
-                                    <FontSize>9pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style>
-                                <TextAlign>Right</TextAlign>
-                              </Style>
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -877,7 +949,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!gender.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -912,7 +984,7 @@ where
                                 <TextRun>
                                   <Value>=Fields!nationality.Value</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1011,13 +1083,13 @@ where
             </Style>
           </Tablix>
         </ReportItems>
-        <Height>0.52951in</Height>
+        <Height>0.57118in</Height>
         <Style />
       </Body>
       <Width>7.24916in</Width>
       <Page>
         <PageHeader>
-          <Height>0.8125in</Height>
+          <Height>0.84375in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1030,6 +1102,7 @@ where
                     <TextRun>
                       <Value>=First(Fields!company_name.Value, "CompanyInfo")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                       </Style>
@@ -1060,8 +1133,9 @@ where
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!report_title.Value, "report_name")</Value>
+                      <Value>=First(Fields!Customer_List.Value, "translate")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>11pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1094,7 +1168,14 @@ where
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Branch: </Value>
+                      <Value>=First(Fields!Branch.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1102,11 +1183,25 @@ where
                     <TextRun>
                       <Value>=Parameters!business_branch_id.Label</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Group: </Value>
+                      <Value> / </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Group.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1114,6 +1209,7 @@ where
                     <TextRun>
                       <Value>=Parameters!customer_group_id.Label</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -1124,7 +1220,7 @@ where
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>0.54167in</Top>
               <Left>0.00083in</Left>
-              <Height>0.20833in</Height>
+              <Height>0.26041in</Height>
               <Width>7.24833in</Width>
               <ZIndex>2</ZIndex>
               <Style>
@@ -1145,7 +1241,7 @@ where
           </Style>
         </PageHeader>
         <PageFooter>
-          <Height>0.28819in</Height>
+          <Height>0.23611in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1156,7 +1252,14 @@ where
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Printed by: </Value>
+                      <Value>=First(Fields!Printed_by.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1164,11 +1267,25 @@ where
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> on </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!on.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1184,7 +1301,7 @@ where
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
-              <Top>0.06944in</Top>
+              <Left>0.00211cm</Left>
               <Height>0.1875in</Height>
               <Width>4in</Width>
               <Style>
@@ -1204,7 +1321,14 @@ where
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Page </Value>
+                      <Value>=First(Fields!Page.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1216,7 +1340,20 @@ where
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> of </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!of.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -1234,7 +1371,6 @@ where
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
-              <Top>0.06944in</Top>
               <Left>4.14583in</Left>
               <Height>0.1875in</Height>
               <Width>3.1025in</Width>
@@ -1320,6 +1456,22 @@ where
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="lang">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>en</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Language</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>LanguageCode</DataSetName>
+          <ValueField>language_code</ValueField>
+          <LabelField>language_code</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1345,6 +1497,11 @@ where
           <ColumnIndex>1</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>customer_group_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>lang</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
