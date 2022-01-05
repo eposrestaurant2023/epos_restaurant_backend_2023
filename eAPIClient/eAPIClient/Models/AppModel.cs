@@ -298,4 +298,11 @@ namespace eAPIClient.Models
         public string setting_value { get; set; }
     }
 
+    public class DataForSyncModel
+    {
+        public string transaction_type { get; set; }
+        public string business_branch_name { get; set; }
+        public string id { get; set; }
+    }
+
 }

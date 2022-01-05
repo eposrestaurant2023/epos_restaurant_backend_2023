@@ -19,6 +19,7 @@ namespace eAPI.Controllers
         private readonly IHubContext<ConnectionHub> hub;
 
         private readonly IWebHostEnvironment environment;
+
         public UploadController(IWebHostEnvironment environment, ApplicationDbContext _db, IHubContext<ConnectionHub> _hub)
         {
             this.environment = environment;

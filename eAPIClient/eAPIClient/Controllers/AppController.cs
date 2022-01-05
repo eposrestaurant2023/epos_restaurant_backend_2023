@@ -24,12 +24,16 @@ namespace eAPIClient.Controllers
         private readonly ApplicationDbContext db;
         private readonly AppService app;
         private readonly IHttpService http;
-        public AppController(ApplicationDbContext _db, AppService _app, IConfiguration configuration, IHttpService _http )
+        private readonly ISyncService sync;
+     
+
+        public AppController(ApplicationDbContext _db, AppService _app, IConfiguration configuration, IHttpService _http, ISyncService sync)
         {
             db = _db;
             app = _app;
             config = configuration;
             http = _http;
+            this.sync = sync;
         }
 
 
@@ -70,7 +74,7 @@ namespace eAPIClient.Controllers
         [Route("SendSyncRequest")]
         public ActionResult<string> SendSyncRequest()
         {
-            app.sendSyncRequest();
+            sync.sendSyncRequest();
             return Ok();
         }  
         
@@ -78,7 +82,7 @@ namespace eAPIClient.Controllers
         [Route("SendSyncRemoteDataRequest")]
         public ActionResult<string> SendSyncRemoteDataRequest()
         {
-            app.sendSyncRemoteDataRequest();
+            sync.sendSyncRemoteDataRequest();
             return Ok();
         }
 

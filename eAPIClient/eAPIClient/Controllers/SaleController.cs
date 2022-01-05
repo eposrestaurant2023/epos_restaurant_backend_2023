@@ -24,12 +24,14 @@ namespace eAPIClient.Controllers
         public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
         private readonly AppService app; 
+        private readonly ISyncService sync; 
 
-        public SaleController(ApplicationDbContext _db, AppService _app,  IConfiguration configuration)
+        public SaleController(ApplicationDbContext _db, AppService _app,  IConfiguration configuration, ISyncService sync)
         {
             db = _db;
             app = _app;
-            config = configuration; 
+            config = configuration;
+            this.sync = sync;
         }
 
 
@@ -201,7 +203,7 @@ namespace eAPIClient.Controllers
                 //for anyupdate that related to sale if have
                 db.Database.ExecuteSqlRaw($"exec sp_update_sale_infomation '{model.id}'");   
                         
-                    app.sendSyncRequest();
+                    sync.sendSyncRequest();
                
 
                 return Ok(model);

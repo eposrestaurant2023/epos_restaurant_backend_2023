@@ -23,10 +23,12 @@ namespace eAPIClient.Controllers
 
         private readonly ApplicationDbContext db;
         private readonly AppService app;
-        public WorkingDayController(ApplicationDbContext _db,AppService _app)
+        private readonly ISyncService sync;
+        public WorkingDayController(ApplicationDbContext _db,AppService _app, ISyncService sync)
         {
             db = _db;
             app = _app;
+            this.sync = sync;
         }
 
 
@@ -82,7 +84,7 @@ namespace eAPIClient.Controllers
 
                 }
 
-                app.sendSyncRequest();
+                sync.sendSyncRequest();
                 return Ok(u);
             }catch(Exception _ex)
             {

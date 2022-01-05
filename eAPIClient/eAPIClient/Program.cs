@@ -20,6 +20,46 @@ namespace eAPIClient
         {
             var builder = CreateHostBuilder(args);
             var host = builder.Build();
+
+
+            var scope = host.Services.CreateScope();
+
+            var services = scope.ServiceProvider;
+
+
+            var sync = services.GetRequiredService<ISyncService>();
+            var env = services.GetRequiredService<IWebHostEnvironment>();
+
+            string path = env.ContentRootPath + "\\logs";
+          
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            var watcher = new FileSystemWatcher(path);
+
+
+            watcher.NotifyFilter = NotifyFilters.Attributes
+                                 | NotifyFilters.CreationTime
+                                 | NotifyFilters.DirectoryName
+                                 | NotifyFilters.FileName
+                                 | NotifyFilters.LastAccess
+                                 | NotifyFilters.LastWrite
+                                 | NotifyFilters.Security
+                                 | NotifyFilters.Size;
+
+
+            watcher.Created += sync.OnCreatedAsync;
+
+
+            watcher.Filter = "*.*";
+            watcher.IncludeSubdirectories = true;
+            watcher.EnableRaisingEvents = true;
+
+
+
+             
+
             host.Run();
              
         }

@@ -68,6 +68,9 @@ namespace eAdmin
             var host = builder.Build();
             await host.SetDefaultCulture();
             await host.RunAsync();
+
+
+            
         }
     }
 }

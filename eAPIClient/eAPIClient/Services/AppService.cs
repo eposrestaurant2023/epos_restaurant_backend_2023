@@ -19,11 +19,13 @@ namespace eAPIClient.Services
         public IConfiguration config { get; }
         private readonly ApplicationDbContext db;
         private readonly IHttpService http;
-        public AppService(ApplicationDbContext _db, IConfiguration _config, IHttpService _http)
+        private readonly ISyncService sync;
+        public AppService(ApplicationDbContext _db, IConfiguration _config, IHttpService _http, ISyncService sync)
         {
             db = _db;
             config = _config;
             http = _http;
+            this.sync = sync;
         }          
              
 
@@ -188,28 +190,7 @@ namespace eAPIClient.Services
         }
 
 
-        public void sendSyncRequest()
-        {
-
-            string path = config.GetValue<string>("sync_request_part"); ;
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt"));
-        } 
-        public void sendSyncRemoteDataRequest()
-        {
-
-            string path = config.GetValue<string>("sync_request_part"); ;
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.bat"));
-        }
+       
 
         public void sendPrintRequest(PrintRequestModel model)
         {
@@ -273,7 +254,7 @@ namespace eAPIClient.Services
             }
             await SaveChange.SaveAsync(db, UserID);
 
-            sendSyncRequest();
+           sync.sendSyncRequest();
 
             return model;
         }
@@ -337,7 +318,7 @@ namespace eAPIClient.Services
 
             db.Database.ExecuteSqlRaw($"exec sp_update_cashier_shift_information '{model.id}'");
 
-            sendSyncRequest();
+            sync.sendSyncRequest();
 
             return model;
         }

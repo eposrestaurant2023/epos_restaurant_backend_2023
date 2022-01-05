@@ -22,11 +22,13 @@ namespace eAPIClient.Controllers
     {
 
         private readonly ApplicationDbContext db;
+        private readonly ISyncService sync;
         private readonly AppService app;
-        public CashierShiftController(ApplicationDbContext _db, AppService _app)
+        public CashierShiftController(ApplicationDbContext _db, ISyncService sync, AppService app)
         {
             db = _db;
-            app = _app;
+            this.sync=sync;
+            this.app = app;
         }
 
 
@@ -82,7 +84,7 @@ namespace eAPIClient.Controllers
                   
 
                 }
-                app.sendSyncRequest();
+                sync.sendSyncRequest();
                 return Ok(u);
             }
             catch (Exception _ex)
