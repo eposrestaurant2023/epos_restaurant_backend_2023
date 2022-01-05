@@ -297,6 +297,162 @@ order by
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="LanguageCode">
+      <SharedDataSet>
+        <SharedDataSetReference>LanguageCode</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="language_code">
+          <DataField>language_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="translate">
+      <Query>
+        <DataSourceName>Datasource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@lang">
+            <Value>=Parameters!lang.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>exec sp_get_translate_text @lang,'No,Doc. #,Date,Branch,Warehouse,Outlet,Customer,QTY,Discount,Tax,Cost,Total Amount,Profit,User,Sub Total,Printed by,on,of,Page,Group,Product Menu Price,Product Group,Category,Reference Number,To,Product,Unit,Price,Name,Code,User,Created Date,Portion,Total'</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="No">
+          <DataField>No</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Doc___">
+          <DataField>Doc. #</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Date">
+          <DataField>Date</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Branch">
+          <DataField>Branch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Warehouse">
+          <DataField>Warehouse</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Outlet">
+          <DataField>Outlet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Customer">
+          <DataField>Customer</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Discount">
+          <DataField>Discount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Tax">
+          <DataField>Tax</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cost">
+          <DataField>Cost</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_Amount">
+          <DataField>Total Amount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Profit">
+          <DataField>Profit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="User">
+          <DataField>User</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Sub_Total">
+          <DataField>Sub Total</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Printed_by">
+          <DataField>Printed by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="on">
+          <DataField>on</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="of">
+          <DataField>of</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Page">
+          <DataField>Page</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Group">
+          <DataField>Group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product_Menu_Price">
+          <DataField>Product Menu Price</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="to">
+          <DataField>To</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product_Group">
+          <DataField>Product Group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Category">
+          <DataField>Category</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Reference_Number">
+          <DataField>Reference Number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Unit">
+          <DataField>Unit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Price">
+          <DataField>Price</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Code">
+          <DataField>Code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Created_Date">
+          <DataField>Created Date</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Portion">
+          <DataField>Portion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total">
+          <DataField>Total</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -315,9 +471,9 @@ order by
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>Category</Value>
+                                <Value>=First(Fields!Category.Value, "translate")</Value>
                                 <Style>
-                                  <FontFamily>Arial</FontFamily>
+                                  <FontFamily>kh system</FontFamily>
                                   <FontSize>9pt</FontSize>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
@@ -353,9 +509,9 @@ order by
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>Product Name</Value>
+                                <Value>=First(Fields!Product.Value, "translate")</Value>
                                 <Style>
-                                  <FontFamily>Arial</FontFamily>
+                                  <FontFamily>kh system</FontFamily>
                                   <FontSize>9pt</FontSize>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
@@ -391,9 +547,9 @@ order by
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>Portion</Value>
+                                <Value>=First(Fields!Portion.Value, "translate")</Value>
                                 <Style>
-                                  <FontFamily>Arial</FontFamily>
+                                  <FontFamily>kh system</FontFamily>
                                   <FontSize>9pt</FontSize>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
@@ -437,15 +593,16 @@ order by
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="price">
+                        <Textbox Name="price_name1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=format(Sum(Fields!price.Value),First(Fields!currency_format.Value, "Setting"))</Value>
+                                  <Value>=Fields!price_name.Value</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -455,7 +612,7 @@ order by
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>price</rd:DefaultName>
+                          <rd:DefaultName>price_name1</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -493,6 +650,7 @@ order by
                               <TextRun>
                                 <Value>=Fields!price_name.Value</Value>
                                 <Style>
+                                  <FontFamily>kh system</FontFamily>
                                   <FontSize>9pt</FontSize>
                                   <FontWeight>Bold</FontWeight>
                                 </Style>
@@ -544,7 +702,7 @@ order by
                               <TextRun>
                                 <Value>=Fields!product_category_en.Value</Value>
                                 <Style>
-                                  <FontFamily>Arial</FontFamily>
+                                  <FontFamily>kh system</FontFamily>
                                   <FontSize>8pt</FontSize>
                                 </Style>
                               </TextRun>
@@ -580,6 +738,7 @@ order by
                                   <TextRun>
                                     <Value>=Fields!product_name_en.Value</Value>
                                     <Style>
+                                      <FontFamily>kh system</FontFamily>
                                       <FontSize>8pt</FontSize>
                                     </Style>
                                   </TextRun>
@@ -625,7 +784,7 @@ order by
                                       <TextRun>
                                         <Value>=Fields!portion_name.Value</Value>
                                         <Style>
-                                          <FontFamily>Arial</FontFamily>
+                                          <FontFamily>kh system</FontFamily>
                                           <FontSize>8pt</FontSize>
                                         </Style>
                                       </TextRun>
@@ -687,6 +846,7 @@ order by
                     <TextRun>
                       <Value>=First(Fields!company_name.Value, "CompanyInfo")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>
                       </Style>
@@ -717,8 +877,9 @@ order by
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!report_title.Value, "report_name")</Value>
+                      <Value>=First(Fields!Product_Menu_Price.Value, "translate")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>11pt</FontSize>
                       </Style>
                     </TextRun>
@@ -751,7 +912,14 @@ order by
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Branch: </Value>
+                      <Value>=First(Fields!Branch.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -759,11 +927,25 @@ order by
                     <TextRun>
                       <Value>=Parameters!business_branch_id.Label</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Group: </Value>
+                      <Value> /</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Group.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -771,11 +953,25 @@ order by
                     <TextRun>
                       <Value>=Parameters!product_group_id.Label</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> / Category: </Value>
+                      <Value> /</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!Category.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value> : </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -783,6 +979,7 @@ order by
                     <TextRun>
                       <Value>=Parameters!product_category_id.Label</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -824,7 +1021,14 @@ order by
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Printed by: </Value>
+                      <Value>=First(Fields!Printed_by.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -832,11 +1036,25 @@ order by
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> on </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!on.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -844,6 +1062,7 @@ order by
                     <TextRun>
                       <Value>=format(now,"dd/MM/yyyy HH:mm:ss tt")</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
@@ -872,7 +1091,14 @@ order by
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Page </Value>
+                      <Value>=First(Fields!Page.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -884,7 +1110,20 @@ order by
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> of </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!of.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -956,23 +1195,6 @@ order by
       <Prompt>report_url</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
-    <ReportParameter Name="business_branch_id">
-      <DataType>String</DataType>
-      <DefaultValue>
-        <Values>
-          <Value />
-        </Values>
-      </DefaultValue>
-      <AllowBlank>true</AllowBlank>
-      <Prompt>Branch</Prompt>
-      <ValidValues>
-        <DataSetReference>
-          <DataSetName>BusinessBranch</DataSetName>
-          <ValueField>id</ValueField>
-          <LabelField>business_branch_name_en</LabelField>
-        </DataSetReference>
-      </ValidValues>
-    </ReportParameter>
     <ReportParameter Name="product_group_id">
       <DataType>Integer</DataType>
       <DefaultValue>
@@ -1005,6 +1227,39 @@ order by
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="business_branch_id">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value />
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Branch</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>BusinessBranch</DataSetName>
+          <ValueField>id</ValueField>
+          <LabelField>business_branch_name_en</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="lang">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>en</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Language</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>LanguageCode</DataSetName>
+          <ValueField>language_code</ValueField>
+          <LabelField>language_code</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1023,18 +1278,23 @@ order by
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>product_group_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>product_category_id</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>1</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>business_branch_id</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>lang</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
