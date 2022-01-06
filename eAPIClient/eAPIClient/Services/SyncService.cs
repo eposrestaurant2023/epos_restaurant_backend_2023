@@ -367,13 +367,16 @@ namespace eAPIClient.Services
                     var _syncResp = await http.ApiPost("History/Save", _model);
                     if (!_syncResp.IsSuccess)
                     {
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { JsonSerializer.Serialize(_model)}");
-                        Log.Error($"Sync history fail. Data: {JsonSerializer.Serialize(_model)}");
+                        
+                            http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { JsonSerializer.Serialize(_model)}");
+                            Log.Error($"Sync history fail. Data: {JsonSerializer.Serialize(_model)}");
+
+                       
                         return false;
                     }
                     db.Histories.Update(_model);
                     db.SaveChanges();
-                  sendHistoryAlertTelegram(_model);
+                    sendHistoryAlertTelegram(_model);
                     return true;
                 }
                 else
@@ -403,8 +406,10 @@ namespace eAPIClient.Services
                     var _syncResp = await http.ApiPost("Customer/Save?is_synch_from_client=true", _model);
                     if (!_syncResp.IsSuccess)
                     {
+
                         http.SendBackendTelegram($"{business_branch_name}%0aSync customer fail. Data: { JsonSerializer.Serialize(_model)}");
                         Log.Error($"Sync customer fail. Data: {JsonSerializer.Serialize(_model)}");
+
                         return false;
 
                     }
@@ -444,12 +449,14 @@ namespace eAPIClient.Services
                     var _syncResp = await http.ApiPost("Expense/SyncSave", _model);
                     if (!_syncResp.IsSuccess)
                     {
+
                         http.SendBackendTelegram($"{business_branch_name}%0aSync expense fail. Data: { JsonSerializer.Serialize(_model)}");
                         Log.Error($"Sync expense  fail. Data: {JsonSerializer.Serialize(_model)}");
+
                         return false;
                     }
                     db.Expenses.Update(_model);
-                      db.SaveChanges();
+                    db.SaveChanges();
                     return true;
                 }
                 else
@@ -488,22 +495,27 @@ namespace eAPIClient.Services
                         var b = JsonSerializer.Deserialize<List<BusinessBranchModel>>(config_datas.Where(r => r.config_type == "business_branch").FirstOrDefault().data).FirstOrDefault();
                         try
                         {
-                            var old_config_data = db.ConfigDatas.Where(r => r.is_local_setting == false);
-                            db.ConfigDatas.RemoveRange(old_config_data);
-                            db.SaveChanges();
-
-
-                            db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
-                            db.SaveChanges();
-
-                            http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully");
+                            await Task.Factory.StartNew(()=>{
+                                var old_config_data = db.ConfigDatas.Where(r => r.is_local_setting == false);
+                                db.ConfigDatas.RemoveRange(old_config_data);
+                                db.SaveChanges(); 
+                                db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
+                                db.SaveChanges(); 
+                                
+                                http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully");
+                            })   ;
+                           
 
 
                         }
                         catch (Exception ex)
                         {
-                            string message = ex.ToString();
-                            http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully%0a{ex.ToString()}");
+
+                            await Task.Factory.StartNew(() =>
+                            {
+                                string message = ex.ToString();
+                                http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully%0a{ex}");
+                            } );
                         }
 
                     }
@@ -534,68 +546,67 @@ namespace eAPIClient.Services
             System.Threading.Thread.Sleep(1000);
         }
 
+        bool _is_sync_processing = false; 
         async void  ISyncService.OnCreatedAsync(object sender, FileSystemEventArgs e)
         {
-
-            string value = e.Name.Replace(".txt", "").Split(',')[0];
-            http.SendBackendTelegram("Start sync data");
-            try
+            if (!_is_sync_processing)
             {
-
-
-                var data = GetDataforSync();
-                if (data.Any())
+                string value = e.Name.Replace(".txt", "").Split(',')[0];
+                await Task.Factory.StartNew(() => http.SendBackendTelegram("Start sync data"));
+                try
                 {
-
-
-
-
-                    foreach (var r in data)
+                    var data = GetDataforSync();
+                    if (data.Any())
                     {
-
-                        switch (r.transaction_type.ToString())
+                        foreach (var r in data)
                         {
-                            case "working_day":
-                                await SyncWorkingDayGet(Guid.Parse(r.id), r.business_branch_name);
-                                break;
-                            case "cash_drawer_amount":
-                                await SyncCashDrawerAmountGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "cashier_shift":
-                                await SyncCashierShiftGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "sale":
-                                await SyncSaleGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "history":
-                                await SyncHistory(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "customer":
-                                await SyncCustomer(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "expense":
-                                await SyncExpense(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            default:
-                                break;
+                            switch (r.transaction_type.ToString())
+                            {
+                                case "working_day":
+                                    await SyncWorkingDayGet(Guid.Parse(r.id), r.business_branch_name);
+                                    break;
+                                case "cash_drawer_amount":
+                                    await SyncCashDrawerAmountGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
+                                    break;
+                                case "cashier_shift":
+                                    await SyncCashierShiftGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
+                                    break;
+                                case "sale":
+                                    await SyncSaleGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
+                                    break;
+                                case "history":
+                                    await SyncHistory(Guid.Parse(r.id.ToString()), r.business_branch_name);
+                                    break;
+                                case "customer":
+                                    await SyncCustomer(Guid.Parse(r.id.ToString()), r.business_branch_name);
+                                    break;
+                                case "expense":
+                                    await SyncExpense(Guid.Parse(r.id.ToString()), r.business_branch_name);
+                                    break;
+                                default:
+                                    break;
+                            }
+                            System.Threading.Thread.Sleep(100);
                         }
-
-
                     }
+
+
+                    System.Threading.Thread.Sleep(500);
+                    File.Delete(e.FullPath);
+                    _is_sync_processing = false;
+                    Log.Information("sale synch complete " + value);
                 }
-
-
-                System.Threading.Thread.Sleep(1000);
-
-                File.Delete(e.FullPath);
-
-                Log.Information("sale synch complete " + value);
+                catch (Exception ex)
+                {     
+                    await Task.Factory.StartNew(() => {
+                        Log.Error(ex.ToString());
+                        http.SendBackendTelegram($"sync data {ex.Message}");
+                        _is_sync_processing = false;
+                    });
+                   
+                }
             }
-            catch (Exception ex)
-            {
-                Log.Error(ex.ToString());
-
-            }
+            
         }
     }
 }

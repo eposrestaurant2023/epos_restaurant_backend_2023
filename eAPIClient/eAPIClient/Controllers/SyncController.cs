@@ -206,10 +206,8 @@ namespace eAPIClient.Controllers
                     _model.is_synced = true;
                     var _syncResp = await http.ApiPost("Customer/Save?is_synch_from_client=true", _model);
                     if (!_syncResp.IsSuccess)
-                    {
-                        return Ok(_model);
-                        return BadRequest();
-                   
+                    {                            
+                        return BadRequest(_model);    
                     }
 
                     CustomerModel resp_customer = JsonSerializer.Deserialize<CustomerModel>(_syncResp.Content);
