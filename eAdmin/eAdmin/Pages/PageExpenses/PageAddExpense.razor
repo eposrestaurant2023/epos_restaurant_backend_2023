@@ -5,40 +5,42 @@
 <Loading is_loading="@is_loading" />
 @if (!is_loading)
 {
-<PageContainer>
-    <PageHeader>
-        <HeaderLeft>
-            @title
-        </HeaderLeft>
-        <HeaderRight>
+    <PageContainer>
+        <PageHeader>
+            <HeaderLeft>
+                @title
+            </HeaderLeft>
+            <HeaderRight>
 
-        </HeaderRight>
-    </PageHeader>
-    <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
-        <DataAnnotationsValidator />
-        <PageBody>
-            <UIGridCenter>
-                <UIContainerBox Title="@lang["Expenses Information"]">
-                    <TextInput @bind-text="@model.reference_number" label="@lang["Reference Number"]" />
-                    <SelectExpenseCategory expensecategoryChanged="@ExpenseCategoryChange" selected_value="@model.expense_category_id" show_empty="true" label="@lang["Expense Category"]" />
-                    <SelectExpenseItem expense_itemChanged="@ExpenseItemChange" selected_value="@model.expense_item_id" expense_category_id="@model.expense_category_id" show_empty="true" label="@lang["Expense Item"]" />
-                    <DateInput @bind-value="@model.expense_date" label="@lang["Expense Date"]" />
-                    <TextInput @bind-text="@model.expense_by" label="@lang["Expense by"]" />
-                    <NumberInput @bind-text="@model.amount" label="@lang["Amount"]" />
-                    <SelectPaymentType payment_typeChanged="@PaymentTypeChange" selected_value="@model.paymen_type_id" show_empty="true" label="@lang["Payment Type"]" />
-                    <SelectBusinessBranch show_empty="true" label="@lang["Business Branch"]" business_branchChanged="@BussinessBranchChanged" selected_value="@model.business_branch_id" />
-                    <SelectStatus @bind-selected_value="@model.status" />
-                    <TextInput @bind-text="@model.note" type="textarea" label="@lang["Note"]"/>
-                </UIContainerBox>
-            </UIGridCenter>
-        </PageBody>
-        <PageFooter>
-            <FooterCenter>
-                <ComSavingFormButton is_loading="@is_saving" cancel_url="expenses" />
-            </FooterCenter>
-        </PageFooter>
-    </EditForm>
-</PageContainer>
+            </HeaderRight>
+        </PageHeader>
+        <EditForm Model="@model" OnValidSubmit="@Save_Click" @attributes="@formAttributes">
+            <DataAnnotationsValidator />
+            <PageBody>
+                <UIGridCenter>
+                    <UIContainerBox Title="@lang["Expenses Information"]">
+                        <TextInput @bind-text="@model.reference_number" label="@lang["Reference Number"]" />
+                        <SelectExpenseCategory expensecategoryChanged="@ExpenseCategoryChange" selected_value="@model.expense_category_id" show_empty="true" label="@lang["Expense Category"]" />
+                        <SelectExpenseItem expense_itemChanged="@ExpenseItemChange" selected_value="@model.expense_item_id" expense_category_id="@model.expense_category_id" show_empty="true" label="@lang["Expense Item"]" />
+                        <DateInput @bind-value="@model.expense_date" label="@lang["Expense Date"]" />
+                        <TextInput @bind-text="@model.expense_by" label="@lang["Expense by"]">
+                            <ValidationMessage For="@(() => model.expense_by)" />
+                        </TextInput>
+                        <NumberInput @bind-text="@model.amount" label="@lang["Amount"]" />
+                        <SelectPaymentType payment_typeChanged="@PaymentTypeChange" selected_value="@model.paymen_type_id" show_empty="true" label="@lang["Payment Type"]" />
+                        <SelectBusinessBranch show_empty="true" label="@lang["Business Branch"]" business_branchChanged="@BussinessBranchChanged" selected_value="@model.business_branch_id" />
+                        <SelectStatus @bind-selected_value="@model.status" />
+                        <TextInput @bind-text="@model.note" type="textarea" label="@lang["Note"]" />
+                    </UIContainerBox>
+                </UIGridCenter>
+            </PageBody>
+            <PageFooter>
+                <FooterCenter>
+                    <ComSavingFormButton is_loading="@is_saving" cancel_url="expenses" />
+                </FooterCenter>
+            </PageFooter>
+        </EditForm>
+    </PageContainer>
 }
 
 @code {
@@ -118,8 +120,37 @@
         {
             is_saving = true;
             ExpenseModel d = model;
-
             ExpenseModel save_expenses = JsonSerializer.Deserialize<ExpenseModel>(JsonSerializer.Serialize(d));
+
+            @if (save_expenses.expense_category_id == Guid.Empty)
+            {
+                toast.Add(lang["Please select expense category"], MudBlazor.Severity.Warning);
+                is_saving = false;
+                return;
+            }
+
+            @if (save_expenses.expense_item_id == Guid.Empty)
+            {
+                toast.Add(lang["Please select expense item"], MudBlazor.Severity.Warning);
+                is_saving = false;
+                return;
+            }
+
+            @if (save_expenses.amount <= 0)
+            {
+                toast.Add(lang["Please enter payment amount."], MudBlazor.Severity.Warning);
+                is_saving = false;
+                return;
+            }
+
+            @if (save_expenses.paymen_type_id == 0)
+            {
+                toast.Add(lang["Please select payment type"], MudBlazor.Severity.Warning);
+                is_saving = false;
+                return;
+            }
+
+
             var res = await http.ApiPost($"{ControllerApi}/save", save_expenses);
             if (res.IsSuccess)
             {

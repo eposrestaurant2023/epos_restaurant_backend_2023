@@ -21,16 +21,13 @@ namespace eAdmin.Pages.PageProjects.ComBussinessBranchDetail
         public async Task Save_Click()
         {
             is_saving = true;
-
-            if (model.cash_drawer != null)
-            {
-                model.cash_drawer_name = model.cash_drawer.cash_drawer_name;
-            }
-           
-
             StationModel save_model = JsonSerializer.Deserialize<StationModel>(JsonSerializer.Serialize(model));
-            save_model.cash_drawer = null;
-
+            if (save_model.cash_drawer_id == Guid.Empty || save_model.cash_drawer_id == null)
+            {
+                toast.Add("Please select cash drawers.", Severity.Warning);
+                is_saving =false;
+                return;
+            }
             var resp = await http.ApiPost("Station/Save", save_model);
             if (resp.IsSuccess)
             {

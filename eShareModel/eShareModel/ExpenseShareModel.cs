@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,9 @@ namespace eShareModel
 
         [Column(TypeName = "date")]
         public DateTime expense_date { get; set; } = DateTime.Now;
+
+        [MaxLength(150)]
+        [Required(ErrorMessage = "Field can not be blank.")]
         public string expense_by { get; set; }
 
         public Guid expense_category_id { get; set; }
