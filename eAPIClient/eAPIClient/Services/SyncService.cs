@@ -120,37 +120,41 @@ namespace eAPIClient.Services
             watcherRemoteData.EnableRaisingEvents = true;
         }
 
- 
 
+        bool _is_sync_remote_data_processing = false;
         private async void OnSyncFromRemoteServerAsync(object sender, FileSystemEventArgs e)
         {
-
-            string value = e.Name.Replace(".txt", "").Split(',')[0];
-            List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
-                string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
-                var resp = await http.ApiGetOData(query);
-                if (resp.IsSuccess)
+            if (!_is_sync_remote_data_processing)
+            {
+                _is_sync_remote_data_processing = true;
+                try
                 {
-                    data = JsonSerializer.Deserialize<List<CustomerBusinessBranchModel>>(resp.Content.ToString());
-                    if (data.Any())
+                    string value = e.Name.Replace(".txt", "").Split(',')[0];
+                    List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
+                    string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
+                    var resp = await http.ApiGetOData(query);
+                    if (resp.IsSuccess)
                     {
-                        foreach (var b in data)
+                        data = JsonSerializer.Deserialize<List<CustomerBusinessBranchModel>>(resp.Content.ToString());
+                        if (data.Any())
                         {
-                            if (SaveRemoteCustomerToLocalCustomer(b.customer))
+                            foreach (var b in data)
                             {
+                                if (SaveRemoteCustomerToLocalCustomer(b.customer))
+                                {
 
 
-                                b.customer = null;
-                                b.is_synced = true;
-                                //save is sync to server 
-                                await http.ApiPost("CustomerBusinessBranch/Save", b);
+                                    b.customer = null;
+                                    b.is_synced = true;
+                                    //save is sync to server 
+                                    await http.ApiPost("CustomerBusinessBranch/Save", b);
+                                }
                             }
                         }
                     }
-                }
-
-
-           
+                }catch  {  }
+                _is_sync_remote_data_processing = false;  
+            }  
         }
 
 
@@ -367,11 +371,9 @@ namespace eAPIClient.Services
                     var _syncResp = await http.ApiPost("History/Save", _model);
                     if (!_syncResp.IsSuccess)
                     {
-                        
-                            http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { JsonSerializer.Serialize(_model)}");
-                            Log.Error($"Sync history fail. Data: {JsonSerializer.Serialize(_model)}");
-
-                       
+                        string _data = JsonSerializer.Serialize(_model);
+                        http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { _data}");
+                        Log.Error($"Sync history fail. Data: {_data}");  
                         return false;
                     }
                     db.Histories.Update(_model);
@@ -551,6 +553,7 @@ namespace eAPIClient.Services
         {
             if (!_is_sync_processing)
             {
+                _is_sync_processing = true;
                 string value = e.Name.Replace(".txt", "").Split(',')[0];
                 await Task.Factory.StartNew(() => http.SendBackendTelegram("Start sync data"));
                 try
@@ -586,25 +589,31 @@ namespace eAPIClient.Services
                                 default:
                                     break;
                             }
-                            System.Threading.Thread.Sleep(100);
+                            System.Threading.Thread.Sleep(200);
                         }
                     }
 
-
-                    System.Threading.Thread.Sleep(500);
-                    File.Delete(e.FullPath);
-                    _is_sync_processing = false;
-                    Log.Information("sale synch complete " + value);
+                    System.Threading.Thread.Sleep(1000); 
+                    try
+                    {
+                        File.Delete(e.FullPath);
+                        Log.Information("Synch complete " + value);
+                    }
+                    catch 
+                    {
+                        Log.Information("Synch complete " + value);
+                    } 
+                  
+                    
                 }
                 catch (Exception ex)
                 {     
                     await Task.Factory.StartNew(() => {
                         Log.Error(ex.ToString());
-                        http.SendBackendTelegram($"sync data {ex.Message}");
-                        _is_sync_processing = false;
-                    });
-                   
+                        http.SendBackendTelegram($"sync data {ex.Message}");          
+                    }); 
                 }
+                _is_sync_processing = false;
             }
             
         }
