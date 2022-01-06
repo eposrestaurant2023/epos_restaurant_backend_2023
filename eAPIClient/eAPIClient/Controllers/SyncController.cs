@@ -282,7 +282,7 @@ namespace eAPIClient.Controllers
                     var _syncResp = await http.ApiPost("History/Save", _model);
                     if (!_syncResp.IsSuccess)
                     {
-                        return BadRequest();
+                        return BadRequest(_model);
                     }
                     db.Histories.Update(_model);
                     db.SaveChanges();
@@ -297,7 +297,7 @@ namespace eAPIClient.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 

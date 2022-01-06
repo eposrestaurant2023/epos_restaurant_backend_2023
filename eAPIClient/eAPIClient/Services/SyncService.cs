@@ -593,18 +593,17 @@ namespace eAPIClient.Services
                         }
                     }
 
-                    System.Threading.Thread.Sleep(1000); 
+                    System.Threading.Thread.Sleep(1000);
+                    http.SendBackendTelegram($"Sync completed");
                     try
                     {
                         File.Delete(e.FullPath);
-                        Log.Information("Synch complete " + value);
+                        Log.Information("Sync complete " + value);
                     }
-                    catch 
+                    catch (Exception ex)
                     {
-                        Log.Information("Synch complete " + value);
-                    } 
-                  
-                    
+                        Log.Information("Sync complete " + ex.Message);
+                    }    
                 }
                 catch (Exception ex)
                 {     
