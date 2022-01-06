@@ -422,6 +422,230 @@
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="LanguageCode">
+      <SharedDataSet>
+        <SharedDataSetReference>LanguageCode</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="language_code">
+          <DataField>language_code</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="translate">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@lang">
+            <Value>=Parameters!lang.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>exec sp_get_translate_text @lang,'Type,Customer,Phone,Guest #,Branch,Outlet,Address,Receipt,Receipt #,Station,Sale Number,Working day #,shift_no,Table #,opened_date,closed_date,Cashier,No,Description,QTY,Unit,Price,Dis.,Amount,Summary by Group,Total Quantity,Sub Total,Discount,Grand Total,Business Branch,Table Name,Change,Printed by,on,Page,of,Working Day Information,Cash Drawer,opened_by,closed_by,Status,Sale Product,Product,Total Amount,Free Sale Product,Total,FOC Sale Product,Revenue Group,Summary By Revenue Group,Cashier Shift Sale Products'</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Type">
+          <DataField>Type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Customer">
+          <DataField>Customer</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Phone">
+          <DataField>Phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Guest__">
+          <DataField>Guest #</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Branch">
+          <DataField>Branch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Outlet">
+          <DataField>Outlet</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Address">
+          <DataField>Address</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Receipt">
+          <DataField>Receipt</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Receipt__">
+          <DataField>Receipt #</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Station">
+          <DataField>Station</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Sale_Number">
+          <DataField>Sale Number</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Working_day__">
+          <DataField>Working day #</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="shift_no">
+          <DataField>shift_no</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Table__">
+          <DataField>Table #</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="opened_date">
+          <DataField>opened_date</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="closed_date">
+          <DataField>closed_date</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cashier">
+          <DataField>Cashier</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="No">
+          <DataField>No</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QTY">
+          <DataField>QTY</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Unit">
+          <DataField>Unit</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Price">
+          <DataField>Price</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Dis_">
+          <DataField>Dis.</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Summary_by_Group">
+          <DataField>Summary by Group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_Quantity">
+          <DataField>Total Quantity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Sub_Total">
+          <DataField>Sub Total</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Discount">
+          <DataField>Discount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Grand_Total">
+          <DataField>Grand Total</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Business_Branch">
+          <DataField>Business Branch</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Table_Name">
+          <DataField>Table Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Change">
+          <DataField>Change</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Printed_by">
+          <DataField>Printed by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="on">
+          <DataField>on</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Page">
+          <DataField>Page</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="of">
+          <DataField>of</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Working_Day_Information">
+          <DataField>Working Day Information</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cash_Drawer">
+          <DataField>Cash Drawer</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="opened_by">
+          <DataField>opened_by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="closed_by">
+          <DataField>closed_by</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Sale_Product">
+          <DataField>Sale Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total_Amount">
+          <DataField>Total Amount</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Free_Sale_Product">
+          <DataField>Free Sale Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Total">
+          <DataField>Total</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FOC_Sale_Product">
+          <DataField>FOC Sale Product</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Revenue_Group">
+          <DataField>Revenue Group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Summary_By_Revenue_Group">
+          <DataField>Summary By Revenue Group</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cashier_Shift_Sale_Products">
+          <DataField>Cashier Shift Sale Products</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -439,7 +663,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.25926in</Height>
+                  <Height>0.26759in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -450,8 +674,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>WORKING DAY INFORMATION</Value>
+                                  <Value>=First(Fields!Working_Day_Information.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -483,7 +708,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.21423in</Height>
+                  <Height>0.22256in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -494,9 +719,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Working Day No</Value>
+                                  <Value>=First(Fields!Working_day__.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -532,7 +757,7 @@
                                 <TextRun>
                                   <Value>=Fields!working_day_number.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -563,7 +788,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.21423in</Height>
+                  <Height>0.22256in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -574,9 +799,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Branch</Value>
+                                  <Value>=First(Fields!Branch.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -612,7 +837,7 @@
                                 <TextRun>
                                   <Value>=Fields!business_branch_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -643,7 +868,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.21423in</Height>
+                  <Height>0.22256in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -654,9 +879,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Outlet</Value>
+                                  <Value>=First(Fields!Outlet.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -692,7 +917,7 @@
                                 <TextRun>
                                   <Value>=Fields!outlet_name_en.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -723,7 +948,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.23622in</Height>
+                  <Height>0.24455in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -734,9 +959,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Cash Drawer Name</Value>
+                                  <Value>=First(Fields!Cash_Drawer.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -772,7 +997,7 @@
                                 <TextRun>
                                   <Value>=Fields!cash_drawer_name.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -803,7 +1028,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.21423in</Height>
+                  <Height>0.22256in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -814,9 +1039,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Opened Date</Value>
+                                  <Value>=First(Fields!opened_date.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -852,7 +1077,7 @@
                                 <TextRun>
                                   <Value>=format(Fields!created_date.Value,"dd/MM/yyyy hh:mm tt")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -883,7 +1108,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.21423in</Height>
+                  <Height>0.22256in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -894,9 +1119,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Opened by</Value>
+                                  <Value>=First(Fields!opened_by.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -932,7 +1157,7 @@
                                 <TextRun>
                                   <Value>=Fields!created_by.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -963,7 +1188,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.21423in</Height>
+                  <Height>0.22256in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -974,9 +1199,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Status</Value>
+                                  <Value>=First(Fields!Status.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1012,7 +1237,7 @@
                                 <TextRun>
                                   <Value>=iif(Fields!is_closed.Value=true,"Closed","Opened")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1043,7 +1268,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.21423in</Height>
+                  <Height>0.22256in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1054,9 +1279,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Closed Date</Value>
+                                  <Value>=First(Fields!closed_date.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1092,7 +1317,7 @@
                                 <TextRun>
                                   <Value>=format(Fields!closed_date.Value, "dd/MM/yyyy hh:mm tt")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1123,7 +1348,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.21423in</Height>
+                  <Height>0.22256in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1134,9 +1359,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Closed by</Value>
+                                  <Value>=First(Fields!closed_by.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -1172,7 +1397,7 @@
                                 <TextRun>
                                   <Value>=Fields!closed_by.Value</Value>
                                   <Style>
-                                    <FontFamily>arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1226,9 +1451,9 @@
             </TablixRowHierarchy>
             <DataSetName>CashierShiftInfo</DataSetName>
             <Top>0.87206in</Top>
-            <Left>0.07056cm</Left>
-            <Height>2.20932in</Height>
-            <Width>7.23222in</Width>
+            <Left>0.08379cm</Left>
+            <Height>2.29265in</Height>
+            <Width>7.23223in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1244,7 +1469,7 @@
                   <TextRun>
                     <Value>=First(Fields!business_branch_name_en.Value, "CashierShiftInfo")</Value>
                     <Style>
-                      <FontFamily>Arial</FontFamily>
+                      <FontFamily>kh system</FontFamily>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -1256,6 +1481,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox4</rd:DefaultName>
+            <Left>0.01323cm</Left>
             <Height>0.23119in</Height>
             <Width>7.26in</Width>
             <ZIndex>1</ZIndex>
@@ -1276,7 +1502,14 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Address : </Value>
+                    <Value>=First(Fields!Address.Value, "translate")</Value>
+                    <Style>
+                      <FontFamily>kh system</FontFamily>
+                      <FontSize>11pt</FontSize>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>: </Value>
                     <Style>
                       <FontSize>11pt</FontSize>
                     </Style>
@@ -1284,6 +1517,7 @@
                   <TextRun>
                     <Value>=First(Fields!address_en.Value, "CashierShiftInfo")</Value>
                     <Style>
+                      <FontFamily>kh system</FontFamily>
                       <FontSize>11pt</FontSize>
                     </Style>
                   </TextRun>
@@ -1294,7 +1528,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox73</rd:DefaultName>
-            <Top>0.39507in</Top>
+            <Top>0.19003in</Top>
+            <Left>0.01323cm</Left>
             <Height>0.20103in</Height>
             <Width>7.26in</Width>
             <ZIndex>2</ZIndex>
@@ -1311,20 +1546,32 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Phone: </Value>
+                    <Value>=First(Fields!Phone.Value, "translate")</Value>
+                    <Style>
+                      <FontFamily>kh system</FontFamily>
+                    </Style>
+                  </TextRun>
+                  <TextRun>
+                    <Value>: </Value>
                     <Style />
                   </TextRun>
                   <TextRun>
                     <Value>=First(Fields!phone_1.Value, "CashierShiftInfo")</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>kh system</FontFamily>
+                    </Style>
                   </TextRun>
                   <TextRun>
                     <Value xml:space="preserve"> </Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>kh system</FontFamily>
+                    </Style>
                   </TextRun>
                   <TextRun>
                     <Value>=iif(First(Fields!phone_2.Value, "CashierShiftInfo")="",""," / " &amp; First(Fields!phone_2.Value, "CashierShiftInfo"))</Value>
-                    <Style />
+                    <Style>
+                      <FontFamily>kh system</FontFamily>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
@@ -1333,7 +1580,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox74</rd:DefaultName>
-            <Top>0.19263in</Top>
+            <Top>0.39058in</Top>
             <Height>0.19843in</Height>
             <Width>7.26in</Width>
             <ZIndex>3</ZIndex>
@@ -1369,9 +1616,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SALE PRODUCTS</Value>
+                                  <Value>=First(Fields!Sale_Product.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1415,8 +1662,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Product Name</Value>
+                                  <Value>=First(Fields!Product.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1451,9 +1699,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1490,8 +1738,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total Amount</Value>
+                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -1723,7 +1972,15 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total-</Value>
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>-</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1844,7 +2101,15 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total-</Value>
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>-</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -2085,9 +2350,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Grand Total</Value>
+                                  <Value>=First(Fields!Grand_Total.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2268,8 +2533,8 @@
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>7.81791cm</Top>
-            <Left>0.10584cm</Left>
+            <Top>8.45291cm</Top>
+            <Left>0.11907cm</Left>
             <Height>5.21479cm</Height>
             <Width>18.33456cm</Width>
             <ZIndex>4</ZIndex>
@@ -2305,9 +2570,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>SUMMARY BY REVENUE GROUP</Value>
+                                  <Value>=First(Fields!Summary_By_Revenue_Group.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2351,8 +2616,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Revenue Group</Value>
+                                  <Value>=First(Fields!Revenue_Group.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2387,9 +2653,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2426,8 +2692,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total Amount</Value>
+                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2705,9 +2972,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total</Value>
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2853,7 +3120,7 @@
               </Filter>
             </Filters>
             <Top>13.96812cm</Top>
-            <Left>0.10584cm</Left>
+            <Left>0.11907cm</Left>
             <Height>2.81479cm</Height>
             <Width>18.33456cm</Width>
             <ZIndex>5</ZIndex>
@@ -2889,9 +3156,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>FOCSALE PRODUCTS</Value>
+                                  <Value>=First(Fields!FOC_Sale_Product.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2935,8 +3202,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Product Name</Value>
+                                  <Value>=First(Fields!Product.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -2971,9 +3239,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3010,8 +3278,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total Amount</Value>
+                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3605,9 +3874,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Grand Total</Value>
+                                  <Value>=First(Fields!Grand_Total.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3779,8 +4048,8 @@
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>FOCSaleProductData</DataSetName>
-            <Top>16.98531cm</Top>
-            <Left>0.10584cm</Left>
+            <Top>17.30281cm</Top>
+            <Left>0.11907cm</Left>
             <Height>5.21479cm</Height>
             <Width>18.33456cm</Width>
             <ZIndex>6</ZIndex>
@@ -3816,9 +4085,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>FREE SALE PRODUCTS</Value>
+                                  <Value>=First(Fields!Free_Sale_Product.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3862,8 +4131,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Product Name</Value>
+                                  <Value>=First(Fields!Product.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3898,9 +4168,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>QTY</Value>
+                                  <Value>=First(Fields!QTY.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -3937,8 +4207,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total Amount</Value>
+                                  <Value>=First(Fields!Total_Amount.Value, "translate")</Value>
                                   <Style>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -4170,7 +4441,15 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total-</Value>
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>-</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4291,7 +4570,15 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Total-</Value>
+                                  <Value>=First(Fields!Total.Value, "translate")</Value>
+                                  <Style>
+                                    <FontFamily>kh system</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>-</Value>
                                   <Style>
                                     <FontFamily>kh system</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4532,9 +4819,9 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Grand Total</Value>
+                                  <Value>=First(Fields!Grand_Total.Value, "translate")</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -4571,7 +4858,7 @@
                                 <TextRun>
                                   <Value>=format(Sum(Fields!quantity.Value), First(Fields!quantity_format.Value, "setting"))</Value>
                                   <Style>
-                                    <FontFamily>Arial</FontFamily>
+                                    <FontFamily>kh system</FontFamily>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
@@ -4715,8 +5002,8 @@
                 </FilterValues>
               </Filter>
             </Filters>
-            <Top>22.14515cm</Top>
-            <Left>0.10584cm</Left>
+            <Top>22.78015cm</Top>
+            <Left>0.11907cm</Left>
             <Height>5.21479cm</Height>
             <Width>18.33456cm</Width>
             <ZIndex>7</ZIndex>
@@ -4733,8 +5020,9 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>=First(Fields!report_title.Value, "ReportName")</Value>
+                    <Value>=First(Fields!Cashier_Shift_Sale_Products.Value, "translate")</Value>
                     <Style>
+                      <FontFamily>kh system</FontFamily>
                       <FontSize>14pt</FontSize>
                       <FontWeight>Bold</FontWeight>
                     </Style>
@@ -4747,7 +5035,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox55</rd:DefaultName>
             <Top>0.63068in</Top>
-            <Left>0.02778in</Left>
+            <Left>0.03299in</Left>
             <Height>0.23795in</Height>
             <Width>7.22701in</Width>
             <ZIndex>8</ZIndex>
@@ -4762,10 +5050,10 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>11.59722in</Height>
+        <Height>11.11805in</Height>
         <Style />
       </Body>
-      <Width>7.26in</Width>
+      <Width>7.26522in</Width>
       <Page>
         <PageFooter>
           <Height>0.30416in</Height>
@@ -4779,7 +5067,14 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Printed by: </Value>
+                      <Value>=First(Fields!Printed_by.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>: </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -4787,11 +5082,25 @@
                     <TextRun>
                       <Value>=Parameters!printed_by.Value</Value>
                       <Style>
+                        <FontFamily>kh system</FontFamily>
                         <FontSize>8pt</FontSize>
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> on </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!on.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -4808,7 +5117,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
               <Top>0.04375in</Top>
-              <Left>0.03528cm</Left>
+              <Left>0.04851cm</Left>
               <Height>0.1875in</Height>
               <Width>3.72917in</Width>
               <Style>
@@ -4828,7 +5137,14 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Page </Value>
+                      <Value>=First(Fields!Page.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -4840,7 +5156,20 @@
                       </Style>
                     </TextRun>
                     <TextRun>
-                      <Value> of </Value>
+                      <Value xml:space="preserve"> </Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=First(Fields!of.Value, "translate")</Value>
+                      <Style>
+                        <FontFamily>kh system</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value xml:space="preserve"> </Value>
                       <Style>
                         <FontSize>8pt</FontSize>
                       </Style>
@@ -4859,7 +5188,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox5</rd:DefaultName>
               <Top>0.04375in</Top>
-              <Left>3.90551in</Left>
+              <Left>3.91072in</Left>
               <Height>0.1875in</Height>
               <Width>3.35449in</Width>
               <ZIndex>1</ZIndex>
@@ -4923,6 +5252,22 @@
       <Prompt>report_url</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
+    <ReportParameter Name="lang">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>en</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Language</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>LanguageCode</DataSetName>
+          <ValueField>language_code</ValueField>
+          <LabelField>language_code</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -4943,6 +5288,11 @@
           <ColumnIndex>2</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>report_url</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>lang</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

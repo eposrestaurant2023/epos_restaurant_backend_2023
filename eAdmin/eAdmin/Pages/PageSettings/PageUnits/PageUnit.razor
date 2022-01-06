@@ -24,7 +24,7 @@
             <UIGridCenter>
                 @if (unit_categories.Any())
                 {
-                    @foreach (var b in unit_categories)
+                    @foreach (var b in unit_categories.OrderBy(r=>r.sort_order))
                     {
 
                         <MudExpansionPanels MultiExpansion="true">
@@ -67,7 +67,7 @@
 
     async Task LoadData()
     {
-        var resp = await http.ApiGetOData($"UnitCategory?$expand=units($filter=is_deleted eq false;$orderby=sort_order desc)");
+        var resp = await http.ApiGetOData($"UnitCategory?$expand=units($filter=is_deleted eq false)");
         if (resp.IsSuccess)
         {
             unit_categories = JsonSerializer.Deserialize<List<UnitCategoryModel>>(resp.Content.ToString());
