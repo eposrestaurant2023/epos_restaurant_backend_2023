@@ -148,8 +148,6 @@ namespace eAPIClient.Services
                             {
                                 if (SaveRemoteCustomerToLocalCustomer(b.customer))
                                 {
-
-
                                     b.customer = null;
                                     b.is_synced = true;
                                     //save is sync to server 
@@ -158,8 +156,18 @@ namespace eAPIClient.Services
                             }
                         }
                     }
-                }catch  {  }
-                _is_sync_remote_data_processing = false;  
+                    File.Delete(e.FullPath);
+                }
+                catch  {  }
+                _is_sync_remote_data_processing = false;
+            }
+            else
+            {
+                try
+                {
+                    File.Delete(e.FullPath);
+                }
+                catch { }
             }  
         }
 
@@ -619,6 +627,17 @@ namespace eAPIClient.Services
                     }); 
                 }
                 _is_sync_processing = false;
+            }
+            else
+            {
+                try
+                {
+                    File.Delete(e.FullPath);                       
+                }
+                catch 
+                {
+                    
+                }
             }
             
         }
