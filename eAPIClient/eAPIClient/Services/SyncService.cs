@@ -55,7 +55,10 @@ namespace eAPIClient.Services
                 Directory.CreateDirectory(path);
             }
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt"));
+            using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt")))
+            {
+                //fs.Write(item.File, 0, item.File.Length);
+            }                                                                          
         }
         public void sendSyncRemoteDataRequest()
         {
@@ -66,7 +69,10 @@ namespace eAPIClient.Services
                 Directory.CreateDirectory(path);
             }
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.bat"));
+            using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.bat")))
+            {
+                //fs.Write(item.File, 0, item.File.Length);
+            }                                                                        
         }
 
 
@@ -596,9 +602,9 @@ namespace eAPIClient.Services
                     System.Threading.Thread.Sleep(1000);
                     http.SendBackendTelegram($"Sync completed");
                     try
-                    {
-                        File.Delete(e.FullPath);
-                        Log.Information("Sync complete " + value);
+                    {                   
+                        File.Delete(e.FullPath);      
+                        Log.Information("Sync complete " + value);        
                     }
                     catch (Exception ex)
                     {
