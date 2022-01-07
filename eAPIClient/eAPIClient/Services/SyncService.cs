@@ -127,48 +127,38 @@ namespace eAPIClient.Services
         }
 
 
-        bool _is_sync_remote_data_processing = false;
         private async void OnSyncFromRemoteServerAsync(object sender, FileSystemEventArgs e)
         {
-            if (!_is_sync_remote_data_processing)
-            {
-                _is_sync_remote_data_processing = true;
-                try
+
+            try
+            {       
+                string value = e.Name.Replace(".txt", "").Split(',')[0];
+                List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
+                string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
+                var resp = await http.ApiGetOData(query);
+                if (resp.IsSuccess)
                 {
-                    string value = e.Name.Replace(".txt", "").Split(',')[0];
-                    List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
-                    string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
-                    var resp = await http.ApiGetOData(query);
-                    if (resp.IsSuccess)
+                    data = JsonSerializer.Deserialize<List<CustomerBusinessBranchModel>>(resp.Content.ToString());
+                    if (data.Any())
                     {
-                        data = JsonSerializer.Deserialize<List<CustomerBusinessBranchModel>>(resp.Content.ToString());
-                        if (data.Any())
+                        foreach (var b in data)
                         {
-                            foreach (var b in data)
+                            System.Threading.Thread t = threadStart(() =>
                             {
                                 if (SaveRemoteCustomerToLocalCustomer(b.customer))
                                 {
                                     b.customer = null;
                                     b.is_synced = true;
                                     //save is sync to server 
-                                    await http.ApiPost("CustomerBusinessBranch/Save", b);
+                                    Task.Factory.StartNew(()=> http.ApiPost("CustomerBusinessBranch/Save", b));
                                 }
-                            }
+                            });
                         }
                     }
-                    File.Delete(e.FullPath);
                 }
-                catch  {  }
-                _is_sync_remote_data_processing = false;
+                File.Delete(e.FullPath); 
             }
-            else
-            {
-                try
-                {
-                    File.Delete(e.FullPath);
-                }
-                catch { }
-            }  
+            catch { }
         }
 
 
@@ -180,23 +170,16 @@ namespace eAPIClient.Services
                 var d = db.StoreProcedureResults.FromSqlRaw("exec sp_get_data_for_synchronize 'json'").ToList().FirstOrDefault();
                 if (d != null)
                 {
-                    string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
-                  
+                    string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();  
                     List<DataForSyncModel> datas = JsonSerializer.Deserialize<List<DataForSyncModel>>(r);
-                    return datas;
-
-                }
-
-                return new List<DataForSyncModel>();
-
-
-
+                    return datas;   
+                }      
+                return new List<DataForSyncModel>();   
             }
             catch (Exception ex)
             {
                 Log.Error(ex.ToString());
-                return new List<DataForSyncModel>();
-
+                return new List<DataForSyncModel>();   
             }
         }
 
@@ -561,13 +544,16 @@ namespace eAPIClient.Services
             http.SendTelegram(messaage);
             System.Threading.Thread.Sleep(1000);
         }
-
-        bool _is_sync_processing = false; 
+        private System.Threading.Thread threadStart(Action action)
+        {
+            System.Threading.Thread thread = new System.Threading.Thread(() => { action(); });
+            thread.Start();
+            return thread;
+        }
+                                             
         async void  ISyncService.OnCreatedAsync(object sender, FileSystemEventArgs e)
         {
-            if (!_is_sync_processing)
-            {
-                _is_sync_processing = true;
+          
                 string value = e.Name.Replace(".txt", "").Split(',')[0];
                 await Task.Factory.StartNew(() => http.SendBackendTelegram("Start sync data"));
                 try
@@ -577,33 +563,37 @@ namespace eAPIClient.Services
                     {
                         foreach (var r in data)
                         {
-                            switch (r.transaction_type.ToString())
+                            System.Threading.Thread t = threadStart(() =>
                             {
-                                case "working_day":
-                                    await SyncWorkingDayGet(Guid.Parse(r.id), r.business_branch_name);
-                                    break;
-                                case "cash_drawer_amount":
-                                    await SyncCashDrawerAmountGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                    break;
-                                case "cashier_shift":
-                                    await SyncCashierShiftGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                    break;
-                                case "sale":
-                                    await SyncSaleGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                    break;
-                                case "history":
-                                    await SyncHistory(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                    break;
-                                case "customer":
-                                    await SyncCustomer(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                    break;
-                                case "expense":
-                                    await SyncExpense(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                    break;
-                                default:
-                                    break;
-                            }
-                            System.Threading.Thread.Sleep(200);
+                                switch (r.transaction_type.ToString())
+                                {
+                                    case "working_day":
+                                        Task.Factory.StartNew(() => SyncWorkingDayGet(Guid.Parse(r.id), r.business_branch_name));
+                                        break;
+                                    case "cash_drawer_amount":
+                                        Task.Factory.StartNew(() => SyncCashDrawerAmountGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "cashier_shift":
+                                        Task.Factory.StartNew(() => SyncCashierShiftGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "sale":
+                                        Task.Factory.StartNew(() => SyncSaleGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "history":
+                                        Task.Factory.StartNew(() => SyncHistory(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "customer":
+                                        Task.Factory.StartNew(() => SyncCustomer(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "expense":
+                                        Task.Factory.StartNew(() => SyncExpense(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                            });
+                            System.Threading.Thread.Sleep(10);
                         }
                     }
 
@@ -625,20 +615,8 @@ namespace eAPIClient.Services
                         Log.Error(ex.ToString());
                         http.SendBackendTelegram($"sync data {ex.Message}");          
                     }); 
-                }
-                _is_sync_processing = false;
-            }
-            else
-            {
-                try
-                {
-                    File.Delete(e.FullPath);                       
-                }
-                catch 
-                {
-                    
-                }
-            }
+                }         
+             
             
         }
     }
