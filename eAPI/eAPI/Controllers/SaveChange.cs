@@ -53,8 +53,7 @@ namespace eAPI.Controllers
 
             await db.SaveChangesAsync();
 
-            SendUpdateToClient(db, hub);
-
+            
 
         }
 
@@ -86,7 +85,7 @@ namespace eAPI.Controllers
                 }
             }
             db.SaveChanges();
-            SendUpdateToClient(db, hub);
+           
         }
     
     
