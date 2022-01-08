@@ -55,7 +55,10 @@ namespace eAPIClient.Services
                 Directory.CreateDirectory(path);
             }
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt"));
+            using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.txt")))
+            {
+                //fs.Write(item.File, 0, item.File.Length);
+            }                                                                          
         }
         public void sendSyncRemoteDataRequest()
         {
@@ -66,7 +69,10 @@ namespace eAPIClient.Services
                 Directory.CreateDirectory(path);
             }
             // Write the specified text asynchronously to a new file named "WriteTextAsync.txt".
-            System.IO.File.Create(Path.Combine(path, $"{Guid.NewGuid()}.bat"));
+            using (FileStream fs = File.Create(Path.Combine(path, $"{Guid.NewGuid()}.bat")))
+            {
+                //fs.Write(item.File, 0, item.File.Length);
+            }                                                                        
         }
 
 
@@ -120,13 +126,14 @@ namespace eAPIClient.Services
             watcherRemoteData.EnableRaisingEvents = true;
         }
 
- 
 
         private async void OnSyncFromRemoteServerAsync(object sender, FileSystemEventArgs e)
         {
 
-            string value = e.Name.Replace(".txt", "").Split(',')[0];
-            List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
+            try
+            {       
+                string value = e.Name.Replace(".txt", "").Split(',')[0];
+                List<CustomerBusinessBranchModel> data = new List<CustomerBusinessBranchModel>();
                 string query = $"CustomerBusinessBranch?$expand=customer&$filter=is_synced eq false and business_branch_id eq {config.GetValue<string>("business_branch_id")}";
                 var resp = await http.ApiGetOData(query);
                 if (resp.IsSuccess)
@@ -136,21 +143,22 @@ namespace eAPIClient.Services
                     {
                         foreach (var b in data)
                         {
-                            if (SaveRemoteCustomerToLocalCustomer(b.customer))
+                            System.Threading.Thread t = threadStart(() =>
                             {
-
-
-                                b.customer = null;
-                                b.is_synced = true;
-                                //save is sync to server 
-                                await http.ApiPost("CustomerBusinessBranch/Save", b);
-                            }
+                                if (SaveRemoteCustomerToLocalCustomer(b.customer))
+                                {
+                                    b.customer = null;
+                                    b.is_synced = true;
+                                    //save is sync to server 
+                                    Task.Factory.StartNew(()=> http.ApiPost("CustomerBusinessBranch/Save", b));
+                                }
+                            });
                         }
                     }
                 }
-
-
-           
+                File.Delete(e.FullPath); 
+            }
+            catch { }
         }
 
 
@@ -162,23 +170,16 @@ namespace eAPIClient.Services
                 var d = db.StoreProcedureResults.FromSqlRaw("exec sp_get_data_for_synchronize 'json'").ToList().FirstOrDefault();
                 if (d != null)
                 {
-                    string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();
-                  
+                    string r = d.result.Replace("\\", "").Replace("\"[", "[").Replace("]\"", "]").ToString();  
                     List<DataForSyncModel> datas = JsonSerializer.Deserialize<List<DataForSyncModel>>(r);
-                    return datas;
-
-                }
-
-                return new List<DataForSyncModel>();
-
-
-
+                    return datas;   
+                }      
+                return new List<DataForSyncModel>();   
             }
             catch (Exception ex)
             {
                 Log.Error(ex.ToString());
-                return new List<DataForSyncModel>();
-
+                return new List<DataForSyncModel>();   
             }
         }
 
@@ -367,13 +368,14 @@ namespace eAPIClient.Services
                     var _syncResp = await http.ApiPost("History/Save", _model);
                     if (!_syncResp.IsSuccess)
                     {
-                        http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { JsonSerializer.Serialize(_model)}");
-                        Log.Error($"Sync history fail. Data: {JsonSerializer.Serialize(_model)}");
+                        string _data = JsonSerializer.Serialize(_model);
+                        http.SendBackendTelegram($"{business_branch_name}%0aSync history fail. Data: { _data}");
+                        Log.Error($"Sync history fail. Data: {_data}");  
                         return false;
                     }
                     db.Histories.Update(_model);
                     db.SaveChanges();
-                  sendHistoryAlertTelegram(_model);
+                    sendHistoryAlertTelegram(_model);
                     return true;
                 }
                 else
@@ -403,8 +405,10 @@ namespace eAPIClient.Services
                     var _syncResp = await http.ApiPost("Customer/Save?is_synch_from_client=true", _model);
                     if (!_syncResp.IsSuccess)
                     {
+
                         http.SendBackendTelegram($"{business_branch_name}%0aSync customer fail. Data: { JsonSerializer.Serialize(_model)}");
                         Log.Error($"Sync customer fail. Data: {JsonSerializer.Serialize(_model)}");
+
                         return false;
 
                     }
@@ -444,12 +448,14 @@ namespace eAPIClient.Services
                     var _syncResp = await http.ApiPost("Expense/SyncSave", _model);
                     if (!_syncResp.IsSuccess)
                     {
+
                         http.SendBackendTelegram($"{business_branch_name}%0aSync expense fail. Data: { JsonSerializer.Serialize(_model)}");
                         Log.Error($"Sync expense  fail. Data: {JsonSerializer.Serialize(_model)}");
+
                         return false;
                     }
                     db.Expenses.Update(_model);
-                      db.SaveChanges();
+                    db.SaveChanges();
                     return true;
                 }
                 else
@@ -488,22 +494,27 @@ namespace eAPIClient.Services
                         var b = JsonSerializer.Deserialize<List<BusinessBranchModel>>(config_datas.Where(r => r.config_type == "business_branch").FirstOrDefault().data).FirstOrDefault();
                         try
                         {
-                            var old_config_data = db.ConfigDatas.Where(r => r.is_local_setting == false);
-                            db.ConfigDatas.RemoveRange(old_config_data);
-                            db.SaveChanges();
-
-
-                            db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
-                            db.SaveChanges();
-
-                            http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully");
+                            await Task.Factory.StartNew(()=>{
+                                var old_config_data = db.ConfigDatas.Where(r => r.is_local_setting == false);
+                                db.ConfigDatas.RemoveRange(old_config_data);
+                                db.SaveChanges(); 
+                                db.ConfigDatas.AddRange(config_datas.Where(r => r.is_local_setting == false));
+                                db.SaveChanges(); 
+                                
+                                http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully");
+                            })   ;
+                           
 
 
                         }
                         catch (Exception ex)
                         {
-                            string message = ex.ToString();
-                            http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully%0a{ex.ToString()}");
+
+                            await Task.Factory.StartNew(() =>
+                            {
+                                string message = ex.ToString();
+                                http.SendBackendTelegram($"{b.business_branch_name_en}%0aAuto update config data successfully%0a{ex}");
+                            } );
                         }
 
                     }
@@ -533,69 +544,80 @@ namespace eAPIClient.Services
             http.SendTelegram(messaage);
             System.Threading.Thread.Sleep(1000);
         }
-
+        private System.Threading.Thread threadStart(Action action)
+        {
+            System.Threading.Thread thread = new System.Threading.Thread(() => { action(); });
+            thread.Start();
+            return thread;
+        }
+                                             
         async void  ISyncService.OnCreatedAsync(object sender, FileSystemEventArgs e)
         {
-
-            string value = e.Name.Replace(".txt", "").Split(',')[0];
-            http.SendBackendTelegram("Start sync data");
-            try
-            {
-
-
-                var data = GetDataforSync();
-                if (data.Any())
+          
+                string value = e.Name.Replace(".txt", "").Split(',')[0];
+                await Task.Factory.StartNew(() => http.SendBackendTelegram("Start sync data"));
+                try
                 {
-
-
-
-
-                    foreach (var r in data)
+                    var data = GetDataforSync();
+                    if (data.Any())
                     {
-
-                        switch (r.transaction_type.ToString())
+                        foreach (var r in data)
                         {
-                            case "working_day":
-                                await SyncWorkingDayGet(Guid.Parse(r.id), r.business_branch_name);
-                                break;
-                            case "cash_drawer_amount":
-                                await SyncCashDrawerAmountGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "cashier_shift":
-                                await SyncCashierShiftGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "sale":
-                                await SyncSaleGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "history":
-                                await SyncHistory(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "customer":
-                                await SyncCustomer(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            case "expense":
-                                await SyncExpense(Guid.Parse(r.id.ToString()), r.business_branch_name);
-                                break;
-                            default:
-                                break;
+                            System.Threading.Thread t = threadStart(() =>
+                            {
+                                switch (r.transaction_type.ToString())
+                                {
+                                    case "working_day":
+                                        Task.Factory.StartNew(() => SyncWorkingDayGet(Guid.Parse(r.id), r.business_branch_name));
+                                        break;
+                                    case "cash_drawer_amount":
+                                        Task.Factory.StartNew(() => SyncCashDrawerAmountGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "cashier_shift":
+                                        Task.Factory.StartNew(() => SyncCashierShiftGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "sale":
+                                        Task.Factory.StartNew(() => SyncSaleGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "history":
+                                        Task.Factory.StartNew(() => SyncHistory(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "customer":
+                                        Task.Factory.StartNew(() => SyncCustomer(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    case "expense":
+                                        Task.Factory.StartNew(() => SyncExpense(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                            });
+                            System.Threading.Thread.Sleep(10);
                         }
-
-
                     }
+
+                    System.Threading.Thread.Sleep(1000);
+                    http.SendBackendTelegram($"Sync completed");
+                    try
+                    {                   
+                        File.Delete(e.FullPath);      
+                        Log.Information("Sync complete " + value);        
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Information("Sync complete " + ex.Message);
+                    }    
                 }
-
-
-                System.Threading.Thread.Sleep(1000);
-
-                File.Delete(e.FullPath);
-
-                Log.Information("sale synch complete " + value);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.ToString());
-
-            }
+                catch (Exception ex)
+                {     
+                    await Task.Factory.StartNew(() => {
+                        Log.Error(ex.ToString());
+                        http.SendBackendTelegram($"sync data {ex.Message}");          
+                    }); 
+                }         
+             
+            
         }
     }
 }

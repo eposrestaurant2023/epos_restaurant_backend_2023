@@ -40,7 +40,7 @@
                                                         <MudText Typo="Typo.body1">@s.station_name_en</MudText>
                                                         <MudText Typo="Typo.body1"><span style="font-style:italic;font-size:12px;">Expired Date:</span> @Convert.ToDateTime(s.expired_date).ToString(gv.date_format)</MudText>
                                                         <LabelDeleted is_visible="@s.is_deleted"/>
-                                                        <LabelExpiredProject visible="@(s.expired_date < DateTime.Now)"/>
+                                                        <LabelExpiredProject visible="@(s.expired_date < DateTime.Now.Date)"/>
                                                         <LabelFullLicense visible="@s.is_full_license"/>
                                                     </CardHeaderContent>
                                                     <CardHeaderActions>
@@ -109,7 +109,7 @@
     bool is_open_history_extend;
       Guid station_id;
       StationModel Station = new StationModel();
-    
+
     void ToggleDrawer(StationModel _station)
     {
         is_open_history_extend = !is_open_history_extend;

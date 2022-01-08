@@ -77,22 +77,22 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
-            if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
-            {
-                //Business Branch Filter
-                state.filters.Add(new FilterModel()
-                {
-                    key = "business_branch_id",
-                    value1 = gv.business_branch_ids_filter_1,
-                    filter_title = lang["Business Branch"],
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = gv.business_branch_ids_filter_1,
-                    is_clear_all = true,
-                    will_remove = true,
-                    is_show_on_infor = false
-                });
-            }
+            //if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
+            //{
+            //    //Business Branch Filter
+            //    state.filters.Add(new FilterModel()
+            //    {
+            //        key = "business_branch_id",
+            //        value1 = gv.business_branch_ids_filter_1,
+            //        filter_title = lang["Business Branch"],
+            //        filter_operator = "multiple",
+            //        state_property_name = "list_selected_values",
+            //        filter_info_text = gv.business_branch_ids_filter_1,
+            //        is_clear_all = true,
+            //        will_remove = true,
+            //        is_show_on_infor = false
+            //    });
+            //}
 
             //if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
             //{
