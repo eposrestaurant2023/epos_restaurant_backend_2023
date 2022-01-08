@@ -550,10 +550,19 @@ namespace eAPIClient.Services
             thread.Start();
             return thread;
         }
-                                             
+
+        bool is_sync_busy = false;
         async void  ISyncService.OnCreatedAsync(object sender, FileSystemEventArgs e)
         {
-          
+
+            if (is_sync_busy)
+            {
+                http.SendBackendTelegram($"Sync process  is busy.");
+                return;
+            }
+
+            is_sync_busy = true;
+
                 string value = e.Name.Replace(".txt", "").Split(',')[0];
                 await Task.Factory.StartNew(() => http.SendBackendTelegram("Start sync data"));
                 try
@@ -563,41 +572,40 @@ namespace eAPIClient.Services
                     {
                         foreach (var r in data)
                         {
-                            System.Threading.Thread t = threadStart(() =>
-                            {
+                             
                                 switch (r.transaction_type.ToString())
                                 {
                                     case "working_day":
-                                        Task.Factory.StartNew(() => SyncWorkingDayGet(Guid.Parse(r.id), r.business_branch_name));
+                                       await SyncWorkingDayGet(Guid.Parse(r.id), r.business_branch_name);
                                         break;
                                     case "cash_drawer_amount":
-                                        Task.Factory.StartNew(() => SyncCashDrawerAmountGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        await SyncCashDrawerAmountGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
                                         break;
                                     case "cashier_shift":
-                                        Task.Factory.StartNew(() => SyncCashierShiftGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        await SyncCashierShiftGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
                                         break;
                                     case "sale":
-                                        Task.Factory.StartNew(() => SyncSaleGet(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        await SyncSaleGet(Guid.Parse(r.id.ToString()), r.business_branch_name);
                                         break;
                                     case "history":
-                                        Task.Factory.StartNew(() => SyncHistory(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        await SyncHistory(Guid.Parse(r.id.ToString()), r.business_branch_name);
                                         break;
                                     case "customer":
-                                        Task.Factory.StartNew(() => SyncCustomer(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        await SyncCustomer(Guid.Parse(r.id.ToString()), r.business_branch_name);
                                         break;
                                     case "expense":
-                                        Task.Factory.StartNew(() => SyncExpense(Guid.Parse(r.id.ToString()), r.business_branch_name));
+                                        await SyncExpense(Guid.Parse(r.id.ToString()), r.business_branch_name);
                                         break;
                                     default:
                                         break;
                                 }
 
-                            });
-                            System.Threading.Thread.Sleep(10);
+                            
+                            System.Threading.Thread.Sleep(1000);
                         }
                     }
 
-                    System.Threading.Thread.Sleep(1000);
+             
                     http.SendBackendTelegram($"Sync completed");
                     try
                     {                   
@@ -615,7 +623,9 @@ namespace eAPIClient.Services
                         Log.Error(ex.ToString());
                         http.SendBackendTelegram($"sync data {ex.Message}");          
                     }); 
-                }         
+                }
+
+            is_sync_busy = false;
              
             
         }

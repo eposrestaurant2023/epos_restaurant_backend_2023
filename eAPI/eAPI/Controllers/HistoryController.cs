@@ -55,8 +55,15 @@ namespace eAPI.Controllers
         {
 
 
+            var data = db.Histories.Where(r => r.id == model.id).AsNoTracking();
+            if (data.Any())
+            {
+                db.Histories.Update(model);
+            }else
+            {
+                db.Histories.Add(model);
+            }
             
-            db.Histories.Add(model);
 
 
             
