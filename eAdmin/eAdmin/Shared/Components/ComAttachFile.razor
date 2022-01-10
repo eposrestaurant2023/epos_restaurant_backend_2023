@@ -18,7 +18,7 @@
             {
                 <div class="wrp_input_attach_file">
                     <label uk-title="@lang["Upload File"]" class="label-btn-file-upload">
-                        <MatFileUpload OnChange="HandleSelection" Style="display: none;" />
+                        <InputFile OnChange="HandleSelection" style="display: none;" />
                         <span class="upload-profile-icon">
                             <Icon icon="attach_file" />
                         </span>
@@ -168,45 +168,42 @@
     }
 
 
-    private async Task HandleSelection(IMatFileUploadEntry[] files)
+    private async Task HandleSelection(InputFileChangeEventArgs files)
     {
 
-        var uploaded_file = files.FirstOrDefault();
+        var uploaded_file = files.GetMultipleFiles().FirstOrDefault();
         is_loading = true;
 
 
         //check if file extension 
         FileInfo _file = new FileInfo(uploaded_file.Name);
         var file_extension = _file.Extension.ToLower();
-        List<string> accept_extension = new List<string>(new string[] { ".jpg", ".png", ".jpeg", ".xls", ".xlsx", ".cvs", ".docx", ".pdf" });
+        List<string> accept_extension = new List<string>(new string[] { ".jpg", ".png", ".jpeg", ".xls", ".cvs", ".doc", ".pdf" });
         if (!accept_extension.Contains(file_extension))
         {
-            toast.Add(lang["Incorrect file extension"], MudBlazor.Severity.Warning);
+            toast.Add("Incorrect File Extension", Severity.Warning);
             is_loading = false;
             return;
         }
-        guid = Guid.NewGuid().ToString();
 
-        await SendFileUpload(uploaded_file);
-        if (IsUploaded) {
+        await SendFileUpload(files);
+        if (IsUploaded)
+        {
 
-            string _new_image = guid + uploaded_file.Name;
-            // get the status
-            status_message = lang["The file"] + uploaded_file.Name + lang["was uploaded"];
-            file.file_name = _new_image;
+            file.file_name = _data_form.ImageUrl;
             file.file_title = uploaded_file.Name;
-            file.file_type = uploaded_file.Type;
+            file.file_type = uploaded_file.ContentType;
             file.file_size = uploaded_file.Size;
             file.file_extension = file_extension;
             var resp = await http.ApiPost($"AttachFiles/save", file);
             if (resp.IsSuccess)
             {
-                toast.Add(lang["Save successfully"], MudBlazor.Severity.Success);
+                toast.Add("File save successfully", Severity.Success);
                 await OnUploadAttachFile.InvokeAsync(JsonSerializer.Deserialize<AttachFilesModel>(resp.Content.ToString()));
             }
             else
             {
-                toast.Add(resp.Content.ToString(), MudBlazor.Severity.Warning);
+                toast.Add(resp.Content.ToString(), Severity.Warning);
             }
         }
         is_loading = false;
@@ -262,23 +259,28 @@
         f.is_deleting = false;
         is_loading = false;
     }
-
-    async Task SendFileUpload(IMatFileUploadEntry file)
+    async Task SendFileUpload(InputFileChangeEventArgs e)
     {
+        var file = e.GetMultipleFiles().FirstOrDefault();
+        _data_form = new InputFileData();
+        long maxFileSize = 1024 * 1024 * 2;
         if (file != null)
         {
-            var ms = new MemoryStream();
-            await file.WriteToStreamAsync(ms);
+            if (file.Size > maxFileSize)
+            {
+                toast.Add("Maximum file size 2MB", Severity.Error);
+                return;
+            }
 
-            string _new_image = guid + file.Name;
-
-            var bytecontent = new ByteArrayContent(ms.GetBuffer());
-            bytecontent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-            var content = new MultipartFormDataContent { { bytecontent, "\"upload\"", _new_image } };
+            var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+            string _new_image = string.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + file.Name;
 
 
-            _data_form.multipartForm = content;
             _data_form.ImageUrl = _new_image;
+            _data_form.multipartForm.Add(
+                        content: fileContent,
+                        name: "\"upload\"",
+                        fileName: _new_image);
 
             //send file upload
             var client = new HttpClient();
@@ -289,6 +291,10 @@
             if (resp.IsSuccessStatusCode)
             {
                 IsUploaded = true;
+            }
+            else
+            {
+                IsUploaded = false;
             }
         }
     }

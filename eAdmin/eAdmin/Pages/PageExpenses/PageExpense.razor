@@ -35,7 +35,6 @@
                     <ComSearch place_holder="@GetFilterValue2(state.filters, "keyword","")" KeywordChanged="@OnSearch" show_advance_filter="true" OnFillterClick="@FilterClick">
                         <FilterDateRange @bind-dates="@state.date_range" />
                         <SelectBusinessBranchMutiple selected_business="@state.multi_select_id_1" selected_businessChanged="@((val)=> { state.multi_select_id_1 = val;state.multi_select_id_2= null;  } )" business_id="@((val)=>state.multi_select_value_1=val)" />
-                        <SelectOutletMultiple business_branch_ids="@state.multi_select_value_1" @bind-selected_outlet="@state.multi_select_id_2" outlet_id="@((val)=>state.multi_select_value_2=val)" />
                         <SelectExpenseCategory @bind-expensecategory="@state.expense_category" show_empty="true" empty_text="@lang["Select expense category"]" />
                         <SelectExpenseItem @bind-expense_item="@state.expense_item" expense_category_id="@state.expense_category.id" show_empty="true" empty_text="@lang["Select expense item"]" />
                     </ComSearch>

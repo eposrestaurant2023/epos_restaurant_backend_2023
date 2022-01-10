@@ -252,6 +252,9 @@
   <data name="Invoice" xml:space="preserve">
     <value>វិក្កយបត្រ</value>
   </data>
+	<data name="Payment Empty" xml:space="preserve">
+    <value>មិនទាន់មានការទូទាត់</value>
+  </data>
   <data name="Payment" xml:space="preserve">
     <value>ការទូទាត់</value>
   </data>
@@ -1576,7 +1579,7 @@
     <value>បញ្ជូលការផ្ទេរទំនិញថ្មី</value>
   </data>
   <data name="New Customer Group" xml:space="preserve">
-    <value>បញ្ជូលក្រុមរថយន្តថ្មី</value>
+    <value>បញ្ជូលក្រុមអតិថិជនថ្មី</value>
   </data>
   <data name="Stock Take Products" xml:space="preserve">
     <value>ការដកទំនិញប្រើប្រាស់</value>

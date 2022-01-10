@@ -77,39 +77,23 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
-            //if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
-            //{
-            //    //Business Branch Filter
-            //    state.filters.Add(new FilterModel()
-            //    {
-            //        key = "business_branch_id",
-            //        value1 = gv.business_branch_ids_filter_1,
-            //        filter_title = lang["Business Branch"],
-            //        filter_operator = "multiple",
-            //        state_property_name = "list_selected_values",
-            //        filter_info_text = gv.business_branch_ids_filter_1,
-            //        is_clear_all = true,
-            //        will_remove = true,
-            //        is_show_on_infor = false
-            //    });
-            //}
+           if (state.filters.Where(r => r.key == "business_branch_id").Count() == 0)
+           {
+                //Business Branch Filter
+               state.filters.Add(new FilterModel()
+               {
+                   key = "business_branch_id",
+                    value1 = gv.business_branch_ids_filter_1,
+                  filter_title = lang["Business Branch"],
+                  filter_operator = "multiple",
+                   state_property_name = "list_selected_values",
+                    filter_info_text = gv.business_branch_ids_filter_1,
+                   is_clear_all = true,
+                   will_remove = true,
+                   is_show_on_infor = false
+                });
+            }
 
-            //if (state.filters.Where(r => r.key == "outlet_id").Count() == 0)
-            //{
-            //    //Outlet Filter
-            //    state.filters.Add(new FilterModel()
-            //    {
-            //        key = "outlet_id",
-            //        value1 = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
-            //        filter_title = lang["Outlet"],
-            //        filter_operator = "multiple",
-            //        state_property_name = "list_selected_values",
-            //        filter_info_text = gv.outlet_ids_filter(gv.business_branch_ids_filter_1),
-            //        is_clear_all = true,
-            //        will_remove = true,
-            //        is_show_on_infor = false
-            //    });
-            //}
 
             if (string.IsNullOrEmpty(api_url))
             {
@@ -213,46 +197,6 @@ namespace eAdmin.Pages.PageReceipt
                 });
             }
 
-            // filter outlet
-            if (state.multi_select_value_2 != null)
-            {
-                string value = "";
-                foreach (var x in state.multi_select_value_2)
-                {
-                    value += x + ",";
-                }
-                if (!string.IsNullOrEmpty(value))
-                {
-                    value = value.Substring(0, value.Length - 1);
-                }
-
-                state.filters.Add(new FilterModel()
-                {
-                    key = "outlet_id",
-                    value1 = value,
-                    filter_title = lang["Outlet"],
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = value,
-                    is_clear_all = true,
-                    will_remove = true
-                });
-            }
-            else
-            {
-                state.filters.Add(new FilterModel()
-                {
-                    key = "outlet_id",
-                    value1 = gv.outlet_ids_filter(business_branch_ids),
-                    filter_title = lang["Outlet"],
-                    filter_operator = "multiple",
-                    state_property_name = "list_selected_values",
-                    filter_info_text = gv.outlet_ids_filter(business_branch_ids),
-                    is_clear_all = true,
-                    will_remove = true,
-                    is_show_on_infor = false
-                });
-            }
 
             //// Expense Category
             if (state.expense_category != null && state.expense_category.id != Guid.Empty)
@@ -325,29 +269,6 @@ namespace eAdmin.Pages.PageReceipt
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
-
-
-                // clear filter outlet
-                if (k == "outlet_id" && state.multi_select_id_2 != null)
-                {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
-                }
-
-
-                // clear filter expense category
-                if (k == "expense_category_id" && state.multi_select_id_2 != null)
-                {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
-                }
-
-                // clear filter expense item
-                if (k == "expense_item_id" && state.multi_select_id_2 != null)
-                {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
-                }
                 state.filters.RemoveAll(r => r.key == k);
             }
 
@@ -369,32 +290,8 @@ namespace eAdmin.Pages.PageReceipt
                     state.multi_select_id_1.Clear();
                     state.multi_select_value_1.Clear();
                 }
-
-
-                // clear filter outlet
-                if (f.key == "outlet_id")
-                {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
-                }
-
-                // clear filter expense category
-                if (f.key == "expense_category_id")
-                {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
-                }
-                // clear filter expense item
-                if (f.key == "expense_item_id")
-                {
-                    state.multi_select_id_2.Clear();
-                    state.multi_select_value_2.Clear();
-                }
-
                 RemoveFilter(state, f.state_property_name);
             }
-
-
             state.filters.RemoveAll(r => r.is_clear_all == true);
             state.pager.current_page = 1;
             await LoadData();

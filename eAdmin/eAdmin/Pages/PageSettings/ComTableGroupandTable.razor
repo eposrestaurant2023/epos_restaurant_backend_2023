@@ -89,37 +89,50 @@
                                     <hr />
                                     <MudExpansionPanels MultiExpansion="true">
                                         <MudExpansionPanel Class="mb-2" Text="@lang["Table"]">
-                                            <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
-                                                <tr>
-                                                    <ThAuto>@lang["Table​ Name"]</ThAuto>
-                                                    <ThCenter>@lang["Width"]</ThCenter>
-                                                    <ThCenter>@lang["Height"]</ThCenter>
-                                                    <th>@lang["Shape"]</th>
-                                                    <th>@lang["Sale Type"]</th>
-                                                    <ThCenter>@lang["Sort Order"]</ThCenter>
-                                                    <th>@lang["Price Rule"]</th>
-
-                                                </tr>
-                                                @foreach (var s in d.tables.OrderBy(r=>r.sort_order))
-                                                {
+                                            <div class="uk-overflow-auto table-scroll">
+                                                <table class="uk-table cus_hearder_table  view_table set-verticle-middle uk-table-small uk-table-striped uk-table-hover">
                                                     <tr>
-                                                        <td>@s.table_name</td>
-                                                        <TdCenter>@s.width</TdCenter>
-                                                        <TdCenter>@s.height</TdCenter>
-                                                        <td>
-                                                            @if (!string.IsNullOrEmpty(s.shape))
-                                                            {
-                                                                @s.shape
-                                                            }
-                                                        </td>
-                                                        <td>@s.sale_type</td>
-                                                        <TdCenter>
-                                                            @s.sort_order
-                                                        </TdCenter>
-                                                        <td>@s.price_rule?.price_name</td>
+                                                        <ThAuto>@lang["Table​ Name"]</ThAuto>
+                                                        <ThCenter>@lang["Width"]</ThCenter>
+                                                        <ThCenter>@lang["Height"]</ThCenter>
+                                                        <th>@lang["Shape"]</th>
+                                                        <th>@lang["Sale Type"]</th>
+                                                        <ThCenter>@lang["Sort Order"]</ThCenter>
+                                                        <th>@lang["Price Rule"]</th>
+
                                                     </tr>
-                                                }
-                                            </table>
+                                                    @foreach (var s in d.tables.OrderBy(r => r.sort_order))
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @if (!string.IsNullOrEmpty(s.shape))
+                                                                {
+                                                                    @if (s.shape == "Circle")
+                                                                    {
+                                                                        <div class="tbl_circle">
+                                                                            @s.table_name
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="tbl_rectangle">
+                                                                            @s.table_name
+                                                                        </div>
+                                                                    }
+
+                                                                }
+                                                            </td>
+                                                            <TdCenter>@s.width</TdCenter>
+                                                            <TdCenter>@s.height</TdCenter>
+                                                            <td>@s.sale_type</td>
+                                                            <TdCenter>
+                                                                @s.sort_order
+                                                            </TdCenter>
+                                                            <td>@s.price_rule?.price_name</td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            </div>
                                         </MudExpansionPanel>
                                     </MudExpansionPanels>
                                 </div>
