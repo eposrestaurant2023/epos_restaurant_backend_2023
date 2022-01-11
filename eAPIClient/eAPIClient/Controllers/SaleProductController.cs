@@ -36,7 +36,13 @@ namespace eAPIClient.Controllers
         [EnableQuery(MaxExpansionDepth = 8)]
         public IQueryable<SaleProductModel> Get(string keyword = "", string shift = "", string open_by = "", string close_by = "")
         {
-            return db.SaleProducts;
+            return (from r in db.SaleProducts
+                    where EF.Functions.Like(
+                              ((r.sale.document_number ?? " ") + (r.sale.customer.customer_name_en ?? " ") + (r.sale.sale_number ?? " ") +
+                               (r.sale.customer.customer_name_kh ?? " ") + (r.sale.sale_note ?? " ") + (r.product_code ?? " ") + (r.product_name_en ?? " ") + (r.product_name_kh ?? " ")
+                              ).ToLower().Trim(), $"%{(keyword ?? "")}%".ToLower().Trim())
+
+                    select r);
         }
 
         [HttpGet]
