@@ -198,6 +198,34 @@ html:lang(km-kh), .lang-km-kh {
 .cus_font_style{
     font-style:italic;
 }
+.edit_profile_image {
+    border: 1px solid transparent;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    top: 25px;
+    right: 0;
+    padding: 5px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.spuare_class .edit_profile_image {
+    border: 1px solid transparent;
+    box-shadow: 0px 2px 4px 0px rgb(0 0 0 / 12%);
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 0px;
+    border-radius: 0px;
+    background: #ffffffbf;
+}
+
 .cus_bg_tran {
     border: 1px solid #4068a0;
     height: 121px;
@@ -496,8 +524,27 @@ input[type="text"] {
    overflow:auto;
 
 }
+
 .uk-offcanvas-bar .uk-form-label {
     color: #525252; 
+}
+.tbl_circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 5px solid #28dddd;
+    text-align: center;
+}
+.tex_over {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.tbl_rectangle {
+    width: 50px;
+    height: 35px;
+    border: 5px solid #ffd6b2;
+    text-align: center;
 }
 .uk-offcanvas-bar .uk-close {
     color: rgb(0 0 0) !important;

@@ -36,7 +36,6 @@ namespace eAPIClient
 
             services.AddControllers();
 
-
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAnyOrigin",

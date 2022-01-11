@@ -73,13 +73,39 @@ namespace eAPI.Controllers
                 db.Vendors.Update(u);
             }
 
-            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),hub);
+           
             if (is_new)
             {
                 await app.SaveDocumentNumber(21);
             }
+            await SaveChange.SaveAsync(db, Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)), hub);
             return Ok(u);
         }
+
+        [HttpPost]
+        [Route("Clone/{id}")]
+        public ActionResult<VendorModel> Clone(int id)
+        {
+            var data = db.Vendors.Where(r => r.id == id)
+                .Include(r => r.vendor_group)
+                .Include(r => r.province)
+                .ToList();
+
+            if (data.Any())
+            {
+                VendorModel p = data.FirstOrDefault();
+                p.id = 0;
+                p.is_deleted = false;
+                p.status = true;
+                return Ok(p);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
 
 
         [HttpPost]

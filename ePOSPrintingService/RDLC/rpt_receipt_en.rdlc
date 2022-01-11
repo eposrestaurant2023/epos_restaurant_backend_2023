@@ -664,7 +664,7 @@
                             <TextRun>
                               <Value>RECEIPT #</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -672,7 +672,7 @@
                             <TextRun>
                               <Value>=Fields!document_number.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -715,7 +715,7 @@
                             <TextRun>
                               <Value>RECEIPT COPY</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -758,14 +758,14 @@
                             <TextRun>
                               <Value>No : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=Fields!sale_number.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -799,14 +799,14 @@
                             <TextRun>
                               <Value>Table# : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=Fields!table_name.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -847,14 +847,14 @@
                             <TextRun>
                               <Value>Date : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=format(Fields!working_date.Value,"dd/MM/yyyy")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -887,14 +887,14 @@
                             <TextRun>
                               <Value>Opened : </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=format(Fields!created_date.Value,"HH:mm tt")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -934,14 +934,14 @@
                             <TextRun>
                               <Value>Customer: </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=Fields!customer_name.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -974,14 +974,14 @@
                             <TextRun>
                               <Value>Closed: </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=format(Fields!closed_date.Value, "HH:mm tt")</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1021,7 +1021,7 @@
                             <TextRun>
                               <Value />
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1054,14 +1054,14 @@
                             <TextRun>
                               <Value>Cashier: </Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=Fields!closed_by.Value</Value>
                               <Style>
-                                <FontFamily>arial</FontFamily>
+                                <FontFamily>kh system</FontFamily>
                                 <FontSize>9pt</FontSize>
                               </Style>
                             </TextRun>
@@ -1083,6 +1083,7 @@
                         <PaddingBottom>1pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>

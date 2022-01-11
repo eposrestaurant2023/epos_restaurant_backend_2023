@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using eAPI.Hubs;
 using eModels;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace eAPI.Services
 {
@@ -20,7 +21,9 @@ namespace eAPI.Services
 
         public async Task<string> GetDocumentNumber(int id)
         {
-            DocumentNumberModel dc = await db.DocumentNumbers.FindAsync(id);
+            var doc = db.DocumentNumbers.Where(r => r.id == id).AsNoTracking();
+            DocumentNumberModel dc = doc.FirstOrDefault();
+                //await db.DocumentNumbers.FindAsync(id);
             dc.counter = dc.counter + 1;
             if (string.IsNullOrEmpty(dc.format))
             {
@@ -71,7 +74,9 @@ namespace eAPI.Services
      
         public async Task SaveDocumentNumber(int id)
         {
-            DocumentNumberModel dc = await db.DocumentNumbers.FindAsync(id);
+            var doc = db.DocumentNumbers.Where(r => r.id == id).AsNoTracking();
+            DocumentNumberModel dc = doc.FirstOrDefault();
+            //DocumentNumberModel dc = await db.DocumentNumbers.FindAsync(id);
             dc.counter = dc.counter + 1;
             db.DocumentNumbers.Update(dc);
             await db.SaveChangesAsync();

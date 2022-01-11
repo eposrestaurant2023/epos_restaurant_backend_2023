@@ -26,7 +26,7 @@ namespace eAdmin.Pages.PageVendors
             get
             {
                 string query = $"{controller_api}({id})";
-                query += $"?$expand=vendor_group";   
+                query += $"?$expand=vendor_group,province";   
                 return query;
             }
         }
@@ -96,6 +96,7 @@ namespace eAdmin.Pages.PageVendors
             histories.Add(h);
         }
 
+
         public async Task OnToogleStatus(VendorModel p)
         {
             p.is_loading = true;
@@ -116,9 +117,16 @@ namespace eAdmin.Pages.PageVendors
                 await LoadData();
             }
         }
-         
-         
-      
+
+        public void Clone_Click(int id)
+        {
+            is_loading_data = true;
+            nav.NavigateTo($"vendor/clone/{id}");
+            is_loading_data = false;
+        }
+
+
+
 
     }
 }

@@ -350,7 +350,6 @@ namespace eAPI.Controllers
                     product_modifiers = new List<ProductModifierModel>();
                     product_modifiers = db.ProductModifiers.Where(r => r.parent_id == pm.id && r.is_deleted == false).Include(r=>r.modifier).ToList();
                     product_modifiers.ForEach(r => { r.id = Guid.NewGuid(); r.parent_id = null; });
-                   
                     pm.id = Guid.NewGuid();
                     
                 }

@@ -150,6 +150,12 @@
                 return;
             }
 
+            @if(save_expenses.business_branch_id == Guid.Empty)
+            {
+                toast.Add(lang["Please select business branch"], MudBlazor.Severity.Warning);
+                is_saving = false;
+                return;
+            }
 
             var res = await http.ApiPost($"{ControllerApi}/save", save_expenses);
             if (res.IsSuccess)
